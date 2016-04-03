@@ -43,6 +43,7 @@
                         <h:outputText value="trans/rozl." style="text-align: right; margin-left: 10px;"/>
                         <h:selectOneMenu id="wybranyrodzaj" value="#{rozrachunkiPrzegladView.wybranyRodzajTransakcji}">
                             <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaTransakcji}" update=":tabelanowerozrachunki:tabela, sumy" />
+                            <f:selectItem itemValue="wszystkie" itemLabel="wszystkie"/>
                             <f:selectItem itemValue="transakcje" itemLabel="transakcje"/>
                             <f:selectItem itemValue="rozliczenia" itemLabel="rozliczenia"/>
                         </h:selectOneMenu>
@@ -163,6 +164,11 @@
 
             <p:layoutUnit position="center" style="min-width: 1050px;">
                 <h:form id="tabelanowerozrachunki">
+                     <p:contextMenu for="tabela" style="width: 200px;">
+                         <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
+<!--                         <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
+                         <p:menuitem value="pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();" actionListener="#{dokfkView.edycjazapis()}"/>-->
+                     </p:contextMenu>
                     <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" 
                                  emptyMessage="Nie ma rozrachunków na koncie" sortBy="#{loop.id}" selection="#{rozrachunkiPrzegladView.stronyWierszawybrane}"
                                  rowIndexVar="rowindex" styleClass="grid1" style="width: 1020px;" expandedRow="true"

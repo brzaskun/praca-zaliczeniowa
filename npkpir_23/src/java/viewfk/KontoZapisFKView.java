@@ -4,11 +4,14 @@
  */
 package viewfk;
 
+import beansFK.DokFKTransakcjeBean;
+import beansFK.RozniceKursoweBean;
 import embeddablefk.ListaSum;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
+import data.Data;
 import embeddable.Mce;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -28,6 +31,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
+import params.Params;
 import pdf.PdfKontoZapisy;
 import view.WpisView;
 import waluty.Z;
@@ -400,6 +404,22 @@ public class KontoZapisFKView implements Serializable{
         listasum.get(0).setSaldoMaPLN(saldoMaPLN);
     }
     
+    public void rozliczzaznaczone() {
+        if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 1) {
+            if (RozniceKursoweBean.wiecejnizjednatransakcja(wybranekontadosumowania)) {
+                Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje. Nie można rozliczyć zapisów.");
+            } else {
+                Msg.msg("Rozliczam oznaczone transakcje");
+                RozniceKursoweBean.naniestransakcje(wybranekontadosumowania);
+                stronaWierszaDAO.editList(wybranekontadosumowania);
+            }
+        } else {
+            Msg.msg("e", "Należy wybrać przynajmniej dwa zapisy po różnych stronach konta w celu rozliczenia transakcji");
+        }
+    }
+    
+   
+    
     //poszukuje rozrachunkow do sparowania
     public void odszukajsparowanerozrachunki() {
         try {
@@ -557,85 +577,85 @@ public class KontoZapisFKView implements Serializable{
     public void setWykazkont(List<Konto> wykazkont) {
         this.wykazkont = wykazkont;
     }
-    
-    //<editor-fold defaultstate="collapsed" desc="comment">
-    
-    //porownaj jak wlasciwe zaprojektowanie bazy danych i nie mnozenie bytow upraszcza sprawe
-//     public void odszukajsparowanerozrachunki() {
-//        StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
-//        int numerpodswietlonegowiersza = wybranyrozrachunek.getWiersz().getIdporzadkowy();
-//        Dokfk zjakiegodokumentupochodzi = wybranyrozrachunek.getWiersz().getDokfk();
-//        WierszStronafk wierszIDrozrachunku = new WierszStronafk();
-//        WierszStronafkPK wierszIDrozrachunkuPK = new WierszStronafkPK();
-//        wierszIDrozrachunkuPK.setNrPorzadkowyWiersza(numerpodswietlonegowiersza);
-//        wierszIDrozrachunkuPK.setNrkolejnydokumentu(zjakiegodokumentupochodzi.getDokfkPK().getNrkolejnywserii());
-//        String wnma;
-//        if (wybranyrozrachunek.getKwotawn() > 0) { 
-//            wnma = "Wn";
-//        } else {
-//            wnma= "Ma";
-//        }
-//        wierszIDrozrachunkuPK.setStronaWnlubMa(wnma);
-//        wierszIDrozrachunkuPK.setTypdokumentu(zjakiegodokumentupochodzi.getDokfkPK().getSeriadokfk());
-//        wierszIDrozrachunkuPK.setPodatnik(wpisView.getPodatnikWpisu());
-//        wierszIDrozrachunku.setWierszStronafkPK(wierszIDrozrachunkuPK);
-//        //mamy juz skonstruowany wiersz, teraz z bazy pobierzemy wszytskie rozrachunki i bedziemy sobie szukac
-//        List<Zestawienielisttransakcji> zestawienietransakcji = zestawienielisttransakcjiDAO.findAll();
-//        List<Transakcja> listytransakcji = new ArrayList<>();
-//        for (Zestawienielisttransakcji p : zestawienietransakcji) {
-//            for (Transakcja r: p.getListatransakcji()) {
-//                listytransakcji.add(r);
-//            }
-//        }
-//        List<WierszStronafkPK> znalezionenumery = new ArrayList<>();
-//        //poszukam innych numerow wierszy
-//        for (Transakcja p : listytransakcji) {
-//            if (p.idSparowany().equals(wierszIDrozrachunkuPK)) {
-//                znalezionenumery.add(p.idRozliczany());
-//            } 
-//            if (p.idRozliczany().equals(wierszIDrozrachunkuPK)) {
-//                znalezionenumery.add(p.idSparowany());
-//            }
-//        }
-//        zapisydopodswietlenia = new ArrayList<>();
-//        //wyszukujemy numery Kontozapisy dla javascriptu
-//        for (Kontozapisy r : kontozapisy) {
-//            boolean zgodneWierszStronaPK = false;
-//            if (wnma.equals("Wn")) {
-//                zgodneWierszStronaPK = znalezionenumery.contains(r.getWiersz().getWierszStronaMa().getWierszStronafkPK());
-//            } else {
-//                zgodneWierszStronaPK = znalezionenumery.contains(r.getWiersz().getWierszStronaWn().getWierszStronafkPK());
-//            }
-//            if (zgodneWierszStronaPK) {
-//                zapisydopodswietlenia.add(r.getId());
-//            }
-//        }
-//        RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
-//        RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
-//    }
-    
-    public List<ListaSum> getListasum() {
-        return listasum;    
+
+    public Konto getWybranekonto() {
+        return wybranekonto;
     }
 
-    public void setListasum(List<ListaSum> listasum) {
-        this.listasum = listasum;
+    public void setWybranekonto(Konto wybranekonto) {
+        this.wybranekonto = wybranekonto;
+    }
+
+    public List<StronaWiersza> getKontozapisy() {
+        return kontozapisy;
+    }
+
+    public void setKontozapisy(List<StronaWiersza> kontozapisy) {
+        this.kontozapisy = kontozapisy;
+    }
+
+    public StronaWiersza getWybranyzapis() {
+        return wybranyzapis;
+    }
+
+    public void setWybranyzapis(StronaWiersza wybranyzapis) {
+        this.wybranyzapis = wybranyzapis;
+    }
+
+    public List<StronaWiersza> getKontorozrachunki() {
+        return kontorozrachunki;
+    }
+
+    public void setKontorozrachunki(List<StronaWiersza> kontorozrachunki) {
+        this.kontorozrachunki = kontorozrachunki;
+    }
+
+    public List<StronaWiersza> getWybranekontadosumowania() {
+        return wybranekontadosumowania;
+    }
+
+    public void setWybranekontadosumowania(List<StronaWiersza> wybranekontadosumowania) {
+        this.wybranekontadosumowania = wybranekontadosumowania;
+    }
+
+    public Double getSumaWn() {
+        return sumaWn;
+    }
+
+    public void setSumaWn(Double sumaWn) {
+        this.sumaWn = sumaWn;
+    }
+
+    public Double getSumaMa() {
+        return sumaMa;
+    }
+
+    public void setSumaMa(Double sumaMa) {
+        this.sumaMa = sumaMa;
+    }
+
+    public Double getSaldoWn() {
+        return saldoWn;
+    }
+
+    public void setSaldoWn(Double saldoWn) {
+        this.saldoWn = saldoWn;
+    }
+
+    public Double getSaldoMa() {
+        return saldoMa;
+    }
+
+    public void setSaldoMa(Double saldoMa) {
+        this.saldoMa = saldoMa;
     }
 
     public Double getSumaWnPLN() {
-        return sumaWnPLN;    
+        return sumaWnPLN;
     }
 
     public void setSumaWnPLN(Double sumaWnPLN) {
         this.sumaWnPLN = sumaWnPLN;
-    }
-
-    public String getWybranyRodzajKonta() {
-        return wybranyRodzajKonta;
-    }
-
-    public void setWybranyRodzajKonta(String wybranyRodzajKonta) {
-        this.wybranyRodzajKonta = wybranyRodzajKonta;
     }
 
     public Double getSumaMaPLN() {
@@ -662,15 +682,14 @@ public class KontoZapisFKView implements Serializable{
         this.saldoMaPLN = saldoMaPLN;
     }
 
-    public String getWybranaWalutaDlaKont() {
-        return wybranaWalutaDlaKont;
+    public List getZapisydopodswietlenia() {
+        return zapisydopodswietlenia;
     }
 
-    public void setWybranaWalutaDlaKont(String wybranaWalutaDlaKont) {
-        this.wybranaWalutaDlaKont = wybranaWalutaDlaKont;
+    public void setZapisydopodswietlenia(List zapisydopodswietlenia) {
+        this.zapisydopodswietlenia = zapisydopodswietlenia;
     }
-  
-    
+
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -679,92 +698,39 @@ public class KontoZapisFKView implements Serializable{
         this.wpisView = wpisView;
     }
 
-    public List<StronaWiersza> getKontozapisy() {
-        return kontozapisy;
+    public String getWybranaWalutaDlaKont() {
+        return wybranaWalutaDlaKont;
     }
 
-    public void setKontozapisy(List<StronaWiersza> kontozapisy) {
-        this.kontozapisy = kontozapisy;
-    }
-  
-       
-    public Konto getWybranekonto() {
-        return wybranekonto;
-    }
-    
-    public void setWybranekonto(Konto wybranekonto) {
-        this.wybranekonto = wybranekonto;
+    public void setWybranaWalutaDlaKont(String wybranaWalutaDlaKont) {
+        this.wybranaWalutaDlaKont = wybranaWalutaDlaKont;
     }
 
-    public List<StronaWiersza> getWybranekontadosumowania() {
-        return wybranekontadosumowania;
+    public List<ListaSum> getListasum() {
+        return listasum;
     }
 
-    public void setWybranekontadosumowania(List<StronaWiersza> wybranekontadosumowania) {
-        this.wybranekontadosumowania = wybranekontadosumowania;
-    }
-    
-   
-    public List getZapisydopodswietlenia() {
-        return zapisydopodswietlenia;
+    public void setListasum(List<ListaSum> listasum) {
+        this.listasum = listasum;
     }
 
-    public void setZapisydopodswietlenia(List zapisydopodswietlenia) {
-        this.zapisydopodswietlenia = zapisydopodswietlenia;
-    }
-    
-    
-    public Double getSumaWn() {
-        return sumaWn;
-    }
-    
-    public void setSumaWn(Double sumaWn) {
-        this.sumaWn = sumaWn;
-    }
-    
-    public Double getSumaMa() {
-        return sumaMa;
-    }
-    
-    public void setSumaMa(Double sumaMa) {
-        this.sumaMa = sumaMa;
-    }
-    
-    public Double getSaldoWn() {
-        return saldoWn;
-    }
-    
-    public void setSaldoWn(Double saldoWn) {
-        this.saldoWn = saldoWn;
-    }
-    
-    public Double getSaldoMa() {
-        return saldoMa;
-    }
-    
-    public void setSaldoMa(Double saldoMa) {
-        this.saldoMa = saldoMa;
+    public List<StronaWiersza> getZapisyRok() {
+        return zapisyRok;
     }
 
-    public List<StronaWiersza> getKontorozrachunki() {
-        return kontorozrachunki;
+    public void setZapisyRok(List<StronaWiersza> zapisyRok) {
+        this.zapisyRok = zapisyRok;
     }
 
-    public void setKontorozrachunki(List<StronaWiersza> kontorozrachunki) {
-        this.kontorozrachunki = kontorozrachunki;
+    public String getWybranyRodzajKonta() {
+        return wybranyRodzajKonta;
+    }
+
+    public void setWybranyRodzajKonta(String wybranyRodzajKonta) {
+        this.wybranyRodzajKonta = wybranyRodzajKonta;
     }
     
-   
-      
-    public StronaWiersza getWybranyzapis() {
-        return wybranyzapis;
-    }
-
-    public void setWybranyzapis(StronaWiersza wybranyzapis) {
-        this.wybranyzapis = wybranyzapis;
-    }
-//</editor-fold>
-
+    
     
 
 }

@@ -6,6 +6,7 @@
 
 package viewfk;
 
+import comparator.StronaWierszacomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
@@ -17,6 +18,7 @@ import entityfk.Transakcja;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -98,7 +100,15 @@ public class RozrachunkiPrzegladView implements Serializable{
     public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
         stronyWiersza = new ArrayList<>();
         wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
-        if (wybranyRodzajTransakcji.equals("transakcje")) {
+        if (wybranyRodzajTransakcji.equals("wszystkie")) {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+                stronyWiersza.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieR(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+                stronyWiersza.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieR(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt()));
+            }
+        } else if (wybranyRodzajTransakcji.equals("transakcje")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
                 stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
             } else {
@@ -115,7 +125,15 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     public void pobierzZapisyZmianaWaluty() {
-        if (wybranyRodzajTransakcji.equals("transakcje")) {
+        if (wybranyRodzajTransakcji.equals("wszystkie")) {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+                stronyWiersza.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieR(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+                stronyWiersza.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieR(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt()));
+            }
+        } else if (wybranyRodzajTransakcji.equals("transakcje")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
                 stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
             } else {
@@ -132,7 +150,15 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     public void pobierzZapisyZmianaTransakcji() {
-        if (wybranyRodzajTransakcji.equals("transakcje")) {
+        if (wybranyRodzajTransakcji.equals("wszystkie")) {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+                stronyWiersza.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieR(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+                stronyWiersza.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieR(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt()));
+            }
+        } else if (wybranyRodzajTransakcji.equals("transakcje")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
                 stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
             } else {
@@ -149,7 +175,15 @@ public class RozrachunkiPrzegladView implements Serializable{
      }
     
     public void pobierzZapisyZmianaZakresu() {
-        if (wybranyRodzajTransakcji.equals("transakcje")) {
+        if (wybranyRodzajTransakcji.equals("wszystkie")) {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+                stronyWiersza.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieR(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+                stronyWiersza.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieR(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt()));
+            }
+        } else if (wybranyRodzajTransakcji.equals("transakcje")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
                 stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
             } else {
@@ -189,8 +223,11 @@ public class RozrachunkiPrzegladView implements Serializable{
             int mc = Mce.getMiesiacToNumber().get(pr.getWiersz().getDokfk().getMiesiac());
             if (mc < granicaDolna || mc > granicaGorna) {
                 it.remove();
+            } else if (pr.getDokfk().getDokfkPK().getSeriadokfk().equals("RRK")) {
+                it.remove();
             }
         }
+        Collections.sort(stronyWiersza, new StronaWierszacomparator());
         for (Iterator<StronaWiersza> p = stronyWiersza.iterator(); p.hasNext();) {
              switch (coWyswietlacRozrachunkiPrzeglad) {
                  case "rozliczone":
