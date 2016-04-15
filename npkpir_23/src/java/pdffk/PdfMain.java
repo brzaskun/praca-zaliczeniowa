@@ -1219,7 +1219,12 @@ public class PdfMain {
             if (nazwaklasy.equals("embeddablefk.KontoKwota")) {
                 KontoKwota p = (KontoKwota) it.next();
                 table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getKonto().getNazwapelna(), "left", 7));
+                if (l.equals("pl")) {
+                    table.addCell(ustawfrazeAlign(p.getKonto().getNazwapelna(), "left", 7));
+                } else {
+                    table.addCell(ustawfrazeAlign(p.getKonto().getDe(), "left", 7));
+                }
+                
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
             }
             if (nazwaklasy.equals("testobjects.WierszDokfk")) {
