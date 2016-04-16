@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
->
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
      <p:tabView id="akordeon" >
          
     <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ksiegaryczalt}" >
@@ -223,59 +224,46 @@
             </h:form>
         </p:tab>
     
-    <p:tab id="tab5" title="Straty z lat ubiegłych. Podatnik: #{podatnikView.selectedStrata.nazwapelna}">
+         <p:tab id="tab5" title="Straty z lat ubiegłych. Podatnik: #{WpisView.podatnikWpisu}">
             <h:form id="form1">
                 <p:panel header="Nanoszenie strat możliwe jest jedynie po sporządzeniu PIT-ow za 12 mcy oraz po wybraniu miesiąca stycznia roku następnego"/>
-                <p:dataTable value="#{podatnikView.selectedStrata.stratyzlatub1}" emptyMessage="Nie ma nic" var="loop" style="min-width: 800px; max-width: 1200px;" expandedRow="true">
+                <p:dataTable id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"
+                             style="min-width: 500px; max-width: 900px;" expandedRow="true">
                      <p:column style="width: 4%;">
                         <p:rowToggler />
                     </p:column>
-                    <p:column headerText="rok" width="70">
+                    <p:column headerText="rok" width="40">
                         <h:outputText value="#{loop.rok}" />
                     </p:column>
-                    <p:column headerText="#{mgs.kwota}" width="100">
-                        <h:outputText value="#{loop.kwota}"  style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                    <p:column headerText="#{mgs.kwota}" width="90">
+                        <bcf:outputpl value="#{loop.kwota}"/>
                     </p:column>
                     <p:column headerText="50%" width="100">
-                        <h:outputText value="#{loop.polowakwoty}"  style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                        <bcf:outputpl value="#{loop.polowakwoty}"/>
                     </p:column>
-                    <p:column headerText="wykorzyst. uprzednio" width="100">
-                        <h:outputText value="#{loop.wykorzystano}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                    <p:column headerText="wykorzyst. uprzednio" width="90">
+                        <bcf:outputpl value="#{loop.wykorzystano}"/>
                     </p:column>
-                     <p:column headerText="do bieżącego wykorzystania" width="100">
-                         <h:outputText value="#{loop.kwota - loop.wykorzystano}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                     <p:column headerText="do bieżącego wykorzystania" width="90">
+                         <bcf:outputpl value="#{loop.doBiezacegoWykorzystania}"/>
                     </p:column>
-                    <p:column headerText="wykorzyst. bieżące" width="100">
-                        <h:outputText value="#{loop.sumabiezace}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                    <p:column headerText="wykorzyst. bieżące" width="90">
+                        <bcf:outputpl value="#{loop.sumabiezace}"/>
                     </p:column>
-                    <p:column headerText="zostało" width="100">
-                        <h:outputText value="#{loop.zostalo}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                    <p:column headerText="zostało" width="90">
+                       <bcf:outputpl value="#{loop.zostalo}"/>
                     </p:column>
-                    <p:column headerText="usuń" width="70">
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{podatnikView.usunstrate(loop)}"/>
+                    <p:column headerText="usuń" width="50" style="text-align: center;">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{strataView.usunstrate(loop)}" update="akordeon:form1:tabelastrat"/>
                     </p:column>
                         <p:rowExpansion>
                        <p:column id="wykorzystanie" headerText="wykorzystanie bieżące" width="300" resizable="true">  
-                           <p:dataTable var="subwpis" value="#{loop.wykorzystanieBiezace}" emptyMessage="strata nie rozliczona"  resizableColumns="true" style="width: 50%;">
+                           <p:dataTable var="subwpis" value="#{loop.nowewykorzystanie}" emptyMessage="strata nie rozliczona"  resizableColumns="true" style="width: 250px;">
                                <p:column id="SubColumn1" headerText="rok">  
                                    <h:outputText value="#{subwpis.rokwykorzystania}" />
                                </p:column>
                                <p:column id="SubColumn2" headerText="#{mgs.kwota}">  
-                                   <h:outputText value="#{subwpis.kwotawykorzystania}"  style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                                   <bcf:outputpl value="#{subwpis.kwotawykorzystania}"/>
                                </p:column>
                            </p:dataTable>
                        </p:column>
@@ -284,20 +272,38 @@
             </h:form>
             <h:form id="form2">
                 <p:focus for="panelstraty">
-                    <p:panelGrid columns="6" id="panelstraty" style="margin-top: 10px;margin-bottom: 10px;">
-                        <h:outputText value="rok"/>
-                        <h:inputText value="#{podatnikView.stratarok}" accesskey="s"/>
-                        <h:outputText value="#{mgs.kwota}"/>
-                        <pe:inputNumber value="#{podatnikView.stratakwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="0" />  
-                        <h:outputText value="wykorzystano"/>
-                        <pe:inputNumber value="#{podatnikView.stratawykorzystano}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="0" /> 
+                    <p:panelGrid id="panelstraty" style="margin-top: 10px;margin-bottom: 10px;">
+                        <f:facet name="header">
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="rok"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="kwota"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="wykorzystano"/>
+                                </p:column>
+                            </p:row>
+                        </f:facet>
+                        <p:row>
+                            <p:column>
+                                <p:inputText value="#{strataView.selected.rok}"/>
+                            </p:column>
+                            <p:column>
+                                <bcf:innum value="#{strataView.selected.kwota}"/>
+                            </p:column>
+                            <p:column>
+                                <bcf:innum value="#{strataView.selected.wykorzystano}"/>
+                            </p:column>
+                        </p:row>
                     </p:panelGrid>
                 </p:focus>
-                <p:commandButton value="Dodaj kwotę straty ręcznie" actionListener="#{podatnikView.dodajstrate()}" rendered="#{WpisView.miesiacWpisu eq '01'}" update=":akordeon:form1"/>
+                <p:commandButton value="Dodaj kwotę straty ręcznie" actionListener="#{strataView.dodajstrate()}" update="akordeon:form1:tabelastrat"/>
             </h:form>
         <h:form id="form3">
             <p:separator/>
-            <p:commandButton value="Nanieś wykorzystanie strat" actionListener="#{podatnikView.naniesRozliczenieStrat}" rendered="#{WpisView.miesiacWpisu eq '01'}" update=":akordeon:form1"/>
+            <p:commandButton value="Nanieś wykorzystanie strat" actionListener="#{strataView.naniesRozliczenieStrat}"  update="akordeon:form1:tabelastrat"/>
         </h:form>
         </p:tab>
     </p:tabView>

@@ -9,6 +9,7 @@ import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RyczDAO;
+import dao.StrataDAO;
 import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Mce;
@@ -21,6 +22,8 @@ import entity.Pitpoz;
 import entity.Podatnik;
 import entity.PodatnikUdzialy;
 import entity.Ryczpoz;
+import entity.Strata;
+import entity.StrataWykorzystanie;
 import entity.Wpis;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
@@ -48,6 +51,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdf.PdfPIT28;
 import pdf.PdfZestRok;
+import waluty.Z;
 
 /**
  *
@@ -65,6 +69,8 @@ public class ZestawienieRyczaltView implements Serializable {
     private RyczDAO pitDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private StrataDAO strataDAO;
     //bieżący pit
     private Ryczpoz pitpoz;
     //sumowanie poprzednich pitów jeżeli są zachowane
@@ -489,7 +495,7 @@ public class ZestawienieRyczaltView implements Serializable {
                     return;
                 }
              try {
-                rozliczstrate(tmpP);
+                rozliczstrate();
                 obliczpodatek();
                 if(biezacyPit.getZus52() != null) {
                     if (biezacyPit.getPodatek().subtract(biezacyPit.getZus52()).signum()==1){
@@ -525,20 +531,25 @@ public class ZestawienieRyczaltView implements Serializable {
         }
     }
 
-    private void rozliczstrate(Podatnik tmp) {
-        List<Straty1> straty = tmp.getStratyzlatub1();
+    private void rozliczstrate() {
+        List<Strata> straty = strataDAO.findPodatnik(wpisView.getPodatnikObiekt());
         double sumastrat = 0.0;
         try {
-            Double zostalo = wyliczStrataZostalo(tmp);
-            for (Straty1 p : straty) {
-                Double wyliczmaks = zostalo - Double.parseDouble(p.getPolowakwoty());
+            for (Strata p : straty) {
+                double zostalo = wyliczStrataZostalo(p);
+                double wyliczmaks = zostalo - p.getPolowakwoty();
                 if (wyliczmaks > 0) {
-                    sumastrat += Double.parseDouble(p.getPolowakwoty());
+                    sumastrat += p.getPolowakwoty();
                 } else {
                     sumastrat += zostalo;
                 }
             }
-             BigDecimal wynikpozus = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
+            BigDecimal wynikpozus = BigDecimal.ZERO;
+            if (biezacyPit.getZus51() != null) {
+                wynikpozus = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
+            } else {
+                wynikpozus = biezacyPit.getWynik();
+            }
             if (wynikpozus.signum() == 1) {
                 BigDecimal stratadoujecia = wynikpozus.subtract(new BigDecimal(sumastrat));
                 if (stratadoujecia.signum() == -1) {
@@ -549,27 +560,27 @@ public class ZestawienieRyczaltView implements Serializable {
             } else {
                 biezacyPit.setStrata(BigDecimal.ZERO);
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
             biezacyPit.setStrata(BigDecimal.ZERO);
         }
     }
 
-    //wyliczenie niezbedne przy wracaniu do historycznych pitow
-    private double wyliczStrataZostalo(Podatnik tmp) {
+    //wyliczenie niezbedne przy wracaniu do historycznych pitow pojedynczo dla kazdego pitu
+    private double wyliczStrataZostalo(Strata tmp) {
         double zostalo = 0.0;
-        for (Straty1 r : tmp.getStratyzlatub1()) {
-            double sumabiezace = 0.0;
-             for (Straty1.Wykorzystanie s : r.getWykorzystanieBiezace()) {
-                 if (Integer.parseInt(s.getRokwykorzystania())<wpisView.getRokWpisu()) {
+        double sumabiezace = 0.0;
+        if (tmp.getNowewykorzystanie() != null) {
+            for (StrataWykorzystanie s : tmp.getNowewykorzystanie()) {
+                if (Integer.parseInt(s.getRokwykorzystania()) < wpisView.getRokWpisu()) {
                     sumabiezace += s.getKwotawykorzystania();
-                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
-                 }
-             }
-             double kwota = Double.parseDouble(r.getKwota());
-             double uprzednio = Double.parseDouble(r.getWykorzystano());
-             double biezace = sumabiezace;
-             zostalo += Math.round((kwota-uprzednio-biezace) * 100.0) / 100.0;
-         }
+                }
+            }
+        } else {
+            tmp.setNowewykorzystanie(new ArrayList<StrataWykorzystanie>());
+
+        }
+        zostalo += Z.z(tmp.getKwota() - tmp.getWykorzystano() - Z.z(sumabiezace));
         return zostalo;
     }
     

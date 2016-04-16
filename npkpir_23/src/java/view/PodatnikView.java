@@ -4,20 +4,16 @@
  */
 package view;
 
-import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RodzajedokDAO;
-import dao.WpisDAO;
 import dao.ZUSDAO;
 import daoFK.KontoDAOfk;
 import embeddable.Mce;
 import embeddable.Parametr;
-import embeddable.Straty1;
 import embeddable.Udzialy;
-import entity.Pitpoz;
 import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
@@ -28,8 +24,6 @@ import entityfk.Konto;
 import enumy.FormaPrawna;
 import error.E;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -51,8 +45,6 @@ import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.RowEditEvent;
-import waluty.Z;
 
 /**
  *
@@ -93,26 +85,13 @@ public class PodatnikView implements Serializable {
     @Inject
     private Parametr ostatniparametr;
     @Inject
-    private DokDAO dokDAO;
-    @Inject
     private ZUSDAO zusDAO;
     @Inject
     private WpisView wpisView;
     @Inject
-    private WpisDAO wpisDAO;
-    @Inject
     private RodzajedokDAO rodzajedokDAO;
     @Inject
     private PodatnikUdzialy udzialy;
-    //straty z lat ubieglych
-    private List<Straty1> stratyzlatub;
-    private String stratarok;
-    private String stratakwota;
-    private String strata50;
-    private String stratawykorzystano;
-    private String stratazostalo;
-    @Inject
-    private PitDAO pitDAO;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
     @Inject
@@ -928,205 +907,6 @@ public class PodatnikView implements Serializable {
         RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
     }
 
-    public void dodajstrate() {
-        BigDecimal zostalo = new BigDecimal(stratakwota);
-        zostalo = zostalo.subtract(new BigDecimal(stratawykorzystano)).setScale(2, RoundingMode.HALF_EVEN);
-        stratazostalo = zostalo.toString();
-        BigDecimal polowa = new BigDecimal(stratakwota);
-        polowa = polowa.divide(new BigDecimal(2)).setScale(2, RoundingMode.HALF_EVEN);
-        strata50 = polowa.toString();
-        Straty1 tmps = new Straty1(stratarok, stratakwota, strata50, stratawykorzystano, stratazostalo);
-        Straty1 ostatnirok = new Straty1();
-        try {
-            stratyzlatub = selected.getStratyzlatub1();
-            ostatnirok = stratyzlatub.get(stratyzlatub.size() - 1);
-
-        } catch (Exception e) { E.e(e); 
-            stratyzlatub = new ArrayList<>();
-            ostatnirok.setRok("1900");
-        }
-        try {
-            if (zostalo.signum() == -1) {
-                Msg.msg("e", "Kwota wykorzystana większa od straty", "akordeon:form2:messages");
-                throw new Exception();
-            }
-            if (Integer.parseInt(ostatnirok.getRok()) > Integer.parseInt(stratarok)) {
-                Msg.msg("e", "Wpisywany rok nie pasuje do listy", "akordeon:form2:messages");
-                throw new Exception();
-            }
-            stratyzlatub.add(tmps);
-            selectedStrata.setStratyzlatub1(stratyzlatub);
-            zachowajZmiany(selectedStrata);
-            stratarok = "";
-            stratakwota = "";
-            strata50 = "";
-            stratawykorzystano = "";
-            stratazostalo = "";
-            Msg.msg("i", "Dodano stratę za rok " + stratarok, "akordeon:form2:messages");
-            RequestContext.getCurrentInstance().update("akordeon:form1");
-        } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Wystąpił błąd poczdas dodawania straty " + stratarok, "akordeon:form2:messages");
-        }
-    }
-
-    public void usunstrate(Straty1 loop) {
-        try {
-            stratyzlatub = selectedStrata.getStratyzlatub1();
-            stratyzlatub.size();
-            stratyzlatub.remove(loop);
-            zachowajZmiany(selectedStrata);
-            Msg.msg("i", "Usunieto stratę za rok " + loop.getRok(), "akordeon:form2:messages");
-            RequestContext.getCurrentInstance().update("akordeon:form1");
-        } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Wystąpił błąd. Wołaj szefa " + loop, "akordeon:form2:messages");
-        }
-    }
-
-    public void naniesRozliczenieStrat() {
-        Msg.msg("i", "Rozpoczynam rozliczanie strat");
-        List<Pitpoz> pitpoz = pitDAO.findList(wpisView.getRokUprzedniSt(), "13", wpisView.getPodatnikWpisu());
-        if (pitpoz.isEmpty()) {
-            Msg.msg("e", "Nie sporządzono pitu za 13-mc poprzedniego roku. Przerywam nanoszenie strat");
-            return;
-        }
-        Double strataRozliczonaWDanymRoku = 0.0;
-        Double wynikzarok = 0.0;
-        for (Pitpoz p : pitpoz) {
-            strataRozliczonaWDanymRoku = Math.round(p.getStrata().doubleValue() * 100.0) / 100.0;
-            wynikzarok = Math.round(p.getWynik().doubleValue() * 100.0) / 100.0;
-        }
-        try {
-            //zerowanie strat w przypadku codniecia sie niezbedne
-            for (Straty1 r : selectedStrata.getStratyzlatub1()) {
-                List<Straty1.Wykorzystanie> wykorzystanie = r.getWykorzystanieBiezace();
-                Iterator it = wykorzystanie.iterator();
-                while (it.hasNext()) {
-                    Straty1.Wykorzystanie w = (Straty1.Wykorzystanie) it.next();
-                    if (Integer.parseInt(w.getRokwykorzystania()) >= wpisView.getRokUprzedni()) {
-                        it.remove();
-                    }
-                }
-            }
-        } catch (Exception e) { E.e(e); 
-        }
-        //dodawanie straty jak nie bylo zysku
-        if (wynikzarok < 0) {
-            Msg.msg("i", "W roku poprzednim była strata. Dopisuję stratę do listy");
-            Iterator it = selectedStrata.getStratyzlatub1().iterator();
-            while (it.hasNext()) {
-                Straty1 y = (Straty1) it.next();
-                if (y.getRok().equals(wpisView.getRokUprzedniSt())) {
-                    it.remove();
-                }
-            }
-            Straty1 nowastrata = new Straty1();
-            nowastrata.setRok(wpisView.getRokUprzedniSt());
-            nowastrata.setKwota(String.valueOf(wynikzarok));
-            nowastrata.setPolowakwoty(String.valueOf(Math.round((wynikzarok / 2) * 100.0) / 100.0));
-            nowastrata.setWykorzystano("0.0");
-            nowastrata.setSumabiezace("0.0");
-            nowastrata.setZostalo(String.valueOf(wynikzarok));
-            selectedStrata.getStratyzlatub1().add(nowastrata);
-            //wczesniej usunieto zapisy z roku ale nie zaktualizowano podsumowan
-            for (Straty1 r : selectedStrata.getStratyzlatub1()) {
-                double sumabiezace = 0.0;
-                for (Straty1.Wykorzystanie s : r.getWykorzystanieBiezace()) {
-                    sumabiezace += s.getKwotawykorzystania();
-                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
-                }
-                r.setSumabiezace(String.valueOf(sumabiezace));
-                double kwota = Double.parseDouble(r.getKwota());
-                double uprzednio = Double.parseDouble(r.getWykorzystano());
-                double biezace = Double.parseDouble(r.getSumabiezace());
-                r.setZostalo(String.valueOf(Math.round((kwota - uprzednio - biezace) * 100.0) / 100.0));
-            }
-            zachowajZmiany(selectedStrata);
-            return;
-        } else {
-            Msg.msg("i", "Poprzedni rok zakończył się zyskiem. Nie ma czego dopisać do listy.");
-        }
-        for (Straty1 r : selectedStrata.getStratyzlatub1()) {
-            Double zostalo = wyliczStrataZostalo(r);
-            List<Straty1.Wykorzystanie> wykorzystanie = r.getWykorzystanieBiezace();
-            if (zostalo <= 0 || strataRozliczonaWDanymRoku <= 0) {
-                break;
-            }
-            if (wykorzystanie == null) {
-                wykorzystanie = new ArrayList<>();
-                Straty1.Wykorzystanie w = new Straty1.Wykorzystanie();
-                w.setRokwykorzystania(wpisView.getRokUprzedniSt());
-                w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
-                wykorzystanie.add(w);
-                strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
-                r.setWykorzystanieBiezace(wykorzystanie);
-            } else if (wykorzystanie.isEmpty()) {
-                wykorzystanie = new ArrayList<>();
-                Straty1.Wykorzystanie w = new Straty1.Wykorzystanie();
-                w.setRokwykorzystania(wpisView.getRokUprzedniSt());
-                w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
-                wykorzystanie.add(w);
-                strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
-                r.setWykorzystanieBiezace(wykorzystanie);
-            } else {
-                List<Straty1.Wykorzystanie> nowewykorzystania = new ArrayList<>();
-                for (Iterator<Straty1.Wykorzystanie> it =  wykorzystanie.iterator(); it.hasNext(); ) {
-                    Straty1.Wykorzystanie s = (Straty1.Wykorzystanie) it.next();
-                    if (s.getRokwykorzystania().equals(wpisView.getRokUprzedniSt())) {
-                        s.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
-                        strataRozliczonaWDanymRoku -= s.getKwotawykorzystania();
-                        strataRozliczonaWDanymRoku = Math.round(strataRozliczonaWDanymRoku * 100.0) / 100.0;
-                        break;
-                    } else {
-                        Straty1.Wykorzystanie w = new Straty1.Wykorzystanie();
-                        w.setRokwykorzystania(wpisView.getRokUprzedniSt());
-                        w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
-                        strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
-                        strataRozliczonaWDanymRoku = Z.z(strataRozliczonaWDanymRoku);
-                        nowewykorzystania.add(w);
-                    }
-                }
-                wykorzystanie.addAll(nowewykorzystania);
-                r.setWykorzystanieBiezace(wykorzystanie);
-            }
-        }
-        for (Straty1 r : selectedStrata.getStratyzlatub1()) {
-            double sumabiezace = 0.0;
-            try {
-                for (Straty1.Wykorzystanie s : r.getWykorzystanieBiezace()) {
-                    sumabiezace += s.getKwotawykorzystania();
-                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
-                }
-            } catch (Exception e) { E.e(e); 
-            }
-            r.setSumabiezace(String.valueOf(sumabiezace));
-            double kwota = Double.parseDouble(r.getKwota());
-            double uprzednio = Double.parseDouble(r.getWykorzystano());
-            double biezace = Double.parseDouble(r.getSumabiezace());
-            r.setZostalo(String.valueOf(Math.round((kwota - uprzednio - biezace) * 100.0) / 100.0));
-        }
-        zachowajZmiany(selectedStrata);
-        Msg.msg("i", "Ukończyłem rozliczanie strat");
-    }
-
-    //wyliczenie niezbedne przy wracaniu do historycznych pitow
-    private double wyliczStrataZostalo(Straty1 tmp) {
-        double zostalo = 0.0;
-        double sumabiezace = 0.0;
-        try {
-            for (Straty1.Wykorzystanie s : tmp.getWykorzystanieBiezace()) {
-                if (Integer.parseInt(s.getRokwykorzystania()) < wpisView.getRokUprzedni()) {
-                    sumabiezace += s.getKwotawykorzystania();
-                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
-                }
-            }
-        } catch (Exception e) { E.e(e); 
-        }
-        double kwota = Double.parseDouble(tmp.getKwota());
-        double uprzednio = Double.parseDouble(tmp.getWykorzystano());
-        double biezace = sumabiezace;
-        zostalo += Math.round((kwota - uprzednio - biezace) * 100.0) / 100.0;
-        return Math.round(zostalo * 100.0) / 100.0;
-    }
     
     private void zweryfikujBazeBiezacegoPodatnika() {
         // to bylo nam potrzebne do transformacji teraz jest juz zbedne bo klineci maja przeniesione dokumenty
@@ -1390,54 +1170,7 @@ public class PodatnikView implements Serializable {
     }
    
     
-    public List<Straty1> getStratyzlatub() {
-        return stratyzlatub;
-    }
-    
-    public void setStratyzlatub(List<Straty1> stratyzlatub) {
-        this.stratyzlatub = stratyzlatub;
-    }
-    
-    public String getStratarok() {
-        return stratarok;
-    }
-    
-    public void setStratarok(String stratarok) {
-        this.stratarok = stratarok;
-    }
-    
-    public String getStratakwota() {
-        return stratakwota;
-    }
-    
-    public void setStratakwota(String stratakwota) {
-        this.stratakwota = stratakwota;
-    }
-    
-    public String getStrata50() {
-        return strata50;
-    }
-    
-    public void setStrata50(String strata50) {
-        this.strata50 = strata50;
-    }
-    
-    public String getStratawykorzystano() {
-        return stratawykorzystano;
-    }
-    
-    public void setStratawykorzystano(String stratawykorzystano) {
-        this.stratawykorzystano = stratawykorzystano;
-    }
-    
-    public String getStratazostalo() {
-        return stratazostalo;
-    }
-    
-    public void setStratazostalo(String stratazostalo) {
-        this.stratazostalo = stratazostalo;
-    }
-    
+            
     public Podatnik getSelectedStrata() {
         return selectedStrata;
     }
@@ -1446,14 +1179,7 @@ public class PodatnikView implements Serializable {
         this.selectedStrata = selectedStrata;
     }
     
-    public PitDAO getPitDAO() {
-        return pitDAO;
-    }
-    
-    public void setPitDAO(PitDAO pitDAO) {
-        this.pitDAO = pitDAO;
-    }
-    
+      
     public Zusstawki getZusstawkiWybierz() {
         return zusstawkiWybierz;
     }

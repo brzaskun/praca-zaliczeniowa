@@ -21,7 +21,7 @@ import session.SessionFacade;
 public abstract class DAO<T> {
 
     @Inject
-    private SessionFacade sessionFacade;
+    protected SessionFacade sessionFacade;
     private Class<T> entityClass;
     /**
      *
@@ -127,5 +127,7 @@ public abstract class DAO<T> {
     public void setDownloaded(ArrayList<T> downloaded) {
         this.downloaded = downloaded;
     }
+    
+    
 
 }

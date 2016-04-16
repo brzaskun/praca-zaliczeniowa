@@ -25,7 +25,7 @@ import org.joda.time.Duration;
 @ManagedBean
 @ViewScoped
 public class StatisticView implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private int iloscsesji;
     private int iloscdokumentow;
     private int iloscwydrukow;

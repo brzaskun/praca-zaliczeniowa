@@ -25,9 +25,8 @@ import javax.inject.Inject;
 @ManagedBean
 @ViewScoped
 public class SrodkikstView implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<Srodkikst> lista;
-
-
     @Inject private SrodkikstDAO srodkikstDAO;
 
     public SrodkikstView() {

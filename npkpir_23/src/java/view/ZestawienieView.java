@@ -12,6 +12,7 @@ import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
+import dao.StrataDAO;
 import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Kwartaly;
@@ -22,9 +23,10 @@ import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
-import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Podstawki;
+import entity.Strata;
+import entity.StrataWykorzystanie;
 import entity.Wpis;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
@@ -56,6 +58,7 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import pdf.PdfPIT5;
 import pdf.PdfZestRok;
+import waluty.Z;
 
 /**
  *
@@ -90,6 +93,8 @@ public class ZestawienieView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @Inject
     private AmoDokDAO amoDokDAO;
+    @Inject
+    private StrataDAO strataDAO;
     //bieżący pit
     private Pitpoz pitpoz;
     //sumowanie poprzednich pitów jeżeli są zachowane
@@ -903,7 +908,7 @@ public class ZestawienieView implements Serializable {
                     if (selected.isOdliczeniezus51() == true && pierwszypitwroku == false) {
                         biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
                     }
-                    rozliczstrate(wpisView.getPodatnikObiekt());
+                    rozliczstrate();
                     BigDecimal tmp = biezacyPit.getWynik().subtract(biezacyPit.getStrata());
                     if (biezacyPit.getZus51() != null) {
                         tmp = tmp.subtract(biezacyPit.getZus51());
@@ -1111,20 +1116,25 @@ public class ZestawienieView implements Serializable {
         }
     }
 
-    private void rozliczstrate(Podatnik tmp) {
-        List<Straty1> straty = tmp.getStratyzlatub1();
+    private void rozliczstrate() {
+        List<Strata> straty = strataDAO.findPodatnik(wpisView.getPodatnikObiekt());
         double sumastrat = 0.0;
         try {
-            for (Straty1 p : straty) {
-                Double zostalo = wyliczStrataZostalo(p);
-                Double wyliczmaks = zostalo - Double.parseDouble(p.getPolowakwoty());
+            for (Strata p : straty) {
+                double zostalo = wyliczStrataZostalo(p);
+                double wyliczmaks = zostalo - p.getPolowakwoty();
                 if (wyliczmaks > 0) {
-                    sumastrat += Double.parseDouble(p.getPolowakwoty());
+                    sumastrat += p.getPolowakwoty();
                 } else {
                     sumastrat += zostalo;
                 }
             }
-            BigDecimal wynikpozus = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
+            BigDecimal wynikpozus = BigDecimal.ZERO;
+            if (biezacyPit.getZus51() != null) {
+                wynikpozus = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
+            } else {
+                wynikpozus = biezacyPit.getWynik();
+            }
             if (wynikpozus.signum() == 1) {
                 BigDecimal stratadoujecia = wynikpozus.subtract(new BigDecimal(sumastrat));
                 if (stratadoujecia.signum() == -1) {
@@ -1142,25 +1152,21 @@ public class ZestawienieView implements Serializable {
     }
 
     //wyliczenie niezbedne przy wracaniu do historycznych pitow pojedynczo dla kazdego pitu
-    private double wyliczStrataZostalo(Straty1 tmp) {
+    private double wyliczStrataZostalo(Strata tmp) {
         double zostalo = 0.0;
         double sumabiezace = 0.0;
-        if (tmp.getWykorzystanieBiezace() != null) {
-            for (Straty1.Wykorzystanie s : tmp.getWykorzystanieBiezace()) {
+        if (tmp.getNowewykorzystanie() != null) {
+            for (StrataWykorzystanie s : tmp.getNowewykorzystanie()) {
                 if (Integer.parseInt(s.getRokwykorzystania()) < wpisView.getRokWpisu()) {
                     sumabiezace += s.getKwotawykorzystania();
-                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
                 }
             }
         } else {
-            tmp.setWykorzystanieBiezace(new ArrayList<Straty1.Wykorzystanie>());
+            tmp.setNowewykorzystanie(new ArrayList<StrataWykorzystanie>());
 
         }
-        double kwota = Double.parseDouble(tmp.getKwota());
-        double uprzednio = Double.parseDouble(tmp.getWykorzystano());
-        double biezace = sumabiezace;
-        zostalo += Math.round((kwota - uprzednio - biezace) * 100.0) / 100.0;
-        return Math.round(zostalo * 100.0) / 100.0;
+        zostalo += Z.z(tmp.getKwota() - tmp.getWykorzystano() - Z.z(sumabiezace));
+        return zostalo;
     }
 
     public void zachowajPit() {

@@ -27,7 +27,7 @@ import javax.inject.Inject;
 @ViewScoped
 @ManagedBean
 public class TransformacjaView implements Serializable{
-    
+    private static final long serialVersionUID = 1L;
     @Inject
     private DokDAO dokDAO;
     

@@ -8,16 +8,13 @@ import dao.DokDAO;
 import dao.SesjaDAO;
 import dao.UzDAO;
 import daoFK.DokDAOfk;
-import entity.Dok;
 import entity.Sesja;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -33,6 +30,7 @@ import org.joda.time.Duration;
 @ManagedBean
 @ViewScoped
 public class StatisticAdminView implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<Statystyka> statystyka;
     private List<Sesja> sesje;
     private List<Obrabiani> obrabiani;

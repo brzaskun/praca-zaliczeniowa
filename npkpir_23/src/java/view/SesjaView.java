@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 @ManagedBean
 @ViewScoped
 public class SesjaView implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     @Inject
     private Sesja sesja;
     @Inject

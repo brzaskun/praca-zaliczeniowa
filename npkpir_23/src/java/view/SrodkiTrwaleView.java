@@ -7,26 +7,18 @@ package view;
 import beansSrodkiTrwale.SrodkiTrwBean;
 import dao.STRDAO;
 import entity.SrodekTrw;
-import entity.SrodekTrw_NowaWartosc;
 import entity.Srodkikst;
 import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import waluty.Z;
 
 /**
  *
@@ -36,7 +28,7 @@ import waluty.Z;
 @ViewScoped
 public class SrodkiTrwaleView implements Serializable {
 
-
+    private static final long serialVersionUID = 1L;
     @Inject
     private STRDAO sTRDAO;
     private Integer ilesrodkow;

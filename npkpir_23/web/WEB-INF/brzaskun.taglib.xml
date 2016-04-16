@@ -104,4 +104,14 @@
             <name>closeDialog</name>
         </attribute>
     </tag>
+     <tag>
+	<tag-name>innum</tag-name>
+	<source>tags/innum.xhtml</source>
+        <attribute>
+            <name>value</name>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+        </attribute>
+    </tag>
 </facelet-taglib>
