@@ -56,14 +56,15 @@ public class DokFKVATBean {
     public static void ustawvat(EVatwpisFK evatwpis,  Dokfk selected) {
         Waluty w = selected.getWalutadokumentu();
         double kurs = selected.getTabelanbp().getKurssredni();
+        double przelicznik = selected.getTabelanbp().getWaluta().getPrzelicznik();
         //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
         String rodzajdok = selected.getRodzajedok().getSkrot();
         double stawkavat = DokFKVATBean.pobierzstawke(evatwpis);
          if (!w.getSymbolwaluty().equals("PLN")) {
-            double obliczonenettowpln = Z.z(evatwpis.getNetto()/kurs);
+            double obliczonenettowpln = Z.z(evatwpis.getNetto()/kurs*przelicznik);
             if (evatwpis.getNettowwalucie()!= obliczonenettowpln || evatwpis.getNettowwalucie() == 0) {
                 evatwpis.setNettowwalucie(evatwpis.getNetto());
-                evatwpis.setNetto(Z.z(evatwpis.getNetto()*kurs));
+                evatwpis.setNetto(Z.z(evatwpis.getNetto()*kurs/przelicznik));
             }
         }
         if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("EXP") || rodzajdok.contains("sprzedaż zw")) {
@@ -73,7 +74,7 @@ public class DokFKVATBean {
         }
         if (!w.getSymbolwaluty().equals("PLN")) {
             //ten vat tu musi byc bo inaczej bylby onblur przy vat i cykliczne odswiezanie
-            evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()/kurs));
+            evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()/kurs*przelicznik));
         }
     }
     public static void ustawvat(EVatwpisFK evatwpis, Dokfk selected, double stawkavat) {
@@ -81,13 +82,14 @@ public class DokFKVATBean {
         int lp = evatwpis.getLp();
         Waluty w = selected.getWalutadokumentu();
         double kurs = selected.getTabelanbp().getKurssredni();
+        double przelicznik = selected.getTabelanbp().getWaluta().getPrzelicznik();
         //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
         String opis = evatwpis.getEwidencja().getNazwa();
         if (!w.getSymbolwaluty().equals("PLN")) {
-            double obliczonenettowpln = Z.z(evatwpis.getNetto() / kurs);
+            double obliczonenettowpln = Z.z(evatwpis.getNetto() / kurs * przelicznik);
             if (evatwpis.getNettowwalucie() != obliczonenettowpln || evatwpis.getNettowwalucie() == 0) {
                 evatwpis.setNettowwalucie(evatwpis.getNetto());
-                evatwpis.setNetto(Z.z(evatwpis.getNetto() * kurs));
+                evatwpis.setNetto(Z.z(evatwpis.getNetto() * kurs /przelicznik));
             }
         }
         if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {

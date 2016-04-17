@@ -81,6 +81,9 @@ public class WalutyViewFK implements Serializable {
             if (!w.getSymbolwaluty().equals("PLN")) {
                 walutywuzyciu.add(w);
             }
+            if (w.getSymbolwaluty().equals("EUR")) {
+                kurswprowadzonyrecznie.setWaluta(w);
+            }
         }
         Set<String> st = new HashSet<>();
         for(Tabelanbp p : wprowadzonekursyRok) {

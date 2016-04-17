@@ -18,21 +18,26 @@
                  <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych tabel NBP " />  
                  </f:facet>
-                <p:column headerText="#{mgs.numerkolejny}" width="20" sortBy="#{wpisT.idtabelanbp}">
+                <p:column headerText="#{mgs.numerkolejny}" width="30" sortBy="#{wpisT.idtabelanbp}">
                     <h:outputText value="#{wpisT.idtabelanbp}" style="width: 20px;"/>
                 </p:column>
-                <p:column headerText="nr tabeli" width="150" sortBy="#{wpisT.nrtabeli}" filterBy="#{wpisT.nrtabeli}"  filterMatchMode="contains">
+                <p:column headerText="nr tabeli" width="150" sortBy="#{wpisT.nrtabeli}" filterBy="#{wpisT.nrtabeli}"  filterMatchMode="contains" style="text-align: center;">
                     <h:outputText value="#{wpisT.nrtabeli}" />
                 </p:column>
-                <p:column headerText="data tabeli" width="150" sortBy="#{wpisT.datatabeli}" filterBy="#{wpisT.datatabeli}"  filterMatchMode="contains">
+                <p:column headerText="data tabeli" width="150" sortBy="#{wpisT.datatabeli}" filterBy="#{wpisT.datatabeli}"  filterMatchMode="contains" style="text-align: center;">
                     <h:outputText value="#{wpisT.datatabeli}" />
                 </p:column>
-                <p:column headerText="symbol waluty" width="150" sortBy="#{wpisT.waluta.symbolwaluty}" filterBy="#{wpisT.waluta.symbolwaluty}"  filterMatchMode="contains">
+                <p:column headerText="symbol waluty" width="150" sortBy="#{wpisT.waluta.symbolwaluty}" filterBy="#{wpisT.waluta.symbolwaluty}"  filterMatchMode="contains" style="text-align: center;">
                     <h:outputText value="#{wpisT.waluta.symbolwaluty}" />
                 </p:column>
                 <p:column headerText="kurs do pln" width="150" sortBy="#{wpisT.kurssredni}" filterBy="#{wpisT.kurssredni}"  filterMatchMode="contains">
                     <h:outputText value="#{wpisT.kurssredni}" style="float: right;">
                         <f:convertNumber minFractionDigits="4" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="przel." width="40" sortBy="#{wpisT.waluta.przelicznik}">
+                    <h:outputText value="#{wpisT.waluta.przelicznik}" style="float: right;">
+                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" locale="PL"/>
                     </h:outputText>
                 </p:column>
             </p:dataTable>

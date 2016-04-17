@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -43,6 +42,8 @@ public class Waluty implements Serializable {
     private String symbolwaluty;
     @Column(name = "nazwawaluty")
     private String nazwawaluty;
+    @Column(name = "przelicznik")
+    private int przelicznik;
     @Column(name = "skrotsymbolu")
     private String skrotsymbolu;
     @OneToMany(mappedBy = "waluta")
@@ -52,6 +53,7 @@ public class Waluty implements Serializable {
             
 
     public Waluty() {
+        this.przelicznik = 1;
     }
     
     
@@ -63,6 +65,14 @@ public class Waluty implements Serializable {
     
     public Integer getId() {
         return id;
+    }
+
+    public int getPrzelicznik() {
+        return przelicznik;
+    }
+
+    public void setPrzelicznik(int przelicznik) {
+        this.przelicznik = przelicznik;
     }
     
     public void setId(Integer id) {

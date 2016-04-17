@@ -132,8 +132,12 @@ public class Tabelanbp implements Serializable {
     public void setKurssredni(double kurssredni) {
         this.kurssredni = kurssredni;
     }
+    
+    public double getKurssredniPrzelicznik() {
+        return kurssredni/waluta.getPrzelicznik();
+    }
 
-    public List<Dokfk> getDokfk() {
+      public List<Dokfk> getDokfk() {
         return Dokfk;
     }
 

@@ -11,7 +11,7 @@
               onHide="resetujdialog('dialogkursrecznie');" >
         <h:form id="formkursrecznie">
             <p:focus for="formkursrecznie:dataKursReczny"/>
-            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 720px;">
+            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 760px;">
                  <p:column headerText="tabela" width="100" style="text-align: center;">
                      <p:selectOneMenu value="#{walutyViewFK.symbolRecznie}" id="polewyboruwaluty"
                                       editable="true">
@@ -33,7 +33,12 @@
                                   onblur="$(this).removeClass('ui-state-focus');
                                                                  $(this).addClass('ui-state-default');">
                         <f:selectItems value="#{walutyViewFK.walutywuzyciu}" var="item" itemLabel="#{item.symbolwaluty}"/>
+                        <p:ajax event="change" partialSubmit="true" update="formkursrecznie:dataKursReczny:0:przelicznik" global="false"/>
                     </h:selectOneMenu>
+                </p:column>
+                <p:column headerText="prl." width="40" style="text-align: center;">
+                    <h:outputText id="przelicznik" value="#{wpis.waluta.przelicznik}" style="width: 40px;" />
+                    <h:outputText value=" x"/>
                 </p:column>
                 <p:column headerText="wartość w pln" width="100" style="text-align: center;">
                     <pe:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 

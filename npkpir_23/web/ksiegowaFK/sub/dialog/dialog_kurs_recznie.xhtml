@@ -19,6 +19,7 @@
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;">
                     <p:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv">
                         <f:selectItems value="#{walutyViewFK.walutywuzyciu}" var="item" itemLabel="#{item.symbolwaluty}"/>
+                        <p:ajax event="change" partialSubmit="true" update="formkursrecznie:uwagaoprzeliczniku"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column headerText="wartość w pln" width="100" style="text-align: center;">
@@ -28,9 +29,13 @@
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" update="formkursrecznie :wprowadzonekursy :wprowadzonekursyrecznie"
-                                     />
+                />
                 </p:column>
             </p:dataTable>
+            <p:outputPanel id="uwagaoprzeliczniku" style="padding: 10px;">
+                <h:outputText value="przelicznik waluty: "/>
+                <h:outputText value="#{walutyViewFK.kurswprowadzonyrecznie.waluta.przelicznik}"/>
+            </p:outputPanel>
         </h:form>
       
     </p:dialog>

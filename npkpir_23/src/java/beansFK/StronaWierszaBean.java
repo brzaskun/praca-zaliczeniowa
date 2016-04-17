@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -35,37 +36,33 @@ public class StronaWierszaBean {
     public static double przeliczWalutyWn(Wiersz wiersz) {
             wiersz.getStronaWn().setKwotaWaluta(wiersz.getStronaWn().getKwota());
             double kurs = wiersz.getTabelanbp().getKurssredni();
+            double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
             double kwotazlotowki = wiersz.getStronaWn().getKwota();
-            kwotazlotowki = Math.round(kwotazlotowki * kurs * 100);
-            kwotazlotowki /= 100;
-            return kwotazlotowki;
+            return Z.z(kwotazlotowki * kurs * 100 / przelicznik);
         }
      
      public static double przeliczWalutyMa(Wiersz wiersz) {
             wiersz.getStronaMa().setKwotaWaluta(wiersz.getStronaMa().getKwota());
             double kurs = wiersz.getTabelanbp().getKurssredni();
+            double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
             double kwotazlotowki = wiersz.getStronaMa().getKwota();
-            kwotazlotowki = Math.round(kwotazlotowki * kurs * 100);
-            kwotazlotowki /= 100;
-            return kwotazlotowki;
+            return Z.z(kwotazlotowki * kurs * 100 / przelicznik);
         }
      
      public static double przeliczWalutyWnBO(Wiersz wiersz) {
             wiersz.getStronaWn().setKwotaWaluta(wiersz.getStronaWn().getKwota());
             double kurs = wiersz.getStronaWn().getKursBO();
+            double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
             double kwotazlotowki = wiersz.getStronaWn().getKwota();
-            kwotazlotowki = Math.round(kwotazlotowki * kurs * 100);
-            kwotazlotowki /= 100;
-            return kwotazlotowki;
+            return Z.z(kwotazlotowki * kurs * 100 / przelicznik);
         }
      
      public static double przeliczWalutyMaBO(Wiersz wiersz) {
             wiersz.getStronaMa().setKwotaWaluta(wiersz.getStronaMa().getKwota());
             double kurs = wiersz.getStronaMa().getKursBO();
+            double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
             double kwotazlotowki = wiersz.getStronaMa().getKwota();
-            kwotazlotowki = Math.round(kwotazlotowki * kurs * 100);
-            kwotazlotowki /= 100;
-            return kwotazlotowki;
+            return Z.z(kwotazlotowki * kurs * 100 / przelicznik);
         }
      
     public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {

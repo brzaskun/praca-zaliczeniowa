@@ -20,19 +20,25 @@
                <p:column headerText="#{mgs.numerkolejny}" width="40" sortBy="#{wpis.idtabelanbp}">
                     <h:outputText value="#{wpis.idtabelanbp}" style="width: 20px;"/>
                 </p:column>
-                <p:column headerText="nr tabeli" width="150" sortBy="#{wpis.nrtabeli}" filterBy="#{wpis.nrtabeli}"  filterMatchMode="contains">
+                <p:column headerText="nr tabeli" width="150" sortBy="#{wpis.nrtabeli}" filterBy="#{wpis.nrtabeli}"  filterMatchMode="contains" style="text-align: center;">
                     <h:outputText value="#{wpis.nrtabeli}" />
                 </p:column>
-                <p:column headerText="data tabeli" width="150" sortBy="#{wpis.datatabeli}" filterBy="#{wpis.datatabeli}"  filterMatchMode="contains">
+                <p:column headerText="data tabeli" width="150" sortBy="#{wpis.datatabeli}" filterBy="#{wpis.datatabeli}"  filterMatchMode="contains" style="text-align: center;">
                     <h:outputText value="#{wpis.datatabeli}" />
                 </p:column>
-                <p:column headerText="symbol waluty" width="150" sortBy="#{wpis.waluta.symbolwaluty}" filterBy="#{wpis.waluta.symbolwaluty}"  filterMatchMode="contains">
+                <p:column headerText="symbol waluty" width="150" sortBy="#{wpis.waluta.symbolwaluty}" filterBy="#{wpis.waluta.symbolwaluty}"  filterMatchMode="contains" style="text-align: center;">
                     <h:outputText value="#{wpis.waluta.symbolwaluty}" />
                 </p:column>
                 <p:column headerText="kurs do pln" width="150" sortBy="#{wpis.kurssredni}" filterBy="#{wpis.kurssredni}"  filterMatchMode="contains">
                     <h:outputText value="#{wpis.kurssredni}" style="float: right;">
                         <f:convertNumber minFractionDigits="4" locale="PL"/>
                     </h:outputText>
+                </p:column>
+                 <p:column headerText="przel." width="40" sortBy="#{wpis.waluta.przelicznik}">
+                    <h:outputText value="#{wpis.waluta.przelicznik}" style="float: right;">
+                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" locale="PL"/>
+                    </h:outputText>
+                    
                 </p:column>
                 <p:column width="30" style="text-align: center;">
                     <p:commandButton icon="fa fa-trash" actionListener="#{walutyViewFK.usuntabele(wpis)}" update="wprowadzonekursyrecznie"/>
