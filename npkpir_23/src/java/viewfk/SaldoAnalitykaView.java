@@ -60,6 +60,7 @@ public class SaldoAnalitykaView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     private String wybranyRodzajKonta;
     private List<Sprawozdanie_0> grupa0;
+    private boolean tylkosaldaniezerowe;
 
     public SaldoAnalitykaView() {
          E.m(this);
@@ -87,6 +88,19 @@ public class SaldoAnalitykaView implements Serializable {
         }
         listaSaldoKonto = new ArrayList<>();
         przygotowanalistasald(kontaklienta, zapisyBO, wybranyRodzajKonta);
+    }
+    
+    public void zmienkryteriawyswietlania() {
+        if (tylkosaldaniezerowe) {
+            for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
+                SaldoKonto p = it.next();
+                if (p.getSaldoWn() == 0.0 && p.getSaldoMa() == 0.0) {
+                    it.remove();
+                }
+            }
+        } else {
+            init();
+        }
     }
 
     public Waluty initGenerowanieBO() {
@@ -205,6 +219,14 @@ public class SaldoAnalitykaView implements Serializable {
 
     public void setSumaSaldoKonto(List<SaldoKonto> sumaSaldoKonto) {
         this.sumaSaldoKonto = sumaSaldoKonto;
+    }
+
+    public boolean isTylkosaldaniezerowe() {
+        return tylkosaldaniezerowe;
+    }
+
+    public void setTylkosaldaniezerowe(boolean tylkosaldaniezerowe) {
+        this.tylkosaldaniezerowe = tylkosaldaniezerowe;
     }
 
     public List<SaldoKonto> getListaSaldoKontowybrane() {
