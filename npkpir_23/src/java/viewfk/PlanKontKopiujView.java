@@ -164,6 +164,7 @@ public class PlanKontKopiujView implements Serializable {
         Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
         r.setMacierzyste(macierzyste.getPelnynumer());
         r.setMacierzysty(macierzyste.getId());
+        r.setKontomacierzyste(macierzyste);
         return r;
     }
 
@@ -178,6 +179,7 @@ public class PlanKontKopiujView implements Serializable {
                     Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
                     r.setMacierzyste(macierzyste.getPelnynumer());
                     r.setMacierzysty(macierzyste.getId());
+                    r.setKontomacierzyste(macierzyste);
                     kontoDAOfk.dodaj(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {

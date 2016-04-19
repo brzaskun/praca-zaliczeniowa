@@ -4,14 +4,17 @@
  */
 package entityfk;
 
+import em.Em;
 import abstractClasses.ToBeATreeNodeObject;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -167,6 +170,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @NotNull
     @Column(name = "macierzysty")
     private int macierzysty;
+    @JoinColumn(name = "kontomacierzyste",referencedColumnName = "id")
+    private Konto kontomacierzyste;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -551,6 +556,17 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.de = de;
     }
 
+    public Konto getKontomacierzyste() {
+        return kontomacierzyste;
+    }
+
+    public void setKontomacierzyste(Konto kontomacierzyste) {
+        this.kontomacierzyste = kontomacierzyste;
+    }
+
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 3;
@@ -604,7 +620,27 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         return null;
     }
 
-  
+  public static void main(String[] args) throws Exception  {
+        EntityManager em = Em.getEm();
+        List<Object> konta = em.createNamedQuery("Konto.findAll").getResultList();
+        for (Iterator<Object> it = konta.iterator(); it.hasNext();) {
+            Konto p = (Konto) it.next();
+            int macnr = p.getMacierzysty();
+            if (macnr != 0) {
+                String macnrs = p.getMacierzyste();
+                //System.out.println("nr mac "+macnrs+" podatnik "+p.getPodatnik());
+                Konto mac = (Konto) em.createNamedQuery("Konto.findById").setParameter("id", macnr).getSingleResult();
+                p.setKontomacierzyste(mac);
+                //System.out.println("nr mac2 "+mac.getPelnynumer() +" podatnik "+mac.podatnik);
+                if (!mac.getPelnynumer().equals(macnrs)) {
+                    throw new Exception();
+                }
+            }
+        }
+        System.out.println("zachowanie");
+        Em.saveList(em, konta);
+        System.out.println("koniec");
+    }
 
    
     

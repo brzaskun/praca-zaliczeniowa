@@ -51,7 +51,7 @@
 
             <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
-                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 800px" 
+                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 900px" 
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.zapisyprzychodowe}: #{symulacjaWynikuView.sumaprzychody}"/>
@@ -94,8 +94,8 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.konto}" width="40" >
-                    <h:outputText value="#{loop.konto.pelnynumer}" />
+                <p:column headerText="#{mgs.konto}" width="110" >
+                    <h:outputText value="#{loop.konto.kontomacierzyste.nazwapelna}" />
                 </p:column>
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
@@ -123,7 +123,7 @@
             </p:dataTable>
             <p:dataTable id="tablicasymulacjaK" value="#{symulacjaWynikuView.listakontakoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoKoszty}" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 800px" widgetVar="tablicasymulacjaK"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 900px" widgetVar="tablicasymulacjaK"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.zapisykosztowe}: #{symulacjaWynikuView.sumakoszty}"/>
@@ -166,8 +166,8 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.konto}" width="40" >
-                    <h:outputText value="#{loop.konto.pelnynumer}" />
+                <p:column headerText="#{mgs.konto}" width="110" >
+                    <h:outputText value="#{loop.konto.kontomacierzyste.nazwapelna}" />
                 </p:column>
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">

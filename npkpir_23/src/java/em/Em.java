@@ -6,6 +6,7 @@
 package em;
 
 import error.E;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -30,6 +31,26 @@ public class Em {
                 // flush em - save to DB
                 em.flush();
             }
+            // commit transaction at all
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            E.e(e);
+        }
+    }
+    
+    public static void saveList(EntityManager em, List<Object> t) {
+        try {
+            // begin transaction 
+            em.getTransaction().begin();
+            for (Object p : t) {
+                if (!em.contains(p)) {
+                    // persist object - add to entity manager
+                    em.persist(p);
+                }
+            }
+            // flush em - save to DB
+            em.flush();
             // commit transaction at all
             em.getTransaction().commit();
         } catch (Exception e) {

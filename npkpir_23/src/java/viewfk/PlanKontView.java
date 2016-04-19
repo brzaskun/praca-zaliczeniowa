@@ -460,6 +460,7 @@ public class PlanKontView implements Serializable {
                 if (!p.getMacierzyste().equals("0")) {
                     Konto macierzyste = kontoDAOfk.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                     p.setMacierzysty(macierzyste.getId());
+                    p.setKontomacierzyste(macierzyste);
                     kontoDAOfk.edit(p);
                 }
             }
@@ -483,6 +484,7 @@ public class PlanKontView implements Serializable {
                         Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         if (!konto.getMacierzyste().equals("0")) {
                             konto.setMacierzysty(macierzyste.getId());
+                            konto.setKontomacierzyste(macierzyste);
                             macierzyste.setMapotomkow(true);
                             macierzyste.setBlokada(true);
                             kontoDAOfk.edit(macierzyste);
@@ -556,6 +558,7 @@ public class PlanKontView implements Serializable {
         if (!konto.getMacierzyste().equals("0")) {
             Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
             konto.setMacierzysty(macierzyste.getId());
+            konto.setKontomacierzyste(macierzyste);
             macierzyste.setMapotomkow(true);
             macierzyste.setBlokada(true);
             kontoDAOfk.edit(macierzyste);
@@ -578,6 +581,7 @@ public class PlanKontView implements Serializable {
         if (!konto.getMacierzyste().equals("0")) {
             Konto macierzyste = kontoDAOfk.findKonto(pelnynumer, "Wzorcowy", wpisView.getRokWpisu());
             konto.setMacierzysty(macierzyste.getId());
+            konto.setKontomacierzyste(macierzyste);
             macierzyste.setMapotomkow(true);
             macierzyste.setBlokada(true);
             kontoDAOfk.edit(macierzyste);
