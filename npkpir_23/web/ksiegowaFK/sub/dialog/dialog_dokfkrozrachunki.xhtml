@@ -24,10 +24,10 @@
         .symbolrozrachunku input {
             width: 40px !important;
         }
+        
+      </style>
 
-    </style>
-
-    <p:dialog id="dialogdrugi" header="Rozrachunkia" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
+        <p:dialog id="dialogdrugi" header="Rozrachunkia" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
               resizable="false"  onShow="rozrachunkiOnShow();setTimeout(znadzpasujacepolerozrachunku2('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}'),5000);" 
               closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki" closable="false">
 
@@ -155,7 +155,7 @@
 
                         <p:column headerText="kwota rozlicz. - bieżący dok." width="70" >
                             <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
-                                            style="text-align: right; margin-left: 5px; width: 60px;"
+                                            style="text-align: right; margin-left: 5px; width: 60px; "
                                             decimalPlaces="2" minValue="-10000000" emptyValue="sign" onfocus="this.oldvalue = this.value"
                                             rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" styleClass="kwotarozrachunku">
                                 <p:ajax event="change" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" partialSubmit="true" global="false"/>

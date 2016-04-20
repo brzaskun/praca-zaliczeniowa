@@ -34,35 +34,55 @@ public class StronaWierszaBean {
     }
        
     public static double przeliczWalutyWn(Wiersz wiersz) {
-            wiersz.getStronaWn().setKwotaWaluta(wiersz.getStronaWn().getKwota());
-            double kurs = wiersz.getTabelanbp().getKurssredni();
-            double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
-            double kwotazlotowki = wiersz.getStronaWn().getKwota();
-            return Z.z(kwotazlotowki * kurs / przelicznik);
+        double kwota = wiersz.getStronaWn().getKwota();
+            double zwrot = 0.0;
+            if (kwota != 0.0) {
+                wiersz.getStronaWn().setKwotaWaluta(kwota);
+                double kurs = wiersz.getTabelanbp().getKurssredni();
+                double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
+                double kwotazlotowki = wiersz.getStronaWn().getKwota();
+                zwrot  = Z.z(kwotazlotowki * kurs / przelicznik);
+            }
+            return zwrot;
         }
      
      public static double przeliczWalutyMa(Wiersz wiersz) {
-            wiersz.getStronaMa().setKwotaWaluta(wiersz.getStronaMa().getKwota());
-            double kurs = wiersz.getTabelanbp().getKurssredni();
-            double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
-            double kwotazlotowki = wiersz.getStronaMa().getKwota();
-            return Z.z(kwotazlotowki * kurs / przelicznik);
+            double kwota = wiersz.getStronaMa().getKwota();
+            double zwrot = 0.0;
+            if (kwota != 0.0) {
+                wiersz.getStronaMa().setKwotaWaluta(kwota);
+                double kurs = wiersz.getTabelanbp().getKurssredni();
+                double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
+                double kwotazlotowki = wiersz.getStronaMa().getKwota();
+                zwrot = Z.z(kwotazlotowki * kurs / przelicznik);
+            }
+            return zwrot;
         }
      
      public static double przeliczWalutyWnBO(Wiersz wiersz) {
-            wiersz.getStronaWn().setKwotaWaluta(wiersz.getStronaWn().getKwota());
-            double kurs = wiersz.getStronaWn().getKursBO();
-            double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
-            double kwotazlotowki = wiersz.getStronaWn().getKwota();
-            return Z.z(kwotazlotowki * kurs / przelicznik);
+            double kwota = wiersz.getStronaWn().getKwota();
+            double zwrot = 0.0;
+            if (kwota != 0.0) {
+                wiersz.getStronaWn().setKwotaWaluta(wiersz.getStronaWn().getKwota());
+                double kurs = wiersz.getStronaWn().getKursBO();
+                double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
+                double kwotazlotowki = wiersz.getStronaWn().getKwota();
+                zwrot = Z.z(kwotazlotowki * kurs / przelicznik);
+            }
+            return zwrot;
         }
      
      public static double przeliczWalutyMaBO(Wiersz wiersz) {
-            wiersz.getStronaMa().setKwotaWaluta(wiersz.getStronaMa().getKwota());
-            double kurs = wiersz.getStronaMa().getKursBO();
-            double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
-            double kwotazlotowki = wiersz.getStronaMa().getKwota();
-            return Z.z(kwotazlotowki * kurs / przelicznik);
+            double kwota = wiersz.getStronaWn().getKwota();
+            double zwrot = 0.0;
+            if (kwota != 0.0) {
+                wiersz.getStronaMa().setKwotaWaluta(wiersz.getStronaMa().getKwota());
+                double kurs = wiersz.getStronaMa().getKursBO();
+                double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
+                double kwotazlotowki = wiersz.getStronaMa().getKwota();
+                zwrot = Z.z(kwotazlotowki * kurs / przelicznik);
+            }
+            return zwrot;
         }
      
     public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
