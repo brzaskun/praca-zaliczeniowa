@@ -200,7 +200,7 @@
                                                      onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
                                                      style="width: 200px; height: 19px;" converter="RodzajedokConv">
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
-                                        <p:ajax global="false" event="change" listener="#{dokfkView.wygenerujnumerkolejny}" update=":formwpisdokument:paneldaneogolnefaktury" partialSubmit="true"/>
+                                        <p:ajax global="false" event="change" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny" partialSubmit="true"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok"/>
                                     </h:selectOneMenu>
                                 </p:column>

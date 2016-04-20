@@ -38,7 +38,7 @@ public class StronaWierszaBean {
             double kurs = wiersz.getTabelanbp().getKurssredni();
             double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
             double kwotazlotowki = wiersz.getStronaWn().getKwota();
-            return Z.z(kwotazlotowki * kurs * 100 / przelicznik);
+            return Z.z(kwotazlotowki * kurs / przelicznik);
         }
      
      public static double przeliczWalutyMa(Wiersz wiersz) {
@@ -46,7 +46,7 @@ public class StronaWierszaBean {
             double kurs = wiersz.getTabelanbp().getKurssredni();
             double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
             double kwotazlotowki = wiersz.getStronaMa().getKwota();
-            return Z.z(kwotazlotowki * kurs * 100 / przelicznik);
+            return Z.z(kwotazlotowki * kurs / przelicznik);
         }
      
      public static double przeliczWalutyWnBO(Wiersz wiersz) {
@@ -54,7 +54,7 @@ public class StronaWierszaBean {
             double kurs = wiersz.getStronaWn().getKursBO();
             double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
             double kwotazlotowki = wiersz.getStronaWn().getKwota();
-            return Z.z(kwotazlotowki * kurs * 100 / przelicznik);
+            return Z.z(kwotazlotowki * kurs / przelicznik);
         }
      
      public static double przeliczWalutyMaBO(Wiersz wiersz) {
@@ -62,7 +62,7 @@ public class StronaWierszaBean {
             double kurs = wiersz.getStronaMa().getKursBO();
             double przelicznik = wiersz.getTabelanbp().getWaluta().getPrzelicznik();
             double kwotazlotowki = wiersz.getStronaMa().getKwota();
-            return Z.z(kwotazlotowki * kurs * 100 / przelicznik);
+            return Z.z(kwotazlotowki * kurs / przelicznik);
         }
      
     public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {

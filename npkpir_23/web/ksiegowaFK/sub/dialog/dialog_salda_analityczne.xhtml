@@ -68,13 +68,14 @@
                     <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                  <p:column >
                      <p:selectOneMenu id="rodzajkont" value="#{saldoAnalitykaView.wybranyRodzajKonta}"  style="margin-left: 20px;">
-                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update=":formtablicaanalityczne tablicasaldaanalityczne :tabelazsumamianalityka:sumy"/>
+                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" 
+                                update=":formtablicaanalityczne:tablicasaldaanalityczne :tabelazsumamianalityka:sumy :formtablicaanalityczne:tylkoniezerowe"/>
                         <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                         <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                     </p:selectOneMenu>
                 </p:column>
-                    <p:selectBooleanCheckbox itemLabel="tylko niezerowe" value="#{saldoAnalitykaView.tylkosaldaniezerowe}" style="margin-left: 5px;">
+                    <p:selectBooleanCheckbox id="tylkoniezerowe" itemLabel="tylko niezerowe" value="#{saldoAnalitykaView.tylkosaldaniezerowe}" style="margin-left: 5px;">
                         <p:ajax event="change" partialSubmit="true" global="false" listener="#{saldoAnalitykaView.zmienkryteriawyswietlania}" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
                     </p:selectBooleanCheckbox>
             </p:panelGrid>

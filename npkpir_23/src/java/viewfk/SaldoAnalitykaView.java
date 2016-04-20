@@ -134,6 +134,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     public void odswiezsaldoanalityczne() {
+        tylkosaldaniezerowe = false;
         wpisView.wpisAktualizuj();
         init();
     }

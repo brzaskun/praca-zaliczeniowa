@@ -290,7 +290,6 @@ var czydodackontoShow = function (){
         collision: "none none"
         
     });
-    r("formczydodackonto:poleinput").focus();
     } catch (Exception) {
         alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 160 "+Exception);
     }

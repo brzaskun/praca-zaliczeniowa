@@ -7,18 +7,18 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="czydodackonto" header="Klient nie ma własnego konta, dodać?" widgetVar="czydodackonto" appendTo="@(body)"
+    <p:dialog id="czydodackonto" header="Kontrahent nie ma własnego konta, dodać?" widgetVar="czydodackonto" appendTo="@(body)"
               resizable="false" onShow="czydodackontoShow();" closeOnEscape="true" onHide="resetujdialog('czydodackonto');"
-              focus="formczydodackonto:czydodackontookbutton">
+              focus="formczydodackonto:niedodawackonta">
         <h:form id="formczydodackonto">
             <p:panelGrid id="wyborgridczydodackonto" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <p:focus >
-                    <p:commandButton id="czydodackontookbutton" value="tak" type="submit" style="width: 100px;" actionListener="#{kliencifkView.pobieraniekontaFKWpisCD}" 
+                    <p:commandButton id="czydodackontookbutton" value="tak" type="submit" style="width: 120px;" actionListener="#{kliencifkView.pobieraniekontaFKWpisCD}" 
                                      oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:wybranawaluta')).focus();" global="false"
                                      update=":formwpisdokument:dataList"/>
-                    <p:commandButton value="nie" type="submit" oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:wybranawaluta')).focus();"
+                    <p:commandButton id="niedodawackonta" value="nie" type="submit" oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:wybranawaluta')).focus();"
                                      actionListener="#{dokfkView.niedodawajkonta}" global="false"
-                                     style="margin-left: 50px; width: 100px;">
+                                     style="margin-left: 25px; width: 120px;">
                         <p:ajax event="click" listener="#{kliencifkView.resetujmakontoniemakonta()}" global="false"/>
                     </p:commandButton>
                 </p:focus>
