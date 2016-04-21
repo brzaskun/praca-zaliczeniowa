@@ -493,6 +493,8 @@
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaWn.typStronaWiersza});
                                                     focusNowyWiersz();"
+                                            cache="true" cacheTimeout="5000"
+                                            
                                             >
                                 <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}"
                                         update=":parametry, :wpisywaniefooter, formwpisdokument:contextmenudok"/>
@@ -532,7 +534,8 @@
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaMa.typStronaWiersza});
-                                                    focusNowyWiersz();" 
+                                                    focusNowyWiersz();"
+                                            cache="true" cacheTimeout="5000"
                                             >
                                 <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}"
                                         update=":parametry, :wpisywaniefooter, formwpisdokument:contextmenudok"/>

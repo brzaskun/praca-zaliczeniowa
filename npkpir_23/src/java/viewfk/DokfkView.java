@@ -1746,22 +1746,22 @@ public class DokfkView implements Serializable {
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
         selectedStronaWiersza = wybranastronawiersza;
         lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy() - 1;
-        String pole = null;
+        String nrkonta = null;
         if (wybranastronawiersza.getWnma().equals("Wn")) {
-            pole = (String) Params.params("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown_input");
-        } else {
-            pole = (String) Params.params("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma_input");
+            nrkonta = (String) Params.params("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown_input");
+        } else if (wybranastronawiersza.getWnma().equals("Ma")) {
+            nrkonta = (String) Params.params("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma_input");
         }
         //11 dodaje nowego klienta
-        if (pole.equals("")) {
+        if (nrkonta.equals("")) {
             //DokFKBean.obsluzWstawKontoWBRK(wybranastronawiersza, selected.getRodzajedok().getKontorozrachunkowe(), lpWierszaWpisywanie);
             //funkcja dziala ale chyba jest zbedna
             //jak nie ma konta to nie ma co uruchamiac
             return;
-        } else if (pole.contains("dodaj konto")) {
+        } else if (nrkonta.contains("dodaj konto")) {
             jest1niema0_konto = 0;
             return;
-        } else if (pole.contains("dodaj kontrahenta")) {
+        } else if (nrkonta.contains("dodaj kontrahenta")) {
             jest1niema0_konto = 11;
             return;
         } else {
@@ -1788,7 +1788,7 @@ public class DokfkView implements Serializable {
                             rachunek = true;
                         }
                         rachunekCzyPlatnosc = rachunek == true ? "rachunek" : "płatność";
-                        RequestContext.getCurrentInstance().update("formtransakcjawybor");
+                        RequestContext.getCurrentInstance().update("formtransakcjawybor:transakcjawybormenu");
                     }
                     if (wybranastronawiersza.getTypStronaWiersza() == 1) {
                         biezacetransakcje = tworzenieTransakcjiRachunek(wnma, wybranastronawiersza);
@@ -1796,7 +1796,7 @@ public class DokfkView implements Serializable {
                     } else if (wybranastronawiersza.getTypStronaWiersza() == 2) {
                         biezacetransakcje = tworzenieTransakcjiPlatnosc(wnma, wybranastronawiersza);
                     } else {
-                        System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView wybranoRachunekPlatnoscCD");
+                        System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView pobranieStronaWiersza()");
                     }
                     System.out.println(wybranastronawiersza.toString());
 
