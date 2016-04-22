@@ -12,8 +12,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
 
 /**
@@ -25,14 +23,14 @@ public class EVatViewPolacomparator implements Comparator<EVatViewPola> {
 
     @Override
     public int compare(EVatViewPola o1, EVatViewPola o2) {
-        String datao1 = o1.getDataSprz();
-        String datao2 = o2.getDataSprz();
+        String datao1 = o1.getDataWyst();
+        String datao2 = o2.getDataWyst();
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datao1date = null;
         Date datao2date = null;
         try {
-             datao1date = formatter.parse(datao1);
+            datao1date = formatter.parse(datao1);
         } catch (ParseException ex) {
             E.e(ex);
             return 1;
@@ -45,5 +43,5 @@ public class EVatViewPolacomparator implements Comparator<EVatViewPola> {
         }
         return (datao1date.before(datao2date) ? -1 : (datao1date.equals(datao2date) ? 0 : 1));
     }
-    
+
 }
