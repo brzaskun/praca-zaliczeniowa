@@ -20,6 +20,12 @@ public class Z implements Serializable {
         return m;
     }
     
+    public static double zAbs(double l) {
+        double m = Math.round(l * 100);
+        m /= 100;
+        return Math.abs(m);
+    }
+    
     public static double z(BigDecimal l) {
         double m = Math.round(l.doubleValue() * 100);
         m /= 100;

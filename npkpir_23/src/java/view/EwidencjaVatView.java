@@ -521,10 +521,13 @@ public class EwidencjaVatView implements Serializable {
                 eVatViewPole.setNetto(ewidwiersz.getNetto());
                 eVatViewPole.setVat(ewidwiersz.getVat());
                 eVatViewPole.setOpizw(ewidwiersz.getEstawka());
-                eVatViewPole.setInnymc(ewidwiersz.getDokfk().getMiesiac());
+                eVatViewPole.setInnymc(ewidwiersz.getDokfk().getVatM());
+                eVatViewPole.setInnyrok(ewidwiersz.getDokfk().getVatR());
                 przetransferowane.add(eVatViewPole);
                 if (eVatViewPole.getNazwaewidencji().getTypewidencji().equals("sz")) {
-                    przetransferowane.add(duplikujEVatViewPola(eVatViewPole));
+                    EVatViewPola eVatViewPoleD = duplikujEVatViewPola(eVatViewPole);
+                    eVatViewPoleD.setId(k++);
+                    przetransferowane.add(eVatViewPoleD);
                 }
             }
         }

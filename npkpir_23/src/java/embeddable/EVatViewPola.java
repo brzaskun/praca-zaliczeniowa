@@ -59,6 +59,7 @@ public class EVatViewPola implements Serializable{
     private double vat;
     private String opizw;
     private String innymc;
+    private String innyrok;
     @OneToOne
     @JoinColumn(name = "nazwaewidencji", referencedColumnName = "nazwa")
     private Evewidencja nazwaewidencji;
@@ -121,6 +122,14 @@ public class EVatViewPola implements Serializable{
 
     public void setDataSprz(String dataSprz) {
         this.dataSprz = dataSprz;
+    }
+
+    public String getInnyrok() {
+        return innyrok;
+    }
+
+    public void setInnyrok(String innyrok) {
+        this.innyrok = innyrok;
     }
 
     public String getNrWlDk() {

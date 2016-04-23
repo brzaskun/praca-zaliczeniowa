@@ -284,10 +284,10 @@ public class KontaVatFKView implements Serializable {
         double saldo2214 = 0.0;
         for (SaldoKonto p : kontavat) {
             if (p.getKonto().getPelnynumer().equals("221-4")) {
-                if (p.getSaldoWn() > 0) {
+                if (p.getSaldoWn() > 0.0) {
                     saldo2214 = p.getSaldoWn();
                 }
-                if (p.getSaldoMa() > 0) {
+                if (p.getSaldoMa() > 0.0) {
                     saldo2214 = p.getSaldoMa();
                 }
             }
@@ -295,10 +295,10 @@ public class KontaVatFKView implements Serializable {
         double saldo2212 = 0.0;
         for (SaldoKonto p : kontavat) {
             if (p.getKonto().getPelnynumer().equals("221-2")) {
-                if (p.getSaldoWn() > 0) {
+                if (p.getSaldoWn() > 0.0) {
                     saldo2212 = p.getSaldoWn();
                 }
-                if (p.getSaldoMa() > 0) {
+                if (p.getSaldoMa() > 0.0) {
                     saldo2212 = p.getSaldoMa();
                 }
             }
@@ -489,11 +489,11 @@ public class KontaVatFKView implements Serializable {
         double naliczony = 0.0;
         for (SaldoKonto p : kontavat) {
             if (p.getKonto().getNazwapelna().contains("należny")) {
-                nalezny += p.getSaldoMa() > 0 ? p.getSaldoMa() : 0.0;
-                nalezny -= p.getSaldoWn() > 0 ? p.getSaldoWn() : 0.0;
+                nalezny += p.getSaldoMa() > 0.0 ? p.getSaldoMa() : 0.0;
+                nalezny -= p.getSaldoWn() > 0.0 ? p.getSaldoWn() : 0.0;
             } else {
-                naliczony -= p.getSaldoMa() > 0 ? p.getSaldoMa() : 0.0;
-                naliczony += p.getSaldoWn() > 0 ? p.getSaldoWn() : 0.0;
+                naliczony -= p.getSaldoMa() > 0.0 ? p.getSaldoMa() : 0.0;
+                naliczony += p.getSaldoWn() > 0.0 ? p.getSaldoWn() : 0.0;
             }
         }
         double zaokraglenianalezny = nalezny % 1;
@@ -518,10 +518,10 @@ public class KontaVatFKView implements Serializable {
         if (zaokraglenia >= 0.5) {
             return new SaldoKonto(pozostalekosztyoperacyjne, 0.0, 1-zaokraglenia);
         } 
-        if (zaokraglenia > 0)  {
+        if (zaokraglenia > 0.0)  {
             return new SaldoKonto(pozostaleprzychodyoperacyjne, zaokraglenia, 0.0);
         } 
-        if (zaokraglenia == 0) {
+        if (zaokraglenia == 0.0) {
             return null;
         }
         return null;
@@ -533,10 +533,10 @@ public class KontaVatFKView implements Serializable {
         if (zaokraglenia >= 0.5) {
             return new SaldoKonto(pozostaleprzychodyoperacyjne, 1- zaokraglenia, 0.0);
         }
-        if (zaokraglenia > 0) {
+        if (zaokraglenia > 0.0) {
             return new SaldoKonto(pozostalekosztyoperacyjne, 0.0, zaokraglenia);
         }
-        if (zaokraglenia == 0) {
+        if (zaokraglenia == 0.0) {
             return null;
         }
         return null;

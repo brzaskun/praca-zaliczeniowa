@@ -50,7 +50,7 @@
                             <p:separator/>
                             <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1150px; margin-bottom: 30px; height: 500px;"
                                          rowKey="#{itemik.id}" selection="#{ewidencjaVatView.wybranewierszeewidencji}" 
-                                         scrollable="true" scrollRows="20" scrollHeight="450">
+                                         scrollable="true" scrollRows="20" scrollHeight="450" rowIndexVar="index">
                                 <f:facet name="header">  
                                     <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
                                 </f:facet>
@@ -60,7 +60,7 @@
                                 <p:column selectionMode="multiple" width="30" style="text-align: center;" rendered="#{itemik.id eq '9999' ? false : true}"></p:column>
                                 <p:column width="30" style="text-align: center;" rendered="#{itemik.id eq '9999' ? true : false}"></p:column>
                                 <p:column headerText="id" style="width: 25px;" sortBy="#{itemik.id}">
-                                    <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
+                                    <h:outputText value="#{index+1}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                                     <h:outputText value="" rendered="#{itemik.id eq '9999' ? true : false}"/>
                                 </p:column>
                                 <p:column styleClass="datawystawienia" headerText="data wyst." style="width: 80px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
@@ -352,6 +352,38 @@
                         <bcf:outputpl value="#{ewidencjaVatView.sumaprzesunietychBardziej + ewidencjaVatView.sumaprzesunietych}"/>
                     </p:outputPanel>
                    
+                </p:tab>
+                <p:tab title="kontrola">
+                    <p:commandButton value="Sprawdź" icon="ui-icon-check" update="form:akordeon:tabelasprawdzania"
+                                     actionListener="#{ewidencjaVatCheckView.wykryjbledy(ewidencjaVatView.ewidencje, kontaVatFKView.kontavat)}" 
+                                     style="width: 150px; margin-left: 10px;"/>
+                    <p:dataTable id="tabelasprawdzania" value="#{ewidencjaVatCheckView.ewkonto}" var="wpis" emptyMessage="nie sprawdzono jeszcze ewidencji i kont"
+                                 scrollable="true" scrollHeight="400" style="width: 1000px; padding: 10px;">
+                        <p:column headerText="wpis w ewidencji" width="200">
+                            <h:outputText value="#{wpis.zapisEwidencja}"/>
+                        </p:column>
+                        <p:column headerText="data">
+                            <h:outputText value="#{wpis.dataewidencja}"/>
+                        </p:column>
+                        <p:column headerText="okres">
+                            <h:outputText value="#{wpis.mrewidencja}"/>
+                        </p:column>
+                        <p:column headerText="kwota w ewidencji">
+                            <bcf:outputpl value="#{wpis.kwotaewidencja}"/>
+                        </p:column>
+                        <p:column headerText="zapis na koncie" width="200">
+                            <bcf:outputpl value="#{wpis.zapisKonto}"/>
+                        </p:column>
+                        <p:column headerText="data">
+                            <h:outputText value="#{wpis.datakonto}"/>
+                        </p:column>
+                        <p:column headerText="okres">
+                            <h:outputText value="#{wpis.mrrokkonto}"/>
+                        </p:column>
+                        <p:column headerText="kwota na koncie">
+                            <bcf:outputpl value="#{wpis.kwotakonto}"/>
+                        </p:column>
+                    </p:dataTable>
                 </p:tab>
                 <p:tab title="przychody nast.mc">
                     <p:dataTable value="#{ewidencjaVatView.listaprzesunietychPrzychody}" var="loopik"  paginator="true" rows="20" paginatorPosition="top"
