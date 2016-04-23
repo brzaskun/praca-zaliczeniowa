@@ -4,8 +4,12 @@
  */
 package view;
 
+import dao.PodatnikDAO;
 import dao.UzDAO;
+import dao.WpisDAO;
+import entity.Podatnik;
 import entity.Uz;
+import entity.Wpis;
 import error.E;
 import java.io.Serializable;
 import java.security.MessageDigest;
@@ -43,6 +47,10 @@ public class UzView implements Serializable {
     private List<Uz> obiektUZjsfselected;
     @Inject
     private UzDAO uzDAO;
+    @Inject
+    private WpisDAO wpisDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
     @Inject
     private Uz selUzytkownik;
     private String confPassword;
@@ -199,6 +207,10 @@ public class UzView implements Serializable {
     public void zachowajzmiany() {
         try {
             uzDAO.edit(selUzytkownik);
+            Wpis w  = wpisDAO.find(selUzytkownik.getLogin());
+            Podatnik p = podatnikDAO.findPodatnikByNIP(selUzytkownik.getFirma());
+            w.setPodatnikWpisu(p.getNazwapelna());
+            wpisDAO.edit(w);
             Msg.msg("Udana edycja danych użytkownika "+selUzytkownik.getLogin());
         } catch (Exception e) {
             E.e(e);

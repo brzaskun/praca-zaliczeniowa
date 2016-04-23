@@ -80,12 +80,12 @@
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" style="line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
                 </p:column>
                 <p:column headerText="#{mgs.kontrahent}" width="120" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;"
-                          style="line-break: loose;word-break: break-all;word-wrap: break-word !important;">
-                    <h:outputText value="#{wpis.kontrahent.npelna}"/>
+                          >
+                    <h:outputText value="#{wpis.kontrahent.npelna}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" width="250" 
-                          style="font-size: smaller; line-break: loose;word-break: break-all;word-wrap: break-word !important;">
-                    <h:outputText value="#{wpis.nazwa ne null ? wpis.nazwa : wpis.pozycjenafakturze.get(0).nazwa}"/>
+                <p:column headerText="#{mgs.opis}" filterBy="#{wpis.opisFaktury}" filterMatchMode="contains" filterStyle="display : none;" width="250" 
+                          >
+                    <h:outputText value="#{wpis.opisFaktury}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
                 </p:column>
                 <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 
                           filterMatchMode="contains" filterStyle="display : none;" width="60">
@@ -95,11 +95,11 @@
                           filterMatchMode="contains" filterStyle="display : none;" width="60">
                     <h:outputText value="#{wpis.terminzaplaty}"/>
                 </p:column>
-                <p:column headerText="#{mgs.netto}"  sortBy="#{wpis.netto}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
-                    <bcf:outputpl value="#{wpis.pozycjepokorekcie ne null ? wpis.nettopk-wpis.netto : wpis.netto}"/>
+                <p:column headerText="netto"  sortBy="#{wpis.nettoFaktura}" filterBy="#{wpis.nettoFaktura}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
+                    <bcf:outputpl value="#{wpis.nettoFaktura}"/>
                 </p:column>
-                <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
-                    <bcf:outputpl value="#{wpis.pozycjepokorekcie ne null ? wpis.bruttopk-wpis.brutto : wpis.brutto}"/>
+                <p:column headerText="brutto"  sortBy="#{wpis.bruttoFaktura}" filterBy="#{wpis.bruttoFaktura}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
+                    <bcf:outputpl value="#{wpis.bruttoFaktura}"/>
                 </p:column>
                 <p:column headerText="wys." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains" filterStyle="display : none;" 
                           style="text-align: center;"  width="30">
@@ -111,7 +111,8 @@
                 </p:column>
                 <p:column headerText="typ" sortBy="#{wpis.rodzajdokumentu}" filterBy="#{wpis.rodzajdokumentu}" filterMatchMode="contains" 
                           filterStyle="display : none;" style="text-align: center;" width="60">
-                    <h:outputText value="#{wpis.rodzajdokumentu}"/>
+                    <h:outputText value="#{wpis.rodzajdokumentu}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}"/>
+                    <h:outputText value=" korekta" rendered="#{wpis.pozycjepokorekcie.size() > 0}" style="color: red;"/>
                 </p:column>
                 <p:column  headerText="edytuj" style="text-align: center;"  width="40">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis)}" 

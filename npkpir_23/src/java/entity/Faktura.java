@@ -309,6 +309,32 @@ public class Faktura implements Serializable {
         this.nazwa = nazwa;
     }
 
+    public String getOpisFaktury() {
+        String zwrot = null;
+        if (this.nazwa != null && !this.nazwa.equals("")) {
+            zwrot = nazwa;
+        } else if (pozycjenafakturze != null && pozycjenafakturze.size() > 0) {
+            zwrot = pozycjenafakturze.get(0).getNazwa();
+        }
+        return zwrot;
+    }
+    
+    public double getNettoFaktura() {
+        double zwrot = this.netto;
+        if (this.pozycjepokorekcie != null && this.pozycjepokorekcie.size() > 0) {
+            zwrot = this.nettopk-this.netto;
+        }
+        return zwrot;
+    }
+    
+    public double getBruttoFaktura() {
+        double zwrot = this.brutto;
+        if (this.pozycjepokorekcie != null && this.pozycjepokorekcie.size() > 0) {
+            zwrot = this.bruttopk-this.brutto;
+        }
+        return zwrot;
+    }
+    
     public Date getDatatelefon() {
         return datatelefon;
     }

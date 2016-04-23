@@ -69,26 +69,26 @@
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>      
+                <p:ajax event="rowToggle" global="false" />
                 <p:column width="20">
                     <p:rowToggler />
                 </p:column>
                 <p:column selectionMode="multiple"  width="40" style="text-align: center;"/>
-                <p:column width="70" headerText="kontrahent nip" sortBy="#{wpis.dokument.kontrahent_nip}" filterBy="#{wpis.dokument.kontrahent_nip}" filterMatchMode="contains" filterStyle="display : none;">
-                    <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
-                </p:column>
-                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;" width="120">
+                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" 
+                          filterMatchMode="contains" filterStyle="display : none;" width="150">
                     <h:outputText value="#{wpis.dokument.kontrahent}"/>
                 </p:column>
                 <p:column headerText="data wystawienia" sortBy="#{wpis.dokument.datawystawienia}" filterBy="#{wpis.dokument.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;" width="90">
                     <h:outputText value="#{wpis.dokument.datawystawienia}"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" sortBy="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}" filterBy="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="display : none;">
-                    <h:outputText value="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}"/>
+                <p:column headerText="#{mgs.opis}" sortBy="#{wpis.dokument.opisFaktury}" filterBy="#{wpis.dokument.opisFaktury}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.dokument.opisFaktury}"/>
                 </p:column>
-                <p:column headerText="brutto" sortBy="#{wpis.dokument.brutto}" filterBy="#{wpis.dokument.brutto}" filterMatchMode="contains" filterStyle="display : none;" width="70">
-                    <h:outputText value="#{wpis.dokument.brutto}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
+                <p:column headerText="netto" sortBy="#{wpis.dokument.nettoFaktura}" filterBy="#{wpis.dokument.nettoFaktura}" filterMatchMode="contains" filterStyle="display : none;" width="70">
+                    <bcf:outputpl value="#{wpis.dokument.nettoFaktura}" />
+                </p:column>
+                <p:column headerText="brutto" sortBy="#{wpis.dokument.bruttoFaktura}" filterBy="#{wpis.dokument.bruttoFaktura}" filterMatchMode="contains" filterStyle="display : none;" width="70">
+                    <bcf:outputpl value="#{wpis.dokument.bruttoFaktura}" />
                 </p:column>
                 <p:column headerText="01" width="20">  
                     <h:outputText value="#{wpis.m1}" styleClass="#{wpis.m1 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
@@ -135,6 +135,8 @@
                 </p:column>
                 <p:rowExpansion>
                      <p:panelGrid  columns="2"  style="width:300px">
+                        <h:outputText value="NIP kontrahenta"/>
+                        <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
                         <h:outputText value="email kontrahenta"/>
                         <h:outputText value="#{wpis.dokument.kontrahent.email ne '' ? wpis.dokument.kontrahent.email : 'brak adresu email'}"/>
                         <h:outputText value="kwota netto"/>
