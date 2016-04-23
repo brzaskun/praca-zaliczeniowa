@@ -32,6 +32,7 @@ import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
 import dao.PozycjenafakturzeDAO;
 import entity.Faktura;
+import entity.FakturaDuplikat;
 import entity.Fakturadodelementy;
 import entity.Fakturywystokresowe;
 import entity.Pozycjenafakturze;
@@ -78,7 +79,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         for (Faktura selected : fakturydruk) {
             try {
                 List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-                drukujcd(selected, fdod, i, "mail", wpisView);
+                drukujcd(selected, fdod, i, "mail", wpisView, false, null);
                 i++;
             } catch (Exception e) {
                 E.e(e);
@@ -95,7 +96,25 @@ public class PdfFaktura extends Pdf implements Serializable {
                 file.delete();
             }
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            drukujcd(selected, fdod, row, "druk", wpisView);
+            drukujcd(selected, fdod, row, "druk", wpisView, false, null);
+            Msg.msg("Wydruk faktury");
+
+        } catch (DocumentException | IOException e) {
+            E.e(e);
+            Msg.msg("e", "Błąd - nie wybrano faktury");
+
+        }
+    }
+    
+    public void drukujDuplikat(Faktura selected, FakturaDuplikat duplikat, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+        try {
+            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaduplikat" + String.valueOf(duplikat.getId()) + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = new File(nazwapliku);
+            if (file.isFile()) {
+                file.delete();
+            }
+            List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
+            drukujcd(selected, fdod, duplikat.getId(), "druk", wpisView, true, duplikat);
             Msg.msg("Wydruk faktury");
 
         } catch (DocumentException | IOException e) {
@@ -113,7 +132,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 file.delete();
             }
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            drukujcd(selected, fdod, 0, "druk", wpisView);
+            drukujcd(selected, fdod, 0, "druk", wpisView, false, null);
             Msg.msg("i","Wygenerowano podgląd faktury.","akordeon:formstworz:messagesinline");
 
         } catch (DocumentException | IOException e) {
@@ -128,7 +147,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         for (Faktura selected : fakturydruk) {
             try {
                 List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-                drukujcd(selected, fdod, i, "druk", wpisView);
+                drukujcd(selected, fdod, i, "druk", wpisView, false, null);
                 i++;
             } catch (Exception e) {
                 E.e(e);
@@ -158,7 +177,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         }
         try {
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            drukujcd(selected.getDokument(), fdod, row, "druk", wpisView);
+            drukujcd(selected.getDokument(), fdod, row, "druk", wpisView, false, null);
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Błąd - nie wybrano faktury");
@@ -179,7 +198,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         }
     }
 
-    private void drukujcd(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+    private void drukujcd(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView, boolean duplikat, FakturaDuplikat duplikatobj) throws DocumentException, FileNotFoundException, IOException {
             List<Pozycjenafakturze> skladnikifaktury = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
         if (skladnikifaktury.isEmpty()) {
             Msg.msg("e", "Nie zdefiniowano pozycji faktury. Nie można jej wydrukować. Przejdź do zakładki: 'Wzór faktury'.", "akordeon:formstworz:messagesinline");
@@ -199,6 +218,9 @@ public class PdfFaktura extends Pdf implements Serializable {
                 document.setMargins(0, 0, 400, 20);
                 document.open();
                 document.setMargins(0, 0, 20, 20);
+                if (duplikat) {
+                    PdfFP.dodajoznaczenieduplikat(writer, duplikatobj);
+                }
                 PdfFP.dodajnaglowekstopka(writer, elementydod);
                 Image logo = PdfFP.dolaczpozycjedofakturydlugaczlogo(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                 if (logo != null) {
@@ -268,6 +290,9 @@ public class PdfFaktura extends Pdf implements Serializable {
                 document.setMargins(0, 0, 400, 20);
                 document.open();
                 document.setMargins(0, 0, 20, 20);
+                if (duplikat) {
+                    PdfFP.dodajoznaczenieduplikat(writer, duplikatobj);
+                }
                 PdfFP.dodajnaglowekstopka(writer, elementydod);
                 PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                 document.close();

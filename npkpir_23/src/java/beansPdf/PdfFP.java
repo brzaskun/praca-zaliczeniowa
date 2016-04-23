@@ -20,6 +20,7 @@ import dao.FakturaelementygraficzneDAO;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Faktura;
+import entity.FakturaDuplikat;
 import entity.FakturaXXLKolumna;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
@@ -58,6 +59,12 @@ public class PdfFP {
             absText(writer, pobierzelementdodatkowy("stopka", elementydod), 15, 26, 6);
             prost(writer.getDirectContent(), 12, 15, 560, 20);
         }
+    }
+    
+    public static void dodajoznaczenieduplikat(PdfWriter writer, FakturaDuplikat duplikatobj) {
+            //naglowek
+            absText(writer, "DUPLIKAT wystawiony dnia "+duplikatobj.getDatawystawienia(), 300, 780, 12);
+            //prost(writer.getDirectContent(), 295, 777, 280, 30);
     }
 
     public static boolean czydodatkowyelementjestAktywny(String element, List<Fakturadodelementy> fdod) {

@@ -12,7 +12,7 @@
             <p:contextMenu for="dokumentyLista" style="width: 250px;">
                 <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" />
                 <p:menuitem value="Faktura okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
-<!--                <p:menuitem value="Wydruk" update=":form1:messages" actionListener="#{fakturaView.drukujfaktura()}" icon="ui-icon-print" />-->
+                <p:menuitem value="Duplikat" actionListener="#{fakturaDuplikatView.generujduplikat(fakturaView.gosciwybral)}" icon="ui-icon-copy" update=":akordeon:formsporzadzone:dokumentyLista :form1:messages"/>
                 <p:menuitem value="Zaksięguj" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
                 <p:menuitem value="Usuń wybrane" update=":confirmDialog" oncomplete="PF('confirmationFaktura').show();" icon="ui-icon-trash" />
                 <p:separator/>
@@ -125,18 +125,39 @@
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpis)}" 
                                       icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
-                 <p:rowExpansion>
-                     <p:panelGrid  columns="2"  style="width:700px">
-                        <h:outputText value="email kontrahenta"/>
-                        <h:outputText value="#{wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
-                        <h:outputText value="konto bankowe"/>
-                        <h:outputText value="#{wpis.nrkontabankowego}"/>
-                        <h:outputText value="kwota netto"/>
-                        <bcf:outputpl value="#{wpis.netto}"/>
-                        <h:outputText value="kwota vat"/>
-                        <bcf:outputpl value="#{wpis.vat}"/>
-                        <h:outputText value="kwota brutto"/>
-                        <bcf:outputpl value="#{wpis.brutto}"/>
+                  <p:rowExpansion>
+                     <p:panelGrid  columns="2"  style="width: 800px" columnClasses="sixty-percent forty-percent">
+                         <p:panelGrid  columns="2" >
+                             <h:outputText value="email kontrahenta"/>
+                             <h:outputText value="#{wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
+                             <h:outputText value="konto bankowe"/>
+                             <h:outputText value="#{wpis.nrkontabankowego}"/>
+                             <h:outputText value="kwota netto"/>
+                             <bcf:outputpl value="#{wpis.netto}"/>
+                             <h:outputText value="kwota vat"/>
+                             <bcf:outputpl value="#{wpis.vat}"/>
+                             <h:outputText value="kwota brutto"/>
+                             <bcf:outputpl value="#{wpis.brutto}"/>
+                         </p:panelGrid>
+                         <p:panelGrid>
+                         <p:dataTable id="tabeladuplikatow" value="#{wpis.duplikaty}" var="loop" emptyMessage="nie wystawiono duplikatów" >
+                             <f:facet name="header">
+                                 <h:outputText value="duplikaty"/>
+                             </f:facet>
+                             <p:column headerText="id" width="30" style="text-align: center;" >
+                                 <h:outputText value="#{loop.id}"/>
+                             </p:column>
+                             <p:column headerText="data wystawienia" style="text-align: center;" >
+                                 <h:outputText value="#{loop.datawystawienia}"/>
+                             </p:column>
+                             <p:column  headerText="pdf" style="text-align: center;"  width="40">
+                                <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukujDuplikat(wpis, loop, WpisView)}" icon="ui-icon-print" />
+                             </p:column>
+                              <p:column  headerText="usuń" style="text-align: center;"  width="40">
+                                <p:commandButton  update=":form1:messages @parent:@parent:@parent:@parent" actionListener="#{fakturaDuplikatView.usunDuplikat(wpis, loop)}" icon="ui-icon-trash"/>
+                             </p:column>
+                         </p:dataTable>
+                         </p:panelGrid>
                      </p:panelGrid>
                 </p:rowExpansion>
             </p:dataTable>

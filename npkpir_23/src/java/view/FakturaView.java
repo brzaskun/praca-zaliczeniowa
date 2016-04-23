@@ -9,7 +9,6 @@ import beansFaktura.FDfkBean;
 import beansFaktura.FakturaBean;
 import beansFaktura.FakturaOkresowaGenNum;
 import sortfunction.FakturaSortBean;
-import static com.sun.faces.el.ELUtils.createValueExpression;
 import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
@@ -46,9 +45,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -159,7 +156,7 @@ public class FakturaView implements Serializable {
     private AutoComplete kontrahentstworz;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
-    
+        
    
     
 

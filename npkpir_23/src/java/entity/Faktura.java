@@ -7,17 +7,21 @@ package entity;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -220,6 +224,8 @@ public class Faktura implements Serializable {
     @Column(name = "datatelefon", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datatelefon;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<FakturaDuplikat> duplikaty;
 
     public Faktura() {
     }
@@ -254,6 +260,7 @@ public class Faktura implements Serializable {
         this.numerzamowienia = stara.numerzamowienia;
         this.fakturaxxl = stara.fakturaxxl;
         this.datawysylki = null;
+        this.duplikaty = new ArrayList<>();
     }
 
     
@@ -293,6 +300,7 @@ public class Faktura implements Serializable {
         this.mc = mc;
         this.numerzamowienia = numerzamowienia;
         this.datawysylki = null;
+        this.duplikaty = new ArrayList<>();
     }
 
     public Faktura(String wystawcanazwa, String numerkolejny) {
@@ -432,6 +440,14 @@ public class Faktura implements Serializable {
 
     public void setPozycjepokorekcie(List<Pozycjenafakturzebazadanych> pozycjepokorekcie) {
         this.pozycjepokorekcie = pozycjepokorekcie;
+    }
+
+    public List<FakturaDuplikat> getDuplikaty() {
+        return duplikaty;
+    }
+
+    public void setDuplikaty(List<FakturaDuplikat> duplikaty) {
+        this.duplikaty = duplikaty;
     }
     
 
