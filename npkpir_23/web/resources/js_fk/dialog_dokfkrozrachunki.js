@@ -8,6 +8,7 @@ var rozrachunkiOnShow = function () {
     doklejsumowaniewprowadzonych();
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
+    PF('rozrachunkiKsiega').clearFilters();
 };
 
 var niemarachunkowShow = function () {

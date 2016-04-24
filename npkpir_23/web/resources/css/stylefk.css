@@ -55,9 +55,14 @@
     color: #6374AB !important;
 }
 
-.kontorozrachunki, .kontorozrachunki .ui-inputfield, .wierszpiatkowy span {
+.kontorozrachunki .ui-inputfield, .wierszpiatkowy span {
     font-style: italic !important;
     color: green !important;
+}
+
+.kontoplatnosci .ui-inputfield {
+    font-style: italic !important;
+    color: blue !important;
 }
 
 

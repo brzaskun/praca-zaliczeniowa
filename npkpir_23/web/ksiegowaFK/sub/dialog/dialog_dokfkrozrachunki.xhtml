@@ -143,6 +143,14 @@
                     </p:panel>
 
                     <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza != 0}" >
+                        <style>
+                            .rozrachunkidatalist thead th {
+                                height: 60px;
+                            }
+                            .rozrachunkidatalist thead .ui-inputfield {
+                                vertical-align: bottom;
+                            }
+                        </style>
                         <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1000px; padding: 0px 10px 10px 10px; " 
                                      emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
                                      scrollRows="22" scrollable="true" scrollHeight="450" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
@@ -154,7 +162,10 @@
                                 <!--                                <p:inputText id="globalFilter" onkeyup="PF('rozrachunkiKsiega').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  -->
                             </f:facet>
 
-                            <p:column headerText="kwota rozlicz. - bieżący dok." width="70" >
+                            <p:column  width="70" >
+                                <f:facet name="header">
+                                    <h:outputText value="kwota rozlicz. - bieżący dok." />
+                                </f:facet>
                                 <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
                                                 style="text-align: right; margin-left: 5px; width: 60px; "
                                                 decimalPlaces="2" minValue="-10000000" emptyValue="sign" onfocus="this.oldvalue = this.value"
@@ -276,7 +287,8 @@
 
                 <div style="height: 35px;">
                     <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="#{dokfkView.zapistransakcji}" 
-                                     type="submit" oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();" 
+                                     type="submit"
+                                     oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();" 
                                      update=":rozrachunki" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                 </div>
 
