@@ -4,6 +4,7 @@
  */
 package view;
 
+import implement.ListExt;
 import em.Em;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.persistence.EntityManager;
@@ -161,12 +163,19 @@ public class EwidencjaVatCheckView implements Serializable {
     }
 
     private List<EwidencjaKonto> stworzzestawienie(List<EVatViewPola> brakiwewidencji, List<StronaWiersza> brakinakoncie) {
-        List<EwidencjaKonto> l = new ArrayList<>();
+        ListExt<EwidencjaKonto> l = new ListExt<EwidencjaKonto>();
         for (EVatViewPola p : brakiwewidencji) {
             l.add(new EwidencjaKonto(p, null, p.getVat(), 0.0));
         }
         for (StronaWiersza p : brakinakoncie) {
-            l.add(new EwidencjaKonto(null, p, 0.0, p.getKwotaPLN()));
+            if (l.zawiera(p)) {
+                l.pobierz(p).setKonto(p);
+                l.pobierz(p).setMrrokkonto(p.getDokfk().getVatM()+"/"+p.getDokfk().getVatR());
+                l.pobierz(p).setDatakonto(p.getDokfk().getDataoperacji());
+                l.pobierz(p).setKwotakonto(p.getKwotaPLN());
+            } else {
+                l.add(new EwidencjaKonto(null, p, 0.0, p.getKwotaPLN()));
+            }
         }
         return l;
     }
@@ -220,6 +229,29 @@ public class EwidencjaVatCheckView implements Serializable {
             } else {
                 return "";
             }
+        }
+        
+        public boolean equals(StronaWiersza obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (this.ewidencja == null) {
+                return false;
+            }
+            final StronaWiersza other = (StronaWiersza) obj;
+            if (other.getWiersz().getDokfk() == null) {
+                return false;
+            }
+            if (other.getWiersz().getDokfk() == null) {
+                return false;
+            }
+            if (!Objects.equals(other.getWiersz().getDokfk().getNumerwlasnydokfk(), this.ewidencja.getNrWlDk())) {
+                return false;
+            }
+            if (!Objects.equals(other.getWiersz().getDokfk().getKontr(), this.ewidencja.getKontr())) {
+                return false;
+            }
+            return true;
         }
         
         //<editor-fold defaultstate="collapsed" desc="comment">
@@ -289,6 +321,12 @@ public class EwidencjaVatCheckView implements Serializable {
         public void setDatakonto(String datakonto) {
             this.datakonto = datakonto;
         }
+
+        @Override
+        public String toString() {
+            return "EwidencjaKonto{" + "ewidencja=" + ewidencja.getNazwaewidencji().getNazwa() + ", konto=" + konto.getKonto().getPelnynumer() + ", kwotaewidencja=" + kwotaewidencja + ", kwotakonto=" + kwotakonto + ", dataewidencja=" + dataewidencja + ", datakonto=" + datakonto + ", mrewidencja=" + mrewidencja + ", mrrokkonto=" + mrrokkonto + '}';
+        }
+        
         
         
                 

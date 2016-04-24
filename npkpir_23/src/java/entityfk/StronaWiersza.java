@@ -27,6 +27,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import view.EwidencjaVatCheckView;
 import view.WpisView;
 import waluty.Z;
 
@@ -617,6 +618,9 @@ public class StronaWiersza implements Serializable {
         }
         return true;
     }
+    
+    
+   
 
     @Override
     public String toString() {

@@ -577,14 +577,13 @@ public class EwidencjaVatView implements Serializable {
     public String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
-        Integer sumaszukana = rok + mc;
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
         //odszukaj date w parametrze - kandydat na metode statyczna
         for (Parametr p : parametry) {
-            if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
+            if (p.getRokDo() != null && !p.getRokDo().equals("")) {
                 int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
                 int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
-                if (wynikPo > 0 && wynikPrzed < 0) {
+                if (wynikPo >= 0 && wynikPrzed <= 0) {
                     return p.getParametr();
                 }
             } else {
