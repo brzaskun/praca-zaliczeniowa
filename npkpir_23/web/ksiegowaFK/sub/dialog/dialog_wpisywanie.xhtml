@@ -284,7 +284,7 @@
                             <h:outputText value="#{planKontView.infozebrakslownikowych}" style="color: red; font-weight: 900;"/>
                         </p:panelGrid>
                         <p:panelGrid columns="2" id="panelwalutowy" style="min-width: 100%;"  styleClass="uipanelGrid0" >
-                            <p:panelGrid  style="min-width: 20%;">
+                            <p:panelGrid id="panelwalutowywybor" style="min-width: 20%;">
                                 <f:facet name="header">
                                     <p:row>
                                         <p:column>
@@ -302,7 +302,7 @@
                                 <p:column rendered="#{dokfkView.wlaczZapiszButon eq true}">
                                         <h:selectOneMenu  id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" 
                                                          valueChangeListener="#{dokfkView.pobierzkursNBP}" 
-                                                         immediate="true"
+                                                         immediate="true" disabled="#{dokfkView.selected.zablokujzmianewaluty}"
                                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
                                                          onfocus="$(this).removeClass('ui-state-default');
                                                                  $(this).addClass('ui-state-focus');"
@@ -642,7 +642,7 @@
                                  onclick="jQuery('.ui-row-toggler').click()" />
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" 
                                  global="false" actionListener="#{dokfkView.rezygnujzedycji()}"
-                                 onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
+                                 onclick="zamykanieDialogow();"/>
                 <p:commandButton id="przeliczbutton" value="przeliczbutton" actionListener="#{dokfkView.przelicznaklawiszu()}" 
                                  global="false" style="display: none;"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" 

@@ -134,8 +134,15 @@ var znadzpasujacepolerozrachunku2 = function (kwota) {
                     dopasowanywierszH = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_hinput";
                     var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
                     if (zastanakwota === "0.00" && dlwiersze === 1) {
-                        $(document.getElementById(dopasowanywiersz)).val(kwota);
-                        $(document.getElementById(dopasowanywierszH)).val(kwota);
+                        var dorozliczenia = zrobFloat(document.getElementById("rozrachunki:dataList:0:pozostaloWn").innerText);
+                        var nowakwota = zrobFloat(kwota);
+                        if (nowakwota < dorozliczenia) {
+                            $(document.getElementById(dopasowanywiersz)).val(kwota);
+                            $(document.getElementById(dopasowanywierszH)).val(kwota);
+                        } else {
+                            $(document.getElementById(dopasowanywiersz)).val(dorozliczenia);
+                            $(document.getElementById(dopasowanywierszH)).val(dorozliczenia);
+                        }
                     }
                     $(document.getElementById(dopasowanywiersz)).keyup();
                     $(document.getElementById(dopasowanywiersz)).change();

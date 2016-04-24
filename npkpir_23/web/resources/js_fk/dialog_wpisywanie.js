@@ -518,20 +518,24 @@ var pokazwybortransakcji = function() {
 };
 
 var pokazwybortransakcjidialog = function() {
-    var typkonta = rj("parametry:aktualnywierszrozrachunkow").value;
-    if (typkonta === "2") {
-        var czywidzialne = rj("dialogdrugi").getAttribute("aria-hidden");
-        if (czywidzialne === "true"){
+    try {
+        var typkonta = rj("parametry:aktualnywierszrozrachunkow").value;
+        if (typkonta === "2") {
+            var czywidzialne = rj("dialogdrugi").getAttribute("aria-hidden");
+            if (czywidzialne === "true"){
+                PF('transakcjawybor').hide();
+                setTimeout(PF('rozrachunki').show(), 1000);
+            } else {
+                setTimeout(PF('rozrachunki').show(), 1000);
+            }
+        } else if (typkonta === "1") {
             PF('transakcjawybor').hide();
-            setTimeout(PF('rozrachunki').show(), 1000);
-        } else {
-            setTimeout(PF('rozrachunki').show(), 1000);
+            powrotDoStronyPoWyborzeRachunekPlatnosc();
+        } else if (typkonta === "-2") {
+            setTimeout(PF('niemarachunkow').show(), 1000);
         }
-    } else if (typkonta === "1") {
-        PF('transakcjawybor').hide();
-        powrotDoStronyPoWyborzeRachunekPlatnosc();
-    } else if (typkonta === "-2") {
-        setTimeout(PF('niemarachunkow').show(), 1000);
+    } catch (e) {
+        alert("Typ transakcji nieokreślony pokazwybortransakcjidialog()");
     }
 };
 

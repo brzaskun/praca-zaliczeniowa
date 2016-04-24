@@ -153,7 +153,6 @@ public class DokfkView implements Serializable {
     private List<Transakcja> biezacetransakcje;
     private List<Transakcja> transakcjejakosparowany;
     private boolean zablokujprzyciskzapisz;
-    private boolean zablokujprzyciskrezygnuj;
     private boolean pokazPanelWalutowy;
     private boolean pokazRzadWalutowy;
     //waltuty
@@ -303,7 +302,6 @@ public class DokfkView implements Serializable {
         pokazRzadWalutowy = false;
         biezacetransakcje = null;
         zapisz0edytuj1 = false;
-        zablokujprzyciskrezygnuj = false;
         wlaczZapiszButon = true;
         niedodawajkontapole = false;
     }
@@ -1710,14 +1708,12 @@ public class DokfkView implements Serializable {
             aktualnyWierszDlaRozrachunkow.setRozliczono(0.0);
             aktualnyWierszDlaRozrachunkow.setPozostalo(0.0);
             aktualnyWierszDlaRozrachunkow.setNowetransakcje(new ArrayList<Transakcja>());
-            zablokujprzyciskrezygnuj = true;
             Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
         } else if (aktualnyWierszDlaRozrachunkow.getRozliczono() > 0) {
             Msg.msg("e", "Trasakcja rozliczona - nie można usunąć oznaczenia");
         } else {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
             aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
-            zablokujprzyciskrezygnuj = false;
             aktualnyWierszDlaRozrachunkow = null;
             Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
         }
@@ -1731,7 +1727,7 @@ public class DokfkView implements Serializable {
             String f = "PF('rozrachunki').hide();";
             RequestContext.getCurrentInstance().execute(f);
         }
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowywybor");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
@@ -1792,9 +1788,15 @@ public class DokfkView implements Serializable {
                     }
                     if (wybranastronawiersza.getTypStronaWiersza() == 1) {
                         biezacetransakcje = tworzenieTransakcjiRachunek(wnma, wybranastronawiersza);
+                        RequestContext.getCurrentInstance().update("rozrachunki");
+                        RequestContext.getCurrentInstance().update("dialogdrugi");
+                        RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                         //platnosc
                     } else if (wybranastronawiersza.getTypStronaWiersza() == 2) {
                         biezacetransakcje = tworzenieTransakcjiPlatnosc(wnma, wybranastronawiersza);
+                        RequestContext.getCurrentInstance().update("rozrachunki");
+                        RequestContext.getCurrentInstance().update("dialogdrugi");
+                        RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                     } else {
                         System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView pobranieStronaWiersza()");
                     }
@@ -1880,17 +1882,26 @@ public class DokfkView implements Serializable {
                 oznaczJakoRachunek();
                 RequestContext.getCurrentInstance().update("parametry");
                 return;
-            } else {
+            } else if (rachunekCzyPlatnosc.equals("płatność")) {
                 oznaczJakoPlatnosc();
                 RequestContext.getCurrentInstance().update("parametry");
+            } else {
+                System.out.println("Brak info o transakcji, nie mozna kontynuowac. wybranoRachunekPlatnoscCD()");
+                throw new Error();
             }
         }
         //nowa transakcja
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1) {
             biezacetransakcje = tworzenieTransakcjiRachunek(wnmadoprzeniesienia, aktualnyWierszDlaRozrachunkow);
+            RequestContext.getCurrentInstance().update("rozrachunki");
+            RequestContext.getCurrentInstance().update("dialogdrugi");
+            RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
             //platnosc
         } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
             biezacetransakcje = tworzenieTransakcjiPlatnosc(wnmadoprzeniesienia, aktualnyWierszDlaRozrachunkow);
+            RequestContext.getCurrentInstance().update("rozrachunki");
+            RequestContext.getCurrentInstance().update("dialogdrugi");
+            RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
         } else {
             System.out.println("Blad aktualny wiersz ma dziwny numer DokfkView wybranoRachunekPlatnoscCD");
         }
@@ -1962,9 +1973,7 @@ public class DokfkView implements Serializable {
                     funkcja = "zablokujcheckbox('false','platnosc');";
                 }
                 RequestContext.getCurrentInstance().execute(funkcja);
-                RequestContext.getCurrentInstance().update("rozrachunki");
-                RequestContext.getCurrentInstance().update("dialogdrugi");
-                RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+                //usunalem aby bylo szybciej
                 //zerujemy rzeczy w dialogu
                 if (transakcje.size() == 0) {
                     rodzaj = -2;
@@ -3183,14 +3192,6 @@ public class DokfkView implements Serializable {
 
     public void setWprowadzonesymbolewalut(List<Waluty> wprowadzonesymbolewalut) {
         this.wprowadzonesymbolewalut = wprowadzonesymbolewalut;
-    }
-
-    public boolean isZablokujprzyciskrezygnuj() {
-        return zablokujprzyciskrezygnuj;
-    }
-
-    public void setZablokujprzyciskrezygnuj(boolean zablokujprzyciskrezygnuj) {
-        this.zablokujprzyciskrezygnuj = zablokujprzyciskrezygnuj;
     }
 
     public boolean isPokazPanelWalutowy() {
