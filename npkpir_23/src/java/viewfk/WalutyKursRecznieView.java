@@ -59,12 +59,10 @@ public class WalutyKursRecznieView implements Serializable{
     }
     
     private void zachowajwiersze (List<Tabelanbp> wierszepobranezNBP) {
-        for (Tabelanbp p : wierszepobranezNBP) {
-            try {
-                tabelanbpDAO.dodaj(p);
-            } catch (Exception e) {  E.e(e);
-                
-            }
+        try {
+            tabelanbpDAO.dodaj(wierszepobranezNBP);
+        } catch (Exception e) { 
+            E.e(e);
         }
     }
 

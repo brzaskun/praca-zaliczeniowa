@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
 public class WalutyNBP implements Serializable {
     
     @Inject
-    private WalutyParseHandler handler; 
+    private WalutyParseHandler walutyParseHandler; 
 
     private static int zmianaroku = 0;
 
@@ -118,9 +118,9 @@ public class WalutyNBP implements Serializable {
                 is.setEncoding("UTF-8");
                 SAXParserFactory factory = SAXParserFactory.newInstance();
                 SAXParser saxParser = factory.newSAXParser();
-                handler.setElementy(new ArrayList<Tabelanbp>());
-                saxParser.parse(is, handler);
-                List<Tabelanbp> wyniktmp = handler.getElementy();
+                walutyParseHandler.setElementy(new ArrayList<Tabelanbp>());
+                saxParser.parse(is, walutyParseHandler);
+                List<Tabelanbp> wyniktmp = walutyParseHandler.getElementy();
                 for (Tabelanbp p : wyniktmp) {
                     if (p.getWaluta().getSymbolwaluty().equals(waluta)) {
                         wynik.add(p);

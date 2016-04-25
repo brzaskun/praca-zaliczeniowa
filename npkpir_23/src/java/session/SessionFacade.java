@@ -112,6 +112,13 @@ public class SessionFacade<T> implements Serializable {
     public void create(T entity) {
         getEntityManager().persist(entity);
     }
+    
+    public void create(List<T> entityList) {
+        for (T p : entityList) {
+            getEntityManager().persist(p);
+        }
+        em.flush();
+    }
 
     public void refresh(T entity) {
         getEntityManager().refresh(getEntityManager().merge(entity));
@@ -136,8 +143,8 @@ public class SessionFacade<T> implements Serializable {
     public void edit(List<T> entityList) {
         for (T p : entityList) {
             getEntityManager().merge(p);
-            em.flush();
         }
+        em.flush();
     }
 
     public void createRefresh(List<T> entityList) {

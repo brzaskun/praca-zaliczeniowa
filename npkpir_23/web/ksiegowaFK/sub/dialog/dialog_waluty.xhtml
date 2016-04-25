@@ -74,6 +74,9 @@
                         <p:column>
                             <h:outputText value="symbol waluty"/>
                         </p:column>
+                        <p:column>
+                            <h:outputText value="przelicznik"/>
+                        </p:column>
                     </p:row>
                 </f:facet>
                 <p:row>
@@ -84,7 +87,11 @@
                         <p:inputText value="#{walutyViewFK.nowawaluta.nazwawaluty}" required="true" requiredMessage="Wpisz nazwę waluty"/>
                     </p:column>
                     <p:column>
-                        <p:inputText value="#{walutyViewFK.nowawaluta.skrotsymbolu}" required="true" requiredMessage="Wpisz symbol waluty"  style="text-align: center;"/>
+                        <p:inputText value="#{walutyViewFK.nowawaluta.skrotsymbolu}" required="true" requiredMessage="Wpisz symbol waluty"
+                                     maxlength="2" style="text-align: center;"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{walutyViewFK.nowawaluta.przelicznik}" required="true"/>
                     </p:column>
                 </p:row>
             </p:panelGrid>
