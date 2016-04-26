@@ -29,11 +29,12 @@
 
     <p:dialog id="dialogdrugi" header="Rozrachunkia" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
               resizable="false"  onShow="rozrachunkiOnShow();setTimeout(znadzpasujacepolerozrachunku2('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}'),5000);" 
-              closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki" closable="false" 
+              closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki:dataList" closable="false" 
               >
-        <p:outputPanel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza eq 1 or dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza eq 2}">
+        <p:outputPanel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza eq 1 or dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza eq 2}"
+                       style="height: 650px;">
             <h:form id="rozrachunki"  >
-                <div style="height: 640px;" >
+                <div style="height: 585px;" >
                     <p:panelGrid id="paneledycji"  style="width: 1200px; " >
                         <f:facet name="header">
                             <p:row>
@@ -153,7 +154,7 @@
                         </style>
                         <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1000px; padding: 0px 10px 10px 10px; " 
                                      emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
-                                     scrollRows="22" scrollable="true" scrollHeight="450" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
+                                     scrollRows="22" scrollable="true" scrollHeight="400" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
                                      >
                             <p:ajax event="sort" oncomplete="doklejsumowaniewprowadzonych();" global="false"/>
                             <p:ajax event="filter" oncomplete="doklejsumowaniewprowadzonych();"  global="false"/>
@@ -285,16 +286,16 @@
                     </p:panel>
                 </div>
 
-                <div style="height: 35px;">
+                <p:outputPanel>
                     <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="#{dokfkView.zapistransakcji}" 
                                      type="submit"
                                      oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();" 
                                      update=":rozrachunki" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                </div>
+                </p:outputPanel>
 
             </h:form>
-            <f:facet name="footer" >
-                <div style="padding: 5px; height: 35px; margin-left: auto; margin-right: auto; text-align: center;">
+
+                <div style="padding: 5px; margin-left: auto; margin-right: auto; text-align: center;">
                     <h:form id="formcheckbox">
                         <h:selectBooleanCheckbox id="znaczniktransakcji" 
                                                  accesskey="t" valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}"
@@ -303,13 +304,11 @@
                             <p:ajax event="change" partialSubmit="true" global="false"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                        <!--                        <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="PF('wpisywanie').show();
-                        PF('rozrachunki').hide();" style="float: right; width: 150px;" 
-                        oncomplete="porzadkujwierszeporozrachunkach('9{dokfkView.selected.listawierszy.size()}');" 
-                        />-->
+                        <p:commandButton value="rezygnuj" styleClass="fkbutton" global="false" onclick="PF('rozrachunki').hide();" style="float: right; width: 150px; margin-right: 20px;" 
+                        />
                     </h:form>
                 </div>
-            </f:facet>
+
         </p:outputPanel>
     </p:dialog>
 </ui:composition>

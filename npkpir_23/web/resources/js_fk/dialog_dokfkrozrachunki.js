@@ -128,7 +128,6 @@ var znadzpasujacepolerozrachunku2 = function (kwota) {
                         $(document.getElementById(dopasowanywierszH)).val(kwota);
                     }
                     $(document.getElementById(dopasowanywiersz)).keyup();
-                    $(document.getElementById(dopasowanywiersz)).change();
                     $(document.getElementById(dopasowanywiersz)).select();
                 } else {
                     dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
@@ -146,19 +145,16 @@ var znadzpasujacepolerozrachunku2 = function (kwota) {
                         }
                     }
                     $(document.getElementById(dopasowanywiersz)).keyup();
-                    $(document.getElementById(dopasowanywiersz)).change();
                     $(document.getElementById(dopasowanywiersz)).select();
                 }
             } else {
                 dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
                 $(document.getElementById(dopasowanywiersz)).focus();
-                $(document.getElementById(dopasowanywiersz)).change();
                 $(document.getElementById(dopasowanywiersz)).select();
             }
         } catch (el) {
             dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
             $(document.getElementById(dopasowanywiersz)).keyup();
-            $(document.getElementById(dopasowanywiersz)).change();
             $(document.getElementById(dopasowanywiersz)).select();
         }
     }
@@ -182,6 +178,12 @@ var powrotdopolaPoNaniesieniuRozrachunkow = function () {
 };
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
 var doklejsumowaniewprowadzonych = function () {
+    r("rozrachunki:dataList").find("input").focus(function () {
+        var wprowadzonowpole = $(this).val();
+        if (wprowadzonowpole === 0.0) {
+            $(this).select();
+        }
+    });
     r("rozrachunki:dataList").find("input").change(function () {
         var wprowadzonowpole = $(this).val();
         var starawartosc = zrobFloat(this.oldvalue);
