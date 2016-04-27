@@ -153,6 +153,8 @@ public class SrodekTrw implements Serializable {
     private Dokfk dokfk;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SrodekTrw_NowaWartosc> zmianawartosci;
+    @Column(name = "symbolinwentarzowy")
+    private String symbolinwentarzowy;
 
 
     public SrodekTrw() {
@@ -175,6 +177,14 @@ public class SrodekTrw implements Serializable {
     
     public void setDatawy(Double datawy) {
         this.datawy = datawy;
+    }
+
+    public String getSymbolinwentarzowy() {
+        return symbolinwentarzowy;
+    }
+
+    public void setSymbolinwentarzowy(String symbolinwentarzowy) {
+        this.symbolinwentarzowy = symbolinwentarzowy;
     }
     
     public String getDataprzek() {

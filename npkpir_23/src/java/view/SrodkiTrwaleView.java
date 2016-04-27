@@ -67,7 +67,9 @@ public class SrodkiTrwaleView implements Serializable {
         try {
             selectedSTR.setDatazak(dokfk.getDataoperacji());
             selectedSTR.setPodatnik(wpisView.getPodatnikWpisu());
-            selectedSTR.setDatazak(dokfk.getDataoperacji());
+            if (selectedSTR.getDatazak() != null && selectedSTR.getDatazak().length() < 10) {
+                selectedSTR.setDatazak(dokfk.getDataoperacji());
+            }
             selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
             selectedSTR.setNrwldokzak(dokfk.getNumerwlasnydokfk());
             selectedSTR.setZlikwidowany(0);

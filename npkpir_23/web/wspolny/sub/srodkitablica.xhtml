@@ -67,8 +67,8 @@
                     <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" width="30" style="text-align: center;">  
                         <h:outputText value="#{wpis.kst}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
-                    <p:column id="dowColumn" headerText="nr. faktury" filterBy="#{wpis.nrwldokzak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nrwldokzak}" width="110">  
-                        <h:outputText value="#{wpis.nrwldokzak}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
+                    <p:column id="dowColumn" headerText="symb.inwent" filterBy="#{wpis.symbolinwentarzowy}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.symbolinwentarzowy}" width="110">  
+                        <h:outputText value="#{wpis.symbolinwentarzowy}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
                     <p:column id="rodzTrColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.netto}" width="60">  
                         <h:outputText value="#{wpis.netto}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">

@@ -680,6 +680,13 @@ public class PlanKontFKBean {
         kontapotomne.remove(doUsuniecia);
         return kontapotomne;
     }
+   
+    public static List<Konto> pobierzpotomne(Konto doUsuniecia, KontoDAOfk kontoDAO) {
+        List<Konto> kontapotomne = new ArrayList<>();
+        kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(doUsuniecia.getPodatnik(), doUsuniecia.getRok(), doUsuniecia.getPelnynumer()));
+        kontapotomne.remove(doUsuniecia);
+        return kontapotomne;
+    }
 
     public static void usunelementslownika(Delegacja delegacja, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(),6);

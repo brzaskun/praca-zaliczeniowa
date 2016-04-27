@@ -730,17 +730,62 @@ public class PlanKontView implements Serializable {
 
     public void usunZsubkontami(String klientWzor) {
         Konto kontoDoUsuniecia = selectednodekonto != null ? selectednodekonto : selectednodekontowzorcowy;
-        List<Rodzajedok> dokumenty = null;
+        List<Rodzajedok> rodzajedokumentowpodatnika = null;
         if (klientWzor.equals("K")) {
-            dokumenty = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+            rodzajedokumentowpodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         }
+        List<Konto> zwrot = new ArrayList<>();
+        listapotomnych(kontoDoUsuniecia, zwrot);
+        int maxlevel = pobierzmaxlevel(zwrot);
+        for (int i = maxlevel; i >= 0 ; i--) {
+            List<Konto> kontazlevelu = pobierzlevel(zwrot,i);
+            for (Konto r : kontazlevelu) {
+                usunpojedynczekonto(r, klientWzor, rodzajedokumentowpodatnika);
+            }
+        }
+        usunpojedynczekonto(kontoDoUsuniecia, klientWzor, rodzajedokumentowpodatnika);
         if (kontoDoUsuniecia.isMapotomkow() == true) {
-            usunrekurencja(klientWzor, kontoDoUsuniecia, dokumenty);
             if (!kontoDoUsuniecia.getMacierzyste().equals("0")) {
                 boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDoUsuniecia, kontoDAOfk);
                 oznaczbraksiostr(sadzieci, kontoDoUsuniecia, klientWzor);
             }
         }
+    }
+    
+    private void usunpojedynczekonto(Konto kontoDoUsuniecia, String klientWzor, List<Rodzajedok> rodzajedokumentowpodatnika) {
+         try {
+                usunpozycje(kontoDoUsuniecia);
+                usunuzyciewdokumencie(kontoDoUsuniecia, rodzajedokumentowpodatnika);
+                usunkontozbazy(kontoDoUsuniecia, klientWzor);
+            } catch (Exception e) {
+                E.e(e);
+            }
+    }
+    
+    private List<Konto> pobierzlevel(List<Konto> zwrot, int level) {
+        List<Konto> z = new ArrayList<>();
+        for (Konto p : zwrot) {
+            if (p.getLevel() == level) {
+                z.add(p);
+            }
+        }
+        return z;
+    }
+    
+    private void listapotomnych(Konto macierzyste, List<Konto> zwrot) {
+        List<Konto> potomne = PlanKontFKBean.pobierzpotomne(macierzyste, kontoDAOfk);
+        for (Konto p : potomne) {
+            zwrot.add(p);
+            listapotomnych(p, zwrot);
+        }
+    }
+    
+    private int pobierzmaxlevel(List<Konto> lista) {
+        int maxlevel = 0;
+        for (Konto p : lista) {
+            maxlevel = maxlevel < p.getLevel() ? p.getLevel() : maxlevel;
+        }
+        return maxlevel;
     }
 
     private void usunrekurencja(String klientWzor, Konto kontoDoUsuniecia, List<Rodzajedok> dokumenty) {
@@ -768,6 +813,7 @@ public class PlanKontView implements Serializable {
             }
         }
     }
+    
 
     private void usunuzyciewdokumencie(Konto kontoDoUsuniecia, List<Rodzajedok> dokumenty) {
         try {
