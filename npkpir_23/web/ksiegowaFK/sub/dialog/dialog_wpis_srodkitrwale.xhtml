@@ -18,7 +18,7 @@
               closeOnEscape="true" onHide="resetujdialog('dialogwpissrodkitrwale');" >
         <h:form id="srodkiwpis"> 
             <!--pola ewidencji SRODKOW TRWALYCH-->
-            <p:panel id="panelwyszukiwarki" style="width: 300px;" >
+            <p:panel id="panelwyszukiwarki" style="width: 300px; height: 70px;" >
                 <p:panel header="wyszukiwarka środka trw." style="width: 300px;" />
                 <p:autoComplete id="acForce1" value="#{srodkiTrwaleView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
                                 var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
@@ -44,7 +44,7 @@
 -->            <p:panel id="nowypanelsrodki" >
                 <p:dataTable id="tabelasrodkitrwaleOT" value="#{srodkiTrwaleView.selectedSTR}" var="loop"> 
                     <p:column headerText="nazwa środka" style="text-align: center;" width="200">
-                        <p:inputText id="nazwasrodka" value="#{loop.nazwa}" style="width: 20    0px;">
+                        <p:inputText id="nazwasrodka" value="#{loop.nazwa}" style="width: 200px;">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>
                     </p:column>
