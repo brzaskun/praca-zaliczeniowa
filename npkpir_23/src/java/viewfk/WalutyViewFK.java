@@ -49,7 +49,7 @@ public class WalutyViewFK implements Serializable {
     private List<Tabelanbp> wprowadzonekursyRok;
     private List<String> symboleTabelRecznie;
     private String symbolRecznie;
-    @Inject
+    @Inject 
     private Tabelanbp kurswprowadzonyrecznie;
     @Inject
     private Waluty nowawaluta;

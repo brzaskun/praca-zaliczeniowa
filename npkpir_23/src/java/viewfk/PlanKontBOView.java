@@ -63,6 +63,7 @@ public class PlanKontBOView implements Serializable {
             wykazkont6 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "6%");
             wykazkont8 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "8%");
             listakontSrodkiTrwale = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
+            usunzbednekonta(listakontSrodkiTrwale);
             listakontSrodkiTrwaleUmorzenia  = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "07%");
             wykazkont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             wykazkontGrupa.put(0, wykazkont0);
@@ -153,6 +154,14 @@ public class PlanKontBOView implements Serializable {
 
     public void setListakontSrodkiTrwaleUmorzenia(List<Konto> listakontSrodkiTrwaleUmorzenia) {
         this.listakontSrodkiTrwaleUmorzenia = listakontSrodkiTrwaleUmorzenia;
+    }
+
+    private void usunzbednekonta(List<Konto> listakontSrodkiTrwale) {
+        for (Iterator<Konto> it = listakontSrodkiTrwale.iterator(); it.hasNext();) {
+            if (it.next().getPelnynumer().startsWith("07")) {
+                it.remove();
+            }
+        }
     }
 
     
