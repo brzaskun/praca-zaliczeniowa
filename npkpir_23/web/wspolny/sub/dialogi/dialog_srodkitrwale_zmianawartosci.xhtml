@@ -7,15 +7,20 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:dialog id="dialog_srodkitrwale_zmianawartosci" header="Zmiana wartości posiadanego środka trwałego" widgetVar="dialog_srodkitrwale_zmianawartosci" 
+    <p:dialog id="dialog_srodkitrwale_zmianawartosci" header="Zmiana danych posiadanego środka trwałego" widgetVar="dialog_srodkitrwale_zmianawartosci" 
               resizable="false"  onShow="ustawdialog('dialog_srodkitrwale_zmianawartosci','formbuttonsrodki:buttonsrodki',700,380);r('form_dialog_srodkitrwale_zmianawartosci:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodkitrwale_zmianawartosci');">
         <!--pola ewidencji SRODKOW TRWALYCH-->
         <h:form id="form_dialog_srodkitrwale_zmianawartosci">
-            <p:panel id="nowypanelsrodki" style="width: 600px; height: 370px;">
-                <p:panelGrid id="tabelasrodkitrwaleOT" columns="4" >
+            <p:panel id="nowypanelsrodki" style="width: 650px; height: 370px;">
+                <p:panelGrid id="tabelasrodkitrwaleOT" columns="4" style="width: 650px;">
                     <h:outputText value="nazwa środka" style="height: 45px;"/>
-                    <p:column headerText="nazwa środka" width="100">
-                        <p:inputText id="nazwasrodka" value="#{STRTableView.wybranysrodektrwalyPosiadane.nazwa}" required="true" requiredMessage="Proszę wpisać nazwę środka"/>
+                    <p:column  width="200">
+                        <p:inputText id="nazwasrodka" value="#{STRTableView.wybranysrodektrwalyPosiadane.nazwa}" style="width: 200px;"
+                                     required="true" requiredMessage="Proszę wpisać nazwę środka"/>
+                    </p:column>
+                    <h:outputText value="symbol inwent."/>
+                    <p:column width="100">
+                        <p:inputText id="symbolinwent" value="#{STRTableView.wybranysrodektrwalyPosiadane.symbolinwentarzowy}" required="true" requiredMessage="Proszę wpisać symbol"/>
                     </p:column>
                     <h:outputText value="data zakupu"/>
                     <p:column>
@@ -41,6 +46,12 @@
                                         onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{STRTableView.zmianakwotynetto}"
                                         style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
+                    <h:outputText value="umorzenie pocz."/>
+                    <p:column>
+                        <pe:inputNumber id="umorzeniepocz" value="#{STRTableView.wybranysrodektrwalyPosiadane.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                        onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{STRTableView.zmianakwotynetto}"
+                                        style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2"  styleClass="wiersznetto"/> 
+                    </p:column>
                     <h:outputText value="środek trw/wyposazenie"/>
                     <p:column>
                         <h:selectOneMenu value="#{STRTableView.wybranysrodektrwalyPosiadane.typ}"
@@ -50,8 +61,6 @@
                             <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
                         </h:selectOneMenu>
                     </p:column>
-                    <h:outputText value=""/>
-                    <h:outputText value=""/>
                     <h:outputText value="data zmiany"/>
                     <p:column style="margin-top: 10px">
                         <p:inputText id="data1DialogWpisywanie" value="#{STRTableView.datazmiany}" 

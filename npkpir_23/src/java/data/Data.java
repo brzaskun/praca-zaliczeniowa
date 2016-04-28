@@ -162,11 +162,11 @@ public class Data implements Serializable {
     
     public static String data_ddMMMMyyyy(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-	return sdf.format(new Date()); 
+	return sdf.format(date); 
     }
     
     public static String data_yyyyMMdd(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	return sdf.format(new Date()); 
+	return sdf.format(date); 
     }
 }

@@ -782,6 +782,22 @@ public class STRTabView implements Serializable {
         
     }
     
+    public void zmianaumorzeniapocz(ValueChangeEvent e) {
+        Double nowa = (Double) e.getNewValue();
+        wybranysrodektrwalyPosiadane.setUmorzeniepoczatkowe(nowa);
+        SrodkiTrwBean.odpisroczny(wybranysrodektrwalyPosiadane);
+        SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
+        //oblicza planowane umorzenia
+        wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
+        wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+        try {
+            sTRDAO.edit(wybranysrodektrwalyPosiadane);
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        
+    }
+    
      public void zmianadatyprzyjecia(ValueChangeEvent e) {
         String nowa = (String) e.getNewValue();
         wybranysrodektrwalyPosiadane.setDataprzek(nowa);
