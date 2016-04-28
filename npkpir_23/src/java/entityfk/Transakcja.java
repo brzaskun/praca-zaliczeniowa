@@ -64,8 +64,6 @@ public class Transakcja  implements Serializable {
     @Column(name = "kwotawwalucierachunku")
     private double kwotawwalucierachunku;
     
-
-   
     
     public Transakcja() {
     }
@@ -78,70 +76,77 @@ public class Transakcja  implements Serializable {
         this.rozliczajacy = rozliczajacy;
         this.nowaTransakcja = nowaTransakcja;
     }
+   
+   public String getOpisWiersza() {
+       String zwrot = this.nowaTransakcja.getWiersz() != null ? this.nowaTransakcja.getWiersz().getOpisWiersza() : this.nowaTransakcja.getOpisBO();
+       return  zwrot.length() > 40 ? zwrot.substring(0, 39) : zwrot;
+   }
 
-    public StronaWiersza getRozliczajacy() {
-        return rozliczajacy;
-    }
-
-    public void setRozliczajacy(StronaWiersza rozliczajacy) {
-        this.rozliczajacy = rozliczajacy;
-    }
-
-    public StronaWiersza getNowaTransakcja() {
-        return nowaTransakcja;
-    }
-
-    public void setNowaTransakcja(StronaWiersza nowaTransakcja) {
-        this.nowaTransakcja = nowaTransakcja;
-    }
-
-    public double getKwotatransakcji() {
-        return kwotatransakcji;
-    }
-
-    public void setKwotatransakcji(double kwotatransakcji) {
-        this.kwotatransakcji = kwotatransakcji;
-    }
-
-    public double getPoprzedniakwota() {
-        return poprzedniakwota;
-    }
-
-    public void setPoprzedniakwota(double poprzedniakwota) {
-        this.poprzedniakwota = poprzedniakwota;
-    }
-  
-    public TransakcjaPK getTransakcjaPK() {
-        return transakcjaPK;
-    }
-
-    public void setTransakcjaPK(TransakcjaPK transakcjaPK) {
-        this.transakcjaPK = transakcjaPK;
-    }
-
-    public double getRoznicekursowe() {
-        return roznicekursowe;
-    }
-
-    public void setRoznicekursowe(double roznicekursowe) {
-        this.roznicekursowe = roznicekursowe;
-    }
-
-    public String getDatarozrachunku() {
-        return datarozrachunku;
-    }
-
-    public void setDatarozrachunku(String datarozrachunku) {
-        this.datarozrachunku = datarozrachunku;
-    }
-
-    public double getKwotawwalucierachunku() {
-        return kwotawwalucierachunku;
-    }
-
-    public void setKwotawwalucierachunku(double kwotawwalucierachunku) {
-        this.kwotawwalucierachunku = kwotawwalucierachunku;
-    }
+   //<editor-fold defaultstate="collapsed" desc="comment">
+   public StronaWiersza getRozliczajacy() {
+       return rozliczajacy;
+   }
+   
+   public void setRozliczajacy(StronaWiersza rozliczajacy) {
+       this.rozliczajacy = rozliczajacy;
+   }
+   
+   public StronaWiersza getNowaTransakcja() {
+       return nowaTransakcja;
+   }
+   
+   public void setNowaTransakcja(StronaWiersza nowaTransakcja) {
+       this.nowaTransakcja = nowaTransakcja;
+   }
+   
+   public double getKwotatransakcji() {
+       return kwotatransakcji;
+   }
+   
+   public void setKwotatransakcji(double kwotatransakcji) {
+       this.kwotatransakcji = kwotatransakcji;
+   }
+   
+   public double getPoprzedniakwota() {
+       return poprzedniakwota;
+   }
+   
+   public void setPoprzedniakwota(double poprzedniakwota) {
+       this.poprzedniakwota = poprzedniakwota;
+   }
+   
+   public TransakcjaPK getTransakcjaPK() {
+       return transakcjaPK;
+   }
+   
+   public void setTransakcjaPK(TransakcjaPK transakcjaPK) {
+       this.transakcjaPK = transakcjaPK;
+   }
+   
+   public double getRoznicekursowe() {
+       return roznicekursowe;
+   }
+   
+   public void setRoznicekursowe(double roznicekursowe) {
+       this.roznicekursowe = roznicekursowe;
+   }
+   
+   public String getDatarozrachunku() {
+       return datarozrachunku;
+   }
+   
+   public void setDatarozrachunku(String datarozrachunku) {
+       this.datarozrachunku = datarozrachunku;
+   }
+   
+   public double getKwotawwalucierachunku() {
+       return kwotawwalucierachunku;
+   }
+   
+   public void setKwotawwalucierachunku(double kwotawwalucierachunku) {
+       this.kwotawwalucierachunku = kwotawwalucierachunku;
+   }
+//</editor-fold>
 
     
    
