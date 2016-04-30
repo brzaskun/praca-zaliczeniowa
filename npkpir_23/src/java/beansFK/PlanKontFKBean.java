@@ -11,6 +11,7 @@ import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.MiejsceKosztowDAO;
+import daoFK.MiejscePrzychodowDAO;
 import daoFK.PojazdyDAO;
 import daoFK.UkladBRDAO;
 import embeddable.Mce;
@@ -21,6 +22,7 @@ import entityfk.Konto;
 import entityfk.KontopozycjaBiezaca;
 import entityfk.KontopozycjaZapis;
 import entityfk.MiejsceKosztow;
+import entityfk.MiejscePrzychodow;
 import entityfk.Pojazdy;
 import entityfk.UkladBR;
 import error.E;
@@ -145,6 +147,12 @@ public class PlanKontFKBean {
         return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
     }
     
+    public static int dodajslownikMiejscaPrzychodow(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+        nowekonto.setNazwapelna("Słownik miejsca przychodów");
+        nowekonto.setNazwaskrocona("Miejsca przychodów");
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+    }
+    
     public static int dodajslownikPojazdyiMaszyny(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         nowekonto.setNazwapelna("Słownik pojazdy i maszyny");
         nowekonto.setNazwaskrocona("Pojazd");
@@ -230,6 +238,29 @@ public class PlanKontFKBean {
                 }
                 p.setAktywny(true);
                 miejsceKosztowDAO.edit(p);
+                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+            }
+            return 0;
+        } else {
+            return 0;
+        }
+    }
+    
+    public static int dodajelementyslownikaMiejscaPrzychodow(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, MiejscePrzychodowDAO miejscePrzychodowDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+        List<MiejscePrzychodow> listamiejscprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        if (listamiejscprzychodow != null) {
+            for (MiejscePrzychodow p : listamiejscprzychodow) {
+                Konto nowekonto = new Konto();
+                nowekonto.setNazwapelna(p.getOpismiejsca());
+                nowekonto.setDe(p.getOpismiejsca());
+                nowekonto.setNazwaskrocona(p.getOpisskrocony());
+                nowekonto.setSlownikowe(true);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
+                if (wynikdodania == 1) {
+                    return 1;
+                }
+                p.setAktywny(true);
+                miejscePrzychodowDAO.edit(p);
                 naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
             }
             return 0;
@@ -393,6 +424,29 @@ public class PlanKontFKBean {
             miejsceKosztowDAO.edit(miejscekosztow);
         }
         return 0;
+    }
+    
+    public static int aktualizujslownikMiejscaPrzychodow(List<Konto> wykazkont, MiejscePrzychodowDAO miejsceKosztowDAO, MiejscePrzychodow miejsceprzychodow, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+        try {
+            List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 2);
+            for (Konto p : kontamacierzysteZeSlownikiem) {
+                Konto nowekonto = new Konto();
+                nowekonto.setNazwapelna(miejsceprzychodow.getOpismiejsca());
+                nowekonto.setNazwaskrocona(miejsceprzychodow.getOpisskrocony());
+                nowekonto.setSlownikowe(true);
+                nowekonto.setBlokada(true);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, miejsceprzychodow.getNrkonta(), wpisView);
+                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                if (wynikdodania == 1) {
+                    return 1;
+                }
+                miejsceprzychodow.setAktywny(true);
+                miejsceKosztowDAO.edit(miejsceprzychodow);
+            }
+            return 0;
+        } catch (Exception e) {
+            return 1;
+        }
     }
     
     public static int aktualizujslownikPojazdy(List<Konto> wykazkont, PojazdyDAO pojazdyDAO, Pojazdy pojazd, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {

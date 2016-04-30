@@ -16,6 +16,7 @@ import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.MiejsceKosztowDAO;
+import daoFK.MiejscePrzychodowDAO;
 import daoFK.PojazdyDAO;
 import daoFK.UkladBRDAO;
 import daoFK.WierszBODAO;
@@ -28,6 +29,7 @@ import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
 import entityfk.MiejsceKosztow;
+import entityfk.MiejscePrzychodow;
 import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
@@ -80,6 +82,8 @@ public class PlanKontView implements Serializable {
     private PojazdyDAO pojazdyDAO;
     @Inject
     private MiejsceKosztowDAO miejsceKosztowDAO;
+    @Inject
+    private MiejscePrzychodowDAO miejscePrzychodowDAO;
     @Inject
     private DelegacjaDAO delegacjaDAO;
     @Inject
@@ -351,6 +355,25 @@ public class PlanKontView implements Serializable {
                         Msg.msg("Dodano elementy słownika miejsc powstawania kosztów");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania kosztów");
+                    }
+                } else if (noweKonto.getNrkonta().equals("miejp")) {
+                    //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiejscaPrzychodow(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+                    if (wynikdodaniakonta == 0) {
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 2);
+                        Msg.msg("i", "Dodaje słownik miejsc powstawania przychodów", "formX:messages");
+                    } else {
+                        noweKonto = new Konto();
+                        Msg.msg("e", "Nie można dodać słownika miejsc powstawania przychodów!", "formX:messages");
+                        return;
+                    }
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaPrzychodow(wykazkont, kontomacierzyste, kontoDAOfk, miejscePrzychodowDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+                    if (wynikdodaniakonta == 0) {
+                        noweKonto = new Konto();
+                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                        Msg.msg("Dodano elementy słownika miejsc powstawania przychodów");
+                    } else {
+                        Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania przychodów");
                     }
                 } else if (noweKonto.getNrkonta().equals("samoc")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
@@ -1029,6 +1052,17 @@ public class PlanKontView implements Serializable {
         boolean samiejscakosztow = miejscakosztow != null && !miejscakosztow.isEmpty();
         if (samiejscakosztow) {
             for (MiejsceKosztow r : miejscakosztow) {
+                try {
+                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpismiejsca(), r.getOpisskrocony(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk, 2, ukladBRDAO);
+                } catch (Exception e1) {
+
+                }
+            }
+        }
+        List<MiejscePrzychodow> miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        boolean samiejscaprzychodow = miejscaprzychodow != null && !miejscaprzychodow.isEmpty();
+        if (samiejscaprzychodow) {
+            for (MiejscePrzychodow r : miejscaprzychodow) {
                 try {
                     PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpismiejsca(), r.getOpisskrocony(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk, 2, ukladBRDAO);
                 } catch (Exception e1) {

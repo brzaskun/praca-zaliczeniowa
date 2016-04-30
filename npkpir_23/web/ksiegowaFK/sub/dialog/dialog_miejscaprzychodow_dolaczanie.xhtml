@@ -1,0 +1,55 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <style>
+        .wyborkontrahenta input  {
+            width: 400px !important;
+        }
+    </style>
+    <p:dialog id="dialog_miejscaprzychodow_dolaczanie" header="Definiowanie miejsca powstawania przychodu" widgetVar="dialog_miejscaprzychodow_dolaczanie" 
+              resizable="false"  onShow="ustawdialog('dialog_miejscaprzychodow_dolaczanie','menukartoteki',900,600);" 
+              closeOnEscape="true" onHide="resetujdialog('dialog_miejscaprzychodow_dolaczanie');" 
+              dynamic="true">
+       
+        <h:form id="miejscaprzychodow">
+            <p:panelGrid columns="2" >
+                <h:outputText value="nazwa miejsca przychodów "/>
+                <p:inputText id="nazwamiejsca" value="#{miejscePrzychodowView.selected.opismiejsca}" style="width: 180px;"/>
+                <h:outputText value="nazwa skrócona"/>
+                <p:inputText id="nazwamiejscas" value="#{miejscePrzychodowView.selected.opisskrocony}" style="width: 180px;"/>
+            </p:panelGrid>
+            <p:commandButton value="dodaj" actionListener="#{miejscePrzychodowView.dodaj()}" style="margin: 2%; width: 120px;" 
+                             update=":miejscaprzychodow, :miejscaprzychodowlista" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == false}"/>
+            <p:commandButton value="edytuj" actionListener="#{miejscePrzychodowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
+                             update=":miejscaprzychodow, :miejscaprzychodowlista" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
+        </h:form>
+        <h:form id="miejscaprzychodowlista">
+            <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item"  resizableColumns="true" style="width: 850px;"
+                         scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc przychodów"
+                         sortBy="#{item}"  sortFunction="#{miejscePrzychodowView.sortMiejscePrzychodow}">
+                <p:column headerText="#{mgs.nr}" style="width: 40px;">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="pełny opis miejsca" style="width: 300px;">
+                    <h:outputText value="#{item.opismiejsca}"/>
+                </p:column>
+                <p:column headerText="opis skrócony" style="width: 200px;">
+                    <h:outputText value="#{item.opisskrocony}"/>
+                </p:column>
+                <p:column headerText="nr konta">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="edytuj" style="text-align: center; width: 60px;">
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejscePrzychodowView.edytuj(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista" style="width: 40px;"/>
+                </p:column>
+                <p:column headerText="usuń"  style="text-align: center; width: 60px;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejscePrzychodowView.usun(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista" rendered="#{item.aktywny eq false}" style="width: 40px;"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>

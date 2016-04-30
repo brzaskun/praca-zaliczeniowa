@@ -28,26 +28,26 @@
                              update=":miejscakosztow, :miejscakosztowlista" rendered="#{miejsceKosztowView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="miejscakosztowlista">
-            <p:dataTable value="#{miejsceKosztowView.miejscakosztow}" var="item" style="width: 850px;" 
-                         scrollable="true" scrollHeight="400" emptyMessage="brak zdefiniowanych miejsc kosztów"
+            <p:dataTable value="#{miejsceKosztowView.miejscakosztow}" var="item"  resizableColumns="true" style="width: 850px;"
+                         scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc kosztów"
                          sortBy="#{item}"  sortFunction="#{miejsceKosztowView.sortMiejsceKosztow}">
-                <p:column headerText="#{mgs.nr}" width="30">
+                <p:column headerText="#{mgs.nr}" style="width: 40px;">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
-                <p:column headerText="pełny opis miejsca">
+                <p:column headerText="pełny opis miejsca" style="width: 300px;">
                     <h:outputText value="#{item.opismiejsca}"/>
                 </p:column>
-                <p:column headerText="opis skrócony">
+                <p:column headerText="opis skrócony" style="width: 200px;">
                     <h:outputText value="#{item.opisskrocony}"/>
                 </p:column>
                 <p:column headerText="nr konta">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
-                <p:column headerText="edytuj" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejsceKosztowView.edytuj(item)}" update=":miejscakosztow, :miejscakosztowlista"/>
+                <p:column headerText="edytuj" style="text-align: center; width: 60px;">
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejsceKosztowView.edytuj(item)}" update=":miejscakosztow, :miejscakosztowlista" style="width: 40px;"/>
                 </p:column>
-                <p:column headerText="usuń" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejsceKosztowView.usun(item)}" update=":miejscakosztow, :miejscakosztowlista" rendered="#{item.aktywny eq false}"/>
+                <p:column headerText="usuń"  style="text-align: center; width: 60px;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejsceKosztowView.usun(item)}" update=":miejscakosztow, :miejscakosztowlista" rendered="#{item.aktywny eq false}" style="width: 40px;"/>
                 </p:column>
             </p:dataTable>
         </h:form>

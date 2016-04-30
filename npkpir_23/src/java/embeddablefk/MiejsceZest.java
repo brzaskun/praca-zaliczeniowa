@@ -6,19 +6,17 @@
 
 package embeddablefk;
 
-import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Embeddable;
 
 /**
  *
  * @author Osito
  */
 
-public class MiejsceKosztowZest implements Serializable{
+public class MiejsceZest implements Serializable{
     private static final long serialVersionUID = 1L;
     private String kontonazwa;
     private String kontonumer;
@@ -26,10 +24,10 @@ public class MiejsceKosztowZest implements Serializable{
     private double sumanarastajaco;
     private List<StronaWiersza> stronywiersza;
 
-    public MiejsceKosztowZest() {
+    public MiejsceZest() {
     }
 
-    public MiejsceKosztowZest(String kontonazwa, String kontonumer, double sumaokres, double sumanarastajaco, List<StronaWiersza> stronywiersza) {
+    public MiejsceZest(String kontonazwa, String kontonumer, double sumaokres, double sumanarastajaco, List<StronaWiersza> stronywiersza) {
         this.kontonazwa = kontonazwa;
         this.kontonumer = kontonumer;
         this.sumaokres = sumaokres;
@@ -53,7 +51,7 @@ public class MiejsceKosztowZest implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final MiejsceKosztowZest other = (MiejsceKosztowZest) obj;
+        final MiejsceZest other = (MiejsceZest) obj;
         if (!Objects.equals(this.kontonazwa, other.kontonazwa)) {
             return false;
         }

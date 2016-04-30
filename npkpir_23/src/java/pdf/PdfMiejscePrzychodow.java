@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;
-import viewfk.MiejsceKosztowView;
+import viewfk.MiejscePrzychodowView;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 
@@ -34,11 +34,11 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
  * @author Osito
  */
 
-public class PdfMiejsceKosztow {
+public class PdfMiejscePrzychodow {
 
-    public static void drukuj(List<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) {
+    public static void drukuj(List<MiejscePrzychodowView.TabelaMiejscePrzychodow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) {
         try {
-            String nazwapliku = "miejscakosztow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf";
+            String nazwapliku = "miejscaprzychodow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
@@ -51,10 +51,10 @@ public class PdfMiejsceKosztow {
         }
     }
 
-    private static void drukujcd(List<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) throws DocumentException, FileNotFoundException, IOException {
+    private static void drukujcd(List<MiejscePrzychodowView.TabelaMiejscePrzychodow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter.getInstance(document, Plik.plikR("miejscakosztow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf"));
-        document.addTitle("Zestawienie miejsce kosztów");
+        PdfWriter.getInstance(document, Plik.plikR("miejscaprzychodow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf"));
+        document.addTitle("Zestawienie miejsce przychowóe");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie miejsce kosztów");
         document.addKeywords("Miejsca Kosztów, PDF");
@@ -62,11 +62,11 @@ public class PdfMiejsceKosztow {
         document.open();
         document.setPageSize(PageSize.A4);
         if (listasummiejsckosztow.size() > 0) {
-            for (MiejsceKosztowView.TabelaMiejsceKosztow p : listasummiejsckosztow) {
+            for (MiejscePrzychodowView.TabelaMiejscePrzychodow p : listasummiejsckosztow) {
                 document.add(tablica(wpisView,p, rodzajdruku));
             }
             document.close();
-            Msg.msg("i", "Wydrukowano Miejsca Kosztów");
+            Msg.msg("i", "Wydrukowano Miejsca Przychodów");
         } else {
             document.add(new Chunk("Nie wybrano tabeli do wydruku"));
             document.close();
@@ -74,14 +74,14 @@ public class PdfMiejsceKosztow {
         }
     }
 
-    private static PdfPTable tablica(WpisView wpisView, MiejsceKosztowView.TabelaMiejsceKosztow l, int rodzajdruku) throws DocumentException, IOException {
+    private static PdfPTable tablica(WpisView wpisView, MiejscePrzychodowView.TabelaMiejscePrzychodow l, int rodzajdruku) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(6);
         table.setWidths(new int[]{1, 4, 3, 1, 2, 2});
         table.setWidthPercentage(98);
         table.setSpacingBefore(15);
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 2, 0));
-            table.addCell(ustawfraze(l.getMiejsceKosztow().getOpismiejsca(), 1, 0));
+            table.addCell(ustawfraze(l.getMiejscePrzychodow().getOpismiejsca(), 1, 0));
             table.addCell(ustawfraze("", 1, 0));
             table.addCell(ustawfraze("za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 2, 0));
 
@@ -92,7 +92,7 @@ public class PdfMiejsceKosztow {
             table.addCell(ustawfraze("suma", 0, 1));
             table.addCell(ustawfraze("suma narast.", 0, 1));
 
-            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie wydatków wg miejsc powstawania kosztów", 6, 0, 5));
+            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie wydatków wg miejsc powstawania przychodów", 6, 0, 5));
 
             table.setHeaderRows(3);
             table.setFooterRows(1);
@@ -100,7 +100,7 @@ public class PdfMiejsceKosztow {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         Integer i = 1;
-        for (MiejsceZest rs : l.getMiejsceKosztowZest()) {
+        for (MiejsceZest rs : l.getMiejscePrzychodowZest()) {
             table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
             table.addCell(ustawfrazeAlign(rs.getKontonazwa(), "left", 7));
             table.addCell(ustawfrazeAlign(rs.getKontonumer(), "left", 7));

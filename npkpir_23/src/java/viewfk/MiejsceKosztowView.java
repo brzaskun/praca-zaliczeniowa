@@ -14,7 +14,7 @@ import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.MiejsceKosztowDAO;
 import daoFK.UkladBRDAO;
-import embeddablefk.MiejsceKosztowZest;
+import embeddablefk.MiejsceZest;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import entityfk.StronaWiersza;
@@ -160,53 +160,55 @@ public class MiejsceKosztowView  implements Serializable{
         Msg.msg("Wybrano wiersz");
     }
     
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public MiejsceKosztow getSelected() {
         return selected;
     }
-
+    
     public void setSelected(MiejsceKosztow selected) {
         this.selected = selected;
     }
-
+    
     public List<MiejsceKosztow> getMiejscakosztow() {
         return miejscakosztow;
     }
-
+    
     public void setMiejscakosztow(List<MiejsceKosztow> miejscakosztow) {
         this.miejscakosztow = miejscakosztow;
     }
-
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public boolean isZapisz0edytuj1() {
         return zapisz0edytuj1;
     }
-
+    
     public void setZapisz0edytuj1(boolean zapisz0edytuj1) {
         this.zapisz0edytuj1 = zapisz0edytuj1;
     }
-
+    
     public LinkedHashSet<TabelaMiejsceKosztow> getListasummiejsckosztow() {
         return listasummiejsckosztow;
     }
-
+    
     public void setListasummiejsckosztow(LinkedHashSet<TabelaMiejsceKosztow> listasummiejsckosztow) {
         this.listasummiejsckosztow = listasummiejsckosztow;
     }
-
+    
     public List<TabelaMiejsceKosztow> getListawybranychmiejsckosztow() {
         return listawybranychmiejsckosztow;
     }
-
+    
     public void setListawybranychmiejsckosztow(List<TabelaMiejsceKosztow> listawybranychmiejsckosztow) {
         this.listawybranychmiejsckosztow = listawybranychmiejsckosztow;
     }
+//</editor-fold>
 
    
     
@@ -214,13 +216,13 @@ public class MiejsceKosztowView  implements Serializable{
     public static class TabelaMiejsceKosztow {
         private int id;
         private MiejsceKosztow miejsceKosztow;
-        private List<MiejsceKosztowZest> miejsceKosztowZest;
+        private List<MiejsceZest> miejsceKosztowZest;
         
         public TabelaMiejsceKosztow() {
             this.miejsceKosztowZest = new ArrayList<>();
         }
 
-        public TabelaMiejsceKosztow(int id, MiejsceKosztow miejsceKosztow, List<MiejsceKosztowZest> miejsceKosztowZest) {
+        public TabelaMiejsceKosztow(int id, MiejsceKosztow miejsceKosztow, List<MiejsceZest> miejsceKosztowZest) {
             this.id = id;
             this.miejsceKosztow = miejsceKosztow;
             this.miejsceKosztowZest = miejsceKosztowZest;
@@ -228,29 +230,31 @@ public class MiejsceKosztowView  implements Serializable{
         
         
 
+        //<editor-fold defaultstate="collapsed" desc="comment">
         public int getId() {
             return id;
         }
-
+        
         public void setId(int id) {
             this.id = id;
         }
-
+        
         public MiejsceKosztow getMiejsceKosztow() {
             return miejsceKosztow;
         }
-
+        
         public void setMiejsceKosztow(MiejsceKosztow miejsceKosztow) {
             this.miejsceKosztow = miejsceKosztow;
         }
-
-        public List<MiejsceKosztowZest> getMiejsceKosztowZest() {
+        
+        public List<MiejsceZest> getMiejsceKosztowZest() {
             return miejsceKosztowZest;
         }
-
-        public void setMiejsceKosztowZest(List<MiejsceKosztowZest> miejsceKosztowZest) {
+        
+        public void setMiejsceKosztowZest(List<MiejsceZest> miejsceKosztowZest) {
             this.miejsceKosztowZest = miejsceKosztowZest;
         }
+//</editor-fold>
         
         
     }
