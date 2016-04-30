@@ -1498,6 +1498,9 @@ public class DokfkView implements Serializable {
         } else if (wybranastronawiersza.getWnma().equals("Ma")) {
             nrkonta = (String) Params.params("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma_input");
         }
+        if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                rozliczsaldoWBRK(lpWierszaWpisywanie);
+        }
         //11 dodaje nowego klienta
         if (nrkonta.equals("")) {
             //DokFKBean.obsluzWstawKontoWBRK(wybranastronawiersza, selected.getRodzajedok().getKontorozrachunkowe(), lpWierszaWpisywanie);

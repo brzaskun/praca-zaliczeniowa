@@ -316,6 +316,7 @@ public class PlanKontView implements Serializable {
         String nrmacierzystego = PlanKontFKBean.modyfikujnr(elementslownika_numerkonta);
         Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
         List<Konto> potomne = PlanKontFKBean.pobierzpotomne(kontomacierzyste, kontoDAOfk);
+        Collections.sort(potomne, new Kontocomparator());
         if (potomne != null && potomne.size() > 0) {
             Konto slownik = potomne.get(0);
             String nazwaslownika = slownik.getNazwapelna();
