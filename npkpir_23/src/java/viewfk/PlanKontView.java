@@ -101,6 +101,9 @@ public class PlanKontView implements Serializable {
     private PlanKontCompleteView planKontCompleteView;
     private boolean bezslownikowych;
     private boolean tylkosyntetyka;
+    private String elementslownika_nazwapelna;
+    private String elementslownika_nazwaskrocona;
+    private String elementslownika_numerkonta;
 
     public PlanKontView() {
          E.m(this);
@@ -306,6 +309,46 @@ public class PlanKontView implements Serializable {
             planKontCompleteView.init();
         } else {
             Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
+        }
+    }
+    
+    public void dodajSlownikWpis() {
+        String nrmacierzystego = PlanKontFKBean.modyfikujnr(elementslownika_numerkonta);
+        Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
+        List<Konto> potomne = PlanKontFKBean.pobierzpotomne(kontomacierzyste, kontoDAOfk);
+        if (potomne != null && potomne.size() > 0) {
+            Konto slownik = potomne.get(0);
+            String nazwaslownika = slownik.getNazwapelna();
+            if (nazwaslownika.equals("Słownik miejsca przychodów")) {
+                System.out.println("");
+                MiejscePrzychodow mp = new MiejscePrzychodow();
+                mp.setOpismiejsca(elementslownika_nazwapelna);
+                mp.setOpisskrocony(elementslownika_nazwaskrocona);
+                int liczba = miejscePrzychodowDAO.countMiejscaPrzychodow(wpisView.getPodatnikObiekt()) + 1;
+                mp.uzupelnij(wpisView.getPodatnikObiekt(), String.valueOf(liczba));
+                mp.setRok(wpisView.getRokWpisu());
+                miejscePrzychodowDAO.dodaj(mp);
+                if (kontomacierzyste != null) {
+                    int wynikdodaniakonta = 0;
+                    PlanKontFKBean.aktualizujslownikMiejscaPrzychodow(wykazkont, miejscePrzychodowDAO, mp, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+                    if (wynikdodaniakonta == 0) {
+                        if (czyoddacdowzorca == true) {
+                            wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
+                        } else {
+                            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                        }
+                        noweKonto = new Konto();
+                        //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
+                        Msg.msg("i", "Dodaje konto słownikowe", "formX:messages");
+                    } else {
+                        noweKonto = new Konto();
+                        Msg.msg("e", "Konto słownikowe o takim numerze juz istnieje!", "formX:messages");
+                    }
+                    planKontCompleteView.init();
+                } else {
+                    Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
+                }
+            }
         }
     }
 
@@ -1329,6 +1372,22 @@ public class PlanKontView implements Serializable {
         this.bezslownikowych = bezslownikowych;
     }
 
+    public String getElementslownika_nazwapelna() {
+        return elementslownika_nazwapelna;
+    }
+
+    public void setElementslownika_nazwapelna(String elementslownika_nazwapelna) {
+        this.elementslownika_nazwapelna = elementslownika_nazwapelna;
+    }
+
+    public String getElementslownika_nazwaskrocona() {
+        return elementslownika_nazwaskrocona;
+    }
+
+    public void setElementslownika_nazwaskrocona(String elementslownika_nazwaskrocona) {
+        this.elementslownika_nazwaskrocona = elementslownika_nazwaskrocona;
+    }
+
     public boolean isTylkosyntetyka() {
         return tylkosyntetyka;
     }
@@ -1336,5 +1395,15 @@ public class PlanKontView implements Serializable {
     public void setTylkosyntetyka(boolean tylkosyntetyka) {
         this.tylkosyntetyka = tylkosyntetyka;
     }
+
+    public String getElementslownika_numerkonta() {
+        return elementslownika_numerkonta;
+    }
+
+    public void setElementslownika_numerkonta(String elementslownika_numerkonta) {
+        this.elementslownika_numerkonta = elementslownika_numerkonta;
+    }
+    
+    
 
 }

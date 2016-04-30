@@ -1510,6 +1510,9 @@ public class DokfkView implements Serializable {
         } else if (nrkonta.contains("dodaj kontrahenta")) {
             jest1niema0_konto = 11;
             return;
+        } else if (nrkonta.contains("dodaj el.słownika")) {
+            jest1niema0_konto = 22;
+            return;
         } else {
             jest1niema0_konto = 1;
         }

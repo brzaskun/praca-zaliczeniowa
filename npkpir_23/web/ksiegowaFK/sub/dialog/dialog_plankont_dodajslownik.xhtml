@@ -22,7 +22,8 @@
                 <p:commandButton value="dodaj" actionListener="#{planKontView.dodajslownik()}" type="submit" 
                                          update=":formY, :form_dialog_plankont, :formwzorcowy" style="margin-left: auto; margin-right: auto; width: 120px;" oncomplete="PF('nowekontoslownik').hide();"  />
                 <p:commandButton value="anuluj" type="button" 
-                                         update=":formY, :form_dialog_plankont, :formwzorcowy" style="margin-left: 15px; margin-right: auto; width: 120px;" oncomplete="PF('nowekontoslownik').hide();"  />
+                                         style="margin-left: 15px; margin-right: auto; width: 120px;"
+                                         onclick="PF('nowekontoslownik').hide();"  />
             </p:panelGrid>
             </p:focus>
     </h:form>  

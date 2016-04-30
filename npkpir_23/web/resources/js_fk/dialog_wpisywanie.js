@@ -309,7 +309,24 @@ var dialog_wpisywanie_dodajkontoShow = function (){
     });
     r("form_dialog_wpisywanie_dodajkonto:numerkonta").focus();
     } catch (Exception) {
-        alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 247 "+Exception);
+        alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 312 "+Exception);
+    }
+    
+};
+
+var dialog_wpisywanie_dodajslownikShow = function (){
+    $(document.getElementById('dialog_wpisywanie_dodajslownik')).width(420).height(200);
+    try {
+        $(document.getElementById('dialog_wpisywanie_dodajslownik')).position({
+        my: "center center",
+        at: "center center",
+        of: $(document.getElementById('dialogpierwszy')),
+        collision: "none none"
+        
+    });
+    r("form_dialog_wpisywanie_dodajslownik:nazwapelna").focus();
+    } catch (Exception) {
+        alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 329 "+Exception);
     }
     
 };
@@ -735,12 +752,16 @@ var dodajnowekontoWpis = function(lp,wnma) {
             nrkonta = document.getElementById(pole).value;
         }
         nrkonta = nrkonta.split(" ")[0];
-        document.getElementById("form_dialog_wpisywanie_dodajkonto:numerkonta").value = nrkonta;
     }
     if (jest1niema0 === "0") {
+        document.getElementById("form_dialog_wpisywanie_dodajkonto:numerkonta").value = nrkonta;
         PF('dialog_wpisywanie_dodajkonto').show();
     } else if (jest1niema0 === "11") {
         PF('dialog_wpisywanie_znajdzkontrahenta').show();
+    } else if (jest1niema0 === "22") {
+        document.getElementById("form_dialog_wpisywanie_dodajslownik:elementslownika_numerkonta").value = nrkonta;
+        MYAPP.nrnowegokonta = nrkonta;
+        PF('dialog_wpisywanie_dodajslownik').show();
     }
 };
 
@@ -756,6 +777,8 @@ var sprawdzczydodajeanalityczne = function() {
         r("form_dialog_wpisywanie_dodajkonto:dodajbutton").hide();
     }
 };
+
+
 
 var blokujdelegacje = function() {
     document.getElementById("parametrydel:jest1niema0").value = 1;

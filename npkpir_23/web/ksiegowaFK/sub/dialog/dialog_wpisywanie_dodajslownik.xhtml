@@ -1,0 +1,35 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core">
+    <p:dialog header="Wpisz dane nowej pozycji w słowniku" widgetVar="dialog_wpisywanie_dodajslownik" 
+              resizable="false" id="dialog_wpisywanie_dodajslownik" modal="true" appendTo="@(body)"
+              onShow="dialog_wpisywanie_dodajslownikShow();" closeOnEscape="true" onHide="resetujdialog('dialog_wpisywanie_dodajslownik');"
+              focus="form_dialog_wpisywanie_dodajslownik:nazwapelna">  
+        <h:form id="form_dialog_wpisywanie_dodajslownik">  
+            <h:inputHidden id="elementslownika_numerkonta" value="#{planKontView.elementslownika_numerkonta}"/>
+            <p:focus for="dkp">
+                <p:panelGrid id="dkp" columns="2" style="width: 400px;">
+                    <h:outputLabel value="Nazwa pełna:" for="nazwapelna" />
+                    <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.elementslownika_nazwapelna}" 
+                                     title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."
+                                     onfocus=""
+                                     onblur="kopiujnazwepelnakonta('form_dialog_wpisywanie_dodajslownik:nazwapelna', 'form_dialog_wpisywanie_dodajslownik:nazwaskrocona')"/>
+                    <h:outputLabel value="Nazwa skrócona:" for="nazwaskrocona" />
+                    <p:inputText id="nazwaskrocona" value="#{planKontView.elementslownika_nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
+
+                    <p:commandButton id="dodajbutton" value="dodaj" actionListener="#{planKontView.dodajSlownikWpis()}" 
+                                     type="submit" update=":form_dialog_wpisywanie_dodajslownik, :formwpisdokument:dataList, :parametrynowekonto" 
+                                     style="margin-left: 15px; float: left; margin-top: 15px; width: 120px;" 
+                                     oncomplete="odtworzwierszKontoWpis();PF('dialog_wpisywanie_dodajslownik').hide();">
+                    </p:commandButton>
+                    <p:commandButton value="anuluj" style="margin-right: 15px; margin-top: 15px; float: right; width: 120px;" oncomplete="odtworzwierszKontoWpis();PF('dialog_wpisywanie_dodajslownik').hide();" update=":parametrynowekonto"/>
+                </p:panelGrid>
+            </p:focus>
+        </h:form>  
+    </p:dialog> 
+
+</ui:composition>
