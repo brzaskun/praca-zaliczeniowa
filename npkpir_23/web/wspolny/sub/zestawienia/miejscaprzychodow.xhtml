@@ -31,7 +31,7 @@
             </p:panelGrid>
             <p:panel >
                 <p:dataTable value="#{miejscePrzychodowView.listasummiejscprzychodow}" var="item" rowIndexVar="numer"
-                             emptyMessage="#{mgs.niemamiejsckosztow}" rowKey="#{item.id}" style="width: 900px;"
+                             emptyMessage="#{mgs.niemamiejscprzychodow}" rowKey="#{item.id}" style="width: 900px;"
                              selection="#{miejscePrzychodowView.listawybranychprzychodow}">
                     <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                     <p:column>

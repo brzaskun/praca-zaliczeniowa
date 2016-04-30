@@ -14,7 +14,6 @@ import entityfk.StronaWiersza;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 import viewfk.MiejsceKosztowView;
@@ -46,7 +45,7 @@ public class MiejsceKosztowBean {
                         }
                     }
                     total += suma;
-                    if (suma > 0) {
+                    if (suma != 0.0) {
                         l.add(new MiejsceZest(r.getNazwapelna(), r.getPelnynumer(), suma, total, listastron));
                     }
                 }

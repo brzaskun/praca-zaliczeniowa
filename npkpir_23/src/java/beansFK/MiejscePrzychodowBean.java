@@ -46,7 +46,7 @@ public class MiejscePrzychodowBean {
                         }
                     }
                     total += suma;
-                    if (suma > 0) {
+                    if (suma != 0.0) {
                         l.add(new MiejsceZest(r.getNazwapelna(), r.getPelnynumer(), suma, total, listastron));
                     }
                 }
@@ -62,9 +62,9 @@ public class MiejscePrzychodowBean {
 
     private static double sumuj(StronaWiersza s) {
         if (s.getWnma().equals("Wn")) {
-            return s.getKwota();
-        } else {
             return -s.getKwota();
+        } else {
+            return +s.getKwota();
         }
     }
 
