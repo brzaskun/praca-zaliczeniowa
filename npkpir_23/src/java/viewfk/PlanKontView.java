@@ -344,6 +344,9 @@ public class PlanKontView implements Serializable {
                         noweKonto = new Konto();
                         Msg.msg("e", "Konto słownikowe o takim numerze juz istnieje!", "formX:messages");
                     }
+                    elementslownika_nazwapelna = null;
+                    elementslownika_nazwaskrocona = null;
+                    elementslownika_numerkonta = null;
                     planKontCompleteView.init();
                 } else {
                     Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
