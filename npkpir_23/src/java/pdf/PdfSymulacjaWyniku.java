@@ -34,6 +34,7 @@ import view.WpisView;
 import viewfk.SymulacjaWynikuView;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import error.E;
 
 /**
  *
@@ -58,41 +59,46 @@ public class PdfSymulacjaWyniku {
             drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, pozycjeObliczeniaPodatku, wpisView, rodzajdruku, pozycjeDoWyplaty);
             Msg.msg("Wydruk zestawienia symulacja wyniku");
         } catch (Exception e) {
-            Msg.msg("e", "Błąd - nie wydrukowano zestawienia symulacja wyniku");
-
+            E.e(e);
         }
     }
 
     private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji,
-            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty)  throws DocumentException, FileNotFoundException, IOException {
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
+        try {
             if (rodzajdruku == 1) {
                 PdfWriter.getInstance(document, Plik.plikR("symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf"));
             } else {
                 PdfWriter.getInstance(document, Plik.plikR("symulacjawynikukonta-" + wpisView.getPodatnikWpisu() + ".pdf"));
             }
-        document.addTitle(B.b("zestawieniesymulacjawyniku"));
-        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-        document.addSubject(B.b("zestawieniesymulacjawyniku"));
-        document.addKeywords("Wynik Finansowy, PDF");
-        document.addCreator("Grzegorz Grzelczyk");
-        document.open();
-        document.setPageSize(PageSize.A4);
-        document.add(tablica(wpisView, listakontaprzychody, "p", rodzajdruku));
-        document.add(tablica(wpisView, listakontakoszty, "k", rodzajdruku));
-        document.add(tablica2(listapozycjisymulacji));
-        //nie ma tego od momentu jak przebudowalem tabsy i zmienilem kolejnosc wyswietlania
+            document.addTitle(B.b("zestawieniesymulacjawyniku"));
+            document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+            document.addSubject(B.b("zestawieniesymulacjawyniku"));
+            document.addKeywords("Wynik Finansowy, PDF");
+            document.addCreator("Grzegorz Grzelczyk");
+            document.open();
+            document.setPageSize(PageSize.A4);
+            document.add(tablica(wpisView, listakontaprzychody, "p", rodzajdruku));
+            document.add(tablica(wpisView, listakontakoszty, "k", rodzajdruku));
+            document.add(tablica2(listapozycjisymulacji));
+            //nie ma tego od momentu jak przebudowalem tabsy i zmienilem kolejnosc wyswietlania
 //        document.add(tablica3(pozycjeObliczeniaPodatku));
 //        if (pozycjeDoWyplaty != null) {
 //            document.add(tablica4(pozycjeDoWyplaty, 3));
 //        }
-        document.close();
-        Msg.msg("i", "Wydrukowano symulację wyniku finansowego");
+            document.close();
+            Msg.msg("i", "Wydrukowano symulację wyniku finansowego");
+        } catch (Exception e) {
+            E.e(e);
+            document.close();
+            Msg.msg("e", "Błąd - nie wydrukowano zestawienia symulacja wyniku");
+        }
     }
 
     private static PdfPTable tablica(WpisView wpisView, List<SaldoKonto> listakonta, String pk, int rodzajdruku) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(8);
-        table.setWidths(new int[]{1, 2, 8, 2, 2, 2, 2, 2});
+        table.setWidths(new int[]{1, 2, 8, 2, 2, 2, 2, 3});
         table.setWidthPercentage(100);
         table.setSpacingBefore(15);
         try {
@@ -109,7 +115,7 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfraze(B.b("obrotyMa"), 0, 1));
             table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
             table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
-            table.addCell(ustawfraze(B.b("uwagi"), 0, 1));
+            table.addCell(ustawfraze("", 0, 1));
 
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie symulacja wyniku finansowego", 8, 0, 5));
 
@@ -132,7 +138,11 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujWaluta(rs.getObrotyMa()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujWaluta(rs.getSaldoWn()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujWaluta(rs.getSaldoMa()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign("", "right", 7));
+            if (rs.getKonto().getKontomacierzyste() != null) {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "right", 7));
+            } else {
+                table.addCell(ustawfrazeAlign("", "right", 7));
+            }
             if (rodzajdruku==2) {
                 PdfPTable p = subtable(rs.getZapisy());
                 PdfPCell r = new PdfPCell(p);
