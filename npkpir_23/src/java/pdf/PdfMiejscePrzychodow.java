@@ -28,6 +28,9 @@ import view.WpisView;
 import viewfk.MiejscePrzychodowView;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfGrafika.prost;
+import static pdf.PdfVAT7.absText;
+import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *
@@ -53,14 +56,21 @@ public class PdfMiejscePrzychodow {
 
     private static void drukujcd(List<MiejscePrzychodowView.TabelaMiejscePrzychodow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter.getInstance(document, Plik.plikR("miejscaprzychodow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf"));
-        document.addTitle("Zestawienie miejsce przychowóe");
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("miejscaprzychodow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf"));
+        document.addTitle("Zestawienie - miejsce przychodów");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie miejsce kosztów");
         document.addKeywords("Miejsca Kosztów, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
         document.setPageSize(PageSize.A4);
+        //naglowek
+        absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 15, 820, 6);
+        prost(writer.getDirectContent(), 12, 817, 560, 10);
+        //stopka
+        absText(writer, "Dokument wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman.", 15, 26, 6);
+        absText(writer, "Dokument nie wymaga podpisu.", 15, 18, 6);
+        dodajOpisWstepny(document, "Zestawienie przychodów wg miejsc w  "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
         if (listasummiejsckosztow.size() > 0) {
             for (MiejscePrzychodowView.TabelaMiejscePrzychodow p : listasummiejsckosztow) {
                 document.add(tablica(wpisView,p, rodzajdruku));
@@ -80,7 +90,7 @@ public class PdfMiejscePrzychodow {
         table.setWidthPercentage(98);
         table.setSpacingBefore(15);
         try {
-            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 2, 0));
+            table.addCell(ustawfraze("", 2, 0));
             table.addCell(ustawfraze(l.getMiejscePrzychodow().getOpismiejsca(), 1, 0));
             table.addCell(ustawfraze("", 1, 0));
             table.addCell(ustawfraze("za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 2, 0));
@@ -91,17 +101,13 @@ public class PdfMiejscePrzychodow {
             table.addCell(ustawfraze("ilość rach.", 0, 1));
             table.addCell(ustawfraze("suma", 0, 1));
             table.addCell(ustawfraze("suma narast.", 0, 1));
-
-            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie wydatków wg miejsc powstawania przychodów", 6, 0, 5));
-
-            table.setHeaderRows(3);
-            table.setFooterRows(1);
-        } catch (IOException ex) {
+            table.setHeaderRows(2);
+        } catch (Exception ex) {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         Integer i = 1;
         for (MiejsceZest rs : l.getMiejscePrzychodowZest()) {
-            table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
             table.addCell(ustawfrazeAlign(rs.getKontonazwa(), "left", 7));
             table.addCell(ustawfrazeAlign(rs.getKontonumer(), "left", 7));
             table.addCell(ustawfrazeAlign(String.valueOf(rs.getStronywiersza().size()), "center", 7));

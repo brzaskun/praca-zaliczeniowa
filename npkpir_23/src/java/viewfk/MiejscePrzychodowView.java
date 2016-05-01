@@ -235,6 +235,11 @@ public class MiejscePrzychodowView  implements Serializable{
             this.miejscePrzychodow = miejscePrzychodow;
             this.miejscePrzychodowZest = miejscePrzychodowZest;
         }
+
+        @Override
+        public String toString() {
+            return "TabelaMiejscePrzychodow{" + "id=" + id + ", miejscePrzychodow=" + miejscePrzychodow.getOpismiejsca() + ", miejscePrzychodowZest=" + miejscePrzychodowZest.size() + '}';
+        }
         
         
 

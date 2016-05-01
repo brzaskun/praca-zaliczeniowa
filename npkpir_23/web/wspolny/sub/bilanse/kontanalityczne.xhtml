@@ -67,7 +67,7 @@
                 <p:column styleClass="konto" headerText="#{mgs.konto}" width="60" filterBy="#{loop.konto.pelnynumer}" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" width="120" >
+                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{loop.konto.nazwapelna}">
                     <h:outputText value="#{loop.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                     <h:outputText value="#{loop.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                 </p:column>
@@ -111,8 +111,8 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.konto}" width="40" >
-                    <h:outputText value="#{loop.konto.pelnynumer}" />
+                <p:column headerText="#{mgs.konto}" width="150" >
+                    <h:outputText value="#{loop.konto.kontomacierzyste.nazwapelna}" />
                 </p:column>
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
