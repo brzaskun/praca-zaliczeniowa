@@ -87,8 +87,13 @@ public class MiejscePrzychodowView  implements Serializable{
     
     public void obliczsumymiejsc() {
         List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 2);
-        List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        MiejscePrzychodowBean.zsumujkwotyzkont(miejscaprzychodow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejscprzychodow, stronywiersza);
+        if (!wpisView.getMiesiacWpisu().equals("CR")) {
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            MiejscePrzychodowBean.zsumujkwotyzkont(miejscaprzychodow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejscprzychodow, stronywiersza);
+        } else {
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            MiejscePrzychodowBean.zsumujkwotyzkont(miejscaprzychodow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejscprzychodow, stronywiersza);
+        }
     }
     
 
@@ -133,7 +138,9 @@ public class MiejscePrzychodowView  implements Serializable{
     }
     
     public void zapisykontmiesiace() {
-         wpisView.wpisAktualizuj();
+         if (!wpisView.getMiesiacWpisu().equals("CR")) {
+            wpisView.wpisAktualizuj();
+         }
          sumymiesiecy();
     }
     

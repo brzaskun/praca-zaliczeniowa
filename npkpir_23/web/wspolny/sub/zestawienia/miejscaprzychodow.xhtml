@@ -20,11 +20,12 @@
                 <h:outputText value="mc: "/>
                 <p:column>
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{miejscePrzychodowView.zapisykontmiesiace}" update="@form"/>
+                        <p:ajax event="change" listener="#{miejscePrzychodowView.zapisykontmiesiace}" update="formzapisymiejscaprzychodowwmcu"/>
+                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="#{mgs.pobierz}" actionListener="#{miejscePrzychodowView.sumymiesiecy}" update="@form" style="width: 120px;"/>
+                <p:commandButton value="#{mgs.pobierz}" actionListener="#{miejscePrzychodowView.sumymiesiecy}" update="formzapisymiejscaprzychodowwmcu" style="width: 120px;"/>
                 <h:outputText value="#{mgs.przetwarzanie}"/>
                 <p:commandButton value="#{mgs.drukujtab}" actionListener="#{miejscePrzychodowView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}',1)"/>
                 <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{miejscePrzychodowView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}',2)"/>
