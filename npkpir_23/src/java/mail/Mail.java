@@ -43,8 +43,6 @@ public class Mail {
                + "<div> &nbsp;</div>"
                + "<div> <a href=\"http://taxman.biz.pl\">http://taxman.biz.pl</a></div>"
                + "<div> info@taxman.biz.pl&nbsp;</div>"
-               + "<div> SKYPE: taxman777</div>"
-               + "<div> &nbsp;</div>"
                + "<div> <a href=\"http://www.facebook.com/BiuroRachunkowe.Szczecin\">http://www.facebook.com/BiuroRachunkowe.Szczecin</a></div>"
                + "<div> &nbsp;</div>"
                + "<div> BRE BANK: 11402004 SWIFT: BREXPLPWMUL&nbsp;</div>"
