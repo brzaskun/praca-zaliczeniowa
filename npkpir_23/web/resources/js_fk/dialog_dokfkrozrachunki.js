@@ -176,14 +176,17 @@ var powrotdopolaPoNaniesieniuRozrachunkow = function () {
     $(document.getElementById(powrot)).focus();
     $(document.getElementById(powrot)).select();
 };
+
+var zaznacznafocus = function(ee) {
+    var e = ee.source+"_hinput";
+    var e1 = ee.source+"_input";
+    var wprowadzonowpole = r(e).val();
+    if (wprowadzonowpole === "0") {
+        r(e1).select();
+    }
+};
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
 var doklejsumowaniewprowadzonych = function () {
-    r("rozrachunki:dataList").find("input").focus(function () {
-        var wprowadzonowpole = $(this).val();
-        if (wprowadzonowpole === 0.0) {
-            $(this).select();
-        }
-    });
     r("rozrachunki:dataList").find("input").change(function () {
         var wprowadzonowpole = $(this).val();
         var starawartosc = zrobFloat(this.oldvalue);
