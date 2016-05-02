@@ -48,12 +48,12 @@
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="@form"/>
+                        <p:ajax event="change" listener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="tablicasaldaanalitycznenarastajaco"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
               <p:column>
-                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="@form" style="width: 120px;"/>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="tablicasaldaanalitycznenarastajaco" style="width: 120px;"/>
                 </p:column>
                  <p:selectOneMenu id="rodzajkont" value="#{saldoAnalitykaNarastajacoView.wybranyRodzajKonta}"  style="margin-left: 20px;">
                         <p:ajax event="change" listener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="tablicasaldaanalitycznenarastajaco"/>

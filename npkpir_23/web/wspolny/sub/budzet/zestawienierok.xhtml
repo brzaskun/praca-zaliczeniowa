@@ -25,13 +25,13 @@
                 <h:outputText value="rok" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="rokwpisu" value="#{WpisView.rokWpisu}">
-                        <p:ajax event="change" listener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" update="@form, :akordeon:formzestkontarokprocent"/>
+                        <p:ajax event="change" listener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" update=":akordeon:formzestkontarok :akordeon:formzestkontarokprocent"/>
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" 
-                                     style="width: 120px; margin-left: 20px;" update="@form, :akordeon:formzestkontarokprocent"/>
+                                     style="width: 120px; margin-left: 20px;" update=":akordeon:formzestkontarok :akordeon:formzestkontarokprocent"/>
                 </p:column>
                 <h:outputText value="#{mgs.przetwarzanie}"/>
             </p:panelGrid>
@@ -43,9 +43,6 @@
                 <f:facet name="header">
                     <h:outputText value="zapisy na kontach przychodowych"/>
                 </f:facet>
-                <!--                <p:ajax event="rowSelectCheckbox" update="@form" global="false"/>
-                                <p:ajax event="rowUnselectCheckbox" update="@form"  global="false"/>
-                                <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>-->
                 <p:column headerText="#{mgs.konto}" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>

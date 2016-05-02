@@ -561,7 +561,7 @@
                         <p:column  width="3">
                             <h:outputText id="maNowaTransakcja" value="#{loop.typWiersza}" style="font-size: 0.5; color: white;" />
                         </p:column>
-                        <p:rowExpansion>
+<!--                        <p:rowExpansion>
                             <p:dataTable value="#{loop.dokfk.getVATRK(loop)}" var="loopik" style="width: 45%;">
                                 <p:column  width="250">
                                         <h:outputText value="#{loopik.klient}"/>
@@ -573,7 +573,7 @@
                                         <bcf:outputpl value="#{loopik.vat}"/>
                                 </p:column>
                             </p:dataTable>
-                        </p:rowExpansion>
+                        </p:rowExpansion>-->
                     </p:dataTable>
                     <p:panelGrid style="text-align: left; margin-left: 10px;">
                         <h:outputText id="komunikatywpisdok" value="#{dokfkView.komunikatywpisdok}" style="color: red;"/>
@@ -654,7 +654,6 @@
                                  style="margin-left: 10px; width: 130px; display: none;"  update=":formwpisdokument:dataList"/>
                 <p:commandButton id="dodajwalute" value="dodajwalute" actionListener="#{dokfkView.pobierzpoledlawaluty}" accesskey="l" onclick="PF('dialogkursrecznie').show();" 
                                  global="false" style="margin-left: 10px; display: none;" />
-                <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="lpwierszaRK" value="#{dokfkView.lpwierszaRK}" style="display: none;"/>
                 <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>

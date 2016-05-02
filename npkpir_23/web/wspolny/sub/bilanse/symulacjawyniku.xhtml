@@ -56,9 +56,9 @@
                 <f:facet name="header">
                     <h:outputText value="#{mgs.zapisyprzychodowe}: #{symulacjaWynikuView.sumaprzychody}"/>
                 </f:facet>
-                <p:ajax event="rowSelectCheckbox" update="@form" listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
-                <p:ajax event="rowUnselectCheckbox" update="@form"  listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
-                <p:ajax event="toggleSelect" update="@form"  listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
+                <p:ajax event="rowSelectCheckbox" update="akordeon:symulacjawyniku" listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" update="akordeon:symulacjawyniku"  listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
+                <p:ajax event="toggleSelect" update="akordeon:symulacjawyniku"  listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
                 <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                 <p:ajax event="rowToggle" global="false"/>
                 <p:column width="20">

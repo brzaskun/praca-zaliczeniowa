@@ -4,6 +4,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     try {
         var source = event.target || event.srcElement;
         MYAPP.lpwiersza = lpwiersza;
+        MYAPP.idwiersza = lpwiersza-1;
         MYAPP.wnlubma = wnlubma;
         MYAPP.zaznaczonepole = event.target;
         MYAPP.typwiersza = typwiersza;
@@ -24,9 +25,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
 var zachowajwierszVATRK = function (lp) {
     try {
         console.log("zachowajwierszVATRK "+lp);
-        var id = parseInt(lp)-1
-        MYAPP.lpwiersza = "formwpisdokument:dataList:"+id+":opis";
-        $(document.getElementById("wpisywaniefooter:wierszid")).val(lp);
+        MYAPP.wierszpowrotuwalutyrecznie 
         $(document.getElementById("wpisywaniefooter:lpwierszaRK")).val(lp);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
@@ -54,15 +53,10 @@ var sprawdzmiesiacDialogWpisywanie = function(mcwpisu) {
 
 var odtworzwierszVATRK = function(lp) {
     var id = parseInt(lp)-1;
-    MYAPP.lpwiersza = "formwpisdokument:dataList:"+id+":opis";
-    if (MYAPP.lpwiersza) {
-//        $(data).removeClass('ui-state-focus');
-//        $(data).addClass('ui-state-default');
-        r(MYAPP.lpwiersza).focus();
-        r(MYAPP.lpwiersza).select();
-        r(MYAPP.lpwiersza).keyup();
-        delete MYAPP.lpwiersza;
-    }
+    var wierszdokumentu = "formwpisdokument:dataList:"+id+":opis";
+    r(wierszdokumentu).focus();
+    r(wierszdokumentu).keyup();
+    r(wierszdokumentu).select();
 };
 
 var odtworzwierszKontoWpis = function() {
@@ -693,8 +687,10 @@ var skopiujKwoteZeStronaWn = function (idwiersza) {
 };
 
 var powrotpozmianietabeli = function() {
-    r(MYAPP.lpwiersza).focus();
-    r(MYAPP.lpwiersza).select();
+    var id = parseInt($(document.getElementById("wpisywaniefooter:lpwierszaRK")).val())-1;
+    var wierszpowrotu = "formwpisdokument:dataList:"+id+":opis";
+    r(wierszpowrotu).focus();
+    r(wierszpowrotu).select();
 };
 
 var kopiujdatedialogwpis = function() {

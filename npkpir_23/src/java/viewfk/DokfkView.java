@@ -1569,34 +1569,10 @@ public class DokfkView implements Serializable {
         }
     }
 
-    //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
-//    public void wybranoRachunekPlatnosc() {
-//        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"))-1;
-//        stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
-//        Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
-//        if (wiersz != null ) {
-//            System.out.println("Wiersz rozny od null");
-//            System.out.println("lpWierszaWpisywanie "+lpWierszaWpisywanie);
-//            System.out.println("stronawiersza "+stronawiersza);
-//            System.out.println("wybranoRachunekPlatnosc() wiersz dla rozrachunku "+wiersz.tostring2());
-//        } else {
-//            System.out.println("Wiersz rowny null");
-//            System.out.println("lpWierszaWpisywanie "+lpWierszaWpisywanie);
-//            System.out.println("stronawiersza "+stronawiersza);
-//            System.out.println("wiersz dla rozrachunku NULL");
-//        }
-//        biezacetransakcje = new ArrayList<>();
-//        aktualnyWierszDlaRozrachunkow = pobierzStronaWierszaDlaRozrachunkow(wiersz, stronawiersza);
-//        potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
-//        if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
-//            rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
-//        } else {
-//            wybranoRachunekPlatnoscCD(stronawiersza);
-//        }
-//    }
+    
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoStronaWierszaCecha() {
-        int idwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"));
+        int idwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:lpwierszaWpisywanie"));
         if (idwiersza > -1) {
             Wiersz wiersz = selected.getListawierszy().get(idwiersza);
             if (wnmadoprzeniesienia.equals("Wn")) {
@@ -2495,7 +2471,6 @@ public class DokfkView implements Serializable {
             }
         } catch (Exception e) {
             E.e(e);
-
         }
     }
 

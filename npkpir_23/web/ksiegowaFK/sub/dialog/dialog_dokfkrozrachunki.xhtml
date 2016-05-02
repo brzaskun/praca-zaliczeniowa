@@ -223,7 +223,7 @@
                     <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="#{dokfkView.zapistransakcji}" 
                                      type="submit"
                                      oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();" 
-                                     update=":rozrachunki" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                                     update=":rozrachunki formwpisdokument:panelwalutowy" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                 </p:outputPanel>
 
             </h:form>
