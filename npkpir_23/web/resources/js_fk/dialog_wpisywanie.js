@@ -534,14 +534,12 @@ var pokazwybortransakcjidialog = function() {
         if (typkonta === "2") {
             var czywidzialne = rj("dialogdrugi").getAttribute("aria-hidden");
             if (czywidzialne === "true"){
-                PF('transakcjawybor').hide();
                 setTimeout(PF('rozrachunki').show(), 1000);
             } else {
                 setTimeout(PF('rozrachunki').show(), 1000);
             }
         } else if (typkonta === "1") {
-            PF('transakcjawybor').hide();
-            powrotDoStronyPoWyborzeRachunekPlatnosc();
+            setTimeout(PF('rozrachunki').show(), 1000);
         } else if (typkonta === "-2") {
             setTimeout(PF('niemarachunkow').show(), 1000);
         }
@@ -565,12 +563,12 @@ var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza, typStronaWie
             //console.info("nowagrupa "+nrgr);
             MYAPP.nrgrupywierszy = nrgr;
             if (typeof dotychczasowagrupa !== "undefined") {
-                $(document.getElementById("wpisywaniefooter:nrgrupyaktualny")).val(nrgr);
-                $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(dotychczasowagrupa);
-                $(document.getElementById("wpisywaniefooter:sprawdzwartoscigrupy")).click();
+                $(document.getElementById("wpisywaniegrupa:nrgrupyaktualny")).val(nrgr);
+                $(document.getElementById("wpisywaniegrupa:nrgrupywierszy")).val(dotychczasowagrupa);
+                $(document.getElementById("wpisywaniegrupa:sprawdzwartoscigrupy")).click();
             } else {
-                $(document.getElementById("wpisywaniefooter:nrgrupyaktualny")).val(nrgr);
-                $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(nrgr);
+                $(document.getElementById("wpisywaniegrupa:nrgrupyaktualny")).val(nrgr);
+                $(document.getElementById("wpisywaniegrupa:nrgrupywierszy")).val(nrgr);
             }
         }
         console.log("lpmacierzystego "+lpmacierzystego+" lpwiersza "+lpwiersza);

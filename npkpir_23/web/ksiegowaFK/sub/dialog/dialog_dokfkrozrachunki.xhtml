@@ -231,7 +231,7 @@
             <div style="padding: 5px; margin-left: auto; margin-right: auto; text-align: center;">
                 <h:form id="formcheckbox">
                     <h:selectBooleanCheckbox id="znaczniktransakcji" 
-                                             accesskey="t" valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}"
+                                             valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}"
                                              value="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" 
                                              style="outline: 5px solid gray;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                         <p:ajax event="change" partialSubmit="true" global="false"/>

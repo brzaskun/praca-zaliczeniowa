@@ -1,46 +1,46 @@
 "use strict";
 
 //podpowiadanie kont w dokumencie    
-function wywolajdok(opis, numer, loopid) {
-    var licz = 1;
-    var id = loopid - 1;
-    var zloz = "#formwpisdokument\\:dataList\\:" + id + "\\:opis";
-    var wynikwn = "formwpisdokument:dataList:" + id + ":kontown_hinput";
-    var wynikwn_ = "formwpisdokument:dataList:" + id + ":kontown_input";
-    var wynikma = "formwpisdokument:dataList:" + id + ":kontoma_hinput";
-    var wynikma_ = "formwpisdokument:dataList:" + id + ":kontoma_input";
-    var szukana = $(zloz).val();
-    if (szukana.length == 0) {
-        licz = 1;
-    }
-    var siatka = szukana.split(',');
-    var mapa = {};
-    var tablica = opis.toLowerCase().split(',');
-    var tablica2 = numer.split(',');
-    for (var w = 0; w < tablica.length; w++) {
-        var sobo = tablica[w].toLowerCase();
-        mapa[sobo] = tablica2[w];
-    }
-    var dlug = siatka.length;
-    for (licz; licz < dlug; licz++) {
-        var dawniej = licz - 1;
-        var szczegol = siatka[dawniej].toLowerCase();
-        var b = szczegol.toLowerCase();
-        if ($.isSubstring(tablica, b)) {
-            var rodzajkonta = mapa[szczegol];
-            var wynikszukania = rodzajkonta[0];
-            if(wynikszukania==="4"){
-                document.getElementById(wynikwn).value = mapa[szczegol];
-                document.getElementById(wynikwn_).value = mapa[szczegol];
-            } else {
-                document.getElementById(wynikma).value = mapa[szczegol];
-                document.getElementById(wynikma_).value = mapa[szczegol];
-            }
-            licz = 1;
-            break;
-        }
-    }
-};
+//function wywolajdok(opis, numer, loopid) {
+//    var licz = 1;
+//    var id = loopid - 1;
+//    var zloz = "#formwpisdokument\\:dataList\\:" + id + "\\:opis";
+//    var wynikwn = "formwpisdokument:dataList:" + id + ":kontown_hinput";
+//    var wynikwn_ = "formwpisdokument:dataList:" + id + ":kontown_input";
+//    var wynikma = "formwpisdokument:dataList:" + id + ":kontoma_hinput";
+//    var wynikma_ = "formwpisdokument:dataList:" + id + ":kontoma_input";
+//    var szukana = $(zloz).val();
+//    if (szukana.length == 0) {
+//        licz = 1;
+//    }
+//    var siatka = szukana.split(',');
+//    var mapa = {};
+//    var tablica = opis.toLowerCase().split(',');
+//    var tablica2 = numer.split(',');
+//    for (var w = 0; w < tablica.length; w++) {
+//        var sobo = tablica[w].toLowerCase();
+//        mapa[sobo] = tablica2[w];
+//    }
+//    var dlug = siatka.length;
+//    for (licz; licz < dlug; licz++) {
+//        var dawniej = licz - 1;
+//        var szczegol = siatka[dawniej].toLowerCase();
+//        var b = szczegol.toLowerCase();
+//        if ($.isSubstring(tablica, b)) {
+//            var rodzajkonta = mapa[szczegol];
+//            var wynikszukania = rodzajkonta[0];
+//            if(wynikszukania==="4"){
+//                document.getElementById(wynikwn).value = mapa[szczegol];
+//                document.getElementById(wynikwn_).value = mapa[szczegol];
+//            } else {
+//                document.getElementById(wynikma).value = mapa[szczegol];
+//                document.getElementById(wynikma_).value = mapa[szczegol];
+//            }
+//            licz = 1;
+//            break;
+//        }
+//    }
+//};
 
 
 var aktywujwiersz = function(nrWiersza){

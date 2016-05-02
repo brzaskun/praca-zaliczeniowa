@@ -1601,6 +1601,13 @@ public class DokfkView implements Serializable {
         c.getStronaWierszaLista().remove(stronaWierszaCechy);
     }
 
+    public void oznaczjakonowatransakcja() {
+        oznaczJakoRachunek();
+        RequestContext.getCurrentInstance().update("parametry");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
+    }
+    
     //to sie pojawia jak wciscnie alt-r i wiesz juz jest okreslony
     public void wybranoRachunekPlatnoscCD() {
         //0 oznacza strone niewybrana
@@ -1610,17 +1617,8 @@ public class DokfkView implements Serializable {
             return;
         }
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
-            if (rachunekCzyPlatnosc.equals("rachunek")) {
-                oznaczJakoRachunek();
-                RequestContext.getCurrentInstance().update("parametry");
-                return;
-            } else if (rachunekCzyPlatnosc.equals("płatność")) {
-                oznaczJakoPlatnosc();
-                RequestContext.getCurrentInstance().update("parametry");
-            } else {
-                System.out.println("Brak info o transakcji, nie mozna kontynuowac. wybranoRachunekPlatnoscCD()");
-                throw new Error();
-            }
+            oznaczJakoPlatnosc();
+            RequestContext.getCurrentInstance().update("parametry");
         }
         //nowa transakcja
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1) {
@@ -2341,7 +2339,6 @@ public class DokfkView implements Serializable {
             }
             double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
             double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
-            int typwiersza = 0;
             Wiersz wiersznastepny = null;
             do {
                 wiersznastepny = selected.nastepnyWiersz(wierszpodstawowy);
