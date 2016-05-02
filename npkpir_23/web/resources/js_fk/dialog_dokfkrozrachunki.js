@@ -128,6 +128,8 @@ var znadzpasujacepolerozrachunku2 = function (kwota) {
                         $(document.getElementById(dopasowanywierszH)).val(kwota);
                     }
                     $(document.getElementById(dopasowanywiersz)).keyup();
+                    //change musi byc bo inaczej n ie przelicza rownic kursowych
+                    $(document.getElementById(dopasowanywiersz)).change();
                     $(document.getElementById(dopasowanywiersz)).select();
                 } else {
                     dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
@@ -145,16 +147,19 @@ var znadzpasujacepolerozrachunku2 = function (kwota) {
                         }
                     }
                     $(document.getElementById(dopasowanywiersz)).keyup();
+                    $(document.getElementById(dopasowanywiersz)).change();
                     $(document.getElementById(dopasowanywiersz)).select();
                 }
             } else {
                 dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
                 $(document.getElementById(dopasowanywiersz)).focus();
+                $(document.getElementById(dopasowanywiersz)).change();
                 $(document.getElementById(dopasowanywiersz)).select();
             }
         } catch (el) {
             dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
             $(document.getElementById(dopasowanywiersz)).keyup();
+            $(document.getElementById(dopasowanywiersz)).change();
             $(document.getElementById(dopasowanywiersz)).select();
         }
     }
