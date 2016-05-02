@@ -35,8 +35,8 @@
         <p:outputPanel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza eq 1 or dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza eq 2}"
                        style="height: 650px;">
             <h:form id="rozrachunki"  >
-                <div style="height: 585px;" >
-                    <p:panelGrid id="paneledycji"  style="width: 1200px; " >
+                <div style="height: 585px;width: 1200px;" >
+                    <p:panelGrid id="paneledycji"  style="width: 1000px; " >
                         <f:facet name="header">
                             <p:row>
                                 <p:column>
@@ -76,7 +76,7 @@
                             <p:column>
                                 <h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.length() > 40 ? dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.substring(0,39) : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza}" style="font-weight: bold;"/>
                             </p:column>
-                            <p:column>
+                            <p:column style="text-align: center;">
                                 <h:outputText id="walutarozliczajacego" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp eq null ? dokfkView.aktualnyWierszDlaRozrachunkow.symbolWalutyBO : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty}" 
                                               style="font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? null : 'color: blue;'}"/>
                             </p:column>

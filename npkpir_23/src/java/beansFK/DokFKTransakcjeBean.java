@@ -11,6 +11,7 @@ import daoFK.TransakcjaDAO;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -21,6 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import msg.Msg;
+import params.Params;
 import waluty.Z;
 
 /**
@@ -274,5 +277,59 @@ public class DokFKTransakcjeBean implements Serializable{
             }
         }
         return iloscrozliczonychwierszy;
+    }
+    
+     public static void wyliczroznicekursowa(Transakcja loop, double placonakwota) {
+        try {
+            if (!loop.getRozliczajacy().getSymbolWaluty().equals("PLN") || !loop.getNowaTransakcja().getSymbolWaluty().equals("PLN")) {
+                if (placonakwota == 0.0 && loop.getRoznicekursowe() != 0.0) {
+                    loop.setRoznicekursowe(0.0);
+                    loop.setKwotawwalucierachunku(0.0);
+                } else if (placonakwota != 0.0) {
+                    double kursPlatnosci = loop.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
+                    double kursRachunku = loop.getNowaTransakcja().getKursWaluty();
+                    if (kursPlatnosci == 0.0 && kursRachunku != 0.0) {
+                        if (placonakwota > 0.0) {
+                            double kwotaPlatnosciwWalucie = Z.z(placonakwota / kursRachunku);
+                            double kwotaRachunkuwWalucie = loop.getNowaTransakcja().getKwota() - loop.getNowaTransakcja().getRozliczono() + placonakwota;
+                            double kwotaRachunkuwPLN = kwotaRachunkuwWalucie * kursRachunku;
+                            double roznicakursowa = Z.z(placonakwota - kwotaRachunkuwPLN);
+                            if (roznicakursowa > 0.0) {
+                                loop.setRoznicekursowe(roznicakursowa);
+                            } else {
+                                loop.setRoznicekursowe(0.0);
+                            }
+                            loop.setKwotawwalucierachunku(kwotaPlatnosciwWalucie > kwotaRachunkuwWalucie ? kwotaRachunkuwWalucie : kwotaPlatnosciwWalucie);
+                        }
+                    } else if (kursPlatnosci == 0.0 && kursRachunku == 0.0) {
+                        if (placonakwota > 0.0) {
+                            loop.setKwotawwalucierachunku(placonakwota);
+                        }
+                    } else if (kursPlatnosci != 0.0 && kursRachunku == 0.0) {
+                        if (placonakwota > 0.0) {
+                            double kwotaPlatnosciwPLN = Z.z(placonakwota * kursPlatnosci);
+                            double kwotaRachunkuwPLN = loop.getNowaTransakcja().getKwota() - loop.getNowaTransakcja().getRozliczono() + placonakwota;
+                            double roznicakursowa = Z.z(kwotaPlatnosciwPLN - kwotaRachunkuwPLN);
+                            if (roznicakursowa > 0.0) {
+                                loop.setRoznicekursowe(roznicakursowa);
+                            } else {
+                                loop.setRoznicekursowe(0.0);
+                            }
+                            loop.setKwotawwalucierachunku(kwotaPlatnosciwPLN > kwotaRachunkuwPLN ? kwotaRachunkuwPLN : kwotaPlatnosciwPLN);
+                        }
+                    } else if (kursPlatnosci != 0.0 && kursRachunku != 0.0) {
+                        if (placonakwota > 0.0) {
+                            double kwotaPlatnosciwPLN = Z.z(placonakwota * kursPlatnosci);
+                            double kwotaRachunkuwPLN = Z.z(placonakwota * kursRachunku);
+                            double roznicakursowa = Z.z(kwotaPlatnosciwPLN - kwotaRachunkuwPLN);
+                            loop.setRoznicekursowe(roznicakursowa);
+                            loop.setKwotawwalucierachunku(placonakwota);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
     }
 }

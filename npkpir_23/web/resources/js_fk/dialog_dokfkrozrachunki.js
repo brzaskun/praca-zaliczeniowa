@@ -183,12 +183,13 @@ var powrotdopolaPoNaniesieniuRozrachunkow = function () {
 };
 
 var zaznacznafocus = function(ee) {
-    var e = ee.source+"_hinput";
-    var e1 = ee.source+"_input";
-    var wprowadzonowpole = r(e).val();
-    if (wprowadzonowpole === "0") {
-        r(e1).select();
-    }
+    //dziwnie skacze - wylaczylem
+//    var e = ee.source+"_hinput";
+//    var e1 = ee.source+"_input";
+//    var wprowadzonowpole = r(e).val();
+//    if (wprowadzonowpole === "0") {
+//        r(e1).select();
+//    }
 };
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
 var doklejsumowaniewprowadzonych = function () {

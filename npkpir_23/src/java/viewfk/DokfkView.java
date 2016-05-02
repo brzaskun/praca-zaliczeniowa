@@ -1787,7 +1787,8 @@ public class DokfkView implements Serializable {
                 tr.setDatarozrachunku(data);
             } else {
                 tr.setDatarozrachunku(Data.aktualnyDzien());
-            } //tr.getNowaTransakcja().getPlatnosci().add(tr);
+            }
+            DokFKTransakcjeBean.wyliczroznicekursowa(tr, tr.getKwotatransakcji());
         }
         if (aktualnyWierszDlaRozrachunkow.getNowetransakcje().isEmpty()) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
@@ -1799,7 +1800,10 @@ public class DokfkView implements Serializable {
             selected.setZablokujzmianewaluty(false);
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":wn");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":ma");
         //RequestContext.getCurrentInstance().execute("wybierzWierszPoZmianieWaluty();");
     }
 
@@ -1890,51 +1894,7 @@ public class DokfkView implements Serializable {
                 String kwotazwiersza = (String) Params.params(wiersz);
                 kwotazwiersza = kwotazwiersza.replaceAll("\\s", "");
                 double placonakwota = Double.parseDouble(kwotazwiersza);
-                if (placonakwota == 0.0 && loop.getRoznicekursowe() != 0.0) {
-                    loop.setRoznicekursowe(0.0);
-                    loop.setKwotawwalucierachunku(0.0);
-                } else if (placonakwota != 0.0) {
-                    double kursPlatnosci = loop.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
-                    double kursRachunku = loop.getNowaTransakcja().getKursWaluty();
-                    if (kursPlatnosci == 0.0 && kursRachunku != 0.0) {
-                        if (placonakwota > 0.0) {
-                            double kwotaPlatnosciwWalucie = Z.z(placonakwota / kursRachunku);
-                            double kwotaRachunkuwWalucie = loop.getNowaTransakcja().getKwota() - loop.getNowaTransakcja().getRozliczono() + placonakwota;
-                            double kwotaRachunkuwPLN = kwotaRachunkuwWalucie * kursRachunku;
-                            double roznicakursowa = Z.z(placonakwota - kwotaRachunkuwPLN);
-                            if (roznicakursowa > 0.0) {
-                                loop.setRoznicekursowe(roznicakursowa);
-                            } else {
-                                loop.setRoznicekursowe(0.0);
-                            }
-                            loop.setKwotawwalucierachunku(kwotaPlatnosciwWalucie > kwotaRachunkuwWalucie ? kwotaRachunkuwWalucie : kwotaPlatnosciwWalucie);
-                        }
-                    } else if (kursPlatnosci == 0.0 && kursRachunku == 0.0) {
-                        if (placonakwota > 0.0) {
-                            loop.setKwotawwalucierachunku(placonakwota);
-                        }
-                    } else if (kursPlatnosci != 0.0 && kursRachunku == 0.0) {
-                        if (placonakwota > 0.0) {
-                            double kwotaPlatnosciwPLN = Z.z(placonakwota * kursPlatnosci);
-                            double kwotaRachunkuwPLN = loop.getNowaTransakcja().getKwota() - loop.getNowaTransakcja().getRozliczono() + placonakwota;
-                            double roznicakursowa = Z.z(kwotaPlatnosciwPLN - kwotaRachunkuwPLN);
-                            if (roznicakursowa > 0.0) {
-                                loop.setRoznicekursowe(roznicakursowa);
-                            } else {
-                                loop.setRoznicekursowe(0.0);
-                            }
-                            loop.setKwotawwalucierachunku(kwotaPlatnosciwPLN > kwotaRachunkuwPLN ? kwotaRachunkuwPLN : kwotaPlatnosciwPLN);
-                        }
-                    } else if (kursPlatnosci != 0.0 && kursRachunku != 0.0) {
-                        if (placonakwota > 0.0) {
-                            double kwotaPlatnosciwPLN = Z.z(placonakwota * kursPlatnosci);
-                            double kwotaRachunkuwPLN = Z.z(placonakwota * kursRachunku);
-                            double roznicakursowa = Z.z(kwotaPlatnosciwPLN - kwotaRachunkuwPLN);
-                            loop.setRoznicekursowe(roznicakursowa);
-                            loop.setKwotawwalucierachunku(placonakwota);
-                        }
-                    }
-                }
+                DokFKTransakcjeBean.wyliczroznicekursowa(loop, placonakwota);
             }
         } catch (Exception e) {
             E.e(e);

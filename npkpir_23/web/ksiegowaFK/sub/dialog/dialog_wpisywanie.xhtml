@@ -304,12 +304,11 @@
                                                          valueChangeListener="#{dokfkView.pobierzkursNBP}" 
                                                          immediate="true" disabled="#{dokfkView.selected.zablokujzmianewaluty}"
                                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
-                                                         onfocus="$(this).removeClass('ui-state-default');
-                                                                 $(this).addClass('ui-state-focus');"
-                                                         onblur="$(this).removeClass('ui-state-focus');
-                                                                 $(this).addClass('ui-state-default');"
+                                                         onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                                         onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');"
                                                          style="height: 19px;"
                                                          >
+                                            <p:ajax global="false" event="change" update="formwpisdokument:dataList"/>
                                             <p:ajax global="false" event="blur" listener="#{delegacjeView.pobierzkontodladelegacji(dokfkView.selected)}"/>
                                             <p:ajax global="false" event="focus" onstart="sprawdzczymakonto(#{kliencifkView.makonto0niemakonta1});" />
                                             <p:ajax global="false" event="focus" listener="#{dokfkView.znajdzduplicatdokumentu}" update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
@@ -420,6 +419,12 @@
                                  rowIndexVar="index" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.hashCode()}" 
                                  widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
                                  scrollable="true" scrollHeight="280" >
+                        <style>
+                .ui-datatable-scrollable-theadclone {
+                    display: none !important;
+                    height: 0px !important;
+                }
+            </style>
                         <!--                             paginator="true" rows="10" paginatorPosition="top">-->
 <!--                        <p:ajax event="rowToggle" global="false" />-->
                         <p:column headerText="#{mgs.numerkolejny}" style="width: 15px; text-align: center" >
@@ -491,7 +496,7 @@
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaWn.typStronaWiersza});
-                                                    "
+                                                    focusNowyWiersz();"
                                             cache="true" cacheTimeout="5000"
                                             
                                             >
@@ -533,7 +538,7 @@
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaMa.typStronaWiersza});
-                                                    "
+                                                    focusNowyWiersz();"
                                             cache="true" cacheTimeout="5000"
                                             >
                                 <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}"
@@ -624,7 +629,7 @@
                 <p:commandButton id="buttonusun" value="(U)suń" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
                                  styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument" oncomplete="focusNaOstatnimWierszu();"/>
                 <p:commandButton id="uruchomrozrachunki" value="(R)ozrachunki" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
-                                 actionListener="#{dokfkView.wybranoRachunekPlatnoscCD()}" oncomplete="pokazwybortransakcjidialog()" accesskey="r" update=":formcheckbox, :rozrachunki, :transakcjawybor"/>
+                                 actionListener="#{dokfkView.wybranoRachunekPlatnoscCD()}" oncomplete="pokazwybortransakcjidialog()" accesskey="r" update=":formcheckbox :rozrachunki"/>
                 <p:commandButton id="oznaczjakotransakcje" value="nowatransakcja" styleClass="fkbutton" style="width: 130px; margin-left: 10px; display: none;"  
                                  actionListener="#{dokfkView.oznaczjakonowatransakcja()}" accesskey="t" global="false"/>
                 <p:remoteCommand name="wybranoRachunekPlatnoscCD" actionListener="#{dokfkView.wybranoRachunekPlatnoscCD()}" 
