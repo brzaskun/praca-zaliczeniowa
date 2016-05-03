@@ -249,7 +249,7 @@ public class StronaWiersza implements Serializable {
         this.rozliczono = 0.0;
         if (this.nowatransakcja) {
             for (Transakcja p : this.platnosci) {
-                if (p.getKwotawwalucierachunku() > 0) {
+                if (p.getKwotawwalucierachunku() > 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
                 } else {
                     this.rozliczono += p.getKwotatransakcji();
@@ -257,17 +257,38 @@ public class StronaWiersza implements Serializable {
             }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         } else {
-            for (Transakcja p : this.nowetransakcje) {
-                if (p.getKwotawwalucierachunku() > 0) {
+              for (Transakcja p : this.nowetransakcje) {
+                    this.rozliczono += p.getKwotatransakcji();
+                }
+              //bo jak tak jest to jak platnosc  jest w PLN a rachunek w NOK to pokazuje kwote rozliczona w nokach
+//            for (Transakcja p : this.nowetransakcje) {
+//                if (p.getKwotawwalucierachunku() > 0.0) {
+//                    this.rozliczono += p.getKwotawwalucierachunku();
+//                } else {
+//                    this.rozliczono += p.getKwotatransakcji();
+//                }
+//            }
+            this.pozostalo = this.getKwotaR() - this.rozliczono;
+        }
+        return this.rozliczono;
+    }
+    
+    //dzieki temu mozna bez problemu zmieniac wartosci rozliczen w walucie, nie trzeba ich wczesnie zerowac
+    public double getRozliczono(Transakcja loop) {
+        this.rozliczono = 0.0;
+        for (Transakcja p : this.platnosci) {
+            if (p != loop) {
+                if (p.getKwotawwalucierachunku() > 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
                 } else {
                     this.rozliczono += p.getKwotatransakcji();
                 }
             }
-            this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
+        this.pozostalo = this.getKwotaR() - this.rozliczono;
         return this.rozliczono;
     }
+   
 
     public double getRozliczono(WpisView wpisView) {
         this.rozliczono = 0.0;
@@ -282,7 +303,7 @@ public class StronaWiersza implements Serializable {
                 }
             }
             for (Transakcja p : this.platnosci) {
-                if (p.getKwotawwalucierachunku() > 0) {
+                if (p.getKwotawwalucierachunku() > 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
                 } else {
                     this.rozliczono += p.getKwotatransakcji();
@@ -298,12 +319,16 @@ public class StronaWiersza implements Serializable {
                 }
             }
             for (Transakcja p : this.nowetransakcje) {
-                if (p.getKwotawwalucierachunku() > 0) {
-                    this.rozliczono += p.getKwotawwalucierachunku();
-                } else {
                     this.rozliczono += p.getKwotatransakcji();
-                }
             }
+            //bo jak tak jest to jak platnosc  jest w PLN a rachunek w NOK to pokazuje kwote rozliczona w nokach
+//            for (Transakcja p : this.nowetransakcje) {
+//                if (p.getKwotawwalucierachunku() > 0.0) {
+//                    this.rozliczono += p.getKwotawwalucierachunku();
+//                } else {
+//                    this.rozliczono += p.getKwotatransakcji();
+//                }
+//            }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
         return this.rozliczono;
@@ -320,7 +345,7 @@ public class StronaWiersza implements Serializable {
         this.rozliczono = 0.0;
         if (this.nowatransakcja) {
             for (Transakcja p : this.platnosci) {
-                if (p.getKwotawwalucierachunku() > 0) {
+                if (p.getKwotawwalucierachunku() > 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
                 } else {
                     this.rozliczono += p.getKwotatransakcji();
@@ -329,12 +354,15 @@ public class StronaWiersza implements Serializable {
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         } else {
             for (Transakcja p : this.nowetransakcje) {
-                if (p.getKwotawwalucierachunku() > 0) {
-                    this.rozliczono += p.getKwotawwalucierachunku();
-                } else {
                     this.rozliczono += p.getKwotatransakcji();
-                }
             }
+//            for (Transakcja p : this.nowetransakcje) {
+//                if (p.getKwotawwalucierachunku() > 0.0) {
+//                    this.rozliczono += p.getKwotawwalucierachunku();
+//                } else {
+//                    this.rozliczono += p.getKwotatransakcji();
+//                }
+//            }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
         return this.pozostalo;
@@ -353,7 +381,7 @@ public class StronaWiersza implements Serializable {
                 }
             }
             for (Transakcja p : this.platnosci) {
-                if (p.getKwotawwalucierachunku() > 0) {
+                if (p.getKwotawwalucierachunku() > 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
                 } else {
                     this.rozliczono += p.getKwotatransakcji();
@@ -369,12 +397,15 @@ public class StronaWiersza implements Serializable {
                 }
             }
             for (Transakcja p : this.nowetransakcje) {
-                if (p.getKwotawwalucierachunku() > 0) {
-                    this.rozliczono += p.getKwotawwalucierachunku();
-                } else {
                     this.rozliczono += p.getKwotatransakcji();
-                }
             }
+//            for (Transakcja p : this.nowetransakcje) {
+//                if (p.getKwotawwalucierachunku() > 0.0) {
+//                    this.rozliczono += p.getKwotawwalucierachunku();
+//                } else {
+//                    this.rozliczono += p.getKwotatransakcji();
+//                }
+//            }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
         return this.pozostalo;

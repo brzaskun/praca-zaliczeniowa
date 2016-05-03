@@ -24,9 +24,9 @@
 
     <p:dialog id="dialogdrugi" header="Rozrachunkia" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
               resizable="false"  onShow="rozrachunkiOnShow(1100,650);setTimeout(znadzpasujacepolerozrachunku2('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}'),5000);" 
-              closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki:dataList" closable="false" 
+              closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki:dataList" closable="true" 
               >
-        <p:outputPanel style="height: 650px;">
+        <p:outputPanel style="height: 630px;">
             <h:form id="rozrachunki"  >
                 <!--                <div style="height: 585px;width: 1200px;" >-->
                 <p:panelGrid id="paneledycji"  style="width: 1000px; " >
@@ -111,7 +111,8 @@
                         </h:outputText>
                     </p:column>
                     <p:column style="text-align: right;">
-                        <h:outputText  value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" id="pozostalodorozliczenia" style="font-weight: bold;">
+                        <h:outputText  value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" id="pozostalodorozliczenia" 
+                                       style="font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo lt 0.0? 'color: red;' : 'color: initial;'}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -149,7 +150,7 @@
                     </style>
                     <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row"  
                                  emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
-                                 scrollRows="22" scrollable="true" scrollHeight="400"  sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
+                                 scrollRows="22" scrollable="true" scrollHeight="370"  sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
                                  style="width: 1050px;"
                                  >
 
@@ -165,11 +166,11 @@
                                 <h:outputText value="kwota rozlicz. - bieżący dok." />
                             </f:facet>
                             <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
-                                            decimalPlaces="2" minValue="-10000000" emptyValue="sign" onfocus="this.oldvalue = this.value; zaznacznafocus(this);"
+                                            decimalPlaces="2" minValue="-10000000" emptyValue="sign" onfocus="zaznacznafocus(this);"
                                             styleClass="kwotarozrachunku">
                                 <p:ajax event="change" listener="#{dokfkView.przetworzwprowadzonakwote(loop, row)}" partialSubmit="true" global="false"
                                         update="@parent:@parent :rozrachunki:paneledycji2"/>
-                                <p:ajax event="keyup" global="false" listener="#{dokfkView.sprawdzlimity(loop, row)}" partialSubmit="true"/>
+                                <p:ajax event="change" global="false" listener="#{dokfkView.sprawdzlimity(loop, row)}" partialSubmit="true"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="nr własny dokumentu"  filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"
@@ -178,7 +179,7 @@
                         </p:column>
                         <p:column headerText="zostało do rozlicz." filterBy="#{loop.nowaTransakcja.pozostalo}"
                                   sortBy="#{loop.nowaTransakcja.pozostalo}" styleClass="kolumnaznumerem" style="text-align: right; width: 50px;">
-                            <h:outputText value="#{loop.nowaTransakcja.pozostalo}" id="pozostaloWn">
+                            <h:outputText value="#{loop.nowaTransakcja.pozostalo}" id="pozostaloWn" style="#{loop.nowaTransakcja.pozostalo lt 0.0? 'color: red;' : 'color: initial;'}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
@@ -235,7 +236,7 @@
                         <p:ajax event="change" partialSubmit="true" global="false"/>
                     </h:selectBooleanCheckbox>
                     <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                    <p:commandButton value="rezygnuj" styleClass="fkbutton" global="false" onclick="PF('rozrachunki').hide();" style="float: right; width: 150px; margin-right: 20px;"/>
+<!--                    <p:commandButton value="rezygnuj" styleClass="fkbutton" global="false" onclick="PF('rozrachunki').hide();" style="float: right; width: 150px; margin-right: 20px;"/>-->
                 </h:form>
             </div>
         </p:outputPanel>
