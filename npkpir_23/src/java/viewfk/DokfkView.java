@@ -92,6 +92,7 @@ import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
+import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *
@@ -1887,7 +1888,7 @@ public class DokfkView implements Serializable {
 //        DokFKWalutyBean.zmienkurswaluty(selected);
 //        symbolWalutyNettoVat = wybranaTabelanbp.getWaluta().getSkrotsymbolu();
 //    }
-    public void wyliczroznicekursowa(Transakcja loop, int row) {
+    public void przetworzwprowadzonakwote(Transakcja loop, int row) {
         try {
             if (!loop.getRozliczajacy().getSymbolWaluty().equals("PLN") || !aktualnyWierszDlaRozrachunkow.getSymbolWaluty().equals("PLN")) {
                 String wiersz = "rozrachunki:dataList:" + row + ":kwotarozliczenia_input";
@@ -1900,6 +1901,14 @@ public class DokfkView implements Serializable {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd podczas pobierania tabel NBP. Nie obliczono różnic kursowych");
         }
+    }
+    
+    public void sprawdzlimity(Transakcja loop, int row) {
+        if (aktualnyWierszDlaRozrachunkow.getPozostalo() < 0.0) {
+                RequestContext.getCurrentInstance().execute("r(\"rozrachunki:zapiszrozrachunekButton\").hide();");
+            } else {
+                RequestContext.getCurrentInstance().execute("r(\"rozrachunki:zapiszrozrachunekButton\").show();");
+            }
     }
 
     public static void main(String[] args) {

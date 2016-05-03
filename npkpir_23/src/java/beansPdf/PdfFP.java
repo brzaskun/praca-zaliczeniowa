@@ -608,8 +608,13 @@ public class PdfFP {
             table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 8));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCena())), "right", 8));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getNetto())), "right", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf((int) pozycje.getPodatek()) + "%", "center", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getPodatekkwota())), "right", 8));
+            if (pozycje.getPodatek() == -1) {
+                table.addCell(ustawfrazeAlign("np", "center", 8));
+                table.addCell(ustawfrazeAlign("-", "right", 8));
+            } else {
+                table.addCell(ustawfrazeAlign(String.valueOf((int) pozycje.getPodatek()) + "%", "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getPodatekkwota())), "right", 8));
+            }
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getBrutto())), "right", 8));
             table.addCell(ustawfrazeAlign("", "center", 8));
         }
@@ -642,8 +647,13 @@ public class PdfFP {
                     table.addCell(ustawfraze(" ", 6, 0));
                 }
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
+                if (p.getEstawka().equals("-1")) {
+                    table.addCell(ustawfrazeAlign("np", "center", 8));
+                    table.addCell(ustawfrazeAlign("-", "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
+                }
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 8));
                 table.addCell(ustawfrazeAlign("", "center", 8));
                 ilerow++;

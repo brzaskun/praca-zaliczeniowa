@@ -1,7 +1,7 @@
 "use strict";
 
-var rozrachunkiOnShow = function () {
-    ustawdialog('dialogdrugi', 'menudokumenty',1200,650);
+var rozrachunkiOnShow = function (szer,wys) {
+    ustawdialog('dialogdrugi', 'menudokumenty',szer,wys);
     var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
     MYAPP.limit = limit;
     MYAPP.podswietlone = new Array();
@@ -26,20 +26,20 @@ var niemarachunkowShow = function () {
     }
 };
 
-var transakcjawyborShow = function () {
-    $(document.getElementById('transakcjawybor')).width(300).height(80);
-    try {
-        $(document.getElementById('transakcjawybor')).position({
-            my: "center center",
-            at: "center center",
-            of: $(document.getElementById('dialogpierwszy')),
-            collision: "none none"
-        });
-    } catch (Exception) {
-        alert("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 14 " + Exception);
-    }
-    $(document.getElementById("formtransakcjawybor:transakcjawybormenu")).focus();
-};
+//var transakcjawyborShow = function () {
+//    $(document.getElementById('transakcjawybor')).width(300).height(80);
+//    try {
+//        $(document.getElementById('transakcjawybor')).position({
+//            my: "center center",
+//            at: "center center",
+//            of: $(document.getElementById('dialogpierwszy')),
+//            collision: "none none"
+//        });
+//    } catch (Exception) {
+//        alert("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 14 " + Exception);
+//    }
+//    $(document.getElementById("formtransakcjawybor:transakcjawybormenu")).focus();
+//};
 
 var kontownmawyborShow = function () {
     $(document.getElementById('kontownmawybor')).width(300).height(80);
@@ -184,13 +184,12 @@ var powrotdopolaPoNaniesieniuRozrachunkow = function () {
 
 var zaznacznafocus = function(ee) {
     //dziwnie skacze - wylaczylem
-//    var e = ee.source+"_hinput";
-//    var e1 = ee.source+"_input";
-//    var wprowadzonowpole = r(e).val();
-//    if (wprowadzonowpole === "0") {
-//        r(e1).select();
-//    }
+    var wprowadzonowpole = ee.value;
+    if (wprowadzonowpole === "0.00") {
+        $(ee).select();
+    }
 };
+
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
 var doklejsumowaniewprowadzonych = function () {
     r("rozrachunki:dataList").find("input").change(function () {

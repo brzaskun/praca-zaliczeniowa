@@ -171,7 +171,7 @@
                                                 style="text-align: right; margin-left: 5px; width: 60px; "
                                                 decimalPlaces="2" minValue="-10000000" emptyValue="sign" onfocus="this.oldvalue = this.value"
                                                 rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" styleClass="kwotarozrachunku">
-                                    <p:ajax event="change" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" partialSubmit="true" global="false"/>
+                                    <p:ajax event="change" listener="#{dokfkView.przetworzwprowadzonakwote(loop, row)}" partialSubmit="true" global="false"/>
                                 </pe:inputNumber>
                                 <h:outputText value="#{loop.kwotatransakcji}" style="text-align: right; float: right; width: 80px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="2" locale="PL" />
@@ -295,19 +295,19 @@
 
             </h:form>
 
-                <div style="padding: 5px; margin-left: auto; margin-right: auto; text-align: center;">
-                    <h:form id="formcheckbox">
-                        <h:selectBooleanCheckbox id="znaczniktransakcji" 
-                                                 valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}"
-                                                 value="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" 
-                                                 style="outline: 5px solid gray;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                            <p:ajax event="change" partialSubmit="true" global="false"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                        <p:commandButton value="rezygnuj" styleClass="fkbutton" global="false" onclick="PF('rozrachunki').hide();" style="float: right; width: 150px; margin-right: 20px;" 
-                        />
-                    </h:form>
-                </div>
+            <div style="padding: 5px; margin-left: auto; margin-right: auto; text-align: center;">
+                <h:form id="formcheckbox">
+                    <h:selectBooleanCheckbox id="znaczniktransakcji" 
+                                             valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}"
+                                             value="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" 
+                                             style="outline: 5px solid gray;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                    </h:selectBooleanCheckbox>
+                    <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                    <p:commandButton value="rezygnuj" styleClass="fkbutton" global="false" onclick="PF('rozrachunki').hide();" style="float: right; width: 150px; margin-right: 20px;" 
+                                     />
+                </h:form>
+            </div>
 
         </p:outputPanel>
     </p:dialog>

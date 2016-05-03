@@ -192,10 +192,12 @@ public class DokFKTransakcjeBean implements Serializable{
         // nie bedzie duplikatow bo wczesniej je usunelismmy po zaktualizowaniu wartosci w zalaczonych juz transakcjach
         for (StronaWiersza rachunek : listaZbiorcza) {
                 Transakcja transakcja = new Transakcja(aktualnywierszdorozrachunkow, rachunek);
-                if (rachunek.getPlatnosci().contains(transakcja)) {
+                if (rachunek.getPlatnosci().contains(transakcja) && transakcja.getKwotatransakcji() == 0.0) {
                     rachunek.getPlatnosci().remove(transakcja);
+                } 
+                if (!rachunek.getPlatnosci().contains(transakcja)) {
+                    rachunek.getPlatnosci().add(transakcja);
                 }
-                rachunek.getPlatnosci().add(transakcja);
                 //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
                 aktualnywierszdorozrachunkow.getNowetransakcje().add(transakcja);
         }
