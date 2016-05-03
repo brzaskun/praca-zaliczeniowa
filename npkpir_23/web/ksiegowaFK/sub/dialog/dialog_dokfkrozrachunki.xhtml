@@ -9,14 +9,8 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
     <style>
-        .ui-inputNum .ui-widget {
-            width: 80px;
-        }
-        .kwotarozrachunku .pe-inputNumber{
-            width: 90px !important;
-            height: 20px !important;
-        }
-        .rozrachunkidatalist td {
+
+         .rozrachunkidatalist td {
             height: 20px;
         }
         .kolumnaznumerem input {
@@ -35,7 +29,7 @@
         <p:outputPanel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza eq 1 or dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza eq 2}"
                        style="height: 650px;">
             <h:form id="rozrachunki"  >
-                <div style="height: 585px;width: 1200px;" >
+<!--                <div style="height: 585px;width: 1200px;" >-->
                     <p:panelGrid id="paneledycji"  style="width: 1000px; " >
                         <f:facet name="header">
                             <p:row>
@@ -145,7 +139,8 @@
                     </p:panel>
 
                     <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza != 0}" >
-                        <style>
+             
+                         <style>
                             .rozrachunkidatalist thead th {
                                 height: 60px;
                             }
@@ -153,10 +148,12 @@
                                 vertical-align: bottom;
                             }
                         </style>
-                        <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 900px; padding: 0px 10px 10px 10px; " 
+                        <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row"  
                                      emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
-                                     scrollRows="22" scrollable="true" scrollHeight="400" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
+                                     scrollRows="22" scrollable="true" scrollHeight="400"  sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
+                                     style="width: 1150px;"
                                      >
+                           
                             <p:ajax event="sort" oncomplete="doklejsumowaniewprowadzonych();" global="false"/>
                             <p:ajax event="filter" oncomplete="doklejsumowaniewprowadzonych();"  global="false"/>
                             <f:facet name="header">
@@ -164,20 +161,19 @@
                                 <!--                                <p:inputText id="globalFilter" onkeyup="PF('rozrachunkiKsiega').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  -->
                             </f:facet>
 
-                            <p:column style="width: 70px;">
+                            <p:column style="width: 70px; text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="kwota rozlicz. - bieżący dok." />
                                 </f:facet>
                                 <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
-                                                style="text-align: right; margin-left: 5px; width: 70px; "
                                                 decimalPlaces="2" minValue="-10000000" emptyValue="sign" onfocus="this.oldvalue = this.value"
                                                 styleClass="kwotarozrachunku">
                                     <p:ajax event="focus" oncomplete="zaznacznafocus(this);" global="false"/>
                                     <p:ajax event="change" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" partialSubmit="true" global="false"
-                                            update="@parent:@parent"/>
+                                            update="@parent:@parent :rozrachunki:paneledycji2"/>
                                 </pe:inputNumber>
                                     </p:column>
-                            <p:column headerText="nr własny dokumentu" width="90" filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"
+                            <p:column headerText="nr własny dokumentu"  filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"
                                       sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" style="width: 80px;">
                                 <h:outputText id="nrwlasnydokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" />
                             </p:column>
@@ -187,8 +183,14 @@
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
+                            <p:column headerText="kwota pierwotna" filterBy="#{loop.nowaTransakcja.kwota}"
+                                      sortBy="#{loop.nowaTransakcja.kwota}" styleClass="kolumnaznumerem" style="text-align: right; width: 50px;">
+                                <h:outputText value="#{loop.nowaTransakcja.kwota}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
                             <p:column headerText="opis wiersza dok sparowanego" style="width: 140px" filterBy="#{loop.opisWiersza}" filterMatchMode="contains">
-                                <h:outputText id="opiswierszaWn" value="#{loop.opisWiersza}" style="font-size: x-small; width: 130px;"/>
+                                <h:outputText id="opiswierszaWn" value="#{loop.opisWiersza}" style="font-size: x-small;"/>
                             </p:column>
                             <p:column headerText="symbol" style="text-align: left; width: 60px;"  styleClass="symbolrozrachunku"
                                       filterBy="#{loop.nowaTransakcja.wiersz.dokfkS}">
@@ -217,7 +219,7 @@
                             </p:column>
                         </p:dataTable>
                     </p:panel>
-                </div>
+<!--                </div>-->
 
                 <p:outputPanel>
                     <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="#{dokfkView.zapistransakcji}" 

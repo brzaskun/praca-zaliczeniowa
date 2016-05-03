@@ -88,7 +88,6 @@ var TabKeyDown;
                             $target.val(wartosc);
                         } else {
                             $target.val(limit);
-                            var wprowadzonowpole = limit;
                         }
                     }
                 }

@@ -1,7 +1,7 @@
 "use strict";
 
 var rozrachunkiOnShow = function () {
-    ustawdialog('dialogdrugi', 'menudokumenty');
+    ustawdialog('dialogdrugi', 'menudokumenty',1200,650);
     var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
     MYAPP.limit = limit;
     MYAPP.podswietlone = new Array();
