@@ -75,7 +75,8 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid id="paneledycji2"  style="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN' ? 'width: 1000px;' :  'width: 700px;'}" >
+                <p:panelGrid id="paneledycji2"  
+                             style="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN' ? 'width: 1000px;' :  'width: 700px;'}; height: 40px;" >
                     <f:facet name="header">
                         <p:row>
                             <p:column>
@@ -169,7 +170,7 @@
                                             decimalPlaces="2" minValue="-10000000" emptyValue="sign" onfocus="zaznacznafocus(this);"
                                             styleClass="kwotarozrachunku">
                                 <p:ajax event="change" listener="#{dokfkView.przetworzwprowadzonakwote(loop, row)}" partialSubmit="true" global="false"
-                                        update="@parent:@parent :rozrachunki:paneledycji2"/>
+                                        update=":rozrachunki:dataList:#{row}:pozostaloWn :rozrachunki:dataList:#{row}:roznicakursowa :rozrachunki:juzrozliczono :rozrachunki:pozostalodorozliczenia"/>
                                 <p:ajax event="change" global="false" listener="#{dokfkView.sprawdzlimity(loop, row)}"/>
                             </pe:inputNumber>
                         </p:column>

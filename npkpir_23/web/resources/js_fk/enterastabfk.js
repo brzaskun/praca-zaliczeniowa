@@ -91,11 +91,17 @@ var TabKeyDown;
                             r(kom2).val(wartosc);
                             $target.change();
                         } else {
-                            r(kom1).val(wartosc);
-                            r(kom2).val(wartosc);
+                            r(kom1).val(limit);
+                            r(kom2).val(limit);
                             $target.change();
                         }
                     }
+                } else if (isDeleteKey(event)) {
+                    var kom1 = taregetId.split("_")[0]+"_input";
+                    var kom2 = taregetId.split("_")[0]+"_hinput";
+                    r(kom1).val(0.0);
+                    r(kom2).val(0.0);
+                    $target.change();
                 }
             }
         }
@@ -138,6 +144,13 @@ var TabKeyDown;
 
     function isSpaceKey(event) {
         if (!event.altKey && !event.ctrlKey && !event.metaKey && event.keyCode === 32) {
+            return true;
+        }
+        return false;
+    }
+    
+    function isDeleteKey(event) {
+        if (!event.altKey && !event.ctrlKey && !event.metaKey && event.keyCode === 46) {
             return true;
         }
         return false;
