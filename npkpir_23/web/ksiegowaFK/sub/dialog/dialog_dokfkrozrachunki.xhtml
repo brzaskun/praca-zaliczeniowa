@@ -227,7 +227,7 @@
                                      oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();" 
                                      update=":rozrachunki formwpisdokument:panelwalutowy" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                 </p:outputPanel>
-                <p:remoteCommand name="rozliczplatnoscspacja" actionListener="#{dokfkView.rozliczplatnoscspacja}"
+                <p:remoteCommand name="rozliczplatnoscspacja" actionListener="#{dokfkView.rozliczplatnoscspacja}"/>
             </h:form>
             <div style="padding: 5px; margin-left: auto; margin-right: auto; text-align: center;">
                 <h:form id="formcheckbox">
