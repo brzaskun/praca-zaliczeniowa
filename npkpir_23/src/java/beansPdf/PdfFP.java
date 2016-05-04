@@ -647,7 +647,7 @@ public class PdfFP {
                     table.addCell(ustawfraze(" ", 6, 0));
                 }
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
-                if (p.getEstawka().equals("-1")) {
+                if (p.getEstawka().equals("-1.0")) {
                     table.addCell(ustawfrazeAlign("np", "center", 8));
                     table.addCell(ustawfrazeAlign("-", "right", 8));
                 } else {

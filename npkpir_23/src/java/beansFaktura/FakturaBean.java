@@ -15,17 +15,12 @@ import entity.Dok;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.Podatnik;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import org.joda.time.DateTime;
@@ -295,6 +290,7 @@ public class FakturaBean {
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
         ArrayList<Evewidencja> ew = new ArrayList<>();
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         List<EVatwpis> el = new ArrayList<>();
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
         selected.setEwidencjavat(el);
@@ -308,6 +304,7 @@ public class FakturaBean {
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjepokorekcie();
         List<Evewidencja> ew = new ArrayList<>();
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         List<EVatwpis> el = new ArrayList<>();
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
         selected.setEwidencjavatpk(el);
@@ -383,6 +380,11 @@ public class FakturaBean {
     
     private static Evewidencja zwrocewidencje(List<Evewidencja> ewidencje, Pozycjenafakturzebazadanych p) {
         for (Evewidencja r : ewidencje) {
+            if (p.getPodatek() == -1) {
+                if (r.getNazwa().equals("usługi świad. poza ter.kraju")) {
+                    return r;
+                }
+            }
             if (r.getNazwa().contains(String.valueOf((int) p.getPodatek()))) {
                 return r;
             }
