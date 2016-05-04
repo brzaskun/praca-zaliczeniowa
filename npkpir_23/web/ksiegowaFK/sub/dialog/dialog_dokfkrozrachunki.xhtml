@@ -170,7 +170,7 @@
                                             styleClass="kwotarozrachunku">
                                 <p:ajax event="change" listener="#{dokfkView.przetworzwprowadzonakwote(loop, row)}" partialSubmit="true" global="false"
                                         update="@parent:@parent :rozrachunki:paneledycji2"/>
-                                <p:ajax event="change" global="false" listener="#{dokfkView.sprawdzlimity(loop, row)}" partialSubmit="true"/>
+                                <p:ajax event="change" global="false" listener="#{dokfkView.sprawdzlimity(loop, row)}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="nr własny dokumentu"  filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"

@@ -84,10 +84,16 @@ var TabKeyDown;
                         var wartosc = i_obj.innerText.replace(/\s+/g, '');
                         wartosc = wartosc.replace(",", ".");
                         wartosc = parseFloat(wartosc);
+                        var kom1 = taregetId.split("_")[0]+"_input";
+                        var kom2 = taregetId.split("_")[0]+"_hinput";
                         if (wartosc <= limit) {
-                            $target.val(wartosc);
+                            r(kom1).val(wartosc);
+                            r(kom2).val(wartosc);
+                            $target.change();
                         } else {
-                            $target.val(limit);
+                            r(kom1).val(wartosc);
+                            r(kom2).val(wartosc);
+                            $target.change();
                         }
                     }
                 }
