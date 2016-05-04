@@ -169,9 +169,9 @@
                             <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
                                             decimalPlaces="2" minValue="-10000000" emptyValue="sign" 
                                             styleClass="kwotarozrachunku">
-                                <p:ajax event="change" listener="#{dokfkView.przetworzwprowadzonakwote(loop, row)}" partialSubmit="true" global="false"
+                                <p:ajax event="blur" listener="#{dokfkView.przetworzwprowadzonakwote(loop, row)}" partialSubmit="true" global="false"
                                         update=":rozrachunki:dataList:#{row}:pozostaloWn :rozrachunki:dataList:#{row}:roznicakursowa :rozrachunki:juzrozliczono :rozrachunki:pozostalodorozliczenia"/>
-                                <p:ajax event="change" global="false" listener="#{dokfkView.sprawdzlimity(loop, row)}"/>
+                                <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzlimity(loop, row)}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="nr własny dokumentu"  filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"
