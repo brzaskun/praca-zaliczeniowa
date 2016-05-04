@@ -167,7 +167,7 @@
                                 <h:outputText value="kwota rozlicz. - bieżący dok." />
                             </f:facet>
                             <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
-                                            decimalPlaces="2" minValue="-10000000" emptyValue="sign" onfocus="zaznacznafocus(this);"
+                                            decimalPlaces="2" minValue="-10000000" emptyValue="sign" 
                                             styleClass="kwotarozrachunku">
                                 <p:ajax event="change" listener="#{dokfkView.przetworzwprowadzonakwote(loop, row)}" partialSubmit="true" global="false"
                                         update=":rozrachunki:dataList:#{row}:pozostaloWn :rozrachunki:dataList:#{row}:roznicakursowa :rozrachunki:juzrozliczono :rozrachunki:pozostalodorozliczenia"/>
@@ -227,6 +227,7 @@
                                      oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();" 
                                      update=":rozrachunki formwpisdokument:panelwalutowy" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                 </p:outputPanel>
+                <p:remoteCommand name="rozliczplatnoscspacja" actionListener="#{dokfkView.rozliczplatnoscspacja}"
             </h:form>
             <div style="padding: 5px; margin-left: auto; margin-right: auto; text-align: center;">
                 <h:form id="formcheckbox">
