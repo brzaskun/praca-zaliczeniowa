@@ -89,11 +89,9 @@ var TabKeyDown;
                         if (wartosc <= limit) {
                             r(kom1).val(wartosc);
                             r(kom2).val(wartosc);
-                            $target.change();
                         } else {
                             r(kom1).val(limit);
                             r(kom2).val(limit);
-                            $target.change();
                         }
                     }
                 } else if (isDeleteKey(event)) {
