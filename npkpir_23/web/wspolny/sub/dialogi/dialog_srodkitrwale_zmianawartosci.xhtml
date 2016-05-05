@@ -20,7 +20,7 @@
                     </p:column>
                     <h:outputText value="symbol inwent."/>
                     <p:column width="100">
-                        <p:inputText id="symbolinwent" value="#{STRTableView.wybranysrodektrwalyPosiadane.symbolinwentarzowy}" required="true" requiredMessage="Proszę wpisać symbol"/>
+                        <p:inputText id="symbolinwent" value="#{STRTableView.wybranysrodektrwalyPosiadane.symbolinwentarzowy}" />
                     </p:column>
                     <h:outputText value="data zakupu"/>
                     <p:column>
@@ -84,9 +84,10 @@
                      </pe:inputNumber>
                 </p:panelGrid>
                 <p:panelGrid columns="2" >
-                <p:commandButton id="dodajsrodekbutton" value="zachowaj" actionListener="#{STRTableView.edytujSrodekTrwaly()}" update=":formSTR:akordeon :form_dialog_srodkitrwale_zmianawartosci" 
+                <p:commandButton id="dodajsrodekbutton" value="zachowaj" actionListener="#{STRTableView.edytujSrodekTrwaly()}" 
+                                 update=":formSTR:akordeon:srodkiLista :formSTR:akordeon:srodkiListas :formSTR:akordeon:zestawieniestr1 :form_dialog_srodkitrwale_zmianawartosci" 
                                  style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
-                <p:commandButton id="dodajsrodekbutton2" value="anuluj zmiany" update=":formSTR:akordeon :form_dialog_srodkitrwale_zmianawartosci" 
+                <p:commandButton id="dodajsrodekbutton2" value="anuluj zmiany" update=":formSTR:akordeon:srodkiLista :formSTR:akordeon:srodkiListas :formSTR:akordeon:zestawieniestr1 :form_dialog_srodkitrwale_zmianawartosci" 
                                  style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
                 </p:panelGrid>
                 <p:dataTable value="#{STRTableView.wybranysrodektrwalyPosiadane.zmianawartosci}" var="item" id="tabelazmian"
@@ -116,7 +117,7 @@
                         </p:column>
                          <p:column id="deleteColumn" headerText="usuń" width="40" style="text-align: center;">
                             <p:commandButton actionListener="#{STRTableView.destroyZmianaWartosci(item)}" id="delete" 
-                                             update="form_dialog_srodkitrwale_zmianawartosci:tabelazmian :formSTR:akordeon" icon="ui-icon ui-icon-trash" type="submit" >
+                                             update="form_dialog_srodkitrwale_zmianawartosci:tabelazmian :formSTR:akordeon:srodkiLista :formSTR:akordeon:srodkiListas :formSTR:akordeon:zestawieniestr1" icon="ui-icon ui-icon-trash" type="submit" >
                                 <p:ajax event="click" global="false"/>
                             </p:commandButton>
                         </p:column>

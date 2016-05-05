@@ -153,7 +153,7 @@ public class SrodekTrw implements Serializable {
     private Dokfk dokfk;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SrodekTrw_NowaWartosc> zmianawartosci;
-    @Column(name = "symbolinwentarzowy")
+    @Column(name = "symbolinwentarzowy", nullable = true)
     private String symbolinwentarzowy;
 
 

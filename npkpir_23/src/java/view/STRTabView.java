@@ -154,36 +154,42 @@ public class STRTabView implements Serializable {
                 if (!srodkizBazy.isEmpty()) {
                     int i = 1;
                     int j = 1;
-                    for (SrodekTrw srodek : srodkizBazy) {
-                        srodkiTrwaleWyposazenie.add(srodek);
-                        if (srodek.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-                            if (srodek.getTyp() != null && srodek.getTyp().equals("wyposazenie")) {
-                                srodek.setNrsrodka(i++);
-                                wyposazenie.add(srodek);
+                    for (Iterator<SrodekTrw> it = srodkizBazy.iterator(); it.hasNext();) {
+                        SrodekTrw srodek = it.next();
+                        Integer rok = Integer.parseInt(srodek.getDataprzek().substring(0,4));
+                        if (rok > wpisView.getRokWpisu()) {
+                            it.remove();
+                        } else {
+                            srodkiTrwaleWyposazenie.add(srodek);
+                            if (srodek.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
+                                if (srodek.getTyp() != null && srodek.getTyp().equals("wyposazenie")) {
+                                    srodek.setNrsrodka(i++);
+                                    wyposazenie.add(srodek);
 
-                            } else if (srodek.getTyp() != null && srodek.getTyp().equals("wnip")) {
-                                srodek.setNrsrodka(j++);
-                                if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
-                                    zakupionewbiezacyrok_wnip++;
-                                }
-                                srodkiTrwale.add(srodek);
-                                if (srodek.getZlikwidowany() == 0) {
-                                    posiadane_wnip.add(srodek);
-                                    posiadanesumanetto_wnip += srodek.getNetto();
+                                } else if (srodek.getTyp() != null && srodek.getTyp().equals("wnip")) {
+                                    srodek.setNrsrodka(j++);
+                                    if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
+                                        zakupionewbiezacyrok_wnip++;
+                                    }
+                                    srodkiTrwale.add(srodek);
+                                    if (srodek.getZlikwidowany() == 0) {
+                                        posiadane_wnip.add(srodek);
+                                        posiadanesumanetto_wnip += srodek.getNetto();
+                                    } else {
+                                        sprzedane_wnip.add(srodek);
+                                    }
                                 } else {
-                                    sprzedane_wnip.add(srodek);
-                                }
-                            } else {
-                                srodek.setNrsrodka(j++);
-                                if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
-                                    zakupionewbiezacyrok++;
-                                }
-                                srodkiTrwale.add(srodek);
-                                if (srodek.getZlikwidowany() == 0) {
-                                    posiadane.add(srodek);
-                                    posiadanesumanetto += srodek.getNetto();
-                                } else {
-                                    sprzedane.add(srodek);
+                                    srodek.setNrsrodka(j++);
+                                    if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
+                                        zakupionewbiezacyrok++;
+                                    }
+                                    srodkiTrwale.add(srodek);
+                                    if (srodek.getZlikwidowany() == 0) {
+                                        posiadane.add(srodek);
+                                        posiadanesumanetto += srodek.getNetto();
+                                    } else {
+                                        sprzedane.add(srodek);
+                                    }
                                 }
                             }
                         }
