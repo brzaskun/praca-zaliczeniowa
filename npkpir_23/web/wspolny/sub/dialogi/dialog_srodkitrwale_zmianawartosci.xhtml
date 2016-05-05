@@ -85,12 +85,12 @@
                 </p:panelGrid>
                 <p:panelGrid columns="3" >
                 <p:commandButton id="dodajsrodekbutton" value="zachowaj" actionListener="#{STRTableView.edytujSrodekTrwaly()}" 
-                                 update=":formSTR:akordeon:srodkiLista :formSTR:akordeon:srodkiListas :formSTR:akordeon:zestawieniestr1 :form_dialog_srodkitrwale_zmianawartosci" 
+                                 update=":formSTR:akordeon:form_dialog_srodkitrwale_zmianawartosci" 
                                  style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
                  <p:commandButton id="przeliczsrodekbutton" value="nalicz um." actionListener="#{STRTableView.naliczumorzeniaSrodekTrwaly()}" 
-                                 update=":formSTR:akordeon:srodkiLista :formSTR:akordeon:srodkiListas :formSTR:akordeon:zestawieniestr1 :form_dialog_srodkitrwale_zmianawartosci" 
+                                 update=":formSTR:akordeon:form_dialog_srodkitrwale_zmianawartosci" 
                                  style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
-                <p:commandButton id="dodajsrodekbutton2" value="anuluj zmiany" update=":formSTR:akordeon:srodkiLista :formSTR:akordeon:srodkiListas :formSTR:akordeon:zestawieniestr1 :form_dialog_srodkitrwale_zmianawartosci" 
+                <p:commandButton id="dodajsrodekbutton2" value="anuluj zmiany" update=":formSTR:akordeon:form_dialog_srodkitrwale_zmianawartosci" 
                                  style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
                 </p:panelGrid>
                 <p:dataTable value="#{STRTableView.wybranysrodektrwalyPosiadane.zmianawartosci}" var="item" id="tabelazmian"
