@@ -77,6 +77,7 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             sprzedawanySrodekTrw.setDatasprzedazy(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             try {
                 sTRDAO.edit(sprzedawanySrodekTrw);
+                sTRTabView.init();
                 Msg.msg("i", "Naniesiono sprzedaż: " + sprzedawanySrodekTrw.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
             } catch (Exception e) {
                 E.e(e);
