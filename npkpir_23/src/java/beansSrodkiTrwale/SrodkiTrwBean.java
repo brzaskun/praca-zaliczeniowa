@@ -107,12 +107,13 @@ public class SrodkiTrwBean implements Serializable {
     
     
     public static List<Double> naliczodpisymczne(SrodekTrw dodawanysrodektrwaly) {
-        Double odpis_mc = dodawanysrodektrwaly.getOdpismc();
-        Double netto_do_amortyzacji = dodawanysrodektrwaly.getNetto()-dodawanysrodektrwaly.getNiepodlegaamortyzacji()- dodawanysrodektrwaly.getUmorzeniepoczatkowe();
+        Double odpis_mc = Z.z(dodawanysrodektrwaly.getOdpismc());
+        Double netto_do_amortyzacji = Z.z(dodawanysrodektrwaly.getNetto()-dodawanysrodektrwaly.getNiepodlegaamortyzacji()- dodawanysrodektrwaly.getUmorzeniepoczatkowe());
         Double nar = 0.0;
         List<Double> listaplanum = new ArrayList<Double>();
         while (netto_do_amortyzacji - nar > 0) {
-            Double odp = (netto_do_amortyzacji - nar) >= odpis_mc ? odpis_mc : netto_do_amortyzacji - nar;
+            double roznica = Z.z(netto_do_amortyzacji - nar);
+            Double odp = roznica >= odpis_mc ? odpis_mc : roznica;
             //sluzy do eliminowania odpisow w kwocie groszy i dodaje je do ostatniej raty (zaokraglenia)
             double antycypacja = (netto_do_amortyzacji - (nar+odp)) > 1.0 ? 0.0 : Z.z((netto_do_amortyzacji - (nar+odp)));
             listaplanum.add(Z.z(odp.doubleValue()+antycypacja));
