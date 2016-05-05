@@ -38,16 +38,16 @@
       <p:dataTable  var="wpis" value="#{STRTableView.amodoklist}" id="dokumsrodkiLista"
                     selection="#{STRTableView.amodoklistselected}" styleClass="dokumorzeniowe"
                       scrollable="true" scrollHeight="500" scrollRows="15"
-                      style="width: 900px; height: 600px;" rowKey="#{wpis.amodokPK.mc}"
+                      style="width: 1000px; height: 600px;" rowKey="#{wpis.amodokPK.mc}"
                       rowStyleClass="#{wpis.zaksiegowane eq true ? 'old' : null}" emptyMessage="Nie wygenerowano dokumentów amortyzacyjnych"> 
           <p:ajax event="filter" global="false"/>
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów umorzeń gotowych do zaksięgowania" />  
             </f:facet>
-          <p:column selectionMode="multiple" width="50"  style="text-align: center;"/>
+          <p:column selectionMode="multiple" style="text-align: center; width: 50px;"/>
          
           <p:column id="Column2" headerText="rok" filterBy="#{wpis.amodokPK.rok}"  styleClass="dokumorzeniowe"
-                    filterMatchMode="contains" sortBy="#{wpis.amodokPK.rok}" width="50" style="text-align: center;">  
+                    filterMatchMode="contains" sortBy="#{wpis.amodokPK.rok}" style="text-align: center; width: 50px;">  
                 <f:facet name="header">  
                     <h:outputText value="rok" />  
                 </f:facet> 
@@ -55,18 +55,18 @@
 
             </p:column>
              <p:column id="Column3" headerText="mc" filterBy="#{wpis.amodokPK.mc}"  styleClass="dokumorzeniowe"
-                       filterMatchMode="contains" sortBy="#{wpis.amodokPK.mc}" width="50" style="text-align: center;">  
+                       filterMatchMode="contains" sortBy="#{wpis.amodokPK.mc}" style="text-align: center; width: 50px;">  
           
                 <h:outputText value="#{wpis.amodokPK.mc}"  />
             </p:column>
-          <p:column id="Column4" headerText="zaksięgowane odpisy" width="450">  
+          <p:column id="Column4" headerText="zaksięgowane odpisy"  style="width: 450px;">  
            
                  <p:dataTable var="subwpisX" value="#{wpis.umorzenia}" emptyMessage="Brak środków trwałych do umorzenia" styleClass="dokumorzeniowe"
                               rowIndexVar="index">
-                     <p:column id="SubColumn1X" headerText="id"  style="text-align: center;" width="20">  
+                     <p:column id="SubColumn1X" headerText="id"  style="text-align: center; width: 20px;">  
                         <h:outputText value="#{index+1}" />
                     </p:column>
-                     <p:column id="SubColumn1aX" headerText="nazwa"  style="text-align: left;" width="150">  
+                     <p:column id="SubColumn1aX" headerText="nazwa"  style="text-align: left; width: 150px;">  
                         <h:outputText value="#{subwpisX.nazwaSrodka}" />
                     </p:column>
                     <p:column id="SubColumn4X" headerText="#{mgs.kwota}" >  
@@ -80,11 +80,15 @@
                     </p:column>
                 </p:dataTable>
             </p:column>
-          <p:column  headerText="zaksięguj" width="90" style="text-align: center;" rendered="#{subwpisX.kontoumorzenie ne ''}">
+          <p:column headerText="suma" style="width: 70px;">
+              <bcf:outputpl value="#{wpis.suma}"/>
+          </p:column>
+          <p:column  headerText="zaksięguj" style="text-align: center; width: 90px;" rendered="#{subwpisX.kontoumorzenie ne ''}">
               <h:outputText value="mc inny od bieżącego" rendered="#{wpis.amodokPK.mcString ne WpisView.miesiacWpisu}" style="color: red;"/>
               <p:commandButton value="zaksięguj" actionListener="#{STRTableView.ksiegujUmorzenieFK(wpis)}" update=":formSTRUmorzenie" rendered="#{wpis.umorzenia.size() gt 0}"/>
             </p:column>
-             <p:column id="Column5" headerText="zaksięgowane" filterBy="#{wpis.zaksiegowane}" filterMatchMode="contains" sortBy="#{wpis.zaksiegowane}" width="80" styleClass="dokumorzeniowe">  
+             <p:column id="Column5" headerText="zaksięgowane" filterBy="#{wpis.zaksiegowane}" filterMatchMode="contains" sortBy="#{wpis.zaksiegowane}" 
+                       styleClass="dokumorzeniowe" style="width: 80px;">  
                  <h:outputText value="#{wpis.zaksiegowane eq true ? 'dokument zaksięgowany' : ''}"  rendered="#{wpis.umorzenia.size() gt 0}"/>
             </p:column>
         </p:dataTable>

@@ -656,7 +656,20 @@ public class STRTabView implements Serializable {
         }
     }
     
-    
+    public void naliczumorzeniaSrodekTrwaly() {
+         try {
+            SrodkiTrwBean.odpisroczny(wybranysrodektrwalyPosiadane);
+            SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
+            //oblicza planowane umorzenia
+            wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
+            wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+            sTRDAO.edit(wybranysrodektrwalyPosiadane);
+            Msg.msg("i", "Środek trwały "+wybranysrodektrwalyPosiadane.getNazwa()+" przeliczony");
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e","Nowy srodek nie pzeliczony "+wybranysrodektrwalyPosiadane.getNazwa());
+        }
+    }
     public void edytujSrodekTrwaly() {
         try {
             if (datazmiany != null && kwotazmiany != 0.0) {

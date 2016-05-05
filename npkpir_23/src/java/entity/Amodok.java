@@ -42,6 +42,14 @@ public class Amodok implements Serializable {
     private List<Umorzenie> umorzenia;
     @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
+    
+    public double getSuma() {
+        double suma = 0.0;
+        for (Umorzenie p : this.umorzenia) {
+            suma += p.getKwota().doubleValue();
+        }
+        return suma;
+    }
 
     public Amodok() {
         umorzenia = new ArrayList<>();
