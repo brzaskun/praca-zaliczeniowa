@@ -8,10 +8,10 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialog_srodkitrwale_zmianawartosci" header="Zmiana danych posiadanego środka trwałego" widgetVar="dialog_srodkitrwale_zmianawartosci" 
-              resizable="false"  onShow="ustawdialog('dialog_srodkitrwale_zmianawartosci','formbuttonsrodki:buttonsrodki',700,380);r('form_dialog_srodkitrwale_zmianawartosci:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodkitrwale_zmianawartosci');">
+              resizable="false"  onShow="ustawdialog('dialog_srodkitrwale_zmianawartosci','formbuttonsrodki:buttonsrodki',850,550);r('form_dialog_srodkitrwale_zmianawartosci:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodkitrwale_zmianawartosci');">
         <!--pola ewidencji SRODKOW TRWALYCH-->
         <h:form id="form_dialog_srodkitrwale_zmianawartosci">
-            <p:panel id="nowypanelsrodki" style="width: 650px; height: 370px;">
+            <p:panel id="nowypanelsrodki" style="width: 840px; height: 540px;">
                 <p:panelGrid id="tabelasrodkitrwaleOT" columns="4" style="width: 650px;">
                     <h:outputText value="nazwa środka" style="height: 45px;"/>
                     <p:column  width="200">
@@ -83,6 +83,28 @@
                             <p:ajax event="change" global="false" partialSubmit="true"/>
                      </pe:inputNumber>
                 </p:panelGrid>
+                <p:panelGrid style="padding: 5px; margin-left: 5px;">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="konto środka"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="konto umorzeń"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:column>
+                    <p:selectOneListbox value="#{STRTableView.wybranysrodektrwalyPosiadane.kontonetto}" style="width: 350px;" scrollHeight="95" converter="KontoConv">
+                        <f:selectItems value="#{planKontBOView.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                    </p:selectOneListbox>
+                </p:column>
+                <p:column>
+                    <p:selectOneListbox value="#{STRTableView.wybranysrodektrwalyPosiadane.kontoumorzenie}" style="width: 350px;" scrollHeight="95" converter="KontoConv">
+                        <f:selectItems value="#{planKontBOView.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                    </p:selectOneListbox>
+                </p:column>
+            </p:panelGrid>
                 <p:panelGrid columns="3" >
                 <p:commandButton id="dodajsrodekbutton" value="zachowaj" actionListener="#{STRTableView.edytujSrodekTrwaly()}" 
                                  update=":formSTR:akordeon :form_dialog_srodkitrwale_zmianawartosci" 

@@ -93,6 +93,7 @@ public class STRTabView implements Serializable {
     private List<SrodekTrw> srodkiTrwale;
     private List<SrodekTrw> filteredValues;
     private List<SrodekTrw> posiadane;
+    private List<SrodekTrw> filtrowaneposiadane;
     private List<SrodekTrw> posiadane_wnip;
     private double posiadanesumanetto;
     private double posiadanesumanetto_wnip;
@@ -736,7 +737,8 @@ public class STRTabView implements Serializable {
             double umorzeniepocz = 0.0;
             double odpisrocz = 0.0;
             double odpismc = 0.0;
-            for (SrodekTrw p : posiadane) {
+            List<SrodekTrw> l = filtrowaneposiadane != null ? filtrowaneposiadane : posiadane;
+            for (SrodekTrw p : l) {
                 netto += p.getNetto();
                 vat += p.getVat();
                 umorzeniepocz += p.getUmorzeniepoczatkowe();
@@ -750,8 +752,8 @@ public class STRTabView implements Serializable {
             suma.setUmorzeniepoczatkowe(Z.z(umorzeniepocz));
             suma.setOdpisrok(Z.z(odpisrocz));
             suma.setOdpismc(Z.z(odpismc));
-            posiadane.add(suma);
-            PdfSTRtabela.drukujSTRtabela(wpisView, posiadane);
+            l.add(suma);
+            PdfSTRtabela.drukujSTRtabela(wpisView, l);
         } catch (DocumentException ex) {
             Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
             Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
@@ -887,6 +889,14 @@ public class STRTabView implements Serializable {
 
     public void setsTREwidencja(STREwidencja sTREwidencja) {
         this.sTREwidencja = sTREwidencja;
+    }
+
+    public List<SrodekTrw> getFiltrowaneposiadane() {
+        return filtrowaneposiadane;
+    }
+
+    public void setFiltrowaneposiadane(List<SrodekTrw> filtrowaneposiadane) {
+        this.filtrowaneposiadane = filtrowaneposiadane;
     }
 
     
