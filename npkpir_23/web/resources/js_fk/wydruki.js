@@ -135,7 +135,7 @@ var wydrukBilansuP = function(kto){
 };
 
 var pokazwydruk = function(ktoco){
-    window.open('../wydruki/'+ktoco+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    setTimeout(window.open('../wydruki/'+ktoco+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50'),10000);
 };
 
 var wydrukkonta = function (kto) {

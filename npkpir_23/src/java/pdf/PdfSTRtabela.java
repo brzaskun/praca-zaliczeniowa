@@ -37,8 +37,8 @@ import view.WpisView;
 public class PdfSTRtabela {
     
     
-     public static void drukujSTRtabela(WpisView wpisView, List<SrodekTrw> pobranesrodki) throws DocumentException, FileNotFoundException, IOException {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"ryczalt";
+     public static void drukujSTRtabela(WpisView wpisView, List<SrodekTrw> pobranesrodki, String nazwapliku) throws DocumentException, FileNotFoundException, IOException {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"srt-"+nazwapliku;
         File file = new File(nazwa);
         if (file.isFile()) {
             file.delete();
@@ -55,7 +55,7 @@ public class PdfSTRtabela {
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
-            Msg.msg("w", "Nie wybrano Zestawienia Ryczałtu do wydruku");
+            Msg.msg("w", "Nie wybrano środków trwałych do wydruku");
         }
     }
 }

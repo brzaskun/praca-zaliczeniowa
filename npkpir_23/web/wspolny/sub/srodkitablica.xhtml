@@ -14,7 +14,8 @@
             </style>
     <h:form id="formbuttonsrodki">
         <p:commandButton id="buttonsrodki" value="dodaj środek trwały" onclick="PF('dialog_srodki_dodaj').show();"/>
-        <p:commandButton id="buttondrukowanie" value="drukuj tabele" style="margin-left: 50px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli()}"/>
+        <p:commandButton id="buttondrukowanie" value="drukuj posiadane" style="margin-left: 50px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli(STRTableView.posiadane, 'posiadane')}"/>
+        <p:commandButton id="buttondrukowanie2" value="drukuj sprzedane" style="margin-left: 20px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli(STRTableView.sprzedane, 'sprzedane')}"/>
     </h:form>
     <h:form id="formSTR">
         <p:growl id="mess_add" autoUpdate="true"/>

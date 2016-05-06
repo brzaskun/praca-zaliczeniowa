@@ -730,20 +730,27 @@ public class STRTabView implements Serializable {
         }
     }
     
-    public void drukowanietabeli() {
+    public void drukowanietabeli(List<SrodekTrw> l, String nazwapliku) {
         try {
             double netto = 0.0;
             double vat = 0.0;
             double umorzeniepocz = 0.0;
             double odpisrocz = 0.0;
             double odpismc = 0.0;
-            List<SrodekTrw> l = filtrowaneposiadane != null ? filtrowaneposiadane : posiadane;
-            for (SrodekTrw p : l) {
-                netto += p.getNetto();
-                vat += p.getVat();
-                umorzeniepocz += p.getUmorzeniepoczatkowe();
-                odpisrocz += p.getOdpisrok();
-                odpismc += p.getOdpismc();
+            if (filtrowaneposiadane != null) {
+                l = filtrowaneposiadane;
+            }
+            for (Iterator<SrodekTrw> it = l.iterator(); it.hasNext();) {
+                SrodekTrw p = it.next();
+                if (p.getNrsrodka() == 999999) {
+                    it.remove();
+                } else {
+                    netto += p.getNetto();
+                    vat += p.getVat();
+                    umorzeniepocz += p.getUmorzeniepoczatkowe();
+                    odpisrocz += p.getOdpisrok();
+                    odpismc += p.getOdpismc();
+                }
             }
             SrodekTrw suma = new SrodekTrw();
             suma.setNrsrodka(999999);
@@ -753,13 +760,13 @@ public class STRTabView implements Serializable {
             suma.setOdpisrok(Z.z(odpisrocz));
             suma.setOdpismc(Z.z(odpismc));
             l.add(suma);
-            PdfSTRtabela.drukujSTRtabela(wpisView, l);
+            PdfSTRtabela.drukujSTRtabela(wpisView, l, nazwapliku);
         } catch (DocumentException ex) {
+            E.e(ex);
             Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
-            Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            E.e(ex);
             Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
-            Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
