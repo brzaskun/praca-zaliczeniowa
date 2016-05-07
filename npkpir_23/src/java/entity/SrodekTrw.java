@@ -430,6 +430,17 @@ public class SrodekTrw implements Serializable {
         this.zmianawartosci = zmianawartosci;
     }
     
+    public Integer getRokPrzekazania() {
+        return Integer.parseInt(this.getDataprzek().substring(0, 4));
+    }
+    
+    public Integer getRokSprzedazy() {
+        Integer zwrot = null;
+        if (this.zlikwidowany == 1 || this.zlikwidowany == 9) {
+            zwrot = Integer.parseInt(this.getDatasprzedazy().substring(0, 4));
+        }
+        return zwrot;
+    }
     
     
 //</editor-fold>

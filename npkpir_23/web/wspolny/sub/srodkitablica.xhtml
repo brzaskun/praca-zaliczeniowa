@@ -19,11 +19,35 @@
     </h:form>
     <h:form id="formSTR">
         <p:growl id="mess_add" autoUpdate="true"/>
-        <p:panel id="infosrodki" header="informacje">
-            <h:outputText value="liczba środków ogółem: #{STRTableView.iloscsrodkow}"/> <br/>
-            <h:outputText value="zakupione w bieżącym roku: #{STRTableView.zakupionewbiezacyrok}"/>
-        </p:panel>
-
+        <p:panelGrid id="infosrodki" >
+            <f:facet name="header">
+                <p:row>
+                    <p:column>
+                        <h:outputText value="liczba środków ogółem"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="zakupione w bieżącym rok"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="bez umorzonych całkowicie"/>
+                    </p:column>
+                </p:row>
+            </f:facet>
+            <p:row>
+                <p:column style="text-align: center;">
+                        <h:outputText value="#{STRTableView.iloscsrodkow}"/>
+                    </p:column>
+                <p:column style="text-align: center;">
+                        <h:outputText value="#{STRTableView.zakupionewbiezacyrok}"/>
+                </p:column>
+                <p:column style="text-align: center;">
+                     <p:selectBooleanCheckbox value="#{STRTableView.bezcalkowicieumorzonych}" label="bez umorzonych całkowicie" >
+                            <p:ajax event="change" global="false" listener="#{STRTableView.init}" update="formSTR:akordeon"/>
+                      </p:selectBooleanCheckbox>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+       
         <p:tabView id="akordeon">
             <p:tab id="zestawieniestr" title="posiadane">
                 <p:contextMenu for="srodkiLista" style="width: 220px;">
@@ -269,7 +293,7 @@
                 </p:dataTable>
             </p:tab>
             <p:tab id="zestawieniestr1" title="plan umorzeń">
-                <p:dataTable  var="wpis" value="#{STRTableView.srodkiTrwale}" id="srodkiLista1" editable="true" 
+                <p:dataTable  var="wpis" value="#{STRTableView.planUmorzen}" id="srodkiLista1" editable="true" 
                               scrollable="true" scrollHeight="390"
                               style="width: 1290px;" emptyMessage="Nie naliczono umorzeń"
                               rowKey="#{wpis.id}" selectionMode="single"> 

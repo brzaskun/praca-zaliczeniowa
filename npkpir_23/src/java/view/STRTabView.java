@@ -91,6 +91,7 @@ public class STRTabView implements Serializable {
     private List<SrodekTrw> srodkiTrwaleWyposazenie;
     //tablica obiektw danego klienta
     private List<SrodekTrw> srodkiTrwale;
+    private List<SrodekTrw> planUmorzen;
     private List<SrodekTrw> filteredValues;
     private List<SrodekTrw> posiadane;
     private List<SrodekTrw> filtrowaneposiadane;
@@ -121,6 +122,7 @@ public class STRTabView implements Serializable {
     //zmiana wartosci srodka trwalego
     private String datazmiany;
     private double kwotazmiany;
+    private boolean bezcalkowicieumorzonych;
 
     public STRTabView() {
         ustawTabele();
@@ -130,6 +132,7 @@ public class STRTabView implements Serializable {
         srodkiTrwaleWyposazenie = new ArrayList<>();
         srodkiTrwale = new ArrayList<>();
         srodkiZakupRokBiezacy = new ArrayList<>();
+        planUmorzen = new ArrayList<>();
         wyposazenie = new ArrayList<>();
         posiadane = new ArrayList<>();
         posiadane_wnip = new ArrayList<>();
@@ -157,8 +160,7 @@ public class STRTabView implements Serializable {
                     int j = 1;
                     for (Iterator<SrodekTrw> it = srodkizBazy.iterator(); it.hasNext();) {
                         SrodekTrw srodek = it.next();
-                        Integer rok = Integer.parseInt(srodek.getDataprzek().substring(0,4));
-                        if (rok > wpisView.getRokWpisu()) {
+                        if (srodek.getRokPrzekazania() > wpisView.getRokWpisu()) {
                             it.remove();
                         } else {
                             srodkiTrwaleWyposazenie.add(srodek);
@@ -172,24 +174,52 @@ public class STRTabView implements Serializable {
                                     if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
                                         zakupionewbiezacyrok_wnip++;
                                     }
+                                    if (srodek.getUmorzWyk() != null &&srodek.getUmorzWyk().size() > 0) {
+                                        planUmorzen.add(srodek);
+                                    }
                                     srodkiTrwale.add(srodek);
-                                    if (srodek.getZlikwidowany() == 0) {
-                                        posiadane_wnip.add(srodek);
-                                        posiadanesumanetto_wnip += srodek.getNetto();
-                                    } else {
+                                    if (srodek.getDatasprzedazy() == null || srodek.getDatasprzedazy().equals("")) {
+                                        if (bezcalkowicieumorzonych && srodek.getNetto() == srodek.getUmorzeniepoczatkowe()) {
+                                            
+                                        } else {
+                                            posiadane_wnip.add(srodek);
+                                            posiadanesumanetto_wnip += srodek.getNetto();
+                                        }
+                                    } else if (srodek.getRokSprzedazy() <= wpisView.getRokWpisu()){
                                         sprzedane_wnip.add(srodek);
+                                    } else {
+                                        if (bezcalkowicieumorzonych && srodek.getNetto() == srodek.getUmorzeniepoczatkowe()) {
+                                            
+                                        } else {
+                                            posiadane_wnip.add(srodek);
+                                            posiadanesumanetto_wnip += srodek.getNetto();
+                                        }
                                     }
                                 } else {
                                     srodek.setNrsrodka(j++);
                                     if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
                                         zakupionewbiezacyrok++;
                                     }
+                                    if (srodek.getUmorzWyk() != null &&srodek.getUmorzWyk().size() > 0) {
+                                        planUmorzen.add(srodek);
+                                    }
                                     srodkiTrwale.add(srodek);
-                                    if (srodek.getZlikwidowany() == 0) {
-                                        posiadane.add(srodek);
-                                        posiadanesumanetto += srodek.getNetto();
-                                    } else {
+                                    if (srodek.getDatasprzedazy() == null || srodek.getDatasprzedazy().equals("")) {
+                                        if (bezcalkowicieumorzonych && srodek.getNetto().doubleValue() == srodek.getUmorzeniepoczatkowe().doubleValue()) {
+                                            System.out.println("");
+                                        } else {
+                                            posiadane.add(srodek);
+                                            posiadanesumanetto += srodek.getNetto();
+                                        }
+                                    } else if (srodek.getRokSprzedazy() <= wpisView.getRokWpisu()){
                                         sprzedane.add(srodek);
+                                    } else {
+                                        if (bezcalkowicieumorzonych && srodek.getNetto().doubleValue() == srodek.getUmorzeniepoczatkowe().doubleValue()) {
+                                            System.out.println("");
+                                        } else {
+                                            posiadane.add(srodek);
+                                            posiadanesumanetto += srodek.getNetto();
+                                        }
                                     }
                                 }
                             }
@@ -904,6 +934,22 @@ public class STRTabView implements Serializable {
 
     public void setFiltrowaneposiadane(List<SrodekTrw> filtrowaneposiadane) {
         this.filtrowaneposiadane = filtrowaneposiadane;
+    }
+
+    public List<SrodekTrw> getPlanUmorzen() {
+        return planUmorzen;
+    }
+
+    public void setPlanUmorzen(List<SrodekTrw> planUmorzen) {
+        this.planUmorzen = planUmorzen;
+    }
+
+    public boolean isBezcalkowicieumorzonych() {
+        return bezcalkowicieumorzonych;
+    }
+
+    public void setBezcalkowicieumorzonych(boolean bezcalkowicieumorzonych) {
+        this.bezcalkowicieumorzonych = bezcalkowicieumorzonych;
     }
 
     

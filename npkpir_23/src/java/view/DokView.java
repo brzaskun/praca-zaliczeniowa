@@ -464,8 +464,13 @@ public final class DokView implements Serializable {
 
     private double sumujnetto() {
         sumbrutto = 0.0;
+        boolean czyjestinnawaluta = selDokument.getTabelanbp() != null && !selDokument.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN");
         for (KwotaKolumna1 p : selDokument.getListakwot1()) {
-                sumbrutto += p.getNetto();
+                if (czyjestinnawaluta) {
+                    sumbrutto += p.getNettowaluta();
+                } else {
+                    sumbrutto += p.getNetto();
+                }
         }
         return sumbrutto;
     }
