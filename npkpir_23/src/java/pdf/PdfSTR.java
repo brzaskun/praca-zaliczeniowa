@@ -95,7 +95,7 @@ public class PdfSTR {
             table.addCell(ustawfrazeAlign(rs.getKst(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getOdpisrok()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getUmorzeniaDo().doubleValue()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getUmorzeniaDo()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("01")), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("02")), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("03")), "right",6));

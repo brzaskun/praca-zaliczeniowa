@@ -271,9 +271,9 @@
                         <h:outputText value="#{wpis.umorzeniezaksiegowane eq true ? 'tak' : 'nie'}" >
                         </h:outputText> 
                     </p:column>
-                    <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="#{wpis.umorzWyk}" filterMatchMode="contains" 
-                              filterStyle="display : none;" sortBy="#{wpis.umorzWyk}" width="480" style="text-align: center;">  
-                        <p:dataTable var="subwpis" value="#{wpis.umorzWyk}"
+                    <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="#{wpis.planumorzen}" filterMatchMode="contains" 
+                              filterStyle="display : none;" sortBy="#{subwpis.nrUmorzenia}" width="480" style="text-align: center;">  
+                        <p:dataTable var="subwpis" value="#{wpis.planumorzen}" sortBy="#{subwpis.nrUmorzenia}"
                                      paginator="true" paginatorAlwaysVisible="true" rows="6" paginatorPosition="top"
                                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                                      rowsPerPageTemplate="6,12,18,24,32,50" style="width: 500px;">
@@ -281,7 +281,7 @@
                                 <h:outputText value="#{subwpis.nrUmorzenia}" />
                             </p:column>
                             <p:column id="SubColumn1a" headerText="nazwa" width="150">  
-                                <h:outputText value="#{subwpis.nazwaSrodka}" />
+                                <h:outputText value="#{subwpis.srodekTrw.nazwa}" />
                             </p:column>
                             <p:column id="SubColumn2" headerText="rok" >  
                                 <h:outputText value="#{subwpis.rokUmorzenia}" />

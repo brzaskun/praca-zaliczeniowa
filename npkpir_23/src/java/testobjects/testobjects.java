@@ -7,7 +7,7 @@ package testobjects;
 
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.SchemaEwidencjaSuma;
-import embeddable.Umorzenie;
+
 import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
@@ -21,6 +21,7 @@ import entity.Rodzajedok;
 import entity.RodzajedokPK;
 import entity.Ryczpoz;
 import entity.SrodekTrw;
+import entity.UmorzenieN;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Konto;
@@ -371,7 +372,7 @@ public class testobjects {
        return tabela;
    }
      
-     public static List[] getSrodekUmorzenie(List<Umorzenie> wiersze) {
+     public static List[] getSrodekUmorzenie(List<UmorzenieN> wiersze) {
        List n = new ArrayList();
        n.add("lp");
        n.add("rok");

@@ -958,13 +958,13 @@ public final class DokView implements Serializable {
             String[] poprzedniOkres = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             Amodok amodokPoprzedni = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), poprzedniOkres[0], Integer.parseInt(poprzedniOkres[1]));
             //wyliczam kwote umorzenia
-            kwotaumorzenia = SrodkiTrwBean.sumujumorzenia(amodokBiezacy.getUmorzenia());
+            kwotaumorzenia = SrodkiTrwBean.sumujumorzenia(amodokBiezacy.getPlanumorzen());
             try {
                 if (amodokPoprzedni != null) {
                     if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
                         //szukamy w dokumentach a nuz jest. jak jest to naprawiam ze nie naniesiono ze zaksiegowany
                         Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokPoprzedni.getAmodokPK().getMc()));
-                        double umorzeniepoprzedni = SrodkiTrwBean.sumujumorzenia(amodokPoprzedni.getUmorzenia());
+                        double umorzeniepoprzedni = SrodkiTrwBean.sumujumorzenia(amodokPoprzedni.getPlanumorzen());
                         if (znaleziony instanceof Dok && znaleziony.getNetto() == umorzeniepoprzedni) {
                             amodokPoprzedni.setZaksiegowane(true);
                             amoDokDAO.edit(amodokPoprzedni);

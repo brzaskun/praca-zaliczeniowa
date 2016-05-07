@@ -8,8 +8,9 @@ import comparator.SrodekTrwcomparatorData;
 import dao.STRDAO;
 import embeddable.Mce;
 import embeddable.STRtabela;
-import embeddable.Umorzenie;
+
 import entity.SrodekTrw;
+import entity.UmorzenieN;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -127,26 +128,27 @@ public class STREwidencja implements Serializable {
         for (SrodekTrw str : lista) {
             STRtabela strdocelowy = new STRtabela(i, str);
             try {
-                Iterator<Umorzenie> itX = str.getUmorzWyk().iterator();
-                BigDecimal umorzenianarastajaco = new BigDecimal(0);
+                Iterator<UmorzenieN> itX = str.getPlanumorzen().iterator();
+                double umorzenianarastajaco = 0.0;
                 while (itX.hasNext()) {
-                    Umorzenie um = itX.next();
-                    if (um.getRokUmorzenia().equals(rokdzisiejszyI)) {
+                    UmorzenieN um = itX.next();
+                    if (um.getRokUmorzenia() == rokdzisiejszyI) {
                         String mc = Mce.getNumberToMiesiac().get(um.getMcUmorzenia());
-                        strdocelowy.getM().put(mc, um.getKwota().doubleValue());
+                        strdocelowy.getM().put(mc, um.getKwota());
                         strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getM().get(mc));
                     } else if (um.getRokUmorzenia() < wpisView.getRokWpisu()) {
-                        umorzenianarastajaco = umorzenianarastajaco.add(um.getKwota());
+                        umorzenianarastajaco += um.getKwota();
                     } else if (um.getRokUmorzenia() > wpisView.getRokWpisu()) {
                         break;
                     }
                 }
-                strdocelowy.setUmorzeniaDo(umorzenianarastajaco.add(new BigDecimal(str.getUmorzeniepoczatkowe())));
+                umorzenianarastajaco += str.getUmorzeniepoczatkowe();
+                strdocelowy.setUmorzeniaDo(umorzenianarastajaco);
             } catch (Exception e) { 
                 E.e(e); 
-                strdocelowy.setUmorzeniaDo(new BigDecimal(BigInteger.ZERO));
+                strdocelowy.setUmorzeniaDo(0.0);
             }
-            strdocelowy.setPozostaloDoUmorzenia(new BigDecimal(strdocelowy.getNetto()).subtract(strdocelowy.getUmorzeniaDo().add(new BigDecimal(strdocelowy.getOdpisrok()))));
+            strdocelowy.setPozostaloDoUmorzenia(strdocelowy.getNetto() - strdocelowy.getUmorzeniaDo() + strdocelowy.getOdpisrok());
             tabela.add(strdocelowy);
             i++;
         }
@@ -165,11 +167,11 @@ public class STREwidencja implements Serializable {
         podsumowanie.setPodatnik("");
         podsumowanie.setNetto(0.0);
         podsumowanie.setOdpisrok(0.0);
-        podsumowanie.setUmorzeniaDo(BigDecimal.ZERO);
+        podsumowanie.setUmorzeniaDo(0.0);
         for (STRtabela p : tabela) {
             podsumowanie.setNetto(podsumowanie.getNetto() + p.getNetto());
             podsumowanie.setOdpisrok(podsumowanie.getOdpisrok() + p.getOdpisrok());
-            podsumowanie.setUmorzeniaDo(podsumowanie.getUmorzeniaDo().add(p.getUmorzeniaDo()));
+            podsumowanie.setUmorzeniaDo(podsumowanie.getUmorzeniaDo() + p.getUmorzeniaDo());
             for (String mc : Mce.getMceListS()) {
                 podsumowanie.getM().put(mc, podsumowanie.getM().get(mc) + p.getM().get(mc));
             }

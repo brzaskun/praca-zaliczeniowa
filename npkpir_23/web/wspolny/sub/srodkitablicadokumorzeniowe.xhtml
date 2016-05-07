@@ -61,13 +61,14 @@
             </p:column>
           <p:column id="Column4" headerText="zaksięgowane odpisy"  style="width: 450px;">  
            
-                 <p:dataTable var="subwpisX" value="#{wpis.umorzenia}" emptyMessage="Brak środków trwałych do umorzenia" styleClass="dokumorzeniowe"
+                 <p:dataTable var="subwpisX" value="#{wpis.planumorzen}" emptyMessage="Brak środków trwałych do umorzenia" styleClass="dokumorzeniowe"
+                              sortBy="#{subwpisX.nrUmorzenia}"
                               rowIndexVar="index">
                      <p:column id="SubColumn1X" headerText="id"  style="text-align: center; width: 20px;">  
                         <h:outputText value="#{index+1}" />
                     </p:column>
                      <p:column id="SubColumn1aX" headerText="nazwa"  style="text-align: left; width: 150px;">  
-                        <h:outputText value="#{subwpisX.nazwaSrodka}" />
+                        <h:outputText value="#{subwpisX.srodekTrw.nazwa}" />
                     </p:column>
                     <p:column id="SubColumn4X" headerText="#{mgs.kwota}" >  
                         <bcf:outputpl value="#{subwpisX.kwota}"/>

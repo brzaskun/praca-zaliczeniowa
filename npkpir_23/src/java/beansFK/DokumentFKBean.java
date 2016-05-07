@@ -11,9 +11,10 @@ import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import data.Data;
-import embeddable.Umorzenie;
+
 import entity.Klienci;
 import entity.Rodzajedok;
+import entity.UmorzenieN;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -193,15 +194,15 @@ public class DokumentFKBean implements Serializable {
     private static void ustawwierszeAMO(Dokfk nd, List pobranetransakcje, WpisView wpisView, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
-        for (Iterator<Umorzenie> it = pobranetransakcje.iterator(); it.hasNext();) {
-            Umorzenie p = it.next();
+        for (Iterator<UmorzenieN> it = pobranetransakcje.iterator(); it.hasNext();) {
+            UmorzenieN p = it.next();
             Wiersz w = new Wiersz(idporzadkowy++, 0);
             uzupelnijwiersz(w, nd, tabelanbpDAO);
-            String opiswiersza = "umorzenie: " + p.getNazwaSrodka() + " " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
+            String opiswiersza = "umorzenie: " + p.getSrodekTrw().getNazwa() + " " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
             w.setOpisWiersza(opiswiersza);
             Konto umorzeniesrodkitrwale = kontoDAOfk.findKonto("401-1-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
             Konto kontosrodka = kontoDAOfk.findKonto(p.getKontoumorzenie(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-            double kwota = p.getKwota().doubleValue();
+            double kwota = p.getKwota();
             StronaWiersza stronaumorzenie = new StronaWiersza(w, "Wn", kwota, umorzeniesrodkitrwale);
             StronaWiersza stronasrodka = new StronaWiersza(w, "Ma", kwota, kontosrodka);
             w.setStronaWn(stronaumorzenie);

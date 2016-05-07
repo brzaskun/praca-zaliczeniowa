@@ -48,7 +48,7 @@ public class PdfSrodekTrwKarta {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Karta środka trwałego w firmie: "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             naniesdanewstepne(document, srodek);
-            dodajTabele(document, testobjects.getSrodekUmorzenie(srodek.getUmorzWyk()),50,0);
+            dodajTabele(document, testobjects.getSrodekUmorzenie(srodek.getPlanumorzen()),50,0);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);

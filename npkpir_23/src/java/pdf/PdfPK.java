@@ -18,7 +18,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import dao.AmoDokDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
-import embeddable.Umorzenie;
+
 import entity.Amodok;
 import entity.Dok;
 import entity.KwotaKolumna1;
@@ -37,6 +37,7 @@ import msg.Msg;
 import plik.Plik;
 import view.WpisView;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import entity.UmorzenieN;
 import static pdf.PdfVAT7.absText;
 
 /**
@@ -163,7 +164,7 @@ public class PdfPK {
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
         Amodok odpis = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-        List<Umorzenie> umorzenia = odpis.getUmorzenia();
+        List<UmorzenieN> umorzenia = odpis.getPlanumorzen();
         PdfPTable table = new PdfPTable(4);
         table.setWidths(new int[]{1, 6, 2, 2});
         table.addCell(ustawfrazeAlign("lp", "center", 10));
@@ -172,9 +173,9 @@ public class PdfPK {
         table.addCell(ustawfrazeAlign("kwota umorzenia", "center", 10));
         table.setHeaderRows(1);
         int i = 1;
-        for (Umorzenie p : umorzenia) {
+        for (UmorzenieN p : umorzenia) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 10));
-            table.addCell(ustawfrazeAlign(p.getNazwaSrodka(), "center", 10));
+            table.addCell(ustawfrazeAlign(p.getSrodekTrw().getNazwa(), "center", 10));
             table.addCell(ustawfrazeAlign(String.valueOf(p.getNrUmorzenia()), "center", 10));
             table.addCell(ustawfrazeAlign(formatter.format(p.getKwota()), "center", 10));
         }

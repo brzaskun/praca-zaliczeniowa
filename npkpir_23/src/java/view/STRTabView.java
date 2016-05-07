@@ -20,12 +20,13 @@ import daoFK.TabelanbpDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.Roki;
-import embeddable.Umorzenie;
+
 import entity.Amodok;
 import entity.AmodokPK;
 import entity.SrodekTrw;
 import entity.SrodekTrw_NowaWartosc;
 import entity.Srodkikst;
+import entity.UmorzenieN;
 import entityfk.Dokfk;
 import error.E;
 import java.io.IOException;
@@ -174,7 +175,7 @@ public class STRTabView implements Serializable {
                                     if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
                                         zakupionewbiezacyrok_wnip++;
                                     }
-                                    if (srodek.getUmorzWyk() != null &&srodek.getUmorzWyk().size() > 0) {
+                                    if (srodek.getPlanumorzen() != null &&srodek.getPlanumorzen().size() > 0) {
                                         planUmorzen.add(srodek);
                                     }
                                     srodkiTrwale.add(srodek);
@@ -200,7 +201,7 @@ public class STRTabView implements Serializable {
                                     if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
                                         zakupionewbiezacyrok++;
                                     }
-                                    if (srodek.getUmorzWyk() != null &&srodek.getUmorzWyk().size() > 0) {
+                                    if (srodek.getPlanumorzen() != null &&srodek.getPlanumorzen().size() > 0) {
                                         planUmorzen.add(srodek);
                                     }
                                     srodkiTrwale.add(srodek);
@@ -263,7 +264,7 @@ public class STRTabView implements Serializable {
     
     public void odpisypojedynczysrodek(SrodekTrw srodek) {
         try {
-            srodek.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
+            srodek.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
             sTRDAO.edit(srodek);
         } catch (Exception e) { 
             E.e(e); 
@@ -288,18 +289,18 @@ public class STRTabView implements Serializable {
             amoDok.setAmodokPK(amodokPK);
             amoDok.setZaksiegowane(Boolean.FALSE);
             for (SrodekTrw srodek : lista) {
-                List<Umorzenie> umorzeniaWyk = new ArrayList<>();
-                umorzeniaWyk.addAll(srodek.getUmorzWyk());
-                for (Umorzenie umAkt : umorzeniaWyk) {
-                    if ((umAkt.getRokUmorzenia().equals(rokOd)) && (umAkt.getMcUmorzenia().equals(mcOd))) {
-                        if (umAkt.getKwota().signum() > 0) {
+                List<UmorzenieN> umorzeniaWyk = new ArrayList<>();
+                umorzeniaWyk.addAll(srodek.getPlanumorzen());
+                for (UmorzenieN umAkt : umorzeniaWyk) {
+                    if ((umAkt.getRokUmorzenia() == rokOd) && (umAkt.getMcUmorzenia() == mcOd)) {
+                        if (umAkt.getKwota() > 0) {
                             if (srodek.getKontonetto() != null) {
-                                umAkt.setSrodekTrwID(srodek.getId());
+                                umAkt.setSrodekTrw(srodek);
                                 umAkt.setKontonetto(srodek.getKontonetto().getPelnynumer());
                                 umAkt.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
                                 umAkt.setRodzaj(srodek.getTyp());
                             }
-                            amoDok.getUmorzenia().add(umAkt);
+                            amoDok.getPlanumorzen().add(umAkt);
                         }
                     }
                 }
@@ -414,15 +415,15 @@ public class STRTabView implements Serializable {
         int mc = Integer.parseInt(wpisView.getMiesiacWpisu());
         Double suma = 0.0;
         Double umorzeniesprzedaz = 0.0;
-        for (Umorzenie x : p.getUmorzWyk()) {
+        for (UmorzenieN x : p.getPlanumorzen()) {
             if (x.getRokUmorzenia() <= rok && x.getMcUmorzenia() < mc) {
-                suma += x.getKwota().doubleValue();
+                suma += x.getKwota();
             } else if (x.getRokUmorzenia() == rok && x.getMcUmorzenia() == mc) {
                 umorzeniesprzedaz = p.getNetto() - p.getUmorzeniepoczatkowe() - suma;
-                x.setKwota(BigDecimal.ZERO);
+                x.setKwota(0.0);
                 p.setKwotaodpislikwidacja(0.0);
             } else {
-                x.setKwota(BigDecimal.ZERO);
+                x.setKwota(0.0);
             }
         }
         try {
@@ -663,7 +664,7 @@ public class STRTabView implements Serializable {
             selectedSTR.setNrwldokumentu(podatnik);
             selectedSTR.setNrsrodka(posiadane.size()+1);
             selectedSTR.setUmorzPlan(new ArrayList<Double>());
-            selectedSTR.setUmorzWyk(new ArrayList<Umorzenie>());
+            selectedSTR.setPlanumorzen(new ArrayList<UmorzenieN>());
             sTRDAO.dodaj(selectedSTR);
             posiadane.add(selectedSTR);
             Collections.sort(sprzedane, new SrodekTrwcomparator());
@@ -677,7 +678,7 @@ public class STRTabView implements Serializable {
             SrodkiTrwBean.odpismiesieczny(dodawanysrodektrwaly);
             //oblicza planowane umorzenia
             dodawanysrodektrwaly.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(dodawanysrodektrwaly));
-            dodawanysrodektrwaly.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
+            dodawanysrodektrwaly.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
             sTRDAO.dodaj(dodawanysrodektrwaly);
             RequestContext.getCurrentInstance().update("srodki:panelekXA");
             Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
@@ -693,7 +694,7 @@ public class STRTabView implements Serializable {
             SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
             //oblicza planowane umorzenia
             wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
-            wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+            wybranysrodektrwalyPosiadane.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
             sTRDAO.edit(wybranysrodektrwalyPosiadane);
             Msg.msg("i", "Środek trwały "+wybranysrodektrwalyPosiadane.getNazwa()+" przeliczony");
         } catch (Exception e) { 
@@ -710,7 +711,7 @@ public class STRTabView implements Serializable {
                 }
                 wybranysrodektrwalyPosiadane.getZmianawartosci().add(s);
                 SrodkiTrwBean.naliczodpisymczneUlepszenie(wybranysrodektrwalyPosiadane);
-                wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+                wybranysrodektrwalyPosiadane.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
             }
             Collections.sort(wybranysrodektrwalyPosiadane.getZmianawartosci(), new SrodekTrwNowaWartoscComparator());
             sTRDAO.edit(wybranysrodektrwalyPosiadane);
@@ -732,7 +733,7 @@ public class STRTabView implements Serializable {
             if (wybranysrodektrwalyPosiadane.getZmianawartosci() != null && wybranysrodektrwalyPosiadane.getZmianawartosci().size() > 0) {
                 SrodkiTrwBean.naliczodpisymczneUlepszenie(wybranysrodektrwalyPosiadane);
             }
-            wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+            wybranysrodektrwalyPosiadane.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
             Collections.sort(wybranysrodektrwalyPosiadane.getZmianawartosci(), new SrodekTrwNowaWartoscComparator());
             sTRDAO.edit(wybranysrodektrwalyPosiadane);
         } catch (Exception e) {
@@ -831,7 +832,7 @@ public class STRTabView implements Serializable {
         SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
         //oblicza planowane umorzenia
         wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
-        wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+        wybranysrodektrwalyPosiadane.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
         try {
             sTRDAO.edit(wybranysrodektrwalyPosiadane);
         } catch (Exception ex) {
@@ -847,7 +848,7 @@ public class STRTabView implements Serializable {
         SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
         //oblicza planowane umorzenia
         wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
-        wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+        wybranysrodektrwalyPosiadane.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
         try {
             sTRDAO.edit(wybranysrodektrwalyPosiadane);
         } catch (Exception ex) {
@@ -863,7 +864,7 @@ public class STRTabView implements Serializable {
         SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
         //oblicza planowane umorzenia
         wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
-        wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+        wybranysrodektrwalyPosiadane.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
         try {
             sTRDAO.edit(wybranysrodektrwalyPosiadane);
         } catch (Exception ex) {

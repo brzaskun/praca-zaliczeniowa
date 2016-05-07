@@ -28,8 +28,6 @@ public class Em {
             if (!em.contains(t)) {
                 // persist object - add to entity manager
                 em.persist(t);
-                // flush em - save to DB
-                em.flush();
             }
             // commit transaction at all
             em.getTransaction().commit();
@@ -39,18 +37,46 @@ public class Em {
         }
     }
     
-    public static void saveList(EntityManager em, List<Object> t) {
+    public static void saveList(EntityManager em, List t) {
         try {
             // begin transaction 
             em.getTransaction().begin();
             for (Object p : t) {
-                if (!em.contains(p)) {
-                    // persist object - add to entity manager
-                    em.persist(p);
-                }
+                // persist object - add to entity manager
+                em.persist(p);
             }
-            // flush em - save to DB
-            em.flush();
+            // commit transaction at all
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            E.e(e);
+        }
+    }
+    
+    public static void edit(EntityManager em, Object t) {
+        try {
+            // begin transaction 
+            em.getTransaction().begin();
+            if (!em.contains(t)) {
+                // persist object - add to entity manager
+                em.merge(t);
+            }
+            // commit transaction at all
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            E.e(e);
+        }
+    }
+    
+    public static void edit(EntityManager em, List t) {
+        try {
+            // begin transaction 
+            em.getTransaction().begin();
+            for (Object p : t) {
+                // persist object - add to entity manager
+                em.merge(p);
+            }
             // commit transaction at all
             em.getTransaction().commit();
         } catch (Exception e) {

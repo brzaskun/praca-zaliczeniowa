@@ -4,18 +4,23 @@
  */
 package entity;
 
+
 import embeddable.Umorzenie;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import waluty.Z;
 
 /**
  *
@@ -42,13 +47,15 @@ public class Amodok implements Serializable {
     private List<Umorzenie> umorzenia;
     @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<UmorzenieN> planumorzen;
     
     public double getSuma() {
         double suma = 0.0;
-        for (Umorzenie p : this.umorzenia) {
-            suma += p.getKwota().doubleValue();
+        for (UmorzenieN p : this.planumorzen) {
+            suma += p.getKwota();
         }
-        return suma;
+        return Z.z(suma);
     }
 
     public Amodok() {
@@ -86,6 +93,16 @@ public class Amodok implements Serializable {
     public void setZaksiegowane(Boolean zaksiegowane) {
         this.zaksiegowane = zaksiegowane;
     }
+
+    public List<UmorzenieN> getPlanumorzen() {
+        return planumorzen;
+    }
+
+    public void setPlanumorzen(List<UmorzenieN> planumorzen) {
+        this.planumorzen = planumorzen;
+    }
+    
+    
 
     @Override
     public int hashCode() {

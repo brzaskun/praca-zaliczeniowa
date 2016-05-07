@@ -26,8 +26,8 @@ public class STRtabela {
     private Double odpisrok;
     private Double netto;
     private Map<String, Double> m;
-    private BigDecimal umorzeniaDo;
-    private BigDecimal pozostaloDoUmorzenia;
+    private double umorzeniaDo;
+    private double pozostaloDoUmorzenia;
 
     public STRtabela() {
        this.m = mapaMce();
@@ -149,21 +149,24 @@ public class STRtabela {
         this.m = m;
     }
     
-    public BigDecimal getUmorzeniaDo() {
+   
+
+    public double getUmorzeniaDo() {
         return umorzeniaDo;
     }
-    
-    public void setUmorzeniaDo(BigDecimal umorzeniaDo) {
+
+    public void setUmorzeniaDo(double umorzeniaDo) {
         this.umorzeniaDo = umorzeniaDo;
     }
-    
-    public BigDecimal getPozostaloDoUmorzenia() {
+
+    public double getPozostaloDoUmorzenia() {
         return pozostaloDoUmorzenia;
     }
-    
-    public void setPozostaloDoUmorzenia(BigDecimal pozostaloDoUmorzenia) {
+
+    public void setPozostaloDoUmorzenia(double pozostaloDoUmorzenia) {
         this.pozostaloDoUmorzenia = pozostaloDoUmorzenia;
     }
+    
     
     
     //</editor-fold>

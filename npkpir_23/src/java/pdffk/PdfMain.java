@@ -26,7 +26,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.SchemaEwidencjaSuma;
-import embeddable.Umorzenie;
+
 import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
@@ -37,6 +37,7 @@ import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Ryczpoz;
 import entity.SrodekTrw;
+import entity.UmorzenieN;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
@@ -481,7 +482,7 @@ public class PdfMain {
                     col[7] = 3;
                     return col;
                 }
-            case "embeddable.Umorzenie":
+            case "entity.UmorzenieN":
                 col = new int[size];
                 col[0] = 2;
                 col[1] = 2;
@@ -1119,8 +1120,8 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getPolevat(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDeklaracjaVatWierszSumaryczny().getSumavat())), "right", 8));
             }
-             if (nazwaklasy.equals("embeddable.Umorzenie")) {
-                Umorzenie p = (Umorzenie) it.next();
+             if (nazwaklasy.equals("embeddable.UmorzenieN")) {
+                UmorzenieN p = (UmorzenieN) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getRokUmorzenia(), "left", 8));
                 table.addCell(ustawfrazeAlign(p.getMcUmorzenia(), "left", 8));

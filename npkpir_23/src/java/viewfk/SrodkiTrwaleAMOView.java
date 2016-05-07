@@ -17,11 +17,12 @@ import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import data.Data;
 import embeddable.Mce;
-import embeddable.Umorzenie;
+
 import embeddablefk.SaldoKonto;
 import entity.Amodok;
 import entity.Klienci;
 import entity.Rodzajedok;
+import entity.UmorzenieN;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -258,23 +259,23 @@ public class SrodkiTrwaleAMOView implements Serializable {
         if (amodok != null) {
             nd.setListawierszy(new ArrayList<Wiersz>());
             int idporzadkowy = 1;
-            for (Umorzenie p : amodok.getUmorzenia()) {
+            for (UmorzenieN p : amodok.getPlanumorzen()) {
                 Wiersz w = new Wiersz(idporzadkowy++, 0);
                 uzupelnijwiersz(w, nd);
-                String opiswiersza = "odpis amortyzacyjny dla: "+p.getNazwaSrodka(); 
+                String opiswiersza = "odpis amortyzacyjny dla: "+p.getSrodekTrw().getNazwa(); 
                 w.setOpisWiersza(opiswiersza);
                 Konto kontoAmortyzacjaST = kontoDAOfk.findKonto("401-1-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                 Konto kontoAmortyzacjaWNiP = kontoDAOfk.findKonto("401-2-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                 Konto kontoumorzenie = kontoDAOfk.findKonto(p.getKontoumorzenie(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                 if (p.getRodzaj().equals("wnip")) {
-                    StronaWiersza kosztamortyzacji = new StronaWiersza(w, "Wn", Z.z(p.getKwota().doubleValue()), kontoAmortyzacjaWNiP);
-                    StronaWiersza kwotaumorzenia = new StronaWiersza(w, "Ma", Z.z(p.getKwota().doubleValue()),kontoumorzenie);
+                    StronaWiersza kosztamortyzacji = new StronaWiersza(w, "Wn", Z.z(p.getKwota()), kontoAmortyzacjaWNiP);
+                    StronaWiersza kwotaumorzenia = new StronaWiersza(w, "Ma", Z.z(p.getKwota()),kontoumorzenie);
                     w.setStronaWn(kosztamortyzacji);
                     w.setStronaMa(kwotaumorzenia);
                     nd.getListawierszy().add(w);
                 } else {
-                    StronaWiersza kosztamortyzacji = new StronaWiersza(w, "Wn", Z.z(p.getKwota().doubleValue()), kontoAmortyzacjaST);
-                    StronaWiersza kwotaumorzenia = new StronaWiersza(w, "Ma", Z.z(p.getKwota().doubleValue()),kontoumorzenie);
+                    StronaWiersza kosztamortyzacji = new StronaWiersza(w, "Wn", Z.z(p.getKwota()), kontoAmortyzacjaST);
+                    StronaWiersza kwotaumorzenia = new StronaWiersza(w, "Ma", Z.z(p.getKwota()),kontoumorzenie);
                     w.setStronaWn(kosztamortyzacji);
                     w.setStronaMa(kwotaumorzenia);
                     nd.getListawierszy().add(w);

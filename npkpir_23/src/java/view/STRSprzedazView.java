@@ -7,8 +7,9 @@ package view;
 
 import dao.STRDAO;
 import data.Data;
-import embeddable.Umorzenie;
+
 import entity.SrodekTrw;
+import entity.UmorzenieN;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import msg.Msg;
+import waluty.Z;
 
 /**
  *
@@ -105,30 +107,30 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             sprzedawanySrodekTrw.setNrwldokumentu(nrwlasny);
             Double suma = 0.0;
             Double umorzeniesprzedaz = 0.0;
-            for(Umorzenie x : sprzedawanySrodekTrw.getUmorzWyk()){
+            for(UmorzenieN x : sprzedawanySrodekTrw.getPlanumorzen()){
                 if (x.getRokUmorzenia()<rok){
-                    suma += x.getKwota().doubleValue();
+                    suma += x.getKwota();
                 } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()<mc) {
-                    suma += x.getKwota().doubleValue();
+                    suma += x.getKwota();
                 } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()==mc){
                     umorzeniesprzedaz = sprzedawanySrodekTrw.getNetto()-sprzedawanySrodekTrw.getUmorzeniepoczatkowe()-suma+sprzedawanySrodekTrw.getNiepodlegaamortyzacji();
-                    x.setKwota(BigDecimal.valueOf(umorzeniesprzedaz).setScale(2, RoundingMode.HALF_EVEN));
-                    sprzedawanySrodekTrw.setKwotaodpislikwidacja(x.getKwota().doubleValue());
+                    x.setKwota(Z.z(umorzeniesprzedaz));
+                    sprzedawanySrodekTrw.setKwotaodpislikwidacja(Z.z(x.getKwota()));
                 } else {
-                    x.setKwota(BigDecimal.ZERO);
+                    x.setKwota(0.0);
                 }
             }
     }
     
     private void sprzedajtensammc(SrodekTrw sprzedawanySrodekTrw,int rokzakupu, int mczakupu) {
-        Umorzenie y = new Umorzenie();
-        y.setKwota(new BigDecimal(sprzedawanySrodekTrw.getNetto()));
+        UmorzenieN y = new UmorzenieN();
+        y.setKwota(Z.z(sprzedawanySrodekTrw.getNetto()));
         y.setRokUmorzenia(rokzakupu);
         y.setMcUmorzenia(mczakupu);
-        y.setNazwaSrodka(sprzedawanySrodekTrw.getNazwa());
+        y.setSrodekTrw(sprzedawanySrodekTrw);
         y.setNrUmorzenia(1);
-        sprzedawanySrodekTrw.setUmorzWyk(new ArrayList<Umorzenie>());
-        sprzedawanySrodekTrw.getUmorzWyk().add(y);
+        sprzedawanySrodekTrw.setPlanumorzen(new ArrayList<UmorzenieN>());
+        sprzedawanySrodekTrw.getPlanumorzen().add(y);
     }
     
      public void kupsrodki(){

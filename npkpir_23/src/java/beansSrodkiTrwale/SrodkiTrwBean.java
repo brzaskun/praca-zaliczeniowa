@@ -8,10 +8,11 @@ package beansSrodkiTrwale;
 import comparator.SrodekTrwNowaWartoscComparator;
 import embeddable.Mce;
 import embeddable.Parametr;
-import embeddable.Umorzenie;
+
 import entity.Podatnik;
 import entity.SrodekTrw;
 import entity.SrodekTrw_NowaWartosc;
+import entity.UmorzenieN;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -139,18 +140,18 @@ public class SrodkiTrwBean implements Serializable {
         }
     }
 
-    public static double sumujumorzenia(List<Umorzenie> umorzenia) {
+    public static double sumujumorzenia(List<UmorzenieN> umorzenia) {
         double kwotaumorzenia = 0.0;
         Iterator it = umorzenia.iterator();
         while (it.hasNext()) {
-            Umorzenie tmp = (Umorzenie) it.next();
-            kwotaumorzenia += tmp.getKwota().doubleValue();
+            UmorzenieN tmp = (UmorzenieN) it.next();
+            kwotaumorzenia += tmp.getKwota();
         }
         return Z.z(kwotaumorzenia);
     }
 
-    public static List<Umorzenie> generujumorzeniadlasrodka(SrodekTrw srodek, WpisView wpisView) {
-        List<Umorzenie> umorzenia = new ArrayList<>();
+    public static List<UmorzenieN> generujumorzeniadlasrodka(SrodekTrw srodek, WpisView wpisView) {
+        List<UmorzenieN> umorzenia = new ArrayList<>();
         if (srodek.getZlikwidowany() == 0) {
             List<Double> planowane = new ArrayList<>();
             planowane.addAll(srodek.getUmorzPlan());
@@ -181,12 +182,12 @@ public class SrodkiTrwBean implements Serializable {
                 mcOd = mcrok[0];
                 rokOd = mcrok[1];
                 Double kwotaodpisMC = (Double) itX.next();
-                Umorzenie odpisZaDanyOkres = new Umorzenie();
-                odpisZaDanyOkres.setKwota(BigDecimal.valueOf(kwotaodpisMC.doubleValue()));
+                UmorzenieN odpisZaDanyOkres = new UmorzenieN();
+                odpisZaDanyOkres.setKwota(kwotaodpisMC);
                 odpisZaDanyOkres.setRokUmorzenia(rokOd);
                 odpisZaDanyOkres.setMcUmorzenia(mcOd);
                 odpisZaDanyOkres.setNrUmorzenia(i);
-                odpisZaDanyOkres.setNazwaSrodka(srodek.getNazwa());
+                odpisZaDanyOkres.setSrodekTrw(srodek);
                 i++;
                 if (mcOd == 12) {
                     rokOd++;

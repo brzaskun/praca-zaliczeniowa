@@ -4,6 +4,7 @@
  */
 package entity;
 
+
 import embeddable.Umorzenie;
 import entityfk.Dokfk;
 import entityfk.Konto;
@@ -14,12 +15,12 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -155,6 +156,8 @@ public class SrodekTrw implements Serializable {
     private List<SrodekTrw_NowaWartosc> zmianawartosci;
     @Column(name = "symbolinwentarzowy", nullable = true)
     private String symbolinwentarzowy;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<UmorzenieN> planumorzen;
 
 
     public SrodekTrw() {
@@ -164,6 +167,7 @@ public class SrodekTrw implements Serializable {
         this.vat = 0.0;
         this.umorzWyk = new ArrayList<>();
         this.umorzPlan = new ArrayList<>();
+        this.planumorzen = new ArrayList<>();
     }
 
     public SrodekTrw(Integer id) {
@@ -305,6 +309,14 @@ public class SrodekTrw implements Serializable {
     
     public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
+    }
+
+    public List<UmorzenieN> getPlanumorzen() {
+        return planumorzen;
+    }
+
+    public void setPlanumorzen(List<UmorzenieN> planumorzen) {
+        this.planumorzen = planumorzen;
     }
     
     
