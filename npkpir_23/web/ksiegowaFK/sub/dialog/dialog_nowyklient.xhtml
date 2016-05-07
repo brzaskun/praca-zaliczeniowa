@@ -59,7 +59,7 @@
                                                      $(this).addClass('ui-state-default');" >
                         <f:selectItems value="#{kolmn.kolumnList}" />
                     </h:selectOneMenu>
-                    <p:commandButton value="dodaj" action="#{KlView.dodajKlientafk()}" oncomplete="skopiujdanenowegoklientafk();" style="width: 120px;"/>
+                    <p:commandButton value="dodaj" action="#{KlView.dodajKlientafk(dokfkView.selected, dokfkView.ewidencjaVatRK)}" oncomplete="skopiujdanenowegoklientafk();" style="width: 120px;"/>
                 </p:panelGrid>
                 <p:panelGrid id="polawprowadzania1" columns="5" >
                     <h:outputLabel value="kraj*" style="font-weight: 700"/>

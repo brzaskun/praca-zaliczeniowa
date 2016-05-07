@@ -3,6 +3,8 @@ package view;
 import dao.KlienciDAO;
 import embeddable.PanstwaMap;
 import entity.Klienci;
+import entityfk.Dokfk;
+import entityfk.EVatwpisFK;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -26,9 +28,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import params.Params;
-import viewfk.DokfkView;
 import viewfk.KliencifkView;
-import viewfk.PlanKontCompleteView;
 
 /**
  *
@@ -46,12 +46,9 @@ public class KlView implements Serializable {
     private List<Klienci> klienciFiltered;
     private Klienci doUsuniecia;
     private boolean edycja;
-    @ManagedProperty(value = "#{dokfkView}")
-    private DokfkView dokfkView;
     @ManagedProperty(value = "#{kliencifkView}")
     private KliencifkView kliencifkView;
-    @ManagedProperty(value = "#{planKontCompleteView}")
-    private PlanKontCompleteView planKontCompleteView;
+
 
     public static void main(String[] args) {
         String mse = "XX0000000001";
@@ -150,7 +147,7 @@ public class KlView implements Serializable {
 
     }
 
-    public void dodajKlientafk() {
+    public void dodajKlientafk(Dokfk dokfk, EVatwpisFK evfk) {
         try {
             if (selected.getNip().isEmpty()) {
                 wygenerujnip();
@@ -170,7 +167,7 @@ public class KlView implements Serializable {
             poszukajDuplikatNazwa();
             klDAO.dodaj(selected);
             kl1.add(selected);
-            planKontCompleteView.init();
+            //planKontCompleteView.init(); to jest zbedne, po co pobierac konta jeszcze raz skoro dodano tylko pozycje do kartoteki klientow a nie kont.
             Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
 
         } catch (Exception e) {
@@ -178,16 +175,16 @@ public class KlView implements Serializable {
             Msg.msg("e", "Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
         }
         //jeżeli funkcja jest wywolana z wpisywania dokumnetu to zerujemy pola
-        if (dokfkView.getSelected() != null) {
-            dokfkView.getSelected().setKontr(selected);
+        if (dokfk != null) {
+            dokfk.setKontr(selected);
             RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
             RequestContext.getCurrentInstance().update("formXNowyKlient:polawprowadzania");
             RequestContext.getCurrentInstance().update("formXNowyKlient:polawprowadzania1");
         } else {
             selected = new Klienci();
         }
-        if (dokfkView.getEwidencjaVatRK() != null) {
-            dokfkView.getEwidencjaVatRK().setKlient(selected);
+        if (evfk != null) {
+            evfk.setKlient(selected);
             RequestContext.getCurrentInstance().update("ewidencjavatRK:klientRK");
         }
         kliencifkView.setWybranyklient(serialclone.SerialClone.clone(selected));
@@ -505,14 +502,7 @@ public class KlView implements Serializable {
         this.edycja = edycja;
     }
 
-    public DokfkView getDokfkView() {
-        return dokfkView;
-    }
-
-    public void setDokfkView(DokfkView dokfkView) {
-        this.dokfkView = dokfkView;
-    }
-
+    
     public Klienci getSelectedtablica() {
         return selectedtablica;
     }
@@ -521,13 +511,6 @@ public class KlView implements Serializable {
         this.selectedtablica = selectedtablica;
     }
 
-    public PlanKontCompleteView getPlanKontCompleteView() {
-        return planKontCompleteView;
-    }
-
-    public void setPlanKontCompleteView(PlanKontCompleteView planKontCompleteView) {
-        this.planKontCompleteView = planKontCompleteView;
-    }
 
     public KliencifkView getKliencifkView() {
         return kliencifkView;

@@ -712,11 +712,11 @@ var skopiujopis = function(nrbiezacegowiersza){
     } else {
         var nrstaregowiersza = nrbiezacegowiersza-2;
         nrbiezacegowiersza = nrbiezacegowiersza-1;
-        var biezacywiersz = "#formwpisdokument\\:dataList\\:"+nrbiezacegowiersza+"\\:opis";
-        var poprzedniopisval = $("#formwpisdokument\\:dataList\\:"+nrstaregowiersza+"\\:opis").val();
-        if ($(biezacywiersz).val() === "+") {
-            $(biezacywiersz).val(poprzedniopisval);
-            $("#formwpisdokument\\:dataList\\:"+nrbiezacegowiersza+"\\:opis").next().focus();
+        var biezacywiersz = "formwpisdokument:dataList:"+nrbiezacegowiersza+":opis";
+        var poprzedniopisval = r("formwpisdokument:dataList:"+nrstaregowiersza+":opis").val();
+        if (r(biezacywiersz).val() === "") {
+            r(biezacywiersz).val(poprzedniopisval);
+            r(biezacywiersz).select();
         }
     }
 };
