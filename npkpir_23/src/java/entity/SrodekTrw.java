@@ -11,6 +11,10 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.enterprise.inject.spi.Bean;
+import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,6 +34,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import view.WpisView;
 
 /**
  *
@@ -173,6 +178,22 @@ public class SrodekTrw implements Serializable {
     public SrodekTrw(Integer id) {
         this.id = id;
     }
+    
+    public double getStrNetto() {
+        double zwrot = 0.0;
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            WpisView bean = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
+            zwrot = this.netto - this.umorzeniepoczatkowe;
+            for (UmorzenieN p : this.planumorzen) {
+                zwrot -= p.getAmodok() != null ? p.getKwota() : 0.0;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(SrodekTrw.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return zwrot;
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public Double getDatawy() {
