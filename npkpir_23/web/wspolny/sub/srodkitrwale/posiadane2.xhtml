@@ -87,13 +87,7 @@
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="deleteColumn" headerText="usuń"  style="width: 40px; text-align: center;">
-                        <p:commandButton actionListener="#{STRTableView.destroy(wpis)}" onclick="PF('confirmation').show()" id="delete" 
-                                         update="@form" icon="ui-icon ui-icon-trash" type="submit" >
-                            <p:ajax event="click" global="false"/>
-                        </p:commandButton>
-                    </p:column>
-                </p:dataTable>
+                  </p:dataTable>
             </p:tab>
 </ui:composition>   
 
