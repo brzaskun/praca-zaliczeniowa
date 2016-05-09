@@ -11,8 +11,8 @@
     <p:tab id="zestawienieposiadane2" title="posiadane2">
                 <p:dataTable  var="wpis" value="#{STRTableView.posiadane2}" id="srodkiLista2" 
                               scrollable="true" scrollHeight="390" 
-                              widgetVar="srodkiLista1" style="width: 1400px;" filteredValue="#{STRTableView.filtrowaneposiadane}"
-                              rowKey="#{wpis.id}" selection="#{STRTableView.wybranysrodektrwalyPosiadane}" selectionMode="single"> 
+                              widgetVar="srodkiLista1" style="width: 1400px;" 
+                              rowKey="#{wpis.id}" > 
                     <p:ajax event="rowSelect" global="false" update="form_dialog_srodkitrwale_zmianawartosci"/>
                     <p:ajax event="filter" global="false"/>
                     <f:facet name="header">  

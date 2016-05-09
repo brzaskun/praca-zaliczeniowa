@@ -12,7 +12,7 @@
             <p:tab id="zestawieniestr1" title="plan umorzeń">
                 <p:dataTable  var="wpis" value="#{STRTableView.planUmorzen}" id="srodkiLista1" editable="true" 
                               scrollable="true" scrollHeight="390"
-                              style="width: 1290px;" emptyMessage="Nie naliczono umorzeń"
+                              style="width: 1330px;" emptyMessage="Nie naliczono umorzeń"
                               rowKey="#{wpis.id}" selectionMode="single"> 
 
                     <f:facet name="header">  
@@ -71,10 +71,10 @@
                         </h:outputText> 
                     </p:column>
                     <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="#{wpis.planumorzen}" filterMatchMode="contains" 
-                              filterStyle="display : none;" style="width: 470px; text-align: center;">  
+                              filterStyle="display : none;" style="width: 550px; text-align: center;">  
                         <p:dataTable var="subwpis" value="#{wpis.planumorzen}" emptyMessage="Nie naliczono umorzeń"
                                      scrollable="true" scrollHeight="150" sortBy="#{subwpis.nrUmorzenia}" 
-                                     style="width: 470px;">
+                                     style="width: 550px;">
                             <p:column id="SubColumn1" headerText="id" style="width: 20px;">  
                                 <h:outputText value="#{subwpis.nrUmorzenia}" />
                             </p:column>
@@ -90,7 +90,9 @@
                             <p:column id="SubColumn4" headerText="#{mgs.kwota}"  style="width: 50px;">  
                                 <bcf:outputpl value="#{subwpis.kwota}" />
                             </p:column>
-
+                            <p:column id="SubColumn5" headerText="amodok"  style="width: 50px;">  
+                                <h:outputText value="#{subwpis.amodok != null and subwpis.amodok.zaksiegowane ? 'tak' : null}" />
+                            </p:column>
                         </p:dataTable>
                     </p:column>
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center; width: 40px;">

@@ -5,6 +5,7 @@
 package entity;
 
 
+import data.Data;
 import embeddable.Umorzenie;
 import entityfk.Dokfk;
 import entityfk.Konto;
@@ -185,8 +186,13 @@ public class SrodekTrw implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             WpisView bean = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
             zwrot = this.netto - this.umorzeniepoczatkowe;
+            if (this.getNazwa().equals("Pług PW 100")) {
+                System.out.println("");
+            }
             for (UmorzenieN p : this.planumorzen) {
-                zwrot -= p.getAmodok() != null ? p.getKwota() : 0.0;
+                if (Data.compare(p, bean) != 1) {
+                    zwrot -= p.getAmodok() != null && p.getAmodok().getZaksiegowane() ? p.getKwota() : 0.0;
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(SrodekTrw.class.getName()).log(Level.SEVERE, null, ex);

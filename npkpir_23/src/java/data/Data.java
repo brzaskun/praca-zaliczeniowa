@@ -5,6 +5,7 @@
 package data;
 
 import embeddable.Mce;
+import entity.UmorzenieN;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import view.WpisView;
 
 /**
  *
@@ -46,7 +48,6 @@ public class Data implements Serializable {
         }
     }
     
-   
     /**
      * Porównywanie dwóch rokow i mce. Przyjmuje integer
      * 
@@ -58,8 +59,8 @@ public class Data implements Serializable {
      *            <code>0</code> jeżeli lata i mce są równe<br/>
      *            <code>-1</code> jeżeli wcześniejsza jest jednak późniejsza
      */
-    public static int compare(int rokP, int mcP, int rokW, int mcW) {
-        if (rokP < rokW) {
+    private static int doCompare(int rokP, int mcP, int rokW, int mcW) {
+         if (rokP < rokW) {
             return -1;
         } else if (rokP > rokW) {
             return 1;
@@ -73,6 +74,12 @@ public class Data implements Serializable {
             }
         }
         return 0;
+    }
+    
+   
+    
+    public static int compare(int rokP, int mcP, int rokW, int mcW) {
+       return doCompare(rokP, mcP, rokW, mcW);
     }
     
     /**
@@ -82,7 +89,7 @@ public class Data implements Serializable {
      * @param mcP1 miesiąc poźniejszy
      * @param rokW1 rok wcześniejszy
      * @param mcW1 miesiąc wcześniejszy
-     * @return    <code>1</code> jeżeli data póżniejsza jest późniejsza jest wcześniejszej <br/>
+     * @return    <code>1</code> jeżeli data póżniejsza jest późniejsza od wcześniejszej <br/>
      *            <code>0</code> jeżeli lata i mce są równe<br/>
      *            <code>-1</code> jeżeli wcześniejsza jest jednak późniejsza
      */
@@ -91,20 +98,7 @@ public class Data implements Serializable {
         int mcP = Integer.parseInt(mcP1);
         int rokW = Integer.parseInt(rokW1);
         int mcW = Integer.parseInt(mcW1);
-        if (rokP < rokW) {
-            return -1;
-        } else if (rokP > rokW) {
-            return 1;
-        } else if (rokP == rokW) {
-            if (mcP == mcW) {
-                return 0;
-            } else if (mcP < mcW) {
-                return -1;
-            } else {
-                return 1;
-            }
-        }
-        return 0;
+        return doCompare(rokP, mcP, rokW, mcW);
     }
     
      /**
@@ -113,29 +107,24 @@ public class Data implements Serializable {
      * 
      * @param datapozniejsza data późniejsza do porównywania
      * @param datawczesniejsza data wcześniejsza do porównywania
-     * @return    <code>true</code> jeżeli data póżniejsza jest późniejsza jest wcześniejszej<br/>
+     * @return    <code>1</code> jeżeli data póżniejsza jest późniejsza jest wcześniejszej<br/>
      *            <code>0</code> jeżeli daty są równe<br/>
-     *            <code>false</code> jeżeli wcześniejsza jest jednak późniejsza
+     *            <code>-1</code> jeżeli wcześniejsza jest jednak późniejsza
      */
     public static int compare(String datapozniejsza, String datawczesniejsza) {
-        int rokO1 = Integer.parseInt(datapozniejsza.substring(0,4));
-        int rokO2 = Integer.parseInt(datawczesniejsza.substring(0, 4));
-        int mcO1 = Integer.parseInt(datapozniejsza.substring(5, 7));
-        int mcO2 = Integer.parseInt(datawczesniejsza.substring(5, 7));
-        if (rokO1 < rokO2) {
-            return -1;
-        } else if (rokO1 > rokO2) {
-            return 1;
-        } else if (rokO1 == rokO2) {
-            if (mcO1 == mcO2) {
-                return 0;
-            } else if (mcO1 < mcO2) {
-                return -1;
-            } else {
-                return 1;
-            }
-        }
-        return 0;
+        int rokP = Integer.parseInt(datapozniejsza.substring(0,4));
+        int mcP = Integer.parseInt(datapozniejsza.substring(5, 7));
+        int rokW = Integer.parseInt(datawczesniejsza.substring(0, 4));
+        int mcW = Integer.parseInt(datawczesniejsza.substring(5, 7));
+        return doCompare(rokP, mcP, rokW, mcW);
+    }
+    
+    public static int compare(UmorzenieN um, WpisView wpisView) {
+        int rokP = um.getRokUmorzenia();
+        int mcP = um.getMcUmorzenia();
+        int rokW = wpisView.getRokWpisu();
+        int mcW = Integer.parseInt(wpisView.getMiesiacWpisu());
+        return doCompare(rokP, mcP, rokW, mcW);
     }
     
     public static String aktualnyDzien() {
