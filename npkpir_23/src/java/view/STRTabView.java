@@ -18,7 +18,6 @@ import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import data.Data;
-import embeddable.Mce;
 import embeddable.Roki;
 
 import entity.Amodok;
@@ -31,7 +30,6 @@ import entityfk.Dokfk;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -95,6 +93,7 @@ public class STRTabView implements Serializable {
     private List<SrodekTrw> planUmorzen;
     private List<SrodekTrw> filteredValues;
     private List<SrodekTrw> posiadane;
+    private List<SrodekTrw> posiadane2;
     private List<SrodekTrw> filtrowaneposiadane;
     private List<SrodekTrw> posiadane_wnip;
     private double posiadanesumanetto;
@@ -136,6 +135,7 @@ public class STRTabView implements Serializable {
         planUmorzen = new ArrayList<>();
         wyposazenie = new ArrayList<>();
         posiadane = new ArrayList<>();
+        posiadane2 = new ArrayList<>();
         posiadane_wnip = new ArrayList<>();
         sprzedane = new ArrayList<>();
         sprzedane_wnip = new ArrayList<>();
@@ -209,6 +209,9 @@ public class STRTabView implements Serializable {
                                         if (bezcalkowicieumorzonych && srodek.getNetto().doubleValue() == srodek.getUmorzeniepoczatkowe().doubleValue()) {
                                             System.out.println("");
                                         } else {
+                                            if (srodek.getNetto().doubleValue() != srodek.getUmorzeniepoczatkowe().doubleValue()) {
+                                                posiadane2.add(srodek);
+                                            }
                                             posiadane.add(srodek);
                                             posiadanesumanetto += srodek.getNetto();
                                         }
@@ -218,6 +221,9 @@ public class STRTabView implements Serializable {
                                         if (bezcalkowicieumorzonych && srodek.getNetto().doubleValue() == srodek.getUmorzeniepoczatkowe().doubleValue()) {
                                             System.out.println("");
                                         } else {
+                                            if (srodek.getNetto().doubleValue() != srodek.getUmorzeniepoczatkowe().doubleValue()) {
+                                                posiadane2.add(srodek);
+                                            }
                                             posiadane.add(srodek);
                                             posiadanesumanetto += srodek.getNetto();
                                         }
@@ -761,13 +767,14 @@ public class STRTabView implements Serializable {
         }
     }
     
-    public void drukowanietabeli(List<SrodekTrw> l, String nazwapliku) {
+    public void drukowanietabeli(List<SrodekTrw> l, String nazwapliku, int modyfikator) {
         try {
             double netto = 0.0;
             double vat = 0.0;
             double umorzeniepocz = 0.0;
             double odpisrocz = 0.0;
             double odpismc = 0.0;
+            double strnetto = 0.0;
             if (filtrowaneposiadane != null) {
                 l = filtrowaneposiadane;
             }
@@ -781,17 +788,22 @@ public class STRTabView implements Serializable {
                     umorzeniepocz += p.getUmorzeniepoczatkowe();
                     odpisrocz += p.getOdpisrok();
                     odpismc += p.getOdpismc();
+                    strnetto += p.getStrNetto();
                 }
             }
             SrodekTrw suma = new SrodekTrw();
             suma.setNrsrodka(999999);
             suma.setNetto(Z.z(netto));
-            suma.setVat(Z.z(vat));
+            if (modyfikator == 0) {
+                suma.setVat(Z.z(vat));
+            } else {
+                suma.setVat(Z.z(strnetto));
+            }
             suma.setUmorzeniepoczatkowe(Z.z(umorzeniepocz));
             suma.setOdpisrok(Z.z(odpisrocz));
             suma.setOdpismc(Z.z(odpismc));
             l.add(suma);
-            PdfSTRtabela.drukujSTRtabela(wpisView, l, nazwapliku);
+            PdfSTRtabela.drukujSTRtabela(wpisView, l, nazwapliku, modyfikator);
         } catch (DocumentException ex) {
             E.e(ex);
             Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
@@ -951,6 +963,14 @@ public class STRTabView implements Serializable {
 
     public void setBezcalkowicieumorzonych(boolean bezcalkowicieumorzonych) {
         this.bezcalkowicieumorzonych = bezcalkowicieumorzonych;
+    }
+
+    public List<SrodekTrw> getPosiadane2() {
+        return posiadane2;
+    }
+
+    public void setPosiadane2(List<SrodekTrw> posiadane2) {
+        this.posiadane2 = posiadane2;
     }
 
     

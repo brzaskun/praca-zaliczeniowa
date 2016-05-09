@@ -384,25 +384,43 @@ public class testobjects {
        return tabela;
    }
     
-     public static List[] getSrodkiTRWlista(List<SrodekTrw> wiersze) {
-       List n = new ArrayList();
-       n.add("nr kol.");
-       n.add("data zakupu środka");
-       n.add("data przekazania");
-       n.add("nazwa środka trwałego");
-       n.add("KŚT");
-       n.add("nr. faktury");
-       n.add("cena zak.netto");
-       n.add("kwota vat");
-       n.add("umorzenie począt.");
-       n.add("roczna staw. odpisu");
-       n.add("odpis za rok");
-       n.add("odpis miesięczny");
-       List[] tabela = new List[2];
-       tabela[0] = n;
-       tabela[1] = wiersze;
-       return tabela;
-   }
+    public static List[] getSrodkiTRWlista(List<SrodekTrw> wiersze, int modyfikator) {
+        if (modyfikator == 0) {
+            List n = new ArrayList();
+            n.add("nr kol.");
+            n.add("data zakupu środka");
+            n.add("data przekazania");
+            n.add("nazwa środka trwałego");
+            n.add("KŚT");
+            n.add("nr. faktury");
+            n.add("cena zak.netto");
+            n.add("kwota vat");
+            n.add("umorzenie począt.");
+            n.add("roczna staw. odpisu");
+            n.add("odpis za rok");
+            n.add("odpis miesięczny");
+            List[] tabela = new List[2];
+            tabela[0] = n;
+            tabela[1] = wiersze;
+            return tabela;
+        } else {
+            List n = new ArrayList();
+            n.add("nr kol.");
+            n.add("data zakupu środka");
+            n.add("data przekazania");
+            n.add("nazwa środka trwałego");
+            n.add("nr. faktury");
+            n.add("cena zak.netto");
+            n.add("umorzenie począt.");
+            n.add("wartość netto");
+            n.add("odpis za rok");
+            n.add("odpis miesięczny");
+            List[] tabela = new List[2];
+            tabela[0] = n;
+            tabela[1] = wiersze;
+            return tabela;
+        }
+    }
     
     public static List[] getTabelaRRK(List<Transakcja> wiersze) {
        List n = new ArrayList();

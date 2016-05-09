@@ -37,7 +37,7 @@ import view.WpisView;
 public class PdfSTRtabela {
     
     
-     public static void drukujSTRtabela(WpisView wpisView, List<SrodekTrw> pobranesrodki, String nazwapliku) throws DocumentException, FileNotFoundException, IOException {
+     public static void drukujSTRtabela(WpisView wpisView, List<SrodekTrw> pobranesrodki, String nazwapliku, int modyfikator) throws DocumentException, FileNotFoundException, IOException {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"srt-"+nazwapliku;
         File file = new File(nazwa);
         if (file.isFile()) {
@@ -50,7 +50,7 @@ public class PdfSTRtabela {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie posiadanych środków trwałych w firmie: "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            dodajTabele(document, testobjects.getSrodkiTRWlista(pobranesrodki),97,0);
+            dodajTabele(document, testobjects.getSrodkiTRWlista(pobranesrodki, modyfikator),97,modyfikator);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
