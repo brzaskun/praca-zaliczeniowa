@@ -70,7 +70,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (listabrakiKontaAnalityczne.size() > 0) {
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString());
+            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listaRozniceWnMa.size() > 0) {
             main = "Występują różnice w stronach Wn i Ma w PLN w " + listaRozniceWnMa.size() + " dokumentach: ";
@@ -82,7 +82,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             }
             czysto = false;
             dokDAOfk.editList(listaRozniceWnMa);
-            Msg.msg("w", b.toString(), b.toString());
+            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabraki.size() > 0) {
             main = "Występują braki w kolumnie pln w " + listabraki.size() + " dokumentach: ";
@@ -100,7 +100,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             }
             czysto = false;
             dokDAOfk.editList(listabraki);
-            Msg.msg("w", b.toString(), b.toString());
+            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakiPozycji.size() > 0) {
             main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
@@ -111,7 +111,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                 b.append(", ");
             }
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString());
+            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakivat.size() > 0) {
             main = "Niezgodność między miesiącem ewidencji vat a typem konta vat w " + listabrakivat.size() + " dokumentach: ";
@@ -122,7 +122,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                 b.append(", ");
             }
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString());
+            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listapustaewidencja.size() > 0) {
             main = "Puste ewidencje vat w " + listapustaewidencja.size() + " dokumentach: ";
@@ -133,7 +133,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                 b.append(", ");
             }
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString());
+            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
          if (listaniezgodnoscvatkonto.size() > 0) {
             main = "VAT z ewidencji vat niezgodny z kontem w " + listaniezgodnoscvatkonto.size() + " dokumentach: ";
@@ -144,7 +144,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                 b.append(", ");
             }
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString());
+            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (czysto) {
             Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy", "zestawieniedokumentow:wiadomoscsprawdzenie");

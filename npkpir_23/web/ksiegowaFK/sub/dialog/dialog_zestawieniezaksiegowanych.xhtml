@@ -26,6 +26,7 @@
                 </h:form>-->
         <p:ajax event="maximize" listener="#{dokfkView.powiekszliste}" update="zestawieniedokumentow"/>
         <h:form id="zestawieniedokumentow">
+            <p:growl life="6000" autoUpdate="true" id="wiadomoscisprawdzanie" sticky="true"/>
             <p:panelGrid id="sumawybranych" columns="2">
                 <h:outputText value="   suma wartości netto wybranych dokumentów: "/>
                 <h:outputText  id="podsumowaniewybr" value="#{dokfkView.podsumowaniewybranych}">
@@ -39,22 +40,23 @@
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 60px;">
-                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList :menubarnorth" />
+                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
                         <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:commandButton id="pobierzzaksiegowane" value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" 
-                                     update=":zestawieniedokumentow:dataList"
+                                     update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth"
                                     />
                 </p:column>
                 <p:column>
-                <h:selectOneMenu value="#{dokfkView.wybranakategoriadok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                <h:selectOneMenu value="#{dokfkView.wybranakategoriadok}" id="kategoriadokumentu"
+                        styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                         onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
                         onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
                         style="width: 200px; height: 25px; margin-left: 100px;" rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}">
-                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
+                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth"/>
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
                     <f:selectItems value="#{dokfkView.dokumentypodatnikazestawienie}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
                 </h:selectOneMenu>
