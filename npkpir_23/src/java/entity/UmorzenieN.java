@@ -254,9 +254,9 @@ public class UmorzenieN implements Serializable {
                         nowe.setRodzaj(r.getRodzaj());
                         Em.edit(em, nowe);
                         p.getPlanumorzen().add(nowe);
-                        System.out.println("jest "+nowe.toString());
+                        System.out.println("jest ");
                     } else {
-                        System.out.println("brak umorzenia "+r.toString());
+                        System.out.println("brak umorzenia ");
                     }
                 }
                 Em.edit(em, p);
