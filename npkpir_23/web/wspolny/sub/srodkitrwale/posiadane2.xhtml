@@ -11,7 +11,7 @@
     <p:tab id="zestawienieposiadane2" title="posiadane2">
                 <p:dataTable  var="wpis" value="#{STRTableView.posiadane2}" id="srodkiLista2" 
                               scrollable="true" scrollHeight="390" 
-                              widgetVar="srodkiLista1" style="width: 1400px;" 
+                              widgetVar="srodkiLista2" style="width: 1400px;" 
                               rowKey="#{wpis.id}" > 
                     <p:ajax event="rowSelect" global="false" update="form_dialog_srodkitrwale_zmianawartosci"/>
                     <p:ajax event="filter" global="false"/>
@@ -19,41 +19,41 @@
                         <h:outputText value="Zesatwienie środkow trwalych - " />
                         <p:inputText id="globalFilter" placeholder="wyszukiwana fraza" onkeyup="PF('srodkiLista1').filter()" style="width: 200px;"/>
                     </f:facet>
-                    <p:column id="idColumn" headerText="nr kol."  style="width: 30px; text-align: center;">  
+                    <p:column headerText="nr kol."  style="width: 30px; text-align: center;">  
                         <h:outputText value="#{wpis.nrsrodka}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
-                    <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" 
+                    <p:column headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" 
                               sortBy="#{wpis.nazwa}" style="width: 250px;">  
                         <h:outputText value="#{wpis.nazwa}"    style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
-                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" 
+                    <p:column  headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" 
                               style="width: 40px; text-align: center;">  
                         <h:outputText value="#{wpis.kst}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
-                    <p:column id="dowColumn" headerText="symb.inwent" filterBy="#{wpis.symbolinwentarzowy}" filterMatchMode="contains" filterStyle="display : none;" 
+                    <p:column headerText="symb.inwent" filterBy="#{wpis.symbolinwentarzowy}" filterMatchMode="contains" filterStyle="display : none;" 
                               sortBy="#{wpis.symbolinwentarzowy}" style="width: 150px;">  
                         <h:outputText value="#{wpis.symbolinwentarzowy}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
-                    <p:column id="rodzTrColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" 
+                    <p:column  headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" 
                               sortBy="#{wpis.netto}" style="width: 76px;">  
                         <h:outputText value="#{wpis.netto}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="umoColumn" headerText="umorzenie począt." filterBy="#{wpis.umorzeniepoczatkowe}" filterMatchMode="contains" filterStyle="display : none;"
+                    <p:column  headerText="umorzenie począt." filterBy="#{wpis.umorzeniepoczatkowe}" filterMatchMode="contains" filterStyle="display : none;"
                               sortBy="#{wpis.umorzeniepoczatkowe}" style="width: 75px;">  
                         <h:outputText value="#{wpis.umorzeniepoczatkowe}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="nkupColumn" headerText="niest. k.u.p." filterBy="#{wpis.niepodlegaamortyzacji}" filterMatchMode="contains" 
+                    <p:column headerText="niest. k.u.p." filterBy="#{wpis.niepodlegaamortyzacji}" filterMatchMode="contains" 
                               filterStyle="display : none;" sortBy="#{wpis.niepodlegaamortyzacji}" style="width: 75px;">  
                         <h:outputText value="#{wpis.niepodlegaamortyzacji}"  rendered="#{wpis.niepodlegaamortyzacji ne 0.0}"
                                       style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="stawkaColumn" headerText="staw. odp." filterBy="#{wpis.stawka}" style="text-align: center;width: 55px;" 
+                    <p:column  headerText="staw. odp." filterBy="#{wpis.stawka}" style="text-align: center;width: 55px;" 
                               filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.stawka}">  
 
                         <h:outputText value="#{wpis.stawka}%"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
@@ -63,19 +63,19 @@
                                              type="number"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="odpisrokColumn" headerText="odpis za rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains"
+                    <p:column  headerText="odpis za rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains"
                               filterStyle="display : none;" sortBy="#{wpis.odpisrok}"  style="width: 80px;">  
                         <h:outputText value="#{wpis.odpisrok}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="odpismcColumn" headerText="wartość netto" filterBy="#{wpis.strNetto}" filterMatchMode="contains"
+                    <p:column  headerText="wartość netto" filterBy="#{wpis.strNetto}" filterMatchMode="contains"
                               filterStyle="display : none;" sortBy="#{wpis.strNetto}"  style="width: 80px;">  
                         <h:outputText value="#{wpis.strNetto}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="kontonetto" headerText="konto netto" filterBy="#{wpis.kontonetto.pelnynumer}" 
+                    <p:column  headerText="konto netto" filterBy="#{wpis.kontonetto.pelnynumer}" 
                               filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kontonetto.pelnynumer}" style="width: 80px;">  
                         <h:outputText value="#{wpis.kontonetto.pelnynumer}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>

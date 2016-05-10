@@ -749,7 +749,7 @@ public class STRTabView implements Serializable {
     
     public void ksiegujUmorzenieFK(Amodok amodok) {
         Dokfk znalezionyBiezacy = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "AMO", String.valueOf(amodok.getAmodokPK().getRok()), wpisView.getMiesiacWpisu());
-        Dokfk dokumentAMO = DokumentFKBean.generujdokument(wpisView, klienciDAO, "AMO", "zaksięgowanie umorzenia ", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, amodok.getUmorzenia(), dokDAOfk);
+        Dokfk dokumentAMO = DokumentFKBean.generujdokument(wpisView, klienciDAO, "AMO", "zaksięgowanie umorzenia ", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, amodok.getPlanumorzen(), dokDAOfk);
         String nrdokumentu = null;
         if (znalezionyBiezacy != null) {
             nrdokumentu = znalezionyBiezacy.getNumerwlasnydokfk();

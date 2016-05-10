@@ -186,7 +186,7 @@ public class SrodekTrw implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             WpisView bean = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
             zwrot = this.netto - this.umorzeniepoczatkowe;
-            if (this.getNazwa().equals("Pług PW 100")) {
+            if (this.getNazwa().equals("ładowarka job 525-67")) {
                 System.out.println("");
             }
             for (UmorzenieN p : this.planumorzen) {
