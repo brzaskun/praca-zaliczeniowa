@@ -162,7 +162,7 @@ public class SrodekTrw implements Serializable {
     private List<SrodekTrw_NowaWartosc> zmianawartosci;
     @Column(name = "symbolinwentarzowy", nullable = true)
     private String symbolinwentarzowy;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "srodekTrw")
     private List<UmorzenieN> planumorzen;
 
 

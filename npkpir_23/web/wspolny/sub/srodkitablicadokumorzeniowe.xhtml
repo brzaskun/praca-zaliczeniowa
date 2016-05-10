@@ -73,10 +73,10 @@
                     <p:column id="SubColumn4X" headerText="#{mgs.kwota}" >  
                         <bcf:outputpl value="#{subwpisX.kwota}"/>
                     </p:column>
-                     <p:column id="SubColumn5X" headerText="#{mgs.wartość}" style="text-align: center;" rendered="#{subwpisX.kontoumorzenie ne ''}">  
+                     <p:column id="SubColumn5X" headerText="netto" style="text-align: center;" rendered="#{subwpisX.kontonetto ne null and subwpisX.kontonetto ne ''}">  
                         <h:outputText value="#{subwpisX.kontonetto}" />
                     </p:column>
-                     <p:column id="SubColumn6X" headerText="umorz." style="text-align: center;" rendered="#{subwpisX.kontoumorzenie ne ''}">  
+                     <p:column id="SubColumn6X" headerText="umorz." style="text-align: center;" rendered="#{subwpisX.kontoumorzenie ne null and subwpisX.kontoumorzenie ne ''}">  
                         <h:outputText value="#{subwpisX.kontoumorzenie}" />
                     </p:column>
                 </p:dataTable>
@@ -84,7 +84,7 @@
           <p:column headerText="suma" style="width: 70px;">
               <bcf:outputpl value="#{wpis.suma}"/>
           </p:column>
-          <p:column  headerText="zaksięguj" style="text-align: center; width: 90px;" rendered="#{subwpisX.kontoumorzenie ne ''}">
+          <p:column  headerText="zaksięguj" style="text-align: center; width: 90px;" rendered="#{subwpisX.kontoumorzenie ne null and subwpisX.kontoumorzenie ne ''}">
               <h:outputText value="mc inny od bieżącego" rendered="#{wpis.amodokPK.mcString ne WpisView.miesiacWpisu}" style="color: red;"/>
               <p:commandButton value="zaksięguj" actionListener="#{STRTableView.ksiegujUmorzenieFK(wpis)}" update=":formSTRUmorzenie" rendered="#{wpis.umorzenia.size() gt 0}"/>
             </p:column>

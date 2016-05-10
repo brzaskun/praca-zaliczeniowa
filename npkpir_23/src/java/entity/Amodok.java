@@ -47,7 +47,7 @@ public class Amodok implements Serializable {
     private List<Umorzenie> umorzenia;
     @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "amodok")
     private List<UmorzenieN> planumorzen;
     
     public double getSuma() {
@@ -60,6 +60,7 @@ public class Amodok implements Serializable {
 
     public Amodok() {
         umorzenia = new ArrayList<>();
+        planumorzen = new ArrayList<>();
     }
 
     public Amodok(AmodokPK amodokPK) {
@@ -102,6 +103,13 @@ public class Amodok implements Serializable {
         this.planumorzen = planumorzen;
     }
     
+    public List getUmorzenialista() {
+        if (planumorzen != null && planumorzen.size() > 0) {
+            return planumorzen;
+        } else {
+            return umorzenia;
+        }
+    }
     
 
     @Override

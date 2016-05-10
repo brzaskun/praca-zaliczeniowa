@@ -57,10 +57,7 @@ public class Em {
         try {
             // begin transaction 
             em.getTransaction().begin();
-            if (!em.contains(t)) {
-                // persist object - add to entity manager
-                em.merge(t);
-            }
+            em.merge(t);
             // commit transaction at all
             em.getTransaction().commit();
         } catch (Exception e) {

@@ -37,7 +37,8 @@ import waluty.Z;
 @NamedQueries({
     @NamedQuery(name = "UmorzenieN.findAll", query = "SELECT k FROM UmorzenieN k"),
     @NamedQuery(name = "UmorzenieN.findStr", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw = :srt"),
-    @NamedQuery(name = "UmorzenieN.findStrMcRok", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw.id = :srt AND k.mcUmorzenia = :mc AND k.rokUmorzenia = :rok")
+    @NamedQuery(name = "UmorzenieN.findStrMcRok", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw.id = :srt AND k.mcUmorzenia = :mc AND k.rokUmorzenia = :rok"),
+    @NamedQuery(name = "UmorzenieN.findStrNazwaMcRok", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw.nazwa = :srt AND k.srodekTrw.podatnik = :podatnik AND k.mcUmorzenia = :mc AND k.rokUmorzenia = :rok")
 })
 public class UmorzenieN implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -112,7 +113,7 @@ public class UmorzenieN implements Serializable {
 
     @Override
     public String toString() {
-        return "UmorzenieN{" + "id=" + id + ", srodekTrw=" + srodekTrw.getNazwa() + ", nrUmorzenia=" + nrUmorzenia + ", rokUmorzenia=" + rokUmorzenia + ", mcUmorzenia=" + mcUmorzenia + ", kwota=" + kwota + ", kontonetto=" + kontonetto + ", kontoumorzenie=" + kontoumorzenie + ", rodzaj=" + rodzaj + '}';
+        return "UmorzenieN{" + "id=" + id + ", srodekTrw=" + srodekTrw.getNazwa() + ", podatnik =" + srodekTrw.getDokfk().getPodatnikObj().getNazwapelna() + ", nrUmorzenia=" + nrUmorzenia + ", rokUmorzenia=" + rokUmorzenia + ", mcUmorzenia=" + mcUmorzenia + ", kwota=" + kwota + ", kontonetto=" + kontonetto + ", kontoumorzenie=" + kontoumorzenie + ", rodzaj=" + rodzaj + '}';
     }
 
    
@@ -203,70 +204,80 @@ public class UmorzenieN implements Serializable {
     
       public static void main(String[] args)  {
         EntityManager em = Em.getEm();
-        List<SrodekTrw> srodki = em.createNamedQuery("SrodekTrw.findAll").getResultList();
-        for (SrodekTrw p : srodki) {
-            p.setPlanumorzen(new ArrayList<UmorzenieN>());
-            List<Umorzenie> umorzenia = p.getUmorzWyk();
-            List<UmorzenieN> umorzenianowe = new ArrayList<>();
-            if (umorzenia != null && umorzenia.size() > 0) {
-                System.out.println(p.getNazwa());
-                for (Umorzenie r : umorzenia) {
-                    UmorzenieN u = new UmorzenieN(r);
-                    if (p.getKontonetto() != null) {
-                        u.setKontonetto(p.getKontonetto().getPelnynumer());
-                    }
-                    if (p.getKontoumorzenie() != null) {
-                        u.setKontoumorzenie(p.getKontoumorzenie().getPelnynumer());
-                    }
-                    u.setSrodekTrw(p);
-                    p.getPlanumorzen().add(u);
-                    umorzenianowe.add(u);
-                }
-            }
-            Em.saveList(em, umorzenianowe);
-            Em.edit(em, p);
-        }
-        for (SrodekTrw p : srodki) {
-            List<UmorzenieN> nowe = em.createNamedQuery("UmorzenieN.findStr").setParameter("srt", p).getResultList();
-            List<Umorzenie> stare = p.getUmorzWyk();
-            double sumastare = 0.0;
-            double sumanowe = 0.0;
-            for (Umorzenie r1 : stare) {
-                sumastare += r1.getKwota().doubleValue();
-            }
-            for (UmorzenieN r2 : nowe) {
-                sumanowe += r2.getKwota();
-            }
-            if (Z.z(sumanowe) != Z.z(sumastare)) {
-                System.out.println("Bladddddd "+p.getNazwa()+" sumastare: "+sumastare+" sumanowe: "+sumanowe);
-            }
-        }
-        System.out.println("e");
+//        List<SrodekTrw> srodki = em.createNamedQuery("SrodekTrw.findAll").getResultList();
+//        for (SrodekTrw p : srodki) {
+//            p.setPlanumorzen(new ArrayList<UmorzenieN>());
+//            List<Umorzenie> umorzenia = p.getUmorzWyk();
+//            List<UmorzenieN> umorzenianowe = new ArrayList<>();
+//            if (umorzenia != null && umorzenia.size() > 0) {
+//                System.out.println(p.getNazwa());
+//                for (Umorzenie r : umorzenia) {
+//                    UmorzenieN u = new UmorzenieN(r);
+//                    if (p.getKontonetto() != null) {
+//                        u.setKontonetto(p.getKontonetto().getPelnynumer());
+//                    }
+//                    if (p.getKontoumorzenie() != null) {
+//                        u.setKontoumorzenie(p.getKontoumorzenie().getPelnynumer());
+//                    }
+//                    u.setSrodekTrw(p);
+//                    p.getPlanumorzen().add(u);
+//                    umorzenianowe.add(u);
+//                }
+//            }
+//            Em.saveList(em, umorzenianowe);
+//            Em.edit(em, p);
+//        }
+//        for (SrodekTrw p : srodki) {
+//            List<UmorzenieN> nowe = em.createNamedQuery("UmorzenieN.findStr").setParameter("srt", p).getResultList();
+//            List<Umorzenie> stare = p.getUmorzWyk();
+//            double sumastare = 0.0;
+//            double sumanowe = 0.0;
+//            for (Umorzenie r1 : stare) {
+//                sumastare += r1.getKwota().doubleValue();
+//            }
+//            for (UmorzenieN r2 : nowe) {
+//                sumanowe += r2.getKwota();
+//            }
+//            if (Z.z(sumanowe) != Z.z(sumastare)) {
+//                System.out.println("Bladddddd "+p.getNazwa()+" sumastare: "+sumastare+" sumanowe: "+sumanowe);
+//            }
+//        }
+        System.out.println("start");
             List<Amodok> amodoklista = em.createNamedQuery("Amodok.findAll").getResultList();
             for (Amodok p : amodoklista) {
                 p.setPlanumorzen(new ArrayList<UmorzenieN>());
                 List<Umorzenie> stare = p.getUmorzenia();
                 for (Umorzenie r : stare) {
-                    UmorzenieN nowe = pobierz(em, r);
+                    UmorzenieN nowe = pobierz(em, r, p.getAmodokPK().getPodatnik());
                     if (nowe != null) {
-                        p.getPlanumorzen().add(nowe);
                         nowe.setAmodok(p);
-                        System.out.println("jest "+nowe.getAmodok().toString());
+                        nowe.setRodzaj(r.getRodzaj());
+                        Em.edit(em, nowe);
+                        p.getPlanumorzen().add(nowe);
+                        System.out.println("jest "+nowe.toString());
+                    } else {
+                        System.out.println("brak umorzenia "+r.toString());
                     }
                 }
-                Em.edit(em, p.getPlanumorzen());
                 Em.edit(em, p);
                 //System.out.println("edycja "+p.getAmodokPK().toString());
             }
             System.out.println("KONIEC KONIEC KONIEC");
     }
       
-    public static UmorzenieN pobierz(EntityManager em, Umorzenie r) {
+    public static UmorzenieN pobierz(EntityManager em, Umorzenie r, String podatnik) {
         UmorzenieN zwrot = null;
         try {
             zwrot = (UmorzenieN) em.createNamedQuery("UmorzenieN.findStrMcRok").setParameter("srt", r.getSrodekTrwID()).setParameter("mc", r.getMcUmorzenia()).setParameter("rok", r.getRokUmorzenia()).getSingleResult();
         } catch (Exception e) {
         }
+        try {
+            if (zwrot == null) {
+                zwrot = (UmorzenieN) em.createNamedQuery("UmorzenieN.findStrNazwaMcRok").setParameter("srt", r.getNazwaSrodka()).setParameter("podatnik", podatnik).setParameter("mc", r.getMcUmorzenia()).setParameter("rok", r.getRokUmorzenia()).getSingleResult();
+            }
+        } catch (Exception e) {
+            System.out.println("dziwne");
+        }   
         return zwrot;
     }
    

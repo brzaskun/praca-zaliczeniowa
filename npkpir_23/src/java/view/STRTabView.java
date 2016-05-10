@@ -300,11 +300,11 @@ public class STRTabView implements Serializable {
                 for (UmorzenieN umAkt : umorzeniaWyk) {
                     if ((umAkt.getRokUmorzenia() == rokOd) && (umAkt.getMcUmorzenia() == mcOd)) {
                         if (umAkt.getKwota() > 0) {
+                            umAkt.setSrodekTrw(srodek);
+                            umAkt.setRodzaj(srodek.getTyp());
                             if (srodek.getKontonetto() != null) {
-                                umAkt.setSrodekTrw(srodek);
                                 umAkt.setKontonetto(srodek.getKontonetto().getPelnynumer());
                                 umAkt.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
-                                umAkt.setRodzaj(srodek.getTyp());
                             }
                             amoDok.getPlanumorzen().add(umAkt);
                         }
