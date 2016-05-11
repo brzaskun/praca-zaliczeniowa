@@ -15,25 +15,25 @@
                 <h:outputText value="data operacji gosp."/>
                 <h:outputText value="dane kontrahenta"/>
                 <h:outputText value="50%" />
-                <h:inputText id="data1DialogVAT" value="#{dokfkView.ewidencjaVatRK.datadokumentu}" 
+                <h:inputText id="data1DialogVAT" value="#{dokfkView.ewidencjaVatRK.datadokumentu}"
                              onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogVAT');
                                              $(this).removeClass('ui-state-focus');
                                              $(this).addClass('ui-state-default');"
                              title="wpisz numer dnia, lub miesiąc i dzień"
                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                              onfocus="$(this).removeClass('ui-state-default');
-                                             $(this).addClass('ui-state-focus');" style="height: 19px;"
+                                             $(this).addClass('ui-state-focus');" style="height: 19px; width: 110px;"
                              >
                     <p:ajax global="false" event="blur" partialSubmit="true" />
                 </h:inputText>
-                <h:inputText id="data2DialogVAT" value="#{dokfkView.ewidencjaVatRK.dataoperacji}" 
+                <h:inputText id="data2DialogVAT" value="#{dokfkView.ewidencjaVatRK.dataoperacji}"
                              onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogVAT');
                                              $(this).removeClass('ui-state-focus');
                                              $(this).addClass('ui-state-default');"
                              title="wpisz numer dnia, lub miesiąc i dzień"
                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                              onfocus="$(this).removeClass('ui-state-default');
-                                             $(this).addClass('ui-state-focus');" style="height: 19px;"
+                                             $(this).addClass('ui-state-focus');" style="height: 19px; width: 110px;"
                              >
                     <p:ajax global="false" event="blur" partialSubmit="true" />
                 </h:inputText>
@@ -79,13 +79,13 @@
                     <p:ajax event="blur" global="false" partialSubmit="true"/>
                 </h:selectOneMenu>
                 <pe:inputNumber id="netto" value="#{dokfkView.ewidencjaVatRK.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" 
-                                required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                required="true" requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
                                 style="text-align: right; height: 19px;" symbolPosition="s" 
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenettoRK()}" partialSubmit="true"/>
                 </pe:inputNumber>
                 <pe:inputNumber id="vat" value="#{dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
-                                requiredMessage="Brak kwoty - uzupełnij" 
+                                requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
                                 style="text-align: right;" symbolPosition="s" 
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax global="false" event="change" listener="#{dokfkView.updatevatRK()}"  partialSubmit="true" />

@@ -178,3 +178,7 @@ var kalkulator_pobierzwiersz = function(pole) {
   MYAPP.kalkulator_cel = pole;  
 };
 
+var uruchomkalkulator = function(wywolujacy) {
+    MYAPP.wywolujacy = wywolujacy;
+    PF('dialog_kalkulator').show();
+};
