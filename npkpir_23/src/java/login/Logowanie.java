@@ -135,7 +135,9 @@ public class Logowanie implements Serializable {
                 } catch (Exception e) {
                     //to kiedys trzeba usunac :)
                 }
-                Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
+                if (liczniklogowan < 5) {
+                    Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
+                }
             }
             ustawLocale(uzytkownik);
             return navto;
@@ -203,6 +205,7 @@ public class Logowanie implements Serializable {
             Calendar calendar = Calendar.getInstance();
             sesja.setWylogowanie(new Timestamp(calendar.getTime().getTime()));
             sesjaDAO.edit(sesja);
+            session.invalidate();
         } catch (Exception e) {
             E.e(e);
         }
