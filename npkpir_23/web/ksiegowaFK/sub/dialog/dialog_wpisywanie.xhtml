@@ -213,7 +213,7 @@
                                         <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                                         <p:ajax global="false" event="blur" onsuccess="zerujwiadomosc()"/>
                                         <p:ajax event="blur" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" 
-                                                update=":parametrydel"/>
+                                                update=":parametrydel:jest1niema0"/>
                                     </p:inputText>
                                 </p:column>
                                 <p:column style="width: 40px; text-align: center;">
@@ -672,7 +672,7 @@
                 <h:inputHidden id="aktualnywierszrozrachunkow" value="#{dokfkView.rodzaj}" />
             </h:form>
             <h:form id="parametrydel">
-                <h:inputHidden id="jest1niema0" value="#{delegacje.jest1niema0}"/>
+                <h:inputHidden id="jest1niema0" value="#{delegacjeView.jest1niema0}"/>
             </h:form>
             <h:form id="parametrynowekonto">
                 <h:inputHidden id="jest1niema0" value="#{dokfkView.jest1niema0_konto}"/>
