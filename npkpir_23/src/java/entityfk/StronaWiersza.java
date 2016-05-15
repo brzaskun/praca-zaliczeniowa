@@ -270,7 +270,7 @@ public class StronaWiersza implements Serializable {
 //            }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
-        return this.rozliczono;
+        return Z.z(this.rozliczono);
     }
     
     //dzieki temu mozna bez problemu zmieniac wartosci rozliczen w walucie, nie trzeba ich wczesnie zerowac
@@ -286,7 +286,7 @@ public class StronaWiersza implements Serializable {
             }
         }
         this.pozostalo = this.getKwotaR() - this.rozliczono;
-        return this.rozliczono;
+        return Z.z(this.rozliczono);
     }
    
 
@@ -331,7 +331,7 @@ public class StronaWiersza implements Serializable {
 //            }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
-        return this.rozliczono;
+        return Z.z(this.rozliczono);
     }
 
     public void setRozliczono(double rozliczono) {
@@ -365,7 +365,7 @@ public class StronaWiersza implements Serializable {
 //            }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
-        return this.pozostalo;
+        return Z.z(this.pozostalo);
     }
 
     public double getPozostalo(WpisView wpisView) {
@@ -408,7 +408,7 @@ public class StronaWiersza implements Serializable {
 //            }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
-        return this.pozostalo;
+        return Z.z(this.pozostalo);
     }
 
     public double getPozostaloPLN() {

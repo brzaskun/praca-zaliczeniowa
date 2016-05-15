@@ -227,8 +227,7 @@ public class DokTabView implements Serializable {
                     amotmpnas = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacNastepny());
                 }
                 if(amotmpnas != null && amotmpnas.getZaksiegowane() == true){
-                   Msg.msg("e", "Nie można usunąć dokumentu AMO. Usuń najpierw ten z następnego miesiąca!", "form:messages"); 
-                   return;
+                   Msg.msg("e", "Uwaga, istnieją dokumenty AMO zaksięgowane w następnych miesiącach!", "form:messages"); 
                 }
                 Amodok amotmp = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 amotmp.setZaksiegowane(false);
