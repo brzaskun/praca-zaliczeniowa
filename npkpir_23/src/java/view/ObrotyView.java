@@ -219,16 +219,20 @@ public class ObrotyView implements Serializable{
    public void mailobroty() {
        try {
            MailOther.obroty(wpisView);
-       } catch (Exception e) { E.e(e); 
-           
+       } catch (Exception e) { 
+           E.e(e); 
        }
    }
    
    public void drukujObroty() {
         try {
-            PdfObroty.drukuj(goscwybral, wpisView);
-        } catch (Exception e) { E.e(e); 
-            
+            if (goscwybral != null && goscwybral.size() > 0) {
+                PdfObroty.drukuj(goscwybral, wpisView);
+            } else {
+                PdfObroty.drukuj(obiektDOKmrjsfSelX, wpisView);
+            }
+        } catch (Exception e) {
+            E.e(e); 
         }
     }
        

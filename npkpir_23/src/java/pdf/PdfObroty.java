@@ -86,7 +86,7 @@ public class PdfObroty  {
             } else {
                 table.addCell(ustawfrazeAlign("", "center",8));
             }
-            table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left",8));
+            table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left",8,25f));
             table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left",8));
             table.addCell(ustawfrazeAlign(rs.getRodzTrans(), "left",8));
             table.addCell(ustawfrazeAlign(rs.getTypdokumentu(), "left",8));
@@ -126,9 +126,9 @@ public class PdfObroty  {
         Double bruttosuma = 0.0;
         Double waluta = 0.0;
         for(Dok p : wykaz){
-            nettosuma += p.getNetto();
-            bruttosuma += p.getBrutto();
-            waluta += p.getNettoWaluta();
+            nettosuma += p.getNetto() != null ? p.getNetto() : 0.0;
+            bruttosuma += p.getBrutto() != null ? p.getBrutto() : 0.0;
+            waluta += p.getNettoWaluta() != null ? p.getNettoWaluta() : 0.0;
         }
         Dok suma = new Dok();
         suma.setNrWpkpir(0);

@@ -143,7 +143,7 @@ public class PdfPK {
             document.add(tabelaFaktura(selected));
         }
         document.add(Chunk.NEWLINE);
-        if (selected.getOpis().equals("umorzenie za miesiac")) {
+        if (selected.getTypdokumentu().equals("AMO")) {
             document.add(new Paragraph("Zawartość dokumentu amortyzacji", fontM));
             document.add(Chunk.NEWLINE);
             dodajamo(document, amoDokDAO, wpisView);
@@ -175,9 +175,9 @@ public class PdfPK {
         int i = 1;
         for (UmorzenieN p : umorzenia) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 10));
-            table.addCell(ustawfrazeAlign(p.getSrodekTrw().getNazwa(), "center", 10));
+            table.addCell(ustawfrazeAlign(p.getSrodekTrw().getNazwa(), "left", 10));
             table.addCell(ustawfrazeAlign(String.valueOf(p.getNrUmorzenia()), "center", 10));
-            table.addCell(ustawfrazeAlign(formatter.format(p.getKwota()), "center", 10));
+            table.addCell(ustawfrazeAlign(formatter.format(p.getKwota()), "right", 10));
         }
         document.add(table);
     }

@@ -112,7 +112,7 @@ public class PdfVAT {
                     PdfPCell cell = new PdfPCell();
                     table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
                     table.addCell(ustawfraze("wydruk ewidencji vat " + p, 3, 0));
-                    table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 5, 0));
+                    table.addCell(ustawfraze("firma: " + wpisView.getPodatnikObiekt().podatnikDaneWydruk(), 5, 0));
                     table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
                     
                     table.addCell(ustawfraze("lp", 0, 2));
@@ -262,7 +262,7 @@ public class PdfVAT {
                     PdfPCell cell = new PdfPCell();
                     table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
                     table.addCell(ustawfraze("wydruk ewidencji vat " + p, 3, 0));
-                    table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 5, 0));
+                    table.addCell(ustawfraze("firma: " + wpisView.getPodatnikObiekt().podatnikDaneWydruk(), 5, 0));
                     table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
                     
                     table.addCell(ustawfraze("lp", 0, 2));
@@ -471,7 +471,7 @@ public class PdfVAT {
             PdfPCell cell = new PdfPCell();
             table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
             table.addCell(ustawfraze("wydruk ewidencji vat " + nazwaewidencji, 3, 0));
-            table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 5, 0));
+            table.addCell(ustawfraze("firma: " + wpisView.getPodatnikObiekt().podatnikDaneWydruk(), 5, 0));
             table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
 
             table.addCell(ustawfraze("lp", 0, 2));

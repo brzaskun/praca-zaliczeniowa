@@ -236,6 +236,30 @@ public class Podatnik implements Serializable {
         this.FKpiatki = new ArrayList<>();
     }
     
+    public String podatnikDaneWydruk() {
+        StringBuilder s = new StringBuilder();
+        s.append(this.nazwapelna);
+        s.append(" ");
+        if (adresdlafaktury != null && adresdlafaktury.length() > 1)  {
+            s.append(this.adresdlafaktury);
+            s.append(" ");
+        } else {
+            s.append(this.kodpocztowy);
+            s.append(" ");
+            s.append(this.miejscowosc);
+            s.append(" ");
+            s.append(this.ulica);
+            s.append(" ");
+            s.append(this.nrdomu);
+            s.append("/");
+            s.append(this.nrlokalu);
+            s.append(" ");
+        }
+        s.append("NIP ");
+        s.append(this.nip);
+        return s.toString();
+    }
+    
     
     //<editor-fold defaultstate="collapsed" desc="comment">
         

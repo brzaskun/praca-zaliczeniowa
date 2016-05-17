@@ -96,10 +96,10 @@ public class PdfPkpir {
         try {
             table.setWidthPercentage(95);
             table.setWidths(new int[]{1, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
-            table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
-            table.addCell(ustawfraze("wydruk podatkowej księgi przychodów i rozchodów", 4, 0));
-            table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 5, 0));
-            table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + mc, 3, 0));
+            table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 3, 0));
+            table.addCell(ustawfraze("wydruk podatkowej księgi przych. i rozch.", 2, 0));
+            table.addCell(ustawfraze("firma: " + wpisView.getPodatnikObiekt().podatnikDaneWydruk(), 9, 0));
+            table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + mc, 2, 0));
             table.addCell(ustawfraze("lp", 0, 2));
             table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
             table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
