@@ -38,7 +38,7 @@ public class PDFRozrachunki {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, B.b("zestawienierozrachunków")+" "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, B.b("zestawienierozrachunków"),wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRozrachunki(stronyWiersza),95,1);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";

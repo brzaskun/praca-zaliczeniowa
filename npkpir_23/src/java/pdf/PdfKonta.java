@@ -310,7 +310,11 @@ public class PdfKonta {
             if (l.equals("pl")) {
                 table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
             } else {
-                table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 7));
+                if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
+                    table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+                } else {
+                    table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 7));
+                }
             }
             table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 7));

@@ -71,9 +71,9 @@ public class PdfVAT7new {
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
         if (d.getWzorschemy().contains("M")) {
-            dodajOpisWstepny(document, "Deklaracja VAT firma: "+wpisView.getPodatnikWpisu(), d.getMiesiac(), d.getRok());
+            dodajOpisWstepny(document, "Deklaracja VAT firma: ", wpisView.getPodatnikObiekt(), d.getMiesiac(), d.getRok());
         } else {
-            dodajOpisWstepny(document, "Deklaracja VAT firma: "+wpisView.getPodatnikWpisu(), d.getNrkwartalu(), d.getRok());
+            dodajOpisWstepny(document, "Deklaracja VAT firma: ", wpisView.getPodatnikObiekt(), d.getNrkwartalu(), d.getRok());
         }
         if (schematewidencjesprzedazy != null) {
             dodajTabele(document, testobjects.getSchemaEwidencjaSuma(schematewidencjesprzedazy),97,0);

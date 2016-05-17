@@ -199,7 +199,7 @@ public class PdfZestRok{
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Zestawienie przychodów ewidencjonowanych firmy: "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Zestawienie przychodów ewidencjonowanych firmy: ", wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getZestawienieRyczalt(pobranetransakcje),97,0);
             finalizacjaDokumentu(document);
             //String f = "pokazwydruk('"+nazwa+"');";

@@ -37,7 +37,7 @@ public class PdfWierszBO {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Zestawienie wierszy BO w firmie "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Zestawienie wierszy BO w firmie", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaWierszBO(pobranetransakcje),97,0);
             dodajLinieOpisu(document, obliczsumy(pobranetransakcje));
             finalizacjaDokumentu(document);
@@ -60,7 +60,7 @@ public class PdfWierszBO {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Zestawienie wierszy BO w firmie "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Zestawienie wierszy BO w firmie", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaWierszBOKonsolidacyjna(pobranetransakcje),97,1);
             dodajLinieOpisu(document, obliczsumy(pobranetransakcje));
             finalizacjaDokumentu(document);

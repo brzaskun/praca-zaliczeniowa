@@ -53,7 +53,7 @@ public class PdfFakturyPlatnosciView implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Zestawienie "+zaplaconyniezaplacony+" faktur za okres", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Zestawienie "+zaplaconyniezaplacony+" faktur za okres", wpisView.getPodatnikObiekt(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaFakturyPlatnosci(wiersze, zaplaconyniezaplacony),100,0);
             finalizacjaDokumentu(document);
             String f = null;

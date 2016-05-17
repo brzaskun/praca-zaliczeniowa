@@ -6,7 +6,6 @@
 package pdffk;
 
 import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeAlignNOBorder;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
@@ -26,7 +25,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.SchemaEwidencjaSuma;
-
 import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
@@ -285,13 +283,23 @@ public class PdfMain {
         }
     }
     
-    public static void dodajOpisWstepny(Document document, String opis, String mc, String rok) {
+    public static void dodajOpisWstepny(Document document, String opis, Podatnik podatnik, String mc, String rok) {
         try {
-            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[2]));
+            StringBuilder s = new StringBuilder();
+            s.append(opis);
+            s.append("Fa ");
+            s.append(podatnik.getNazwapelna());
+            s.append(" NIP ");
+            s.append(podatnik.getNip());
+            Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " " + mc + "/" + rok, ft[1]));
+            if (mc != null) {
+                opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " " + mc + "/" + rok, ft[1]));
+            } else {
+                opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " rok "+ rok, ft[1]));
+            }
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -300,20 +308,32 @@ public class PdfMain {
         }
     }
     
-    public static void dodajOpisWstepny(Document document, String opis, String rok) {
+    public static void dodajOpisWstepnyFaktury(Document document, String opis, String podatnik, String nip, String mc, String rok) {
         try {
-            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[2]));
+            StringBuilder s = new StringBuilder();
+            s.append(opis);
+            s.append(" Firma ");
+            s.append(podatnik);
+            s.append(" NIP ");
+            s.append(nip);
+            Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniowyrok") +" "+ rok, ft[1]));
+            if (mc != null) {
+                opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " " + mc + "/" + rok, ft[1]));
+            } else {
+                opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " rok "+ rok, ft[1]));
+            }
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, String, String)");
+            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
             E.e(ex);
         }
     }
+    
+    
     
     public static void dodajLinieOpisu(Document document, String opis) {
         try {

@@ -51,9 +51,9 @@ public class PdfBilans {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             String sumatxt = formatter.format(sumabilansowa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, B.b("BilansAktywafirmy")+" "+wpisView.getPodatnikWpisu()+" "+B.b("sumaaktywów")+" - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, B.b("BilansAktywafirmy")+"  "+B.b("sumaaktywów")+" - "+sumatxt,wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, B.b("BilansPasywafirmy")+" "+wpisView.getPodatnikWpisu()+" "+B.b("sumapasywów")+" - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, B.b("BilansPasywafirmy")+" "+B.b("sumapasywów")+" - "+sumatxt, wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjekt),75,0);
             finalizacjaDokumentu(document);
@@ -89,9 +89,9 @@ public class PdfBilans {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             String sumatxt = formatter.format(sumabilansowa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, "Bilans Otwarcia Aktywa firmy "+wpisView.getPodatnikWpisu()+" suma aktywów - "+sumatxt, wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Otwarcia Aktywa - suma aktywów: "+sumatxt, wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, "Bilans Otwarcia Pasywa firmy "+wpisView.getPodatnikWpisu()+" suma pasywów - "+sumatxt, wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Otwarcia Pasywa - suma pasywów: "+sumatxt, wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjekt),75,0);
             finalizacjaDokumentu(document);
@@ -127,9 +127,9 @@ public class PdfBilans {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             String sumatxt = formatter.format(sumabilansowa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, "Bilans Otwarcia Aktywa (z nr kont) firmy "+wpisView.getPodatnikWpisu()+" suma aktywów - "+sumatxt, wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Otwarcia Aktywa (z nr kont) - suma aktywów: "+sumatxt,wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, "Bilans Otwarcia Pasywa (z nr kont) firmy "+wpisView.getPodatnikWpisu()+" suma pasywów - "+sumatxt, wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Otwarcia Pasywa (z nr kont) - suma pasywów: "+sumatxt,wpisView.getPodatnikObiekt(), null,  wpisView.getRokWpisuSt());
             }
              if (bezzer) {
                 dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowaneBez0(rootProjekt),95,2);
@@ -170,9 +170,9 @@ public class PdfBilans {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             String sumatxt = formatter.format(sumabilansowa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, "Bilans Aktywa z nr kont firmy "+wpisView.getPodatnikWpisu()+" suma aktywów - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Aktywa z nr kont - suma aktywów: "+sumatxt, wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, "Bilans Pasywa z nr kont firmy "+wpisView.getPodatnikWpisu()+" suma pasywów - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Pasywa z nr kont - suma pasywów: "+sumatxt, wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             if (bezzer) {
                 dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowaneBez0(rootProjekt),95,2);

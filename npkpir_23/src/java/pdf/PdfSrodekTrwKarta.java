@@ -46,7 +46,7 @@ public class PdfSrodekTrwKarta {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Karta środka trwałego w firmie: "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Karta środka trwałego w firmie:", wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             naniesdanewstepne(document, srodek);
             dodajTabele(document, testobjects.getSrodekUmorzenie(srodek.getPlanumorzen()),50,0);
             finalizacjaDokumentu(document);

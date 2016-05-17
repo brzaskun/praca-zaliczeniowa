@@ -45,7 +45,7 @@ public class PdfPlanKont {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Plan Kont firmy "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Plan Kont firmy ", wpisView.getPodatnikObiekt(),null, wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaPlanKont(wykazkont),95,0);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";
@@ -67,7 +67,7 @@ public class PdfPlanKont {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, B.b("plankontfirmy")+" "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, B.b("plankontfirmy"), wpisView.getPodatnikObiekt(),null, wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaPlanKontTR(wykazkont),95,2);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";

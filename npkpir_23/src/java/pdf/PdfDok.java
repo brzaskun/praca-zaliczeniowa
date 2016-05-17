@@ -50,7 +50,7 @@ public class PdfDok extends Pdf implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma -  "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
+            dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma -  ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getListaDok(lista),100,0);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";

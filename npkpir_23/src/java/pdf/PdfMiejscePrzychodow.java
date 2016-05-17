@@ -70,7 +70,7 @@ public class PdfMiejscePrzychodow {
         //stopka
         absText(writer, "Dokument wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman.", 15, 26, 6);
         absText(writer, "Dokument nie wymaga podpisu.", 15, 18, 6);
-        dodajOpisWstepny(document, "Zestawienie przychodów wg miejsc w  "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        dodajOpisWstepny(document, "Zestawienie przychodów wg miejsc w  ",wpisView.getPodatnikObiekt(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
         if (listasummiejsckosztow.size() > 0) {
             for (MiejscePrzychodowView.TabelaMiejscePrzychodow p : listasummiejsckosztow) {
                 document.add(tablica(wpisView,p, rodzajdruku));

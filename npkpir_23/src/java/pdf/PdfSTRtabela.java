@@ -49,7 +49,7 @@ public class PdfSTRtabela {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Zestawienie posiadanych środków trwałych w firmie: "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Zestawienie posiadanych środków trwałych w firmie: ",wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.getSrodkiTRWlista(pobranesrodki, modyfikator),97,modyfikator);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";

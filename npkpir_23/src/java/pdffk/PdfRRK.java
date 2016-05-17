@@ -44,7 +44,7 @@ public class PdfRRK {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Zestawienie różnic kursowych w firmie "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Zestawienie różnic kursowych w firmie", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRRK(pobranetransakcje),97,0);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";

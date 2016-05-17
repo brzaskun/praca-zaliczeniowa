@@ -2549,7 +2549,7 @@ public class DokfkView implements Serializable {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
         dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze), 100, 0);
         finalizacjaDokumentu(document);
         String f = "wydrukZaksiegowaneLista('" + wpisView.getPodatnikObiekt().getNip() + "');";

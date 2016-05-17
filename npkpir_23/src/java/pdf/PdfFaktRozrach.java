@@ -41,7 +41,7 @@ public class PdfFaktRozrach {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Rozrachunki  "+wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepnyFaktury(document, "Rozrachunki  ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajLinieOpisu(document, "kontrahent "+szukanyklient.getNpelna());
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
@@ -70,7 +70,7 @@ public class PdfFaktRozrach {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Rozrachunki  "+wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepnyFaktury(document, "Rozrachunki  ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajLinieOpisu(document, "kontrahent "+szukanyklient.getNpelna());
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
@@ -97,7 +97,7 @@ public class PdfFaktRozrach {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Rozrachunki  "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Rozrachunki  ", wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             dodajLinieOpisu(document, "wszyscy kontrahenci podatnika");
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(zbiorcze, 1),90,1);
             finalizacjaDokumentu(document);

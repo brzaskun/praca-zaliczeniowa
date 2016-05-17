@@ -87,7 +87,7 @@ public class PdfVatUE {
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            PdfMain.dodajOpisWstepny(document, "wydruk - zestawienie dokumentów do deklaracji VAT-UE. Firma: " + podatnik.getNazwapelna(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            PdfMain.dodajOpisWstepny(document, "wydruk - zestawienie dokumentów do deklaracji VAT-UE. Firma: ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             int lp = 1;
             for (VatUe p : lista) {
                 PdfPTable table = new PdfPTable(7);
@@ -347,7 +347,7 @@ public class PdfVatUE {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, String.format("Ewidencja dokument\u00f3w VAT-UE %s", wpisView.getPodatnikWpisu()), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Ewidencja dokumentów VAT-UE", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             czyjestpodsumowanie(listawybranych);
             dodajTabele(document, testobjects.testobjects.getEwidencjaVATUE(listawybranych), 100, 0);
             finalizacjaDokumentu(document);

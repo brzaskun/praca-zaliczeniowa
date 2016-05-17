@@ -40,7 +40,7 @@ public class PdfRyczpoz {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        dodajOpisWstepny(document, "Zestawienie rozliczeń miesięcznych ryczałtowych podatnika " +wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        dodajOpisWstepny(document, "Zestawienie rozliczeń miesięcznych ryczałtowych podatnika ",wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
         dodajTabele(document, testobjects.testobjects.getTabelaRyczpoz(listaryczalt), 100,0);
         finalizacjaDokumentu(document);
         String f = "pokazwydruk('"+nazwa+"');";
