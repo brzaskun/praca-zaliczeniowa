@@ -11,6 +11,7 @@ import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import data.Data;
+import embeddablefk.ListaSum;
 
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -20,17 +21,19 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
-import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateless;
+import java.util.Map;
 import javax.inject.Named;
 import msg.Msg;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -50,6 +53,15 @@ public class DokumentFKBean implements Serializable {
                 ustawwierszeAMO(nowydok, wiersze, wpisView, kontoDAOfk, tabelanbpDAO);
                 break;
         }
+        if (nowydok.getListawierszy() != null) {
+            nowydok.przeliczKwotyWierszaDoSumyDokumentu();
+        }
+        return nowydok;
+    }
+    
+    public static Dokfk generujdokumentAutomRozrach(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, KontoDAOfk kontoDAOfk, List konta, Map<String, ListaSum> sumy, DokDAOfk dokDAOfk) {
+        Dokfk nowydok = stworznowydokument(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
+        ustawwierszePK(nowydok, konta, new ArrayList<ListaSum>(sumy.values()), wpisView, kontoDAOfk, tabelanbpDAO);
         if (nowydok.getListawierszy() != null) {
             nowydok.przeliczKwotyWierszaDoSumyDokumentu();
         }
@@ -83,6 +95,7 @@ public class DokumentFKBean implements Serializable {
         nd.setMiesiac(wpisView.getMiesiacWpisu());
         nd.setVatM(wpisView.getMiesiacWpisu());
         nd.setVatR(wpisView.getRokWpisuSt());
+        nd.setDataujecia(new Date());
     }
 
     private static void ustawkontrahenta(Dokfk nd, KlienciDAO klienciDAO, WpisView wpisView) {
@@ -212,10 +225,72 @@ public class DokumentFKBean implements Serializable {
             nd.getListawierszy().add(w);
         }
     }
+    
+    
+    
+    private static void ustawwierszePK(Dokfk nowydok, List stronywiersza, List sumy, WpisView wpisView, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO) {
+        nowydok.setListawierszy(new ArrayList<Wiersz>());
+        int idporzadkowy = 1;
+        StronaWiersza sw = (StronaWiersza) stronywiersza.get(0);
+        Konto pko = kontoDAOfk.findKonto("764", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto ppo = kontoDAOfk.findKonto("763", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto kontodorozliczenia = sw.getKonto();
+        for (Object z : sumy) {
+            ListaSum wierszsum = (ListaSum) z;
+            Wiersz w = new Wiersz(idporzadkowy++, 0);
+            uzupelnijwierszWaluta(w, nowydok, wierszsum.getTabelanbp());
+            String opiswiersza = "automatyczna korekta salda: " + sw.getKonto().getPelnynumer() + " na koniec " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()+" dla waluty "+wierszsum.getWaluta();
+            w.setOpisWiersza(opiswiersza);
+            double kwotaWal = pobierzkwotezsumyWal(wierszsum);
+            double kwotaPLN = pobierzkwotezsumyPLN(wierszsum);
+            if (wierszsum.getSaldoWn() > 0) {
+                StronaWiersza strWn = new StronaWiersza(w, "Wn", kwotaWal, pko);
+                StronaWiersza strMa = new StronaWiersza(w, "Ma", kwotaWal, kontodorozliczenia);
+                w.setStronaWn(strWn);
+                w.setStronaMa(strMa);
+            } else {
+                StronaWiersza strWn = new StronaWiersza(w, "Wn", kwotaWal, kontodorozliczenia);
+                StronaWiersza strMa = new StronaWiersza(w, "Ma", kwotaWal, ppo);
+                w.setStronaWn(strWn);
+                w.setStronaMa(strMa);
+            }
+            w.getStronaWn().setKwotaPLN(kwotaPLN);
+            w.getStronaMa().setKwotaPLN(kwotaPLN);
+            nowydok.getListawierszy().add(w);
+        }
+    }
+    
+    private static double pobierzkwotezsumyWal(ListaSum wierszsum) {
+        double zwrot = 0.0;
+        if (wierszsum.getSaldoWn() > 0) {
+            zwrot = wierszsum.getSaldoWn();
+        } else {
+            zwrot = wierszsum.getSaldoMa();
+        }
+        return zwrot;
+    }
+    
+    private static double pobierzkwotezsumyPLN(ListaSum wierszsum) {
+        double zwrot = 0.0;
+        if (wierszsum.getSaldoWn() > 0) {
+            zwrot = wierszsum.getSaldoWnPLN();
+        } else {
+            zwrot = wierszsum.getSaldoMaPLN();
+        }
+        return zwrot;
+    }
 
     private static void uzupelnijwiersz(Wiersz w, Dokfk nd, TabelanbpDAO tabelanbpDAO) {
         Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
         w.setTabelanbp(t);
+        w.setDokfk(nd);
+        w.setLpmacierzystego(0);
+        w.setTabelanbp(w.getTabelanbp());
+        w.setDataksiegowania(nd.getDatawplywu());
+    }
+    
+    private static void uzupelnijwierszWaluta(Wiersz w, Dokfk nd, Tabelanbp tabela) {
+        w.setTabelanbp(tabela);
         w.setDokfk(nd);
         w.setLpmacierzystego(0);
         w.setTabelanbp(w.getTabelanbp());
@@ -243,4 +318,8 @@ public class DokumentFKBean implements Serializable {
         String nowy = zwieksznumerojeden("1/08/2015/AMO");
         System.out.println("nowy " + nowy);
     }
+
+    
+
 }
+    

@@ -148,6 +148,7 @@
                 <h:form id="tabelazzapisami">
                      <p:contextMenu for="tabela" style="width: 200px;">
                          <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
+                         <p:menuitem value="rozlicz saldo" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                          <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
                          <p:menuitem value="pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();" actionListener="#{dokfkView.edycjazapis()}"/>
                      </p:contextMenu>

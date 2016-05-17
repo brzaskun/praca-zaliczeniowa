@@ -4,15 +4,19 @@
  */
 package viewfk;
 
-import beansFK.DokFKTransakcjeBean;
+import beansFK.DokumentFKBean;
 import beansFK.RozniceKursoweBean;
+import dao.KlienciDAO;
+import dao.RodzajedokDAO;
 import embeddablefk.ListaSum;
 import dao.StronaWierszaDAO;
+import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
+import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
-import data.Data;
 import embeddable.Mce;
+import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
@@ -22,8 +26,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -31,7 +39,6 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
-import params.Params;
 import pdf.PdfKontoZapisy;
 import view.WpisView;
 import waluty.Z;
@@ -53,6 +60,14 @@ public class KontoZapisFKView implements Serializable{
     @Inject private TransakcjaDAO transakcjaDAO;
     @Inject
     private WierszBODAO wierszBODAO;
+    @Inject
+    private TabelanbpDAO tabelanbpDAO;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    @Inject
+    private KlienciDAO klienciDAO;
     @Inject private Konto wybranekonto;
     private Double sumaWn;
     private Double sumaMa;
@@ -350,6 +365,29 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
+    public void sumazapisowAut(){
+        try {
+            sumaWn = 0.0;
+            sumaMa = 0.0;
+            for(StronaWiersza p : kontozapisy){
+                 sumujstrony(p);
+            }
+            saldoWn = 0.0;
+            saldoMa = 0.0;
+            if(sumaWn>sumaMa){
+                saldoWn = Z.z(sumaWn-sumaMa);
+            } else {
+                saldoMa = Z.z(sumaMa-sumaWn);
+            }
+            listasum.get(0).setSumaWn(sumaWn);
+            listasum.get(0).setSumaMa(sumaMa);
+            listasum.get(0).setSaldoWn(saldoWn);
+            listasum.get(0).setSaldoMa(saldoMa);
+        } catch (Exception e) {  E.e(e);
+            Msg.msg("e", "Brak tabeli NBP w dokumencie. Podsumowanie nie jest prawidłowe. KontoZapisFVView sumazapisow()");
+        }
+    }
+    
     private void sumujstrony(StronaWiersza p) {
         if (p.getWnma().equals("Wn")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
@@ -404,6 +442,60 @@ public class KontoZapisFKView implements Serializable{
         listasum.get(0).setSaldoMaPLN(saldoMaPLN);
     }
     
+    public void sumazapisowplnAut(){
+        sumaWnPLN = 0.0;
+        sumaMaPLN = 0.0;
+        for(StronaWiersza p : kontozapisy){
+            if (p.getWnma().equals("Wn")) {
+                Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
+            } else if (p.getWnma().equals("Ma")){
+                Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
+            }
+        }
+        saldoWnPLN = 0.0;
+        saldoMaPLN = 0.0;
+        if(sumaWnPLN>sumaMaPLN){
+            Z.z(saldoWnPLN = sumaWnPLN-sumaMaPLN);
+        } else {
+            Z.z(saldoMaPLN = sumaMaPLN-sumaWnPLN);
+        }
+        listasum.get(0).setSumaWnPLN(sumaWnPLN);
+        listasum.get(0).setSumaMaPLN(sumaMaPLN);
+        listasum.get(0).setSaldoWnPLN(saldoWnPLN);
+        listasum.get(0).setSaldoMaPLN(saldoMaPLN);
+    }
+    
+    private  Map<String, ListaSum> sumujzapisy() {
+        Map<String, ListaSum> zbiorcza = stworzliste(kontozapisy);
+        for (StronaWiersza p : kontozapisy) {
+            ListaSum r = zbiorcza.get(p.getSymbolWalut());
+            r.setTabelanbp(p.getWiersz().getTabelanbp());
+            r.setKurswaluty(p.getKursWaluty());
+            if (r != null) {
+                if (p.getWnma().equals("Wn")) {
+                    r.setSumaWn(Z.z(r.getSumaWn() + p.getKwota()));
+                    r.setSumaWnPLN(Z.z(r.getSumaWnPLN()+ p.getKwotaPLN()));
+                } else if (p.getWnma().equals("Ma")) {
+                    r.setSumaMa(Z.z(r.getSumaMa() + p.getKwota()));
+                    r.setSumaMaPLN(Z.z(r.getSumaMaPLN()+ p.getKwotaPLN()));
+                }
+            }
+        }
+        for (ListaSum s : zbiorcza.values()) {
+            if (s.getSumaWn() > s.getSumaMa()) {
+                s.setSaldoWn(Z.z(s.getSumaWn() - s.getSumaMa()));
+            } else {
+                s.setSaldoMa(Z.z(s.getSumaMa() - s.getSumaWn()));
+            }
+            if (s.getSumaWnPLN()> s.getSumaMaPLN()) {
+                s.setSaldoWnPLN(Z.z(s.getSumaWnPLN()- s.getSumaMaPLN()));
+            } else {
+                s.setSaldoMa(Z.z(s.getSumaMaPLN()- s.getSumaWnPLN()));
+            }
+        }
+        return zbiorcza;
+    }
+    
     public void rozliczzaznaczone() {
         if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 1) {
             if (RozniceKursoweBean.wiecejnizjednatransakcja(wybranekontadosumowania)) {
@@ -418,7 +510,30 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
-   
+    public void rozliczsaldo() {
+        if (kontozapisy != null && kontozapisy.size() > 0) {
+            Map<String, ListaSum> listasum = sumujzapisy();
+            Dokfk nowydok = DokumentFKBean.generujdokumentAutomRozrach(wpisView, klienciDAO, "PK", "automatyczne rozliczenie salda konta", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, listasum, dokDAOfk);
+            dokDAOfk.dodaj(nowydok);
+            dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
+            this.listasum = new ArrayList<>();
+            ListaSum l = new ListaSum();
+            this.listasum.add(l);
+            sumazapisowAut();
+            sumazapisowplnAut();
+            Msg.msg("Dodano rozliczenie konta");
+        } else {
+            Msg.msg("e", "Nie ma czego rozliczać, Lista zapisów jest pusta.");
+        }
+    }
+    
+   private void dodajzapisy(Konto konto, Dokfk nowydok) {
+       for (StronaWiersza p : nowydok.getStronyWierszy())
+           if (p.getKonto() == konto) {
+               kontozapisy.add(p);
+               zapisyRok.add(p);
+           }
+   }
     
     //poszukuje rozrachunkow do sparowania
     public void odszukajsparowanerozrachunki() {
@@ -728,6 +843,20 @@ public class KontoZapisFKView implements Serializable{
 
     public void setWybranyRodzajKonta(String wybranyRodzajKonta) {
         this.wybranyRodzajKonta = wybranyRodzajKonta;
+    }
+
+    private Map<String, ListaSum> stworzliste(List<StronaWiersza> kontozapisy) {
+        Map<String, ListaSum> zbiorcza = new HashMap<>();
+        Set<String> waluty = new HashSet<>();
+        for (StronaWiersza p : kontozapisy) {
+            waluty.add(p.getSymbolWalut());
+        }
+        for (String r : waluty) {
+            ListaSum l = new ListaSum();
+            l.setWaluta(r);
+            zbiorcza.put(r, l);
+        }
+        return zbiorcza;
     }
     
     

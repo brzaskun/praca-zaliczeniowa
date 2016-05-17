@@ -7,9 +7,11 @@
 package beansFK;
 
 import dao.StronaWierszaDAO;
+import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.UkladBRDAO;
+import embeddablefk.ListaSum;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Konto;
@@ -185,4 +187,9 @@ public class KontaFKBean implements Serializable{
             }
         }
     }
+
+
+   
+    
+    
 }

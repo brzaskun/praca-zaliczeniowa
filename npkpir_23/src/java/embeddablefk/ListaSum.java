@@ -5,12 +5,18 @@
  */
 package embeddablefk;
 
+import entityfk.Tabelanbp;
+import entityfk.Waluty;
+import viewfk.PojazdyView;
+
 /**
  *
  * @author Osito
  */
 public class ListaSum {
-
+    private Tabelanbp tabelanbp;
+    private double kurswaluty;
+    private String waluta;
     private double sumaWn;
     private double sumaMa;
     private double saldoWn;
@@ -30,6 +36,14 @@ public class ListaSum {
 
     public void setSumaWn(double sumaWn) {
         this.sumaWn = sumaWn;
+    }
+
+    public Tabelanbp getTabelanbp() {
+        return tabelanbp;
+    }
+
+    public void setTabelanbp(Tabelanbp tabelanbp) {
+        this.tabelanbp = tabelanbp;
     }
 
     public double getSumaMa() {
@@ -88,5 +102,25 @@ public class ListaSum {
         this.saldoMaPLN = saldoMaPLN;
     }
 
+    public double getKurswaluty() {
+        return kurswaluty;
+    }
+
+    public void setKurswaluty(double kurswaluty) {
+        this.kurswaluty = kurswaluty;
+    }
+    
+    
+    public String getWaluta() {
+        return waluta;
+    }
+
+    public void setWaluta(String waluta) {
+        this.waluta = waluta;
+    }
+    
+
 //</editor-fold>
+
+
 }
