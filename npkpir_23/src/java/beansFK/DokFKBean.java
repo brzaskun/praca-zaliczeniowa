@@ -183,6 +183,28 @@ public class DokFKBean {
         }
        return numerwlasny;
     }
+    
+    public static String wygenerujnumerkolejnyRozrach(Dokfk selected, WpisView wpisView, DokDAOfk dokDAOfk) {
+        String wzorzec = pobierzWzorzec(selected);
+        String skrotDokfk = pobierzSkrotDokfk(selected);
+        Dokfk ostatnidokument = pobierzOstatniWMc(wpisView, dokDAOfk, skrotDokfk);
+        Dokfk ostatnidokumentR = pobierzOstatniWRok(wpisView, dokDAOfk, skrotDokfk);
+        int numerserii = obliczostatninumer(ostatnidokumentR);
+        selected.getDokfkPK().setNrkolejnywserii(numerserii);
+        selected.setLp(numerserii);
+        String numerwlasny = "";
+        if (selected.getRodzajedok() != null) {
+            if (wzorzec != null) {
+                Dokfk dokfk = wzorzec.contains("N") ? ostatnidokument : ostatnidokumentR;
+                if (dokfk != null) {
+                    numerwlasny = oblicznumerwlasny(wzorzec, dokfk, wpisView);
+                } else {
+                    numerwlasny = "1/"+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt()+"/ARS";
+                }
+            } 
+        }
+       return numerwlasny;
+    }
 
     private static String pobierzWzorzec(Dokfk selected) {
         Rodzajedok rodzajdok = selected.getRodzajedok();

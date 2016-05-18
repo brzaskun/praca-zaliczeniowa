@@ -61,6 +61,7 @@ public class DokumentFKBean implements Serializable {
     
     public static Dokfk generujdokumentAutomRozrach(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, KontoDAOfk kontoDAOfk, List konta, Map<String, ListaSum> sumy, DokDAOfk dokDAOfk) {
         Dokfk nowydok = stworznowydokument(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
+        nowydok.setNumerwlasnydokfk(DokFKBean.wygenerujnumerkolejnyRozrach(nowydok, wpisView, dokDAOfk));
         ustawwierszePK(nowydok, konta, new ArrayList<ListaSum>(sumy.values()), wpisView, kontoDAOfk, tabelanbpDAO);
         if (nowydok.getListawierszy() != null) {
             nowydok.przeliczKwotyWierszaDoSumyDokumentu();
@@ -85,7 +86,8 @@ public class DokumentFKBean implements Serializable {
         Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), symbokdok, wpisView.getRokWpisuSt());
         return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii() + 1;
     }
-
+    
+  
     private static void ustawdaty(Dokfk nd, WpisView wpisView) {
         String datadokumentu = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         nd.setDatadokumentu(datadokumentu);
@@ -107,7 +109,9 @@ public class DokumentFKBean implements Serializable {
 
         }
     }
+    
 
+     
     private static void ustawnumerwlasny(Dokfk nd, WpisView wpisView, String symbokdok) {
         StringBuilder sb = new StringBuilder();
         sb.append("1/");
