@@ -37,6 +37,7 @@ import view.WpisView;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import comparator.StronaWierszacomparator;
+import error.E;
 import waluty.Z;
 
 /**
@@ -54,9 +55,14 @@ public class PdfKonta {
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc, sumaSaldoKonto);
+            if (rodzajdruku == 5) {
+                drukujcdWal(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc, sumaSaldoKonto);
+            } else {
+                drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc, sumaSaldoKonto);
+            }
             Msg.msg("Wydruk zestawienia obrotów sald");
         } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Błąd - nie wydrukowano zestawienia obrotów sald");
 
         }
@@ -111,6 +117,26 @@ public class PdfKonta {
                 }
             }
         }
+        document.add(tablicasuma(sumaSaldoKonto));
+        document.close();
+    }
+    
+    private static void drukujcdWal(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto)  throws DocumentException, FileNotFoundException, IOException {
+        Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 20,20,20,20);
+        PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        document.addTitle("Zestawienie obroty sald");
+        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+        document.addSubject("Zestawienie obroty sald");
+        document.addKeywords("Wynik Finansowy, PDF");
+        document.addCreator("Grzegorz Grzelczyk");
+        document.open();
+        if (analit0synt1==1) {
+                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+            } else {
+                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+            }
+        document.add(Chunk.NEWLINE);
+        document.add(tablicabezdokWal(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
         document.add(tablicasuma(sumaSaldoKonto));
         document.close();
     }
@@ -250,7 +276,6 @@ public class PdfKonta {
         }
         return table;
     }
-    
     private static PdfPTable tablicabezdok(WpisView wpisView, List<SaldoKonto> listaSaldoKonto, int rodzajdruku, int analit0synt1) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(11);
         table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2});
@@ -304,7 +329,60 @@ public class PdfKonta {
         return table;
     }
     
-    private static void dodajwiersztabeli(SaldoKonto rs, PdfPTable table, Integer i, String l) {
+    private static PdfPTable tablicabezdokWal(WpisView wpisView, List<SaldoKonto> listaSaldoKonto, int rodzajdruku, int analit0synt1) throws DocumentException, IOException {
+        PdfPTable table = new PdfPTable(14);
+        table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5});
+        table.setWidthPercentage(98);
+        try {
+            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 5, 0));
+            if (analit0synt1==1) {
+                table.addCell(ustawfraze(B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
+            } else {
+                table.addCell(ustawfraze(B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
+            }
+            table.addCell(ustawfraze(B.b("lp"), 0, 1));
+            table.addCell(ustawfraze(B.b("numerkonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("nazwakonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoBOWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoBOMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("sumaBOWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("sumaBOMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("nazwakonta"), 0, 1));
+            if (analit0synt1==1) {
+                table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie obrotów sald syntetycznych", 14, 0, 5));
+            } else {
+                table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie obrotów sald analitycznych", 14, 0, 5));
+            }
+
+            table.setHeaderRows(3);
+            table.setFooterRows(1);
+        } catch (IOException ex) {
+            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int i = 1;
+        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        String l = locale.getLanguage();
+        if (l.equals("pl")) {
+
+        } else {
+
+        }
+        for (SaldoKonto rs : listaSaldoKonto) {
+            if (Z.z(rs.getSaldoWn()) != 0.0 || Z.z(rs.getSaldoMa()) != 0.0) { 
+                dodajwiersztabeliWal(rs, table, i, l);
+                i++;
+            }
+        }
+        return table;
+    }
+    
+     private static void dodajwiersztabeli(SaldoKonto rs, PdfPTable table, Integer i, String l) {
         table.addCell(ustawfrazeAlign(i, "center", 7));
             table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7, 30f));
             if (l.equals("pl")) {
@@ -324,6 +402,41 @@ public class PdfKonta {
             table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 7));
+    }
+    
+    private static void dodajwiersztabeliWal(SaldoKonto rs, PdfPTable table, Integer i, String l) {
+        table.addCell(ustawfrazeAlign(i, "center", 7));
+            table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7, 20f));
+            if (l.equals("pl")) {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+            } else {
+                if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
+                    table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+                } else {
+                    table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 7));
+                }
+            }
+            table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujLiczba(rs.getObrotyMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 7));
+            if (rs.getKonto().getKontomacierzyste() != null) {
+                if (l.equals("pl")) {
+                    table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 7));
+                } else if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
+                    table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 7));
+                } else {
+                    table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getDe(), "left", 7));
+                }
+            } else {
+                table.addCell(ustawfrazeAlign("", "left", 7));
+            }
     }
     
     public static void main(String[] args) {
