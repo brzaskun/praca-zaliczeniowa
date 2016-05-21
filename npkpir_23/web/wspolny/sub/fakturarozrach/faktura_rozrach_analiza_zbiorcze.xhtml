@@ -32,16 +32,20 @@
                 <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.tylkoprzeterminowane}" style="margin-left: 10px;">
                     <p:ajax event="change" partialSubmit="true" listener="#{fakturaRozrachunkiAnalizaView.zestawieniezbiorcze()}" update="fakturaanalizazbiorcza akordeon:fakturaanaliza:wyborklienta"/>
                 </p:selectBooleanCheckbox>
-            <p:panelGrid columns="2" style="padding: 10px;">
+                <p:panelGrid columns="2" style="padding: 10px;" id="suma">
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>
             </p:panelGrid>
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 980px; margin-top: 20px;"
-                         emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" 
+                         emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" rowKey="#{item.lp}"
+                         selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}"
                          >
+                <p:ajax event="rowSelectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
                 <f:facet name="header">
                     <h:outputText value="nowe dokumenty"/>
                 </f:facet>
+                <p:column width="20" selectionMode="multiple"/>
                 <p:column width="20" sortBy="#{item.lp}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="lp"/>

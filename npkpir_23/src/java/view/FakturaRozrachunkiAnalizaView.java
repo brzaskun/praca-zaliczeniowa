@@ -51,6 +51,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private List<FakturaPodatnikRozliczenie> nowepozycje;
     private List<FakturaPodatnikRozliczenie> archiwum;
     private List<FakturaPodatnikRozliczenie> saldanierozliczone;
+    private List<FakturaPodatnikRozliczenie> saldanierozliczoneselected;
     private double sumasaldnierozliczonych;
     private List<FakturaPodatnikRozliczenie> selectedrozliczenia;
     @Inject
@@ -86,21 +87,29 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
             }
         }
-        pobierzwszystko(wpisView.getMiesiacWpisu());
     }
     
-    public void pobierzwszystko(String mc) {
-        nowepozycje = pobierzelementy(mc, false);
-        archiwum = pobierzelementy(mc, true);
+    public void pobierzwszystkoKlienta() {
+        String mc = wpisView.getMiesiacWpisu();
+        nowepozycje = pobierzelementy(mc, false, szukanyklient);
+        archiwum = pobierzelementy(mc, true, szukanyklient);
+        sortujsumuj(nowepozycje);
+        sortujsumuj(archiwum);
+        Msg.msg("Pobrano dane kontrahenta");
+    }
+    
+    public void pobierzwszystko(String mc, Klienci klient) {
+        nowepozycje = pobierzelementy(mc, false, klient);
+        archiwum = pobierzelementy(mc, true, klient);
         sortujsumuj(nowepozycje);
         sortujsumuj(archiwum);
     }
     
-    public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum) {
+    public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum, Klienci klient) {
         List<FakturaPodatnikRozliczenie> pozycje = null;
-        if (szukanyklient != null) {
-            List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahent(wpisView, szukanyklient);
-            List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(szukanyklient.getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        if (klient != null) {
+            List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahent(wpisView, klient);
+            List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             usuninnemiesiace(wpisView.getRokWpisuSt(), mc, pozycje);
             int i = 1;
@@ -241,7 +250,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         sumasaldnierozliczonych = 0.0;
         for (Iterator<Klienci> it =  klienci.iterator(); it.hasNext();) {
             szukanyklient = it.next();
-            pobierzwszystko(wpisView.getMiesiacWpisu());
+            pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
             if (nowepozycje.size() > 0) {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
                 if (r.getSaldo() == 674.0) {
@@ -263,6 +272,15 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             }
         }
     }
+    
+    public void sumujwybrane() {
+        sumasaldnierozliczonych = 0.0;
+        if (saldanierozliczoneselected != null) {
+            for (FakturaPodatnikRozliczenie p : saldanierozliczoneselected) {
+                sumasaldnierozliczonych += p.getSaldo();
+            }
+        }
+    }
 
     public void pobierzszczegoly(FakturaPodatnikRozliczenie p) {
         if (p.isFaktura0rozliczenie1()) {
@@ -270,7 +288,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         } else {
             szukanyklient = p.getFaktura().getKontrahent();
         }
-        pobierzwszystko(wpisView.getMiesiacWpisu());
+        pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
         selectOneUI.setValue(szukanyklient);
         aktywnytab = 2;
     }
@@ -330,6 +348,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     fakturaDAO.edit(f);
                 }
             }
+            Msg.msg("Wysłano upomnienie do klienta");
         }
     }
     
@@ -350,6 +369,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     fakturaDAO.edit(f);
                 }
             }
+            Msg.msg("Naniesiono informacje o rozmowie z klientem");
         }
     }
     
@@ -466,6 +486,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public void setTylkoprzeterminowane(boolean tylkoprzeterminowane) {
         this.tylkoprzeterminowane = tylkoprzeterminowane;
+    }
+
+    public List<FakturaPodatnikRozliczenie> getSaldanierozliczoneselected() {
+        return saldanierozliczoneselected;
+    }
+
+    public void setSaldanierozliczoneselected(List<FakturaPodatnikRozliczenie> saldanierozliczoneselected) {
+        this.saldanierozliczoneselected = saldanierozliczoneselected;
     }
 
 

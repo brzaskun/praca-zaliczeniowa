@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -114,7 +115,9 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
         try {
             fakturaRozrachunkiDAO.destroy(p);
             wprowadzoneplatnosci.remove(p);
+            Msg.msg("Usunięto zapis");
         } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd. Nie usunięto zapisu");
             E.e(e);
         }
     }
