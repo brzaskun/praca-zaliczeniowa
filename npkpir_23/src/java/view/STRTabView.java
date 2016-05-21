@@ -59,7 +59,7 @@ import waluty.Z;
 @ViewScoped
 public class STRTabView implements Serializable {
     private static final long serialVersionUID = 1L;
-    private SrodekTrw dokdoUsuniecia;
+    private SrodekTrw wybranySrodekTrw;
     private boolean napewnousunac;
 
     @Inject
@@ -364,39 +364,38 @@ public class STRTabView implements Serializable {
     }
 
     public void destroy(SrodekTrw selDok) {
-        dokdoUsuniecia = new SrodekTrw();
-        dokdoUsuniecia = selDok;
+        wybranySrodekTrw = new SrodekTrw();
+        wybranySrodekTrw = selDok;
     }
 
     public void destroy2() {
-//        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        //       Principal principal = request.getUserPrincipal();
-//        if(request.isUserInRole("Administrator")){
-//        if(sprawdzczyniemarozrachunkow()==true){
-//             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw rozrachunki, proszę", dokdoUsuniecia.getIdDok().toString());
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-//        } else {
+        boolean czysazaksiegowaneumorzenia = sprawdzczysaumorzenia(wybranySrodekTrw);
         try {
-            if (dokdoUsuniecia.isUmorzeniezaksiegowane() == true && napewnousunac == false) {
+            if (czysazaksiegowaneumorzenia == true && napewnousunac == false) {
                 throw new Exception();
             }
-            srodkiTrwale.remove(dokdoUsuniecia);
-            posiadane.remove(dokdoUsuniecia);
-            sprzedane.remove(dokdoUsuniecia);
-            sTRDAO.destroy(dokdoUsuniecia);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Środek trwały usunięty", dokdoUsuniecia.getNazwa());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Nie usnieto " + dokdoUsuniecia.getNazwa() + ". Umorzenie srodka w ksiegach", ":formSTR:mess_add");
+            srodkiTrwale.remove(wybranySrodekTrw);
+            posiadane.remove(wybranySrodekTrw);
+            sprzedane.remove(wybranySrodekTrw);
+            sTRDAO.destroy(wybranySrodekTrw);
+            Msg.msg("Usunieto środek trwały o nazwie: "+wybranySrodekTrw.getNazwa());
+        } catch (Exception e) { 
+            E.e(e);
+            Msg.msg("e", "Nie usnieto " + wybranySrodekTrw.getNazwa() + ". Umorzenie srodka w ksiegach", ":formSTR:mess_add");
         }
-
-//    } else {
-//            FacesMessage msg = new FacesMessage("Nie masz uprawnien do usuniecia dokumentu", selDokument.getIdDok().toString());
-//          FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
-//     }
-//    }
     }
+        
+    private boolean sprawdzczysaumorzenia(SrodekTrw wybranySrodekTrw) {
+        boolean saumorzenia = false;
+        for (UmorzenieN p : wybranySrodekTrw.getPlanumorzen()) {
+            if (p.getAmodok() != null) {
+                saumorzenia = true;
+                break;
+            }
+        }
+        return saumorzenia;
+    }
+
 
     public void oznaczjakozaksiegowane() {
         for (Amodok p : amodoklistselected) {
@@ -553,12 +552,12 @@ public class STRTabView implements Serializable {
 
    
 
-    public SrodekTrw getDokdoUsuniecia() {
-        return dokdoUsuniecia;
+    public SrodekTrw getWybranySrodekTrw() {
+        return wybranySrodekTrw;
     }
 
-    public void setDokdoUsuniecia(SrodekTrw dokdoUsuniecia) {
-        this.dokdoUsuniecia = dokdoUsuniecia;
+    public void setWybranySrodekTrw(SrodekTrw wybranySrodekTrw) {
+        this.wybranySrodekTrw = wybranySrodekTrw;
     }
 
     public boolean isNapewnousunac() {
@@ -972,6 +971,8 @@ public class STRTabView implements Serializable {
     public void setPosiadane2(List<SrodekTrw> posiadane2) {
         this.posiadane2 = posiadane2;
     }
+
+    
 
     
 }
