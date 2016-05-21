@@ -225,6 +225,25 @@ public class testobjects {
        tabela[1] = wiersze;
        return tabela;
    }
+    
+    public static List[] getTabelaWierszeDokfk(List<Wiersz> wiersze) {
+       List n = new ArrayList();
+       n.add("data dok.");
+       n.add("id dok");
+       n.add("nr własny");
+       n.add("lp.w.");
+       n.add("opis");
+       n.add("Wn");
+       n.add("Wn PLN");
+       n.add("Wn konto");
+       n.add("Ma");
+       n.add("Ma PLN");
+       n.add("Ma konto");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
    
     public static List[] getTabelaPlanKont(List<Konto> wiersze) {
        List n = new ArrayList();

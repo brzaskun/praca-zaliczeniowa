@@ -43,6 +43,7 @@ import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
+import entityfk.Wiersz;
 import entityfk.WierszBO;
 import error.E;
 import java.io.File;
@@ -518,6 +519,20 @@ public class PdfMain {
                 col[3] = 2;
                 col[4] = 1;
                 col[5] = 2;
+                return col;
+            case "entityfk.Wiersz":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 2;
+                col[2] = 3;
+                col[3] = 1;
+                col[4] = 6;
+                col[5] = 2;
+                col[6] = 2;
+                col[7] = 3;
+                col[8] = 2;
+                col[9] = 2;
+                col[10] = 3;
                 return col;
             case "entity.Dok":
                 col = new int[size];
@@ -1188,6 +1203,46 @@ public class PdfMain {
                 }
                 table.addCell(ustawfrazeAlign(p.getPolevat(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDeklaracjaVatWierszSumaryczny().getSumavat())), "right", 8));
+            }
+             if (nazwaklasy.equals("entityfk.Wiersz")) {
+                Wiersz p = (Wiersz) it.next();
+                if (p.getOpisWiersza().equals("podsumowanie")) {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                    table.addCell(ustawfrazeAlign("podsumowanie", "left", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStronaWn().getKwota())), "right", 8));
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStronaMa().getKwota())), "right", 8));
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(p.getDokfk().getDatadokumentu(), "center", 7, 25f));
+                    table.addCell(ustawfrazeAlign(p.getDokfk().getDokfkLP(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getDokfk().getNumerwlasnydokfk(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getIdporzadkowy(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getOpisWiersza(), "left", 8));
+                    if (p.getStronaWn() != null) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStronaWn().getKwota())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStronaWn().getKwotaPLN())), "right", 8));
+                        table.addCell(ustawfrazeAlign(p.getStronaWn().getKonto().getPelnynumer(), "left", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "left", 8));
+                        table.addCell(ustawfrazeAlign("", "left", 8));
+                        table.addCell(ustawfrazeAlign("", "left", 8));
+                    }
+                    if (p.getStronaMa() != null) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStronaMa().getKwota())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStronaMa().getKwotaPLN())), "right", 8));
+                        table.addCell(ustawfrazeAlign(p.getStronaMa().getKonto().getPelnynumer(), "left", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "left", 8));
+                        table.addCell(ustawfrazeAlign("", "left", 8));
+                        table.addCell(ustawfrazeAlign("", "left", 8));
+                    }
+                }
             }
              if (nazwaklasy.equals("embeddable.UmorzenieN")) {
                 UmorzenieN p = (UmorzenieN) it.next();

@@ -19,6 +19,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
+import pdffk.PdfWiersz;
 import view.WpisView;
 
 /**
@@ -31,6 +33,7 @@ public class WierszeView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject private WierszeDAO wierszeDAO;
     private List<Wiersz> wiersze;
+    private List<Wiersz> wierszefiltered;
     private List<Wiersz> wybranewierszeWNT;
     private List<Wiersz> wybranewierszeWDT;
     private List<Wiersz> wierszeWNT;
@@ -210,19 +213,55 @@ public class WierszeView implements Serializable {
             sumaszt += p.getIlosc_szt();
         }
     }
-
+    
+    public void drukujWiersze() {
+        sumujwiersze();
+        Wiersz suma = new Wiersz();
+        suma.setStronaWn(new StronaWiersza());
+        suma.setStronaMa(new StronaWiersza());
+        suma.setOpisWiersza("podsumowanie");
+        suma.getStronaWn().setKwota(sumawn);
+        suma.getStronaMa().setKwota(sumama);
+        if (wierszefiltered != null) {
+            wierszefiltered.add(suma);
+            PdfWiersz.drukuj(wierszefiltered, wpisView);
+        } else {
+            wiersze.add(suma);
+            PdfWiersz.drukuj(wiersze, wpisView);
+        }
+        Msg.msg("Wydrukowano wiersz");
+    }
+    
+    public void sumujwiersze() {
+    sumawn = 0.0;
+    sumama = 0.0;
+    List<Wiersz> wybrane = wierszefiltered != null ? wierszefiltered : wiersze;  
+    for (Iterator<Wiersz> it = wybrane.iterator(); it.hasNext();) {
+                Wiersz p = (Wiersz) it.next();
+                Konto kwn = p.getStronaWn() != null ? p.getStronaWn().getKonto() : null;
+                Konto kma = p.getStronaMa() != null ? p.getStronaMa().getKonto() : null;
+                if (kwn != null) {
+                    sumawn += p.getKwotaWnPLN();
+                }
+                if (kma != null) {
+                    sumama += p.getKwotaMaPLN();
+                }
+            }
+    }
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
     public double getSumawn() {
         return sumawn;
     }
-
+    
     public void setSumawn(double sumawn) {
         this.sumawn = sumawn;
     }
-
+    
     public double getSumama() {
         return sumama;
     }
-
+    
     public void setSumama(double sumama) {
         this.sumama = sumama;
     }
@@ -230,76 +269,85 @@ public class WierszeView implements Serializable {
     public List<Wiersz> getWiersze() {
         return wiersze;
     }
-
+    
     public void setWiersze(List<Wiersz> wiersze) {
         this.wiersze = wiersze;
     }
-
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public List<Wiersz> getWierszeWNT() {
         return wierszeWNT;
     }
-
+    
     public void setWierszeWNT(List<Wiersz> wierszeWNT) {
         this.wierszeWNT = wierszeWNT;
     }
-
+    
     public List<Wiersz> getWierszeWDT() {
         return wierszeWDT;
     }
-
+    
     public void setWierszeWDT(List<Wiersz> wierszeWDT) {
         this.wierszeWDT = wierszeWDT;
     }
-
+    
     public List<Wiersz> getWybranewierszeWNT() {
         return wybranewierszeWNT;
     }
-
+    
     public void setWybranewierszeWNT(List<Wiersz> wybranewierszeWNT) {
         this.wybranewierszeWNT = wybranewierszeWNT;
     }
-
+    
     public double getSumakg() {
         return sumakg;
     }
-
+    
     public void setSumakg(double sumakg) {
         this.sumakg = sumakg;
     }
-
+    
     public double getSumaszt() {
         return sumaszt;
     }
-
+    
     public void setSumaszt(double sumaszt) {
         this.sumaszt = sumaszt;
     }
-
+    
     public List<Wiersz> getWybranewierszeWDT() {
         return wybranewierszeWDT;
     }
-
+    
     public void setWybranewierszeWDT(List<Wiersz> wybranewierszeWDT) {
         this.wybranewierszeWDT = wybranewierszeWDT;
     }
-
+    
+    public List<Wiersz> getWierszefiltered() {
+        return wierszefiltered;
+    }
+    
+    public void setWierszefiltered(List<Wiersz> wierszefiltered) {
+        this.wierszefiltered = wierszefiltered;
+    }
+    
     public boolean isTylkobezrozrachunkow() {
         return tylkobezrozrachunkow;
     }
-
+    
     public void setTylkobezrozrachunkow(boolean tylkobezrozrachunkow) {
         this.tylkobezrozrachunkow = tylkobezrozrachunkow;
     }
     
     
+//</editor-fold>
      
     
 }
