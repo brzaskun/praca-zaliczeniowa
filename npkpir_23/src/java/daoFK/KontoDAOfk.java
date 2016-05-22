@@ -308,6 +308,15 @@ public class KontoDAOfk extends DAO implements Serializable {
             return null;
         }
     }
+    
+    public List<Konto> findWszystkieKontaSlownikowePodatnika(String podatnik, Integer rok) {
+        try {
+            return sessionFacade.getEntityManager().createNamedQuery("Konto.findByPodatnikTylkoSlownikZero").setParameter("rok", rok).setParameter("podatnik", podatnik).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
 
     public void wyzerujPozycjeWKontach(WpisView wpisView, String bilansowewynikowe) {
         kontoFacade.wyzerujPozycjeWKontach(wpisView, bilansowewynikowe);

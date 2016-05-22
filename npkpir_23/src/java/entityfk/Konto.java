@@ -47,6 +47,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikBezSlownik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe = '0'"),
     @NamedQuery(name = "Konto.findByPodatnikTylkoSlownik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe != '0'"),
+    @NamedQuery(name = "Konto.findByPodatnikTylkoSlownikZero", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe != '0' AND k.nrkonta = '0'"),
     @NamedQuery(name = "Konto.findByPodatnikKliencifk", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.nazwapelna = :nazwa AND k.nazwaskrocona = :nip"),
     @NamedQuery(name = "Konto.findByMaxLevelPodatnik", query = "SELECT MAX(k.level) FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikBez0", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.nrkonta != '0' AND k.rok = :rok"),

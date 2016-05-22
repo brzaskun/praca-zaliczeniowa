@@ -355,7 +355,15 @@ public class PlanKontView implements Serializable {
             }
         }
     }
-
+    /*
+    KONTR = 1
+    MIEJS = 2
+    SAMOC = 3
+    MIESI = 4
+    DELEK = 5
+    DELEZ = 6
+    MIEJP = 7
+    */
     public void dodajslownik() {
         Konto kontomacierzyste = selectednodekonto;
         List<Konto> kontapodpiete = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontomacierzyste.getPelnynumer());
@@ -402,25 +410,6 @@ public class PlanKontView implements Serializable {
                         Msg.msg("Dodano elementy słownika miejsc powstawania kosztów");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania kosztów");
-                    }
-                } else if (noweKonto.getNrkonta().equals("miejp")) {
-                    //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiejscaPrzychodow(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-                    if (wynikdodaniakonta == 0) {
-                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 2);
-                        Msg.msg("i", "Dodaje słownik miejsc powstawania przychodów", "formX:messages");
-                    } else {
-                        noweKonto = new Konto();
-                        Msg.msg("e", "Nie można dodać słownika miejsc powstawania przychodów!", "formX:messages");
-                        return;
-                    }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaPrzychodow(wykazkont, kontomacierzyste, kontoDAOfk, miejscePrzychodowDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-                    if (wynikdodaniakonta == 0) {
-                        noweKonto = new Konto();
-                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-                        Msg.msg("Dodano elementy słownika miejsc powstawania przychodów");
-                    } else {
-                        Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania przychodów");
                     }
                 } else if (noweKonto.getNrkonta().equals("samoc")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
@@ -497,6 +486,25 @@ public class PlanKontView implements Serializable {
                         Msg.msg("Dodano elementy słownika delegacji zagranicznych");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika delegacji zagranicznych");
+                    }
+                } else if (noweKonto.getNrkonta().equals("miejp")) {
+                    //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiejscaPrzychodow(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+                    if (wynikdodaniakonta == 0) {
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 7);
+                        Msg.msg("i", "Dodaje słownik miejsc powstawania przychodów", "formX:messages");
+                    } else {
+                        noweKonto = new Konto();
+                        Msg.msg("e", "Nie można dodać słownika miejsc powstawania przychodów!", "formX:messages");
+                        return;
+                    }
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaPrzychodow(wykazkont, kontomacierzyste, kontoDAOfk, miejscePrzychodowDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+                    if (wynikdodaniakonta == 0) {
+                        noweKonto = new Konto();
+                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                        Msg.msg("Dodano elementy słownika miejsc powstawania przychodów");
+                    } else {
+                        Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania przychodów");
                     }
                 }
             } catch (Exception e) {
@@ -1081,8 +1089,46 @@ public class PlanKontView implements Serializable {
         }
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
     }
-
+    /*
+    KONTR = 1
+    MIEJS = 2
+    SAMOC = 3
+    MIESI = 4
+    DELEK = 5
+    DELEZ = 6
+    MIEJP = 7
+    */
     public void porzadkujSlowniki() {
+        List<Konto> kontaslownikowe = kontoDAOfk.findWszystkieKontaSlownikowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        if (kontaslownikowe != null) {
+            for (Konto kp : kontaslownikowe) {
+                Konto k = kp.getKontomacierzyste();
+                switch (kp.getNazwapelna()) {
+                    case "Słownik kontrahenci":
+                        k.setIdslownika(1);
+                        break;
+                    case "Słownik miejsca kosztów":
+                        k.setIdslownika(2);
+                        break;
+                    case "Słownik pojazdy i maszyny":
+                        k.setIdslownika(3);
+                        break;
+                    case "Słownik miesiące":
+                        k.setIdslownika(4);
+                        break;
+                    case "Słownik delegacji krajowych":
+                        k.setIdslownika(5);
+                        break;
+                    case "Słownik delegacji zagranicznych":
+                        k.setIdslownika(6);
+                        break;
+                    case "Słownik miejsca przychodów":
+                        k.setIdslownika(7);
+                        break;
+                }
+                kontoDAOfk.edit(k);
+            }
+        }
         List<Kliencifk> obecniprzyporzadkowaniklienci = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         boolean sakliencifk = obecniprzyporzadkowaniklienci != null && !obecniprzyporzadkowaniklienci.isEmpty();
         if (sakliencifk) {

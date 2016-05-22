@@ -147,12 +147,6 @@ public class PlanKontFKBean {
         return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
     }
     
-    public static int dodajslownikMiejscaPrzychodow(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
-        nowekonto.setNazwapelna("Słownik miejsca przychodów");
-        nowekonto.setNazwaskrocona("Miejsca przychodów");
-        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-    }
-    
     public static int dodajslownikPojazdyiMaszyny(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         nowekonto.setNazwapelna("Słownik pojazdy i maszyny");
         nowekonto.setNazwaskrocona("Pojazd");
@@ -174,6 +168,12 @@ public class PlanKontFKBean {
     public static int dodajslownikDelegacjeZagraniczne(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         nowekonto.setNazwapelna("Słownik delegacji zagranicznych");
         nowekonto.setNazwaskrocona("Delegacje zagraniczne");
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+    }
+    
+    public static int dodajslownikMiejscaPrzychodow(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+        nowekonto.setNazwapelna("Słownik miejsca przychodów");
+        nowekonto.setNazwaskrocona("Miejsca przychodów");
         return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
     }
     private static int uzupelnijdaneslownika(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {

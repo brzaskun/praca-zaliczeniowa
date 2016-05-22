@@ -10,6 +10,7 @@ import entityfk.Delegacja;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
+import entityfk.MiejscePrzychodow;
 import entityfk.Pojazdy;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -61,6 +62,11 @@ public class SlownikiBean {
             pola[0] = ((Kliencifk) obiekt).getNrkonta();
             pola[1] = ((Kliencifk) obiekt).getNazwa();
             pola[2] = ((Kliencifk) obiekt).getNip();
+        }
+        if (obiekt instanceof MiejscePrzychodow) {
+            pola[0] = ((MiejscePrzychodow) obiekt).getNrkonta();
+            pola[1] = ((MiejscePrzychodow) obiekt).getOpismiejsca();
+            pola[2] = ((MiejscePrzychodow) obiekt).getOpisskrocony();
         }
         return pola;
      }
