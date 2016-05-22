@@ -135,6 +135,7 @@ public class MiejscePrzychodowView  implements Serializable{
         selected.setOpisskrocony(null);
         miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         zapisz0edytuj1 = false;
+        Msg.msg("Naniesiono zmiany");
     }
     
     public void zapisykontmiesiace() {

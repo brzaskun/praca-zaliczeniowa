@@ -236,6 +236,7 @@ public class KliencifkView implements Serializable {
         selected = new Kliencifk();
         listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         zapisz0edytuj1 = false;
+        Msg.msg("Naniesiono zmiany");
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">

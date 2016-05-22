@@ -129,6 +129,7 @@ public class MiejsceKosztowView  implements Serializable{
         selected.setOpisskrocony(null);
         miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         zapisz0edytuj1 = false;
+        Msg.msg("Naniesiono zmiany");
     }
     
     public void zapisykontmiesiace() {

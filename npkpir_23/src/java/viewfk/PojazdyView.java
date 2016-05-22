@@ -125,6 +125,7 @@ public class PojazdyView  implements Serializable{
         selected.setNazwapojazdu(null);
         pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
         zapisz0edytuj1 = false;
+        Msg.msg("Naniesiono zmiany");
     }
     
     public int sortPojazdy(Object o1, Object o2) {
