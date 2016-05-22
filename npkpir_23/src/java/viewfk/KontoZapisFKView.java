@@ -52,6 +52,7 @@ import waluty.Z;
 public class KontoZapisFKView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<StronaWiersza> kontozapisy;
+    private List<StronaWiersza> kontozapisyfiltered;
     @Inject private StronaWiersza wybranyzapis;
     private List<StronaWiersza> kontorozrachunki;
     private List<StronaWiersza> wybranekontadosumowania;
@@ -340,7 +341,11 @@ public class KontoZapisFKView implements Serializable{
         try {
             sumaWn = 0.0;
             sumaMa = 0.0;
-            if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+            if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
+                for(StronaWiersza p : kontozapisyfiltered){
+                    sumujstrony(p);
+                }
+            } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
                 for(StronaWiersza p : wybranekontadosumowania){
                     sumujstrony(p);
                 }
@@ -412,7 +417,15 @@ public class KontoZapisFKView implements Serializable{
     public void sumazapisowpln(){
         sumaWnPLN = 0.0;
         sumaMaPLN = 0.0;
-        if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+        if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
+            for(StronaWiersza p : kontozapisyfiltered){
+                if (p.getWnma().equals("Wn")) {
+                    Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
+                } else if (p.getWnma().equals("Ma")){
+                    Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
+                }
+            }
+        } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
             for(StronaWiersza p : wybranekontadosumowania){
                 if (p.getWnma().equals("Wn")) {
                     Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
@@ -635,7 +648,13 @@ public class KontoZapisFKView implements Serializable{
     
     public void drukujPdfZapisyNaKoncie() {
         try {
-            if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+            if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
+                sumazapisow();
+                sumazapisowpln();
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, true);
+            } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+                sumazapisow();
+                sumazapisowpln();
                 PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum, true);
             } else {
                 PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, true);
@@ -649,10 +668,16 @@ public class KontoZapisFKView implements Serializable{
     
     public void drukujPdfZapisyNaKoncieDuzy() {
         try {
-            if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
-                 PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum, false);
+             if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
+                sumazapisow();
+                sumazapisowpln();
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, false);
+            } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+                sumazapisow();
+                sumazapisowpln();
+                PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum, false);
             } else {
-                 PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, false);
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, false);
             }
             String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
             RequestContext.getCurrentInstance().execute(wydruk);
@@ -779,6 +804,14 @@ public class KontoZapisFKView implements Serializable{
 
     public void setSumaMaPLN(Double sumaMaPLN) {
         this.sumaMaPLN = sumaMaPLN;
+    }
+
+    public List<StronaWiersza> getKontozapisyfiltered() {
+        return kontozapisyfiltered;
+    }
+
+    public void setKontozapisyfiltered(List<StronaWiersza> kontozapisyfiltered) {
+        this.kontozapisyfiltered = kontozapisyfiltered;
     }
 
     public Double getSaldoWnPLN() {
