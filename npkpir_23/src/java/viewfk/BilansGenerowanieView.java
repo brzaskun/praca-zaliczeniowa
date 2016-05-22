@@ -204,7 +204,6 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     public void generuj() {
-        wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         this.komunikatyok = new ArrayList<>();
         boolean stop = false;
         List<Konto> konta = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -243,15 +242,22 @@ public class BilansGenerowanieView implements Serializable {
             //tutaj trzeba przerobic odpowiednio listaSaldo
             List<SaldoKonto> listaSaldoKontoPrzetworzone = przetwarzajSaldoKonto(listaSaldoKonto);
             List<WierszBO> wierszeBO = new ArrayList<>();
-            zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok);
+            List<Konto> brakujacekontanowyrok = zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok);
+            if (!brakujacekontanowyrok.isEmpty()) {
+                for (Konto p : brakujacekontanowyrok) {
+                    komunikatyerror.add("W nowym roku nie ma następujących kont w planie kont: ");
+                    komunikatyerror.add(p.getPelnynumer()+" "+p.getNazwapelna());
+                    sabledy = true;
+                }
+            }
             komunikatyok.add("Wygenerowano BO na rok " + wpisView.getRokWpisuSt());
-            wierszBODAO.editList(wierszeBO);
-            zapiszBOnaKontach(wierszeBO, kontaNowyRok);
-            obliczsaldoBOkonta(kontaNowyRok);
-            kontoDAO.editList(kontaNowyRok);
-            bilansWprowadzanieView.init();
-            bilansWprowadzanieView.zapiszBilansBOdoBazy();
-            Msg.msg("Generuje bilans");
+//            wierszBODAO.editList(wierszeBO);
+//            zapiszBOnaKontach(wierszeBO, kontaNowyRok);
+//            obliczsaldoBOkonta(kontaNowyRok);
+//            kontoDAO.editList(kontaNowyRok);
+//            bilansWprowadzanieView.init();
+//            bilansWprowadzanieView.zapiszBilansBOdoBazy();
+//            Msg.msg("Generuje bilans");
         }
     }
 
@@ -329,15 +335,21 @@ public class BilansGenerowanieView implements Serializable {
         return saldoKonto;
     }
 
-    private void zrobwierszeBO(List<WierszBO> wierszeBO, List<SaldoKonto> listaSaldoKonto, List<Konto> kontaNowyRok) {
+    private List<Konto> zrobwierszeBO(List<WierszBO> wierszeBO, List<SaldoKonto> listaSaldoKonto, List<Konto> kontaNowyRok) {
+        List<Konto> brakujacekontanowyrok = new ArrayList<>();
         if (!listaSaldoKonto.isEmpty()) {
             for (SaldoKonto p : listaSaldoKonto) {
                 if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
                     Konto k = nowekonto(p.getKonto(), kontaNowyRok);
-                    wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), k, p.getWalutadlabo()));
+                    if (k != null) {
+                        wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), k, p.getWalutadlabo()));
+                    } else {
+                        brakujacekontanowyrok.add(p.getKonto());
+                    }
                 }
             }
         }
+        return brakujacekontanowyrok;
     }
 
     private Konto nowekonto(Konto konto, List<Konto> kontaNowyRok) {
@@ -356,11 +368,41 @@ public class BilansGenerowanieView implements Serializable {
         for (SaldoKonto p : listaSaldoKonto) {
             if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20")) {
                 nowalista.addAll(przetworzPojedyncze(p));
+            } else if(p.getKonto().getPelnynumer().startsWith("1")) {
+                nowalista.addAll(przetworzWBRK(p));
             } else {
                 nowalista.add(p);
             }
         }
         return nowalista;
+    }
+    
+    private Collection<? extends SaldoKonto> przetworzWBRK (SaldoKonto p) {
+        List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
+        Set<Waluty> waluty = new HashSet<>();
+        for (StronaWiersza t : p.getZapisy()) {
+            waluty.add(listawalut.get(t.getSymbolWalut()));
+        }
+        double saldopln = p.getSaldoWnPLN() > 0.0 ? p.getSaldoWnPLN(): -p.getSaldoMaPLN();
+        double saldowal = p.getSaldoWn() > 0.0 ? p.getSaldoWn() : -p.getSaldoMa();
+        double roznica = Z.z(Z.z(saldowal) - Z.z(saldopln));
+        if (roznica == 0.0 && waluty.size() == 1) {
+            nowalista_wierszy.add(p);
+        } else {
+            for (Waluty wal : waluty) {
+                nowalista_wierszy.addAll(tworzwierszewaluty(wal, p.getZapisy(), saldowal));
+            }
+        }
+        return nowalista_wierszy;
+    }
+    
+    private Collection<? extends SaldoKonto> tworzwierszewaluty(Waluty wal, List<StronaWiersza> zapisy, double saldowal) {
+        int zapisydl = zapisy.size()-1;
+        for (int i = zapisydl; i < 0; i--) {
+            StronaWiersza p = zapisy.get(i);
+            //wdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+        }
+        return null;
     }
 
     private Collection<? extends SaldoKonto> przetworzPojedyncze(SaldoKonto p) {
@@ -388,5 +430,7 @@ public class BilansGenerowanieView implements Serializable {
         }
         return zapisykonta;
     }
+
+    
 
 }
