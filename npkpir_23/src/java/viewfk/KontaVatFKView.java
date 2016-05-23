@@ -31,6 +31,7 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -411,6 +412,7 @@ public class KontaVatFKView implements Serializable {
         nd.setDataoperacji(datadokumentu);
         nd.setDatawplywu(datadokumentu);
         nd.setDatawystawienia(datadokumentu);
+        nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
         nd.setVatM(wpisView.getMiesiacWpisu());
         nd.setVatR(wpisView.getRokWpisuSt());

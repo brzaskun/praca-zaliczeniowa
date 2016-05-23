@@ -25,6 +25,7 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import msg.Msg;
@@ -66,6 +67,7 @@ public class FDfkBean {
         nd.setDatadokumentu(datadokumentu);
         nd.setDataoperacji(datasprzedazy);
         nd.setDatawplywu(datadokumentu);
+        nd.setDataujecia(new Date());
         nd.setDatawystawienia(datadokumentu);
         nd.setMiesiac(datadokumentu.split("-")[1]);
         if (faktura.getNettopk() != 0.0 || faktura.getVatpk() != 0.0) {

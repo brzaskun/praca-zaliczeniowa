@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -111,6 +112,7 @@ public class InterpaperImportView implements Serializable {
         nd.setDataoperacji(datasprzedazy);
         nd.setDatawplywu(datadokumentu);
         nd.setDatawystawienia(datadokumentu);
+        nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
         nd.setVatM(datasprzedazy.split("-")[1]);
         nd.setVatR(datasprzedazy.split("-")[0]);

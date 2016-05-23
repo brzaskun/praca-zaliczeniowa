@@ -63,6 +63,7 @@ import testobjects.WierszKonta;
 import testobjects.WierszTabeli;
 import testobjects.WierszWNTWDT;
 import waluty.Z;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *
@@ -1368,7 +1369,7 @@ public class PdfMain {
                 StronaWiersza p = (StronaWiersza) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getNazwaWaluty(), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getKursWaluty(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getKursWalutyBOSW(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getDokfk().getDatadokumentu(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDokfkS(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getDokfk().getNumerwlasnydokfk(), "left", 7));

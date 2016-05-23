@@ -128,7 +128,7 @@
                             </h:outputText>
                         </p:column>
                         <p:column rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nazwaWaluty ne 'PLN'}" style="text-align: right;">
-                            <h:outputText id="kursrozliczajacego" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kursWaluty}" style="font-weight: bold; width: 50px;"
+                            <h:outputText id="kursrozliczajacego" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kursWalutyBOSW}" style="font-weight: bold; width: 50px;"
                                           >
                                 <f:convertNumber minFractionDigits="4" locale="PL"/>
                             </h:outputText>
@@ -247,11 +247,11 @@
                                               rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                             </p:column>
                             <p:column headerText="kurs" width="40">
-                                <h:outputText id="kursWn1" value="#{loop.nowaTransakcja.kursWaluty}"  
+                                <h:outputText id="kursWn1" value="#{loop.nowaTransakcja.kursWalutyBOSW}"  
                                               style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="4" locale="PL"/>
                                 </h:outputText>
-                                <h:outputText id="kursMa" value="#{loop.rozliczajacy.kursWaluty}" 
+                                <h:outputText id="kursMa" value="#{loop.rozliczajacy.kursWalutyBOSW}" 
                                               style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="4" locale="PL"/>
                                 </h:outputText>

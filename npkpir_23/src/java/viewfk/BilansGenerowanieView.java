@@ -251,13 +251,13 @@ public class BilansGenerowanieView implements Serializable {
                 }
             }
             komunikatyok.add("Wygenerowano BO na rok " + wpisView.getRokWpisuSt());
-//            wierszBODAO.editList(wierszeBO);
-//            zapiszBOnaKontach(wierszeBO, kontaNowyRok);
-//            obliczsaldoBOkonta(kontaNowyRok);
-//            kontoDAO.editList(kontaNowyRok);
-//            bilansWprowadzanieView.init();
-//            bilansWprowadzanieView.zapiszBilansBOdoBazy();
-//            Msg.msg("Generuje bilans");
+            wierszBODAO.editList(wierszeBO);
+            zapiszBOnaKontach(wierszeBO, kontaNowyRok);
+            obliczsaldoBOkonta(kontaNowyRok);
+            kontoDAO.editList(kontaNowyRok);
+            bilansWprowadzanieView.init();
+            bilansWprowadzanieView.zapiszBilansBOdoBazy();
+            Msg.msg("Generuje bilans");
         }
     }
 
@@ -379,30 +379,112 @@ public class BilansGenerowanieView implements Serializable {
     
     private Collection<? extends SaldoKonto> przetworzWBRK (SaldoKonto p) {
         List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
-        Set<Waluty> waluty = new HashSet<>();
+        Waluty waluta = listawalut.get("PLN");
+        Waluty walutapln = listawalut.get("PLN");
         for (StronaWiersza t : p.getZapisy()) {
-            waluty.add(listawalut.get(t.getSymbolWalut()));
+            if (!t.getSymbolWalut().equals("PLN")) {
+                waluta = listawalut.get(t.getSymbolWalut());
+                break;
+            }
         }
-        double saldopln = p.getSaldoWnPLN() > 0.0 ? p.getSaldoWnPLN(): -p.getSaldoMaPLN();
-        double saldowal = p.getSaldoWn() > 0.0 ? p.getSaldoWn() : -p.getSaldoMa();
+        double saldopln = obliczsaldo(p.getZapisy(), walutapln);
+        double saldowal = obliczsaldo(p.getZapisy(), waluta);
         double roznica = Z.z(Z.z(saldowal) - Z.z(saldopln));
-        if (roznica == 0.0 && waluty.size() == 1) {
+        List<Double> kwotywpln = new ArrayList<>();
+        if (roznica == 0.0) {
             nowalista_wierszy.add(p);
         } else {
-            for (Waluty wal : waluty) {
-                nowalista_wierszy.addAll(tworzwierszewaluty(wal, p.getZapisy(), saldowal));
-            }
+            nowalista_wierszy.addAll(tworzwierszewaluty(waluta, p.getZapisy(), saldowal, kwotywpln));
+        }
+        double sumasaldokont = obliczsaldoplnsaldokont(kwotywpln);
+        double roznicekursowe = Z.z(Math.abs(saldopln)-Math.abs(sumasaldokont));
+        if (saldowal < 0.0) {
+            nowalista_wierszy.add(new SaldoKonto(p,-roznicekursowe, walutapln));
+        } else {
+            nowalista_wierszy.add(new SaldoKonto(p,roznicekursowe, walutapln));
         }
         return nowalista_wierszy;
     }
     
-    private Collection<? extends SaldoKonto> tworzwierszewaluty(Waluty wal, List<StronaWiersza> zapisy, double saldowal) {
-        int zapisydl = zapisy.size()-1;
-        for (int i = zapisydl; i < 0; i--) {
-            StronaWiersza p = zapisy.get(i);
-            //wdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+    private double obliczsaldoplnsaldokont(List<Double> kwotywpln) {
+        double zwrot = 0.0;
+        for (Double p : kwotywpln) {
+            zwrot += p;
         }
-        return null;
+        return Z.z(zwrot);
+    }
+    
+    private double obliczsaldo(List<StronaWiersza> zapisy, Waluty waluta) {
+        double saldo = 0.0;
+        for (StronaWiersza p : zapisy) {
+            if (waluta.getSymbolwaluty().equals("PLN")) {
+                if (p.isWn()) {
+                    saldo += p.getKwotaPLN();
+                } else {
+                    saldo -= p.getKwotaPLN();
+                }
+            } else {
+                if (p.isWn()) {
+                    saldo += p.getKwota();
+                } else {
+                    saldo -= p.getKwota();
+                }
+            }
+        }
+        return Z.z(saldo);
+    }
+    
+    private Collection<? extends SaldoKonto> tworzwierszewaluty(Waluty wal, List<StronaWiersza> zapisy, double saldowal, List<Double> kwotywpln) {
+        int zapisydl = zapisy.size()-1;
+        double limit = saldowal;
+        List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
+        if (limit > 0.0) {
+            for (int i = zapisydl; i >= 0; i--) {
+                StronaWiersza p = zapisy.get(i);
+                double kurs = p.getKursWalutyBOSW();
+                if (p.isWn()) {
+                    limit -= p.getKwota();
+                    if (limit >= 0.0) {
+                        nowalista_wierszy.add(new SaldoKonto(p, wal, p.getKwota(), p.getKwotaPLN()));
+                        kwotywpln.add(p.getKwotaPLN());
+                    } else {
+                        double kwotapomniejszona = Z.z(p.getKwota() + limit);
+                        double kwotapomniejszonapln = 0.0;
+                        if (wal.getSymbolwaluty().equals("PLN")) {
+                            kwotapomniejszonapln = kwotapomniejszona;
+                        } else {
+                            kwotapomniejszonapln = Z.z(kwotapomniejszona * kurs);
+                        }
+                        nowalista_wierszy.add(new SaldoKonto(p, wal, kwotapomniejszona, kwotapomniejszonapln));
+                        kwotywpln.add(kwotapomniejszonapln);
+                    }
+                }
+            }
+        } else {
+            for (int i = zapisydl; i >= 0; i--) {
+                StronaWiersza p = zapisy.get(i);
+                double kurs = p.getKursWalutyBOSW();
+                if (!p.isWn()) {
+                    limit += p.getKwota();
+                    if (limit <= 0.0) {
+                        nowalista_wierszy.add(new SaldoKonto(p, wal, p.getKwota(), p.getKwotaPLN()));
+                        kwotywpln.add(p.getKwotaPLN());
+                    } else {
+                        double kwotapomniejszona = Z.z(limit-p.getKwota());
+                        double kwotapomniejszonapln = 0.0;
+                        if (wal.getSymbolwaluty().equals("PLN")) {
+                            kwotapomniejszonapln = kwotapomniejszona;
+                        } else {
+                            kwotapomniejszonapln = Z.z(kwotapomniejszona * kurs);
+                        }
+                        nowalista_wierszy.add(new SaldoKonto(p, wal, kwotapomniejszona, kwotapomniejszonapln));
+                        kwotywpln.add(-kwotapomniejszonapln);
+                        break;
+                    }
+                }
+            }
+        }
+        return nowalista_wierszy;
     }
 
     private Collection<? extends SaldoKonto> przetworzPojedyncze(SaldoKonto p) {

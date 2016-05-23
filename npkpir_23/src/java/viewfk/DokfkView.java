@@ -95,6 +95,10 @@ import waluty.Z;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *

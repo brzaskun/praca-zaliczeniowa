@@ -32,6 +32,7 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
@@ -211,6 +212,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
         nd.setDatadokumentu(datadokumentu);
         nd.setDataoperacji(datadokumentu);
         nd.setDatawplywu(datadokumentu);
+        nd.setDataujecia(new Date());
         nd.setDatawystawienia(datadokumentu);
         nd.setMiesiac(wpisView.getMiesiacWpisu());
         nd.setVatM(wpisView.getMiesiacWpisu());

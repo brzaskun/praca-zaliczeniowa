@@ -429,7 +429,7 @@ public class StronaWiersza implements Serializable {
         }
     }
 
-    public double getKursWaluty() {
+    public double getKursWalutyBOSW() {
         if (this.getWiersz().getTabelanbp() != null) {
             return this.wiersz.getTabelanbp().getKurssredni();
         } else {

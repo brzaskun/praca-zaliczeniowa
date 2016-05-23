@@ -62,7 +62,7 @@ public class SaldoKonto implements Serializable {
 
     public SaldoKonto(StronaWiersza t,Waluty wal) {
         this.konto = t.getKonto();
-        this.kursdlaBO = t.getKursWaluty();
+        this.kursdlaBO = t.getKursWalutyBOSW();
         boolean mniejszeodzera = t.getKwota() < 0.0;
         if (t.getWnma().equals("Wn")) {
             if (mniejszeodzera) {
@@ -89,6 +89,56 @@ public class SaldoKonto implements Serializable {
         this.zapisy.add(t);
         this.walutadlabo = wal;
         this.opisdlabo = t.getDokfkS()+" "+t.getDokfk().getNumerwlasnydokfk()+" "+t.getWiersz().getOpisWiersza()+" zapis BO";
+    }
+    
+    public SaldoKonto(StronaWiersza t,Waluty wal, double kwota, double kwotapln) {
+        this.konto = t.getKonto();
+        this.kursdlaBO = t.getKursWalutyBOSW();
+        boolean mniejszeodzera = kwota < 0.0;
+        if (t.getWnma().equals("Wn")) {
+            if (mniejszeodzera) {
+                this.saldoWn = -kwota;
+                this.saldoWnPLN = -kwotapln;
+                this.saldoMa = 0.0;
+            } else {
+                this.saldoWn = kwota;
+                this.saldoWnPLN = kwotapln;
+                this.saldoMa = 0.0;
+            }
+        } else {
+            if (mniejszeodzera) {
+                this.saldoWn = 0.0;
+                this.saldoMa = -kwota;
+                this.saldoMaPLN = -kwotapln;
+            } else {
+                this.saldoWn = 0.0;
+                this.saldoMa = kwota;
+                this.saldoMaPLN = kwotapln;
+            }
+        }
+        this.zapisy = new ArrayList<>();
+        this.zapisy.add(t);
+        this.walutadlabo = wal;
+        this.opisdlabo = t.getDokfkS()+" "+t.getDokfk().getNumerwlasnydokfk()+" "+t.getWiersz().getOpisWiersza()+ "/"+t.getWiersz().getIdporzadkowy()+" zapis BO";
+    }
+
+    public SaldoKonto(SaldoKonto t, double kwota, Waluty walutapln) {
+        this.konto = t.getKonto();
+        this.kursdlaBO = t.getKursdlaBO();
+        if (kwota > 0.0) {
+            this.saldoWn = kwota;
+            this.saldoWnPLN = kwota;
+            this.saldoMa = 0.0;
+            this.saldoMaPLN = 0.0;
+        } else {
+            this.saldoMa = 0.0;
+            this.saldoMaPLN = 0.0;
+            this.saldoWn = kwota;
+            this.saldoWnPLN = kwota;
+        }
+        this.zapisy = new ArrayList<>();
+        this.walutadlabo = walutapln;
+        this.opisdlabo = "konto: "+t.getKonto().getPelnynumer()+" nierozliczone różnice kursowe";
     }
     
     

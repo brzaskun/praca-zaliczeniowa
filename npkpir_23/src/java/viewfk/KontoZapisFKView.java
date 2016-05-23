@@ -483,7 +483,7 @@ public class KontoZapisFKView implements Serializable{
         for (StronaWiersza p : kontozapisy) {
             ListaSum r = zbiorcza.get(p.getSymbolWalut());
             r.setTabelanbp(p.getWiersz().getTabelanbp());
-            r.setKurswaluty(p.getKursWaluty());
+            r.setKurswaluty(p.getKursWalutyBOSW());
             if (r != null) {
                 if (p.getWnma().equals("Wn")) {
                     r.setSumaWn(Z.z(r.getSumaWn() + p.getKwota()));

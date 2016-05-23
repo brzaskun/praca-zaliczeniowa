@@ -49,7 +49,7 @@ public class RozniceKursoweBean {
                 double placonakwota = loop.getKwotatransakcji();
                 if (placonakwota != 0.0) {
                     double kursPlatnosci = loop.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
-                    double kursRachunku = loop.getNowaTransakcja().getKursWaluty();
+                    double kursRachunku = loop.getNowaTransakcja().getKursWalutyBOSW();
                     if (kursPlatnosci == 0.0 && kursRachunku != 0.0) {
                         if (placonakwota > 0.0) {
                             double kwotaPlatnosciwWalucie = Z.z(placonakwota / kursRachunku);

@@ -26,7 +26,7 @@
                     <h:outputText value="#{wpis.nowaTransakcja.wiersz.opisWiersza}/#{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
                 <p:column headerText="kurs rach." width="40">
-                    <h:outputText value="#{wpis.nowaTransakcja.kursWaluty}" style="float: right;">
+                    <h:outputText value="#{wpis.nowaTransakcja.kursWalutyBOSW}" style="float: right;">
                         <f:convertNumber minFractionDigits="4" locale="PL"/>
                     </h:outputText>
                 </p:column>
@@ -34,7 +34,7 @@
                     <h:outputText value="#{wpis.rozliczajacy.wiersz.opisWiersza}/#{wpis.rozliczajacy.wiersz.dokfk.dokfkPK}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
                 <p:column headerText="kurs płat." width="40">
-                    <h:outputText value="#{wpis.rozliczajacy.kursWaluty}" style="float: right;">
+                    <h:outputText value="#{wpis.rozliczajacy.kursWalutyBOSW}" style="float: right;">
                         <f:convertNumber minFractionDigits="4" locale="PL"/>
                     </h:outputText>
                 </p:column>

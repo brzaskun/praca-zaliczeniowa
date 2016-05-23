@@ -115,8 +115,8 @@
                     <p:column headerText="#{mgs.waluta}" sortBy="#{loop.nazwaWaluty}" width="40">
                         <h:outputText value="#{loop.nazwaWaluty}"/>
                     </p:column>
-                    <p:column headerText="#{mgs.kurs}" sortBy="#{loop.kursWaluty}" width="40">
-                        <h:outputText value="#{loop.kursWaluty ne 0.0 ? loop.kursWaluty: ''}" rendered="#{loop.kursWaluty ne 'PLN'}"/>
+                    <p:column headerText="#{mgs.kurs}" sortBy="#{loop.kursWalutyBOSW}" width="40">
+                        <h:outputText value="#{loop.kursWalutyBOSW ne 0.0 ? loop.kursWalutyBOSW: ''}" rendered="#{loop.kursWalutyBOSW ne 'PLN'}"/>
                     </p:column>
                     <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                         <h:outputText value="#{loop.wiersz.dataksiegowania.substring(0,10)}"/>

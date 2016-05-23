@@ -29,6 +29,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -737,6 +738,7 @@ public class BilansWprowadzanieView implements Serializable {
         nd.setDataoperacji(datadokumentu);
         nd.setDatawplywu(datadokumentu);
         nd.setDatawystawienia(datadokumentu);
+        nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
         nd.setVatM(wpisView.getMiesiacWpisu());
         nd.setVatR(wpisView.getRokWpisuSt());

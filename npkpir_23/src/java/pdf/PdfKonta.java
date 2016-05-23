@@ -39,6 +39,8 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
 import comparator.StronaWierszacomparator;
 import error.E;
 import waluty.Z;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

@@ -31,6 +31,10 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import static pdf.PdfVAT7.absText;
 import static pdffk.PdfMain.dodajOpisWstepny;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import static pdf.PdfVAT7.absText;
+import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *
