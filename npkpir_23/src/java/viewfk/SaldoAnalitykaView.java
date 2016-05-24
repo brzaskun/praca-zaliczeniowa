@@ -30,6 +30,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import pdf.PdfKonta;
 import sortfunction.KontoSortBean;
 import view.WpisView;
@@ -210,7 +211,16 @@ public class SaldoAnalitykaView implements Serializable {
 
     public void sumujwybranekonta() {
         sumaSaldoKonto = new ArrayList<>();
-        sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(listaSaldoKontowybrane));
+        if (listaSaldoKontofilter != null && listaSaldoKontofilter.size() > 0 && (listaSaldoKontowybrane == null || listaSaldoKontowybrane.size() == 0)) {
+            sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(listaSaldoKontofilter));
+            //Msg.msg("Filter "+listaSaldoKontofilter.size());
+        } else if (listaSaldoKontowybrane != null && listaSaldoKontowybrane.size() > 0) {
+            sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(listaSaldoKontowybrane));
+            //Msg.msg("Wybrane");
+        } else {
+            sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(listaSaldoKonto));
+        }
+        RequestContext.getCurrentInstance().update("tabelazsumamianalityka:sumy");
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
