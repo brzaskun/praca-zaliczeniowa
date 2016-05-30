@@ -6,20 +6,14 @@ package view;
 
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
-import dao.StronaWierszaDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Roki;
 import entity.Podatnik;
 import entity.Uz;
 import entity.Wpis;
-import entityfk.Dokfk;
-import entityfk.Konto;
-import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.security.Principal;
@@ -72,75 +66,61 @@ public class WpisView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @Inject
     private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
-    @Inject
-    private KontoDAOfk kontoDAOfk;
-    @Inject
-    private DokDAOfk dokDAOfk;
-    @Inject
-    private StronaWierszaDAO stronaWierszaDAO;
     private boolean czegosbrakuje;
 
     public WpisView() {
-        E.m(this);
+        czegosbrakuje = false;
     }
     
 
     @PostConstruct
     private void init() {
-         E.m(this);
-        czegosbrakuje = false;
-        if (miesiacDo == null && miesiacWpisu == null) {
-            miesiacDo = miesiacWpisu;
-            miesiacOd = miesiacWpisu;
-        }
-        Wpis wpis = pobierzWpis();
+        ustawMceOdDo();
+        Wpis wpis = pobierzWpisBD();
         if (wpis != null) {
             podatnikWpisu = wpis.getPodatnikWpisu();
             if (wpis.getPodatnikWpisu() == null) {
-                miesiacWpisu = "01";
-                wpis.setMiesiacWpisu("01");
-                wpis.setMiesiacOd("01");
-                wpis.setMiesiacDo("01");
-                miesiacWpisuArchiwum = "01";
-                wpis.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size()-1));
-                Uz podatnikwpisu = uzDAO.findUzByLogin(wpis.getWprowadzil());
-                String nipfirmy;
-                String nazwapodatnika;
-                try {
-                    nipfirmy = podatnikwpisu.getFirma();
-                    nazwapodatnika = podatnikDAO.findPodatnikByNIP(nipfirmy).getNazwapelna();
-                } catch (Exception e) { E.e(e); 
-                    //laduje demofirme jak cos pojdzie zle
-                    nipfirmy = "1111005008";
-                    nazwapodatnika = podatnikDAO.findPodatnikByNIP(nipfirmy).getNazwapelna();
-                }
-                podatnikWpisu = nazwapodatnika;
-                wpis.setPodatnikWpisu(nazwapodatnika);
-                wpis.setMiesiacWpisu(miesiacWpisu);
-                wpisDAO.edit(wpis);
+                inicjacjaUz(wpis);
             } else {
                 miesiacWpisu = wpis.getMiesiacWpisu();
                 miesiacWpisuArchiwum = wpis.getMiesiacWpisu();
+                rokWpisu = wpis.getRokWpisu();
             }
-            rokWpisu = wpis.getRokWpisu();
-           obsluzRok();
            obsluzMce(wpis);
            uzupelnijdanepodatnika();
-           try {
-            pobierzOpodatkowanie();
-           } catch (Exception e1) {
-               E.e(e1);
-           }
         }
      
     }
     
-    private final Wpis pobierzWpis() {
-        Wpis wpis = null;
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Principal principal = request.getUserPrincipal();
+    //swiezowpisany uzer nie ma ustawionych parametrow
+    private void inicjacjaUz(Wpis wpis) {
+        miesiacWpisu = "01";
+        wpis.setMiesiacWpisu("01");
+        wpis.setMiesiacOd("01");
+        wpis.setMiesiacDo("01");
+        miesiacWpisuArchiwum = "01";
+        wpis.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size() - 1));
+        Uz podatnikwpisu = uzDAO.findUzByLogin(wpis.getWprowadzil());
+        String nipfirmy;
+        String nazwapodatnika;
         try {
-            String wprowadzilX = principal.getName();
+            nipfirmy = podatnikwpisu.getFirma();
+            nazwapodatnika = podatnikDAO.findPodatnikByNIP(nipfirmy).getNazwapelna();
+        } catch (Exception e) {
+            E.e(e);
+            //laduje demofirme jak cos pojdzie zle
+            nipfirmy = "1111005008";
+            nazwapodatnika = podatnikDAO.findPodatnikByNIP(nipfirmy).getNazwapelna();
+        }
+        podatnikWpisu = nazwapodatnika;
+        wpis.setPodatnikWpisu(nazwapodatnika);
+        wpis.setMiesiacWpisu(miesiacWpisu);
+        wpisDAO.edit(wpis);
+    }
+    private Wpis pobierzWpisBD() {
+        Wpis wpis = null;
+        try {
+            String wprowadzilX = getPrincipal().getName();
             wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
             wpis = wpisDAO.find(wprowadzilX);
         } catch (Exception e) {
@@ -149,7 +129,7 @@ public class WpisView implements Serializable {
         return wpis;
     }
     
-    private void obsluzMce(Wpis wpis) {
+    private final void obsluzMce(Wpis wpis) {
          try {
             if (miesiacOd == null) {
                     miesiacOd = wpis.getMiesiacOd();
@@ -198,10 +178,7 @@ public class WpisView implements Serializable {
 
     public final void naniesDaneDoWpis() {
         czegosbrakuje = false;
-        HttpServletRequest request;
-        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Principal principal = request.getUserPrincipal();
-        String wprowadzilX = principal.getName();
+        String wprowadzilX = getPrincipal().getName();
         wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
         Wpis wpis = new Wpis();
         wpis = wpisDAO.find(wprowadzilX);
@@ -215,19 +192,17 @@ public class WpisView implements Serializable {
         wpis.setMiesiacOd(miesiacOd);
         wpis.setMiesiacDo(miesiacDo);
         wpisDAO.edit(wpis);
-        obsluzRok();
-        obsluzMcPrzedPo();
         uzupelnijdanepodatnika();
-        try {
-            pobierzOpodatkowanie();
-        } catch (Exception e1) {
-           E.e(e1);
-        }
+       
     }
 
-    public String findNazwaPodatnika() {
+    private final Principal getPrincipal() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String wprowadzilX = request.getUserPrincipal().getName();
+        return request.getUserPrincipal();
+    }
+    
+    public String findNazwaPodatnika() {
+        String wprowadzilX = getPrincipal().getName();
         wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
         Wpis wpis = wpisDAO.find(wprowadzilX);
         if (wpis.getPodatnikWpisu() != null) {
@@ -245,14 +220,24 @@ public class WpisView implements Serializable {
     private void uzupelnijdanepodatnika() {
         obsluzPodatnikObiekt();
         obsluzMcPrzedPo();
+        obsluzRok();
         if (miesiacOd == null) {
             miesiacOd = "01";
         }
         if (miesiacDo == null) {
             miesiacDo = "01";
         }
+        obsluzPiatki();
+        try {
+            pobierzOpodatkowanie();
+        } catch (Exception e1) {
+            E.e(e1);
+        }
+    }
+
+    private void obsluzPiatki() {
         List<Parametr> piatki = podatnikObiekt.getFKpiatki();
-        if ( piatki != null && (!piatki.isEmpty())) {
+        if (piatki != null && (!piatki.isEmpty())) {
             for (Parametr p : piatki) {
                 if (p.getRokOd().equals(rokWpisuSt)) {
                     FKpiatki = (p.getParametr().equals("tak") ? true : false);
@@ -260,7 +245,7 @@ public class WpisView implements Serializable {
             }
         }
     }
-
+    
     private void obsluzPodatnikObiekt() {
         if (podatnikWpisu != null) {
             try {
@@ -275,31 +260,31 @@ public class WpisView implements Serializable {
     
     private void pobierzOpodatkowanie() {
         try {
-                mc0kw1 = zwrocmc0kw1();
-                rodzajopodatkowania = zwrocindexparametrzarok();
-                if (rodzajopodatkowania != null) {
-                    if (rodzajopodatkowania.contains("ryczałt")) {
-                        ksiegaryczalt = false;
-                    } else {
-                        ksiegaryczalt = true;
-                    }
-                    if (rodzajopodatkowania.contains("księgi rachunkowe")) {
-                        ksiegirachunkowe = true;
-                    } else {
-                        ksiegirachunkowe = false;
-                    }
-                } else {
+            mc0kw1 = zwrocmc0kw1();
+            rodzajopodatkowania = zwrocindexparametrzarok();
+            if (rodzajopodatkowania != null) {
+                if (rodzajopodatkowania.contains("ryczałt")) {
                     ksiegaryczalt = false;
+                } else {
+                    ksiegaryczalt = true;
+                }
+                if (rodzajopodatkowania.contains("księgi rachunkowe")) {
+                    ksiegirachunkowe = true;
+                } else {
                     ksiegirachunkowe = false;
-                    Msg.msg("e", "Brak wyboru opodatkowania w danym roku");
                 }
-                if (rodzajopodatkowania == null) {
-                    czegosbrakuje = true;
-                }
-            } catch (Exception e) {
-                czegosbrakuje = true;
-                E.e(e);
+            } else {
+                ksiegaryczalt = false;
+                ksiegirachunkowe = false;
+                Msg.msg("e", "Brak wyboru opodatkowania w danym roku");
             }
+            if (rodzajopodatkowania == null) {
+                czegosbrakuje = true;
+            }
+        } catch (Exception e) {
+            czegosbrakuje = true;
+            E.e(e);
+        }
     }
     
     private String zwrocindexparametrzarok() {
@@ -318,11 +303,13 @@ public class WpisView implements Serializable {
         }
     }
     
-    public void pobierz() {
-         List<Konto> a = kontoDAOfk.findWszystkieKontaPodatnika(this.getPodatnikWpisu(), this.getRokWpisuSt());
-         List<Dokfk> b = dokDAOfk.findDokfkPodatnikRok(this);
-         List<StronaWiersza> c = stronaWierszaDAO.findStronaByPodatnikRok(this.getPodatnikObiekt(), this.getRokWpisuSt());
+    private final void ustawMceOdDo() {
+        if (miesiacDo == null && miesiacWpisu == null) {
+            miesiacDo = miesiacWpisu;
+            miesiacOd = miesiacWpisu;
+        }
     }
+
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     public Integer getRokNastepny() {
@@ -513,5 +500,7 @@ public class WpisView implements Serializable {
 
     
 //</editor-fold>
+
+  
 
   }
