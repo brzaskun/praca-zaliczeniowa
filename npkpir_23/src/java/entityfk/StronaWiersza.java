@@ -414,7 +414,7 @@ public class StronaWiersza implements Serializable {
     public double getPozostaloPLN() {
         double kwotaprzeliczenia = 0.0;
         if (this.getWiersz().getTabelanbp() != null) {
-            kwotaprzeliczenia = Z.z(this.pozostalo * this.getWiersz().getTabelanbp().getKurssredni());
+            kwotaprzeliczenia = Z.z(this.pozostalo * this.getWiersz().getTabelanbp().getKurssredniPrzelicznik());
         } else if (this.getKursBO() != 0.0) {
             kwotaprzeliczenia = Z.z(this.pozostalo * kursBO);
         }

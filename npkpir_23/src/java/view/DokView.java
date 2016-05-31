@@ -1557,7 +1557,7 @@ public final class DokView implements Serializable {
          Tabelanbp t = selDokument.getTabelanbp();
          if (t != null) {
             double d = wiersz.getNettowaluta();
-            wiersz.setNetto(d*t.getKurssredni());
+            wiersz.setNetto(d*t.getKurssredniPrzelicznik());
             symbolWalutyNettoVat = " zł";
             sumujnetto();
             String s = "dodWiad:tabelapkpir:"+lp+":kwotaPkpir";

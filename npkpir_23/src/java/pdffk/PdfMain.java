@@ -1339,7 +1339,7 @@ public class PdfMain {
                 if (p.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 } else {
-                    table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredni(), "just", 8));
+                    table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik(), "just", 8));
                 }
             }
             if (nazwaklasy.equals("embeddablefk.KontoKwota")) {
@@ -1519,7 +1519,7 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(i++, "center", 8));
                     String rachunek = p.getNowaTransakcja().getWiersz().getOpisWiersza()+"/"+p.getNowaTransakcja().getWiersz().getDokfkS();
                     table.addCell(ustawfrazeAlign(rachunek, "left", 8));
-                    double kurs = p.getNowaTransakcja().getKursBO() != 0.0 ? p.getNowaTransakcja().getKursBO() : p.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
+                    double kurs = p.getNowaTransakcja().getKursBO() != 0.0 ? p.getNowaTransakcja().getKursBO() : p.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredniPrzelicznik();
                     table.addCell(ustawfrazeAlign(number.format(kurs), "right", 8));
                     String platnosc = p.getRozliczajacy().getWiersz().getOpisWiersza()+"/"+p.getRozliczajacy().getWiersz().getDokfkS();
                     table.addCell(ustawfrazeAlign(platnosc, "left", 8));

@@ -27,7 +27,7 @@ public class DokFKWalutyBean implements Serializable{
         double kurs;
         if (staranazwa.equals("PLN")) {
             Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
-            kurs = selected.getTabelanbp().getKurssredni();
+            kurs = selected.getTabelanbp().getKurssredniPrzelicznik();
             kurs = Math.round((1 / kurs) * 100000000);
             kurs /= 100000000;
             List<Wiersz> wiersze = selected.getListawierszy();
@@ -55,7 +55,7 @@ public class DokFKWalutyBean implements Serializable{
             }
         } else {
             //robimy w zlotowkach
-            kurs = selected.getTabelanbp().getKurssredni();
+            kurs = selected.getTabelanbp().getKurssredniPrzelicznik();
             List<Wiersz> wiersze = selected.getListawierszy();
             for (Wiersz p : wiersze) {
                 if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
@@ -84,7 +84,7 @@ public class DokFKWalutyBean implements Serializable{
     
     public static void zmienkurswaluty(Dokfk selected) {
           //robimy w zlotowkach
-        double kurs = selected.getTabelanbp().getKurssredni();
+        double kurs = selected.getTabelanbp().getKurssredniPrzelicznik();
         List<Wiersz> wiersze = selected.getListawierszy();
         for (Wiersz p : wiersze) {
             if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {

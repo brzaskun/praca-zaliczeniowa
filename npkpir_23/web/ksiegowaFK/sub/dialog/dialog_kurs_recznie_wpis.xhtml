@@ -14,7 +14,7 @@
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 760px;">
                  <p:column headerText="tabela" width="100" style="text-align: center;">
                      <p:selectOneMenu value="#{walutyViewFK.symbolRecznie}" id="polewyboruwaluty"
-                                      editable="true">
+                                      editable="true" >
                          <f:selectItems value="#{walutyViewFK.symboleTabelRecznie}" />
                          <p:ajax event="change" global="false" listener="#{walutyViewFK.generujNumerTabeli()}" partialSubmit="true"
                                  update="formkursrecznie:dataKursReczny:0:kodPole"/>
@@ -24,7 +24,7 @@
                     <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr" size="14"/>
                 </p:column>
                 <p:column headerText="data tabeli" width="100" style="text-align: center;">
-                    <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()" placeholder="rrrr-mm-dd" maxlength="10"/>
+                    <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny('#{WpisView.rokWpisuSt}')" placeholder="rrrr-mm-dd" maxlength="10"/>
                 </p:column>
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;">
                     <h:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv"
@@ -46,7 +46,7 @@
                     </pe:inputNumber>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" 
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" id="zapiswalutarecznie" 
                                      update=":formkursrecznie :formwpisdokument:panelTabelaNBP :wprowadzonekursyrecznie"
                                      oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()"
                     >
@@ -60,6 +60,7 @@
                          scrollable="true" style="width: 600px; padding: 10px;" scrollHeight="330" widgetVar="dataTablekursy" rowKey="#{wpis.nrtabeli}" selection="#{dokfkView.tabelanbprecznie}"
                          sortBy="#{wpis.datatabeli}" sortOrder="descending">
                 <p:ajax event="filter" global="false"/>
+                <p:ajax event="rowEdit" listener="#{walutyViewFK.onRowEdit}" update="formwpisdokument:dataList"/>
                  <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych tabel nieNBP " />  
                     <h:outputText value="- wyszukiwanie: " />  
@@ -75,12 +76,24 @@
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;" sortBy="#{wpis.waluta.symbolwaluty}" filterBy="#{wpis.waluta.symbolwaluty}" filterStyle="display : none;" filterMatchMode="contains">
                     <h:outputText value="#{wpis.waluta.symbolwaluty}" />
                 </p:column>
-                <p:column headerText="kurs do pln" width="100" sortBy="#{wpis.kurssredni}" filterBy="#{wpis.kurssredni}" filterStyle="display : none;" filterMatchMode="contains">
-                    <h:outputText value="#{wpis.kurssredni}" style="float: right; padding-right: 20px;">
-                        <f:convertNumber minFractionDigits="4" locale="PL"/>
-                    </h:outputText>
+                <p:column headerText="kurs do pln" width="100" style="text-align: center;"
+                          sortBy="#{wpis.kurssredni}" filterBy="#{wpis.kurssredni}" filterStyle="display : none;" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{wpis.kurssredni}" style="float: right; padding-right: 20px;">
+                                <f:convertNumber minFractionDigits="4" locale="PL"/>
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <pe:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                            style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="4" minValue="-1000000" styleClass="wiersznetto"> 
+                             </pe:inputNumber>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
-                
+                <p:column width="40" style="text-align: center;">
+                    <p:rowEditor style="height: 30px; text-align: center;"/>
+                </p:column>
             </p:dataTable>
              <div style="padding: 10px;">
                  <p:commandButton id="walutynowabutton" value="#{mgs.pobierz}" oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()" 

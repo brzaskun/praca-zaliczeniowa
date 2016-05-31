@@ -601,7 +601,7 @@ public class DokfkView implements Serializable {
         int lp = evatwpis.getLp();
         Waluty w = selected.getWalutadokumentu();
         if (!w.getSymbolwaluty().equals("PLN")) {
-            double kurs = selected.getTabelanbp().getKurssredni();
+            double kurs = selected.getTabelanbp().getKurssredniPrzelicznik();
             evatwpis.setVatwwalucie(Z.z(evatwpis.getVat() / kurs));
         }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
@@ -629,7 +629,7 @@ public class DokfkView implements Serializable {
     public void updatevatRK() {
         EVatwpisFK e = ewidencjaVatRK;
         Waluty w = selected.getWalutadokumentu();
-        double kurs = selected.getTabelanbp().getKurssredni();
+        double kurs = selected.getTabelanbp().getKurssredniPrzelicznik();
         if (!w.getSymbolwaluty().equals("PLN")) {
             e.setVatwwalucie(Z.z(e.getVat() / kurs));
         }

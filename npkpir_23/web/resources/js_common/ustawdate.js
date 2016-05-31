@@ -147,13 +147,19 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
      }
    };
    
-   var weryfikujdatekursreczny = function () {
+   var weryfikujdatekursreczny = function (rokwpisu) {
        var dataWyst = document.getElementById("formkursrecznie:dataKursReczny:0:datakurs");
        var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
        var testw = dataWyst.value;
-         if (!testw.match(re)){
-             dataWyst.value = "b\u0142ędna data";
-         }
+        if (!testw.match(re)){
+            dataWyst.value = "b\u0142ędna data";
+            r("formkursrecznie:dataKursReczny:0:zapiswalutarecznie").hide();
+        } else if (testw.split("-")[0] !== rokwpisu) {
+            dataWyst.value = "b\u0142ędny rok";
+            r("formkursrecznie:dataKursReczny:0:zapiswalutarecznie").hide();
+        } else {
+            r("formkursrecznie:dataKursReczny:0:zapiswalutarecznie").show();
+        }
    };
    
    var weryfikujsporzadzfakture = function (poleDaty) {

@@ -166,8 +166,8 @@ public class PdfKontoZapisy {
                         table.addCell(ustawfrazeAlign(formatujKurs(rs.getKursBO()), "right", 7));
                         table.addCell(ustawfrazeAlign("zap. BO", "right", 7));
                     } else {
-                        if (rs.getWiersz().getTabelanbp().getKurssredni() > 0.0) {
-                            table.addCell(ustawfrazeAlign(formatujKurs(rs.getWiersz().getTabelanbp().getKurssredni()), "right", 7));
+                        if (rs.getWiersz().getTabelanbp().getKurssredniPrzelicznik() > 0.0) {
+                            table.addCell(ustawfrazeAlign(formatujKurs(rs.getWiersz().getTabelanbp().getKurssredniPrzelicznik()), "right", 7));
                             table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getNrtabeli(), "right", 7));
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 7));

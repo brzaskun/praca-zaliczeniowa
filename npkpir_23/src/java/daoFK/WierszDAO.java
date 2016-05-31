@@ -6,8 +6,12 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Podatnik;
+import entityfk.Tabelanbp;
+import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import session.SessionFacade;
 
@@ -21,12 +25,14 @@ public class WierszDAO extends DAO implements Serializable {
     @Inject
     private SessionFacade sessionFacade;
     
-//    public void usunWiersz(int id) {
-//        try {
-//            sessionFacade.usunWierszById(id);
-//        } catch (Exception e) {
-//            E.e(e);
-//        }
-//    }
+    public final List<Wiersz> pobierzWiersze(Tabelanbp tabelanbp, Podatnik podatnik, String rok) {
+        List<Wiersz> zwrot = null;
+        try {
+            zwrot = sessionFacade.getEntityManager().createNamedQuery("Wiersz.findByPodatnikRokTabela").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("tabelanbp", tabelanbp).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
+    }
     
 }

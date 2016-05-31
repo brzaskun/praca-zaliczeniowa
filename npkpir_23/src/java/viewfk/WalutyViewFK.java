@@ -8,8 +8,10 @@ import beansFK.WalutyFKBean;
 import comparator.Tabelanbpcomparator;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
+import daoFK.WierszDAO;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
+import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -26,7 +28,9 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -41,6 +45,8 @@ public class WalutyViewFK implements Serializable {
     private WalutyDAOfk walutyDAOfk;
     @Inject
     private TabelanbpDAO tabelanbpDAO;
+    @Inject
+    private WierszDAO wierszDAO;
     private List<Waluty> pobraneRodzajeWalut;
     private List<Waluty> walutywuzyciu;
     private List<String> symboleWalut;
@@ -226,6 +232,36 @@ public class WalutyViewFK implements Serializable {
             walutyDAOfk.edit(w);
         }
     }
+    
+    public final void onRowEdit(RowEditEvent event) {
+        try {
+            Tabelanbp rzad = (Tabelanbp) event.getObject();
+            tabelanbpDAO.edit(rzad);
+            przewalutujwiersze(rzad);
+            Msg.msg("Zmieniono kurs waluty. Zamknij i otwórz ponownie dokument");
+        } catch (Exception e) {
+            Msg.msg("e", "Nie udało się zmienić kursu waluty");
+        }
+    }
+    
+    private void przewalutujwiersze(Tabelanbp tabela) {
+        List<Wiersz> wiersze = wierszDAO.pobierzWiersze(tabela, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        for (Wiersz p : wiersze) {
+            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
+                if (p.getStronaWn().getKwota() != 0.0) {
+                    double kwota = p.getStronaWn().getKwota();
+                    p.getStronaWn().setKwotaPLN(Z.z(kwota * tabela.getKurssredniPrzelicznik()));
+                }
+            }
+            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
+                if (p.getStronaMa().getKwota() != 0.0) {
+                    double kwota = p.getStronaMa().getKwota();
+                    p.getStronaMa().setKwotaPLN(Z.z(kwota * tabela.getKurssredniPrzelicznik()));
+                }
+            }
+            wierszDAO.edit(p);
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -343,6 +379,8 @@ public class WalutyViewFK implements Serializable {
     
     
     //</editor-fold>
+
+    
 
    
 }
