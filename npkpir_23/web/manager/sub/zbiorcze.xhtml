@@ -110,7 +110,8 @@
                 <p:panelGrid columns="5" style="column-width: 350px; width: 100%; max-width: 700px;  text-align: center;">
                     <p:outputPanel layout="box">
                         <p:commandButton actionListener="#{zUSStawkiZbiorczeView.usunzusZbiorcze(podatnik)}" value="usun" style="width: 100px;" update=":akordeon:formzus, :akordeon:formbuttony" rendered="#{zUSStawkiZbiorczeView.pokazButtonUsun}"/>
-                        <p:commandButton id="dodajbutton" actionListener="#{zUSStawkiZbiorczeView.dodajzusZbiorcze(podatnik)}" value="dodaj" style="width: 100px;" update=":akordeon:formzus" rendered="#{!zUSStawkiZbiorczeView.dodaj0edtuj1}"/>
+                        <p:commandButton id="dodajbutton" actionListener="#{zUSStawkiZbiorczeView.dodajzusZbiorcze(podatnik)}"
+                                         value="dodaj" style="width: 100px;" update=":akordeon:formzus" rendered="#{!zUSStawkiZbiorczeView.dodaj0edtuj1}"/>
                         <p:commandButton id="edytujbutton" actionListener="#{zUSStawkiZbiorczeView.edytujzusZbiorcze(podatnik)}" value="edytuj" style="width: 100px;" update=":akordeon:formzus" rendered="#{zUSStawkiZbiorczeView.dodaj0edtuj1}"/>
                     </p:outputPanel>
                     <p:commandButton actionListener="#{zUSStawkiZbiorczeView.pobierzzusPoprzedniMiesiac(podatnik)}" value="skopiuj pop.mc" style="width: 110px;" update=":akordeon:formwartosci"/>

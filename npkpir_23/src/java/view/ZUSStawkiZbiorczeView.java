@@ -82,7 +82,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
                 tmp.addAll(selected.getZusparametr());
             } catch (Exception e) { E.e(e); 
             }
-            if (czywprowadzonostawki()) {
+            if (czywprowadzonostawki() && czywprowadzonostawkiZUS52()) {
                 if (tmp.contains(obrabianeparametryzus)) {
                     Msg.msg("e", "Stawki za dany okres rozliczeniowy są już wprowadzone");
                 } else {
@@ -118,6 +118,16 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             return true;
         }
         if (obrabianeparametryzus.getPit4()!=null) {
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean czywprowadzonostawkiZUS52() {
+        if (obrabianeparametryzus.getZus52()!=null && obrabianeparametryzus.getZus52odl()!=null) {
+            Msg.msg("e","Nie wprowadzono dwóch stawek ZUS-52. Nie można zachować miesiąca");
+            return true;
+        } else if (obrabianeparametryzus.getZus52()==null && obrabianeparametryzus.getZus52odl()==null) {
             return true;
         }
         return false;
