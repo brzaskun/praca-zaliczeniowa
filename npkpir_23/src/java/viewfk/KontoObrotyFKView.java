@@ -14,8 +14,10 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -54,6 +56,7 @@ public class KontoObrotyFKView implements Serializable{
     private WpisView wpisView;
     private String wybranaWalutaDlaKont;
     private List<ListaSum> listasum;
+    private List<Konto> wykazkont;
     
     
 
@@ -70,9 +73,25 @@ public class KontoObrotyFKView implements Serializable{
     
     
     public void init(){
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         if (wykazkont != null) {
             wybranekonto = wykazkont.get(0);
+            usunkontabezsald();
+        }
+    }
+    
+    private void usunkontabezsald() {
+        kontozapisy = new ArrayList<>();
+        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
+        Set<Konto> listakont = new HashSet<>();
+        for (StronaWiersza p : kontozapisy) {
+            listakont.add(p.getKonto());
+        }
+        for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext(); ) {
+            Konto p = it.next();
+            if (!listakont.contains(p) && p.isMapotomkow() == false) {
+                it.remove();
+            }
         }
     }
     
@@ -280,6 +299,14 @@ public class KontoObrotyFKView implements Serializable{
 
     public void setWybranaWalutaDlaKont(String wybranaWalutaDlaKont) {
         this.wybranaWalutaDlaKont = wybranaWalutaDlaKont;
+    }
+
+    public List<Konto> getWykazkont() {
+        return wykazkont;
+    }
+
+    public void setWykazkont(List<Konto> wykazkont) {
+        this.wykazkont = wykazkont;
     }
 
     public WpisView getWpisView() {

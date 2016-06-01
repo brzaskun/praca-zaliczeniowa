@@ -104,6 +104,7 @@ public class KontoZapisFKView implements Serializable{
     public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         pobierzzapisy();
+        usunkontabezsald();
 //        if (wykazkont != null) {
 //            wybranekonto = wykazkont.get(0);
 //        }
@@ -128,6 +129,20 @@ public class KontoZapisFKView implements Serializable{
         }
         if (wykazkont != null) {
             wybranekonto = wykazkont.get(0);
+            usunkontabezsald();
+        }
+    }
+    
+    private void usunkontabezsald() {
+        Set<Konto> listakont = new HashSet<>();
+        for (StronaWiersza p : zapisyRok) {
+            listakont.add(p.getKonto());
+        }
+        for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext(); ) {
+            Konto p = it.next();
+            if (!listakont.contains(p) && p.isMapotomkow() == false) {
+                it.remove();
+            }
         }
     }
     
@@ -135,6 +150,7 @@ public class KontoZapisFKView implements Serializable{
         List<StronaWiersza> zapisy = new ArrayList<>();
         try {
             zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            
         } catch (Exception e) {
             E.e(e);
         }
@@ -142,7 +158,6 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
-        Konto konto = null;
         nierenderujkolumnnywalut = true;
         try {
             wybranekontadosumowania = new ArrayList<>();
@@ -154,6 +169,7 @@ public class KontoZapisFKView implements Serializable{
             pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+            
             for (StronaWiersza r : zapisyRok) {
                 if (kontapotomneListaOstateczna.contains(r.getKonto())) {
                     if (!r.getSymbolWalut().equals("PLN")) {
