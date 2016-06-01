@@ -180,7 +180,7 @@
                         <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;">
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.data}" width="30" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
+                        <p:column headerText="#{mgs.data}" width="20" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
                             <h:outputText value="#{loop.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
                         </p:column>
                         <p:column headerText="dok." width="40" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
@@ -193,39 +193,39 @@
                         <p:column headerText="kontr" width="100" sortBy="#{loop.dokfk.kontr.npelna}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'wszystkie'}">
                             <h:outputText value="#{loop.dokfk.kontr.npelna}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.opis}" width="130" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains"
+                        <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains"
                                   style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
                             <h:outputText value="#{loop.wiersz.opisWiersza}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                         </p:column>
-                        <p:column headerText="kurs" width="30" sortBy="#{loop.wiersz.kursWiersz}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
+                        <p:column headerText="kurs" width="30" sortBy="#{loop.wiersz.kursWiersz}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText value="#{loop.wiersz.kursWiersz}" rendered="#{loop.wiersz.kursWiersz > 0.0}" style="float: right;">
                                 <f:convertNumber minFractionDigits="4" maxFractionDigits="4" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="tab" width="40" sortBy="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
+                        <p:column headerText="tab" width="40" sortBy="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText value="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,9)}" rendered="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3) ne '000'}"/>
                         </p:column>
-                        <p:column headerText="Wn" width="40" sortBy="#{loop.kwota}">
+                        <p:column headerText="Wn" width="40" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Wn PLN" width="40" sortBy="#{loop.kwotaPLN}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
+                        <p:column headerText="Wn PLN" width="40" sortBy="#{loop.kwotaPLN}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}" >
                             <h:outputText id="kwotawnwierszPLN" value="#{loop.wnma eq 'Wn' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma" width="40" sortBy="#{loop.kwota}">
+                        <p:column headerText="Ma" width="40" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText id="kwotamawiersz" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma PLN" width="40" sortBy="#{loop.kwotaPLN}"  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
+                        <p:column headerText="Ma PLN" width="40" sortBy="#{loop.kwotaPLN}"  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}" >
                             <h:outputText id="kwotamawierszPLN" value="#{loop.wnma eq 'Ma' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="#{mgs.waluta}" width="30" sortBy="#{loop.wiersz.walutaWiersz}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
+                        <p:column headerText="#{mgs.waluta}" width="20" sortBy="#{loop.wiersz.walutaWiersz}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText id="waluta" value="#{loop.wiersz.walutaWiersz}"/>
                         </p:column>
                         <p:column headerText="przec." width="40" sortBy="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}">

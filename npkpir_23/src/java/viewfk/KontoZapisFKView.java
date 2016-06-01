@@ -86,6 +86,7 @@ public class KontoZapisFKView implements Serializable{
     private List<Konto> wykazkont;
     private List<StronaWiersza> zapisyRok;
     private String wybranyRodzajKonta;
+    boolean nierenderujkolumnnywalut;
 
     
 
@@ -142,6 +143,7 @@ public class KontoZapisFKView implements Serializable{
     
     public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
         Konto konto = null;
+        nierenderujkolumnnywalut = true;
         try {
             wybranekontadosumowania = new ArrayList<>();
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
@@ -154,6 +156,9 @@ public class KontoZapisFKView implements Serializable{
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
             for (StronaWiersza r : zapisyRok) {
                 if (kontapotomneListaOstateczna.contains(r.getKonto())) {
+                    if (!r.getSymbolWalut().equals("PLN")) {
+                        nierenderujkolumnnywalut = false;
+                    }
                     int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                     if (mc >= granicaDolna && mc <=granicaGorna) {
                         kontozapisy.add(r);
@@ -877,6 +882,16 @@ public class KontoZapisFKView implements Serializable{
     public void setWybranyRodzajKonta(String wybranyRodzajKonta) {
         this.wybranyRodzajKonta = wybranyRodzajKonta;
     }
+
+    public boolean isNierenderujkolumnnywalut() {
+        return nierenderujkolumnnywalut;
+    }
+
+    public void setNierenderujkolumnnywalut(boolean nierenderujkolumnnywalut) {
+        this.nierenderujkolumnnywalut = nierenderujkolumnnywalut;
+    }
+    
+    
 
     private Map<String, ListaSum> stworzliste(List<StronaWiersza> kontozapisy) {
         Map<String, ListaSum> zbiorcza = new HashMap<>();
