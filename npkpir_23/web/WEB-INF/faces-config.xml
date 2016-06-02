@@ -524,6 +524,10 @@
             <to-view-id>/guestFK/guestFKBilanse.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>gfkZapisyKonta</from-outcome>
+            <to-view-id>/guestFK/guestFKZapisyKonta.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>gfkBil</from-outcome>
             <to-view-id>/guestFK/guestFKBilansRZiS.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

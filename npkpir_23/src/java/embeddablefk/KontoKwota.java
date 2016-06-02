@@ -20,6 +20,7 @@ public class KontoKwota implements Serializable {
     
     private Konto konto;
     private double kwota;
+    private double kwota2;
     private PozycjaRZiS pozycjaRZiS;
 
     public KontoKwota(Konto konto, double kwotakonto) {
@@ -74,6 +75,14 @@ public class KontoKwota implements Serializable {
 
     public void setKwota(double Kwota) {
         this.kwota = Kwota;
+    }
+
+    public double getKwota2() {
+        return kwota2;
+    }
+
+    public void setKwota2(double kwota2) {
+        this.kwota2 = kwota2;
     }
     
     

@@ -34,6 +34,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.model.TreeNode;
@@ -261,6 +262,9 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void pobierzukladprzegladBilans() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        PozycjaBRBOView bean = context.getApplication().evaluateExpressionGet(context, "#{pozycjaBRBOView}", PozycjaBRBOView.class);
+        bean.pobierzukladprzegladBilans();
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }

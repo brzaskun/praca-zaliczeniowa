@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -28,7 +27,6 @@ import org.primefaces.model.TreeNode;
  * @param <T>
  */
 @Named
-
 public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable {
 
     private static final long serialVersionUID = 1L;
