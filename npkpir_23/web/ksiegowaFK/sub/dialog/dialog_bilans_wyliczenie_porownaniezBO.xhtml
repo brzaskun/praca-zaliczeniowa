@@ -8,9 +8,9 @@
         
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:dialog id="dialogbilansprzeglad" header="Bilans za okres rozliczeniowy wyliczenie - #{WpisView.podatnikWpisu}" widgetVar="bilansprzegladuklad" 
-              resizable="false" onShow="ustawdialog('dialogbilansprzeglad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprzeglad');"  >
-        <h:form id="formprzegladbilans">
+    <p:dialog id="dialogbilansporownanie" header="Bilans za okres rozliczeniowy wyliczenie - #{WpisView.podatnikWpisu}" widgetVar="dialogbilansporownanie" 
+              resizable="false" onShow="ustawdialog('dialogbilansporownanie','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansporownanie');"  >
+        <h:form id="form_dialogbilansporownanie">
 <!--            <p:contextMenu for="dataList">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
                 <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontoanalityczne').show();"/>
@@ -32,39 +32,39 @@
              <p:panelGrid columns="6">
                 <p:panelGrid columns="4">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
+                    <p:selectOneMenu value="#{pozycjaBRMultiView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                     </p:selectOneMenu>
                     <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{pozycjaBRView.odswiezbilansdwiestrony()}" update=":formprzegladbilans" />
+                        <p:ajax event="change" listener="#{pozycjaBRMultiView.odswiezbilansdwiestrony()}" update=":form_dialogbilansporownanie" />
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                     </p:column>
-                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans()}" update=":formprzegladbilans"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRMultiView.pobierzukladprzegladBilans()}" update=":form_dialogbilansporownanie"/>
                 </p:panelGrid>
-                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRMultiView.rozwinwszystkie()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
+                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRMultiView.rozwin()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
+                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRMultiView.zwinwszystkie()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
+                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRMultiView.zwin()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
                  <p:column>
-                      <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a', pozycjaBRView.sumabilansowaaktywa)}">
-                          <p:menuitem global="false" value="#{mgs.aktywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('a', pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
-                          <p:menuitem global="false" value="#{mgs.aktywaznrkont} bez 0"  actionListener="#{pozycjaBRView.drukujBilansKontaBez0('a', pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
+                      <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRMultiView.drukujBilans('a', pozycjaBRMultiView.sumabilansowaaktywa)}">
+                          <p:menuitem global="false" value="#{mgs.aktywaznrkont}"  actionListener="#{pozycjaBRMultiView.drukujBilansKonta('a', pozycjaBRMultiView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
+                          <p:menuitem global="false" value="#{mgs.aktywaznrkont} bez 0"  actionListener="#{pozycjaBRMultiView.drukujBilansKontaBez0('a', pozycjaBRMultiView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
                       </p:splitButton>
-                      <p:splitButton value="#{mgs.drukujpasywa}"  style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p', pozycjaBRView.sumabilansowapasywa)}">
-                          <p:menuitem global="false" value="#{mgs.pasywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('b', pozycjaBRView.sumabilansowapasywa)}" icon="fa fa-print"/>
-                          <p:menuitem global="false" value="#{mgs.pasywaznrkont} bez 0"  actionListener="#{pozycjaBRView.drukujBilansKontaBez0('b', pozycjaBRView.sumabilansowapasywa)}" icon="fa fa-print"/>
+                      <p:splitButton value="#{mgs.drukujpasywa}"  style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRMultiView.drukujBilans('p', pozycjaBRMultiView.sumabilansowapasywa)}">
+                          <p:menuitem global="false" value="#{mgs.pasywaznrkont}"  actionListener="#{pozycjaBRMultiView.drukujBilansKonta('b', pozycjaBRMultiView.sumabilansowapasywa)}" icon="fa fa-print"/>
+                          <p:menuitem global="false" value="#{mgs.pasywaznrkont} bez 0"  actionListener="#{pozycjaBRMultiView.drukujBilansKontaBez0('b', pozycjaBRMultiView.sumabilansowapasywa)}" icon="fa fa-print"/>
                       </p:splitButton>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                <p:treeTable id="dataList" value="#{pozycjaBRMultiView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRMultiView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;" >
                     <f:facet name="header">
                         <h:outputText value="#{mgs.aktywa} "/>
-                        <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa}"/>
+                        <bcf:outputpl value="#{pozycjaBRMultiView.sumabilansowaaktywa}"/>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -77,12 +77,12 @@
                     </h:outputText>
                     </p:column>
                 </p:treeTable>
-                <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                <p:treeTable id="dataList2" value="#{pozycjaBRMultiView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRMultiView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.pasywa} "/>
-                        <bcf:outputpl value="#{pozycjaBRView.sumabilansowapasywa}"/>
+                        <bcf:outputpl value="#{pozycjaBRMultiView.sumabilansowapasywa}"/>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -98,7 +98,7 @@
             </p:panelGrid>
             <p:panel style="width: 300px;" >
             <h:outputText value="Różnica sum bilansowych"/>
-            <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa-pozycjaBRView.sumabilansowapasywa}"/>
+            <bcf:outputpl value="#{pozycjaBRMultiView.sumabilansowaaktywa-pozycjaBRMultiView.sumabilansowapasywa}"/>
             </p:panel>
         </h:form>
     </p:dialog>

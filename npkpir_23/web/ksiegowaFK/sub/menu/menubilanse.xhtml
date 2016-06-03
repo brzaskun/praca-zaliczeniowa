@@ -9,6 +9,8 @@
                 <p:tab title="#{mgs.Bilans}">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przegladaj Bilans porównanie" onclick="PF('dialogbilansporownanie').show();" actionListener="#{pozycjaBRMultiView.odswiezbilansdwiestrony()}"
+                                        update=":form_dialogbilansporownanie"></p:menuitem>
                             <p:menuitem value="przegladaj Bilans" onclick="PF('bilansprzegladuklad').show();" actionListener="#{pozycjaBRView.odswiezbilansdwiestrony()}"
                                         update=":formprzegladbilans"></p:menuitem>
                             <p:menuitem value="przegladaj Bilans zapisy" onclick="PF('bilansprzegladukladzapisy').show();"></p:menuitem>
