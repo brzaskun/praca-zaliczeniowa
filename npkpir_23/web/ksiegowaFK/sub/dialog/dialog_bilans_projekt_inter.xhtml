@@ -38,8 +38,8 @@
                     <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px;" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok} - #{loop.importowany eq true ? 'imp' : 'wsy'}" itemValue="#{String.valueOf(loop.lp)}"/>
                     </p:selectOneListbox>
-                    <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('b', pozycjaBRView.rootProjektRZiS, 'aktywa')}" update=":form_dialog_bilans_projekt_inter"/>
-                    <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('b', pozycjaBRView.rootProjektRZiS, 'pasywa')}" update=":form_dialog_bilans_projekt_inter"/>
+                    <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzProjektUkladu('b', pozycjaBRView.rootProjektRZiS, 'aktywa')}" update=":form_dialog_bilans_projekt_inter"/>
+                    <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzProjektUkladu('b', pozycjaBRView.rootProjektRZiS, 'pasywa')}" update=":form_dialog_bilans_projekt_inter"/>
                 </p:panel>
             </p:panelGrid>
         </h:form>

@@ -405,6 +405,10 @@
             <from-outcome>guestbilansFK</from-outcome>
             <to-view-id>/ksiegowaFK/guestFKBilanse.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>guestZapisyKonta</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKZapisyKonta.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>guestbilansRZiSFK</from-outcome>
             <to-view-id>/ksiegowaFK/guestFKBilansRZiS.xhtml?faces-redirect=true</to-view-id>
