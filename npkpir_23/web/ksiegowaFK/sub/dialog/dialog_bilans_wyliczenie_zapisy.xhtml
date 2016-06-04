@@ -74,7 +74,8 @@
                     </p:treeTable>
                     <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
-                                 scrollable="true"  style="height: 700px; margin-top: 0px; width: 600px; overflow-y: scroll;"  rendered="#{pozycjaBRView.pokazaktywa == false}">
+                                 scrollable="true"  style="height: 700px; margin-top: 0px; width: 600px; overflow-y: scroll;" 
+                                 rendered="#{pozycjaBRView.pokazaktywa == false}">
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <p:ajax event="unselect" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <f:facet name="header">

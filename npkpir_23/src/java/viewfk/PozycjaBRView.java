@@ -90,8 +90,6 @@ public class PozycjaBRView implements Serializable {
     private UkladBRDAO ukladBRDAO;
     @Inject
     private UkladBR uklad;
-    @Inject
-    private WierszBODAO wierszBODAO;
     
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -115,34 +113,33 @@ public class PozycjaBRView implements Serializable {
 
     @PostConstruct
     private void init() {
-
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
-        pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
-        pozycje_old.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(3, "A.II", "II", 1, 1, "Zmiana stanu produktów", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(4, "A.III", "III", 1, 1, "Koszt wytworzenia produktów na własne potrzeby jednostki", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(5, "A.IV", "IV", 1, 1, "Przychody netto ze sprzedaży towarów i materiałów", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(6, "B", "B", 0, 0, "Koszty działalności operacyjnej", true));
-        pozycje_old.add(new PozycjaRZiS(7, "B.I", "I", 6, 1, "Amortyzacja", true));
-        pozycje_old.add(new PozycjaRZiS(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(9, "B.III", "III", 6, 1, "Usługi obce", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(11, "B.V", "V", 6, 1, "Wynagrodzenia", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
-        pozycje_old.add(new PozycjaRZiS(14, "B.I.2.a)", "a)", 13, 3, "bobopo", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(15, "C", "C", 0, 0, "Zysk (strata) ze sprzedaży (A-B)", false, "A-B"));
-        pozycje_old.add(new PozycjaRZiS(16, "D", "D", 0, 0, "Pozostałe truey operacyjne", false));
-        pozycje_old.add(new PozycjaRZiS(17, "D.I", "I", 16, 1, "Zysk z niefinansowych aktywów trwałych", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(18, "D.II", "II", 16, 1, "Dotacje", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(19, "D.III", "III", 16, 1, "Inne truey operacyjne", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(20, "E", "E", 0, 0, "Pozostałe koszty operacyjne", true));
-        pozycje_old.add(new PozycjaRZiS(21, "E.I", "I", 20, 1, "Strata z niefinansowych aktywów trwałych", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
+//        pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
+//        pozycje_old.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(3, "A.II", "II", 1, 1, "Zmiana stanu produktów", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(4, "A.III", "III", 1, 1, "Koszt wytworzenia produktów na własne potrzeby jednostki", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(5, "A.IV", "IV", 1, 1, "Przychody netto ze sprzedaży towarów i materiałów", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(6, "B", "B", 0, 0, "Koszty działalności operacyjnej", true));
+//        pozycje_old.add(new PozycjaRZiS(7, "B.I", "I", 6, 1, "Amortyzacja", true));
+//        pozycje_old.add(new PozycjaRZiS(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(9, "B.III", "III", 6, 1, "Usługi obce", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(11, "B.V", "V", 6, 1, "Wynagrodzenia", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
+//        pozycje_old.add(new PozycjaRZiS(14, "B.I.2.a)", "a)", 13, 3, "bobopo", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(15, "C", "C", 0, 0, "Zysk (strata) ze sprzedaży (A-B)", false, "A-B"));
+//        pozycje_old.add(new PozycjaRZiS(16, "D", "D", 0, 0, "Pozostałe truey operacyjne", false));
+//        pozycje_old.add(new PozycjaRZiS(17, "D.I", "I", 16, 1, "Zysk z niefinansowych aktywów trwałych", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(18, "D.II", "II", 16, 1, "Dotacje", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(19, "D.III", "III", 16, 1, "Inne truey operacyjne", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(20, "E", "E", 0, 0, "Pozostałe koszty operacyjne", true));
+//        pozycje_old.add(new PozycjaRZiS(21, "E.I", "I", 20, 1, "Strata z niefinansowych aktywów trwałych", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
         //tutaj dzieje sie magia :) tak funkcja przeksztalca baze danych w nody
-        pozycje.addAll(pozycjaRZiSDAO.findAll());
+       // pozycje.addAll(pozycjaRZiSDAO.findAll());
 //        if (pozycje.size() == 0) {
 //            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
 //            Msg.msg("i", "Dodaje pusta pozycje");
@@ -363,7 +360,7 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
-    public void zachowajInt(TreeNodeExtended root) {
+    public void zachowajTlumaczenie(TreeNodeExtended root) {
         List lista = new ArrayList();
         root.getChildrenTree(new ArrayList<TreeNodeExtended>(), lista);
         List<PozycjaRZiSBilans> pozycje = new ArrayList<>();
@@ -374,46 +371,7 @@ public class PozycjaBRView implements Serializable {
         Msg.msg("Zachowano zmiany");
     }
     
-            
-    public void implementujRZiS(TreeNodeExtended root, UkladBR uklad) {
-        String nazwa = uklad.getUklad();
-        String rok = uklad.getRok();
-        List<PozycjaRZiS> pozycjewzorowy = pozycjaRZiSDAO.findRzisuklad(nazwa, "Wzorcowy", rok);
-        List pozycjedocelowy = new ArrayList();
-        root.getChildrenTree(new ArrayList<TreeNodeExtended>(), pozycjedocelowy);
-        for (PozycjaRZiS p : pozycjewzorowy) {
-            for (Object r : pozycjedocelowy) {
-                PozycjaRZiS s = (PozycjaRZiS) r;
-                if (s.getNazwa().equals(p.getNazwa()) && s.getPozycjaString().equals(p.getPozycjaString())) {
-                    s.setDe(p.getDe());
-                    break;
-                }
-            }
-        }
-        pozycjaRZiSDAO.editList(pozycjedocelowy);
-        Msg.msg("Zachowano zmiany");
-    }
-    
-    public void implementujBilans(TreeNodeExtended root, UkladBR uklad) {
-        String nazwa = uklad.getUklad();
-        String rok = uklad.getRok();
-        List<PozycjaBilans> pozycjewzorowy = pozycjaBilansDAO.findBilansuklad(nazwa, "Wzorcowy", rok);
-        List pozycjedocelowy = new ArrayList();
-        root.getChildrenTree(new ArrayList<TreeNodeExtended>(), pozycjedocelowy);
-        for (PozycjaBilans p : pozycjewzorowy) {
-            for (Object r : pozycjedocelowy) {
-                PozycjaBilans s = (PozycjaBilans) r;
-                if (s.getNazwa().equals(p.getNazwa()) && s.getPozycjaString().equals(p.getPozycjaString())) {
-                    s.setDe(p.getDe());
-                    break;
-                }
-            }
-        }
-        pozycjaRZiSDAO.editList(pozycjedocelowy);
-        Msg.msg("Zachowano zmiany");
-    }
-    
-      
+     
 
     public void dodajnowapozycje(String syntetycznaanalityczna) {
         if (syntetycznaanalityczna.equals("syntetyczna")) {
