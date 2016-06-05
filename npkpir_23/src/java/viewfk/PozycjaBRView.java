@@ -286,10 +286,6 @@ public class PozycjaBRView implements Serializable {
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");
-            //nowy nie dziala - trzeba mocniej polowkowac. problem polea na tym ze pozycje zaleza od sald, czyli nie mozna isc po stronawiersza
-            //trzeba najpierw podsumowac konta
-            //PozycjaRZiSFKBean.ustawRootaBilansNowy(rootBilansAktywa, pozycjeaktywa, zapisy, plankont, "aktywa");
-            //PozycjaRZiSFKBean.ustawRootaBilansNowy(rootBilansPasywa, pozycjepasywa, zapisy, plankont, "pasywa");
             level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
             Msg.msg("i", "Pobrano i wyliczono BO");
             sumaaktywapasywaoblicz("aktywa");
@@ -344,20 +340,7 @@ public class PozycjaBRView implements Serializable {
             E.e(e);
         }
     }
-//
-//    private void naniesBOnaKonto(Konto p) {
-//        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
-//        for (StronaWiersza r : zapisyBO) {
-//            if (r.getWnma().equals("Wn")) {
-//                p.setBoWn(Z.z(p.getBoWn() + r.getKwotaPLN()));
-//            } else {
-//                p.setBoMa(Z.z(p.getBoMa() + r.getKwotaPLN()));
-//            }
-//        }
-//    }
-//    
-   
-   
+
 
     public void rozwinwszystkie() {
         root.createTreeNodesForElement(pozycje);
@@ -406,7 +389,7 @@ public class PozycjaBRView implements Serializable {
     
      
 
-    public void dodajnowapozycje(String syntetycznaanalityczna) {
+    public void dodajnowapozycjeRZiS(String syntetycznaanalityczna) {
         if (syntetycznaanalityczna.equals("syntetyczna")) {
             //dodaje nowa syntetyke
             if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {

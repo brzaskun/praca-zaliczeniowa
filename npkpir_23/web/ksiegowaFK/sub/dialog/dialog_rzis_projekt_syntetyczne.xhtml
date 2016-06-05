@@ -17,7 +17,7 @@
                             <f:selectItem itemLabel="#{mgs.przychód}" itemValue="false"/>
                             <f:selectItem itemLabel="#{mgs.koszt}" itemValue="true"/>
                         </p:selectOneMenu>
-                       <p:commandButton value="dodaj" actionListener="#{pozycjaBRView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXrzisprojekt, :formprojekt" style="width: 120px;" onclick="PF('rzisprojektsyntetyczne').hide()"/>
+                       <p:commandButton value="dodaj" actionListener="#{pozycjaBRView.dodajnowapozycjeRZiS('syntetyczna')}" accesskey="d" type="submit" update=":formXrzisprojekt, :formprojekt" style="width: 120px;" onclick="PF('rzisprojektsyntetyczne').hide()"/>
         </p:panelGrid>
             </p:focus>
             </h:form>

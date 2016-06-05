@@ -11,7 +11,7 @@
         <p:panelGrid id="dkp" columns="2" style=" width: 500px;">
             <h:outputLabel value="Nazwa pozycji:" for="nazwa" />
                         <p:inputText id="nazwa" value="#{pozycjaBRView.nowyelementRZiS.nazwa}" title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
-                       <p:commandButton value="dodaj" actionListener="#{pozycjaBRView.dodajnowapozycje('analityczna')}" accesskey="d" type="submit" update=":formYrzisprojekt, :formprojekt" style="float: right;" onclick="PF('rzisprojektanalityczne').hide()"/>
+                       <p:commandButton value="dodaj" actionListener="#{pozycjaBRView.dodajnowapozycjeRZiS('analityczna')}" accesskey="d" type="submit" update=":formYrzisprojekt, :formprojekt" style="float: right;" onclick="PF('rzisprojektanalityczne').hide()"/>
         </p:panelGrid>
             </p:focus>
             </h:form>
