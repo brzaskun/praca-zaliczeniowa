@@ -4,11 +4,10 @@
  */
 package viewfk;
 
-import beansFK.BOFKBean;
 import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
-import converter.RomNumb;
+import beansFK.UkladBRBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
@@ -117,41 +116,26 @@ public class PozycjaBRMultiView implements Serializable {
     
 
 
-    public void pobierzukladprzegladRZiS() {
+    public void obliczRZiS() {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
-        ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
-        pobierzPozycje(pozycje);
-        rootProjektRZiS.getChildren().clear();
+        ArrayList<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
+        UkladBRBean.czyscPozycje(pozycje);
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
         List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
+            rootProjektRZiS.getChildren().clear();
             PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e) {
             E.e(e);
             rootProjektRZiS.getChildren().clear();
-            Msg.msg("e", e.getLocalizedMessage());
+            Msg.msg("e", "Wystąpił problem, nie pobrano układu");
         }
     }
-    
-    private void pobierzPozycje(ArrayList<PozycjaRZiSBilans> pozycje) {
-        try {
-            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
-            if (pozycje.isEmpty()) {
-               pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                Msg.msg("i", "Dodaje pusta pozycje");
-            }
-            for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
-                PozycjaRZiS p = (PozycjaRZiS) it.next();
-                p.setPrzyporzadkowanestronywiersza(null);
-            }
-        } catch (Exception e) {  
-            E.e(e);
-        }
-    }
+
     
     public void pobierzukladprzegladBilans(String aktywapasywa) {
         if (aktywapasywa.equals("aktywa")) {
@@ -196,9 +180,6 @@ public class PozycjaBRMultiView implements Serializable {
     }
     
     public void pobierzukladprzegladBilans() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        PozycjaBRBOView bean = context.getApplication().evaluateExpressionGet(context, "#{pozycjaBRBOView}", PozycjaBRBOView.class);
-        bean.pobierzukladprzegladBilans();
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
@@ -209,12 +190,12 @@ public class PozycjaBRMultiView implements Serializable {
         rootBilansPasywa.getChildren().clear();
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowbilansowe(stronaWierszaDAO, wpisView);
         try {
-            List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
-            Konto kontowyniku = PlanKontFKBean.findKonto860(plankont);
+            List<Konto> kontabilansoweanalityczne = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
+            Konto kontowyniku = PlanKontFKBean.findKonto860(kontabilansoweanalityczne);
             naniesKwoteWynikFinansowy(kontowyniku);
-            PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
-            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
-            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");
+            PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, kontabilansoweanalityczne);
+            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, kontabilansoweanalityczne, "aktywa");
+            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, kontabilansoweanalityczne, "pasywa");
             //nowy nie dziala - trzeba mocniej polowkowac. problem polea na tym ze pozycje zaleza od sald, czyli nie mozna isc po stronawiersza
             //trzeba najpierw podsumowac konta
             //PozycjaRZiSFKBean.ustawRootaBilansNowy(rootBilansAktywa, pozycjeaktywa, zapisy, plankont, "aktywa");
@@ -234,7 +215,7 @@ public class PozycjaBRMultiView implements Serializable {
     
     
     private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
-        pobierzukladprzegladRZiS();
+        obliczRZiS();
         List<Object> listazwrotnapozycji = new ArrayList<>();
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
         PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 1);
@@ -438,7 +419,7 @@ public class PozycjaBRMultiView implements Serializable {
     
     public void odswiezrzis() {
         wpisView.wpisAktualizuj();
-        pobierzukladprzegladRZiS();
+        obliczRZiS();
     }
     
     public void odswiezbilans() {

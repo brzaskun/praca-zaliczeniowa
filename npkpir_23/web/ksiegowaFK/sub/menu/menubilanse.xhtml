@@ -38,7 +38,7 @@
                 <p:tab title="BO">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="przegladaj Bilans otwarcia" onclick="PF('dialog_bilansBO_wyliczenie').show();" actionListener="#{pozycjaBRBOView.pobierzukladprzegladBilans()}" 
+                            <p:menuitem value="przegladaj Bilans otwarcia" onclick="PF('dialog_bilansBO_wyliczenie').show();" actionListener="#{pozycjaBRView.pobierzukladprzegladBOBilans()}" 
                                         update=":formdialog_bilansBO_wyliczenie"></p:menuitem>
                             <p:menuitem value="przegladaj konta Bilansu otwarcia" actionListener="#{bilansPodgladView.init()}" onclick="PF('bilansprzeglad').show();" update=":formbilans"></p:menuitem>
                             <p:menuitem value="wprowadź Bilans otwarcia" onclick="PF('bilanswprowadzanie2').show();"></p:menuitem>

@@ -26,6 +26,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -456,10 +457,10 @@ public class PozycjaRZiSFKBean {
                         r.setSaldoMa(0.0);
                     } else {
                         if (sumaObrotyWnBO > sumaObrotyMaBO) {
-                            r.setSaldoWn(sumaObrotyWnBO-sumaObrotyMaBO);
+                            r.setSaldoWn(Z.z(sumaObrotyWnBO-sumaObrotyMaBO));
                             r.setSaldoMa(0.0);
                         } else {
-                            r.setSaldoMa(sumaObrotyMaBO-sumaObrotyWnBO);
+                            r.setSaldoMa(Z.z(sumaObrotyMaBO-sumaObrotyWnBO));
                             r.setSaldoWn(0.0);
                         }
                     }

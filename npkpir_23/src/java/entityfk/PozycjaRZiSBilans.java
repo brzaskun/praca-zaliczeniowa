@@ -76,7 +76,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     }
     
     public void obsluzPrzyporzadkowaneStronaWiersza(double kwota, StronaWiersza stronawiersza) {
-        if (przyporzadkowanestronywiersza == null) {
+        if (przyporzadkowanestronywiersza == null && kwota != 0.0) {
             przyporzadkowanestronywiersza = new ArrayList<>();
         }
         if (kwota != 0.0) {
@@ -85,7 +85,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     }
     
     public void obsluzPrzyporzadkowaneKonta(double kwota, Konto konto) {
-        if (przyporzadkowanekonta == null) {
+        if (przyporzadkowanekonta == null && kwota != 0.0) {
             przyporzadkowanekonta = new ArrayList<>();
         }
         if (kwota != 0.0) {

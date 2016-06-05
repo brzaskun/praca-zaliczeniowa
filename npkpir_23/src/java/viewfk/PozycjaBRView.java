@@ -233,9 +233,9 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void pobierzukladprzegladBilans() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        PozycjaBRBOView bean = context.getApplication().evaluateExpressionGet(context, "#{pozycjaBRBOView}", PozycjaBRBOView.class);
-        bean.pobierzukladprzegladBilans();
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        PozycjaBRBOView bean = context.getApplication().evaluateExpressionGet(context, "#{pozycjaBRBOView}", PozycjaBRBOView.class);
+//        bean.pobierzukladprzegladBilans();
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
@@ -268,6 +268,39 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
+    
+     public void pobierzukladprzegladBOBilans() {
+        if (uklad.getUklad() == null) {
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        }
+        ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();
+        ArrayList<PozycjaRZiSBilans> pozycjepasywa = new ArrayList<>();
+        pobierzPozycjeAktywaPasywa(pozycjeaktywa, pozycjepasywa);
+        rootBilansAktywa.getChildren().clear();
+        rootBilansPasywa.getChildren().clear();
+        //List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokBilansBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        //lista jest zerowa bo teraz zapisy bo sa nanoszone na bo, nie mozna dodawac zapisow z bo bo bedzie duplikat!
+        List<StronaWiersza> zapisy = new ArrayList<>();
+        try {
+            List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
+            PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
+            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
+            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");
+            //nowy nie dziala - trzeba mocniej polowkowac. problem polea na tym ze pozycje zaleza od sald, czyli nie mozna isc po stronawiersza
+            //trzeba najpierw podsumowac konta
+            //PozycjaRZiSFKBean.ustawRootaBilansNowy(rootBilansAktywa, pozycjeaktywa, zapisy, plankont, "aktywa");
+            //PozycjaRZiSFKBean.ustawRootaBilansNowy(rootBilansPasywa, pozycjepasywa, zapisy, plankont, "pasywa");
+            level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
+            Msg.msg("i", "Pobrano i wyliczono BO");
+            sumaaktywapasywaoblicz("aktywa");
+            sumaaktywapasywaoblicz("pasywa");
+        } catch (Exception e) {
+            E.e(e);
+            rootBilansAktywa.getChildren().clear();
+            rootBilansPasywa.getChildren().clear();
+            Msg.msg("e", e.getLocalizedMessage());
+        }
+    }
     
     
     private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
