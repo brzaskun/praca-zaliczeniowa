@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialogbilansporownanie" header="Bilans za okres rozliczeniowy wyliczenie - #{WpisView.podatnikWpisu}" widgetVar="dialogbilansporownanie" 
-              resizable="false" onShow="ustawdialog('dialogbilansporownanie','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansporownanie');"  >
+              resizable="false" onShow="ustawdialog('dialogbilansporownanie','menubilanse', 1450, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansporownanie');"  >
         <h:form id="form_dialogbilansporownanie">
 <!--            <p:contextMenu for="dataList">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -41,7 +41,7 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                     </p:column>
-                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.obliczBilansNaDzien()}" update=":form_dialogbilansporownanie"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.obliczBilansOtwarciaBilansData()}" update=":form_dialogbilansporownanie"/>
                 </p:panelGrid>
                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
                  <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
@@ -61,35 +61,63 @@
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
-                             scrollable="true" style="width: 600px; max-height: 600px;" >
+                             scrollable="true" style="width: 700px; max-height: 600px;" >
                     <f:facet name="header">
-                        <h:outputText value="#{mgs.aktywa} "/>
-                        <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa}"/>
+                        <p:panelGrid columns="3" columnClasses="seventy-percent seventy-percent">
+                            <p:column>
+                                <h:outputText value="#{mgs.aktywa} "/>
+                            </p:column>
+                            <p:column>
+                                <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywaBO}"/>
+                            </p:column>
+                            <p:column>
+                                <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa}"/>
+                            </p:column>
+                        </p:panelGrid>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <h:outputText value=" " /> 
                         <h:outputText value="#{loop.nazwa}" /> 
                     </p:column>
-                    <p:column>
-                        <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%" rendered="#{loop.kwota!= 0.0}">
+                    <p:column headerText="bo">
+                        <h:outputText value="#{loop.kwotabo}" style="float: right; padding-right: 15%" rendered="#{loop.kwotabo != 0.0}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                    <p:column headerText="bz">
+                        <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%" rendered="#{loop.kwota != 0.0}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
                 </p:treeTable>
                 <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
-                             scrollable="true" style="width: 600px; max-height: 600px;">
+                             scrollable="true" style="width: 700px; max-height: 600px;">
                     <f:facet name="header">
-                        <h:outputText value="#{mgs.pasywa} "/>
-                        <bcf:outputpl value="#{pozycjaBRView.sumabilansowapasywa}"/>
+                        <p:panelGrid columns="3" columnClasses="seventy-percent seventy-percent">
+                            <p:column>
+                                <h:outputText value="#{mgs.pasywa} "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{pozycjaBRView.sumabilansowapasywaBO}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{pozycjaBRView.sumabilansowapasywa}"/>
+                            </p:column>
+                        </p:panelGrid>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <h:outputText value=" " /> 
                         <h:outputText value="#{loop.nazwa}" /> 
                     </p:column>
-                    <p:column>
+                    <p:column headerText="bo">
+                        <h:outputText value="#{loop.kwotabo}" style="float: right; padding-right: 15%" rendered="#{loop.kwotabo != 0.0}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                    <p:column headerText="bz">
                          <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%" rendered="#{loop.kwota!= 0.0}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>

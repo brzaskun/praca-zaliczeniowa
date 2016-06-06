@@ -77,6 +77,8 @@ public class PozycjaBRView implements Serializable {
     private boolean pokazaktywa;
     private double sumabilansowaaktywa;
     private double sumabilansowapasywa;
+    private double sumabilansowaaktywaBO;
+    private double sumabilansowapasywaBO;
     
     @Inject
     private KontoDAOfk kontoDAO;
@@ -216,19 +218,25 @@ public class PozycjaBRView implements Serializable {
         if (aktywapasywa.equals("aktywa")) {
             List<TreeNode> wezly = rootBilansAktywa.getChildren();
             double suma = 0.0;
+            double sumaBO = 0.0;
             for (Iterator<TreeNode> it = wezly.iterator(); it.hasNext();) {
                 PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next().getData();
                 suma += p.getKwota();
+                sumaBO += p.getKwotabo();
             }
             sumabilansowaaktywa = Z.z(suma);
+            sumabilansowaaktywaBO = Z.z(sumaBO);
         } else {
             List<TreeNode> wezly = rootBilansPasywa.getChildren();
             double suma = 0.0;
+            double sumaBO = 0.0;
             for (Iterator<TreeNode> it = wezly.iterator(); it.hasNext();) {
                 PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next().getData();
                 suma += p.getKwota();
+                sumaBO += p.getKwotabo();
             }
             sumabilansowapasywa = Z.z(suma);
+            sumabilansowapasywaBO = Z.z(sumaBO);
         }
     }
     
@@ -286,6 +294,40 @@ public class PozycjaBRView implements Serializable {
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");
+            level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
+            Msg.msg("i", "Pobrano i wyliczono BO");
+            sumaaktywapasywaoblicz("aktywa");
+            sumaaktywapasywaoblicz("pasywa");
+        } catch (Exception e) {
+            E.e(e);
+            rootBilansAktywa.getChildren().clear();
+            rootBilansPasywa.getChildren().clear();
+            Msg.msg("e", e.getLocalizedMessage());
+        }
+    }
+     
+       public void obliczBilansOtwarciaBilansData() {
+        if (uklad.getUklad() == null) {
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        }
+        ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();
+        ArrayList<PozycjaRZiSBilans> pozycjepasywa = new ArrayList<>();
+        pobierzPozycjeAktywaPasywa(pozycjeaktywa, pozycjepasywa);
+        rootBilansAktywa.getChildren().clear();
+        rootBilansPasywa.getChildren().clear();
+        //List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokBilansBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        //lista jest zerowa bo teraz zapisy bo sa nanoszone na bo, nie mozna dodawac zapisow z bo bo bedzie duplikat!
+        List<StronaWiersza> zapisy = new ArrayList<>();
+        try {
+            List<Konto> plankontBO = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
+            List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
+            PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankontBO);
+            zapisy = StronaWierszaBean.pobraniezapisowbilansowe(stronaWierszaDAO, wpisView);
+            Konto kontowyniku = PlanKontFKBean.findKonto860(plankont);
+            naniesKwoteWynikFinansowy(kontowyniku);
+            PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
+            PozycjaRZiSFKBean.ustawRootaBilansBOData(rootBilansAktywa, pozycjeaktywa, plankontBO, plankont, "aktywa");
+            PozycjaRZiSFKBean.ustawRootaBilansBOData(rootBilansPasywa, pozycjepasywa, plankontBO, plankont, "pasywa");
             level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
             Msg.msg("i", "Pobrano i wyliczono BO");
             sumaaktywapasywaoblicz("aktywa");
@@ -749,6 +791,22 @@ public class PozycjaBRView implements Serializable {
 
     public void setPodpieteStronyWiersza(List<StronaWierszaKwota> podpieteStronyWiersza) {
         this.podpieteStronyWiersza = podpieteStronyWiersza;
+    }
+
+    public double getSumabilansowaaktywaBO() {
+        return sumabilansowaaktywaBO;
+    }
+
+    public void setSumabilansowaaktywaBO(double sumabilansowaaktywaBO) {
+        this.sumabilansowaaktywaBO = sumabilansowaaktywaBO;
+    }
+
+    public double getSumabilansowapasywaBO() {
+        return sumabilansowapasywaBO;
+    }
+
+    public void setSumabilansowapasywaBO(double sumabilansowapasywaBO) {
+        this.sumabilansowapasywaBO = sumabilansowapasywaBO;
     }
 
     public double getSumabilansowaaktywa() {

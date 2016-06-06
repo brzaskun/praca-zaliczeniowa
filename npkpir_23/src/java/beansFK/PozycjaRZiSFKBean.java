@@ -111,6 +111,17 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
+    public static void ustawRootaBilansBOData(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<Konto> plankontBO, List<Konto> plankont, String aktywapasywa) throws Exception {
+        rootL.createTreeNodesForElement(pozycjeL);
+        rootL.addNumbersBilans(plankont, aktywapasywa);
+        rootL.addNumbersBilansBO(plankontBO, aktywapasywa);
+        rootL.sumNodes();
+        rootL.sumNodesBO();
+        rootL.resolveFormulas();
+        rootL.resolveFormulasBO();
+        rootL.expandAll();
+    }
+    
     public static void ustawRootaBilansNowy(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, String aktywapasywa) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbersBilansNowy(zapisy, plankont, aktywapasywa);

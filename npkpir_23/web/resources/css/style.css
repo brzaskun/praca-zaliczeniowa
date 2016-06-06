@@ -153,6 +153,16 @@ body {
      vertical-align: top;
 }
 
+.seventy-percent {
+     width: 70%;
+     vertical-align: top;
+}
+
+.onefive-percent {
+     width: 15%;
+     vertical-align: top;
+}
+
 .twofive-percent {
      width: 25%;
      vertical-align: top;
