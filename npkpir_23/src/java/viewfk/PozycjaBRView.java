@@ -193,11 +193,11 @@ public class PozycjaBRView implements Serializable {
     public void pobierzukladprzegladBilans(String aktywapasywa) {
         if (aktywapasywa.equals("aktywa")) {
             pokazaktywa = true;
-            pobierzukladprzegladBilans();
+            obliczBilansNaDzien();
             rootBilans = rootBilansAktywa;
         } else {
             pokazaktywa = false;
-            pobierzukladprzegladBilans();
+            obliczBilansNaDzien();
             rootBilans = rootBilansPasywa;
         }
     }
@@ -232,10 +232,10 @@ public class PozycjaBRView implements Serializable {
         }
     }
     
-    public void pobierzukladprzegladBilans() {
+    public void obliczBilansNaDzien() {
 //        FacesContext context = FacesContext.getCurrentInstance();
 //        PozycjaBRBOView bean = context.getApplication().evaluateExpressionGet(context, "#{pozycjaBRBOView}", PozycjaBRBOView.class);
-//        bean.pobierzukladprzegladBilans();
+//        bean.obliczBilansNaDzien();
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
@@ -269,7 +269,7 @@ public class PozycjaBRView implements Serializable {
     }
 
     
-     public void pobierzukladprzegladBOBilans() {
+     public void obliczBilansOtwarcia() {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
@@ -696,7 +696,7 @@ public class PozycjaBRView implements Serializable {
     
     public void odswiezbilansdwiestrony() {
         wpisView.wpisAktualizuj();
-        pobierzukladprzegladBilans();
+        obliczBilansNaDzien();
     }
     
     public void drukujRZiS() {

@@ -41,7 +41,7 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                     </p:column>
-                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans()}" update=":form_dialogbilansporownanie"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.obliczBilansNaDzien()}" update=":form_dialogbilansporownanie"/>
                 </p:panelGrid>
                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
                  <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />

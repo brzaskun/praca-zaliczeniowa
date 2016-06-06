@@ -37,6 +37,8 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(precision = 22)
     protected double kwota;
+    @Column(precision = 22)
+    protected double kwotabo;
     protected int level;
     protected int macierzysty;
     @Size(max = 255)
@@ -227,6 +229,15 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         this.de = de;
     }
 
+    public double getKwotabo() {
+        return kwotabo;
+    }
+
+    public void setKwotabo(double kwotabo) {
+        this.kwotabo = kwotabo;
+    }
+
+    
     
     
     @Override

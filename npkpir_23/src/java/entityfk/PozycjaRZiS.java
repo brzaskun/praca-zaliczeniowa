@@ -269,6 +269,16 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
     public void setDe(String de) {
         this.de = de;
     }
+    
+    @Override
+    public double getKwotabo() {
+        return kwotabo;
+    }
+
+    @Override
+    public void setKwotabo(double kwotabo) {
+        this.kwotabo = kwotabo;
+    }
 
     @Override
     public int hashCode() {

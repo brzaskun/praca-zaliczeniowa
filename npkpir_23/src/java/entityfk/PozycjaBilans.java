@@ -256,6 +256,17 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
     }
 
     @Override
+    public double getKwotabo() {
+        return kwotabo;
+    }
+
+    @Override
+    public void setKwotabo(double kwotabo) {
+        this.kwotabo = kwotabo;
+    }
+    
+
+    @Override
     public int hashCode() {
         int hash = 0;
         hash += (lp != null ? lp.hashCode() : 0);

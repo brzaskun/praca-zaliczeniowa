@@ -90,7 +90,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         // builds a map of elements object returned from store
         for (int i = 0; i < depth; i++) {
             ArrayList<T> values = new ArrayList<>();
-            for (T s : pozycje) {
+            for (Iterator<T> it = pozycje.iterator(); it.hasNext(); ) {
+                T s = it.next();
                 int level = 0;
                 try {
 //                    Method method = s.getClass().getMethod("getLevel");
@@ -101,6 +102,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 }
                 if (level == i) {
                     values.add(s);
+                    it.remove();
                 }
             }
             if (values.size()>0) {
