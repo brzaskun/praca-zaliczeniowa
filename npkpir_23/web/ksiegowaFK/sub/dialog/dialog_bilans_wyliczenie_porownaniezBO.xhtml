@@ -37,7 +37,7 @@
                     </p:selectOneMenu>
                     <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{pozycjaBRView.odswiezbilansdwiestrony()}" update=":form_dialogbilansporownanie" />
+                        <p:ajax event="change" listener="#{pozycjaBRView.obliczBilansOtwarciaBilansData()}" update=":form_dialogbilansporownanie" />
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                     </p:column>
