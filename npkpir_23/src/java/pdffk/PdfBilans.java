@@ -48,12 +48,12 @@ public class PdfBilans {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            NumberFormat formatter = NumberFormat.getCurrencyInstance();
-            String sumatxt = formatter.format(sumabilansowa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, B.b("BilansAktywafirmy")+"  "+B.b("sumaaktywów")+" - "+sumatxt,wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajsuma(rootProjekt, ap, sumabilansowa);
+                dodajOpisWstepny(document, B.b("BilansAktywafirmy"),wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, B.b("BilansPasywafirmy")+" "+B.b("sumapasywów")+" - "+sumatxt, wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajsuma(rootProjekt, ap, sumabilansowa);
+                dodajOpisWstepny(document, B.b("BilansPasywafirmy"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjekt),75,0);
             finalizacjaDokumentu(document);
@@ -85,29 +85,11 @@ public class PdfBilans {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            NumberFormat formatter = NumberFormat.getCurrencyInstance();
-            String sumatxt = formatter.format(sumabilansowa);
             if (ap.equals("a")) {
-                if (czybrakpodsumowania(rootProjekt)) {
-                    PozycjaBilans suma = new PozycjaBilans();
-                    suma.setPozycjaString("");
-                    suma.setPozycjaSymbol("");
-                    suma.setKwota(sumabilansowa);
-                    suma.setKwotabo(sumabilansowaBO);
-                    suma.setNazwa(B.b("sumaaktywów"));
-                    rootProjekt.getChildren().add(new TreeNodeExtended(suma,rootProjekt));
-                }
+                dodajsuma(rootProjekt, ap, sumabilansowaBO, sumabilansowa);
                 dodajOpisWstepny(document, B.b("BilansAktywafirmy"),wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             } else {
-                if (czybrakpodsumowania(rootProjekt)) {
-                    PozycjaBilans suma = new PozycjaBilans();
-                    suma.setPozycjaString("");
-                    suma.setPozycjaSymbol("");
-                    suma.setKwota(sumabilansowa);
-                    suma.setKwotabo(sumabilansowaBO);
-                    suma.setNazwa(B.b("sumapasywów"));
-                    rootProjekt.getChildren().add(new TreeNodeExtended(suma,rootProjekt));
-                }
+                dodajsuma(rootProjekt, ap, sumabilansowaBO, sumabilansowa);
                 dodajOpisWstepny(document, B.b("BilansPasywafirmy"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjekt),75,5);
@@ -121,6 +103,46 @@ public class PdfBilans {
             RequestContext.getCurrentInstance().execute(f);
         } else {
             Msg.msg("w", "Nie wybrano strony Bilansu do wydruku");
+        }
+    }
+    
+    private static void dodajsuma(TreeNodeExtended rootProjekt, String ap, double sumabilansowaBO, double sumabilansowa) {
+        if (czybrakpodsumowania(rootProjekt) && ap.equals("a")) {
+            PozycjaBilans suma = new PozycjaBilans();
+            suma.setPozycjaString("");
+            suma.setPozycjaSymbol("");
+            suma.setKwota(sumabilansowa);
+            suma.setKwotabo(sumabilansowaBO);
+            suma.setNazwa(B.b("sumaaktywów"));
+            rootProjekt.getChildren().add(new TreeNodeExtended(suma, rootProjekt));
+        }
+        if (czybrakpodsumowania(rootProjekt) && ap.equals("b")) {
+            PozycjaBilans suma = new PozycjaBilans();
+            suma.setPozycjaString("");
+            suma.setPozycjaSymbol("");
+            suma.setKwota(sumabilansowa);
+            suma.setKwotabo(sumabilansowaBO);
+            suma.setNazwa(B.b("sumapasywów"));
+            rootProjekt.getChildren().add(new TreeNodeExtended(suma, rootProjekt));
+        }
+    }
+    
+     private static void dodajsuma(TreeNodeExtended rootProjekt, String ap,  double sumabilansowa) {
+        if (czybrakpodsumowania(rootProjekt) && ap.equals("a")) {
+            PozycjaBilans suma = new PozycjaBilans();
+            suma.setPozycjaString("");
+            suma.setPozycjaSymbol("");
+            suma.setKwota(sumabilansowa);
+            suma.setNazwa(B.b("sumaaktywów"));
+            rootProjekt.getChildren().add(new TreeNodeExtended(suma, rootProjekt));
+        }
+        if (czybrakpodsumowania(rootProjekt) && ap.equals("b")) {
+            PozycjaBilans suma = new PozycjaBilans();
+            suma.setPozycjaString("");
+            suma.setPozycjaSymbol("");
+            suma.setKwota(sumabilansowa);
+            suma.setNazwa(B.b("sumapasywów"));
+            rootProjekt.getChildren().add(new TreeNodeExtended(suma, rootProjekt));
         }
     }
     
@@ -149,12 +171,12 @@ public class PdfBilans {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            NumberFormat formatter = NumberFormat.getCurrencyInstance();
-            String sumatxt = formatter.format(sumabilansowa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, "Bilans Otwarcia Aktywa - suma aktywów: "+sumatxt, wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
+                dodajsuma(rootProjekt, ap, sumabilansowa);
+                dodajOpisWstepny(document, "Bilans Otwarcia Aktywa", wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, "Bilans Otwarcia Pasywa - suma pasywów: "+sumatxt, wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
+                dodajsuma(rootProjekt, ap, sumabilansowa);
+                dodajOpisWstepny(document, "Bilans Otwarcia Pasywa", wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjekt),75,0);
             finalizacjaDokumentu(document);
@@ -186,12 +208,11 @@ public class PdfBilans {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            NumberFormat formatter = NumberFormat.getCurrencyInstance();
-            String sumatxt = formatter.format(sumabilansowa);
+            dodajsuma(rootProjekt, ap, sumabilansowa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, "Bilans Otwarcia Aktywa (z nr kont) - suma aktywów: "+sumatxt,wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Otwarcia Aktywa (z nr kont)",wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, "Bilans Otwarcia Pasywa (z nr kont) - suma pasywów: "+sumatxt,wpisView.getPodatnikObiekt(), null,  wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Otwarcia Pasywa (z nr kont)",wpisView.getPodatnikObiekt(), null,  wpisView.getRokWpisuSt());
             }
             if (bezzer) {
                 dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowaneBez0(rootProjekt),95,2);
@@ -228,12 +249,11 @@ public class PdfBilans {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            NumberFormat formatter = NumberFormat.getCurrencyInstance();
-            String sumatxt = formatter.format(sumabilansowa);
+            dodajsuma(rootProjekt, ap, sumabilansowa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, "Bilans Aktywa z nr kont - suma aktywów: "+sumatxt, wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Aktywa z nr kont", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, "Bilans Pasywa z nr kont - suma pasywów: "+sumatxt, wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Pasywa z nr kont", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             if (bezzer) {
                 dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowaneBez0(rootProjekt),95,2);
