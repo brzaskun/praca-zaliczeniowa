@@ -562,6 +562,20 @@ public class testobjects {
        return tabela;
    }
    
+   public static List[] getTabelaBilansBOData(TreeNodeExtended rootProjekt) {
+       int level = rootProjekt.ustaldepthDT();
+       List n = new ArrayList();
+       n.add("");
+       n.add(B.b("nazwapozycjiBilansu"));
+       n.add(B.b("bilansotwarcia"));
+       n.add(B.b("bilanszamkniecia"));
+       List t = getWierszeRZiS(rootProjekt, level);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
     public static List[] getTabelaBilansKonta(TreeNodeExtended rootProjekt) {
        int level = rootProjekt.ustaldepthDT();
        List n = new ArrayList();

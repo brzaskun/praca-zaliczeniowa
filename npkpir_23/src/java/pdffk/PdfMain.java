@@ -288,15 +288,18 @@ public class PdfMain {
     public static void dodajOpisWstepny(Document document, String opis, Podatnik podatnik, String mc, String rok) {
         try {
             StringBuilder s = new StringBuilder();
-            s.append(opis);
-            s.append("Fa ");
+            s.append("Firma ");
             s.append(podatnik.getNazwapelna());
             s.append(" NIP ");
             s.append(podatnik.getNip());
             Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
-            document.add(Chunk.NEWLINE);
+            s = new StringBuilder();
+            s.append(opis);
+            opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
             if (mc != null) {
                 opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " " + mc + "/" + rok, ft[1]));
             } else {
@@ -674,7 +677,7 @@ public class PdfMain {
                 col6[6] = 2;
                 return col6;
             case "entityfk.PozycjaRZiS":
-                 if (modyfikator==1) {
+                 if (modyfikator==1) {//pozycje
                     int[] col91 = new int[size];
                     int leveleB = size-3;
                     for (int i = 0; i < leveleB ; i++) {
@@ -684,7 +687,7 @@ public class PdfMain {
                     col91[leveleB++] = 3;
                     col91[leveleB] = 7;
                     return col91;
-                } else if (modyfikator==2) {
+                } else if (modyfikator==2) {//bez 0
                     int[] col71 = new int[size];
                     int levele = size-2;
                     for (int i = 0; i < levele ; i++) {
@@ -693,7 +696,17 @@ public class PdfMain {
                     col71[levele++] = 10;
                     col71[levele] = 8;
                     return col71;
-                } else {
+                } else if (modyfikator == 5) {//BO + Data
+                    int[] col7 = new int[size];
+                    int levele = size-3;
+                    for (int i = 0; i < levele ; i++) {
+                        col7[i] = 1;
+                    }
+                    col7[levele++] = 10;
+                    col7[levele] = 3;
+                    col7[levele] = 3;
+                    return col7;
+                } else {//normalne
                     int[] col7 = new int[size];
                     int levele = size-2;
                     for (int i = 0; i < levele ; i++) {
@@ -709,6 +722,13 @@ public class PdfMain {
                     col101[0] = 3;
                     col101[1] = 12;
                     col101[2] = 3;
+                    return col101;
+                } else if (modyfikator==5) {
+                    int[] col101 = new int[size];
+                    col101[0] = 3;
+                    col101[1] = 12;
+                    col101[2] = 3;
+                    col101[3] = 3;
                     return col101;
                 } else {
                     int[] col101 = new int[size];
@@ -1074,6 +1094,19 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
                     }
                 }
+                if (modyfikator == 5) {
+                    if (p.getKwotabo() != 0.0) {
+                       if (p.getLevel() == 0) {
+                           table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 9));
+                       } else if (p.getLevel() == 1) {
+                           table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 8));
+                       } else {
+                           table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 7));
+                       }
+                   } else {
+                       table.addCell(ustawfrazeAlign("", "right", 7));
+                   }   
+                }
                 if (p.getKwota() != 0.0) {
                     if (p.getLevel() == 0) {
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
@@ -1085,7 +1118,7 @@ public class PdfMain {
                 } else {
                     table.addCell(ustawfrazeAlign("", "right", 7));
                 }
-                if (modyfikator != 0) {
+                if (modyfikator == 1 || modyfikator == 2) {
                     if (modyfikator != 0) {
                     if (p.getPrzyporzadkowanekonta() != null && p.getPrzyporzadkowanekonta().size() > 0) {
                         List<KontoKwota> k = p.getPrzyporzadkowanekonta();

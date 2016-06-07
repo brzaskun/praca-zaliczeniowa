@@ -9,6 +9,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddablefk.TreeNodeExtended;
 import entity.Uz;
+import entityfk.PozycjaBilans;
 import java.io.File;
 import java.text.NumberFormat;
 import msg.B;
@@ -43,7 +44,6 @@ public class PdfBilans {
             file.delete();
         }
         if (rootProjekt != null && rootProjekt.getChildren().size() > 0) {
-            Uz uz = wpisView.getWprowadzil();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
@@ -69,6 +69,70 @@ public class PdfBilans {
         }
     }
     
+    public static void drukujBilansBOData(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowaBO, double sumabilansowa) {
+        String nazwa = null;
+        if (ap.equals("a")) {
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansObliczenieAktywaBOData-"+wpisView.getRokWpisuSt();
+        } else {
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczeniePasywaBOData-"+wpisView.getRokWpisuSt();
+        }
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (rootProjekt != null && rootProjekt.getChildren().size() > 0) {
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            String sumatxt = formatter.format(sumabilansowa);
+            if (ap.equals("a")) {
+                if (czybrakpodsumowania(rootProjekt)) {
+                    PozycjaBilans suma = new PozycjaBilans();
+                    suma.setPozycjaString("");
+                    suma.setPozycjaSymbol("");
+                    suma.setKwota(sumabilansowa);
+                    suma.setKwotabo(sumabilansowaBO);
+                    suma.setNazwa(B.b("sumaaktywów"));
+                    rootProjekt.getChildren().add(new TreeNodeExtended(suma,rootProjekt));
+                }
+                dodajOpisWstepny(document, B.b("BilansAktywafirmy"),wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            } else {
+                if (czybrakpodsumowania(rootProjekt)) {
+                    PozycjaBilans suma = new PozycjaBilans();
+                    suma.setPozycjaString("");
+                    suma.setPozycjaSymbol("");
+                    suma.setKwota(sumabilansowa);
+                    suma.setKwotabo(sumabilansowaBO);
+                    suma.setNazwa(B.b("sumapasywów"));
+                    rootProjekt.getChildren().add(new TreeNodeExtended(suma,rootProjekt));
+                }
+                dodajOpisWstepny(document, B.b("BilansPasywafirmy"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            }
+            dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjekt),75,5);
+            finalizacjaDokumentu(document);
+            String f = null;
+            if (ap.equals("a")) {
+                f = "pokazwydruk('"+nazwa+"');";
+            } else {
+                f = "pokazwydruk('"+nazwa+"');";
+            }
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano strony Bilansu do wydruku");
+        }
+    }
+    
+    private static boolean czybrakpodsumowania(TreeNodeExtended rootProjekt) {
+        boolean zwrot = true;
+        TreeNodeExtended last = (TreeNodeExtended) rootProjekt.getChildren().get(rootProjekt.getChildCount()-1);
+        if (((PozycjaBilans) last.getData()).getPozycjaString().equals("")) {
+            zwrot = false;
+        }
+        return zwrot;
+    }
+    
     public static void drukujBilansBO(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa) {
         String nazwa = null;
         if (ap.equals("a")) {
@@ -81,7 +145,6 @@ public class PdfBilans {
             file.delete();
         }
         if (rootProjekt != null && rootProjekt.getChildren().size() > 0) {
-            Uz uz = wpisView.getWprowadzil();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
@@ -119,7 +182,6 @@ public class PdfBilans {
             file.delete();
         }
         if (rootProjekt != null && rootProjekt.getChildren().size() > 0) {
-            Uz uz = wpisView.getWprowadzil();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
@@ -131,7 +193,7 @@ public class PdfBilans {
             } else {
                 dodajOpisWstepny(document, "Bilans Otwarcia Pasywa (z nr kont) - suma pasywów: "+sumatxt,wpisView.getPodatnikObiekt(), null,  wpisView.getRokWpisuSt());
             }
-             if (bezzer) {
+            if (bezzer) {
                 dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowaneBez0(rootProjekt),95,2);
             } else {
                 dodajTabele(document, testobjects.testobjects.getTabelaBilansKonta(rootProjekt),95,1);
@@ -162,7 +224,6 @@ public class PdfBilans {
             file.delete();
         }
         if (rootProjekt != null && rootProjekt.getChildren().size() > 0) {
-            Uz uz = wpisView.getWprowadzil();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);

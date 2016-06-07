@@ -48,11 +48,11 @@
                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
                  <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
                  <p:column>
-                      <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a', pozycjaBRView.sumabilansowaaktywa)}">
+                      <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilansBOData('a', pozycjaBRView.sumabilansowaaktywaBO, pozycjaBRView.sumabilansowaaktywa)}">
                           <p:menuitem global="false" value="#{mgs.aktywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('a', pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
                           <p:menuitem global="false" value="#{mgs.aktywaznrkont} bez 0"  actionListener="#{pozycjaBRView.drukujBilansKontaBez0('a', pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
                       </p:splitButton>
-                      <p:splitButton value="#{mgs.drukujpasywa}"  style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p', pozycjaBRView.sumabilansowapasywa)}">
+                      <p:splitButton value="#{mgs.drukujpasywa}"  style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilansBOData('p', pozycjaBRView.sumabilansowapasywaBO, pozycjaBRView.sumabilansowapasywa)}">
                           <p:menuitem global="false" value="#{mgs.pasywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('b', pozycjaBRView.sumabilansowapasywa)}" icon="fa fa-print"/>
                           <p:menuitem global="false" value="#{mgs.pasywaznrkont} bez 0"  actionListener="#{pozycjaBRView.drukujBilansKontaBez0('b', pozycjaBRView.sumabilansowapasywa)}" icon="fa fa-print"/>
                       </p:splitButton>
@@ -100,10 +100,10 @@
                                 <h:outputText value="#{mgs.pasywa} "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{pozycjaBRView.sumabilansowapasywaBO}"/>
+                                <bcf:outputpl value="#{pozycjaBRView.sumabilansowapasywaBO}"/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{pozycjaBRView.sumabilansowapasywa}"/>
+                                <bcf:outputpl value="#{pozycjaBRView.sumabilansowapasywa}"/>
                             </p:column>
                         </p:panelGrid>
                     </f:facet>

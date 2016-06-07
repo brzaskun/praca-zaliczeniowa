@@ -173,7 +173,7 @@ public class PdfFP {
                     prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:odbiorca") - 65, 250, 80);
                     absText(writer, "Nabywca:", (int) (pobrane.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca"), 10);
                     absText(writer, selected.getKontrahent().getNpelna(), (int) (pobrane.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 20, 8);
-                    adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
+                    adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom()+ " " + selected.getKontrahent().getLokal();
                     absText(writer, adres, (int) (pobrane.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 40, 8);
                     absText(writer, "NIP: " + selected.getKontrahent().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 60, 8);
                     break;
