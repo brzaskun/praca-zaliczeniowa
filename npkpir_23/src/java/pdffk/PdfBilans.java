@@ -116,7 +116,7 @@ public class PdfBilans {
             suma.setNazwa(B.b("sumaaktywów"));
             rootProjekt.getChildren().add(new TreeNodeExtended(suma, rootProjekt));
         }
-        if (czybrakpodsumowania(rootProjekt) && ap.equals("b")) {
+        if (czybrakpodsumowania(rootProjekt) && ap.equals("p")) {
             PozycjaBilans suma = new PozycjaBilans();
             suma.setPozycjaString("");
             suma.setPozycjaSymbol("");
@@ -136,7 +136,7 @@ public class PdfBilans {
             suma.setNazwa(B.b("sumaaktywów"));
             rootProjekt.getChildren().add(new TreeNodeExtended(suma, rootProjekt));
         }
-        if (czybrakpodsumowania(rootProjekt) && ap.equals("b")) {
+        if (czybrakpodsumowania(rootProjekt) && ap.equals("p")) {
             PozycjaBilans suma = new PozycjaBilans();
             suma.setPozycjaString("");
             suma.setPozycjaSymbol("");

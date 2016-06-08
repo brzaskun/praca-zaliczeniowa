@@ -757,7 +757,7 @@ public class PozycjaBRView implements Serializable {
         }
     }
     
-    public void drukujBilansBOData(String ap, double sumabilansowa, double sumabilansowaBO) {
+    public void drukujBilansBOData(String ap, double sumabilansowaBO, double sumabilansowa) {
         if (ap.equals("a")) {
             PdfBilans.drukujBilansBOData(rootBilansAktywa, wpisView, ap, sumabilansowaBO, sumabilansowa);
         } else {
