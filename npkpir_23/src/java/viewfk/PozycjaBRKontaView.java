@@ -75,6 +75,7 @@ public class PozycjaBRKontaView implements Serializable {
     private WpisView wpisView;
     private int level = 0;
     private String wybranapozycja;
+    private int lpwybranapozycja;
     private TreeNode wybranynodekonta;
     private UkladBR ukladzrodlowykonta;
     private UkladBR ukladdocelowykonta;

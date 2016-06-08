@@ -64,12 +64,12 @@
                         <p:column style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
                             <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
                                            actionListener="#{pozycjaBRKontaView.onKontoDropB(konto)}" 
-                                           update=":formbilansuklad"
+                                           update=":formbilansuklad:dataList :formbilansuklad:dostepnekonta :formbilansuklad:selected"
                                            style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
                                             rendered="#{konto.mapotomkow == true ? true : (konto.level != 0 ? true : false)}">
-                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w" 
+                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w" 
                                             rendered="#{konto.mapotomkow}"/>  
-                                <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaView.zwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
+                                <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaView.zwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
                                 
                             </p:splitButton>
                              <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
@@ -94,7 +94,7 @@
                         </f:facet>
                         <p:column style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
                             <p:commandButton value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
-                                             actionListener="#{pozycjaBRKontaView.onKontoRemoveB(konto,'b')}" update=":formbilansuklad"/>
+                                             actionListener="#{pozycjaBRKontaView.onKontoRemoveB(konto,'b')}" update=":formbilansuklad:dataList :formbilansuklad:dostepnekonta :formbilansuklad:selected"/>
                         </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
                             <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>
