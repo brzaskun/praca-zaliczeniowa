@@ -53,7 +53,6 @@ public class UkladBRView implements Serializable {
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private UkladBR ukladzrodlowy;
-    private String ukladdocelowynazwa;
     private String ukladdocelowyrok;
 
     public UkladBRView() {
@@ -100,13 +99,12 @@ public class UkladBRView implements Serializable {
     public void kopiujuklad() {
         try {
             UkladBR ukladBR = serialclone.SerialClone.clone(ukladzrodlowy);
-            ukladBR.setUklad(ukladdocelowynazwa);
             ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
             ukladBR.setRok(ukladdocelowyrok);
             ukladBR.setImportowany(true);
             ukladBRDAO.dodaj(ukladBR);
-            implementujRZiS(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladdocelowynazwa);
-            implementujBilans(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladdocelowynazwa);
+            implementujRZiS(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
+            implementujBilans(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
 //            skopiujPozycje("r", ukladBR, ukladzrodlowy);
 //            zaksiegujzmianypozycji("r", ukladBR);
 //            skopiujPozycje("b", ukladBR, ukladzrodlowy);
@@ -205,14 +203,6 @@ public class UkladBRView implements Serializable {
         this.ukladzrodlowy = ukladzrodlowy;
     }
 
-    public String getUkladdocelowynazwa() {
-        return ukladdocelowynazwa;
-    }
-
-    public void setUkladdocelowynazwa(String ukladdocelowynazwa) {
-        this.ukladdocelowynazwa = ukladdocelowynazwa;
-    }
-
     public String getUkladdocelowyrok() {
         return ukladdocelowyrok;
     }
@@ -270,6 +260,8 @@ public class UkladBRView implements Serializable {
                 r.setPodatnik(podatnik);
                 r.setRok(rok);
                 r.setUklad(uklad);
+                r.setPrzyporzadkowanekonta(null);
+                r.setPrzyporzadkowanestronywiersza(null);
                 try {
                     pozycjaRZiSDAO.dodaj(r);
                 } catch (Exception e) {
@@ -292,6 +284,8 @@ public class UkladBRView implements Serializable {
                     r.setRok(rok);
                     r.setUklad(uklad);
                     r.setLp(null);
+                    r.setPrzyporzadkowanekonta(null);
+                    r.setPrzyporzadkowanestronywiersza(null);
                     PozycjaRZiS macierzyste = wyszukajmacierzyste(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
@@ -372,7 +366,6 @@ public class UkladBRView implements Serializable {
         if (ukladzrodlowy != null) {
             try {
                 UkladBR ukladdocelowy = new UkladBR(ukladzrodlowy);
-                ukladdocelowy.setUklad(ukladdocelowynazwa);
                 ukladdocelowy.setRok(ukladdocelowyrok);
                 ukladBRDAO.dodaj(ukladdocelowy);
                 lista.add(ukladdocelowy);
