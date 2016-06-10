@@ -1888,7 +1888,7 @@ public class DokfkView implements Serializable {
 //    }
     public void przetworzwprowadzonakwote(Transakcja loop, int row) {
         try {
-            if (!loop.getNowaTransakcja().getSymbolWaluty().equals("PLN") || !loop.getRozliczajacy().getSymbolWaluty().equals("PLN")) {
+            if (!loop.getNowaTransakcja().getSymbolWalut().equals("PLN") || !loop.getRozliczajacy().getSymbolWaluty().equals("PLN")) {
                 String wiersz = "rozrachunki:dataList:" + row + ":kwotarozliczenia_input";
                 String kwotazwiersza = (String) Params.params(wiersz);
                 kwotazwiersza = kwotazwiersza.replaceAll("\\s", "");
