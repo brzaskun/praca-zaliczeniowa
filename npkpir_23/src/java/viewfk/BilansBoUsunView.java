@@ -13,6 +13,7 @@ import error.E;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import view.WpisView;
@@ -37,6 +38,9 @@ public class BilansBoUsunView  implements Serializable {
                 dokDAOfk.destroy(dokbo);
             }
             wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            FacesContext context = FacesContext.getCurrentInstance();
+            BilansWprowadzanieView bean = context.getApplication().evaluateExpressionGet(context, "#{bilansWprowadzanieView}", BilansWprowadzanieView.class);
+            bean.init();
             Msg.msg("Usunięto bilans otwarcia");
         } catch (Exception e) {
             E.e(e);
