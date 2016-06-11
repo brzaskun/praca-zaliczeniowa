@@ -264,10 +264,12 @@ public class DokfkView implements Serializable {
         if (selected != null) {
             symbolPoprzedniegoDokumentu = selected.pobierzSymbolPoprzedniegoDokfk();
             rodzajDokPoprzedni = selected.getRodzajedok();
-            selected.setwTrakcieEdycji(false);
             ostatniklient = selected.getKontr();
-            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-            RequestContext.getCurrentInstance().update("zestawieniedokumentowimport:dataListImport");
+            //RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+            //RequestContext.getCurrentInstance().update("zestawieniedokumentowimport:dataListImport");
+        } else {
+            rodzajDokPoprzedni = rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt());
+            symbolPoprzedniegoDokumentu = "ZZ";
         }
         try {
             if (ostatniklient == null) {
@@ -282,7 +284,9 @@ public class DokfkView implements Serializable {
         //tworze nowy dokument
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView, ostatniklient);
         selected.setWprowadzil(wpisView.getWprowadzil().getLogin());
+        selected.setwTrakcieEdycji(false);
         wygenerujnumerkolejny();
+        podepnijEwidencjeVat(0);
         try {
             DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
             resetprzyciskow();
@@ -437,12 +441,16 @@ public class DokfkView implements Serializable {
     public void podepnijEwidencjeVat(int rodzaj) {
         if (zapisz0edytuj1 == false) {
             boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
-            if (rodzajBiezacegoDokumentu != 0 && rodzajBiezacegoDokumentu != 5 && !nievatowiec) {
+            if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5 && !nievatowiec) {
                 if (selected.iswTrakcieEdycji() == false) {
                     if (rodzaj == 0) {
                         this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
                     }
-                    symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                    if (selected.getTabelanbp() == null) {
+                        symbolWalutyNettoVat = " zł";
+                    } else {
+                        symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                    }
                     /*wyswietlamy ewidencje VAT*/
                     List<String> opisewidencji = new ArrayList<>();
                     opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(selected.getRodzajedok().getRodzajtransakcji()));

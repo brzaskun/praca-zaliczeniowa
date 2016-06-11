@@ -201,6 +201,7 @@
                                                      style="width: 200px; height: 19px;" converter="RodzajedokConv">
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
+                                        <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok"/>
                                     </h:selectOneMenu>
                                 </p:column>
@@ -210,7 +211,6 @@
                                 </p:column>
                                 <p:column>
                                     <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;" valueChangeListener="#{dokfkView.skorygujokreswpisudokumentu}">
-                                        <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                                         <p:ajax global="false" event="blur" onsuccess="zerujwiadomosc()"/>
                                         <p:ajax event="blur" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" 
                                                 update=":parametrydel:jest1niema0"/>
