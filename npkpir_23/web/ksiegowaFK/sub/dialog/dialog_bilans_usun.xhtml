@@ -1,0 +1,27 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .paneldialog_ukladwzorcowy_kopiuj .ui-panelgrid-cell {
+            width: 200px;
+        }
+    </style>
+    <p:dialog id="dialog_bilans_usun" header="Usuwanie bilansu otwarcia" widgetVar="dialog_bilans_usun" dynamic="true"
+              resizable="false" onShow="ustawdialogWindow('dialog_bilans_usun', 630, 100);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_usun');"  >
+        <h:form id="formdialog_dialog_bilans_usun">
+             <p:outputPanel>
+                <h:outputText value="Czy na pewno usunąć cały bilans otwarcia wraz z dokumentemm BO. Jest to operacja nieodwracalna!" style="margin-left: auto; margin-right: auto;"/>
+            </p:outputPanel>
+            <p:commandButton value="usuń" type="submit" actionListener="#{bilansBoUsunView.usunBO(WpisView)}" update=":formbilanswprowadzanie2"
+                                 style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_bilans_usun').hide();"
+                                 />
+            <p:commandButton value="anuluj" type="button" 
+                                 onclick="PF('dialog_bilans_usun').hide();" style="margin-right: auto; margin-left: 80px; margin-top: 20px; width: 120px;"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

@@ -134,6 +134,14 @@ public class SessionFacade<T> implements Serializable {
         em.remove(em.merge(entity));
         em.flush();
     }
+    
+    public void remove(List<T> entityList) {
+        em.flush();
+        for (T p : entityList) {
+            em.remove(em.merge(p));
+        }
+        em.flush();
+    }
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
