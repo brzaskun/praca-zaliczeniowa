@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -507,6 +509,27 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private Collection<? extends SaldoKonto> sumujdlawaluty(Waluty wal, List<StronaWiersza> zapisy) {
+        List<StronaWiersza> zapisydopor = new ArrayList<>();
+        for (StronaWiersza l : zapisy) {
+            zapisydopor.add(l);
+        }
+        for(ListIterator<StronaWiersza> it = zapisy.listIterator(); it.hasNext();) {
+            StronaWiersza w = it.next();
+            double kwota = w.getKwota();
+            boolean usun = false;
+            for(ListIterator<StronaWiersza> it1 = zapisydopor.listIterator(); it1.hasNext();) {
+                StronaWiersza w1 = it1.next();
+                double kwota1 = w1.getKwota();
+                if (kwota != 0.0 && kwota1 != 0.0 && Z.z(kwota) == Z.z(kwota1) && w.isWn() != w1.isWn()) {
+                    it1.remove();
+                    usun = true;
+                    break;
+                }
+            }
+            if (usun) {
+                it.remove();
+            }
+        }
         List<SaldoKonto> zapisykonta = new ArrayList<>();
         for (StronaWiersza t : zapisy) {
             System.out.println("generowanie bo " + t);
