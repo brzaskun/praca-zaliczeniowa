@@ -188,8 +188,12 @@ public class SrodkiTrwBean implements Serializable {
                 odpisZaDanyOkres.setMcUmorzenia(mcOd);
                 odpisZaDanyOkres.setNrUmorzenia(i);
                 odpisZaDanyOkres.setSrodekTrw(srodek);
-                odpisZaDanyOkres.setKontonetto(srodek.getKontonetto().getPelnynumer());
-                odpisZaDanyOkres.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
+                if (srodek.getKontonetto() != null) {
+                    odpisZaDanyOkres.setKontonetto(srodek.getKontonetto().getPelnynumer());
+                }
+                if (srodek.getKontoumorzenie() != null) {
+                    odpisZaDanyOkres.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
+                }
                 i++;
                 if (mcOd == 12) {
                     rokOd++;

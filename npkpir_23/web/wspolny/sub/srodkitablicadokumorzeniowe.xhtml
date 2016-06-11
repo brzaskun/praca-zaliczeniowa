@@ -86,11 +86,12 @@
           </p:column>
           <p:column  headerText="zaksięguj" style="text-align: center; width: 90px;" >
               <h:outputText value="mc inny od bieżącego" rendered="#{wpis.amodokPK.mcString ne WpisView.miesiacWpisu}" style="color: red;"/>
-              <p:commandButton value="zaksięguj" actionListener="#{STRTableView.ksiegujUmorzenieFK(wpis)}" update=":formSTRUmorzenie" rendered="#{wpis.umorzenia.size() gt 0}"/>
+              <p:commandButton value="zaksięguj" actionListener="#{STRTableView.ksiegujUmorzenieFK(wpis)}" update=":formSTRUmorzenie" 
+                               rendered="#{wpis.planumorzen.size() gt 0}"/>
             </p:column>
              <p:column id="Column5" headerText="zaksięgowane" filterBy="#{wpis.zaksiegowane}" filterMatchMode="contains" sortBy="#{wpis.zaksiegowane}" 
                        styleClass="dokumorzeniowe" style="width: 80px;">  
-                 <h:outputText value="#{wpis.zaksiegowane eq true ? 'dokument zaksięgowany' : ''}"  rendered="#{wpis.umorzenia.size() gt 0}"/>
+                 <h:outputText value="#{wpis.zaksiegowane eq true ? 'dokument zaksięgowany' : ''}"  rendered="#{wpis.planumorzen.size() gt 0}"/>
             </p:column>
         </p:dataTable>
     </p:outputPanel>

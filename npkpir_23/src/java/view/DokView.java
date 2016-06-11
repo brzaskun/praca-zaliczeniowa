@@ -866,7 +866,6 @@ public final class DokView implements Serializable {
         }
         try {
             selectedSTR.setNetto(selDokument.getNetto());
-            BigDecimal tmp1 = BigDecimal.valueOf(selDokument.getNetto());
             selectedSTR.setVat(vat);
             selectedSTR.setDatazak(selDokument.getDataWyst());
             selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
