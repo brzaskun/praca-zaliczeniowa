@@ -102,6 +102,7 @@ public class BilansWprowadzanieView implements Serializable {
     private Map<Integer, List> listaSumList;
     private double stronaWn;
     private double stronaMa;
+    private double stronaWn_stronaMa;
     private Dokfk dokumentBO;
     private boolean isteniejeDokBO;
     private boolean isteniejaWierszeBOdoUsuniecia;
@@ -1001,6 +1002,9 @@ public class BilansWprowadzanieView implements Serializable {
             stronaWn += p.getKwotaWnPLN();
             stronaMa += p.getKwotaMaPLN();
         }
+        stronaWn = Z.z(stronaWn);
+        stronaMa = Z.z(stronaMa);
+        stronaWn_stronaMa = Z.z(stronaWn-stronaMa);
         RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
     }
 
@@ -1075,6 +1079,14 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void setListaBOFiltered(List<WierszBO> listaBOFiltered) {
         this.listaBOFiltered = listaBOFiltered;
+    }
+
+    public double getStronaWn_stronaMa() {
+        return stronaWn_stronaMa;
+    }
+
+    public void setStronaWn_stronaMa(double stronaWn_stronaMa) {
+        this.stronaWn_stronaMa = stronaWn_stronaMa;
     }
 
     public Konto getOstatniekonto() {

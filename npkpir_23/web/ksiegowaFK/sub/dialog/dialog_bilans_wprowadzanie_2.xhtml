@@ -396,8 +396,8 @@
                         <h:outputText value="razem - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.stronaWn}" rendered="true" style="font-weight: 900;"/>
                         <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.stronaMa}" rendered="true" style="font-weight: 900;"/>
                         <h:outputText value=" różnica: " style="margin-left: 10px;"/>
-                        <bcf:outputpl value="#{bilansWprowadzanieView.stronaWn - bilansWprowadzanieView.stronaMa}" rendered="true"
-                                      style="margin-left: 10px; color: #{bilansWprowadzanieView.stronaWn - bilansWprowadzanieView.stronaMa != 0 ? 'red' : 'black'};">
+                        <bcf:outputpl value="#{bilansWprowadzanieView.stronaWn_stronaMa}" rendered="true"
+                                      style="margin-left: 10px; color: #{bilansWprowadzanieView.stronaWn_stronaMa != 0.0 ? 'red' : 'black'};">
                         </bcf:outputpl>
                         <h:outputText value="Wprowadzenie dwóch i więcej zapisów na tym samym koncie wymaga podania różnych opisów!" style="margin-left: 5px;"/>
                     </p:panelGrid>
