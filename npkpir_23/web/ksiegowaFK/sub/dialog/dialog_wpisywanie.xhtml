@@ -362,7 +362,7 @@
                                 <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                                 symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" partialSubmit="true"/>
-                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz();"/>
+                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz(event);"/>
                                 </pe:inputNumber>
                             </p:column>
                             <p:column headerText="#{mgs.VAT} #{dokfkView.selected.rodzajedok.stawkavat ne 0.0 ? dokfkView.selected.rodzajedok.stawkavat : null}#{dokfkView.selected.rodzajedok.stawkavat ne 0.0 ? '%' : null}" width="80">
@@ -396,7 +396,7 @@
                                 </p:inputText>
                             </p:column>
                             <p:column style="width: 20px; text-align: center;">
-                                <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false" onfocus="focusNowyVAT(this);" rendered="#{item.ewidencja.nazwa.contains('sprzedaż') ne true}"/>
+                                <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false" onfocus="focusNowyVAT(event, this);" rendered="#{item.ewidencja.nazwa.contains('sprzedaż') ne true}"/>
                             </p:column>
                             <p:column style="width: 20px; text-align: center;">
                                 <p:commandButton value="-" actionListener="#{dokfkView.usunEwidencjeDodatkowa(item)}" update=":formwpisdokument:tablicavat" global="false" oncomplete="r('formwpisdokument:tablicavat:0:netto_input').select();"
@@ -418,14 +418,13 @@
                     <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="width: 1100px;" 
                                  rowIndexVar="index" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.hashCode()}" 
                                  widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
-                                 scrollable="true" scrollHeight="280" >
+                                 scrollable="true" scrollHeight="280" disabledSelection="true" >
                         <style>
-                .ui-datatable-scrollable-theadclone {
-                    display: none !important;
-                    height: 0px !important;
-                }
-            </style>
-                        <!--                             paginator="true" rows="10" paginatorPosition="top">-->
+                            .ui-datatable-scrollable-theadclone {
+                                display: none !important;
+                                height: 0px !important;
+                            }
+                        </style>
 <!--                        <p:ajax event="rowToggle" global="false" />-->
                         <p:column headerText="#{mgs.numerkolejny}" style="width: 15px; text-align: center" >
                             <h:outputText value="#{loop.idporzadkowy}" style="width: 10px;"/>
@@ -493,7 +492,7 @@
                                             minQueryLength="1" converter="KontoConv" queryDelay="1" maxResults="150"
                                             converterMessage="Nieudana konwersja Klient" scrollHeight="180" widgetVar="complWn#{loop.idporzadkowy}"
                                             styleClass="kontoinput #{loop.stronaWn.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{loop.stronaWn.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{loop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
-                                            onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});
+                                            onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza}, event);
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaWn.typStronaWiersza});
                                                     focusNowyWiersz();"
@@ -535,7 +534,7 @@
                                             minQueryLength="1" converter="KontoConv"  queryDelay="1"  maxResults="150"
                                             converterMessage="Nieudana konwersja Klient"   scrollHeight="180" forceSelection="true"
                                             styleClass="kontoinput #{loop.stronaMa.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{loop.stronaMa.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{loop.stronaMa.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : ''}"
-                                            onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});
+                                            onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza}, event);
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaMa.typStronaWiersza});
                                                     focusNowyWiersz();"

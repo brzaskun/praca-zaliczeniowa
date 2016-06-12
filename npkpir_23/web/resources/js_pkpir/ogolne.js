@@ -54,7 +54,7 @@ var dolaczwyliczenie = function() {
 //     }
 };
 
-var dolaczwyliczenieKopiowanie = function() {
+var dolaczwyliczenieKopiowanie = function(event) {
     if (r("dodWiad:tabelapkpir:1:kwotaPkpir_input")) {
         try {
             r("dodWiad:tabelapkpir:1:kwotaPkpir_input").on('keyup', function(event) {

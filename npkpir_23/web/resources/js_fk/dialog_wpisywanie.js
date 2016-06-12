@@ -1,6 +1,6 @@
 "use strict";
 
-var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
+var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza, event) {
     try {
         var source = event.target || event.srcElement;
         MYAPP.lpwiersza = lpwiersza;
@@ -18,7 +18,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
         //setTimeout(focusNaNowoDodanym(source), 100);
         console.log("lpwiersza " + lpwiersza + " wnma " + wnlubma + " typwiersza "+ typwiersza);
     } catch (blad) {
-        alert("Blad w dialgowprowadzanie.js zachowaj wiersz " + blad);
+        alert("Blad w dialog_wpisywanie.js zachowaj wiersz " + blad);
     }
 };
 
@@ -28,7 +28,7 @@ var zachowajwierszVATRK = function (lp) {
         MYAPP.wierszpowrotuwalutyrecznie 
         $(document.getElementById("wpisywaniefooter:lpwierszaRK")).val(lp);
     } catch (blad) {
-        //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
+        //alert("Blad w dialog_wpisywanie.js zachowaj wiersz "+blad);
     }
 };
 
@@ -145,7 +145,7 @@ var wpisywanieOnHide = function () {
 };
 
 var focusNowyVAT = function (wiersz) {
-    setTimeout(aktywujPierwszePoleNowegoWierszaVAT(wiersz), 500);
+    setTimeout(aktywujPierwszePoleNowegoWierszaVAT(event, wiersz), 500);
 };
 
 var sprawdzmcshift = function (pole) {
@@ -160,7 +160,7 @@ var sprawdzmcshift = function (pole) {
 
 
 //aktywuje nowy wiersz
-var aktywujPierwszePoleNowegoWierszaVAT = function(wiersz){
+var aktywujPierwszePoleNowegoWierszaVAT = function(event, wiersz){
     var lp = wiersz.name.split(":")[2];
     var nextlp = parseInt(lp)+1;
     var nextwiersz = "formwpisdokument:tablicavat:"+nextlp+":netto_input";
@@ -499,7 +499,7 @@ var kopiujnazwepelna = function () {
   }
 };
 
-var obsluzewidencjavatsprzedaz = function () {
+var obsluzewidencjavatsprzedaz = function (event) {
     var charCode = (event.which) ? event.which : event.keyCode;
     if (charCode === 107) {
         event.target.value = 0.0;
@@ -573,7 +573,7 @@ var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza, typStronaWie
         }
         console.log("lpmacierzystego "+lpmacierzystego+" lpwiersza "+lpwiersza);
     }  catch (blad) {
-        alert("Blad w dialgowprowadzanie.js pobierznumergrupywierszy " + blad);
+        alert("Blad w dialog_wpisywanie.js pobierznumergrupywierszy " + blad);
     }
 };
 

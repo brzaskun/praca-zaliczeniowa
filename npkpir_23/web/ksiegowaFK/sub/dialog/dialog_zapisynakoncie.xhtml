@@ -88,7 +88,7 @@
                                 e.stopPropagation(); // will prevent double click events from link being clicked within row
                                 var lpwiersznast = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
                                 var numerwiersza = lpwiersznast - lppierwszywiersz;
-                                zachowajnumerwiersza("zmiennazapisy", numerwiersza, "tabelazzapisami:tabela_data");
+                                zachowajnumerwiersza("zmiennazapisy", numerwiersza, "tabelazzapisami:tabela_data", event);
                             } catch (e) {
                                 console.log('error  dialog zapisynakoncie w.87' + e.toString())
                                 alert('error  dialog zapisynakoncie w.87' + e.toString());
