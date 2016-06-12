@@ -47,6 +47,8 @@ public class WierszKonta implements Serializable {
         this.lp = lp;
         this.opis = opis;
     }
+
+    
     
     
     

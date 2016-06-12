@@ -246,6 +246,7 @@ public class PdfFont {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMinimumFractionDigits(2);
         formatter.setMaximumFractionDigits(2);
+        formatter.setGroupingUsed(true);
         try {
             String moneyString = formatter.format(wsad);
             return moneyString;
@@ -258,6 +259,7 @@ public class PdfFont {
         NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMinimumFractionDigits(2);
         formatter.setMaximumFractionDigits(2);
+        formatter.setGroupingUsed(true);
         try {
             String moneyString = formatter.format(wsad)+" €";
             return moneyString;
@@ -270,6 +272,7 @@ public class PdfFont {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMinimumFractionDigits(4);
         formatter.setMaximumFractionDigits(4);
+        formatter.setGroupingUsed(true);
         try {
             String moneyString = formatter.format(wsad);
             return moneyString;
@@ -282,6 +285,7 @@ public class PdfFont {
         NumberFormat formatter = NumberFormat.getPercentInstance();
         formatter.setMinimumFractionDigits(2);
         formatter.setMaximumFractionDigits(2);
+        formatter.setGroupingUsed(true);
         try {
             String percentString = formatter.format(wsad);
             return percentString;
@@ -294,6 +298,7 @@ public class PdfFont {
         NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("PL"));
         formatter.setMinimumFractionDigits(2);
         formatter.setMaximumFractionDigits(2);
+        formatter.setGroupingUsed(true);
         try {
             String numberString = formatter.format(wsad);
             return numberString;

@@ -679,23 +679,33 @@ public class testobjects {
        return l;
    }
    
-   public static List<WierszKonta> getWierszeKonta(List<Wiersz> wiersze) {
-       List<WierszKonta> w = new ArrayList<WierszKonta>();
-       for (Wiersz p : wiersze) {
-           WierszKonta r = new WierszKonta(p.getIdporzadkowy(), p.getOpisWiersza());
-           if (p.getStronaWn() != null) {
-               r.setKwotaWn(p.getStronaWn().getKwota());
-               r.setOpiskontaWn(p.getStronaWn().getKonto().getPelnynumer()+ " " + p.getStronaWn().getKonto().getNazwapelna());
-           }
-           if (p.getStronaMa() != null) {
-               r.setKwotaMa(p.getStronaMa().getKwota());
-               r.setOpiskontaMa(p.getStronaMa().getKonto().getPelnynumer()+ " " + p.getStronaMa().getKonto().getNazwapelna());
-           }
-           r.setSaldo(p.getSaldoWBRK());
-           w.add(r);
-       }
-       return w;
-   }
+    public static List<WierszKonta> getWierszeKonta(List<Wiersz> wiersze) {
+        List<WierszKonta> w = new ArrayList<WierszKonta>();
+        double sumaWn = 0.0;
+        double sumaMa = 0.0;
+        int lp = 1;
+        for (Wiersz p : wiersze) {
+            lp++;
+            WierszKonta r = new WierszKonta(p.getIdporzadkowy(), p.getOpisWiersza());
+            if (p.getStronaWn() != null) {
+                r.setKwotaWn(p.getStronaWn().getKwota());
+                r.setOpiskontaWn(p.getStronaWn().getKonto().getPelnynumer() + " " + p.getStronaWn().getKonto().getNazwapelna());
+                sumaWn += p.getStronaWn().getKwota();
+            }
+            if (p.getStronaMa() != null) {
+                r.setKwotaMa(p.getStronaMa().getKwota());
+                r.setOpiskontaMa(p.getStronaMa().getKonto().getPelnynumer() + " " + p.getStronaMa().getKonto().getNazwapelna());
+                sumaMa += p.getStronaMa().getKwota();
+            }
+            r.setSaldo(p.getSaldoWBRK());
+            w.add(r);
+        }
+        if (wiersze.size() > 1) {
+            WierszKonta suma = new WierszKonta(lp, "podsumowanie", sumaWn, "", sumaMa, "");
+            w.add(suma);
+        }
+        return w;
+    }
    
    public static List<WierszWNTWDT> getWierszeWNTWDTKonta(List<Wiersz> wiersze) {
        List<WierszWNTWDT> w = new ArrayList<WierszWNTWDT>();

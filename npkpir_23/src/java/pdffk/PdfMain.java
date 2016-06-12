@@ -74,22 +74,22 @@ public class PdfMain {
     
     public static final Font[] ft = czcionki();
     
-    public static void main (String[] args) {
-        Document document = inicjacjaA4Landscape();
-        PdfWriter writer = inicjacjaWritera(document, "testowy2");
-        naglowekStopkaL(writer);
-        otwarcieDokumentu(document, "tytul pliku");
-        //informacjaoZaksiegowaniu(document, "1233");
-        //dodajDate(document, "2015-05-02");
-        dodajOpisWstepny(document, testobjects.testobjects.getDokfk("PK"));
-//        infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
-//        //dodajTabele(document, testobjects.testobjects.getTabela());
-        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()), 100,0);
-//        dodajpodpis(document,"Jan","Kowalski");
-        //dodajStopke(writer);
-        finalizacjaDokumentu(document);
-        
-    }
+//    public static void main (String[] args) {
+//        Document document = inicjacjaA4Landscape();
+//        PdfWriter writer = inicjacjaWritera(document, "testowy2");
+//        naglowekStopkaL(writer);
+//        otwarcieDokumentu(document, "tytul pliku");
+//        //informacjaoZaksiegowaniu(document, "1233");
+//        //dodajDate(document, "2015-05-02");
+//        dodajOpisWstepny(document, testobjects.testobjects.getDokfk("PK"));
+////        infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
+////        //dodajTabele(document, testobjects.testobjects.getTabela());
+//        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()), 100,0);
+////        dodajpodpis(document,"Jan","Kowalski");
+//        //dodajStopke(writer);
+//        finalizacjaDokumentu(document);
+//        
+//    }
     
     
 //    public static void main (String[] args) {
@@ -863,7 +863,7 @@ public class PdfMain {
     }
     
     public static NumberFormat getNumberFormater() {
-        NumberFormat formatter = NumberFormat.getNumberInstance();
+        NumberFormat formatter = NumberFormat.getInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
@@ -1569,34 +1569,34 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8, 25f));
                     table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
                         if (p.getKwotaWn() != 0.0) {
-                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaWn())), "right", 8));
+                            table.addCell(ustawfrazeAlign(number.format(p.getKwotaWn()), "right", 8));
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
-                        table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 7));
                         if (p.getKwotaMa() != 0.0) {
-                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaMa())), "right", 8));
+                            table.addCell(ustawfrazeAlign(number.format(p.getKwotaMa()), "right", 8));
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
-                        table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 7));
                 } else {
                     WierszKonta p = (WierszKonta) it.next();
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
                         if (p.getKwotaWn() != 0.0) {
-                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaWn())), "right", 8));
+                            table.addCell(ustawfrazeAlign(number.format(p.getKwotaWn()), "right", 8));
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
-                        table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 7));
                         if (p.getKwotaMa() != 0.0) {
-                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaMa())), "right", 8));
+                            table.addCell(ustawfrazeAlign(number.format(p.getKwotaMa()), "right", 8));
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
-                        table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 7));
+                        table.addCell(ustawfrazeAlign(number.format(p.getSaldo()), "right", 8));
                 }
             }
             if (nazwaklasy.equals("testobjects.WierszWNTWDT")) {
@@ -1705,5 +1705,39 @@ public class PdfMain {
             }
         }
     }
+ 
+    public static void main(String[] args) throws Exception {
+
+		NumberFormat format1 = NumberFormat.getInstance();
+		displayNumbers("default", format1);
+
+		NumberFormat format2 = NumberFormat.getInstance();
+		format2.setMinimumFractionDigits(2);
+		format2.setMaximumFractionDigits(4);
+		displayNumbers("min fraction digits 2, max fraction digits 4", format2);
+
+		NumberFormat format3 = NumberFormat.getInstance();
+		format3.setMinimumIntegerDigits(6);
+		displayNumbers("min integer digits 6", format3);
+
+		NumberFormat format4 = NumberFormat.getInstance();
+		format4.setMaximumIntegerDigits(5);
+		displayNumbers("max integer digits 5", format4);
+
+		NumberFormat format5 = NumberFormat.getInstance();
+		format5.setGroupingUsed(false);
+		displayNumbers("grouping off", format5);
+
+	}
+
+	public static void displayNumbers(String whichFormat, NumberFormat numberFormat) {
+		System.out.println("Format:" + whichFormat);
+		for (int i = 0; i <= 10; i++) {
+			double num = Math.PI * Math.pow(i, i) * i;
+			System.out.print("  formatted:" + numberFormat.format(num));
+			System.out.println(" | unformatted:" + num);
+		}
+		System.out.println();
+	}
     
 }

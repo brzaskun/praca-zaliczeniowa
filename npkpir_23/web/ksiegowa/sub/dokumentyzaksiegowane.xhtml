@@ -45,7 +45,7 @@
             <p:menuitem global="false" value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem global="false" value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
             <p:menuitem global="false" value="PDF" update=":formM:messages" actionListener="#{DokTabView.printPDFPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
-            <p:menuitem global="false" value="Wydruk    " update=":formM:messages" actionListener="#{DokTabView.printPDFPKWydruk()}" icon="ui-icon-disk" />
+<!--            <p:menuitem global="false" value="Wydruk" update=":formM:messages" actionListener="#{DokTabView.printPDFPKWydruk()}" icon="ui-icon-disk" />-->
             <p:menuitem global="false" value="Usuń wybrane" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="PF('confirmation1').show();" update=":form:dokumentyLista" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem global="false" value="Switch" update=":formM:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
         </p:contextMenu>
