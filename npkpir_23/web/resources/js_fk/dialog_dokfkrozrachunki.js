@@ -486,7 +486,6 @@ var podswietlrozrachunki = function () {
 
 var odswietlrozrachunki = function () {
     if (MYAPP.znalezionorozrachunki) {
-        console.log("jest "+MYAPP.znalezionorozrachunki)
         var wierszewtabeli = $("#tabelazzapisami\\:tabela_data").children("tr");
         var dlugosc = wierszewtabeli.length;
         var znaleziono = -1;
