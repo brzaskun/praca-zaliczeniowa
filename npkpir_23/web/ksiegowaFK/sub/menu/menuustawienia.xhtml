@@ -14,6 +14,8 @@
                     <p:menuitem value="Nazwy kont - internacjonalizacja" onclick="PF('dialog_plankont_nazwy').show();" global="false"></p:menuitem>
                     <p:menuitem value="Kopiuj plan kont" onclick="PF('dialog_plankont_kopiuj').show();" global="false"
                                 rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
+                    <p:menuitem value="Uzupełnij plan kont" onclick="PF('dialog_plankont_uzupelnij').show();" global="false"
+                                rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
                     <p:menuitem value="Implementuj wzorcowy plan kont" onclick="PF('dialog_plankont_implementuj_wzorcowy').show();" global="false"
                                 rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
                     <p:menuitem value="Przyporządkowanie kategorii kont" onclick="PF('dialog_konto_klasyfikacja_przyporzadkowanie_podatnik').show();" global="false"></p:menuitem>
