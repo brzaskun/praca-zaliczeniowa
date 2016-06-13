@@ -246,8 +246,8 @@ public class BilansGenerowanieView implements Serializable {
             List<WierszBO> wierszeBO = new ArrayList<>();
             List<Konto> brakujacekontanowyrok = zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok);
             if (!brakujacekontanowyrok.isEmpty()) {
+                komunikatyerror.add("W nowym roku nie ma następujących kont w planie kont: ");
                 for (Konto p : brakujacekontanowyrok) {
-                    komunikatyerror.add("W nowym roku nie ma następujących kont w planie kont: ");
                     komunikatyerror.add(p.getPelnynumer()+" "+p.getNazwapelna());
                     sabledy = true;
                 }

@@ -27,7 +27,7 @@
     </style>
     <p:dialog id="dialog_bilans_generowanie" header="Bilans otwarcia - generowanie sald" widgetVar="dialog_bilans_generowanie"  
               appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('dialog_bilans_generowanie','menubilanse', 500, 400);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_generowanie');" 
+              resizable="false" onShow="ustawdialog('dialog_bilans_generowanie','menubilanse', 500, 540);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_generowanie');" 
               maximizable="true">
         <h:form id="form_dialog_bilans_generowanie" style="padding: 10px;">
             <p:panelGrid columns="1">
@@ -38,7 +38,7 @@
                     <h:outputText value="Rok - #{WpisView.rokWpisuSt}"/>
                 </p:column>
             </p:panelGrid>
-            <p:panelGrid columns="1" style="height: 260px;">
+            <p:panelGrid columns="1" style="height: 400px;">
                 <p:dataGrid value="#{bilansGenerowanieView.komunikatyok}" var="ok" emptyMessage=""
                             columns="1" rowIndexVar="index">
                     <h:outputText value="#{index+1}. " style="color: green;"/>

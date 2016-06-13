@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import comparator.UkladBRcomparator;
 import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
@@ -15,6 +16,8 @@ import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -65,6 +68,7 @@ public class UkladBRView implements Serializable {
         try {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
             listaWzorcowy = ukladBRDAO.findPodatnik("Wzorcowy");
+            Collections.sort(listaWzorcowy, new UkladBRcomparator());
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString());
         }
