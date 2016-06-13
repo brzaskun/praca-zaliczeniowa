@@ -1,6 +1,6 @@
 "use strict";
     
-var zachowajnumerwiersza = function(zmienna ,numer, tabela) {
+var zachowajnumerwiersza = function(zmienna ,numer, tabela, event) {
         MYAPP.zmienna = zmienna;
         MYAPP[MYAPP.zmienna] = numer;
         var parent = event.target || event.srcElement;

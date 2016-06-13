@@ -474,6 +474,7 @@ var podswietlrozrachunki = function () {
         var nrpolazapisu = komorki[1].innerHTML;
         znaleziono = $.inArray(nrpolazapisu, listawierszy);
         if (znaleziono > -1) {
+            MYAPP.znalezionorozrachunki = true;
             for (var kom = 0; kom < 15; kom++) {
                 $(komorki[kom]).css("font-weight", "600");
                 $(komorki[kom]).css("color", "green");
@@ -484,16 +485,20 @@ var podswietlrozrachunki = function () {
 };
 
 var odswietlrozrachunki = function () {
-    var wierszewtabeli = $("#tabelazzapisami\\:tabela_data").children("tr");
-    var dlugosc = wierszewtabeli.length;
-    var znaleziono = -1;
-    for (var i = 0; i < dlugosc; i++) {
-        var wierszdoobrobki = wierszewtabeli[i];
-        var komorki = $(wierszdoobrobki).children("td");
-        for (var kom = 0; kom < 15; kom++) {
-            $(komorki[kom]).css("font-weight", "initial");
-            $(komorki[kom]).css("color", "initial");
+    if (MYAPP.znalezionorozrachunki) {
+        console.log("jest "+MYAPP.znalezionorozrachunki)
+        var wierszewtabeli = $("#tabelazzapisami\\:tabela_data").children("tr");
+        var dlugosc = wierszewtabeli.length;
+        var znaleziono = -1;
+        for (var i = 0; i < dlugosc; i++) {
+            var wierszdoobrobki = wierszewtabeli[i];
+            var komorki = $(wierszdoobrobki).children("td");
+            for (var kom = 0; kom < 15; kom++) {
+                $(komorki[kom]).css("font-weight", "initial");
+                $(komorki[kom]).css("color", "initial");
+            }
         }
+        delete MYAPP.znalezionorozrachunki;
     }
 };
 

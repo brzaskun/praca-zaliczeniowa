@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="zapisy" header="Zapisy na kontach firma - #{WpisView.podatnikWpisu}" widgetVar="zapisynakoncie"  dynamic="true" modal="true" appendTo="@(body)"
+    <p:dialog id="zapisy" header="Zapisy na kontach firmA - #{WpisView.podatnikWpisu}" widgetVar="zapisynakoncie"  dynamic="true" modal="true" appendTo="@(body)"
               resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1630,780);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true"
               >
@@ -73,21 +73,21 @@
                 <h:form id="form">
                     <script>
                         /* <![CDATA[ */
-                        //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                        $(document).on("click", '.grid tr', function(e) {
+                        //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+                        $(document).on("click", '.gridzap tr', function(e) {
                             try {
                                 zachowajobiekt(this, e);
                             } catch (ex) {
                                 alert('error dialog zapisynakoncie' + ex.toString());
                             }
                         });
-                        $(document).on("click", '.grid1 tr', function() {
+                        $(document).on("click", '.grid1zap tr', function(event) {
                             var listawierszy = $("#tabelazzapisami\\:tabela_data").children("tr");
                             var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
                             try {
                                 var lpwiersznast = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
                                 var numerwiersza = lpwiersznast - lppierwszywiersz;
-                                zachowajnumerwiersza("zmiennazapisy", numerwiersza, "tabelazzapisami:tabela_data");
+                                zachowajnumerwiersza("zmiennazapisy", numerwiersza, "tabelazzapisami:tabela_data", event);
                                 event.stopPropagation(); // will prevent double click events from link being clicked within row
                             } catch (e) {
                                 console.log('error  dialog zapisynakoncie w.87' + e.toString())
@@ -98,26 +98,26 @@
                     </script>
                     <p:outputPanel id="kontenertabeli">
                           <style>
-                                .grid .ui-widget-content .ui-datatable-odd td{
+                                .gridzap .ui-widget-content .ui-datatable-odd td{
                                     height : 30px !important;
                                     padding: 0px 0px  !important;
                                 }
-                                .grid .ui-widget-content .ui-datatable-even td{
+                                .gridzap .ui-widget-content .ui-datatable-even td{
                                     height : 30px !important;
                                     padding: 0px 0px  !important;
                                 }
-                                .grid1 .ui-widget-content .ui-datatable-odd td{
+                                .grid1zap .ui-widget-content .ui-datatable-odd td{
                                     height : 30px !important;
                                     padding: 0px 0px  !important;
                                 }
-                                .grid1 .ui-widget-content .ui-datatable-even td{
+                                .grid1zap .ui-widget-content .ui-datatable-even td{
                                     height : 30px !important;
                                     padding: 0px 0px  !important;
                                 }
                           </style>
                         <p:dataTable id="dataList" value="#{kontoZapisFKView.wykazkont}" var="loop1" selectionMode="single" 
                                      selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
-                                     styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" 
+                                     styleClass="gridzap" style="width: 100%; height: 520px; overflow-y: scroll;" 
                                      sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" >
                             <p:ajax event="rowSelect" global="false" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" />
@@ -162,7 +162,7 @@
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1190px; height: 550px; overflow-y: scroll;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
-                                 rowIndexVar="rowindex" styleClass="grid1" rowSelectMode="add"
+                                 rowIndexVar="rowindex" styleClass="grid1zap" rowSelectMode="add"
                                  >
                         <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false" />
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false" oncomplete="odswietlrozrachunki()"/>
@@ -174,9 +174,9 @@
                             update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
                         <p:ajax event="filter" global="false" oncomplete="przeliczfilterzapisy()"/>
                         <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
-<!--                        <p:column headerText="id" width="20"  >
+                        <p:column headerText="id" width="20"  >
                             <h:outputText value="#{loop.id}"/>
-                        </p:column>-->
+                        </p:column>
                         <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;">
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>

@@ -573,38 +573,39 @@ public class KontoZapisFKView implements Serializable{
     public void odszukajsparowanerozrachunki() {
         try {
             StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
-            List<Transakcja> listytransakcjiNT = transakcjaDAO.findByNowaTransakcja(wybranyrozrachunek);
-            List<Transakcja> listytransakcjiR = transakcjaDAO.findByRozliczajacy(wybranyrozrachunek);
-            zapisydopodswietlenia = new ArrayList<>();
-            if (!listytransakcjiNT.isEmpty()) {
-                for (Transakcja p :listytransakcjiNT) {
-                    zapisydopodswietlenia.add(p.getRozliczajacy().getId());
-                }
-            }
-            if (!listytransakcjiR.isEmpty()) {
-                for (Transakcja p :listytransakcjiR) {
-                    zapisydopodswietlenia.add(p.getNowaTransakcja().getId());
-                }
-            }
-            //wyszukujemy roznice kursowe do podswietlenia
-            for (StronaWiersza r : kontozapisy) {
-                    if (r.getWnma().equals("Wn")) {
-                    if (r.getWiersz().getStronaMa() != null && r.getWiersz().getStronaMa().getKonto().getPelnynumer().equals("755")) {
-                        if (r.getKonto().equals(wybranyrozrachunek.getKonto()) && r.getWiersz().getOpisWiersza().contains(String.valueOf(wybranyrozrachunek.getId()))) {
-                            zapisydopodswietlenia.add(r.getId());
-                        }
-                    }
-                } else {
-                    if (r.getWiersz().getStronaWn() != null && r.getWiersz().getStronaWn().getKonto().getPelnynumer().equals("755")) {
-                        if (r.getKonto().equals(wybranyrozrachunek.getKonto()) && r.getWiersz().getOpisWiersza().contains(String.valueOf(wybranyrozrachunek.getId()))) {
-                            zapisydopodswietlenia.add(r.getId());
-                        }
+            if (wybranyrozrachunek.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                List<Transakcja> listytransakcjiNT = transakcjaDAO.findByNowaTransakcja(wybranyrozrachunek);
+                List<Transakcja> listytransakcjiR = transakcjaDAO.findByRozliczajacy(wybranyrozrachunek);
+                zapisydopodswietlenia = new ArrayList<>();
+                if (!listytransakcjiNT.isEmpty()) {
+                    for (Transakcja p :listytransakcjiNT) {
+                        zapisydopodswietlenia.add(p.getRozliczajacy().getId());
                     }
                 }
+                if (!listytransakcjiR.isEmpty()) {
+                    for (Transakcja p :listytransakcjiR) {
+                        zapisydopodswietlenia.add(p.getNowaTransakcja().getId());
+                    }
+                }
+                //wyszukujemy roznice kursowe do podswietlenia
+                for (StronaWiersza r : kontozapisy) {
+                        if (r.getWnma().equals("Wn")) {
+                        if (r.getWiersz().getStronaMa() != null && r.getWiersz().getStronaMa().getKonto().getPelnynumer().equals("755")) {
+                            if (r.getKonto().equals(wybranyrozrachunek.getKonto()) && r.getWiersz().getOpisWiersza().contains(String.valueOf(wybranyrozrachunek.getId()))) {
+                                zapisydopodswietlenia.add(r.getId());
+                            }
+                        }
+                    } else {
+                        if (r.getWiersz().getStronaWn() != null && r.getWiersz().getStronaWn().getKonto().getPelnynumer().equals("755")) {
+                            if (r.getKonto().equals(wybranyrozrachunek.getKonto()) && r.getWiersz().getOpisWiersza().contains(String.valueOf(wybranyrozrachunek.getId()))) {
+                                zapisydopodswietlenia.add(r.getId());
+                            }
+                        }
+                    }
+                }
+                RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
+                RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
             }
-            RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
-            RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
-            
         } catch (Exception e) {  E.e(e);
             
         }

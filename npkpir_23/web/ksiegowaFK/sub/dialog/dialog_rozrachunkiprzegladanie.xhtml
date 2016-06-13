@@ -76,25 +76,25 @@
                     <script>
                         /* <![CDATA[ */
                         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                        $(document).on("click", '.grid tr', function (e) {
-                            try {
-                                zachowajobiekt(this, e);
-                            } catch (ex) {
-                                alert('error dialog zapisynakoncie' + ex.toString());
-                            }
-                        });
-                        $(document).on("click", '.grid1 tr', function (e) {
-                            var lolo = $("#form1\\:dataList_data").children("tr");
-                            var pierwszy = $(lolo[0]).find(".lpwiersza").text();
-                            try {
-                                e.stopPropagation(); // will prevent double click events from link being clicked within row
-                                var unitNo = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
-                                var numerwiersza = unitNo - pierwszy;
-                                zachowajnumerwiersza("zmiennarozrachunki", numerwiersza);
-                            } catch (e) {
-                                alert('error');
-                            }
-                        });
+//                        $(document).on("click", '.grid tr', function (e) {
+//                            try {
+//                                zachowajobiekt(this, e);
+//                            } catch (ex) {
+//                                alert('error dialog zapisynakoncie' + ex.toString());
+//                            }
+//                        });
+//                        $(document).on("click", '.grid1 tr', function (e) {
+//                            var lolo = $("#form1\\:dataList_data").children("tr");
+//                            var pierwszy = $(lolo[0]).find(".lpwiersza").text();
+//                            try {
+//                                e.stopPropagation(); // will prevent double click events from link being clicked within row
+//                                var unitNo = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
+//                                var numerwiersza = unitNo - pierwszy;
+//                                zachowajnumerwiersza("zmiennarozrachunki", numerwiersza);
+//                            } catch (e) {
+//                                alert('error');
+//                            }
+//                        });
                         /* ]]> */
                     </script>
                     <p:outputPanel id="kontenertabeli">
