@@ -81,14 +81,14 @@
                                 alert('error dialog zapisynakoncie' + ex.toString());
                             }
                         });
-                        $(document).on("click", '.grid1 tr', function(e) {
+                        $(document).on("click", '.grid1 tr', function() {
                             var listawierszy = $("#tabelazzapisami\\:tabela_data").children("tr");
                             var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
                             try {
-                                e.stopPropagation(); // will prevent double click events from link being clicked within row
                                 var lpwiersznast = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
                                 var numerwiersza = lpwiersznast - lppierwszywiersz;
-                                zachowajnumerwiersza("zmiennazapisy", numerwiersza, "tabelazzapisami:tabela_data", event);
+                                zachowajnumerwiersza("zmiennazapisy", numerwiersza, "tabelazzapisami:tabela_data");
+                                event.stopPropagation(); // will prevent double click events from link being clicked within row
                             } catch (e) {
                                 console.log('error  dialog zapisynakoncie w.87' + e.toString())
                                 alert('error  dialog zapisynakoncie w.87' + e.toString());
