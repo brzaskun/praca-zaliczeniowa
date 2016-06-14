@@ -186,6 +186,8 @@ public class Podatnik implements Serializable {
     private String nazwadlafaktury;
     @Column(name = "adresdlafaktury")
     private String adresdlafaktury;
+    @Column(name = "nipdlafaktury")
+    private String nipdlafaktury;
     @Lob
     @Column(name = "wierszwzorcowy")
     private Pozycjenafakturzebazadanych wierszwzorcowy;
@@ -664,6 +666,14 @@ public class Podatnik implements Serializable {
 
     public void setMiejscewystawienia(String miejscewystawienia) {
         this.miejscewystawienia = miejscewystawienia;
+    }
+
+    public String getNipdlafaktury() {
+        return nipdlafaktury;
+    }
+
+    public void setNipdlafaktury(String nipdlafaktury) {
+        this.nipdlafaktury = nipdlafaktury;
     }
 
     public List<Straty1> getStratyzlatub1() {
