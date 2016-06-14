@@ -854,7 +854,7 @@ public class DokfkView implements Serializable {
                 wykazZaksiegowanychDokumentow.remove(selected);
                 wykazZaksiegowanychDokumentow.add(selected);
                 Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
-                selected = new Dokfk();
+                resetujDokument();
                 if (totylkoedycjazapis) {
                     //to jest potrzebne w sumie do edycji dokumenty z zapisow konta, tylko ze wywolujemy inita KOmntoZapisy FKView
                     kontoZapisFKView.pobierzzapisy();
@@ -1350,7 +1350,6 @@ public class DokfkView implements Serializable {
 //    //dodalem to tutaj a nie przy funkcji edytuj bo wtedy nie wyswietlalo wiadomosci o edycji
     public void przywrocwpisbutton() {
         setZapisz0edytuj1(false);
-        resetujDokument();
         RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
     }
 
