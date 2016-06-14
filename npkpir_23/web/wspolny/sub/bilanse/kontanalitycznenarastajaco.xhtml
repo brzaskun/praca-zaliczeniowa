@@ -144,12 +144,12 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyWn} 05"  style="width: 80px;" rendered="#{saldoAnalitykaNarastajacoView.czywyswietlic('05')}">
-                    <h:outputText value="#{loop.obrotymiesiecy.get('05').obrotyWn != 0.0 ? loop.obrotymiesiecy.get('04').obrotyWn : null}" style="float: right;">
+                    <h:outputText value="#{loop.obrotymiesiecy.get('05').obrotyWn != 0.0 ? loop.obrotymiesiecy.get('05').obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyMa} 05"  style="width: 80px;"  rendered="#{saldoAnalitykaNarastajacoView.czywyswietlic('05')}">
-                    <h:outputText value="#{loop.obrotymiesiecy.get('05').obrotyMa != 0.0 ? loop.obrotymiesiecy.get('04').obrotyMa : null}" style="float: right;">
+                    <h:outputText value="#{loop.obrotymiesiecy.get('05').obrotyMa != 0.0 ? loop.obrotymiesiecy.get('05').obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>

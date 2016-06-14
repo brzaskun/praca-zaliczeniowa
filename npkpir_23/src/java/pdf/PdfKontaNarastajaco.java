@@ -79,7 +79,7 @@ public class PdfKontaNarastajaco {
         PdfPTable table = new PdfPTable(21);
         table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
         table.setWidthPercentage(98);
-        int granica = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        int granica = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())+1;
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 5, 0));
             table.addCell(ustawfraze(B.b("zestawienieobrotówkontanalitycznych")+ ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 16, 0));
