@@ -16,6 +16,7 @@ import entity.Podatnik;
 import entity.Sumypkpir;
 import entity.Wpis;
 import error.E;
+import interceptor.WydrukInterceptor;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
@@ -179,6 +181,7 @@ public class KsiegaView implements Serializable {
         }
     }
     
+    @Interceptors(WydrukInterceptor.class)
     public void drukujPKPIR() {
         try {
             PdfPkpir.drukujksiege(lista, wpisView, wpisView.getMiesiacWpisu());

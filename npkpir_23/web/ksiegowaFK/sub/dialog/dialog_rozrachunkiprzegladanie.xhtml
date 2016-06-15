@@ -165,13 +165,15 @@
             <p:layoutUnit position="center" style="min-width: 1050px;">
                 <h:form id="tabelanowerozrachunki">
                      <p:contextMenu for="tabela" style="width: 200px;">
-                         <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
+                         <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{rozrachunkiPrzegladView.rozliczzaznaczone()}" update="tabelanowerozrachunki:tabela" global="false"/>
+                         <p:menuitem value="oznacz jako rachunek" icon="fa fa-book" actionListener="#{rozrachunkiPrzegladView.oznaczjakorachunek()}" update="tabelanowerozrachunki:tabela" global="false"/>
+                         <p:menuitem value="oznacz jako płatność" icon="fa fa-bank" actionListener="#{rozrachunkiPrzegladView.oznaczjakoplatnosc()}" update="tabelanowerozrachunki:tabela" global="false"/>
 <!--                         <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
                          <p:menuitem value="pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();" actionListener="#{dokfkView.edycjazapis()}"/>-->
                      </p:contextMenu>
                     <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" 
                                  emptyMessage="Nie ma rozrachunków na koncie" sortBy="#{loop.id}" selection="#{rozrachunkiPrzegladView.stronyWierszawybrane}"
-                                 rowIndexVar="rowindex" styleClass="grid1" style="width: 1020px;" expandedRow="true"
+                                 rowIndexVar="rowindex" styleClass="grid1" style="width: 1050px;" expandedRow="true" rowSelectMode="add"
                                  >
                         <p:ajax event="rowSelectCheckbox" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
                         <p:ajax event="rowUnselectCheckbox" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
@@ -183,24 +185,24 @@
                         <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center;"  >
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}" style="width: 20px;"/>
                         </p:column>
-                        <p:column headerText="waluta" sortBy="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}" width="40">
-                            <h:outputText value="#{loop.wiersz.tabelanbp eq null ? loop.symbolWalutyBO : loop.wiersz.tabelanbp.waluta.symbolwaluty}"
+                        <p:column headerText="waluta" sortBy="#{loop.symbolWalut}" width="40">
+                            <h:outputText value="#{loop.symbolWalut}"
                                           style="width: 30px;"/>
                         </p:column>
-                        <p:column headerText="kurs" sortBy="#{loop.wiersz.tabelanbp.kurssredni}" width="40">
-                            <h:outputText value="#{loop.wiersz.tabelanbp eq null ? loop.kursBO : loop.wiersz.tabelanbp.kurssredni}" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+                        <p:column headerText="kurs" sortBy="#{loop.kursWalutyBOSW}" width="40">
+                            <bcf:outputkurs value="#{loop.kursWalutyBOSW}" rendered="#{loop.kursWalutyBOSW ne 'PLN'}"/>
                         </p:column>
                         <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
-                            <h:outputText value="#{loop.wiersz.dataksiegowania.substring(0,10)}"/>
+                            <h:outputText value="#{loop.wiersz.dataksiegowania}"/>
                         </p:column>
-                        <p:column headerText="dok." width="40" >
-                            <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                        <p:column headerText="dok." width="50" >
+                            <h:outputText value="#{loop.wiersz.dokfkS}"/>
                         </p:column>
                         <p:column headerText="nr własny dok" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="90">
                             <h:outputText value="#{loop.wiersz.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.dokfk.opisdokfk}">
-                            <h:outputText value="#{loop.wiersz.opisWiersza}/#{loop.wiersz.dokfk.opisdokfk ne loop.wiersz.opisWiersza ? loop.wiersz.dokfk.opisdokfk : null}"/>
+                        <p:column headerText="#{mgs.opis}" width="210" sortBy="#{loop.opisSW}">
+                            <h:outputText value="#{loop.opisSW}" style="#{loop.stylopisrozrachunki}"/>
                         </p:column>
                         <p:column headerText="kwota pierwotna" width="70">
                             <bcf:outputpl value="#{loop.kwota}"/>
@@ -236,16 +238,16 @@
                                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                                         </h:outputText>
                                     </p:column>
-                                    <p:column headerText="kurs" sortBy="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}" width="40" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
-                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}"/>
+                                    <p:column headerText="kurs" sortBy="#{subwpis.rozliczajacy.kursWalutyBOSW}" width="40" rendered="#{loop.symbolwalut ne 'PLN'}">
+                                        <h:outputText value="#{subwpis.rozliczajacy.kursWalutyBOSW}"/>
                                     </p:column>
-                                    <p:column headerText="różnice kurs." rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                                    <p:column headerText="różnice kurs." rendered="#{loop.symbolwalut ne 'PLN'}">
                                         <h:outputText value="#{subwpis.roznicekursowe}" style="float: right;">
                                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                                         </h:outputText>
                                     </p:column>
                                     <p:column headerText="nr dok rozl." style="text-align: center;">
-                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfkS}"/>
                                     </p:column>
                                     <p:column headerText="lp wiersza" style="text-align: center;">
                                         <h:outputText value="#{subwpis.rozliczajacy.wiersz.idporzadkowy}"/>

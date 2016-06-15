@@ -28,7 +28,7 @@
         <p:outputPanel id="wrapper"  >
              <p:panel id="panelpkpir">
                 <br/>
-                <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ksiegaView.drukujPKPIR()}" >
+                <p:commandButton  value="Zachowaj w pdf" action="#{ksiegaView.drukujPKPIR(ksiegaView.lista, WpisView)}" >
                 </p:commandButton>
                 <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none; margin-left: 20px;">
                 </p:commandButton>

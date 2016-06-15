@@ -731,6 +731,8 @@ public class KontoZapisFKView implements Serializable{
             kontozapisy.remove(p);
         }
     }
+    
+    
 
     public List<Konto> getWykazkont() {
         return wykazkont;

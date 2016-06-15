@@ -6,6 +6,7 @@
 
 package viewfk;
 
+import beansFK.RozniceKursoweBean;
 import comparator.StronaWierszacomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
@@ -25,6 +26,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeUnselectEvent;
 import pdffk.PDFRozrachunki;
@@ -386,6 +388,56 @@ public class RozrachunkiPrzegladView implements Serializable{
         stronyWiersza.clear();
         sumapl = 0.0;
         sumawaluta = 0.0;
+    }
+    
+    public void oznaczjakorachunek() {
+        if (stronyWierszawybrane != null && stronyWierszawybrane.size() == 1) {
+           StronaWiersza w = stronyWierszawybrane.get(0);
+           if (w.getRozliczono() != 0.0) {
+               Msg.msg("e", "Zapis został częściowo rozliczono. Nie można dokonać zmiany.");
+           } else {
+                if (w.getTypStronaWiersza() == 2) {
+                    w.setTypStronaWiersza(1);
+                }
+                w.setNowatransakcja(true);
+                stronaWierszaDAO.edit(w);
+                Msg.msg("Oznaczono jako rachunek "+w.toString());
+           }
+        } else {
+            Msg.msg("e", "Należy wybrać jeden zapis w celu oznaczenia");
+        }
+    }
+    
+    public void oznaczjakoplatnosc() {
+        if (stronyWierszawybrane != null && stronyWierszawybrane.size() == 1) {
+           StronaWiersza w = stronyWierszawybrane.get(0);
+           if (w.getRozliczono() != 0.0) {
+               Msg.msg("e", "Zapis został częściowo rozliczono. Nie można dokonać zmiany.");
+           } else {
+                if (w.getTypStronaWiersza() == 1) {
+                    w.setTypStronaWiersza(2);
+                }
+                w.setNowatransakcja(false);
+                stronaWierszaDAO.edit(w);
+                Msg.msg("Oznaczono jako płatność "+w.toString());
+           }
+        } else {
+            Msg.msg("e", "Należy wybrać jeden zapis w celu oznaczenia");
+        }
+    }
+    
+     public void rozliczzaznaczone() {
+        if (stronyWierszawybrane != null && stronyWierszawybrane.size() > 1) {
+            if (RozniceKursoweBean.wiecejnizjednatransakcja(stronyWierszawybrane)) {
+                Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje. Nie można rozliczyć zapisów.");
+            } else {
+                Msg.msg("Rozliczam oznaczone transakcje");
+                RozniceKursoweBean.naniestransakcje(stronyWierszawybrane);
+                stronaWierszaDAO.editList(stronyWierszawybrane);
+            }
+        } else {
+            Msg.msg("e", "Należy wybrać przynajmniej dwa zapisy po różnych stronach konta w celu rozliczenia transakcji");
+        }
     }
     
     public WpisView getWpisView() {

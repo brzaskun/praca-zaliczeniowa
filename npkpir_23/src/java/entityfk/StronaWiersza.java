@@ -436,6 +436,24 @@ public class StronaWiersza implements Serializable {
             return this.kursBO;
         }
     }
+    
+    public String getStylopisrozrachunki() {
+        String zwrot = null;
+        if (this.isNowatransakcja()) {
+            zwrot = "color: red";
+        }
+        return zwrot;
+    }
+    
+    public String getOpisSW() {
+        String zwrot = this.wiersz.getOpisWiersza();
+        if (this.opisBO != null) {
+            zwrot = this.opisBO;
+        } else if (!this.wiersz.getDokfk().getOpisdokfk().equals(this.wiersz.getOpisWiersza())) {
+            zwrot = zwrot + "/" + this.wiersz.getDokfk().getOpisdokfk();
+        }
+        return zwrot;
+    }
 
     public void setPozostalo(double pozostalo) {
         this.pozostalo = pozostalo;
