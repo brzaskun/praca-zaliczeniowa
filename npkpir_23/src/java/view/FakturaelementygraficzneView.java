@@ -137,7 +137,8 @@ public class FakturaelementygraficzneView implements Serializable {
         }
         try {
            FileUtils.copyInputStreamToFile(uploadedFile.getInputstream(), newfile);
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
         }
         Fakturaelementygraficzne f = new Fakturaelementygraficzne();
         f.getFakturaelementygraficznePK().setPodatnik(wpisView.getPodatnikWpisu());

@@ -12,6 +12,9 @@
                             <p:menuitem value="przeglądanie rejestrów vat" oncomplete="PF('dialogewidencjevat').show();" >
                                 <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK()}"/>
                             </p:menuitem>
+                            <p:menuitem value="rejestry vat Dedra" oncomplete="PF('dialog_ewvat_dedra').show();" >
+                                <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK()}"/>
+                            </p:menuitem>
                         </p:menu>
                     </h:form>
                 </p:tab>  
