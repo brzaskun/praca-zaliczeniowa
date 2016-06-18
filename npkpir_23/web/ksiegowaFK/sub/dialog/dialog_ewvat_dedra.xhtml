@@ -21,7 +21,8 @@
                           style="height: 120px;">
             </p:fileUpload>
             <p:dataTable value="#{eVatDedraView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1150px;"
-                         scrollable="true" scrollHeight="350" scrollRows="20">
+                         scrollable="true" scrollHeight="350" scrollRows="20"
+                         emptyMessage="Nie pobrano wierszy">
                 <f:facet name="header">
                     <h:outputText value=" ewidencja #{item.ewidencja.nazwa}"/>
                 </f:facet>
@@ -86,6 +87,10 @@
                     <h:outputText value="#{item.dataoperacji}"/>
                 </p:column>
             </p:dataTable>
+        </h:form>
+        <h:form>
+            <p:commandButton value="zaksięguj" actionListener="#{eVatDedraView.dodajwierszeewidencji}" style="width: 120px;" update="form_dialog_ewvat_dedra:tabela"/>
+            <p:commandButton value="usuń" actionListener="#{eVatDedraView.usunwierszeewidencji}" style="width: 120px; margin-left: 10px;" update="form_dialog_ewvat_dedra:tabela"/>
         </h:form>
     </p:dialog>
 </ui:composition> 

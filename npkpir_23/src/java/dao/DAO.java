@@ -81,6 +81,19 @@ public abstract class DAO<T> {
             throw new PersistenceException(e.getCause().getMessage(), e);
         }
     }
+    
+      public void destroy(List<T> selected) {
+        try {
+            sessionFacade.remove(selected);
+        } catch (EJBException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new EJBException(e.getCause().getMessage(), e);
+        } catch (Exception e) {
+            E.e(e);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new PersistenceException(e.getCause().getMessage(), e);
+        }
+    }
 
     /**
      *

@@ -6,6 +6,7 @@
 package viewfk;
 
 import dao.EvewidencjaDAO;
+import daoFK.EVatwpisDedraDAO;
 import dedra.Dedraparser;
 import entity.Evewidencja;
 import entityfk.EVatwpisDedra;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -37,7 +39,18 @@ public class EVatDedraView  implements Serializable {
     private WpisView wpisView;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
+    @Inject
+    private EVatwpisDedraDAO eVatwpisDedraDAO;
     private List<EVatwpisDedra> wiersze;
+
+    public EVatDedraView() {
+    }
+    
+    @PostConstruct
+    private void init() {
+        wiersze = evewidencjaDAO.findWierszePodatnikMc(wpisView);
+    }
+    
     
     public void zachowajZaladowanyPlik(FileUploadEvent event) {
         UploadedFile uploadedFile = event.getFile();
@@ -67,6 +80,36 @@ public class EVatDedraView  implements Serializable {
         }
     }
 
+    public void dodajwierszeewidencji() {
+        if (wiersze != null && wiersze.size() > 0) {
+            try {
+                wiersze.remove(wiersze.size()-1);
+                eVatwpisDedraDAO.dodaj(wiersze);
+                Msg.msg("Zachowano wiersze ewidencji");
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd podczas zachowywania wierszy ewidencji");
+            }
+        } else {
+            Msg.msg("w", "Lista wierszy jest pusta");
+        }
+    }
+    
+    public void usunwierszeewidencji() {
+        if (wiersze != null && wiersze.size() > 0) {
+            try {
+                eVatwpisDedraDAO.destroy(wiersze);
+                wiersze.clear();
+                Msg.msg("Usunięto wiersze ewidencji");
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd podczas usuwania wierszy ewidencji");
+            }
+        } else {
+            Msg.msg("w", "Lista wierszy jest pusta");
+        }
+    }
+    
     public WpisView getWpisView() {
         return wpisView;
     }

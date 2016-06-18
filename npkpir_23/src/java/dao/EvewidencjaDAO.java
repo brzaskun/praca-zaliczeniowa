@@ -6,6 +6,7 @@ package dao;
 
 import comparator.Evewidencjacomparator;
 import entity.Evewidencja;
+import entityfk.EVatwpisDedra;
 import error.E;
 import java.io.Serializable;
 import java.util.Collections;
@@ -15,6 +16,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -67,5 +69,9 @@ public class EvewidencjaDAO extends DAO implements Serializable {
         } catch (Exception e) { E.e(e); 
             throw new Exception();
         }
+    }
+
+    public List<EVatwpisDedra> findWierszePodatnikMc(WpisView wpisView) {
+        return sessionFacade.getEntityManager().createNamedQuery("EVatwpisDedra.findByPodatnikRokMc").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
     }
 }
