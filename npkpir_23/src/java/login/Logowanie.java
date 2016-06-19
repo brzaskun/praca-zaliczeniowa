@@ -160,6 +160,7 @@ public class Logowanie implements Serializable {
         Uz uz = uzDAO.findUzByLogin(uzytk);
         if (uz != null) {
             switch (uz.getLocale()) {
+                default:
                 case "pl":
                     localeChanger.polishAction();
                     break;
@@ -168,6 +169,9 @@ public class Logowanie implements Serializable {
                     break;
                 case "en":
                     localeChanger.englishAction();
+                    break;
+                case "cz":
+                    localeChanger.czechAction();
                     break;
             }
         } else {

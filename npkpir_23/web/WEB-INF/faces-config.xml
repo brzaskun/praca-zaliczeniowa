@@ -569,6 +569,7 @@
            <default-locale>pl</default-locale>
            <supported-locale>en</supported-locale>
            <supported-locale>de</supported-locale>
+           <supported-locale>cs</supported-locale>
         </locale-config>
         <resource-bundle>
            <base-name>messagesbundle.messages</base-name>

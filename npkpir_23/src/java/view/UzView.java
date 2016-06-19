@@ -27,6 +27,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.Mail;
+import msg.B;
 import msg.Msg;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.context.RequestContext;
@@ -96,7 +97,7 @@ public class UzView implements Serializable {
             try {
                 haszuj(selUzytkownik.getHaslo());
                 uzDAO.dodaj(selUzytkownik);
-                String wiadomosc = "Rejestracja udana. Administrator musi teraz nadac Ci uprawnienia. Nastąpi to w ciągu najbliższej godziny. Dopiero wtedy będzie możliwe zalogowanie się.";
+                String wiadomosc = B.b("rejestracjaudana");
                 Msg.msg(wiadomosc);
                 Mail.nadajMailRejestracjaNowegoUzera(selUzytkownik.getEmail(), selUzytkownik.getLogin());
                 panelrejestracji.setRendered(false);

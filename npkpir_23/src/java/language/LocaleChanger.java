@@ -45,6 +45,7 @@ public class LocaleChanger implements Serializable{
         Uz uz = uzDAO.findUzByLogin(uzytk);
         if (uz != null) {
             switch (uz.getLocale()) {
+                default:
                 case "pl":
                     polishAction();
                     break;
@@ -53,6 +54,9 @@ public class LocaleChanger implements Serializable{
                     break;
                 case "en":
                     englishAction();
+                    break;
+                case "cz":
+                    czechAction();
                     break;
             }
         } else {
@@ -87,6 +91,20 @@ public class LocaleChanger implements Serializable{
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(Locale.ENGLISH);
         this.locale = Locale.ENGLISH;
+        return null;
+    }
+   
+     public String czechAction(ActionEvent e){
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getViewRoot().setLocale(new Locale("cs"));
+        this.locale = new Locale("cs");
+        return null;
+    }
+    
+    public String czechAction(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getViewRoot().setLocale(new Locale("cs"));
+        this.locale = new Locale("cs");
         return null;
     }
     

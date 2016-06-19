@@ -27,6 +27,9 @@
                     <p:menuitem value="deklaracje" outcome="dedradeklaracje" icon="ui-icon-circle-arrow-e" />
                 </p:submenu>  
             </p:menu>
+             <p:panel>
+                <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;" /> 
+            </p:panel>
         </h:form>
     </p:layoutUnit>
 </ui:composition>   
