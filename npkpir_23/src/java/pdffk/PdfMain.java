@@ -64,6 +64,7 @@ import testobjects.WierszTabeli;
 import testobjects.WierszWNTWDT;
 import waluty.Z;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import entityfk.EVatwpisDedra;
 
 /**
  *
@@ -513,6 +514,19 @@ public class PdfMain {
                 col[1] = 2;
                 col[2] = 2;
                 col[3] = 3;
+                return col;
+            case "entityfk.EVatwpisDedra":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 3;
+                col[2] = 3;
+                col[3] = 5;
+                col[4] = 4;
+                col[5] = 5;
+                col[6] = 3;
+                col[7] = 3;
+                col[8] = 2;
+                col[9] = 3;
                 return col;
             case "embeddable.SchemaEwidencjaSuma":
             case "entity.DeklaracjaVatSchemaWierszSum":
@@ -1346,6 +1360,19 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign("", "center", 8));
                     table.addCell(ustawfrazeAlign("", "center", 8));
                 }
+            }
+            if (nazwaklasy.equals("entityfk.EVatwpisDedra")) {
+                EVatwpisDedra p = (EVatwpisDedra) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7, 24f));
+                table.addCell(ustawfrazeAlign(p.getDatadokumentu(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getMcRok(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getImienazwisko(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getFaktura(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getAdres(), "left", 8));
+                table.addCell(ustawfrazeAlign(number.format(p.getNetto()), "right", 8));
+                table.addCell(ustawfrazeAlign(number.format(p.getVat()), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getEstawka(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 7));
             }
             if (nazwaklasy.equals("testobjects.WierszCecha")) {
                 WierszCecha p = (WierszCecha) it.next();

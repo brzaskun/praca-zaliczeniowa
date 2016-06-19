@@ -30,6 +30,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import pdffk.PdfEVatDedra;
 import view.WpisView;
 
 /**
@@ -138,6 +139,12 @@ public class EVatDedraView  implements Serializable {
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
+    }
+    
+    public void drukujewidencje() {
+        if (wiersze != null && wiersze.size() > 0) {
+            PdfEVatDedra.drukuj(wiersze, wpisView);
+        }
     }
     
     public WpisView getWpisView() {

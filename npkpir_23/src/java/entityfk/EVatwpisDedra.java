@@ -255,16 +255,7 @@ public class EVatwpisDedra implements Serializable {
     public void setMiasto(String miasto) {
         this.miasto = miasto;
     }
-
-    public String getMcRok() {
-        String zwrot = "";
-        if (this.mcEw!=null) {
-            zwrot = this.mcEw+"/"+this.rokEw;
-        }
-        return zwrot;
-    }
-   
-    
+ 
     public String getDataoperacji() {
         return dataoperacji;
     }
@@ -274,6 +265,24 @@ public class EVatwpisDedra implements Serializable {
     }
 //</editor-fold>
 
+    public String getMcRok() {
+        String zwrot = "";
+        if (this.mcEw!=null) {
+            zwrot = this.mcEw+"/"+this.rokEw;
+        }
+        return zwrot;
+    }
+    
+    public String getAdres() {
+        String zwrot = "";
+        if (this.ulica != null && this.miasto != null) {
+            zwrot = this.ulica+" "+this.miasto;
+        } else {
+            zwrot = this.ulica;
+        }
+        return zwrot;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

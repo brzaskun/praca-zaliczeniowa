@@ -12,6 +12,7 @@
         <navigation-case>
             <from-outcome>Dedra</from-outcome>
             <to-view-id>/dedra/dedraIndex.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
          <navigation-case>
             <from-outcome>dedradeklaracje</from-outcome>

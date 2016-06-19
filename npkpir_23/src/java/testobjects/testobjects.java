@@ -24,6 +24,7 @@ import entity.SrodekTrw;
 import entity.UmorzenieN;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
+import entityfk.EVatwpisDedra;
 import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
@@ -244,7 +245,7 @@ public class testobjects {
        tabela[1] = wiersze;
        return tabela;
    }
-   
+    
     public static List[] getTabelaPlanKont(List<Konto> wiersze) {
        List n = new ArrayList();
        n.add("numer konta");
@@ -255,6 +256,24 @@ public class testobjects {
        n.add("pozycja Wn");
        n.add("pozycja Ma");  
        n.add("przychód/koszt");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+   
+    public static List[] getTabelaEVatwpisDedra(List<EVatwpisDedra> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add(B.b("dataksiegowania"));
+       n.add(B.b("mcrok"));
+       n.add(B.b("imieinazwisko"));
+       n.add(B.b("faktura"));
+       n.add(B.b("adres"));
+       n.add(B.b("netto"));
+       n.add(B.b("vat"));
+       n.add("%");
+       n.add(B.b("datadok"));
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;
