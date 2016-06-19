@@ -58,6 +58,8 @@ public class EVatDeklaracjaPlik implements Serializable {
     private String rokEw;
     @Column(name = "nazwapliku")
     private String nazwapliku;
+    @Column(name = "uwagi")
+    private String uwagi;
     @Column(name = "upo")
     private String upo;
     @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
@@ -88,6 +90,14 @@ public class EVatDeklaracjaPlik implements Serializable {
 
     public void setWprowadzil(Uz wprowadzil) {
         this.wprowadzil = wprowadzil;
+    }
+
+    public String getUwagi() {
+        return uwagi;
+    }
+
+    public void setUwagi(String uwagi) {
+        this.uwagi = uwagi;
     }
 
     public String getMcEw() {

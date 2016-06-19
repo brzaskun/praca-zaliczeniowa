@@ -15,9 +15,10 @@
                       uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
                       style="height: 100px; width: 500px;">
         </p:fileUpload>
-        <p:dataTable value="#{eVatDeklaracjaPlikView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1100px;"
-                     scrollable="true" scrollHeight="350" scrollRows="20"
+        <p:dataTable value="#{eVatDeklaracjaPlikView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1150px;"
+                     scrollable="true" scrollHeight="350" scrollRows="20" editable="true"
                      emptyMessage="Nie pobrano wierszy">
+            <p:ajax event="rowEdit" update=":form:messages" listener="#{eVatDeklaracjaPlikView.zachowajzmiany}" global="false"/>
             <p:column style="width: 20px;">
                 <f:facet name="header">
                     <h:outputText value="lp"/>
@@ -44,15 +45,38 @@
             </p:column>
             <p:column style="width: 320px;">
                 <f:facet name="header">
-                    <h:outputText value="nazwapliku"/>
+                    <h:outputText value="opis"/>
                 </f:facet>
-                <h:outputText value="#{item.nazwapliku}"/>
+                 <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{item.uwagi}"/>
+                    </f:facet>
+                    <f:facet name="input">  
+                        <p:inputText value="#{item.uwagi}" style="width: 300px;"/>
+                    </f:facet>
+                </p:cellEditor>
             </p:column>
             <p:column style="width: 320px;">
                 <f:facet name="header">
                     <h:outputText value="upo"/>
                 </f:facet>
-                <h:outputText value="#{item.upo}"/>
+                 <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{item.upo}"/>
+                    </f:facet>
+                    <f:facet name="input">  
+                        <p:inputText value="#{item.upo}" style="width: 300px;"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column id="editColumn" headerText="edytuj" style="width: 40px;">
+                <p:rowEditor />  
+            </p:column>
+            <p:column style="width: 40px;">
+                <f:facet name="header">
+                    <h:outputText value="druk"/>
+                </f:facet>
+                <p:commandButton icon="fa fa-print" style="width: 30px; margin-left: 10px;" onclick="wydrukidedra('#{item.nazwapliku}')"/>
             </p:column>
             <p:column style="width: 40px;">
                 <f:facet name="header">

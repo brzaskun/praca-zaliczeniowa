@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -34,6 +35,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.UploadedFile;
 import view.WpisView;
 
@@ -119,6 +121,16 @@ public class EVatDeklaracjaPlikView  implements Serializable {
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
+    }
+    
+    public void zachowajzmiany(RowEditEvent ex) {
+        try {
+            eVatDeklaracjaPlikDAO.edit((EVatDeklaracjaPlik) ex.getObject());
+            Msg.msg("Naniesiono numer UPO");
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e","Wystąpił błąd, nienaniesiono numeru UPO");
+        }
     }
     
     public WpisView getWpisView() {
