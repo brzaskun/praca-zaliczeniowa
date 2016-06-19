@@ -6,18 +6,18 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:bcf="http://brzaskun.com/facelets">
     <h:form id="form_dialog_ewvat_dedra" >
-        <p:panel header="Wczytaj plik PDF zawierający deklaracje VAT" style="width: 1150px;"/>
+        <p:panel header="Wczytaj plik PDF zawierający deklaracje VAT" style="width: 1250px;"/>
         <p:fileUpload fileUploadListener="#{eVatDeklaracjaPlikView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra:tabela"
                       mode="advanced" dragDropSupport="true" fileLimit="3"
                       sizeLimit="200000"  allowTypes="/(\.|\/)(pdf)$/" 
                       validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                       fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
-                      uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                      uploadLabel="#{mgs.wczytaj}" label="#{mgs.wybierz}" cancelLabel="#{mgs.rezygnuj}" 
                       style="height: 100px; width: 500px;">
         </p:fileUpload>
-        <p:dataTable value="#{eVatDeklaracjaPlikView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1150px;"
+        <p:dataTable value="#{eVatDeklaracjaPlikView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px;"
                      scrollable="true" scrollHeight="350" scrollRows="20" editable="true"
-                     emptyMessage="Nie pobrano wierszy">
+                     emptyMessage="#{mgs.niepobranowierszy}">
             <p:ajax event="rowEdit" update=":form:messages" listener="#{eVatDeklaracjaPlikView.zachowajzmiany}" global="false"/>
             <p:column style="width: 20px;">
                 <f:facet name="header">
@@ -27,25 +27,25 @@
             </p:column>
             <p:column style="width: 80px;">
                 <f:facet name="header">
-                    <h:outputText value="data księgowania"/>
+                    <h:outputText value="#{mgs.dataksiegowania}"/>
                 </f:facet>
                 <h:outputText value="#{item.dataoperacji}"/>
             </p:column>
             <p:column style="width: 40px;">
                 <f:facet name="header">
-                    <h:outputText value="mc/rok"/>
+                    <h:outputText value="#{mgs.mcrok}"/>
                 </f:facet>
                 <h:outputText value="#{item.mcRok}"/>
             </p:column>
-            <p:column>
+            <p:column style="width: 100px;">
                 <f:facet name="header">
-                    <h:outputText value="wprowadzil"/>
+                    <h:outputText value="#{mgs.wprowadzil}"/>
                 </f:facet>
                 <h:outputText value="#{item.wprowadzil.login}"/>
             </p:column>
             <p:column style="width: 320px;">
                 <f:facet name="header">
-                    <h:outputText value="opis"/>
+                    <h:outputText value="#{mgs.opis}"/>
                 </f:facet>
                  <p:cellEditor>
                     <f:facet name="output">  
@@ -69,18 +69,18 @@
                     </f:facet>
                 </p:cellEditor>
             </p:column>
-            <p:column id="editColumn" headerText="edytuj" style="width: 40px;">
+            <p:column id="editColumn" headerText="#{mgs.edytuj}" style="width: 40px;">
                 <p:rowEditor />  
             </p:column>
-            <p:column style="width: 40px;">
+            <p:column style="width: 50px;">
                 <f:facet name="header">
-                    <h:outputText value="druk"/>
+                    <h:outputText value="#{mgs.drukuj}"/>
                 </f:facet>
                 <p:commandButton icon="fa fa-print" style="width: 30px; margin-left: 10px;" onclick="wydrukidedra('#{item.nazwapliku}')"/>
             </p:column>
-            <p:column style="width: 40px;">
+            <p:column style="width: 50px;">
                 <f:facet name="header">
-                    <h:outputText value="usuń"/>
+                    <h:outputText value="#{mgs.usun}"/>
                 </f:facet>
                  <p:commandButton icon="fa fa-trash" actionListener="#{eVatDeklaracjaPlikView.usunwierszeewidencji(item)}" style="width: 30px; margin-left: 10px;" update="form_dialog_ewvat_dedra:tabela"/>
             </p:column>
