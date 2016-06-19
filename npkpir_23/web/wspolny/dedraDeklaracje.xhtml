@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <h:form id="form_dialog_ewvat_dedra" >
+        <p:panel header="Wczytaj plik PDF zawierający deklaracje VAT" style="width: 1150px;"/>
+        <p:fileUpload fileUploadListener="#{eVatDeklaracjaPlikView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra:tabela"
+                      mode="advanced" dragDropSupport="true" fileLimit="3"
+                      sizeLimit="200000"  allowTypes="/(\.|\/)(pdf)$/" 
+                      validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                      fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                      uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                      style="height: 100px; width: 500px;">
+        </p:fileUpload>
+        <p:dataTable value="#{eVatDeklaracjaPlikView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1100px;"
+                     scrollable="true" scrollHeight="350" scrollRows="20"
+                     emptyMessage="Nie pobrano wierszy">
+            <p:column style="width: 20px;">
+                <f:facet name="header">
+                    <h:outputText value="lp"/>
+                </f:facet>
+                <h:outputText value="#{index+1}"/>
+            </p:column>
+            <p:column style="width: 80px;">
+                <f:facet name="header">
+                    <h:outputText value="data księgowania"/>
+                </f:facet>
+                <h:outputText value="#{item.dataoperacji}"/>
+            </p:column>
+            <p:column style="width: 40px;">
+                <f:facet name="header">
+                    <h:outputText value="mc/rok"/>
+                </f:facet>
+                <h:outputText value="#{item.mcRok}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="wprowadzil"/>
+                </f:facet>
+                <h:outputText value="#{item.wprowadzil.login}"/>
+            </p:column>
+            <p:column style="width: 320px;">
+                <f:facet name="header">
+                    <h:outputText value="nazwapliku"/>
+                </f:facet>
+                <h:outputText value="#{item.nazwapliku}"/>
+            </p:column>
+            <p:column style="width: 320px;">
+                <f:facet name="header">
+                    <h:outputText value="upo"/>
+                </f:facet>
+                <h:outputText value="#{item.upo}"/>
+            </p:column>
+            <p:column style="width: 40px;">
+                <f:facet name="header">
+                    <h:outputText value="usuń"/>
+                </f:facet>
+                 <p:commandButton icon="fa fa-trash" actionListener="#{eVatDeklaracjaPlikView.usunwierszeewidencji(item)}" style="width: 30px; margin-left: 10px;" update="form_dialog_ewvat_dedra:tabela"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</html>
+
+

@@ -42,6 +42,11 @@
     <group-name>Noobie</group-name>
   </security-role-mapping>
   <security-role-mapping>
+    <role-name>Dedra</role-name>
+    <principal-name>Dedra</principal-name>
+    <group-name>Dedra</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
     <role-name>Multiuser</role-name>
     <principal-name>Multiuser</principal-name>
     <group-name>Multiuser</group-name>

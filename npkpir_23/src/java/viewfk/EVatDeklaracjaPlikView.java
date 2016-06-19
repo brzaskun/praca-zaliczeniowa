@@ -7,15 +7,19 @@ package viewfk;
 
 import dao.EvewidencjaDAO;
 import dao.WpisDAO;
+import daoFK.EVatDeklaracjaPlikDAO;
 import daoFK.EVatwpisDedraDAO;
+import data.Data;
 import dedra.Dedraparser;
 import entity.Evewidencja;
 import entity.Wpis;
+import entityfk.EVatDeklaracjaPlik;
 import entityfk.EVatwpisDedra;
 import error.E;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -28,6 +32,7 @@ import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import view.WpisView;
@@ -38,26 +43,21 @@ import view.WpisView;
  */
 @ManagedBean
 @ViewScoped
-public class EVatDedraView  implements Serializable {
+public class EVatDeklaracjaPlikView  implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
-    private EvewidencjaDAO evewidencjaDAO;
-    @Inject
-    private EVatwpisDedraDAO eVatwpisDedraDAO;
+    private EVatDeklaracjaPlikDAO eVatDeklaracjaPlikDAO;
     @Inject 
     private WpisDAO wpisDAO;
-    private List<EVatwpisDedra> wiersze;
+    private List<EVatDeklaracjaPlik> wiersze;
 
-    public EVatDedraView() {
+    public EVatDeklaracjaPlikView() {
     }
     
     @PostConstruct
     private void init() {
-        wiersze = eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
-        if (!wiersze.isEmpty()) {
-            wiersze.add(sumuj());
-        }
+        wiersze = eVatDeklaracjaPlikDAO.findDeklaracjePodatnikMc(wpisView);
     }
     
     
@@ -65,7 +65,10 @@ public class EVatDedraView  implements Serializable {
         UploadedFile uploadedFile = event.getFile();
         String filename = uploadedFile.getFileName();
         String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/uploaded/"+wpisView.getPodatnikObiekt().getNip()+"_"+"vat."+extension;
+        Date d = new Date();
+        String dt = String.valueOf(d.getTime());
+        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/uploaded/deklaracjevat/"+wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"dekl."+extension;
+        String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"dekl."+extension;
         File newfile = new File(nazwapliku);
         File oldfile = new File(nazwapliku);
         if (oldfile.isFile()) {
@@ -73,49 +76,27 @@ public class EVatDedraView  implements Serializable {
         }
         try {
            FileUtils.copyInputStreamToFile(uploadedFile.getInputstream(), newfile);
-           Evewidencja e = evewidencjaDAO.znajdzponazwie("sprzedaż 23%");
+           String dzis = Data.aktualnyDzien();
+           EVatDeklaracjaPlik e = new EVatDeklaracjaPlik(wpisView, nazwakrotka, dzis);
+           eVatDeklaracjaPlikDAO.dodaj(e);
+           wiersze.add(e);
            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
-           wiersze = Dedraparser.parsujewidencje(nazwapliku, wpisView.getPodatnikObiekt(), e, wpisView);
-           wiersze.add(sumuj());
         } catch (Exception e) { 
             E.e(e); 
         }
     }
-    
-    private EVatwpisDedra sumuj() {
-        double netto = 0.0;
-        double vat = 0.0;
-        for (EVatwpisDedra p : wiersze) {
-            netto += p.getNetto();
-            vat += p.getVat();
-        }
-        return new EVatwpisDedra(netto, vat);
-    }
 
-    public void dodajwierszeewidencji() {
-        if (wiersze != null && wiersze.size() > 0) {
-            try {
-                wiersze.remove(wiersze.size()-1);
-                eVatwpisDedraDAO.dodaj(wiersze);
-                Msg.msg("Zachowano wiersze ewidencji");
-            } catch (Exception e) {
-                E.e(e);
-                Msg.msg("e", "Wystąpił błąd podczas zachowywania wierszy ewidencji");
-            }
-        } else {
-            Msg.msg("w", "Lista wierszy jest pusta");
-        }
-    }
+
     
-    public void usunwierszeewidencji() {
+    public void usunwierszeewidencji(EVatDeklaracjaPlik sel) {
         if (wiersze != null && wiersze.size() > 0) {
             try {
-                eVatwpisDedraDAO.destroy(wiersze);
+                eVatDeklaracjaPlikDAO.destroy(sel);
                 wiersze.clear();
-                Msg.msg("Usunięto wiersze ewidencji");
+                Msg.msg("Usunięto plik deklaracji");
             } catch (Exception e) {
                 E.e(e);
-                Msg.msg("e", "Wystąpił błąd podczas usuwania wierszy ewidencji");
+                Msg.msg("e", "Wystąpił błąd podczas usuwania pliku deklaracji");
             }
         } else {
             Msg.msg("w", "Lista wierszy jest pusta");
@@ -148,11 +129,11 @@ public class EVatDedraView  implements Serializable {
         this.wpisView = wpisView;
     }
 
-    public List<EVatwpisDedra> getWiersze() {
+    public List<EVatDeklaracjaPlik> getWiersze() {
         return wiersze;
     }
 
-    public void setWiersze(List<EVatwpisDedra> wiersze) {
+    public void setWiersze(List<EVatDeklaracjaPlik> wiersze) {
         this.wiersze = wiersze;
     }
     

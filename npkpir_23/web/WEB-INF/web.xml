@@ -110,6 +110,20 @@
     <security-role>
         <role-name>Multiuser</role-name>
     </security-role>
+    <security-role>
+        <role-name>Dedra</role-name>
+    </security-role>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Dedra Area</web-resource-name>
+            <url-pattern>/faces/dedra/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Dedra</role-name>
+            <role-name>Manager</role-name>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin Area</web-resource-name>
@@ -187,7 +201,7 @@
             <url-pattern>/faces/noobie/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-                <role-name>Noobie</role-name>
+            <role-name>Noobie</role-name>
             <role-name>Guest</role-name>
             <role-name>GuestFK</role-name>
             <role-name>Manager</role-name>
@@ -203,6 +217,7 @@
             <url-pattern>/faces/wspolny/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
+            <role-name>Dedra</role-name>
             <role-name>Guest</role-name>
             <role-name>GuestFaktura</role-name>
             <role-name>GuestFK</role-name>

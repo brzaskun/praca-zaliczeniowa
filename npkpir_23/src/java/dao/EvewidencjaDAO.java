@@ -71,7 +71,5 @@ public class EvewidencjaDAO extends DAO implements Serializable {
         }
     }
 
-    public List<EVatwpisDedra> findWierszePodatnikMc(WpisView wpisView) {
-        return sessionFacade.getEntityManager().createNamedQuery("EVatwpisDedra.findByPodatnikRokMc").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
-    }
+    
 }

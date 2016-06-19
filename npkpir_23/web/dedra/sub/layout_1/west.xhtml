@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="west" size="175" collapsible="true">
+        <h:form>
+             <p:panelGrid columns="2" style="margin-left: 7%">
+                 <h:outputText value="rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <p:ajax event="change" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="form_dialog_ewvat_dedra"/>
+                </p:selectOneMenu>
+                <h:outputText value="miesiąc:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{Mce.mceList}"/>
+                    <p:ajax event="change" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="form_dialog_ewvat_dedra"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+        </h:form>
+        <h:form>
+            <p:menu id="menuWest" >
+                <p:submenu label="menu">  
+                    <p:menuitem value="dokumenty" outcome="Dedra" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="deklaracje" outcome="dedradeklaracje" icon="ui-icon-circle-arrow-e" />
+                </p:submenu>  
+            </p:menu>
+        </h:form>
+    </p:layoutUnit>
+</ui:composition>   
+

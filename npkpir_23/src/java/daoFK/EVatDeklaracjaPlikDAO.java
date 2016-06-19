@@ -6,7 +6,7 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.EVatwpisDedra;
+import entityfk.EVatDeklaracjaPlik;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -17,16 +17,18 @@ import view.WpisView;
  *
  * @author Osito
  */
-public class EVatwpisDedraDAO   extends DAO implements Serializable{
+public class EVatDeklaracjaPlikDAO   extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Inject private SessionFacade sessionFacade;
 
-    public EVatwpisDedraDAO() {
-        super(EVatwpisDedra.class);
+    public EVatDeklaracjaPlikDAO() {
+        super(EVatDeklaracjaPlik.class);
     }
-    public List<EVatwpisDedra> findWierszePodatnikMc(WpisView wpisView) {
-        return sessionFacade.getEntityManager().createNamedQuery("EVatwpisDedra.findByPodatnikRokMc").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+
+    public List<EVatDeklaracjaPlik> findDeklaracjePodatnikMc(WpisView wpisView) {
+        return sessionFacade.getEntityManager().createNamedQuery("EVatDeklaracjaPlik.findByPodatnikRok").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
+    
     
 }

@@ -124,6 +124,14 @@ public class Logowanie implements Serializable {
                         return "failure";
                     }
                     navto = "GuestFaktura";
+                } else if (request.isUserInRole("Dedra")) {
+                    String nip = uzDAO.findUzByLogin(uzytkownik).getFirma();
+                    Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
+                    if (p == null) {
+                        Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: " + nip + ", nie istnieje w systemie. Nastąpi wylogowanie");
+                        return "failure";
+                    }
+                    navto = "Dedra";
                 } else if (request.isUserInRole("Noobie")) {
                     navto = "Noobie";
                 }
