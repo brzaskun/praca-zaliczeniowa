@@ -190,7 +190,7 @@
                                           style="width: 30px;"/>
                         </p:column>
                         <p:column headerText="kurs" sortBy="#{loop.kursWalutyBOSW}" width="40">
-                            <bcf:outputkurs value="#{loop.kursWalutyBOSW}" rendered="#{loop.kursWalutyBOSW ne 'PLN'}"/>
+                            <bcf:outputkurs value="#{loop.kursWalutyBOSW}" rendered="#{loop.symbolWalut ne 'PLN'}"/>
                         </p:column>
                         <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania}"/>
@@ -238,10 +238,10 @@
                                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                                         </h:outputText>
                                     </p:column>
-                                    <p:column headerText="kurs" sortBy="#{subwpis.rozliczajacy.kursWalutyBOSW}" width="40" rendered="#{loop.symbolwalut ne 'PLN'}">
+                                    <p:column headerText="kurs" sortBy="#{subwpis.rozliczajacy.kursWalutyBOSW}" width="40" rendered="#{loop.symbolWalut ne 'PLN'}">
                                         <h:outputText value="#{subwpis.rozliczajacy.kursWalutyBOSW}"/>
                                     </p:column>
-                                    <p:column headerText="różnice kurs." rendered="#{loop.symbolwalut ne 'PLN'}">
+                                    <p:column headerText="różnice kurs." rendered="#{loop.symbolWalut ne 'PLN'}">
                                         <h:outputText value="#{subwpis.roznicekursowe}" style="float: right;">
                                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                                         </h:outputText>
@@ -272,7 +272,7 @@
                             <f:selectItem itemLabel="nowe" itemValue="nowe"/>
                             <f:selectItem itemLabel="częściowo" itemValue="częściowo"/>
                             <f:selectItem itemLabel="rozliczone" itemValue="rozliczone"/>
-                            <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
+                            <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                         </p:selectOneMenu>
                     </h:form>
 
