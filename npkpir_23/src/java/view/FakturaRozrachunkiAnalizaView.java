@@ -296,7 +296,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public void korygujsaldo(FakturaPodatnikRozliczenie p) {
         double saldo = p.getSaldo();
         FakturaRozrachunki f = new FakturaRozrachunki();
-        f.setData(Data.aktualnyDzien());
+        f.setData(Data.aktualnaData());
         if (p.isFaktura0rozliczenie1()) {
             szukanyklient = p.getRozliczenie().getKontrahent();
         } else {

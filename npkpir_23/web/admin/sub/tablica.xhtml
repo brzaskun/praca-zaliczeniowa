@@ -8,7 +8,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <p:outputPanel id="wrapper">
-        <p:dataTable  var="wpis" value="#{UzView.obiektUZjsf}" id="uzytkownicyLista" editable="true"
+        <p:dataTable  var="wpis" value="#{UzView.listaUzytkownikow}" id="uzytkownicyLista" editable="true"
                       paginator="true" paginatorAlwaysVisible="true" filteredValue="#{UzView.obiektUZjsfselected}"
                       scrollable="true" scrollHeight="300"
                       rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" selectionMode="single"> 

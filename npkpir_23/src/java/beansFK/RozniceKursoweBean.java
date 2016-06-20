@@ -104,7 +104,7 @@ public class RozniceKursoweBean {
     }
     
     private static String wyliczdatetransakcji(StronaWiersza platnosc) {
-        String zwrot = Data.aktualnyDzien();
+        String zwrot = Data.aktualnaData();
         if (platnosc.getWiersz().getDataWalutyWiersza() != null) {
             String datawiersza;
             if (platnosc.getWiersz().getDataWalutyWiersza().length() == 1) {

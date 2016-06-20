@@ -48,7 +48,7 @@ public class PdfFaktRozrach {
             if (n.getSaldo() > 0) {
                 dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia: "+F.c(n.getSaldo()));
                 dodajLinieOpisu(document, "");
-                dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnyDzien());
+                dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
             }
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";
@@ -77,7 +77,7 @@ public class PdfFaktRozrach {
             if (n.getSaldo() > 0) {
                 dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia: "+F.c(n.getSaldo()));
                 dodajLinieOpisu(document, "");
-                dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnyDzien());
+                dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
             }
             finalizacjaDokumentu(document);
         } else {

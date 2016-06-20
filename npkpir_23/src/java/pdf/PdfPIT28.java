@@ -32,6 +32,7 @@ import javax.ejb.Stateless;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

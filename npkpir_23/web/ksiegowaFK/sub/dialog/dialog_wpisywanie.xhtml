@@ -78,10 +78,20 @@
                             /* ]]> */
                         </script>-->
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
+    <script>
+        var kolornaglowka = function() {
+          var x = $("#dialogpierwszy_title").text();
+          if (x.indexOf("rok") > -1) {
+            $("#dialogpierwszy_title").css({
+                "color": "#b30000"
+            })
+           }
+        };
+    </script>
     <p:dialog id="dialogpierwszy" 
-              header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu} #{planKontView.infozebrakslownikowych}" 
+              header="#{dokfkView.naglowekWpisDokumentu[0]}" 
               widgetVar="wpisywanie" modal="true" appendTo="@(body)" 
-              resizable="false" onShow="wpisywanieOnShow(1160,610);" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
+              resizable="false" onShow="wpisywanieOnShow(1160,610);kolornaglowka();" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
                focus=":formwpisdokument:data2DialogWpisywanie"
               >
         <p:focus for="formwpisdokument">

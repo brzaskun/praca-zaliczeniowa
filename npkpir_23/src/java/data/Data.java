@@ -127,12 +127,24 @@ public class Data implements Serializable {
         return doCompare(rokP, mcP, rokW, mcW);
     }
     
-    public static String aktualnyDzien() {
+    public static String aktualnaData() {
         DateTime dt = new DateTime();
         LocalDate dataRozrachunku = dt.toLocalDate();
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
         String formattedDate = formatter.print(dataRozrachunku);
         return formattedDate;
+    }
+    
+    public static String aktualnyRok() {
+        String zwrot = "błąd";
+        DateTime dt = new DateTime();
+        LocalDate dataRozrachunku = dt.toLocalDate();
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+        String formattedDate = formatter.print(dataRozrachunku);
+        if (formattedDate.length() > 0) {
+            zwrot = formattedDate.split("-")[0];
+        }
+        return zwrot;
     }
     
     public static String[] poprzedniOkres (String mc, String rok) {

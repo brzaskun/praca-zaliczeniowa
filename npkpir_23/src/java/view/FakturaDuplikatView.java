@@ -36,7 +36,7 @@ public class FakturaDuplikatView  implements Serializable {
             Faktura f = gosciwybralokres.get(0);
             FakturaDuplikat duplikat = new FakturaDuplikat();
             duplikat.setDokument(f);
-            duplikat.setDatawystawienia(data.Data.aktualnyDzien());
+            duplikat.setDatawystawienia(data.Data.aktualnaData());
             fakturaDuplikatDAO.dodaj(duplikat);
             f.getDuplikaty().add(duplikat);
             fakturaDAO.edit(f);

@@ -41,6 +41,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import plik.Plik;
 import view.WpisView;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

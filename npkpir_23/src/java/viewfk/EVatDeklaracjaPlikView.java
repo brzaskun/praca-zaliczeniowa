@@ -78,7 +78,7 @@ public class EVatDeklaracjaPlikView  implements Serializable {
         }
         try {
            FileUtils.copyInputStreamToFile(uploadedFile.getInputstream(), newfile);
-           String dzis = Data.aktualnyDzien();
+           String dzis = Data.aktualnaData();
            EVatDeklaracjaPlik e = new EVatDeklaracjaPlik(wpisView, nazwakrotka, dzis);
            eVatDeklaracjaPlikDAO.dodaj(e);
            wiersze.add(e);

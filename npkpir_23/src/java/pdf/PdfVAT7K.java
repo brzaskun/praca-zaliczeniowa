@@ -27,6 +27,7 @@ import javax.ejb.Stateless;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
 import plik.Plik;
+import static pdf.PdfVAT7.absText;
 
 /**
  *

@@ -44,7 +44,7 @@ public class UzView implements Serializable {
 
     //tablica obiektów
 
-    private List<Uz> obiektUZjsf;
+    private List<Uz> listaUzytkownikow;
     private List<Uz> obiektUZjsfselected;
     @Inject
     private UzDAO uzDAO;
@@ -66,22 +66,16 @@ public class UzView implements Serializable {
     private List<DemoWiersz> polademo;
 
     public UzView() {
-        obiektUZjsf = new ArrayList<>();
+        listaUzytkownikow = new ArrayList<>();
         polademo = new ArrayList<>();
     }
 
     @PostConstruct
     public void init() {
-        List<Uz> c = new ArrayList<>();;
-        try {
-            c.addAll(uzDAO.findAll());
-        } catch (Exception e) { E.e(e); 
-        }
-        for (Uz p : c) {
-            obiektUZjsf.add(p);
-        }
+        listaUzytkownikow = uzDAO.findAll();
         selUzytkownik = wpisView.getWprowadzil();
         nowymail = selUzytkownik.getEmail();
+        //potrzebne jako demo przy zmianie kolorków
         polademo.add(new DemoWiersz("1", "pozycja1", "pozycja1a", "pozycja1b"));
         polademo.add(new DemoWiersz("2", "pozycja2", "pozycja2a", "pozycja2b"));
         polademo.add(new DemoWiersz("3", "pozycja3", "pozycja3a", "pozycja3b"));
@@ -196,7 +190,7 @@ public class UzView implements Serializable {
     public void destroy(Uz uzytkownik) {
         try {
             uzDAO.destroy(uzytkownik);
-            obiektUZjsf.remove(uzytkownik);
+            listaUzytkownikow.remove(uzytkownik);
             obiektUZjsfselected.remove(uzytkownik);
             Msg.msg("i", "Usunąłem użytkownika " + uzytkownik.getLogin());
         } catch (Exception e) { 
@@ -332,8 +326,8 @@ public class UzView implements Serializable {
     }
 
     //tabela obiektow
-    public List<Uz> getObiektUZjsf() {
-        return obiektUZjsf;
+    public List<Uz> getListaUzytkownikow() {
+        return listaUzytkownikow;
     }
 
     public UzDAO getUzDAO() {

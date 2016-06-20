@@ -68,6 +68,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.ArrayDataModel;
@@ -90,6 +91,7 @@ import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
+import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
@@ -307,6 +309,23 @@ public class DokfkView implements Serializable {
         zapisz0edytuj1 = false;
         wlaczZapiszButon = true;
         niedodawajkontapole = false;
+    }
+    
+    public String[] getNaglowekWpisDokumentu() {
+        String[] zwrot = new String[2];
+        String text = "Wprowadzanie dokumentu. Podatnik: "+wpisView.getPodatnikWpisu();
+        String css = "";
+        FacesContext context = FacesContext.getCurrentInstance();
+        PlanKontView bean = context.getApplication().evaluateExpressionGet(context, "#{planKontView}", PlanKontView.class);
+        text += bean.getInfozebrakslownikowych();
+        String rokbiezacy = Data.aktualnyRok();
+        if (!wpisView.getRokWpisuSt().equals(rokbiezacy)) {
+            text += " UWAGA: rok odmienny od bieżącego!";
+            css = "color: red;";
+        }
+        zwrot[0] = text;
+        zwrot[1] = css;
+        return zwrot;
     }
 
 //    //dodaje wiersze do dokumentu
@@ -1792,7 +1811,7 @@ public class DokfkView implements Serializable {
                 String data = selected.getDokfkPK().getRok() + "-" + selected.getMiesiac() + "-" + datawiersza;
                 tr.setDatarozrachunku(data);
             } else {
-                tr.setDatarozrachunku(Data.aktualnyDzien());
+                tr.setDatarozrachunku(Data.aktualnaData());
             }
             DokFKTransakcjeBean.wyliczroznicekursowa(tr, tr.getKwotatransakcji());
         }
