@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -30,6 +31,8 @@ private static final long serialVersionUID = 1L;
     private DeklaracjevatDAO deklaracjevatDAO;
     @Inject
     PodatnikDAO podatnikDAO;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
 
     /**
      * Zmienne
@@ -50,8 +53,8 @@ private static final long serialVersionUID = 1L;
             rokdzisiejszy = String.valueOf(c.get(c.YEAR));
             mcdzisiejszy = Mce.getNumberToMiesiac().get(c.get(c.MONTH));
         }
-        deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy, mcdzisiejszy);
-        deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy, mcdzisiejszy);
+        deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy, mcdzisiejszy, wpisView);
+        deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy, mcdzisiejszy, wpisView);
         /**
          * Klienci nie ruszeni zajmuja duzo czasu
          *
@@ -77,6 +80,14 @@ private static final long serialVersionUID = 1L;
       
     public List<String> getDeklaracjeniebezupo() {
         return deklaracjeniebezupo;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
     
     public void setDeklaracjeniebezupo(List<String> deklaracjeniebezupo) {

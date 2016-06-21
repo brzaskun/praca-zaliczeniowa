@@ -12,6 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -104,22 +105,24 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
        return znalezionedeklaracje;
     }
 
-    public List<String> findDeklaracjeDowyslania(String rok, String mc) {
+    public List<String> findDeklaracjeDowyslania(String rok, String mc, WpisView wpisView) {
          List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
          List<String> wynik = new ArrayList<>();
+         String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
          for(Deklaracjevat p :temp){
-            if(p.getIdentyfikator().isEmpty()){
+            if(p.getIdentyfikator().isEmpty() && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
                 wynik.add(p.getPodatnik());
             }
         }
         return wynik;
     }
 
-    public List<String> findDeklaracjeBezupo(String rok, String mc) {
+    public List<String> findDeklaracjeBezupo(String rok, String mc, WpisView wpisView) {
          List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
          List<String> wynik = new ArrayList<>();
+         String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
          for(Deklaracjevat p :temp){
-            if(p.getStatus().startsWith("3")){
+            if(p.getStatus().startsWith("3") && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
                 wynik.add(p.getPodatnik());
             }
         }
