@@ -4,7 +4,9 @@
  */
 package pdf;
 
+import beansPdf.PdfFont;
 import static beansPdf.PdfFont.formatujKurs;
+import static beansPdf.PdfFont.formatujLiczba;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
@@ -177,14 +179,14 @@ public class PdfKontoZapisy {
                 }
                 if (duzy0maly1 == false) {
                     if (rs.getWnma().equals("Wn")) {
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwota()), "right", 9));
+                        table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 9));
                         table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 9));
                         table.addCell(ustawfrazeAlign("", "right", 9));
                         table.addCell(ustawfrazeAlign("", "right", 9));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 9));
                         table.addCell(ustawfrazeAlign("", "right", 9));
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwota()), "right", 9));
+                        table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 9));
                         table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 9));
                     }
                     if (rs.getWiersz().getTabelanbp() == null) {
@@ -194,14 +196,14 @@ public class PdfKontoZapisy {
                     }
                 } else {
                     if (rs.getWnma().equals("Wn")) {
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwota()), "right", 7));
+                        table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 7));
                         table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
                         table.addCell(ustawfrazeAlign("", "right", 7));
                         table.addCell(ustawfrazeAlign("", "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 7));
                         table.addCell(ustawfrazeAlign("", "right", 7));
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwota()), "right", 7));
+                        table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 7));
                         table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
                     }
                     if (rs.getWiersz().getTabelanbp() == null) {
@@ -246,15 +248,15 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfrazeAlign("", "right", 7));
             }
             if (duzy0maly1 == true) {
-                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaWn()), "right", 7));
+                table.addCell(ustawfrazeAlign(formatujLiczba(listasum.get(0).getSumaWn()), "right", 7));
                 table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaWnPLN()), "right", 7));
-                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaMa()), "right", 7));
+                table.addCell(ustawfrazeAlign(formatujLiczba(listasum.get(0).getSumaMa()), "right", 7));
                 table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaMaPLN()), "right", 7));
                 table.addCell(ustawfrazeAlign("", "right", 7));
             } else {
-                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaWn()), "right", 9));
+                table.addCell(ustawfrazeAlign(formatujLiczba(listasum.get(0).getSumaWn()), "right", 9));
                 table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaWnPLN()), "right", 9));
-                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaMa()), "right", 9));
+                table.addCell(ustawfrazeAlign(formatujLiczba(listasum.get(0).getSumaMa()), "right", 9));
                 table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaMaPLN()), "right", 9));
                 table.addCell(ustawfrazeAlign("", "right", 7));
             }
@@ -276,10 +278,10 @@ public class PdfKontoZapisy {
             double saldo = listasum.get(0).getSaldoWn() > 0.0 ? listasum.get(0).getSaldoWn() : listasum.get(0).getSaldoMa();
             if (listasum.get(0).getSaldoWnPLN() > 0) {
                 if (duzy0maly1 == true) {
-                    table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoWn()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujLiczba(listasum.get(0).getSaldoWn()), "right", 7));
                     table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoWnPLN()), "right", 7));
                 } else {
-                    table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoWn()), "right", 9));
+                    table.addCell(ustawfrazeAlign(formatujLiczba(listasum.get(0).getSaldoWn()), "right", 9));
                     table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoWnPLN()), "right", 9));
                 }
             } else {
@@ -288,10 +290,10 @@ public class PdfKontoZapisy {
             }
             if (listasum.get(0).getSaldoMaPLN() > 0) {
                 if (duzy0maly1 == true) {
-                    table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoMa()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujLiczba(listasum.get(0).getSaldoMa()), "right", 7));
                     table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoMaPLN()), "right", 7));
                 } else {
-                    table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoMa()), "right", 9));
+                    table.addCell(ustawfrazeAlign(formatujLiczba(listasum.get(0).getSaldoMa()), "right", 9));
                     table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoMaPLN()), "right", 9));
                 }
             } else {

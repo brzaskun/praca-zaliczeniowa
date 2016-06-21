@@ -138,10 +138,10 @@ public class WalutyViewFK implements Serializable {
         Integer numer = Integer.parseInt(poczatek);
         int nowy = 0;
         String zwrot = null;
-        if (numer < 8) {
+        if (numer < 9) {
             nowy = numer +1;
             zwrot = "00"+nowy+get.getNrtabeli().substring(3);
-        } else if (numer < 98) {
+        } else if (numer < 99) {
             nowy = numer +1;
             zwrot = "0"+nowy+get.getNrtabeli().substring(3);
         } else {
