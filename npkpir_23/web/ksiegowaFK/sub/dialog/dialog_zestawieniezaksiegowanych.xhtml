@@ -195,7 +195,7 @@
                                      actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
                                      accesskey="q" styleClass="fkbutton" 
                                      update=":formwpisdokument" onclick="schowajeditbutton(#{row})" 
-                                     rendered="#{!item.wTrakcieEdycji and item.dataksiegowania eq null}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
+                                     rendered="#{item.dataksiegowania eq null}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;">
                     <p:commandButton actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="fa fa-trash-o" 

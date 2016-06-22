@@ -143,7 +143,6 @@ public class BilansPodgladView  implements Serializable{
     }  
     
     public void drukuj() {
-        System.out.println("");
         if (selectednodes != null && selectednodes.length > 0) {
             List<Konto> w = new ArrayList<Konto>();
             for (TreeNode p : selectednodes) {
@@ -155,7 +154,6 @@ public class BilansPodgladView  implements Serializable{
                     w.addAll(tmp);
                 }
             }
-            System.out.println("1");
             if (sortujwgwartosci) {
                 sortujliste(w);
             }
@@ -164,7 +162,6 @@ public class BilansPodgladView  implements Serializable{
         } else {
             List<Konto> w = new ArrayList<Konto>();
             root.getChildrenTree(new ArrayList<TreeNodeExtended>(), w);
-            System.out.println("2");
             if (sortujwgwartosci) {
                 sortujliste(w);
             }
@@ -176,7 +173,6 @@ public class BilansPodgladView  implements Serializable{
    
     
     public void drukujAnal(boolean analityka) {
-        System.out.println("");
         if (selectednodes != null && selectednodes.length > 0) {
             List<Konto> w = new ArrayList<Konto>();
             for (TreeNode p : selectednodes) {
@@ -190,7 +186,6 @@ public class BilansPodgladView  implements Serializable{
             }
             modyfikujlistedowydruku(analityka, w);
             dodajwierszsumy(w);
-            System.out.println("1");
             if (sortujwgwartosci) {
                 sortujliste(w);
             }
@@ -200,7 +195,6 @@ public class BilansPodgladView  implements Serializable{
             root.getChildrenTree(new ArrayList<TreeNodeExtended>(), w);
             modyfikujlistedowydruku(analityka, w);
             dodajwierszsumy(w);
-            System.out.println("2");
             if (sortujwgwartosci) {
                 sortujliste(w);
             }

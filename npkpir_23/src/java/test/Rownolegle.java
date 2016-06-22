@@ -50,7 +50,14 @@ public class Rownolegle extends Thread {
 //            System.out.println("dodane "+p.getNazwapelna());
 //        }
     }
-    
+      private static List<Integer> zrobliste() {
+        List<Integer> l = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            l.add(new Integer(i+i*3/5));
+        }
+        return l;
+    }
+      
     
      public static void main(String[] args) throws Exception  {
         EntityManager em = Em.getEm();

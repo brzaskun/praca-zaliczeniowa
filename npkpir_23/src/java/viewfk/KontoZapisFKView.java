@@ -713,9 +713,6 @@ public class KontoZapisFKView implements Serializable{
         try {
             for (Iterator<StronaWiersza> it = kontozapisy.iterator(); it.hasNext(); ) {
                 StronaWiersza sw = it.next();
-                if (sw.getWiersz().getOpisWiersza().contains("zapis BO")) {
-                    System.out.println("d");
-                }
                 if (Z.z(sw.getPozostalo()) == 0.0 || sw.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
                     it.remove();
                 }
