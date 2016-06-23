@@ -47,6 +47,10 @@
                             <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%;">
                                 <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                             </p:commandButton>
+<!--                            <h:outputText value="suma netto "/>
+                            <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'n')}"/>
+                            <h:outputText value="suma vat "/>
+                            <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'v')}"/>-->
                             <p:separator/>
                             <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1150px; margin-bottom: 30px; height: 500px;"
                                          rowKey="#{itemik.id}" selection="#{ewidencjaVatView.wybranewierszeewidencji}" 

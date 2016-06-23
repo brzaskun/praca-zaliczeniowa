@@ -565,6 +565,23 @@ public class EwidencjaVatView implements Serializable {
             listaewidencji.get(p).add(wiersz);
         }
     }
+    
+    private EVatViewPola dodajsumyDoEwidencji(double netto, double vat) {
+        EVatViewPola wiersz = new EVatViewPola();
+        wiersz.setId(9999);
+        wiersz.setDataSprz("");
+        wiersz.setDataWyst("");
+        wiersz.setKontr(null);
+        wiersz.setNrWlDk("");
+        wiersz.setOpis("podsumowanie");
+        wiersz.setNazwaewidencji(null);
+        wiersz.setNrpolanetto("");
+        wiersz.setNrpolavat("");
+        wiersz.setNetto(netto);
+        wiersz.setVat(vat);
+        wiersz.setOpizw("");
+        return wiersz;
+    }
 
     public String przekierowanieEwidencji() {
         return "/ksiegowa/ksiegowaVATzest.xhtml?faces-redirect=true";
@@ -803,6 +820,9 @@ public class EwidencjaVatView implements Serializable {
     public void drukujPdfEwidencje(String nazwaewidencji) {
         try {
             if (zachowanewybranewierszeewidencji != null && zachowanewybranewierszeewidencji.size() > 0) {
+                if (zachowanewybranewierszeewidencji.size() > 1) {
+                    podsumujwybranewierszeprzedwydrukiem(zachowanewybranewierszeewidencji);
+                }
                 PdfVAT.drukujewidencjeWybrane(wpisView, ewidencjeVatDAO, nazwaewidencji, false, zachowanewybranewierszeewidencji);
             } else {
                 PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO, nazwaewidencji, false);
@@ -814,6 +834,9 @@ public class EwidencjaVatView implements Serializable {
     public void drukujPdfEwidencjeWartosc(String nazwaewidencji) {
         try {
             if (zachowanewybranewierszeewidencji != null && zachowanewybranewierszeewidencji.size() > 0) {
+                if (zachowanewybranewierszeewidencji.size() > 1) {
+                    podsumujwybranewierszeprzedwydrukiem(zachowanewybranewierszeewidencji);
+                }
                 PdfVAT.drukujewidencjeWybrane(wpisView, ewidencjeVatDAO, nazwaewidencji, true, zachowanewybranewierszeewidencji);
             } else {
                 PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO, nazwaewidencji, true);
@@ -821,6 +844,16 @@ public class EwidencjaVatView implements Serializable {
         } catch (Exception e) { E.e(e); 
 
         }
+    }
+    
+    private void podsumujwybranewierszeprzedwydrukiem(List<EVatViewPola> zachowanewybranewierszeewidencji) {
+        double netto = 0.0;
+        double vat = 0.0;
+        for (EVatViewPola p : zachowanewybranewierszeewidencji) {
+            netto += p.getNetto();
+            vat += p.getVat();
+        }
+        zachowanewybranewierszeewidencji.add(dodajsumyDoEwidencji(Z.z(netto), Z.z(vat)));
     }
     
     public void drukujPdfWszystkie() {
@@ -1232,6 +1265,8 @@ public class EwidencjaVatView implements Serializable {
     private void tlumaczewidencje(List<EVatViewPola> l) {
         
     }
+
+    
 
     
 }

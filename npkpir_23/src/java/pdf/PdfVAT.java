@@ -183,9 +183,9 @@ public class PdfVAT {
                     Integer i = 1;
                     for (EVatViewPola rs : ew) {
                         if (p.equals("zakup")) {
-                            if (rs.getVat() != 0) {
+                            //if (rs.getVat() != 0) {
                                 dodajwiersztabeli(table, rs, i);
-                            }
+                            //}
                         } else {
                             dodajwiersztabeli(table, rs, i);
                         }
@@ -332,9 +332,9 @@ public class PdfVAT {
                     Integer i = 1;
                     for (EVatViewPola rs : wybranewierszeewidencji) {
                         if (p.equals("zakup")) {
-                            if (rs.getVat() != 0) {
+                            //if (rs.getVat() != 0) {
                                 dodajwiersztabeli(table, rs, i);
-                            }
+                            //}
                         } else {
                             dodajwiersztabeli(table, rs, i);
                         }
