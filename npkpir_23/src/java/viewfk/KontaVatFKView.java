@@ -32,6 +32,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -453,27 +454,29 @@ public class KontaVatFKView implements Serializable {
         int idporzadkowy = 1;
         dodajzaokraglenia(kontavat);
         for (SaldoKonto p : kontavat) {
-            Wiersz w = new Wiersz(idporzadkowy++, 0);
-            uzupelnijwiersz(w, nd);
-            String opiswiersza = "przeksięg. konto: "+p.getKonto().getPelnynumer();
-            w.setOpisWiersza(opiswiersza);
-            Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-            if (p.getSaldoWn() != 0.0) {
-                StronaWiersza wn = new StronaWiersza(w, "Wn", p.getSaldoWn(), kontoRozrachunkizUS);
-                wn.setKwotaPLN(p.getSaldoWn());
-                StronaWiersza ma = new StronaWiersza(w, "Ma", p.getSaldoWn(), p.getKonto());
-                ma.setKwotaPLN(p.getSaldoWn());
-                w.setStronaWn(wn);
-                w.setStronaMa(ma);
-            } else {
-                StronaWiersza wn = new StronaWiersza(w, "Wn", p.getSaldoMa(), p.getKonto());
-                wn.setKwotaPLN(p.getSaldoMa());
-                StronaWiersza ma = new StronaWiersza(w, "Ma", p.getSaldoMa(), kontoRozrachunkizUS);
-                ma.setKwotaPLN(p.getSaldoMa());
-                w.setStronaWn(wn);
-                w.setStronaMa(ma);
+            if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
+                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                uzupelnijwiersz(w, nd);
+                String opiswiersza = "przeksięg. konto: "+p.getKonto().getPelnynumer();
+                w.setOpisWiersza(opiswiersza);
+                Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                if (p.getSaldoWn() != 0.0) {
+                    StronaWiersza wn = new StronaWiersza(w, "Wn", p.getSaldoWn(), kontoRozrachunkizUS);
+                    wn.setKwotaPLN(p.getSaldoWn());
+                    StronaWiersza ma = new StronaWiersza(w, "Ma", p.getSaldoWn(), p.getKonto());
+                    ma.setKwotaPLN(p.getSaldoWn());
+                    w.setStronaWn(wn);
+                    w.setStronaMa(ma);
+                } else {
+                    StronaWiersza wn = new StronaWiersza(w, "Wn", p.getSaldoMa(), p.getKonto());
+                    wn.setKwotaPLN(p.getSaldoMa());
+                    StronaWiersza ma = new StronaWiersza(w, "Ma", p.getSaldoMa(), kontoRozrachunkizUS);
+                    ma.setKwotaPLN(p.getSaldoMa());
+                    w.setStronaWn(wn);
+                    w.setStronaMa(ma);
+                }
+                nd.getListawierszy().add(w);
             }
-            nd.getListawierszy().add(w);
         }
     }
 

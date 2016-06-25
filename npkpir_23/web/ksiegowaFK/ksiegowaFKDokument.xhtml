@@ -26,9 +26,8 @@
                 </h:form>
             </p:confirmDialog> 
             <bcf:confirm lp="2" wiadomosc="Dodać rozliczenie rmk?" listenerPresent="true" listener="#{rMKView.dodajRMK()}" closeDialog="dialogwpisrmk"/>
-<!--            <bcf:confirm lp="3" wiadomosc="Usunąć dokument #{dokfkView.dokumentdousuniecia.dokfkPK.toString2()} #{dokfkView.dokumentdousuniecia.numerwlasnydokfk} #{dokfkView.dokumentdousuniecia.kontr.npelna}" listenerPresent="true" listener="#{dokfkView.usundokument()}" update=":zestawieniedokumentow:dataList"/>-->
             <p:confirmDialog id="confirmDialog3" 
-                             message="Usunąć dokument #{dokfkView.dokumentdousuniecia.dokfkPK.toString2()} #{dokfkView.dokumentdousuniecia.numerwlasnydokfk} #{dokfkView.dokumentdousuniecia.kontr.npelna}"  
+                             message="Usunąć dokument #{dokfkView.dokumentdousuniecia.opisDokfkUsun}"  
                              header="Usuwanie dok" severity="alert" widgetVar="confirm3" width="500" appendTo="@(zestawieniezaksiegowanych)" 
                              >
                 <h:form>

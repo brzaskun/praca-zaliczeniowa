@@ -619,6 +619,10 @@ public class Dokfk implements Serializable {
         }
         return ew;
     }
+    
+    public String getOpisDokfkUsun() {
+        return this.dokfkPK.toString2()+" "+this.numerwlasnydokfk+" "+this.kontr.getNpelna();
+    }
 
     public String getMcRok() {
         return this.miesiac + "/" + this.dokfkPK.getRok();

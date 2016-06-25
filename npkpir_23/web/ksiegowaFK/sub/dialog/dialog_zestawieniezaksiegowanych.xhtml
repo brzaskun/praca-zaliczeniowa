@@ -19,7 +19,7 @@
         }
     </style>
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanych" 
-              dynamic="true" maximizable="true"
+              dynamic="true" maximizable="true" 
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1500, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -122,7 +122,7 @@
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
                          style="width: 1460px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}" 
-                         emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
+                         emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane" rowSelectMode="add"
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
@@ -131,8 +131,8 @@
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="zestawieniedokumentow:sumawybranych"/>
                 <p:ajax event="rowToggle" global="false"/>
                 <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
-                <p:column width="10" style="height: 40px; text-align: center;" >
-                    <p:rowToggler rendered="#{item.ewidencjaVAT.size() gt 0}"/>
+                <p:column styleClass="kolwi" width="10" style="height: 40px; text-align: center;" >
+                    <p:rowToggler rendered="#{item.ewidencjaVAT.size() gt 0}" id="roe"/>
                 </p:column>
                 <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
                     <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
@@ -169,7 +169,7 @@
                 <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
                 </p:column>
-                <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="35" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                <p:column headerText="#{mgs.VAT}" width="35" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
                     <h:outputText value="#{item.vatM}" style="color: #{item.vatM ne item.miesiac ? 'red' : null}"/>
                 </p:column>
                 <p:column headerText="wzór" width="30" sortBy="#{item.wzorzec}" style="text-align: center; #{item.wzorzec eq true ? 'color: red;' : null}">
@@ -194,7 +194,6 @@
                     <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o"
                                      actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
                                      accesskey="q" styleClass="fkbutton" 
-                                     update=":formwpisdokument" onclick="schowajeditbutton(#{row})" 
                                      rendered="#{item.dataksiegowania eq null}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;">

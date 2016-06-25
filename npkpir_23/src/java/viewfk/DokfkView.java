@@ -93,6 +93,8 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *
@@ -1298,6 +1300,7 @@ public class DokfkView implements Serializable {
 //                    DialogWpisywanie.rozliczsalda(selected, saldoBO, saldoinnedok, kontorozrachunkowe);
 //                    System.out.println("Udane obliczenie salda");
 //                }
+                RequestContext.getCurrentInstance().update("formwpisdokument");
             }
         } catch (Exception e) {
             E.e(e);
