@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="zapisy" header="Zapisy na kontach firmA - #{WpisView.podatnikWpisu}" widgetVar="zapisynakoncie"  dynamic="true" modal="true" appendTo="@(body)"
+    <p:dialog id="zapisy" header="Zapisy na kontach firma - #{WpisView.podatnikWpisu}" widgetVar="zapisynakoncie"  dynamic="true" modal="true" appendTo="@(body)"
               resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1630,780);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true"
               >
@@ -96,6 +96,18 @@
                         });
                         /* ]]> */
                     </script>
+                    <p:remoteCommand name="reversetoggle" actionListener="#{kontoZapisFKView.reversetoggle}" 
+                                     update="tabelazzapisami:tabela tabelazsumami:sumy" oncomplete="fwiersz();" global="false"/>
+                       <script>
+                        var fwiersz = function() {
+                            $(".ui-chkbox-all span").click(function(event) {
+                                reversetoggle();
+                                event.stopPropagation();
+                                event.preventDefault();
+                                event.cancelBubble();
+                            });
+                        };
+                    </script>
                     <p:outputPanel id="kontenertabeli">
                           <style>
                                 .gridzap .ui-widget-content .ui-datatable-odd td{
@@ -120,7 +132,8 @@
                                      styleClass="gridzap" style="width: 100%; height: 520px; overflow-y: scroll;" 
                                      sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" >
                             <p:ajax event="rowSelect" global="false" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
-                                    listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" />
+                                    listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" 
+                                    oncomplete="fwiersz();"/>
                             <p:ajax event="rowUnselect" global="false" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
                             <p:column width="0.1">
@@ -158,15 +171,16 @@
                          <p:menuitem value="pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();" actionListener="#{dokfkView.edycjazapis()}"/>
                      </p:contextMenu>
                     <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>
+                 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1190px; height: 550px; overflow-y: scroll;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1zap" rowSelectMode="add"
                                  >
-                        <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false" />
-                        <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false" oncomplete="odswietlrozrachunki()"/>
-                        <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
+                        <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" />
+                        <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" oncomplete="odswietlrozrachunki()"/>
+                        <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
                         <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>
                         <p:ajax event="rowSelectCheckbox" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania)}" 
                             update=":formwpisdokument, :zestawieniezapisownakontachpola"/>

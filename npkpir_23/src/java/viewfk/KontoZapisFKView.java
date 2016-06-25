@@ -35,9 +35,15 @@ import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.ToggleSelectEvent;
 import org.primefaces.model.TreeNode;
 import pdf.PdfKontoZapisy;
 import view.WpisView;
@@ -310,8 +316,30 @@ public class KontoZapisFKView implements Serializable{
             System.out.println("odnalazlem pobierzZapisyNaKoncie() kontoZapisFKView");
         }
     }
+    public void reversetoggle(ActionEvent e) {
+        DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("tabelazzapisami:tabela");
+        List<Object> sel = (List<Object>) d.getSelection();
+        List<StronaWiersza> ko = new ArrayList<>();
+        ko.addAll(kontozapisy);
+        for (Iterator it = sel.iterator(); it.hasNext();) {
+            StronaWiersza n = (StronaWiersza) it.next();
+            if (ko.contains(n)) {
+                ko.remove(n);
+            }
+        }
+        wybranekontadosumowania = new ArrayList<>();
+        wybranekontadosumowania.addAll(ko);
+        sumazapisowtotal();
+    } 
     
    
+   public void sumazapisowtotal2(AjaxBehaviorEvent e) {
+        DataTable d = (DataTable) e.getSource();
+        //Msg.msg("numer "+d.getSelection());
+        sumazapisow();
+        sumazapisowpln();
+        odszukajsparowanerozrachunki();
+    }
     
     public void sumazapisowtotal() {
         sumazapisow();
