@@ -14,29 +14,28 @@
             <f:facet name="header">
                 <h:outputText value="#{mgs['guest.mcrok.header']}" style="display: block; text-align: center"/>
             </f:facet>
-            <p:dataTable id="tablicanews" value="#{adminNews.newslist}" var="loop" rowKey="#{loop.id}" resizableColumns="true" >
+<!--            <p:dataTable id="tablicanews" value="#{adminNews.newslist}" var="loop" rowKey="#{loop.id}" resizableColumns="true" >
             <p:column headerText="#{mgs['login.news']}">
                 <h:outputText value="#{loop.tresc}"/>
             </p:column>
-        </p:dataTable>
+        </p:dataTable>-->
             <br/>
             <p:panelGrid columns="1"  >
                 <p:column >
-                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 572px;">
+                    <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 572px;">
                         <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                    </p:selectOneMenu>
+                    </p:selectOneListbox>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="3" style="float: right;">
                 <p:column>
                     <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="float: right;">
                         <f:selectItems value="#{Roki.rokiList}"/>
-                        <f:param name="rokWpisu" value="2012" />
                     </p:selectOneMenu>
                 </p:column>
                 <p:column >
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="float: right;">
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{Mce.mceListOdKonca}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column >
@@ -72,7 +71,7 @@
                 <h:outputText value="tu bed amoje ustawienia" id="dokumentyLista"/>
             </h:outputLink>-->
           </p:panel>
-        <p:panel style="margin-top: 5px; margin-left: 40%; width: 400px">
+        <p:panel style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 600px">
             <f:facet name="footer" >
                 <h:outputText style="display: block; text-align: center; color: red;" value="#{mgs['guest.mcrok.uwaga']}"/>
             </f:facet>
