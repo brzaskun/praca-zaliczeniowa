@@ -98,13 +98,27 @@
                     </script>
                     <p:remoteCommand name="reversetoggle" actionListener="#{kontoZapisFKView.reversetoggle}" 
                                      update="tabelazzapisami:tabela tabelazsumami:sumy" oncomplete="fwiersz();" global="false"/>
+                    <p:remoteCommand name="toggleall" actionListener="#{kontoZapisFKView.toggleAll}" 
+                                     update="tabelazzapisami:tabela tabelazsumami:sumy" oncomplete="fwiersz();" global="false"/>
                        <script>
                         var fwiersz = function() {
                             $(".ui-chkbox-all span").click(function(event) {
+                                console.log("single")
                                 reversetoggle();
-                                event.stopPropagation();
-                                event.preventDefault();
-                                event.cancelBubble();
+                                try {
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    event.cancelBubble();
+                                } catch (e) {}
+                            });
+                            $(".ui-chkbox-all span").dblclick(function(event) {
+                                console.log("doble")
+                                toggleall();
+                                try {
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    event.cancelBubble();
+                                } catch (e) {}
                             });
                         };
                     </script>

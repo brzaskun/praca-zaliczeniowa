@@ -332,6 +332,20 @@ public class KontoZapisFKView implements Serializable{
         sumazapisowtotal();
     } 
     
+    public void toggleAll(ActionEvent e) {
+        DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("tabelazzapisami:tabela");
+        List<Object> sel = (List<Object>) d.getSelection();
+        int selsize = sel.size();
+        int kontosize = kontozapisy.size();
+        if (selsize==kontosize) {
+            wybranekontadosumowania = new ArrayList<>();
+        } else {
+            wybranekontadosumowania = new ArrayList<>();
+            wybranekontadosumowania.addAll(kontozapisy);
+        }
+        sumazapisowtotal();
+    } 
+    
    
    public void sumazapisowtotal2(AjaxBehaviorEvent e) {
         DataTable d = (DataTable) e.getSource();
