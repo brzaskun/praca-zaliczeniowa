@@ -17,6 +17,7 @@ import session.SessionFacade;
 /**
  *
  * @author Osito
+ * @param <T>
  */
 public abstract class DAO<T> {
 

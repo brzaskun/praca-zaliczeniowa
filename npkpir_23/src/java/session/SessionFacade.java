@@ -1808,4 +1808,8 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("WierszBO.findByDeletePodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
     }
 
+    public void statystykaUsunrok(String rok) {
+        em.createNamedQuery("Statystyka.findUsunRok").setParameter("rok", rok).executeUpdate();
+    }
+
 }

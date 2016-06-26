@@ -5,6 +5,7 @@
  */
 package beanStatystyka;
 
+import entity.Statystyka;
 import dao.DokDAO;
 import dao.FakturaDAO;
 import entity.Dok;

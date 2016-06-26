@@ -27,8 +27,12 @@
             <to-view-id>/admin/adminPismoadmin.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>adminstatystykauproszczona</from-outcome>
-            <to-view-id>/admin/adminStatystykaUproszczona.xhtml?faces-redirect=true</to-view-id>
+            <from-outcome>adminstatystykakalkulacja</from-outcome>
+            <to-view-id>/admin/adminStatystykaKalkulacja.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>adminstatystykaobroty</from-outcome>
+            <to-view-id>/admin/adminStatystykaObroty.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>adminstatystyka</from-outcome>

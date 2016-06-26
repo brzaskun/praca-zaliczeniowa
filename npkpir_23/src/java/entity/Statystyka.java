@@ -3,26 +3,64 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package beanStatystyka;
+package entity;
 
 import entity.Podatnik;
+import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlRootElement;
 import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-public class Statystyka {
+@Entity
+@Table(name = "statystyka", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"podatnik", "rok"})
+})
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Statystyka.findAll", query = "SELECT e FROM Statystyka e"),
+    @NamedQuery(name = "Statystyka.findUsunRok", query = "DELETE FROM Statystyka e WHERE e.rok = :rok")
+})
+public class Statystyka  implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "lp")
     private int lp;
+    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @ManyToOne
     private Podatnik podatnik;
+    @Column(name = "rok")
     private String rok;
+    @Column(name = "iloscdokumentow")
     private int iloscdokumentow;
+    @Column(name = "obroty")
     private double obroty;
+    @Column(name = "iloscfaktur")
     private int iloscfaktur;
+    @Column(name = "kwotafaktur")
     private double kwotafaktur;
+    @Column(name = "fakturaNaObroty")
     private double fakturaNaObroty;
+    @Column(name = "fakturaNaDokumenty")
     private double fakturaNaDokumenty;
+    @Column(name = "ranking")
     private double ranking;
 
     public Statystyka() {

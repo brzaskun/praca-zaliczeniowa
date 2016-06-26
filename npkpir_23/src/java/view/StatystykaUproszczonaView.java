@@ -5,17 +5,16 @@
  */
 package view;
 
-import beanStatystyka.Statystyka;
+import entity.Statystyka;
 import beanStatystyka.StatystykaBean;
 import beanStatystyka.StatystykaBeanFK;
 import dao.DokDAO;
 import dao.FakturaDAO;
 import dao.PodatnikDAO;
+import dao.StatystykaDAO;
 import daoFK.DokDAOfk;
-import entity.Dok;
-import entity.Faktura;
 import entity.Podatnik;
-import entityfk.Dokfk;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +35,7 @@ import waluty.Z;
 public class StatystykaUproszczonaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Statystyka> podatnikroklista;
+    private List<Statystyka> listadozachowania;
     private String rok;
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -45,9 +45,12 @@ public class StatystykaUproszczonaView  implements Serializable {
     private DokDAOfk dokDAOfk;
     @Inject
     private FakturaDAO fakturaDAO;
+    @Inject
+    private StatystykaDAO statystykaDAO;
 
     public StatystykaUproszczonaView() {
         podatnikroklista = new ArrayList<>();
+        listadozachowania = new ArrayList<>();
         rok = "2016";
     }
     
@@ -55,7 +58,11 @@ public class StatystykaUproszczonaView  implements Serializable {
         List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
         List<Podatnik> podatnicyFK = podatnikDAO.findPodatnikFK();
         podatnikroklista = stworzliste(podatnicy);
-        podatnikroklista.addAll(stworzlistefk(podatnicyFK));
+        if (Integer.parseInt(rok) > 2014) {
+            podatnikroklista.addAll(stworzlistefk(podatnicyFK));
+        }
+        listadozachowania = new ArrayList<>();
+        listadozachowania.addAll(podatnikroklista);
         podatnikroklista.add(dodajsume(podatnikroklista));
         Msg.msg("Pobrano statystyki");
     }
@@ -114,6 +121,19 @@ public class StatystykaUproszczonaView  implements Serializable {
         s.setRanking(ranking);
         s.setRok("podsum");
         return s;
+    }
+    
+    public void zaksieguj() {
+        if (!listadozachowania.isEmpty()) {
+            try {
+                statystykaDAO.usunrok(rok);
+                statystykaDAO.dodaj(listadozachowania);
+                Msg.msg("Zaksięgowano zapisy za rok");
+            } catch (Exception e) {
+                Msg.msg("Wystąpił błąd nie zaksięgowano podumowania za rok");
+                E.e(e);
+            }
+        }
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">    
