@@ -25,7 +25,6 @@ import javax.inject.Inject;
 @ManagedBean
 @ViewScoped
 public class PodatnikWyborView implements Serializable {
-    
     private static final long serialVersionUID = 1L;
     @Inject
     private PodatnikDAO podatnikDAO;

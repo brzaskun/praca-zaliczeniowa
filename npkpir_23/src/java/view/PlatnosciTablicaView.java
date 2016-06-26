@@ -44,7 +44,7 @@ import javax.servlet.http.HttpSession;
 @ManagedBean
 @ViewScoped
 public class PlatnosciTablicaView implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     List<Platnosci> lista;
     @Inject
     PlatnosciDAO platnosciDAO;

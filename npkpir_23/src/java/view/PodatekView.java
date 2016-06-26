@@ -35,6 +35,7 @@ import msg.Msg;
 @ManagedBean(name="PodatekView")
 @RequestScoped
 public class PodatekView implements Serializable{
+    private static final long serialVersionUID = 1L;
     @ManagedProperty(value="#{DokTabView.obiektDOKmrjsfSel}")
     private ArrayList<Dok> oDOK;
     @Inject

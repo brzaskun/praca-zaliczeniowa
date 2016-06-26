@@ -1,0 +1,81 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PL" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:panelGrid columns="2">
+        <p:commandButton value="pobierz" actionListener="#{statystykaUproszczonaView.pobierz}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
+        <p:selectOneMenu id="rokWpisu" value="#{statystykaUproszczonaView.rok}" style="width: 120px; margin-left: 10px;">
+            <p:ajax event="change" partialSubmit="true" global="false"/>
+            <f:selectItems value="#{Roki.rokiList}"/>
+        </p:selectOneMenu>
+    </p:panelGrid>
+    <p:dataTable value="#{statystykaUproszczonaView.podatnikroklista}" var="item" id="datatable" style="width: 1100px; padding: 10px;"
+                 sortBy="#{item.ranking}" sortOrder="descending" rowIndexVar="index">
+        <p:column style="width: 20px;">
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:outputText value="#{index+1}"/>
+        </p:column>
+        <p:column style="width: 300px;">
+            <f:facet name="header">
+                <h:outputText value="podatnik"/>
+            </f:facet>
+            <h:outputText value="#{item.podatnik.nazwapelna}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="rok"/>
+            </f:facet>
+            <h:outputText value="#{item.rok}"/>
+        </p:column>
+        <p:column sortBy="#{item.iloscdokumentow}" style="width: 50px;">
+            <f:facet name="header">
+                <h:outputText value="ilosc dok."/>
+            </f:facet>
+            <h:outputText value="#{item.iloscdokumentow}"/>
+        </p:column>
+        <p:column sortBy="#{item.obroty}" style="width: 90px;">
+            <f:facet name="header">
+                <h:outputText value="obroty"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.obroty}"/>
+        </p:column>
+        <p:column sortBy="#{item.iloscfaktur}" style="width: 50px;">
+            <f:facet name="header">
+                <h:outputText value="ilosc faktur"/>
+            </f:facet>
+            <h:outputText value="#{item.iloscfaktur}"/>
+        </p:column>
+        <p:column sortBy="#{item.kwotafaktur}">
+            <f:facet name="header">
+                <h:outputText value="kwota faktur"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.kwotafaktur}"/>
+        </p:column>
+        <p:column sortBy="#{item.fakturaNaObroty}">
+            <f:facet name="header">
+                <h:outputText value="fakt/obrot gr"/>
+            </f:facet>
+            <bcf:outputkurs value="#{item.fakturaNaObroty}"/>
+        </p:column>
+        <p:column sortBy="#{item.fakturaNaDokumenty}">
+            <f:facet name="header">
+                <h:outputText value="fakt/dok zł"/>
+            </f:facet>
+            <bcf:outputkurs value="#{item.fakturaNaDokumenty}"/>
+        </p:column>
+        <p:column sortBy="#{item.ranking}">
+            <f:facet name="header">
+                <h:outputText value="rank"/>
+            </f:facet>
+            <bcf:outputkurs value="#{item.ranking}"/>
+        </p:column>
+    </p:dataTable>
+</ui:composition>   

@@ -25,6 +25,7 @@ import javax.inject.Inject;
 @ManagedBean
 @RequestScoped
 public class PodStawkiView implements Serializable{
+    private static final long serialVersionUID = 1L;
     @Inject
     private PodStawkiDAO podStawkiDAO;
     @Inject

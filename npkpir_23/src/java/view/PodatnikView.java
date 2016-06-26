@@ -53,6 +53,7 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class PodatnikView implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String nazwaWybranegoPodatnika;
     @Inject
     private PodatnikDAO podatnikDAO;

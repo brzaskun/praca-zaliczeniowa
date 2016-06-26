@@ -26,7 +26,11 @@
             <from-outcome>pismoadminobrobka</from-outcome>
             <to-view-id>/admin/adminPismoadmin.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-         <navigation-case>
+        <navigation-case>
+            <from-outcome>adminstatystykauproszczona</from-outcome>
+            <to-view-id>/admin/adminStatystykaUproszczona.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>adminstatystyka</from-outcome>
             <to-view-id>/admin/adminStatystyka.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

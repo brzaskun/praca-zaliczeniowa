@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.primefaces.context.RequestContext;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
+import waluty.Z;
 
 /**
  *
@@ -841,5 +842,9 @@ public class Dokfk implements Serializable {
             }
         }
         return false;
+    }
+    
+    public double getWartoscdokumentuPLN() {
+        return Z.z(this.wartoscdokumentu*this.getTabelanbp().getKurssredniPrzelicznik());
     }
 }
