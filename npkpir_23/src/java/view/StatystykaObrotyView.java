@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanStatystyka.StatystykaExt;
 import comparator.Podatnikcomparator;
 import dao.PodatnikDAO;
 import dao.StatystykaDAO;
@@ -22,6 +23,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import waluty.Z;
 
 /**
  *
@@ -36,8 +38,10 @@ public class StatystykaObrotyView implements Serializable {
     @Inject
     private StatystykaDAO statystykaDAO;
     private List<Podatnik> podatnicy;
-    private List<Statystyka> stats = new ArrayList<>();
+    private List<Statystyka> stats;
+    private List<StatystykaExt> statssymulacja;
     private Podatnik wybranypodatnik;
+    private double oczekiwanywspolczynnik;
     
     @PostConstruct
     private void init() {
@@ -48,9 +52,33 @@ public class StatystykaObrotyView implements Serializable {
     public void pobierz() {
         if (wybranypodatnik != null) {
             stats = statystykaDAO.findByPodatnik(wybranypodatnik);
+            statssymulacja = new ArrayList<>();
+            for (Statystyka p : stats) {
+                statssymulacja.add(new StatystykaExt(0.0, 0.0, 0.0, p));
+            }
+            przelicz();
             Msg.msg("Pobrano dane dla podatnika");
         } else {
             Msg.msg("e","Nie wybrano podatnika");
+        }
+    }
+    
+    public void przelicz() {
+        if (wybranypodatnik != null && oczekiwanywspolczynnik > 0.0) {
+            for (StatystykaExt p : statssymulacja) {
+                double fakturarok = Z.z0(p.getKwotafaktur()*oczekiwanywspolczynnik/p.getRanking());
+                if (p.getPodatnik().getFirmafk()==0) {
+                    fakturarok = fakturarok*.75;
+                }
+                double fakturamc = fakturarok/p.getIloscfaktur();
+                double fakturaobecnie = p.getKwotafaktur()/p.getIloscfaktur();
+                p.setWspolczynnik(oczekiwanywspolczynnik);
+                p.setFakturaobecnie(fakturaobecnie);
+                p.setFakturanowa(fakturamc);
+            }
+            Msg.msg("Naliczono dane dla podatnika");
+        } else {
+            Msg.msg("e","Nie naliczono danych dla podatnika");
         }
     }
 
@@ -76,6 +104,22 @@ public class StatystykaObrotyView implements Serializable {
 
     public void setWybranypodatnik(Podatnik wybranypodatnik) {
         this.wybranypodatnik = wybranypodatnik;
+    }
+
+    public double getOczekiwanywspolczynnik() {
+        return oczekiwanywspolczynnik;
+    }
+
+    public void setOczekiwanywspolczynnik(double oczekiwanywspolczynnik) {
+        this.oczekiwanywspolczynnik = oczekiwanywspolczynnik;
+    }
+
+    public List<StatystykaExt> getStatssymulacja() {
+        return statssymulacja;
+    }
+
+    public void setStatssymulacja(List<StatystykaExt> statssymulacja) {
+        this.statssymulacja = statssymulacja;
     }
     
     

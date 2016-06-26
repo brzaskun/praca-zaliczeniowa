@@ -36,4 +36,7 @@ public class StatystykaDAO  extends DAO implements Serializable{
         return sessionFacade.getEntityManager().createNamedQuery("Statystyka.findByPodatnik").setParameter("podatnik", p).getResultList();
     }
     
+    public List<Statystyka> findByRok(String p) {
+        return sessionFacade.getEntityManager().createNamedQuery("Statystyka.findByRok").setParameter("rok", p).getResultList();
+    }
 }

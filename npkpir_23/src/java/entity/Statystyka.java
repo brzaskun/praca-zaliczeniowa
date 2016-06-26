@@ -35,6 +35,7 @@ import waluty.Z;
 @NamedQueries({
     @NamedQuery(name = "Statystyka.findAll", query = "SELECT e FROM Statystyka e"),
     @NamedQuery(name = "Statystyka.findByPodatnik", query = "SELECT e FROM Statystyka e WHERE e.podatnik = :podatnik"),
+    @NamedQuery(name = "Statystyka.findByRok", query = "SELECT e FROM Statystyka e WHERE e.rok = :rok"),
     @NamedQuery(name = "Statystyka.findUsunRok", query = "DELETE FROM Statystyka e WHERE e.rok = :rok")
 })
 public class Statystyka  implements Serializable {
@@ -67,6 +68,20 @@ public class Statystyka  implements Serializable {
     public Statystyka() {
     }
 
+    public Statystyka(Statystyka o) {
+        this.lp = o.lp;
+        this.podatnik = o.podatnik;
+        this.rok = o.rok;
+        this.iloscdokumentow = o.iloscdokumentow;
+        this.obroty = o.obroty;
+        this.iloscfaktur = o.iloscfaktur;
+        this.kwotafaktur = o.kwotafaktur;
+        this.fakturaNaObroty = o.fakturaNaObroty;
+        this.fakturaNaDokumenty = o.fakturaNaDokumenty;
+        this.ranking = o.ranking;
+    }
+    
+    
     public Statystyka(int lp, Podatnik podatnik, String rok, int iloscdokumentow, double obroty, int iloscfaktur, double kwotafaktur) {
         this.lp = lp;
         this.podatnik = podatnik;

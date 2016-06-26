@@ -15,7 +15,11 @@
         </p:selectOneListbox>
         <p:commandButton value="pobierz" actionListener="#{statystykaObrotyView.pobierz}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
     </p:panelGrid>
-    <p:dataTable value="#{statystykaObrotyView.stats}" var="item" id="datatable" style="width: 1100px; padding: 10px;"
+    <p:panelGrid columns="2">
+        <h:inputText value="#{statystykaObrotyView.oczekiwanywspolczynnik}" label="oczekiwany współczynnik"/>
+        <p:commandButton value="przelicz" actionListener="#{statystykaObrotyView.przelicz()}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
+    </p:panelGrid>
+    <p:dataTable value="#{statystykaObrotyView.statssymulacja}" var="item" id="datatable" style="width: 1100px; padding: 10px;"
                  sortBy="#{item.rok}" sortOrder="descending" rowIndexVar="index">
         <p:column style="width: 20px;">
             <f:facet name="header">
@@ -70,6 +74,18 @@
                 <h:outputText value="rank"/>
             </f:facet>
             <bcf:outputkurs value="#{item.ranking}"/>
+        </p:column>
+        <p:column sortBy="#{item.fakturaobecnie}">
+            <f:facet name="header">
+                <h:outputText value="fakt.ob."/>
+            </f:facet>
+            <bcf:outputpl value="#{item.fakturaobecnie}"/>
+        </p:column>
+         <p:column sortBy="#{item.fakturanowa}">
+            <f:facet name="header">
+                <h:outputText value="fakt.nowa"/>
+            </f:facet>
+             <bcf:outputpl value="#{item.fakturanowa}"/>
         </p:column>
     </p:dataTable>
 </ui:composition>   
