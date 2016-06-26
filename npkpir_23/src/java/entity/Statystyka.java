@@ -34,6 +34,7 @@ import waluty.Z;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Statystyka.findAll", query = "SELECT e FROM Statystyka e"),
+    @NamedQuery(name = "Statystyka.findByPodatnik", query = "SELECT e FROM Statystyka e WHERE e.podatnik = :podatnik"),
     @NamedQuery(name = "Statystyka.findUsunRok", query = "DELETE FROM Statystyka e WHERE e.rok = :rok")
 })
 public class Statystyka  implements Serializable {

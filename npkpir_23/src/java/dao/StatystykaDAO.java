@@ -5,8 +5,10 @@
  */
 package dao;
 
+import entity.Podatnik;
 import entity.Statystyka;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -28,6 +30,10 @@ public class StatystykaDAO  extends DAO implements Serializable{
     public void usunrok(String rok) {
         sessionFacade.statystykaUsunrok(rok);
         
+    }
+
+    public List<Statystyka> findByPodatnik(Podatnik p) {
+        return sessionFacade.getEntityManager().createNamedQuery("Statystyka.findByPodatnik").setParameter("podatnik", p).getResultList();
     }
     
 }

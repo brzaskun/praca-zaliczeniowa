@@ -9,14 +9,14 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:panelGrid columns="3">
-        <p:commandButton value="pobierz" actionListener="#{statystykaUproszczonaView.pobierz}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
-        <p:selectOneMenu id="rokWpisu" value="#{statystykaUproszczonaView.rok}" style="width: 120px; margin-left: 10px;">
+        <p:commandButton value="pobierz" actionListener="#{statystykaKalkulacjaView.pobierz}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
+        <p:selectOneMenu id="rokWpisu" value="#{statystykaKalkulacjaView.rok}" style="width: 120px; margin-left: 10px;">
             <p:ajax event="change" partialSubmit="true" global="false"/>
             <f:selectItems value="#{Roki.rokiList}"/>
         </p:selectOneMenu>
-        <p:commandButton value="zaksięguj" actionListener="#{statystykaUproszczonaView.zaksieguj}" style="width: 120px; margin-left: 10px;"/>
+        <p:commandButton value="zaksięguj" actionListener="#{statystykaKalkulacjaView.zaksieguj}" style="width: 120px; margin-left: 10px;"/>
     </p:panelGrid>
-    <p:dataTable value="#{statystykaUproszczonaView.podatnikroklista}" var="item" id="datatable" style="width: 1200px; padding: 10px;"
+    <p:dataTable value="#{statystykaKalkulacjaView.podatnikroklista}" var="item" id="datatable" style="width: 1200px; padding: 10px;"
                  sortBy="#{item.ranking}" sortOrder="descending" rowIndexVar="index">
         <p:column style="width: 20px;">
             <f:facet name="header">

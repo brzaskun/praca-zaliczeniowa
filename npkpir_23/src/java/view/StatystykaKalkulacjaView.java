@@ -32,7 +32,7 @@ import waluty.Z;
  */
 @ManagedBean
 @ViewScoped
-public class StatystykaUproszczonaView  implements Serializable {
+public class StatystykaKalkulacjaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Statystyka> podatnikroklista;
     private List<Statystyka> listadozachowania;
@@ -48,7 +48,7 @@ public class StatystykaUproszczonaView  implements Serializable {
     @Inject
     private StatystykaDAO statystykaDAO;
 
-    public StatystykaUproszczonaView() {
+    public StatystykaKalkulacjaView() {
         podatnikroklista = new ArrayList<>();
         listadozachowania = new ArrayList<>();
         rok = "2016";
