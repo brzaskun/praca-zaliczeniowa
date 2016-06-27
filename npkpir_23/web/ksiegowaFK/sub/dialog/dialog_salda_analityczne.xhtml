@@ -41,7 +41,7 @@
   
     <bcf:ajaxs/>
     <p:dialog id="saldakontanalitycznych" header="Obroty i salda na kontach analitycznych na koniec miesiąca" widgetVar="saldakontanalitycznych"  maximizable="true"  dynamic="true"
-              resizable="true" onShow="ustawdialog('saldakontanalitycznych','menuzestawienia',1250,750);"
+              resizable="true" onShow="ustawdialog('saldakontanalitycznych','menuzestawienia',1350,750);"
               onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
               >
         <h:form id="formtablicaanalityczne">
@@ -84,7 +84,7 @@
             <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.hashCode()}" 
                           filteredValue="#{saldoAnalitykaView.listaSaldoKontofilter}" selection="#{saldoAnalitykaView.listaSaldoKontowybrane}"
                           sortBy="#{loop.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" rowSelectMode="add"
-                         styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldaanalityczne"
+                         styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 595px;" widgetVar="tablicasaldaanalityczne"
                          >
                 <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
                 <p:ajax event="rowSelectCheckbox" global="false" update=":tabelazsumamianalityka:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
@@ -144,8 +144,8 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.konto}" width="40" >
-                    <h:outputText value="#{loop.konto.pelnynumer}" />
+                <p:column headerText="syntetyka" width="140" >
+                    <h:outputText value="#{loop.konto.kontomacierzyste.nazwapelna}" />
                 </p:column>
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" sortBy="#{loopik.dokfk.datadokumentu}">
