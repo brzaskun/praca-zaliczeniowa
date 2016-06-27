@@ -308,7 +308,6 @@ public class PdfVAT {
                     
                     table.setHeaderRows(5);
                     table.setFooterRows(1);
-
                     int size = wybranewierszeewidencji.size();
                     EVatViewPola polesuma = wybranewierszeewidencji.get(size - 1);
                     wybranewierszeewidencji.remove(polesuma);

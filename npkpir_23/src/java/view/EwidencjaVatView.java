@@ -139,6 +139,11 @@ public class EwidencjaVatView implements Serializable {
        }
     }
 
+    public void wybranewierszeewidencjiczysc() {
+        wybranewierszeewidencji = null;
+        zachowanewybranewierszeewidencji = null;
+    }
+    
     private void zerujListy() {
         ewidencje = new ArrayList<>();
         goscwybral = new ArrayList<>();
@@ -820,7 +825,7 @@ public class EwidencjaVatView implements Serializable {
     public void drukujPdfEwidencje(String nazwaewidencji) {
         try {
             if (zachowanewybranewierszeewidencji != null && zachowanewybranewierszeewidencji.size() > 0) {
-                if (zachowanewybranewierszeewidencji.size() > 1) {
+                if (zachowanewybranewierszeewidencji.size() > 0) {
                     podsumujwybranewierszeprzedwydrukiem(zachowanewybranewierszeewidencji);
                 }
                 PdfVAT.drukujewidencjeWybrane(wpisView, ewidencjeVatDAO, nazwaewidencji, false, zachowanewybranewierszeewidencji);
@@ -1245,7 +1250,7 @@ public class EwidencjaVatView implements Serializable {
 
     public void setWybranewierszeewidencji(List<EVatViewPola> wybranewierszeewidencji) {
         this.wybranewierszeewidencji = wybranewierszeewidencji;
-        if (wybranewierszeewidencji != null) {
+        if (wybranewierszeewidencji != null && wybranewierszeewidencji.size() > 0) {
             this.zachowanewybranewierszeewidencji = serialclone.SerialClone.clone(wybranewierszeewidencji);
         }
     }

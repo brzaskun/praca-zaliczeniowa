@@ -50,7 +50,7 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
             int gg = Integer.parseInt(mcdo)+1;
             for (EVatwpisFK p : input) {
                 try {
-                    System.out.println("ew "+p);
+                    //System.out.println("ew "+p);
                     int p_mc = Integer.parseInt(p.getMcEw());
                     if (p_mc > dg && p_mc < gg) {
                         l.add(p);

@@ -40,7 +40,8 @@
     </style>
             <p:tabView id="akordeon" style="height: 750px;" dynamic="true" >
                 <p:tab title="ewidencje">
-                    <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
+                    <p:tabView id="akordeon2" value="#{ewidencjaVatView.ewidencje}"  var="item">
+                        <p:ajax event="tabChange" listener="#{ewidencjaVatView.wybranewierszeewidencjiczysc}" global="false" update="form:akordeon:akordeon2"/>
                         <p:tab title="#{item[0].nazwaewidencji.nazwa}">
                             <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
                             <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
@@ -53,7 +54,7 @@
                             <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'v')}"/>-->
                             <p:separator/>
                             <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1150px; margin-bottom: 30px; height: 500px;"
-                                         rowKey="#{itemik.id}" selection="#{ewidencjaVatView.wybranewierszeewidencji}" 
+                                         rowKey="#{itemik.hashCode()}" selection="#{ewidencjaVatView.wybranewierszeewidencji}" rowSelectMode="add"
                                          scrollable="true" scrollRows="20" scrollHeight="450" rowIndexVar="index">
                                 <f:facet name="header">  
                                     <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
@@ -61,7 +62,8 @@
                                 <p:ajax event="rowSelectCheckbox"  global="false"/>
                                 <p:ajax event="rowUnselectCheckbox" global="false"/>
                                 <p:ajax event="toggleSelect" global="false"/>
-                                <p:column selectionMode="multiple" width="30" style="text-align: center;" rendered="#{itemik.id eq '9999' ? false : true}"></p:column>
+                                <p:column selectionMode="multiple" width="30" 
+                                          style="text-align: center;" rendered="#{itemik.id eq '9999' ? false : true}"></p:column>
                                 <p:column width="30" style="text-align: center;" rendered="#{itemik.id eq '9999' ? true : false}"></p:column>
                                 <p:column headerText="id" style="width: 25px;" sortBy="#{itemik.id}">
                                     <h:outputText value="#{index+1}" rendered="#{itemik.id eq '9999' ? false : true}"/>
@@ -70,7 +72,7 @@
                                 <p:column styleClass="datawystawienia" headerText="data wyst." style="width: 80px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
                                     <h:outputText value="#{itemik.dataWyst}"/>
                                 </p:column>
-                                <p:column styleClass="mc" headerText="mc" style="width: 30px; text-align: center;" sortBy="#{itemik.innymc}" filterMatchMode="contains" filterBy="#{itemik.innymc}">
+                                <p:column styleClass="mc" headerText="m" style="width: 30px; text-align: center;" sortBy="#{itemik.innymc}" filterMatchMode="contains" filterBy="#{itemik.innymc}">
                                           <h:outputText value="#{itemik.innymc}"/>
                                 </p:column>
                                 <p:column styleClass="nrkolejny" headerText="nr kolejny" style="width: 100px; font-size: 93%" sortBy="#{itemik.nrKolejny}" filterBy="#{itemik.nrKolejny}" filterMatchMode="contains">

@@ -9,6 +9,7 @@ import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -88,6 +89,47 @@ public class EVatViewPola implements Serializable{
         this.nrpolanetto = old.getNrpolanetto();
         this.nrpolavat = old.getNrpolavat();
         this.procentvat = old.getProcentvat();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + this.id;
+        hash = 53 * hash + Objects.hashCode(this.kontr);
+        hash = 53 * hash + Objects.hashCode(this.opis);
+        hash = 53 * hash + (int) (Double.doubleToLongBits(this.netto) ^ (Double.doubleToLongBits(this.netto) >>> 32));
+        hash = 53 * hash + (int) (Double.doubleToLongBits(this.vat) ^ (Double.doubleToLongBits(this.vat) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EVatViewPola other = (EVatViewPola) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.netto) != Double.doubleToLongBits(other.netto)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.vat) != Double.doubleToLongBits(other.vat)) {
+            return false;
+        }
+        if (!Objects.equals(this.opis, other.opis)) {
+            return false;
+        }
+        if (!Objects.equals(this.kontr, other.kontr)) {
+            return false;
+        }
+        return true;
     }
     
     
