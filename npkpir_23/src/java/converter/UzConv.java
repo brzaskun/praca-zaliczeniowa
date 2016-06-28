@@ -7,27 +7,35 @@ package converter;
 import dao.UzDAO;
 import entity.Uz;
 import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
+import javax.inject.Inject;
+import javax.inject.Named;
+import view.UzView;
 
 /**
  *
  * @author Osito
  */
-public abstract class UzConv implements javax.faces.convert.Converter{
+public class UzConv implements javax.faces.convert.Converter{
+    
+   
+    
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        UzDAO uzDAO = new UzDAO();
+        FacesContext context = FacesContext.getCurrentInstance();
+        UzView ukladBRView = (UzView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"UzView");
+        List<Uz> uzytkownicy = ukladBRView.getListaUzytkownikow();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
             try {  
-                String number = submittedValue;  
-                ArrayList<Uz> lista = uzDAO.getDownloaded();
-                for (Uz p : lista) {  
-                    if (p.getLogin().equals(number)) {  
+                for (Uz p : uzytkownicy) {  
+                    if (p.getLogin().equals(submittedValue)) {  
                         return p;  
                     }  
                 }  

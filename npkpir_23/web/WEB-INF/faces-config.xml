@@ -39,6 +39,10 @@
             <to-view-id>/admin/adminStatystyka.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>adminpodatnicy</from-outcome>
+            <to-view-id>/admin/adminPodatnicy.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>adminstatusprogramu</from-outcome>
             <to-view-id>/admin/adminStatusProgramu.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

@@ -1,0 +1,23 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PL" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:outputPanel>
+        <p:commandButton value="zapisz" style="width: 120px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>
+        <p:dataTable value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 500px;">
+            <p:column headerText="podatnik" width="300">
+                <h:outputText value="#{item.nazwapelna}"/>
+            </p:column>
+            <p:column headerText="księgowa">
+                <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;" converter="UzConv">
+                    <f:selectItems value="#{podatnikKsiegowaView.listaksiegowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
+                </p:selectOneMenu>
+            </p:column>
+        </p:dataTable>
+    </p:outputPanel>
+</ui:composition>   

@@ -226,6 +226,9 @@ public class Podatnik implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "datawprowadzenia")
     private Date datawprowadzenia;
+    @JoinColumn(name = "ksiegowa", referencedColumnName = "login")
+    @ManyToOne
+    private Uz ksiegowa;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -271,6 +274,14 @@ public class Podatnik implements Serializable {
 
     public void setSchematnumeracji(String schematnumeracji) {
         this.schematnumeracji = schematnumeracji;
+    }
+
+    public Uz getKsiegowa() {
+        return ksiegowa;
+    }
+
+    public void setKsiegowa(Uz ksiegowa) {
+        this.ksiegowa = ksiegowa;
     }
 
     public Uz getWprowadzil() {
