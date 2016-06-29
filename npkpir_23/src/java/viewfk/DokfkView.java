@@ -92,9 +92,6 @@ import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
 import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *
@@ -217,6 +214,7 @@ public class DokfkView implements Serializable {
     private StronaWiersza selectedStronaWiersza;
     private Double podsumowaniewybranych;
     private boolean totylkoedycjazapis;
+    private int idwierszedycjaodswiezenie;
 
     public DokfkView() {
          E.m(this);
@@ -881,6 +879,9 @@ public class DokfkView implements Serializable {
                     kontoZapisFKView.pobierzzapisy();
                     totylkoedycjazapis = false;
                 }
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":wartoscdokumentuzest");
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":walutadokumentuzest");
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":vatdokumentuzest");
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
             } catch (Exception e) {
                 E.e(e);
@@ -1271,7 +1272,8 @@ public class DokfkView implements Serializable {
                 wybranyDokfk.setwTrakcieEdycji(true);
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
             } else {
-                selected = dokDAOfk.findDokfkObj(wybranyDokfk);
+                idwierszedycjaodswiezenie = row;
+                selected = wybranyDokfk;
                 //selected.setwTrakcieEdycji(true);
                 //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
@@ -2865,6 +2867,14 @@ public class DokfkView implements Serializable {
 
     public void setWiersz(Wiersz wiersz) {
         this.wiersz = wiersz;
+    }
+
+    public int getIdwierszedycjaodswiezenie() {
+        return idwierszedycjaodswiezenie;
+    }
+
+    public void setIdwierszedycjaodswiezenie(int idwierszedycjaodswiezenie) {
+        this.idwierszedycjaodswiezenie = idwierszedycjaodswiezenie;
     }
 
     public List<Transakcja> getBiezacetransakcje() {

@@ -9,6 +9,9 @@
         .waluta input {
             width: 40px !important;
         }
+        .vatzak input {
+            width: 30px !important;
+        }
         
         .zaksiegowanewaski input {
             width: 72px !important;
@@ -138,7 +141,7 @@
                     <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
                 </p:column>
                 <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
-                    <h:outputText value="#{item.datadokumentu}"  style="#{item.datadokumentu.length() ne 10 ? 'color: red;': null}"/>
+                    <h:outputText value="#{item.datadokumentu}"  style="#{item.datadokumentu.split('-')[1] ne WpisView.miesiacWpisu ? 'color: red;': null}"/>
                 </p:column>
 <!--                <p:column headerText="nowy nr" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkLP}" filterBy="#{item.dokfkLP}">
                     <h:outputText value="#{item.dokfkLP}"/>
@@ -161,16 +164,17 @@
                     <h:outputText value="#{item.opisdokfk.length() gt 40 ? item.opisdokfk.substring(0,39) : item.opisdokfk}" 
                                   styleClass="#{item.czyCecha() ? 'zapisZcecha' : null}"/>
                 </p:column>
-                <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
-                    <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
+                <p:column headerText="#{mgs.wartość}" 
+                          styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.wartoscdokumentu}" style="float: right;" id="wartoscdokumentuzest">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
-                    <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
+                    <h:outputText value="#{item.walutadokumentu.symbolwaluty ne 'PLN' ? item.walutadokumentu.symbolwaluty : null}" id="walutadokumentuzest"/>
                 </p:column>
-                <p:column headerText="#{mgs.VAT}" width="35" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
-                    <h:outputText value="#{item.vatM}" style="color: #{item.vatM ne item.miesiac ? 'red' : null}"/>
+                <p:column headerText="#{mgs.VAT}" styleClass="vatzak" width="30" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                    <h:outputText value="#{item.ewidencjaVAT.size() gt 0 ? item.vatM : null}" style="color: #{item.vatM ne item.miesiac ? 'red' : null}" id="vatdokumentuzest"/>
                 </p:column>
                 <p:column headerText="wzór" width="30" sortBy="#{item.wzorzec}" style="text-align: center; #{item.wzorzec eq true ? 'color: red;' : null}">
                     <h:outputText value="#{item.wzorzec eq true ? 'tak' : ''}" style="width: 25px;"/>
