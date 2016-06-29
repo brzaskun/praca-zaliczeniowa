@@ -56,7 +56,9 @@ public class StatystykaObrotyView implements Serializable {
             for (Statystyka p : stats) {
                 statssymulacja.add(new StatystykaExt(0.0, 0.0, 0.0, p));
             }
-            przelicz();
+            if (wybranypodatnik != null && oczekiwanywspolczynnik > 0.0) {
+                przelicz();
+            }
             Msg.msg("Pobrano dane dla podatnika");
         } else {
             Msg.msg("e","Nie wybrano podatnika");
@@ -78,7 +80,18 @@ public class StatystykaObrotyView implements Serializable {
             }
             Msg.msg("Naliczono dane dla podatnika");
         } else {
-            Msg.msg("e","Nie naliczono danych dla podatnika");
+            Msg.msg("w","Nie naliczono danych dla podatnika");
+        }
+    }
+    
+    public void zachowajliczbaprac(StatystykaExt p) {
+        for (Statystyka s : stats) {
+            if (s.getPodatnik().equals(p.getPodatnik()) && s.getRok().equals(p.getRok())) {
+                s.setLiczbapracownikow(p.getLiczbapracownikow());
+                statystykaDAO.edit(s);
+                Msg.msg("Zachowano zmiany");
+                break;
+            }
         }
     }
 

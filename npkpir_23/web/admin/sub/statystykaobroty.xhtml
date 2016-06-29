@@ -27,13 +27,13 @@
             </f:facet>
             <h:outputText value="#{index+1}"/>
         </p:column>
-        <p:column>
+        <p:column style="width: 40px; text-align: center;">
             <f:facet name="header">
                 <h:outputText value="rok"/>
             </f:facet>
             <h:outputText value="#{item.rok}"/>
         </p:column>
-        <p:column sortBy="#{item.iloscdokumentow}" style="width: 50px;">
+        <p:column sortBy="#{item.iloscdokumentow}" style="width: 50px; text-align: center;">
             <f:facet name="header">
                 <h:outputText value="ilosc dok."/>
             </f:facet>
@@ -45,9 +45,9 @@
             </f:facet>
             <bcf:outputpl value="#{item.obroty}"/>
         </p:column>
-        <p:column sortBy="#{item.iloscfaktur}" style="width: 50px;">
+        <p:column sortBy="#{item.iloscfaktur}" style="width: 30px; text-align: center;">
             <f:facet name="header">
-                <h:outputText value="ilosc faktur"/>
+                <h:outputText value="il. fakt"/>
             </f:facet>
             <h:outputText value="#{item.iloscfaktur}"/>
         </p:column>
@@ -81,11 +81,20 @@
             </f:facet>
             <bcf:outputpl value="#{item.fakturaobecnie}"/>
         </p:column>
-         <p:column sortBy="#{item.fakturanowa}">
+        <p:column sortBy="#{item.fakturanowa}">
             <f:facet name="header">
                 <h:outputText value="fakt.nowa"/>
             </f:facet>
              <bcf:outputpl value="#{item.fakturanowa}"/>
+        </p:column>
+        <p:column sortBy="#{item.liczbapracownikow}" width="110">
+            <f:facet name="header">
+                <h:outputText value="prac."/>
+            </f:facet>
+            <p:inplace editor="true">
+                <p:ajax event="save" listener="#{statystykaObrotyView.zachowajliczbaprac(item)}" partialSubmit="true" global="false"/>
+                <h:inputText value="#{item.liczbapracownikow}" size="5"/>
+            </p:inplace>
         </p:column>
     </p:dataTable>
 </ui:composition>   

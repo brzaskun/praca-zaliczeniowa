@@ -64,6 +64,8 @@ public class Statystyka  implements Serializable {
     private double fakturaNaDokumenty;
     @Column(name = "ranking")
     private double ranking;
+    @Column(name = "liczbapracownikow")
+    private int liczbapracownikow;
 
     public Statystyka() {
     }
@@ -79,6 +81,7 @@ public class Statystyka  implements Serializable {
         this.fakturaNaObroty = o.fakturaNaObroty;
         this.fakturaNaDokumenty = o.fakturaNaDokumenty;
         this.ranking = o.ranking;
+        this.liczbapracownikow = o.liczbapracownikow;
     }
     
     
@@ -173,6 +176,14 @@ public class Statystyka  implements Serializable {
 
     public void setRanking(double ranking) {
         this.ranking = ranking;
+    }
+
+    public int getLiczbapracownikow() {
+        return liczbapracownikow;
+    }
+
+    public void setLiczbapracownikow(int liczbapracownikow) {
+        this.liczbapracownikow = liczbapracownikow;
     }
     
     
