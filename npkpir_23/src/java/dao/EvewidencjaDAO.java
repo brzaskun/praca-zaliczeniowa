@@ -7,6 +7,7 @@ package dao;
 import comparator.Evewidencjacomparator;
 import entity.Evewidencja;
 import entityfk.EVatwpisDedra;
+import entityfk.EVatwpisFK;
 import error.E;
 import java.io.Serializable;
 import java.util.Collections;
@@ -71,5 +72,6 @@ public class EvewidencjaDAO extends DAO implements Serializable {
         }
     }
 
+    
     
 }

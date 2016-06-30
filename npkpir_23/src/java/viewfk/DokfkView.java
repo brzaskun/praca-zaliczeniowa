@@ -215,6 +215,7 @@ public class DokfkView implements Serializable {
     private Double podsumowaniewybranych;
     private boolean totylkoedycjazapis;
     private int idwierszedycjaodswiezenie;
+    private Evewidencja ewidencjadlaRKDEL;
 
     public DokfkView() {
          E.m(this);
@@ -245,6 +246,7 @@ public class DokfkView implements Serializable {
             wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            ewidencjadlaRKDEL = evewidencjaDAO.znajdzponazwie("zakup");
             if (klientdlaPK == null) {
                 klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
             }
@@ -2150,6 +2152,7 @@ public class DokfkView implements Serializable {
                         ewidencjaVatRK.setDokfk(selected);
                         ewidencjaVatRK.setNetto(0.0);
                         ewidencjaVatRK.setVat(0.0);
+                        ewidencjaVatRK.setEwidencja(ewidencjadlaRKDEL);
                         ewidencjaVATRKzapis0edycja1 = false;
                     }
                     RequestContext.getCurrentInstance().update("dialogewidencjavatRK");

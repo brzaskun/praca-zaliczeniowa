@@ -7,12 +7,8 @@
 package view;
 
 import dao.EvewidencjaDAO;
-import dao.KlienciDAO;
 import entity.Evewidencja;
-import entity.Klienci;
-import entityfk.EVatwpisFK;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
