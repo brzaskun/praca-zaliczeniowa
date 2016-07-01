@@ -91,10 +91,14 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             }
         }
         sumapoprzednichmiesiecy = sumujpoprzedniemiesiace();
-        sumamiesiecy = sumujmiesiace();
+        WynikFKRokMc suma = sumujmiesiace();
+        sumamiesiecy = suma;
         obliczsymulacjepoprzedniemce();
         obliczsymulacje();
         obliczkwotydowyplaty();
+        sumamiesiecy.setId(11111);
+        sumamiesiecy.setMc("R");
+        listamiesiecy.add(sumamiesiecy);
     }
     
 //    public Map<String, Double> danedobiezacejsym() {

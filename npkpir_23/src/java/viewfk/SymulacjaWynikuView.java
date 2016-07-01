@@ -213,7 +213,7 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("npup"),-Z.z(npup)));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("pmn",Z.z(pmn_mc)));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("pmn pop mce",Z.z(pmn_mc_pop)));
-        double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc - kupmn_mc_pop - npup - pmn_mc + pmn_mc_pop);
+        double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc + kupmn_mc_pop - npup - pmn_mc - pmn_mc_pop);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         double wynikspolki = wynikpodatkowy;
 //        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
