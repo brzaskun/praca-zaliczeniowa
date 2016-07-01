@@ -169,6 +169,7 @@ var kalkulator_reset = function() {
 var kalkulator_close = function() {
     PF('dialog_kalkulator').hide();
     $(MYAPP.kalkulator_cel).val(parseFloat(MYAPP.kalkulator_suma).toFixed(2));
+    $(MYAPP.kalkulator_cel).next().val(parseFloat(MYAPP.kalkulator_suma).toFixed(2));
     $(MYAPP.kalkulator_cel).click();
     $(MYAPP.kalkulator_cel).select();
     kalkulator_reset();

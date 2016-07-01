@@ -76,7 +76,7 @@
                                    $(this).addClass('ui-state-focus');" style="height: 19px;width: 120px !important;"
                                  >
                     <f:selectItems value="#{dokfkView.listaewidencjivatRK}" var="item" itemLabel="#{item.nazwa}"/>
-                    <p:ajax event="blur" global="false" partialSubmit="true"/>
+                    <p:ajax event="change" global="false" partialSubmit="true"/>
                 </h:selectOneMenu>
                 <pe:inputNumber id="netto" value="#{dokfkView.ewidencjaVatRK.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" 
                                 required="true" requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
