@@ -723,10 +723,8 @@ public class KontoZapisFKView implements Serializable{
             } else {
                 PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, true);
             }
-            String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
-            RequestContext.getCurrentInstance().execute(wydruk);
-        } catch (Exception e) {  E.e(e);
-
+        } catch (Exception e) {  
+            E.e(e);
         }
     }
     
@@ -743,8 +741,6 @@ public class KontoZapisFKView implements Serializable{
             } else {
                 PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, false);
             }
-            String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
-            RequestContext.getCurrentInstance().execute(wydruk);
         } catch (Exception e) {  E.e(e);
 
         }

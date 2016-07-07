@@ -13,7 +13,9 @@ var wydrukinwestycja = function(kto){
     window.open('../wydruki/inwestycja'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     //document.getElementById("form:pkpirwysylka").style.display='inline';
 };
-
+var wydrukzapisynakoncie = function(kto){
+    window.open('../wydruki/zapiskonto-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+};
 var wydrukzbiorcze = function(kto){
     window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("akordeon:formwysylka:zestawieniewysylka").style.display='inline';
