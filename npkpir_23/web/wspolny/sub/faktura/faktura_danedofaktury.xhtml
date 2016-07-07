@@ -30,6 +30,9 @@
                         <p:inputText id="adresdlafaktury" value="#{WpisView.podatnikObiekt.adresdlafaktury}" maxlength="512" style="width: 400px;">
                             <f:validateLength minimum="10"/>
                         </p:inputText>
+                        <h:outputLabel value="NIP dla faktury"/>
+                        <p:inputText id="nipdlafaktury" value="#{WpisView.podatnikObiekt.nipdlafaktury}" maxlength="25" style="width: 300px;" required="false">
+                        </p:inputText>
                         <h:outputLabel value="wystawca faktury (imię i nazwisko)"/>
                         <p:inputText id="wystawcafaktury" value="#{WpisView.podatnikObiekt.wystawcafaktury}" maxlength="512" style="width: 400px;">
                         </p:inputText>
