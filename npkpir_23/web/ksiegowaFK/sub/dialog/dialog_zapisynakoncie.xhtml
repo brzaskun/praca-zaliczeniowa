@@ -145,10 +145,10 @@
                                      selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
                                      styleClass="gridzap" style="width: 100%; height: 520px; overflow-y: scroll;" 
                                      sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" >
-                            <p:ajax event="rowSelect" global="false" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
+                            <p:ajax event="rowSelect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:nazwawybranegokonta formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" 
                                     oncomplete="fwiersz();"/>
-                            <p:ajax event="rowUnselect" global="false" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
+                            <p:ajax event="rowUnselect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:nazwawybranegokonta formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
                             <p:column width="0.1">
                                 <h:outputText value="#{loop1.level}" style="font-size: 0.1pt;"/>
@@ -218,7 +218,7 @@
                                   filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
                             <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="kontr" width="100" sortBy="#{loop.dokfk.kontr.npelna}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'wszystkie'}">
+                        <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="#{loop.dokfk.kontr.npelna}" rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20')}">
                             <h:outputText value="#{loop.dokfk.kontr.npelna}"/>
                         </p:column>
                         <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains"
@@ -269,7 +269,7 @@
                 <h:form>
                     <h:outputText value="rodzaje kont: "/>
                      <p:selectOneMenu id="rodzajkont" value="#{kontoZapisFKView.wybranyRodzajKonta}"  style="margin-left: 20px;">
-                         <p:ajax event="change" listener="#{kontoZapisFKView.publicinit()}" update=":form:dataList, :tabelazsumami"/>
+                         <p:ajax event="change" listener="#{kontoZapisFKView.publicinit()}" update="form:dataList tabelazsumami"/>
                         <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                         <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>

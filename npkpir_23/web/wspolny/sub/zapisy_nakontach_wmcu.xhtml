@@ -36,14 +36,14 @@
                     </h:form>
                     <h:form>
                         <p:panelGrid columns="7" style="margin-left: 15px;">
-                            <h:outputText value="od"/>
+                            <h:outputText value="#{mgs.odmc}"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
                                     <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami, :tabelazsumami"/>
                                     <f:selectItems value="#{Mce.mceList}"/>
                                 </p:selectOneMenu>
                             </p:column>
-                            <h:outputText value="do"/>
+                            <h:outputText value="#{mgs.domc}"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
                                     <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami, :tabelazsumami"/>
@@ -53,7 +53,7 @@
                             <p:commandButton value="#{mgs.drukuj}" icon="fa fa-print" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"  style="width: 120px; margin-left: 30px;"/>
                             <p:commandButton value="duży druk" icon="fa fa-print" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"   style="width: 120px; margin-left: 30px;"/>
                             <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"  style="width: 120px; margin-left: 10px;"
-                                             update="tabelazzapisami, :tabelazsumami:sumy"/>
+                                             update="tabelazzapisami, :tabelazsumami:sumy" rendered="#{facesContext.ELContext.locale eq 'pl'}"/>
                         </p:panelGrid>
                     </h:form>
                 </p:panelGrid>
@@ -91,9 +91,9 @@
                                      selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
                                      styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" 
                                      sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" >
-                            <p:ajax event="rowSelect" global="false" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
+                            <p:ajax event="rowSelect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:nazwawybranegokonta formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" />
-                            <p:ajax event="rowUnselect" global="false" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
+                            <p:ajax event="rowUnselect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:nazwawybranegokonta formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
                             <p:column width="0.1">
                                 <h:outputText value="#{loop1.level}" style="font-size: 0.1pt;"/>
@@ -149,21 +149,21 @@
                         <p:column headerText="#{mgs.data}" width="20" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
                             <h:outputText value="#{loop.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
                         </p:column>
-                        <p:column headerText="dok." width="40" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
+                        <p:column headerText="#{mgs.dokument}" width="40" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
                             <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}"/>
                         </p:column>
-                        <p:column headerText="nr wl" width="70"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
+                        <p:column headerText="#{mgs.nr}" width="70"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
                                   filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
                             <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="kontr" width="100" sortBy="#{loop.dokfk.kontr.npelna}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'wszystkie'}">
+                        <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="#{loop.dokfk.kontr.npelna}"  rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20')}">
                             <h:outputText value="#{loop.dokfk.kontr.npelna}"/>
                         </p:column>
                         <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains"
                                   style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
                             <h:outputText value="#{loop.wiersz.opisWiersza}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                         </p:column>
-                        <p:column headerText="kurs" width="30" sortBy="#{loop.wiersz.kursWiersz}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
+                        <p:column headerText="#{mgs.kurs}" width="30" sortBy="#{loop.wiersz.kursWiersz}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText value="#{loop.wiersz.kursWiersz}" rendered="#{loop.wiersz.kursWiersz > 0.0}" style="float: right;">
                                 <f:convertNumber minFractionDigits="4" maxFractionDigits="4" locale="PL"/>
                             </h:outputText>
@@ -171,22 +171,22 @@
                         <p:column headerText="tab" width="40" sortBy="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText value="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,9)}" rendered="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3) ne '000'}"/>
                         </p:column>
-                        <p:column headerText="Wn" width="40" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
+                        <p:column headerText="#{mgs.kontoWn}" width="40" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Wn PLN" width="40" sortBy="#{loop.kwotaPLN}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}" >
+                        <p:column headerText="#{mgs.kontoWn} PLN" width="40" sortBy="#{loop.kwotaPLN}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}" >
                             <h:outputText id="kwotawnwierszPLN" value="#{loop.wnma eq 'Wn' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma" width="40" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
+                        <p:column headerText="#{mgs.kontoMa}" width="40" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText id="kwotamawiersz" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma PLN" width="40" sortBy="#{loop.kwotaPLN}"  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}" >
+                        <p:column headerText="#{mgs.kontoMa} PLN" width="40" sortBy="#{loop.kwotaPLN}"  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}" >
                             <h:outputText id="kwotamawierszPLN" value="#{loop.wnma eq 'Ma' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -194,7 +194,7 @@
                         <p:column headerText="#{mgs.waluta}" width="20" sortBy="#{loop.wiersz.walutaWiersz}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText id="waluta" value="#{loop.wiersz.walutaWiersz}"/>
                         </p:column>
-                        <p:column headerText="przec." width="40" sortBy="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}">
+                        <p:column headerText="#{mgs.kontoprzeciwstawne}" width="40" sortBy="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}">
                             <h:outputText id="kontonr" value="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}"/>
                         </p:column>
                         <!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
@@ -205,53 +205,53 @@
             </p:layoutUnit> 
             <p:layoutUnit position="south" style="height: 70px;">
                 <h:form>
-                    <h:outputText value="rodzaje kont: "/>
+                    <h:outputText value="#{mgs.rodzajekont}: "/>
                      <p:selectOneMenu id="rodzajkont" value="#{kontoZapisFKView.wybranyRodzajKonta}"  style="margin-left: 20px;">
-                         <p:ajax event="change" listener="#{kontoZapisFKView.publicinit()}" update=":form:dataList, :tabelazsumami"/>
-                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
-                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
-                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                         <p:ajax event="change" listener="#{kontoZapisFKView.publicinit()}" update="form:dataList tabelazsumami:sumy" global="false"/>
+                         <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="#{mgs.kontabilansowe}" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="#{mgs.kontawynikowe}" itemValue="wynikowe"/>
                     </p:selectOneMenu>
                 </h:form>
                 <h:form id="tabelazsumami">
                     <p:dataTable id="sumy" value="#{kontoZapisFKView.listasum}" var="loop"
                                  style="float: right; margin-left: 300px; width: 800px; height: 70px;" emptyMessage="#{mgs.niewybranokonta}">
-                        <p:column headerText="suma Wn wal">
+                        <p:column headerText="#{mgs.sumaWnwal}">
                             <h:outputText value="#{loop.sumaWn}" style="float: right; font-weight: 700;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="suma Ma wal">
+                        <p:column headerText="#{mgs.sumaMawal}">
                             <h:outputText value="#{loop.sumaMa}" style="float: right; font-weight: 700;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="saldo Wn wal">
+                        <p:column headerText="#{mgs.saldoWnwal}">
                             <h:outputText value="#{loop.saldoWn}" style="float: right; font-weight: 900; color: green;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="saldo Ma wal">
+                        <p:column headerText="#{mgs.saldoMawal}">
                             <h:outputText value="#{loop.saldoMa}" style="float: right; font-weight: 900; color: green;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="suma Wn PLN">
+                        <p:column headerText="#{mgs.sumaWnPLN}">
                             <h:outputText value="#{loop.sumaWnPLN}" style="float: right; font-weight: 700;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="suma Ma PLN">
+                        <p:column headerText="#{mgs.sumaMaPLN}">
                             <h:outputText value="#{loop.sumaMaPLN}" style="float: right; font-weight: 700;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="saldo Wn PLN">
+                        <p:column headerText="#{mgs.saldoWnPLN}">
                             <h:outputText value="#{loop.saldoWnPLN}" style="float: right; font-weight: 900; color: green;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="saldo Ma PLN">
+                        <p:column headerText="#{mgs.saldoMaPLN}">
                             <h:outputText value="#{loop.saldoMaPLN}" style="float: right; font-weight: 900; color: green;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>

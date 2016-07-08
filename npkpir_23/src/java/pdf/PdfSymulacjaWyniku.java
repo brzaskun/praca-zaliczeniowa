@@ -127,7 +127,7 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfraze(B.b("obrotyMa"), 0, 1));
             table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
             table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
-            table.addCell(ustawfraze("", 0, 1));
+            table.addCell(ustawfraze(B.b("kontosyntetyczne"), 0, 1));
 
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie symulacja wyniku finansowego", 8, 0, 5));
 
@@ -142,7 +142,7 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7));
             Locale browserLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
             if (browserLocale.getLanguage().equals("pl")) {
-                table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+                table.addCell(ustawfrazeAlign(rs.getKonto().getNazwaKontaInt(), "left", 7));
             } else if (browserLocale.getLanguage().equals("de")) {
                 table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 7));
             }
@@ -151,7 +151,7 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujWaluta(rs.getSaldoWn()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujWaluta(rs.getSaldoMa()) : "", "right", 7));
             if (rs.getKonto().getKontomacierzyste() != null) {
-                table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "right", 7));
+                table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwaKontaInt(), "left", 7));
             } else {
                 table.addCell(ustawfrazeAlign("", "right", 7));
             }

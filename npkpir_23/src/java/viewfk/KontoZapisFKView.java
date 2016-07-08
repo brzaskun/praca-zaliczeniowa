@@ -109,6 +109,7 @@ public class KontoZapisFKView implements Serializable{
 
     public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wybierzgrupekont();
         pobierzzapisy();
         usunkontabezsald();
 //        if (wykazkont != null) {
@@ -117,8 +118,16 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void publicinit() {
-         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        if (wybranyRodzajKonta != null) {
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+       wybierzgrupekont();
+        if (wykazkont != null) {
+            wybranekonto = wykazkont.get(0);
+            usunkontabezsald();
+        }
+    }
+    
+    private void wybierzgrupekont() {
+         if (wybranyRodzajKonta != null) {
             if (wybranyRodzajKonta.equals("bilansowe")) {
                 for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
                     if (it.next().getBilansowewynikowe().equals("wynikowe")) {
@@ -132,10 +141,6 @@ public class KontoZapisFKView implements Serializable{
                     }
                 }
             }
-        }
-        if (wykazkont != null) {
-            wybranekonto = wykazkont.get(0);
-            usunkontabezsald();
         }
     }
     

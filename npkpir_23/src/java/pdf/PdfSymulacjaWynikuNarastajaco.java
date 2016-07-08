@@ -87,7 +87,7 @@ public class PdfSymulacjaWynikuNarastajaco {
             
             table.addCell(ustawfraze(B.b("mc"), 0, 1));
             table.addCell(ustawfraze(B.b("przychód"), 0, 1));
-            table.addCell(ustawfraze(B.b("koszt)"), 0, 1));
+            table.addCell(ustawfraze(B.b("koszt"), 0, 1));
             table.addCell(ustawfraze(B.b("wynikfinansowy"), 0, 1));
             table.addCell(ustawfraze(B.b("npup"), 0, 1));
             table.addCell(ustawfraze(B.b("nkup"), 0, 1));
