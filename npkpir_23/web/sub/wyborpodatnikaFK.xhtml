@@ -40,7 +40,7 @@
                 </p:column>
                 <p:column >
                     <p:commandButton  action="/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true" 
-                                      style="width: 150px; float: right;" onsuccess="pobierzdanepoczatek();"
+                                      style="width: 150px; float: right;" 
                                       actionListener="#{WpisView.wpisAktualizuj()}" value="#{mgs.wybierzmcrok}" accesskey="s" />
                 </p:column>
             </p:panelGrid>
@@ -77,8 +77,6 @@
             </f:facet>
         </p:panel>
     </h:form>
-    <h:form>
-        <p:remoteCommand actionListener="#{WpisView.pobierz}" name="pobierzdanepoczatek"/>
-    </h:form>
+
 
 </ui:composition>  
