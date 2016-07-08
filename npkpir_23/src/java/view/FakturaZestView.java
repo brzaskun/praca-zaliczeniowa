@@ -46,12 +46,12 @@ public class FakturaZestView implements Serializable {
     public FakturaZestView() {
         fakturyWystawione = new ArrayList<>();
         fakturyZestawienie = new ArrayList<>();
-        podatnicyWProgramie = new ArrayList<>();
+        podatnicyWProgramie = podatnikDAO.findAll();
     }
     
     
     public void init() {
-        podatnicyWProgramie = podatnikDAO.findAll();
+        fakturyZestawienie = new ArrayList<>();
         fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
         Set<String> odnalezioneNIP = new HashSet<>();
         if (fakturyWystawione != null) {
