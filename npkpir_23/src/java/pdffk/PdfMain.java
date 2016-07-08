@@ -65,6 +65,8 @@ import testobjects.WierszWNTWDT;
 import waluty.Z;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import entityfk.EVatwpisDedra;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

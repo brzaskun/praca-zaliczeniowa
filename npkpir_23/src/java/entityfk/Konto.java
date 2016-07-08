@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,6 +31,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import language.LocaleInfo;
 import session.SessionFacade;
 import view.WpisView;
 
@@ -602,6 +604,23 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Override
     public void setLp(Integer lp) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public String getNazwaKontaInt() {
+        String zwrot = this.getNazwaskrocona();
+        String lokale = LocaleInfo.getLocale();
+        if (lokale.equals("de")) {
+            zwrot = this.getDe();
+        }
+        return zwrot;
+    }
+    
+    public String getNumerNazwaInt() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getPelnynumer());
+        sb.append(" ");
+        sb.append(this.getNazwaKontaInt());
+        return sb.toString();
     }
 
     public Konto getSyntetyczne(List<Konto> syntetyczne) {

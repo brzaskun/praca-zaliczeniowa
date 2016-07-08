@@ -34,6 +34,8 @@ import javax.ejb.Stateless;
 import plik.Plik;
 import view.WpisView;
 import viewfk.KontoObrotyFKView;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

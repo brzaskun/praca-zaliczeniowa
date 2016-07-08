@@ -27,6 +27,7 @@ import static pdffk.PdfMain.dodajpagraf;
 import testobjects.testobjects;
 import view.WpisView;
 import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *

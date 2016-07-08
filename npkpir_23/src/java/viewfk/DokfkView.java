@@ -92,6 +92,7 @@ import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
 import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *
@@ -1439,7 +1440,6 @@ public class DokfkView implements Serializable {
         dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
-        System.out.println("odswiezzaksiegowane()");
     }
 
     public void sumawartosciwybranych() {
