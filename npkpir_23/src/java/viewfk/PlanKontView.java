@@ -325,6 +325,7 @@ public class PlanKontView implements Serializable {
                 MiejscePrzychodow mp = new MiejscePrzychodow();
                 mp.setOpismiejsca(elementslownika_nazwapelna);
                 mp.setOpisskrocony(elementslownika_nazwaskrocona);
+                mp.setAktywny(true);
                 int liczba = miejscePrzychodowDAO.countMiejscaPrzychodow(wpisView.getPodatnikObiekt()) + 1;
                 mp.uzupelnij(wpisView.getPodatnikObiekt(), String.valueOf(liczba));
                 mp.setRok(wpisView.getRokWpisu());
@@ -1157,7 +1158,7 @@ public class PlanKontView implements Serializable {
         if (samiejscaprzychodow) {
             for (MiejscePrzychodow r : miejscaprzychodow) {
                 try {
-                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpismiejsca(), r.getOpisskrocony(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk, 2, ukladBRDAO);
+                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpismiejsca(), r.getOpisskrocony(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk, 7, ukladBRDAO);
                 } catch (Exception e1) {
 
                 }

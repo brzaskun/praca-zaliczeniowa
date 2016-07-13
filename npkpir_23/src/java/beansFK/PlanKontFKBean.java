@@ -428,7 +428,7 @@ public class PlanKontFKBean {
     
     public static int aktualizujslownikMiejscaPrzychodow(List<Konto> wykazkont, MiejscePrzychodowDAO miejsceKosztowDAO, MiejscePrzychodow miejsceprzychodow, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         try {
-            List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 2);
+            List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
             for (Konto p : kontamacierzysteZeSlownikiem) {
                 Konto nowekonto = new Konto();
                 nowekonto.setNazwapelna(miejsceprzychodow.getOpismiejsca());
@@ -590,7 +590,7 @@ public class PlanKontFKBean {
             nowekonto.setSlownikowe(true);
             nowekonto.setPrzychod0koszt1(kontomacierzyste.isPrzychod0koszt1());
             int wynikdodaniakonta = 1;
-            if (numerkonta == 120) {
+            if (numerkonta == 13) {
                 System.out.println("");
             }
             wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, String.valueOf(numerkonta), wpisView);
@@ -807,10 +807,19 @@ public class PlanKontFKBean {
     }
 
     public static String modyfikujnr(String pelnynumer) {
-        String[] pola = pelnynumer.split("-");
-        String koncowka = pola[pola.length-1];
-        int indexkoncowy = pelnynumer.length()-koncowka.length()-1;
-        String nowynumer = pelnynumer.substring(0, indexkoncowy);
+        char[] l = pelnynumer.toCharArray();
+        int i = 0;
+        for (char p : l) {
+            i++;
+            if (Character.isLetter(p)) {
+                break;
+            }
+        }
+        String koncowka = pelnynumer.substring(i-1, pelnynumer.length());
+        String nowynumer = pelnynumer.substring(0, i-1);
+        if (nowynumer.endsWith("-")) {
+            nowynumer = nowynumer.substring(0, nowynumer.length()-1);
+        }
         return nowynumer;
     }
     
@@ -935,4 +944,35 @@ public class PlanKontFKBean {
         return null;
     }
     
+
+    public static void main(String[] args) {
+        String str = "710-1-1-lolo";
+        char[] l = str.toCharArray();
+        int i = 0;
+        for (char p : l) {
+            i++;
+            if (Character.isLetter(p)) {
+                System.out.println(" "+i);
+                break;
+            }
+        }
+        String koncowka = str.substring(i-1, str.length());
+        System.out.println(" "+koncowka);
+        String konto = str.substring(0, i-1);
+        if (konto.endsWith("-")) {
+            konto = konto.substring(0, konto.length()-1);
+        }
+        System.out.println(" "+konto);
+//        String[] w = str.split("\\s+");
+//        System.out.println("w "+w[0]);
+//        String koncowka = w[w.length-1];
+//        if (w.length ==1) {
+//            String[] pola = str.split("-");
+//            koncowka = pola[pola.length-1];
+//        }
+//        int indexkoncowy = str.length()-koncowka.length()-1;
+//        String nowynumer = str.substring(0, indexkoncowy);
+//        System.out.println("w "+nowynumer);
+    }
 }
+
