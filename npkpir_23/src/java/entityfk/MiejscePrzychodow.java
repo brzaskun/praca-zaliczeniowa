@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MiejscePrzychodow.findById", query = "SELECT m FROM MiejscePrzychodow m WHERE m.id = :id"),
     @NamedQuery(name = "MiejscePrzychodow.findByAktywny", query = "SELECT m FROM MiejscePrzychodow m WHERE m.aktywny = :aktywny"),
     @NamedQuery(name = "MiejscePrzychodow.findByOpismiejsca", query = "SELECT m FROM MiejscePrzychodow m WHERE m.opismiejsca = :opismiejsca"),
-    @NamedQuery(name = "MiejscePrzychodow.findByPodatnik", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik AND m.rok = :rok ORDER BY m.opismiejsca"),
+    @NamedQuery(name = "MiejscePrzychodow.findByPodatnik", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik ORDER BY m.opismiejsca"),
+    @NamedQuery(name = "MiejscePrzychodow.findByPodatnikRok", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik AND m.rok = :rok ORDER BY m.opismiejsca"),
     @NamedQuery(name = "MiejscePrzychodow.countByPodatnik", query = "SELECT COUNT(d) FROM MiejscePrzychodow d WHERE d.podatnikObj = :podatnik")
 })
 public class MiejscePrzychodow implements Serializable {

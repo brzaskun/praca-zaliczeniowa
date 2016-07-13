@@ -69,15 +69,15 @@ public class MiejscePrzychodowView  implements Serializable{
     @PostConstruct
     public void init() {
         try {
-            miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        } catch (Exception e) {  E.e(e);
-            
+            miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+        } catch (Exception e) {  
+            E.e(e);
         }
     }
     
     public void sumymiesiecy() {
         try {
-            miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
             listasummiejscprzychodow = new LinkedHashSet<>();
             obliczsumymiejsc();
         } catch (Exception e) {  E.e(e);
@@ -103,7 +103,7 @@ public class MiejscePrzychodowView  implements Serializable{
         selected.setRok(wpisView.getRokWpisu());
         miejscePrzychodowDAO.dodaj(selected);
         PlanKontFKBean.aktualizujslownikMiejscaPrzychodow(wykazkont, miejscePrzychodowDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-        miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         selected.setOpismiejsca(null);
         selected.setOpisskrocony(null);
         Msg.msg("Dodaje miejsce");
@@ -133,7 +133,7 @@ public class MiejscePrzychodowView  implements Serializable{
         SlownikiBean.aktualizujkontapoedycji(selected, 7, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
         selected.setOpismiejsca(null);
         selected.setOpisskrocony(null);
-        miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         zapisz0edytuj1 = false;
         Msg.msg("Naniesiono zmiany");
     }

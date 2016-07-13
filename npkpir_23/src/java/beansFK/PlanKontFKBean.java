@@ -247,7 +247,7 @@ public class PlanKontFKBean {
     }
     
     public static int dodajelementyslownikaMiejscaPrzychodow(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, MiejscePrzychodowDAO miejscePrzychodowDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
-        List<MiejscePrzychodow> listamiejscprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        List<MiejscePrzychodow> listamiejscprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         if (listamiejscprzychodow != null) {
             for (MiejscePrzychodow p : listamiejscprzychodow) {
                 Konto nowekonto = new Konto();

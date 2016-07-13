@@ -1152,7 +1152,7 @@ public class PlanKontView implements Serializable {
                 }
             }
         }
-        List<MiejscePrzychodow> miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        List<MiejscePrzychodow> miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         boolean samiejscaprzychodow = miejscaprzychodow != null && !miejscaprzychodow.isEmpty();
         if (samiejscaprzychodow) {
             for (MiejscePrzychodow r : miejscaprzychodow) {

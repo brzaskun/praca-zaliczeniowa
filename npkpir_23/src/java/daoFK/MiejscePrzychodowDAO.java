@@ -41,8 +41,12 @@ public class MiejscePrzychodowDAO extends DAO implements Serializable{
         return sessionFacade.findAll(MiejscePrzychodow.class);
     }
 
-    public List<MiejscePrzychodow> findMiejscaPodatnik(Podatnik podatnikObiekt, int rok) {
-        return sessionFacade.findMiejscaPrzychodowPodatnik(podatnikObiekt, rok);
+    public List<MiejscePrzychodow> findMiejscaPodatnikRok(Podatnik podatnikObiekt, int rok) {
+        return sessionFacade.findMiejscaPrzychodowPodatnikRok(podatnikObiekt, rok);
+    }
+    
+    public List<MiejscePrzychodow> findMiejscaPodatnik(Podatnik podatnikObiekt) {
+        return sessionFacade.findMiejscaPrzychodowPodatnik(podatnikObiekt);
     }
 
     public int countMiejscaPrzychodow(Podatnik podatnikObiekt) {
