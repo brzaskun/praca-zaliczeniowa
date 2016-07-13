@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -46,6 +47,10 @@ public class FakturaZestView implements Serializable {
     public FakturaZestView() {
         fakturyWystawione = new ArrayList<>();
         fakturyZestawienie = new ArrayList<>();
+    }
+    
+    @PostConstruct
+    private void init1() {
         podatnicyWProgramie = podatnikDAO.findAll();
     }
     
