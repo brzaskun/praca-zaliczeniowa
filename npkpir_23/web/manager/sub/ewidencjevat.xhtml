@@ -20,12 +20,12 @@
                     <p:column headerText="nazwa ewidencji" width="200" filterBy="#{loop.nazwa}">
                         <h:outputText id="in1" value="#{loop.nazwa}"/>
                     </p:column>
-                    <p:column headerText="lp" width="30"><h:outputText id="in3" value="#{loop.nrpolanetto}"/></p:column>
-                    <p:column headerText="nazwa pola w deklaracji" width="350"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
-                    <p:column headerText="rodzaj transkacji" width="150"><h:outputText id="in5" value="#{loop.transakcja}"/></p:column>
-                    <p:column headerText="rodzaj zakupu"><h:outputText id="in6" value="#{loop.rodzajzakupu}"/></p:column>
+                    <p:column headerText="lp" width="30" sortBy="#{loop.nrpolanetto}"><h:outputText id="in3" value="#{loop.nrpolanetto}"/></p:column>
+                    <p:column headerText="nazwa pola w deklaracji" width="350" sortBy="#{loop.pole}"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
+                    <p:column headerText="rodzaj transkacji" width="150" sortBy="#{loop.transakcja}"><h:outputText id="in5" value="#{loop.transakcja}"/></p:column>
+                    <p:column headerText="rodzaj zakupu" sortBy="#{loop.rodzajzakupu}"><h:outputText id="in6" value="#{loop.rodzajzakupu}"/></p:column>
                     <p:column headerText="tylko netto"><h:outputText id="in7" value="#{loop.tylkoNetto eq true ? 'tak' : null}"/></p:column>
-                    <p:column headerText="typ ewidencji" width="70" style="text-align: center;"><h:outputText id="in8" value="#{loop.typewidencji eq 'sz' ? '+/-' : loop.typewidencji eq 's' ? '+' : '-'}"/></p:column>
+                    <p:column headerText="typ ewidencji" width="70" style="text-align: center;" sortBy="#{loop.typewidencji}"><h:outputText id="in8" value="#{loop.typewidencji eq 'sz' ? '+/-' : loop.typewidencji eq 's' ? '+' : '-'}"/></p:column>
                     <p:column id="deleteColumn" headerText="usuń" width="70" style="text-align: center;">
                         <p:commandButton action="#{evewidencjaView.usun()}" id="delete" icon="ui-icon ui-icon-trash" update="@form" type="submit" />
                     </p:column>
@@ -140,7 +140,7 @@
                 <p:focus for="parametr"/><br/>
                 <h:outputText value="dodaj nowy opis wiersza deklaracji"/><br/>
                 <p:panelGrid id="parametr" columns="2" >
-                    <p:inputText value="#{evpozycjaView.selected.nazwapola}" style="width: 400px;"/>
+                    <p:inputText value="#{evpozycjaView.selected.nazwapola}" style="width: 700px;"/>
                 </p:panelGrid>
                 <p:commandButton action="#{evpozycjaView.dodaj()}" value="dodaj" update="@form, :akordeon:form2, akordeon:parametryewidencji" type="submit" style="width: 120px; margin: 10px;"/>
             </h:form>
