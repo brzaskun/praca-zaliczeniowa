@@ -40,6 +40,7 @@ public class Trans implements Serializable{
         transList.add("usługi poza ter.");
         transList.add("eksport towarów");
         transList.add("odwrotne obciążenie");
+        transList.add("odwrotne obciążenie sprzedawca");
         transList.add("WB-RK");
         transList.add("PK");
         transListZO = new ArrayList<>();
@@ -54,6 +55,7 @@ public class Trans implements Serializable{
         transListZO.add("usługi poza ter.");
         transListZO.add("eksport towarów");
         transListZO.add("odwrotne obciążenie");
+        transListZO.add("odwrotne obciążenie sprzedawca");
         transListRY = new ArrayList<>();
         transListRY.add("ryczałt");
         transListRY.add("zakup");
@@ -65,6 +67,7 @@ public class Trans implements Serializable{
         transListRY.add("usługi poza ter.");
         transListRY.add("eksport towarów");
         transListRY.add("odwrotne obciążenie");
+        transListRY.add("odwrotne obciążenie sprzedawca");
     }
 
     public static List<String> getTransList() {
