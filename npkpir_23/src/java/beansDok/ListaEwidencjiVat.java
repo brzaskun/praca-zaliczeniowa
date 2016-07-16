@@ -41,6 +41,7 @@ public class ListaEwidencjiVat implements Serializable{
     private List<String> wdtVList;
     private List<String> wntVList;
     private List<String> rvcVList;//reverse charge - odwrotne obciazenie
+    private List<String> rvcVListS;//reverse charge - odwrotne obciazenie sprzedawca
     private List<String> importuslugList;
     private List<String> uslugiPTK;
     private List<String> eksporttowarow;
@@ -55,6 +56,7 @@ public class ListaEwidencjiVat implements Serializable{
         wdtVList = new ArrayList<>();
         wntVList = new ArrayList<>();
         rvcVList = new ArrayList<>();
+        rvcVListS = new ArrayList<>();
         importuslugList = new ArrayList<>();
         uslugiPTK = new ArrayList<>();
         eksporttowarow = new ArrayList<>();
@@ -90,6 +92,9 @@ public class ListaEwidencjiVat implements Serializable{
                 case "odwrotne obciążenie" : 
                     rvcVList.add(up.getNazwa());
                     break;
+                case ("odwrotne obciążenie sprzedawca"):
+                    rvcVListS.add(up.getNazwa());
+                    break;
                 case "import uslug" : 
                     importuslugList.add(up.getNazwa());
                     break;
@@ -123,6 +128,8 @@ public class ListaEwidencjiVat implements Serializable{
                         return wdtVList;
                     case ("odwrotne obciążenie"):
                         return rvcVList;
+                    case ("odwrotne obciążenie sprzedawca"):
+                        return rvcVListS;
                     case ("WNT"):
                         return wntVList;
                     case ("import usług"):
@@ -176,6 +183,14 @@ public class ListaEwidencjiVat implements Serializable{
 
     public List<String> getRvcVList() {
         return rvcVList;
+    }
+
+    public List<String> getRvcVListS() {
+        return rvcVListS;
+    }
+
+    public void setRvcVListS(List<String> rvcVListS) {
+        this.rvcVListS = rvcVListS;
     }
 
     public void setRvcVList(List<String> rvcVList) {
