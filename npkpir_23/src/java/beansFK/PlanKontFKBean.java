@@ -807,20 +807,28 @@ public class PlanKontFKBean {
     }
 
     public static String modyfikujnr(String pelnynumer) {
-        String nowynumer = pelnynumer;
+        String nrmacierzystego = pelnynumer;
         char[] l = pelnynumer.toCharArray();
         int i = 0;
+        boolean niemaliter = true;
         for (char p : l) {
             i++;
             if (Character.isLetter(p)) {
-                nowynumer = pelnynumer.substring(0, i-1);
+                nrmacierzystego = pelnynumer.substring(0, i-1);
+                niemaliter = false;
                 break;
             }
         }
-        if (nowynumer.endsWith("-")) {
-            nowynumer = nowynumer.substring(0, nowynumer.length()-1);
+        if (nrmacierzystego.endsWith("-")) {
+            nrmacierzystego = nrmacierzystego.substring(0, nrmacierzystego.length()-1);
         }
-        return nowynumer;
+        if (niemaliter) {
+            String[] pola = nrmacierzystego.split("-");
+            String koncowka = pola[pola.length-1];
+            int indexkoncowy = nrmacierzystego.length()-koncowka.length()-1;
+            nrmacierzystego = nrmacierzystego.substring(0, indexkoncowy);
+        }
+        return nrmacierzystego;
     }
     
     public static void przyporzadkujBilans_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1, String rodzajkonta) {
