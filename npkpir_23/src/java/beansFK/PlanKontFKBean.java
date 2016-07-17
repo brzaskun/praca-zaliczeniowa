@@ -807,16 +807,16 @@ public class PlanKontFKBean {
     }
 
     public static String modyfikujnr(String pelnynumer) {
+        String nowynumer = pelnynumer;
         char[] l = pelnynumer.toCharArray();
         int i = 0;
         for (char p : l) {
             i++;
             if (Character.isLetter(p)) {
+                nowynumer = pelnynumer.substring(0, i-1);
                 break;
             }
         }
-        String koncowka = pelnynumer.substring(i-1, pelnynumer.length());
-        String nowynumer = pelnynumer.substring(0, i-1);
         if (nowynumer.endsWith("-")) {
             nowynumer = nowynumer.substring(0, nowynumer.length()-1);
         }
@@ -946,23 +946,22 @@ public class PlanKontFKBean {
     
 
     public static void main(String[] args) {
-        String str = "710-1-1-lolo";
-        char[] l = str.toCharArray();
+        String pelnynumer = "710-1-dd";
+        String nowynumer = pelnynumer;
+        char[] l = pelnynumer.toCharArray();
         int i = 0;
         for (char p : l) {
             i++;
             if (Character.isLetter(p)) {
                 System.out.println(" "+i);
+                nowynumer = pelnynumer.substring(0, i-1);
                 break;
             }
         }
-        String koncowka = str.substring(i-1, str.length());
-        System.out.println(" "+koncowka);
-        String konto = str.substring(0, i-1);
-        if (konto.endsWith("-")) {
-            konto = konto.substring(0, konto.length()-1);
+        if (nowynumer.endsWith("-")) {
+            nowynumer = nowynumer.substring(0, nowynumer.length()-1);
         }
-        System.out.println(" "+konto);
+        System.out.println(" "+nowynumer);
 //        String[] w = str.split("\\s+");
 //        System.out.println("w "+w[0]);
 //        String koncowka = w[w.length-1];
