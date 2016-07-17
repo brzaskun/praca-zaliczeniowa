@@ -275,7 +275,7 @@ public class PlanKontView implements Serializable {
     }
 
     public void dodajanalityczneWpis() {
-        String nrmacierzystego = PlanKontFKBean.modyfikujnr(noweKonto.getPelnynumer());
+        String nrmacierzystego = PlanKontFKBean.modyfikujnranalityczne(noweKonto.getPelnynumer());
         Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
         if (kontomacierzyste != null && kontomacierzyste.getIdslownika() == 0) {
             int wynikdodaniakonta = 1;
@@ -313,7 +313,7 @@ public class PlanKontView implements Serializable {
     }
     
     public void dodajSlownikWpis() {
-        String nrmacierzystego = PlanKontFKBean.modyfikujnr(elementslownika_numerkonta);
+        String nrmacierzystego = PlanKontFKBean.modyfikujnrslownik(elementslownika_numerkonta);
         Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
         List<Konto> potomne = PlanKontFKBean.pobierzpotomne(kontomacierzyste, kontoDAOfk);
         Collections.sort(potomne, new Kontocomparator());

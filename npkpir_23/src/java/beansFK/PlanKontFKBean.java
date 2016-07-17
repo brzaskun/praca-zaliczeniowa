@@ -805,8 +805,25 @@ public class PlanKontFKBean {
         Konto konto = kontoDAOfk.findKonto(pelnynumer, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
         return konto;
     }
+    
+    public static String modyfikujnrslownik(String pelnynumer) {
+        String nrmacierzystego = pelnynumer;
+        char[] l = pelnynumer.toCharArray();
+        int i = 0;
+        for (char p : l) {
+            i++;
+            if (Character.isLetter(p)) {
+                nrmacierzystego = pelnynumer.substring(0, i-1);
+                break;
+            }
+        }
+        if (nrmacierzystego.endsWith("-")) {
+            nrmacierzystego = nrmacierzystego.substring(0, nrmacierzystego.length()-1);
+        }
+        return nrmacierzystego;
+    }
 
-    public static String modyfikujnr(String pelnynumer) {
+    public static String modyfikujnranalityczne(String pelnynumer) {
         String nrmacierzystego = pelnynumer;
         char[] l = pelnynumer.toCharArray();
         int i = 0;
