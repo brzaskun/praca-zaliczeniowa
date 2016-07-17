@@ -36,7 +36,7 @@
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText>
             </p:panelGrid>
-            <p:panelGrid style="margin-left: 2%;" >
+            <p:panelGrid id="panelprzyciskowzestdok" style="margin-left: 2%;" >
                 <p:row>
                 <p:column>
                     <h:outputText value="miesiąc: "/>
@@ -59,7 +59,7 @@
                         onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
                         onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
                         style="width: 200px; height: 25px; margin-left: 100px;" rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}">
-                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth"/>
+                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow :menubarnorth"/>
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
                     <f:selectItems value="#{dokfkView.dokumentypodatnikazestawienie}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
                 </h:selectOneMenu>
