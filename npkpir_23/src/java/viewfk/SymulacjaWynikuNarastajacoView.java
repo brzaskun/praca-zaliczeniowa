@@ -143,7 +143,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         w.setWynikfinansowy(Z.z(przychod-koszt));
         w.setNpup(npup);
         w.setNkup(nkup);
-        w.setWynikpodatkowy(Z.z(przychod-koszt+npup-nkup));
+        w.setWynikpodatkowy(Z.z(przychod-koszt+npup+nkup));
         return w;
     }
     
@@ -168,7 +168,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         w.setWynikfinansowy(Z.z(przychod-koszt));
         w.setNpup(npup);
         w.setNkup(nkup);
-        w.setWynikpodatkowy(Z.z(przychod-koszt+npup-nkup));
+        w.setWynikpodatkowy(Z.z(przychod-koszt+npup+nkup));
         return w;
     }
     
