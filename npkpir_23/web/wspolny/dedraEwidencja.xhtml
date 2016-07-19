@@ -16,7 +16,7 @@
                           style="height: 100px; width: 500px;">
             </p:fileUpload>
             <p:dataTable value="#{eVatDedraView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px;"
-                         scrollable="true" scrollHeight="350" scrollRows="20" sortBy="#{item.faktura}"
+                         scrollable="true" scrollHeight="550" scrollRows="20" sortBy="#{item.faktura}"
                          emptyMessage="#{mgs.niepobranowierszy}">
                 <f:facet name="header">
                     <h:outputText value=" #{mgs.ewidencja} #{item.ewidencja.nazwa}"/>

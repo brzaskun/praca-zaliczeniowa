@@ -43,8 +43,17 @@ public class Dedraparser {
             Document doc = dBuilder.parse(fXmlFile);
             doc.getDocumentElement().normalize();
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-            NodeList nList = doc.getElementsByTagName("A1");
-            System.out.println("----------------------------");
+            pobierzfaktury(doc, wierszeewidencji, wpisView, podatnik, ewidencja);
+            pobierzkorekty(doc, wierszeewidencji, wpisView, podatnik, ewidencja);
+            System.out.println("");
+        } catch (Exception ex) {
+            Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return wierszeewidencji;
+    }
+    
+    private static void pobierzfaktury(Document doc, List<EVatwpisDedra> wierszeewidencji, WpisView wpisView, Podatnik podatnik, Evewidencja ewidencja) {
+        NodeList nList = doc.getElementsByTagName("A1");
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 EVatwpisDedra p = new EVatwpisDedra();
                 Node nNode = nList.item(temp);
@@ -72,11 +81,37 @@ public class Dedraparser {
                     wierszeewidencji.add(p);
                 }
             }
-            System.out.println("");
-        } catch (Exception ex) {
-            Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return wierszeewidencji;
+    }
+    
+    private static void pobierzkorekty(Document doc, List<EVatwpisDedra> wierszeewidencji, WpisView wpisView, Podatnik podatnik, Evewidencja ewidencja) {
+        NodeList nList = doc.getElementsByTagName("C1");
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                EVatwpisDedra p = new EVatwpisDedra();
+                Node nNode = nList.item(temp);
+                System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    p.setFaktura(eElement.getAttribute("FO"));
+                    p.setDatadokumentu(eElement.getAttribute(""));
+                    p.setDataoperacji(eElement.getAttribute(""));
+                    double netto = Double.parseDouble(eElement.getAttribute("ZR"));
+                    p.setNetto(netto);
+                    p.setNettowwalucie(netto);
+                    double vat = Double.parseDouble(eElement.getAttribute("DR"));
+                    p.setVat(vat);
+                    p.setVatwwalucie(vat);
+                    p.setBrutto(Z.z(netto+vat));
+                    p.setImienazwisko(eElement.getAttribute("N"));
+                    p.setUlica(eElement.getAttribute("A"));
+                    p.setMiasto(eElement.getAttribute("M"));
+                    p.setEstawka(eElement.getAttribute("S"));
+                    p.setMcEw(wpisView.getMiesiacWpisu());
+                    p.setRokEw(wpisView.getRokWpisuSt());
+                    p.setEwidencja(ewidencja);
+                    p.setPodatnikObj(podatnik);
+                    wierszeewidencji.add(p);
+                }
+            }
     }
     
     public static void main(String[] args) throws SAXException, IOException {
