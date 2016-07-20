@@ -11,6 +11,7 @@ import dao.PodatnikUdzialyDAO;
 import dao.RodzajedokDAO;
 import dao.ZUSDAO;
 import daoFK.KontoDAOfk;
+import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Udzialy;
@@ -469,9 +470,10 @@ public class PodatnikView implements Serializable {
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getVatokres());
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
         }
-        if (sprawdzvat(parametr, lista) == 0) {
+        if (sprawdzvat(parametr, lista) == 1) {
             lista.add(parametr);
             selected.setVatokres(lista);
             zachowajZmiany(selected);
@@ -485,29 +487,19 @@ public class PodatnikView implements Serializable {
     }
 
     private int sprawdzvat(Parametr nowe, List<Parametr> stare) {
+        int zwrot = 0;
         if (stare.isEmpty()) {
             parametr.setMcDo("");
             parametr.setRokDo("");
-            return 0;
+            zwrot = 1;
         } else {
             ostatniparametr = stare.get(stare.size() - 1);
-            Integer old_rokDo = Integer.parseInt(nowe.getRokOd());
-            Integer old_mcOd = Integer.parseInt(nowe.getMcOd());
-            Integer sumOld = Integer.parseInt(ostatniparametr.getMcOd()) + Integer.parseInt(ostatniparametr.getRokOd());
-            Integer sumNew = Integer.parseInt(nowe.getMcOd()) + Integer.parseInt(nowe.getRokOd());
-            if (sumOld >= sumNew) {
-                return 1;
-            }
-            if (old_mcOd == 1) {
-                old_mcOd = 12;
-                old_rokDo--;
-            } else {
-                old_mcOd--;
-            }
-            ostatniparametr.setRokDo(old_rokDo.toString());
-            ostatniparametr.setMcDo(Mce.getNumberToMiesiac().get(old_mcOd));
-            return 0;
+            zwrot = Data.compare(parametr.getRokOd(), parametr.getMcOd(), ostatniparametr.getRokOd(), ostatniparametr.getMcOd());
+            String[] poprzedniokres = Data.poprzedniOkres(parametr.getMcOd(), parametr.getRokOd());
+            ostatniparametr.setRokDo(poprzedniokres[0]);
+            ostatniparametr.setMcDo(poprzedniokres[1]);
         }
+        return zwrot;
     }
 
     public void usunvat() {
