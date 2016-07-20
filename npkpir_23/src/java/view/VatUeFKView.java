@@ -8,7 +8,11 @@ import comparator.Dokfkcomparator;
 import dao.DeklaracjevatDAO;
 import daoFK.DokDAOfk;
 import daoFK.VatuepodatnikDAO;
+import data.Data;
+import embeddable.Kwartaly;
+import embeddable.Parametr;
 import embeddable.VatUe;
+import entity.Dok;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import entityfk.Vatuepodatnik;
@@ -63,16 +67,8 @@ public class VatUeFKView implements Serializable {
         String podatnik = wpisView.getPodatnikWpisu();
         try {
             listadokumentow.addAll(dokDAOfk.findDokfkPodatnikRok(wpisView));
-            //sortowanie dokumentów
-            int numerkolejny = 1;
-            for (Iterator<Dokfk> it = listadokumentow.iterator(); it.hasNext();) {
-                Dokfk p = it.next();
-                if (dobrymiesiac(p)) {
-                    p.setLp(numerkolejny++);
-                } else {
-                    it.remove();
-                }
-            }
+            String vatokres = sprawdzjakiokresvat();
+            listadokumentow = zmodyfikujlisteMcKw(listadokumentow, vatokres);
         } catch (Exception e) { E.e(e); 
         }
         //jest miesiecznie wiec nie ma co wybierac
@@ -140,25 +136,82 @@ public class VatUeFKView implements Serializable {
         }
         return klienty;
     }
-    private boolean dobrymiesiac(Dokfk p) {
-        boolean dobry = false;
-        if (p.getEwidencjaVAT() != null && !p.getEwidencjaVAT().isEmpty()) {
-            String mc = null;
-            for (EVatwpisFK r : p.getEwidencjaVAT()) {
-                mc = r.getMcEw();
+    
+    private List<Dokfk> zmodyfikujlisteMcKw(List<Dokfk> listadokvat, String vatokres) throws Exception {
+        try {
+            switch (vatokres) {
+                case "blad":
+                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                case "miesięczne": {
+                    List<Dokfk> listatymczasowa = new ArrayList<>();
+                    for (Dokfk p : listadokvat) {
+                        if (p.getVatM().equals(wpisView.getMiesiacWpisu())) {
+                            listatymczasowa.add(p);
+                        }
+                    }
+                    return listatymczasowa;
+                }
+                default: {
+                    List<Dokfk> listatymczasowa = new ArrayList<>();
+                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                    for (Dokfk p : listadokvat) {
+                        if (p.getVatM().equals(miesiacewkwartale.get(0)) || p.getVatM().equals(miesiacewkwartale.get(1)) || p.getVatM().equals(miesiacewkwartale.get(2))) {
+                            listatymczasowa.add(p);
+                        }
+                    }
+                    return listatymczasowa;
+                }
             }
-            if (mc.equals(wpisView.getMiesiacWpisu())) {
-                dobry = true;
-                System.out.println("dobry mc "+p.getDokfkSN());
-            }
+        } catch (Exception e) { E.e(e); 
+            Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
+            return null;
         }
-        return dobry;
     }
+    
+//    private boolean dobrymiesiac(Dokfk p) {
+//        boolean dobry = false;
+//        if (p.getEwidencjaVAT() != null && !p.getEwidencjaVAT().isEmpty()) {
+//            String mc = null;
+//            for (EVatwpisFK r : p.getEwidencjaVAT()) {
+//                mc = r.getMcEw();
+//            }
+//            if (mc.equals(wpisView.getMiesiacWpisu())) {
+//                dobry = true;
+//                System.out.println("dobry mc "+p.getDokfkSN());
+//            }
+//        }
+//        return dobry;
+//    }
     public void podsumuj() {
         sumawybranych = 0.0;
         for (VatUe p : listawybranych) {
             sumawybranych += p.getNetto();
         }
+    }
+    
+    public String sprawdzjakiokresvat() {
+        Integer rok = wpisView.getRokWpisu();
+        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
+        //odszukaj date w parametrze - kandydat na metode statyczna
+        for (Parametr p : parametry) {
+            if (p.getRokDo() != null && !p.getRokDo().equals("")) {
+                int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+                int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
+                if (wynikPo >= 0 && wynikPrzed <= 0) {
+                    return p.getParametr();
+                }
+            } else {
+                int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+                if (wynik >= 0) {
+                    return p.getParametr();
+                }
+            }
+        }
+        Msg.msg("e", "Problem z funkcja sprawdzajaca okres rozliczeniowy VAT VatView-269");
+        return "blad";
     }
 
 //    private List<Dok> zmodyfikujliste(List<Dok> listadokvat, String vatokres) throws Exception {
