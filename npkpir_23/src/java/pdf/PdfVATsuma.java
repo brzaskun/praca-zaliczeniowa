@@ -87,8 +87,10 @@ public class PdfVATsuma {
             document.add(miziu1);
             PdfPTable tableSprzedaz = new PdfPTable(5);
             tableSprzedaz.setWidths(new int[]{1, 5, 2, 2, 2});
+            tableSprzedaz.setWidthPercentage(95);
             PdfPTable tableZakup = new PdfPTable(5);
             tableZakup.setWidths(new int[]{1, 5, 2, 2, 2});
+            tableZakup.setWidthPercentage(95);
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
                 formatter.setMaximumFractionDigits(2);
                 formatter.setMinimumFractionDigits(2);
