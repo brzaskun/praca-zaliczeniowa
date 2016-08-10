@@ -77,7 +77,11 @@ public class PdfZestRok{
         PdfPCell cell = new PdfPCell();
         table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
         table.addCell(ustawfraze(B.b("wydrukpkpir"), 4, 0));
-        table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwadlafaktury(), 4, 0));
+        if (wpisView.getPodatnikObiekt().getNazwadlafaktury() != null && !wpisView.getPodatnikObiekt().getNazwadlafaktury().equals("")) {
+            table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwadlafaktury(), 4, 0));
+        } else {
+            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 4, 0));
+        }
         table.addCell(ustawfraze(B.b("rok")+" : " + wpisView.getRokWpisu(), 3, 0));
         table.addCell(ustawfraze(B.b("lp"), 0, 2));
         table.addCell(ustawfraze(B.b("opis"), 0, 2));
