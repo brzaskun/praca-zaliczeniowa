@@ -4,8 +4,7 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.formatujWaluta;
-import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.*;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Document;
@@ -174,15 +173,15 @@ public class PdfZestRok{
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(7)), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(8)), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(9)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(0)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(1)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(0)+rs.get(1)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(2)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(3)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(4)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(5)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(4)+rs.get(5)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(6)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(0)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(1)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(0)+rs.get(1)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(2)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(3)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(4)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(5)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(4)+rs.get(5)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(6)), "right",6));
             nr++;
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());

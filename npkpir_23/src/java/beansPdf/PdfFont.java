@@ -255,6 +255,22 @@ public class PdfFont {
         }
     }
     
+    public static String formatujWalutaNoZero(Double wsad) {
+        String zwrot = "";
+        if (wsad != 0.0) {
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            formatter.setMinimumFractionDigits(2);
+            formatter.setMaximumFractionDigits(2);
+            formatter.setGroupingUsed(true);
+            try {
+                zwrot = formatter.format(wsad);
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+        return zwrot;
+    }
+    
     public static String formatujEuro(Double wsad) {
         NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMinimumFractionDigits(2);
