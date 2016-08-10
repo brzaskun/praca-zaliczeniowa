@@ -165,7 +165,7 @@ public class PdfZestRok{
             } else if (nr==14){
                 table.addCell(ustawfrazeAlign(B.b("drugiepolrocze"), "left",6));
             } else {
-                if (FacesContext.getCurrentInstance().getViewRoot().getLocale().equals("en")) {
+                if (FacesContext.getCurrentInstance().getViewRoot().getLocale().toString().equals("en")) {
                     table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiacaEN().get(nrmca++), "left",6));
                 } else {
                     table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiaca().get(nrmca++), "left",6));
