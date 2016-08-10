@@ -125,18 +125,18 @@ public class Mce implements Serializable{
         numberToNazwamiesiaca.put(12, "grudzień");
         
         numberToNazwamiesiacaEN = new HashMap<>();
-        numberToNazwamiesiacaEN.put(1, "Jan");
-        numberToNazwamiesiacaEN.put(2, "Feb");
+        numberToNazwamiesiacaEN.put(1, "Jan.");
+        numberToNazwamiesiacaEN.put(2, "Feb.");
         numberToNazwamiesiacaEN.put(3, "March");
-        numberToNazwamiesiacaEN.put(4, "April");
-        numberToNazwamiesiacaEN.put(5, "Mai");
+        numberToNazwamiesiacaEN.put(4, "Apr.");
+        numberToNazwamiesiacaEN.put(5, "May");
         numberToNazwamiesiacaEN.put(6, "June");
         numberToNazwamiesiacaEN.put(7, "July");
-        numberToNazwamiesiacaEN.put(8, "August");
-        numberToNazwamiesiacaEN.put(9, "Sept");
-        numberToNazwamiesiacaEN.put(10, "Oct");
-        numberToNazwamiesiacaEN.put(11, "Nov");
-        numberToNazwamiesiacaEN.put(12, "Dec");
+        numberToNazwamiesiacaEN.put(8, "Aug.");
+        numberToNazwamiesiacaEN.put(9, "Sept.");
+        numberToNazwamiesiacaEN.put(10, "Oct.");
+        numberToNazwamiesiacaEN.put(11, "Nov.");
+        numberToNazwamiesiacaEN.put(12, "Dec.");
         
         stringToNazwamiesiaca = new HashMap<>();
         stringToNazwamiesiaca.put("01", "styczeń");
