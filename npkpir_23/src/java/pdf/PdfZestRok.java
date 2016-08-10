@@ -77,7 +77,7 @@ public class PdfZestRok{
         PdfPCell cell = new PdfPCell();
         table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
         table.addCell(ustawfraze(B.b("wydrukpkpir"), 4, 0));
-        table.addCell(ustawfraze(B.b("firma") +": "+wpisView.getPodatnikWpisu(), 4, 0));
+        table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelna(), 4, 0));
         table.addCell(ustawfraze(B.b("rok")+" : " + wpisView.getRokWpisu(), 3, 0));
         table.addCell(ustawfraze(B.b("lp"), 0, 2));
         table.addCell(ustawfraze(B.b("opis"), 0, 2));
