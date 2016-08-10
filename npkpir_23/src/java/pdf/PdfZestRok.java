@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
+import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
@@ -75,26 +77,26 @@ public class PdfZestRok{
         table.setWidths(new int[]{1, 4, 4, 4, 4, 4, 3, 2, 3, 3, 3, 3, 3, 3, 4});
         PdfPCell cell = new PdfPCell();
         table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
-        table.addCell(ustawfraze("wydruk obrotów podatkowej księgi przychodów i rozchodów", 4, 0));
-        table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
-        table.addCell(ustawfraze("za rok : " + wpisView.getRokWpisu(), 3, 0));
-        table.addCell(ustawfraze("lp", 0, 2));
-        table.addCell(ustawfraze("Opis", 0, 2));
-        table.addCell(ustawfraze("Okres rozl", 0, 2));
-        table.addCell(ustawfraze("Przych. razem", 0, 2));
-        table.addCell(ustawfraze("Koszty razem", 0, 2));
-        table.addCell(ustawfraze("Wynik", 0, 2));
-        table.addCell(ustawfraze("Przychody", 3, 0));
-        table.addCell(ustawfraze("Zakup towarów handlowych i materiałów wg cen zakupu", 0, 2));
-        table.addCell(ustawfraze("Koszty uboczne zakupu", 0, 2));
-        table.addCell(ustawfraze("Wydatki(koszty)", 4, 0));
-        table.addCell(ustawfrazeAlign("wartość sprzedanych towarów i usług", "center",6));
-        table.addCell(ustawfrazeAlign("pozostałe przychody", "center",6));
-        table.addCell(ustawfrazeAlign("razem przychód (7+8)", "center",6));
-        table.addCell(ustawfrazeAlign("wynagrodzenia w gotówce i w naturze", "center",6));
-        table.addCell(ustawfrazeAlign("pozostałe wydatki", "center",6));
-        table.addCell(ustawfrazeAlign("razem wydatki (12+13)", "center",6));
-        table.addCell(ustawfrazeAlign("inwestycje", "center",6));
+        table.addCell(ustawfraze(B.b("wydrukpkpir"), 4, 0));
+        table.addCell(ustawfraze(B.b("firma") +": "+wpisView.getPodatnikWpisu(), 4, 0));
+        table.addCell(ustawfraze(B.b("rok")+" : " + wpisView.getRokWpisu(), 3, 0));
+        table.addCell(ustawfraze(B.b("lp"), 0, 2));
+        table.addCell(ustawfraze(B.b("opis"), 0, 2));
+        table.addCell(ustawfraze(B.b("okresrozliczeniowy"), 0, 2));
+        table.addCell(ustawfraze(B.b("przychrazem"), 0, 2));
+        table.addCell(ustawfraze(B.b("kosztyrazem"), 0, 2));
+        table.addCell(ustawfraze(B.b("wynik"), 0, 2));
+        table.addCell(ustawfraze(B.b("przychody"), 3, 0));
+        table.addCell(ustawfraze(B.b("towaryhandlowemat"), 0, 2));
+        table.addCell(ustawfraze(B.b("kosztyubocznezakupu"), 0, 2));
+        table.addCell(ustawfraze(B.b("Wydatki(koszty)"), 4, 0));
+        table.addCell(ustawfrazeAlign(B.b("wartoscsprzedaz"), "center",6));
+        table.addCell(ustawfrazeAlign(B.b("pozostaleprzychody"), "center",6));
+        table.addCell(ustawfrazeAlign(B.b("razemprzychod"), "center",6));
+        table.addCell(ustawfrazeAlign(B.b("wynagrodzeniawgot"), "center",6));
+        table.addCell(ustawfrazeAlign(B.b("pozostalewydatki"), "center",6));
+        table.addCell(ustawfrazeAlign(B.b("razemwydatki"), "center",6));
+        table.addCell(ustawfrazeAlign(B.b("inwestycje"), "center",6));
         table.addCell(ustawfrazeAlign("1", "center",6));
         table.addCell(ustawfrazeAlign("2", "center",6));
         table.addCell(ustawfrazeAlign("3", "center",6));
@@ -150,20 +152,24 @@ public class PdfZestRok{
         for (List<Double> rs : wykaz) {
             table.addCell(ustawfrazeAlign(String.valueOf(nr), "center",6));
             if(nr==15){
-                table.addCell(ustawfrazeAlign("podsumowanie za rok", "left",6));
+                table.addCell(ustawfrazeAlign(B.b("podsumowaniezarok"), "left",6));
             } else if (nr==7||nr==14){
-                table.addCell(ustawfrazeAlign("podsumowanie za półrocze", "left",6));
+                table.addCell(ustawfrazeAlign(B.b("podsumowaniezapolrocze"), "left",6));
             } else {
-                table.addCell(ustawfrazeAlign("sumy za miesiąc", "left",6));
+                table.addCell(ustawfrazeAlign(B.b("sumyzamiesiac"), "left",6));
             }
             if(nr==15){
                 table.addCell(ustawfrazeAlign(wpisView.getRokWpisu().toString(), "left",6));
             } else if (nr==7){
-                table.addCell(ustawfrazeAlign("pierwsze półrocze", "left",6));
+                table.addCell(ustawfrazeAlign(B.b("pierwszepolrocze"), "left",6));
             } else if (nr==14){
-                table.addCell(ustawfrazeAlign("drugie półrocze", "left",6));
+                table.addCell(ustawfrazeAlign(B.b("drugiepolrocze"), "left",6));
             } else {
-                table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiaca().get(nrmca++), "left",6));
+                if (FacesContext.getCurrentInstance().getViewRoot().getLocale().equals("en")) {
+                    table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiacaEN().get(nrmca++), "left",6));
+                } else {
+                    table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiaca().get(nrmca++), "left",6));
+                }
             }
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(7)), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(8)), "right",6));
