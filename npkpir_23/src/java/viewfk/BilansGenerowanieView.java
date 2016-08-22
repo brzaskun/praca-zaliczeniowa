@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -35,7 +34,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import testobjects.WierszBO_T;
 import static testobjects.testobjects.getKlienci;
 import static testobjects.testobjects.getPodatnik;
@@ -69,6 +67,7 @@ public class BilansGenerowanieView implements Serializable {
     private List<String> komunikatyok;
     private List<String> komunikatyerror;
     private boolean sabledy;
+    private boolean przeniestylkosalda;
 
     public BilansGenerowanieView() {
         E.m(this);
@@ -93,6 +92,14 @@ public class BilansGenerowanieView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public boolean isPrzeniestylkosalda() {
+        return przeniestylkosalda;
+    }
+
+    public void setPrzeniestylkosalda(boolean przeniestylkosalda) {
+        this.przeniestylkosalda = przeniestylkosalda;
     }
 
     public BilansWprowadzanieView getBilansWprowadzanieView() {
@@ -360,7 +367,7 @@ public class BilansGenerowanieView implements Serializable {
     private List<SaldoKonto> przetwarzajSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
         List<SaldoKonto> nowalista = new ArrayList<>();
         for (SaldoKonto p : listaSaldoKonto) {
-            if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20")) {
+            if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==false) {
                 nowalista.addAll(przetworzPojedyncze(p));
             } else if (p.getKonto().getPelnynumer().startsWith("1")) {
                 nowalista.addAll(przetworzWBRK(p));
