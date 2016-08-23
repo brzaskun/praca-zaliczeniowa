@@ -776,6 +776,7 @@ public class PlanKontFKBean {
                 kp.setSyntetykaanalityka(wersja);
                 kp.setKontoID(noweKonto);
                 kp.setUkladBR(kpo.getUkladBR());
+                kp.setWynik0bilans1(kpo.isWynik0bilans1());
                 kontopozycjaZapisDAO.edit(kp);
                 noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
                 kontoDAOfk.edit(noweKonto);
@@ -786,6 +787,7 @@ public class PlanKontFKBean {
                 kp.setStronaMa(kpo.getStronaMa());
                 kp.setSyntetykaanalityka(wersja);
                 kp.setUkladBR(kpo.getUkladBR());
+                kp.setWynik0bilans1(kpo.isWynik0bilans1());
                 kontopozycjaZapisDAO.edit(kp);
                 noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
                 kontoDAOfk.edit(noweKonto);
