@@ -13,16 +13,18 @@
              
                  <h:form>
                     <p:growl id="fifi"/>
-                    <p:confirmDialog id="confirmDialog" message="Usunąć wybrany środek trwały?"  
-                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
-<h:outputLabel for="powerusun" value="twarde usuwanie"/>
-                        <h:selectBooleanCheckbox id="powerusun" value="#{STRTableView.napewnousunac}" title="napewno usunac"/>
-                        <p:separator/>
-                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formSTR:akordeon" oncomplete="PF('confirmation').hide()"  
+                    <p:dialog id="confirmDialog" 
+                                     header="Usunąć wybrany środek trwały?" widgetVar="confirmation"> 
+                        <p:panelGrid columns="2" style="padding: 10px;">
+                            <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formSTR:akordeon" oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{STRTableView.destroy2()}" />  
-                        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
+                            <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" style="margin-left: 60px;"/>   
+                            <h:selectBooleanCheckbox id="powerusun" value="#{STRTableView.napewnousunac}" title="napewno usunac" style="float: right; margin-top: 10px; margin-left: 20px;"/>
+                            <h:outputLabel for="powerusun" value="bezwzględne usuwanie" style="float: left; margin-top: 10px;"/>
                         
-                    </p:confirmDialog>  
+                        </p:panelGrid>
+                        
+                    </p:dialog>  
                 </h:form>
                 <f:view contentType="text/html">
             

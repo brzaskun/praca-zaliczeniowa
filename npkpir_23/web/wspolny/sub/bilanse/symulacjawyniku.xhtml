@@ -194,32 +194,33 @@
                 </p:rowExpansion>
             </p:dataTable>
             <p:dataTable id="tabelacechyzapisow" var="wpis" value="#{symulacjaWynikuView.zapisyZCecha}" editable="true" rowKey="#{wpis.id}"
-                         emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" styleClass="gridtablicasyntetyczne"
-                          style="width: 800px; margin-top: 10px;"  widgetVar="tabelacechyzapisow" rowIndexVar="index">
+                         emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" 
+                         style="margin-top: 10px;width: 900px;"  scrollable="true" scrollRows="20" scrollHeight="300" 
+                          widgetVar="tabelacechyzapisow" rowIndexVar="index">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zapisów z cechami " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('tabelacechyzapisow').filter();" style="width:150px" />  
                 </f:facet>
-                <p:column headerText="nazwa cechy" width="80" sortBy="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}">
+                <p:column headerText="nazwa cechy" style="width:60px;" sortBy="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}">
                     <h:outputText value="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}"/>
                 </p:column>
-                <p:column headerText="#{mgs.dokument}" width="80">
+                <p:column headerText="#{mgs.dokument}" style="width:60px;">
                     <h:outputText value="#{wpis.stronaWiersza.dokfkS}"/>
                 </p:column>
-                <p:column headerText="#{mgs.datadok}" width="80">
+                <p:column headerText="#{mgs.datadok}" style="width:80px;">
                     <h:outputText value="#{wpis.stronaWiersza.dokfk.datawystawienia}"/>
                 </p:column>
-                <p:column headerText="#{mgs.miesiąc}" width="40">
+                <p:column headerText="#{mgs.miesiąc}" style="width:40px;">
                     <h:outputText value="#{wpis.stronaWiersza.dokfk.miesiac}"/>
                 </p:column>
-                <p:column headerText="wiersz" width="200">
+                <p:column headerText="#{mgs.wiersz}" style="width:350px;">
                     <h:outputText value="#{wpis.stronaWiersza.wiersz.opisWiersza}"/>
                 </p:column>
-                <p:column headerText="#{mgs.konto}" width="70">
+                <p:column headerText="#{mgs.konto}" style="width:70px;">
                     <h:outputText value="#{wpis.stronaWiersza.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="#{mgs.kwota}" width="90">
+                <p:column headerText="#{mgs.kwota}" style="width:70px;">
                     <bcf:outputpl value="#{wpis.stronaWiersza.kwotaPLN}"/>
                 </p:column>
             </p:dataTable>
@@ -239,7 +240,7 @@
             </p:dataTable>
 <!--            <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuView.pozycjeObliczeniaPodatku}" var="loop" rowKey="#{loop.nazwa}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width=" 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.obliczeniepodatku}"/>
@@ -253,7 +254,7 @@
             </p:dataTable>
             <p:dataTable id="tablicasymulacjawyplata" value="#{symulacjaWynikuView.pozycjeDoWyplaty}" var="loop1" rowKey="#{loop1.nazwa}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width=" 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.obliczkwotadowypl}"/>
@@ -266,7 +267,7 @@
                 </p:column>
             </p:dataTable>-->
             <p:commandButton value="#{mgs.zaksiegujrozliczenie}" actionListener="#{symulacjaWynikuView.zaksiegujwynik}"
-                             style="margin-top: 10px; width: 150px; margin-bottom: 400px;" update="akordeon:formsymulacjanarastajaco"/>
+                                style="margin-top: 10px; width: 150px; margin-bottom: 400px;" update="akordeon:formsymulacjanarastajaco"/>
         </h:form>
     </p:tab>  
 </ui:composition>   
