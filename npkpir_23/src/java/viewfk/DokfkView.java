@@ -2458,7 +2458,8 @@ public class DokfkView implements Serializable {
             Wiersz wiersz = selected.getListawierszy().get(idwiersza);
             FacesContext context = FacesContext.getCurrentInstance();
             WalutyViewFK bean = context.getApplication().evaluateExpressionGet(context, "#{walutyViewFK}", WalutyViewFK.class);
-            bean.setKurswprowadzonyrecznie(wiersz.getTabelanbp());
+            Tabelanbp tab = tabelanbpDAO.findById(wiersz.getTabelanbp().getIdtabelanbp());
+            bean.setKurswprowadzonyrecznie(tab);
             bean.setSymbolRecznie(wiersz.getWalutaWiersz());
         }
     }

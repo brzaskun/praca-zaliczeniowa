@@ -97,6 +97,14 @@ public class TabelanbpDAO extends DAO implements Serializable {
         }
     }
     
+    public Tabelanbp findById(int id) {
+         try {
+            return tabelanbpFacade.findById(id);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
     public List<Tabelanbp> findByWaluta(Waluty waluta) {
          try {
             return tabelanbpFacade.findByWaluta(waluta);
