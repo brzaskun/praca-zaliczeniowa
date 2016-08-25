@@ -46,10 +46,7 @@
                     </pe:inputNumber>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" id="zapiswalutarecznie" 
-                                     update=":formkursrecznie :formwpisdokument:panelTabelaNBP :wprowadzonekursyrecznie"
-                                     oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()"
-                    >
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" id="zapiswalutarecznie">
                     </p:commandButton>
                 </p:column>
             </p:dataTable>

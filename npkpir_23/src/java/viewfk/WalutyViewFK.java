@@ -193,7 +193,9 @@ public class WalutyViewFK implements Serializable {
             kurswprowadzonyrecznie = new Tabelanbp();
             kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(tabelanbp.getNrtabeli().split("/")[2], wprowadzonekursyRok));
             Msg.msg("Dodałem tabelę NBP");
-            RequestContext.getCurrentInstance().update("formkursrecznie");
+            RequestContext.getCurrentInstance().update(":formkursrecznie :formwpisdokument:panelTabelaNBP :wprowadzonekursyrecznie");
+            RequestContext.getCurrentInstance().execute("PF('dialogkursrecznie').hide()");
+            RequestContext.getCurrentInstance().execute("powrotpozmianietabeli()");
         } catch (Exception e) {  
             E.e(e);
             List<Tabelanbp> kursypokrewne = new ArrayList<>();
