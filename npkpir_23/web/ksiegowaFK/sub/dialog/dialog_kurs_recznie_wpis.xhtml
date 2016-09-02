@@ -21,7 +21,9 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
-                    <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr" size="14"/>
+                    <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr" size="14">
+                        <p:ajax event="blur" partialSubmit="true"/>
+                    </p:inputMask>
                 </p:column>
                 <p:column headerText="data tabeli" width="100" style="text-align: center;">
                     <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny('#{WpisView.rokWpisuSt}')" placeholder="rrrr-mm-dd" maxlength="10"/>

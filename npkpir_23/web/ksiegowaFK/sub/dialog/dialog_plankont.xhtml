@@ -69,7 +69,7 @@
                       <p:menuitem global="false" value="grupa 8" actionListener="#{planKontView.drukujPlanKont('grupa8')}" icon="fa fa-print"/>  
                   </p:splitButton>
                   <p:selectBooleanCheckbox itemLabel="bez słownikowych" value="#{planKontView.bezslownikowych}">
-                      <p:ajax event="change" global="false" partialSubmit="true"/>
+                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowych()}" update="form_dialog_plankont:dataList"/>
                   </p:selectBooleanCheckbox>
                   <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
                       <p:ajax event="change" global="false" partialSubmit="true"/>

@@ -143,6 +143,16 @@ public class PlanKontView implements Serializable {
         }
         return zwrot;
     }
+    
+    public void planBezSlownikowych() {
+        if (bezslownikowych == true) {
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            Collections.sort(wykazkont, new Kontocomparator());
+        } else {
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            Collections.sort(wykazkont, new Kontocomparator());
+        }
+    }
 
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
         TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);
@@ -214,7 +224,7 @@ public class PlanKontView implements Serializable {
             if (czyoddacdowzorca == true) {
                 wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
             } else {
-                wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                planBezSlownikowych();
             }
             if (wynikdodaniakonta == 0) {
                 noweKonto = new Konto();
@@ -260,7 +270,7 @@ public class PlanKontView implements Serializable {
                 if (czyoddacdowzorca == true) {
                     wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
                 } else {
-                    wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                    planBezSlownikowych();
                 }
                 noweKonto = new Konto();
                 //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
@@ -1204,7 +1214,7 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Nie wybrano konta");
         } else {
             KontaFKBean.oznaczkontoPrzychod0Koszt1(selectednodekonto, kontoDAOfk, true, wpisView);
-            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            planBezSlownikowych();
             Msg.msg("Naniesiono oznaczenia na konta");
         }
     }
@@ -1224,7 +1234,7 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Nie wybrano konta");
         } else {
             KontaFKBean.oznaczkontoPrzychod0Koszt1(selectednodekonto, kontoDAOfk, false, wpisView);
-            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            planBezSlownikowych();
             Msg.msg("Naniesiono oznaczenia na konta");
         }
     }
