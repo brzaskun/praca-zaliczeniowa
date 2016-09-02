@@ -116,13 +116,13 @@
                                         <h:outputText value="data oper.gosp."/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="#{mgs.rok}"/>
+                                        <h:outputText value="rok"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="m CIT"/>
+                                        <h:outputText value="CIT"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="m VAT"/>
+                                        <h:outputText value="VAT"/>
                                     </p:column>
                                 </p:row>
                             </f:facet>
@@ -558,8 +558,8 @@
                                         update=":parametry, :wpisywaniefooter, :parametrynowekonto" />
                             </p:autoComplete>
                         </p:column>
-                        <p:column  headerText="kurs" style="width: 20px; text-align: center;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
-                            <h:outputText id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  
+                        <p:column  headerText="kurs" style="width: 20px; text-align: right;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
+                            <bcf:outputkurs id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  
                                           style="#{loop.tabelanbp.recznie ? 'color: red !important;' : null}"/>
                         </p:column>
                         <p:column headerText="saldo" style="width: 40px;" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">

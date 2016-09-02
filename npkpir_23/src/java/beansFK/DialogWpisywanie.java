@@ -40,7 +40,7 @@ public class DialogWpisywanie {
             sumapoprzednich = selected.getListawierszy().get(indexwTabeli-1).getSaldoWBRK();
         }
         double kwotawiersza = obliczsaldo(wierszbiezacy, kontorozrachunkowe);
-        wierszbiezacy.setSaldoWBRK(sumapoprzednich + kwotawiersza);
+        wierszbiezacy.setSaldoWBRK(Z.z(sumapoprzednich + kwotawiersza));
     }
     
     public static void naprawsaldo(Dokfk selected,Wiersz wiersz) {
