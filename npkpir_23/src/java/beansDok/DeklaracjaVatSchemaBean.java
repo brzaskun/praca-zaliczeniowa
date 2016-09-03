@@ -24,9 +24,12 @@ public class DeklaracjaVatSchemaBean implements Serializable{
     public static int sprawdzScheme(DeklaracjaVatSchema deklaracjaVatSchema, List schemyDeklaracjiVat) {
         int jestjuztaka = 0;
         if (!schemyDeklaracjiVat.isEmpty() && deklaracjaVatSchema != null) {
-            jestjuztaka = sprawdznazwe(deklaracjaVatSchema, schemyDeklaracjiVat);
+                jestjuztaka = sprawdznazwe(deklaracjaVatSchema, schemyDeklaracjiVat);
             if (jestjuztaka == 0) {
-             jestjuztaka = sprawdzokres(deklaracjaVatSchema, schemyDeklaracjiVat);
+                jestjuztaka = sprawdzokres(deklaracjaVatSchema, schemyDeklaracjiVat);
+            }
+            if (jestjuztaka == 0) {
+                jestjuztaka = sprawdznazwe(deklaracjaVatSchema);
             }
         }
         return jestjuztaka;
@@ -58,4 +61,14 @@ public class DeklaracjaVatSchemaBean implements Serializable{
         return jesttakiokres;
     }
 
+    private static int sprawdznazwe(DeklaracjaVatSchema deklaracjaVatSchema) {
+        int jesttakiokres = 0;
+            if (deklaracjaVatSchema.getNazwaschemy().isEmpty()) {
+                jesttakiokres = 3;
+            } else if (!deklaracjaVatSchema.getNazwaschemy().startsWith("M-") && !deklaracjaVatSchema.getNazwaschemy().startsWith("K-")) {
+                jesttakiokres = 4;
+            }
+        return jesttakiokres;
+    }
+    
 }

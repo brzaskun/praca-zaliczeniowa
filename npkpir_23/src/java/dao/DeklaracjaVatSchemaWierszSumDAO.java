@@ -25,8 +25,6 @@ public class DeklaracjaVatSchemaWierszSumDAO  extends DAO implements Serializabl
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private SessionFacade sessionFacade;
 
     public DeklaracjaVatSchemaWierszSumDAO() {
         super(DeklaracjaVatSchemaWierszSum.class);
@@ -50,5 +48,12 @@ public class DeklaracjaVatSchemaWierszSumDAO  extends DAO implements Serializabl
         }
     }
     
+    public void usunliste(DeklaracjaVatSchema s) {
+        try {
+            sessionFacade.getEntityManager().createNamedQuery("DeklaracjaVatSchemaWierszSum.usunliste").setParameter("deklaracjaVatSchema", s).executeUpdate();
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+    }
     
 }

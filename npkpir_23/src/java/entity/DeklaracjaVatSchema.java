@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Max;
@@ -25,6 +27,9 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames={"nazwaschemy"})
+})
+@NamedQueries({
+    @NamedQuery(name = "DeklaracjaVatSchema.usunliste", query = "DELETE FROM DeklaracjaVatSchema p WHERE p.nazwaschemy = :nazwaschemy")
 })
 public class DeklaracjaVatSchema implements Serializable {
    private static final long serialVersionUID = 1L;
@@ -49,6 +54,22 @@ public class DeklaracjaVatSchema implements Serializable {
     private String oswiadczenie;
     @Column(name = "mc0kw1")
     private boolean mc0kw1;
+
+    public DeklaracjaVatSchema() {
+    }
+
+    public DeklaracjaVatSchema(DeklaracjaVatSchema dk) {
+        this.rokOd = rokOd;
+        this.mcOd = dk.mcOd;
+        this.nazwaschemy = dk.nazwaschemy;
+        this.wstep = dk.wstep;
+        this.naglowek = dk.naglowek;
+        this.pouczenie = dk.pouczenie;
+        this.oswiadczenie = dk.oswiadczenie;
+        this.mc0kw1 = dk.mc0kw1;
+    }
+
+        
     
 
     @Override
@@ -78,81 +99,82 @@ public class DeklaracjaVatSchema implements Serializable {
         return "DeklaracjaVatSchema{" + "rokOd=" + rokOd + ", mcOd=" + mcOd + ", nazwaschemy=" + nazwaschemy + ", wstep=" + wstep + ", pouczenie=" + pouczenie + ", mc0kw1=" + mc0kw1 + '}';
     }
   
+    //<editor-fold defaultstate="collapsed" desc="comment">
     
     public Integer getId() {
         return id;
     }
-
+    
     public void setId(Integer id) {
         this.id = id;
     }
-
+    
     public String getRokOd() {
         return rokOd;
     }
-
+    
     public void setRokOd(String rokOd) {
         this.rokOd = rokOd;
     }
-
-  
+    
+    
     public String getMcOd() {
         return mcOd;
     }
-
+    
     public void setMcOd(String mcOd) {
         this.mcOd = mcOd;
     }
-
-  
+    
+    
     public String getNazwaschemy() {
         return nazwaschemy;
     }
-
+    
     public void setNazwaschemy(String nazwaschemy) {
         this.nazwaschemy = nazwaschemy;
     }
-
+    
     public String getWstep() {
         return wstep;
     }
-
+    
     public void setWstep(String wstep) {
         this.wstep = wstep;
     }
-
+    
     public String getPouczenie() {
         return pouczenie;
     }
-
+    
     public void setPouczenie(String pouczenie) {
         this.pouczenie = pouczenie;
     }
-
+    
     public boolean isMc0kw1() {
         return mc0kw1;
     }
-
+    
     public void setMc0kw1(boolean mc0kw1) {
         this.mc0kw1 = mc0kw1;
     }
-
+    
     public String getNaglowek() {
         return naglowek;
     }
-
+    
     public void setNaglowek(String naglowek) {
         this.naglowek = naglowek;
     }
-
+    
     public String getOswiadczenie() {
         return oswiadczenie;
     }
-
+    
     public void setOswiadczenie(String oswiadczenie) {
         this.oswiadczenie = oswiadczenie;
     }
-
+//</editor-fold>
   
     
     

@@ -26,8 +26,6 @@ public class SchemaEwidencjaDAO  extends DAO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private SessionFacade sessionFacade;
 
     public SchemaEwidencjaDAO() {
         super(SchemaEwidencja.class);
@@ -48,6 +46,14 @@ public class SchemaEwidencjaDAO  extends DAO implements Serializable {
         } catch (Exception e) { 
             E.e(e); 
             return null;
+        }
+    }
+
+    public void usunliste(DeklaracjaVatSchema s) {
+        try {
+            sessionFacade.getEntityManager().createNamedQuery("DeklaracjaVatSchema.usunliste").setParameter("nazwaschemy", s.getNazwaschemy()).executeUpdate();
+        } catch (Exception e) { 
+            E.e(e); 
         }
     }
     

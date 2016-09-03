@@ -12,7 +12,7 @@
                 <p:growl autoUpdate="true"/>
                 <p:dataTable value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" style="width: 680px;"
                              emptyMessage="nie ma zdefiniowanych schem" id="wykazschem" rowKey="#{item.id}"
-                             selection="#{deklaracjaVatSchemaView.wybranaschema}" selectionMode="single">
+                             selection="#{deklaracjaVatSchemaView.wybranaschema}" selectionMode="single" sortBy="#{item.nazwaschemy}" sortOrder="descending">
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="rowSelect" global="false" listener="#{deklaracjaVatSchemaView.skopiujschema()}" update="akordeon:wprowadzanieschemy"/>
                     <f:facet name="header">
@@ -105,10 +105,32 @@
                 <p:commandButton value="edytuj" actionListener="#{deklaracjaVatSchemaView.edytujscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:definowaniepozycji, akordeon:form_deklaracjaVatSchemaView:wykazschem"/>
             </h:form>
         </p:tab>
+        <p:tab title="Kopiuj ewidencje vat">
+            <h:form id="kopiowanieschemy">
+                <p:panelGrid columns="10" style="width: 400px;">
+                    <h:outputText value="ewidencja źródłowa"/>
+                    <p:selectOneMenu value="#{deklaracjaVatSchemaView.wybranaschema}" converter="DeklaracjaVatSchemaConv" rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}">
+                        <f:selectItems value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
+                        <p:ajax listener="#{deklaracjaVatSchemaView.pobierzschemaewidencja()}" update="akordeon:definowaniepozycji" event="change"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="rok od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.kopiowanaschema.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
+                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.kopiowanaschema.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                    <h:outputText value="nazwa schemy: "/><p:inputText value="#{deklaracjaVatSchemaView.kopiowanaschema.nazwaschemy}" style="width: 200px;"/>
+                    <h:outputText value="mc/kw: " />
+                    <p:selectOneListbox value="#{deklaracjaVatSchemaView.kopiowanaschema.mc0kw1}">
+                        <f:selectItem itemLabel="miesięczna" itemValue="false"/>
+                        <f:selectItem itemLabel="kwartalna" itemValue="true"/>
+                    </p:selectOneListbox>
+                </p:panelGrid>
+                <p:commandButton value="kopiuj" actionListener="#{deklaracjaVatSchemaView.kopiujscheme()}" style="width: 120px; margin: 10px;" 
+                                 global="false" update="akordeon:definowaniepozycji akordeon:form_deklaracjaVatSchemaView:wykazschem akordeon:definowaniewierszysumarycznych"/>
+            </h:form>
+        </p:tab>
         <p:tab title="Definiowanie pozycji dla ewidencji">
             <h:form id="definowaniepozycji">
                 <p:selectOneMenu value="#{deklaracjaVatSchemaView.wybranaschema}" converter="DeklaracjaVatSchemaConv" rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}">
                     <f:selectItems value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
+                    <p:ajax listener="#{deklaracjaVatSchemaView.pobierzschemaewidencja()}" update="akordeon:definowaniepozycji" event="change"/>
                 </p:selectOneMenu>
                 <p:commandButton value="pobierz" actionListener="#{deklaracjaVatSchemaView.pobierzschemaewidencja()}" update="akordeon:definowaniepozycji" style="width: 120px; margin: 10px;"
                                   rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
@@ -160,14 +182,15 @@
         </p:tab>
         <p:tab title="Definiowanie pozycji dla wierszy sumarycznych">
             <h:form id="definowaniewierszysumarycznych">
-                <p:selectOneMenu value="#{deklaracjaVatSchemaWierszSumView.wybranaschema}" converter="DeklaracjaVatSchemaConv" rendered="#{deklaracjaVatSchemaWierszSumView.schemyDeklaracjiVat.size() > 0}">
-                    <f:selectItems value="#{deklaracjaVatSchemaWierszSumView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
+                <p:selectOneMenu value="#{deklaracjaVatSchemaView.wybranaschema}" converter="DeklaracjaVatSchemaConv" rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}">
+                    <f:selectItems value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
+                    <p:ajax listener="#{deklaracjaVatSchemaView.pobierzschemawiersz()}" update="akordeon:definowaniewierszysumarycznych" event="change"/>
                 </p:selectOneMenu>
-                <p:commandButton value="pobierz" actionListener="#{deklaracjaVatSchemaWierszSumView.pobierzschemawiersz()}" update="akordeon:definowaniewierszysumarycznych" style="width: 120px; margin: 10px;"
-                                  rendered="#{deklaracjaVatSchemaWierszSumView.schemyDeklaracjiVat.size() > 0}"/>
-                <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaWierszSumView.zachowaj()}" update="akordeon:definowaniewierszysumarycznych" style="width: 120px; margin: 10px;"
-                                 rendered="#{deklaracjaVatSchemaWierszSumView.schemyDeklaracjiVat.size() > 0}"/>
-                <p:dataTable value="#{deklaracjaVatSchemaWierszSumView.schemawierszlista}" var="item" style="width: 960px;"
+                <p:commandButton value="pobierz" actionListener="#{deklaracjaVatSchemaView.pobierzschemawiersz()}" update="akordeon:definowaniewierszysumarycznych" style="width: 120px; margin: 10px;"
+                                  rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
+                <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaView.zachowajsumaryczne()}" update="akordeon:definowaniewierszysumarycznych" style="width: 120px; margin: 10px;"
+                                 rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
+                <p:dataTable value="#{deklaracjaVatSchemaView.schemawierszlista}" var="item" style="width: 960px;"
                              emptyMessage="Nie pobrano wierszy/Nie zdefinowano jeszcze wierszy" sortBy="#{item.polenetto}"
                              >
                     <p:column width="70">

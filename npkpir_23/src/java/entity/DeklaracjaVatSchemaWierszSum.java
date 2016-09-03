@@ -28,7 +28,8 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames={"deklaracjaVatSchema, deklaracjaVatWierszSumaryczny"})
 })
 @NamedQueries({
-    @NamedQuery(name = "DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy", query = "SELECT t FROM DeklaracjaVatSchemaWierszSum t WHERE t.deklaracjaVatSchema = :deklarachaVatSchema ORDER BY t.polenetto")
+    @NamedQuery(name = "DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy", query = "SELECT t FROM DeklaracjaVatSchemaWierszSum t WHERE t.deklaracjaVatSchema = :deklarachaVatSchema ORDER BY t.polenetto"),
+    @NamedQuery(name = "DeklaracjaVatSchemaWierszSum.usunliste", query = "DELETE FROM DeklaracjaVatSchemaWierszSum p WHERE p.deklaracjaVatSchema = :deklaracjaVatSchema")
 })
 public class DeklaracjaVatSchemaWierszSum implements Serializable {
    private static final long serialVersionUID = 1L;
