@@ -99,8 +99,9 @@ public class DeklaracjaVatSchemaView implements Serializable {
     public void usun(DeklaracjaVatSchema s) {
         deklaracjaVatSchemaDAO.destroy(s);
         schemyDeklaracjiVat.remove(s);
-        schemaEwidencjaDAO.usunliste(s);
-        deklaracjaVatSchemaWierszSumDAO.usunliste(s);
+        if (schemyDeklaracjiVat.size() > 0) {
+            wybranaschema = schemyDeklaracjiVat.get(schemyDeklaracjiVat.size()-1);
+        }
         Msg.msg("Usunieto schemę");
     }
     

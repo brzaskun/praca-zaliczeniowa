@@ -46,7 +46,8 @@
                         <h:outputText value="#{item.mc0kw1 eq false ? 'miesięczna' : 'kwartalna'}" style="#{item.mc0kw1 eq false ? 'color: green' : 'color:blue'}"/>
                     </p:column>
                     <p:column width="40">
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{deklaracjaVatSchemaView.usun(item)}" update="akordeon:form_deklaracjaVatSchemaView"/>
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{deklaracjaVatSchemaView.usun(item)}"
+                                         update="akordeon:definowaniepozycji akordeon:form_deklaracjaVatSchemaView:wykazschem akordeon:definowaniewierszysumarycznych"/>
                     </p:column>
                     <p:rowExpansion>
                         <p:panelGrid>
