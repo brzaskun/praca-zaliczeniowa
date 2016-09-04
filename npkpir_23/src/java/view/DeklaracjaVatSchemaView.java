@@ -6,12 +6,16 @@
 package view;
 
 import beansDok.DeklaracjaVatSchemaBean;
+import dao.DeklaracjaVatPozycjeKoncoweDAO;
 import entity.DeklaracjaVatSchema;
 import dao.DeklaracjaVatSchemaDAO;
+import dao.DeklaracjaVatSchemaPozKoncoweDAO;
 import dao.DeklaracjaVatSchemaWierszSumDAO;
 import dao.DeklaracjaVatWierszSumarycznyDAO;
 import dao.EvewidencjaDAO;
 import dao.SchemaEwidencjaDAO;
+import entity.DeklaracjaVatPozycjeKoncowe;
+import entity.DeklaracjaVatSchemaPozKoncowe;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
 import entity.Evewidencja;
@@ -48,17 +52,20 @@ public class DeklaracjaVatSchemaView implements Serializable {
     private List<SchemaEwidencja> schemaewidencjalista;
     @Inject
     private DeklaracjaVatWierszSumarycznyDAO deklaracjaVatWierszSumarycznyDAO;
-    private List<DeklaracjaVatWierszSumaryczny> listawierszy;
     @Inject
     private DeklaracjaVatSchemaWierszSumDAO deklaracjaVatSchemaWierszSumDAO;
+    @Inject
+    private DeklaracjaVatPozycjeKoncoweDAO deklaracjaVatPozycjeKoncoweDAO;
+    @Inject
+    private DeklaracjaVatSchemaPozKoncoweDAO deklaracjaVatSchemaPozKoncoweDAO;
     private List<DeklaracjaVatSchemaWierszSum> schemawierszlista;
+    private List<DeklaracjaVatSchemaPozKoncowe> schemapozycjekoncowe;
     
     @PostConstruct
     private void init() {
         schemyDeklaracjiVat = deklaracjaVatSchemaDAO.findAll();
         wybranaschema = schemyDeklaracjiVat.get(schemyDeklaracjiVat.size()-1);
         ewidencjevat = evewidencjaDAO.findAll();
-        listawierszy = deklaracjaVatWierszSumarycznyDAO.findAll();
         pobierzschemawiersz();
         pobierzschemaewidencja();
         
@@ -92,7 +99,6 @@ public class DeklaracjaVatSchemaView implements Serializable {
     
     public void edytujscheme() {
         deklaracjaVatSchemaDAO.edit(deklaracjaVatSchema);
-        deklaracjaVatSchema = new DeklaracjaVatSchema();
         Msg.msg("Udana edycja schemy");
     }
     
@@ -134,7 +140,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
     }
     
     public void pobierzschemawiersz() {
-        listawierszy = deklaracjaVatWierszSumarycznyDAO.findAll();
+        List<DeklaracjaVatWierszSumaryczny> listawierszy = deklaracjaVatWierszSumarycznyDAO.findAll();
         schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(wybranaschema);
         List<DeklaracjaVatWierszSumaryczny> uzupelnionewiersze = new ArrayList<>();
         for (DeklaracjaVatSchemaWierszSum p : schemawierszlista) {
@@ -160,6 +166,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
         deklaracjaVatSchemaWierszSumDAO.editList(schemawierszlista);
         Msg.msg("Zachowano scheme-wiersz");
     }
+     
      
      public void kopiujscheme() {
          if (wybranaschema != null && kopiowanaschema.getNazwaschemy() != null) {
@@ -198,7 +205,39 @@ public class DeklaracjaVatSchemaView implements Serializable {
              Msg.msg("e", "Nie wybrano schemy wzorcowej. Nie określono nazwy schemy docelowej");
          }
      }
+     
+     public void pobierzschemapozycjekoncowe() {
+        List<DeklaracjaVatPozycjeKoncowe> listapozycjikoncowych = deklaracjaVatPozycjeKoncoweDAO.findAll();
+        schemapozycjekoncowe = deklaracjaVatSchemaPozKoncoweDAO.findWierszeSchemy(wybranaschema);
+        List<DeklaracjaVatPozycjeKoncowe> uzupelnionewiersze = new ArrayList<>();
+        if (schemapozycjekoncowe != null) {
+            for (DeklaracjaVatSchemaPozKoncowe p : schemapozycjekoncowe) {
+                uzupelnionewiersze.add(p.getDeklaracjaVatPozycjeKoncowe());
+            }
+        } else {
+            schemapozycjekoncowe = new ArrayList<>();
+        }
+        List<DeklaracjaVatPozycjeKoncowe> wierszedododania = new ArrayList<>();
+        for (DeklaracjaVatPozycjeKoncowe r : listapozycjikoncowych) {
+            if (uzupelnionewiersze.contains(r)) {
+                uzupelnionewiersze.remove(r);
+            } else {
+                wierszedododania.add(r);
+            }
+        }
+        if (!wierszedododania.isEmpty()) {
+            for (DeklaracjaVatPozycjeKoncowe s : wierszedododania) {
+                DeklaracjaVatSchemaPozKoncowe nowyschemawiersz = new DeklaracjaVatSchemaPozKoncowe(wybranaschema, s, null);
+                schemapozycjekoncowe.add(nowyschemawiersz);
+            }
+        }
+    }
     
+     public void zachowajpozycjekoncowe() {
+        deklaracjaVatSchemaPozKoncoweDAO.editList(schemapozycjekoncowe);
+        Msg.msg("Zachowano scheme-pozycje końcowe");
+    }
+     
      //<editor-fold defaultstate="collapsed" desc="comment">
      public List<DeklaracjaVatSchema> getSchemyDeklaracjiVat() {
          return schemyDeklaracjiVat;
@@ -215,7 +254,15 @@ public class DeklaracjaVatSchemaView implements Serializable {
      public void setDeklaracjaVatSchema(DeklaracjaVatSchema deklaracjaVatSchema) {
          this.deklaracjaVatSchema = deklaracjaVatSchema;
      }
-     
+
+    public List<DeklaracjaVatSchemaPozKoncowe> getSchemapozycjekoncowe() {
+        return schemapozycjekoncowe;
+    }
+
+    public void setSchemapozycjekoncowe(List<DeklaracjaVatSchemaPozKoncowe> schemapozycjekoncowe) {
+        this.schemapozycjekoncowe = schemapozycjekoncowe;
+    }
+
      public DeklaracjaVatSchema getWybranaschema() {
          return wybranaschema;
      }

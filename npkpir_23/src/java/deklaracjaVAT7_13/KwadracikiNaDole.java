@@ -42,7 +42,11 @@ public class KwadracikiNaDole {
                 break;
             case "M-15":
             case "K-9":
-                this.schemaM15(pozycjelista, today);
+                this.schemaM15K9(pozycjelista, today);
+                break;
+            case "M-16":
+            case "K-10":
+                this.schemaM16K10(pozycjelista, today);
                 break;
         }
     }
@@ -71,7 +75,7 @@ public class KwadracikiNaDole {
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
     
-    private void schemaM15(PozycjeSzczegoloweVAT pozycjelista, String today){
+    private void schemaM15K9(PozycjeSzczegoloweVAT pozycjelista, String today){
         if(pozycjelista.getPoleI54()>0 && pozycjelista.getPoleI55()==0){
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_64>1</P_64>");
         }
@@ -79,6 +83,17 @@ public class KwadracikiNaDole {
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_65>1</P_65>");
         }
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_72>"+today+"</P_72>");
+        kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
+    }
+    
+    private void schemaM16K10(PozycjeSzczegoloweVAT pozycjelista, String today){
+        if(pozycjelista.getPoleI55()>0 && pozycjelista.getPoleI56()==0){
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_65>1</P_65>");
+        }
+        if(pozycjelista.getPoleI55()>0 && pozycjelista.getPoleI56()>0){
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_66>1</P_66>");
+        }
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_73>"+today+"</P_73>");
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
     

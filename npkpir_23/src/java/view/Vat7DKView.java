@@ -7,8 +7,8 @@ package view;
 
 import beansVAT.VATDeklaracja;
 import dao.DeklaracjaVatSchemaDAO;
+import dao.DeklaracjaVatSchemaPozKoncoweDAO;
 import dao.DeklaracjaVatSchemaWierszSumDAO;
-import dao.DeklaracjaVatWierszSumarycznyDAO;
 import dao.DeklaracjevatDAO;
 import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
@@ -22,7 +22,9 @@ import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.TKodUS;
 import embeddable.Vatpoz;
+import entity.DeklaracjaVatPozycjeKoncowe;
 import entity.DeklaracjaVatSchema;
+import entity.DeklaracjaVatSchemaPozKoncowe;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
 import entity.Podatnik;
@@ -32,7 +34,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.logging.Level;
@@ -80,6 +81,8 @@ public class Vat7DKView implements Serializable {
     private SchemaEwidencjaDAO schemaEwidencjaDAO;
     @Inject
     private DeklaracjaVatSchemaWierszSumDAO deklaracjaVatSchemaWierszSumDAO;
+    @Inject
+    private DeklaracjaVatSchemaPozKoncoweDAO deklaracjaVatSchemaPozKoncoweDAO;
     private int flaga;
     private String rok;
     private String mc;
@@ -714,6 +717,7 @@ public class Vat7DKView implements Serializable {
     }
 
     private Vatpoz uzupelnijPozycjeDeklaracji(Vatpoz pozycje, String vatokres, String kwotaautoryzujaca) {
+        pozycje.setPozycjekoncowe(pobierzpozycjekoncowe(pasujacaSchema));
         pozycje.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         pozycje.setPodatnik(podatnik);
         pozycje.setRok(rok);
@@ -729,6 +733,19 @@ public class Vat7DKView implements Serializable {
         pozycje.setAdres(VATDeklaracja.uzupelnijAdres(wpisView.getPodatnikObiekt()));
         pozycje.setKwotaautoryzacja(kwotaautoryzujaca);
         return pozycje;
+    }
+    
+    private List<DeklaracjaVatPozycjeKoncowe> pobierzpozycjekoncowe(DeklaracjaVatSchema pasujacaSchema) {
+        List<DeklaracjaVatSchemaPozKoncowe> schemapozycjekoncowe = deklaracjaVatSchemaPozKoncoweDAO.findWierszeSchemy(pasujacaSchema);
+        List<DeklaracjaVatPozycjeKoncowe> uzupelnionewiersze = new ArrayList<>();
+        if (schemapozycjekoncowe != null) {
+            for (DeklaracjaVatSchemaPozKoncowe p : schemapozycjekoncowe) {
+                uzupelnionewiersze.add(p.getDeklaracjaVatPozycjeKoncowe());
+            }
+        } else {
+            schemapozycjekoncowe = new ArrayList<>();
+        }
+        return uzupelnionewiersze;
     }
     
     private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema) {
@@ -957,6 +974,8 @@ public class Vat7DKView implements Serializable {
     public void setKwotanakaserej(Integer kwotanakaserej) {
         this.kwotanakaserej = kwotanakaserej;
     }
+
+    
 
    
 

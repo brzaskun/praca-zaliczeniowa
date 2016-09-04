@@ -24,14 +24,14 @@ public class VAT713 implements Serializable{
     private final String wiersz;
 
    
-    public VAT713(Vatpoz selected, DeklaracjaVatSchema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public VAT713(Vatpoz vatpoz, DeklaracjaVatSchema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         String wstep = schema.getWstep();
-        Naglowek naglowek = new Naglowek(selected, schema);
-        Podmiot podmiot = new Podmiot(selected);
-        PozycjeSzczegolowe pozycjeSzczegolowe = new PozycjeSzczegolowe(selected, schema);
-        KwadracikiNaDole kwadracikiNaDole = new KwadracikiNaDole(selected, schema);
+        Naglowek naglowek = new Naglowek(vatpoz, schema);
+        Podmiot podmiot = new Podmiot(vatpoz);
+        PozycjeSzczegolowe pozycjeSzczegolowe = new PozycjeSzczegolowe(vatpoz, schema);
+        KwadracikiNaDole kwadracikiNaDole = new KwadracikiNaDole(vatpoz, schema);
         String oswiadczenie = schema.getOswiadczenie();
-        DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace(selected);
+        DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace(vatpoz);
         String pouczenie = schema.getPouczenie();
         wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
     }

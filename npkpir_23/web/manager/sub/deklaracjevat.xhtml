@@ -47,7 +47,7 @@
                     </p:column>
                     <p:column width="40">
                         <p:commandButton icon="ui-icon-trash" actionListener="#{deklaracjaVatSchemaView.usun(item)}"
-                                         update="akordeon:definowaniepozycji akordeon:form_deklaracjaVatSchemaView:wykazschem akordeon:definowaniewierszysumarycznych"/>
+                                         update="akordeon:definowaniepozycji akordeon:form_deklaracjaVatSchemaView:wykazschem akordeon:definowaniewierszysumarycznych akordeon:definowaniewierszykoncowych"/>
                     </p:column>
                     <p:rowExpansion>
                         <p:panelGrid>
@@ -124,7 +124,7 @@
                     </p:selectOneListbox>
                 </p:panelGrid>
                 <p:commandButton value="kopiuj" actionListener="#{deklaracjaVatSchemaView.kopiujscheme()}" style="width: 120px; margin: 10px;" 
-                                 global="false" update="akordeon:definowaniepozycji akordeon:form_deklaracjaVatSchemaView:wykazschem akordeon:definowaniewierszysumarycznych"/>
+                                 global="false" update="akordeon:definowaniepozycji akordeon:form_deklaracjaVatSchemaView:wykazschem akordeon:definowaniewierszysumarycznych akordeon:definowaniewierszykoncowych"/>
             </h:form>
         </p:tab>
         <p:tab title="Definiowanie pozycji dla ewidencji">
@@ -264,6 +264,80 @@
                 <p:panelGrid columns="1" style="margin-top: 10px;">
                     <p:inputText value="#{deklaracjaVatWierszeSumaryczneView.nazwawierszasumarycznego.nazwapozycji}" style="width: 600px;"/>
                     <p:commandButton value="dodaj" actionListener="#{deklaracjaVatWierszeSumaryczneView.dodajwiersz()}" style="width: 120px;" update="akordeon:definowanienazwpozycjisum:tabelawierszy, akordeon:dodawaniewierszasum"/>
+                </p:panelGrid>
+            </h:form>
+        </p:tab>
+         <p:tab title="Definiowanie pozycji dla pozycji końcowych">
+            <h:form id="definowaniewierszykoncowych">
+                <p:selectOneMenu value="#{deklaracjaVatSchemaView.wybranaschema}" converter="DeklaracjaVatSchemaConv" rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}">
+                    <f:selectItems value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
+                    <p:ajax listener="#{deklaracjaVatSchemaView.pobierzschemapozycjekoncowe()}" update="akordeon:definowaniewierszykoncowych" event="change"/>
+                </p:selectOneMenu>
+                <p:commandButton value="pobierz" actionListener="#{deklaracjaVatSchemaView.pobierzschemapozycjekoncowe()}" update="akordeon:definowaniewierszykoncowych" style="width: 120px; margin: 10px;"
+                                  rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
+                <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaView.zachowajpozycjekoncowe()}" update="akordeon:definowaniewierszykoncowych" style="width: 120px; margin: 10px;"
+                                 rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
+                <p:dataTable value="#{deklaracjaVatSchemaView.schemapozycjekoncowe}" var="item" style="width: 960px;"
+                             emptyMessage="Nie pobrano wierszy/Nie zdefinowano jeszcze wierszy" sortBy="#{item.polenetto}"
+                             >
+                    <p:column width="70">
+                        <f:facet name="header">
+                            <h:outputText value="Nazwa schemy"/>
+                        </f:facet>
+                        <h:outputText value="#{item.deklaracjaVatSchema.nazwaschemy}"/>
+                    </p:column>
+                    <p:column width="200">
+                        <f:facet name="header">
+                            <h:outputText value="Wiersz"/>
+                        </f:facet>
+                        <h:outputText value="#{item.deklaracjaVatPozycjeKoncowe.nazwapozycji}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Pole"/>
+                        </f:facet>
+                        <p:inputText value="#{item.pole}" style="width: 60px;"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Funkcja"/>
+                        </f:facet>
+                        <p:inputText value="#{item.funkcja}" style="width: 60px;"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Część dekl"/>
+                        </f:facet>
+                        <p:selectOneMenu value="#{item.czescdeklaracji}">
+                            <f:selectItem itemLabel="C" itemValue="C"/>
+                            <f:selectItem itemLabel="D" itemValue="D"/>
+                            <f:selectItem itemLabel="E" itemValue="E"/>
+                            <f:selectItem itemLabel="F" itemValue="F"/>
+                            <f:selectItem itemLabel="G" itemValue="G"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:tab>
+         <p:tab title="Definiowanie nazw pozycji końcowych">
+            <h:form id="definowanienazwpozycjikoncowe">
+                <p:dataTable value="#{deklaracjaVatPozycjeKoncoweView.wierszesumarycznelista}" var="item" style="width: 500px;"
+                             emptyMessage="Nie zdefiniowano wierszy" id="tabelawierszy">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nazwa pozycji"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nazwapozycji}"/>
+                    </p:column>
+                    <p:column width="40">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{deklaracjaVatPozycjeKoncoweView.usun(item)}" update="akordeon:definowanienazwpozycjikoncowe:tabelawierszy"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h:form id="dodawaniewierszapozycjikoncowe">
+                <p:panelGrid columns="1" style="margin-top: 10px;">
+                    <p:inputText value="#{deklaracjaVatPozycjeKoncoweView.nazwawierszasumarycznego.nazwapozycji}" style="width: 600px;"/>
+                    <p:commandButton value="dodaj" actionListener="#{deklaracjaVatPozycjeKoncoweView.dodajwiersz()}" style="width: 120px;" update="akordeon:definowanienazwpozycjikoncowe:tabelawierszy, akordeon:dodawaniewierszapozycjikoncowe"/>
                 </p:panelGrid>
             </h:form>
         </p:tab>

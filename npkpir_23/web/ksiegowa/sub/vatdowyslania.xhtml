@@ -76,7 +76,10 @@
             </p:column>
             <p:rowExpansion>
                 <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
-                    <h:outputText value="#{item.deklaracja}"/>
+                    <p:inplace id="ajax" editor="true">
+                        <p:inputTextarea autoResize="true" value="#{item.deklaracja}" cols="190"/>
+                        <p:ajax event="save" listener="#{deklaracjevatView.handleSave}" />
+                    </p:inplace>
                 </p:column>
             </p:rowExpansion>
         </p:dataTable>
@@ -108,8 +111,8 @@
         <p:panelGrid columns="2" style="width: 100%;">
             <p:column>
                 <h:form>
-                    <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" update=":akordeon:form:upoform" style="width: 150px;"/>
-                    <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":akordeon:form:upoform" style="margin-left: 3%; width: 150px;"/>
+                    <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" update=":akordeon:form" style="width: 150px;"/>
+                    <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":akordeon:form" style="margin-left: 3%; width: 150px;"/>
                 </h:form>
             </p:column>
             <p:column>
@@ -132,8 +135,8 @@
         <p:panelGrid columns="2" style="width: 100%;">
             <p:column>
                 <h:form>
-                    <p:commandButton value="test" actionListener="#{beanek.robtest(deklaracjevatView.oczekujace)}" update=":akordeon:formtest:upoformtest" style="width: 150px;"/>
-                    <p:commandButton value="sprawdź" actionListener="#{beanek.pobierztest()}" update=":akordeon:formtest:upoformtest" style="margin-left: 3%; width: 150px;"/>
+                    <p:commandButton value="test" actionListener="#{beanek.robtest(deklaracjevatView.oczekujace)}" update=":akordeon:formtest" style="width: 150px;"/>
+                    <p:commandButton value="sprawdź" actionListener="#{beanek.pobierztest()}" update=":akordeon:formtest" style="margin-left: 3%; width: 150px;"/>
                 </h:form>
             </p:column>
             <p:column>

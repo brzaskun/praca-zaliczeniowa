@@ -320,7 +320,7 @@ public class beanek {
             temp.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
             temp.setTestowa(true);
             deklaracjevatDAO.edit(temp);
-            Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+            Msg.msg("i", "Wypuszczono testowego gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         }
@@ -367,12 +367,12 @@ public class beanek {
         try {
             requestUPO_Test(idMBT, lang, upo, stat, opis);
         } catch (ClientTransportException ex1) {
-            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
+            Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMBT);
         List<String> komunikat = null;
         if (temp.getStatus().equals(stat.value)) {
-            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+            Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
         } else {
             komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
             if (komunikat.size() > 1) {
@@ -397,12 +397,12 @@ public class beanek {
         try {
             requestUPO_Test(identyfikator, lang, upo, stat, opis);
         } catch (ClientTransportException ex1) {
-            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
+            Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
         Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
         List<String> komunikat = null;
         if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
-            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+            Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
         } else {
             komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
             if (komunikat.size() > 1) {

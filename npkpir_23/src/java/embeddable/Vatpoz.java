@@ -4,7 +4,10 @@
  */
 package embeddable;
 
+import entity.DeklaracjaVatPozycjeKoncowe;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Embeddable;
 
 /**
@@ -24,13 +27,16 @@ public class Vatpoz implements Serializable {
     private String nazwaurzedu;
     private String podatnik;
     private PozycjeSzczegoloweVAT pozycjeszczegolowe;
+    private List<DeklaracjaVatPozycjeKoncowe> pozycjekoncowe;
     private String rok;
 
     public Vatpoz() {
+        this.pozycjekoncowe = new ArrayList<>();
     }
 
     public Vatpoz(Integer id) {
         this.id = id;
+        this.pozycjekoncowe = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -121,6 +127,15 @@ public class Vatpoz implements Serializable {
     public void setRodzajdeklaracji(String rodzajdeklaracji) {
         this.rodzajdeklaracji = rodzajdeklaracji;
     }
+
+    public List<DeklaracjaVatPozycjeKoncowe> getPozycjekoncowe() {
+        return pozycjekoncowe;
+    }
+
+    public void setPozycjekoncowe(List<DeklaracjaVatPozycjeKoncowe> pozycjekoncowe) {
+        this.pozycjekoncowe = pozycjekoncowe;
+    }
+    
     
     
 
