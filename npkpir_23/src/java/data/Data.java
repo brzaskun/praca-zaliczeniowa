@@ -147,6 +147,18 @@ public class Data implements Serializable {
         return zwrot;
     }
     
+    public static String aktualnyMc() {
+        String zwrot = "błąd";
+        DateTime dt = new DateTime();
+        LocalDate dataRozrachunku = dt.toLocalDate();
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+        String formattedDate = formatter.print(dataRozrachunku);
+        if (formattedDate.length() > 0) {
+            zwrot = formattedDate.split("-")[1];
+        }
+        return zwrot;
+    }
+    
     public static String[] poprzedniOkres (String mc, String rok) {
         String[] poprzedniOkres = new String[2];
         if (mc.equals("01")) {

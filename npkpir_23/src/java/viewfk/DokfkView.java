@@ -1403,7 +1403,14 @@ public class DokfkView implements Serializable {
         wykazZaksiegowanychDokumentow = wykaz;
     }
 
+    /**
+     * funkcja wywolywana po wybrnaiu w menu odpowiedniej zakladki
+     */
     public void odswiezzaksiegowaneInit() {
+        if (wpisView.getMiesiacWpisu().equals("CR")) {
+            wpisView.setMiesiacWpisu(Data.aktualnyMc());
+        }
+        //wpisView.setMiesiacWpisu(komunikatywpisdok); nie wiem po co to bylo
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
         wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
@@ -2212,8 +2219,8 @@ public class DokfkView implements Serializable {
     public String sprawdzjakiokresvat() {
         String zwrot = "blad";
         Integer rok = wpisView.getRokWpisu();
-        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
-        Integer sumaszukana = rok + mc;
+        String mcint = wpisView.getMiesiacWpisu().equals("CR") ? Data.aktualnyMc() : wpisView.getMiesiacWpisu();
+        Integer mc = Integer.parseInt(mcint);
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
         //odszukaj date w parametrze - kandydat na metode statyczna
         try {
@@ -3098,13 +3105,17 @@ public class DokfkView implements Serializable {
     }
 
     private List znajdzrodzajedokaktualne(List<Dokfk> wykazZaksiegowanychDokumentow) {
-        Set<Rodzajedok> lista = new HashSet<>();
-        for (Dokfk p : wykazZaksiegowanychDokumentow) {
-            lista.add(p.getRodzajedok());
+        if (wybranakategoriadok.equals("wszystkie")) {
+            Set<Rodzajedok> lista = new HashSet<>();
+            for (Dokfk p : wykazZaksiegowanychDokumentow) {
+                lista.add(p.getRodzajedok());
+            }
+            List<Rodzajedok> t = new ArrayList<>(lista);
+            Collections.sort(t, new Rodzajedokcomparator());
+            return t;
+        } else {
+            return dokumentypodatnikazestawienie;
         }
-        List<Rodzajedok> t = new ArrayList<>(lista);
-        Collections.sort(t, new Rodzajedokcomparator());
-        return t;
     }
 
     public void powiekszliste() {
