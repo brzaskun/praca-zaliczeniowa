@@ -10,7 +10,7 @@
        
     </style>
     
-    <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu} rok #{WpisView.rokWpisuSt}" widgetVar="dialogplankont" fitViewport="true" dynamic="true"
+    <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu} rok #{WpisView.rokWpisuSt}" widgetVar="dialogplankont" dynamic="true"
               resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);ustalmaxlevel('form_dialog_plankont:dataList_data');zwinwszystkie('form_dialog_plankont:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form_dialog_plankont">
            
@@ -69,10 +69,10 @@
                       <p:menuitem global="false" value="grupa 8" actionListener="#{planKontView.drukujPlanKont('grupa8')}" icon="fa fa-print"/>  
                   </p:splitButton>
                   <p:selectBooleanCheckbox itemLabel="bez słownikowych" value="#{planKontView.bezslownikowych}">
-                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowych()}" update="form_dialog_plankont:dataList"/>
+                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont:dataList"/>
                   </p:selectBooleanCheckbox>
                   <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
-                      <p:ajax event="change" global="false" partialSubmit="true"/>
+                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont:dataList"/>
                   </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:outputPanel style="padding: 10px;">

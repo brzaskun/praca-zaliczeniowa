@@ -144,9 +144,22 @@ public class PlanKontView implements Serializable {
         return zwrot;
     }
     
-    public void planBezSlownikowych() {
-        if (bezslownikowych == true) {
+    public void planBezSlownikowychSyntetyczne() {
+        if (bezslownikowych == true && tylkosyntetyka == true) {
+            wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
+        } else if (bezslownikowych == true) {
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        } else if (tylkosyntetyka == true) {
+            wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
+        } else {
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        }
+        Collections.sort(wykazkont, new Kontocomparator());
+    }
+    
+    public void planTylkoSyntetyczne() {
+        if (tylkosyntetyka == true) {
+            wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
             Collections.sort(wykazkont, new Kontocomparator());
         } else {
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -224,7 +237,7 @@ public class PlanKontView implements Serializable {
             if (czyoddacdowzorca == true) {
                 wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
             } else {
-                planBezSlownikowych();
+                planBezSlownikowychSyntetyczne();
             }
             if (wynikdodaniakonta == 0) {
                 noweKonto = new Konto();
@@ -270,7 +283,7 @@ public class PlanKontView implements Serializable {
                 if (czyoddacdowzorca == true) {
                     wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
                 } else {
-                    planBezSlownikowych();
+                    planBezSlownikowychSyntetyczne();
                 }
                 noweKonto = new Konto();
                 //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
@@ -1214,7 +1227,7 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Nie wybrano konta");
         } else {
             KontaFKBean.oznaczkontoPrzychod0Koszt1(selectednodekonto, kontoDAOfk, true, wpisView);
-            planBezSlownikowych();
+            planBezSlownikowychSyntetyczne();
             Msg.msg("Naniesiono oznaczenia na konta");
         }
     }
@@ -1234,7 +1247,7 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Nie wybrano konta");
         } else {
             KontaFKBean.oznaczkontoPrzychod0Koszt1(selectednodekonto, kontoDAOfk, false, wpisView);
-            planBezSlownikowych();
+            planBezSlownikowychSyntetyczne();
             Msg.msg("Naniesiono oznaczenia na konta");
         }
     }
