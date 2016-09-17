@@ -40,6 +40,7 @@
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" rowKey="#{item.lp}"
                          selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}"
                          >
+                <p:ajax event="toggleSelect" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
                 <p:ajax event="rowSelectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
                 <f:facet name="header">

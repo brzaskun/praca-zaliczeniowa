@@ -117,7 +117,7 @@
                              update="akordeon:fakturarozrachunki akordeon:form_wprowadzoneplatnosci"/>
         </h:form>
         <h:form id="form_wprowadzoneplatnosci">
-                <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1170px; margin-top: 20px;"
+                <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1070px; margin-top: 20px;"
                              emptyMessage="niczego dzisiaj nie zaksięgowano" scrollable="true" scrollHeight="400" scrollRows="20" sortBy="#{item.lp}" sortOrder="descending"
                              editable="true" widgetVar="form_wprowadzoneplatnosci">
                     <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
@@ -138,12 +138,6 @@
                             <h:outputText value="kontrahent"/>
                         </f:facet>
                         <h:outputText value="#{item.kontrahent}"/>
-                    </p:column>
-                    <p:column width="100">
-                        <f:facet name="header">
-                            <h:outputText value="wprowadzil"/>
-                        </f:facet>
-                        <h:outputText value="#{item.wprowadzil.login}"/>
                     </p:column>
                     <p:column width="70"  sortable="true" sortBy="#{item.data}">
                         <f:facet name="header">
@@ -188,19 +182,6 @@
                         <p:cellEditor>
                             <f:facet name="output">
                                 <bcf:outputpl value="#{item.kwota}" rendered="#{!item.zaplata0korekta1}"/>
-                            </f:facet>
-                            <f:facet name="input">
-                                <p:inputText value="#{item.kwota}" style="width: 90px;"/>
-                            </f:facet>
-                        </p:cellEditor>
-                    </p:column>
-                    <p:column width="90" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
-                        <f:facet name="header">
-                            <h:outputText value="korekta"/>
-                        </f:facet>
-                         <p:cellEditor>
-                            <f:facet name="output">
-                                <bcf:outputpl value="#{item.kwota}" rendered="#{item.zaplata0korekta1}"/>
                             </f:facet>
                             <f:facet name="input">
                                 <p:inputText value="#{item.kwota}" style="width: 90px;"/>

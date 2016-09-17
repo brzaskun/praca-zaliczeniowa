@@ -14,10 +14,13 @@
             .ui-autocomplete-input {
                 width: 340px;
             }
+            .dokfaktrozliczenia {
+                min-width: 40px !important;
+            }
         </style>
         <h:form id="fakturarozliczenia">
             <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci(WpisView.miesiacWpisu)}" update="fakturarozliczenia" global="false"/>
-            <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1250px; margin-top: 20px;"
+            <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
                          widgetVar="fakturarozliczenia_tablica" editable="true">
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
@@ -33,9 +36,9 @@
                     </f:facet>
                     <h:outputText value="#{item.kontrahent.npelna}"/>
                 </p:column>
-                <p:column width="100">
+                <p:column width="40">
                     <f:facet name="header">
-                        <h:outputText value="wprowadzil"/>
+                        <h:outputText value="wprow."/>
                     </f:facet>
                     <h:outputText value="#{item.wprowadzil.login}"/>
                 </p:column>
@@ -57,7 +60,7 @@
                         <h:outputText value="seria"/>
                     </f:facet>
                     <f:facet name="filter">
-                        <p:selectOneMenu onchange="PF('fakturarozliczenia_tablica').filter()" style="width: 60px;">
+                        <p:selectOneMenu onchange="PF('fakturarozliczenia_tablica').filter()" styleClass="dokfaktrozliczenia">
                             <f:selectItem itemLabel="dok" itemValue="#{null}" />
                             <f:selectItem itemLabel="rk" itemValue="rk" />
                             <f:selectItem itemLabel="wb" itemValue="wb" />
@@ -75,9 +78,9 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column width="100" style="text-align: center;" sortBy="#{item.nrdokumentu}">
+                <p:column width="40" style="text-align: center;" sortBy="#{item.nrdokumentu}">
                     <f:facet name="header">
-                        <h:outputText value="dokument"/>
+                        <h:outputText value="dok."/>
                     </f:facet>
                     <p:cellEditor>
                         <f:facet name="output">
@@ -88,7 +91,7 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column width="90" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
+                <p:column width="70" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="zapłata"/>
                     </f:facet>
@@ -101,7 +104,7 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column width="90" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
+                <p:column width="70" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="korekta"/>
                     </f:facet>
