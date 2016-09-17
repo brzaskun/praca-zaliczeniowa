@@ -16,6 +16,9 @@
         <attribute>
             <name>style</name>
         </attribute>
+        <attribute>
+            <name>stylePlus</name>
+        </attribute>
     </tag>
     <tag>
 	<tag-name>outputkurs</tag-name>

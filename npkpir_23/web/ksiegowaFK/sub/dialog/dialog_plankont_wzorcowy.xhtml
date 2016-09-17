@@ -21,7 +21,7 @@
                 <p:separator/>
                 <p:menuitem value="Implem. konto" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":form_dialog_plankont, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoZAnalitykom()}" icon="ui-icon-tag" update=":form_dialog_plankont, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Porządkuj konta" actionListener="${planKontView.porzadkowanieKontWzorcowych()}" icon="ui-icon-note" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Porządkuj konta" actionListener="#{planKontView.porzadkowanieKontWzorcowych()}" icon="ui-icon-note" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":formwzorcowy"/>
             </p:contextMenu>
             <!--            <script>

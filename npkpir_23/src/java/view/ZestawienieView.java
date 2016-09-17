@@ -17,7 +17,6 @@ import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Kwartaly;
 import embeddable.Mce;
-import embeddable.Straty1;
 import entity.Amodok;
 import entity.Dok;
 import entity.KwotaKolumna1;
@@ -161,7 +160,6 @@ public class ZestawienieView implements Serializable {
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
                 for (PodatnikUdzialy p : udzialy) {
                     listawybranychudzialowcow.add(p.getNazwiskoimie());
-
                 }
             } catch (Exception e) {
                 E.e(e);
@@ -638,7 +636,6 @@ public class ZestawienieView implements Serializable {
                             zebranieMcy.add(grudzien);
                         } else {
                         }
-
                         Ipolrocze = new ArrayList<>();
                         IIpolrocze = new ArrayList<>();
                         rok = new ArrayList<>();
@@ -656,6 +653,10 @@ public class ZestawienieView implements Serializable {
                 }
                 }
             
+        }
+        if (listawybranychudzialowcow.size() == 1) {
+            wybranyudzialowiec = listawybranychudzialowcow.get(0);
+            obliczPit();
         }
         createLinearModel();
     }
@@ -900,6 +901,10 @@ public class ZestawienieView implements Serializable {
                 try {
                     if (selected.isOdliczeniezus51() == true && zus51zreki == false) {
                         biezacyPit.setZus51(pobierzZUS51());
+                    } else {
+                        if (biezacyPit.getWynik() != null && biezacyPit.getZus51() != null && biezacyPit.getZus51().compareTo(biezacyPit.getWynik()) == 1) {
+                            biezacyPit.setZus51(biezacyPit.getWynik());
+                        }
                     }
                     if (selected.isOdliczeniezus52() == true && zus52zreki == false) {
                         biezacyPit.setZus52(pobierzZUS52());
@@ -1187,6 +1192,10 @@ public class ZestawienieView implements Serializable {
         } else {
             Msg.msg("e", "Nie można zachować. PIT nie wypełniony");
         }
+    }
+    
+    public void zus51zrekiF() {
+        zus51zreki = true;
     }
 
     public void zachowajPit13() {
