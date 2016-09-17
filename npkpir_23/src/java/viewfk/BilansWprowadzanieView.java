@@ -1005,7 +1005,7 @@ public class BilansWprowadzanieView implements Serializable {
         stronaWn = Z.z(stronaWn);
         stronaMa = Z.z(stronaMa);
         stronaWn_stronaMa = Z.z(stronaWn-stronaMa);
-        RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
+        //RequestContext.getCurrentInstance().update("formbilanswprowadzanie3:kwotysum");
     }
 
     public void podsumujWnMa(List<WierszBO> lista, List listasum) {
