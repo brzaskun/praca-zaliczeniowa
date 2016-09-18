@@ -9,7 +9,8 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dataTable value="#{statystykaFakturyView.lista}" var="item" id="datatable" style="width: 1200px; padding: 10px;"
-                 sortBy="#{item.podatnik.nazwapelna}" sortOrder="ascending" rowIndexVar="index">
+                 sortBy="#{item.podatnik.nazwapelna}" sortOrder="ascending" rowIndexVar="index" selectionMode="single"
+                 rowKey="#{item.id}">
         <p:column style="width: 20px;" sortBy="#{item.id}">
             <f:facet name="header">
                 <h:outputText value=""/>
