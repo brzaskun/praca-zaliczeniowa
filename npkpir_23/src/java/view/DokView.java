@@ -795,6 +795,7 @@ public final class DokView implements Serializable {
                  */
                 //selDokument.getListakwot1().clear(); to jest niepoczebne
             } else {
+                selDokument.setSprawdzony(0);
                 dokDAO.edit(selDokument);
             }
         } catch (Exception e) {

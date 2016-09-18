@@ -200,6 +200,8 @@ public class Dok implements Serializable {
     @JoinColumn(name = "tabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne
     private Tabelanbp tabelanbp;
+    @Column(name = "sprawdzony")
+    private int sprawdzony;
     
     public Dok() {
         this.listakwot1 = new ArrayList<>();
@@ -515,6 +517,7 @@ public class Dok implements Serializable {
     public void setTabelanbp(Tabelanbp tabelanbp) {
         this.tabelanbp = tabelanbp;
     }
+
     
     public Double getNettoWaluta() {
         double suma = 0.0;
@@ -524,6 +527,14 @@ public class Dok implements Serializable {
             }
         }
         return suma;
+    }
+
+    public int getSprawdzony() {
+        return sprawdzony;
+    }
+
+    public void setSprawdzony(int sprawdzony) {
+        this.sprawdzony = sprawdzony;
     }
     
 

@@ -44,7 +44,10 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
+import org.primefaces.component.contextmenu.ContextMenu;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import pdf.PDFDirectPrint;
 import pdf.PdfDok;
 import pdf.PdfPK;
@@ -330,9 +333,26 @@ public class DokTabView implements Serializable {
 //        }
 //    }
 
-       
     
-     
+    public void fakturasprawdzanie(int l) {
+        Dok w = gosciuwybral.get(0);
+        w.setSprawdzony(l);
+        int rowek = 0;
+        for (Dok s : obiektDOKmrjsfSel) {
+            if (s!=w) {
+                rowek++;
+            } else {
+                break;
+            }
+        }
+        String p = "form:dokumentyLista:"+rowek+":polespr";
+        RequestContext.getCurrentInstance().update(p);
+        dokDAO.edit(w);
+    }
+    
+    public void fakturasprawdzanieajax(Object i) {
+        System.out.println("");
+    }
      
     
       public void aktywacjadeaktywacja(){

@@ -42,12 +42,17 @@
 
     <h:form id="form">
         <p:contextMenu id="menutablica" for="dokumentyLista">
+            <p:menuitem global="false" value="prawidłowa" actionListener="#{DokTabView.fakturasprawdzanie(1)}" update=":formM:messages" icon="ui-icon-check"/>
+            <p:menuitem global="false" value="zawiera błędy" actionListener="#{DokTabView.fakturasprawdzanie(2)}" update=":formM:messages" icon="ui-icon-closethick"/>
+            <p:menuitem global="false" value="nie sprawdzona" actionListener="#{DokTabView.fakturasprawdzanie(0)}" update=":formM:messages" icon="ui-icon-help"/>
+            <p:menuitem></p:menuitem>
             <p:menuitem global="false" value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem global="false" value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
             <p:menuitem global="false" value="PDF" update=":formM:messages" actionListener="#{DokTabView.printPDFPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
 <!--            <p:menuitem global="false" value="Wydruk" update=":formM:messages" actionListener="#{DokTabView.printPDFPKWydruk()}" icon="ui-icon-disk" />-->
             <p:menuitem global="false" value="Usuń wybrane" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="PF('confirmation1').show();" update=":form:dokumentyLista" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem global="false" value="Switch" update=":formM:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+            
         </p:contextMenu>
         <script>
             //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
@@ -71,12 +76,13 @@
         <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
         <p:hotkey bind="up"   onstart="wrocwiersz();"/>
         <p:outputPanel id="kontenertabeli" deferred="true">
-            <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}"
+            <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}" rowIndexVar="index"
                           style="width: 1400px; margin-top: 10px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid" 
                           >
                 <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}"/>
+                <p:ajax event="contextMenu"  listener="#{DokTabView.fakturasprawdzanieajax()}" />
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie #{DokTabView.obiektDOKmrjsfSel.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  
@@ -147,6 +153,10 @@
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText><br/>
                     </ui:repeat>
+                </p:column>
+                <p:column headerText="spr" style="text-align: center;" width="20" sortBy="#{wpis.sprawdzony}">  
+                    <h:outputText id="polespr" value="#{wpis.sprawdzony eq 2 ? '. .' : (wpis.sprawdzony eq 1 ? '. .' : '.')}" 
+                                  style="#{wpis.sprawdzony eq 2 ? 'background-color: red; color: red;' : (wpis.sprawdzony eq 1 ? 'background-color: green; color: green;' : null)}"/>
                 </p:column>
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
