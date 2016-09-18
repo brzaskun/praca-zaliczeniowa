@@ -45,22 +45,26 @@ public class StatystykaBeanFK implements Runnable {
         List<Dokfk> dokumenty = dokDAOfk.findDokfkPodatnikRok(p, rok);
         List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(p.getNip(), "GRZELCZYK", rok);
         Statystyka sb = new Statystyka(lp++, p, rok, iloscdok(dokumenty), obrotyfk(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
-        if (sb.getIloscdokumentow() > 0 && sb.getIloscfaktur() > 0) {
+        if (sb.getIloscdokumentow() > 0 || sb.getIloscfaktur() > 0) {
             zwrot.add(sb);
         }
     }
     
     private double obrotyfk(List<Dokfk> dokumenty) {
         double zwrot = 0.0;
-        List<String> typydok = pobierztypydok();
-        for (Dokfk p : dokumenty) {
-           if (typydok.contains(p.getRodzajedok().getSkrot())) {
-               if (p.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                   zwrot += p.getWartoscdokumentu();
-               } else {
-                   zwrot += p.getWartoscdokumentuPLN();
-               }
-           }
+        if (dokumenty != null && dokumenty.size() > 0) {
+            List<String> typydok = pobierztypydok();
+            for (Dokfk p : dokumenty) {
+               try {
+                    if (typydok.contains(p.getRodzajedok().getSkrot())) {
+                        if (p.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                            zwrot += p.getWartoscdokumentu();
+                        } else {
+                            zwrot += p.getWartoscdokumentuPLN();
+                        }
+                    }
+               } catch (Exception e){}
+            }
         }
         return zwrot;
     }
@@ -75,8 +79,10 @@ public class StatystykaBeanFK implements Runnable {
 
     private double kwotafaktur(List<Faktura> faktury) {
         double zwrot = 0.0;
-        for (Faktura p : faktury) {
-            zwrot += p.getNetto();
+        if (!faktury.isEmpty()) {
+            for (Faktura p : faktury) {
+                zwrot += p.getNetto();
+            }
         }
         return zwrot;
     }

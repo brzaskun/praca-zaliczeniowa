@@ -58,9 +58,7 @@ public class StatystykaKalkulacjaView  implements Serializable {
         List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
         List<Podatnik> podatnicyFK = podatnikDAO.findPodatnikFK();
         podatnikroklista = stworzliste(podatnicy);
-        if (Integer.parseInt(rok) > 2014) {
-            podatnikroklista.addAll(stworzlistefk(podatnicyFK));
-        }
+        podatnikroklista.addAll(stworzlistefk(podatnicyFK));
         listadozachowania = new ArrayList<>();
         listadozachowania.addAll(podatnikroklista);
         podatnikroklista.add(dodajsume(podatnikroklista));

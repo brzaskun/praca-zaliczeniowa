@@ -39,6 +39,10 @@ public class Roki implements Serializable{
     public static List<Integer> getRokiListS() {
         return rokiList;
     }
+    
+    public static List<String> getRokiListStr() {
+        return rokiListS;
+    }
 
     public Roki() {
     }

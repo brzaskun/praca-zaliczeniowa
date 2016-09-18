@@ -35,6 +35,10 @@
             <to-view-id>/admin/adminStatystykaObroty.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>adminstatystykafaktury</from-outcome>
+            <to-view-id>/admin/adminStatystykaFaktury.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>adminstatystyka</from-outcome>
             <to-view-id>/admin/adminStatystyka.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
