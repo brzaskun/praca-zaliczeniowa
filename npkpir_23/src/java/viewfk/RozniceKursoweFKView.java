@@ -77,12 +77,13 @@ public class RozniceKursoweFKView implements Serializable {
         if (nrkolejny > 1) {
             usundokumentztegosamegomiesiaca(nrkolejny);
         }
-        Dokfk dokumentRKK = DokumentFKBean.generujdokument(wpisView, klienciDAO, "RRK", "zaksięgowanie różnicC kursowych", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, pobranetransakcje, dokDAOfk);
         try {
+            Dokfk dokumentRKK = DokumentFKBean.generujdokument(wpisView, klienciDAO, "RRK", "zaksięgowanie różnicC kursowych", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, pobranetransakcje, dokDAOfk);
             dokDAOfk.dodaj(dokumentRKK);
             Msg.msg("Zaksięgowano dokument RRK");
-        } catch (Exception e) {  E.e(e);
-            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu RRK");
+        } catch (Exception e) {  
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu RRK. Sprawdź daty transakcji.");
         }
     }
 
