@@ -3105,7 +3105,7 @@ public class DokfkView implements Serializable {
     }
 
     private List znajdzrodzajedokaktualne(List<Dokfk> wykazZaksiegowanychDokumentow) {
-        if (wybranakategoriadok.equals("wszystkie")) {
+        if (wybranakategoriadok == null || wybranakategoriadok.equals("wszystkie")) {
             Set<Rodzajedok> lista = new HashSet<>();
             for (Dokfk p : wykazZaksiegowanychDokumentow) {
                 lista.add(p.getRodzajedok());
