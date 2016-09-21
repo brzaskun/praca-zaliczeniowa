@@ -118,6 +118,8 @@ public class Klienci implements Serializable {
     private List<Dok> dokumenty;
     @OneToMany(mappedBy = "kontr", fetch = FetchType.LAZY)
     private List<Dokfk> dokumentyfk;
+    @Column(name = "aktywnydlafaktrozrachunki")
+    private boolean aktywnydlafaktrozrachunki;
     
 
     public Klienci() {
@@ -210,6 +212,14 @@ public class Klienci implements Serializable {
 
     public String getEmail() {
         return email;
+    }
+
+    public boolean isAktywnydlafaktrozrachunki() {
+        return aktywnydlafaktrozrachunki;
+    }
+
+    public void setAktywnydlafaktrozrachunki(boolean aktywnydlafaktrozrachunki) {
+        this.aktywnydlafaktrozrachunki = aktywnydlafaktrozrachunki;
     }
 
     public void setEmail(String email) {

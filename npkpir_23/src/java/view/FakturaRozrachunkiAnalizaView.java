@@ -10,6 +10,7 @@ import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.FakturadodelementyDAO;
+import dao.KlienciDAO;
 import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
@@ -47,6 +48,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private List<Klienci> klienci;
+    private List<Klienci> klienciaktywowanie;
     private Klienci szukanyklient;
     private List<FakturaPodatnikRozliczenie> nowepozycje;
     private List<FakturaPodatnikRozliczenie> archiwum;
@@ -60,6 +62,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private WpisView wpisView;
     @Inject
     private FakturaDAO fakturaDAO;
+    @Inject
+    private KlienciDAO klienciDAO;
     @Inject
     private FakturadodelementyDAO fakturadodelementyDAO;
     @Inject
@@ -75,18 +79,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     @PostConstruct
     public void init() {
         klienci = new ArrayList<>();
+        klienciaktywowanie = new ArrayList<>();
         nowepozycje = new ArrayList<>();
         archiwum = new ArrayList<>();
         saldanierozliczone = new ArrayList<>();
         klienci.addAll(pobierzkontrahentow());
         Collections.sort(klienci, new Kliencicomparator());
-        if (klienci != null) {
-            for (Iterator<Klienci> it = klienci.iterator(); it.hasNext();) {
-                if (it.next() == null) {
-                    it.remove();
-                }
-            }
-        }
+        klienciaktywowanie.addAll(pobierzkontrahentowaktywowanie());
+        Collections.sort(klienciaktywowanie, new Kliencicomparator());
     }
     
     public void pobierzwszystkoKlienta() {
@@ -120,11 +120,24 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         return pozycje;
     }
     
+    private Collection<? extends Klienci> pobierzkontrahentowaktywowanie() {
+        Collection p = fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
+        for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
+            Klienci k = it.next();
+            if (k == null) {
+                it.remove();
+            }
+        }
+        return p;
+    }
      
     private Collection<? extends Klienci> pobierzkontrahentow() {
         Collection p = fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
         for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
-            if (it.next() == null) {
+            Klienci k = it.next();
+            if (k == null) {
+                it.remove();
+            } else if (k.isAktywnydlafaktrozrachunki() == false) {
                 it.remove();
             }
         }
@@ -390,6 +403,15 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
+    public void aktywacjakontrahenta(Klienci k) {
+        if (k.isAktywnydlafaktrozrachunki()) {
+            k.setAktywnydlafaktrozrachunki(false);
+        } else {
+            k.setAktywnydlafaktrozrachunki(true);
+        }
+        klienciDAO.edit(k);
+        Msg.msg("Zmieniono stan aktywacji klienta");
+    }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Klienci> getKlienci() {
@@ -494,6 +516,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public void setSaldanierozliczoneselected(List<FakturaPodatnikRozliczenie> saldanierozliczoneselected) {
         this.saldanierozliczoneselected = saldanierozliczoneselected;
+    }
+
+    public List<Klienci> getKlienciaktywowanie() {
+        return klienciaktywowanie;
+    }
+
+    public void setKlienciaktywowanie(List<Klienci> klienciaktywowanie) {
+        this.klienciaktywowanie = klienciaktywowanie;
     }
 
 

@@ -115,128 +115,129 @@ public class FakturaRozrachunki implements Serializable {
     public String toString() {
         return "FakturaRozrachunki{" + "lp=" + lp + ", wystawca=" + wystawca.getNazwapelna() + ", kontrahent=" + kontrahent.getNpelna() + ", wprowadzil=" + wprowadzil + ", dataksiegowania=" + dataksiegowania + ", data=" + data + ", kwota=" + kwota + ", zaplata0korekta1=" + zaplata0korekta1 + '}';
     }
-
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
     public Integer getLp() {
         return lp;
     }
-
+    
     public void setLp(Integer lp) {
         this.lp = lp;
     }
-
+    
     public Podatnik getWystawca() {
         return wystawca;
     }
-
+    
     public void setWystawca(Podatnik wystawca) {
         this.wystawca = wystawca;
     }
-
+    
     public Klienci getKontrahent() {
         return kontrahent;
     }
-
+    
     public void setKontrahent(Klienci kontrahent) {
         this.kontrahent = kontrahent;
     }
-
+    
     public Uz getWprowadzil() {
         return wprowadzil;
     }
-
+    
     public void setWprowadzil(Uz wprowadzil) {
         this.wprowadzil = wprowadzil;
     }
-
-
+    
+    
     public Date getDataksiegowania() {
         return dataksiegowania;
     }
-
+    
     public void setDataksiegowania(Date dataksiegowania) {
         this.dataksiegowania = dataksiegowania;
     }
-
+    
     public String getData() {
         return data;
     }
-
+    
     public void setData(String data) {
         this.data = data;
     }
-
+    
     public double getKwota() {
         return kwota;
     }
-
+    
     public void setKwota(double kwota) {
         this.kwota = kwota;
     }
-
+    
     public String getRok() {
         return rok;
     }
-
+    
     public void setRok(String rok) {
         this.rok = rok;
     }
-
+    
     public String getMc() {
         return mc;
     }
-
+    
     public void setMc(String mc) {
         this.mc = mc;
     }
-
+    
     public boolean isZaplata0korekta1() {
         return zaplata0korekta1;
     }
-
+    
     public void setZaplata0korekta1(boolean zaplata0korekta1) {
         this.zaplata0korekta1 = zaplata0korekta1;
     }
-
+    
     public String getRodzajdokumentu() {
         return rodzajdokumentu;
     }
-
+    
     public void setRodzajdokumentu(String rodzajdokumentu) {
         this.rodzajdokumentu = rodzajdokumentu;
     }
-
+    
     public String getNrdokumentu() {
         return nrdokumentu;
     }
-
+    
     public void setNrdokumentu(String nrdokumentu) {
         this.nrdokumentu = nrdokumentu;
     }
-
+    
     public boolean isNowy0archiwum1() {
         return nowy0archiwum1;
     }
-
+    
     public void setNowy0archiwum1(boolean nowy0archiwum1) {
         this.nowy0archiwum1 = nowy0archiwum1;
     }
-
+    
     public Date getDataupomnienia() {
         return dataupomnienia;
     }
-
+    
     public void setDataupomnienia(Date dataupomnienia) {
         this.dataupomnienia = dataupomnienia;
     }
-
+    
     public Date getDatatelefon() {
         return datatelefon;
     }
-
+    
     public void setDatatelefon(Date datatelefon) {
         this.datatelefon = datatelefon;
     }
-
+//</editor-fold>
    
     
     
