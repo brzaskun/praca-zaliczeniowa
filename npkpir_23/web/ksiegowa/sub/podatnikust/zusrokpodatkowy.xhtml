@@ -16,7 +16,7 @@
                              paginator="true" pageLinks="12" rows="12" id="datatable"
                              sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" selection="#{podatnikView.zusstawkiWybierz}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
                              rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
-                    <p:ajax event="rowSelect" listener="#{podatnikView.wybranowiadomosc()}" update="form3:parametryp2"/>       
+                    <p:ajax event="rowSelect" listener="#{podatnikView.wybranowiadomosc()}" update="@form:parametryp2"/>       
                     <f:facet name="header">
                         <h:outputText value="Lista wprowadzonych stawek"/>
                     </f:facet>
@@ -52,7 +52,7 @@
                         </h:outputText>
                     </p:column>
                      <p:column style="text-align: center">
-                        <p:commandButton action="#{podatnikView.usunzus(loop)}" value="usun" update="form3:datatable" type="submit" />
+                        <p:commandButton action="#{podatnikView.usunzus(loop)}" value="usun" update="@form:datatable" type="submit" />
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
