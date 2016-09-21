@@ -34,17 +34,13 @@ import msg.B;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import comparator.StronaWierszacomparator;
 import error.E;
 import waluty.Z;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
+import beansPdf.PdfHeaderFooter;
+import com.itextpdf.text.Rectangle;
 
 /**
  *
@@ -75,8 +71,12 @@ public class PdfKonta {
     }
 
     private static void drukujcd(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto)  throws DocumentException, FileNotFoundException, IOException {
-        Document document = new Document(PageSize.A4, 20,20,20,20);
-        PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        Document document = new Document(PageSize.A4, 20,20,40,30);
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        int liczydlo = 1;
+        PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
+        writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
+        writer.setPageEvent(headerfoter);
         document.addTitle("Zestawienie obroty sald");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie obroty sald");
@@ -84,9 +84,9 @@ public class PdfKonta {
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
         if (analit0synt1==1) {
-                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             } else {
-                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             }
         document.add(Chunk.NEWLINE);
         if (rodzajdruku==1 || rodzajdruku==4) {
@@ -128,8 +128,12 @@ public class PdfKonta {
     }
     
     private static void drukujcdWal(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto)  throws DocumentException, FileNotFoundException, IOException {
-        Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 20,20,20,20);
-        PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 20,20,40,30);
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        int liczydlo = 1;
+        PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
+        writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
+        writer.setPageEvent(headerfoter);
         document.addTitle("Zestawienie obroty sald");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie obroty sald");
@@ -137,9 +141,9 @@ public class PdfKonta {
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
         if (analit0synt1==1) {
-                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             } else {
-                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             }
         document.add(Chunk.NEWLINE);
         document.add(tablicabezdokWal(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
