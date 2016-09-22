@@ -92,8 +92,8 @@ public class Dedraparser {
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
                     p.setFaktura(eElement.getAttribute("FO"));
-                    p.setDatadokumentu(eElement.getAttribute(""));
-                    p.setDataoperacji(eElement.getAttribute(""));
+                    p.setDatadokumentu(eElement.getAttribute("Den"));
+                    p.setDataoperacji(eElement.getAttribute("Den"));
                     double netto = Double.parseDouble(eElement.getAttribute("ZR"));
                     p.setNetto(netto);
                     p.setNettowwalucie(netto);
