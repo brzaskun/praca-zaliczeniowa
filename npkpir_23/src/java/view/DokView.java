@@ -51,8 +51,6 @@ import entityfk.Waluty;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -92,6 +90,7 @@ import waluty.Z;
 @ManagedBean(name = "DokumentView")
 @ViewScoped
 public final class DokView implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private HtmlSelectOneMenu pkpirLista;
     @Inject
@@ -146,7 +145,7 @@ public final class DokView implements Serializable {
     private SrodekTrw selectedSTR;
     /*Środki trwałe*/
     private boolean pokazEST;//pokazuje wykaz srodkow dla sprzedazy
-    
+
     @Inject
     private Srodkikst srodekkategoriawynik;
     //automatyczne ksiegowanie Storna
@@ -225,7 +224,7 @@ public final class DokView implements Serializable {
         rodzajedokKlienta = new ArrayList<>();
         Podatnik podX = wpisView.getPodatnikObiekt();
         symbolWalutyNettoVat = " zł";
-        biezacyklientdodok  = klDAO.findKlientByNip(podX.getNip());
+        biezacyklientdodok = klDAO.findKlientByNip(podX.getNip());
         try {
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             rodzajedokKlienta.addAll(pobierzrodzajedok());
@@ -274,7 +273,7 @@ public final class DokView implements Serializable {
         //ukrocmiesiace();
 
     }
-    
+
     private List<Rodzajedok> pobierzrodzajedok() {
         List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
@@ -386,7 +385,7 @@ public final class DokView implements Serializable {
                 double sumanetto = sumujnetto();
                 Tabelanbp t = selDokument.getTabelanbp();
                 if (t != null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
-                    sumanetto = Z.z(sumanetto*t.getKurssredni());
+                    sumanetto = Z.z(sumanetto * t.getKurssredni());
                 }
                 ewidencjaAddwiad = new ArrayList<>();
                 int k = 0;
@@ -403,7 +402,7 @@ public final class DokView implements Serializable {
                 //obliczam 23% dla pierwszego
                 ewidencjaAddwiad.get(0).setNetto(sumanetto);
                 Rodzajedok r = rodzajedokDAO.find(typdokumentu, wpisView.getPodatnikObiekt());
-                if (transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.") 
+                if (transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.")
                         || transakcjiRodzaj.equals("eksport towarów") || transakcjiRodzaj.equals("odwrotne obciążenie sprzedawca")) {
                     ewidencjaAddwiad.get(0).setVat(0.0);
                 } else if (r.getProcentvat() != 0.0) {
@@ -467,16 +466,14 @@ public final class DokView implements Serializable {
         sumbrutto = 0.0;
         boolean czyjestinnawaluta = selDokument.getTabelanbp() != null && !selDokument.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN");
         for (KwotaKolumna1 p : selDokument.getListakwot1()) {
-                if (czyjestinnawaluta) {
-                    sumbrutto += p.getNettowaluta();
-                } else {
-                    sumbrutto += p.getNetto();
-                }
+            if (czyjestinnawaluta) {
+                sumbrutto += p.getNettowaluta();
+            } else {
+                sumbrutto += p.getNetto();
+            }
         }
         return sumbrutto;
     }
-
-  
 
     public void updatenetto(EwidencjaAddwiad e) {
         String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
@@ -517,28 +514,28 @@ public final class DokView implements Serializable {
                 double n = Math.abs(e.getNetto());
                 switch (ne) {
                     case "sprzedaż 23%":
-                        vat = (n*0.23)+0.02;
+                        vat = (n * 0.23) + 0.02;
                         break;
                     case "sprzedaż 8%":
-                       vat = (n*0.08)+0.02;
+                        vat = (n * 0.08) + 0.02;
                         break;
                     case "sprzedaż 5%":
-                        vat = (n*0.05)+0.02;
+                        vat = (n * 0.05) + 0.02;
                         break;
                     case "sprzedaż 0%":
                     case "sprzedaż zw":
                         break;
                     default:
-                        vat = (n*0.23)+0.02;
+                        vat = (n * 0.23) + 0.02;
                         break;
                 }
-                } catch (Exception e2) {
-                    
-                }
+            } catch (Exception e2) {
+
+            }
             if (Math.abs(e.getVat()) > vat) {
                 e.setVat(0.0);
                 e.setBrutto(0.0);
-                Msg.msg("e","VAT jest za duży od wyliczonej kwoty");
+                Msg.msg("e", "VAT jest za duży od wyliczonej kwoty");
                 String update = "dodWiad:tablicavat:" + lp + ":vat";
                 RequestContext.getCurrentInstance().update(update);
                 update = "dodWiad:tablicavat:" + lp + ":brutto";
@@ -666,8 +663,8 @@ public final class DokView implements Serializable {
             podepnijEwidencjeVat();
         }
     }
-    
-       /**
+
+    /**
      * Dodawanie dokumentu wprowadzonego w formularzu na stronie add_wiad.html
      */
     public void dodaj(int rodzajdodawania) {
@@ -798,54 +795,55 @@ public final class DokView implements Serializable {
                 selDokument.setSprawdzony(0);
                 dokDAO.edit(selDokument);
             }
+
+            //robienie srodkow trwalych
+            if (selectedSTR.getStawka() != null) {
+                dodajSrodekTrwaly();
+                srodekkategoria = new Srodkikst();
+            }
+            if (rodzajdodawania == 1) {
+                selDokument = new Dok();
+                selDokument.setVatM(wpisView.getMiesiacWpisu());
+                selDokument.setVatR(wpisView.getRokWpisuSt());
+                selDokument.setKontr1(wstawKlientaDoNowegoDok());
+                DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
+                selectedSTR = new SrodekTrw();
+                if (wpisView.getRodzajopodatkowania().contains("bez VAT") && !selDokument.getTypdokumentu().equals("IU")) {
+                    selDokument.setDokumentProsty(true);
+                    ewidencjaAddwiad.clear();
+                    ukryjEwiencjeVAT = true;
+                    RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
+                } else {
+                    podepnijEwidencjeVat();
+                }
+                selDokument.setOpis(wysDokument.getOpis());
+                setRenderujwysz(false);
+                setPokazEST(false);
+                int i = 0;
+                try {
+                    if (wysDokument.getListakwot1() != null) {
+                        for (KwotaKolumna1 p : wysDokument.getListakwot1()) {
+                            if (selDokument.getListakwot1().size() < i + 2) {
+                                selDokument.getListakwot1().get(i++).setNazwakolumny(p.getNazwakolumny());
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+            } else {
+                selectedSTR = new SrodekTrw();
+                ewidencjaAddwiad.clear();
+                RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
+                setRenderujwysz(false);
+                setPokazEST(false);
+            }
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd. Dokument nie został zaksiegowany " + e.getMessage() + " " + e.getStackTrace().toString());
         }
-        //robienie srodkow trwalych
-        if (selectedSTR.getStawka() != null) {
-            dodajSrodekTrwaly();
-            srodekkategoria = new Srodkikst();
-        }
-        if (rodzajdodawania == 1) {
-            selDokument = new Dok();
-            selDokument.setVatM(wpisView.getMiesiacWpisu());
-            selDokument.setVatR(wpisView.getRokWpisuSt());
-            selDokument.setKontr1(wstawKlientaDoNowegoDok());
-            DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
-            selectedSTR = new SrodekTrw();
-            if (wpisView.getRodzajopodatkowania().contains("bez VAT") && !selDokument.getTypdokumentu().equals("IU")) {
-                selDokument.setDokumentProsty(true);
-                ewidencjaAddwiad.clear();
-                ukryjEwiencjeVAT = true;
-                RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
-            } else {
-                podepnijEwidencjeVat();
-            }
-            selDokument.setOpis(wysDokument.getOpis());
-            setRenderujwysz(false);
-            setPokazEST(false);
-            int i = 0;
-            try {
-                if (wysDokument.getListakwot1() != null) {
-                    for (KwotaKolumna1 p : wysDokument.getListakwot1()) {
-                        if (selDokument.getListakwot1().size() < i+2) {
-                            selDokument.getListakwot1().get(i++).setNazwakolumny(p.getNazwakolumny());
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                
-            }
-        } else {
-            selectedSTR = new SrodekTrw();
-            ewidencjaAddwiad.clear();
-            RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
-            setRenderujwysz(false);
-            setPokazEST(false);
-        }
     }
-    
+
     private Klienci wstawKlientaDoNowegoDok() {
         Klienci nowyklient = null;
         if (wysDokument != null) {
@@ -1113,10 +1111,9 @@ public final class DokView implements Serializable {
         Dok tmp = null;
         tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt().getNazwapelna(), selD.getTypdokumentu());
         if (tmp instanceof Dok) {
-            String wiadomosc = "Dokument typu " + selD.getTypdokumentu() + " dla tego klienta, o numerze " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest juz zaksiegowany u podatnika: " + selD.getPodatnik() + " typ dokumentu: " + selD.getTypdokumentu();
+            String wiadomosc = "Dokument " + selD.getTypdokumentu() + " dla tego klienta, o nr " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest zaksiegowany u pod: " + tmp.getPodatnik() + " rok/mc: " + tmp.getPkpirR() + "/" + tmp.getPkpirM() + " dnia: " + Data.data_ddMMMMyyyy(tmp.getDataK());
             Msg.msg("e", wiadomosc);
             throw new Exception();
-        } else {
         }
     }
 
@@ -1397,7 +1394,7 @@ public final class DokView implements Serializable {
             poszukajnip();
             klDAO.dodaj(selectedKlient);
             selDokument.setKontr(selectedKlient);
-            selectedKlient = new Klienci(); 
+            selectedKlient = new Klienci();
             RequestContext.getCurrentInstance().update("dodWiad:acForce");
             RequestContext.getCurrentInstance().update("formX");
             RequestContext.getCurrentInstance().update("formY:tabelaKontr");
@@ -1479,14 +1476,14 @@ public final class DokView implements Serializable {
                     int i = 0;
                     try {
                         if (poprzedniDokument.getListakwot1() != null) {
-                                for (KwotaKolumna1 p : poprzedniDokument.getListakwot1()) {
-                                    if (selDokument.getListakwot1().size() < i+2) {
-                                        selDokument.getListakwot1().get(i++).setNazwakolumny(p.getNazwakolumny());
-                                    }
+                            for (KwotaKolumna1 p : poprzedniDokument.getListakwot1()) {
+                                if (selDokument.getListakwot1().size() < i + 2) {
+                                    selDokument.getListakwot1().get(i++).setNazwakolumny(p.getNazwakolumny());
                                 }
+                            }
                         }
                     } catch (Exception e) {
-                        
+
                     }
                 }
             } catch (Exception e) {
@@ -1494,7 +1491,8 @@ public final class DokView implements Serializable {
             }
         }
     }
-     public void pobierzkursNBP(ValueChangeEvent el) {
+
+    public void pobierzkursNBP(ValueChangeEvent el) {
         try {
             symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
             String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
@@ -1542,30 +1540,30 @@ public final class DokView implements Serializable {
             RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
             RequestContext.getCurrentInstance().execute("r('dodWiad:acForce').select();");
         } catch (Exception e) {
-            
-        }
-     }
 
-     public void skopiujwartosc(int lp) {
-         KwotaKolumna1 wiersz = selDokument.getListakwot1().get(lp);
-         wiersz.setNettowaluta(wiersz.getNetto());
-         String s = "dodWiad:tabelapkpir:"+lp+":kwotaPkpir1";
-         RequestContext.getCurrentInstance().update(s);
-     }
-     
-      public void przewalutuj(int lp) {
-         KwotaKolumna1 wiersz = selDokument.getListakwot1().get(lp);
-         Tabelanbp t = selDokument.getTabelanbp();
-         if (t != null) {
+        }
+    }
+
+    public void skopiujwartosc(int lp) {
+        KwotaKolumna1 wiersz = selDokument.getListakwot1().get(lp);
+        wiersz.setNettowaluta(wiersz.getNetto());
+        String s = "dodWiad:tabelapkpir:" + lp + ":kwotaPkpir1";
+        RequestContext.getCurrentInstance().update(s);
+    }
+
+    public void przewalutuj(int lp) {
+        KwotaKolumna1 wiersz = selDokument.getListakwot1().get(lp);
+        Tabelanbp t = selDokument.getTabelanbp();
+        if (t != null) {
             double d = wiersz.getNettowaluta();
-            wiersz.setNetto(d*t.getKurssredniPrzelicznik());
+            wiersz.setNetto(d * t.getKurssredniPrzelicznik());
             symbolWalutyNettoVat = " zł";
             sumujnetto();
-            String s = "dodWiad:tabelapkpir:"+lp+":kwotaPkpir";
+            String s = "dodWiad:tabelapkpir:" + lp + ":kwotaPkpir";
             RequestContext.getCurrentInstance().update(s);
-         }
-         
-     }
+        }
+
+    }
 
     public Klienci getSelectedKlient() {
         return selectedKlient;
@@ -1688,8 +1686,6 @@ public final class DokView implements Serializable {
         this.srodekkategoria = srodekkategoria;
     }
 
-   
-
     public Srodkikst getSrodekkategoriawynik() {
         return srodekkategoriawynik;
     }
@@ -1801,7 +1797,6 @@ public final class DokView implements Serializable {
     public void setNieVatowiec(boolean nieVatowiec) {
         this.nieVatowiec = nieVatowiec;
     }
-    
 
     //<editor-fold defaultstate="collapsed" desc="comment">
 //   public DokTabView getDokTabView() {

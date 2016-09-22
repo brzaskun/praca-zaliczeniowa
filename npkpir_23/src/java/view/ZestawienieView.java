@@ -910,7 +910,7 @@ public class ZestawienieView implements Serializable {
                         biezacyPit.setZus52(pobierzZUS52());
                     }
                     sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM(), wybranyudzialowiec);
-                    if (selected.isOdliczeniezus51() == true && pierwszypitwroku == false) {
+                    if (selected.isOdliczeniezus51() == true && pierwszypitwroku == false && zus51zreki == false) {
                         biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
                     }
                     rozliczstrate();
