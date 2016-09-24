@@ -8,7 +8,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:accordionPanel id="akordeon">
-        <p:tab title="Schemy załącznita VAT-ZZ">  
+        <p:tab title="Schemy załącznika VAT-ZZ">  
             <h:form id="form_deklVATZalSchemaView">
                 <p:growl autoUpdate="true"/>
                 <p:dataTable value="#{deklVATZalSchemaView.schemyDeklaracjiVatZZ}" var="item" style="width: 680px;"
@@ -105,8 +105,53 @@
                 <p:commandButton value="edytuj" actionListener="#{deklVATZalSchemaView.edytujscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
             </h:form>
         </p:tab>
-        <p:tab title="Podowy do załącznika VAT-ZZ">
-            
+        <p:tab title="Powody do załącznika VAT-ZZ">
+            <h:form id="formpowodyzz">
+                <p:dataTable value="#{deklaracjaVatZZPowodView.deklracjaVatZZpowody}" var="item" style="width: 550px;" emptyMessage="nie wprowadzono powodów">
+                    <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="nr"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nr}"/>
+                        </p:column>
+                        <p:column width="400">
+                            <f:facet name="header">
+                                <h:outputText value="tresc"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tresc}"/>
+                        </p:column>
+                    <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-trash" actionListener="#{deklaracjaVatZZPowodView.usun(item)}"
+                                         update="akordeon:formpowodyzz"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            <h:form>
+                <p:panelGrid columns="2">
+                    <h:outputText value="numer powodu"/>
+                    <p:inputText value="#{deklaracjaVatZZPowodView.nowypowod.nr}"/>
+                    <h:outputText value="uzasadnienie"/>
+                    <p:inputText value="#{deklaracjaVatZZPowodView.nowypowod.tresc}" style="width: 500px;"/>
+                </p:panelGrid>
+                <p:commandButton value="dodaj" actionListener="#{deklaracjaVatZZPowodView.dodaj()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:formpowodyzz"/>
+                <p:commandButton value="edytuj" actionListener="#{deklaracjaVatZZPowodView.edytuj()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:formpowodyzz"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="Przyporządkowanie powodów do załącznika">
+            <p:pickList value="#{deklaracjaVatZZPowodPrzypView.deklracjaVatZZpowody}" var="wpis" effect="bounce"
+                        itemValue="#{wpis.nr}" itemLabel="#{wpis.tresc}" showSourceControls="true" showTargetControls="true" showCheckbox="true"
+                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains">
+                <p:column style="width:50%">
+                    <h:outputText styleClass="ui-theme ui-theme-#{theme.name}" />
+                </p:column>
+
+                <p:column style="width:90%;">
+                    
+                </p:column>
+            </p:pickList>
         </p:tab>
     </p:accordionPanel>
 </ui:composition>   

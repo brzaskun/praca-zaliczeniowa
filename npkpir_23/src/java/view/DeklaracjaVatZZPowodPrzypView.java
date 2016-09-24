@@ -22,7 +22,7 @@ import msg.Msg;
  */
 @ManagedBean
 @ViewScoped
-public class DeklaracjaVatZZPowodView  implements Serializable {
+public class DeklaracjaVatZZPowodPrzypView  implements Serializable {
     @Inject
     private DeklaracjaVatZZPowodDAO deklaracjaVatZZPowodDAO;
     private List<DeklaracjaVatZZPowod> deklracjaVatZZpowody;
