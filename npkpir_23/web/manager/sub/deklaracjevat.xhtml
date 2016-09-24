@@ -114,16 +114,13 @@
                         <f:selectItems value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
                         <p:ajax listener="#{deklaracjaVatSchemaView.pobierzschemaewidencja()}" update="akordeon:definowaniepozycji" event="change"/>
                     </p:selectOneMenu>
-                    <h:outputText value="rok od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.kopiowanaschema.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
-                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.kopiowanaschema.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
-                    <h:outputText value="nazwa schemy: "/><p:inputText value="#{deklaracjaVatSchemaView.kopiowanaschema.nazwaschemy}" style="width: 200px;"/>
-                    <h:outputText value="mc/kw: " />
-                    <p:selectOneListbox value="#{deklaracjaVatSchemaView.kopiowanaschema.mc0kw1}">
-                        <f:selectItem itemLabel="miesięczna" itemValue="false"/>
-                        <f:selectItem itemLabel="kwartalna" itemValue="true"/>
-                    </p:selectOneListbox>
+                    <h:outputText value="ewidencja docelowa"/>
+                    <p:selectOneMenu value="#{deklaracjaVatSchemaView.kopiowanaschema}" converter="DeklaracjaVatSchemaConv" rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}">
+                        <f:selectItems value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
+                        <p:ajax listener="#{deklaracjaVatSchemaView.pobierzschemaewidencja()}" update="akordeon:definowaniepozycji" event="change"/>
+                    </p:selectOneMenu>
                 </p:panelGrid>
-                <p:commandButton value="kopiuj" actionListener="#{deklaracjaVatSchemaView.kopiujscheme()}" style="width: 120px; margin: 10px;" 
+                <p:commandButton value="kopiuj" actionListener="#{deklaracjaVatSchemaView.kopiujschemaprzyporzadkowania()}" style="width: 120px; margin: 10px;" 
                                  global="false" update="akordeon:definowaniepozycji akordeon:form_deklaracjaVatSchemaView:wykazschem akordeon:definowaniewierszysumarycznych akordeon:definowaniewierszykoncowych"/>
             </h:form>
         </p:tab>

@@ -168,15 +168,9 @@ public class DeklaracjaVatSchemaView implements Serializable {
     }
      
      
-     public void kopiujscheme() {
+     public void kopiujschemaprzyporzadkowania() {
          if (wybranaschema != null && kopiowanaschema.getNazwaschemy() != null) {
-             kopiowanaschema.setNaglowek(wybranaschema.getNaglowek());
-             kopiowanaschema.setOswiadczenie(wybranaschema.getOswiadczenie());
-             kopiowanaschema.setPouczenie(wybranaschema.getPouczenie());
-             kopiowanaschema.setWstep(wybranaschema.getWstep());
-             deklaracjaVatSchema = kopiowanaschema;
-             int udanedodanie = dodajscheme();
-             if (udanedodanie == 1) {
+             if (!wybranaschema.equals(kopiowanaschema)) {
                 schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(wybranaschema);
                 schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(wybranaschema);
                 List<SchemaEwidencja> nowaschemaewidencja = new ArrayList<>();
@@ -200,6 +194,8 @@ public class DeklaracjaVatSchemaView implements Serializable {
                 wybranaschema = kopiowanaschema;
                 schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(wybranaschema);
                 schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(wybranaschema);
+             } else {
+                 Msg.msg("e", "Schema źródłowa i docelowa jest identycnza");
              }
          } else {
              Msg.msg("e", "Nie wybrano schemy wzorcowej. Nie określono nazwy schemy docelowej");
