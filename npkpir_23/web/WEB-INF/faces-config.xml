@@ -359,6 +359,10 @@
             <to-view-id>/manager/managerDeklaracjevat.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>deklaracjevatzal</from-outcome>
+            <to-view-id>/manager/managerDeklaracjevatZalaczniki.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>kasa</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKRK.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

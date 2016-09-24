@@ -6,6 +6,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -15,6 +17,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -30,47 +34,49 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames={"nazwaschemy"})
 })
 @NamedQueries({
-    @NamedQuery(name = "DeklaracjaVatSchema.usunliste", query = "DELETE FROM DeklaracjaVatSchema p WHERE p.nazwaschemy = :nazwaschemy")
+    @NamedQuery(name = "DeklaracjaVatZZ.usunliste", query = "DELETE FROM DeklaracjaVatZZ p WHERE p.nazwaschemy = :nazwaschemy")
 })
-public class DeklaracjaVatSchema implements Serializable {
+public class DeklaracjaVatZZ implements Serializable {
    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "rokOd")
-    private String rokOd;
-    @Column(name = "mcOd")
-    private String mcOd;
     @Column(name = "nazwaschemy")
     private String nazwaschemy;
     @Column(name = "wstep")
     private String wstep;
     @Column(name = "naglowek", length = 2048)
     private String naglowek;
-    @Column(name = "pouczenie", length = 2048)
-    private String pouczenie;
-    @Column(name = "oswiadczenie", length = 2048)
-    private String oswiadczenie;
-    @Column(name = "mc0kw1")
-    private boolean mc0kw1;
-    @JoinColumn(name = "deklaracjaVatZZ",referencedColumnName = "id")
-    @OneToOne(cascade = CascadeType.ALL)
-    private DeklaracjaVatZZ deklaracjaVatZZ;
+    @Column(name = "powod")
+    private String powod;
+    @Column(name = "kwota")
+    private String kwota;
+    @Column(name = "uzasadnienie")
+    private String uzasadnienie;
+    @OneToOne(mappedBy = "deklaracjaVatZZ")
+    private DeklaracjaVatSchema deklaracjaVatSchema;
+    @ManyToMany
+    @JoinTable(
+            name = "zz_powody",
+            joinColumns = {
+                @JoinColumn(name = "powody", referencedColumnName = "id"),
+            },
+            inverseJoinColumns = {
+                @JoinColumn(name = "vatzzty", referencedColumnName = "id"),
+            })
+    private List<DeklaracjaVatZZPowod> powody;
 
-    public DeklaracjaVatSchema() {
+    public DeklaracjaVatZZ() {
+        this.powody = new ArrayList<>();
     }
 
-    public DeklaracjaVatSchema(DeklaracjaVatSchema dk) {
-        this.rokOd = rokOd;
-        this.mcOd = dk.mcOd;
+    public DeklaracjaVatZZ(DeklaracjaVatZZ dk) {
         this.nazwaschemy = dk.nazwaschemy;
         this.wstep = dk.wstep;
         this.naglowek = dk.naglowek;
-        this.pouczenie = dk.pouczenie;
-        this.oswiadczenie = dk.oswiadczenie;
-        this.mc0kw1 = dk.mc0kw1;
+        this.powody = new ArrayList<>();
     }
 
         
@@ -91,7 +97,7 @@ public class DeklaracjaVatSchema implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DeklaracjaVatSchema other = (DeklaracjaVatSchema) obj;
+        final DeklaracjaVatZZ other = (DeklaracjaVatZZ) obj;
         if (!Objects.equals(this.nazwaschemy, other.nazwaschemy)) {
             return false;
         }
@@ -100,8 +106,11 @@ public class DeklaracjaVatSchema implements Serializable {
 
     @Override
     public String toString() {
-        return "DeklaracjaVatSchema{" + "rokOd=" + rokOd + ", mcOd=" + mcOd + ", nazwaschemy=" + nazwaschemy + ", wstep=" + wstep + ", pouczenie=" + pouczenie + ", mc0kw1=" + mc0kw1 + '}';
+        return "DeklaracjaVatZZ{" + "nazwaschemy=" + nazwaschemy + ", wstep=" + wstep + ", naglowek=" + naglowek + ", powod=" + powod + ", kwota=" + kwota + ", uzasadnienie=" + uzasadnienie + ", deklaracjaVatSchema=" + deklaracjaVatSchema + '}';
     }
+
+    
+  
   
     //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -112,24 +121,6 @@ public class DeklaracjaVatSchema implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    
-    public String getRokOd() {
-        return rokOd;
-    }
-    
-    public void setRokOd(String rokOd) {
-        this.rokOd = rokOd;
-    }
-    
-    
-    public String getMcOd() {
-        return mcOd;
-    }
-    
-    public void setMcOd(String mcOd) {
-        this.mcOd = mcOd;
-    }
-    
     
     public String getNazwaschemy() {
         return nazwaschemy;
@@ -146,21 +137,45 @@ public class DeklaracjaVatSchema implements Serializable {
     public void setWstep(String wstep) {
         this.wstep = wstep;
     }
-    
-    public String getPouczenie() {
-        return pouczenie;
+
+    public String getPowod() {
+        return powod;
     }
-    
-    public void setPouczenie(String pouczenie) {
-        this.pouczenie = pouczenie;
+
+    public void setPowod(String powod) {
+        this.powod = powod;
     }
-    
-    public boolean isMc0kw1() {
-        return mc0kw1;
+
+    public String getKwota() {
+        return kwota;
     }
-    
-    public void setMc0kw1(boolean mc0kw1) {
-        this.mc0kw1 = mc0kw1;
+
+    public void setKwota(String kwota) {
+        this.kwota = kwota;
+    }
+
+    public String getUzasadnienie() {
+        return uzasadnienie;
+    }
+
+    public void setUzasadnienie(String uzasadnienie) {
+        this.uzasadnienie = uzasadnienie;
+    }
+
+    public DeklaracjaVatSchema getDeklaracjaVatSchema() {
+        return deklaracjaVatSchema;
+    }
+
+    public void setDeklaracjaVatSchema(DeklaracjaVatSchema deklaracjaVatSchema) {
+        this.deklaracjaVatSchema = deklaracjaVatSchema;
+    }
+
+    public List<DeklaracjaVatZZPowod> getPowody() {
+        return powody;
+    }
+
+    public void setPowody(List<DeklaracjaVatZZPowod> powody) {
+        this.powody = powody;
     }
     
     public String getNaglowek() {
@@ -170,22 +185,7 @@ public class DeklaracjaVatSchema implements Serializable {
     public void setNaglowek(String naglowek) {
         this.naglowek = naglowek;
     }
-
-    public DeklaracjaVatZZ getDeklaracjaVatZZ() {
-        return deklaracjaVatZZ;
-    }
-
-    public void setDeklaracjaVatZZ(DeklaracjaVatZZ deklaracjaVatZZ) {
-        this.deklaracjaVatZZ = deklaracjaVatZZ;
-    }
-    
-    public String getOswiadczenie() {
-        return oswiadczenie;
-    }
-    
-    public void setOswiadczenie(String oswiadczenie) {
-        this.oswiadczenie = oswiadczenie;
-    }
+  
 //</editor-fold>
   
     

@@ -37,7 +37,7 @@ public class VATZDpozycja implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "dok", referencedColumnName = "idDok")
+    @JoinColumn(name = "dok", referencedColumnName = "id_dok")
     @OneToOne(cascade = {CascadeType.ALL})
     private Dok dok;
     @JoinColumns({
@@ -52,11 +52,11 @@ public class VATZDpozycja implements Serializable {
     @OneToOne(cascade = {CascadeType.ALL})
     private Deklaracjevat deklaracjavat;
     @Size(max = 4)
-    @Column(name = "rok")
-    private String rok;
+    @Column(name = "rokZD")
+    private String rokZD;
     @Size(max = 2)
-    @Column(name = "mc")
-    private String mc;
+    @Column(name = "mcZD")
+    private String mcZD;
     @Size(max = 10)
     @Column(name = "terminplatnosci")//dd-mm-yyyy
     private String terminplatnosci;
@@ -141,20 +141,20 @@ public class VATZDpozycja implements Serializable {
         this.deklaracjavat = deklaracjavat;
     }
 
-    public String getRok() {
-        return rok;
+    public String getRokZD() {
+        return rokZD;
     }
 
-    public void setRok(String rok) {
-        this.rok = rok;
+    public void setRokZD(String rokZD) {
+        this.rokZD = rokZD;
     }
 
-    public String getMc() {
-        return mc;
+    public String getMcZD() {
+        return mcZD;
     }
 
-    public void setMc(String mc) {
-        this.mc = mc;
+    public void setMcZD(String mcZD) {
+        this.mcZD = mcZD;
     }
 
     public String getTerminplatnosci() {

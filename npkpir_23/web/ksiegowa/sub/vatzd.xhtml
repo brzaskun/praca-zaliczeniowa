@@ -7,11 +7,12 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:bcf="http://brzaskun.com/facelets">
     <h:form id="form">
+        <p:growl autoUpdate="true"/>
         <p:tabView>
             <p:tab  title="Wybrane faktury">
                 <p:contextMenu id="menutablica" for="dokumentyLista">
-                    <p:menuitem global="false" value="dodaj" actionListener="#{vATZDView.dodaj}" update=":formM:messages" icon="ui-icon-check"/>
-                    <p:menuitem global="false" value="usuń" actionListener="#{DokTabView.usun}" update=":formM:messages" icon="ui-icon-closethick"/>
+                    <p:menuitem global="false" value="dodaj" actionListener="#{vATZDView.dodaj}" icon="ui-icon-check"/>
+                    <p:menuitem global="false" value="usuń" actionListener="#{DokTabView.usun}"  icon="ui-icon-closethick"/>
                 </p:contextMenu>
                 <p:outputPanel id="kontenertabeli" deferred="true">
                     <p:dataTable  var="wpis" value="#{vATZDView.dokumentykp}" id="dokumentyLista" rowIndexVar="index"
@@ -23,8 +24,6 @@
                             <h:outputText value="Zestawienie #{vATZDView.dokumentykp.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów " />  
                             <h:outputText value="- wyszukiwanie: " />  
                             <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
-                            <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
-                            <p:columnToggler datasource="dokumentyLista" trigger="toggler"/>
                         </f:facet>
 
                         <p:column style="width: 10px; height: 45px; text-align: center;" >
@@ -139,7 +138,7 @@
                 </p:outputPanel>
             </p:tab>
             <p:tab title="Zestawienie dok za 180dni">
-                <p:dataTable value="#{VATZDView}" var="item">
+                <p:dataTable value="#{vATZDView.wykazdovatzd}" var="item">
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="id"/>
@@ -162,13 +161,13 @@
                         <f:facet name="header">
                             <h:outputText value="rok"/>
                         </f:facet>
-                        <h:outputText value="#{item.rok}"/>
+                        <h:outputText value="#{item.rokZD}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="mc"/>
                         </f:facet>
-                        <h:outputText value="#{item.mc}"/>
+                        <h:outputText value="#{item.mcZD}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">

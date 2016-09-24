@@ -6,13 +6,10 @@
 package beansDok;
 
 import data.Data;
-import embeddable.Kwartaly;
-import embeddable.Schema;
 import entity.DeklaracjaVatSchema;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateless;
 
 /**
  *
