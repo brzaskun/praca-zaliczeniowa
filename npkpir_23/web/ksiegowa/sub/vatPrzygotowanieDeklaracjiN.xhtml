@@ -17,7 +17,7 @@
             <p:selectBooleanCheckbox value="#{vat7DKView.pierwotnazamiastkorekty}" style="width: 120px" immediate="true" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
               </p:panelGrid>
             <p:growl id="msg" />
-            <p:panel header="Dane do bieżącej deklaracji VAT7 miesięcznej. Podatnik: #{vat7DKView.nowadeklaracja.podatnik}"/>
+            <p:panel header="Dane do bieżącej deklaracji VAT-7 miesięcznej. Podatnik: #{vat7DKView.nowadeklaracja.podatnik}. Schema: #{vat7DKView.nowadeklaracja.wzorschemy}"/>
             <p:panelGrid columns="1"  style="width: 90%;">
                 <p:dataTable value="#{vat7DKView.sumaschemewidencjilista}" var="loop" sortBy="#{loop.schemaEwidencja.polenetto}" style="width: 800px;"
                              emptyMessage="nie pobrano danych" >
