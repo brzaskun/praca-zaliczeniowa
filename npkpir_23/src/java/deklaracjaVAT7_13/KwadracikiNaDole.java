@@ -48,6 +48,10 @@ public class KwadracikiNaDole {
             case "K-10":
                 this.schemaM16K10(pozycjelista, today);
                 break;
+            case "M-17":
+            case "K-11":
+                this.schemaM17K11(pozycjelista, today);
+                break;
         }
     }
     
@@ -94,6 +98,17 @@ public class KwadracikiNaDole {
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_66>1</P_66>");
         }
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_73>"+today+"</P_73>");
+        kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
+    }
+    
+    private void schemaM17K11(PozycjeSzczegoloweVAT pozycjelista, String today){
+        if(pozycjelista.getPoleI55()>0 && pozycjelista.getPoleI56()==0){
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_66>1</P_66>");
+        }
+        if(pozycjelista.getPoleI55()>0 && pozycjelista.getPoleI56()>0){
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_67>1</P_67>");
+        }
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_74>"+today+"</P_74>");
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
     

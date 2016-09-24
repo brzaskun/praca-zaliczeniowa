@@ -194,8 +194,9 @@ public class DeklaracjaVatSchemaView implements Serializable {
                 wybranaschema = kopiowanaschema;
                 schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(wybranaschema);
                 schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(wybranaschema);
+                Msg.msg("Zakończono kopiowanie przyporządkowań");
              } else {
-                 Msg.msg("e", "Schema źródłowa i docelowa jest identycnza");
+                 Msg.msg("e", "Schema źródłowa i docelowa jest identyczna");
              }
          } else {
              Msg.msg("e", "Nie wybrano schemy wzorcowej. Nie określono nazwy schemy docelowej");
