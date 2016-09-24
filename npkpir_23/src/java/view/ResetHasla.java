@@ -19,6 +19,7 @@ import msg.Msg;
  */
 @ManagedBean
 public class ResetHasla implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String login;
     @Inject private Uz user;
     @Inject private UzDAO uzDAO;

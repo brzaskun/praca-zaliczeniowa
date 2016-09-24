@@ -1,0 +1,196 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <h:form id="form">
+        <p:tabView>
+            <p:tab  title="Wybrane faktury">
+                <p:contextMenu id="menutablica" for="dokumentyLista">
+                    <p:menuitem global="false" value="dodaj" actionListener="#{vATZDView.dodaj}" update=":formM:messages" icon="ui-icon-check"/>
+                    <p:menuitem global="false" value="usuń" actionListener="#{DokTabView.usun}" update=":formM:messages" icon="ui-icon-closethick"/>
+                </p:contextMenu>
+                <p:outputPanel id="kontenertabeli" deferred="true">
+                    <p:dataTable  var="wpis" value="#{vATZDView.dokumentykp}" id="dokumentyLista" rowIndexVar="index"
+                                  style="width: 1400px; margin-top: 10px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+                                  rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                                  selectionMode="multiple" styleClass="grid" 
+                                  >
+                        <f:facet name="header">  
+                            <h:outputText value="Zestawienie #{vATZDView.dokumentykp.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów " />  
+                            <h:outputText value="- wyszukiwanie: " />  
+                            <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
+                            <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
+                            <p:columnToggler datasource="dokumentyLista" trigger="toggler"/>
+                        </f:facet>
+
+                        <p:column style="width: 10px; height: 45px; text-align: center;" >
+                            <p:rowToggler rendered="#{wpis.ewidencjaVAT1.size() gt 0}"/>
+                            <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT1.size() eq null}"/>
+                        </p:column>
+                        <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}"  style="width: 20px; text-align: center;">  
+                            <h:outputText styleClass="lpwiersza" value="#{wpis.nrWpkpir}" />
+                        </p:column>
+                        <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dataWyst}"  style="width: 50px; min-width: 70px;">  
+                            <h:outputText value="#{wpis.dataWyst}"/>
+                        </p:column>
+                        <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 14%;">  
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 200px;">
+                                    <f:selectItem itemLabel="kontrahent" itemValue="#{null}" />
+                                    <f:selectItems value="#{DokTabView.kontrahentypodatnika}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <h:outputText style="font-weight: bold;" value="#{wpis.kontr.npelna}"  />
+                            <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  rendered="#{!(wpis.kontr.nip eq '0000000000')}"/>
+                            <h:outputText value=" #{wpis.kontr.miejscowosc}"  rendered="#{wpis.kontr.nip eq '0000000000'}"/>
+                        </p:column>
+                        <p:column id="rodzTrColumn" headerText="trans" filterBy="#{wpis.typdokumentu}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.typdokumentu}"  style="width: 5%;text-align: center;">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('dokTable').filter()" >
+                                    <f:selectItem itemLabel="dok" itemValue="#{null}" />
+                                    <f:selectItems value="#{DokTabView.dokumentypodatnika}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <h:outputText value="#{wpis.typdokumentu}"/>
+                        </p:column>
+                        <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}"  style="width: 10%;" >   
+                            <h:outputText value="#{wpis.nrWlDk}" />
+                        </p:column>
+                        <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;">  
+                            <h:outputText value="#{wpis.opis}"/>
+                        </p:column>
+                        <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.tabelanbp.waluta.symbolwaluty}" filterMatchMode="contains"  sortBy="#{wpis.netto}"  style="width: 60px;">  
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('dokTable').filter()" >
+                                    <f:selectItem itemLabel="wal" itemValue="#{null}" />
+                                    <f:selectItems value="#{walutyViewFK.symboleWalut}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <bcf:outputpl value="#{wpis.netto}"/>
+                            <br/>
+
+                            <bcf:outputpl value="#{wpis.nettoWaluta}"  rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/> 
+                            <h:outputText value="#{wpis.tabelanbp.waluta.symbolwaluty}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+                        </p:column>
+                        <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;" resizable="true" >
+                            <ui:repeat value="#{wpis.listakwot1}" var="item" varStatus="nr">
+                                <h:outputText value="#{wpis.listakwot1.get(nr.index).netto}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                                <h:outputText value="#{wpis.listakwot1.get(nr.index).nazwakolumny}" style="float: left;">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText><br/>
+                            </ui:repeat>
+                        </p:column>
+                        <p:column headerText="spr" style="text-align: center;" width="20" sortBy="#{wpis.sprawdzony}">  
+                            <h:outputText id="polespr" value="#{wpis.sprawdzony eq 2 ? '. .' : (wpis.sprawdzony eq 1 ? '. .' : '.')}" 
+                                          style="#{wpis.sprawdzony eq 2 ? 'background-color: red; color: red;' : (wpis.sprawdzony eq 1 ? 'background-color: green; color: green;' : null)}"/>
+                        </p:column>
+                        <p:rowExpansion>
+                            <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
+                                <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
+                                    <p:column id="SubColumn1" headerText="ewidencja">  
+                                        <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
+                                    </p:column>
+                                    <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
+                                        <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
+                                        <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="SubColumn2a" headerText="brutto">  
+                                        <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="SubColumn3" headerText="op/zw">  
+                                        <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                                    </p:column>
+                                    <p:column id="SubColumn4" headerText="okresy vat">  
+                                        <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:column>
+                        </p:rowExpansion>
+                        <p:column id="vatMcColumn" headerText="#{mgs.VAT}" filterBy="#{wpis.vatM}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.vatM}"  style="width: 14px; text-align: center;" filterMaxLength="2">  
+                            <h:outputText style="#{wpis.vatM eq wpis.pkpirM ? null : 'font-weight: bold; color: red;'}" value="#{wpis.vatM}"/>
+                        </p:column >
+                        <p:column id="status" headerText="tab"  style="width: 7%; text-align: center;">
+                            <h:outputText value="#{wpis.tabelanbp.nrtabeli} " rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
+                            <h:outputText value="#{wpis.tabelanbp.kurssredni}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
+                        </p:column>
+                        <p:column id="deleteColumn" headerText="usuń" style="width: 4%; text-align: center;">
+                            <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="PF('confirmation').show()" style="width: 30px;"
+                                             id="delete" icon="ui-icon ui-icon-trash" type="submit" rendered="#{wpis.status eq 'bufor' ? true : false}" />
+                        </p:column>
+                        <p:column id="usunpozornieColumn" headerText="mod" sortBy="#{wpis.usunpozornie}"  style="width: 5%; text-align: center;" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}">  
+                            <h:outputText value="#{wpis.usunpozornie}" />
+                        </p:column>
+
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:tab>
+            <p:tab title="Zestawienie dok za 180dni">
+                <p:dataTable value="#{VATZDView}" var="item">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="id"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Dok"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dok}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="deklaracja vat"/>
+                        </f:facet>
+                        <h:outputText value="#{item.deklaracjavat}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="rok"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rok}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="mc"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mc}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="termin platnosci"/>
+                        </f:facet>
+                        <h:outputText value="#{item.terminplatnosci}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="korekta podstawa"/>
+                        </f:facet>
+                        <h:outputText value="#{item.korektapodstawa}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="korekta podatek"/>
+                        </f:facet>
+                        <h:outputText value="#{item.korektapodatek}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:tab>
+        </p:tabView>
+    </h:form>
+</ui:composition>   
+

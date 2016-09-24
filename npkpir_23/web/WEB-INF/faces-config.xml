@@ -234,6 +234,10 @@
             <from-outcome>vatue</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaVATUE.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>vatzalacznikzd</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaVAT_ZD.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
           <navigation-case>
             <from-outcome>zestawienie</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaZestawienieRok.xhtml?faces-redirect=true</to-view-id>
