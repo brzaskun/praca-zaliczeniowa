@@ -32,7 +32,7 @@ public class DeklaracjaVatZZPowod implements Serializable {
     private Integer id;
     @Column(name = "nr")
     private String nr;
-    @Column(name = "tresc")
+    @Column(name = "tresc", length = 512)
     private String tresc;
     @ManyToMany(mappedBy = "powody", fetch = FetchType.EAGER)
     private List<DeklaracjaVatZZ> vatzzty;

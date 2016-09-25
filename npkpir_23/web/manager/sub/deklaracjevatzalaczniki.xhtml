@@ -128,8 +128,6 @@
                                          update="akordeon:formpowodyzz"/>
                         </p:column>
                     </p:dataTable>
-                </h:form>
-            <h:form>
                 <p:panelGrid columns="2">
                     <h:outputText value="numer powodu"/>
                     <p:inputText value="#{deklaracjaVatZZPowodView.nowypowod.nr}"/>
@@ -153,7 +151,7 @@
                 <p:outputPanel style="margin-top: 10px;">
                     <p:pickList id="listawyboruzalacznika" value="#{deklaracjaVatZZPowodPrzypView.picklista}" var="wpis" effect="bounce"
                                 itemValue="#{wpis}" itemLabel="#{wpis.tresc}" showSourceControls="true" showTargetControls="true"
-                                converter="DeklaracjaVatZZPowodConv"
+                                converter="DeklaracjaVatZZPowodConv" showCheckbox="true"
                                 >
                         <p:column style="width:10%">
                             <h:outputText/>

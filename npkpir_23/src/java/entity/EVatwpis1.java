@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.inject.Named;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +24,7 @@ import javax.persistence.ManyToOne;
  */
 @Named
 @Entity
+@Cacheable
 public class EVatwpis1 implements Serializable {
     private static final long serialVersionUID = -3274961058594456484L;
     @Id

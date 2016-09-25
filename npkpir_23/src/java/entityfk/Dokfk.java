@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -80,6 +81,7 @@ import waluty.Z;
     @NamedQuery(name = "Dokfk.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.dokfkPK.podatnik FROM Dokfk d WHERE d.wprowadzil = :wprowadzil"),
     @NamedQuery(name = "Dokfk.znajdzSeriePodatnik", query = "SELECT DISTINCT d.dokfkPK.seriadokfk FROM Dokfk d WHERE d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnik")
 })
+@Cacheable
 public class Dokfk implements Serializable {
 
     private static final long serialVersionUID = 1L;
