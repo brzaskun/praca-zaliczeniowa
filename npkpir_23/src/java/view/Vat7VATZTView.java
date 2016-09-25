@@ -5,6 +5,7 @@
 package view;
 
 import deklaracjaVAT7_13.VATZT;
+import entity.DeklaracjaVatZZPowod;
 import entity.Deklaracjevat;
 import error.E;
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
     }
     private String kwota;
     private String informacja;
+    private DeklaracjaVatZZPowod powod;
     
     public void dodajzalacznikVATZT() throws IOException{
         String rok = wpisView.getRokWpisu().toString();
@@ -79,6 +81,14 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
 
     public void setKwota(String kwota) {
         this.kwota = kwota;
+    }
+
+    public DeklaracjaVatZZPowod getPowod() {
+        return powod;
+    }
+
+    public void setPowod(DeklaracjaVatZZPowod powod) {
+        this.powod = powod;
     }
     
     

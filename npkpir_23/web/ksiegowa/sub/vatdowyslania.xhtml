@@ -84,20 +84,28 @@
             </p:rowExpansion>
         </p:dataTable>
     </h:form><br/>
-    <h:outputText value="Najpierw należy wypełnić VAT-ZT, a dopiero potem ORD-ZU!" style="color: red;" rendered="#{deklaracjevatView.oczekujace.size() eq 0 ? false : (deklaracjevatView.oczekujace.get(0).selected.pozycjeszczegolowe.poleI62 gt 0 ? (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false) : false)}"/>
+    <h:outputText value="Najpierw należy wypełnić VAT-ZT, a dopiero potem ORD-ZU!" style="color: red;" rendered="#{deklaracjevatView.pokazZZ}"/>
     <h:form id="zalacznikZT">
-        <p:panel header="Załącznik VAT-ZT" rendered="#{deklaracjevatView.oczekujace.size()>0 ? (deklaracjevatView.oczekujace.get(0).selected.pozycjeszczegolowe.poleI62 gt 0 ? true : false) : false}"  style="max-width: 1400px;">
+        <p:panel header="Załącznik VAT-ZT" rendered="#{deklaracjevatView.pokazZZ}"  style="max-width: 1400px;">
             <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}"/>
             <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}">
                 <h:outputText value="Przygotowana korekta deklaracji nie zawiera wniosku o przyspieszony termin zwrotu, nie może być wysłana!"/>
                 <h:outputText value="wnioskowana kwota"/><h:inputText style="width: 200px;" value="#{vat7VATZTView.kwota}"/>
+                <h:outputText value="powód wniosku"/>
+<!--                <p:selectOneMenu value="#{vat7VATZTView.powod}" converter="DeklaracjaVatZZPowodConv" style="width: 700px;">
+                        <f:selectItem itemLabel="wybierz powód" itemValue=""/>
+                        <f:selectItems value="#{deklaracjaVatZZPowodPrzypView.powodysource}" var="item" itemLabel="#{item.tresc}" itemValue="#{item}"/>
+                        <p:ajax event="change" listener="#{deklaracjaVatZZPowodPrzypView.pobierzprzyporzadkowanie}" partialSubmit="true" 
+                                />
+                </p:selectOneMenu>-->
                 <h:outputText value="uzasadnienie wniosku"/><h:inputTextarea rows="5" style="width: 900px;" value="#{vat7VATZTView.informacja}"/>
                 <p:commandButton value="Załącz" actionListener="#{vat7VATZTView.dodajzalacznikVATZT()}" update="@all"/>
             </p:panelGrid>
         </p:panel>
     </h:form>
     <h:form id="zalacznik">
-        <p:panel header="Załącznik ORD-ZU" rendered="#{deklaracjevatView.oczekujace.size() eq 0 ? false : (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false)}"  style="max-width: 1400px;">
+        <p:panel header="Załącznik ORD-ZU" rendered="#{deklaracjevatView.oczekujace.size() eq 0 ? false : (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false)}"  
+                 style="max-width: 1400px;">
             <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Zalacznik_ORD-ZU')}"/>
             <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Zalacznik_ORD-ZU')}">
                 <h:outputText value="Przygotowana korekta deklaracji nie zawiera wyjaśnienia przyczyny korekty, nie może być wysłana!"/>

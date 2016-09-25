@@ -105,6 +105,7 @@ public class Vat7DKView implements Serializable {
     private Integer kwotanakaserej;
     private DeklaracjaVatSchema pasujacaSchema;
     private HashMap<String, EVatwpisSuma> mapaewidencji;
+    private boolean pokazinfovatzz;
    
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -257,7 +258,9 @@ public class Vat7DKView implements Serializable {
             }
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
             doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
+            pokazinfovatzz =  false;
             if (zwrot25dni != null) {
+                pokazinfovatzz = true;
                 DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
                 DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
                 narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot25dni);
@@ -973,6 +976,14 @@ public class Vat7DKView implements Serializable {
 
     public void setKwotanakaserej(Integer kwotanakaserej) {
         this.kwotanakaserej = kwotanakaserej;
+    }
+
+    public boolean isPokazinfovatzz() {
+        return pokazinfovatzz;
+    }
+
+    public void setPokazinfovatzz(boolean pokazinfovatzz) {
+        this.pokazinfovatzz = pokazinfovatzz;
     }
 
     

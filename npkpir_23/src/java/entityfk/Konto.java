@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -116,6 +117,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findlistaKontGrupa7", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '7%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa8", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '8%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.updateZablokowane", query = "UPDATE Konto k SET k.blokada = '0' WHERE k.podatnik = :podatnik AND k.rok = :rok")})
+@Cacheable
 public class Konto extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

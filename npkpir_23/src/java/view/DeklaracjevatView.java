@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansVAT.VATDeklaracja;
 import comparator.Vatcomparator;
 import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjevatDAO;
@@ -11,6 +12,7 @@ import dao.PodatnikDAO;
 import dao.SchemaEwidencjaDAO;
 import dao.WpisDAO;
 import entity.DeklaracjaVatSchema;
+import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
 import entity.Wpis;
 import error.E;
@@ -60,6 +62,7 @@ public class DeklaracjevatView implements Serializable {
     private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
     @Inject
     private SchemaEwidencjaDAO schemaEwidencjaDAO;
+    private boolean pokazZZ;
 
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();
@@ -72,44 +75,55 @@ public class DeklaracjevatView implements Serializable {
     
     
     @PostConstruct
-    private void init(){
+    private void init() {
         wyslane = new ArrayList<>();
         oczekujace = new ArrayList<>();
         wyslanenormalne = new ArrayList<>();
         wyslanetestowe = new ArrayList<>();
         wyslanezbledem = new ArrayList<>();
         wyslaneniepotwierdzone = new ArrayList<>();
-        try{
-            List<Deklaracjevat> pobranadeklaracja = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
-                  oczekujace.addAll(pobranadeklaracja);
-        } catch (Exception e) { 
-            E.e(e); }
-         try{
-            wyslane =  deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
-            for(Deklaracjevat p : wyslane){
-                    try{
-                    if(p.isTestowa()){
+        try {
+            oczekujace = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
+            if (oczekujace != null && oczekujace.size() == 1) {
+                Deklaracjevat p = oczekujace.get(0);
+                DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(p.getSchemawierszsumarycznylista(),"do zwrotu w terminie 25 dni");
+                int kwota = narachunek25dni.getDeklaracjaVatWierszSumaryczny().getSumavat();
+                if (kwota > 0) {
+                    pokazZZ = true;
+                }
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        try {
+            wyslane = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
+            for (Deklaracjevat p : wyslane) {
+                try {
+                    if (p.isTestowa()) {
                         wyslanetestowe.add(p);
                     }
-                    } catch (Exception e) { E.e(e); }
-            }
-            for(Deklaracjevat p : wyslane){
-                    if(!wyslanetestowe.contains(p)){
-                        if (p.getStatus().startsWith("4")){
-                            wyslanezbledem.add(p);
-                            } else if (p.getStatus().startsWith("3")) {
-                            wyslaneniepotwierdzone.add(p);
-                            } else {
-                            wyslanenormalne.add(p);
-                        }
-                    }
-                    
+                } catch (Exception e) {
+                    E.e(e);
                 }
-        } catch (Exception e) { 
-         E.e(e); }
-         Collections.sort(wyslanenormalne, new Vatcomparator());
+            }
+            for (Deklaracjevat p : wyslane) {
+                if (!wyslanetestowe.contains(p)) {
+                    if (p.getStatus().startsWith("4")) {
+                        wyslanezbledem.add(p);
+                    } else if (p.getStatus().startsWith("3")) {
+                        wyslaneniepotwierdzone.add(p);
+                    } else {
+                        wyslanenormalne.add(p);
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        Collections.sort(wyslanenormalne, new Vatcomparator());
     }
-    
+
      public void edit(RowEditEvent ex) {
         try {
             //sformatuj();
@@ -316,6 +330,14 @@ public class DeklaracjevatView implements Serializable {
 
     public void setWyslaneniepotwierdzone(List<Deklaracjevat> wyslaneniepotwierdzone) {
         this.wyslaneniepotwierdzone = wyslaneniepotwierdzone;
+    }
+
+    public boolean isPokazZZ() {
+        return pokazZZ;
+    }
+
+    public void setPokazZZ(boolean pokazZZ) {
+        this.pokazZZ = pokazZZ;
     }
     
     
