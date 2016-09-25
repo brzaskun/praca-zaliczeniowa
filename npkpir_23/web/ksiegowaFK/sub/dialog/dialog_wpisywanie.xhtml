@@ -507,8 +507,10 @@
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaWn.typStronaWiersza});
                                                     focusNowyWiersz();"
                                             cache="true" cacheTimeout="5000"
-                                            
                                             >
+                                <f:facet name="itemtip">
+                                    <h:outputText value="#{p.kontomacierzyste.pelnynumer} #{p.kontomacierzyste.nazwapelna}"/>
+                                </f:facet>
                                 <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}"
                                         update=":parametry, :wpisywaniefooter, formwpisdokument:contextmenudok"/>
                                 <p:ajax event="query" global="false"/>
@@ -550,6 +552,9 @@
                                                     focusNowyWiersz();"
                                             cache="true" cacheTimeout="5000"
                                             >
+                                <f:facet name="itemtip">
+                                    <h:outputText value="#{p.kontomacierzyste.pelnynumer} #{p.kontomacierzyste.nazwapelna}"/>
+                                </f:facet>
                                 <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}"
                                         update=":parametry, :wpisywaniefooter, formwpisdokument:contextmenudok"/>
                                 <p:ajax event="query" global="false"/>
@@ -593,6 +598,10 @@
                     </p:panelGrid>
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
+                        <p:column style="text-align: right;" width="100">
+                            <h:outputText value="konto macierzyste: "/>
+                            <h:outputText id="poleinfokontomacierzyste" value="22" style="width: 100px; margin-left: 10px;"/>
+                        </p:column>
                         <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne ''}">
                             <h:outputText value="saldo wybranego konta: "/>
                             <bcf:outputpl id="saldowybranegokonta"  value="#{dokfkView.obliczsaldowybranegokonta()}" style="width: 100px; margin-left: 10px;"/>
