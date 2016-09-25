@@ -9,7 +9,6 @@ import dao.FakturaDAO;
 import entity.Faktura;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.context.RequestContext;

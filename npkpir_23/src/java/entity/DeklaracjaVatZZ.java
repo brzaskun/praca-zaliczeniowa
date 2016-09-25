@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,7 +58,7 @@ public class DeklaracjaVatZZ implements Serializable {
     private String uzasadnienie;
     @OneToOne(mappedBy = "deklaracjaVatZZ")
     private DeklaracjaVatSchema deklaracjaVatSchema;
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
             name = "zz_powody",
             joinColumns = {

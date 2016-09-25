@@ -7,8 +7,6 @@ package converter;
 
 import entity.DeklaracjaVatSchema;
 import entity.SchemaEwidencja;
-import entity.Srodkikst;
-import entityfk.Waluty;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -16,7 +14,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import view.DeklaracjaVatSchemaView;
-import viewfk.WalutyViewFK;
 
 /**
  *

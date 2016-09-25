@@ -6,11 +6,13 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,9 +34,14 @@ public class DeklaracjaVatZZPowod implements Serializable {
     private String nr;
     @Column(name = "tresc")
     private String tresc;
-    @ManyToMany(mappedBy = "powody")
+    @ManyToMany(mappedBy = "powody", fetch = FetchType.EAGER)
     private List<DeklaracjaVatZZ> vatzzty;
 
+    public DeklaracjaVatZZPowod() {
+        this.vatzzty = new ArrayList<>();
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 3;

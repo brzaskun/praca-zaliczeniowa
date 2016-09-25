@@ -105,7 +105,7 @@
                 <p:commandButton value="edytuj" actionListener="#{deklVATZalSchemaView.edytujscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
             </h:form>
         </p:tab>
-        <p:tab title="Powody do załącznika VAT-ZZ">
+        <p:tab title="Lista powodów dla załączników VAT-ZZ">
             <h:form id="formpowodyzz">
                 <p:dataTable value="#{deklaracjaVatZZPowodView.deklracjaVatZZpowody}" var="item" style="width: 550px;" emptyMessage="nie wprowadzono powodów">
                     <p:column width="40">
@@ -141,17 +141,30 @@
             </h:form>
         </p:tab>
         <p:tab title="Przyporządkowanie powodów do załącznika">
-            <p:pickList value="#{deklaracjaVatZZPowodPrzypView.deklracjaVatZZpowody}" var="wpis" effect="bounce"
-                        itemValue="#{wpis.nr}" itemLabel="#{wpis.tresc}" showSourceControls="true" showTargetControls="true" showCheckbox="true"
-                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains">
-                <p:column style="width:50%">
-                    <h:outputText styleClass="ui-theme ui-theme-#{theme.name}" />
-                </p:column>
-
-                <p:column style="width:90%;">
-                    
-                </p:column>
-            </p:pickList>
+            <h:form id="przyporzadkowaniepowodow">
+                <p:outputPanel>
+                    <p:selectOneMenu value="#{deklaracjaVatZZPowodPrzypView.wybranyzalacznik}" converter="DeklaracjaVatZZConv">
+                        <f:selectItem itemLabel="wybierz załącznik" itemValue=""/>
+                        <f:selectItems value="#{deklaracjaVatZZPowodPrzypView.zalaczniki}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
+                        <p:ajax event="change" listener="#{deklaracjaVatZZPowodPrzypView.pobierzprzyporzadkowanie}" partialSubmit="true" 
+                                update="akordeon:przyporzadkowaniepowodow:listawyboruzalacznika"/>
+                    </p:selectOneMenu>
+                </p:outputPanel>
+                <p:outputPanel style="margin-top: 10px;">
+                    <p:pickList id="listawyboruzalacznika" value="#{deklaracjaVatZZPowodPrzypView.picklista}" var="wpis" effect="bounce"
+                                itemValue="#{wpis}" itemLabel="#{wpis.tresc}" showSourceControls="true" showTargetControls="true"
+                                converter="DeklaracjaVatZZPowodConv"
+                                >
+                        <p:column style="width:10%">
+                            <h:outputText/>
+                        </p:column>
+                        <p:column style="width:90%;">
+                            <h:outputText value="#{wpis.tresc}"/>
+                        </p:column>
+                        <p:ajax event="transfer" partialSubmit="true" listener="#{deklaracjaVatZZPowodPrzypView.naniesprzyporzadkowanie}"/>
+                    </p:pickList>
+                </p:outputPanel>
+            </h:form>
         </p:tab>
     </p:accordionPanel>
 </ui:composition>   
