@@ -66,7 +66,9 @@ public class BilansGenerowanieView implements Serializable {
     private Map<String, Waluty> listawalut;
     private List<String> komunikatyok;
     private List<String> komunikatyerror;
+    private List<String> komunikatyerror2;
     private boolean sabledy;
+    private boolean sabledy2;
     private boolean przeniestylkosalda;
 
     public BilansGenerowanieView() {
@@ -74,6 +76,7 @@ public class BilansGenerowanieView implements Serializable {
         this.komunikatyok = new ArrayList<>();
         this.komunikatyok.add("Nie rozpoczęto analizy");
         this.komunikatyerror = new ArrayList<>();
+        this.komunikatyerror2 = new ArrayList<>();
         this.listawalut = new HashMap<>();
     }
 
@@ -118,6 +121,14 @@ public class BilansGenerowanieView implements Serializable {
         this.sabledy = sabledy;
     }
 
+    public boolean isSabledy2() {
+        return sabledy2;
+    }
+
+    public void setSabledy2(boolean sabledy2) {
+        this.sabledy2 = sabledy2;
+    }
+
     public List<String> getKomunikatyok() {
         return komunikatyok;
     }
@@ -132,6 +143,14 @@ public class BilansGenerowanieView implements Serializable {
 
     public void setKomunikatyerror(List<String> komunikatyerror) {
         this.komunikatyerror = komunikatyerror;
+    }
+
+    public List<String> getKomunikatyerror2() {
+        return komunikatyerror2;
+    }
+
+    public void setKomunikatyerror2(List<String> komunikatyerror2) {
+        this.komunikatyerror2 = komunikatyerror2;
     }
 
     public SaldoAnalitykaView getSaldoAnalitykaView() {
@@ -246,12 +265,20 @@ public class BilansGenerowanieView implements Serializable {
             //tutaj trzeba przerobic odpowiednio listaSaldo
             List<SaldoKonto> listaSaldoKontoPrzetworzone = przetwarzajSaldoKonto(listaSaldoKonto);
             List<WierszBO> wierszeBO = new ArrayList<>();
-            List<Konto> brakujacekontanowyrok = zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok);
+            List<Konto> kontazdziecmi = new ArrayList<>();
+            List<Konto> brakujacekontanowyrok = zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok, kontazdziecmi);
             if (!brakujacekontanowyrok.isEmpty()) {
                 komunikatyerror.add("W nowym roku nie ma następujących kont w planie kont: ");
                 for (Konto p : brakujacekontanowyrok) {
                     komunikatyerror.add(p.getPelnynumer() + " " + p.getNazwapelna());
                     sabledy = true;
+                }
+            }
+            if (!kontazdziecmi.isEmpty()) {
+                komunikatyerror2.add("W nowym roku następujące konta mają subkonta, trzeba przeksięgować kwoty na subkonto dla kwot z następujacych kont poprzedniego roku: ");
+                for (Konto p : kontazdziecmi) {
+                    komunikatyerror2.add(p.getPelnynumer() + " " + p.getNazwapelna());
+                    sabledy2 = true;
                 }
             }
             komunikatyok.add("Wygenerowano BO na rok " + wpisView.getRokWpisuSt());
@@ -336,13 +363,16 @@ public class BilansGenerowanieView implements Serializable {
         return saldoKonto;
     }
 
-    private List<Konto> zrobwierszeBO(List<WierszBO> wierszeBO, List<SaldoKonto> listaSaldoKonto, List<Konto> kontaNowyRok) {
+    private List<Konto> zrobwierszeBO(List<WierszBO> wierszeBO, List<SaldoKonto> listaSaldoKonto, List<Konto> kontaNowyRok, List<Konto> kontazdziecmi) {
         List<Konto> brakujacekontanowyrok = new ArrayList<>();
         if (!listaSaldoKonto.isEmpty()) {
             for (SaldoKonto p : listaSaldoKonto) {
                 if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
                     Konto k = nowekonto(p.getKonto(), kontaNowyRok);
                     if (k != null) {
+                        if (k.isMapotomkow()) {
+                            kontazdziecmi.add(k);
+                        }
                         wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), k, p.getWalutadlabo()));
                     } else {
                         brakujacekontanowyrok.add(p.getKonto());

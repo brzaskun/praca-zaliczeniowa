@@ -58,6 +58,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByPodatnikBilansowe", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikWynikowe", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'wynikowe' AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikBilansoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0 AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByPodatnikBilansoweKwotaBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0 AND k.rok = :rok AND (k.boWn != 0 OR k.boMa != 0)"),
     @NamedQuery(name = "Konto.findByPodatnikWynikoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'wynikowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnik490", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.nrkonta = '490' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByKonto860", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer = '860' AND k.rok = :rok"),

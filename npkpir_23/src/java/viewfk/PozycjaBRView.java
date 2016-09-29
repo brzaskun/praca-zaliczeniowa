@@ -98,7 +98,7 @@ public class PozycjaBRView implements Serializable {
     
 
     public PozycjaBRView() {
-         E.m(this);
+        E.m(this);
         this.wykazkont = new ArrayList<>();
         this.nowyelementRZiS = new PozycjaRZiS();
         this.nowyelementBilans = new PozycjaBilans();
@@ -290,7 +290,12 @@ public class PozycjaBRView implements Serializable {
         //lista jest zerowa bo teraz zapisy bo sa nanoszone na bo, nie mozna dodawac zapisow z bo bo bedzie duplikat!
         List<StronaWiersza> zapisy = new ArrayList<>();
         try {
-            List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
+            List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaKwotaBezPotomkow(wpisView);
+//            for (Konto p : plankont) {
+//                if (p.getPelnynumer().equals("220-2")) {
+//                    System.out.println("");
+//                }
+//            }
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");

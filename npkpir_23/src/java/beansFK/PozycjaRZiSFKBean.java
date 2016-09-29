@@ -439,7 +439,7 @@ public class PozycjaRZiSFKBean {
             double kwotaMa = p.getWnma().equals("Ma") ? p.getKwotaPLN(): 0.0;
             try {
                 System.out.println(p.getKonto().getPelnynumer());
-                if (p.getKonto().getPelnynumer().equals("203-2-38")) {
+                if (p.getKonto().getPelnynumer().equals("220-2")) {
                     System.out.println("PozycjaRZiSFKBean.sumujObrotyNaKontach");
                 }
                 Konto k = plankont.get(plankont.indexOf(p.getKonto()));

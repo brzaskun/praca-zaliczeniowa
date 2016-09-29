@@ -44,8 +44,13 @@
                     <h:outputText value="#{index+1}. " style="color: green;"/>
                     <h:outputText value="#{ok}" style="color: green;"/>
                 </p:dataGrid>
-                <p:dataGrid value="#{bilansGenerowanieView.komunikatyerror}" var="err" emptyMessage="Nie rozpoczęto analizy" 
+                <p:dataGrid value="#{bilansGenerowanieView.komunikatyerror}" var="err" emptyMessage="Nie ma brakujących kont" 
                             columns="1" rowIndexVar="index" rendered="#{bilansGenerowanieView.sabledy}">
+                    <h:outputText value="#{index+1}. " style="color: red;"/>
+                    <h:outputText value="#{err}" style="color: red;"/>
+                </p:dataGrid>
+                <p:dataGrid value="#{bilansGenerowanieView.komunikatyerror2}" var="err" emptyMessage="Nie ma kont z subkontami" 
+                            columns="1" rowIndexVar="index" rendered="#{bilansGenerowanieView.sabledy2}">
                     <h:outputText value="#{index+1}. " style="color: red;"/>
                     <h:outputText value="#{err}" style="color: red;"/>
                 </p:dataGrid>

@@ -26,7 +26,7 @@
 <!--             <bcf:confirm lp="2" wiadomosc="Usunąć wszystkie konta? Operacja jest nieodwracalna!" listener="#{planKontView.usunieciewszystkichKontPodatnika()}" 
                          update="form_dialog_plankont" listenerPresent="true"/>-->
             <bcf:confirm lp="3" wiadomosc="Rozpoczynam porządkowanie kont. Usuwanie niewłaściwych oznaczeń." listener="#{planKontView.porzadkowanieKontPodatnika()}" 
-                         update=":form_dialog_plankont:" listenerPresent="true"/>
+                         update="form_dialog_plankont:dataList" listenerPresent="true"/>
             <p:confirmDialog id="confirmDialog4" message="Rozpoczynam porządkowanie słowników"  
                              header="Porządkowanie kont" severity="alert" widgetVar="confirm4" width="500" appendTo="@(body)"
                              >
