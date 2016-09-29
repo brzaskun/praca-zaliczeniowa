@@ -7,6 +7,8 @@ package entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -24,14 +26,6 @@ public class ParamVatUE extends ParamSuper implements Serializable{
     
     public void setId(Integer id) {
         this.id = id;
-    }
-    
-    public Podatnik getPodatnik() {
-        return podatnik;
-    }
-    
-    public void setPodatnik(Podatnik podatnik) {
-        this.podatnik = podatnik;
     }
     
     public String getMcOd() {

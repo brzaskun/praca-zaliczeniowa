@@ -7,6 +7,7 @@ package entity;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -37,6 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rodzajedok.findByListaWspolna", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajedokPK.podatnik = '0001005008'"),
     @NamedQuery(name = "Rodzajedok.findByKategoriaDokumentu", query = "SELECT r FROM Rodzajedok r WHERE r.kategoriadokumentu = :kategoriadokumentu")
 })
+@Cacheable
 public class Rodzajedok implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId

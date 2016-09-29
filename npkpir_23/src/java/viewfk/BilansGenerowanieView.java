@@ -379,6 +379,9 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private Collection<? extends SaldoKonto> przetworzWBRK(SaldoKonto p) {
+        if (p.getKonto().getPelnynumer().equals("132-2")) {
+            System.out.println("");
+        }
         List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
         Waluty waluta = listawalut.get("PLN");
         Waluty walutapln = listawalut.get("PLN");
@@ -388,7 +391,9 @@ public class BilansGenerowanieView implements Serializable {
                 break;
             }
         }
+        //dodatnie oznacza saldo Wn ujemne saldo Ma
         double saldopln = obliczsaldoPLN(p.getZapisy());
+        //dodatnie oznacza saldo Wn ujemne saldo Ma
         double saldowal = obliczsaldo(p.getZapisy(), waluta);
         double roznica = Z.z(Z.z(saldowal) - Z.z(saldopln));
         List<Double> kwotywpln = new ArrayList<>();
@@ -397,11 +402,18 @@ public class BilansGenerowanieView implements Serializable {
         } else {
             nowalista_wierszy.addAll(tworzwierszewaluty(waluta, p.getZapisy(), saldowal, kwotywpln));
             double sumasaldokont = obliczsaldoplnsaldokont(kwotywpln);
-            double roznicekursowe = Z.z(Math.abs(saldopln) - Math.abs(sumasaldokont));
-            if (saldowal < 0.0) {
-                nowalista_wierszy.add(new SaldoKonto(p, -roznicekursowe, walutapln));
+            double roznicekursowe = 0.0;
+            if ((saldopln > 0 && sumasaldokont > 0) || (saldopln < 0 && sumasaldokont < 0)) {
+                roznicekursowe = Z.z(Math.abs(saldopln) - Math.abs(sumasaldokont));
             } else {
-                nowalista_wierszy.add(new SaldoKonto(p, roznicekursowe, walutapln));
+                roznicekursowe = Z.z(Math.abs(saldopln) + Math.abs(sumasaldokont));
+            }
+            if (roznicekursowe != 0.0) {
+                if (p.getSaldoMa() > 0.0) {
+                    nowalista_wierszy.add(new SaldoKonto(p, -roznicekursowe, walutapln));
+                } else {
+                    nowalista_wierszy.add(new SaldoKonto(p, roznicekursowe, walutapln));
+                }
             }
         }
         return nowalista_wierszy;
@@ -476,7 +488,7 @@ public class BilansGenerowanieView implements Serializable {
                     limit += p.getKwota();
                     if (limit <= 0.0) {
                         nowalista_wierszy.add(new SaldoKonto(p, wal, p.getKwota(), p.getKwotaPLN()));
-                        kwotywpln.add(p.getKwotaPLN());
+                        kwotywpln.add(-p.getKwotaPLN());
                     } else {
                         double kwotapomniejszona = Z.z(limit - p.getKwota());
                         double kwotapomniejszonapln = 0.0;

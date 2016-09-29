@@ -27,8 +27,7 @@ public class ParamSuper  implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     protected Integer id;
-    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
-    protected Podatnik podatnik;
+    
     @Column(name = "mcOd")
     protected String mcOd;
     @Column(name = "rokOd")
@@ -70,8 +69,9 @@ public class ParamSuper  implements Serializable {
 
     @Override
     public String toString() {
-        return "ParamSuper{" + "podatnik=" + podatnik + ", mcOd=" + mcOd + ", rokOd=" + rokOd + ", mcDo=" + mcDo + ", rokDo=" + rokDo + ", parametr=" + parametr + '}';
+        return "ParamSuper{" + "mcOd=" + mcOd + ", rokOd=" + rokOd + ", mcDo=" + mcDo + ", rokDo=" + rokDo + ", parametr=" + parametr + '}';
     }
 
+   
     
 }

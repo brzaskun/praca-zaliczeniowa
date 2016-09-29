@@ -15,10 +15,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -229,6 +231,10 @@ public class Podatnik implements Serializable {
     @JoinColumn(name = "ksiegowa", referencedColumnName = "login")
     @ManyToOne
     private Uz ksiegowa;
+    //wzorcowe one to many unidirectional/ nazwa kolumny to nazwa tworzona w tabeli ParamVatUE, nie trzeba zmiennej w ParamVatUE
+    @JoinColumn(name = "podatnik")
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    private List<ParamVatUE> paramVatUE;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -282,6 +288,14 @@ public class Podatnik implements Serializable {
 
     public void setKsiegowa(Uz ksiegowa) {
         this.ksiegowa = ksiegowa;
+    }
+
+    public List<ParamVatUE> getParamVatUE() {
+        return paramVatUE;
+    }
+
+    public void setParamVatUE(List<ParamVatUE> paramVatUE) {
+        this.paramVatUE = paramVatUE;
     }
 
     public Uz getWprowadzil() {

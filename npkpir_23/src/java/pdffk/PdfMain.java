@@ -316,6 +316,34 @@ public class PdfMain {
         }
     }
     
+    public static void dodajOpisWstepnySF(Document document, String opis, Podatnik podatnik, String mc, String rok) {
+        try {
+            StringBuilder s = new StringBuilder();
+            s.append("Firma ");
+            s.append(podatnik.getNazwapelna());
+            s.append(" NIP ");
+            s.append(podatnik.getNip());
+            Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            s = new StringBuilder();
+            s.append(opis);
+            opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            if (mc != null) {
+                opiswstepny = new Paragraph(new Phrase(B.b("nakoniec") + " " + mc + "/" + rok, ft[1]));
+            } else {
+                opiswstepny = new Paragraph(new Phrase(B.b("nakoniec") + " rok "+ rok, ft[1]));
+            }
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+        } catch (DocumentException ex) {
+            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
+            E.e(ex);
+        }
+    }
+    
     public static void dodajOpisWstepnyFaktury(Document document, String opis, String podatnik, String nip, String mc, String rok) {
         try {
             StringBuilder s = new StringBuilder();
