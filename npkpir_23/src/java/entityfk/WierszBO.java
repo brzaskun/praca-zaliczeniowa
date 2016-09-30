@@ -9,6 +9,7 @@ import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Cacheable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.MapsId;
@@ -29,6 +30,7 @@ import waluty.Z;
     @NamedQuery(name = "WierszBO.findByPodatnikRokKonto", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.konto = :konto"),
     @NamedQuery(name = "WierszBO.findByPodatnikRokKontoWaluta", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.konto = :konto AND w.waluta.symbolwaluty = :waluta")
 })
+@Cacheable
 public class WierszBO implements Serializable {
 
     private static final long serialVersionUID = 1L;

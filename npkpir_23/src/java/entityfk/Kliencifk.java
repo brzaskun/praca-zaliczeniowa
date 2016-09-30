@@ -8,6 +8,7 @@ package entityfk;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kliencifk.findByPodatniknazwa", query = "SELECT k FROM Kliencifk k WHERE k.podatniknazwa = :podatniknazwa"),
     @NamedQuery(name = "Kliencifk.findByNrkonta", query = "SELECT k FROM Kliencifk k WHERE k.nrkonta = :nrkonta"),
     @NamedQuery(name = "Kliencifk.findByAktywny", query = "SELECT k FROM Kliencifk k WHERE k.aktywny = :aktywny")})
+@Cacheable
 public class Kliencifk implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

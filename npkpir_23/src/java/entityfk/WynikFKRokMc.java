@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,6 +52,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "WynikFKRokMc.findByWynikfinansowy", query = "SELECT w FROM WynikFKRokMc w WHERE w.wynikfinansowy = :wynikfinansowy"),
     @NamedQuery(name = "WynikFKRokMc.findByWynikpodatkowy", query = "SELECT w FROM WynikFKRokMc w WHERE w.wynikpodatkowy = :wynikpodatkowy"),
     @NamedQuery(name = "WynikFKRokMc.findByPodatnikObj", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnikObj")})
+@Cacheable
 public class WynikFKRokMc implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

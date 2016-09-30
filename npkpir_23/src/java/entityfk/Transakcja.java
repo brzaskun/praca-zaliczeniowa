@@ -10,6 +10,7 @@ package entityfk;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -38,6 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Transakcja.findByPodatnikRokRozniceKursowe", query = "SELECT t FROM Transakcja t WHERE t.rozliczajacy.wiersz.dokfk.dokfkPK.rok = :rok AND t.rozliczajacy.wiersz.dokfk.miesiac = :mc AND t.rozliczajacy.wiersz.dokfk.podatnikObj = :podatnikObj AND t.roznicekursowe != 0"),
     @NamedQuery(name = "Transakcja.findByPodatnikBORozniceKursowe", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja.wiersz IS NULL AND t.nowaTransakcja.konto.podatnik = :podatnik AND t.roznicekursowe != 0 AND t.rozliczajacy.wiersz.dokfk.dokfkPK.rok = :rok AND t.rozliczajacy.wiersz.dokfk.miesiac = :mc")
 })
+@Cacheable
 public class Transakcja  implements Serializable {
     private static final long serialVersionUID = 1L;
     

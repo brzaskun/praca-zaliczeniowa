@@ -26,6 +26,8 @@ public class SaldoKonto implements Serializable {
     private Konto konto;
     private double boWn;
     private double boMa;
+    private double obrotyWnMc;
+    private double obrotyMaMc;
     private double obrotyWn;
     private double obrotyMa;
     private double obrotyBoWn;
@@ -176,6 +178,22 @@ public class SaldoKonto implements Serializable {
     
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getObrotyWnMc() {
+        return obrotyWnMc;
+    }
+
+    public void setObrotyWnMc(double obrotyWnMc) {
+        this.obrotyWnMc = obrotyWnMc;
+    }
+
+    public double getObrotyMaMc() {
+        return obrotyMaMc;
+    }
+
+    public void setObrotyMaMc(double obrotyMaMc) {
+        this.obrotyMaMc = obrotyMaMc;
     }
     
     public Konto getKonto() {

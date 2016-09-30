@@ -317,6 +317,7 @@ public class SaldoAnalitykaView implements Serializable {
 
     private void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione) {
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        String mc = wpisView.getMiesiacWpisu();
         for (StronaWiersza r : zapisyRok) {
             if (!r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO") && Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                 try {
@@ -324,8 +325,14 @@ public class SaldoAnalitykaView implements Serializable {
                     if (p != null) {
                         if (r.getKonto().equals(p.getKonto())) {
                             if (r.getWnma().equals("Wn")) {
+                                if (r.getDokfk().getMiesiac().equals(mc)) {
+                                    p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + r.getKwotaPLN()));
+                                }
                                 p.setObrotyWn(Z.z(p.getObrotyWn() + r.getKwotaPLN()));
                             } else {
+                                if (r.getDokfk().getMiesiac().equals(mc)) {
+                                    p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + r.getKwotaPLN()));
+                                }
                                 p.setObrotyMa(Z.z(p.getObrotyMa() + r.getKwotaPLN()));
                             }
                             p.getZapisy().add(r);
