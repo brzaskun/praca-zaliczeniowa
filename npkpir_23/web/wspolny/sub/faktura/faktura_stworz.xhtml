@@ -313,13 +313,13 @@
                 </p:outputPanel>
                 <!--                panel korekty-->
                 <p:outputPanel id="panelkorekty" style="margin-top: 15px;" rendered="#{fakturaView.fakturakorekta}">
-                    <p:dataTable id="rzadkorekty" value="#{fakturaView.selected.pozycjepokorekcie}" var="row" rowIndexVar="rowStat" style="width: 740px;"
+                    <p:dataTable id="rzadkorekty" value="#{fakturaView.selected.pozycjepokorekcie}" var="row" rowIndexVar="rowStat" style="width: 790px;"
                                  binding="#{fakturaView.dataTablepozycjenafakturzekorekta}">
                         <f:facet name="header">
                             <h:outputText value="po korekcie"/>
                         </f:facet>
                         <p:column headerText="nazwa" width="230">
-                            <p:inputText id="nazwak" value="#{row.nazwa}" style="width: 220px; text-align: center;"
+                            <p:inputText id="nazwak" value="#{row.nazwa}" style="width: 220px; text-align: left;"
                                          styleClass="komorkak"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwak" value="nazwa towaru lub usługi" />
                                 <p:ajax global="false" event="focus" />
                             </p:inputText>   
@@ -413,6 +413,7 @@
                                 <f:selectItem itemLabel="8%" itemValue="8"/>
                                 <f:selectItem itemLabel="5%" itemValue="5"/>
                                 <f:selectItem itemLabel="0%" itemValue="0"/>
+                                <f:selectItem itemLabel="np" itemValue="-1"/>
                             </h:selectOneMenu>
                         </p:column>
                         <p:column style="text-align: center;">
