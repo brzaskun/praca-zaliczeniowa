@@ -4,7 +4,7 @@
  */
 package view;
 
-import dao.PitDAO;
+import dao.ParamVatUEDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
@@ -12,9 +12,10 @@ import dao.RodzajedokDAO;
 import dao.ZUSDAO;
 import daoFK.KontoDAOfk;
 import data.Data;
-import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Udzialy;
+import entity.ParamSuper;
+import entity.ParamVatUE;
 import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
@@ -110,6 +111,8 @@ public class PodatnikView implements Serializable {
     private PodatnikOpodatkowanieD wybranyPodatnikOpodatkowanie;
     private List<FormaPrawna> formyprawne;
     private boolean wszystkiekonta;
+    @Inject
+    private ParamVatUE paramVatUE;
     
 
     public PodatnikView() {
@@ -485,6 +488,42 @@ public class PodatnikView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
+    
+    public void dodajvatUE() {
+        int zwrot = 0;
+        zwrot = sprawdzParam(paramVatUE, selected.getParamVatUE());
+        if (zwrot == 1) {
+            selected.getParamVatUE().add(paramVatUE);
+            zachowajZmianyParam(selected);
+            podatnikDAO.edit(selected);
+            paramVatUE = new ParamVatUE();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr VAT metoda do podatnika.", selected.getNazwapelna());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru VAT metoda. Niedopasowane okresy.", selected.getNazwapelna());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+    
+    public int sortparamsuper(Object o1, Object o2) {
+        return Data.compare(((ParamSuper) o1).getRokOd(), ((ParamSuper) o1).getMcOd(), ((ParamSuper) o2).getRokOd(), ((ParamSuper) o2).getMcOd());
+    }
+    
+    private int sprawdzParam(ParamSuper nowe, List stare) {
+        int zwrot = 0;
+        if (stare.isEmpty()) {
+            nowe.setMcDo("");
+            nowe.setRokDo("");
+            zwrot = 1;
+        } else {
+            ParamSuper ostatniparametr = (ParamSuper) stare.get(stare.size() - 1);
+            zwrot = Data.compare(nowe.getRokOd(), nowe.getMcOd(), ostatniparametr.getRokOd(), ostatniparametr.getMcOd());
+            String[] poprzedniokres = Data.poprzedniOkres(nowe.getMcOd(), nowe.getRokOd());
+            ostatniparametr.setMcDo(poprzedniokres[0]);
+            ostatniparametr.setRokDo(poprzedniokres[1]);
+        }
+        return zwrot;
+    }
 
     private int sprawdzvat(Parametr nowe, List<Parametr> stare) {
         int zwrot = 0;
@@ -508,6 +547,21 @@ public class PodatnikView implements Serializable {
         tmp.remove(tmp.size() - 1);
         selected.setVatokres(tmp);
         zachowajZmiany(selected);
+    }
+    
+    public void usunvatUE() {
+        if (selected.getParamVatUE().size() > 0) {
+            List<ParamVatUE> l = selected.getParamVatUE();
+            ParamVatUE p = l.get(l.size()-1);
+            l.remove(p);
+            if (l.size() > 0) {
+                ParamVatUE o = l.get(l.size()-1);
+                o.setMcDo("");
+                o.setRokDo("");
+            }
+            zachowajZmianyParam(selected);
+            podatnikDAO.edit(selected);
+        }
     }
 
     public void dodajzus() {
@@ -963,6 +1017,11 @@ public class PodatnikView implements Serializable {
 
     }
     
+    private void zachowajZmianyParam(Podatnik p) {
+        p.setWprowadzil(wpisView.getWprowadzil());
+        p.setDatawprowadzenia(new Date());
+    }
+    
     private void zachowajZmiany(Podatnik p) {
         p.setWprowadzil(wpisView.getWprowadzil());
         p.setDatawprowadzenia(new Date());
@@ -1008,6 +1067,14 @@ public class PodatnikView implements Serializable {
 
     public List<Konto> getListaKontKasaBank() {
         return listaKontKasaBank;
+    }
+
+    public ParamVatUE getParamVatUE() {
+        return paramVatUE;
+    }
+
+    public void setParamVatUE(ParamVatUE paramVatUE) {
+        this.paramVatUE = paramVatUE;
     }
 
     public void setListaKontKasaBank(List<Konto> listaKontKasaBank) {

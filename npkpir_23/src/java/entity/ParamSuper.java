@@ -45,7 +45,12 @@ public class ParamSuper  implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.mcOd);
+        hash = 47 * hash + Objects.hashCode(this.rokOd);
+        hash = 47 * hash + Objects.hashCode(this.mcDo);
+        hash = 47 * hash + Objects.hashCode(this.rokDo);
+        hash = 47 * hash + Objects.hashCode(this.parametr);
         return hash;
     }
 
@@ -61,17 +66,80 @@ public class ParamSuper  implements Serializable {
             return false;
         }
         final ParamSuper other = (ParamSuper) obj;
+        if (!Objects.equals(this.mcOd, other.mcOd)) {
+            return false;
+        }
+        if (!Objects.equals(this.rokOd, other.rokOd)) {
+            return false;
+        }
+        if (!Objects.equals(this.mcDo, other.mcDo)) {
+            return false;
+        }
+        if (!Objects.equals(this.rokDo, other.rokDo)) {
+            return false;
+        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
 
+   
+
     @Override
     public String toString() {
         return "ParamSuper{" + "mcOd=" + mcOd + ", rokOd=" + rokOd + ", mcDo=" + mcDo + ", rokDo=" + rokDo + ", parametr=" + parametr + '}';
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getMcOd() {
+        return mcOd;
+    }
+
+    public void setMcOd(String mcOd) {
+        this.mcOd = mcOd;
+    }
+
+    public String getRokOd() {
+        return rokOd;
+    }
+
+    public void setRokOd(String rokOd) {
+        this.rokOd = rokOd;
+    }
+
+    public String getMcDo() {
+        return mcDo;
+    }
+
+    public void setMcDo(String mcDo) {
+        this.mcDo = mcDo;
+    }
+
+    public String getRokDo() {
+        return rokDo;
+    }
+
+    public void setRokDo(String rokDo) {
+        this.rokDo = rokDo;
+    }
+
+    public String getParametr() {
+        return parametr;
+    }
+
+    public void setParametr(String parametr) {
+        this.parametr = parametr;
+    }
+
+    
    
     
 }
