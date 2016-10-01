@@ -148,6 +148,8 @@ public class KontaFKBean implements Serializable{
         for (SaldoKonto r : przygotowanalista.values()) {
             p.setBoWn(Z.z(p.getBoWn() + r.getBoWn()));
             p.setBoMa(Z.z(p.getBoMa() + r.getBoMa()));
+            p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + r.getObrotyWnMc()));
+            p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + r.getObrotyMaMc()));
             p.setObrotyWn(Z.z(p.getObrotyWn() + r.getObrotyWn()));
             p.setObrotyMa(Z.z(p.getObrotyMa() + r.getObrotyMa()));
             p.setObrotyBoWn(Z.z(p.getObrotyBoWn() + r.getObrotyBoWn()));

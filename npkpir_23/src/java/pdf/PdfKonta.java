@@ -154,8 +154,8 @@ public class PdfKonta {
     
     private static PdfPTable tablicasuma(List<SaldoKonto> listasuma) throws DocumentException, IOException {
         SaldoKonto rs = listasuma.get(0);
-        PdfPTable table = new PdfPTable(9);
-        table.setWidths(new int[]{2, 2, 2, 2, 2, 2, 2, 2, 2});
+        PdfPTable table = new PdfPTable(11);
+        table.setWidths(new int[]{2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
         table.setWidthPercentage(80);
         table.setSpacingBefore(15);
         try {
@@ -164,6 +164,8 @@ public class PdfKonta {
             table.addCell(ustawfraze(B.b("saldoBOMa"), 0, 1));
             table.addCell(ustawfraze(B.b("obrotyWn"), 0, 1));
             table.addCell(ustawfraze(B.b("obrotyMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWnNar"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMaNar"), 0, 1));
             table.addCell(ustawfraze(B.b("sumaBOWn"), 0, 1));
             table.addCell(ustawfraze(B.b("sumaBOMa"), 0, 1));
             table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
@@ -175,6 +177,8 @@ public class PdfKonta {
             table.addCell(ustawfrazeAlign(B.b("suma"), "left", 7));
             table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWnMc()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujLiczba(rs.getObrotyMaMc()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWn()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujLiczba(rs.getObrotyMa()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 7));
@@ -400,27 +404,25 @@ public class PdfKonta {
     }
     
      private static void dodajwiersztabeli(SaldoKonto rs, PdfPTable table, Integer i, String l) {
-        table.addCell(ustawfrazeAlign(i, "center", 7));
-            table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7, 30f));
-            if (l.equals("pl")) {
-                table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
-            } else {
-                if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
-                    table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
-                } else {
-                    table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 7));
-                }
-            }
-            table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWnMc()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujLiczba(rs.getObrotyMaMc()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyWn()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyMa()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 7));
+         table.addCell(ustawfrazeAlign(i, "center", 8));
+         table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 8, 30f));
+         if (l.equals("pl")) {
+             table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 8));
+         } else if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
+             table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 8));
+         } else {
+             table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 8));
+         }
+         table.addCell(ustawfrazeAlign(rs.getBoWn() != 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 8));
+         table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 8));
+         table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWnMc()) : "", "right", 8));
+         table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujLiczba(rs.getObrotyMaMc()) : "", "right", 8));
+         table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyWn()) : "", "right", 8));
+         table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyMa()) : "", "right", 8));
+         table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 8));
+         table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 8));
+         table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 8));
+         table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 8));
     }
     
     private static void dodajwiersztabeliWal(SaldoKonto rs, PdfPTable table, Integer i, String l) {

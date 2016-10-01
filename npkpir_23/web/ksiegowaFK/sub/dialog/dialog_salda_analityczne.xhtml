@@ -114,12 +114,12 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyWn}" width="60" >
+                <p:column headerText="#{mgs.obrotyWnNar}" width="60" >
                     <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyMa}" width="60" >
+                <p:column headerText="#{mgs.obrotyMaNar}" width="60" >
                     <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
@@ -198,12 +198,22 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyWn}" width="60" >
-                    <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+<!--                <p:column headerText="#{mgs.obrotyWn}" width="60" >
+                    <h:outputText value="#{loop.obrotyWnMc != 0.0 ? loop.obrotyWnMc : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyMa}" width="60" >
+                    <h:outputText value="#{loop.obrotyMaMc != 0.0 ? loop.obrotyMaMc : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>-->
+                <p:column headerText="#{mgs.obrotyWnNar}" width="60" >
+                    <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMaNar}" width="60" >
                     <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
