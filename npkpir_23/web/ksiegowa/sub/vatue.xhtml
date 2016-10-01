@@ -6,6 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <h:form id="form">
+        
         <p:outputPanel id="wrapper" deferred="true"> 
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeView.drukujewidencjeUE()}"
                              rendered="#{vatUeView.niemoznadrukowac eq false}">
@@ -20,7 +21,7 @@
                           style="max-width: 55%; margin-top: 10px;" widgetVar="dokTable"
                           > 
                 <f:facet name="header">  
-                    <h:outputText value="#{WpisView.podatnikWpisu} - Zestawienie dokumentów do deklaracji VAT-UE z okres #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" /> 
+                    <h:outputText value="#{vatUeView.opisvatuepkpir}" /> 
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />  
                 </f:facet>

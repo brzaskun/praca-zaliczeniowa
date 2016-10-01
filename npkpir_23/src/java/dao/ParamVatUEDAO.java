@@ -20,12 +20,10 @@ import session.SessionFacade;
  */
 @Named
 public class ParamVatUEDAO extends DAO implements Serializable{
-    @Inject
-    private SessionFacade platnosciFacade;
-  
+      
     public ParamVatUEDAO() {
         super(ParamVatUE.class);
     }
-  
-   
+
+    
 }

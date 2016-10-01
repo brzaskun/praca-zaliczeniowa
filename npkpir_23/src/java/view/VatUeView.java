@@ -4,14 +4,17 @@
  */
 package view;
 
+import beansFK.ParamBean;
 import comparator.Dokcomparator;
 import dao.DeklaracjevatDAO;
 import dao.DokDAO;
+import dao.PodatnikDAO;
 import daoFK.VatuepodatnikDAO;
 import embeddable.Kwartaly;
 import embeddable.VatUe;
 import entity.Deklaracjevat;
 import entity.Dok;
+import entity.Podatnik;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
 import error.E;
@@ -54,6 +57,9 @@ public class VatUeView implements Serializable {
     private VatuepodatnikDAO vatuepodatnikDAO;
     @Inject
     private DeklaracjevatDAO deklaracjevatDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
+    private String opisvatuepkpir;
 
     public VatUeView() {
         klienciWDTWNT = new ArrayList<>();
@@ -78,8 +84,13 @@ public class VatUeView implements Serializable {
         }
         String m = wpisView.getMiesiacWpisu();
         Integer m1 = Integer.parseInt(m);
+        Podatnik pod = podatnikDAO.findPodatnikByNIP(wpisView.getPodatnikObiekt().getNip());
+        String vatokres = ParametrView.zwrocParametr(pod.getVatokres(), rok, m);
+        String vatUEokres = ParamBean.zwrocParametr(pod.getParamVatUE(), rok, m);
+        String okresvat = vatUEokres != null ? vatUEokres : vatokres;
+        opisvatuepkpir = wpisView.getPodatnikWpisu()+" Zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m+" rozliczenie "+okresvat;
         try {
-            dokvatmc.addAll(zmodyfikujliste(obiektDOKjsfSel, "kwartał"));
+            dokvatmc.addAll(zmodyfikujliste(obiektDOKjsfSel, okresvat));
         } catch (Exception ex) {
             Logger.getLogger(VatUeView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -234,6 +245,14 @@ public class VatUeView implements Serializable {
           
       }
     } 
+
+    public String getOpisvatuepkpir() {
+        return opisvatuepkpir;
+    }
+
+    public void setOpisvatuepkpir(String opisvatuepkpir) {
+        this.opisvatuepkpir = opisvatuepkpir;
+    }
 
     public WpisView getWpisView() {
         return wpisView;

@@ -4,8 +4,10 @@
  */
 package view;
 
+import beansFK.ParamBean;
 import comparator.Dokfkcomparator;
 import dao.DeklaracjevatDAO;
+import dao.PodatnikDAO;
 import daoFK.DokDAOfk;
 import daoFK.VatuepodatnikDAO;
 import data.Data;
@@ -13,6 +15,7 @@ import embeddable.Kwartaly;
 import embeddable.Parametr;
 import embeddable.VatUe;
 import entity.Dok;
+import entity.Podatnik;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import entityfk.Vatuepodatnik;
@@ -54,6 +57,9 @@ public class VatUeFKView implements Serializable {
     @Inject
     private DeklaracjevatDAO deklaracjevatDAO;
     private double sumawybranych;
+    @Inject
+    private PodatnikDAO podatnikDAO;
+    private String opisvatuepkpir;
 
     public VatUeFKView() {
         klienciWDTWNT = new ArrayList<>();
@@ -64,11 +70,16 @@ public class VatUeFKView implements Serializable {
         List<Dokfk> listadokumentow = new ArrayList<>();
         //List<Dokfk> dokvatmc = new ArrayList<>();
         Integer rok = wpisView.getRokWpisu();
+        String m = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         try {
             listadokumentow.addAll(dokDAOfk.findDokfkPodatnikRok(wpisView));
-            String vatokres = sprawdzjakiokresvat();
-            listadokumentow = zmodyfikujlisteMcKw(listadokumentow, vatokres);
+            Podatnik pod = podatnikDAO.findPodatnikByNIP(wpisView.getPodatnikObiekt().getNip());
+            String vatokres = ParametrView.zwrocParametr(pod.getVatokres(), rok, m);
+            String vatUEokres = ParamBean.zwrocParametr(pod.getParamVatUE(), rok, m);
+            String okresvat = vatUEokres != null ? vatUEokres : vatokres;
+            opisvatuepkpir = wpisView.getPodatnikWpisu()+" Zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m+" rozliczenie "+okresvat;
+            listadokumentow = zmodyfikujlisteMcKw(listadokumentow, okresvat);
         } catch (Exception e) { E.e(e); 
         }
         //jest miesiecznie wiec nie ma co wybierac
@@ -329,6 +340,14 @@ public class VatUeFKView implements Serializable {
 
     public List<VatUe> getKlienciWDTWNT() {
         return klienciWDTWNT;
+    }
+
+    public String getOpisvatuepkpir() {
+        return opisvatuepkpir;
+    }
+
+    public void setOpisvatuepkpir(String opisvatuepkpir) {
+        this.opisvatuepkpir = opisvatuepkpir;
     }
 
     public void setKlienciWDTWNT(List<VatUe> klienciWDTWNT) {
