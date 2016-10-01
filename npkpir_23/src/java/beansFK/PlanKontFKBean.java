@@ -294,7 +294,7 @@ public class PlanKontFKBean {
     }
     
     public static int dodajelementyslownikaMiesiace(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
-        List<String> listamiesiace = Mce.getMcenazwaList();
+        List<String> listamiesiace = Mce.getMcenazwaListSlownik();
         if (listamiesiace != null) {
             int i = 1;
             for (String p : listamiesiace) {
