@@ -70,6 +70,8 @@ public class Pojazdy implements Serializable {
     @Size(min = 1, max = 5)
     @Column(name = "nrkonta", nullable = false, length = 5)
     private String nrkonta;
+    @Column(name = "rok")
+    private int rok;
 
     public Pojazdy() {
     }
@@ -84,9 +86,10 @@ public class Pojazdy implements Serializable {
         this.nrrejestracyjny = opismiejsca;
     }
     
-    public void uzupelnij(Podatnik podatnik, String numer) {
+    public void uzupelnij(Podatnik podatnik, String numer, int rok) {
         this.podatnikObj = podatnik;
         this.nrkonta = numer;
+        this.rok = rok;
     }
 
     public Integer getId() {
@@ -137,6 +140,13 @@ public class Pojazdy implements Serializable {
         this.nazwapojazdu = nazwapojazdu;
     }
     
+    public int getRok() {
+        return rok;
+    }
+
+    public void setRok(int rok) {
+        this.rok = rok;
+    }
     
     
 

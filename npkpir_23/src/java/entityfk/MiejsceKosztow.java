@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entityfk;
 
 import entity.Podatnik;
@@ -42,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MiejsceKosztow.countByPodatnik", query = "SELECT COUNT(d) FROM MiejsceKosztow d WHERE d.podatnikObj = :podatnik")
 })
 public class MiejsceKosztow implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +70,8 @@ public class MiejsceKosztow implements Serializable {
     @Size(min = 1, max = 5)
     @Column(name = "nrkonta", nullable = false, length = 5)
     private String nrkonta;
+    @Column(name = "rok")
+    private int rok;
 
     public MiejsceKosztow() {
     }
@@ -83,10 +85,11 @@ public class MiejsceKosztow implements Serializable {
         this.aktywny = aktywny;
         this.opismiejsca = opismiejsca;
     }
-    
-    public void uzupelnij(Podatnik podatnik, String numer) {
+
+    public void uzupelnij(Podatnik podatnik, String numer, int rok) {
         this.podatnikObj = podatnik;
         this.nrkonta = numer;
+        this.rok = rok;
     }
 
     public Integer getId() {
@@ -137,8 +140,13 @@ public class MiejsceKosztow implements Serializable {
         this.opisskrocony = opisskrocony;
     }
     
-    
-    
+    public int getRok() {
+        return rok;
+    }
+
+    public void setRok(int rok) {
+        this.rok = rok;
+    }
 
     @Override
     public int hashCode() {
@@ -165,6 +173,4 @@ public class MiejsceKosztow implements Serializable {
         return opismiejsca;
     }
 
-  
-    
 }

@@ -44,10 +44,12 @@
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
                 <p:column headerText="edytuj" style="text-align: center; width: 60px;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejscePrzychodowView.edytuj(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista" style="width: 40px;"/>
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejscePrzychodowView.edytuj(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista" 
+                                     rendered="#{WpisView.rokWpisu eq item.rok}" style="width: 40px;"/>
+                    <h:outputText value="#{item.rok}" rendered="#{WpisView.rokWpisu ne item.rok}"/>
                 </p:column>
                 <p:column headerText="usuń"  style="text-align: center; width: 60px;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejscePrzychodowView.usun(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista" rendered="#{item.aktywny eq false}" style="width: 40px;"/>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejscePrzychodowView.usun(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista"  rendered="#{WpisView.rokWpisu eq item.rok and item.aktywny eq false}" style="width: 40px;"/>
                 </p:column>
             </p:dataTable>
         </h:form>

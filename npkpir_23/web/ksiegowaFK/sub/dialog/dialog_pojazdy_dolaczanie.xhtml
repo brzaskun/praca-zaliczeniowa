@@ -30,23 +30,25 @@
             <p:dataTable value="#{pojazdyView.pojazdy}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="400"
                          emptyMessage="brak zdefiniowanych pojazdów"
                          sortBy="#{item}"  sortFunction="#{pojazdyView.sortPojazdy}">
-                <p:column headerText="#{mgs.nr}" width="30">
+                <p:column headerText="#{mgs.nr}" style="width: 40px;">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
-                <p:column headerText="nr rejestracyjny">
+                <p:column headerText="nr rejestracyjny" style="width: 90px;">
                     <h:outputText value="#{item.nrrejestracyjny}"/>
                 </p:column>
-                <p:column headerText="nazwa pojazdu">
+                <p:column headerText="nazwa pojazdu"  style="width: 400px;">
                     <h:outputText value="#{item.nazwapojazdu}"/>
                 </p:column>
-                <p:column headerText="nr konta">
+                <p:column headerText="nr konta" style="text-align: center;">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
-                <p:column headerText="edytuj" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{pojazdyView.edytuj(item)}" update=":pojazdy, :pojazdylista"/>
+                <p:column headerText="edytuj" style="text-align: center; width: 60px;">
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{pojazdyView.edytuj(item)}" update=":pojazdy, :pojazdylista"
+                                     rendered="#{WpisView.rokWpisu eq item.rok}"/>
+                    <h:outputText value="#{item.rok}" rendered="#{WpisView.rokWpisu ne item.rok}"/>
                 </p:column>
-                <p:column headerText="usuń" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{pojazdyView.usun(item)}" update=":pojazdy, :pojazdylista" rendered="#{item.aktywny eq false}"/>
+                <p:column headerText="usuń" style="text-align: center; width: 60px;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{pojazdyView.usun(item)}" update=":pojazdy, :pojazdylista" rendered="#{WpisView.rokWpisu eq item.rok and item.aktywny eq false}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
