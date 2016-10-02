@@ -1640,7 +1640,8 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 7));
                         if (!p.getWaluta().equals("PLN")) {
                             table.addCell(ustawfrazeAlign("", "center", 8, 25f));
-                            table.addCell(ustawfrazeAlign("wartość w pln", "left", 8));
+                            String opis = "wartość w pln "+p.getTabela().getNrtabeli()+" z "+p.getTabela().getDatatabeli()+" k.w. "+p.getKurs();
+                            table.addCell(ustawfrazeAlign(opis, "left", 8));
                             if (p.getKwotaWn() != 0.0) {
                                 table.addCell(ustawfrazeAlign(number.format(p.getKwotaWnPLN()), "right", 8));
                             } else {

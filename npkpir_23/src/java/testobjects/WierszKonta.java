@@ -5,6 +5,7 @@
  */
 package testobjects;
 
+import entityfk.Tabelanbp;
 import java.io.Serializable;
 
 /**
@@ -23,6 +24,8 @@ public class WierszKonta implements Serializable {
     private String opiskontaMa;
     private double saldo;
     private String waluta;
+    private Tabelanbp tabela;
+    private double kurs;
 
     public WierszKonta() {
     }
@@ -142,6 +145,23 @@ public class WierszKonta implements Serializable {
 
     public void setKwotaMaPLN(double kwotaMaPLN) {
         this.kwotaMaPLN = kwotaMaPLN;
+    }
+
+    public Tabelanbp getTabela() {
+        return tabela;
+    }
+
+    public void setTabela(Tabelanbp tabela) {
+        this.tabela = tabela;
+    }
+
+
+    public double getKurs() {
+        return kurs;
+    }
+
+    public void setKurs(double kurs) {
+        this.kurs = kurs;
     }
     
     
