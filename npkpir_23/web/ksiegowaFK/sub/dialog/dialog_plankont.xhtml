@@ -9,7 +9,7 @@
     <style>
        
     </style>
-    
+    <p:outputPanel deferredMode="true">
     <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu} rok #{WpisView.rokWpisuSt}" widgetVar="dialogplankont" dynamic="true"
               resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);ustalmaxlevel('form_dialog_plankont:dataList_data');zwinwszystkie('form_dialog_plankont:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form_dialog_plankont">
@@ -140,11 +140,11 @@
 <!--                    <p:column headerText="macierz." style="width: 50px;">
                         <h:outputText value="#{loop.macierzyste}" /> 
                     </p:column>-->
-                   <p:column  style="width: 100px;">
-                        <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaWn : 'nieprzyp.'}" /> 
+                    <p:column  style="width: 100px; text-align: center;">
+                        <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaWn : '!'}" style="#{loop.kontopozycjaID == null ? 'color: red' : null}"/> 
                     </p:column>
-                    <p:column  style="width: 100px;">
-                        <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : 'nieprzyp.'}" /> 
+                    <p:column  style="width: 100px; text-align: center;">
+                        <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : '!'}" style="#{loop.kontopozycjaID == null ? 'color: red' : null}"/> 
                     </p:column>
                     <p:column  style="width: 40px;">
                         <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
@@ -160,4 +160,5 @@
            
         </h:form>
 </p:dialog>
+        </p:outputPanel>
 </ui:composition>

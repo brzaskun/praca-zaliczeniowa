@@ -17,9 +17,9 @@
                         <p:inputText id="nazwaskrocona" value="#{planKontView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
                         
                         <p:commandButton value="dodaj" actionListener="#{planKontView.dodajanalityczne()}"  type="submit" 
-                                         update=":formY, :form_dialog_plankont, :formwzorcowy" style="display: none;" 
+                                         update=":formY @form :formwzorcowy" style="display: none;" 
                                          oncomplete="PF('nowekontoanalityczne').hide();"/>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajanalityczne()}" accesskey="d" type="submit" update=":formY, :form_dialog_plankont, :formwzorcowy" 
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajanalityczne()}" accesskey="d" type="submit" update=":formY @form :formwzorcowy" 
                                          style="float: right;" oncomplete="PF('nowekontoanalityczne').hide();">
                         </p:commandButton>
             </p:panelGrid>

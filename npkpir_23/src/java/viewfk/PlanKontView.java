@@ -109,7 +109,7 @@ public class PlanKontView implements Serializable {
          E.m(this);
     }
 
-    @PostConstruct
+    
     public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());

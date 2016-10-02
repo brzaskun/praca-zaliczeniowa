@@ -505,6 +505,10 @@
             <from-outcome>menuustawieniaFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKUstawienia.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>menuplankontFK</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>Noobie</from-outcome>
             <to-view-id>/noobie/noobie.xhtml</to-view-id>

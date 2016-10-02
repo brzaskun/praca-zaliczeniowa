@@ -10,35 +10,7 @@
         </ui:define>
         <ui:define name="body">
             <bcf:ajaxs />
-            <bcf:confirm lp="1" wiadomosc="Zaimplementować wzorcowy plan kont dla bieżącego klienta?" listener="#{planKontView.implementacjaKontWzorcowych()}" 
-                         update=":form_dialog_plankont" listenerPresent="true"/>
-            <p:confirmDialog id="confirmDialog2" message="Usunąć wszystkie konta? Operacja jest nieodwracalna!"  
-                             header="Usuwanie kont" severity="alert" widgetVar="confirm2" width="500" appendTo="@(body)"
-                             >
-                <h:form>
-                    <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm2').hide();"
-                                     actionListener="#{planKontView.usunieciewszystkichKontPodatnika()}"
-                                     style="float: left; width: 120px; margin-left: 2%;" update=":form_dialog_plankont">
-                    </p:commandButton>
-                    <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm2').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
-                </h:form>
-            </p:confirmDialog> 
-<!--             <bcf:confirm lp="2" wiadomosc="Usunąć wszystkie konta? Operacja jest nieodwracalna!" listener="#{planKontView.usunieciewszystkichKontPodatnika()}" 
-                         update="form_dialog_plankont" listenerPresent="true"/>-->
-            <bcf:confirm lp="3" wiadomosc="Rozpoczynam porządkowanie kont. Usuwanie niewłaściwych oznaczeń." listener="#{planKontView.porzadkowanieKontPodatnika()}" 
-                         update="form_dialog_plankont:dataList" listenerPresent="true"/>
-            <p:confirmDialog id="confirmDialog4" message="Rozpoczynam porządkowanie słowników"  
-                             header="Porządkowanie kont" severity="alert" widgetVar="confirm4" width="500" appendTo="@(body)"
-                             >
-                <h:form>
-                    <p:commandButton  value="Akceptuj"  oncomplete="PF('confirm4').hide();"
-                                     actionListener="#{planKontView.porzadkujSlowniki()}"
-                                     style="float: left; width: 120px; margin-left: 2%;" update=":form_dialog_plankont">
-                    </p:commandButton>
-                    <p:commandButton value="Odwołaj" onclick="PF('confirm4').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
-                </h:form>
-            </p:confirmDialog> 
-
+            
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <p:layoutUnit id="centralna" position="center" >
@@ -49,20 +21,13 @@
                     </h:form>
                     <ui:include src="sub/menu/menuustawienia.xhtml"/>
                     <ui:include src="sub/common/panel_okresrozliczeniowy.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_plankont.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_plankont_nazwy.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_plankont_nazwy_pl.xhtml"/>
                     <ui:include src="sub/dialog/dialog_plankont_wzorcowy.xhtml"/>
                     <ui:include src="sub/dialog/dialog_plankont_wzorcowy_nazwy.xhtml"/>
                     <ui:include src="sub/dialog/dialog_plankont_analityczne.xhtml"/>
                     <ui:include src="sub/dialog/dialog_plankont_syntetyczne.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_plankont_dodajslownik.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_plankont_edycja_nazw.xhtml"/>
                     <ui:include src="sub/dialog/dialog_plankont_edycja_nazw_wzorcowy.xhtml"/>
                     <ui:include src="sub/dialog/dialog_plankont_kopiuj.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_plankont_uzupelnij.xhtml"/>
                     <ui:include src="sub/dialog/dialog_plankont_kopiuj_wzorcowy.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_plankont_implementuj_wzorcowy.xhtml"/>
                     <ui:include src="sub/dialog/dialog_rzis_projekt_wzorcowy.xhtml"/>
                     <ui:include src="sub/dialog/dialog_rzis_projekt_wzorcowy_inter.xhtml"/>
                     <ui:include src="sub/dialog/dialog_projekt_wyborukladu_wzorcowy.xhtml"/>

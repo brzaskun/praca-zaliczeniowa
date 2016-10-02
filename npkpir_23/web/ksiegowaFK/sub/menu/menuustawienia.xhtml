@@ -6,23 +6,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:tabView id="menuustawienia" orientation="left"  style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;"> 
-        <p:tab title="Plan kont">
-            <h:form id="dialog1menu1">
-                <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
-                    <p:menuitem value="Plan kont bieżącej firmy " onclick="PF('dialogplankont').show();" global="false"></p:menuitem>
-                    <p:menuitem value="Nazwy kont - edycja" onclick="PF('dialog_plankont_nazwy_pl').show();" global="false"></p:menuitem>
-                    <p:menuitem value="Nazwy kont - internacjonalizacja" onclick="PF('dialog_plankont_nazwy').show();" global="false"></p:menuitem>
-                    <p:menuitem value="Kopiuj plan kont" onclick="PF('dialog_plankont_kopiuj').show();" global="false"
-                                rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
-                    <p:menuitem value="Uzupełnij plan kont" onclick="PF('dialog_plankont_uzupelnij').show();" global="false"
-                                rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
-                    <p:menuitem value="Implementuj wzorcowy plan kont" onclick="PF('dialog_plankont_implementuj_wzorcowy').show();" global="false"
-                                rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
-                    <p:menuitem value="Przyporządkowanie kategorii kont" onclick="PF('dialog_konto_klasyfikacja_przyporzadkowanie_podatnik').show();" global="false"></p:menuitem>
-
-                </p:menu>
-            </h:form>
-        </p:tab>  
         <p:tab title="Plan kont wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
             <h:form id="dialog1menu2">
                 <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
