@@ -1637,6 +1637,24 @@ public class PdfMain {
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
                         table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 7));
+                        table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 7));
+                        if (!p.getWaluta().equals("PLN")) {
+                            table.addCell(ustawfrazeAlign("", "center", 8, 25f));
+                            table.addCell(ustawfrazeAlign("wartość w pln", "left", 8));
+                            if (p.getKwotaWn() != 0.0) {
+                                table.addCell(ustawfrazeAlign(number.format(p.getKwotaWnPLN()), "right", 8));
+                            } else {
+                                table.addCell(ustawfrazeAlign("", "right", 8));
+                            }
+                            table.addCell(ustawfrazeAlign("", "left", 7));
+                            if (p.getKwotaMa() != 0.0) {
+                                table.addCell(ustawfrazeAlign(number.format(p.getKwotaMaPLN()), "right", 8));
+                            } else {
+                                table.addCell(ustawfrazeAlign("", "right", 8));
+                            }
+                            table.addCell(ustawfrazeAlign("", "left", 7));
+                            table.addCell(ustawfrazeAlign("PLN", "center", 7));
+                        }
                 } else {
                     WierszKonta p = (WierszKonta) it.next();
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));

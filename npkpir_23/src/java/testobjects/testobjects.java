@@ -117,6 +117,7 @@ public class testobjects {
        n.add("konto Wn");
        n.add("kwota Ma");
        n.add("konto Ma");
+       n.add("waluta");
        List t = getWierszeKonta(wiersze);
        List[] tabela = new List[2];
        tabela[0] = n;
@@ -705,14 +706,16 @@ public class testobjects {
         int lp = 1;
         for (Wiersz p : wiersze) {
             lp++;
-            WierszKonta r = new WierszKonta(p.getIdporzadkowy(), p.getOpisWiersza());
+            WierszKonta r = new WierszKonta(p.getIdporzadkowy(), p.getOpisWiersza(), p.getWalutaWiersz());
             if (p.getStronaWn() != null) {
                 r.setKwotaWn(p.getStronaWn().getKwota());
+                r.setKwotaWnPLN(p.getKwotaWnPLN());
                 r.setOpiskontaWn(p.getStronaWn().getKonto().getPelnynumer() + " " + p.getStronaWn().getKonto().getNazwapelna());
                 sumaWn += p.getStronaWn().getKwota();
             }
             if (p.getStronaMa() != null) {
                 r.setKwotaMa(p.getStronaMa().getKwota());
+                r.setKwotaMaPLN(p.getKwotaMaPLN());
                 r.setOpiskontaMa(p.getStronaMa().getKonto().getPelnynumer() + " " + p.getStronaMa().getKonto().getNazwapelna());
                 sumaMa += p.getStronaMa().getKwota();
             }
@@ -720,7 +723,7 @@ public class testobjects {
             w.add(r);
         }
         if (wiersze.size() > 1) {
-            WierszKonta suma = new WierszKonta(lp, "podsumowanie", sumaWn, "", sumaMa, "");
+            WierszKonta suma = new WierszKonta(lp, "podsumowanie", sumaWn, "", sumaMa, "","");
             w.add(suma);
         }
         return w;

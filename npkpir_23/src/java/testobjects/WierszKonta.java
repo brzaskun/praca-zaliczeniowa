@@ -16,24 +16,28 @@ public class WierszKonta implements Serializable {
     private int lp;
     private String opis;
     private double kwotaWn;
+    private double kwotaWnPLN;
     private String opiskontaWn;
     private double kwotaMa;
+    private double kwotaMaPLN;
     private String opiskontaMa;
     private double saldo;
+    private String waluta;
 
     public WierszKonta() {
     }
 
-    public WierszKonta(int lp, String opis, double kwotawn, String opiskontawn, double kwotama, String opiskontama) {
+    public WierszKonta(int lp, String opis, double kwotawn, String opiskontawn, double kwotama, String opiskontama, String waluta) {
         this.lp = lp;
         this.opis = opis;
         this.kwotaWn = kwotawn;
         this.opiskontaWn = opiskontawn;
         this.kwotaMa = kwotama;
         this.opiskontaMa = opiskontama;
+        this.waluta = waluta;
     }
     
-    public WierszKonta(int lp, String opis, double kwotawn, String opiskontawn, double kwotama, String opiskontama, double saldo) {
+    public WierszKonta(int lp, String opis, double kwotawn, String opiskontawn, double kwotama, String opiskontama, double saldo, String waluta) {
         this.lp = lp;
         this.opis = opis;
         this.kwotaWn = kwotawn;
@@ -41,11 +45,14 @@ public class WierszKonta implements Serializable {
         this.kwotaMa = kwotama;
         this.opiskontaMa = opiskontama;
         this.saldo = saldo;
+        this.waluta = waluta;
     }
 
-    public WierszKonta(int lp, String opis) {
+    public WierszKonta(int lp, String opis, String waluta) {
         this.lp = lp;
         this.opis = opis;
+        this.waluta = waluta;
+        
     }
 
     
@@ -111,6 +118,30 @@ public class WierszKonta implements Serializable {
 
     public void setSaldo(double saldo) {
         this.saldo = saldo;
+    }
+
+    public String getWaluta() {
+        return waluta;
+    }
+
+    public void setWaluta(String waluta) {
+        this.waluta = waluta;
+    }
+
+    public double getKwotaWnPLN() {
+        return kwotaWnPLN;
+    }
+
+    public void setKwotaWnPLN(double kwotaWnPLN) {
+        this.kwotaWnPLN = kwotaWnPLN;
+    }
+
+    public double getKwotaMaPLN() {
+        return kwotaMaPLN;
+    }
+
+    public void setKwotaMaPLN(double kwotaMaPLN) {
+        this.kwotaMaPLN = kwotaMaPLN;
     }
     
     
