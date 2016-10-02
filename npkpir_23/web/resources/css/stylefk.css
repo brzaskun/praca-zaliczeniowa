@@ -220,6 +220,22 @@ body {
     background: #fcf4dc !important;
 }
 
+.rowb_zwykle {
+    background: #b3e0ff !important;
+}
+
+.rowb_szczegolne {
+    background: #ffd9b3 !important;
+}
+
+.rowb_rozrachunkowe {
+    background: #c2f0c2 !important;
+}
+
+.rowb_vat {
+    background: #d9b3ff !important;
+}
+
 .zerofaktur {
     font-weight: normal;
     color: red;

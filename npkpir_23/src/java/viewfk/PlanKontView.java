@@ -101,18 +101,21 @@ public class PlanKontView implements Serializable {
     private PlanKontCompleteView planKontCompleteView;
     private boolean bezslownikowych;
     private boolean tylkosyntetyka;
+    private String kontadowyswietlenia;
     private String elementslownika_nazwapelna;
     private String elementslownika_nazwaskrocona;
     private String elementslownika_numerkonta;
+    private String styltabeliplankont;
 
     public PlanKontView() {
+        bezslownikowych = true;
+        kontadowyswietlenia = "wszystkie";
          E.m(this);
     }
 
     
     public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        Collections.sort(wykazkont, new Kontocomparator());
         int czysaslownikowe = sprawdzkonta();
         if (czysaslownikowe == 0) {
             infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
@@ -123,8 +126,11 @@ public class PlanKontView implements Serializable {
         } else {
             infozebrakslownikowych = "";
         }
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Collections.sort(wykazkont, new Kontocomparator());
         //root = rootInit(wykazkont);
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
+        styltabeliplankont = opracujstylwierszatabeli();
         //rootwzorcowy = rootInit(wykazkontwzor);
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
@@ -154,7 +160,24 @@ public class PlanKontView implements Serializable {
         } else {
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
+        if (kontadowyswietlenia.equals("bilansowe")) {
+            for (Iterator it = wykazkont.iterator(); it.hasNext();) {
+                Konto k = (Konto) it.next();
+                if (k.getBilansowewynikowe().equals("wynikowe")) {
+                    it.remove();
+                }
+            }
+        }
+        if (kontadowyswietlenia.equals("wynikowe")) {
+            for (Iterator it = wykazkont.iterator(); it.hasNext();) {
+                Konto k = (Konto) it.next();
+                if (k.getBilansowewynikowe().equals("bilansowe")) {
+                    it.remove();
+                }
+            }
+        }
         Collections.sort(wykazkont, new Kontocomparator());
+        styltabeliplankont = opracujstylwierszatabeli();
     }
     
     public void planTylkoSyntetyczne() {
@@ -1353,6 +1376,26 @@ public class PlanKontView implements Serializable {
         }
     }
 
+    private String opracujstylwierszatabeli() {
+        String zwrot = "#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}";
+        if (kontadowyswietlenia.equals("wynikowe")) {
+            zwrot = "#{loop.przychod0koszt1 eq 0 ? 'rowb_szczegolne' : 'rowb_zwykle'}";
+        }
+        if (kontadowyswietlenia.equals("bilansowe")) {
+            zwrot = "#{loop.zwyklerozrachszczegolne eq 'zwykłe ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : 'rowb_rozrachunkowe'}";
+        }
+        return zwrot;
+    }
+//    "#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
+//    (loop.zwyklerozrachszczegolne eq 'zwykłe ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : 'rowb_rozrachunkowe') :
+//    (planKontView.kontadowyswietlenia eq 'wynikowe' ?
+//    (loop.przychod0koszt1 eq 0 ? 'rowb_szczegolne' : 'rowb_zwykle' :
+//    loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')
+//    ))}"
+
+    
+
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Konto getSelectednodekonto() {
         return selectednodekonto;
@@ -1479,7 +1522,24 @@ public class PlanKontView implements Serializable {
     public void setElementslownika_numerkonta(String elementslownika_numerkonta) {
         this.elementslownika_numerkonta = elementslownika_numerkonta;
     }
-    
-    
+
+    public String getKontadowyswietlenia() {
+        return kontadowyswietlenia;
+    }
+
+    public void setKontadowyswietlenia(String kontadowyswietlenia) {
+        this.kontadowyswietlenia = kontadowyswietlenia;
+    }
+
+    public String getStyltabeliplankont() {
+        return styltabeliplankont;
+    }
+
+    public void setStyltabeliplankont(String styltabeliplankont) {
+        this.styltabeliplankont = styltabeliplankont;
+    }
+
+       
 
 }
+
