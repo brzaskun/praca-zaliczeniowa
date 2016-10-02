@@ -11,7 +11,7 @@
     <p:tab  title="#{mgs.zestawieniesynt}" >
         <style>
             .gridtablicasyntetyczne tr{
-                height : 35px !important;
+                height : 40px !important;
             }
             
             .gridtablicasyntetyczne td{
@@ -69,12 +69,22 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyWn}" width="60" >
+               <p:column headerText="#{mgs.obrotyWn}" width="60"  style="background-color: #e6f2ff;">
+                    <h:outputText value="#{loop.obrotyWnMc != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMa}" width="60"  style="background-color: #e6f2ff;">
+                    <h:outputText value="#{loop.obrotyMaMc != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWnNar}" width="60" >
                     <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyMa}" width="60" >
+                <p:column headerText="#{mgs.obrotyMaNar}" width="60" >
                     <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
@@ -140,18 +150,32 @@
         </h:form>
         <h:form id="tabelazsumamisyntetyka">
             <p:dataTable id="sumy" value="#{saldoSyntetykaView.sumaSaldoKonto}" var="loop" styleClass="gridtablicaanalityczne"
-                         style="float: right; margin-right: 86px; width: 733px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
-                <p:column headerText="#{mgs.boWn}" width="45" >
+                         style="float: right; margin-right: 90px; width: 970px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
+                <p:column headerText="#{mgs.boWn}" width="50" >
                     <bcf:outputpl value="#{loop.boWn}"/>
                 </p:column>
-                <p:column headerText="#{mgs.boMa}" width="45" >
+                <p:column headerText="#{mgs.boMa}" width="50" >
                     <bcf:outputpl value="#{loop.boMa}"/>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyWn}" width="45" >
-                    <bcf:outputpl value="#{loop.obrotyWn}"/>
+                <p:column headerText="#{mgs.obrotyWn}" width="50"  style="background-color: #e6f2ff;">
+                    <h:outputText value="#{loop.obrotyWnMc != 0.0 ? loop.obrotyWnMc : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyMa}" width="45" >
-                    <bcf:outputpl value="#{loop.obrotyMa}"/>
+                <p:column headerText="#{mgs.obrotyMa}" width="50"  style="background-color: #e6f2ff;">
+                    <h:outputText value="#{loop.obrotyMaMc != 0.0 ? loop.obrotyMaMc : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWnNar}" width="50" >
+                    <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMaNar}" width="50" >
+                    <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyBOWn}" width="45" >
                     <bcf:outputpl value="#{loop.obrotyBoWn}"/>

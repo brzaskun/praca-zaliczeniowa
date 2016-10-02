@@ -98,6 +98,7 @@ public class EVatDedraView  implements Serializable {
             try {
                 wiersze.remove(wiersze.size()-1);
                 eVatwpisDedraDAO.dodaj(wiersze);
+                wiersze.add(sumuj());
                 Msg.msg("Zachowano wiersze ewidencji");
             } catch (Exception e) {
                 E.e(e);
