@@ -15,8 +15,11 @@
                                          title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required." onblur="kopiujnazwepelnakonta('formY:nazwapelna','formY:nazwaskrocona')"/>
                         <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
                         <p:inputText id="nazwaskrocona" value="#{planKontView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
-                        <h:outputText value=""/>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajanalityczne()}" accesskey="d" type="submit" update="formY form_dialog_plankont:dataList formwzorcowy" 
+                        
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajanalityczne()}"  type="submit" 
+                                         update=":formY @form :formwzorcowy" style="display: none;" 
+                                         oncomplete="PF('nowekontoanalityczne').hide();"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajanalityczne()}" accesskey="d" type="submit" update="formY @form formwzorcowy" 
                                          style="float: right; width: 120px;" oncomplete="PF('nowekontoanalityczne').hide();">
                         </p:commandButton>
             </p:panelGrid>
