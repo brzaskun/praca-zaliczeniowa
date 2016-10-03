@@ -271,7 +271,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
                 if (r.getSaldo() != 0.0) {
                     r.setLp(i++);
-                    
                     if (pokaznadplaty == true) {
                         saldanierozliczone.add(r);
                         sumasaldnierozliczonych += r.getSaldo();

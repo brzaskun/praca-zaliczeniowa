@@ -11,6 +11,7 @@ import entity.FakturaRozrachunki;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import waluty.Z;
 
 /**
  *
@@ -52,7 +53,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         this.rok = r.getRok();
         this.mc = r.getMc();
         this.data = r.getDatawystawienia();
-        this.kwota = r.getBruttopk() != 0.0 ? r.getBruttopk() : r.getBrutto();
+        this.kwota = r.getBruttopk() != 0.0 ? Z.z(r.getBruttopk()-r.getBrutto()) : r.getBrutto();
         if (r.getDatawysylki() != null) {
             this.mail = Data.data_yyyyMMdd(r.getDatawysylki());
         } else {
