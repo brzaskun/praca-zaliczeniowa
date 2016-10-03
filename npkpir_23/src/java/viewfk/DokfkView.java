@@ -320,6 +320,7 @@ public class DokfkView implements Serializable {
         String css = "";
         FacesContext context = FacesContext.getCurrentInstance();
         PlanKontView bean = context.getApplication().evaluateExpressionGet(context, "#{planKontView}", PlanKontView.class);
+        bean.init();
         text += bean.getInfozebrakslownikowych();
         String rokbiezacy = Data.aktualnyRok();
         if (!wpisView.getRokWpisuSt().equals(rokbiezacy)) {

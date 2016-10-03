@@ -74,7 +74,7 @@ public class VatUeFKView implements Serializable {
             Podatnik pod = podatnikDAO.findPodatnikByNIP(wpisView.getPodatnikObiekt().getNip());
             String vatokres = ParametrView.zwrocParametr(pod.getVatokres(), rok, m);
             String okresvat = vatokres;
-            if (pod.getParamVatUE() != null) {
+            if (pod.getParamVatUE() != null && !pod.getParamVatUE().isEmpty()) {
                 okresvat = ParamBean.zwrocParametr(pod.getParamVatUE(), rok, m);
             }
             opisvatuepkpir = wpisView.getPodatnikWpisu()+" Zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m+" rozliczenie "+okresvat;

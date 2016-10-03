@@ -126,6 +126,7 @@ public class ZestawienieView implements Serializable {
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
     @Inject
     private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
+    private String komunikatblad;
 
     private int flaga = 0;
 
@@ -927,6 +928,7 @@ public class ZestawienieView implements Serializable {
                     }
                 } catch (Exception e) {
                     E.e(e);
+                    komunikatblad = "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta";
                     Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
@@ -944,6 +946,7 @@ public class ZestawienieView implements Serializable {
                     wybranyudzialowiec = "wybierz osobe";
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
+                    komunikatblad = "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u";
                     Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
                     return;
                 }
@@ -984,6 +987,7 @@ public class ZestawienieView implements Serializable {
                     }
                 } catch (Exception e) {
                     E.e(e);
+                    komunikatblad = "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u";
                     Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: " + biezacyPit.getPkpirM());
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
@@ -1030,6 +1034,7 @@ public class ZestawienieView implements Serializable {
                     pierwszypitwrokuzaznacz = false;
                 } catch (Exception e) {
                     E.e(e);
+                    komunikatblad = "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u";
                     Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
@@ -1838,6 +1843,14 @@ public class ZestawienieView implements Serializable {
 
     public void setRemanentView(RemanentView remanentView) {
         this.remanentView = remanentView;
+    }
+
+    public String getKomunikatblad() {
+        return komunikatblad;
+    }
+
+    public void setKomunikatblad(String komunikatblad) {
+        this.komunikatblad = komunikatblad;
     }
 
 }

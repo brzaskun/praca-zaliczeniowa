@@ -12,6 +12,7 @@
         <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ksiegaryczalt}" >
             <h:form id="formpit">
                 <p:growl id="messages" autoUpdate="true" />
+                <h:outputText value="#{ZestawienieView.komunikatblad}" style="color: red;"/>
                 <p:panelGrid id="danedopit" columns="3">
                     <p:panelGrid  columns="1" >
                         <p:panel header="pobieranie kwot ZUS: " style="width: 250px;"/>
