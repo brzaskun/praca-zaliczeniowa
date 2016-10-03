@@ -14,10 +14,8 @@ import data.Data;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
 import embeddable.VatUe;
-import entity.Dok;
 import entity.Podatnik;
 import entityfk.Dokfk;
-import entityfk.EVatwpisFK;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
 import error.E;
@@ -25,7 +23,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -76,11 +73,14 @@ public class VatUeFKView implements Serializable {
             listadokumentow.addAll(dokDAOfk.findDokfkPodatnikRok(wpisView));
             Podatnik pod = podatnikDAO.findPodatnikByNIP(wpisView.getPodatnikObiekt().getNip());
             String vatokres = ParametrView.zwrocParametr(pod.getVatokres(), rok, m);
-            String vatUEokres = ParamBean.zwrocParametr(pod.getParamVatUE(), rok, m);
-            String okresvat = vatUEokres != null ? vatUEokres : vatokres;
+            String okresvat = vatokres;
+            if (pod.getParamVatUE() != null) {
+                okresvat = ParamBean.zwrocParametr(pod.getParamVatUE(), rok, m);
+            }
             opisvatuepkpir = wpisView.getPodatnikWpisu()+" Zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m+" rozliczenie "+okresvat;
             listadokumentow = zmodyfikujlisteMcKw(listadokumentow, okresvat);
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
         }
         //jest miesiecznie wiec nie ma co wybierac
 
