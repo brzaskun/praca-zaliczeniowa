@@ -707,7 +707,7 @@ public class testobjects {
         for (Wiersz p : wiersze) {
             lp++;
             WierszKonta r = new WierszKonta(p.getIdporzadkowy(), p.getOpisWiersza(), p.getWalutaWiersz());
-            if (!p.getWalutaWiersz().equals("PLN")) {
+            if (p.getWalutaWiersz() != null && !p.getWalutaWiersz().equals("PLN")) {
                 r.setTabela(p.getTabelanbp());
                 r.setKurs(p.getKursWiersz());
             }
