@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -79,6 +80,7 @@ public class PozycjaBRKontaView implements Serializable {
     private TreeNode wybranynodekonta;
     private UkladBR ukladzrodlowykonta;
     private UkladBR ukladdocelowykonta;
+    private List<UkladBR> listaukladow;
 
     public PozycjaBRKontaView() {
          E.m(this);
@@ -89,6 +91,17 @@ public class PozycjaBRKontaView implements Serializable {
         this.przyporzadkowanekonta = new ArrayList<>();
     }
 
+    @PostConstruct
+    private void init() {
+        listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+        for (UkladBR p : listaukladow) {
+            if (p.getRok().equals(wpisView.getRokWpisuSt())) {
+                uklad = p;
+                break;
+            }
+        }
+    }
+    
     public void pobierzukladkontoR() {
         try {
             uklad.oznaczUkladBR(ukladBRDAO);
@@ -893,6 +906,14 @@ public class PozycjaBRKontaView implements Serializable {
 
     public void setPozycje(ArrayList<PozycjaRZiSBilans> pozycje) {
         this.pozycje = pozycje;
+    }
+
+    public List<UkladBR> getListaukladow() {
+        return listaukladow;
+    }
+
+    public void setListaukladow(List<UkladBR> listaukladow) {
+        this.listaukladow = listaukladow;
     }
 
     public UkladBR getUkladzrodlowykonta() {
