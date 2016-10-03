@@ -12,13 +12,13 @@
                 <p:column>
                     <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="float: right;">
                         <f:selectItems value="#{Roki.rokiList}"/>
-                        <p:ajax event="change" listener="#{WpisView.wpisAktualizuj()}" update="@form menubarnorth"/>
+                        <p:ajax event="change" listener="#{WpisView.wpisAktualizuj()}" update="@all"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column >
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="float: right;">
                         <f:selectItems value="#{Mce.mceListOdKonca}"/>
-                        <p:ajax event="change" listener="#{WpisView.wpisAktualizuj()}" update="@form menubarnorth"/>
+                        <p:ajax event="change" listener="#{WpisView.wpisAktualizuj()}" update="@all"/>
                     </p:selectOneMenu>
                 </p:column>
             </p:panelGrid>

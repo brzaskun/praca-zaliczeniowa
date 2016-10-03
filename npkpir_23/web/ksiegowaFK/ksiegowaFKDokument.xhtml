@@ -46,7 +46,6 @@
                     <p:hotkey bind="down" global="false"  handler="przejdzwiersz();" ignoreAutoUpdate="true"/>
                     <p:hotkey bind="up" global="false" handler="wrocwiersz();" ignoreAutoUpdate="true"/>
                     <ui:include src="sub/menu/menudokumenty.xhtml"/>
-                    <ui:include src="sub/common/panel_okresrozliczeniowy.xhtml"/>
                     <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>
                     <ui:include src="sub/dialog/dialog_delegacje_stworz.xhtml"/>
                     <ui:include src="sub/dialog/dialog_wpisywanie.xhtml"/>
@@ -73,6 +72,25 @@
                     <ui:include src="sub/dialog/dialog_zapisywdokumentachWNT.xhtml"/>
                     <ui:include src="sub/dialog/dialog_zapisywdokumentachWDT.xhtml"/>
                     <ui:include src="sub/dialog/dialog_kalkulator.xhtml"/>
+                    <p:panel style="height: 60px;width: 300px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">
+                        <h:outputText value="zmiana okresu rozliczeniowego"/>
+                        <h:form>
+                            <p:panelGrid columns="3" style="float: right;">
+                                <p:column>
+                                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="float: right;">
+                                        <f:selectItems value="#{Roki.rokiList}"/>
+                                        <p:ajax event="change" listener="#{WpisView.wpisAktualizuj()}" update="zestawieniedokumentow"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column >
+                                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="float: right;">
+                                        <f:selectItems value="#{Mce.mceListOdKonca}"/>
+                                        <p:ajax event="change" listener="#{WpisView.wpisAktualizuj()}" update="zestawieniedokumentow"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:panelGrid>
+                        </h:form>
+                    </p:panel>
                 </p:layoutUnit>
             </p:layout>
         </ui:define>
