@@ -5,7 +5,6 @@
  */
 package view;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import dao.PitDAO;
 import dao.StrataDAO;
 import entity.Pitpoz;
@@ -81,9 +80,6 @@ public class StrataView  implements Serializable{
             selected.setRok(wpisView.getRokUprzedni());
             Msg.msg("i", "Dodano stratę za rok " + selected.getRok(), "akordeon:form2:messages");
             RequestContext.getCurrentInstance().update("akordeon:form1");
-        } catch (MySQLIntegrityConstraintViolationException m) {
-            E.e(m);
-            Msg.msg("e", "Taki zapis istnieje juz w bazie danych", "akordeon:form2:messages");
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd poczdas dodawania straty za rok " + selected.getRok(), "akordeon:form2:messages");

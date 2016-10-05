@@ -13,7 +13,9 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import daoFK.WynikFKRokMcDAO;
+import em.Em;
 import embeddablefk.SaldoKonto;
+import entity.Podatnik;
 import entityfk.Cechazapisu;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -29,6 +31,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import msg.B;
 import msg.Msg;
 import pdf.PdfSymulacjaWyniku;
@@ -642,6 +645,12 @@ public class SymulacjaWynikuView implements Serializable {
         }
         
         
-        
+        public static void main(String[] args) throws Exception  {
+            EntityManager em = Em.getEm();
+            Podatnik podatnik = (Podatnik) em.createNamedQuery("Podatnik.findByNip").setParameter("nip", "9552340951").getSingleResult();
+            //List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(t.wiersz.dokfk.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
+            List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza  t JOIN t.wiersz.dokfk s WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(s.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
+            System.out.println("");
+        }
     }
 }

@@ -3,7 +3,7 @@
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
-    </context-param> 
+    </context-param>
     <context-param>
         <param-name>org.primefaces.extensions.DELIVER_UNCOMPRESSED_RESOURCES</param-name>
         <param-value>false</param-value>
@@ -45,7 +45,7 @@
     </context-param>
     <!--    to jest potrzebne zeby CKEditor pracowal-->
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name> 
+        <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
     <!--    to jest potrzebne zeby CKEditor pracowal-->
@@ -59,7 +59,7 @@
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name> 
+        <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     <servlet>
@@ -82,6 +82,10 @@
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>jdbcRealmNew</realm-name>
+        <form-login-config>
+            <form-login-page>/faces/login.xhtml</form-login-page>
+            <form-error-page>/faces/AccessDenied.xhtml</form-error-page>
+        </form-login-config>
     </login-config>
     <security-role>
         <role-name>Administrator</role-name>
@@ -241,28 +245,28 @@
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
         <param-value>/WEB-INF/brzaskun.taglib.xml</param-value>
     </context-param>
-    <mime-mapping>  
+    <mime-mapping>
         <extension>eot</extension>
         <mime-type>application/vnd.ms-fontobject</mime-type>
     </mime-mapping>
-    <mime-mapping>  
-        <extension>otf</extension>  
-        <mime-type>font/opentype</mime-type>  
-    </mime-mapping>      
-    <mime-mapping>  
-        <extension>ttf</extension>  
-        <mime-type>application/x-font-ttf</mime-type>  
-    </mime-mapping>      
-    <mime-mapping>  
-        <extension>woff</extension>  
-        <mime-type>application/x-font-woff</mime-type>  
+    <mime-mapping>
+        <extension>otf</extension>
+        <mime-type>font/opentype</mime-type>
     </mime-mapping>
-    <mime-mapping>  
-        <extension>svg</extension>  
-        <mime-type>image/svg+xml</mime-type>  
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>application/x-font-ttf</mime-type>
     </mime-mapping>
-    <mime-mapping>  
-        <extension>woff2</extension>  
-        <mime-type>application/x-font-woff2</mime-type>  
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>application/x-font-woff</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff2</extension>
+        <mime-type>application/x-font-woff2</mime-type>
     </mime-mapping>
 </web-app>

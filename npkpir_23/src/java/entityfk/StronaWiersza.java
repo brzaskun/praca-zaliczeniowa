@@ -62,7 +62,7 @@ import waluty.Z;
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokVAT", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokWalutaWynik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokWynik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
-    @NamedQuery(name = "StronaWiersza.findByPodatnikWynikCecha", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE (t.wiersz.dokfk.cechadokumentuLista) > 0)"),
+    @NamedQuery(name = "StronaWiersza.findByPodatnikWynikCecha", query = "SELECT t FROM StronaWiersza  t JOIN t.wiersz.dokfk s WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(s.cechadokumentuLista) > 0)"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokMcWynik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.miesiac = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokMcWynikSlownik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.miesiac = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.konto.slownikowe = '1'"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokWynikSlownik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.konto.slownikowe = '1'"),
@@ -548,6 +548,9 @@ public class StronaWiersza implements Serializable {
         return wiersz.getDokfk().getDokfkPK().toString2();
     }
 
+    public List<Cechazapisu> getListaCechazapisu() {
+        return wiersz.getDokfk().getCechadokumentuLista();
+    }
   
 
 //    public void dodajTransakcjeNowe(Transakcja transakcja) {

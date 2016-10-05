@@ -21,6 +21,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
@@ -149,7 +150,7 @@ public class Dokfk implements Serializable {
     @Size(max = 4)
     @Column(name = "vat_r")
     private String vatR;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "Dokfk_Cechazapisu",
             joinColumns = {

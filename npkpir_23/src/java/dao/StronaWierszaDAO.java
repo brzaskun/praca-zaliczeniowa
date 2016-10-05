@@ -12,13 +12,9 @@ import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
-import entityfk.Tabelanbp;
-import entityfk.Waluty;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
-import javax.persistence.metamodel.SingularAttribute;
 import session.SessionFacade;
 import view.WpisView;
 

@@ -62,11 +62,11 @@ public class Logowanie implements Serializable {
     private RejestrlogowanDAO rejestrlogowanDAO;
     @ManagedProperty(value = "#{localeChanger}")
     private LocaleChanger localeChanger;
-    @ManagedProperty(value = "#{WpisView}")
-    private WpisView wpisView;
+//    @ManagedProperty(value = "#{WpisView}")
+//    private WpisView wpisView;
 
     public Logowanie() {
-        invalidatesession();
+       //invalidatesession();
     }
 
     @PostConstruct
@@ -80,7 +80,7 @@ public class Logowanie implements Serializable {
     }
 
     public String login() {
-        invalidatesession();
+        //invalidatesession();
         String navto = "";
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         try {
@@ -212,7 +212,7 @@ public class Logowanie implements Serializable {
     public void logout() {
         try {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-            Uz wprowadzil = uzDAO.findUzByLogin(wpisView.getWprowadzil().getLogin());
+            Uz wprowadzil = uzDAO.findUzByLogin("4");
             sesja = sesjaDAO.find(wprowadzil.getBiezacasesja());
             Calendar calendar = Calendar.getInstance();
             sesja.setWylogowanie(new Timestamp(calendar.getTime().getTime()));
@@ -302,13 +302,13 @@ public class Logowanie implements Serializable {
         this.liczniklogowan = liczniklogowan;
     }
 
-    public WpisView getWpisView() {
-        return wpisView;
-    }
-
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
-    }
+//    public WpisView getWpisView() {
+//        return wpisView;
+//    }
+//
+//    public void setWpisView(WpisView wpisView) {
+//        this.wpisView = wpisView;
+//    }
 
     public LocaleChanger getLocaleChanger() {
         return localeChanger;
