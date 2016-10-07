@@ -505,9 +505,9 @@ public class Wiersz implements Serializable {
         String waluta = this.tabelanbp != null ? this.tabelanbp.getWaluta().getSymbolwaluty() : "";
         int wiersz = wierszbo();
         if (wiersz == 1) {
-            waluta = this.getStronaWn().getSymbolWalut();
+            waluta = this.getStronaWn().getSymbolWalutBOiSW();
         } else if (wiersz == 2) {
-            waluta = this.getStronaMa().getSymbolWalut();
+            waluta = this.getStronaMa().getSymbolWalutBOiSW();
         }
         return waluta;
     }

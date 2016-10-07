@@ -283,7 +283,7 @@ public class DokFKTransakcjeBean implements Serializable{
     
      public static void wyliczroznicekursowa(Transakcja loop, double placonakwota) {
         try {
-            if (!loop.getRozliczajacy().getSymbolWalut().equals("PLN") || !loop.getNowaTransakcja().getSymbolWalut().equals("PLN")) {
+            if (!loop.getRozliczajacy().getSymbolWalutBOiSW().equals("PLN") || !loop.getNowaTransakcja().getSymbolWalutBOiSW().equals("PLN")) {
                 if (placonakwota == 0.0) {
                     loop.setRoznicekursowe(0.0);
                     loop.setKwotawwalucierachunku(0.0);
@@ -319,7 +319,7 @@ public class DokFKTransakcjeBean implements Serializable{
                             }
                             loop.setKwotawwalucierachunku(kwotaPlatnosciwPLN > kwotaRachunkuwPLN ? kwotaRachunkuwPLN : kwotaPlatnosciwPLN);
                         }
-                    } else if (kursPlatnosci != 0.0 && kursRachunku != 0.0 && loop.getRozliczajacy().getSymbolWalut().equals(loop.getNowaTransakcja().getSymbolWalut())) {
+                    } else if (kursPlatnosci != 0.0 && kursRachunku != 0.0 && loop.getRozliczajacy().getSymbolWalutBOiSW().equals(loop.getNowaTransakcja().getSymbolWalutBOiSW())) {
                         if (placonakwota > 0.0) {
                             double kwotaPlatnosciwPLN = Z.z(placonakwota * kursPlatnosci);
                             double kwotaRachunkuwPLN = Z.z(placonakwota * kursRachunku);
@@ -327,7 +327,7 @@ public class DokFKTransakcjeBean implements Serializable{
                             loop.setRoznicekursowe(roznicakursowa);
                             loop.setKwotawwalucierachunku(placonakwota);
                         }
-                    } else if (kursPlatnosci != 0.0 && kursRachunku != 0.0 && !loop.getRozliczajacy().getSymbolWalut().equals(loop.getNowaTransakcja().getSymbolWalut())) {
+                    } else if (kursPlatnosci != 0.0 && kursRachunku != 0.0 && !loop.getRozliczajacy().getSymbolWalutBOiSW().equals(loop.getNowaTransakcja().getSymbolWalutBOiSW())) {
                             double kwotaPlatnosciwPLN = Z.z(placonakwota * kursPlatnosci);
                             double kwotaPlatnosciwwalucieRachunku = Z.z(kwotaPlatnosciwPLN / kursRachunku);
                             double kwotadoRozlwWalRach = loop.getNowaTransakcja().getKwota() - loop.getNowaTransakcja().getRozliczono(loop);

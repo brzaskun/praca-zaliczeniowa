@@ -600,7 +600,7 @@ public class StronaWiersza implements Serializable {
         return this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
     }
 
-    public String getSymbolWalut() {
+    public String getSymbolWalutBOiSW() {
         String symbol = null;
         if (this.wiersz.getTabelanbp() != null) {
             symbol = this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
@@ -683,7 +683,7 @@ public class StronaWiersza implements Serializable {
     @Override
     public String toString() {
         if (this.id != null) {
-            return "StronaWiersza{" + "id=" + id + ", konto=" + konto.getPelnynumer() + ", wnma=" + wnma + ", wiersz=" + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
+            return "StronaWiersza{" + "id=" + id + ", konto=" + konto.getPelnynumer() + ", wnma=" + wnma + ", wiersz=" + wiersz.getIdporzadkowy() + ", kwota=" + kwota+ ", kwotapln=" + kwotaPLN + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo+ "wal: "+ this.getSymbolWalutBOiSW() + ", nowatransakcja=" + typStronaWiersza + '}';
         } else if (this.id == null && this.konto != null) {
             return "StronaWiersza{" + "id=null, wnma=" + wnma + ", konto= " + konto.getPelnynumer() + ", wiersz= " + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
         } else {

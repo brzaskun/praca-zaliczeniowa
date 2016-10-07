@@ -261,7 +261,7 @@ public class PdfKonta {
             table.addCell(ustawfrazeAlign(rs.getDokfk().getDatadokumentu(), "left", 6));
             table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 6));
             table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
-            String waluta = rs.getSymbolWalut().equals("PLN") ? "" : rs.getSymbolWalut();
+            String waluta = rs.getSymbolWalutBOiSW().equals("PLN") ? "" : rs.getSymbolWalutBOiSW();
             table.addCell(ustawfrazeAlign(waluta, "center", 6));
             if (rs.getWnma().equals("Wn")) {
                 table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 6));

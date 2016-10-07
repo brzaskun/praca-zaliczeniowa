@@ -185,12 +185,12 @@
                         <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center;"  >
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}" style="width: 20px;"/>
                         </p:column>
-                        <p:column headerText="waluta" sortBy="#{loop.symbolWalut}" width="40">
-                            <h:outputText value="#{loop.symbolWalut}"
+                        <p:column headerText="waluta" sortBy="#{loop.symbolWalutBOiSW}" width="40">
+                            <h:outputText value="#{symbolWalutBOiSWWalut}"
                                           style="width: 30px;"/>
                         </p:column>
                         <p:column headerText="kurs" sortBy="#{loop.kursWalutyBOSW}" width="40">
-                            <bcf:outputkurs value="#{loop.kursWalutyBOSW}" rendered="#{loop.symbolWalut ne 'PLN'}"/>
+                            <bcf:outputkurs value="#{loop.kursWalutyBOSW}" rendered="#{loop.symbolWalutBOiSW ne 'PLN'}"/>
                         </p:column>
                         <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania}"/>

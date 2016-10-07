@@ -167,8 +167,8 @@ public class DokumentFKBean implements Serializable {
         String dok = p.getNowaTransakcja().getWiersz() == null ? "BO: " + p.getNowaTransakcja().getOpisBO() : p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getSeriadokfk() + "/" + p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii();
         String opiswiersza = "księg. różnic kurs: " + dok + " & " + rozliczajacy + " w." + p.getNowaTransakcja().getWiersz().getIdporzadkowy() + "/w." + p.getRozliczajacy().getWiersz().getIdporzadkowy();
         w.setOpisWiersza(opiswiersza);
-        String walutarachunku = p.getNowaTransakcja().getSymbolWalut();
-        String walutaplatnosci = p.getRozliczajacy().getSymbolWalut();
+        String walutarachunku = p.getNowaTransakcja().getSymbolWalutBOiSW();
+        String walutaplatnosci = p.getRozliczajacy().getSymbolWalutBOiSW();
         boolean sazlotowki = walutarachunku.equals("PLN") || walutaplatnosci.equals("PLN") ? true : false;
         double roznicakursowa = Math.abs(p.getRoznicekursowe());
         if (p.getNowaTransakcja().getWnma().equals("Wn")) {

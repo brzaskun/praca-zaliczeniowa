@@ -93,6 +93,43 @@ public class SaldoKonto implements Serializable {
         this.opisdlabo = t.getDokfkS()+" "+t.getDokfk().getNumerwlasnydokfk()+" "+t.getWiersz().getOpisWiersza()+" zapis BO";
     }
     
+    public SaldoKonto(SaldoKonto t, Waluty wal, double kwota, double kwotapln) {
+        this.konto = t.getKonto();
+        this.kursdlaBO = Z.z4(kwotapln/kwota);
+        boolean mniejszeodzera = kwota < 0.0;
+        if (mniejszeodzera) {
+            this.saldoWn = 0.0;
+            this.saldoWnPLN = 0.0;
+            this.saldoMa = -kwota;
+            this.saldoMaPLN = -kwotapln;
+        } else {
+            this.saldoWn = kwota;
+            this.saldoWnPLN = kwotapln;
+            this.saldoMa = 0.0;
+            this.saldoMaPLN = 0.0;
+        }
+        this.walutadlabo = wal;
+        this.opisdlabo = "konto: "+t.getKonto().getPelnynumer()+" waluta "+wal.getSymbolwaluty();
+    }
+    
+    public SaldoKonto(SaldoKonto t, Waluty wal, double kwota, double kwotapln, boolean wn) {
+        this.konto = t.getKonto();
+        this.kursdlaBO = t.getKursdlaBO();
+        if (wn) {
+            this.saldoWn = kwota;
+            this.saldoWnPLN = kwotapln;
+            this.saldoMa = 0.0;
+            this.saldoMaPLN = 0.0;
+        } else {
+            this.saldoWn = 0.0;
+            this.saldoWnPLN = 0.0;
+            this.saldoMa = kwota;
+            this.saldoMaPLN = kwotapln;
+        }
+        this.walutadlabo = wal;
+        this.opisdlabo = "konto: "+t.getKonto().getPelnynumer()+" waluta "+wal.getSymbolwaluty()+" roznicekursowe";
+    }
+    
     public SaldoKonto(StronaWiersza t,Waluty wal, double kwota, double kwotapln) {
         this.konto = t.getKonto();
         this.kursdlaBO = t.getKursWalutyBOSW();
@@ -102,18 +139,22 @@ public class SaldoKonto implements Serializable {
                 this.saldoWn = -kwota;
                 this.saldoWnPLN = -kwotapln;
                 this.saldoMa = 0.0;
+                this.saldoMaPLN = 0.0;
             } else {
                 this.saldoWn = kwota;
                 this.saldoWnPLN = kwotapln;
                 this.saldoMa = 0.0;
+                this.saldoMaPLN = 0.0;
             }
         } else {
             if (mniejszeodzera) {
                 this.saldoWn = 0.0;
+                this.saldoWnPLN = 0.0;
                 this.saldoMa = -kwota;
                 this.saldoMaPLN = -kwotapln;
             } else {
                 this.saldoWn = 0.0;
+                this.saldoWnPLN = 0.0;
                 this.saldoMa = kwota;
                 this.saldoMaPLN = kwotapln;
             }
@@ -168,7 +209,7 @@ public class SaldoKonto implements Serializable {
 
     @Override
     public String toString() {
-        return "SaldoKonto{" + "konto=" + konto + ", obrotyBoWn=" + obrotyBoWn + ", obrotyBoMa=" + obrotyBoMa + ", saldoWn=" + saldoWn + ", saldoMa=" + saldoMa + '}';
+        return "SaldoKonto{" + "konto=" + konto.getPelnynumer() + ", obrotyBoWn=" + obrotyBoWn + ", obrotyBoMa=" + obrotyBoMa + ", saldoWn=" + saldoWn + ", saldoMa=" + saldoMa + '}';
     }
 //<editor-fold defaultstate="collapsed" desc="comment">
     

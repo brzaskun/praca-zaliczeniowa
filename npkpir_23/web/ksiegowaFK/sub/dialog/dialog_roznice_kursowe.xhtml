@@ -58,8 +58,8 @@
                 <p:column headerText="kwota" width="60" filterBy="#{wpis.kwotatransakcji}" sortBy="#{wpis.kwotatransakcji}"  styleClass="kwotaroznice">
                     <bcf:outputwal value="#{wpis.kwotatransakcji}"/>
                 </p:column>
-                <p:column headerText="wal" width="30" filterBy="#{wpis.rozliczajacy.symbolWalut}" sortBy="#{wpis.rozliczajacy.symbolWalut}" styleClass="symbolwalutroznice">
-                    <h:outputText value="#{wpis.rozliczajacy.symbolWalut}" />
+                <p:column headerText="wal" width="30" filterBy="#{wpis.rozliczajacy.symbolWalutBOiSW}" sortBy="#{wpis.rozliczasymbolWalutBOiSWWalut}" styleClass="symbolwalutroznice">
+                    <h:outputText value="#{wpis.rozsymbolWalutBOiSWymbolWalut}" />
                 </p:column>
                 <p:column headerText="data zapłaty" width="70" sortBy="#{wpis.rozliczajacy.wiersz.dokfk.datadokumentu}">
                     <h:outputText value="#{wpis.rozliczajacy.wiersz.dokfk.datadokumentu}"/>

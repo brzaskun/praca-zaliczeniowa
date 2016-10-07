@@ -183,7 +183,7 @@ public class KontoZapisFKView implements Serializable{
             
             for (StronaWiersza r : zapisyRok) {
                 if (kontapotomneListaOstateczna.contains(r.getKonto())) {
-                    if (!r.getSymbolWalut().equals("PLN")) {
+                    if (!r.getSymbolWalutBOiSW().equals("PLN")) {
                         nierenderujkolumnnywalut = false;
                     }
                     int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
@@ -279,7 +279,7 @@ public class KontoZapisFKView implements Serializable{
                         kontozapisy.add(r);
                     }
                 } else {
-                    if (r.getSymbolWalut().equals(wybranaWalutaDlaKont)) {
+                    if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                         if (mc >= granicaDolna && mc <= granicaGorna) {
                             kontozapisy.add(r);
@@ -464,7 +464,7 @@ public class KontoZapisFKView implements Serializable{
     private void sumujstrony(StronaWiersza p) {
         if (p.getWnma().equals("Wn")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                if (!p.getSymbolWalut().equals("PLN")) {
+                if (!p.getSymbolWalutBOiSW().equals("PLN")) {
                     sumaWn = Z.z(sumaWn + p.getKwota());
                 }
             } else {
@@ -472,7 +472,7 @@ public class KontoZapisFKView implements Serializable{
             }
         } else if (p.getWnma().equals("Ma")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                if (!p.getSymbolWalut().equals("PLN")) {
+                if (!p.getSymbolWalutBOiSW().equals("PLN")) {
                     sumaMa = Z.z(sumaMa + p.getKwota());
                 }
             } else {
@@ -549,7 +549,7 @@ public class KontoZapisFKView implements Serializable{
     private  Map<String, ListaSum> sumujzapisy() {
         Map<String, ListaSum> zbiorcza = stworzliste(kontozapisy);
         for (StronaWiersza p : kontozapisy) {
-            ListaSum r = zbiorcza.get(p.getSymbolWalut());
+            ListaSum r = zbiorcza.get(p.getSymbolWalutBOiSW());
             r.setTabelanbp(p.getWiersz().getTabelanbp());
             r.setKurswaluty(p.getKursWalutyBOSW());
             if (r != null) {
@@ -956,7 +956,7 @@ public class KontoZapisFKView implements Serializable{
         Map<String, ListaSum> zbiorcza = new HashMap<>();
         Set<String> waluty = new HashSet<>();
         for (StronaWiersza p : kontozapisy) {
-            waluty.add(p.getSymbolWalut());
+            waluty.add(p.getSymbolWalutBOiSW());
         }
         for (String r : waluty) {
             ListaSum l = new ListaSum();

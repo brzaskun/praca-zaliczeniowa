@@ -364,7 +364,7 @@ public class SaldoAnalitykaView implements Serializable {
         }
 
     }
-
+    //sumuje tylko zapisy w bo
     private void naniesZapisyNaKontoBO(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione) {
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (StronaWiersza r : zapisyRok) {

@@ -240,10 +240,10 @@
                                                     </p:column>-->
                             <p:column headerText="wal." width="30" style="text-align: center">
                                 <h:outputText id="walutaWn" 
-                                              value="#{loop.nowaTransakcja.symbolWalut}" 
+                                              value="#{loop.nowaTransakcja.symbolWalutBOiSW}" 
                                               rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                                 <h:outputText id="walutaMa" 
-                                              value="#{loop.rozliczajacy.symbolWalut}"
+                                              value="#{loop.rozliczasymbolWalutBOiSWWalut}"
                                               rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                             </p:column>
                             <p:column headerText="kurs" width="40">

@@ -399,28 +399,131 @@ public class BilansGenerowanieView implements Serializable {
         for (SaldoKonto p : listaSaldoKonto) {
             if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==false) {
                 nowalista.addAll(przetworzPojedyncze(p));
+            } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==true) {
+                if (p.getKonto().getPelnynumer().equals("201-2-34")) {
+                    System.out.println("");
+                }
+                System.out.println("saldokonto "+p.getKonto().getPelnynumer());
+                Set<Waluty> waluty = pobierzWalutySaldoKonto(p, false);
+                waluty.add(listawalut.get("PLN"));
+                List<SaldoKonto> nowewiersze = new ArrayList<>();
+                for (Waluty wal : waluty) {
+                    SaldoKonto sal = sumujkwotywalutapln(p, wal); 
+                    if (sal != null) {
+                        nowewiersze.add(sal);
+                    }
+                }
+                nowalista.addAll(nowewiersze);
+                if (nowewiersze.size() > 1 || (nowewiersze.size() == 1 && !nowewiersze.get(0).getWalutadlabo().getSymbolwaluty().equals("PLN"))) {
+                    SaldoKonto roznicekursowe = rozliczroznicekursowedwojki(p,nowewiersze);
+                    if (roznicekursowe != null) {
+                        nowalista.add(roznicekursowe);
+                    }
+                }
             } else if (p.getKonto().getPelnynumer().startsWith("1")) {
-                nowalista.addAll(przetworzWBRK(p));
+                List<Waluty> waluty = new ArrayList<>();
+                waluty.addAll(pobierzWalutySaldoKonto(p, true));
+                if (waluty.isEmpty()) {
+                    waluty.add(listawalut.get("PLN"));
+                }
+                for (Waluty r : waluty) {
+                    nowalista.addAll(przetworzWBRK(p,r));
+                }
             } else {
                 nowalista.add(p);
             }
         }
         return nowalista;
     }
+    
+    private SaldoKonto rozliczroznicekursowedwojki(SaldoKonto p, List<SaldoKonto> nowewiersze) {
+        if (p.getKonto().getPelnynumer().equals("204-2-1")) {
+            System.out.println("");
+        }
+        double wnpln = p.getSaldoWn();
+        double mapln = p.getSaldoMa();
+        double sumawnpln = 0.0;
+        double sumamapln = 0.0;
+        for (SaldoKonto r : nowewiersze) {
+            sumawnpln += r.getSaldoWnPLN();
+            sumamapln += r.getSaldoMaPLN();
+        }
+        double roznicakursowe = 0.0;
+        boolean wn = false;
+        if (wnpln > 0.0) {
+            if (sumawnpln > 0.0) {
+                roznicakursowe = wnpln - sumawnpln;
+                wn = true;
+            } else if (sumamapln > 0.0) {
+                if (wnpln > sumamapln) {
+                    roznicakursowe = wnpln - sumamapln;
+                    wn = false;
+                } else if (wnpln < sumamapln){
+                    roznicakursowe = sumamapln - wnpln;
+                    wn = true;
+                }   
+            }
+        } else if (mapln > 0.0) {
+            if (sumamapln > 0.0) {
+                roznicakursowe = mapln - sumamapln;
+                wn = false;
+            } else {
+                if (mapln > sumawnpln) {
+                    roznicakursowe = mapln - sumawnpln;
+                    wn = true;
+                } else if (mapln < sumawnpln){
+                    roznicakursowe = sumawnpln - mapln;
+                    wn = false;
+                }  
+            }
+        }
+        SaldoKonto zwrot = null;
+        if (Z.z(roznicakursowe) > 0.0) {
+            zwrot = new SaldoKonto(p, listawalut.get("PLN"), Z.z(roznicakursowe), Z.z(roznicakursowe), wn);
+        }
+        return zwrot;
+    }
+    
+    private SaldoKonto sumujkwotywalutapln(SaldoKonto p, Waluty w){
+        double sumawaluta = 0.0;
+        double sumapln = 0.0;
+        for (StronaWiersza r : p.getZapisy()) {
+            if (r.getSymbolWalutBOiSW().equals(w.getSymbolwaluty())) {
+                 if (r.isWn()) {
+                    sumawaluta += r.getKwota();
+                    sumapln += r.getKwotaPLN();
+                 } else {
+                    sumawaluta -= r.getKwota();
+                    sumapln -= r.getKwotaPLN();
+                 }
+            }
+        }
+        SaldoKonto zwrot = null;
+        if (Z.z(sumawaluta) != 0.0 || Z.z(sumapln) != 0.0) {
+            zwrot = new SaldoKonto(p, w, Z.z(sumawaluta), Z.z(sumapln));
+        }
+        return zwrot;
+    }
+    
+    private Set<Waluty> pobierzWalutySaldoKonto(SaldoKonto p, boolean jedna) {
+        Set<Waluty> waluty = new HashSet<>();
+        for (StronaWiersza t : p.getZapisy()) {
+            if (!t.getSymbolWalutBOiSW().equals("PLN")) {
+                waluty.add(listawalut.get(t.getSymbolWalutBOiSW()));
+                if (jedna) {
+                    break;
+                }
+            }
+        }
+        return waluty;
+    }
 
-    private Collection<? extends SaldoKonto> przetworzWBRK(SaldoKonto p) {
-        if (p.getKonto().getPelnynumer().equals("132-2")) {
+    private Collection<? extends SaldoKonto> przetworzWBRK(SaldoKonto p, Waluty waluta) {
+        if (p.getKonto().getPelnynumer().equals("132-1")) {
             System.out.println("");
         }
         List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
-        Waluty waluta = listawalut.get("PLN");
         Waluty walutapln = listawalut.get("PLN");
-        for (StronaWiersza t : p.getZapisy()) {
-            if (!t.getSymbolWalut().equals("PLN")) {
-                waluta = listawalut.get(t.getSymbolWalut());
-                break;
-            }
-        }
         //dodatnie oznacza saldo Wn ujemne saldo Ma
         double saldopln = obliczsaldoPLN(p.getZapisy());
         //dodatnie oznacza saldo Wn ujemne saldo Ma
@@ -460,7 +563,7 @@ public class BilansGenerowanieView implements Serializable {
     private double obliczsaldo(List<StronaWiersza> zapisy, Waluty waluta) {
         double saldo = 0.0;
         for (StronaWiersza p : zapisy) {
-            if (waluta.getSymbolwaluty().equals(p.getSymbolWalut())) {
+            if (waluta.getSymbolwaluty().equals(p.getSymbolWalutBOiSW())) {
                 if (p.isWn()) {
                     saldo += p.getKwota();
                 } else {
@@ -541,7 +644,7 @@ public class BilansGenerowanieView implements Serializable {
         List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
         Set<Waluty> waluty = new HashSet<>();
         for (StronaWiersza t : p.getZapisy()) {
-            waluty.add(listawalut.get(t.getSymbolWalut()));
+            waluty.add(listawalut.get(t.getSymbolWalutBOiSW()));
         }
         for (Waluty wal : waluty) {
             nowalista_wierszy.addAll(sumujdlawaluty(wal, p.getZapisy()));
@@ -573,11 +676,13 @@ public class BilansGenerowanieView implements Serializable {
         }
         List<SaldoKonto> zapisykonta = new ArrayList<>();
         for (StronaWiersza t : zapisy) {
-            if (t.getPozostalo() != 0.0 && t.getSymbolWalut().equals(wal.getSymbolwaluty()) && t.getToNieJestRRK()) {
+            if (t.getPozostalo() != 0.0 && t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && t.getToNieJestRRK()) {
                 zapisykonta.add(new SaldoKonto(t, wal));
             }
         }
         return zapisykonta;
     }
+
+    
 
 }

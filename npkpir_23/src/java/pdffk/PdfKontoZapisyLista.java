@@ -192,8 +192,8 @@ public class PdfKontoZapisyLista {
                 table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 7));
                 table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
             }
-            if (!rs.getSymbolWalut().equals("PLN")) {
-                table.addCell(ustawfrazeAlign(rs.getSymbolWalut(), "center", 7));
+            if (!rs.getSymbolWalutBOiSW().equals("PLN")) {
+                table.addCell(ustawfrazeAlign(rs.getSymbolWalutBOiSW(), "center", 7));
             } else {
                 table.addCell(ustawfrazeAlign("", "right", 7));
             }
