@@ -190,7 +190,7 @@ public class PdfKonta {
 
     private static PdfPTable tablica(SaldoKonto rs, int i) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(13);
-        table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
+        table.setWidths(new int[]{1, 2, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
         table.setWidthPercentage(98);
         table.setSpacingBefore(15);
         try {
@@ -211,7 +211,7 @@ public class PdfKonta {
         } catch (Exception ex) {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
-            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7, 20f));
             table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7));
             Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
             String l = locale.getLanguage();
@@ -257,7 +257,7 @@ public class PdfKonta {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (StronaWiersza rs : stronywiersza) {
-            table.addCell(ustawfrazeAlign(rs.getDokfkS(), "left", 6, 24f));
+            table.addCell(ustawfrazeAlign(rs.getDokfkS(), "left", 6, 18f));
             table.addCell(ustawfrazeAlign(rs.getDokfk().getDatadokumentu(), "left", 6));
             table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 6));
             table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
@@ -297,7 +297,7 @@ public class PdfKonta {
     }
     private static PdfPTable tablicabezdok(WpisView wpisView, List<SaldoKonto> listaSaldoKonto, int rodzajdruku, int analit0synt1) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(13);
-        table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
+        table.setWidths(new int[]{1, 2, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
         table.setWidthPercentage(98);
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 5, 0));
@@ -405,7 +405,7 @@ public class PdfKonta {
     
      private static void dodajwiersztabeli(SaldoKonto rs, PdfPTable table, Integer i, String l) {
          table.addCell(ustawfrazeAlign(i, "center", 8));
-         table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 8, 30f));
+         table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 8, 20f));
          if (l.equals("pl")) {
              table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 8));
          } else if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
