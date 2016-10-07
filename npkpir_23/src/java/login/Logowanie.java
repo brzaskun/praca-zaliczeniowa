@@ -248,6 +248,7 @@ public class Logowanie implements Serializable {
                 }
             }
             RequestContext.getCurrentInstance().update("formlog1:logowaniepanel");
+            invalidatesession();
         } catch (Exception e){
             E.e(e);
         }
