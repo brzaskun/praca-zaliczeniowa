@@ -1669,9 +1669,9 @@ public class DokfkView implements Serializable {
             //platnosc
         } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
             biezacetransakcje = tworzenieTransakcjiPlatnosc(wnmadoprzeniesienia, aktualnyWierszDlaRozrachunkow);
-            RequestContext.getCurrentInstance().update("rozrachunki");
-            RequestContext.getCurrentInstance().update("dialogdrugi");
-            RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+            //RequestContext.getCurrentInstance().update("rozrachunki");
+            //RequestContext.getCurrentInstance().update("dialogdrugi");
+            //RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
         } else {
             System.out.println("Blad aktualny wiersz ma dziwny numer DokfkView wybranoRachunekPlatnoscCD");
         }

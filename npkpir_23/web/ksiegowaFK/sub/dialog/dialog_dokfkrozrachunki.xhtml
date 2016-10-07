@@ -23,11 +23,12 @@
     </style>
 
     <p:dialog id="dialogdrugi" header="Rozrachunkia" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
-              resizable="false"  onShow="rozrachunkiOnShow(1100,650);setTimeout(znadzpasujacepolerozrachunku2('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}'),5000);" 
-              closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki:dataList" closable="true" 
+              resizable="false" 
+              onShow="rozrachunkiOnShow(1100,650);setTimeout(znadzpasujacepolerozrachunku2('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}'),5000);" 
+              closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki:dataList" closable="true"
               >
         <p:outputPanel style="height: 630px;">
-            <h:form id="rozrachunki"  >
+            <h:form id="rozrachunki">
                 <!--                <div style="height: 585px;width: 1200px;" >-->
                 <p:panelGrid id="paneledycji"  style="width: 1000px; " >
                     <f:facet name="header">
@@ -149,9 +150,10 @@
                             vertical-align: bottom;
                         }
                     </style>
-                    <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row"  
-                                 emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
-                                 scrollRows="22" scrollable="true" scrollHeight="370"  sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
+                    <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="iteracja" rowIndexVar="row"  
+                                 emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" 
+                                 styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
+                                 scrollRows="22" scrollable="true" scrollHeight="370"  sortBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
                                  style="width: 1050px;"
                                  >
 
@@ -166,7 +168,7 @@
                             <f:facet name="header">
                                 <h:outputText value="kwota rozlicz. - bieżący dok." />
                             </f:facet>
-                            <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
+                            <pe:inputNumber id="kwotarozliczenia" value="#{iteracja.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
                                             decimalPlaces="2" minValue="-10000000" emptyValue="sign" 
                                             styleClass="kwotarozrachunku">
                                 <p:ajax event="blur" listener="#{dokfkView.przetworzwprowadzonakwote(loop, row)}" partialSubmit="true" global="false"
@@ -174,47 +176,47 @@
                                 <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzlimity(loop, row)}"/>
                             </pe:inputNumber>
                         </p:column>
-                        <p:column headerText="nr własny dokumentu"  filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"
-                                  sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" style="width: 80px;">
-                            <h:outputText id="nrwlasnydokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" />
+                        <p:column headerText="nr własny dokumentu"  filterBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"
+                                  sortBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" style="width: 80px;">
+                            <h:outputText id="nrwlasnydokWn" value="#{iteracja.opisWiersza}" />
                         </p:column>
-                        <p:column headerText="zostało do rozlicz." filterBy="#{loop.nowaTransakcja.pozostalo}"
-                                  sortBy="#{loop.nowaTransakcja.pozostalo}" styleClass="kolumnaznumerem" style="text-align: right; width: 50px;">
-                            <h:outputText value="#{loop.nowaTransakcja.pozostalo}" id="pozostaloWn" style="#{loop.nowaTransakcja.pozostalo lt 0.0? 'color: red;' : 'color: initial;'}">
+                        <p:column headerText="zostało do rozlicz." filterBy="#{iteracja.nowaTransakcja.pozostalo}"
+                                  sortBy="#{iteracja.nowaTransakcja.pozostalo}" styleClass="kolumnaznumerem" style="text-align: right; width: 50px;">
+                            <h:outputText value="#{iteracja.nowaTransakcja.pozostalo}" id="pozostaloWn" style="#{iteracja.nowaTransakcja.pozostalo lt 0.0? 'color: red;' : 'color: initial;'}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="kwota pierwotna" filterBy="#{loop.nowaTransakcja.kwota}"
-                                  sortBy="#{loop.nowaTransakcja.kwota}" styleClass="kolumnaznumerem" style="text-align: right; width: 50px;">
-                            <h:outputText value="#{loop.nowaTransakcja.kwota}">
+                        <p:column headerText="kwota pierwotna" filterBy="#{iteracja.nowaTransakcja.kwota}"
+                                  sortBy="#{iteracja.nowaTransakcja.kwota}" styleClass="kolumnaznumerem" style="text-align: right; width: 50px;">
+                            <h:outputText value="#{iteracja.nowaTransakcja.kwota}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="opis wiersza dok sparowanego" style="width: 140px" filterBy="#{loop.opisWiersza}" filterMatchMode="contains">
-                            <h:outputText id="opiswierszaWn" value="#{loop.opisWiersza}" style="font-size: x-small;"/>
+                        <p:column headerText="opis wiersza dok sparowanego" style="width: 140px" filterBy="#{iteracja.opisWiersza}" filterMatchMode="contains">
+                            <h:outputText id="opiswierszaWn" value="#{iteracja.opisWiersza}" style="font-size: x-small;"/>
                         </p:column>
                         <p:column headerText="symbol" style="text-align: left; width: 60px;"  styleClass="symbolrozrachunku"
-                                  filterBy="#{loop.nowaTransakcja.wiersz.dokfkS}">
-                            <h:outputText id="symboldokWn" value="#{loop.nowaTransakcja.wiersz.dokfkS}"/>
+                                  filterBy="#{iteracja.nowaTransakcja.wiersz.dokfkS}">
+                            <h:outputText id="symboldokWn" value="#{iteracja.nowaTransakcja.wiersz.dokfkS}"/>
                         </p:column>
                         <p:column headerText="wal." style="width: 30px; text-align: center">
                             <h:outputText id="walutaWn" 
-                                          value="#{loop.nowaTransakcja.symbolWalutBOiSW}" 
+                                          value="#{iteracja.nowaTransakcja.symbolWalutBOiSW}" 
                                           rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                         </p:column>
                         <p:column headerText="kurs" style="width: 40px;">
-                            <h:outputText id="kursWn1" value="#{loop.nowaTransakcja.kursWalutyBOSW}"  
+                            <h:outputText id="kursWn1" value="#{iteracja.nowaTransakcja.kursWalutyBOSW}"  
                                           style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="4" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="różnica kurs." style="width: 40px;">
-                            <h:outputText id="roznicakursowa" value="#{loop.roznicekursowe}"  style="float: right;">
+                            <h:outputText id="roznicakursowa" value="#{iteracja.roznicekursowe}"  style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="data dok." style="width: 50px;">
-                            <h:outputText value="#{loop.nowaTransakcja.dokfk.datadokumentu}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                            <h:outputText value="#{iteracja.nowaTransakcja.dokfk.datadokumentu}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
