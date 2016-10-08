@@ -460,9 +460,16 @@ public class DokfkView implements Serializable {
         }
     }
 
+    
 //////////////////////EWIDENCJE VAT
-    public void podepnijEwidencjeVat(int rodzaj) {
+    
+    public void podepnijEwidencjeVatDok(int rodzaj) {
         if (zapisz0edytuj1 == false) {
+            podepnijEwidencjeVat(rodzaj);
+        }
+    }
+    
+    public void podepnijEwidencjeVat(int rodzaj) {
             boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
             if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5 && !nievatowiec) {
                 if (selected.iswTrakcieEdycji() == false) {
@@ -499,7 +506,6 @@ public class DokfkView implements Serializable {
             } else {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             }
-        }
     }
 
     public void usunEwidencjeDodatkowa(EVatwpisFK eVatwpisFK) {

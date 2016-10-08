@@ -211,7 +211,7 @@
                                                      style="width: 200px; height: 19px;" converter="RodzajedokConv">
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
-                                        <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
+                                        <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok"/>
                                     </h:selectOneMenu>
                                 </p:column>
@@ -598,10 +598,6 @@
                     </p:panelGrid>
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
-                        <p:column style="text-align: right;" width="100">
-                            <h:outputText value="konto macierzyste: "/>
-                            <h:outputText id="poleinfokontomacierzyste" value="22" style="width: 100px; margin-left: 10px;"/>
-                        </p:column>
                         <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne ''}">
                             <h:outputText value="saldo wybranego konta: "/>
                             <bcf:outputpl id="saldowybranegokonta"  value="#{dokfkView.obliczsaldowybranegokonta()}" style="width: 100px; margin-left: 10px;"/>
