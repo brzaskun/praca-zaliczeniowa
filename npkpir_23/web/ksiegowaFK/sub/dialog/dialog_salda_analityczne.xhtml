@@ -81,6 +81,9 @@
                     <p:selectBooleanCheckbox id="tylkoniezerowe" itemLabel="tylko niezerowe" value="#{saldoAnalitykaView.tylkosaldaniezerowe}" style="margin-left: 5px;">
                         <p:ajax event="change" partialSubmit="true" global="false" listener="#{saldoAnalitykaView.zmienkryteriawyswietlania}" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
                     </p:selectBooleanCheckbox>
+                    <p:selectBooleanCheckbox id="zzapisami" itemLabel="z zapisami" value="#{saldoAnalitykaView.zzapisami}" style="margin-left: 5px;">
+                        <p:ajax event="change" partialSubmit="true" global="false" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
+                    </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:remoteCommand actionListener="#{saldoAnalitykaView.sumujwybranekonta}" name="przeliczfilter" update=":tabelazsumamianalityka:sumy" global="false"/>
             <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.hashCode()}" 
@@ -99,7 +102,7 @@
                     <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>-->
                 <p:column width="20">
-                    <p:rowToggler/>
+                    <p:rowToggler rendered="#{saldoAnalitykaView.zzapisami}"/>
                 </p:column>
                 <p:column styleClass="konto" headerText="#{mgs.konto}" width="40"  filterBy="#{loop.konto.pelnynumer}">
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
@@ -160,7 +163,7 @@
                 <p:column headerText="syntetyka" width="140" >
                     <h:outputText value="#{loop.konto.kontomacierzyste.nazwapelna}" />
                 </p:column>
-                <p:rowExpansion>
+                <p:rowExpansion rendered="#{saldoAnalitykaView.zzapisami}">
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" sortBy="#{loopik.dokfk.datadokumentu}">
                         <p:column headerText="#{mgs.dokument}" width="90">
                             <h:outputText value="#{loopik.dokfkS}" style="height: 50px; word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>

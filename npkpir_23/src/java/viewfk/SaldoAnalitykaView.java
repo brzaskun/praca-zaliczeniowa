@@ -62,6 +62,7 @@ public class SaldoAnalitykaView implements Serializable {
     private String wybranyRodzajKonta;
     private List<Sprawozdanie_0> grupa0;
     private boolean tylkosaldaniezerowe;
+    private boolean zzapisami;
 
     public SaldoAnalitykaView() {
          E.m(this);
@@ -230,6 +231,14 @@ public class SaldoAnalitykaView implements Serializable {
 
     public void setSumaSaldoKonto(List<SaldoKonto> sumaSaldoKonto) {
         this.sumaSaldoKonto = sumaSaldoKonto;
+    }
+
+    public boolean isZzapisami() {
+        return zzapisami;
+    }
+
+    public void setZzapisami(boolean zzapisami) {
+        this.zzapisami = zzapisami;
     }
 
     public boolean isTylkosaldaniezerowe() {

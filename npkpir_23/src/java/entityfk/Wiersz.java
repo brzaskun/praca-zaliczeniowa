@@ -522,4 +522,10 @@ public class Wiersz implements Serializable {
         return wiersbo;
     }
 
+    public Konto getKontoWn() {
+        return this.getStronaWn() != null ? this.getStronaWn().getKonto()  : null;
+    }
+    public Konto getKontoMa() {
+        return this.getStronaMa() != null ? this.getStronaMa().getKonto()  : null;
+    }
 }

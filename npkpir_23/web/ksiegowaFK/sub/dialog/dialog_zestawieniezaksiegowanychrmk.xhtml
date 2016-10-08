@@ -17,6 +17,10 @@
         .zapisZcecha {
             color: red;
         }
+        .colormk {
+            color: darkblue !important;
+            font-weight: 500;
+        }
     </style>
     <p:dialog id="zestawieniezaksiegowanychrmk" header="Zestawienie zaksięgowanych dokumentów dotyczących RMK - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanychrmk" 
               dynamic="true" maximizable="true"
@@ -153,11 +157,12 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="zapisy w wierszach" resizable="true">  
-                        <p:dataTable var="wpis" value="#{item.listawierszy}" editable="true" rowIndexVar="number" style="width: 800px;">
+                        <p:dataTable var="wpis" value="#{item.listawierszy}" editable="true" rowIndexVar="number" style="width: 900px;"
+                                     rowStyleClass="#{((wpis.kontoWn ne null or wpis.kontoMa ne null) and (wpis.kontoWn.pelnynumer.startsWith('6') or wpis.kontoMa.pelnynumer.startsWith('6'))) ? 'colormk' : null}">
                             <p:column headerText="#{mgs.numerkolejny}" width="30">
                                 <h:outputText value="#{number+1}" />
                             </p:column>
-                            <p:column headerText="#{mgs.opis}" width="200">
+                            <p:column headerText="#{mgs.opis}" width="350">
                                 <h:outputText value="#{wpis.opisWiersza}" />
                             </p:column>
                             <p:column headerText="wn" width="90">
@@ -168,8 +173,8 @@
                             <p:column width="7" style="text-align: center;">
                                 <h:outputText id="symbolWn" value="#{wpis.tabelanbp.waluta.skrotsymbolu}" rendered="#{wpis.typWiersza eq 1 || wpis.typWiersza eq 0 || wpis.typWiersza eq 6 || wpis.typWiersza eq 5 ? true : false}"/>
                             </p:column>
-                            <p:column headerText="#{mgs.konto}" width="90">
-                                <h:outputText value="#{wpis.stronaWn.konto.pelnynumer}" rendered="#{wpis.typWiersza eq 1 || wpis.typWiersza eq 0 || wpis.typWiersza eq 6 || wpis.typWiersza eq 5 ? true : false}"/>
+                            <p:column headerText="#{mgs.konto}" width="60">
+                                <h:outputText value="#{wpis.kontoWn.pelnynumer}" rendered="#{wpis.typWiersza eq 1 || wpis.typWiersza eq 0 || wpis.typWiersza eq 6 || wpis.typWiersza eq 5 ? true : false}"/>
                             </p:column>
                             <p:column headerText="ma" width="90">
                                 <h:outputText value="#{wpis.stronaMa.kwota}"  style="float: right;" rendered="#{wpis.typWiersza eq 2 || wpis.typWiersza eq 0 || wpis.typWiersza eq 7 || wpis.typWiersza eq 5 ? true : false}">   
@@ -179,8 +184,8 @@
                             <p:column width="7" style="text-align: center;">
                                 <h:outputText id="symbolMa" value="#{wpis.tabelanbp.waluta.skrotsymbolu}" rendered="#{wpis.typWiersza eq 2 || wpis.typWiersza eq 0 || wpis.typWiersza eq 7 || wpis.typWiersza eq 5 ? true : false}"/>
                             </p:column>
-                            <p:column headerText="#{mgs.konto}" width="90">
-                                <h:outputText value="#{wpis.stronaMa.konto.pelnynumer}" rendered="#{wpis.typWiersza eq 2 || wpis.typWiersza eq 0 || wpis.typWiersza eq 7 || wpis.typWiersza eq 5 ? true : false}"/>
+                            <p:column headerText="#{mgs.konto}" width="60">
+                                <h:outputText value="#{wpis.kontoMa.pelnynumer}" rendered="#{wpis.typWiersza eq 2 || wpis.typWiersza eq 0 || wpis.typWiersza eq 7 || wpis.typWiersza eq 5 ? true : false}"/>
                             </p:column>
                       </p:dataTable>
                     </p:column>

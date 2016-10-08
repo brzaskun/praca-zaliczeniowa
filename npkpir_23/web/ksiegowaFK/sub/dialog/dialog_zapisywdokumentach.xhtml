@@ -26,9 +26,11 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="#{mgs.pobierz}" actionListener="#{wierszeView.init}" update=":zestawieniezapisownakontach, :zestawieniezapisownakontach_footer" style="margin-left: 20px; width: 120px;"/>
-                <h:outputText value="tylko bez rozrachunkow"/>
-                <h:selectBooleanCheckbox value="#{wierszeView.tylkobezrozrachunkow}"/>
+                <p:commandButton id="butonpobierzwiersze" value="#{mgs.pobierz}" actionListener="#{wierszeView.init}" update=":zestawieniezapisownakontach, :zestawieniezapisownakontach_footer" style="margin-left: 20px; width: 120px;"/>
+                <h:outputText value="tylko bez rozrachunków"/>
+                <p:selectBooleanCheckbox value="#{wierszeView.tylkobezrozrachunkow}">
+                    <p:ajax event="change" global="false" partialSubmit="true" oncomplete="r('zestawieniezapisownakontach:butonpobierzwiersze').click()"/>
+                </p:selectBooleanCheckbox>
                 <p:commandButton value="#{mgs.drukuj}" icon="fa fa-print" actionListener="#{wierszeView.drukujWiersze()}"   style="width: 120px; margin-left: 30px;"/>
             </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
