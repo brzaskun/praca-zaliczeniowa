@@ -10,6 +10,7 @@ import daoFK.KontoDAOfk;
 import daoFK.UkladBRDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
+import embeddablefk.RoznicaSaldBO;
 import embeddablefk.SaldoKonto;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
@@ -67,6 +68,7 @@ public class BilansGenerowanieView implements Serializable {
     private List<String> komunikatyok;
     private List<String> komunikatyerror;
     private List<String> komunikatyerror2;
+    private List<String> komunikatyerror3;
     private boolean sabledy;
     private boolean sabledy2;
     private boolean przeniestylkosalda;
@@ -77,6 +79,7 @@ public class BilansGenerowanieView implements Serializable {
         this.komunikatyok.add("Nie rozpoczęto analizy");
         this.komunikatyerror = new ArrayList<>();
         this.komunikatyerror2 = new ArrayList<>();
+        this.komunikatyerror3 = new ArrayList<>();
         this.listawalut = new HashMap<>();
     }
 
@@ -88,80 +91,7 @@ public class BilansGenerowanieView implements Serializable {
         }
     }
 
-//<editor-fold defaultstate="collapsed" desc="comment">
-    public WpisView getWpisView() {
-        return wpisView;
-    }
 
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
-    }
-
-    public boolean isPrzeniestylkosalda() {
-        return przeniestylkosalda;
-    }
-
-    public void setPrzeniestylkosalda(boolean przeniestylkosalda) {
-        this.przeniestylkosalda = przeniestylkosalda;
-    }
-
-    public BilansWprowadzanieView getBilansWprowadzanieView() {
-        return bilansWprowadzanieView;
-    }
-
-    public void setBilansWprowadzanieView(BilansWprowadzanieView bilansWprowadzanieView) {
-        this.bilansWprowadzanieView = bilansWprowadzanieView;
-    }
-
-    public boolean isSabledy() {
-        return sabledy;
-    }
-
-    public void setSabledy(boolean sabledy) {
-        this.sabledy = sabledy;
-    }
-
-    public boolean isSabledy2() {
-        return sabledy2;
-    }
-
-    public void setSabledy2(boolean sabledy2) {
-        this.sabledy2 = sabledy2;
-    }
-
-    public List<String> getKomunikatyok() {
-        return komunikatyok;
-    }
-
-    public void setKomunikatyok(List<String> komunikatyok) {
-        this.komunikatyok = komunikatyok;
-    }
-
-    public List<String> getKomunikatyerror() {
-        return komunikatyerror;
-    }
-
-    public void setKomunikatyerror(List<String> komunikatyerror) {
-        this.komunikatyerror = komunikatyerror;
-    }
-
-    public List<String> getKomunikatyerror2() {
-        return komunikatyerror2;
-    }
-
-    public void setKomunikatyerror2(List<String> komunikatyerror2) {
-        this.komunikatyerror2 = komunikatyerror2;
-    }
-
-    public SaldoAnalitykaView getSaldoAnalitykaView() {
-        return saldoAnalitykaView;
-    }
-
-    public void setSaldoAnalitykaView(SaldoAnalitykaView saldoAnalitykaView) {
-        this.saldoAnalitykaView = saldoAnalitykaView;
-    }
-
-//</editor-fold>
     public static void generujbilans() {
         String podatnik = "Lolo";
         List<testobjects.Konto> saldakont = pobierzkonta(podatnik);
@@ -233,6 +163,11 @@ public class BilansGenerowanieView implements Serializable {
 
     public void generuj() {
         this.komunikatyok = new ArrayList<>();
+        this.komunikatyerror = new ArrayList<>();
+        this.komunikatyerror2 = new ArrayList<>();
+        this.komunikatyerror3 = new ArrayList<>();
+        this.sabledy = false;
+        this.sabledy2 = false;
         boolean stop = false;
         List<Konto> konta = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         if (konta.isEmpty()) {
@@ -256,14 +191,15 @@ public class BilansGenerowanieView implements Serializable {
             sabledy = true;
         } else {
             wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            Waluty walpln = saldoAnalitykaView.initGenerowanieBO();
-            List<SaldoKonto> listaSaldoKonto = saldoAnalitykaView.getListaSaldoKonto();
+            Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+            saldoAnalitykaView.initGenerowanieBO();
+            List<SaldoKonto> listaSaldoKontoRokPop = saldoAnalitykaView.getListaSaldoKonto();
             List<Konto> kontaNowyRok = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             resetujBOnaKonto(kontaNowyRok);
             Konto kontowyniku = PlanKontFKBean.findKonto860(kontaNowyRok);
-            obliczkontawynikowe(kontowyniku, listaSaldoKonto, walpln);
+            obliczkontawynikowe(kontowyniku, listaSaldoKontoRokPop, walpln);
             //tutaj trzeba przerobic odpowiednio listaSaldo
-            List<SaldoKonto> listaSaldoKontoPrzetworzone = przetwarzajSaldoKonto(listaSaldoKonto);
+            List<SaldoKonto> listaSaldoKontoPrzetworzone = przetwarzajSaldoKonto(listaSaldoKontoRokPop);
             List<WierszBO> wierszeBO = new ArrayList<>();
             List<Konto> kontazdziecmi = new ArrayList<>();
             List<Konto> brakujacekontanowyrok = zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok, kontazdziecmi);
@@ -286,12 +222,34 @@ public class BilansGenerowanieView implements Serializable {
             zapiszBOnaKontach(wierszeBO, kontaNowyRok);
             obliczsaldoBOkonta(kontaNowyRok);
             kontoDAO.editList(kontaNowyRok);
+            List<RoznicaSaldBO> kontainnesaldo = znajdzroznicesald(listaSaldoKontoRokPop, kontaNowyRok);
+            if (!kontainnesaldo.isEmpty()) {
+                komunikatyerror3.add("Po generacji jest różnica sald z BO. Sprawdź w poprzednim roku wiersze BO z dokumentem BO: ");
+                for (RoznicaSaldBO p : kontainnesaldo) {
+                    komunikatyerror3.add(p.getKonto().getPelnynumer() + " " + p.getKwotaroznicy());
+                }
+            }
             bilansWprowadzanieView.init();
             bilansWprowadzanieView.zapiszBilansBOdoBazy();
             Msg.msg("Generuje bilans");
         }
     }
 
+    private List<RoznicaSaldBO> znajdzroznicesald(List<SaldoKonto> listaSaldoKontoRokPop, List<Konto> kontaNowyRok) {
+        List<RoznicaSaldBO> listaroznic = new ArrayList<>();
+        for (SaldoKonto p : listaSaldoKontoRokPop) {
+            if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
+                Konto nowe = kontaNowyRok.get(kontaNowyRok.indexOf(p.getKonto()));
+                if (Z.zAbs(p.getSaldoWn()) != Z.zAbs(nowe.getBoWn())) {
+                   listaroznic.add(new RoznicaSaldBO(nowe, Z.zAbs(nowe.getBoWn()-p.getSaldoWn())));
+                } else if (Z.zAbs(p.getSaldoMa()) != Z.zAbs(nowe.getBoMa())) {
+                   listaroznic.add(new RoznicaSaldBO(nowe, Z.zAbs(nowe.getBoMa()-p.getSaldoMa())));
+                }
+            }
+        }
+        return listaroznic;
+    }
+    
     private void obliczsaldoBOkonta(List<Konto> przygotowanalista) {
         for (Konto r : przygotowanalista) {
             if (r.getBoWn() > r.getBoMa()) {
@@ -319,8 +277,13 @@ public class BilansGenerowanieView implements Serializable {
     private void zapiszBOnaKontach(List<WierszBO> wierszeBO, List<Konto> kontaNowyRok) {
         for (WierszBO p : wierszeBO) {
             Konto k = kontaNowyRok.get(kontaNowyRok.indexOf(p.getKonto()));
-            k.setBoWn(k.getBoWn() + p.getKwotaWnPLN());
-            k.setBoMa(k.getBoMa() + p.getKwotaMaPLN());
+            if (p.getWaluta().getSymbolwaluty().equals("PLN")) {
+                k.setBoWn(k.getBoWn() + p.getKwotaWn());
+                k.setBoMa(k.getBoMa() + p.getKwotaMa());
+            } else {
+                k.setBoWn(k.getBoWn() + p.getKwotaWnPLN());
+                k.setBoMa(k.getBoMa() + p.getKwotaMaPLN());
+            }
             if (k.getBoWn() > 0.0 || k.getBoMa() > 0.0) {
                 k.setBlokada(true);
             }
@@ -400,7 +363,7 @@ public class BilansGenerowanieView implements Serializable {
             if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==false) {
                 nowalista.addAll(przetworzPojedyncze(p));
             } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==true) {
-                if (p.getKonto().getPelnynumer().equals("201-2-34")) {
+                if (p.getKonto().getPelnynumer().equals("203-2-81")) {
                     System.out.println("");
                 }
                 System.out.println("saldokonto "+p.getKonto().getPelnynumer());
@@ -437,7 +400,7 @@ public class BilansGenerowanieView implements Serializable {
     }
     
     private SaldoKonto rozliczroznicekursowedwojki(SaldoKonto p, List<SaldoKonto> nowewiersze) {
-        if (p.getKonto().getPelnynumer().equals("204-2-1")) {
+        if (p.getKonto().getPelnynumer().equals("203-2-81")) {
             System.out.println("");
         }
         double wnpln = p.getSaldoWn();
@@ -450,7 +413,15 @@ public class BilansGenerowanieView implements Serializable {
         }
         double roznicakursowe = 0.0;
         boolean wn = false;
-        if (wnpln > 0.0) {
+        if (wnpln == 0.0 && mapln == 0.0) {
+            if (sumawnpln > 0.0) {
+                roznicakursowe = sumawnpln;
+                wn = true;
+            } else if (sumamapln > 0.0) {
+                roznicakursowe = sumamapln;
+                wn = false;
+            }
+        } else if (wnpln > 0.0) {
             if (sumawnpln > 0.0) {
                 roznicakursowe = wnpln - sumawnpln;
                 wn = true;
@@ -684,5 +655,88 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     
+
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    public boolean isPrzeniestylkosalda() {
+        return przeniestylkosalda;
+    }
+
+    public void setPrzeniestylkosalda(boolean przeniestylkosalda) {
+        this.przeniestylkosalda = przeniestylkosalda;
+    }
+
+    public BilansWprowadzanieView getBilansWprowadzanieView() {
+        return bilansWprowadzanieView;
+    }
+
+    public void setBilansWprowadzanieView(BilansWprowadzanieView bilansWprowadzanieView) {
+        this.bilansWprowadzanieView = bilansWprowadzanieView;
+    }
+
+    public boolean isSabledy() {
+        return sabledy;
+    }
+
+    public void setSabledy(boolean sabledy) {
+        this.sabledy = sabledy;
+    }
+
+    public boolean isSabledy2() {
+        return sabledy2;
+    }
+
+    public void setSabledy2(boolean sabledy2) {
+        this.sabledy2 = sabledy2;
+    }
+
+    public List<String> getKomunikatyok() {
+        return komunikatyok;
+    }
+
+    public void setKomunikatyok(List<String> komunikatyok) {
+        this.komunikatyok = komunikatyok;
+    }
+
+    public List<String> getKomunikatyerror() {
+        return komunikatyerror;
+    }
+
+    public void setKomunikatyerror(List<String> komunikatyerror) {
+        this.komunikatyerror = komunikatyerror;
+    }
+
+    public List<String> getKomunikatyerror2() {
+        return komunikatyerror2;
+    }
+
+    public void setKomunikatyerror2(List<String> komunikatyerror2) {
+        this.komunikatyerror2 = komunikatyerror2;
+    }
+
+    public List<String> getKomunikatyerror3() {
+        return komunikatyerror3;
+    }
+
+    public void setKomunikatyerror3(List<String> komunikatyerror3) {
+        this.komunikatyerror3 = komunikatyerror3;
+    }
+
+    public SaldoAnalitykaView getSaldoAnalitykaView() {
+        return saldoAnalitykaView;
+    }
+
+    public void setSaldoAnalitykaView(SaldoAnalitykaView saldoAnalitykaView) {
+        this.saldoAnalitykaView = saldoAnalitykaView;
+    }
+
+//</editor-fold>
 
 }

@@ -105,7 +105,7 @@ public class SaldoAnalitykaView implements Serializable {
         }
     }
 
-    public Waluty initGenerowanieBO() {
+    public void initGenerowanieBO() {
         int rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         wpisView.setRokWpisu(rok - 1);
@@ -132,7 +132,6 @@ public class SaldoAnalitykaView implements Serializable {
         wpisView.setRokWpisu(rok);
         wpisView.setRokWpisuSt(String.valueOf(rok));
         wpisView.setMiesiacWpisu(mc);
-        return walpln;
     }
 
     public void odswiezsaldoanalityczne() {
