@@ -21,6 +21,7 @@ import entity.Rodzajedok;
 import entity.RodzajedokPK;
 import entity.Ryczpoz;
 import entity.SrodekTrw;
+import entity.Statystyka;
 import entity.UmorzenieN;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
@@ -502,6 +503,25 @@ public class testobjects {
        n.add("kwota Wn PLN");
        n.add("kwota Ma");
        n.add("kwota Ma PLN");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getTabelaStatystyka(List<Statystyka> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("podatnik");
+       n.add("nip");
+       n.add("rok");
+       n.add("ilość dok.");
+       n.add("obroty");
+       n.add("ilość faktur");
+       n.add("kwota faktur");
+       n.add("fakt/obrot gr");
+       n.add("fakt/dok zł");
+       n.add("rank");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

@@ -24,6 +24,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdffk.PdfKlienciKalkulacja;
 import waluty.Z;
 
 /**
@@ -71,6 +72,14 @@ public class StatystykaKalkulacjaView  implements Serializable {
         listadozachowania.addAll(podatnikroklista);
         podatnikroklista.add(dodajsume(podatnikroklista));
         Msg.msg("Pobrano statystyki");
+    }
+    
+    public void drukuj() {
+        if (podatnikroklista != null && podatnikroklista.size() > 0) {
+            PdfKlienciKalkulacja.drukuj(podatnikroklista);
+        } else {
+            Msg.msg("e", "Pusta lista");
+        }
     }
 
     private List<Statystyka> stworzliste(List<Podatnik> podatnicy) {

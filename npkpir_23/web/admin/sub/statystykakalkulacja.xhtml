@@ -8,7 +8,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:panelGrid columns="4">
+    <p:panelGrid columns="5">
         <p:commandButton value="generuj" actionListener="#{statystykaKalkulacjaView.generuj}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
         <p:selectOneMenu id="rokWpisu" value="#{statystykaKalkulacjaView.rok}" style="width: 120px; margin-left: 10px;">
             <p:ajax event="change" partialSubmit="true" global="false"/>
@@ -16,6 +16,7 @@
         </p:selectOneMenu>
         <p:commandButton value="zaksięguj" actionListener="#{statystykaKalkulacjaView.zaksieguj}" style="width: 120px; margin-left: 10px;"/>
         <p:commandButton value="pobierz" actionListener="#{statystykaKalkulacjaView.pobierz}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
+        <p:commandButton value="drukuj" actionListener="#{statystykaKalkulacjaView.drukuj}" style="width: 120px; margin-left: 20px;"/>
     </p:panelGrid>
     <p:dataTable value="#{statystykaKalkulacjaView.podatnikroklista}" var="item" id="datatable" style="width: 1200px; padding: 10px;"
                  sortBy="#{item.ranking}" sortOrder="descending" rowIndexVar="index">

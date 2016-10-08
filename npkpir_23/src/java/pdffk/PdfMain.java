@@ -67,6 +67,7 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
 import entityfk.EVatwpisDedra;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import entity.Statystyka;
 
 /**
  *
@@ -514,6 +515,20 @@ public class PdfMain {
                 col[0] = 2;
                 col[1] = 6;
                 col[2] = 3;
+                return col;
+            case "entity.Statystyka":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 6;
+                col[2] = 3;
+                col[3] = 2;
+                col[4] = 2;
+                col[5] = 3;
+                col[6] = 2;
+                col[7] = 3;
+                col[8] = 3;
+                col[9] = 3;
+                col[10] = 3;
                 return col;
             case "embeddable.FakturaPodatnikRozliczenie":
                 if (modyfikator == 0) {
@@ -1053,6 +1068,20 @@ public class PdfMain {
                 } else {
                     table.addCell(ustawfrazeAlign("", "right", 8));
                 }
+            }
+            if (nazwaklasy.equals("entity.Statystyka")) {
+                Statystyka p = (Statystyka) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getPodatnik() != null ? p.getPodatnik().getNazwapelna() : "", "left", 8));
+                table.addCell(ustawfrazeAlign(p.getPodatnik() != null ? p.getPodatnik().getNip() : "", "left", 8));
+                table.addCell(ustawfrazeAlign(p.getRok(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getIloscdokumentow(), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getObroty())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getIloscfaktur(), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotafaktur())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getFakturaNaObroty())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getFakturaNaDokumenty())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getRanking())), "right", 8));
             }
             if (nazwaklasy.equals("entityfk.PozycjaRZiS")) {
                 if (maxlevel == 0) {
