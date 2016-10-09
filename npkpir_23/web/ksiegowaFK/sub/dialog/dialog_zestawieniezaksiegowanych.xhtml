@@ -16,13 +16,15 @@
         .zaksiegowanewaski input {
             width: 72px !important;
         }
-        
+        .zaksiegowanekontr input {
+            width: 150px !important;
+        }
         .zapisZcecha {
             color: red;
         }
     </style>
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanych" 
-               maximizable="true" 
+               maximizable="true"  
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1500, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -30,11 +32,9 @@
         <p:ajax event="maximize" listener="#{dokfkView.powiekszliste}" update="zestawieniedokumentow"/>
         <h:form id="zestawieniedokumentow">
             <p:growl life="6000" autoUpdate="true" id="wiadomoscisprawdzanie" sticky="true"/>
-            <p:panelGrid id="sumawybranych" columns="2">
+            <p:panelGrid id="sumawybranych" columns="2" style="padding: 5px;">
                 <h:outputText value="   suma wartości netto wybranych dokumentów: "/>
-                <h:outputText  id="podsumowaniewybr" value="#{dokfkView.podsumowaniewybranych}">
-                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                </h:outputText>
+                <bcf:outputpl id="podsumowaniewybr" value="#{dokfkView.podsumowaniewybranych}"/>
             </p:panelGrid>
             <p:panelGrid id="panelprzyciskowzestdok" style="margin-left: 2%;" >
                 <p:row>
@@ -43,26 +43,27 @@
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 60px;">
-                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
-                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
+                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
+                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:commandButton id="pobierzzaksiegowane" value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" 
                                      update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth"
+                                     onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
                                     />
                 </p:column>
                 <p:column>
-                <h:selectOneMenu value="#{dokfkView.wybranakategoriadok}" id="kategoriadokumentu"
-                        styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                        onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
-                        onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
-                        style="width: 200px; height: 25px; margin-left: 100px;" rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}">
-                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow :menubarnorth"/>
+                <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" id="kategoriadokumentu"
+                        style="width: 200px; margin-left: 100px;" rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}">
+                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" 
+                            onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                            update=":zestawieniedokumentow:dataList"/>
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
                     <f:selectItems value="#{dokfkView.dokumentypodatnikazestawienie}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
-                </h:selectOneMenu>
+                </p:selectOneMenu>
                     </p:column>
                 <p:column>
                     <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist)}" styleClass="fkbutton"
@@ -124,9 +125,10 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
-                         style="width: 1460px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}" 
+                         style="width: 1460px; height: 500px; " filteredValue="#{dokfkView.filteredValue}" 
+                         rowsPerPageTemplate="50,100,300,500" paginatorPosition="top"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane" rowSelectMode="add"
-                         
+                         rows="200" paginator="true"
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
@@ -154,7 +156,7 @@
                 <p:column headerText="nip" styleClass="zaksiegowanewaski" width="80" sortBy="#{item.kontr.nip}" filterBy="#{item.kontr.nip}">
                     <h:outputText value="#{item.kontr.nip}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
+                <p:column headerText="#{mgs.kontrahent}" styleClass="zaksiegowanekontr" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
                     <h:outputText value="#{item.kontr.npelna}"/>
                 </p:column>
                 <p:column headerText="#{mgs.numer}" 
