@@ -1,0 +1,26 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog header="Usuwanie całego słownika z kontami analitycznymi: #{planKontView.selectednodekonto.pelnynumer}" 
+              widgetVar="usunkontoslownik" resizable="false"
+              onShow="snapshot('form_dialog_plankont:dataList_data');" onHide="recover('form_dialog_plankont:dataList_data');">
+        <h:form id="dialog_plankont_usunkontoslownik">  
+        <p:focus for="anulujusunslownik">
+                <p:panelGrid id="dkp" columns="2" style="margin-top: 10px;">
+                <p:commandButton value="usuń" actionListener="#{planKontView.usunslownik()}" type="submit" 
+                                         update=":formY :form_dialog_plankont" style="margin-left: 10px; width: 120px;" 
+                                         oncomplete="PF('usunkontoslownik').hide();"  />
+                <p:commandButton value="anuluj" type="button" id="anulujusunslownik"
+                                         style="margin-left: 50px; width: 120px;"
+                                         onclick="PF('usunkontoslownik').hide();"  />
+            </p:panelGrid>
+        </p:focus>
+    </h:form>  
+</p:dialog> 
+   
+</ui:composition>
+

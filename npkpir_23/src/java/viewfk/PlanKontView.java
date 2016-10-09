@@ -1386,6 +1386,28 @@ public class PlanKontView implements Serializable {
         }
         return zwrot;
     }
+    
+    public void usunslownik() {
+        try {
+            List<Konto> kontadousuniecia = kontoDAOfk.findKontaSiostrzanePodatnik(wpisView, selectednodekonto.getMacierzyste());
+            kontoDAOfk.destroy(kontadousuniecia);
+            for (Konto p : kontadousuniecia) {
+                wykazkont.remove(p);
+            }
+            Konto macierzyste = kontoDAOfk.findKonto(selectednodekonto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+            Konto macierzystelista = wykazkont.get(wykazkont.indexOf(macierzyste));
+            macierzystelista.setBlokada(false);
+            macierzystelista.setMapotomkow(false);
+            kontoDAOfk.edit(macierzystelista);
+            selectednodekonto = null;
+            Msg.msg("Usunięto słownik z kontami analitycznymi");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd, nie usunięto słownika z kontami analitycznymi");
+        }
+    }
+    
+    
 //    "#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
 //    (loop.zwyklerozrachszczegolne eq 'zwykłe ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : 'rowb_rozrachunkowe') :
 //    (planKontView.kontadowyswietlenia eq 'wynikowe' ?
