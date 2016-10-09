@@ -336,7 +336,7 @@ public class BilansGenerowanieView implements Serializable {
                         if (k.isMapotomkow()) {
                             kontazdziecmi.add(k);
                         }
-                        wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), k, p.getWalutadlabo()));
+                        wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), k, p.getWalutadlabo(), wpisView.getWprowadzil()));
                     } else {
                         brakujacekontanowyrok.add(p.getKonto());
                     }

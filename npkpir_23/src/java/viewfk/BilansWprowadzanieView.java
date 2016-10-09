@@ -248,6 +248,7 @@ public class BilansWprowadzanieView implements Serializable {
             Msg.msg("e", "Nie wprowadzono prawidłowego opisu. Nie można zapisać");
         } else {
             if (listaBO.contains(selected)) {
+                selected.setWprowadzil(wpisView.getWprowadzil());
                 wierszBODAO.edit(selected);
                 if (listaBOFiltered != null) {
                     podsumujWnMa(listaBOFiltered, listaBOsumy);
@@ -258,6 +259,7 @@ public class BilansWprowadzanieView implements Serializable {
                 if (listaBO.size() == 1 && listaBO.get(0).getKonto() == null) {
                     listaBO.remove(listaBO.get(0));
                 }
+                selected.setWprowadzil(wpisView.getWprowadzil());
                 listaBO.add(selected);
                 wierszBODAO.dodaj(selected);
                 if (listaBOFiltered != null) {

@@ -7,11 +7,14 @@ package entityfk;
 
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
+import entity.Uz;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Cacheable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -47,6 +50,9 @@ public class WierszBO implements Serializable {
     private double kurs;
     private double kwotaWnPLN;
     private double kwotaMaPLN;
+    @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
+    @ManyToOne
+    private Uz wprowadzil;
 
     public WierszBO() {
         this.wierszBOPK = new WierszBOPK();
@@ -65,7 +71,7 @@ public class WierszBO implements Serializable {
         this.rozrachunek = false;
     }
 
-    public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, Konto konto, Waluty waluta) {
+    public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, Konto konto, Waluty waluta, Uz wprowadzil) {
         this.wierszBOPK = new WierszBOPK();
         this.wierszBOPK.setRok(rok);
         if (p.getOpisdlabo() != null) {
@@ -92,6 +98,7 @@ public class WierszBO implements Serializable {
         this.kurs = p.getKursdlaBO();
         this.waluta = waluta;
         this.rozrachunek = false;
+        this.wprowadzil = wprowadzil;
     }
 
     @Override
@@ -218,6 +225,14 @@ public class WierszBO implements Serializable {
     
     public String getRok() {
         return this.getWierszBOPK().getRok();
+    }
+
+    public Uz getWprowadzil() {
+        return wprowadzil;
+    }
+
+    public void setWprowadzil(Uz wprowadzil) {
+        this.wprowadzil = wprowadzil;
     }
 
 }
