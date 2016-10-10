@@ -5,17 +5,21 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.inject.Named;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -40,17 +44,22 @@ public class KwotaKolumna1 implements Serializable{
     @JoinColumn(name = "dok", referencedColumnName = "id_dok")
     @ManyToOne(cascade = CascadeType.ALL)
     private Dok dok;
+    @JoinColumn(name = "kwotakolumna1")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,  orphanRemoval=true)
+    private List<Kolumna1Rozbicie> listaKolumna1Rozbicie;
 
     public KwotaKolumna1() {
         this.netto = 0.0;
         this.nettowaluta = 0.0;
         this.nazwakolumny = "";
+        this.listaKolumna1Rozbicie = new ArrayList<>();
     }
 
     public KwotaKolumna1(double kwota, String nazwakolumny) {
         this.netto = kwota;
         this.nettowaluta = 0.0;
         this.nazwakolumny = nazwakolumny;
+        this.listaKolumna1Rozbicie = new ArrayList<>();
     }
 
     @Override
@@ -151,6 +160,15 @@ public class KwotaKolumna1 implements Serializable{
         this.nettowaluta = nettowaluta;
     }
 
+    public List<Kolumna1Rozbicie> getListaKolumna1Rozbicie() {
+        return listaKolumna1Rozbicie;
+    }
+
+    public void setListaKolumna1Rozbicie(List<Kolumna1Rozbicie> listaKolumna1Rozbicie) {
+        this.listaKolumna1Rozbicie = listaKolumna1Rozbicie;
+    }
+
+  
     
     
     

@@ -48,10 +48,14 @@
                                 </h:form>
                             </p:panel>
                                 <ui:include src="sub/add_wiad.xhtml" />    <!--dodawanie nowego wiersza do księgi-->
+                                <ui:include src="sub/add_wiad_kolumna1rozbicie.xhtml" />
                                 <ui:include src="sub/wykazklientow_dialog.xhtml"/>
                                 <ui:include src="sub/dialog_kalkulator.xhtml"/>
                         </p:layoutUnit>
                     </p:layout>
+                    <h:form>
+                        <p:commandButton value="kolumna1rozbicie" accesskey="r" onclick="PF('add_wiad_kolumna1rozbicie').show();" style="display: none"/>
+                    </h:form>
                 </f:view>
             
         </ui:define>

@@ -1,0 +1,53 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialog_add_wiad_kolumna1rozbicie" header="Wprowadź kwoty cząstkowe" widgetVar="add_wiad_kolumna1rozbicie" appendTo="@(body)" modal="true"
+              resizable="false" width="630" height="100" 
+        >
+        <h:form id="formdialog_dialog_bilans_usun">
+     
+                    <p:dataTable value="#{DokumentView.kolumna1rozbicielista}" var="item">
+                         <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="data"/>
+                            </f:facet>
+                             <p:inputText value="#{item.data}"/>
+                        </p:column>
+                         <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="netto"/>
+                            </f:facet>
+                            <pe:inputNumber value="#{item.netto}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" />
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="netto"/>
+                            </f:facet>
+                            <pe:inputNumber value="#{item.netto}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" />
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="vat"/>
+                            </f:facet>
+                            <pe:inputNumber value="#{item.vat}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" />
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="tabelanbp"/>
+                            </f:facet>
+                            <pe:inputNumber value="#{item.tabelanbp}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" />
+                        </p:column>
+                    </p:dataTable>
+            <p:commandButton value="zachowaj" type="submit" 
+                                 style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('add_wiad_kolumna1rozbicie').hide();"
+                                 />
+            <p:commandButton value="anuluj" type="button" 
+                                 onclick="PF('add_wiad_kolumna1rozbicie').hide();" style="margin-right: auto; margin-left: 80px; margin-top: 20px; width: 120px;"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

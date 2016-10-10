@@ -38,6 +38,7 @@ import entity.Evewidencja;
 import entity.Inwestycje;
 import entity.Inwestycje.Sumazalata;
 import entity.Klienci;
+import entity.Kolumna1Rozbicie;
 import entity.KwotaKolumna1;
 import entity.Ostatnidokument;
 import entity.Podatnik;
@@ -184,6 +185,7 @@ public final class DokView implements Serializable {
     private WalutyDAOfk walutyDAOfk;
     private String symbolWalutyNettoVat;
     private Klienci biezacyklientdodok;
+    private List<Kolumna1Rozbicie> kolumna1rozbicielista;
 
     public DokView() {
         setWysDokument(null);
@@ -191,6 +193,8 @@ public final class DokView implements Serializable {
         ewidencjaAddwiad = new ArrayList<>();
         liczbawierszy = 1;
         this.wprowadzonesymbolewalut = new ArrayList<>();
+        this.kolumna1rozbicielista = new ArrayList<>();
+        this.kolumna1rozbicielista.add(new Kolumna1Rozbicie());
     }
 
     public void dodajwierszpkpir() {
@@ -1796,6 +1800,14 @@ public final class DokView implements Serializable {
 
     public void setNieVatowiec(boolean nieVatowiec) {
         this.nieVatowiec = nieVatowiec;
+    }
+
+    public List<Kolumna1Rozbicie> getKolumna1rozbicielista() {
+        return kolumna1rozbicielista;
+    }
+
+    public void setKolumna1rozbicielista(List<Kolumna1Rozbicie> kolumna1rozbicielista) {
+        this.kolumna1rozbicielista = kolumna1rozbicielista;
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
