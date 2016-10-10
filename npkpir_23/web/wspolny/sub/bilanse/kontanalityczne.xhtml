@@ -48,10 +48,10 @@
                 </p:column> 
             </p:panelGrid>
             
-            <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+            <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loopka" rowKey="#{loopka.konto.pelnynumer}"
                          rowStyleClass="saldaanalitycznewiersz"
                          filteredValue="#{saldoAnalitykaView.listaSaldoKontofilter}" selection="#{saldoAnalitykaView.listaSaldoKontowybrane}"
-                         sortBy="#{loop.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}"  
+                         sortBy="#{loopka.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}"  
                          styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldaanalityczne"
                          rowIndexVar="index"
                          >
@@ -64,71 +64,71 @@
                 <p:column width="20">
                     <p:rowToggler/>
                 </p:column>
-                <p:column headerText="#{mgs.lp}" width="20" sortBy="#{loop.id}" >
+                <p:column headerText="#{mgs.lp}" width="20" sortBy="#{loopka.id}" >
                     <h:outputText styleClass="lpwierszaanalityka" value="#{index+1}"/>
                 </p:column>
-                <p:column styleClass="konto" headerText="#{mgs.konto}" width="60" filterBy="#{loop.konto.pelnynumer}" >
-                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                <p:column styleClass="konto" headerText="#{mgs.konto}" width="60" filterBy="#{loopka.konto.pelnynumer}" >
+                    <h:outputText value="#{loopka.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{loop.konto.nazwapelna}">
-                    <h:outputText value="#{loop.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
-                    <h:outputText value="#{loop.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{loopka.konto.nazwapelna}">
+                    <h:outputText value="#{loopka.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{loopka.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                 </p:column>
                 <p:column headerText="#{mgs.boWn}" width="60" >
-                    <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
+                    <h:outputText value="#{loopka.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.boMa}" width="60" >
-                    <h:outputText value="#{loop.boMa != 0.0 ? loop.boMa : null}" style="float: right;">
+                    <h:outputText value="#{loopka.boMa != 0.0 ? loop.boMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyWn}" width="60"  style="background-color: #e6f2ff;">
-                    <h:outputText value="#{loop.obrotyWnMc != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                    <h:outputText value="#{loopka.obrotyWnMc != 0.0 ? loop.obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyMa}" width="60"  style="background-color: #e6f2ff;">
-                    <h:outputText value="#{loop.obrotyMaMc != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                    <h:outputText value="#{loopka.obrotyMaMc != 0.0 ? loop.obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyWnNar}" width="60" >
-                    <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                    <h:outputText value="#{loopka.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyMaNar}" width="60" >
-                    <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                    <h:outputText value="#{loopka.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyBOWn}" width="60" >
-                    <h:outputText value="#{loop.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
+                    <h:outputText value="#{loopka.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyBOMa}" width="60" >
-                    <h:outputText value="#{loop.obrotyBoMa != 0.0 ? loop.obrotyBoMa : null}" style="float: right;">
+                    <h:outputText value="#{loopka.obrotyBoMa != 0.0 ? loop.obrotyBoMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.saldoWn}" width="60" >
-                    <h:outputText value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 700;">
+                    <h:outputText value="#{loopka.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.saldoMa}" width="60" >
-                    <h:outputText value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 700;">
+                    <h:outputText value="#{loopka.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.konto}" width="150" >
-                    <h:outputText value="#{loop.konto.kontomacierzyste.nazwapelna}" />
+                    <h:outputText value="#{loopka.konto.kontomacierzyste.nazwapelna}" />
                 </p:column>
                 <p:rowExpansion>
-                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                    <p:dataTable value="#{loopka.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
                         <p:column headerText="#{mgs.dokument}" width="60" style="height: 35px !important">
                             <h:outputText value="#{loopik.dokfkS}" />
                         </p:column>
@@ -167,39 +167,39 @@
             <p:dataTable id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loop" styleClass="gridtablicaanalityczne"
                          style="float: right; margin-right: 170px; width: 900px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
                 <p:column headerText="#{mgs.boWn}" width="45" >
-                    <bcf:outputpl value="#{loop.boWn}"/>
+                    <bcf:outputpl value="#{loopka.boWn}"/>
                 </p:column>
                 <p:column headerText="#{mgs.boMa}" width="45" >
-                    <bcf:outputpl value="#{loop.boMa}"/>
+                    <bcf:outputpl value="#{loopka.boMa}"/>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyWn}" width="45"  style="background-color: #e6f2ff;">
-                    <h:outputText value="#{loop.obrotyWnMc != 0.0 ? loop.obrotyWnMc : null}" style="float: right;">
+                    <h:outputText value="#{loopka.obrotyWnMc != 0.0 ? loop.obrotyWnMc : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyMa}" width="45"  style="background-color: #e6f2ff;">
-                    <h:outputText value="#{loop.obrotyMaMc != 0.0 ? loop.obrotyMaMc : null}" style="float: right;">
+                    <h:outputText value="#{loopka.obrotyMaMc != 0.0 ? loop.obrotyMaMc : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyWnNar}" width="50" >
-                    <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                    <h:outputText value="#{loopka.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyMaNar}" width="50" >
-                    <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                    <h:outputText value="#{loopka.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyBOMa}" width="45" >
-                    <bcf:outputpl value="#{loop.obrotyBoMa}"/>
+                    <bcf:outputpl value="#{loopka.obrotyBoMa}"/>
                 </p:column>
                 <p:column headerText="#{mgs.saldoWn}" width="45" >
-                    <bcf:outputpl value="#{loop.saldoWn}"/>
+                    <bcf:outputpl value="#{loopka.saldoWn}"/>
                 </p:column>
                 <p:column headerText="#{mgs.saldoMa}" width="45" >
-                    <bcf:outputpl value="#{loop.saldoMa}"/>
+                    <bcf:outputpl value="#{loopka.saldoMa}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
