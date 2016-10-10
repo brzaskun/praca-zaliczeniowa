@@ -47,6 +47,8 @@
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');" 
                                  onblur="$(this).removeClass('ui-state-focus');" >
+                        <f:selectItem itemLabel="wybierz" itemValue="wybierz" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Zagranica" itemValue="Zagranica"/>
                         <f:selectItems value="#{wojewodztwa.wykazS}" />
                     </h:selectOneMenu>
                     <h:outputLabel value="powiat"/>
@@ -56,7 +58,7 @@
                     <h:outputLabel value="miejscowość"/>
                     <p:inputText id="miejscowosc" value="#{podatnikView.selected.miejscowosc}" required="true" requiredMessage="Miejscowość - jest wymagany, uzupełnij!"/>
                     <h:outputLabel value="kod pocztowy"/>
-                    <p:inputMask id="kod" value="#{podatnikView.selected.kodpocztowy}" mask="99-999" required="true" requiredMessage="Kod pocztowy - jest wymagany, uzupełnij!"/>
+                    <p:inputText id="kod" value="#{podatnikView.selected.kodpocztowy}" required="true" requiredMessage="Kod pocztowy - jest wymagany, uzupełnij!"/>
                     <h:outputLabel value="poczta"/>
                     <p:inputText id="poczta" value="#{podatnikView.selected.poczta}" required="true" requiredMessage="Poczta - jest wymagana, uzupełnij!"/>
                     <h:outputLabel value="ulica"/>
