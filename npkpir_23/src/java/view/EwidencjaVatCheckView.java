@@ -69,8 +69,6 @@ public class EwidencjaVatCheckView implements Serializable {
            EVatViewPola wiersz = it.next();
            if (wiersz.getNazwaewidencji() == null) {
                it.remove();
-           } else if (wiersz.getNazwaewidencji() == null) {
-               it.remove();
            } else if (wiersz.getNazwaewidencji().isTylkoNetto()) {
                it.remove();
            }
@@ -80,11 +78,13 @@ public class EwidencjaVatCheckView implements Serializable {
 
     private boolean czyjestnakoncie(EVatViewPola p, List<StronaWiersza> zapisy) {
         boolean jest = false;
-        for (StronaWiersza r : zapisy) {
+        for (Iterator it = zapisy.iterator(); it.hasNext(); ) {
+            StronaWiersza r = (StronaWiersza) it.next();
             if (Z.zAbs(p.getVat()) == Z.z(r.getKwotaPLN())) {
                 if (p.getKontr().equals(r.getDokfk().getKontr())) {
                     if (p.getNrWlDk().equals(r.getDokfk().getNumerwlasnydokfk())) {
                         jest = true;
+                        it.remove();
                         break;
                     }
                 }
