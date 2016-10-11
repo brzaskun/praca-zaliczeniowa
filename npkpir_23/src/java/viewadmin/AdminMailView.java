@@ -13,7 +13,9 @@ import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -38,11 +40,11 @@ public class AdminMailView implements Serializable {
     private FakturywystokresoweDAO fakturywystokresoweDAO;
     @Inject
     private AdminmailDAO adminmailDAO;
-    private List<Klienci> klientList;
+    private Set<Klienci> klientList;
     private List<Adminmail> wyslanemaile;
 
     public AdminMailView() {
-        klientList = new ArrayList<>();
+        klientList = new HashSet<>();
         wyslanemaile = new ArrayList<>();
     }
 
@@ -136,13 +138,14 @@ public class AdminMailView implements Serializable {
         this.zawartoscmaila = zawartoscmaila;
     }
 
-    public List<Klienci> getKlientList() {
+    public Set<Klienci> getKlientList() {
         return klientList;
     }
 
-    public void setKlientList(List<Klienci> klientList) {
+    public void setKlientList(Set<Klienci> klientList) {
         this.klientList = klientList;
     }
+
 
     public List<Adminmail> getWyslanemaile() {
         return wyslanemaile;

@@ -217,6 +217,7 @@ public class DokfkView implements Serializable {
     private boolean totylkoedycjazapis;
     private int idwierszedycjaodswiezenie;
     private Evewidencja ewidencjadlaRKDEL;
+    private String mczaksiegowane;
 
     public DokfkView() {
          E.m(this);
@@ -241,6 +242,7 @@ public class DokfkView implements Serializable {
             //resetujDokument(); //to jest chyba niepotrzebne bo ta funkcja jest wywolywana jak otwieram okienko wpisu i potem po kazdym zachowaniu
             //obsluzcechydokumentu();
             stworzlisteewidencjiRK();
+            mczaksiegowane = wpisView.getMiesiacWpisu();
             //RequestContext.getCurrentInstance().update("ewidencjavatRK");
             dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
@@ -1254,6 +1256,8 @@ public class DokfkView implements Serializable {
                 selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
                 liczbawierszyWDokumencie = 1;
             }
+            dokDAOfk.edit(selected);
+            Msg.msg("Usunieto wiersz");
         }
     }
 
@@ -1431,15 +1435,17 @@ public class DokfkView implements Serializable {
             wybranakategoriadok = "wszystkie";
         }
         if (wybranakategoriadok.equals("wszystkie")) {
-            if (wpisView.getMiesiacWpisu().equals("CR")) {
+            if (mczaksiegowane.equals("CR")) {
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
             } else {
+                wpisView.setMiesiacWpisu(mczaksiegowane);
                 wpisView.wpisAktualizuj();
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
             }
-        } else if (wpisView.getMiesiacWpisu().equals("CR")) {
+        } else if (mczaksiegowane.equals("CR")) {
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
         } else {
+            wpisView.setMiesiacWpisu(mczaksiegowane);
             wpisView.wpisAktualizuj();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
         }
@@ -2628,6 +2634,14 @@ public class DokfkView implements Serializable {
 
     public void setWybranakategoriadok(String wybranakategoriadok) {
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public String getMczaksiegowane() {
+        return mczaksiegowane;
+    }
+
+    public void setMczaksiegowane(String mczaksiegowane) {
+        this.mczaksiegowane = mczaksiegowane;
     }
     
     public KontoZapisFKView getKontoZapisFKView() {

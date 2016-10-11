@@ -83,6 +83,10 @@ public class KontaVatFKView implements Serializable {
     
     @PostConstruct
     private void init() {
+       if (wpisView.getMiesiacWpisu().equals("CR")) {
+           wpisView.setMiesiacWpisu(Data.aktualnyMc());
+           wpisView.wpisAktualizuj();
+       }
        List<Konto> kontaklienta = kontoDAOfk.findKontaVAT(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
        kontavat = przygotowanalistasald(kontaklienta);
     }

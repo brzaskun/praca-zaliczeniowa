@@ -128,6 +128,10 @@ public class EwidencjaVatView implements Serializable {
     
     private void init() {
         try {
+            if (wpisView.getMiesiacWpisu().equals("CR")) {
+                wpisView.setMiesiacWpisu(Data.aktualnyMc());
+                wpisView.wpisAktualizuj();
+            }
             Ewidencjevat pobrane = ewidencjeVatDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
             listaewidencji = pobrane.getEwidencje();
             sumaewidencji = pobrane.getSumaewidencji();
