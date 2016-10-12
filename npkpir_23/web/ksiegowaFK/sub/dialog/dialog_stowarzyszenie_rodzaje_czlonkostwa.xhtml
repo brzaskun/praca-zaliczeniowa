@@ -1,0 +1,71 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <style>
+        .opismiejsca input  {
+            width: 250px !important;
+        }
+    </style>
+    <p:dialog id="dialog_stowarzyszenie_rodzaje_czlonkostwa" header="Definiowanie miejsca powstawania przychodu" widgetVar="dialog_stowarzyszenie_rodzaje_czlonkostwa" 
+              resizable="false"  onShow="ustawdialog('dialog_stowarzyszenie_rodzaje_czlonkostwa','menukartoteki',1180,650);" 
+              closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_rodzaje_czlonkostwa');" 
+              dynamic="true">
+       
+        <h:form id="form_rodzaje_czlonkostwa">
+            <p:panelGrid columns="2" >
+                <h:outputText value="nazwa członkostwa"/>
+                <p:inputText value="#{rodzajeCzlonkostwaView.rodzajCzlonkostwa.nazwa}" style="width: 180px;"/>
+                <h:outputText value="skrót nazwy członkostwa"/>
+                <p:inputText value="#{rodzajeCzlonkostwaView.rodzajCzlonkostwa.skrotnazwy}" maxlength="6" style="width: 80px;"/>
+                <h:outputText value="opis"/>
+                <p:inputText value="#{rodzajeCzlonkostwaView.rodzajCzlonkostwa.opis}" style="width: 380px;"/>
+            </p:panelGrid>
+            <p:commandButton value="dodaj" actionListener="#{miejscePrzychodowView.dodaj()}" style="margin: 2%; width: 120px;" 
+                             update="form_rodzaje_czlonkostwa, form_rodzaje_czlonkostwa_lista" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == false}"/>
+            <p:commandButton value="edytuj" actionListener="#{miejscePrzychodowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
+                             update="form_rodzaje_czlonkostwa, form_rodzaje_czlonkostwa_lista" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
+        </h:form>
+        <h:form id="form_rodzaje_czlonkostwa_lista">
+            <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item" style="width: 1130px;"
+                         scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc przychodów"
+                         sortBy="#{item}"  sortFunction="#{miejscePrzychodowView.sortMiejscePrzychodow}">
+                <p:column headerText="#{mgs.nr}" style="width: 40px;">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="pełny opis miejsca" style="width: 300px;" sortBy="#{item.opismiejsca}" filterBy="#{item.opismiejsca}"
+                          filterMatchMode="contains"  styleClass="opismiejsca">
+                    <h:outputText value="#{item.opismiejsca}" />
+                </p:column>
+                <p:column headerText="opis skrócony" style="width: 200px;" sortBy="#{item.opisskrocony}" filterBy="#{item.opisskrocony}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{item.opisskrocony}"/>
+                </p:column>
+                <p:column headerText="nr konta" style="text-align: center; width: 40px;">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="aktywne od" style="text-align: center;">
+                    <p:inputMask value="#{item.poczatek}" mask="9999-99-99" maxlength="10" size="10" slotChar="____-__-__">
+                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.poczatek, 0)}"/>
+                    </p:inputMask>
+                </p:column>
+                <p:column headerText="aktywne do" style="text-align: center;">
+                    <p:inputMask value="#{item.koniec}" mask="9999-99-99" maxlength="10" size="10" slotChar="____-__-__">
+                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.koniec, 0)}"/>
+                    </p:inputMask>
+                </p:column>
+                <p:column headerText="edytuj" style="text-align: center; width: 60px;">
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejscePrzychodowView.edytuj(item)}" update="form_rodzaje_czlonkostwa, form_rodzaje_czlonkostwa_lista" 
+                                     rendered="#{WpisView.rokWpisu eq item.rok}" style="width: 40px;"/>
+                    <h:outputText value="#{item.rok}" rendered="#{WpisView.rokWpisu ne item.rok}"/>
+                </p:column>
+                <p:column headerText="usuń"  style="text-align: center; width: 60px;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejscePrzychodowView.usun(item)}" update="form_rodzaje_czlonkostwa, form_rodzaje_czlonkostwa_lista"  rendered="#{WpisView.rokWpisu eq item.rok and item.aktywny eq false}" style="width: 40px;"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>
