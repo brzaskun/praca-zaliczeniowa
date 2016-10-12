@@ -73,7 +73,10 @@ public class MiejscePrzychodow implements Serializable {
     private String nrkonta;
     @Column(name = "rok")
     private int rok;
-
+    @Column(name = "poczatek")
+    private String poczatek;
+    @Column(name = "koniec")
+    private String koniec;
 
     public MiejscePrzychodow() {
     }
@@ -148,6 +151,22 @@ public class MiejscePrzychodow implements Serializable {
 
     public void setRok(int rok) {
         this.rok = rok;
+    }
+
+    public String getPoczatek() {
+        return poczatek;
+    }
+
+    public void setPoczatek(String poczatek) {
+        this.poczatek = poczatek;
+    }
+
+    public String getKoniec() {
+        return koniec;
+    }
+
+    public void setKoniec(String koniec) {
+        this.koniec = koniec;
     }
     
     

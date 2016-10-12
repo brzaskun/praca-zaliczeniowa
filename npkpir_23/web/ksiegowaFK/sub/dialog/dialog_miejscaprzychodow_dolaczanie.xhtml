@@ -11,7 +11,7 @@
         }
     </style>
     <p:dialog id="dialog_miejscaprzychodow_dolaczanie" header="Definiowanie miejsca powstawania przychodu" widgetVar="dialog_miejscaprzychodow_dolaczanie" 
-              resizable="false"  onShow="ustawdialog('dialog_miejscaprzychodow_dolaczanie','menukartoteki',900,600);" 
+              resizable="false"  onShow="ustawdialog('dialog_miejscaprzychodow_dolaczanie','menukartoteki',1180,600);" 
               closeOnEscape="true" onHide="resetujdialog('dialog_miejscaprzychodow_dolaczanie');" 
               dynamic="true">
        
@@ -28,20 +28,28 @@
                              update=":miejscaprzychodow, :miejscaprzychodowlista" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="miejscaprzychodowlista">
-            <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item"  resizableColumns="true" style="width: 850px;"
+            <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item" style="width: 1130px;"
                          scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc przychodów"
                          sortBy="#{item}"  sortFunction="#{miejscePrzychodowView.sortMiejscePrzychodow}">
                 <p:column headerText="#{mgs.nr}" style="width: 40px;">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
-                <p:column headerText="pełny opis miejsca" style="width: 300px;">
+                <p:column headerText="pełny opis miejsca" style="width: 300px;" sortBy="#{item.opismiejsca}" filterBy="#{item.opismiejsca}"
+                          filterMatchMode="contains">
                     <h:outputText value="#{item.opismiejsca}"/>
                 </p:column>
-                <p:column headerText="opis skrócony" style="width: 200px;">
+                <p:column headerText="opis skrócony" style="width: 200px;" sortBy="#{item.opisskrocony}" filterBy="#{item.opisskrocony}"
+                          filterMatchMode="contains">
                     <h:outputText value="#{item.opisskrocony}"/>
                 </p:column>
-                <p:column headerText="nr konta">
+                <p:column headerText="nr konta" style="text-align: center; width: 40px;">
                     <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="aktywne od" style="text-align: center;">
+                    <p:inputMask value="#{item.poczatek}" mask="____-__-__" maxlength="10" size="10"/>
+                </p:column>
+                <p:column headerText="aktywne do" style="text-align: center;">
+                    <p:inputMask value="#{item.koniec}" mask="____-__-__" maxlength="10" size="10" slotChar="____-__-__"/>
                 </p:column>
                 <p:column headerText="edytuj" style="text-align: center; width: 60px;">
                     <p:commandButton icon="ui-icon-comment" actionListener="#{miejscePrzychodowView.edytuj(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista" 
