@@ -24,9 +24,6 @@ import session.SessionFacade;
 
 public class MiejscePrzychodowDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
-    
-    @Inject
-    private SessionFacade sessionFacade;
 
     public MiejscePrzychodowDAO() {
         super(MiejscePrzychodow.class);
@@ -47,6 +44,10 @@ public class MiejscePrzychodowDAO extends DAO implements Serializable{
     
     public List<MiejscePrzychodow> findMiejscaPodatnik(Podatnik podatnikObiekt) {
         return sessionFacade.findMiejscaPrzychodowPodatnik(podatnikObiekt);
+    }
+    
+    public List<MiejscePrzychodow> findCzlonkowieStowarzyszenia(Podatnik podatnikObiekt) {
+        return sessionFacade.getEntityManager().createNamedQuery("MiejscePrzychodow.findCzlonekStowarzyszenia").setParameter("podatnik", podatnikObiekt).getResultList();
     }
 
     public int countMiejscaPrzychodow(Podatnik podatnikObiekt) {

@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MiejscePrzychodow.findAll", query = "SELECT m FROM MiejscePrzychodow m"),
     @NamedQuery(name = "MiejscePrzychodow.findById", query = "SELECT m FROM MiejscePrzychodow m WHERE m.id = :id"),
     @NamedQuery(name = "MiejscePrzychodow.findByAktywny", query = "SELECT m FROM MiejscePrzychodow m WHERE m.aktywny = :aktywny"),
+    @NamedQuery(name = "MiejscePrzychodow.findCzlonekStowarzyszenia", query = "SELECT m FROM MiejscePrzychodow m WHERE  m.podatnikObj = :podatnik AND m.poczatek IS NOT NULL ORDER BY m.opismiejsca"),
     @NamedQuery(name = "MiejscePrzychodow.findByOpismiejsca", query = "SELECT m FROM MiejscePrzychodow m WHERE m.opismiejsca = :opismiejsca"),
     @NamedQuery(name = "MiejscePrzychodow.findByPodatnik", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik ORDER BY m.opismiejsca"),
     @NamedQuery(name = "MiejscePrzychodow.findByPodatnikRok", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik AND m.rok = :rok ORDER BY m.opismiejsca"),
@@ -77,6 +78,8 @@ public class MiejscePrzychodow implements Serializable {
     private String poczatek;
     @Column(name = "koniec")
     private String koniec;
+    @Column(name = "email")
+    private String email;
 
     public MiejscePrzychodow() {
     }
@@ -167,6 +170,14 @@ public class MiejscePrzychodow implements Serializable {
 
     public void setKoniec(String koniec) {
         this.koniec = koniec;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
     

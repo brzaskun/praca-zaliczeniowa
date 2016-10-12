@@ -45,6 +45,7 @@ public class MiejscePrzychodowView  implements Serializable{
     @Inject
     private MiejscePrzychodow selected;
     private List<MiejscePrzychodow> miejscaprzychodow;
+    private List<MiejscePrzychodow> czlonkowiestowarzyszenia;
     @Inject
     private MiejscePrzychodowDAO miejscePrzychodowDAO;
     @ManagedProperty(value = "#{WpisView}")
@@ -70,6 +71,7 @@ public class MiejscePrzychodowView  implements Serializable{
     public void init() {
         try {
             miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+            czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         } catch (Exception e) {  
             E.e(e);
         }
@@ -138,6 +140,22 @@ public class MiejscePrzychodowView  implements Serializable{
         Msg.msg("Naniesiono zmiany");
     }
     
+    public void edytujpozycje(MiejscePrzychodow miejscePrzychodow, String dane, int dataemail) {
+        boolean czyok = false;
+        if (dataemail == 0) {
+            czyok = sprawdzdata(dane);
+        } else if (dataemail == 1) {
+            czyok = sprawdzemail(dane);
+        }
+        if (czyok) {
+            miejscePrzychodowDAO.edit(miejscePrzychodow);
+            Msg.msg("Naniesiono zmiany początku/końca");
+        } else {
+            Msg.msg("Nieprawidłowy format danych. Nie dokonano zmian");
+        }
+    }
+    
+    
     public void zapisykontmiesiace() {
          if (!wpisView.getMiesiacWpisu().equals("CR")) {
             wpisView.wpisAktualizuj();
@@ -168,6 +186,17 @@ public class MiejscePrzychodowView  implements Serializable{
     public void message() {
         Msg.msg("Wybrano wiersz");
     }
+    
+    private boolean sprawdzdata(String dane) {
+        String regex = "^\\d{4}[-/\\s]?((((0[13578])|(1[02]))[-/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[-/\\s]?(([0-2][0-9])|(30)))|(02[-/\\s]?[0-2][0-9]))$";
+        return dane.matches(regex);
+    }
+
+    private boolean sprawdzemail(String dane) {
+        String regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+        return dane.matches(regex);
+    }
+
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public MiejscePrzychodow getSelected() {
@@ -209,6 +238,14 @@ public class MiejscePrzychodowView  implements Serializable{
     public void setListasummiejscprzychodow(LinkedHashSet<TabelaMiejscePrzychodow> listasummiejscprzychodow) {
         this.listasummiejscprzychodow = listasummiejscprzychodow;
     }
+
+    public List<MiejscePrzychodow> getCzlonkowiestowarzyszenia() {
+        return czlonkowiestowarzyszenia;
+    }
+
+    public void setCzlonkowiestowarzyszenia(List<MiejscePrzychodow> czlonkowiestowarzyszenia) {
+        this.czlonkowiestowarzyszenia = czlonkowiestowarzyszenia;
+    }
     
     public List<TabelaMiejscePrzychodow> getListawybranychprzychodow() {
         return listawybranychprzychodow;
@@ -219,6 +256,7 @@ public class MiejscePrzychodowView  implements Serializable{
     }
 //</editor-fold>
 
+    
    
     
 
@@ -273,5 +311,11 @@ public class MiejscePrzychodowView  implements Serializable{
         
     }
 
+    public static void main(String[] args) {
+         String data = "brzaskun@o2.pl";
+         String regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+         System.out.println(data.matches(regex));
+         System.out.println("Regex "+regex);
+    }
     
 }
