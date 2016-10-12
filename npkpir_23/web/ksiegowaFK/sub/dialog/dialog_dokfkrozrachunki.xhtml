@@ -178,7 +178,7 @@
                         </p:column>
                         <p:column headerText="nr własny dokumentu"  filterBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"
                                   sortBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" style="width: 80px;">
-                            <h:outputText id="nrwlasnydokWn" value="#{iteracja.opisWiersza}" />
+                            <h:outputText id="nrwlasnydokWn" value="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" />
                         </p:column>
                         <p:column headerText="zostało do rozlicz." filterBy="#{iteracja.nowaTransakcja.pozostalo}"
                                   sortBy="#{iteracja.nowaTransakcja.pozostalo}" styleClass="kolumnaznumerem" style="text-align: right; width: 50px;">
