@@ -7,12 +7,14 @@ package viewfk;
 
 import daoFK.RodzajCzlonkostwaDAO;
 import entityfk.RodzajCzlonkostwa;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -26,10 +28,51 @@ public class RodzajeCzlonkostwaView implements Serializable {
     private List<RodzajCzlonkostwa> rodzajCzlonkostwaLista;
     @Inject
     private RodzajCzlonkostwaDAO rodzajCzlonkostwaDAO;
+    boolean zapisz0edytuj1;
     
     @PostConstruct
     private void init() {
         rodzajCzlonkostwaLista = rodzajCzlonkostwaDAO.findAll();
+    }
+    
+    public void dodaj() {
+        try {
+            rodzajCzlonkostwaDAO.dodaj(rodzajCzlonkostwa);
+            rodzajCzlonkostwaLista.add(rodzajCzlonkostwa);
+            rodzajCzlonkostwa = new RodzajCzlonkostwa();
+            Msg.msg("Nanieniono nowy rodzaj członkostwa");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił bład. Sprawdź czy nazwa rodzaju członkostwa/skrót nazwy sie nie powtarza");
+        }
+    }
+    public void edytuj() {
+        try {
+            rodzajCzlonkostwaDAO.edit(rodzajCzlonkostwa);
+            rodzajCzlonkostwa = new RodzajCzlonkostwa();
+            zapisz0edytuj1= false;
+            Msg.msg("Zmieniono pozycję");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił bład. Sprawdź czy nazwa rodzaju członkostwa/skrót nazwy sie nie powtarza");
+        }
+    }
+    
+    public void edytuj(RodzajCzlonkostwa p) {        
+        rodzajCzlonkostwa = p;
+        zapisz0edytuj1 = true;
+        Msg.msg("Wybrano pozycję");
+    }
+    
+    public void usun(RodzajCzlonkostwa p) {
+        try {
+            rodzajCzlonkostwaDAO.destroy(p);
+            rodzajCzlonkostwaLista.remove(p);
+            Msg.msg("Usunięto pozycję");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił bład podczas usuwania pozycji");
+        }
     }
 //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -39,6 +82,14 @@ public class RodzajeCzlonkostwaView implements Serializable {
     
     public void setRodzajCzlonkostwa(RodzajCzlonkostwa rodzajCzlonkostwa) {
         this.rodzajCzlonkostwa = rodzajCzlonkostwa;
+    }
+
+    public boolean isZapisz0edytuj1() {
+        return zapisz0edytuj1;
+    }
+
+    public void setZapisz0edytuj1(boolean zapisz0edytuj1) {
+        this.zapisz0edytuj1 = zapisz0edytuj1;
     }
     
     public List<RodzajCzlonkostwa> getRodzajCzlonkostwaLista() {

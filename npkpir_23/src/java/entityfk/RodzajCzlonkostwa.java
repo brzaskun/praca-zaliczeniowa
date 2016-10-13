@@ -21,9 +21,6 @@ import javax.persistence.UniqueConstraint;
  * @author Osito
  */
 @Entity
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"nazwa", "skrotnazwy"})
-})
 public class RodzajCzlonkostwa  implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,12 +28,12 @@ public class RodzajCzlonkostwa  implements Serializable{
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @Column(name = "nazwa")
-    private Integer nazwa;
-    @Column(name = "skrotnazwy")
-    private Integer skrotnazwy;
+    @Column(name = "nazwa", unique = true)
+    private String nazwa;
+    @Column(name = "skrotnazwy", unique = true)
+    private String skrotnazwy;
     @Column(name = "opis")
-    private Integer opis;
+    private String opis;
 
     @Override
     public int hashCode() {
@@ -80,29 +77,30 @@ public class RodzajCzlonkostwa  implements Serializable{
         this.id = id;
     }
 
-    public Integer getNazwa() {
+    public String getNazwa() {
         return nazwa;
     }
 
-    public void setNazwa(Integer nazwa) {
+    public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
 
-    public Integer getSkrotnazwy() {
+    public String getSkrotnazwy() {
         return skrotnazwy;
     }
 
-    public void setSkrotnazwy(Integer skrotnazwy) {
+    public void setSkrotnazwy(String skrotnazwy) {
         this.skrotnazwy = skrotnazwy;
     }
 
-    public Integer getOpis() {
+    public String getOpis() {
         return opis;
     }
 
-    public void setOpis(Integer opis) {
+    public void setOpis(String opis) {
         this.opis = opis;
     }
-    
+
+   
     
 }

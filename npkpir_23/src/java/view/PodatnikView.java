@@ -150,6 +150,7 @@ public class PodatnikView implements Serializable {
         biezacadata = String.valueOf(new DateTime().getYear());
         formyprawne.add(FormaPrawna.SPOLKA_Z_O_O);
         formyprawne.add(FormaPrawna.SPOLKA_KOMANDYTOWA);
+        formyprawne.add(FormaPrawna.STOWARZYSZENIE);
     }
 
     public void dodaj() {

@@ -67,6 +67,7 @@ public class WpisView implements Serializable {
     @Inject
     private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
     private boolean czegosbrakuje;
+    private String formaprawna;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -228,6 +229,7 @@ public class WpisView implements Serializable {
             miesiacDo = "01";
         }
         obsluzPiatki();
+        pobierzformaprawna();
         try {
             pobierzOpodatkowanie();
         } catch (Exception e1) {
@@ -318,6 +320,14 @@ public class WpisView implements Serializable {
 
     public void setRokNastepny(Integer rokNastepny) {
         this.rokNastepny = rokNastepny;
+    }
+
+    public String getFormaprawna() {
+        return formaprawna;
+    }
+
+    public void setFormaprawna(String formaprawna) {
+        this.formaprawna = formaprawna;
     }
 
     public String getMiesiacWpisuArchiwum() {
@@ -500,6 +510,10 @@ public class WpisView implements Serializable {
 
     
 //</editor-fold>
+
+    private void pobierzformaprawna() {
+        formaprawna = podatnikObiekt.getFormaPrawna().toString();
+    }
 
   
 

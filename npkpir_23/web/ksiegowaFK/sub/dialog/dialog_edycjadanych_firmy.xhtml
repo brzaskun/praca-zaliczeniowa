@@ -9,21 +9,21 @@
               resizable="false"  onShow="ustawdialog('dialogedycjadanychfirmy','menufirma',1250,800);" closeOnEscape="true" onHide="resetujdialog('dialogedycjadanychfirmy');" 
               fitViewport="true">
         <p:tabView id="akordeon" style="width: 1200px;">
-       <ui:include src="/ksiegowa/sub/podatnikust/edycjadanychpodatnika.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/aktywnedokumentyksiegowe.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/udzialywfirmie.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/wyboropodatkowania.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/wyborvat.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/wyborvatUE.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/zusrokpodatkowy.xhtml" />
-       <ui:include src="/ksiegowa/sub/podatnikust/inwentaryzacja.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/kwotaautoryzujaca.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/pole47.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/numeracja.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/danedofaktury.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/wysylkazusmail.xhtml"/>
-       <ui:include src="/ksiegowa/sub/podatnikust/zawieszeniedzialalnosci.xhtml"/>
-       <ui:include src="/ksiegowaFK/sub/podatnikust/ustawieniafk_piatki.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/edycjadanychpodatnika.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/aktywnedokumentyksiegowe.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/udzialywfirmie.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/wyboropodatkowania.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/wyborvat.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/wyborvatUE.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/zusrokpodatkowy.xhtml" />
+       <ui:include src="../../../ksiegowa/sub/podatnikust/inwentaryzacja.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/kwotaautoryzujaca.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/pole47.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/numeracja.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/danedofaktury.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/wysylkazusmail.xhtml"/>
+       <ui:include src="../../../ksiegowa/sub/podatnikust/zawieszeniedzialalnosci.xhtml"/>
+       <ui:include src="../../../ksiegowaFK/sub/podatnikust/ustawieniafk_piatki.xhtml"/>
     </p:tabView>
        <p:panelGrid columns="1" style="padding: 10px;" rendered="#{podatnikView.selected.datawprowadzenia ne null}">
         <h:outputText value="ostatnia zmiana - #{podatnikView.selected.wprowadzil.toStringLIN()}"/>

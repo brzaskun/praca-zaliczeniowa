@@ -15,6 +15,7 @@ import javax.inject.Named;
 public enum FormaPrawna {
 
     SPOLKA_Z_O_O,
-    SPOLKA_KOMANDYTOWA;
+    SPOLKA_KOMANDYTOWA,
+    STOWARZYSZENIE;
     
 }
