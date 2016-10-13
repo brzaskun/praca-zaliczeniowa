@@ -58,7 +58,8 @@
                 </p:row>
             </p:panelGrid>
             <p:dataTable id="tabelacechyzapisow" var="wpis" value="#{cechyzapisuPrzegladView.zapisyZCecha}" editable="true" rowKey="#{wpis.id}"
-                         selection="#{cechyzapisuPrzegladView.wybraneZapisyZCecha}" scrollable="true" scrollRows="20" scrollHeight="500"
+                         selection="#{cechyzapisuPrzegladView.wybraneZapisyZCecha}"  scrollable="true" scrollRows="20" scrollHeight="480"
+                         filteredValue="#{cechyzapisuPrzegladView.zapisyZCechafilter}" rowSelectMode="add"
                          emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" styleClass="gridtablicasyntetyczne"
                           style="width: 1100px;"  widgetVar="tabelacechyzapisow" rowIndexVar="index">
                 <f:facet name="header">  
@@ -66,10 +67,12 @@
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('tabelacechyzapisow').filter();" style="width:150px" />  
                 </f:facet>
+                <p:ajax event="rowSelect" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
                 <p:ajax event="rowSelectCheckbox" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
                 <p:ajax event="filter" global="false"/>
+                <p:ajax event="sort" global="false"/>
                 <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                 <p:column headerText="#{mgs.numerkolejny}" width="30"  >
                     <h:outputText value="#{index+1}" />
@@ -83,25 +86,31 @@
                     </f:facet>
                     <h:outputText value="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}"/>
                 </p:column>
-                <p:column headerText="rodzaj cechy" width="40">
+                <p:column headerText="rodzaj cechy" width="40"  styleClass="filter20"
+                          sortBy="#{wpis.cechazapisu.cechazapisuPK.rodzajcechy}" filterBy="#{wpis.cechazapisu.cechazapisuPK.rodzajcechy}" filterMatchMode="contains">
                     <h:outputText value="#{wpis.cechazapisu.cechazapisuPK.rodzajcechy}"/>
                 </p:column>
-                <p:column headerText="#{mgs.dokument}" width="80">
+                <p:column headerText="#{mgs.dokument}" width="80"  styleClass="filter60"
+                          sortBy="#{wpis.stronaWiersza.dokfkS}" filterBy="#{wpis.stronaWiersza.dokfkS}" filterMatchMode="contains">
                     <h:outputText value="#{wpis.stronaWiersza.dokfkS}"/>
                 </p:column>
-                <p:column headerText="#{mgs.datadok}" width="80">
+                <p:column headerText="#{mgs.datadok}" width="80"  styleClass="filter60" sortBy="#{wpis.stronaWiersza.dokfk.datawystawienia}" filterBy="#{wpis.stronaWiersza.dokfk.datawystawienia}">
                     <h:outputText value="#{wpis.stronaWiersza.dokfk.datawystawienia}"/>
                 </p:column>
-                <p:column headerText="data trans." width="80">
-                    <h:outputText value="#{wpis.stronaWiersza.dokfk.dataoperacji}"/>
+                <p:column headerText="data księgowania" width="80" sortBy="#{wpis.stronaWiersza.dokfk.dataujecia}">
+                    <h:outputText value="#{wpis.stronaWiersza.dokfk.dataujecia}" >
+                        <f:convertDateTime dateStyle="medium"/>
+                    </h:outputText>
                 </p:column>
-                <p:column headerText="wiersz" width="300">
+                <p:column headerText="wiersz" width="300" styleClass="filter160"  sortBy="#{wpis.stronaWiersza.wiersz.opisWiersza}" filterBy="#{wpis.stronaWiersza.wiersz.opisWiersza}" filterMatchMode="contains">
                     <h:outputText value="#{wpis.stronaWiersza.wiersz.opisWiersza}"/>
                 </p:column>
-                <p:column headerText="#{mgs.konto}" width="70">
-                    <h:outputText value="#{wpis.stronaWiersza.konto.pelnynumer}"/>
+                <p:column headerText="#{mgs.konto}" width="70" styleClass="filter60"  sortBy="#{wpis.stronaWiersza.konto.pelnynumer}" filterBy="#{wpis.stronaWiersza.konto.pelnynumer}" filterMatchMode="contains"
+                           >
+                    <h:outputText id="nrkonta" value="#{wpis.stronaWiersza.konto.pelnynumer}"/>
+                    <p:tooltip for="nrkonta" value="#{wpis.stronaWiersza.konto.nazwapelna}" />
                 </p:column>
-                <p:column headerText="#{mgs.kwota}" width="90">
+                <p:column headerText="#{mgs.kwota}" width="90" styleClass="filter60" sortBy="#{wpis.stronaWiersza.kwotaPLN}" filterBy="#{wpis.stronaWiersza.kwotaPLN}" filterMatchMode="contains">
                     <bcf:outputpl value="#{wpis.stronaWiersza.kwotaPLN}"/>
                 </p:column>
             </p:dataTable>

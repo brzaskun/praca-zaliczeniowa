@@ -35,6 +35,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<Dokfk> wykazZaksiegowanychDokumentow;
     private List<CechaStronaWiersza> zapisyZCecha;
+    private List<CechaStronaWiersza> zapisyZCechafilter;
     private List<CechaStronaWiersza> wybraneZapisyZCecha;
     private Set<String> wykazcech;
     private double razem;
@@ -150,6 +151,15 @@ public class CechyzapisuPrzegladView implements Serializable{
     public void setRazem(double razem) {
         this.razem = razem;
     }
+
+    public List<CechaStronaWiersza> getZapisyZCechafilter() {
+        return zapisyZCechafilter;
+    }
+
+    public void setZapisyZCechafilter(List<CechaStronaWiersza> zapisyZCechafilter) {
+        this.zapisyZCechafilter = zapisyZCechafilter;
+    }
+    
     
     
 //</editor-fold>
