@@ -512,7 +512,9 @@ public class WpisView implements Serializable {
 //</editor-fold>
 
     private void pobierzformaprawna() {
-        formaprawna = podatnikObiekt.getFormaPrawna().toString();
+        if (podatnikObiekt.getFormaPrawna() != null) {
+            formaprawna = podatnikObiekt.getFormaPrawna().toString();
+        }
     }
 
   
