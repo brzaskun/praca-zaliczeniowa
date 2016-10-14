@@ -16,7 +16,7 @@
                 <p:panelGrid columns="3" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
                         <h:outputText value="#{mgs.wybierzkonto}: "/>
-                        <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.wybranekonto}" completeMethod="#{planKontCompleteView.complete}" 
+                        <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.wybranekonto}" completeMethod="#{kontoZapisFKView.complete}" 
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
                                         minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv"
                                         converterMessage="Nieudana konwersja Klient" queryDelay="1" 
@@ -188,7 +188,7 @@
                  
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1170px; height: 550px; overflow-y: scroll;"
+                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1170px; height: 545px; overflow-y: scroll;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1zap" rowSelectMode="add"
                                  >
@@ -203,22 +203,22 @@
                         <p:ajax event="filter" global="false" oncomplete="przeliczfilterzapisy()"/>
                         <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                         <p:column headerText="id" width="20"  >
-                            <h:outputText value="#{loop.id}"/>
+                            <h:outputText value="#{loop.id}" style="font-size: xx-small;"/>
                         </p:column>
                         <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;">
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.data}" width="20" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
+                        <p:column headerText="dt" width="20" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
                             <h:outputText value="#{loop.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
                         </p:column>
                         <p:column headerText="dok." width="40" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
                             <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}"/>
                         </p:column>
-                        <p:column headerText="nr wl" width="70"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
+                        <p:column headerText="nr wl" width="70" styleClass="filter60"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
                                   filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
                             <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="#{loop.dokfk.kontr.npelna}" rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20')}">
+                        <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="#{loop.dokfk.kontr.npelna}" rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20') or (loop.dokfk.kontr.nip ne WpisView.podatnikObiekt.nip)}">
                             <h:outputText value="#{loop.dokfk.kontr.npelna}"/>
                         </p:column>
                         <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains"
@@ -226,14 +226,12 @@
                             <h:outputText value="#{loop.wiersz.opisWiersza}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                         </p:column>
                         <p:column headerText="kurs" width="30" sortBy="#{loop.wiersz.kursWiersz}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
-                            <h:outputText value="#{loop.wiersz.kursWiersz}" rendered="#{loop.wiersz.kursWiersz > 0.0}" style="float: right;">
+                            <h:outputText id="kurswierszazapisy" value="#{loop.wiersz.kursWiersz}" rendered="#{loop.wiersz.kursWiersz > 0.0}" style="float: right;">
                                 <f:convertNumber minFractionDigits="4" maxFractionDigits="4" locale="PL"/>
                             </h:outputText>
+                            <p:tooltip value="#{loop.wiersz.tabelanbp.nrtabeli}" for="kurswierszazapisy"/>
                         </p:column>
-                        <p:column headerText="tab" width="40" sortBy="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
-                            <h:outputText value="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,9)}" rendered="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3) ne '000'}"/>
-                        </p:column>
-                        <p:column headerText="Wn" width="40" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
+                        <p:column headerText="Wn" width="40" style="background-color: #e6f2ff;" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -243,7 +241,7 @@
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma" width="40" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
+                        <p:column headerText="Ma" width="40" style="background-color: #e6f2ff;" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText id="kwotamawiersz" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -254,10 +252,11 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="#{mgs.waluta}" width="20" sortBy="#{loop.wiersz.walutaWiersz}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
-                            <h:outputText id="waluta" value="#{loop.wiersz.walutaWiersz}"/>
+                            <h:outputText id="waluta" value="#{loop.wiersz.walutaWiersz}" rendered="#{loop.wiersz.walutaWiersz ne 'PLN'}"/>
                         </p:column>
-                        <p:column headerText="przec." width="40" sortBy="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}">
-                            <h:outputText id="kontonr" value="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}"/>
+                        <p:column headerText="przec." width="40" sortBy="#{loop.kontoPrzeciwstawne.pelnynumer}">
+                            <h:outputText id="kontonr" value="#{loop.kontoPrzeciwstawne.pelnynumer}"/>
+                            <p:tooltip value="#{loop.kontoPrzeciwstawne.nazwapelna}" for="kontonr"/>
                         </p:column>
                         <!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
                                                     <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
