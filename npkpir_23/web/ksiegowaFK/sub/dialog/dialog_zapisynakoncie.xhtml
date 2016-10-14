@@ -218,7 +218,7 @@
                                   filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
                             <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="#{loop.dokfk.kontr.npelna}" rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20') or (loop.dokfk.kontr.nip ne WpisView.podatnikObiekt.nip)}">
+                        <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="#{loop.dokfk.kontr.npelna}" rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20') and (loop.dokfk.kontr.nip ne WpisView.podatnikObiekt.nip)}">
                             <h:outputText value="#{loop.dokfk.kontr.npelna}"/>
                         </p:column>
                         <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains"
