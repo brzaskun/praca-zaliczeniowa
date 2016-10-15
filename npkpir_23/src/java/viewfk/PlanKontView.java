@@ -119,10 +119,10 @@ public class PlanKontView implements Serializable {
         int czysaslownikowe = sprawdzkonta();
         if (czysaslownikowe == 0) {
             infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
-            RequestContext.getCurrentInstance().update("dialogpierwszy");
+            //RequestContext.getCurrentInstance().update("dialogpierwszy");
         } else if (czysaslownikowe == 1) {
             infozebrakslownikowych = " Brak planu kont na dany rok";
-            RequestContext.getCurrentInstance().update("dialogpierwszy");
+            //RequestContext.getCurrentInstance().update("dialogpierwszy");
         } else {
             infozebrakslownikowych = "";
         }

@@ -47,7 +47,7 @@
               onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
               >
         <h:form id="formtablicaanalityczne">
-            <p:panelGrid columns="8" style="margin-left: 2%;" >
+            <p:panelGrid columns="7" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                                     <f:selectItems value="#{Roki.rokiList}"/>
@@ -67,7 +67,7 @@
                     <h:outputText value="#{mgs.przetwarzanie}"/>
                     <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                     <p:commandButton value="druk bez 0" actionListener="#{saldoAnalitykaView.drukuj(4)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
-                    <p:commandButton value="druk Euro" actionListener="#{saldoAnalitykaView.drukuj(5)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+<!--                    <p:commandButton value="druk Euro" actionListener="#{saldoAnalitykaView.drukuj(5)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>-->
                     <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                  <p:column >
                      <p:selectOneMenu id="rodzajkont" value="#{saldoAnalitykaView.wybranyRodzajKonta}"  style="margin-left: 20px;">
@@ -83,6 +83,9 @@
                     </p:selectBooleanCheckbox>
                     <p:selectBooleanCheckbox id="zzapisami" itemLabel="z zapisami" value="#{saldoAnalitykaView.zzapisami}" style="margin-left: 5px;">
                         <p:ajax event="change" partialSubmit="true" global="false" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
+                    </p:selectBooleanCheckbox>
+                    <p:selectBooleanCheckbox id="zwaluta" itemLabel="zapisy w walucie" value="#{saldoAnalitykaView.tylkozapisywalutowe}" style="margin-left: 5px;">
+                        <p:ajax event="change" partialSubmit="true" global="false" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
                     </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:remoteCommand actionListener="#{saldoAnalitykaView.sumujwybranekonta}" name="przeliczfilter" update=":tabelazsumamianalityka:sumy" global="false"/>

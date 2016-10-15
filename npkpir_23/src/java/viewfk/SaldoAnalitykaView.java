@@ -63,6 +63,7 @@ public class SaldoAnalitykaView implements Serializable {
     private List<Sprawozdanie_0> grupa0;
     private boolean tylkosaldaniezerowe;
     private boolean zzapisami;
+    private boolean tylkozapisywalutowe;
 
     public SaldoAnalitykaView() {
          E.m(this);
@@ -232,6 +233,14 @@ public class SaldoAnalitykaView implements Serializable {
         this.sumaSaldoKonto = sumaSaldoKonto;
     }
 
+    public boolean isTylkozapisywalutowe() {
+        return tylkozapisywalutowe;
+    }
+
+    public void setTylkozapisywalutowe(boolean tylkozapisywalutowe) {
+        this.tylkozapisywalutowe = tylkozapisywalutowe;
+    }
+
     public boolean isZzapisami() {
         return zzapisami;
     }
@@ -310,15 +319,21 @@ public class SaldoAnalitykaView implements Serializable {
         for (StronaWiersza r : zapisyBO) {
             SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
             if (p != null) {
-                if (r.getKonto().getPelnynumer().equals("202-1-5")) {
-                    System.out.println("stop");
-                }
-                if (r.getWnma().equals("Wn")) {
-                    p.setBoWn(Z.z(p.getBoWn() + r.getKwotaPLN()));
+                if (tylkozapisywalutowe && !r.getSymbolWalutBOiSW().equals("PLN")) {
+                    if (r.getWnma().equals("Wn")) {
+                        p.setBoWn(Z.z(p.getBoWn() + r.getKwota()));
+                    } else {
+                        p.setBoMa(Z.z(p.getBoMa() + r.getKwota()));
+                    }
+                    p.getZapisy().add(r);
                 } else {
-                    p.setBoMa(Z.z(p.getBoMa() + r.getKwotaPLN()));
+                    if (r.getWnma().equals("Wn")) {
+                        p.setBoWn(Z.z(p.getBoWn() + r.getKwota()));
+                    } else {
+                        p.setBoMa(Z.z(p.getBoMa() + r.getKwota()));
+                    }
+                    p.getZapisy().add(r);
                 }
-                p.getZapisy().add(r);
             }
         }
     }
@@ -332,18 +347,33 @@ public class SaldoAnalitykaView implements Serializable {
                     SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
                     if (p != null) {
                         if (r.getKonto().equals(p.getKonto())) {
-                            if (r.getWnma().equals("Wn")) {
-                                if (r.getDokfk().getMiesiac().equals(mc)) {
-                                    p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + r.getKwotaPLN()));
+                            if (tylkozapisywalutowe && !r.getSymbolWalutBOiSW().equals("PLN")) {
+                                if (r.getWnma().equals("Wn")) {
+                                    if (r.getDokfk().getMiesiac().equals(mc)) {
+                                        p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + r.getKwota()));
+                                    }
+                                    p.setObrotyWn(Z.z(p.getObrotyWn() + r.getKwota()));
+                                } else {
+                                    if (r.getDokfk().getMiesiac().equals(mc)) {
+                                        p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + r.getKwota()));
+                                    }
+                                    p.setObrotyMa(Z.z(p.getObrotyMa() + r.getKwota()));
                                 }
-                                p.setObrotyWn(Z.z(p.getObrotyWn() + r.getKwotaPLN()));
-                            } else {
-                                if (r.getDokfk().getMiesiac().equals(mc)) {
-                                    p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + r.getKwotaPLN()));
+                                p.getZapisy().add(r);
+                            } else if (!tylkozapisywalutowe) {
+                                if (r.getWnma().equals("Wn")) {
+                                    if (r.getDokfk().getMiesiac().equals(mc)) {
+                                        p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + r.getKwotaPLN()));
+                                    }
+                                    p.setObrotyWn(Z.z(p.getObrotyWn() + r.getKwotaPLN()));
+                                } else {
+                                    if (r.getDokfk().getMiesiac().equals(mc)) {
+                                        p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + r.getKwotaPLN()));
+                                    }
+                                    p.setObrotyMa(Z.z(p.getObrotyMa() + r.getKwotaPLN()));
                                 }
-                                p.setObrotyMa(Z.z(p.getObrotyMa() + r.getKwotaPLN()));
+                                p.getZapisy().add(r);
                             }
-                            p.getZapisy().add(r);
                         }
                     }
                 } catch (Exception e) {

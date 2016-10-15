@@ -11,7 +11,8 @@
     </style>
     <p:outputPanel deferredMode="true">
     <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu} rok #{WpisView.rokWpisuSt}" widgetVar="dialogplankont" dynamic="true"
-              resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);ustalmaxlevel('form_dialog_plankont:dataList_data');zwinwszystkie('form_dialog_plankont:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
+              resizable="false" 
+              onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);ustalmaxlevel('form_dialog_plankont:dataList_data');zwinwszystkie('form_dialog_plankont:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form_dialog_plankont">
            
             <p:contextMenu id="contextforplankont" for="dataList"  style="width: 200px;">
