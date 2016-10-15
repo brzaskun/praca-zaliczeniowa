@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(catalog = "pkpir", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"podatnikObj", "opismiejsca"})})
+    @UniqueConstraint(columnNames = {"podatnikObj", "opismiejsca", "rok"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MiejscePrzychodow.findAll", query = "SELECT m FROM MiejscePrzychodow m"),
@@ -57,7 +57,7 @@ public class MiejscePrzychodow implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "opismiejsca", nullable = false, length = 255)
+    @Column(name = "opismiejsca", nullable = false, length = 255, unique = true)
     private String opismiejsca;
     @Basic(optional = false)
     @NotNull
