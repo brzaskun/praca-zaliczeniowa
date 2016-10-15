@@ -388,7 +388,7 @@ public class Podatnik implements Serializable {
 
    
     
-        public String getNip() {
+    public String getNip() {
         return nip;
     }
     
