@@ -1630,14 +1630,16 @@ public final class DokView implements Serializable {
 
     public void przewalutuj(int lp) {
         KwotaKolumna1 wiersz = selDokument.getListakwot1().get(lp);
-        Tabelanbp t = selDokument.getTabelanbp();
-        if (t != null) {
-            double d = wiersz.getNettowaluta();
-            wiersz.setNetto(d * t.getKurssredniPrzelicznik());
-            symbolWalutyNettoVat = " zł";
-            sumujnetto();
-            String s = "dodWiad:tabelapkpir:" + lp + ":kwotaPkpir";
-            RequestContext.getCurrentInstance().update(s);
+        if (wiersz.getListaKolumna1Rozbicie().isEmpty()) {
+            Tabelanbp t = selDokument.getTabelanbp();
+            if (t != null) {
+                double d = wiersz.getNettowaluta();
+                wiersz.setNetto(d * t.getKurssredniPrzelicznik());
+                symbolWalutyNettoVat = " zł";
+                sumujnetto();
+                String s = "dodWiad:tabelapkpir:" + lp + ":kwotaPkpir";
+                RequestContext.getCurrentInstance().update(s);
+            }
         }
 
     }
