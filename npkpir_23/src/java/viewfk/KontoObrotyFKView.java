@@ -73,26 +73,33 @@ public class KontoObrotyFKView implements Serializable{
     
     
     public void init(){
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        if (wykazkont != null) {
-            wybranekonto = wykazkont.get(0);
-            usunkontabezsald();
-        }
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());;
+        usunkontabezsald();
     }
+ 
     
     private void usunkontabezsald() {
-        kontozapisy = new ArrayList<>();
-        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
+        kontozapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Set<Konto> listakont = new HashSet<>();
         for (StronaWiersza p : kontozapisy) {
             listakont.add(p.getKonto());
         }
-        for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext(); ) {
-            Konto p = it.next();
-            if (!listakont.contains(p) && p.isMapotomkow() == false) {
-                it.remove();
+        Set<Konto> listamacierzyste = wyluskajmacierzyste(listakont);
+        wykazkont = new ArrayList<>();
+        wykazkont.addAll(listakont);
+        wykazkont.addAll(listamacierzyste);
+    }
+    
+    private Set<Konto> wyluskajmacierzyste(Set<Konto> listakont) {
+        Set<Konto> listamacierzyste = new HashSet<>();
+        for (Konto p : listakont) {
+            Konto m = p.getKontomacierzyste();
+            while (m != null) {
+                listamacierzyste.add(m);
+                m = m.getKontomacierzyste();
             }
         }
+        return listamacierzyste;
     }
     
     public void pobierzZapisyNaKoncieNode() {

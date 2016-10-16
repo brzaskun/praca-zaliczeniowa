@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="zapisy" header="Zapisy na kontach firma - #{WpisView.podatnikWpisu}" widgetVar="zapisynakoncie"  dynamic="true" modal="true" appendTo="@(body)"
+    <p:dialog id="zapisy" header="Zapisy na kontach firma - #{WpisView.podatnikWpisu}" widgetVar="zapisynakoncie"  dynamic="true" appendTo="@(body)"
               resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1630,780);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true"
               >
