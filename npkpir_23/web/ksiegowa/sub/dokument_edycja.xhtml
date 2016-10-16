@@ -28,7 +28,9 @@
             width: 100px;
             float: left;
         }
-
+        .colorgreen input[type="text"] {
+            color: green;
+        }
 
     </style>
     <h:form id="dodWiad">
@@ -86,7 +88,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid id="panelTabelaNBP" style="width: 270px;">
+                <p:panelGrid id="panelTabelaNBP" style="width: 270px;" rendered="#{DokumentView.selDokument.listakwot1.get(0).listaKolumna1Rozbicie.size() eq 0}">
                     <f:facet name="header">
                         <p:row>
                             <p:column width="110">
@@ -139,7 +141,7 @@
                                         minQueryLength="3" maxResults="12" maxlength="12" converterMessage="Nieudana konwersja Klient" 
                                         widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
                                         valueChangeListener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}" 
-                                        required="true" requiredMessage="Pole klienta nie może być puste" 
+                                        required="true" requiredMessage="Pole klienta nie może być puste"
                                         onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
                             <p:ajax event="itemSelect" partialSubmit="true"
                                     update="dodWiad:rodzajTrans,dodWiad:opis"  />
@@ -200,7 +202,7 @@
                         <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol="#{DokumentView.symbolWalutyNettoVat}" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
-                                        styleClass="wiersznetto" onfocus="kalkulator_pobierzwiersz(this);dolaczwyliczenieKopiowanie(event);"
+                                        styleClass="wiersznetto  #{row.listaKolumna1Rozbicie.size() gt 0 ? 'colorgreen':null}" onfocus="kalkulator_pobierzwiersz(this);dolaczwyliczenieKopiowanie(event);"
                                         > 
                             <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
                                     update="dodWiad:panelewidencjivat, dodWiad:sumbrutto, dodWiad:dokumentprosty"/>
@@ -513,7 +515,7 @@
                     </p:column>
                     <p:column>
                         <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj" 
-                                         update=":dodWiad" style="width: 150px;">
+                                         update=":dodWiad :form" style="width: 150px;" oncomplete="PF('dialogEdycjaZaksiegowanychDokumentow').hide()">
                             <p:ajax event="click" listener="#{sesjaView.dodajdokument()}" global="false"/>
                         </p:commandButton>
                     </p:column>

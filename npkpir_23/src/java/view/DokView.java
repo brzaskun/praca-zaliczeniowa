@@ -757,11 +757,13 @@ public final class DokView implements Serializable {
 
             //dodaje zaplate faktury gdy faktura jest uregulowana
             Double kwota = 0.0;
+            double kwotabrutto = 0.0;
             for (KwotaKolumna1 p : selDokument.getListakwot1()) {
                 kwota = kwota + p.getNetto();
             }
-
-            kwota = Z.z(kwota + kwotavat);
+            selDokument.setNetto(kwota);
+            kwotabrutto = Z.z(kwota + kwotavat);
+            selDokument.setBrutto(kwotabrutto);
             if (selDokument.getRozliczony() == true) {
                 Rozrachunek1 rozrachunekx = new Rozrachunek1(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(), new Date());
                 rozrachunekx.setDok(selDokument);
@@ -769,7 +771,6 @@ public final class DokView implements Serializable {
                 lista.add(rozrachunekx);
                 selDokument.setRozrachunki1(lista);
             }
-            selDokument.setBrutto(kwota);
             selDokument.setUsunpozornie(false);
 
             //jezeli jest edytowany dokument to nie dodaje a edytuje go w bazie danych
@@ -1517,12 +1518,14 @@ public final class DokView implements Serializable {
     public void przeliczkwoteRozbicie(Kolumna1Rozbicie item, int id) {
         if (selDokument.getWalutadokumentu().getSymbolwaluty().equals("PLN")) {
             item.setNetto(item.getNettowaluta());
-            sumarozbicie.setNetto(sumarozbicie.getNetto()+item.getNetto());
-            sumarozbicie.setNettowaluta(sumarozbicie.getNettowaluta()+item.getNettowaluta());
         } else {
             item.setNetto(Z.z(item.getNettowaluta()*item.getTabelanbp().getKurssredni()));
-            sumarozbicie.setNetto(sumarozbicie.getNetto()+item.getNetto());
-            sumarozbicie.setNettowaluta(sumarozbicie.getNettowaluta()+item.getNettowaluta());
+        }
+        sumarozbicie.setNetto(0.0);
+        sumarozbicie.setNettowaluta(0.0);
+        for (Kolumna1Rozbicie t : kolumna1rozbicielista) {
+            sumarozbicie.setNetto(sumarozbicie.getNetto() + t.getNetto());
+            sumarozbicie.setNettowaluta(sumarozbicie.getNettowaluta() + t.getNettowaluta());
         }
         String up3 = "formdialog_add_wiad_kolumna1rozbicie:rozbicietabeladane:"+id+":rozbiciekwotawpln";
         String up4 = "formdialog_add_wiad_kolumna1rozbicie:podsumowanierozbicia";
@@ -1535,6 +1538,8 @@ public final class DokView implements Serializable {
             KwotaKolumna1 p = selDokument.getListakwot1().get(0);
             if (!p.getListaKolumna1Rozbicie().isEmpty()) {
                 kolumna1rozbicielista = p.getListaKolumna1Rozbicie();
+                sumarozbicie.setNetto(0.0);
+                sumarozbicie.setNettowaluta(0.0);
                 for (Kolumna1Rozbicie t : kolumna1rozbicielista) {
                     sumarozbicie.setNetto(sumarozbicie.getNetto() + t.getNetto());
                     sumarozbicie.setNettowaluta(sumarozbicie.getNettowaluta() + t.getNettowaluta());

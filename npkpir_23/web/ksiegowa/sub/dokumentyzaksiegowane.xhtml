@@ -46,7 +46,8 @@
             <p:menuitem global="false" value="zawiera błędy" actionListener="#{DokTabView.fakturasprawdzanie(2)}" update=":formM:messages" icon="ui-icon-closethick"/>
             <p:menuitem global="false" value="nie sprawdzona" actionListener="#{DokTabView.fakturasprawdzanie(0)}" update=":formM:messages" icon="ui-icon-help"/>
             <p:menuitem></p:menuitem>
-            <p:menuitem global="false" value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
+            <p:menuitem global="false" value="Edytuj" update=":formM:messages dodWiad:tabelapkpir" icon="ui-icon-calculator"
+                        actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem global="false" value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
             <p:menuitem global="false" value="PDF" update=":formM:messages" actionListener="#{DokTabView.printPDFPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
 <!--            <p:menuitem global="false" value="Wydruk" update=":formM:messages" actionListener="#{DokTabView.printPDFPKWydruk()}" icon="ui-icon-disk" />-->
@@ -208,8 +209,8 @@
     </h:form>
     <!--EDYCJA faktur z tabeli-->
     <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dialogEdycjaZaksiegowanychDokumentow" resizable="false"
-               modal="true" appendTo="@(body)" 
-              onShow="ustawdialogWindow('dialogEdycja',900,450)" onHide="resetujdialog('dialogEdycja')">
+               modal="true" appendTo="@(body)"
+              onShow="ustawdialogWindow('dialogEdycja',940,450)" onHide="resetujdialog('dialogEdycja')">
         <ui:include src="dokument_edycja.xhtml" />
     </p:dialog>
 </ui:composition>   
