@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
  *
  * @author Osito
  */
-@Named
+
 @Entity
 public class Kolumna1Rozbicie implements Serializable{
     
@@ -32,13 +32,13 @@ public class Kolumna1Rozbicie implements Serializable{
     @Column(name = "id")
     private long id;
     @Column(name = "netto")
-    private Double netto;
+    private double netto;
     @Column(name = "nettowaluta")
-    private Double nettowaluta;
+    private double nettowaluta;
     @Column(name = "vat")
-    private Double vat;
+    private double vat;
     @Column(name = "brutto")
-    private Double brutto;
+    private double brutto;
     @Column(name = "data")
     private String data;
     @ManyToOne
@@ -78,8 +78,6 @@ public class Kolumna1Rozbicie implements Serializable{
         return "Kolumna1Rozbicie{" + "netto=" + netto + ", nettowaluta=" + nettowaluta + ", vat=" + vat + ", brutto=" + brutto + ", data=" + data + ", tabelanbp=" + tabelanbp.getNrtabeli() + '}';
     }
 
-    
-  
     public long getId() {
         return id;
     }
@@ -88,36 +86,44 @@ public class Kolumna1Rozbicie implements Serializable{
         this.id = id;
     }
 
-    public Double getNetto() {
+    public double getNetto() {
         return netto;
     }
 
-    public void setNetto(Double netto) {
+    public void setNetto(double netto) {
         this.netto = netto;
     }
 
-    public Double getNettowaluta() {
+    public double getNettowaluta() {
         return nettowaluta;
     }
 
-    public void setNettowaluta(Double nettowaluta) {
+    public void setNettowaluta(double nettowaluta) {
         this.nettowaluta = nettowaluta;
     }
 
-    public Double getVat() {
+    public double getVat() {
         return vat;
     }
 
-    public void setVat(Double vat) {
+    public void setVat(double vat) {
         this.vat = vat;
     }
 
-    public Double getBrutto() {
+    public double getBrutto() {
         return brutto;
     }
 
-    public void setBrutto(Double brutto) {
+    public void setBrutto(double brutto) {
         this.brutto = brutto;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public Tabelanbp getTabelanbp() {
@@ -128,13 +134,8 @@ public class Kolumna1Rozbicie implements Serializable{
         this.tabelanbp = tabelanbp;
     }
 
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
+    
+  
 
    
     

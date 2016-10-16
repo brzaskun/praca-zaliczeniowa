@@ -30,6 +30,29 @@ function ustawDate(rok,mc){
      }
    };
    
+  function ustawDaterozbicie(rok, mc, pole) {
+    var wart = $(pole).val();
+    if (mc !== 10 && mc !== 11 && mc !== 12) {
+        mc = "0" + mc;
+    }
+    var re1 = /[0-3][0-9]/;
+    var re2 = /[0-1][0-9]\S[0-3][0-9]/;
+    var re3 = /[2][0][0-9][0-9]\S[0-1][0-9]\S[0-3][0-9]/;
+    if (wart.match(re3)) {
+        $(pole).val(wart);
+    } else if (wart.match(re2)) {
+        $(pole).val(rok + "-" + wart);
+    } else if (wart.match(re1)) {
+        $(pole).val(rok + "-" + mc + "-" + wart);
+    }
+    var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
+    var testw = $(pole).val();
+    if (!testw.match(re)) {
+        $(pole).val("b\u0142ędna data");
+    } 
+}
+;
+   
 function ustawDateSprzedazy(rok,mc){
     var dataWyst = document.getElementById("dodWiad:dataSPole");
     var wart = dataWyst.value;

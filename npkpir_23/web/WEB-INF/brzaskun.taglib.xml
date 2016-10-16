@@ -19,6 +19,9 @@
         <attribute>
             <name>stylePlus</name>
         </attribute>
+         <attribute>
+            <name>id</name>
+        </attribute>
     </tag>
     <tag>
 	<tag-name>outputkurs</tag-name>
@@ -31,6 +34,9 @@
         </attribute>
         <attribute>
             <name>style</name>
+        </attribute>
+        <attribute>
+            <name>id</name>
         </attribute>
     </tag>
      <tag>
@@ -48,6 +54,9 @@
         <attribute>
             <name>symbolwaluty</name>
         </attribute>
+         <attribute>
+            <name>id</name>
+        </attribute>
     </tag>
      <tag>
 	<tag-name>outputpl0</tag-name>
@@ -61,6 +70,9 @@
         <attribute>
             <name>style</name>
         </attribute>
+         <attribute>
+            <name>id</name>
+        </attribute>
     </tag>
     <tag>
 	<tag-name>outputplprocent</tag-name>
@@ -73,6 +85,9 @@
         </attribute>
         <attribute>
             <name>style</name>
+        </attribute>
+         <attribute>
+            <name>id</name>
         </attribute>
     </tag>
     <tag>

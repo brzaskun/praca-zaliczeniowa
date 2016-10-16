@@ -18,7 +18,7 @@ var ustawdialogWindow = function(nazwa,szerokosc, wysokosc) {
 var ustawdialog = function(nazwa,menu, szerokosc, wysokosc) {
     $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
     try {
-        $(document.getElementById(poledoaktywacji)).focus();
+        //$(document.getElementById(poledoaktywacji)).focus();
         $(document.getElementById(nazwa)).position({
         my: "left top",
         at: "left+40px top",

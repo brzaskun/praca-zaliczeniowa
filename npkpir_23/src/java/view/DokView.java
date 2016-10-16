@@ -186,6 +186,8 @@ public final class DokView implements Serializable {
     private String symbolWalutyNettoVat;
     private Klienci biezacyklientdodok;
     private List<Kolumna1Rozbicie> kolumna1rozbicielista;
+    @Inject
+    private Kolumna1Rozbicie sumarozbicie;
 
     public DokView() {
         setWysDokument(null);
@@ -1495,6 +1497,72 @@ public final class DokView implements Serializable {
             }
         }
     }
+    
+    public void pobierzkursNBPRozbicie(Kolumna1Rozbicie item, int id) {
+        if (!item.getData().equals("błędna data")) {
+            DateTime dzienposzukiwany = new DateTime(item.getData());
+            if (selDokument.getWalutadokumentu().getSymbolwaluty().equals("PLN")) {
+                item.setTabelanbp(tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN"));
+            } else {
+                item.setTabelanbp(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, selDokument.getWalutadokumentu().getSymbolwaluty()));
+            }
+            String up1 = "formdialog_add_wiad_kolumna1rozbicie:rozbicietabeladane:"+id+":rozbicietabela";
+            String up2 = "formdialog_add_wiad_kolumna1rozbicie:rozbicietabeladane:"+id+":rozbiciekurs";
+            RequestContext.getCurrentInstance().update(up1);
+            RequestContext.getCurrentInstance().update(up2);
+            }
+    }
+    
+    
+    public void przeliczkwoteRozbicie(Kolumna1Rozbicie item, int id) {
+        if (selDokument.getWalutadokumentu().getSymbolwaluty().equals("PLN")) {
+            item.setNetto(item.getNettowaluta());
+            sumarozbicie.setNetto(sumarozbicie.getNetto()+item.getNetto());
+            sumarozbicie.setNettowaluta(sumarozbicie.getNettowaluta()+item.getNettowaluta());
+        } else {
+            item.setNetto(Z.z(item.getNettowaluta()*item.getTabelanbp().getKurssredni()));
+            sumarozbicie.setNetto(sumarozbicie.getNetto()+item.getNetto());
+            sumarozbicie.setNettowaluta(sumarozbicie.getNettowaluta()+item.getNettowaluta());
+        }
+        String up3 = "formdialog_add_wiad_kolumna1rozbicie:rozbicietabeladane:"+id+":rozbiciekwotawpln";
+        String up4 = "formdialog_add_wiad_kolumna1rozbicie:podsumowanierozbicia";
+        RequestContext.getCurrentInstance().update(up3);
+        RequestContext.getCurrentInstance().update(up4);
+    }
+    
+    public void przygotujrozbicie() {
+        if (selDokument.getListakwot1().size() > 0) {
+            KwotaKolumna1 p = selDokument.getListakwot1().get(0);
+            if (!p.getListaKolumna1Rozbicie().isEmpty()) {
+                kolumna1rozbicielista = p.getListaKolumna1Rozbicie();
+                for (Kolumna1Rozbicie t : kolumna1rozbicielista) {
+                    sumarozbicie.setNetto(sumarozbicie.getNetto() + t.getNetto());
+                    sumarozbicie.setNettowaluta(sumarozbicie.getNettowaluta() + t.getNettowaluta());
+                }
+            } else {
+                p.setListaKolumna1Rozbicie(kolumna1rozbicielista);
+            }
+        }
+    }
+    
+    public void dodajwierszrozbicie() {
+        kolumna1rozbicielista.add(new Kolumna1Rozbicie());
+    }
+    public void anulujwierszrozbicie() {
+        KwotaKolumna1 p = selDokument.getListakwot1().get(0);
+        p.setListaKolumna1Rozbicie(new ArrayList<>());
+        p.setNetto(0.0);
+        p.setNettowaluta(0.0);
+    }
+    public void sumujwierszrozbicie() {
+        KwotaKolumna1 p = selDokument.getListakwot1().get(0);
+        p.setNetto(sumarozbicie.getNetto());
+        p.setNettowaluta(sumarozbicie.getNettowaluta());
+        symbolWalutyNettoVat = "zł";
+        String up4 = "dodWiad:tabelapkpir";
+        RequestContext.getCurrentInstance().update(up4);
+    }
+    
 
     public void pobierzkursNBP(ValueChangeEvent el) {
         try {
@@ -1804,6 +1872,14 @@ public final class DokView implements Serializable {
 
     public List<Kolumna1Rozbicie> getKolumna1rozbicielista() {
         return kolumna1rozbicielista;
+    }
+
+    public Kolumna1Rozbicie getSumarozbicie() {
+        return sumarozbicie;
+    }
+
+    public void setSumarozbicie(Kolumna1Rozbicie sumarozbicie) {
+        this.sumarozbicie = sumarozbicie;
     }
 
     public void setKolumna1rozbicielista(List<Kolumna1Rozbicie> kolumna1rozbicielista) {

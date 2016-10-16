@@ -56,7 +56,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="kwota" width="60" filterBy="#{wpis.kwotatransakcji}" sortBy="#{wpis.kwotatransakcji}"  styleClass="kwotaroznice">
-                    <bcf:outputwal value="#{wpis.kwotatransakcji}"/>
+                    <bcf:outputwal  id="waluta" value="#{wpis.kwotatransakcji}"/>
                 </p:column>
                 <p:column headerText="wal" width="30" filterBy="#{wpis.rozliczajacy.symbolWalutBOiSW}" sortBy="#{wpis.rozliczajacy.symbolWalutBOiSW}" styleClass="symbolwalutroznice">
                     <h:outputText value="#{wpis.rozliczajacy.symbolWalutBOiSW}" />

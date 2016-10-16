@@ -13,8 +13,9 @@
 //    });
 //};
 
-
-
+var focusnanowymwierszu = function() {
+    $("#formdialog_add_wiad_kolumna1rozbicie\\:rozbicietabeladane tr:last input:first").focus();
+};
 
 
 var wyloguj = function() {

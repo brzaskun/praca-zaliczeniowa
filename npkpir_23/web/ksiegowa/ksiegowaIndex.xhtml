@@ -47,14 +47,32 @@
 <!--                                    <p:commandButton id="dodatkowaKolumna" action="{DokumentView.wygenerujNowaKolumnePkpir()}" value="DodKolumna" update=":form:messages" global="false" accesskey="g" onclick="dodkolumnafocus();"/>  -->
                                 </h:form>
                             </p:panel>
-                                <ui:include src="sub/add_wiad.xhtml" />    <!--dodawanie nowego wiersza do księgi-->
+                                <ui:include src="sub/dokument_wpis.xhtml" />
+                                <ui:include src="sub/dokument_ostatni.xhtml" />
                                 <ui:include src="sub/add_wiad_kolumna1rozbicie.xhtml" />
                                 <ui:include src="sub/wykazklientow_dialog.xhtml"/>
                                 <ui:include src="sub/dialog_kalkulator.xhtml"/>
                         </p:layoutUnit>
                     </p:layout>
+                    <script>
+                        var pokazdialotczastkowe = function() {
+                            var el = document.activeElement;
+                            var pole = el.id.indexOf('kwotaPkpir');
+                            if (pole > 0) {
+                                MYAPP.rozbicieczastkowefocus = el;
+                                PF('add_wiad_kolumna1rozbicie').show();
+                            }
+                        };
+                         var zachowaldialotczastkowe = function() {
+                            PF('add_wiad_kolumna1rozbicie').hide();
+                            $("#dodWiad\\:opis :input").focus(); 
+
+                        };
+                    </script>
                     <h:form>
-                        <p:commandButton value="kolumna1rozbicie" accesskey="r" onclick="PF('add_wiad_kolumna1rozbicie').show();" style="display: none"/>
+                        <p:commandButton value="kolumna1rozbicie" accesskey="r" oncomplete="pokazdialotczastkowe();" 
+                                         update="formdialog_add_wiad_kolumna1rozbicie"
+                                         actionListener="#{DokumentView.przygotujrozbicie}" style="display: none"/>
                     </h:form>
                 </f:view>
             

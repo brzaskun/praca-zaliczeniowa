@@ -318,25 +318,25 @@
                     <f:facet name="header">
                         <h:outputText value="Kwota Wn"/>
                     </f:facet>
-                    <bcf:outputwal value="#{item.kwotaWn}" rendered="#{item.kwotaWn ne 0.0}" symbolwaluty="#{item.waluta.skrotsymbolu}"/>
+                    <bcf:outputwal id="waluta1" value="#{item.kwotaWn}" rendered="#{item.kwotaWn ne 0.0}" symbolwaluty="#{item.waluta.skrotsymbolu}"/>
                 </p:column>
                 <p:column style="text-align: center;" sortBy="#{item.kwotaWnPLN}" width="90">
                     <f:facet name="header">
                         <h:outputText value="Kwota Wn PLN"/>
                     </f:facet>
-                    <bcf:outputwal value="#{item.kwotaWnPLN}" rendered="#{item.kwotaWnPLN ne 0.0}" symbolwaluty="zł"/>
+                    <bcf:outputwal id="waluta2" value="#{item.kwotaWnPLN}" rendered="#{item.kwotaWnPLN ne 0.0}" symbolwaluty="zł"/>
                 </p:column>
                 <p:column style="text-align: center;" sortBy="#{item.kwotaMa}" width="90">
                     <f:facet name="header">
                         <h:outputText value="Kwota Ma"/>
                     </f:facet>
-                    <bcf:outputwal value="#{item.kwotaMa}" rendered="#{item.kwotaMa ne 0.0}" symbolwaluty="#{item.waluta.skrotsymbolu}"/>
+                    <bcf:outputwal  id="waluta3" value="#{item.kwotaMa}" rendered="#{item.kwotaMa ne 0.0}" symbolwaluty="#{item.waluta.skrotsymbolu}"/>
                 </p:column>
                 <p:column style="text-align: center;" sortBy="#{item.kwotaMaPLN}" width="90">
                     <f:facet name="header">
                         <h:outputText value="Kwota Ma PLN"/>
                     </f:facet>
-                    <bcf:outputwal value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0}" symbolwaluty="zł"/>
+                    <bcf:outputwal id="waluta4" value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0}" symbolwaluty="zł"/>
                 </p:column>
                 <p:column style="text-align: center;" width="40">
                     <f:facet name="header">

@@ -46,9 +46,29 @@
                         </h:form>
 
                             <ui:include src="sub/dokumentyzaksiegowane.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                            <ui:include src="sub/add_wiad_kolumna1rozbicie.xhtml" />
                         <h:form>
                             <h:commandButton accesskey="s" actionListener="#{DokumentView.przekierowanieWpis}" style="display: none;"/>
                         </h:form>
+                             <script>
+                        var pokazdialotczastkowe = function() {
+                            var el = document.activeElement;
+                            var pole = el.id.indexOf('kwotaPkpir');
+                            if (pole > 0) {
+                                MYAPP.rozbicieczastkowefocus = el;
+                                PF('add_wiad_kolumna1rozbicie').show();
+                            }
+                        };
+                         var zachowaldialotczastkowe = function() {
+                            PF('add_wiad_kolumna1rozbicie').hide();
+                            $("#dodWiad\\:opis :input").focus(); 
+
+                        };
+                    </script>
+                    <h:form>
+                        <p:commandButton value="kolumna1rozbicie" accesskey="r" oncomplete="pokazdialotczastkowe();" actionListener="#{DokumentView.przygotujrozbicie}" 
+                                         update="formdialog_add_wiad_kolumna1rozbicie" style="display: none"/>
+                    </h:form>
                     </p:layoutUnit>
 
                 </p:layout>
