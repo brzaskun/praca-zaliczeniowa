@@ -28,6 +28,7 @@
     </style>
     
     <h:form id="formSTRUmorzenie">
+  <bcf:ajaxs/>
   <p:outputPanel id="wrapper2">
       <p:panel id="infosrodki" header="Dokumenty umorzeniowe niezbędne do księgowania pk">
           <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" update=":formSTRUmorzenie:dokumsrodkiLista"/>  

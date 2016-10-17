@@ -9,14 +9,14 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
     
-            <p:tab id="zestawieniestr1" title="umarzane miesięcznie">
-                <p:dataTable  var="wpis" value="#{STRTableView.planUmorzen}" id="srodkiLista1" editable="true" 
+            <p:tab id="zestawieniestr5" title="umorzone w 100%">
+                <p:dataTable  var="wpis" value="#{STRTableView.planUmorzen_100}" id="srodkiLista5" editable="true" 
                               scrollable="true" scrollHeight="390"
                               style="width: 1330px;" emptyMessage="Nie naliczono umorzeń"
                               rowKey="#{wpis.id}" selectionMode="single"> 
 
                     <f:facet name="header">  
-                        <h:outputText value="Plan umorzeń posiadanych środkow trwałych" />  
+                        <h:outputText value="Umorzenia w 100% posiadanych środkow trwałych" />  
                     </f:facet>
 
                     <p:column id="idColumn" headerText="nr kol." style="width: 20px; text-align: center;">  
@@ -70,10 +70,10 @@
                         <h:outputText value="#{wpis.umorzeniezaksiegowane eq true ? 'tak' : 'nie'}" >
                         </h:outputText> 
                     </p:column>
-                    <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="#{wpis.planumorzen}" filterMatchMode="contains" 
+                    <p:column id="amortColumn" headerText="zapis umorzenia w 100%" filterBy="#{wpis.planumorzen}" filterMatchMode="contains" 
                               filterStyle="display : none;" style="width: 550px; text-align: center;">  
                         <p:dataTable var="subwpis" value="#{wpis.planumorzen}" emptyMessage="Nie naliczono umorzeń"
-                                     scrollable="true" scrollHeight="150" sortBy="#{subwpis.nrUmorzenia}" 
+                                     scrollable="true" scrollHeight="30" sortBy="#{subwpis.nrUmorzenia}" 
                                      style="width: 550px;">
                             <p:column id="SubColumn1" headerText="id" style="width: 20px;">  
                                 <h:outputText value="#{subwpis.nrUmorzenia}" />

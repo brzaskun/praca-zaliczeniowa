@@ -91,6 +91,7 @@ public class STRTabView implements Serializable {
     //tablica obiektw danego klienta
     private List<SrodekTrw> srodkiTrwale;
     private List<SrodekTrw> planUmorzen;
+    private List<SrodekTrw> planUmorzen_100;
     private List<SrodekTrw> filteredValues;
     private List<SrodekTrw> posiadane;
     private List<SrodekTrw> posiadane2;
@@ -133,6 +134,7 @@ public class STRTabView implements Serializable {
         srodkiTrwale = new ArrayList<>();
         srodkiZakupRokBiezacy = new ArrayList<>();
         planUmorzen = new ArrayList<>();
+        planUmorzen_100 = new ArrayList<>();
         wyposazenie = new ArrayList<>();
         posiadane = new ArrayList<>();
         posiadane2 = new ArrayList<>();
@@ -175,8 +177,11 @@ public class STRTabView implements Serializable {
                                     if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
                                         zakupionewbiezacyrok_wnip++;
                                     }
-                                    if (srodek.getPlanumorzen() != null &&srodek.getPlanumorzen().size() > 0) {
+                                    if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() < 100) {
                                         planUmorzen.add(srodek);
+                                    }
+                                    if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() == 100) {
+                                        planUmorzen_100.add(srodek);
                                     }
                                     srodkiTrwale.add(srodek);
                                     if (srodek.getDatasprzedazy() == null || srodek.getDatasprzedazy().equals("")) {
@@ -201,8 +206,11 @@ public class STRTabView implements Serializable {
                                     if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
                                         zakupionewbiezacyrok++;
                                     }
-                                    if (srodek.getPlanumorzen() != null &&srodek.getPlanumorzen().size() > 0) {
+                                    if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() < 100) {
                                         planUmorzen.add(srodek);
+                                    }
+                                    if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() == 100) {
+                                        planUmorzen_100.add(srodek);
                                     }
                                     srodkiTrwale.add(srodek);
                                     if (srodek.getDatasprzedazy() == null || srodek.getDatasprzedazy().equals("")) {
@@ -310,7 +318,6 @@ public class STRTabView implements Serializable {
                         }
                     }
                 }
-                srodek.setUmorzeniezaksiegowane(Boolean.TRUE);
                 sTRDAO.edit(srodek);
             }
             //ZAZNACZA PUSTE JAKO TRUe a to w celu zachwoania ciaglosci a to w celu pokazania ze sa sporzadzone za zadany okres a ze nie wsyatpil blad
@@ -971,6 +978,14 @@ public class STRTabView implements Serializable {
 
     public void setPosiadane2(List<SrodekTrw> posiadane2) {
         this.posiadane2 = posiadane2;
+    }
+
+    public List<SrodekTrw> getPlanUmorzen_100() {
+        return planUmorzen_100;
+    }
+
+    public void setPlanUmorzen_100(List<SrodekTrw> planUmorzen_100) {
+        this.planUmorzen_100 = planUmorzen_100;
     }
 
     
