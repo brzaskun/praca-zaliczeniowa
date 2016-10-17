@@ -43,19 +43,18 @@
                 </p:column>
                 <p:column style="text-align: center;">
                     <p:selectBooleanCheckbox value="#{STRTableView.bezcalkowicieumorzonych}" label="bez umorzonych całkowicie" >
-                        <p:ajax event="change" global="false" listener="#{STRTableView.init}" update="formSTR:akordeon"/>
+                        <p:ajax event="change" global="false" listener="#{STRTableView.init}" update=":akordeon:str_posiadane"/>
                     </p:selectBooleanCheckbox>
                 </p:column>
             </p:row>
         </p:panelGrid>
-        <p:tabView id="akordeon" cache="false">
-            <ui:include src="/wspolny/sub/srodkitrwale/posiadane.xhtml"/>
-            <ui:include src="/wspolny/sub/srodkitrwale/posiadane2.xhtml"/>
-            <ui:include src="/wspolny/sub/srodkitrwale/sprzedane.xhtml"/>
-            <ui:include src="/wspolny/sub/srodkitrwale/umorzenia.xhtml"/>
-            <ui:include src="/wspolny/sub/srodkitrwale/umorzenia_100.xhtml"/>
-        </p:tabView>
     </h:form>
-
+        <p:tabView id="akordeon" cache="false">
+            <ui:include src="srodkitrwale/posiadane.xhtml"/>
+            <ui:include src="srodkitrwale/posiadane2.xhtml"/>
+            <ui:include src="srodkitrwale/sprzedane.xhtml"/>
+            <ui:include src="srodkitrwale/umorzenia.xhtml"/>
+            <ui:include src="srodkitrwale/umorzenia_100.xhtml"/>
+        </p:tabView>
 </ui:composition>   
 

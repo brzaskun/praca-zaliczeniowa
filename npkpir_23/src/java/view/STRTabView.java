@@ -4,29 +4,17 @@
  */
 package view;
 
-import beansFK.DokumentFKBean;
 import beansSrodkiTrwale.SrodkiTrwBean;
 import com.itextpdf.text.DocumentException;
 import comparator.SrodekTrwNowaWartoscComparator;
 import comparator.SrodekTrwcomparator;
-import dao.AmoDokDAO;
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.STRDAO;
 import dao.SrodkikstDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
 import data.Data;
-import embeddable.Roki;
-
-import entity.Amodok;
-import entity.AmodokPK;
 import entity.SrodekTrw;
 import entity.SrodekTrw_NowaWartosc;
 import entity.Srodkikst;
 import entity.UmorzenieN;
-import entityfk.Dokfk;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -38,11 +26,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -65,19 +51,7 @@ public class STRTabView implements Serializable {
     @Inject
     protected STRDAO sTRDAO;
     @Inject
-    private AmoDokDAO amoDokDAO;
-    @Inject
     private SrodkikstDAO srodkikstDAO;
-    @Inject
-    private DokDAOfk dokDAOfk;
-    @Inject
-    private KlienciDAO klienciDAO;
-    @Inject
-    private RodzajedokDAO rodzajedokDAO;
-    @Inject
-    private TabelanbpDAO tabelanbpDAO;
-    @Inject
-    private KontoDAOfk kontoDAOfk;
     @Inject
     private SrodekTrw selectedSTR;
     @Inject
@@ -106,8 +80,7 @@ public class STRTabView implements Serializable {
     //wyposazenie
     private List<SrodekTrw> wyposazenie;
     //dokumenty amortyzacyjne
-    private List<Amodok> amodoklist;
-    private List<Amodok> amodoklistselected;
+   
     @Inject
     private SrodekTrw wybranysrodektrwalyPosiadane;
     @Inject
@@ -141,7 +114,7 @@ public class STRTabView implements Serializable {
         posiadane_wnip = new ArrayList<>();
         sprzedane = new ArrayList<>();
         sprzedane_wnip = new ArrayList<>();
-        amodoklist = new ArrayList<>();
+        
     }
 
     @PostConstruct
@@ -246,130 +219,13 @@ public class STRTabView implements Serializable {
             /**
              * to co bylo w amodok
              */
-            if (wpisView.getPodatnikWpisu() != null) {
-                try {
-                    amodoklist = amoDokDAO.amodokKlientRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-                } catch (Exception e) {
-                    E.e(e);
-                }
-            }
             RequestContext.getCurrentInstance().update("formSTR:akordeon");
         } catch (Exception e) {
             E.e(e);
         }
     }
 
-    //przyporzadkowuje planowane odpisy do konkretnych miesiecy
-    public void generujodpisy() {
-        if (srodkiTrwale == null || srodkiTrwale.size() == 0) {
-            init();
-            Msg.msg("Pobieram środki do umorzeń");
-        }
-        Iterator it = srodkiTrwale.iterator();
-        while (it.hasNext()) {
-            SrodekTrw srodek = (SrodekTrw) it.next();
-            //jak tego nie bedzie to zresetuje odpisy sprzedanych
-            if (srodek.getZlikwidowany() == 0) {
-                odpisypojedynczysrodek(srodek);
-            }
-        }
-        Msg.msg("Odpisy wygenerowane. Pamiętaj o wygenerowaniu dokumentów umorzeń! W tym celu wybierz w menu stronę umorzenie");
-    }
-    
-    public void odpisypojedynczysrodek(SrodekTrw srodek) {
-        try {
-            srodek.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
-            sTRDAO.edit(srodek);
-        } catch (Exception e) { 
-            E.e(e); 
-        }
-    }
-
-    public void generujamodokumenty() {
-        generujodpisy();
-        List<SrodekTrw> lista = new ArrayList<>();
-        lista.addAll(srodkiTrwale);
-        String pod = wpisView.getPodatnikWpisu();
-        Integer rokOd = wpisView.getRokWpisu();
-        Integer mcOd = Integer.parseInt(wpisView.getMiesiacWpisu());
-        amoDokDAO.destroy(pod, rokOd, mcOd);
-        Roki roki = new Roki();
-        while (roki.getRokiList().contains(rokOd)) {
-            Amodok amoDok = new Amodok();
-            AmodokPK amodokPK = new AmodokPK();
-            amodokPK.setPodatnik(pod);
-            amodokPK.setRok(rokOd);
-            amodokPK.setMc(mcOd);
-            amoDok.setAmodokPK(amodokPK);
-            amoDok.setZaksiegowane(Boolean.FALSE);
-            for (SrodekTrw srodek : lista) {
-                List<UmorzenieN> umorzeniaWyk = new ArrayList<>();
-                umorzeniaWyk.addAll(srodek.getPlanumorzen());
-                for (UmorzenieN umAkt : umorzeniaWyk) {
-                    if ((umAkt.getRokUmorzenia() == rokOd) && (umAkt.getMcUmorzenia() == mcOd)) {
-                        if (umAkt.getKwota() > 0) {
-                            umAkt.setSrodekTrw(srodek);
-                            umAkt.setRodzaj(srodek.getTyp());
-                            if (srodek.getKontonetto() != null) {
-                                umAkt.setKontonetto(srodek.getKontonetto().getPelnynumer());
-                                umAkt.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
-                            }
-                            amoDok.getPlanumorzen().add(umAkt);
-                        }
-                    }
-                }
-                sTRDAO.edit(srodek);
-            }
-            //ZAZNACZA PUSTE JAKO TRUe a to w celu zachwoania ciaglosci a to w celu pokazania ze sa sporzadzone za zadany okres a ze nie wsyatpil blad
-            if (amoDok.getUmorzenia().isEmpty()) {
-                amoDok.setZaksiegowane(true);
-            }
-            if (mcOd == 12) {
-                amoDokDAO.dodaj(amoDok);
-                rokOd++;
-                mcOd = 1;
-
-            } else {
-                amoDokDAO.dodaj(amoDok);
-                mcOd++;
-
-            }
-        }
-        nowalistadokamo();
-        RequestContext.getCurrentInstance().update("formSTR");
-        Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane od miesiąca " + wpisView.getMiesiacWpisu() + " roku " + wpisView.getRokWpisuSt(), "formSTR:mess_add");
-    }
-// wycialem te funkcje bo jest konflit on sprawdza czy dokument nie jest zaksiegowany
-//ale inna funkcja zerowe tez zaznacza jako zaksiegowane wiec on produkuje sie bez sensu
-//    private List sprawdzzaksiegowanedokumenty(String pod) {
-//        List<Amodok> amodoki = amoDokDAO.amodokklient(pod);
-//        Collections.sort(amodoki, new Amodokcomparator());
-//        int rok = 0;
-//        int mc = 0;
-//        for (Amodok p : amodoki) {
-//            if (p.getZaksiegowane() == false) {
-//                break;
-//            }
-//            rok = p.getAmodokPK().getRok();
-//            mc = p.getAmodokPK().getMc();
-//        }
-//        Msg.msg("i", "Pominięto dokumenty zaksięgowane. Aktualizacja po " + rok + "/" + Mce.getMapamcy().get(mc), "formSTR:mess_add");
-//        List odpowiedz = new ArrayList<>();
-//        odpowiedz.add(rok);
-//        odpowiedz.add(mc);
-//        return odpowiedz;
-//    }
-
-    private void nowalistadokamo() {
-        if (wpisView.getPodatnikWpisu() != null) {
-            try {
-                amodoklist = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
-            } catch (Exception e) { 
-                E.e(e); 
-            }
-        }
-    }
-
+   
     public void destroy(SrodekTrw selDok) {
         wybranySrodekTrw = new SrodekTrw();
         wybranySrodekTrw = selDok;
@@ -405,17 +261,7 @@ public class STRTabView implements Serializable {
     }
 
 
-    public void oznaczjakozaksiegowane() {
-        for (Amodok p : amodoklistselected) {
-            if (p.getZaksiegowane() == false) {
-                p.setZaksiegowane(true);
-            } else {
-                p.setZaksiegowane(false);
-            }
-            amoDokDAO.edit(p);
-            Msg.msg("i", "Oznaczono AMO jako zaksięgowany");
-        }
-    }
+    
 
     public void wycofajsrodek() {
         SrodekTrw p = wybranysrodektrwalyPosiadane;
@@ -477,20 +323,108 @@ public class STRTabView implements Serializable {
         this.filteredValues = filteredValues;
     }
 
+     public List<SrodekTrw> getListaWyposazenia() {
+         return listaWyposazenia;
+     }
+     
+     public void setListaWyposazenia(List<SrodekTrw> listaWyposazenia) {
+         this.listaWyposazenia = listaWyposazenia;
+     }
+     
+     public List<SrodekTrw> getPosiadane_wnip() {
+         return posiadane_wnip;
+     }
+     
+     public void setPosiadane_wnip(List<SrodekTrw> posiadane_wnip) {
+         this.posiadane_wnip = posiadane_wnip;
+     }
+     
+     public double getPosiadanesumanetto_wnip() {
+         return posiadanesumanetto_wnip;
+     }
+     
+     public void setPosiadanesumanetto_wnip(double posiadanesumanetto_wnip) {
+         this.posiadanesumanetto_wnip = posiadanesumanetto_wnip;
+     }
+     
+     public List<SrodekTrw> getSprzedane_wnip() {
+         return sprzedane_wnip;
+     }
+     
+     public void setSprzedane_wnip(List<SrodekTrw> sprzedane_wnip) {
+         this.sprzedane_wnip = sprzedane_wnip;
+     }
+     
+     public int getIloscsrodkow_wnip() {
+         return iloscsrodkow_wnip;
+     }
+     
+     public void setIloscsrodkow_wnip(int iloscsrodkow_wnip) {
+         this.iloscsrodkow_wnip = iloscsrodkow_wnip;
+     }
+     
+     public int getZakupionewbiezacyrok_wnip() {
+         return zakupionewbiezacyrok_wnip;
+     }
+     
+     public void setZakupionewbiezacyrok_wnip(int zakupionewbiezacyrok_wnip) {
+         this.zakupionewbiezacyrok_wnip = zakupionewbiezacyrok_wnip;
+     }
+     
+     public STREwidencja getsTREwidencja() {
+         return sTREwidencja;
+     }
+     
+     public void setsTREwidencja(STREwidencja sTREwidencja) {
+         this.sTREwidencja = sTREwidencja;
+     }
+     
+     public List<SrodekTrw> getFiltrowaneposiadane() {
+         return filtrowaneposiadane;
+     }
+     
+     public void setFiltrowaneposiadane(List<SrodekTrw> filtrowaneposiadane) {
+         this.filtrowaneposiadane = filtrowaneposiadane;
+     }
+     
+     public List<SrodekTrw> getPlanUmorzen() {
+         return planUmorzen;
+     }
+     
+     public void setPlanUmorzen(List<SrodekTrw> planUmorzen) {
+         this.planUmorzen = planUmorzen;
+     }
+     
+     public boolean isBezcalkowicieumorzonych() {
+         return bezcalkowicieumorzonych;
+     }
+     
+     public void setBezcalkowicieumorzonych(boolean bezcalkowicieumorzonych) {
+         this.bezcalkowicieumorzonych = bezcalkowicieumorzonych;
+     }
+     
+     public List<SrodekTrw> getPosiadane2() {
+         return posiadane2;
+     }
+     
+     public void setPosiadane2(List<SrodekTrw> posiadane2) {
+         this.posiadane2 = posiadane2;
+     }
+     
+     public List<SrodekTrw> getPlanUmorzen_100() {
+         return planUmorzen_100;
+     }
+     
+     public void setPlanUmorzen_100(List<SrodekTrw> planUmorzen_100) {
+         this.planUmorzen_100 = planUmorzen_100;
+     }
+     
     public STRDAO getsTRDAO() {
         return sTRDAO;
     }
 
     public void setsTRDAO(STRDAO sTRDAO) {
         this.sTRDAO = sTRDAO;
-    }
-
-    public AmoDokDAO getAmoDokDAO() {
-        return amoDokDAO;
-    }
-
-    public void setAmoDokDAO(AmoDokDAO amoDokDAO) {
-        this.amoDokDAO = amoDokDAO;
     }
 
     public SrodekTrw getSelectedSTR() {
@@ -592,14 +526,6 @@ public class STRTabView implements Serializable {
         return zakupionewbiezacyrok;
     }
 
-    public List<Amodok> getAmodoklist() {
-        return amodoklist;
-    }
-
-    public void setAmodoklist(List<Amodok> amodoklist) {
-        this.amodoklist = amodoklist;
-    }
-
     public List<SrodekTrw> getPosiadane() {
         return posiadane;
     }
@@ -614,14 +540,6 @@ public class STRTabView implements Serializable {
 
     public void setSprzedane(List<SrodekTrw> sprzedane) {
         this.sprzedane = sprzedane;
-    }
-
-    public List<Amodok> getAmodoklistselected() {
-        return amodoklistselected;
-    }
-
-    public void setAmodoklistselected(List<Amodok> amodoklistselected) {
-        this.amodoklistselected = amodoklistselected;
     }
 
     public SrodekTrw getWybranysrodektrwalyPosiadane() {
@@ -754,25 +672,7 @@ public class STRTabView implements Serializable {
         }
     }
     
-    public void ksiegujUmorzenieFK(Amodok amodok) {
-        Dokfk znalezionyBiezacy = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "AMO", String.valueOf(amodok.getAmodokPK().getRok()), wpisView.getMiesiacWpisu());
-        Dokfk dokumentAMO = DokumentFKBean.generujdokument(wpisView, klienciDAO, "AMO", "zaksięgowanie umorzenia ", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, amodok.getPlanumorzen(), dokDAOfk);
-        String nrdokumentu = null;
-        if (znalezionyBiezacy != null) {
-            nrdokumentu = znalezionyBiezacy.getNumerwlasnydokfk();
-            dokumentAMO.setNumerwlasnydokfk(DokumentFKBean.zwieksznumerojeden(nrdokumentu));
-            Msg.msg("w", "Wskazanie umorzenie nie dotyczy bieżącego miesiąca. Nie jest to prawidłowe!");
-        }
-        try {
-            dokDAOfk.dodaj(dokumentAMO);
-            amodok.setZaksiegowane(true);
-            amoDokDAO.edit(amodok);
-            Msg.msg("Zaksięgowano dokument AMO");
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu AMO");
-        }
-    }
+   
     
     public void drukowanietabeli(List<SrodekTrw> l, String nazwapliku, int modyfikator) {
         try {
@@ -891,104 +791,6 @@ public class STRTabView implements Serializable {
         }
         
     }
-
-    public List<SrodekTrw> getListaWyposazenia() {
-        return listaWyposazenia;
-    }
-
-    public void setListaWyposazenia(List<SrodekTrw> listaWyposazenia) {
-        this.listaWyposazenia = listaWyposazenia;
-    }
-
-    public List<SrodekTrw> getPosiadane_wnip() {
-        return posiadane_wnip;
-    }
-
-    public void setPosiadane_wnip(List<SrodekTrw> posiadane_wnip) {
-        this.posiadane_wnip = posiadane_wnip;
-    }
-
-    public double getPosiadanesumanetto_wnip() {
-        return posiadanesumanetto_wnip;
-    }
-
-    public void setPosiadanesumanetto_wnip(double posiadanesumanetto_wnip) {
-        this.posiadanesumanetto_wnip = posiadanesumanetto_wnip;
-    }
-
-    public List<SrodekTrw> getSprzedane_wnip() {
-        return sprzedane_wnip;
-    }
-
-    public void setSprzedane_wnip(List<SrodekTrw> sprzedane_wnip) {
-        this.sprzedane_wnip = sprzedane_wnip;
-    }
-
-    public int getIloscsrodkow_wnip() {
-        return iloscsrodkow_wnip;
-    }
-
-    public void setIloscsrodkow_wnip(int iloscsrodkow_wnip) {
-        this.iloscsrodkow_wnip = iloscsrodkow_wnip;
-    }
-
-    public int getZakupionewbiezacyrok_wnip() {
-        return zakupionewbiezacyrok_wnip;
-    }
-
-    public void setZakupionewbiezacyrok_wnip(int zakupionewbiezacyrok_wnip) {
-        this.zakupionewbiezacyrok_wnip = zakupionewbiezacyrok_wnip;
-    }
-
-    public STREwidencja getsTREwidencja() {
-        return sTREwidencja;
-    }
-
-    public void setsTREwidencja(STREwidencja sTREwidencja) {
-        this.sTREwidencja = sTREwidencja;
-    }
-
-    public List<SrodekTrw> getFiltrowaneposiadane() {
-        return filtrowaneposiadane;
-    }
-
-    public void setFiltrowaneposiadane(List<SrodekTrw> filtrowaneposiadane) {
-        this.filtrowaneposiadane = filtrowaneposiadane;
-    }
-
-    public List<SrodekTrw> getPlanUmorzen() {
-        return planUmorzen;
-    }
-
-    public void setPlanUmorzen(List<SrodekTrw> planUmorzen) {
-        this.planUmorzen = planUmorzen;
-    }
-
-    public boolean isBezcalkowicieumorzonych() {
-        return bezcalkowicieumorzonych;
-    }
-
-    public void setBezcalkowicieumorzonych(boolean bezcalkowicieumorzonych) {
-        this.bezcalkowicieumorzonych = bezcalkowicieumorzonych;
-    }
-
-    public List<SrodekTrw> getPosiadane2() {
-        return posiadane2;
-    }
-
-    public void setPosiadane2(List<SrodekTrw> posiadane2) {
-        this.posiadane2 = posiadane2;
-    }
-
-    public List<SrodekTrw> getPlanUmorzen_100() {
-        return planUmorzen_100;
-    }
-
-    public void setPlanUmorzen_100(List<SrodekTrw> planUmorzen_100) {
-        this.planUmorzen_100 = planUmorzen_100;
-    }
-
-    
 
     
 }

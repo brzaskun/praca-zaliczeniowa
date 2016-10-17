@@ -9,6 +9,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab id="zestawienieposiadane2" title="posiadane2">
+        <h:form id="str_posiadane2">
                 <p:dataTable  var="wpis" value="#{STRTableView.posiadane2}" id="srodkiLista2" 
                               scrollable="true" scrollHeight="390" 
                               widgetVar="srodkiLista2" style="width: 1400px;" 
@@ -88,6 +89,7 @@
                         </h:outputText>
                     </p:column>
                   </p:dataTable>
+        </h:form>
             </p:tab>
 </ui:composition>   
 

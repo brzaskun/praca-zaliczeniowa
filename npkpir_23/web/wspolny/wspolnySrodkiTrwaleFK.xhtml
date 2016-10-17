@@ -18,7 +18,7 @@
                         <h:outputLabel for="powerusun" value="twarde usuwanie"/>
                         <h:selectBooleanCheckbox id="powerusun" value="#{STRTableView.napewnousunac}" title="napewno usunac"/>
                         <p:separator/>
-                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formSTR:akordeon" oncomplete="PF('confirmation').hide()"  
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :akordeon:str_posiadane" oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{STRTableView.destroy2()}" />  
                         <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
                     </p:confirmDialog>  

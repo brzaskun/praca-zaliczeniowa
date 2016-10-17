@@ -16,7 +16,7 @@
                     <p:dialog id="confirmDialog" 
                                      header="Usunąć wybrany środek trwały?" widgetVar="confirmation"> 
                         <p:panelGrid columns="2" style="padding: 10px;">
-                            <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formSTR:akordeon" oncomplete="PF('confirmation').hide()"  
+                            <p:commandButton id="confirm" value="Tak, usunąć" update="fifi" oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{STRTableView.destroy2()}" />  
                             <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" style="margin-left: 60px;"/>   
                             <h:selectBooleanCheckbox id="powerusun" value="#{STRTableView.napewnousunac}" title="napewno usunac" style="float: right; margin-top: 10px; margin-left: 20px;"/>
