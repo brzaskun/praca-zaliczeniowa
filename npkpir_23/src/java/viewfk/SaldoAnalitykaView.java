@@ -326,11 +326,11 @@ public class SaldoAnalitykaView implements Serializable {
                         p.setBoMa(Z.z(p.getBoMa() + r.getKwota()));
                     }
                     p.getZapisy().add(r);
-                } else {
+                } else if (!tylkozapisywalutowe) {
                     if (r.getWnma().equals("Wn")) {
-                        p.setBoWn(Z.z(p.getBoWn() + r.getKwota()));
+                        p.setBoWn(Z.z(p.getBoWn() + r.getKwotaPLN()));
                     } else {
-                        p.setBoMa(Z.z(p.getBoMa() + r.getKwota()));
+                        p.setBoMa(Z.z(p.getBoMa() + r.getKwotaPLN()));
                     }
                     p.getZapisy().add(r);
                 }

@@ -601,10 +601,10 @@ public class StronaWiersza implements Serializable {
     }
 
     public String getSymbolWalutBOiSW() {
-        String symbol = null;
+        String symbol = "PLN";
         if (this.wiersz.getTabelanbp() != null) {
             symbol = this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
-        } else {
+        } else if (this.symbolWalutyBO != null) {
             symbol = this.symbolWalutyBO;
         }
         return symbol;
