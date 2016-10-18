@@ -67,13 +67,7 @@ public class AmodokView implements Serializable {
 
     @PostConstruct
     public void init() {
-        if (wpisView.getPodatnikWpisu() != null) {
-            try {
-                amodoklist = amoDokDAO.amodokKlientRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            } catch (Exception e) {
-                E.e(e);
-            }
-        }
+        nowalistadokamo();
     }
 
     public void generujamodokumenty() {
@@ -120,63 +114,51 @@ public class AmodokView implements Serializable {
     }
     
     private void generujdokumenty(List<SrodekTrw> srodkiTrwale) {
-        List<SrodekTrw> lista = new ArrayList<>();
-        lista.addAll(srodkiTrwale);
         String pod = wpisView.getPodatnikWpisu();
         Integer rokOd = wpisView.getRokWpisu();
         Integer mcOd = Integer.parseInt(wpisView.getMiesiacWpisu());
         amoDokDAO.destroy(pod, rokOd, mcOd);
         Roki roki = new Roki();
         while (roki.getRokiList().contains(rokOd)) {
-            Amodok amoDok = new Amodok();
-            AmodokPK amodokPK = new AmodokPK();
-            amodokPK.setPodatnik(pod);
-            amodokPK.setRok(rokOd);
-            amodokPK.setMc(mcOd);
-            amoDok.setAmodokPK(amodokPK);
-            amoDok.setZaksiegowane(Boolean.FALSE);
-            for (SrodekTrw srodek : lista) {
-                List<UmorzenieN> umorzeniaWyk = new ArrayList<>();
-                umorzeniaWyk.addAll(srodek.getPlanumorzen());
-                for (UmorzenieN umAkt : umorzeniaWyk) {
+            Amodok amoDok = new Amodok(mcOd, pod, rokOd);
+            for (SrodekTrw srodek : srodkiTrwale) {
+                for (UmorzenieN umAkt : srodek.getPlanumorzen()) {
                     if ((umAkt.getRokUmorzenia() == rokOd) && (umAkt.getMcUmorzenia() == mcOd)) {
                         if (umAkt.getKwota() > 0) {
                             umAkt.setSrodekTrw(srodek);
                             umAkt.setRodzaj(srodek.getTyp());
+                            umAkt.setAmodok(amoDok);
                             if (srodek.getKontonetto() != null) {
                                 umAkt.setKontonetto(srodek.getKontonetto().getPelnynumer());
                                 umAkt.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
                             }
+                            amoDok.setUmorzenia(null);
                             amoDok.getPlanumorzen().add(umAkt);
                         }
                     }
                 }
-                sTRDAO.edit(srodek);
             }
             //ZAZNACZA PUSTE JAKO TRUe a to w celu zachwoania ciaglosci a to w celu pokazania ze sa sporzadzone za zadany okres a ze nie wsyatpil blad
-            if (amoDok.getUmorzenia().isEmpty()) {
+            if (amoDok.getPlanumorzen().isEmpty()) {
                 amoDok.setZaksiegowane(true);
             }
+            amoDokDAO.dodaj(amoDok);
             if (mcOd == 12) {
-                amoDokDAO.dodaj(amoDok);
                 rokOd++;
                 mcOd = 1;
 
             } else {
-                amoDokDAO.dodaj(amoDok);
                 mcOd++;
-
             }
         }
         nowalistadokamo();
-        RequestContext.getCurrentInstance().update("formSTR");
         Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane od miesiąca " + wpisView.getMiesiacWpisu() + " roku " + wpisView.getRokWpisuSt(), "formSTR:mess_add");
     }
 
     private void nowalistadokamo() {
         if (wpisView.getPodatnikWpisu() != null) {
             try {
-                amodoklist = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
+                amodoklist = amoDokDAO.amodokKlientRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             } catch (Exception e) {
                 E.e(e);
             }
