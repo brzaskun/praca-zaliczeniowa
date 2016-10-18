@@ -19,83 +19,82 @@
             padding: 0px !important;
             margin: 0px !important;
         }
-/*        dzieki temu nie mamy ramek przy wpisywani danych do dokumentu*/
+        /*        dzieki temu nie mamy ramek przy wpisywani danych do dokumentu*/
         .ui-inputfield .dokumorzeniowe  .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
             border: none;
             outline: none;
             box-shadow: none;
         }
     </style>
-    
+<bcf:ajaxs/>
     <h:form id="formSTRUmorzenie">
-  <bcf:ajaxs/>
-  <p:outputPanel id="wrapper2">
-      <p:panel id="infosrodki" header="Dokumenty umorzeniowe niezbędne do księgowania pk">
-          <p:commandButton id="generujdokumenty"  action="#{amodokView.generujamodokumenty()}" value="Generuj dokumenty amort" update=":formSTRUmorzenie:dokumsrodkiLista"/>  
-          </p:panel>
-       <p:contextMenu for="dokumsrodkiLista" style="width: 250px;">
-           <p:menuitem value="O(d)znacz jako zaksięgowane" actionListener="#{amodokView.oznaczjakozaksiegowane()}" update=":formSTRUmorzenie:dokumsrodkiLista" icon="ui-icon-locked" />
+        <p:outputPanel id="wrapper2">
+            <p:panel id="infosrodki" header="Dokumenty umorzeniowe niezbędne do księgowania pk">
+                <p:commandButton id="generujdokumenty"  action="#{amodokView.generujamodokumenty()}" value="Generuj dokumenty amort" update="formSTRUmorzenie:dokumsrodkiLista"/>  
+            </p:panel>
+            <p:contextMenu for="dokumsrodkiLista" style="width: 250px;">
+                <p:menuitem value="O(d)znacz jako zaksięgowane" actionListener="#{amodokView.oznaczjakozaksiegowane()}" update="formSTRUmorzenie:dokumsrodkiLista" icon="ui-icon-locked" />
             </p:contextMenu>
-      <p:dataTable  var="wpis" value="#{amodokView.amodoklist}" id="dokumsrodkiLista"
-                    selection="#{amodokView.amodoklistselected}" styleClass="dokumorzeniowe"
-                      scrollable="true" scrollHeight="500" scrollRows="15"
-                      style="width: 1000px; height: 600px;" rowKey="#{wpis.amodokPK.mc}"
-                      rowStyleClass="#{wpis.zaksiegowane eq true ? 'old' : null}" emptyMessage="Nie wygenerowano dokumentów amortyzacyjnych"> 
-          <p:ajax event="filter" global="false"/>
-            <f:facet name="header">  
-                <h:outputText value="Wykaz dokumentów umorzeń gotowych do zaksięgowania" />  
-            </f:facet>
-          <p:column selectionMode="multiple" style="text-align: center; width: 50px;"/>
-         
-          <p:column id="Column2" headerText="rok" filterBy="#{wpis.amodokPK.rok}"  styleClass="dokumorzeniowe"
-                    filterMatchMode="contains" sortBy="#{wpis.amodokPK.rok}" style="text-align: center; width: 50px;">  
+            <p:dataTable  var="wpis" value="#{amodokView.amodoklist}" id="dokumsrodkiLista"
+                          selection="#{amodokView.amodoklistselected}" styleClass="dokumorzeniowe"
+                          scrollable="true" scrollHeight="500" scrollRows="15"
+                          style="width: 1000px; height: 600px;" rowKey="#{wpis.amodokPK.mc}"
+                          rowStyleClass="#{wpis.zaksiegowane eq true ? 'old' : null}" emptyMessage="Nie wygenerowano dokumentów amortyzacyjnych"> 
+                <p:ajax event="filter" global="false"/>
                 <f:facet name="header">  
-                    <h:outputText value="rok" />  
-                </f:facet> 
-                <h:outputText value="#{wpis.amodokPK.rok}"/>
+                    <h:outputText value="Wykaz dokumentów umorzeń gotowych do zaksięgowania" />  
+                </f:facet>
+                <p:column selectionMode="multiple" style="text-align: center; width: 50px;"/>
 
-            </p:column>
-             <p:column id="Column3" headerText="mc" filterBy="#{wpis.amodokPK.mc}"  styleClass="dokumorzeniowe"
-                       filterMatchMode="contains" sortBy="#{wpis.amodokPK.mc}" style="text-align: center; width: 50px;">  
-          
-                <h:outputText value="#{wpis.amodokPK.mc}"  />
-            </p:column>
-          <p:column id="Column4" headerText="zaksięgowane odpisy"  style="width: 450px;">  
-           
-                 <p:dataTable var="subwpisX" value="#{wpis.planumorzen}" emptyMessage="Brak środków trwałych do umorzenia" styleClass="dokumorzeniowe"
-                              sortBy="#{subwpisX.nrUmorzenia}"
-                              rowIndexVar="index">
-                     <p:column id="SubColumn1X" headerText="id"  style="text-align: center; width: 20px;">  
-                        <h:outputText value="#{index+1}" />
-                    </p:column>
-                     <p:column id="SubColumn1aX" headerText="nazwa"  style="text-align: left; width: 150px;">  
-                        <h:outputText value="#{subwpisX.srodekTrw.nazwa}" />
-                    </p:column>
-                    <p:column id="SubColumn4X" headerText="#{mgs.kwota}" >  
-                        <bcf:outputpl value="#{subwpisX.kwota}"/>
-                    </p:column>
-                     <p:column id="SubColumn5X" headerText="netto" style="text-align: center;" >  
-                        <h:outputText value="#{subwpisX.kontonetto}"/>
-                    </p:column>
-                     <p:column id="SubColumn6X" headerText="umorz." style="text-align: center;" >  
-                        <h:outputText value="#{subwpisX.kontoumorzenie}" />
-                    </p:column>
-                </p:dataTable>
-            </p:column>
-          <p:column headerText="suma" style="width: 70px;">
-              <bcf:outputpl value="#{wpis.suma}"/>
-          </p:column>
-          <p:column  headerText="zaksięguj" style="text-align: center; width: 90px;" >
-              <h:outputText value="mc inny od bieżącego" rendered="#{wpis.amodokPK.mcString ne WpisView.miesiacWpisu}" style="color: red;"/>
-              <p:commandButton value="zaksięguj" actionListener="#{amodokView.ksiegujUmorzenieFK(wpis)}" update=":formSTRUmorzenie" 
-                               rendered="#{wpis.planumorzen.size() gt 0}"/>
-            </p:column>
-             <p:column id="Column5" headerText="zaksięgowane" filterBy="#{wpis.zaksiegowane}" filterMatchMode="contains" sortBy="#{wpis.zaksiegowane}" 
-                       styleClass="dokumorzeniowe" style="width: 80px;">  
-                 <h:outputText value="#{wpis.zaksiegowane eq true ? 'dokument zaksięgowany' : ''}"  rendered="#{wpis.planumorzen.size() gt 0}"/>
-            </p:column>
-        </p:dataTable>
-    </p:outputPanel>
-        </h:form>
+                <p:column id="Column2" headerText="rok" filterBy="#{wpis.amodokPK.rok}"  styleClass="dokumorzeniowe"
+                          filterMatchMode="contains" sortBy="#{wpis.amodokPK.rok}" style="text-align: center; width: 50px;">  
+                    <f:facet name="header">  
+                        <h:outputText value="rok" />  
+                    </f:facet> 
+                    <h:outputText value="#{wpis.amodokPK.rok}"/>
+
+                </p:column>
+                <p:column id="Column3" headerText="mc" filterBy="#{wpis.amodokPK.mc}"  styleClass="dokumorzeniowe"
+                          filterMatchMode="contains" sortBy="#{wpis.amodokPK.mc}" style="text-align: center; width: 50px;">  
+
+                    <h:outputText value="#{wpis.amodokPK.mc}"  />
+                </p:column>
+                <p:column id="Column4" headerText="zaksięgowane odpisy"  style="width: 450px;">  
+
+                    <p:dataTable var="subwpisX" value="#{wpis.planumorzen}" emptyMessage="Brak środków trwałych do umorzenia" styleClass="dokumorzeniowe"
+                                 sortBy="#{subwpisX.nrUmorzenia}"
+                                 rowIndexVar="index">
+                        <p:column id="SubColumn1X" headerText="id"  style="text-align: center; width: 20px;">  
+                            <h:outputText value="#{index+1}" />
+                        </p:column>
+                        <p:column id="SubColumn1aX" headerText="nazwa"  style="text-align: left; width: 150px;">  
+                            <h:outputText value="#{subwpisX.srodekTrw.nazwa}" />
+                        </p:column>
+                        <p:column id="SubColumn4X" headerText="#{mgs.kwota}" >  
+                            <bcf:outputpl value="#{subwpisX.kwota}"/>
+                        </p:column>
+                        <p:column id="SubColumn5X" headerText="netto" style="text-align: center;" >  
+                            <h:outputText value="#{subwpisX.kontonetto}"/>
+                        </p:column>
+                        <p:column id="SubColumn6X" headerText="umorz." style="text-align: center;" >  
+                            <h:outputText value="#{subwpisX.kontoumorzenie}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
+                <p:column headerText="suma" style="width: 70px;">
+                    <bcf:outputpl value="#{wpis.suma}"/>
+                </p:column>
+                <p:column  headerText="zaksięguj" style="text-align: center; width: 90px;" >
+                    <h:outputText value="mc inny od bieżącego" rendered="#{wpis.amodokPK.mcString ne WpisView.miesiacWpisu}" style="color: red;"/>
+                    <p:commandButton value="zaksięguj" actionListener="#{amodokView.ksiegujUmorzenieFK(wpis)}" update=":formSTRUmorzenie" 
+                                     rendered="#{wpis.planumorzen.size() gt 0}"/>
+                </p:column>
+                <p:column id="Column5" headerText="zaksięgowane" filterBy="#{wpis.zaksiegowane}" filterMatchMode="contains" sortBy="#{wpis.zaksiegowane}" 
+                          styleClass="dokumorzeniowe" style="width: 80px;">  
+                    <h:outputText value="#{wpis.zaksiegowane eq true ? 'dokument zaksięgowany' : ''}"  rendered="#{wpis.planumorzen.size() gt 0}"/>
+                </p:column>
+            </p:dataTable>
+        </p:outputPanel>
+    </h:form>
 </ui:composition>   
 
