@@ -107,7 +107,7 @@
                 <p:column width="20">
                     <p:rowToggler rendered="#{saldoAnalitykaView.zzapisami}"/>
                 </p:column>
-                <p:column styleClass="konto" headerText="#{mgs.konto}" width="40"  filterBy="#{loop.konto.pelnynumer}">
+                <p:column styleClass="konto" headerText="#{mgs.konto}" width="50"  filterBy="#{loop.konto.pelnynumer}">
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >
@@ -164,7 +164,8 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="syntetyka" width="140" >
-                    <h:outputText value="#{loop.konto.kontomacierzyste.nazwapelna}" />
+                    <h:outputText value="#{loop.konto.kontomacierzyste.nazwapelna}" id="nazwasyntetykizestawienie"/>
+                    <p:tooltip for="nazwasyntetykizestawienie" value="#{loop.konto.kontomacierzyste.pelnynumer}" />
                 </p:column>
                 <p:rowExpansion rendered="#{saldoAnalitykaView.zzapisami}">
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" sortBy="#{loopik.dokfk.datadokumentu}">
