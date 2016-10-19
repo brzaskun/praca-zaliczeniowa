@@ -36,7 +36,7 @@
                 <p:column headerText="#{mgs.numerkolejny}" width="30"  >
                     <h:outputText value="#{index+1}" />
                 </p:column>
-                <p:column headerText="data rozrach." width="70" filterBy="#{wpis.datarozrachunku}" sortBy="#{wpis.datarozrachunku}" styleClass="dataroznice">
+                <p:column headerText="data rozrach." width="80" filterBy="#{wpis.datarozrachunku}" sortBy="#{wpis.datarozrachunku}" styleClass="dataroznice">
                     <h:outputText value="#{wpis.datarozrachunku}"/>
                 </p:column>
                 <p:column headerText="rachunek" width="250" filterBy="#{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK}" filterMatchMode="contains" styleClass="rachunekroznice">

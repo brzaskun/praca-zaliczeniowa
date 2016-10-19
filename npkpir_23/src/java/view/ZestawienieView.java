@@ -1814,6 +1814,9 @@ public class ZestawienieView implements Serializable {
                 String numermiesiacaS = Mce.getNumberToMiesiac().get(numermiesiaca - 3);
                 try {
                     Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), numermiesiacaS, wpisView.getPodatnikWpisu(), wybranyudzialowiec);
+                    if (poprzednipit == null) {
+                        throw new Exception();
+                    }
                 } catch (Exception e) {
                     E.e(e);
                     Msg.msg("w", "Brak PIT-u w poprzednim kwartale. Nie można wyliczyć bieżącego miesiąca");
