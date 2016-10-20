@@ -66,7 +66,9 @@ public class AdminMailView implements Serializable {
                 wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc, rok);
             }
             for (Fakturywystokresowe p : wykazfaktur) {
-                klientList.add(p.getDokument().getKontrahent());
+                if (p.getDokument().getKontrahent().getEmail() != null && !p.getDokument().getKontrahent().getEmail().contains("brak")) {
+                    klientList.add(p.getDokument().getKontrahent());
+                }
             }
             wyslanemaile = adminmailDAO.findAll();
         } catch (Exception e) {
