@@ -31,7 +31,7 @@
                         <p:selectOneMenu value="#{ZestawienieView.wybranyudzialowiec}" style="width: 250px;"  rendered="#{ZestawienieRyczaltView.listawybranychudzialowcow.size() gt 1}">
                             <f:selectItem itemLabel="wybierz osobe" itemValue="wybierz osobe"/>
                             <f:selectItems value="#{ZestawienieView.listawybranychudzialowcow}"/>
-                            <p:ajax event="change" update=":akordeon:formpit" listener="#{ZestawienieView.obliczPit()}"/>
+                            <p:ajax event="change" update=":akordeon:formpit" listener="#{ZestawienieView.obliczPit()}" partialSubmit="true"/>
                         </p:selectOneMenu>
                         <p:panel header="imię nazwisko przedsiębiorcy: " style="width: 250px;" rendered="#{ZestawienieRyczaltView.listawybranychudzialowcow.size() eq 1}"/>
                         <h:outputText value="#{ZestawienieView.wybranyudzialowiec}"/>
@@ -39,7 +39,7 @@
                         <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
                         <h:outputText id="pole1" value="czy to jest pierwszy PIT w roku?" rendered="#{ZestawienieView.pierwszypitwrokuzaznacz}"/>
                         <h:selectBooleanCheckbox id="pole2" value="#{ZestawienieView.pierwszypitwroku}"  rendered="#{ZestawienieView.pierwszypitwrokuzaznacz}">
-                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{ZestawienieView.obliczPit()}" global="false"/>
                         </h:selectBooleanCheckbox>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >

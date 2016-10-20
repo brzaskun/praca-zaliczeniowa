@@ -861,12 +861,15 @@ public class ZestawienieView implements Serializable {
 
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
+        komunikatblad = null;
+        if (listawybranychudzialowcow.size() == 1) {
+            wybranyudzialowiec = listawybranychudzialowcow.get(0);
+        }
         if (wybranyudzialowiec.equals("wybierz osobe")) {
             Msg.msg("e", "Nie wybrałeś podatnika");
         } else {
             if (pierwszypitwrokuzaznacz == false) {
                 if (sprawdzczyjestpitwpoprzednimmiesiacu() != 0) {
-                    wybranyudzialowiec = "wybierz osobe";
                     return;
                 }
             }
@@ -1819,7 +1822,7 @@ public class ZestawienieView implements Serializable {
                     }
                 } catch (Exception e) {
                     E.e(e);
-                    Msg.msg("w", "Brak PIT-u w poprzednim kwartale. Nie można wyliczyć bieżącego miesiąca");
+                    komunikatblad = "Brak PIT-u w poprzednim okresie. Nie można wyliczyć bieżącego okresu. Czy to jest pierwszy PIT w roku?";
                     pierwszypitwrokuzaznacz = true;
                     return 1;
                 }

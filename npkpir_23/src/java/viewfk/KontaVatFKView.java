@@ -161,23 +161,27 @@ public class KontaVatFKView implements Serializable {
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
         Integer sumaszukana = rok + mc;
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
+        String zwrot = "blad";
         //odszukaj date w parametrze - kandydat na metode statyczna
-        for (Parametr p : parametry) {
-            if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
-                int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-                int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
-                if (wynikPo > 1 && wynikPrzed < 0) {
-                    return p.getParametr();
-                }
-            } else {
-                int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-                if (wynik >= 0) {
-                    return p.getParametr();
+        if (parametry != null && !parametry.isEmpty()) {
+            for (Parametr p : parametry) {
+                if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
+                    int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+                    int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
+                    if (wynikPo > 1 && wynikPrzed < 0) {
+                        zwrot = p.getParametr();
+                        break;
+                    }
+                } else {
+                    int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+                    if (wynik >= 0) {
+                        zwrot = p.getParametr();
+                        break;
+                    }
                 }
             }
         }
-        Msg.msg("e", "Problem z funkcja sprawdzajaca okres rozliczeniowy VAT VatView-269");
-        return "blad";
+        return zwrot;
     }
     
     private List<StronaWiersza> zmodyfikujlisteMcKw(List<StronaWiersza> listadokvat, String vatokres){
