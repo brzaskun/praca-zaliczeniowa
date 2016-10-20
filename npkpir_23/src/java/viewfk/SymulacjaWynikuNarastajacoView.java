@@ -286,7 +286,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             }
             pozycjeDoWyplatyTablica = przekonwertujdotabeliWyplata(pozycjeDoWyplaty);
         } catch (Exception e) {  E.e(e);
-            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
+            Msg.msg("e", "Nie wybrano formy prawnej firmy. Nie można obliczyć podatku");
+            return;
         }
     }
     

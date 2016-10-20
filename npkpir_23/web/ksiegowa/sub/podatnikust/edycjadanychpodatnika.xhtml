@@ -173,6 +173,7 @@
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');" 
                                  onblur="$(this).removeClass('ui-state-focus');" >
+                        <f:selectItem itemLabel="wybierz forme prawna" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{podatnikView.formyprawne}"/>
                     </h:selectOneMenu>
                     <h:outputLabel value="urząd skarbowy VAT"/>
