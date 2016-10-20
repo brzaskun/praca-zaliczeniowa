@@ -50,28 +50,33 @@ public class RozniceKursoweFKView implements Serializable {
     @Inject
     private TabelanbpDAO tabelanbpDAO;
     @Inject
-    private WalutyDAOfk walutyDAOfk;
-    @Inject
     private KontoDAOfk kontoDAOfk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private double sumatransakcji;
+    private String mczaksiegowane;
 
     public RozniceKursoweFKView() {
-         E.m(this);
+        E.m(this);
         pobranetransakcje = new ArrayList<>();
     }
 
     @PostConstruct
     public void init() {
-        pobranetransakcje = transakcjaDAO.findPodatnikRokRozniceKursowe(wpisView);
+        mczaksiegowane = wpisView.getMiesiacWpisu();
+        pobierzdane();
+    }
+
+      public void pobierzdane() {
+        pobranetransakcje = transakcjaDAO.findPodatnikRokRozniceKursowe(wpisView, mczaksiegowane);
         sumatransakcji = 0.0;
         for (Transakcja p : pobranetransakcje) {
             sumatransakcji += p.getRoznicekursowe();
         }
         RequestContext.getCurrentInstance().update("transakcje");
     }
-
+    
+    
     public void generowanieDokumentuRRK() {
         int nrkolejny = oblicznumerkolejny();
         if (nrkolejny > 1) {
@@ -136,6 +141,14 @@ public class RozniceKursoweFKView implements Serializable {
 
     public void setSumatransakcji(double sumatransakcji) {
         this.sumatransakcji = sumatransakcji;
+    }
+
+    public String getMczaksiegowane() {
+        return mczaksiegowane;
+    }
+
+    public void setMczaksiegowane(String mczaksiegowane) {
+        this.mczaksiegowane = mczaksiegowane;
     }
 
     

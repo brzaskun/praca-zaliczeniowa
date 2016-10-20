@@ -105,6 +105,10 @@ public class TransakcjaDAO  extends DAO implements Serializable {
         return sessionFacade.findByPodatniRokRozniceKursowe(wpisView);
     }
     
+    public List<Transakcja> findPodatnikRokRozniceKursowe(WpisView wpisView, String mc) {
+        return sessionFacade.findByPodatniRokRozniceKursowe(wpisView, mc);
+    }
+    
     public List<Transakcja> findPodatnikBORozniceKursowe(WpisView wpisView) {
         return sessionFacade.findByPodatnikBORozniceKursowe(wpisView);
     }

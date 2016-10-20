@@ -24,8 +24,16 @@
               resizable="false"  onShow="ustawdialog('dialogroznicekursowe','menurejestry',1350,700);" closeOnEscape="true" onHide="resetujdialog('dialogroznicekursowe');" >
         <bcf:ajaxs/>
         <h:form id="transakcje">
+            <p:selectOneMenu id="miesiacWpisu" value="#{rozniceKursoweFKView.mczaksiegowane}" style="width: 60px;">
+                <p:ajax event="change" listener="#{rozniceKursoweFKView.pobierzdane}" partialSubmit="true"
+                                onstart="PF('tabelaroznicekursowe').clearFilters();PF('tabelaroznicekursowe').unselectAllRows();"
+                                update="transakcje:tabelaroznicekursowe" />
+                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
+                        <f:selectItems value="#{Mce.mceList}"/>
+                </p:selectOneMenu>
+            <h:outputText value="zmień miesiąc"/>
             <p:dataTable id="tabelaroznicekursowe" var="wpis" value="#{rozniceKursoweFKView.pobranetransakcje}" editable="true" 
-                         emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym" scrollable="true" scrollHeight="500"
+                         emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym" scrollable="true" scrollHeight="450"
                           style="width: 1300px;"  widgetVar="tabelaroznicekursowe" rowIndexVar="index">
                 <p:ajax event="filter" global="false"/>
                 <f:facet name="header">  
