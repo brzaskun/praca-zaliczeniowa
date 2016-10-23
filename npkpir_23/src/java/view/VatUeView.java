@@ -60,6 +60,7 @@ public class VatUeView implements Serializable {
     @Inject
     private PodatnikDAO podatnikDAO;
     private String opisvatuepkpir;
+    private String brakustawienUE;
 
     public VatUeView() {
         klienciWDTWNT = new ArrayList<>();
@@ -92,7 +93,8 @@ public class VatUeView implements Serializable {
         try {
             dokvatmc.addAll(zmodyfikujliste(obiektDOKjsfSel, okresvat));
         } catch (Exception ex) {
-            Logger.getLogger(VatUeView.class.getName()).log(Level.SEVERE, null, ex);
+            brakustawienUE = "Wystąpił błąd podczas pobierania dokumentów. Prawdopodobnie nie ma ustawień parametru dla VAT-UE dla bieżącego podatnika";
+            E.e(ex);
         }
         //a teraz podsumuj klientów
         double sumanettovatue = 0.0;
@@ -292,6 +294,14 @@ public class VatUeView implements Serializable {
 
     public void setNiemoznadrukowac(boolean niemoznadrukowac) {
         this.niemoznadrukowac = niemoznadrukowac;
+    }
+
+    public String getBrakustawienUE() {
+        return brakustawienUE;
+    }
+
+    public void setBrakustawienUE(String brakustawienUE) {
+        this.brakustawienUE = brakustawienUE;
     }
 
  

@@ -61,6 +61,7 @@ public class MiejscePrzychodowView  implements Serializable{
     private List<TabelaMiejscePrzychodow> listawybranychprzychodow;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
+    private boolean rozwinwszystkie;
 
     public MiejscePrzychodowView() {
          E.m(this);
@@ -205,6 +206,14 @@ public class MiejscePrzychodowView  implements Serializable{
     
     public void setSelected(MiejscePrzychodow selected) {
         this.selected = selected;
+    }
+
+    public boolean isRozwinwszystkie() {
+        return rozwinwszystkie;
+    }
+
+    public void setRozwinwszystkie(boolean rozwinwszystkie) {
+        this.rozwinwszystkie = rozwinwszystkie;
     }
     
     public List<MiejscePrzychodow> getMiejscaprzychodow() {

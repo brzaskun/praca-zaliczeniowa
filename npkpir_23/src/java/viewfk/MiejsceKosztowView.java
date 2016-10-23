@@ -60,6 +60,7 @@ public class MiejsceKosztowView  implements Serializable{
     private List<TabelaMiejsceKosztow> listawybranychmiejsckosztow;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
+    private boolean rozwinwszystkie;
 
     public MiejsceKosztowView() {
          E.m(this);
@@ -168,6 +169,14 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void setSelected(MiejsceKosztow selected) {
         this.selected = selected;
+    }
+
+    public boolean isRozwinwszystkie() {
+        return rozwinwszystkie;
+    }
+
+    public void setRozwinwszystkie(boolean rozwinwszystkie) {
+        this.rozwinwszystkie = rozwinwszystkie;
     }
     
     public List<MiejsceKosztow> getMiejscakosztow() {

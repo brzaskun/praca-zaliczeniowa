@@ -16,7 +16,7 @@
             }
         </style>
         <h:form id="formzapisymiejscaprzychodowwmcu">
-            <p:panelGrid columns="6" style="margin-left: 2%;" >
+            <p:panelGrid columns="8" style="margin-left: 2%;" >
                 <h:outputText value="mc: "/>
                 <p:column>
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
@@ -29,17 +29,21 @@
                 <h:outputText value="#{mgs.przetwarzanie}"/>
                 <p:commandButton value="#{mgs.drukujtab}" actionListener="#{miejscePrzychodowView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukmiejscaprzychodow('#{WpisView.podatnikWpisu}',1)"/>
                 <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{miejscePrzychodowView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukmiejscaprzychodow('#{WpisView.podatnikWpisu}',2)"/>
+                <h:outputText value="rozwiń wszystkie wiersze "/>
+                <p:selectBooleanCheckbox value="#{miejscePrzychodowView.rozwinwszystkie}" label="rozwiń wszystko">
+                    <p:ajax event="change" update="akordeon:formzapisymiejscaprzychodowwmcu:tabelazbiorczaprzychody" partialSubmit="true"/>
+                </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:panel >
-                <p:dataTable value="#{miejscePrzychodowView.listasummiejscprzychodow}" var="item" rowIndexVar="numer"
-                             emptyMessage="#{mgs.niemamiejscprzychodow}" rowKey="#{item.id}" style="width: 900px;"
+                <p:dataTable value="#{miejscePrzychodowView.listasummiejscprzychodow}" var="item" rowIndexVar="numer" id="tabelazbiorczaprzychody" 
+                             emptyMessage="#{mgs.niemamiejscprzychodow}" rowKey="#{item.id}" style="width: 970px;"
                              selection="#{miejscePrzychodowView.listawybranychprzychodow}">
                     <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                     <p:column>
                         <p:dataTable id="tabelazapisymiejscakosztowwmcu#{numer}" value="#{item.miejscePrzychodowZest}" var="loop"  
                                      emptyMessage="Nie ma zapisów na koncie" lazy="true"
-                                     rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="width: 800px; margin-top: 10px; margin-bottom: 10px;" 
-                                     skipChildren="true"
+                                     rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="width: 900px; margin-top: 10px; margin-bottom: 10px;" 
+                                     skipChildren="true"  expandedRow="#{miejscePrzychodowView.rozwinwszystkie}"
                                      >
                             <f:facet name="header">
                                 <h:outputText value="#{item.miejscePrzychodow.opismiejsca}"/>
@@ -65,7 +69,7 @@
                             </p:column>
                             <p:rowExpansion>
                                 <p:dataTable value="#{loop.stronywiersza}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
-                                    <p:column headerText="#{mgs.dokument}" width="60">
+                                    <p:column headerText="#{mgs.dokument}" width="90">
                                         <h:outputText value="#{loopik.dokfkS}"/>
                                     </p:column>
                                     <p:column headerText="#{mgs.data}" width="80">

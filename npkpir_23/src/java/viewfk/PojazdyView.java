@@ -58,6 +58,7 @@ public class PojazdyView  implements Serializable{
     private List<TabelaPojazdy> listawybranychpojazdow;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
+    private boolean rozwinwszystkie;
 
     public PojazdyView() {
          E.m(this);
@@ -201,6 +202,14 @@ public class PojazdyView  implements Serializable{
 
     public void setListawybranychpojazdow(List<TabelaPojazdy> listawybranychpojazdow) {
         this.listawybranychpojazdow = listawybranychpojazdow;
+    }
+
+    public boolean isRozwinwszystkie() {
+        return rozwinwszystkie;
+    }
+
+    public void setRozwinwszystkie(boolean rozwinwszystkie) {
+        this.rozwinwszystkie = rozwinwszystkie;
     }
 
     
