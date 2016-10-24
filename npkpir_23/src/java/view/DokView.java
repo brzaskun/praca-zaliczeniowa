@@ -688,6 +688,8 @@ public final class DokView implements Serializable {
         selDokument.setPodatnik(wpisView.getPodatnikWpisu());
         if (selDokument.getInwestycja() != null) {
             selDokument.setSymbolinwestycji(selDokument.getInwestycja().getSymbol());
+        } else {
+            selDokument.setSymbolinwestycji(null);
         }
         Podatnik podatnikWDokumencie = wpisView.getPodatnikObiekt();
         VAT.zweryfikujokresvat(selDokument);
