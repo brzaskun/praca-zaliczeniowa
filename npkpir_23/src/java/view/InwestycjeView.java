@@ -33,7 +33,6 @@ public class InwestycjeView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Inwestycje> inwestycjerozpoczete;
     private List<Inwestycje> inwestycjezakonczone;
-    private List<String> inwestycjesymbole;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -51,12 +50,9 @@ public class InwestycjeView implements Serializable {
     private void init() {
         inwestycjerozpoczete = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
         inwestycjezakonczone = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), true);
-        inwestycjesymbole = new ArrayList<>();
         try {
             if (inwestycjerozpoczete != null) {
                 for (Inwestycje p : inwestycjerozpoczete) {
-                    inwestycjesymbole.add("wybierz");
-                    inwestycjesymbole.add(p.getSymbol());
                     aktualizujwartosci(p);
                 }
             }
@@ -65,10 +61,7 @@ public class InwestycjeView implements Serializable {
         }
         mczakonczenia = wpisView.getMiesiacWpisu();
         rokzakonczenia = String.valueOf(wpisView.getRokWpisu());
-        if (inwestycjesymbole.isEmpty()) {
-            inwestycjesymbole.add("wybierz");
-        }
-    }
+      }
 
     public void dodaj() {
         try {
@@ -188,14 +181,6 @@ public class InwestycjeView implements Serializable {
 
     public void setSelected(Inwestycje selected) {
         this.selected = selected;
-    }
-
-    public List<String> getInwestycjesymbole() {
-        return inwestycjesymbole;
-    }
-
-    public void setInwestycjesymbole(List<String> inwestycjesymbole) {
-        this.inwestycjesymbole = inwestycjesymbole;
     }
 
     public Inwestycje getWybrany() {

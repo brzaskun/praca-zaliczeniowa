@@ -272,10 +272,11 @@
                             <pe:inputNumber id="sumbrutto" value="#{DokumentView.sumbrutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                         </p:column>
                         <p:column headerText="inwestycja">
-                            <h:selectOneMenu id="inwestycja" value="#{DokumentView.selDokument.symbolinwestycji}" style="display: none; width: 200px;"
-                                             onfocus="$(this).addClass('ui-state-focus');"
+                            <h:selectOneMenu id="inwestycja" value="#{DokumentView.selDokument.inwestycja}" style="display: none; width: 200px;"
+                                             onfocus="$(this).addClass('ui-state-focus');" converter="InwestycjeConv"
                                              onblur="$(this).removeClass('ui-state-focus');">
-                                <f:selectItems value="#{inwestycjeView.inwestycjesymbole}"/>
+                                <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{inwestycjeView.inwestycjerozpoczete}" var="inwest" itemLabel="#{inwest.symbol}" itemValue="#{inwest}"/>
                             </h:selectOneMenu>
                         </p:column>
                     </p:row>

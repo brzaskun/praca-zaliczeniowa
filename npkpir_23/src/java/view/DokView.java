@@ -686,6 +686,9 @@ public final class DokView implements Serializable {
         selDokument.setPkpirM(wpisView.getMiesiacWpisu());
         selDokument.setPkpirR(wpisView.getRokWpisu().toString());
         selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+        if (selDokument.getInwestycja() != null) {
+            selDokument.setSymbolinwestycji(selDokument.getInwestycja().getSymbol());
+        }
         Podatnik podatnikWDokumencie = wpisView.getPodatnikObiekt();
         VAT.zweryfikujokresvat(selDokument);
         Double kwotavat = 0.0;

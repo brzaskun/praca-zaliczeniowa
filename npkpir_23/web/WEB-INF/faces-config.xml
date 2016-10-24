@@ -622,6 +622,10 @@
             converter.DateConv  
         </converter-class>
     </converter>
+    <converter>  
+        <converter-id>InwestycjeConv</converter-id>  
+        <converter-class>converter.InwestycjeConv</converter-class>
+    </converter>
      <converter>  
         <converter-id>UkladBRConv</converter-id>  
         <converter-class>converter.UkladBRConv</converter-class>

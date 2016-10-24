@@ -194,7 +194,7 @@ public class Dok implements Serializable {
     @Column(name = "usunpozornie")
     private Boolean usunpozornie;
     @Size(max = 50)
-    @Column(name = "symbolinwestycji")
+    @Column(name = "symbolinwestycji", nullable = true)
     private String symbolinwestycji;
     @JoinColumn(name = "walutadokumentu", referencedColumnName = "idwaluty")
     @ManyToOne
@@ -205,7 +205,7 @@ public class Dok implements Serializable {
     @Column(name = "sprawdzony")
     private int sprawdzony;
     @JoinColumn(name = "inwestycja", referencedColumnName = "id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Inwestycje inwestycja;
     
     public Dok() {
