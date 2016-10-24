@@ -33,5 +33,9 @@ public class InwestycjeDAO  extends DAO implements Serializable {
             return null;
         }
    }
+
+    public List<Inwestycje> findAll() {
+        return sessionFacade.findAll(Inwestycje.class);
+    }
     
 }

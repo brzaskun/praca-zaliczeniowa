@@ -53,7 +53,7 @@
 <!--            <p:menuitem global="false" value="Wydruk" update=":formM:messages" actionListener="#{DokTabView.printPDFPKWydruk()}" icon="ui-icon-disk" />-->
             <p:menuitem global="false" value="Usuń wybrane" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="PF('confirmation1').show();" update=":form:dokumentyLista" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem global="false" value="Switch" update=":formM:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
-            
+
         </p:contextMenu>
         <script>
             //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
@@ -128,23 +128,26 @@
                 <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;">  
                     <h:outputText value="#{wpis.opis}"/>
                 </p:column>
-                <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.tabelanbp.waluta.symbolwaluty}" filterMatchMode="contains"  sortBy="#{wpis.netto}"  style="width: 60px;">  
-                    
+                <p:column id="nettoColumn" headerText="#{mgs.netto}" rendered="#{DokTabView.walutywdokum.size() gt 0 and DokTabView.walutywdokum.get(0) ne 'PLN'}"
+                          filterBy="#{wpis.symbolWaluty}" filterMatchMode="contains"  sortBy="#{wpis.symbolWaluty}"  style="width: 60px;">  
                     <f:facet name="filter">
-                     <p:selectOneMenu onchange="PF('dokTable').filter()" >
-                        <f:selectItem itemLabel="wal" itemValue="#{null}" />
-                        <f:selectItems value="#{walutyViewFK.symboleWalut}" />
-                    </p:selectOneMenu>
-                </f:facet>
+                        <p:selectOneMenu onchange="PF('dokTable').filter()" >
+                            <f:selectItem itemLabel="wszyst" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{DokTabView.walutywdokum}" />
+                        </p:selectOneMenu>
+                    </f:facet>
                     <bcf:outputpl value="#{wpis.netto}"/>
                     <br/>
-                    
-                    <bcf:outputpl value="#{wpis.nettoWaluta}"  rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/> 
-                    <h:outputText value="#{wpis.tabelanbp.waluta.symbolwaluty}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
-
-
+                   <bcf:outputpl value="#{wpis.nettoWaluta}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/> 
+                    <h:outputText value="#{wpis.symbolWaluty}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/>
                 </p:column>
-
+                <p:column id="nettoColumn1" headerText="#{mgs.netto}" styleClass="filter40"
+                          filterBy="#{wpis.netto}" filterMatchMode="contains"  sortBy="#{wpis.netto}"  style="width: 60px;">  
+                    <bcf:outputpl value="#{wpis.netto}"/>
+                    <br/>
+                    <bcf:outputpl value="#{wpis.nettoWaluta}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/> 
+                    <h:outputText value="#{wpis.symbolWaluty}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/>
+                </p:column>
                 <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;" resizable="true" >
                     <ui:repeat value="#{wpis.listakwot1}" var="item" varStatus="nr">
                         <h:outputText value="#{wpis.listakwot1.get(nr.index).netto}" style="float: right;">
@@ -209,7 +212,7 @@
     </h:form>
     <!--EDYCJA faktur z tabeli-->
     <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dialogEdycjaZaksiegowanychDokumentow" resizable="false"
-               modal="true" appendTo="@(body)"
+              modal="true" appendTo="@(body)"
               onShow="ustawdialogWindow('dialogEdycja',940,450)" onHide="resetujdialog('dialogEdycja')">
         <ui:include src="dokument_edycja.xhtml" />
     </p:dialog>

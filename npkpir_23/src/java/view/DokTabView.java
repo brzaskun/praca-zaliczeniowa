@@ -44,10 +44,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
-import org.primefaces.component.contextmenu.ContextMenu;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 import pdf.PDFDirectPrint;
 import pdf.PdfDok;
 import pdf.PdfPK;
@@ -80,6 +77,7 @@ public class DokTabView implements Serializable {
     private List<String> kontrahentypodatnika;
     //dokumenty okresowe
     private List<Dok> dokumentyokresowe;
+    private List<String> walutywdokum;
     
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
@@ -99,7 +97,7 @@ public class DokTabView implements Serializable {
 
     public DokTabView() {
        inicjalizacjalist();
-    }
+   }
     
     private void inicjalizacjalist() {
          //dokumenty podatnika
@@ -113,6 +111,7 @@ public class DokTabView implements Serializable {
         gosciuwybral = new ArrayList<>();
         dokumentypodatnika = new ArrayList<>();
         kontrahentypodatnika = new ArrayList<>();
+        walutywdokum = new ArrayList<>();
     }
 
    
@@ -159,11 +158,13 @@ public class DokTabView implements Serializable {
         obiektDOKmrjsfSel.clear();
         Set<String> dokumentyl = new HashSet<>();
         Set<String> kontrahenty = new HashSet<>();
+        Set<String> waluty = new HashSet<>();
         for (Dok tmpx : obiektDOKjsfSel) {
             tmpx.setNrWpkpir(numerkolejny++);
             if (tmpx.getPkpirM().equals(mc)) {
                 dokumentyl.add(tmpx.getTypdokumentu());
                 kontrahenty.add(tmpx.getKontr().getNpelna());
+                waluty.add(tmpx.getWalutadokumentu() != null ? tmpx.getWalutadokumentu().getSymbolwaluty() : "PLN");
                 obiektDOKmrjsfSel.add(tmpx);
             }
         }
@@ -173,6 +174,8 @@ public class DokTabView implements Serializable {
         collator.setStrength(Collator.PRIMARY);
         kontrahentypodatnika.addAll(kontrahenty);
         Collections.sort(kontrahentypodatnika, collator);
+        walutywdokum.addAll(waluty);
+        Collections.sort(walutywdokum);
     }
     
 
@@ -244,6 +247,8 @@ public class DokTabView implements Serializable {
             } catch (Exception e) { E.e(e); 
             }
             try {
+                dokdoUsuniecia.setInwestycja(null);
+                dokDAO.edit(dokdoUsuniecia);
                 dokDAO.destroy(dokdoUsuniecia);
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
@@ -366,7 +371,7 @@ public class DokTabView implements Serializable {
          }
          RequestContext.getCurrentInstance().update("form:dokumentyLista");
       }
-      
+      //sprawdzic
        private void usunDokInwestycje(Dok dok) {
           try{
             String symbol = dok.getSymbolinwestycji();
@@ -387,7 +392,7 @@ public class DokTabView implements Serializable {
                         break;
                     }
                 }
-                biezaca.getDokumenty().remove(dok);
+                biezaca.getDoklist().remove(dok);
                 inwestycjeDAO.edit(biezaca);
                 Msg.msg("i","Usunąłem z inwestycji "+symbol,"dodWiad:mess_add");
                 
@@ -470,6 +475,14 @@ public class DokTabView implements Serializable {
 
     public void setDokumentypodatnika(List<String> dokumentypodatnika) {
         this.dokumentypodatnika = dokumentypodatnika;
+    }
+
+    public List<String> getWalutywdokum() {
+        return walutywdokum;
+    }
+
+    public void setWalutywdokum(List<String> walutywdokum) {
+        this.walutywdokum = walutywdokum;
     }
         
         public List<Dok> getObiektDOKjsfSel() {

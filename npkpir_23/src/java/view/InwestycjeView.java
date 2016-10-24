@@ -10,7 +10,6 @@ import embeddable.Roki;
 import entity.Dok;
 import entity.Inwestycje;
 import entity.Inwestycje.Sumazalata;
-import entity.Klienci;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,6 +39,8 @@ public class InwestycjeView implements Serializable {
     @Inject
     private InwestycjeDAO inwestycjeDAO;
     @Inject
+    private DokDAO dokDAO;
+    @Inject
     private Inwestycje selected;
     @Inject
     private Inwestycje wybrany;
@@ -53,36 +54,14 @@ public class InwestycjeView implements Serializable {
         inwestycjesymbole = new ArrayList<>();
         try {
             if (inwestycjerozpoczete != null) {
-                int i = 1;
                 for (Inwestycje p : inwestycjerozpoczete) {
-                    List<Dok> tmp = p.getDokumenty();
-                    for (Dok r : tmp) {
-                        r.setNrWpkpir(i++);
-                    }
-                    p.setDokumenty(tmp);
                     inwestycjesymbole.add("wybierz");
                     inwestycjesymbole.add(p.getSymbol());
-                    i = 1;
                     aktualizujwartosci(p);
                 }
             }
         } catch (Exception e1) {
             E.e(e1);
-        }
-        try {
-            if (inwestycjezakonczone != null) {
-                int i = 1;
-                for (Inwestycje p : inwestycjezakonczone) {
-                    List<Dok> tmp = p.getDokumenty();
-                    for (Dok r : tmp) {
-                        r.setNrWpkpir(i++);
-                    }
-                    p.setDokumenty(tmp);
-                    i = 1;
-                }
-            }
-        } catch (Exception e2) {
-            E.e(e2);
         }
         mczakonczenia = wpisView.getMiesiacWpisu();
         rokzakonczenia = String.valueOf(wpisView.getRokWpisu());
@@ -108,7 +87,7 @@ public class InwestycjeView implements Serializable {
 
     public void usun() {
         try {
-            if (!wybrany.getDokumenty().isEmpty()) {
+            if (!wybrany.getDoklist().isEmpty()) {
                 Msg.msg("e", "Inwestycja zawiera dokumenty! Usuń je najpierw", "form:messages");
                 throw new Exception();
             } else {
@@ -152,53 +131,26 @@ public class InwestycjeView implements Serializable {
             Msg.msg("e", "Wystąpił błąd. Nie można było ponownie otworzyć inwestycji", "form:messages");
         }
     }
+//usuwa tez rachunek z bazy danych!!!
+//    public void usunrachunek(Inwestycje inwestycja, Dok dok) {
+//        try {
+//            inwestycja.getDoklist().remove(dok);
+//            inwestycjeDAO.edit(inwestycja);
+//            inwestycjerozpoczete = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
+//            inwestycjesymbole = new ArrayList<>();
+//            if (inwestycjerozpoczete != null) {
+//                for (Inwestycje p : inwestycjerozpoczete) {
+//                    aktualizujwartosci(p);
+//                }
+//            }
+//            Msg.msg("i", "Usunąłem rachunek z inwestycji " + dok.toString(), "form:messages");
+//        } catch (Exception e) {
+//            E.e(e);
+//            Msg.msg("e", "Wystąpił błąd. Nie można było usunąć rachunku " + dok.toString(), "form:messages");
+//        }
+//    }
 
-    public void usunrachunek(Inwestycje inwestycja, Dok dok) {
-        try {
-            List<Dok> dokumenty = inwestycja.getDokumenty();
-            dokumenty.remove(dok);
-            inwestycjeDAO.edit(inwestycja);
-            inwestycjerozpoczete = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
-            inwestycjesymbole = new ArrayList<>();
-            if (inwestycjerozpoczete != null) {
-                int i = 1;
-                for (Inwestycje p : inwestycjerozpoczete) {
-                    List<Dok> tmp = p.getDokumenty();
-                    for (Dok r : tmp) {
-                        r.setNrWpkpir(i++);
-                    }
-                    p.setDokumenty(tmp);
-                    inwestycjesymbole.add("wybierz");
-                    inwestycjesymbole.add(p.getSymbol());
-                    i = 1;
-                    aktualizujwartosci(p);
-                }
-            }
-            Msg.msg("i", "Usunąłem rachunek z inwestycji " + dok.toString(), "form:messages");
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("e", "Wystąpił błąd. Nie można było usunąć rachunku " + dok.toString(), "form:messages");
-        }
-    }
-
-    @Inject
-    private DokDAO dokDAO;
-
-    public void naprawkontrahentow() {
-        Msg.msg("naprawiam kontrahentow");
-        for (Inwestycje p : inwestycjerozpoczete) {
-            List<Dok> dokumenty = p.getDokumenty();
-            for (Dok r : dokumenty) {
-                Klienci k = r.getKontr();
-                if (k == null) {
-                    Dok odnaleziony = dokDAO.znajdzDokumentInwestycja(wpisView, r);
-                    r.setKontr1(odnaleziony.getKontr1());
-                }
-            }
-            inwestycjeDAO.edit(p);
-        }
-
-    }
+  
 
     public void drukujInwestycje(Inwestycje wybrany) {
         try {
@@ -281,7 +233,6 @@ public class InwestycjeView implements Serializable {
     //</editor-fold>
     private void aktualizujwartosci(Inwestycje p) {
         Integer rokbiezacy = Integer.parseInt(p.getRokrozpoczecia());
-
         List<String> lata = new ArrayList<>();
         for (Integer r : Roki.getRokiListS()) {
             if (r >= rokbiezacy) {
@@ -298,7 +249,7 @@ public class InwestycjeView implements Serializable {
             double total = 0.0;
             for (Inwestycje.Sumazalata o : suma) {
                 String rok = o.getRok();
-                for (Dok u : s.getDokumenty()) {
+                for (Dok u : s.getDoklist()) {
                     if (u.getPkpirR().equals(rok)) {
                         o.setKwota(o.getKwota() + u.getNetto());
                         total += u.getNetto();

@@ -50,7 +50,7 @@ import waluty.Z;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "", uniqueConstraints = {
+@Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"numerwlasnydokfk", "podatnikObj", "rok", "seriadokfk", "kontr"})
 })
 @XmlRootElement

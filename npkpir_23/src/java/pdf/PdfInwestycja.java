@@ -126,7 +126,7 @@ public class PdfInwestycja {
         table.addCell(ustawfrazeAlign("netto", "center",8));
         table.addCell(ustawfrazeAlign("vat", "center",8));
         table.addCell(ustawfrazeAlign("brutto", "center",8));
-        for (Dok p : inwestycja.getDokumenty()) {
+        for (Dok p : inwestycja.getDoklist()) {
             table.addCell(ustawfrazeAlign(String.valueOf(p.getNrWpkpir()), "center",8));
             table.addCell(ustawfrazeAlign(p.getDataWyst(), "center",8));
             table.addCell(ustawfrazeAlign(p.getKontr().getNpelna(), "left",8));

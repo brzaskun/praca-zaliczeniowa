@@ -147,5 +147,9 @@ public class DokDAO extends DAO implements Serializable {
     public List<String> znajdzDokumentPodatnikWpr(String wpr) {
         return dokFacade.znajdzDokumentPodatnikWpr(wpr);
     }
+
+    public List<Dok> findDokByInwest() {
+        return sessionFacade.getEntityManager().createNamedQuery("Dok.findByInwestycje").getResultList();
+    }
   
 }

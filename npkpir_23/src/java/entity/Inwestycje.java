@@ -8,14 +8,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -80,16 +84,17 @@ public class Inwestycje implements Serializable {
     @Lob
     @Column(name = "sumazalata")
     private List<Sumazalata> sumazalata;
-    @Lob
-    @Column(name = "dokumenty")
-    private List<Dok> dokumenty;
     @Column(name = "zakonczona")
     private Boolean zakonczona;
+    @JoinColumn(name = "inwestycja")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Dok> doklist;
 
     
 
     public Inwestycje(Integer id) {
         this.id = id;
+        this.doklist = new ArrayList<>();
     }
 
     public Inwestycje() {
@@ -103,7 +108,7 @@ public class Inwestycje implements Serializable {
         this.mczakonczenia = "";
         this.total = 0.0;
         this.sumazalata = new ArrayList<>();
-        this.dokumenty = new ArrayList<>();;
+        this.doklist = new ArrayList<>();
         this.zakonczona = false;
     }
 
@@ -196,12 +201,12 @@ public class Inwestycje implements Serializable {
         this.sumazalata = sumazalata;
     }
 
-    public List<Dok> getDokumenty() {
-        return dokumenty;
+    public List<Dok> getDoklist() {
+        return doklist;
     }
 
-    public void setDokumenty(List<Dok> dokumenty) {
-        this.dokumenty = dokumenty;
+    public void setDoklist(List<Dok> doklist) {
+        this.doklist = doklist;
     }
 
     
@@ -236,8 +241,10 @@ public class Inwestycje implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Inwestycje[ id=" + id + " ]";
+        return "Inwestycje{" + "podatnik=" + podatnik + ", skrot=" + skrot + ", symbol=" + symbol + ", opis=" + opis + ", rokrozpoczecia=" + rokrozpoczecia + ", mcrozpoczecia=" + mcrozpoczecia + ", rokzakonczenia=" + rokzakonczenia + ", mczakonczenia=" + mczakonczenia + ", total=" + total + ", zakonczona=" + zakonczona + '}';
     }
+
+    
 
     public class Sumazalata implements Serializable {
         private static final long serialVersionUID = -6730292558506174856L;

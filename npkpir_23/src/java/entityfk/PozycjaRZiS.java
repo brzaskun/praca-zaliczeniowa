@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "", name = "Pozycjarzis",  uniqueConstraints = {
+@Table(name = "Pozycjarzis",  uniqueConstraints = {
     @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad"})})
 @XmlRootElement
 @Inheritance(strategy = InheritanceType.JOINED)

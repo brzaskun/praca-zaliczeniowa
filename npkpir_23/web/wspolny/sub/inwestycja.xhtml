@@ -82,12 +82,13 @@
                             <f:facet name="header">
                                 <h:outputText value="Dokumenty"/>
                             </f:facet>
-                            <p:dataTable value="#{item.dokumenty}" var="wpis" emptyMessage="Brak wpisów" 
-                                         paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                            <p:dataTable value="#{item.doklist}" var="wpis" emptyMessage="Brak wpisów" rowIndexVar="index"
+                                         paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" rows="20"
+                                         sortBy="#{wpis.dataWyst}" sortOrder="descending"
                                          rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" style="width: 1100px;">
 
-                                <p:column id="nrColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.NrWpkpir}" width="50">  
-                                    <h:outputText value="#{wpis.nrWpkpir}"/>
+                                <p:column id="nrColumn" headerText="#{mgs.numerkolejny}" sortBy="#{index}" width="50">  
+                                    <h:outputText value="#{index+1}"/>
                                 </p:column>
                                 <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" width="110">  
                                     <h:outputText value="#{wpis.dataWyst}"/>
@@ -111,9 +112,9 @@
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column id="usuCol" width="40" style="text-align: center;">  
+<!--                                <p:column id="usuCol" width="40" style="text-align: center;">  
                                     <p:commandButton icon="fa fa-trash" actionListener="#{inwestycjeView.usunrachunek(item,wpis)}" update=":forminwestycje"/>
-                                </p:column>
+                                </p:column>-->
                             </p:dataTable>
                         </p:column>
                     </p:rowExpansion>
@@ -233,12 +234,13 @@
                             <f:facet name="header">
                                 <h:outputText value="Dokumenty"/>
                             </f:facet>
-                            <p:dataTable value="#{item.dokumenty}" var="wpis" emptyMessage="Brak wpisów" 
-                                         paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                            <p:dataTable value="#{item.doklist}" var="wpis" emptyMessage="Brak wpisów" rowIndexVar="index" rows="20"
+                                         paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}"
+                                         sortBy="#{wpis.dataWyst}" sortOrder="descending"
                                          rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" style="width: 1100px;">
 
-                                <p:column id="nrColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.NrWpkpir}" width="50">  
-                                    <h:outputText value="#{wpis.nrWpkpir}"/>
+                                <p:column id="nrColumn" headerText="#{mgs.numerkolejny}" sortBy="#{index}" width="50">  
+                                    <h:outputText value="#{index+1}"/>
                                 </p:column>
                                 <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" width="110">  
                                     <h:outputText value="#{wpis.dataWyst}"/>

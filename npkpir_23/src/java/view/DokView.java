@@ -1269,7 +1269,7 @@ public final class DokView implements Serializable {
                         break;
                     }
                 }
-                biezaca.getDokumenty().add(dok);
+                biezaca.getDoklist().add(dok);
                 inwestycjeDAO.edit(biezaca);
                 Msg.msg("i", "Aktualizuje inwestycje " + symbol, "dodWiad:mess_add");
 
@@ -1642,6 +1642,23 @@ public final class DokView implements Serializable {
             }
         }
 
+    }
+    
+    public void konopiujinwestycje() {
+        List<Dok> dok = dokDAO.findDokByInwest();
+        List<Inwestycje> inwest = inwestycjeDAO.findAll();
+        for (Dok p : dok) {
+            for (Inwestycje r : inwest) {
+                if (p.getSymbolinwestycji().equals(r.getSymbol())) {
+                    p.setInwestycja(r);
+                    dokDAO.edit(p);
+                    r.getDoklist().add(p);
+                    inwestycjeDAO.edit(r);;
+                    break;
+                }
+            }
+        }
+        System.out.println("f");
     }
 
     public Klienci getSelectedKlient() {

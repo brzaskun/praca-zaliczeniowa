@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "", name = "sprawozdanieuklad",  uniqueConstraints = {
+@Table(name = "sprawozdanieuklad",  uniqueConstraints = {
     @UniqueConstraint(columnNames = {"nazwaukladu", "rok"})})
 @XmlRootElement
 public class SprawozdanieUklad implements Serializable {

@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
  */
 @Named
 @Entity
-@Table(catalog = "pkpir", schema = "", uniqueConstraints = {
+@Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"ewidencja", "podatnikObj", "rok","nrkolejnywserii","seriadokfk", "WIERSZ_idwiersza", "KLIENT_id"})
 })
 @NamedQueries({

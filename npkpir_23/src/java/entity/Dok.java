@@ -72,6 +72,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dok.findByfindByLastofaTypeKontrahent", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.kontr1 = :kontr AND d.pkpirR = :pkpirR  ORDER BY d.idDok DESC"),
     @NamedQuery(name = "Dok.findByFakturaWystawiona", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.brutto = :brutto"),
     @NamedQuery(name = "Dok.findByBK", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik"),
+    @NamedQuery(name = "Dok.findByInwestycje", query = "SELECT d FROM Dok d WHERE d.symbolinwestycji IS NOT NULL AND d.symbolinwestycji != '' AND d.symbolinwestycji != 'wybierz'"),
     @NamedQuery(name = "Dok.findByBKPrzychody", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik AND d.typdokumentu = 'SPRY'"),
     @NamedQuery(name = "Dok.findByBKMCPrzychody", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.typdokumentu = 'SPRY'"),
     @NamedQuery(name = "Dok.findByBKVAT", query = "SELECT d FROM Dok d WHERE d.vatR = :vatR AND d.podatnik = :podatnik"),
@@ -203,6 +204,9 @@ public class Dok implements Serializable {
     private Tabelanbp tabelanbp;
     @Column(name = "sprawdzony")
     private int sprawdzony;
+    @JoinColumn(name = "inwestycja", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Inwestycje inwestycja;
     
     public Dok() {
         this.listakwot1 = new ArrayList<>();
@@ -495,6 +499,14 @@ public class Dok implements Serializable {
         this.ewidencjaVAT1 = ewidencjaVAT1;
     }
 
+    public Inwestycje getInwestycja() {
+        return inwestycja;
+    }
+
+    public void setInwestycja(Inwestycje inwestycja) {
+        this.inwestycja = inwestycja;
+    }
+
     public ArrayList<Rozrachunek1> getRozrachunki1() {
         return rozrachunki1;
     }
@@ -505,6 +517,14 @@ public class Dok implements Serializable {
 
     public Waluty getWalutadokumentu() {
         return walutadokumentu;
+    }
+    
+    public String getSymbolWaluty() {
+        String zwrot = "PLN";
+        if (this.walutadokumentu != null) {
+            zwrot = this.walutadokumentu.getSymbolwaluty();
+        }
+        return zwrot;
     }
 
     public void setWalutadokumentu(Waluty walutadokumentu) {
@@ -590,8 +610,7 @@ public class Dok implements Serializable {
         return ". Info dok: nrWlDk=" + nrWlDk + ", kontrahent=" + kontr1.getNpelna() + ", podatnik=" + podatnik + ", wprowadzil=" + wprowadzil + ", dataWyst=" + dataWyst;
     }
 
-  
-    
+ 
 
     
 }

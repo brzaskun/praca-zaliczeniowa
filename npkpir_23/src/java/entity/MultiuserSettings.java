@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "", name = "mutliusersettings", uniqueConstraints = {
+@Table(name = "mutliusersettings", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"PODATNIK_nip", "USER_login"})})
 @XmlRootElement
 @NamedQueries({
