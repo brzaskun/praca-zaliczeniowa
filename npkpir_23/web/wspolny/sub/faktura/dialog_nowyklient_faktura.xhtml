@@ -19,7 +19,7 @@
                     <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
                     <h:outputLabel value="miejscowość" style="font-weight: 700"/>
                     <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="55" style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste"
-                                 onblur="kopiujnazwepelna();" valueChangeListener="#{KlView.wyszukajduplikat}">
+                                 onblur="kopiujnazwenowafaktura();" valueChangeListener="#{KlView.wyszukajduplikat}">
                         <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 55znakow" /> 
                         <p:ajax event="blur" global="false" partialSubmit="true"/>
                     </p:inputText>
@@ -56,7 +56,7 @@
                                                      $(this).addClass('ui-state-default');" >
                         <f:selectItems value="#{kolmn.kolumnList}" />
                     </h:selectOneMenu>
-                    <p:commandButton value="dodaj" action="#{KlView.dodajKlientafk()}" oncomplete="skopiujdanenowegoklientanowafaktura();" style="width: 120px;"/>
+                    <p:commandButton value="dodaj" action="#{KlView.dodajKlienta}" oncomplete="skopiujdanenowegoklientanowafaktura();" style="width: 120px;"/>
                 </p:panelGrid>
                 <p:panelGrid id="polawprowadzania1" columns="5" >
                     <h:outputLabel value="kraj*" style="font-weight: 700"/>

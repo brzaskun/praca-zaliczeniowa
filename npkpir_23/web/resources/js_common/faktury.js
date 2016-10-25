@@ -28,6 +28,14 @@ var kopiujnazwepelna = function () {
   }
 };
 
+var kopiujnazwenowafaktura = function () {
+  var skadkopiowac = rj("formnkfaktura:nazwaPole").value;
+  var dokadkopiowac = rj("formnkfaktura:symbolPole").value;
+  if (dokadkopiowac === "") {
+      rj("formnkfaktura:symbolPole").value = skadkopiowac;
+  }
+};
+
 var kopiujnazwepelnakontrahenci = function () {
   var skadkopiowac = rj("formX:nazwaPole").value;
   var dokadkopiowac = rj("formX:symbolPole").value;
