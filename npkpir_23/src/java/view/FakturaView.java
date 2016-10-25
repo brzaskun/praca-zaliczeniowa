@@ -73,6 +73,7 @@ import pdf.PdfFakturySporzadzone;
 import plik.Plik;
 import serialclone.SerialClone;
 import static com.sun.faces.el.ELUtils.createValueExpression;
+import waluty.Z;
 
 /**
  *
@@ -710,10 +711,7 @@ public class FakturaView implements Serializable {
             tmpX.setVat(faktura.getVat());
             tmpX.setNazwakolumny("przych. sprz");
             tmpX.setDok(selDokument);
-            double wartosc = faktura.getBrutto() * 100;
-            wartosc = Math.round(wartosc);
-            wartosc = wartosc / 100;
-            tmpX.setBrutto(wartosc);
+            tmpX.setBrutto(Z.z(faktura.getBrutto()));
             listaX.add(tmpX);
             selDokument.setListakwot1(listaX);
             selDokument.setNetto(tmpX.getNetto());
