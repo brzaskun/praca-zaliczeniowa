@@ -7,19 +7,17 @@
 package beansFK;
 
 import dao.StronaWierszaDAO;
-import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.UkladBRDAO;
-import embeddablefk.ListaSum;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.PersistenceException;
 import msg.Msg;
@@ -190,7 +188,26 @@ public class KontaFKBean implements Serializable{
         }
     }
 
-
+    public static void pobierzKontaPotomne(List<Konto> kontamacierzyste, List<Konto> kontaostateczna, List<Konto> wykazkont) {
+        List<Konto> nowepotomne = new ArrayList<>();
+        for (Konto p : kontamacierzyste) {
+            if (p.isMapotomkow()==true) {
+                for (Konto r : wykazkont) {
+                    if (r.getMacierzyste().equals(p.getPelnynumer())) {
+                        nowepotomne.add(r);
+                    }
+                }
+            } else {
+                kontaostateczna.add(p);
+            }
+        }
+        if (nowepotomne.size() > 0) {
+            kontamacierzyste = nowepotomne;
+            pobierzKontaPotomne(kontamacierzyste, kontaostateczna, wykazkont);
+        } else {
+            return;
+        }
+    }
    
     
     

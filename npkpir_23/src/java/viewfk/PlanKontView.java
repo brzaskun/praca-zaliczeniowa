@@ -10,6 +10,7 @@ import beansFK.PozycjaRZiSFKBean;
 import comparator.Kontocomparator;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
+import dao.StronaWierszaDAO;
 import daoFK.DelegacjaDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -30,7 +31,9 @@ import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
 import entityfk.MiejsceKosztow;
 import entityfk.MiejscePrzychodow;
+import entityfk.StronaWiersza;
 import entityfk.UkladBR;
+import entityfk.WierszBO;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,6 +71,8 @@ public class PlanKontView implements Serializable {
     private Konto noweKonto;
     @Inject
     private KliencifkDAO kliencifkDAO;
+    @Inject
+    private StronaWierszaDAO stronaWierszaDAO;
     private Konto selectednodekonto;
     private Konto selectednodekontowzorcowy;
     private String wewy;
@@ -275,6 +280,7 @@ public class PlanKontView implements Serializable {
     public void dodajanalityczne() {
         String podatnik;
         Konto kontomacierzyste = null;
+        boolean czysasiostry = false;
         if (czyoddacdowzorca == true) {
             podatnik = "Wzorcowy";
             kontomacierzyste = selectednodekontowzorcowy;
@@ -283,6 +289,7 @@ public class PlanKontView implements Serializable {
             kontomacierzyste = selectednodekonto;
         }
         if (kontomacierzyste.isBlokada() == false) {
+            czysasiostry = kontomacierzyste.isMapotomkow();
             int wynikdodaniakonta = 1;
             if (podatnik.equals("Wzorcowy")) {
                 wynikdodaniakonta = PlanKontFKBean.dodajanalityczneWzorzec(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
@@ -301,6 +308,23 @@ public class PlanKontView implements Serializable {
                     }
                 } catch (Exception e) {
                     E.e(e);
+                }
+            }
+            //przeksięgowuje zapisy z syntetyki, gdy dodawane jest pierwwsze analityczne
+            if (wynikdodaniakonta == 0 && czysasiostry == false && czyoddacdowzorca == false) {
+                List<StronaWiersza> zapisyrok = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(wpisView.getPodatnikObiekt(), kontomacierzyste, wpisView.getRokWpisuSt());
+                if (zapisyrok != null) {
+                    for (StronaWiersza p : zapisyrok) {
+                        p.setKonto(noweKonto);
+                    }
+                    stronaWierszaDAO.editList(zapisyrok);
+                }
+                List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontomacierzyste);
+                if (wierszeBO != null) {
+                    for (WierszBO p : wierszeBO) {
+                        p.setKonto(noweKonto);
+                    }
+                    wierszBODAO.editList(wierszeBO);
                 }
             }
             if (wynikdodaniakonta == 0) {
@@ -322,6 +346,8 @@ public class PlanKontView implements Serializable {
         }
     }
 
+    
+    
     public void dodajanalityczneWpis() {
         String nrmacierzystego = PlanKontFKBean.modyfikujnranalityczne(noweKonto.getPelnynumer());
         Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);

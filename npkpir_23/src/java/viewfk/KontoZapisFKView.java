@@ -5,6 +5,7 @@
 package viewfk;
 
 import beansFK.DokumentFKBean;
+import beansFK.KontaFKBean;
 import beansFK.RozniceKursoweBean;
 import comparator.Kontocomparator;
 import dao.KlienciDAO;
@@ -189,7 +190,7 @@ public class KontoZapisFKView implements Serializable{
             List<Konto> kontapotomnetmp = new ArrayList<>();
             List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
             kontapotomnetmp.add(wybranekonto);
-            pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
             
@@ -224,7 +225,7 @@ public class KontoZapisFKView implements Serializable{
             List<Konto> kontapotomnetmp = new ArrayList<>();
             List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
             kontapotomnetmp.add(wybranekonto);
-            pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
             for (StronaWiersza r : zapisyRok) {
@@ -245,26 +246,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
 
-    private void pobierzKontaPotomne(List<Konto> kontamacierzyste, List<Konto> kontaostateczna, List<Konto> wykazkont) {
-        List<Konto> nowepotomne = new ArrayList<>();
-        for (Konto p : kontamacierzyste) {
-            if (p.isMapotomkow()==true) {
-                for (Konto r : wykazkont) {
-                    if (r.getMacierzyste().equals(p.getPelnynumer())) {
-                        nowepotomne.add(r);
-                    }
-                }
-            } else {
-                kontaostateczna.add(p);
-            }
-        }
-        if (nowepotomne.size() > 0) {
-            kontamacierzyste = nowepotomne;
-            pobierzKontaPotomne(kontamacierzyste, kontaostateczna, wykazkont);
-        } else {
-            return;
-        }
-    }
+    
     
     public void zapisykontmiesiace() {
          wpisView.wpisAktualizuj();
@@ -275,12 +257,11 @@ public class KontoZapisFKView implements Serializable{
     
     
     public void pobierzZapisyZmianaWaluty() {
-        Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
         kontozapisy = new ArrayList<>();
         List<Konto> kontapotomnetmp = new ArrayList<>();
         List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
         kontapotomnetmp.add(wybranekonto);
-        pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+        KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
         int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
         int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
         for (StronaWiersza r : zapisyRok) {
@@ -317,7 +298,7 @@ public class KontoZapisFKView implements Serializable{
             List<Konto> kontapotomnetmp = new ArrayList<>();
             List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
             kontapotomnetmp.add(wybranekonto);
-            pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
             for (StronaWiersza r : zapisyRok) {
