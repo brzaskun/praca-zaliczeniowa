@@ -623,6 +623,10 @@
         </converter-class>
     </converter>
     <converter>  
+        <converter-id>RodzajCzlonkostwaConv</converter-id>  
+        <converter-class>converter.RodzajCzlonkostwaConv</converter-class>
+    </converter>
+    <converter>  
         <converter-id>InwestycjeConv</converter-id>  
         <converter-class>converter.InwestycjeConv</converter-class>
     </converter>

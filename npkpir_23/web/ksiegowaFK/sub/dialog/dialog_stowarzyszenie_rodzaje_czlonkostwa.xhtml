@@ -25,9 +25,9 @@
                 <p:inputText value="#{rodzajeCzlonkostwaView.rodzajCzlonkostwa.opis}" style="width: 380px;"/>
             </p:panelGrid>
             <p:commandButton value="dodaj" actionListener="#{rodzajeCzlonkostwaView.dodaj()}" style="margin: 2%; width: 120px;" global="false"
-                             update="form_rodzaje_czlonkostwa form_rodzaje_czlonkostwa_lista:rodzaje_czlonkostwa_lista" rendered="#{rodzajeCzlonkostwaView.zapisz0edytuj1 == false}"/>
+                             update="form_rodzaje_czlonkostwa form_rodzaje_czlonkostwa_lista:rodzaje_czlonkostwa_lista form_skladka_lista:skladka_lista" rendered="#{rodzajeCzlonkostwaView.zapisz0edytuj1 == false}"/>
             <p:commandButton value="edytuj" actionListener="#{rodzajeCzlonkostwaView.edytuj()}" style="margin: 2%; width: 120px;" global="false"
-                             update="form_rodzaje_czlonkostwa form_rodzaje_czlonkostwa_lista:rodzaje_czlonkostwa_lista" rendered="#{rodzajeCzlonkostwaView.zapisz0edytuj1 == true}"/>
+                             update="form_rodzaje_czlonkostwa form_rodzaje_czlonkostwa_lista:rodzaje_czlonkostwa_lista form_skladka_lista:skladka_lista" rendered="#{rodzajeCzlonkostwaView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="form_rodzaje_czlonkostwa_lista">
             <p:dataTable value="#{rodzajeCzlonkostwaView.rodzajCzlonkostwaLista}" var="item" rowIndexVar="index"
