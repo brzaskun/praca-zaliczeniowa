@@ -623,6 +623,10 @@
         </converter-class>
     </converter>
     <converter>  
+        <converter-id>SkladkaStowarzyszenieConv</converter-id>  
+        <converter-class>converter.SkladkaStowarzyszenieConv</converter-class>
+    </converter>
+     <converter>  
         <converter-id>RodzajCzlonkostwaConv</converter-id>  
         <converter-class>converter.RodzajCzlonkostwaConv</converter-class>
     </converter>

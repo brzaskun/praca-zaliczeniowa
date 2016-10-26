@@ -11,6 +11,7 @@ import entityfk.SkladkaStowarzyszenie;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
+import view.WpisView;
 
 /**
  *
@@ -30,6 +31,10 @@ public class SkladkaStowarzyszenieDAO extends DAO implements Serializable{
     
     public List<SkladkaStowarzyszenie> findAll() {
         return sessionFacade.findAll(SkladkaStowarzyszenie.class);
+    }
+
+    public List<SkladkaStowarzyszenie> findByPodatnikRok(WpisView wpisView) {
+        return sessionFacade.getEntityManager().createNamedQuery("SkladkaStowarzyszenie.findByPodatnikRok").setParameter("podatnikObj", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
     
 }

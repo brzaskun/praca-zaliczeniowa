@@ -17,9 +17,11 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import view.WpisView;
 
 /**
  *
@@ -37,16 +39,20 @@ public class SkladkaStowarzyszenieView implements Serializable {
     @Inject
     private RodzajCzlonkostwaDAO rodzajCzlonkostwaDAO;
     boolean zapisz0edytuj1;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
     @PostConstruct
     private void init() {
-        skladkaStowarzyszenieLista = skladkaStowarzyszenieDAO.findAll();
+        skladkaStowarzyszenieLista = skladkaStowarzyszenieDAO.findByPodatnikRok(wpisView);
         rodzajCzlonkostwaLista = rodzajCzlonkostwaDAO.findAll();
         Collections.sort(rodzajCzlonkostwaLista, new RodzajCzlonkostwacomparator());
     }
     
     public void dodaj() {
         try {
+            skladkaStowarzyszenie.setPodatnik(wpisView.getPodatnikObiekt());
+            skladkaStowarzyszenie.setRok(wpisView.getRokWpisuSt());
             skladkaStowarzyszenieDAO.dodaj(skladkaStowarzyszenie);
             skladkaStowarzyszenieLista.add(skladkaStowarzyszenie);
             skladkaStowarzyszenie = new SkladkaStowarzyszenie();
@@ -108,6 +114,14 @@ public class SkladkaStowarzyszenieView implements Serializable {
 
     public void setRodzajCzlonkostwaLista(List<RodzajCzlonkostwa> rodzajCzlonkostwaLista) {
         this.rodzajCzlonkostwaLista = rodzajCzlonkostwaLista;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
     
     public List<SkladkaStowarzyszenie> getSkladkaStowarzyszenieLista() {

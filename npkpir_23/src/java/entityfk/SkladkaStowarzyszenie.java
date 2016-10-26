@@ -5,6 +5,7 @@
  */
 package entityfk;
 
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -14,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -23,7 +26,10 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"rok", "rodzajCzlonkostwa", "okres"})
+    @UniqueConstraint(columnNames = {"podatnik","rok", "rodzajCzlonkostwa", "okres"})
+})
+@NamedQueries({
+    @NamedQuery(name = "SkladkaStowarzyszenie.findByPodatnikRok", query = "SELECT m FROM SkladkaStowarzyszenie m WHERE m.podatnik = :podatnikObj AND m.rok = :rok")
 })
 public class SkladkaStowarzyszenie implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -36,22 +42,15 @@ public class SkladkaStowarzyszenie implements Serializable{
     private String rok;
     @JoinColumn(name = "rodzajCzlonkostwa", referencedColumnName = "id")
     private RodzajCzlonkostwa rodzajCzlonkostwa;
+    @JoinColumn(name = "podatnik")
+    private Podatnik podatnik;
     @Column(name = "kwota")
     private double kwota;
     //mc, kw, polrok, rok
     @Column(name = "okres")
     private String okres;
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 19 * hash + this.id;
-        hash = 19 * hash + Objects.hashCode(this.rok);
-        hash = 19 * hash + Objects.hashCode(this.rodzajCzlonkostwa);
-        hash = 19 * hash + Objects.hashCode(this.okres);
-        return hash;
-    }
-
+    
     public int getId() {
         return id;
     }
@@ -92,6 +91,25 @@ public class SkladkaStowarzyszenie implements Serializable{
         this.okres = okres;
     }
 
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + this.id;
+        hash = 37 * hash + Objects.hashCode(this.rok);
+        hash = 37 * hash + Objects.hashCode(this.rodzajCzlonkostwa);
+        hash = 37 * hash + Objects.hashCode(this.podatnik);
+        hash = 37 * hash + Objects.hashCode(this.okres);
+        return hash;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -116,16 +134,20 @@ public class SkladkaStowarzyszenie implements Serializable{
         if (!Objects.equals(this.rodzajCzlonkostwa, other.rodzajCzlonkostwa)) {
             return false;
         }
+        if (!Objects.equals(this.podatnik, other.podatnik)) {
+            return false;
+        }
         return true;
     }
 
-    
-
     @Override
     public String toString() {
-        return "SkladkiStowarzyszenie{" + "rok=" + rok + ", rodzajCzlonkostwa=" + rodzajCzlonkostwa + ", skladka=" + kwota + ", okres=" + okres + '}';
+        return "SkladkaStowarzyszenie{" + "rok=" + rok + ", rodzajCzlonkostwa=" + rodzajCzlonkostwa.getNazwa() + ", podatnik=" + podatnik.getNazwapelna() + ", kwota=" + kwota + ", okres=" + okres + '}';
     }
-    
+
+   public String toString2() {
+        return rodzajCzlonkostwa.getNazwa() + ", " + kwota + ", " + okres;
+    }
     
     
 }
