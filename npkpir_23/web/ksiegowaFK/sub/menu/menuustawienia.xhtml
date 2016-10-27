@@ -9,7 +9,7 @@
         <p:tab title="Plan kont wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
             <h:form id="dialog1menu2">
                 <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
-                    <p:menuitem value="Wzorcowy plan kont" onclick="PF('dialogplankontwzorcowy').show();" 
+                    <p:menuitem value="Wzorcowy plan kont" onclick="PF('dialogplankontwzorcowy').show();"  actionListener="#{planKontView.init}"  update="formwzorcowy:dataListwzorcowy"
                                 global="false"></p:menuitem>
                     <p:menuitem value="Nazwy kont - internacjonalizacja" onclick="PF('dialog_plankont_wzorcowy_nazwy').show();" actionListener="#{planKontInterView.init()}" update=":form_dialog_plankont_wzorcowy_nazwy" global="false"></p:menuitem>
                     <p:menuitem value="Kopiuj plan kont wzorcowy" onclick="PF('dialog_plankont_kopiuj_wzorcowy').show();" global="false"

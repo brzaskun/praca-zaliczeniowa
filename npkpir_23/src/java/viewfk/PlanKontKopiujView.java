@@ -32,6 +32,7 @@ public class PlanKontKopiujView implements Serializable {
 
     private Podatnik podatnikzrodlowy;
     private Podatnik podatnikdocelowy;
+    private String rokzrodlowy_wzorzec;
     private String rokzrodlowy;
     private String rokdocelowy;
     private boolean kopiujSlownikowe;
@@ -51,6 +52,7 @@ public class PlanKontKopiujView implements Serializable {
     @PostConstruct
     private void init() {
         rokzrodlowy = Roki.rokPoprzedni(wpisView.getRokWpisuSt());
+        rokzrodlowy_wzorzec = wpisView.getRokWpisuSt();
         rokdocelowy = wpisView.getRokWpisuSt();
         kopiujSlownikowe = false;
         podatnikzrodlowy = wpisView.getPodatnikObiekt();
@@ -94,7 +96,7 @@ public class PlanKontKopiujView implements Serializable {
         if (wpisView.isFKpiatki() == false) {
             for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
                 Konto p = it.next();
-                if (p.getNrkonta().startsWith("5")) {
+                if (p.getPelnynumer().startsWith("5")) {
                     it.remove();
                 }
             }
@@ -104,7 +106,6 @@ public class PlanKontKopiujView implements Serializable {
         for (int i = 1; i <= maxlevel; i++) {
             macierzyste = skopiujlevel("Wzorcowy", wpisView.getPodatnikWpisu(), wykazkont, macierzyste, i, rokdocelowy);
         }
-        System.out.println("Implementuje plan kont");
         planKontView.init();
     }
 
@@ -156,6 +157,9 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     private Konto kopiujKonto(Konto p, List<Konto> macierzystelista, String podatnikDocelowy, boolean slownikowe) {
+        if (p.getPelnynumer().equals("010-5")) {
+            System.out.println("");
+        }
         Konto r = serialclone.SerialClone.clone(p);
         zeruDanekontaBO(r);
         r.setPodatnik(podatnikDocelowy);
@@ -207,6 +211,14 @@ public class PlanKontKopiujView implements Serializable {
 
     public void setPodatnikzrodlowy(Podatnik podatnikzrodlowy) {
         this.podatnikzrodlowy = podatnikzrodlowy;
+    }
+
+    public String getRokzrodlowy_wzorzec() {
+        return rokzrodlowy_wzorzec;
+    }
+
+    public void setRokzrodlowy_wzorzec(String rokzrodlowy_wzorzec) {
+        this.rokzrodlowy_wzorzec = rokzrodlowy_wzorzec;
     }
 
     public boolean isKopiujSlownikowe() {
