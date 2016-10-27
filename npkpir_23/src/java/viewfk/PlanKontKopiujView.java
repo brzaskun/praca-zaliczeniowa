@@ -162,6 +162,7 @@ public class PlanKontKopiujView implements Serializable {
         }
         Konto r = serialclone.SerialClone.clone(p);
         zeruDanekontaBO(r);
+        r.setKontopozycjaID(null);
         r.setPodatnik(podatnikDocelowy);
         r.setRok(Integer.parseInt(rokdocelowy));
         r.setSlownikowe(slownikowe);
@@ -178,6 +179,7 @@ public class PlanKontKopiujView implements Serializable {
             if (p.getLevel() == i) {
                 try {
                     Konto r = serialclone.SerialClone.clone(p);
+                    r.setKontopozycjaID(null);
                     r.setPodatnik(docelowy);
                     r.setRok(Integer.parseInt(rokdocelowy));
                     Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);

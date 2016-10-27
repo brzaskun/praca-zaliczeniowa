@@ -1001,6 +1001,8 @@ public class PlanKontView implements Serializable {
     }
 
     private void usunkontozbazy(Konto kontoDoUsuniecia, String klientWzor) {
+        kontoDoUsuniecia.setKontomacierzyste(null);
+        kontoDAOfk.edit(kontoDoUsuniecia);
         kontoDAOfk.destroy(kontoDoUsuniecia);
         if (klientWzor.equals("W")) {
             wykazkontwzor.remove(kontoDoUsuniecia);

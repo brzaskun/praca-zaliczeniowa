@@ -155,10 +155,15 @@ public class SessionFacade<T> implements Serializable {
         em.flush();
     }
 
+    //to jest po to, ze jk juz jest cos w np. planie kont to 
+    //wywali blad w jednym, ele reszte zasejwuje w bazie :)
     public void createRefresh(List<T> entityList) {
         for (T p : entityList) {
-            getEntityManager().persist(p);
-            em.flush();
+            try {
+                getEntityManager().persist(p);
+                em.flush();
+            } catch (Exception e) {
+            }
         }
     }
 
