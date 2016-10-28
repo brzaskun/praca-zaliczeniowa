@@ -16,24 +16,20 @@
         <br/>
         <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
     </h:form>
-    <h:form id="formconfirmDialog">
     <p:confirmDialog id="confirmDialog" message="Usunąć wybrane faktury? Sztuk #{fakturaView.gosciwybral.size()}"  appendTo="@(body)"
                      header="Rozpoczęcie usuwania faktur" severity="alert" widgetVar="confirmationFaktura" >  
         <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmationFaktura').hide()" type="button" style="margin-left: 15px;"/>   
-        <p:commandButton id="confirm" value="Tak, usunąć" update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formzestawienie:dokumentyZestawienie" 
+        <p:commandButton id="confirm" value="Tak, usunąć" update="akordeon:formsporzadzone:dokumentyLista akordeon:formzestawienie:dokumentyZestawienie" 
                          oncomplete="PF('confirmationFaktura').hide()"  
                          actionListener="#{fakturaView.destroysporzadzone}" style="margin-left: 70px;"/>  
     </p:confirmDialog>  
-    </h:form>
-    <h:form id="formconfirmDialog1">
     <p:confirmDialog id="confirmDialog1" message="Wygenerować nowe faktury w miesiącu #{WpisView.miesiacWpisu}?"  appendTo="@(body)"
                      header="Generowanie nowych faktur" severity="alert" widgetVar="confirmationFakturaOkresowe" >  
         <p:commandButton id="decline1" value="Nie" onclick="PF('confirmationFakturaOkresowe').hide()" type="button" style="margin-left: 15px;; width: 120px;"/>   
-        <p:commandButton id="confirm1" value="Tak" update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formzestawienie:dokumentyZestawienie,:akordeon:formokresowe:dokumentyOkresowe" 
+        <p:commandButton id="confirm1" value="Tak" update="akordeon:formsporzadzone:dokumentyLista akordeon:formzestawienie:dokumentyZestawienie akordeon:formokresowe:dokumentyOkresowe" 
                          oncomplete="PF('confirmationFakturaOkresowe').hide()"  
                          actionListener="#{fakturaView.wygenerujzokresowych()}" style="margin-left: 70px; width: 120px;"/>  
     </p:confirmDialog>  
-    </h:form>
     <ui:include src="faktura/dialog_nowyklient_faktura.xhtml"/>
     <ui:include src="faktura/dialog_nazwaskroconafaktura.xhtml"/>
     <p:tabView id="akordeon" style="max-width: 1500px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}" >
