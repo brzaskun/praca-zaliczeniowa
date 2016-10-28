@@ -296,8 +296,6 @@ public class FakturaView implements Serializable {
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Błąd. Faktura o takim numerze i dla takiego kontrahenta już istnieje");
         }
-        RequestContext.getCurrentInstance().update("akordeon:formstworz");
-        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");  
 //        RequestContext.getCurrentInstance().execute("PF('dokTableFaktury').sort();");
     }
     

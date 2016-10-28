@@ -101,11 +101,12 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
     public Faktura findbyNumerPodatnik(String numerkolejny, String podatnik) {
-         try {
-            return fakturaFacade.findByNumerPodatnik(numerkolejny, podatnik);
-        } catch (Exception e) { E.e(e); 
-            return null;
+        Faktura zwrot = null;
+        try {
+            zwrot = fakturaFacade.findByNumerPodatnik(numerkolejny, podatnik);
+        } catch (Exception e) {
         }
+        return zwrot;
     }
      
       public List<Faktura> findbyPodatnikRok(String podatnik, String rok) {

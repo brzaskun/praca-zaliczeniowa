@@ -313,7 +313,8 @@
                 </p:outputPanel>
                 <!--                panel korekty-->
                 <p:outputPanel id="panelkorekty" style="margin-top: 15px;" rendered="#{fakturaView.fakturakorekta}">
-                    <p:dataTable id="rzadkorekty" value="#{fakturaView.selected.pozycjepokorekcie}" var="row" rowIndexVar="rowStat" style="width: 790px;"
+                    <p:dataTable id="rzadkorekty" value="#{fakturaView.selected.pozycjepokorekcie}" 
+                                 var="row" rowIndexVar="rowStat" style="width: 790px;"
                                  binding="#{fakturaView.dataTablepozycjenafakturzekorekta}">
                         <f:facet name="header">
                             <h:outputText value="po korekcie"/>
@@ -431,10 +432,10 @@
                 <p:messages id="messagesinline"/>
                 <p:outputPanel  style="margin-top: 15px;">
                     <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" title="zapisz fakturę w bazie danych"
-                                     update=":akordeon:formstworz, :akordeon:formsporzadzone" style="margin-bottom: 25px; width: 120px; height: 45px;" 
+                                     update="akordeon:formprzygotuj akordeon:formstworz akordeon:formsporzadzone" style="margin-bottom: 25px; width: 120px; height: 45px;" 
                                      rendered="#{fakturaView.zapis0edycja1 eq false}"/>
                     <p:commandButton id="edytujfakt" value="edytuj fakture" actionListener="#{fakturaView.edytuj()}" title="zapisz fakturę w bazie danych"
-                                     update=":akordeon:formstworz, :akordeon:formsporzadzone" style="margin-bottom: 25px; width: 120px; height: 45px;"
+                                     update="akordeon:formprzygotuj akordeon:formstworz akordeon:formsporzadzone" style="margin-bottom: 25px; width: 120px; height: 45px;"
                                      rendered="#{fakturaView.zapis0edycja1 eq true}"/>
                     <p:commandButton style="margin-left: 25px; width: 120px; height: 45px;" id="dodajwzorcowywiersz" value="wzorcowy wiersz" 
                                      title="zachowaj pierwszy wiersz jako wzorcowy" actionListener="#{fakturaView.zachowajwierszwzorcowy()}"/>

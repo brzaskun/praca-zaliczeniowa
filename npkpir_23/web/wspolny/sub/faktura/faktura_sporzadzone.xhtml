@@ -30,7 +30,7 @@
                 <p:menuitem value="Faktura okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Duplikat" actionListener="#{fakturaDuplikatView.generujduplikat(fakturaView.gosciwybral)}" icon="ui-icon-copy" update=":akordeon:formsporzadzone:dokumentyLista :form1:messages"/>
                 <p:menuitem value="Zaksięguj" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
-                <p:menuitem value="Usuń wybrane" update=":confirmDialog" oncomplete="PF('confirmationFaktura').show();" icon="ui-icon-trash" />
+                <p:menuitem value="Usuń wybrane" update="formconfirmDialog:confirmDialog" oncomplete="PF('confirmationFaktura').show();" icon="ui-icon-trash" />
                 <p:separator/>
                 <p:menuitem value="Przenumeruj w górę" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwgore()}" />
                 <p:menuitem value="Przenumeruj w dół" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwdol()}" />
