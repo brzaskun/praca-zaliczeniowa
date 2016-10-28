@@ -56,12 +56,12 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update=":formtablicaanalityczne tablicasaldaanalityczne :tabelazsumamianalityka:sumy"/>
+                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="formtablicaanalityczne tablicasaldaanalityczne tabelazsumamianalityka:sumy"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update=":formtablicaanalityczne, :tabelazsumamianalityka:sumy"/>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="formtablicaanalityczne tabelazsumamianalityka:sumy"/>
                 </p:column>
                 
                     <h:outputText value="#{mgs.przetwarzanie}"/>
@@ -72,7 +72,7 @@
                  <p:column >
                      <p:selectOneMenu id="rodzajkont" value="#{saldoAnalitykaView.wybranyRodzajKonta}"  style="margin-left: 20px;">
                         <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" 
-                                update=":formtablicaanalityczne:tablicasaldaanalityczne :tabelazsumamianalityka:sumy :formtablicaanalityczne:tylkoniezerowe"/>
+                                update="formtablicaanalityczne:tablicasaldaanalityczne tabelazsumamianalityka:sumy formtablicaanalityczne:tylkoniezerowe"/>
                         <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                         <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>

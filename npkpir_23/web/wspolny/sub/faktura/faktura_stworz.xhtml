@@ -24,11 +24,11 @@
                                  oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"
                                  style="margin-bottom: 5px; margin-top: 5px; width: 140px;" />
                 <p:commandButton value="faktura korekta" actionListener="#{fakturaView.przygotujfakturekorekte()}" 
-                                 style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"/>
+                                 style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" update="akordeon:formstworz"/>
                 <p:commandButton value="faktura xxl" actionListener="#{fakturaView.przygotujfakturexxl()}" 
-                                 style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"/>
+                                 style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" update="akordeon:formstworz"/>
                 <p:commandButton value="faktura xxl korekta" actionListener="#{fakturaView.przygotujfakturekorektexxl()}" 
-                                 style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"/>
+                                 style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" update="akordeon:formstworz"/>
             </p:outputPanel>
         </h:form>
         <h:form id="formstworz">
@@ -196,8 +196,9 @@
                     
                 </div>
                 <p:outputPanel id="panel" style="margin-top: 15px;">
-                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 790px;"
-                                 binding="#{fakturaView.dataTablepozycjenafakturze}">
+                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
+                                 style="#{fakturaView.fakturaxxl eq false ? 'width: 790px;': 'width: 1180px;'}"
+                                 >
                         <f:facet name="header" >
                             <h:outputText value="przed korektą"  rendered="#{fakturaView.fakturakorekta}"/>
                         </f:facet>
@@ -314,8 +315,9 @@
                 <!--                panel korekty-->
                 <p:outputPanel id="panelkorekty" style="margin-top: 15px;" rendered="#{fakturaView.fakturakorekta}">
                     <p:dataTable id="rzadkorekty" value="#{fakturaView.selected.pozycjepokorekcie}" 
-                                 var="row" rowIndexVar="rowStat" style="width: 790px;"
-                                 binding="#{fakturaView.dataTablepozycjenafakturzekorekta}">
+                                 var="row" rowIndexVar="rowStat" 
+                                 style="#{fakturaView.fakturaxxl eq false ? 'width: 790px;': 'width: 1180px;'}"
+                                 >
                         <f:facet name="header">
                             <h:outputText value="po korekcie"/>
                         </f:facet>

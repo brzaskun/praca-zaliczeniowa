@@ -112,40 +112,6 @@
                 <p:column headerText="#{mgs.konto}" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}" />
                 </p:column>
-                <p:rowExpansion>
-                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
-                        <p:column headerText="#{mgs.dokument}" width="60">
-                            <h:outputText value="#{loopik.dokfkS}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.data}" width="50">
-                            <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.nr}" width="100">
-                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.kontrahent}">
-                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.opis}">
-                            <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.waluta}" width="30">
-                            <h:outputText value="#{loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.symbolwaluty}"/>
-                        </p:column>
-                         <p:column headerText="#{mgs.kwotaWn}" width="60">
-                            <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Wn' }"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.kwotaMa}" width="60">
-                            <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Ma' }"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.kwotaWnPLN}" width="60" rendered="#{(loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.symbolwaluty) ne 'PLN'}">
-                            <bcf:outputpl value="#{loopik.kwotaPLN}"  rendered="#{loopik.wnma eq 'Wn' }"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.kwotaMaPLN}" width="60" rendered="#{(loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.symbolwaluty) ne 'PLN'}">
-                            <bcf:outputpl value="#{loopik.kwotaPLN}"  rendered="#{loopik.wnma eq 'Ma' }"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:rowExpansion>
             </p:dataTable>
         </h:form>
         <h:form id="tabelazsumamisyntetyka">

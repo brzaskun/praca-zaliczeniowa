@@ -150,8 +150,6 @@ public class FakturaView implements Serializable {
     private int aktywnytab;
     private boolean zapis0edycja1;
     private String nazwaskroconafaktura;
-    private DataTable dataTablepozycjenafakturze;
-    private DataTable dataTablepozycjenafakturzekorekta;
     private boolean fakturaxxl;
     private boolean fakturakorekta;
     private AutoComplete kontrahentstworz;
@@ -193,7 +191,6 @@ public class FakturaView implements Serializable {
         fakturaxxl = false;
         fakturakorekta = false;
         inicjalizacjaczesciwspolne();
-        dataTablepozycjenafakturze.setStyle("width: 800px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setRodzajdokumentu("faktura");
@@ -206,7 +203,6 @@ public class FakturaView implements Serializable {
         fakturaxxl = true;
         fakturakorekta = false;
         inicjalizacjaczesciwspolne();
-        dataTablepozycjenafakturze.setStyle("width: 1100px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setRodzajdokumentu("faktura xxl");
@@ -219,8 +215,6 @@ public class FakturaView implements Serializable {
         fakturaxxl = false;
         fakturakorekta = true;
         inicjalizacjaczesciwspolne();
-        dataTablepozycjenafakturze.setStyle("width: 800px;");
-        dataTablepozycjenafakturzekorekta.setStyle("width: 800px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -234,8 +228,6 @@ public class FakturaView implements Serializable {
         fakturaxxl = true;
         fakturakorekta = true;
         inicjalizacjaczesciwspolne();
-        dataTablepozycjenafakturze.setStyle("width: 1100px;");
-        dataTablepozycjenafakturzekorekta.setStyle("width: 1470px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -351,11 +343,11 @@ public class FakturaView implements Serializable {
         selected.setKontrahent(faktura.getKontrahent());
         fakturaxxl = faktura.isFakturaxxl();
         if (fakturaxxl) {
-            dataTablepozycjenafakturze.setStyle("width: 1280px;");
-            dataTablepozycjenafakturzekorekta.setStyle("width: 1280px;");
+            //dataTablepozycjenafakturze.setStyle("width: 1280px;");
+            //dataTablepozycjenafakturzekorekta.setStyle("width: 1280px;");
         } else {
-            dataTablepozycjenafakturze.setStyle("width: 790px;");
-            dataTablepozycjenafakturzekorekta.setStyle("width: 790px;");
+            //dataTablepozycjenafakturze.setStyle("width: 790px;");
+            //dataTablepozycjenafakturzekorekta.setStyle("width: 790px;");
         }
         fakturakorekta = faktura.getPozycjepokorekcie() != null;
         aktywnytab = 0;
@@ -1317,15 +1309,6 @@ public class FakturaView implements Serializable {
         FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, selected, wpisView);
     }
     
-    public void dodajkolumne() {
-        Column dodkolumna = new Column();
-        dodkolumna.setHeaderText("cena netto");
-        InputText t = new InputText();
-        t.setValueExpression("value", createValueExpression("#{row.nowakolumna}", String.class));
-        dodkolumna.getChildren().add(t);
-        dataTablepozycjenafakturze.getChildren().add(dodkolumna);
-        Msg.msg("Dodaję kolumnę");
-    }
     
     public void dopasujterminplatnosci(ValueChangeEvent e) {
         String data = (String) e.getNewValue();
@@ -1649,14 +1632,6 @@ public class FakturaView implements Serializable {
         this.nazwaskroconafaktura = nazwaskroconafaktura;
     }
 
-    public DataTable getDataTablepozycjenafakturze() {
-        return dataTablepozycjenafakturze;
-    }
-
-    public void setDataTablepozycjenafakturze(DataTable dataTablepozycjenafakturze) {
-        this.dataTablepozycjenafakturze = dataTablepozycjenafakturze;
-    }
-
     public AutoComplete getKontrahentstworz() {
         return kontrahentstworz;
     }
@@ -1668,15 +1643,6 @@ public class FakturaView implements Serializable {
     
 //</editor-fold>
 
-    public DataTable getDataTablepozycjenafakturzekorekta() {
-        return dataTablepozycjenafakturzekorekta;
-    }
-
-    public void setDataTablepozycjenafakturzekorekta(DataTable dataTablepozycjenafakturzekorekta) {
-        this.dataTablepozycjenafakturzekorekta = dataTablepozycjenafakturzekorekta;
-    }
-
-   
     
    
 
