@@ -18,7 +18,9 @@
         <h:form id="miejscaprzychodow">
             <p:panelGrid columns="2" >
                 <h:outputText value="nazwa miejsca przychodów "/>
-                <p:inputText id="nazwamiejsca" value="#{miejscePrzychodowView.selected.opismiejsca}" style="width: 180px;"/>
+                <p:inputText id="nazwamiejsca" value="#{miejscePrzychodowView.selected.opismiejsca}" style="width: 180px;">
+                    <p:ajax event="blur" oncomplete="kopiujtrescpola('miejscaprzychodow:nazwamiejsca','miejscaprzychodow:nazwamiejscas')" global="false"/>
+                </p:inputText>
                 <h:outputText value="nazwa skrócona"/>
                 <p:inputText id="nazwamiejscas" value="#{miejscePrzychodowView.selected.opisskrocony}" style="width: 180px;"/>
             </p:panelGrid>

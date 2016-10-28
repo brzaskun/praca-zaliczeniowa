@@ -75,6 +75,14 @@ var zweryfikujczyniebrakujesrodektrw = function(tablica) {
   }
 };
 
+var kopiujtrescpola = function(zrodlo, cel) {
+  var o1 = r(zrodlo).val();
+  if (o1) {
+      r(cel).val(o1);
+      r(cel).select();
+  }
+};
+
 
 // 
 //var t;
