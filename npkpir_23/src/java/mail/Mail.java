@@ -29,29 +29,29 @@ public class Mail {
 
    static {
        stopka = " <div>Z poważaniem</div>"
-               + "<div> &nbsp;</div>"
+               + "<br/>"
                + "<div> Grzegorz Grzelczyk</div>"
                + "<div> doradca podatkowy</div>"
-               + "<div> &nbsp;</div>"
+               + "<br/>"
                + "<div style=\"color: green;\">Adres mailowy, z którego została wysłana ta wiadomość nie służy do normalnej korespondencji. Prosimy nie odpowiadać na niniejszą wiadomość.</div>"
-               + "<div> &nbsp;</div>"
+               + "<br/>"
                + "<div> ul. J.H. Dąbrowskiego 38/40 p.313</div>"
                + "<div> PL-70-100 Szczecin</div>"
                + "<div> tel. +4891 8128287</div>"
                + "<div> fax. +4891 8120977</div>"
                + "<div> mobil +48 603133396</div>"
-               + "<div> &nbsp;</div>"
+               + "<br/>"
                + "<div> <a href=\"http://taxman.biz.pl\">http://taxman.biz.pl</a></div>"
                + "<div> info@taxman.biz.pl&nbsp;</div>"
                + "<div> <a href=\"http://www.facebook.com/BiuroRachunkowe.Szczecin\">http://www.facebook.com/BiuroRachunkowe.Szczecin</a></div>"
-               + "<div> &nbsp;</div>"
+               + "<br/>"
                + "<div> BRE BANK: 11402004 SWIFT: BREXPLPWMUL&nbsp;</div>"
                + "<div> Numer konta EBAN-nr: 57114020040000340209035790</div>";
-       reklama = "<div> &nbsp;</div>"
+       reklama = "<br/>"
                + "<div>Możesz zawsze samodzielnie pobierać wszelkie informacje na temat twoje firmy</div>"
                + "<div>Wystarczy zarejestrować się w naszym programie księgowym online </div>"
                + "<div>Tutaj jest adres http tego programu <a href= \"http://taxman.pl:8080\">http://taxman.pl:8080</a></div>"
-               + "<div> &nbsp;</div>";
+               + "<br/>";
        fake = "<div style=\"color: green;\">Adres mailowy, z którego została wysłana ta wiadomość nie służy do normalnej korespondencji. Prosimy nie odpowiadać na niniejszą wiadomość.</div>";
    }
     
@@ -72,7 +72,7 @@ public class Mail {
                     + "<p>Właśnie zarejestrowałeś się w naszym serwisie z loginem: </p>"
                     + "<span style=\"color: green;\">"+login+"</span>"
                     + "<p>Ze względów bezpieczeństwa Twoje konto wymaga jeszcze aktywacji przez administratora.</p>"
-                    + "<p>Może to potrwać do godziny. O udanej aktywacji zostaniesz poinformowany kolejną wiadomością mailową.</p>"
+                    + "<p>Może to potrwać do 24h. O udanej aktywacji zostaniesz poinformowany kolejną wiadomością mailową.</p>"
                     + stopka,  "text/html; charset=utf-8");
             Transport.send(message);
             message.setHeader("Content-Type", "text/html; charset=utf-8");

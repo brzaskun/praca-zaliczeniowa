@@ -243,7 +243,7 @@ public class UzView implements Serializable {
     }
 
     public void sprawdzidentycznoschasel() {
-        if (selUzytkownik.getHaslo().length() < 7) {
+        if (selUzytkownik.getHaslo().length() < 6) {
             pokazprzyciskrejestracja = false;
         } else {
             if (!confPassword.equals(selUzytkownik.getHaslo())) {
