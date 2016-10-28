@@ -62,13 +62,14 @@ public class UzView implements Serializable {
     private String nowedrugiehaslo;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    private Panel panelrejestracji;
     private List<DemoWiersz> polademo;
     private boolean pokazprzyciskrejestracja;
+    private boolean renderujrejestracje;
 
     public UzView() {
         listaUzytkownikow = new ArrayList<>();
         polademo = new ArrayList<>();
+        renderujrejestracje = true;
     }
 
     @PostConstruct
@@ -96,12 +97,9 @@ public class UzView implements Serializable {
                 String wiadomosc = B.b("rejestracjaudana");
                 Msg.msg(wiadomosc);
                 Mail.nadajMailRejestracjaNowegoUzera(selUzytkownik.getEmail(), selUzytkownik.getLogin());
-                panelrejestracji.setRendered(false);
-                RequestContext.getCurrentInstance().reset("pole");
-                RequestContext.getCurrentInstance().update("pole");
+                renderujrejestracje = false;
             } catch (Exception e) {
                 E.e(e); 
-                Msg.msg("e","Uzytkownik o takim loginie już istnieje. Wprowadź inny login.");
             }
         }
     }
@@ -274,7 +272,7 @@ public class UzView implements Serializable {
     }
 
     public void sprawdzloginduplikat(AjaxBehaviorEvent e) {
-        if (selUzytkownik.getLogin().length() < 7) {
+        if (selUzytkownik.getLogin().length() < 6) {
             pokazprzyciskrejestracja = false;
         } else {
             String login = (String) Params.params("pole:login");
@@ -300,14 +298,7 @@ public class UzView implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public Panel getPanelrejestracji() {
-        return panelrejestracji;
-    }
-
-    public void setPanelrejestracji(Panel panelrejestracji) {
-        this.panelrejestracji = panelrejestracji;
-    }
-
+   
     public List<DemoWiersz> getPolademo() {
         return polademo;
     }
@@ -395,6 +386,14 @@ public class UzView implements Serializable {
 
     public void setPokazprzyciskrejestracja(boolean pokazprzyciskrejestracja) {
         this.pokazprzyciskrejestracja = pokazprzyciskrejestracja;
+    }
+
+    public boolean isRenderujrejestracje() {
+        return renderujrejestracje;
+    }
+
+    public void setRenderujrejestracje(boolean renderujrejestracje) {
+        this.renderujrejestracje = renderujrejestracje;
     }
 
     public List<Uz> getObiektUZjsfselected() {

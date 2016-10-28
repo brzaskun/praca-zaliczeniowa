@@ -33,7 +33,8 @@
                 
             </h:form>
             <h:form id="pole">
-                <p:panel style="text-align: center; margin-left: auto; margin-right: auto; margin-top:  1%; width: 362px" binding="#{UzView.panelrejestracji}">
+                <p:outputPanel id="panelrejestracji">
+                    <p:panel style="text-align: center; margin-left: auto; margin-right: auto; margin-top:  1%; width: 362px" rendered="#{UzView.renderujrejestracje}">
                     <f:facet name="header">
                         <h:outputLabel value="#{mgs.danerejestracyjne}"/>
                     </f:facet>
@@ -63,7 +64,7 @@
                             <h:outputText value="#{mgs.potwierdzhaslo}"/>
                             <p:password id="haslo2" value="#{UzView.confPassword}" title="#{mgs.haslazgodne}" validatorMessage="#{mgs.hasloskladasie}" required="true" requiredMessage="#{mgs.wpiszpotwierdzenie}!" autocomplete="true" >
                                 <f:validateLength minimum="6"/>
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{UzView.sprawdzidentycznoschasel}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{UzView.sprawdzidentycznoschasel}" update="pole:przyciskbox"/>
                             </p:password>
                             <p:separator/><p:separator/>
                              <h:outputText value="#{mgs.email}"/>
@@ -89,9 +90,11 @@
                     </p:panelGrid>
                     <br/>
                     <p:outputPanel id="przyciskbox">
-                        <p:commandButton id="rejestrujbutton" value="#{mgs.zarejestruj}" action="#{UzView.dodaj()}" style="width: 150px;" rendered="#{UzView.pokazprzyciskrejestracja}"/>
+                        <p:commandButton id="rejestrujbutton" value="#{mgs.zarejestruj}" update="pole:panelrejestracji"
+                                         actionListener="#{UzView.dodaj()}" style="width: 150px;" rendered="#{UzView.pokazprzyciskrejestracja}"/>
                     </p:outputPanel>
                 </p:panel>
+                    </p:outputPanel>
             </h:form>
         </h:body>
     </f:view>
