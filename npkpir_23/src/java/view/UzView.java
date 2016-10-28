@@ -64,6 +64,7 @@ public class UzView implements Serializable {
     private WpisView wpisView;
     private Panel panelrejestracji;
     private List<DemoWiersz> polademo;
+    private boolean pokazprzyciskrejestracja;
 
     public UzView() {
         listaUzytkownikow = new ArrayList<>();
@@ -72,6 +73,7 @@ public class UzView implements Serializable {
 
     @PostConstruct
     public void init() {
+        pokazprzyciskrejestracja = true;
         listaUzytkownikow = uzDAO.findAll();
         selUzytkownik = wpisView.getWprowadzil();
         nowymail = selUzytkownik.getEmail();
@@ -243,16 +245,23 @@ public class UzView implements Serializable {
     }
 
     public void sprawdzidentycznoschasel() {
-        if (!confPassword.equals(selUzytkownik.getHaslo())) {
-            String locale = FacesContext.getCurrentInstance().getELContext().getLocale().getLanguage();
-            if (locale.equals(new Locale("pl").getLanguage())) {
-                Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
-            } else if (locale.equals(new Locale("de").getLanguage())) {
-                Msg.msg("e","Passwörter stimmen nicht überein. Prüfen Sie das.", "registerForm:passwordConfirm");
-            } else if (locale.equals(new Locale("en").getLanguage())) {
-                Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
+        if (selUzytkownik.getHaslo().length() < 7) {
+            pokazprzyciskrejestracja = false;
+        } else {
+            if (!confPassword.equals(selUzytkownik.getHaslo())) {
+                    pokazprzyciskrejestracja = false;
+                String locale = FacesContext.getCurrentInstance().getELContext().getLocale().getLanguage();
+                if (locale.equals(new Locale("pl").getLanguage())) {
+                    Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
+                } else if (locale.equals(new Locale("de").getLanguage())) {
+                    Msg.msg("e","Passwörter stimmen nicht überein. Prüfen Sie das.", "registerForm:passwordConfirm");
+                } else if (locale.equals(new Locale("en").getLanguage())) {
+                    Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
+                }
+            } else {
+                pokazprzyciskrejestracja = true;
             }
-        } 
+        }
     }
     
     public void zmienustawienia() {
@@ -265,22 +274,28 @@ public class UzView implements Serializable {
     }
 
     public void sprawdzloginduplikat(AjaxBehaviorEvent e) {
-        String login = (String) Params.params("pole:login");
-        try {
-            Uz user = uzDAO.findUzByLogin(login);
-            String locale = FacesContext.getCurrentInstance().getELContext().getLocale().getLanguage();
-            if (user == null) {
-            } else {
-                if (locale.equals(new Locale("pl").getLanguage())) {
-                    Msg.msg("e", "Użytkownik o takim loginie już istnienie. Wpisz inny.", "registerForm:passwordConfirm");
-                } else if (locale.equals(new Locale("de").getLanguage())) {
-                    Msg.msg("e", "Eingegebener Benutzername existiert schon", "registerForm:passwordConfirm");
-                } else if (locale.equals(new Locale("en").getLanguage())) {
-                    Msg.msg("e", "Użytkownik o takim loginie już istnienie. Wpisz inny.", "registerForm:passwordConfirm");
+        if (selUzytkownik.getLogin().length() < 7) {
+            pokazprzyciskrejestracja = false;
+        } else {
+            String login = (String) Params.params("pole:login");
+            try {
+                Uz user = uzDAO.findUzByLogin(login);
+                String locale = FacesContext.getCurrentInstance().getELContext().getLocale().getLanguage();
+                if (user != null) {
+                    pokazprzyciskrejestracja = false;
+                    if (locale.equals(new Locale("pl").getLanguage())) {
+                        Msg.msg("e", "Użytkownik o takim loginie już istnienie. Wpisz inny.", "registerForm:passwordConfirm");
+                    } else if (locale.equals(new Locale("de").getLanguage())) {
+                        Msg.msg("e", "Eingegebener Benutzername existiert schon", "registerForm:passwordConfirm");
+                    } else if (locale.equals(new Locale("en").getLanguage())) {
+                        Msg.msg("e", "Użytkownik o takim loginie już istnienie. Wpisz inny.", "registerForm:passwordConfirm");
+                    }
+                } else {
+                    pokazprzyciskrejestracja = true;
                 }
+            } catch (Exception ef) {
+                Msg.msg("e", "Nie można sprawdzić loginu. Wsytąpił błąd!");
             }
-        } catch (Exception ef) {
-            //Msg.msg("e", "Nie można sprawdzić loginu. Wsytąpił błąd!");
         }
     }
 
@@ -372,6 +387,14 @@ public class UzView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public boolean isPokazprzyciskrejestracja() {
+        return pokazprzyciskrejestracja;
+    }
+
+    public void setPokazprzyciskrejestracja(boolean pokazprzyciskrejestracja) {
+        this.pokazprzyciskrejestracja = pokazprzyciskrejestracja;
     }
 
     public List<Uz> getObiektUZjsfselected() {
