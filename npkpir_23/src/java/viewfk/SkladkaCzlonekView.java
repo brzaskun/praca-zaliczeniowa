@@ -74,44 +74,9 @@ public class SkladkaCzlonekView implements Serializable {
     }
     
     
-    public void dodaj() {
-        try {
-            skladkaCzlonekDAO.dodaj(skladkaCzlonek);
-            skladkaCzlonekLista.add(skladkaCzlonek);
-            skladkaCzlonek = new SkladkaCzlonek();
-            Msg.msg("Nanieniono nowy rodzaj członkostwa-składki");
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("e","Wystąpił bład. Sprawdź czy nazwa rodzaju członkostwa/skrót nazwy sie nie powtarza");
-        }
-    }
-    public void edytuj() {
-        try {
-            skladkaCzlonekDAO.edit(skladkaCzlonek);
-            skladkaCzlonek = new SkladkaCzlonek();
-            zapisz0edytuj1= false;
-            Msg.msg("Zmieniono pozycję");
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("e","Wystąpił bład. Sprawdź czy nazwa rodzaju członkostwa/skrót nazwy sie nie powtarza");
-        }
-    }
-    
-    public void edytuj(SkladkaCzlonek p) {        
-        skladkaCzlonek = p;
-        zapisz0edytuj1 = true;
-        Msg.msg("Wybrano pozycję");
-    }
-    
-    public void usun(SkladkaCzlonek p) {
-        try {
-            skladkaCzlonekDAO.destroy(p);
-            skladkaCzlonekLista.remove(p);
-            Msg.msg("Usunięto pozycję");
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("e","Wystąpił bład podczas usuwania pozycji");
-        }
+    public void zachowajzmiany(SkladkaCzlonek s) {
+        skladkaCzlonekDAO.edit(s);
+        Msg.msg("Zachowano zmiany");
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">

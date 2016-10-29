@@ -37,6 +37,7 @@
                 <p:selectOneMenu value="#{item.skladka}" style="width: 200px;" converter="SkladkaStowarzyszenieConv">
                     <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                     <f:selectItems value="#{skladkaCzlonekView.skladkaStowarzyszenieLista}" var="wpis" itemLabel="#{wpis.toString2()}" itemValue="#{wpis}"/>
+                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{skladkaCzlonekView.zachowajzmiany(item)}"
               </p:selectOneMenu>
                     </p:column>
             </p:dataTable>
