@@ -34,7 +34,9 @@ public class RodzajeCzlonkostwaView implements Serializable {
     private void init() {
         rodzajCzlonkostwaLista = rodzajCzlonkostwaDAO.findAll();
     }
-    
+    public void pobierz() {
+        init();
+    }
     public void dodaj() {
         try {
             rodzajCzlonkostwaDAO.dodaj(rodzajCzlonkostwa);

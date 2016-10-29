@@ -44,9 +44,14 @@
                 <p:menu id="d1m4a" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
                     <p:menuitem value="definiowanie miejsc przychodów" onclick="PF('dialog_miejscaprzychodow_dolaczanie').show();"></p:menuitem>
                     <p:menuitem value="wykaz członków stowarzyszenia" onclick="PF('dialog_wykaz_czlonkow_stowarzyszenia').show();" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
-                    <p:menuitem value="rodzaje członkostwa" onclick="PF('dialog_stowarzyszenie_rodzaje_czlonkostwa').show();" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
-                    <p:menuitem value="składki" onclick="PF('dialog_stowarzyszenie_skladka').show();" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
-                    <p:menuitem value="członek-składka" onclick="PF('dialog_stowarzyszenie_czlonekskladka').show();" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
+                    <p:menuitem value="rodzaje członkostwa" onclick="PF('dialog_stowarzyszenie_rodzaje_czlonkostwa').show();" 
+                                actionListener="#{rodzajeCzlonkostwaView.pobierz()}" update="form_rodzaje_czlonkostwa form_rodzaje_czlonkostwa_lista"
+                                rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
+                    <p:menuitem value="składki" onclick="PF('dialog_stowarzyszenie_skladka').show();" actionListener="#{skladkaStowarzyszenieView.pobierz()}"
+                                update="form_skladka form_skladka_lista"
+                                rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
+                    <p:menuitem value="członek-składka" actionListener="#{skladkaCzlonekView.pobierz()}" update="form_czlonekskladka_lista"
+                                onclick="PF('dialog_stowarzyszenie_czlonekskladka').show();" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
                 </p:menu>  
             </h:form>
         </p:tab>

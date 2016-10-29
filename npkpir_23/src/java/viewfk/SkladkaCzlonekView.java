@@ -57,6 +57,10 @@ public class SkladkaCzlonekView implements Serializable {
         uzupelnijliste(czlonkowiestowarzyszenia);
     }
     
+    public void pobierz() {
+        init();
+    }
+    
     private void uzupelnijliste(List<MiejscePrzychodow> czlonkowiestowarzyszenia) {
         Set<MiejscePrzychodow> czlonkowie = new HashSet<>();
         for (SkladkaCzlonek p : skladkaCzlonekLista) {

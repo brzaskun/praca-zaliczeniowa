@@ -49,6 +49,10 @@ public class SkladkaStowarzyszenieView implements Serializable {
         Collections.sort(rodzajCzlonkostwaLista, new RodzajCzlonkostwacomparator());
     }
     
+    public void pobierz() {
+        init();
+    }
+    
     public void dodaj() {
         try {
             skladkaStowarzyszenie.setPodatnik(wpisView.getPodatnikObiekt());
