@@ -43,6 +43,10 @@ and open the template in the editor.
     width: 160px !important;
 }
 
+.filter180 input {
+    width: 180px !important;
+}
+
 .filter200 input {
     width: 200px !important;
 }

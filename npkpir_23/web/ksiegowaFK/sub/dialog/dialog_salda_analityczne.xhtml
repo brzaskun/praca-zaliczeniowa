@@ -8,19 +8,8 @@
 
     xmlns:bcf="http://brzaskun.com/facelets">
     <style>
-        .ui-widget-content .ui-datatable-odd td{
-            height : 20px !important;
-            padding: 0px 1px  !important;
-        }
-        .ui-widget-content .ui-datatable-even td{
-            height : 20px !important;
-            padding: 0px 1px  !important;
-        }
-        .ui-datatable .konto .ui-column-filter {
-            width: 45px !important;
-        }
         .saldaanalitycznewiersz {
-            height: 30px;
+            height: 15px !important;
         }
     </style>
     <script>
@@ -107,7 +96,7 @@
                 <p:column width="20">
                     <p:rowToggler rendered="#{saldoAnalitykaView.zzapisami}"/>
                 </p:column>
-                <p:column styleClass="konto" headerText="#{mgs.konto}" width="50"  filterBy="#{loop.konto.pelnynumer}">
+                <p:column styleClass="filter60" headerText="#{mgs.konto}" width="50"  filterBy="#{loop.konto.pelnynumer}">
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >
@@ -168,39 +157,41 @@
                     <p:tooltip for="nazwasyntetykizestawienie" value="#{loop.konto.kontomacierzyste.pelnynumer}" />
                 </p:column>
                 <p:rowExpansion rendered="#{saldoAnalitykaView.zzapisami}">
-                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" rowKey="#{loopik.id}"
-                                 rowSelectMode="add" selectionMode="multiple" selection="#{saldoAnalitykaView.wybranezpisykonta}"
-                                 sortBy="#{loopik.dokfk.datadokumentu}" scrollable="true" scrollHeight="200" scrollWidth="1200" style="width: 1200px;">
+                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" rowKey="#{loopik.hashCode()}"
+                                 rowSelectMode="add" selection="#{saldoAnalitykaView.wybranezpisykonta}"
+                                 sortBy="#{loopik.dokfk.datadokumentu}"  style="overflow-y: scroll; height: 400px;width: 1400px;">
+                        <p:column selectionMode="multiple" width="30" style="text-align: center;">
+                        </p:column>
                         <p:column headerText="#{mgs.dokument}" style="width:90px;" sortBy="#{loopik.dokfkS}">
                             <h:outputText value="#{loopik.dokfkS}" style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
                         </p:column>
-                        <p:column headerText="#{mgs.data}" style="width:60px;" sortBy="#{loopik.dokfk.datadokumentu}">
+                        <p:column headerText="#{mgs.data}" style="width:70px;" sortBy="#{loopik.dokfk.datadokumentu}">
                             <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                         </p:column>
                         <p:column headerText="#{mgs.nr}" style="width:90px;">
                             <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}" style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
                         </p:column>
                        
-                        <p:column headerText="#{mgs.opis}" style="width:450px;" styleClass="filter120" sortBy="#{loopik.wiersz.opisWiersza}" filterBy="#{loopik.wiersz.opisWiersza}">
+                        <p:column headerText="#{mgs.opis}" style="width:450px;" styleClass="filter180" sortBy="#{loopik.wiersz.opisWiersza}" filterBy="#{loopik.wiersz.opisWiersza}">
                             <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                         </p:column>
                         <p:column headerText="#{mgs.waluta}" style="width:35px;text-align: center;">
                             <h:outputText value="#{loopik.symbolWalutBOiSW}" rendered="#{loopik.getSymbolWalutBOiSW() ne 'PLN'}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kwotaWn}" style="width:60px;" sortBy="#{loopik.kwota}">
+                        <p:column headerText="#{mgs.kwotaWn}" style="width:70px;" sortBy="#{loopik.kwota}">
                             <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Wn' }"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kwotaMa}" style="width:60px;" sortBy="#{loopik.kwota}">
+                        <p:column headerText="#{mgs.kwotaMa}" style="width:70px;" sortBy="#{loopik.kwota}">
                             <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Ma' }"/>
                         </p:column>
-                        <p:column headerText="#{mgs.konto}" style="width:40px;" sortBy="#{loopik.getKontoPrzeciwstawne().pelnynumer}">
+                        <p:column headerText="#{mgs.konto}" style="width:50px;" sortBy="#{loopik.getKontoPrzeciwstawne().pelnynumer}">
                             <h:outputText  id="kolumnakonta" value="#{loopik.getKontoPrzeciwstawne().pelnynumer}" style="color: green; font-weight: 700;"/>
                             <p:tooltip for="kolumnakonta" value="#{loopik.getKontoPrzeciwstawne().nazwapelna}" />
                         </p:column>
-                        <p:column headerText="#{mgs.kwotaWnPLN}" style="width:60px;">
+                        <p:column headerText="#{mgs.kwotaWnPLN}" style="width:70px;" rendered="#{loopik.getSymbolWalutBOiSW() ne 'PLN'}">
                             <bcf:outputpl value="#{loopik.kwotaPLN}"  rendered="#{loopik.wnma eq 'Wn' }"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kwotaMaPLN}" style="width:60px;">
+                        <p:column headerText="#{mgs.kwotaMaPLN}" style="width:70px;" rendered="#{loopik.getSymbolWalutBOiSW() ne 'PLN'}">
                             <bcf:outputpl value="#{loopik.kwotaPLN}"  rendered="#{loopik.wnma eq 'Ma' }"/>
                         </p:column>
                        

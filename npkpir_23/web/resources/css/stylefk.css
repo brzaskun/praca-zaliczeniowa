@@ -5,9 +5,9 @@
     Description:
         Purpose of the stylesheet follows.
 */
-.ui-treetable thead th, .ui-treetable tbody td, .ui-treetable tfoot td {
+/*.ui-treetable thead th, .ui-treetable tbody td, .ui-treetable tfoot td {
     padding: 0px !important;
-}
+}*/
 
 /*jest problem przy wpisywanych tabelach*/
 /*.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
@@ -81,17 +81,10 @@
         Purpose of the stylesheet follows.
 */
 body { 
-    font-size: 9pt !important;
-    font-family: TimesNewRoman !important;
-    font-weight: 500;
-    width: 99%;
+    font-size: 9.2pt !important;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif !important;
 }
-/*to chyba jest body*/
-.ui-layout-container {
-    width: 99% !important;
-/*    font-size: 0.8em !important;
-    font-weight: 600 !important;*/
-}
+
 
 
 
@@ -134,13 +127,14 @@ body {
 
 
 .ui-panelgrid td {
-    border-style: none !important;
-    padding: 0px !important;
+    /*border-style: none !important;*/
+    border-color: #FFFFFF !important;
 }
 
 
 .ui-panel {
-    border-style: none !important;
+    /*border-style: none !important;*/
+    border-color: #FFFFFF !important;
 }
 
 .ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-west {
@@ -160,12 +154,12 @@ body {
     background-color: silver;
 }
 
-.ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td{
+/*.ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td{
     padding: 4px 4px;
     overflow: auto !important;
     white-space: normal !important;
     border-width: 0px;
-    border-style: solid;}
+    border-style: solid;}*/
 
 
 /*@page {
