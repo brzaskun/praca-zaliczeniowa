@@ -38,6 +38,7 @@ import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Parametr;
+import embeddablefk.SaldoKonto;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -91,7 +92,6 @@ import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
-import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
@@ -215,7 +215,9 @@ public class DokfkView implements Serializable {
     private StronaWiersza selectedStronaWiersza;
     private Double podsumowaniewybranych;
     private boolean totylkoedycjazapis;
+    private boolean totylkoedycjaanalityczne;
     private int idwierszedycjaodswiezenie;
+    private int duzyidwierszedycjaodswiezenie;
     private Evewidencja ewidencjadlaRKDEL;
     private String mczaksiegowane;
 
@@ -891,6 +893,27 @@ public class DokfkView implements Serializable {
                     kontoZapisFKView.pobierzzapisy();
                     totylkoedycjazapis = false;
                 }
+                 if (totylkoedycjaanalityczne) {
+                    //to jest potrzebne w sumie do edycji dokumenty z zapisow konta, tylko ze wywolujemy inita KOmntoZapisy FKView
+                    FacesContext facesContext = FacesContext.getCurrentInstance();
+                    SaldoAnalitykaView saldoAnalitykaView = (SaldoAnalitykaView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null,"saldoAnalitykaView"); 
+                    saldoAnalitykaView.przeliczSaldoKonto(duzyidwierszedycjaodswiezenie);
+                    totylkoedycjaanalityczne = false;
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol1");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol2");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol3");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol4");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol5");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol6");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol7");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol8");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol9");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol10");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol11");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol12");
+                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":zapisynasaldokonto");
+                }
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":wartoscdokumentuzest");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":wartoscdokumentuzest");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":walutadokumentuzest");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":vatdokumentuzest");
@@ -1316,6 +1339,45 @@ public class DokfkView implements Serializable {
 //                    DialogWpisywanie.rozliczsalda(selected, saldoBO, saldoinnedok, kontorozrachunkowe);
 //                    System.out.println("Udane obliczenie salda");
 //                }
+                RequestContext.getCurrentInstance().update("formwpisdokument");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie wybrano dokumentu do edycji ");
+        }
+    }
+    
+    public void przygotujDokumentEdycjaAnalityka(StronaWiersza strona, Integer duzyrow, Integer row) {
+        Dokfk wybranyDokfk = strona.getDokfk();
+        try {
+            if (wybranyDokfk.iswTrakcieEdycji() == true) {
+                wybranyDokfk.setwTrakcieEdycji(true);
+                Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
+            } else {
+                idwierszedycjaodswiezenie = row;
+                duzyidwierszedycjaodswiezenie = duzyrow;
+                selected = wybranyDokfk;
+                //selected.setwTrakcieEdycji(true);
+                //dokDAOfk.edit(selected);
+                wybranaTabelanbp = selected.getTabelanbp();
+                tabelenbp = new ArrayList<>();
+                tabelenbp.add(wybranaTabelanbp);
+                obsluzcechydokumentu();
+                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
+                zapisz0edytuj1 = true;
+                rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
+                if (rodzajBiezacegoDokumentu == 0) {
+                    pokazPanelWalutowy = true;
+                } else {
+                    pokazPanelWalutowy = false;
+                }
+                selected.setLiczbarozliczonych(DokFKTransakcjeBean.sprawdzrozliczoneWiersze(selected.getListawierszy()));
+                if (selected.getLiczbarozliczonych() > 0) {
+                    selected.setZablokujzmianewaluty(true);
+                } else {
+                    selected.setZablokujzmianewaluty(false);
+                }
+                edycjaanalityczne();
                 RequestContext.getCurrentInstance().update("formwpisdokument");
             }
         } catch (Exception e) {
@@ -2636,6 +2698,14 @@ public class DokfkView implements Serializable {
         this.wybranakategoriadok = wybranakategoriadok;
     }
 
+    public boolean isTotylkoedycjaanalityczne() {
+        return totylkoedycjaanalityczne;
+    }
+
+    public void setTotylkoedycjaanalityczne(boolean totylkoedycjaanalityczne) {
+        this.totylkoedycjaanalityczne = totylkoedycjaanalityczne;
+    }
+
     public String getMczaksiegowane() {
         return mczaksiegowane;
     }
@@ -3359,5 +3429,9 @@ public class DokfkView implements Serializable {
 
     public void edycjazapis() {
         this.totylkoedycjazapis = true;
+    }
+    
+    public void edycjaanalityczne() {
+        this.totylkoedycjaanalityczne = true;
     }
 }

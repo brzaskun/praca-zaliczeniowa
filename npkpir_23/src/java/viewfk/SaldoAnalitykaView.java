@@ -7,7 +7,6 @@ package viewfk;
 
 import beansFK.BOFKBean;
 import beansFK.KontaFKBean;
-import beansFK.SaldoAnalitykaBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WalutyDAOfk;
@@ -142,6 +141,62 @@ public class SaldoAnalitykaView implements Serializable {
         init();
     }
 
+    public void przeliczSaldoKonto(int numerwiersza) {
+        SaldoKonto p = listaSaldoKonto.get(numerwiersza);
+        p.setBoWn(0.0);
+        p.setBoMa(0.0);
+        p.setObrotyWnMc(0.0);
+        p.setObrotyMaMc(0.0);
+        p.setObrotyWn(0.0);
+        p.setObrotyMa(0.0);
+        String mc = wpisView.getMiesiacWpisu();
+        for (StronaWiersza r : p.getZapisy()) {
+            if (r.getTypStronaWiersza() == 9) {
+                if (tylkozapisywalutowe && !r.getSymbolWalutBOiSW().equals("PLN")) {
+                    if (r.getWnma().equals("Wn")) {
+                        p.setBoWn(Z.z(p.getBoWn() + r.getKwota()));
+                    } else {
+                        p.setBoMa(Z.z(p.getBoMa() + r.getKwota()));
+                    }
+                } else if (!tylkozapisywalutowe) {
+                    if (r.getWnma().equals("Wn")) {
+                        p.setBoWn(Z.z(p.getBoWn() + r.getKwotaPLN()));
+                    } else {
+                        p.setBoMa(Z.z(p.getBoMa() + r.getKwotaPLN()));
+                    }
+                }
+            } else {
+                if (tylkozapisywalutowe && !r.getSymbolWalutBOiSW().equals("PLN")) {
+                    if (r.getWnma().equals("Wn")) {
+                        if (r.getDokfk().getMiesiac().equals(mc)) {
+                            p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + r.getKwota()));
+                        }
+                        p.setObrotyWn(Z.z(p.getObrotyWn() + r.getKwota()));
+                    } else {
+                        if (r.getDokfk().getMiesiac().equals(mc)) {
+                            p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + r.getKwota()));
+                        }
+                        p.setObrotyMa(Z.z(p.getObrotyMa() + r.getKwota()));
+                    }
+                } else if (!tylkozapisywalutowe) {
+                    if (r.getWnma().equals("Wn")) {
+                        if (r.getDokfk().getMiesiac().equals(mc)) {
+                            p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + r.getKwotaPLN()));
+                        }
+                        p.setObrotyWn(Z.z(p.getObrotyWn() + r.getKwotaPLN()));
+                    } else {
+                        if (r.getDokfk().getMiesiac().equals(mc)) {
+                            p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + r.getKwotaPLN()));
+                        }
+                        p.setObrotyMa(Z.z(p.getObrotyMa() + r.getKwotaPLN()));
+                    }
+                }
+            }
+        }
+        p.sumujBOZapisy();
+        p.wyliczSaldo();
+    }
+    
     private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, String rodzajkonta) {
         List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta);
         Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
@@ -517,7 +572,7 @@ public class SaldoAnalitykaView implements Serializable {
         }
         return l;
     }
-
+    
 //    private List<Sprawozdanie_0> generujgrupe0(List<SaldoKonto> pobranekonta) {
 //
 //    }

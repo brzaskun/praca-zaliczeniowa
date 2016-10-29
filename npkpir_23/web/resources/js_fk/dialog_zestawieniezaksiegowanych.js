@@ -41,3 +41,4 @@ var zapisywierszywybordok = function() {
     var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
     $(document.getElementById(nazwa)).select();
 };
+

@@ -112,10 +112,13 @@ var wpisywanieOnShow = function (szer, wys) {
     try {
         var menudokumenty = document.getElementById('menudokumenty');
         var menuzapisykont = document.getElementById('menuzapisykont');
-        if (menudokumenty === null) {
+        var menuzestawienia = document.getElementById('menuzestawienia');
+        if (menudokumenty !== null) {
+            ustawdialog('dialogpierwszy','menudokumenty',szer, wys);
+        } else if (menuzapisykont !== null) {
             ustawdialog('dialogpierwszy','zapisy',szer, wys+30);
         } else {
-            ustawdialog('dialogpierwszy','menudokumenty',szer, wys);
+            ustawdialog('dialogpierwszy','saldakontanalitycznych',szer, wys+30);
         }
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).focus();
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();
