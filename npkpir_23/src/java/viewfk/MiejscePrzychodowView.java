@@ -152,7 +152,18 @@ public class MiejscePrzychodowView  implements Serializable{
             miejscePrzychodowDAO.edit(miejscePrzychodow);
             Msg.msg("Naniesiono zmiany początku/końca");
         } else {
-            Msg.msg("Nieprawidłowy format danych. Nie dokonano zmian");
+            if (dane.equals("____-__-__") && dataemail == 0) {
+               if (miejscePrzychodow.getPoczatek().equals("____-__-__")) {
+                   miejscePrzychodow.setPoczatek(null);
+               }
+               if (miejscePrzychodow.getKoniec().equals("____-__-__")) {
+                   miejscePrzychodow.setKoniec(null);
+               }
+               miejscePrzychodowDAO.edit(miejscePrzychodow);
+               Msg.msg("Wyzerowano datę");
+            } else {
+                Msg.msg("Nieprawidłowy format danych. Nie dokonano zmian");
+            }
         }
     }
     
