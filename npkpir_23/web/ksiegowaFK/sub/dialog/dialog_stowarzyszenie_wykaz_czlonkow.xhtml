@@ -10,16 +10,16 @@
             width: 250px !important;
         }
     </style>
-    <p:dialog id="dialog_wykaz_czlonkow_stowarzyszenia" header="Wykaz członków stowarzyszenia" widgetVar="dialog_wykaz_czlonkow_stowarzyszenia" 
-              resizable="false"  onShow="ustawdialog('dialog_wykaz_czlonkow_stowarzyszenia','menukartoteki',1080,650);" 
-              closeOnEscape="true" onHide="resetujdialog('dialog_wykaz_czlonkow_stowarzyszenia');" 
+    <p:dialog id="dialog_stowarzyszenie_wykaz_czlonkow" header="Wykaz członków stowarzyszenia" widgetVar="dialog_stowarzyszenie_wykaz_czlonkow" 
+              resizable="false"  onShow="ustawdialog('dialog_stowarzyszenie_wykaz_czlonkow','menukartoteki',1080,650);" 
+              closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_wykaz_czlonkow');" 
               dynamic="true">
-        <h:form id="form_dialog_wykaz_czlonkow_stowarzyszenia">
+        <h:form id="form_dialog_stowarzyszenie_wykaz_czlonkow">
             <p:outputPanel style="margin: 10px;">
                 <p:commandButton value="drukuj" style="width: 120px;"/>
             </p:outputPanel>
         </h:form>
-        <h:form id="form_dialog_wykaz_czlonkow_stowarzyszenia_lista">
+        <h:form id="form_dialog_stowarzyszenie_wykaz_czlonkow_lista">
             <p:dataTable value="#{miejscePrzychodowView.czlonkowiestowarzyszenia}" var="item" style="width: 1030px;"
                          scrollable="true" scrollHeight="450"  emptyMessage="brak zdefiniowanych członków stowarzyszenia"
                          sortBy="#{item.opismiejsca}">

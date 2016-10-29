@@ -44,7 +44,14 @@
                     <p:menuitem value="wierszeWNT" onclick="PF('zapisywdokumentachWNT').show();" global="false"></p:menuitem>
                 </p:menu>  
             </h:form>
-        </p:tab>  
+        </p:tab>
+        <p:tab title="stowarzyszenie">
+            <h:form>
+                <p:menu  styleClass="d1m" style="width: 400px; text-align: center; height: 150px;">
+                    <p:menuitem value="generuj dokumenty składek" oncomplete="PF('dialog_stowarzyszenie_generujskladki').show();" ></p:menuitem>
+                </p:menu>
+            </h:form>      
+        </p:tab>
         <p:tab title="numeracja">
             <h:form>
                 <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 150px;">

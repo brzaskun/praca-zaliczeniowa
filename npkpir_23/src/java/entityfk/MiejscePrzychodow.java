@@ -8,21 +8,12 @@ package entityfk;
 
 import entity.Podatnik;
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -43,37 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MiejscePrzychodow.findByPodatnikRok", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik AND m.rok = :rok ORDER BY m.opismiejsca"),
     @NamedQuery(name = "MiejscePrzychodow.countByPodatnik", query = "SELECT COUNT(d) FROM MiejscePrzychodow d WHERE d.podatnikObj = :podatnik")
 })
-public class MiejscePrzychodow implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id", nullable = false)
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "aktywny", nullable = false)
-    private boolean aktywny;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "opismiejsca", nullable = false, length = 255, unique = true)
-    private String opismiejsca;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "opisskrocony", nullable = false, length = 255)
-    private String opisskrocony;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
-    @ManyToOne
-    private Podatnik podatnikObj;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 5)
-    @Column(name = "nrkonta", nullable = false, length = 5)
-    private String nrkonta;
-    @Column(name = "rok")
-    private int rok;
+public class MiejscePrzychodow extends MiejsceSuper implements Serializable {
+    protected static final long serialVersionUID = 1L;
     @Column(name = "poczatek")
     private String poczatek;
     @Column(name = "koniec")
@@ -100,62 +62,7 @@ public class MiejscePrzychodow implements Serializable {
         this.nrkonta = numer;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public boolean getAktywny() {
-        return aktywny;
-    }
-
-    public void setAktywny(boolean aktywny) {
-        this.aktywny = aktywny;
-    }
-
-    public String getOpismiejsca() {
-        return opismiejsca;
-    }
-
-    public void setOpismiejsca(String opismiejsca) {
-        this.opismiejsca = opismiejsca;
-    }
-
-    public Podatnik getPodatnikObj() {
-        return podatnikObj;
-    }
-
-    public void setPodatnikObj(Podatnik podatnikObj) {
-        this.podatnikObj = podatnikObj;
-    }
-
-    public String getNrkonta() {
-        return nrkonta;
-    }
-
-    public void setNrkonta(String nrkonta) {
-        this.nrkonta = nrkonta;
-    }
-
-    public String getOpisskrocony() {
-        return opisskrocony;
-    }
-
-    public void setOpisskrocony(String opisskrocony) {
-        this.opisskrocony = opisskrocony;
-    }
-
-    public int getRok() {
-        return rok;
-    }
-
-    public void setRok(int rok) {
-        this.rok = rok;
-    }
-
+    
     public String getPoczatek() {
         return poczatek;
     }

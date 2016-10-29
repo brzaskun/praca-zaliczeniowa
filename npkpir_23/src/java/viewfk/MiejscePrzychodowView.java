@@ -118,7 +118,7 @@ public class MiejscePrzychodowView  implements Serializable{
     }
 
     public void usun(MiejscePrzychodow miejscePrzychodow) {
-        if (miejscePrzychodow.getAktywny() == true) {
+        if (miejscePrzychodow.isAktywny() == true) {
             Msg.msg("e", "Miejsce przychodó jest w użyciu, nie można usunąć opisu");
         } else {
             miejscePrzychodowDAO.destroy(miejscePrzychodow);

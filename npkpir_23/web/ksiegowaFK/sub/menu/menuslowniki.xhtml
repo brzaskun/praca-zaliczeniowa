@@ -43,7 +43,7 @@
             <h:form id="dialog1menu4a">
                 <p:menu id="d1m4a" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
                     <p:menuitem value="definiowanie miejsc przychodów" onclick="PF('dialog_miejscaprzychodow_dolaczanie').show();"></p:menuitem>
-                    <p:menuitem value="wykaz członków stowarzyszenia" onclick="PF('dialog_wykaz_czlonkow_stowarzyszenia').show();" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
+                    <p:menuitem value="wykaz członków stowarzyszenia" onclick="PF('dialog_stowarzyszenie_wykaz_czlonkow').show();" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
                     <p:menuitem value="rodzaje członkostwa" onclick="PF('dialog_stowarzyszenie_rodzaje_czlonkostwa').show();" 
                                 actionListener="#{rodzajeCzlonkostwaView.pobierz()}" update="form_rodzaje_czlonkostwa form_rodzaje_czlonkostwa_lista"
                                 rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>

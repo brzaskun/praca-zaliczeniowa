@@ -1,0 +1,32 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:bcf="http://brzaskun.com/facelets">
+      <p:dialog id="dialog_stowarzyszenie_generujskladki" header="Generowanie miesięcznych składek stowarzyszenia - #{WpisView.podatnikWpisu}" 
+                widgetVar="dialog_stowarzyszenie_generujskladki"  resizable="false"  
+             onShow="ustawdialog('dialog_stowarzyszenie_generujskladki','menudokumenty', 700, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_generujskladki');" >
+        <h:form id="form_dialog_stowarzyszenie_generujskladki">
+            <p:selectOneMenu>
+                <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                <f:selectItems value="#{stowNaliczenieKategorie.lista}"/>
+            </p:selectOneMenu>
+            <p:dataTable value="#{stowNaliczenieView.lista}" var="wpis" scrollable="true" scrollHeight="500" style="width: 450px;"
+                         sortBy="#{wpis.miejsce.opismiejsca}" rowIndexVar="index">
+                <p:column width="30">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="nazwisko i imię" width="250">
+                    <h:outputText value="#{wpis.miejsce.opismiejsca}"/>
+                </p:column>
+                <p:column>
+                    <pe:inputNumber id="vat" value="#{wpis.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                                symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>
