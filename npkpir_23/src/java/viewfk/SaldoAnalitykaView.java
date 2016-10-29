@@ -61,6 +61,7 @@ public class SaldoAnalitykaView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     private String wybranyRodzajKonta;
     private List<Sprawozdanie_0> grupa0;
+    private List<StronaWiersza> wybranezpisykonta;
     private boolean tylkosaldaniezerowe;
     private boolean zzapisami;
     private boolean tylkozapisywalutowe;
@@ -231,6 +232,14 @@ public class SaldoAnalitykaView implements Serializable {
 
     public void setSumaSaldoKonto(List<SaldoKonto> sumaSaldoKonto) {
         this.sumaSaldoKonto = sumaSaldoKonto;
+    }
+
+    public List<StronaWiersza> getWybranezpisykonta() {
+        return wybranezpisykonta;
+    }
+
+    public void setWybranezpisykonta(List<StronaWiersza> wybranezpisykonta) {
+        this.wybranezpisykonta = wybranezpisykonta;
     }
 
     public boolean isTylkozapisywalutowe() {

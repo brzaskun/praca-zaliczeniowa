@@ -168,36 +168,39 @@
                     <p:tooltip for="nazwasyntetykizestawienie" value="#{loop.konto.kontomacierzyste.pelnynumer}" />
                 </p:column>
                 <p:rowExpansion rendered="#{saldoAnalitykaView.zzapisami}">
-                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" sortBy="#{loopik.dokfk.datadokumentu}">
-                        <p:column headerText="#{mgs.dokument}" width="90">
-                            <h:outputText value="#{loopik.dokfkS}" style="height: 50px; word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" rowKey="#{loopik.id}"
+                                 rowSelectMode="add" selectionMode="multiple" selection="#{saldoAnalitykaView.wybranezpisykonta}"
+                                 sortBy="#{loopik.dokfk.datadokumentu}" scrollable="true" scrollHeight="200" scrollWidth="1200" style="width: 1200px;">
+                        <p:column headerText="#{mgs.dokument}" style="width:90px;" sortBy="#{loopik.dokfkS}">
+                            <h:outputText value="#{loopik.dokfkS}" style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
                         </p:column>
-                        <p:column headerText="#{mgs.data}" width="50">
+                        <p:column headerText="#{mgs.data}" style="width:60px;" sortBy="#{loopik.dokfk.datadokumentu}">
                             <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.nr}" width="100">
+                        <p:column headerText="#{mgs.nr}" style="width:90px;">
                             <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}" style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
                         </p:column>
                        
-                        <p:column headerText="#{mgs.opis}">
+                        <p:column headerText="#{mgs.opis}" style="width:450px;" styleClass="filter120" sortBy="#{loopik.wiersz.opisWiersza}" filterBy="#{loopik.wiersz.opisWiersza}">
                             <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.waluta}" width="25" style="text-align: center;">
-                            <h:outputText value="#{loopik.symbolWalutBOiSW}" rendered="#{loopik.symbolWalutBOiSW ne 'PLN'}"/>
+                        <p:column headerText="#{mgs.waluta}" style="width:35px;text-align: center;">
+                            <h:outputText value="#{loopik.symbolWalutBOiSW}" rendered="#{loopik.getSymbolWalutBOiSW() ne 'PLN'}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kwotaWn}" width="60">
+                        <p:column headerText="#{mgs.kwotaWn}" style="width:60px;" sortBy="#{loopik.kwota}">
                             <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Wn' }"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kwotaMa}" width="60">
+                        <p:column headerText="#{mgs.kwotaMa}" style="width:60px;" sortBy="#{loopik.kwota}">
                             <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Ma' }"/>
                         </p:column>
-                         <p:column headerText="#{mgs.konto}" width="40" >
-                            <h:outputText value="#{loopik.getDrugaStrona().konto.pelnynumer}" style="color: green; font-weight: 700;"/>
+                        <p:column headerText="#{mgs.konto}" style="width:40px;" sortBy="#{loopik.getKontoPrzeciwstawne().pelnynumer}">
+                            <h:outputText  id="kolumnakonta" value="#{loopik.getKontoPrzeciwstawne().pelnynumer}" style="color: green; font-weight: 700;"/>
+                            <p:tooltip for="kolumnakonta" value="#{loopik.getKontoPrzeciwstawne().nazwapelna}" />
                         </p:column>
-                        <p:column headerText="#{mgs.kwotaWnPLN}" width="60" rendered="#{(loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.symbolwaluty) ne 'PLN'}">
+                        <p:column headerText="#{mgs.kwotaWnPLN}" style="width:60px;">
                             <bcf:outputpl value="#{loopik.kwotaPLN}"  rendered="#{loopik.wnma eq 'Wn' }"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kwotaMaPLN}" width="60" rendered="#{(loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.symbolwaluty) ne 'PLN'}">
+                        <p:column headerText="#{mgs.kwotaMaPLN}" style="width:60px;">
                             <bcf:outputpl value="#{loopik.kwotaPLN}"  rendered="#{loopik.wnma eq 'Ma' }"/>
                         </p:column>
                        

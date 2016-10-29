@@ -395,7 +395,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void drukujKlienciZbiorcze() {
         try {
-            PdfFaktRozrach.drukujKlienciZbiorcze(saldanierozliczone, wpisView);
+            if (saldanierozliczoneselected != null && saldanierozliczoneselected.size() > 0){
+                PdfFaktRozrach.drukujKlienciZbiorcze(saldanierozliczoneselected, wpisView);
+            } else {
+                PdfFaktRozrach.drukujKlienciZbiorcze(saldanierozliczone, wpisView);
+            }
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Wydruk nieudany");
             E.e(e);

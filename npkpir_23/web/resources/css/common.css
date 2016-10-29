@@ -26,6 +26,18 @@ and open the template in the editor.
 .filter80 input {
     width: 70px !important;
 }
+
+.filter100 input {
+    width: 100px !important;
+}
+
+.filter120 input {
+    width: 120px !important;
+}
+
+.filter140 input {
+    width: 140px !important;
+}
     
 .filter160 input {
     width: 160px !important;
