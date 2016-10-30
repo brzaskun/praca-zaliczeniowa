@@ -5,13 +5,24 @@
  */
 package viewfk;
 
+import beansFK.DokumentFKBean;
+import dao.KlienciDAO;
+import dao.RodzajedokDAO;
+import daoFK.DokDAOfk;
+import daoFK.KontoDAOfk;
 import daoFK.MiejscePrzychodowDAO;
 import daoFK.SkladkaCzlonekDAO;
+import daoFK.StowNaliczenieDAO;
+import daoFK.TabelanbpDAO;
 import data.Data;
+import entity.Amodok;
+import entityfk.Dokfk;
+import entityfk.Konto;
 import entityfk.MiejscePrzychodow;
 import entityfk.MiejsceSuper;
 import entityfk.SkladkaCzlonek;
 import entityfk.StowNaliczenie;
+import error.E;
 import java.io.Serializable;
 import java.text.Collator;
 import java.util.ArrayList;
@@ -23,6 +34,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 import view.WpisView;
 
 /**
@@ -34,13 +46,28 @@ import view.WpisView;
 public class StowNaliczenieView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<StowNaliczenie> lista;
+    private List<Konto> konta;
     @Inject
     private MiejscePrzychodowDAO miejscePrzychodowDAO;
     @Inject
     private SkladkaCzlonekDAO skladkaCzlonekDAO;
+    @Inject
+    private StowNaliczenieDAO stowNaliczenieDAO;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    @Inject
+    private KlienciDAO klienciDAO;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private TabelanbpDAO tabelanbpDAO;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private String wybranakategoria;
+    private Konto kontoWn;
+    private Konto kontoMa;
 
 
     public StowNaliczenieView() {
@@ -49,6 +76,8 @@ public class StowNaliczenieView  implements Serializable {
 
     @PostConstruct
     private void init() {
+        //przychody
+        konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
         List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
             lista.add(new StowNaliczenie(p));
@@ -105,6 +134,32 @@ public class StowNaliczenieView  implements Serializable {
         return zwrot;
     }
     
+    public void zachowaj() {
+        try {
+            stowNaliczenieDAO.usunnaliczeniemc(wpisView);
+            stowNaliczenieDAO.editList(lista);
+            Msg.msg("Zachowano listę");
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    
+    public void generujPK() {
+        if (kontoWn == null || kontoMa == null) {
+            Msg.msg("e", "Nie wybrano konta, nie można wygenerować dokumentu");
+        } else {
+            try {
+                Dokfk dokfk = DokumentFKBean.generujdokumentSkladki(wpisView, klienciDAO, "PK", "naliczenie - "+wybranakategoria, rodzajedokDAO, tabelanbpDAO, kontoWn, kontoMa, kontoDAOfk, lista, dokDAOfk);
+                dokDAOfk.dodaj(dokfk);
+                Msg.msg("Zaksięgowano dokument PK");
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu PK");
+            }
+        }
+    }
+
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -114,6 +169,30 @@ public class StowNaliczenieView  implements Serializable {
     
     public void setLista(List<StowNaliczenie> lista) {
         this.lista = lista;
+    }
+
+    public List<Konto> getKonta() {
+        return konta;
+    }
+
+    public void setKonta(List<Konto> konta) {
+        this.konta = konta;
+    }
+
+    public Konto getKontoWn() {
+        return kontoWn;
+    }
+
+    public void setKontoWn(Konto kontoWn) {
+        this.kontoWn = kontoWn;
+    }
+
+    public Konto getKontoMa() {
+        return kontoMa;
+    }
+
+    public void setKontoMa(Konto kontoMa) {
+        this.kontoMa = kontoMa;
     }
     
     public WpisView getWpisView() {

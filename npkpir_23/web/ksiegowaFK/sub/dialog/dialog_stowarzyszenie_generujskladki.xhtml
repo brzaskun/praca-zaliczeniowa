@@ -8,21 +8,39 @@
     xmlns:bcf="http://brzaskun.com/facelets">
       <p:dialog id="dialog_stowarzyszenie_generujskladki" header="Generowanie miesięcznych składek stowarzyszenia - #{WpisView.podatnikWpisu}" 
                 widgetVar="dialog_stowarzyszenie_generujskladki"  resizable="false"  
-             onShow="ustawdialog('dialog_stowarzyszenie_generujskladki','menudokumenty', 700, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_generujskladki');" >
+             onShow="ustawdialog('dialog_stowarzyszenie_generujskladki','menudokumenty', 750, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_generujskladki');" >
+        <script>
+            var pokazprzyciski = function() {
+                r('form_dialog_stowarzyszenie_generujskladki:zachowajbutton').show();
+                r('form_dialog_stowarzyszenie_generujskladki:generujbutton').show();
+            };
+        </script>
         <h:form id="form_dialog_stowarzyszenie_generujskladki">
             <p:panelGrid columns="3">
             <p:selectOneMenu value="#{stowNaliczenieView.wybranakategoria}">
                 <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                 <f:selectItems value="#{stowNaliczenieKategorie.lista}"/>
-                <p:ajax event="change" listener="#{stowNaliczenieView.pobierz}" update="form_dialog_stowarzyszenie_generujskladki:tabela"/>
+                <p:ajax event="change" listener="#{stowNaliczenieView.pobierz}" update="form_dialog_stowarzyszenie_generujskladki:tabela"
+                        oncomplete="pokazprzyciski();"/>
             </p:selectOneMenu>
-            <h:outputText value="mc">
-            <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                <f:selectItems value="#{Mce.mceList}"/>
-                <p:ajax event="change" partialSubmit="true" global="false"/>
+            <p:commandButton value="zachowaj" actionListener="#{stowNaliczenieView.zachowaj}" id="zachowajbutton"
+                                 update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px; display: none;"/>
+            <p:commandButton value="generuj PK" actionListener="#{stowNaliczenieView.generujPK}" id="generujbutton"
+                                 update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px; display: none;"/>
+            </p:panelGrid>
+            <p:panelGrid columns="4">
+            <h:outputText value="konto Wn"/>
+            <p:selectOneMenu value="#{stowNaliczenieView.kontoWn}" converter="KontoConv">
+                <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                <f:selectItems value="#{stowNaliczenieView.konta}" var="loop" itemLabel="#{loop.pelnynumer } - #{loop.nazwapelna}" itemValue="#{loop}"/>
+            </p:selectOneMenu>
+            <h:outputText value="konto Ma"/>
+            <p:selectOneMenu value="#{stowNaliczenieView.kontoMa}" converter="KontoConv">
+                <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                <f:selectItems value="#{stowNaliczenieView.konta}" var="loop" itemLabel="#{loop.pelnynumer } - #{loop.nazwapelna}" itemValue="#{loop}"/>
             </p:selectOneMenu>
             </p:panelGrid>
-            <p:dataTable value="#{stowNaliczenieView.lista}" var="wpis" scrollable="true" scrollHeight="500" style="width: 450px;"
+            <p:dataTable value="#{stowNaliczenieView.lista}" var="wpis" scrollable="true" scrollHeight="500" style="width: 550px;"
                          sortBy="#{wpis.miejsce.opismiejsca}" rowIndexVar="index" id="tabela">
                 <p:column width="30">
                     <h:outputText value="#{index+1}"/>
@@ -30,9 +48,12 @@
                 <p:column headerText="nazwisko i imię" width="250">
                     <h:outputText value="#{wpis.miejsce.opismiejsca}"/>
                 </p:column>
-                <p:column>
+                <p:column width="90" headerText="kwota">
                     <pe:inputNumber id="vat" value="#{wpis.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                                 symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                </p:column>
+                <p:column headerText="zachowane">
+                    <h:outputText value="#{wpis.id != null ? 'tak': ''}"/>
                 </p:column>
             </p:dataTable>
         </h:form>

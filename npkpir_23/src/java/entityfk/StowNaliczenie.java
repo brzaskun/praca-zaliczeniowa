@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -24,6 +26,9 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"miejsce", "rok", "mc", "kategoria"})
+})
+@NamedQueries({
+    @NamedQuery(name = "StowNaliczenie.DeleteNaliczoneMcRok", query = "DELETE FROM StowNaliczenie p WHERE p.miejsce.podatnikObj = :podatnikObj AND  p.rok = :rok AND p.mc = :mc AND p.kategoria = :kategoria")
 })
 public class StowNaliczenie implements Serializable {
     protected static final long serialVersionUID = 1L;

@@ -20,7 +20,6 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import embeddable.Roki;
 import entity.Amodok;
-import entity.AmodokPK;
 import entity.SrodekTrw;
 import entity.UmorzenieN;
 import entityfk.Dokfk;
@@ -35,7 +34,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 
 @ManagedBean
 @ViewScoped

@@ -18,6 +18,8 @@ import entity.Rodzajedok;
 import entity.UmorzenieN;
 import entityfk.Dokfk;
 import entityfk.Konto;
+import entityfk.MiejscePrzychodow;
+import entityfk.StowNaliczenie;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
@@ -59,6 +61,15 @@ public class DokumentFKBean implements Serializable {
         return nowydok;
     }
     
+    public static Dokfk generujdokumentSkladki(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, Konto kontoWn, Konto kontoMa, KontoDAOfk kontoDAOfk, List wiersze, DokDAOfk dokDAOfk) {
+        Dokfk nowydok = stworznowydokument(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
+        ustawwierszeSkladki(nowydok, wiersze, wpisView, kontoWn, kontoMa,kontoDAOfk, tabelanbpDAO);
+        if (nowydok.getListawierszy() != null) {
+            nowydok.przeliczKwotyWierszaDoSumyDokumentu();
+        }
+        return nowydok;
+    }
+    
     public static Dokfk generujdokumentAutomRozrach(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, KontoDAOfk kontoDAOfk, List konta, Map<String, ListaSum> sumy, DokDAOfk dokDAOfk) {
         Dokfk nowydok = stworznowydokument(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
         nowydok.setNumerwlasnydokfk(DokFKBean.wygenerujnumerkolejnyRozrach(nowydok, wpisView, dokDAOfk));
@@ -77,6 +88,7 @@ public class DokumentFKBean implements Serializable {
         ustawnumerwlasny(nd, wpisView, symbokdok);
         ustawopis(nd, wpisView, opisdok);
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+        nd.setWprowadzil(wpisView.getWprowadzil().getLogin());
         ustawrodzajedok(nd, symbokdok, rodzajedokDAO, wpisView);
         ustawtabelenbp(nd, tabelanbpDAO);
         return nd;
@@ -230,7 +242,34 @@ public class DokumentFKBean implements Serializable {
         }
     }
     
+    private static void ustawwierszeSkladki(Dokfk nd, List lista, WpisView wpisView, Konto kontoWn, Konto kontoMa, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO) {
+        nd.setListawierszy(new ArrayList<Wiersz>());
+        int idporzadkowy = 1;
+        for (Iterator<StowNaliczenie> it = lista.iterator(); it.hasNext();) {
+            StowNaliczenie p = it.next();
+            double kwota = p.getKwota();
+            if (kwota != 0.0) {
+                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                uzupelnijwiersz(w, nd, tabelanbpDAO);
+                String opiswiersza = ((MiejscePrzychodow) p.getMiejsce()).getOpismiejsca() + " nal.składka za okres " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
+                w.setOpisWiersza(opiswiersza);
+                Konto analitykaWn = znajdzanalityke(kontoWn, (MiejscePrzychodow) p.getMiejsce(), kontoDAOfk, wpisView);
+                Konto analitykaMa = znajdzanalityke(kontoMa, (MiejscePrzychodow) p.getMiejsce(), kontoDAOfk, wpisView);
+                StronaWiersza stronaWn = new StronaWiersza(w, "Wn", kwota, analitykaWn);
+                StronaWiersza stronaMa = new StronaWiersza(w, "Ma", kwota, analitykaMa);
+                w.setStronaWn(stronaWn);
+                w.setStronaMa(stronaMa);
+                w.getStronaWn().setKwotaPLN(kwota);
+                w.getStronaMa().setKwotaPLN(kwota);
+                nd.getListawierszy().add(w);
+            }
+        }
+    }
     
+    private static Konto znajdzanalityke(Konto konto, MiejscePrzychodow miejscePrzychodow, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        String nrkonta = miejscePrzychodow.getNrkonta();
+        return kontoDAOfk.findBySlownikoweMacierzyste(konto,nrkonta, wpisView);
+    }
     
     private static void ustawwierszePK(Dokfk nowydok, List stronywiersza, List sumy, WpisView wpisView, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO) {
         nowydok.setListawierszy(new ArrayList<Wiersz>());
@@ -322,6 +361,8 @@ public class DokumentFKBean implements Serializable {
         String nowy = zwieksznumerojeden("1/08/2015/AMO");
         System.out.println("nowy " + nowy);
     }
+
+    
 
     
 

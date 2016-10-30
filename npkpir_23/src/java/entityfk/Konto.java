@@ -117,7 +117,9 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findlistaKontGrupa6", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '6%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa7", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '7%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa8", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '8%' AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.updateZablokowane", query = "UPDATE Konto k SET k.blokada = '0' WHERE k.podatnik = :podatnik AND k.rok = :rok")})
+    @NamedQuery(name = "Konto.updateZablokowane", query = "UPDATE Konto k SET k.blokada = '0' WHERE k.podatnik = :podatnik AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findBySlownikoweMacierzyste", query = "SELECT k FROM Konto k WHERE k.kontomacierzyste = :kontomacierzyste AND k.nrkonta = :nrkonta  AND k.podatnik = :podatnik AND k.rok = :rok")
+})
 @Cacheable
 public class Konto extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
