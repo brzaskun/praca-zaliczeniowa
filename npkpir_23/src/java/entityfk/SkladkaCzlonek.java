@@ -19,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -107,6 +108,30 @@ public class SkladkaCzlonek  implements Serializable{
     @Override
     public String toString() {
         return "SkladkaCzlonek{" + "czlonek=" + czlonek.getPodatnikObj().getNazwisko() + ", skladka=" + skladka.getRodzajCzlonkostwa().getNazwa()+ ", kwota=" + skladka.getKwota() + '}';
+    }
+
+    public double wyliczkwote() {
+        String okres = this.skladka.getOkres();
+        double kwota = this.skladka.getKwota();
+        double kwotabazowa = 0.0;
+        switch (okres) {
+            case "mc":
+                kwotabazowa = kwota;
+                break;
+            case "kw":
+                kwotabazowa = Z.z(kwota/3);
+                break;
+            case "polrok":
+                kwotabazowa = Z.z(kwota/6);
+                break;
+            case "rok":
+                kwotabazowa = Z.z(kwota/12);
+                break;
+            default:
+                kwotabazowa = kwota;
+                break;
+        }
+        return kwotabazowa;
     }
     
     

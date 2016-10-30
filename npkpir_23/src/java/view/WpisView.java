@@ -24,6 +24,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import msg.Msg;
 
 /**
@@ -195,6 +196,18 @@ public class WpisView implements Serializable {
         wpisDAO.edit(wpis);
         uzupelnijdanepodatnika();
        
+    }
+    
+     public void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(miesiacWpisu);
+        wpistmp.setRokWpisu(rokWpisu);
+        wpistmp.setRokWpisuSt(String.valueOf(rokWpisu));
+        wpistmp.setPodatnikWpisu(podatnikWpisu);
+        wpisDAO.edit(wpistmp);
+        naniesDaneDoWpis();
     }
 
     private final Principal getPrincipal() {

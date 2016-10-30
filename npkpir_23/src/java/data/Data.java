@@ -182,4 +182,52 @@ public class Data implements Serializable {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	return sdf.format(date); 
     }
+
+    public static boolean czyjestpo(String dataOd, WpisView wpisView) {
+        boolean zwrot = false;
+        if (dataOd == null) {
+            zwrot = false;
+        } else {
+            zwrot = czydatasiezawiera(dataOd, wpisView, true);
+        }
+        return zwrot;
+    }
+
+    public static boolean czyjestprzed(String dataDo, WpisView wpisView) {
+        boolean zwrot = false;
+        if (dataDo == null) {
+            zwrot = true;
+        } else {
+            zwrot = czydatasiezawiera(dataDo, wpisView, false);
+        }
+        return zwrot;
+    }
+    
+    private static boolean czydatasiezawiera(String data, WpisView wpisView, boolean przed0po1) {
+        String rokdaty = pobierzrok(data);
+        String mcdaty = pobierzmc(data);
+        int wynikporównania;
+        if (przed0po1) {
+            wynikporównania  = compare(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), rokdaty, mcdaty);
+        } else {
+            wynikporównania  = compare(rokdaty, mcdaty, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        }
+        return wynikporównania > -1;
+    }
+
+    private static String pobierzrok(String dataOd) {
+        return pobierzokres(dataOd, 0);
+    }
+    
+    private static String pobierzmc(String dataOd) {
+        return pobierzokres(dataOd, 1);
+    }
+    
+    private static String pobierzokres(String data, int pole) {
+        String zwrot = null;
+        if (data.length()==10) {
+            zwrot = data.split("-")[1];
+        }
+        return zwrot;
+    }
 }

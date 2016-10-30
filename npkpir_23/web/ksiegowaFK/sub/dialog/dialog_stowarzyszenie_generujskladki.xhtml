@@ -10,12 +10,20 @@
                 widgetVar="dialog_stowarzyszenie_generujskladki"  resizable="false"  
              onShow="ustawdialog('dialog_stowarzyszenie_generujskladki','menudokumenty', 700, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_generujskladki');" >
         <h:form id="form_dialog_stowarzyszenie_generujskladki">
-            <p:selectOneMenu>
+            <p:panelGrid columns="3">
+            <p:selectOneMenu value="#{stowNaliczenieView.wybranakategoria}">
                 <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                 <f:selectItems value="#{stowNaliczenieKategorie.lista}"/>
+                <p:ajax event="change" listener="#{stowNaliczenieView.pobierz}" update="form_dialog_stowarzyszenie_generujskladki:tabela"/>
             </p:selectOneMenu>
+            <h:outputText value="mc">
+            <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                <f:selectItems value="#{Mce.mceList}"/>
+                <p:ajax event="change" partialSubmit="true" global="false"/>
+            </p:selectOneMenu>
+            </p:panelGrid>
             <p:dataTable value="#{stowNaliczenieView.lista}" var="wpis" scrollable="true" scrollHeight="500" style="width: 450px;"
-                         sortBy="#{wpis.miejsce.opismiejsca}" rowIndexVar="index">
+                         sortBy="#{wpis.miejsce.opismiejsca}" rowIndexVar="index" id="tabela">
                 <p:column width="30">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
