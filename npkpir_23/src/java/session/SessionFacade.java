@@ -1837,4 +1837,8 @@ public class SessionFacade<T> implements Serializable {
         em.createNamedQuery("Statystyka.findUsunRok").setParameter("rok", rok).executeUpdate();
     }
 
+    
+    public void usunnaliczeniemc(WpisView wpisView, String kategoria) {
+         em.createNamedQuery("StowNaliczenie.DeleteNaliczoneMcRok").setParameter("podatnikObj",wpisView.getPodatnikObiekt()).setParameter("rok",wpisView.getRokWpisuSt()).setParameter("mc",wpisView.getMiesiacWpisu()).setParameter("kategoria",kategoria).executeUpdate();
+    }
 }

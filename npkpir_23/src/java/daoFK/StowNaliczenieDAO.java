@@ -24,7 +24,7 @@ public class StowNaliczenieDAO  extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Inject
-    private SessionFacade s;
+    private SessionFacade sessionFacade;
     
     public StowNaliczenieDAO() {
         super(StowNaliczenie.class);
@@ -36,7 +36,7 @@ public class StowNaliczenieDAO  extends DAO implements Serializable{
     }
 
     public void usunnaliczeniemc(WpisView wpisView, String kategoria) {
-         sessionFacade.getEntityManager().createNamedQuery("StowNaliczenie.DeleteNaliczoneMcRok").setParameter("podatnikObj",wpisView.getPodatnikObiekt()).setParameter("rok",wpisView.getRokWpisuSt()).setParameter("mc",wpisView.getMiesiacWpisu()).setParameter("kategoria",kategoria).executeUpdate();
+         sessionFacade.usunnaliczeniemc(wpisView, kategoria);
     }
 
     public List<StowNaliczenie> findByMcKategoria(Podatnik podatnik, String rokWpisuSt, String mc, String wybranakategoria) {
