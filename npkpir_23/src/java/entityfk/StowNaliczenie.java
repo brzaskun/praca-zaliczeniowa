@@ -28,7 +28,8 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames = {"miejsce", "rok", "mc", "kategoria"})
 })
 @NamedQueries({
-    @NamedQuery(name = "StowNaliczenie.DeleteNaliczoneMcRok", query = "DELETE FROM StowNaliczenie p WHERE p.miejsce.podatnikObj = :podatnikObj AND  p.rok = :rok AND p.mc = :mc AND p.kategoria = :kategoria")
+    @NamedQuery(name = "StowNaliczenie.DeleteNaliczoneMcRok", query = "DELETE FROM StowNaliczenie p WHERE p.miejsce.podatnikObj = :podatnikObj AND  p.rok = :rok AND p.mc = :mc AND p.kategoria = :kategoria"),
+    @NamedQuery(name = "StowNaliczenie.findByMcKategoria", query = "SELECT p FROM StowNaliczenie p WHERE p.miejsce.podatnikObj = :podatnikObj AND  p.rok = :rok AND p.mc = :mc AND p.kategoria = :kategoria")
 })
 public class StowNaliczenie implements Serializable {
     protected static final long serialVersionUID = 1L;
@@ -38,7 +39,7 @@ public class StowNaliczenie implements Serializable {
     @Column(name = "id", nullable = false)
     protected Integer id;
     @JoinColumn(name="miejsce", referencedColumnName = "id")
-    private MiejsceSuper miejsce;
+    private MiejscePrzychodow miejsce;
     @Column(name="rok")
     private String rok;
     @Column(name="mc")
@@ -113,11 +114,11 @@ public class StowNaliczenie implements Serializable {
         this.id = id;
     }
 
-    public MiejsceSuper getMiejsce() {
+    public MiejscePrzychodow getMiejsce() {
         return miejsce;
     }
 
-    public void setMiejsce(MiejsceSuper miejsce) {
+    public void setMiejsce(MiejscePrzychodow miejsce) {
         this.miejsce = miejsce;
     }
 

@@ -6,33 +6,41 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Podatnik;
 import entityfk.StowNaliczenie;
 import java.io.Serializable;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
+import session.SessionFacade;
 import view.WpisView;
 
 /**
  *
  * @author Osito
  */
+@Named
 public class StowNaliczenieDAO  extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
-
+    
+    @Inject
+    private SessionFacade s;
+    
     public StowNaliczenieDAO() {
         super(StowNaliczenie.class);
     }
     
-    public StowNaliczenieDAO(Class entityClass) {
-        super(entityClass);
-    }
-    
-
+ 
     public List<StowNaliczenie> findAll() {
         return sessionFacade.findAll(StowNaliczenie.class);
     }
 
     public void usunnaliczeniemc(WpisView wpisView, String kategoria) {
          sessionFacade.getEntityManager().createNamedQuery("StowNaliczenie.DeleteNaliczoneMcRok").setParameter("podatnikObj",wpisView.getPodatnikObiekt()).setParameter("rok",wpisView.getRokWpisuSt()).setParameter("mc",wpisView.getMiesiacWpisu()).setParameter("kategoria",kategoria).executeUpdate();
+    }
+
+    public List<StowNaliczenie> findByMcKategoria(Podatnik podatnik, String rokWpisuSt, String mc, String wybranakategoria) {
+        return sessionFacade.getEntityManager().createNamedQuery("StowNaliczenie.findByMcKategoria").setParameter("podatnikObj",podatnik).setParameter("rok",rokWpisuSt).setParameter("mc",mc).setParameter("kategoria",wybranakategoria).getResultList();
     }
     
 }

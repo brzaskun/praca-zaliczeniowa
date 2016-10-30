@@ -25,7 +25,7 @@ import session.SessionFacade;
 public class SchemaEwidencjaDAO  extends DAO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
 
     public SchemaEwidencjaDAO() {
         super(SchemaEwidencja.class);

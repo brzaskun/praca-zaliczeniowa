@@ -9,7 +9,6 @@ import entityfk.Kontokategoria;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -19,7 +18,6 @@ import session.SessionFacade;
  * @author Osito
  */
 @Named
-
 public class KontokategoriaDAOfk extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     

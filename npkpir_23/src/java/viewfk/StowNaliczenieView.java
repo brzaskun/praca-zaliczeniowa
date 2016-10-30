@@ -80,7 +80,9 @@ public class StowNaliczenieView  implements Serializable {
         konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
         List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
-            lista.add(new StowNaliczenie(p));
+            if (Data.czyjestpomiedzy(p.getPoczatek(), p.getKoniec(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
+                lista.add(new StowNaliczenie(p));
+            }
         }
     }
     
@@ -103,10 +105,10 @@ public class StowNaliczenieView  implements Serializable {
     }
     
     private boolean nalicz(StowNaliczenie p) {
-        String dataOd = ((MiejscePrzychodow) p.getMiejsce()).getPoczatek();
-        String dataDo = ((MiejscePrzychodow) p.getMiejsce()).getKoniec();
-        boolean jestpo = Data.czyjestpo(dataOd,wpisView);
-        boolean jestprzed = Data.czyjestprzed(dataDo,wpisView);
+        String dataOd = p.getMiejsce().getPoczatek();
+        String dataDo = p.getMiejsce().getKoniec();
+        boolean jestpo = Data.czyjestpo(dataOd, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        boolean jestprzed = Data.czyjestprzed(dataDo, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         return jestpo && jestprzed;
     }
     
@@ -136,11 +138,13 @@ public class StowNaliczenieView  implements Serializable {
     
     public void zachowaj() {
         try {
-            stowNaliczenieDAO.usunnaliczeniemc(wpisView);
+            stowNaliczenieDAO.usunnaliczeniemc(wpisView,wybranakategoria);
+        } catch (Exception e) {
+        }
+        try {
             stowNaliczenieDAO.editList(lista);
             Msg.msg("Zachowano listę");
         } catch (Exception e) {
-            
         }
     }
     

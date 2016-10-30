@@ -183,34 +183,39 @@ public class Data implements Serializable {
 	return sdf.format(date); 
     }
 
-    public static boolean czyjestpo(String dataOd, WpisView wpisView) {
+    public static boolean czyjestpomiedzy (String dataOd, String dataDo, String rok, String mc) {
+        return czyjestpo(dataOd, rok, mc) && czyjestprzed(dataDo, rok, mc);
+    }
+    
+     
+    public static boolean czyjestpo(String dataOd, String rok, String mc) {
         boolean zwrot = false;
         if (dataOd == null) {
             zwrot = false;
         } else {
-            zwrot = czydatasiezawiera(dataOd, wpisView, true);
+            zwrot = czydatasiezawiera(dataOd, rok, mc, true);
         }
         return zwrot;
     }
 
-    public static boolean czyjestprzed(String dataDo, WpisView wpisView) {
+    public static boolean czyjestprzed(String dataDo, String rok, String mc) {
         boolean zwrot = false;
         if (dataDo == null) {
             zwrot = true;
         } else {
-            zwrot = czydatasiezawiera(dataDo, wpisView, false);
+            zwrot = czydatasiezawiera(dataDo, rok, mc, false);
         }
         return zwrot;
     }
     
-    private static boolean czydatasiezawiera(String data, WpisView wpisView, boolean przed0po1) {
+    private static boolean czydatasiezawiera(String data, String rok, String mc, boolean przed0po1) {
         String rokdaty = pobierzrok(data);
         String mcdaty = pobierzmc(data);
         int wynikporównania;
         if (przed0po1) {
-            wynikporównania  = compare(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), rokdaty, mcdaty);
+            wynikporównania  = compare(rok, mc, rokdaty, mcdaty);
         } else {
-            wynikporównania  = compare(rokdaty, mcdaty, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            wynikporównania  = compare(rokdaty, mcdaty, rok, mc);
         }
         return wynikporównania > -1;
     }
