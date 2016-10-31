@@ -190,7 +190,7 @@ public class Data implements Serializable {
      
     public static boolean czyjestpo(String dataOd, String rok, String mc) {
         boolean zwrot = false;
-        if (dataOd == null) {
+        if (dataOd == null || dataOd.equals("")) {
             zwrot = false;
         } else {
             zwrot = czydatasiezawiera(dataOd, rok, mc, true);
@@ -200,7 +200,7 @@ public class Data implements Serializable {
 
     public static boolean czyjestprzed(String dataDo, String rok, String mc) {
         boolean zwrot = false;
-        if (dataDo == null) {
+        if (dataDo == null || dataDo.equals("")) {
             zwrot = true;
         } else {
             zwrot = czydatasiezawiera(dataDo, rok, mc, false);

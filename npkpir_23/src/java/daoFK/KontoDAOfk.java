@@ -486,6 +486,15 @@ public class KontoDAOfk extends DAO implements Serializable {
             return null;
         }
     }
+    
+    public Konto findKontoMacierzystyNrkonta(String podatnik, Integer rok, Konto kontomacierzyste, String numerkonta) {
+        try {
+            return kontoFacade.findKontoMacierzystyNrkonta(podatnik, rok, kontomacierzyste, numerkonta);
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
 
     public int resetujKolumneMapotomkow(WpisView wpisView) {
         try {

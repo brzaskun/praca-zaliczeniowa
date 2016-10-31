@@ -617,6 +617,12 @@
         </locale-config>
     </application>
     <converter>  
+        <converter-id>MiejscePrzychodowConv</converter-id>  
+        <converter-class>  
+            converter.MiejscePrzychodowConv  
+        </converter-class>
+    </converter>
+    <converter>  
         <converter-id>DateConv</converter-id>  
         <converter-class>  
             converter.DateConv  

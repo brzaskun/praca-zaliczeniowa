@@ -27,12 +27,16 @@
             <p:commandButton value="dodaj" actionListener="#{miejsceKosztowView.dodaj()}" style="margin: 2%; width: 120px;" 
                              update=":miejscakosztow, :miejscakosztowlista" rendered="#{miejsceKosztowView.zapisz0edytuj1 == false}"/>
             <p:commandButton value="edytuj" actionListener="#{miejsceKosztowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
-                             update=":miejscakosztow, :miejscakosztowlista" rendered="#{miejsceKosztowView.zapisz0edytuj1 == true}"/>
+                             update=":miejscakosztow, :miejscakosztowlista" 
+                             oncomplete="PF('listamiejscakosztow').clearFilters();"
+                             rendered="#{miejsceKosztowView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="miejscakosztowlista">
             <p:dataTable value="#{miejsceKosztowView.miejscakosztow}" var="item"  resizableColumns="true" style="width: 850px;"
                          scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc kosztów"
-                         sortBy="#{item}"  sortFunction="#{miejsceKosztowView.sortMiejsceKosztow}">
+                         sortBy="#{item}"  sortFunction="#{miejsceKosztowView.sortMiejsceKosztow}"
+                         widgetVar="listamiejscakosztow">
+                <p:ajax event="filter" global="false"/>
                 <p:column headerText="#{mgs.nr}" style="width: 40px;">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>

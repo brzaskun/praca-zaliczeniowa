@@ -1841,4 +1841,8 @@ public class SessionFacade<T> implements Serializable {
     public void usunnaliczeniemc(WpisView wpisView, String kategoria) {
          em.createNamedQuery("StowNaliczenie.DeleteNaliczoneMcRok").setParameter("podatnikObj",wpisView.getPodatnikObiekt()).setParameter("rok",wpisView.getRokWpisuSt()).setParameter("mc",wpisView.getMiesiacWpisu()).setParameter("kategoria",kategoria).executeUpdate();
     }
+
+    public Konto findKontoMacierzystyNrkonta(String podatnik, Integer rok, Konto kontomacierzyste, String numerkonta) {
+        return (Konto) em.createNamedQuery("Konto.findKontoMacierzystyNrkonta").setParameter("kontomacierzyste", kontomacierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("nrkonta", numerkonta).getSingleResult();
+    }
 }

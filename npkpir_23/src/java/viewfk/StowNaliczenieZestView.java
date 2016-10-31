@@ -45,7 +45,7 @@ public class StowNaliczenieZestView implements Serializable {
     }
 
     public void pobierz() {
-        if (!wybranakategoria.equals("wybierz")) {
+        if (!wybranakategoria.equals("wybierz")  && !wpisView.getMiesiacWpisu().equals("CR")) {
             List<String> mce = Mce.getMceListS();
             List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
             for (Iterator<MiejscePrzychodow> it = czlonkowiestowarzyszenia.iterator(); it.hasNext(); ) {

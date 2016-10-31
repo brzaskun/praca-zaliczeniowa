@@ -25,14 +25,18 @@
                 <p:inputText id="nazwamiejscas" value="#{miejscePrzychodowView.selected.opisskrocony}" style="width: 180px;"/>
             </p:panelGrid>
             <p:commandButton value="dodaj" actionListener="#{miejscePrzychodowView.dodaj()}" style="margin: 2%; width: 120px;" 
-                             update=":miejscaprzychodow, :miejscaprzychodowlista" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == false}"/>
+                             update="miejscaprzychodow miejscaprzychodowlista:lista" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == false}"/>
             <p:commandButton value="edytuj" actionListener="#{miejscePrzychodowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
-                             update=":miejscaprzychodow, :miejscaprzychodowlista" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
+                             update="miejscaprzychodow miejscaprzychodowlista:lista"
+                             oncomplete="PF('listamiejscaprzychodow').clearFilters();"
+                             rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="miejscaprzychodowlista">
-            <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item" style="width: 1130px;"
+            <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item" style="width: 1130px;" id="lista"
                          scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc przychodów"
-                         sortBy="#{item}"  sortFunction="#{miejscePrzychodowView.sortMiejscePrzychodow}">
+                         sortBy="#{item}"  sortFunction="#{miejscePrzychodowView.sortMiejscePrzychodow}"
+                         widgetVar="listamiejscaprzychodow">
+                <p:ajax event="filter" global="false"/>
                 <p:column headerText="#{mgs.nr}" style="width: 40px;">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
