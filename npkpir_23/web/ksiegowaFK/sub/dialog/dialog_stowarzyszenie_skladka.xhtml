@@ -6,67 +6,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
     xmlns:bcf="http://brzaskun.com/facelets">
-    <style>
-        .opismiejsca input  {
-            width: 250px !important;
-        }
-    </style>
+    
     <p:dialog id="dialog_stowarzyszenie_skladka" header="Definiowanie składek stowarzyszenia" widgetVar="dialog_stowarzyszenie_skladka" 
               resizable="false"  onShow="ustawdialog('dialog_stowarzyszenie_skladka','menukartoteki',1080,650);" 
               closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_skladka');" 
               dynamic="true">
        
-        <h:form id="form_skladka">
-            <p:panelGrid columns="2" >
-                <h:outputText value="nazwa członkostwa"/>
-                <p:selectOneMenu value="#{skladkaStowarzyszenieView.skladkaStowarzyszenie.rodzajCzlonkostwa}" style="width: 180px;" converter="RodzajCzlonkostwaConv">
-                    <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{skladkaStowarzyszenieView.rodzajCzlonkostwaLista}" var="wpis" itemLabel="#{wpis.nazwa}" itemValue="#{wpis}"/>
-                </p:selectOneMenu>
-                <h:outputText value="kwota składki"/>
-                <p:inputText value="#{skladkaStowarzyszenieView.skladkaStowarzyszenie.kwota}" maxlength="6" style="width: 80px;"/>
-                <h:outputText value="okres"/>
-                <p:selectOneMenu value="#{skladkaStowarzyszenieView.skladkaStowarzyszenie.okres}" style="width: 80px;">
-                    <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                    <f:selectItem itemLabel="mc" itemValue="mc"/>
-                    <f:selectItem itemLabel="kw" itemValue="kw"/>
-                    <f:selectItem itemLabel="półrok" itemValue="polrok"/>
-                    <f:selectItem itemLabel="rok" itemValue="rok"/>
-                </p:selectOneMenu>
-            </p:panelGrid>
-            <p:commandButton value="dodaj" actionListener="#{skladkaStowarzyszenieView.dodaj()}" style="margin: 2%; width: 120px;" global="false"
-                             update="form_skladka form_skladka_lista:skladka_lista" rendered="#{skladkaStowarzyszenieView.zapisz0edytuj1 == false}"/>
-            <p:commandButton value="edytuj" actionListener="#{skladkaStowarzyszenieView.edytuj()}" style="margin: 2%; width: 120px;" global="false"
-                             update="form_skladka form_skladka_lista:skladka_lista" rendered="#{skladkaStowarzyszenieView.zapisz0edytuj1 == true}"/>
-        </h:form>
-        <h:form id="form_skladka_lista">
-            <p:dataTable value="#{skladkaStowarzyszenieView.skladkaStowarzyszenieLista}" var="item" rowIndexVar="index"
-                         scrollable="true" scrollHeight="350" style="width: 780px;"  emptyMessage="brak zdefiniowanych składek"
-                         sortBy="#{item.rodzajCzlonkostwa.nazwa}" id="skladka_lista">
-                <p:column headerText="#{mgs.nr}" style="width: 40px; text-align: center;">
-                    <h:outputText value="#{index+1}"/>
-                </p:column>
-                <p:column headerText="nazwa rodzaju członkostwa" style="width: 200px;" sortBy="#{item.rodzajCzlonkostwa.nazwa}" filterBy="#{item.rodzajCzlonkostwa.nazwa}"
-                          filterMatchMode="contains">
-                    <h:outputText value="#{item.rodzajCzlonkostwa.nazwa}" />
-                </p:column>
-                <p:column headerText="kwota" style="width: 120px;" sortBy="#{item.kwota}" filterBy="#{item.kwota}"
-                          filterMatchMode="contains">
-                    <bcf:outputpl value="#{item.kwota}"/>
-                </p:column>
-                <p:column headerText="okres" style="text-align: center; width: 120px;" sortBy="#{item.okres}" filterBy="#{item.okres}">
-                    <h:outputText value="#{item.okres}"/>
-                </p:column>
-                <p:column headerText="edytuj" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{skladkaStowarzyszenieView.edytuj(item)}" 
-                                     update="form_skladka" 
-                                      style="width: 40px;"/>
-                </p:column>
-                <p:column headerText="usuń"  style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{skladkaStowarzyszenieView.usun(item)}" 
-                                     update="form_skladka form_skladka_lista:skladka_lista" style="width: 40px;"/>
-                </p:column>
-            </p:dataTable>
-        </h:form>
+        <ui:include src="../../../wspolny/sub/stow_skladki.xhtml"/>
     </p:dialog>
 </ui:composition>

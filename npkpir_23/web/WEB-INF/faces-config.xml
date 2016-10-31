@@ -26,7 +26,35 @@
             <from-outcome>admin</from-outcome>
             <to-view-id>/admin/adminIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-          <navigation-case>
+        <navigation-case>
+            <from-outcome>gfk_stow_miejscaprzychodow</from-outcome>
+            <to-view-id>/wspolny/wspolny_stow_miejscaprzychodow.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gfk_stow_wykazczlonkow</from-outcome>
+            <to-view-id>/wspolny/wspolny_stow_wykazczlonkow.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gfk_stow_rodzajeczlonkostwa</from-outcome>
+            <to-view-id>/wspolny/wspolny_stow_rodzajeczlonkostwa.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gfk_stow_skladki</from-outcome>
+            <to-view-id>/wspolny/wspolny_stow_skladki.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gfk_stow_czlonekskladka</from-outcome>
+            <to-view-id>/wspolny/wspolny_stow_czlonekskladka.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gfk_stow_zestawienienaliczen</from-outcome>
+            <to-view-id>/wspolny/wspolny_stow_zestawienienaliczen.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gfk_stow_rozrachunkizczlonkami</from-outcome>
+            <to-view-id>/wspolny/wspolny_stow_rozrachunkizczlonkami.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>pismoadminobrobka</from-outcome>
             <to-view-id>/admin/adminPismoadmin.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

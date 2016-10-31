@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -54,7 +55,8 @@ public class StowRozrachCzlonkView implements Serializable {
         this.wybranyczlonek = null;
         this.lista = new ArrayList<>();
     }
-
+   
+   @PostConstruct
    public void pobierz() {
        this.wybranyczlonek = null;
        this.lista = new ArrayList<>();

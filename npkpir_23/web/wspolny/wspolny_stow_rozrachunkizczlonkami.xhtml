@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/templateFK.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Księgi handlowe"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <f:view contentType="text/html">
+                <bcf:ajaxs/>
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj" >
+                    <ui:include src="sub/layoutStowarzyszenie/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layoutStowarzyszenie/west.xhtml"/>   <!-- panel zachodni-->
+                    <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                        <ui:include src="sub/menu_wiad.xhtml"/> 
+                        <ui:include src="sub/stow_rozrachunkizczlonkami.xhtml"/>
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
