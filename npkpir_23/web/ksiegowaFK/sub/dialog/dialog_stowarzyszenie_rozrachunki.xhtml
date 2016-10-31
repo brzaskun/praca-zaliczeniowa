@@ -15,11 +15,11 @@
                 <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                 <f:selectItems value="#{stowRozrachCzlonkView.czlonkowiestowarzyszenia}" />
                 <p:ajax event="change" listener="#{stowRozrachCzlonkView.pobierzdane()}"
-                        update="form_dialog_stowarzyszenie_rozrachunki:tabela"/>
+                        update="form_dialog_stowarzyszenie_rozrachunki:tabela form_dialog_stowarzyszenie_rozrachunki:dataList"/>
             </p:selectOneMenu>
             </p:panelGrid>
             <p:dataTable value="#{stowRozrachCzlonkView.lista}" var="wpis" style="width: 1300px;"
-                         sortBy="#{wpis.konto.pelnynumer}" rowIndexVar="index" id="tabela">
+                         sortBy="#{wpis.konto.pelnynumer}" rowIndexVar="index" id="tabela" emptyMessage="nie wybrano osobby">
                 <p:column width="30">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
@@ -27,43 +27,94 @@
                     <h:outputText value="#{(index mod 2) eq 0 ? wpis.opisP : wpis.opisW}"/>
                 </p:column>
                 <p:column width="50" headerText="01">
-                    <bcf:outputpl value="#{wpis.m01}" rendered="#{wpis.m01 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m01}" rendered="#{wpis.m01 ne 0.0}"
+                                  stylePlus="#{wpis.m01 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="02">
-                    <bcf:outputpl value="#{wpis.m02}" rendered="#{wpis.m02 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m02}" rendered="#{wpis.m02 ne 0.0}"
+                                  stylePlus="#{wpis.m02 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="03">
-                    <bcf:outputpl value="#{wpis.m03}" rendered="#{wpis.m03 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m03}" rendered="#{wpis.m03 ne 0.0}"
+                                  stylePlus="#{wpis.m03 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="04">
-                    <bcf:outputpl value="#{wpis.m04}" rendered="#{wpis.m04 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m04}" rendered="#{wpis.m04 ne 0.0}"
+                                  stylePlus="#{wpis.m04 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="05">
-                    <bcf:outputpl value="#{wpis.m05}" rendered="#{wpis.m05 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m05}" rendered="#{wpis.m05 ne 0.0}"
+                                  stylePlus="#{wpis.m05 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="06">
-                    <bcf:outputpl value="#{wpis.m06}" rendered="#{wpis.m06 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m06}" rendered="#{wpis.m06 ne 0.0}"
+                                  stylePlus="#{wpis.m06 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="07">
-                    <bcf:outputpl value="#{wpis.m07}" rendered="#{wpis.m07 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m07}" rendered="#{wpis.m07 ne 0.0}"
+                                  stylePlus="#{wpis.m07 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="08">
-                    <bcf:outputpl value="#{wpis.m08}" rendered="#{wpis.m08 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m08}" rendered="#{wpis.m08 ne 0.0}"
+                                  stylePlus="#{wpis.m08 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="09">
-                    <bcf:outputpl value="#{wpis.m09}" rendered="#{wpis.m09 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m09}" rendered="#{wpis.m09 ne 0.0}"
+                                  stylePlus="#{wpis.m09 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="10">
-                    <bcf:outputpl value="#{wpis.m10}" rendered="#{wpis.m10 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m10}" rendered="#{wpis.m10 ne 0.0}"
+                                  stylePlus="#{wpis.m10 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="11">
-                    <bcf:outputpl value="#{wpis.m11}" rendered="#{wpis.m11 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m11}" rendered="#{wpis.m11 ne 0.0}"
+                                  stylePlus="#{wpis.m11 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="12">
-                    <bcf:outputpl value="#{wpis.m12}" rendered="#{wpis.m12 ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.m12}" rendered="#{wpis.m12 ne 0.0}"
+                                  stylePlus="#{wpis.m12 lt 0.0 ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="50" headerText="razem">
-                    <bcf:outputpl value="#{wpis.razem}" rendered="#{wpis.razem ne 0.0}"/>
+                    <bcf:outputpl value="#{wpis.razem}" rendered="#{wpis.razem ne 0.0 and wpis.razem ne -0.0}"
+                                  stylePlus="#{wpis.razem lt 0.0 ? 'color: red;' : null}"/>
+                </p:column>
+            </p:dataTable>
+             <br/>
+             <p:dataTable id="dataList" value="#{stowRozrachCzlonkView.listazapisy}" var="loop"
+                         rowIndexVar="row" style="width: 900px; height: 240px; overflow-y: scroll;" 
+                         widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy" styleClass="compact"
+                         rowKey="#{loop.idwiersza}" editable="true"  sortBy="#{loop.dokfk.datadokumentu}">
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie zapisów w dokumentach " />  
+<!--                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dokwpisTable').filter()" style="width:150px" />  -->
+                </f:facet>
+                 <p:column headerText="data dokum" width="50">
+                     <h:outputText value="#{loop.dokfk.datadokumentu}" style="#{loop.dokfk.datadokumentu.length() ne 10 ? 'color: red;': null}"/>
+                </p:column>
+                <p:column headerText="id dokumentu" width="90" sortBy="#{loop.dokfk.dokfkLP}" filterBy="#{loop.dokfk.dokfkLP}">
+                     <h:outputText value="#{loop.dokfk.dokfkLP}"/>
+                </p:column>
+                <p:column headerText="nr własny" width="120" sortBy="#{loop.dokfk.numerwlasnydokfk}" filterBy="#{loop.dokfk.numerwlasnydokfk}">
+                    <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
+                </p:column>
+                 <p:column headerText="lp wier." width="30" filterBy="#{loop.wiersz.idporzadkowy}" style="text-align: center;"
+                          filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.wiersz.idporzadkowy}">
+                    <h:outputText value="#{loop.wiersz.idporzadkowy}" />
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="250" filterBy="#{loop.wiersz.opisWiersza}" 
+                          filterMatchMode="contains" sortBy="#{loop.wiersz.opisWiersza}">
+                    <h:outputText value="#{loop.wiersz.opisWiersza.length() gt 45 ? loop.wiersz.opisWiersza.substring(0,44) : loop.wiersz.opisWiersza}" />
+                </p:column>
+                <p:column headerText="kwota" width="60" filterBy="#{loop.kwota}" filterStyle="display : none;" 
+                          filterMatchMode="contains" sortBy="#{loop.kwota}">
+                    <h:outputText value="#{loop.kwota}" rendered="#{loop.kwota eq 0 ? false : true}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                </p:column>
+                <p:column headerText="konto" width="90"  filterBy="#{loop.konto.pelnynumer}"
+                          filterMatchMode="startsWith" sortBy="#{loop.konto.pelnynumer}">
+                    <h:outputText value="#{loop.konto.pelnynumer}" style="margin-left: 3px; #{loop.konto.mapotomkow eq true ? 'color: red' : null}"/>
                 </p:column>
             </p:dataTable>
         </h:form>

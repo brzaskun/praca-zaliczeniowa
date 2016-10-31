@@ -26,6 +26,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -38,6 +39,7 @@ public class StowRozrachCzlonkView implements Serializable {
     private List<MiejscePrzychodow> czlonkowiestowarzyszenia;
     private List<Konto> konta;
     private List<Pozycja> lista;
+    private List<StronaWiersza> listazapisy;
     @Inject
     private MiejscePrzychodowDAO miejscePrzychodowDAO;
     @Inject
@@ -49,14 +51,20 @@ public class StowRozrachCzlonkView implements Serializable {
     private MiejscePrzychodow wybranyczlonek;
     
     public StowRozrachCzlonkView() {
+        this.wybranyczlonek = null;
         this.lista = new ArrayList<>();
     }
 
    public void pobierz() {
+       this.wybranyczlonek = null;
+       this.lista = new ArrayList<>();
+       this.listazapisy = new ArrayList<>();
        czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
    }
    
    public void pobierzdane() {
+       this.lista = new ArrayList<>();
+       this.listazapisy = new ArrayList<>();
        konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
        for (Iterator<Konto> it = konta.iterator(); it.hasNext();) {
            Konto p = it.next();
@@ -66,12 +74,12 @@ public class StowRozrachCzlonkView implements Serializable {
        }
        for (Konto r : konta) {
            Konto kontowlasciwe = kontoDAOfk.findKontoMacierzystyNrkonta(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), r, wybranyczlonek.getNrkonta());
-           List<StronaWiersza> sw = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(wpisView.getPodatnikObiekt(), kontowlasciwe, wpisView.getRokWpisuSt());
-           Pozycja pozycjaWn = new Pozycja(kontowlasciwe);//przypisy
-           Pozycja pozycjaMa = new Pozycja(kontowlasciwe);//wplaty
-           for (StronaWiersza s : sw) {
+           List<StronaWiersza> li = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(wpisView.getPodatnikObiekt(), kontowlasciwe, wpisView.getRokWpisuSt());
+           Pozycja pozycjaWn = new Pozycja(kontowlasciwe, false);//przypisy
+           Pozycja pozycjaMa = new Pozycja(kontowlasciwe, true);//wplaty
+           for (StronaWiersza s : li){
                if (s.isWn()) {
-                   pozycjaWn.dodajkwote(s);
+                   pozycjaWn.odejmijkwote(s);
                } else {
                    pozycjaMa.dodajkwote(s);
                }
@@ -80,9 +88,31 @@ public class StowRozrachCzlonkView implements Serializable {
            pozycjaMa.podsumuj();
            lista.add(pozycjaWn);
            lista.add(pozycjaMa);
+           listazapisy.addAll(li);
        }
+       dodajwierszsumy();
    }
 
+    public void dodajwierszsumy() {
+        Pozycja suma = new Pozycja();
+        for (Pozycja r : lista) {
+            suma.setM01(Z.z(suma.getM01() + r.m01));
+            suma.setM02(Z.z(suma.getM02() + r.m02));
+            suma.setM03(Z.z(suma.getM03() + r.m03));
+            suma.setM04(Z.z(suma.getM04() + r.m04));
+            suma.setM05(Z.z(suma.getM05() + r.m05));
+            suma.setM06(Z.z(suma.getM06() + r.m06));
+            suma.setM07(Z.z(suma.getM07() + r.m07));
+            suma.setM08(Z.z(suma.getM08() + r.m08));
+            suma.setM09(Z.z(suma.getM09() + r.m09));
+            suma.setM10(Z.z(suma.getM10() + r.m10));
+            suma.setM11(Z.z(suma.getM11() + r.m11));
+            suma.setM12(Z.z(suma.getM12() + r.m12));
+            suma.setRazem(Z.z(suma.getRazem() + r.razem));
+        }
+        lista.add(suma);
+    }
+   
    public static class Pozycja {
         private Konto konto;
         private double m01;
@@ -100,11 +130,13 @@ public class StowRozrachCzlonkView implements Serializable {
         private double razem;
         private String opisP;
         private String opisW;
+        private boolean przypis0wplata1;
         public Pozycja() {
         }
 
-        private Pozycja(Konto p) {
+        private Pozycja(Konto p, boolean przypis0wplata1) {
             this.konto = p;
+            this.przypis0wplata1 = przypis0wplata1;
         }
 
         @Override
@@ -242,6 +274,14 @@ public class StowRozrachCzlonkView implements Serializable {
         public void setM12(double m12) {
             this.m12 = m12;
         }
+
+        public boolean isPrzypis0wplata1() {
+            return przypis0wplata1;
+        }
+
+        public void setPrzypis0wplata1(boolean przypis0wplata1) {
+            this.przypis0wplata1 = przypis0wplata1;
+        }
         
         
         public double getRazem() {
@@ -253,11 +293,19 @@ public class StowRozrachCzlonkView implements Serializable {
         }
 
         public String getOpisP() {
-            return this.konto.getKontomacierzyste().getNazwapelna()+" - "+this.konto.getPelnynumer()+" przypis";
+            String zwrot = "saldo rozliczeń";
+            if (this.konto != null) {
+                zwrot = this.konto.getKontomacierzyste().getNazwapelna()+" - "+this.konto.getPelnynumer()+" przypis";
+            }
+            return zwrot;
         }
         
         public String getOpisW() {
-            return this.konto.getKontomacierzyste().getNazwapelna()+" - "+this.konto.getPelnynumer()+" wpłata";
+            String zwrot = "saldo rozliczeń";
+            if (this.konto != null) {
+                zwrot = this.konto.getKontomacierzyste().getNazwapelna()+" - "+this.konto.getPelnynumer()+" wpłata";
+            }
+            return zwrot;
         }
         
 //</editor-fold>        
@@ -302,6 +350,46 @@ public class StowRozrachCzlonkView implements Serializable {
                    break;
            }
        }
+       private void odejmijkwote(StronaWiersza sn) {
+           switch (sn.getDokfk().getMiesiac()) {
+               case "01":
+                   this.setM01(this.getM01()-sn.getKwota());
+                   break;
+               case "02":
+                   this.setM02(this.getM02()-sn.getKwota());
+                   break;
+               case "03":
+                   this.setM03(this.getM03()-sn.getKwota());
+                   break;
+               case "04":
+                   this.setM04(this.getM04()-sn.getKwota());
+                   break;
+               case "05":
+                   this.setM05(this.getM05()-sn.getKwota());
+                   break;
+               case "06":
+                   this.setM06(this.getM06()-sn.getKwota());
+                   break;
+               case "07":
+                   this.setM07(this.getM07()-sn.getKwota());
+                   break;
+               case "08":
+                   this.setM08(this.getM08()-sn.getKwota());
+                   break;
+               case "09":
+                   this.setM09(this.getM09()-sn.getKwota());
+                   break;
+               case "10":
+                   this.setM10(this.getM10()-sn.getKwota());
+                   break;
+               case "11":
+                   this.setM11(this.getM11()-sn.getKwota());
+                   break;
+               case "12":
+                   this.setM12(this.getM12()-sn.getKwota());
+                   break;
+           }
+       }
 
         private void podsumuj() {
             double suma = 0.0;
@@ -335,6 +423,14 @@ public class StowRozrachCzlonkView implements Serializable {
 
     public void setLista(List<Pozycja> lista) {
         this.lista = lista;
+    }
+
+    public List<StronaWiersza> getListazapisy() {
+        return listazapisy;
+    }
+
+    public void setListazapisy(List<StronaWiersza> listazapisy) {
+        this.listazapisy = listazapisy;
     }
 
 
