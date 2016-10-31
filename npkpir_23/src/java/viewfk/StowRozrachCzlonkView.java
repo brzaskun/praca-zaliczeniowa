@@ -26,6 +26,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import pdffk.PDFStowRozrachCzlonk;
 import view.WpisView;
 import waluty.Z;
 
@@ -118,7 +119,7 @@ public class StowRozrachCzlonkView implements Serializable {
     public void drukuj() {
         try {
             if (lista.size() > 0) {
-                
+                PDFStowRozrachCzlonk.drukuj(lista, wybranyczlonek, wpisView.getRokWpisuSt());
             }
         } catch (Exception e) {
             

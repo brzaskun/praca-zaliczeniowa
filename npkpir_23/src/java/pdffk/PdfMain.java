@@ -68,6 +68,7 @@ import entityfk.EVatwpisDedra;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import entity.Statystyka;
+import viewfk.StowRozrachCzlonkView;
 
 /**
  *
@@ -529,6 +530,24 @@ public class PdfMain {
                 col[8] = 3;
                 col[9] = 3;
                 col[10] = 3;
+                return col;
+            case "viewfk.StowRozrachCzlonkView$Pozycja":
+                col = new int[size];
+                col[0] = 1;
+                col[1] = 6;
+                col[2] = 2;
+                col[3] = 2;
+                col[4] = 2;
+                col[5] = 2;
+                col[6] = 2;
+                col[7] = 2;
+                col[8] = 2;
+                col[9] = 2;
+                col[10] = 2;
+                col[11] = 2;
+                col[12] = 2;
+                col[13] = 2;
+                col[14] = 2;
                 return col;
             case "embeddable.FakturaPodatnikRozliczenie":
                 if (modyfikator == 0) {
@@ -1068,6 +1087,24 @@ public class PdfMain {
                 } else {
                     table.addCell(ustawfrazeAlign("", "right", 8));
                 }
+            }
+            if (nazwaklasy.equals("viewfk.StowRozrachCzlonkView$Pozycja")) {
+                StowRozrachCzlonkView.Pozycja p = (StowRozrachCzlonkView.Pozycja) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+                table.addCell(ustawfrazeAlign(p.isPrzypis0wplata1() ? p.getOpisW() : p.getOpisP(), "left", 8, 22f));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM01() != 0 ? number.format(p.getM01()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM02() != 0 ? number.format(p.getM02()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM03() != 0 ? number.format(p.getM03()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM04() != 0 ? number.format(p.getM04()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM05() != 0 ? number.format(p.getM05()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM06() != 0 ? number.format(p.getM06()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM07() != 0 ? number.format(p.getM07()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM08() != 0 ? number.format(p.getM08()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM09() != 0 ? number.format(p.getM09()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM10() != 0 ? number.format(p.getM10()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM11() != 0 ? number.format(p.getM11()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM12() != 0 ? number.format(p.getM12()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getRazem()!= 0 ? number.format(p.getRazem()) : ""), "right", 8));
             }
             if (nazwaklasy.equals("entity.Statystyka")) {
                 Statystyka p = (Statystyka) it.next();

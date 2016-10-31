@@ -6,6 +6,7 @@
 package testobjects;
 
 import embeddable.FakturaPodatnikRozliczenie;
+import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
 
 import embeddable.VatUe;
@@ -483,11 +484,12 @@ public class testobjects {
      public static List[] getStowRozrachCzlonk(List<StowRozrachCzlonkView.Pozycja> wiersze) {
        List n = new ArrayList();
        n.add("lp");
-       n.add("okres");
-       n.add("przych. wg 17%");
-       n.add("przych. wg 8,5%");
-       n.add("przych. wg 5,5%");
-       n.add("przych. wg 3%");
+       n.add("opis pozycji");
+       List<String> mce = Mce.getMcenazwaList();
+       mce.forEach((m) -> {
+           n.add(m);
+        });
+       n.add("razem");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

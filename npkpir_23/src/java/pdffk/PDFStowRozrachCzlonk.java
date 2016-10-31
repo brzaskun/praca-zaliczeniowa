@@ -8,6 +8,7 @@ package pdffk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import data.Data;
+import entityfk.MiejscePrzychodow;
 import java.io.File;
 import java.util.List;
 import msg.Msg;
@@ -21,7 +22,7 @@ import viewfk.StowRozrachCzlonkView;
  * @author Osito
  */
 public class PDFStowRozrachCzlonk {
-     public static void drukuj(List<StowRozrachCzlonkView.Pozycja> wykaz) {
+     public static void drukuj(List<StowRozrachCzlonkView.Pozycja> wykaz, MiejscePrzychodow wybranyczlonek, String rokWpisuSt) {
         String nazwa = Data.aktualnaData()+"_stowrozrachczlonk";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -32,7 +33,7 @@ public class PDFStowRozrachCzlonk {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajLinieOpisu(document, "Zestawienie naliczonych i zapłaconych kwot w roku kalendarzowym");
+            dodajLinieOpisu(document, "Zestawienie naliczonych i zapłaconych kwot w roku kalendarzowym "+wybranyczlonek.getOpismiejsca()+" rok "+rokWpisuSt);
             dodajTabele(document, testobjects.testobjects.getStowRozrachCzlonk(wykaz),95,0);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";
@@ -41,4 +42,6 @@ public class PDFStowRozrachCzlonk {
             Msg.msg("w", "Błąd podczas wydruku");
         }
     }
+
+   
 }
