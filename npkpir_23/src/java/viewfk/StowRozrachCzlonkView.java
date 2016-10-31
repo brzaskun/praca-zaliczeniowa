@@ -18,8 +18,10 @@ import entityfk.StowNaliczenie;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -121,6 +123,30 @@ public class StowRozrachCzlonkView implements Serializable {
             if (lista.size() > 0) {
                 PDFStowRozrachCzlonk.drukuj(lista, wybranyczlonek, wpisView.getRokWpisuSt());
             }
+        } catch (Exception e) {
+            
+        }
+    }
+    
+     public void drukujwszystko(Map<MiejscePrzychodow, List<Pozycja>> czlonkowie) {
+        try {
+            if (lista.size() > 0) {
+                PDFStowRozrachCzlonk.drukuj(czlonkowie, wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt().getNip());
+            }
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    public void drukujwszystkie() {
+        try {
+            Map<MiejscePrzychodow, List<Pozycja>> czlonkowie = new HashMap<>();
+            czlonkowiestowarzyszenia.forEach((t) -> {
+                wybranyczlonek = t;
+                pobierzdane();
+                czlonkowie.put(t, lista);
+            });
+            drukujwszystko(czlonkowie);
         } catch (Exception e) {
             
         }

@@ -84,6 +84,12 @@ body {
     font-size: 9.2pt !important;
     font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif !important;
 }
+/*to chyba jest body*/
+.ui-layout-container {
+    width: 99% !important;
+/*    font-size: 0.8em !important;
+    font-weight: 600 !important;*/
+}
 
 
 

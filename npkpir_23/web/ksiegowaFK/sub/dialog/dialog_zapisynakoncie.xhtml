@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="zapisy" header="Zapisy na kontach firma - #{WpisView.podatnikWpisu}" widgetVar="zapisynakoncie"  dynamic="true" appendTo="@(body)"
+    <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikWpisu}" widgetVar="zapisynakoncie"  dynamic="true" appendTo="@(body)"
               resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1630,780);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true"
               >
@@ -171,8 +171,11 @@
                 </h:form>
             </p:layoutUnit>  
 
-            <p:layoutUnit position="center" >
+            <p:layoutUnit id="centertree" position="center" style="width: 1170px;">
                 <style>
+                    .ui-layout-center {
+                        width: 1170px;
+                    }
                     .grid1 td {
                         height: 40px!important;
                     }

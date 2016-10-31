@@ -460,6 +460,24 @@ public class PdfMain {
         }
     }
     
+    public static void dodajTabele(Document document, List[] tabela, int perc, int modyfikator, int wielkoscnaglowka) {
+        try {
+            List naglowki = tabela[0];
+            List wiersze = tabela[1];
+            if (wiersze != null && wiersze.size() > 0) {
+                String nazwaklasy = wiersze.get(0).getClass().getName();
+                int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
+                PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
+                ustawnaglowki(table, naglowki, wielkoscnaglowka);
+                ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
+                document.add(table);
+            }
+        } catch (DocumentException ex) {
+            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
+            E.e(ex);
+        }
+    }
+    
     public static void dodajTabele(Document document, List[] tabela, int perc, int modyfikator) {
         try {
             List naglowki = tabela[0];
@@ -534,7 +552,7 @@ public class PdfMain {
             case "viewfk.StowRozrachCzlonkView$Pozycja":
                 col = new int[size];
                 col[0] = 1;
-                col[1] = 6;
+                col[1] = 9;
                 col[2] = 2;
                 col[3] = 2;
                 col[4] = 2;
@@ -1091,20 +1109,20 @@ public class PdfMain {
             if (nazwaklasy.equals("viewfk.StowRozrachCzlonkView$Pozycja")) {
                 StowRozrachCzlonkView.Pozycja p = (StowRozrachCzlonkView.Pozycja) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
-                table.addCell(ustawfrazeAlign(p.isPrzypis0wplata1() ? p.getOpisW() : p.getOpisP(), "left", 8, 22f));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM01() != 0 ? number.format(p.getM01()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM02() != 0 ? number.format(p.getM02()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM03() != 0 ? number.format(p.getM03()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM04() != 0 ? number.format(p.getM04()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM05() != 0 ? number.format(p.getM05()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM06() != 0 ? number.format(p.getM06()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM07() != 0 ? number.format(p.getM07()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM08() != 0 ? number.format(p.getM08()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM09() != 0 ? number.format(p.getM09()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM10() != 0 ? number.format(p.getM10()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM11() != 0 ? number.format(p.getM11()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getM12() != 0 ? number.format(p.getM12()) : ""), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getRazem()!= 0 ? number.format(p.getRazem()) : ""), "right", 8));
+                table.addCell(ustawfrazeAlign(p.isPrzypis0wplata1() ? p.getOpisW() : p.getOpisP(), "left", 7, 15f));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM01() != 0 ? number.format(p.getM01()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM02() != 0 ? number.format(p.getM02()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM03() != 0 ? number.format(p.getM03()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM04() != 0 ? number.format(p.getM04()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM05() != 0 ? number.format(p.getM05()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM06() != 0 ? number.format(p.getM06()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM07() != 0 ? number.format(p.getM07()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM08() != 0 ? number.format(p.getM08()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM09() != 0 ? number.format(p.getM09()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM10() != 0 ? number.format(p.getM10()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM11() != 0 ? number.format(p.getM11()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getM12() != 0 ? number.format(p.getM12()) : ""), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getRazem()!= 0 ? number.format(p.getRazem()) : ""), "right", 7));
             }
             if (nazwaklasy.equals("entity.Statystyka")) {
                 Statystyka p = (Statystyka) it.next();
