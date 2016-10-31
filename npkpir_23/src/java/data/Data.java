@@ -209,14 +209,17 @@ public class Data implements Serializable {
     }
     
     private static boolean czydatasiezawiera(String data, String rok, String mc, boolean przed0po1) {
-        String rokdaty = pobierzrok(data);
-        String mcdaty = pobierzmc(data);
-        int wynikporównania;
-        if (przed0po1) {
-            wynikporównania  = compare(rok, mc, rokdaty, mcdaty);
-        } else {
-            wynikporównania  = compare(rokdaty, mcdaty, rok, mc);
-        }
+        int wynikporównania = -1;
+        try {
+            String rokdaty = pobierzrok(data);
+            String mcdaty = pobierzmc(data);
+            
+            if (przed0po1) {
+                wynikporównania  = compare(rok, mc, rokdaty, mcdaty);
+            } else {
+                wynikporównania  = compare(rokdaty, mcdaty, rok, mc);
+            }
+        } catch (Exception e) {}
         return wynikporównania > -1;
     }
 
