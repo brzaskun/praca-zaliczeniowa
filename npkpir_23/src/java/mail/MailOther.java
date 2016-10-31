@@ -51,6 +51,7 @@ public class MailOther implements Serializable{
              
              // create the second message part
              MimeBodyPart mbp2 = new MimeBodyPart();
+             mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
              // attach the file to the message
              File file = Plik.plik("pkpir" + wpisView.getPodatnikWpisu().trim() + ".pdf", true);
              if (file.isFile()) {
@@ -98,8 +99,9 @@ public class MailOther implements Serializable{
              
                  // create the second message part
                  MimeBodyPart mbp2 = new MimeBodyPart();
+                 mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
                  // attach the file to the message
-                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf");
+                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf");
                  mbp2.setDataHandler(new DataHandler(fds));
                  mbp2.setFileName(fds.getName());
                  
@@ -117,7 +119,7 @@ public class MailOther implements Serializable{
                  fakturaDAO.edit(faktura);
                  RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
                  try {
-                    File file = Plik.plik("fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf", true);
+                    File file = Plik.plik("fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf", true);
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku faktury");
@@ -151,8 +153,9 @@ public class MailOther implements Serializable{
              
                  // create the second message part
                  MimeBodyPart mbp2 = new MimeBodyPart();
+                 mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
                  // attach the file to the message
-                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf");
+                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikObiekt().getNip() + ".pdf");
                  mbp2.setDataHandler(new DataHandler(fds));
                  mbp2.setFileName(fds.getName());
                  
@@ -217,6 +220,7 @@ public class MailOther implements Serializable{
                      + Mail.stopka,  "text/html; charset=utf-8");             
              // create the second message part
              MimeBodyPart mbp2 = new MimeBodyPart();
+             mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
              // attach the file to the message
              FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf");
              mbp2.setDataHandler(new DataHandler(fds));
@@ -258,6 +262,7 @@ public class MailOther implements Serializable{
              
              // create the second message part
              MimeBodyPart mbp2 = new MimeBodyPart();
+              mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
              // attach the file to the message
              FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + wpisView.getPodatnikWpisu() + ".pdf");
              mbp2.setDataHandler(new DataHandler(fds));
@@ -299,6 +304,7 @@ public class MailOther implements Serializable{
               
               // create the second message part
               MimeBodyPart mbp2 = new MimeBodyPart();
+               mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
               // attach the file to the message
               FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + wpisView.getPodatnikWpisu() + ".pdf");
               mbp2.setDataHandler(new DataHandler(fds));
@@ -343,6 +349,7 @@ public class MailOther implements Serializable{
 
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
+             mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
             // attach the file to the message
             if (stara0nowa1 == 0 && Plik.plik("vat7-13" + wpisView.getPodatnikWpisu() + ".pdf", true).isFile()) {
                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + wpisView.getPodatnikWpisu() + ".pdf");
@@ -401,6 +408,7 @@ public class MailOther implements Serializable{
 
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
+             mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
             // attach the file to the message
             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nazwaewidencji + "-" + wpisView.getPodatnikWpisu() + ".pdf");
             if (fds.getFile().exists()) {

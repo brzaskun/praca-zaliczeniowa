@@ -114,6 +114,16 @@ public class StowRozrachCzlonkView implements Serializable {
         }
         lista.add(suma);
     }
+    
+    public void drukuj() {
+        try {
+            if (lista.size() > 0) {
+                
+            }
+        } catch (Exception e) {
+            
+        }
+    }
    
    public static class Pozycja {
         private Konto konto;

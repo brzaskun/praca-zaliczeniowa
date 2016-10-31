@@ -6,14 +6,10 @@
 package mail;
 
 import dao.FakturaDAO;
-import entity.Faktura;
 import entity.Klienci;
-import entity.Podatnik;
 import format.F;
 import java.io.File;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.MessagingException;
@@ -23,7 +19,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import plik.Plik;
 import view.WpisView;
 
@@ -51,6 +46,7 @@ public class MailFaktRozrach implements Serializable{
                      + stopka,  "text/html; charset=utf-8");
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
+            mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
             // attach the file to the message
            String nazwa = wpisView.getPodatnikObiekt().getNip()+"faktrozrach";
            File file = Plik.plik(nazwa+".pdf", true);

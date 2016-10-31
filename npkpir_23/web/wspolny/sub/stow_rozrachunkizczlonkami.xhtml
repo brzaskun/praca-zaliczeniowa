@@ -13,6 +13,7 @@
                 <p:ajax event="change" listener="#{stowRozrachCzlonkView.pobierzdane()}"
                         update="form_dialog_stowarzyszenie_rozrachunki:tabela form_dialog_stowarzyszenie_rozrachunki:dataList"/>
             </p:selectOneMenu>
+                <p:commandButton value="drukuj" style="width: 120px;" actionListener="#{stowRozrachCzlonkView.drukuj}" global="false"/>
             </p:panelGrid>
             <p:dataTable value="#{stowRozrachCzlonkView.lista}" var="wpis" style="width: 1300px;"
                          sortBy="#{wpis.konto.pelnynumer}" rowIndexVar="index" id="tabela" emptyMessage="nie wybrano osobby">
