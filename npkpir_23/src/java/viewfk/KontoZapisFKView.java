@@ -174,7 +174,6 @@ public class KontoZapisFKView implements Serializable{
         List<StronaWiersza> zapisy = new ArrayList<>();
         try {
             zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            
         } catch (Exception e) {
             E.e(e);
         }

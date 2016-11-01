@@ -521,7 +521,7 @@ public class WpisView implements Serializable {
         this.czegosbrakuje = czegosbrakuje;
     }
 
-    
+   
 //</editor-fold>
 
     private void pobierzformaprawna() {

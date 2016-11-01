@@ -55,7 +55,7 @@
                             </p:column>
                             <p:commandButton value="#{mgs.drukuj}" icon="fa fa-print" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"   style="width: 120px; margin-left: 30px;"/>
                             <p:commandButton value="duży druk" icon="fa fa-print" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"   style="width: 120px; margin-left: 30px;"/>
-                            <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"  style="width: 120px; margin-left: 10px;"
+                            <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" style="width: 120px; margin-left: 10px;"
                                              update="tabelazzapisami, :tabelazsumami:sumy"/>
                         </p:panelGrid>
                     </h:form>

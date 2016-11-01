@@ -384,6 +384,16 @@ public class PdfMain {
             E.e(ex);
         }
     }
+    public static void dodajLinieOpisuBezOdstepu(Document document, String opis) {
+        try {
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
+            opiswstepny.setAlignment(Element.ALIGN_LEFT);
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            System.out.println("Problem z dodaniem linii opisu PDFMain dodajLinieOpisu(Document, String, String)");
+            E.e(ex);
+        }
+    }
     
     public static void informacjaoZaksiegowaniu(Document document, String lp) {
         try {
@@ -467,7 +477,7 @@ public class PdfMain {
             if (wiersze != null && wiersze.size() > 0) {
                 String nazwaklasy = wiersze.get(0).getClass().getName();
                 int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
-                PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
+                PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
                 ustawnaglowki(table, naglowki, wielkoscnaglowka);
                 ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
                 document.add(table);
@@ -485,7 +495,7 @@ public class PdfMain {
             if (wiersze != null && wiersze.size() > 0) {
                 String nazwaklasy = wiersze.get(0).getClass().getName();
                 int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
-                PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
+                PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
                 ustawnaglowki(table, naglowki);
                 ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
                 document.add(table);
@@ -503,7 +513,7 @@ public class PdfMain {
             if (wiersze != null && wiersze.size() > 0) {
                 String nazwaklasy = wiersze.get(0).getClass().getName();
                 int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
-                PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
+                PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 1f, 2f);
                 ustawnaglowki(table, naglowki, size);
                 ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
                 return table;
@@ -694,13 +704,11 @@ public class PdfMain {
                 col[0] = 1;
                 col[1] = 2;
                 col[2] = 2;
-                col[3] = 2;
-                col[4] = 3;
+                col[3] = 3;
+                col[4] = 6;
                 col[5] = 3;
-                col[6] = 4;
+                col[6] = 3;
                 col[7] = 3;
-                col[8] = 3;
-                col[9] = 3;
                 return col;
             case "testobjects.WierszKonta":
                 int[] col2 = new int[size];
@@ -876,6 +884,7 @@ public class PdfMain {
                     col13[4] = 3;
                     col13[5] = 3;
                     col13[6] = 5;
+                    col13[7] = 3;
                     return col13;
                 } else {
                     int[] col13 = new int[size];
@@ -927,13 +936,14 @@ public class PdfMain {
         return null;
     }
     
-    private static PdfPTable przygotujtabele(int size, int[] col, int perc) {
+    private static PdfPTable przygotujtabele(int size, int[] col, int perc, float a, float b) {
         try {
             PdfPTable p = new PdfPTable(size);
             p.setWidths(col);
             p.setWidthPercentage(perc);
-            p.setSpacingBefore(2f);
-            p.setSpacingAfter(3f);
+            //normalnie 2f i 3f
+            p.setSpacingBefore(a);
+            p.setSpacingAfter(b);
             return p;
         } catch (DocumentException ex) {
             System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain przygotujtabele");
@@ -1542,20 +1552,20 @@ public class PdfMain {
             if (nazwaklasy.equals("entityfk.StronaWiersza")) {
                 StronaWiersza p = (StronaWiersza) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getNazwaWaluty(), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getKursWalutyBOSW(), "center", 7));
+                String nw = p.getNazwaWaluty().equals("PLN") ? p.getNazwaWaluty() : p.getNazwaWaluty()+" "+p.getKursWalutyBOSW();
+                table.addCell(ustawfrazeAlign(nw, "center", 7));
                 table.addCell(ustawfrazeAlign(p.getDokfk().getDatadokumentu(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getDokfkS(), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getDokfk().getNumerwlasnydokfk(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getWiersz().getOpisWiersza(), "left", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getRozliczono())), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPozostalo())), "right", 7));
+                table.addCell(ustawfrazeAlign(p.getDokfkS()+" "+p.getDokfk().getNumerwlasnydokfk(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getWiersz().getOpisWiersza(), "left", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getRozliczono())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPozostalo())), "right", 8));
                 if(modyfikator==1) {
-                    PdfPTable subtable = dodajSubTabele(testobjects.testobjects.getTabelaTransakcje(p.getPlatnosci()),95,1, 9);
+                    PdfPTable subtable = dodajSubTabele(testobjects.testobjects.getTabelaTransakcje(p.getPlatnosci()),95,1, 8);
                     if (subtable != null) {
                         PdfPCell r = new PdfPCell(subtable);
-                        r.setColspan(10);
+                        //r.setRightIndent(30f);
+                        r.setColspan(8);
                         table.addCell(r);
                     }
                 }
@@ -1681,13 +1691,14 @@ public class PdfMain {
             if (nazwaklasy.equals("entityfk.Transakcja")) {
                 if (modyfikator == 1) {
                     Transakcja p = (Transakcja) it.next();
-                    table.addCell(ustawfrazeAlign(p.getKwotatransakcji(), "left", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotatransakcji())), "rigth", 8));
                     table.addCell(ustawfrazeAlign(p.getDatarozrachunku(), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getRozliczajacy().getKwotaR())), "right", 8));
                     table.addCell(ustawfrazeAlign(p.getRozliczajacy().getDokfkS(), "left", 8));
-                    table.addCell(ustawfrazeAlign(p.getRozliczajacy().getWiersz().getIdporzadkowy(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getRozliczajacy().getWiersz().getIdporzadkowy(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getRozliczajacy().getWiersz().getDokfk().getNumerwlasnydokfk(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getRozliczajacy().getWiersz().getOpisWiersza(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getRozliczajacy().getKonto().getPelnynumer(), "right", 8));
                 } else {
                     Transakcja p = (Transakcja) it.next();
                     table.addCell(ustawfrazeAlign(i++, "center", 8));

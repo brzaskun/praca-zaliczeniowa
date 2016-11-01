@@ -441,7 +441,7 @@ public class StronaWiersza implements Serializable {
     public String getStylopisrozrachunki() {
         String zwrot = null;
         if (this.isNowatransakcja()) {
-            zwrot = "color: red";
+            zwrot = "color: darkred";
         }
         return zwrot;
     }

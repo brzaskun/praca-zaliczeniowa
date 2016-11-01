@@ -37,9 +37,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import msg.B;
-import viewfk.CechyzapisuPrzegladView;
 import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
-import viewfk.StowNaliczenieZestView.Pozycja;
 import viewfk.StowRozrachCzlonkView;
 
 /**
@@ -320,11 +318,12 @@ public class testobjects {
        List n = new ArrayList();
        n.add(B.b("kwotatrans"));
        n.add(B.b("datatrans"));
-       n.add(B.b("rozliczono"));
+       n.add(B.b("wartośćtransakcji"));
        n.add(B.b("dokument"));
        n.add(B.b("wiersz"));
        n.add(B.b("nrdokrozl"));
        n.add(B.b("opis"));
+       n.add(B.b("nrkonta"));
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;
@@ -345,11 +344,9 @@ public class testobjects {
     public static List[] getTabelaRozrachunki(List<StronaWiersza> wiersze) {
        List n = new ArrayList();
        n.add(B.b("lp"));
-       n.add(B.b("waluta"));
-       n.add(B.b("kurs"));
+       n.add(B.b("waluta/kurs"));
        n.add(B.b("datadok"));
-       n.add(B.b("symbol"));
-       n.add(B.b("dokument"));
+       n.add(B.b("symbol/nrwlasny"));
        n.add(B.b("opis"));
        n.add(B.b("kwota"));
        n.add(B.b("zapłacono"));

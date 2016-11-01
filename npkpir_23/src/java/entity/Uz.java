@@ -170,7 +170,9 @@ public class Uz implements Serializable {
     public void setLocale(String locale) {
         this.locale = locale;
     }
-
+    public String getImieNazwisko() {
+        return this.getImie()+" "+this.getNazw();
+    }
     
     
     @Override

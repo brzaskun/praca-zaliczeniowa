@@ -20,8 +20,10 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -79,12 +81,30 @@ public class RozrachunkiPrzegladView implements Serializable{
         coWyswietlacRozrachunkiPrzeglad = "nowe";
         wybranyRodzajTransakcji = "transakcje";
         wykazkont = stronaWierszaDAO.findKontoByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        pobierzmacierzyste(wykazkont);
         if (wykazkont != null && wykazkont.isEmpty()==false) {
             wybranekonto = wykazkont.get(0);
         }
     }
 
-   
+    private void pobierzmacierzyste(List<Konto> wykazkont) {
+        Set<Konto> analityka = new HashSet<>();
+        analityka.addAll(wykazkont);
+        Set<Konto> macierzystetmp = new HashSet<>();
+        do {
+            macierzystetmp = new HashSet<>();
+            for (Iterator<Konto> it = analityka.iterator(); it.hasNext();) {
+                Konto t = it.next();
+                if (t.getKontomacierzyste() != null) {
+                    it.remove();
+                    macierzystetmp.add(t.getKontomacierzyste());
+                }
+            };
+            wykazkont.addAll(macierzystetmp);
+            analityka.addAll(macierzystetmp);
+        } while (!macierzystetmp.isEmpty());
+    }
+
     
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
         TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);
