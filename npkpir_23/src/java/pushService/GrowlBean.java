@@ -27,12 +27,12 @@ public class GrowlBean {
 
     public void send_ch1() {
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        eventBus.publish(CHANNEL_1, new FacesMessage(summary, detail));
+        eventBus.publish(CHANNEL_1, new FacesMessage(FacesMessage.SEVERITY_WARN, summary, detail));
     }
     
     public void send_ch2() {
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        eventBus.publish(CHANNEL_2, new FacesMessage(summary1, detail1));
+        eventBus.publish(CHANNEL_2, new FacesMessage(FacesMessage.SEVERITY_WARN,summary1, detail1));
     }
 
     
