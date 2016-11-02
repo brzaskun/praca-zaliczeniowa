@@ -6,6 +6,7 @@
 package format;
 
 import java.text.NumberFormat;
+import java.util.Currency;
 import static pdffk.PdfMain.dodajLinieOpisu;
 
 /**
@@ -23,6 +24,15 @@ public class F {
     
     public static String c(double n) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+        formatter.setGroupingUsed(true);
+        return formatter.format(n);
+    }
+    public static String c(double n, String symboluwaluty) {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        Currency currency = Currency.getInstance(symboluwaluty);
+        formatter.setCurrency(currency);
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);

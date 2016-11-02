@@ -73,7 +73,42 @@ public class Slownie {
                      return null;
                  }
                  String kwotaSlownie = "";
-                 kwotaSlownie = procKwotaSlownie (dkwota);
+                 kwotaSlownie = procKwotaSlownie (dkwota, "zł");
+                 return kwotaSlownie;
+             }
+         }
+         catch (Exception ex)
+         {
+             //Wyjątek błędu aplikacji
+             return "Bład "+ex.getMessage();
+         }
+     }
+     
+     public static String slownie(String param, String skrot)
+     {
+         // TODO code application logic here
+         try
+         {
+             {
+                 String kwota = param;
+                 double dkwota = 0;
+                 //Odczyt parametrów plików
+                 
+                 int argumenty = param.length();
+                 if (argumenty == 0)
+                 {
+                     return null;
+                 }
+                 try
+                 {
+                     dkwota =  Double.parseDouble(kwota);
+                 }
+                 catch (Exception ex)
+                 {
+                     return null;
+                 }
+                 String kwotaSlownie = "";
+                 kwotaSlownie = procKwotaSlownie (dkwota,skrot);
                  return kwotaSlownie;
              }
          }
@@ -222,14 +257,18 @@ public class Slownie {
         return groszy;
     }
 
-    static String procKwotaSlownie(double kwota) {
+    static String procKwotaSlownie(double kwota, String skrot) {
         //Generalna funkcja ptzetworzenia zmiennej
         if (kwota < 0)
         {
             kwota = kwota * -1;
         }
         String strKwotaSl = "";
-        strKwotaSl = ToWords(liczba_zlotych(kwota))+ " zł "+ ToWords(liczba_groszy(kwota))+" gr.";
+        if (skrot.equals("zł")) {
+            strKwotaSl = ToWords(liczba_zlotych(kwota))+ " zł "+ ToWords(liczba_groszy(kwota))+" gr.";
+        } else {
+            strKwotaSl = ToWords(liczba_zlotych(kwota))+ " "+skrot+" "+ ToWords(liczba_groszy(kwota))+"";
+        }
         return strKwotaSl;
     }
 }

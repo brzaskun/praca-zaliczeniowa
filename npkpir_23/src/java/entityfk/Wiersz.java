@@ -463,16 +463,20 @@ public class Wiersz implements Serializable {
         return this.getDokfk().getDokfkPK().toString2();
     }
 
-    public boolean jest0niejest1(WierszBO w) {
+    public boolean jest0niejest1(WierszBO w, String mc) {
         boolean jest0niejest1 = true;
+        String opiswierszaBO = "zapis BO: " + w.getOpis();
+        if (!mc.equals("01")) {
+            opiswierszaBO = "kwota obrotów: " + w.getOpis();
+        }
         if (this.getStronaWn() != null) {
-            if (this.getStronaWn().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(w.getOpis())) {
+            if (this.getStronaWn().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(opiswierszaBO)) {
                 jest0niejest1 = false;
                 System.out.println("jest takie konto z opisem w bo");
             }
         }
         if (this.getStronaMa() != null) {
-            if (this.getStronaMa().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(w.getOpis())) {
+            if (this.getStronaMa().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(opiswierszaBO)) {
                 jest0niejest1 = false;
                 System.out.println("jest takie konto z opisem w bo");
             }

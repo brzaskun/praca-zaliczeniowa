@@ -14,6 +14,7 @@ import data.Data;
 import entity.Uz;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import format.F;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
 import plik.Plik;
+import slownie.Slownie;
 import view.WpisView;
 
 /**
@@ -48,12 +50,23 @@ public class PDFRozrachunki {
             String kontrahent = stronyWiersza.get(0).getKonto().getNazwapelna();
             dodajOpisWstepny(document, B.b("zestawienierozrachunków")+" "+kontrahent,wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             dodajLinieOpisu(document, "wydruk na dzień "+Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            double naleznosci = 0.0;
+            double zobowiazania = 0.0;
+            String symbolwaluty = "PLN";
+            String skrótsymbolu = "zł";
             for (StronaWiersza p : stronyWiersza) {
                 List<StronaWiersza> l = new ArrayList<>();
                 l.add(p);
+                symbolwaluty = p.getSymbolWalutBOiSW();
+                skrótsymbolu = p.getSkrotSymbolWalutBOiSW();
                 try {
                     int kat = p.getDokfk().getRodzajedok().getKategoriadokumentu();
                     String transakcja = kat == 2 || kat == 4 ? "należność dla nas" : "zobowiązanie względem kontrahenta";
+                    if (kat == 2 || kat == 4) {
+                        naleznosci += p.getKwota();
+                    } else {
+                        zobowiazania += p.getKwota();
+                    }
                     PdfMain.dodajLinieOpisuBezOdstepu(document, transakcja);
                     document.add(dodajSubTabele(testobjects.testobjects.getTabelaRozrachunki(l),95,1,8));
                     PdfMain.dodajLinieOpisu(document, " ");
@@ -61,11 +74,14 @@ public class PDFRozrachunki {
                     Logger.getLogger(PDFRozrachunki.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            double wartosc = Math.abs(naleznosci-zobowiazania);
+            dodajLinieOpisuBezOdstepu(document, "Razem wartość powyższych kwot: "+F.c(wartosc,symbolwaluty));
+            dodajLinieOpisu(document, "Słownie: "+Slownie.slownie(String.valueOf(wartosc), skrótsymbolu));
             String sp = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
-            dodajLinieOpisu(document, "..................... ");
+            dodajLinieOpisuBezOdstepu(document, "..................... ");
             dodajLinieOpisu(document, "sporządzający "+wpisView.getWprowadzil().getImieNazwisko()+" dnia "+Data.aktualnaData());
             dodajLinieOpisu(document, " ");
-            dodajLinieOpisu(document, "..................... ");
+            dodajLinieOpisuBezOdstepu(document, "..................... ");
             dodajLinieOpisu(document, "salda zgodnie potwierdzam");
             dodajLinieOpisu(document, kontrahent);
             finalizacjaDokumentu(document);

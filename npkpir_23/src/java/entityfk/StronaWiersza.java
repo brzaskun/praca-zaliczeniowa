@@ -610,6 +610,16 @@ public class StronaWiersza implements Serializable {
         return symbol;
     }
     
+    public String getSkrotSymbolWalutBOiSW() {
+        String symbol = "PLN";
+        if (this.wiersz.getTabelanbp() != null) {
+            symbol = this.wiersz.getTabelanbp().getWaluta().getSkrotsymbolu();
+        } else if (this.symbolWalutyBO != null) {
+            symbol = this.symbolWalutyBO;
+        }
+        return symbol;
+    }
+    
    
     public StronaWiersza getDrugaStrona() {
         Wiersz w = this.getWiersz();

@@ -120,7 +120,6 @@ public class BilansWprowadzanieView implements Serializable {
 
     }
 
-    @PostConstruct
     public void init() {
         this.miesiacWpisu = wpisView.getMiesiacWpisu();
         this.lista0 = new ArrayList<>();
@@ -208,6 +207,8 @@ public class BilansWprowadzanieView implements Serializable {
         dokumentBO = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (dokumentBO != null) {
             isteniejeDokBO = true;
+        } else {
+            isteniejeDokBO = false;
         }
         wierszedousuniecia = new ArrayList<>();
     }
@@ -335,7 +336,7 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    
+    //usuwanie w filtrowanych jest tak gdzie wywolujaca
     private void usuwaniejeden(List<WierszBO> l, WierszBO wierszBO) {
         try {
             l.remove(wierszBO);
@@ -698,6 +699,7 @@ public class BilansWprowadzanieView implements Serializable {
         zapiszBilansBOdoBazy();
         dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
         edytujwiersze(dokumentBO);
+        dokumentBO.przeliczKwotyWierszaDoSumyDokumentu();
         try {
             dokDAOfk.edit(dokumentBO);
             dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
@@ -738,8 +740,12 @@ public class BilansWprowadzanieView implements Serializable {
         Dokfk nd = new Dokfk("BO", nrkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         ustawdaty(nd);
         ustawkontrahenta(nd);
-        ustawnumerwlasny(nd);
-        nd.setOpisdokfk("bilans otwarcia roku: " + wpisView.getRokWpisuSt());
+        ustawnumerwlasny(nd, nrkolejny);
+        if (wpisView.getMiesiacWpisu().equals("01")) {
+            nd.setOpisdokfk("bilans otwarcia roku: " + wpisView.getRokWpisuSt());
+        } else {
+            nd.setOpisdokfk("obroty rozpoczęcia na koniec: " + wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
+        }
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawrodzajedok(nd);
         ustawtabelenbp(nd);
@@ -768,8 +774,8 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    private void ustawnumerwlasny(Dokfk nd) {
-        String numer = "1/" + wpisView.getRokWpisuSt() + "/BO";
+    private void ustawnumerwlasny(Dokfk nd, int nrkolejny) {
+        String numer = nrkolejny+"/" + wpisView.getRokWpisuSt() + "/BO";
         nd.setNumerwlasnydokfk(numer);
     }
 
@@ -815,6 +821,9 @@ public class BilansWprowadzanieView implements Serializable {
                         System.out.println("stop");
                     }
                     String opiswiersza = "zapis BO: " + p.getWierszBOPK().getOpis();
+                    if (!wpisView.getMiesiacWpisu().equals("01")) {
+                        opiswiersza = "kwota obrotów: " + p.getWierszBOPK().getOpis();
+                    }
                     w.setOpisWiersza(opiswiersza);
                     if (Z.z(p.getKwotaWn()) != 0.0) {
                         uzupelnijTworzonyWiersz(w, p, "Wn", 1);
@@ -868,7 +877,10 @@ public class BilansWprowadzanieView implements Serializable {
                     if (wierszwdokumencie == null) {
                         Wiersz w = new Wiersz(idporzadkowy++, 0);
                         uzupelnijwiersz(w, nd);
-                        String opiswiersza = p.getWierszBOPK().getOpis();
+                        String opiswiersza = "zapis BO: " + p.getWierszBOPK().getOpis();
+                        if (!wpisView.getMiesiacWpisu().equals("01")) {
+                            opiswiersza = "kwota obrotów: " + p.getWierszBOPK().getOpis();
+                        }
                         w.setOpisWiersza(opiswiersza);
                         if (p.getKwotaWn() != 0.0) {
                             generujStronaWierszaWn(p, w);
@@ -899,7 +911,11 @@ public class BilansWprowadzanieView implements Serializable {
                 boolean niema = true;
                 for (WierszBO p : wierszeBO) {
                     if (p.getKonto() != null) {
-                        if (p.getKonto().equals(w.getKontoDlaBO()) && p.getOpis().equals(w.getOpisWiersza())) {
+                        String opiswiersza = "zapis BO: " + p.getWierszBOPK().getOpis();
+                        if (!wpisView.getMiesiacWpisu().equals("01")) {
+                            opiswiersza = "kwota obrotów: " + p.getWierszBOPK().getOpis();
+                        }
+                        if (p.getKonto().equals(w.getKontoDlaBO()) && opiswiersza.equals(w.getOpisWiersza())) {
                             niema = false;
                             break;
                         }
@@ -983,7 +999,7 @@ public class BilansWprowadzanieView implements Serializable {
     private Wiersz niezawierategokonta(List<Wiersz> wiersze, WierszBO w) {
         Wiersz niezawiera = null;
         for (Wiersz p : wiersze) {
-            if (p.jest0niejest1(w) == false) {
+            if (p.jest0niejest1(w, wpisView.getMiesiacWpisu()) == false) {
                 niezawiera = p;
                 break;
             }
@@ -994,7 +1010,7 @@ public class BilansWprowadzanieView implements Serializable {
     private Wiersz zawieratokonto(List<Wiersz> wiersze, WierszBO w) {
         Wiersz znaleziony = null;
         for (Wiersz p : wiersze) {
-            if (p.jest0niejest1(w) == false) {
+            if (p.jest0niejest1(w, wpisView.getMiesiacWpisu()) == false) {
                 znaleziony = p;
                 break;
             }
