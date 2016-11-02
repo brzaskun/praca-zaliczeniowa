@@ -33,18 +33,18 @@ public class BilansBoUsunView  implements Serializable {
     
     public void usunBO(WpisView wpisView) {
         try {
-            Dokfk dokbo = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
+            Dokfk dokbo = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             if (dokbo != null) {
                 dokDAOfk.destroy(dokbo);
             }
-            wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            wierszBODAO.deletePodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             FacesContext context = FacesContext.getCurrentInstance();
             BilansWprowadzanieView bean = context.getApplication().evaluateExpressionGet(context, "#{bilansWprowadzanieView}", BilansWprowadzanieView.class);
             bean.init();
-            Msg.msg("Usunięto bilans otwarcia");
+            Msg.msg("Usunięto bilans otwarcia/obroty rozpoczęcia");
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("Wystąpił błąd, nie usunięto bilansu otwarcia");
+            Msg.msg("Wystąpił błąd, nie usunięto bilansu otwarcia/obrotów rozpoczęcia");
         }
     }
 }
