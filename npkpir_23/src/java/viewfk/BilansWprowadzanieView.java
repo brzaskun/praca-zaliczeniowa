@@ -205,7 +205,7 @@ public class BilansWprowadzanieView implements Serializable {
         listaBO = lista0;
         listaBOsumy = listaSumList.get(0);
         nraktualnejlisty = 0;
-        dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
+        dokumentBO = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (dokumentBO != null) {
             isteniejeDokBO = true;
         }
