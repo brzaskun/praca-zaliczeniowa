@@ -110,6 +110,7 @@ public class BilansWprowadzanieView implements Serializable {
     private Waluty walutadomyslna;
     private boolean sortujwgwartosci;
     private Konto ostatniekonto;
+    private String miesiacWpisu;
 
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -121,6 +122,7 @@ public class BilansWprowadzanieView implements Serializable {
 
     @PostConstruct
     public void init() {
+        this.miesiacWpisu = wpisView.getMiesiacWpisu();
         this.lista0 = new ArrayList<>();
         this.lista1 = new ArrayList<>();
         this.lista2 = new ArrayList<>();
@@ -139,41 +141,42 @@ public class BilansWprowadzanieView implements Serializable {
         tworzListeZbiorcza();
         Podatnik p = wpisView.getPodatnikObiekt();
         String r = wpisView.getRokWpisuSt();
+        String mc = wpisView.getMiesiacWpisu();
         walutadomyslna = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
         this.listaW = new ArrayList<>();
         this.lista0.addAll(wierszBODAO.lista("0%", wpisView));
         if (lista0.isEmpty()) {
-            this.lista0.add(new WierszBO(p, r, walutadomyslna));
+            this.lista0.add(new WierszBO(p, r, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista0);
         }
         this.lista1.addAll(wierszBODAO.lista("1%", wpisView));
         if (lista1.isEmpty()) {
-            this.lista1.add(new WierszBO(p, r, walutadomyslna));
+            this.lista1.add(new WierszBO(p, r, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista1);
         }
         this.lista2.addAll(wierszBODAO.lista("2%", wpisView));
         if (lista2.isEmpty()) {
-            this.lista2.add(new WierszBO(p, r, walutadomyslna));
+            this.lista2.add(new WierszBO(p, r, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista2);
         }
         this.lista3.addAll(wierszBODAO.lista("3%", wpisView));
         if (lista3.isEmpty()) {
-            this.lista3.add(new WierszBO(p, r, walutadomyslna));
+            this.lista3.add(new WierszBO(p, r, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista3);
         }
         this.lista6.addAll(wierszBODAO.lista("6%", wpisView));
         if (lista6.isEmpty()) {
-            this.lista6.add(new WierszBO(p, r, walutadomyslna));
+            this.lista6.add(new WierszBO(p, r, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista6);
         }
         this.lista8.addAll(wierszBODAO.lista("8%", wpisView));
         if (lista8.isEmpty()) {
-            this.lista8.add(new WierszBO(p, r, walutadomyslna));
+            this.lista8.add(new WierszBO(p, r, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista8);
         }
@@ -198,7 +201,7 @@ public class BilansWprowadzanieView implements Serializable {
         listaGrupa.put(3, lista3);
         listaGrupa.put(6, lista6);
         listaGrupa.put(8, lista8);
-        selected = new WierszBO(p, r, walutadomyslna);
+        selected = new WierszBO(p, r, walutadomyslna, mc);
         listaBO = lista0;
         listaBOsumy = listaSumList.get(0);
         nraktualnejlisty = 0;
@@ -207,6 +210,14 @@ public class BilansWprowadzanieView implements Serializable {
             isteniejeDokBO = true;
         }
         wierszedousuniecia = new ArrayList<>();
+    }
+    
+    public void init2() {
+        if (!miesiacWpisu.equals("CR")) {
+            wpisView.setMiesiacWpisu(miesiacWpisu);
+            wpisView.aktualizuj();
+            init();
+        }
     }
 
     public void pobierzlista(int nrlisty) {
@@ -270,7 +281,7 @@ public class BilansWprowadzanieView implements Serializable {
                 Msg.msg("Zachowano pozycję");
             }
             ostatniekonto = selected.getKonto();
-            selected = new WierszBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), walutadomyslna);
+            selected = new WierszBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), walutadomyslna, wpisView.getMiesiacWpisu());
         }
     }
 
@@ -338,13 +349,14 @@ public class BilansWprowadzanieView implements Serializable {
             Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
             Podatnik p = wpisView.getPodatnikObiekt();
             String r = wpisView.getRokWpisuSt();
+            String mc = wpisView.getMiesiacWpisu();
             if (l.size() > 1) {
                 wierszBODAO.destroy(wierszBO);
                 l.remove(wierszBO);
             } else {
                 wierszBODAO.destroy(wierszBO);
                 l.remove(wierszBO);
-                l.add(new WierszBO(p, r, w));
+                l.add(new WierszBO(p, r, w, mc));
             }
         } catch (Exception e) {
 
@@ -1073,6 +1085,14 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void setLista0(List<WierszBO> lista0) {
         this.lista0 = lista0;
+    }
+
+    public String getMiesiacWpisu() {
+        return miesiacWpisu;
+    }
+
+    public void setMiesiacWpisu(String miesiacWpisu) {
+        this.miesiacWpisu = miesiacWpisu;
     }
 
     public List<WierszBO> getListaBOFiltered() {

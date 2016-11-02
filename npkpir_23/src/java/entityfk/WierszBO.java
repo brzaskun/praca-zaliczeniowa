@@ -26,7 +26,7 @@ import waluty.Z;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "WierszBO.findByLista", query = "SELECT w FROM WierszBO w WHERE w.konto.pelnynumer LIKE :grupakonta AND  w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok"),
+    @NamedQuery(name = "WierszBO.findByLista", query = "SELECT w FROM WierszBO w WHERE w.konto.pelnynumer LIKE :grupakonta AND  w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.wierszBOPK.mc = :mc"),
     @NamedQuery(name = "WierszBO.findByDeletePodatnikRok", query = "DELETE FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok"),
     @NamedQuery(name = "WierszBO.findByPodatnikRok", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok"),
     @NamedQuery(name = "WierszBO.findByPodatnikRokRozrachunkowe", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.konto.zwyklerozrachszczegolne = 'rozrachunkowe'"),
@@ -58,9 +58,10 @@ public class WierszBO implements Serializable {
         this.wierszBOPK = new WierszBOPK();
     }
 
-    public WierszBO(Podatnik podatnik, String rok, Waluty waluta) {
+    public WierszBO(Podatnik podatnik, String rok, Waluty waluta, String mc) {
         this.wierszBOPK = new WierszBOPK();
         this.wierszBOPK.setRok(rok);
+        this.wierszBOPK.setMc(mc);
         this.podatnik = podatnik;
         this.kwotaWn = 0.0;
         this.kwotaWnPLN = 0.0;

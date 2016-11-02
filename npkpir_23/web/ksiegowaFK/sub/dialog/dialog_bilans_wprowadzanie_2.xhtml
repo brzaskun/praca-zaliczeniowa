@@ -33,7 +33,7 @@
         }
 
     </style>
-    <p:dialog id="bilanswprowadzanie2" header="Bilans otwarcia - wprowadzanie sald - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie2"
+    <p:dialog id="bilanswprowadzanie2" header="Bilans otwarcia/Obroty rozpoczęcia - wprowadzanie sald - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie2"
               appendTo="@(body)"
               resizable="false" onShow="ustawdialog('bilanswprowadzanie2','menubilanse', 1300, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie2');"
               maximizable="true">
@@ -92,6 +92,16 @@
                         <p:commandButton icon="fa fa-save" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz()}"
                                          update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz"
                                          />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="miesiąc wprowadzania"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{bilansWprowadzanieView.miesiacWpisu}">
+                            <p:ajax event="change" listener="#{bilansWprowadzanieView.init2()}" 
+                                    update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz" />
+                            <f:selectItems value="#{Mce.mceList}"/>
+                        </p:selectOneMenu>
                     </p:column>
                 </p:row>
             </p:panelGrid>

@@ -20,6 +20,7 @@ public class WierszBOPK implements Serializable{
     private String nippodatnika;
     private int idkonta;
     private String rok;
+    private String mc;
     private String opis;
 
     public WierszBOPK() {
@@ -32,16 +33,20 @@ public class WierszBOPK implements Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.nippodatnika);
-        hash = 29 * hash + this.idkonta;
-        hash = 29 * hash + Objects.hashCode(this.rok);
-        hash = 29 * hash + Objects.hashCode(this.opis);
+        int hash = 3;
+        hash = 41 * hash + Objects.hashCode(this.nippodatnika);
+        hash = 41 * hash + this.idkonta;
+        hash = 41 * hash + Objects.hashCode(this.rok);
+        hash = 41 * hash + Objects.hashCode(this.mc);
+        hash = 41 * hash + Objects.hashCode(this.opis);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -49,13 +54,16 @@ public class WierszBOPK implements Serializable{
             return false;
         }
         final WierszBOPK other = (WierszBOPK) obj;
-        if (!Objects.equals(this.nippodatnika, other.nippodatnika)) {
-            return false;
-        }
         if (this.idkonta != other.idkonta) {
             return false;
         }
+        if (!Objects.equals(this.nippodatnika, other.nippodatnika)) {
+            return false;
+        }
         if (!Objects.equals(this.rok, other.rok)) {
+            return false;
+        }
+        if (!Objects.equals(this.mc, other.mc)) {
             return false;
         }
         if (!Objects.equals(this.opis, other.opis)) {
@@ -63,6 +71,8 @@ public class WierszBOPK implements Serializable{
         }
         return true;
     }
+
+    
     
     
     
@@ -97,6 +107,14 @@ public class WierszBOPK implements Serializable{
 
     public void setOpis(String opis) {
         this.opis = opis;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
     }
     
     
