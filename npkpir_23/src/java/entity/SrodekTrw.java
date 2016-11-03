@@ -5,12 +5,15 @@
 package entity;
 
 
+import comparator.UmorzenieNcomparator;
 import data.Data;
 import embeddable.Umorzenie;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -481,6 +484,23 @@ public class SrodekTrw implements Serializable {
         }
         return zwrot;
     }
+    
+    public String getUmarzanyDoRokMc() {
+        String zwrot = "";
+        Collections.sort(this.planumorzen, new UmorzenieNcomparator());
+        if (this.planumorzen != null && this.planumorzen.size() > 0) {
+            zwrot = String.valueOf(planumorzen.get(this.planumorzen.size()-1).getRokUmorzenia());
+            zwrot += "/";
+            String sub = String.valueOf(planumorzen.get(this.planumorzen.size()-1).getMcUmorzenia());
+            if (sub.length() == 1) {
+                zwrot += "0"+sub;
+            } else {
+                zwrot += sub;
+            }
+        }
+        return zwrot;
+    }
+    
     
     
 //</editor-fold>

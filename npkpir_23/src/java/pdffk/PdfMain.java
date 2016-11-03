@@ -1325,8 +1325,13 @@ public class PdfMain {
                             table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getUmorzeniepoczatkowe())), "right", 8));
                         }
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStawka())) + "%", "center", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok())), "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc())), "right", 8));
+                        if (p.getOdpisrok() != null) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok())), "right", 8));
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc())), "right", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "right", 8));
+                            table.addCell(ustawfrazeAlign("", "right", 8));
+                        }
                     }
                 } else {
                     if (p.getNrsrodka() == 999999) {
@@ -1357,8 +1362,13 @@ public class PdfMain {
                         } else {
                             table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStrNetto())), "right", 8));
                         }
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok())), "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc())), "right", 8));
+                        if (p.getOdpisrok() != null) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok())), "right", 8));
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc())), "right", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "right", 8));
+                            table.addCell(ustawfrazeAlign("", "right", 8));
+                        }
                     }
                 }
             }

@@ -693,8 +693,10 @@ public class STRTabView implements Serializable {
                     netto += p.getNetto();
                     vat += p.getVat();
                     umorzeniepocz += p.getUmorzeniepoczatkowe();
-                    odpisrocz += p.getOdpisrok();
-                    odpismc += p.getOdpismc();
+                    if (p.getOdpisrok() != null) {
+                        odpisrocz += p.getOdpisrok();
+                        odpismc += p.getOdpismc();
+                    }
                     strnetto += p.getStrNetto();
                 }
             }
