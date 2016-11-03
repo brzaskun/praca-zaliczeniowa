@@ -8,7 +8,7 @@
     <p:dialog header="Wpisz dane konta syntetycznego" widgetVar="nowekontosyntetyczne" resizable="false" appendTo="@(body)" modal="true"
               onShow="snapshot('form_dialog_plankont:dataList_data');" onHide="recover('form_dialog_plankont:dataList_data');">
         <h:form id="formX">
-            <p:growl life="1200"  id="messages"/>
+            <p:growl life="3600"  id="messages"/>
             <p:focus for="dkp">
                 <p:panelGrid id="dkp" columns="2" style=" width: 600px;">
                     <h:outputLabel value="Nrkonta:" for="nrkonta" />

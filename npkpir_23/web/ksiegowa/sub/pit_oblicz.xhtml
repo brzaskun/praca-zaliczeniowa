@@ -11,7 +11,7 @@
 
         <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ksiegaryczalt}" >
             <h:form id="formpit">
-                <p:growl life="1200"  id="messages" autoUpdate="true" />
+                <p:growl life="3600"  id="messages" autoUpdate="true" />
                 <h:outputText value="#{ZestawienieView.komunikatblad}" style="color: red;"/>
                 <p:panelGrid id="danedopit" columns="3">
                     <p:panelGrid  columns="1" >
@@ -152,7 +152,7 @@
 
             </h:form> 
             <h:form id="formpit1">
-                <p:growl life="1200"  id="messages" autoUpdate="true" />
+                <p:growl life="3600"  id="messages" autoUpdate="true" />
                 <p:panelGrid  columns="2" >
                     <p:panelGrid  columns="1" >
                         <p:panel header="wybierz osobę: " style="width: 250px;"/>

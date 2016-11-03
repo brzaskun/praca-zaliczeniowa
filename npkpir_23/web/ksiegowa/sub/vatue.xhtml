@@ -16,7 +16,7 @@
                           style="color: red;"/>
             <h:outputText value="Kontrahenci nie mają uzupełnionych kodów kraju. Nie można wydrukować zestawienia." rendered="#{vatUeView.niemoznadrukowac eq true}"
                           style="color: red;"/>
-            <p:growl life="1200"  id="messages"/>
+            <p:growl life="3600"  id="messages"/>
             <p:dataTable  var="wpis" value="#{vatUeView.klienciWDTWNT}" id="dokumentyLista" editable="true" 
                           rowKey="#{wpis.kontrahent.nip}" selection="#{vatUeView.listawybranych}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"

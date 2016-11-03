@@ -11,7 +11,7 @@
             <p:commandButton id="buttondrukowanie" value="drukuj tabele" style="margin-left: 50px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli()}"/>
         </h:form>
         <h:form id="formWnip">
-            <p:growl life="1200"  id="mess_add" autoUpdate="true"/>
+            <p:growl life="3600"  id="mess_add" autoUpdate="true"/>
         <p:panel id="infosrodki" header="informacje">
             <h:outputText value="liczba wnip ogółem: #{STRTableView.iloscsrodkow_wnip}"/> <br/>
             <h:outputText value="zakupione w bieżącym roku: #{STRTableView.zakupionewbiezacyrok_wnip}"/>

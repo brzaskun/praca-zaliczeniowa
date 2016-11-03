@@ -9,7 +9,7 @@
     <p:tab title="Aktywne dokumenty księgowe podatnika"> 
         <h:form id="form6" >
             <h:outputText value="Rodzaje dokumentów księgowych" style="font-size: 15px"/>
-            <p:growl life="1200"  id="messages" />
+            <p:growl life="3600"  id="messages" />
             <p:panelGrid columns="1" style="width: 1150px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
                              scrollable="true" scrollHeight="330" selectionMode="single" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}"

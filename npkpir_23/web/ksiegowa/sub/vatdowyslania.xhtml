@@ -10,7 +10,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <h:form id="formX">
-        <p:growl life="1200"  id="msg" autoUpdate="true"/>
+        <p:growl life="3600"  id="msg" autoUpdate="true"/>
         <p:panel header="Wykaz oczekujacych wysyłki deklaracji" style="max-width: 1400px;"/>
         <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" emptyMessage="brak oczekujących deklaracji do wyslania" style="max-width: 1400px;">
             <p:column style="width: 3%;">

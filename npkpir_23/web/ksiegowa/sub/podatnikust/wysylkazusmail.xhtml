@@ -10,7 +10,7 @@
         <f:ajax render=":akordeon:form10">
             <h:form id="form10" >
                 <h:outputText value="Rozliczenia ZUS/PIT-4 - wybierz opcje" style="font-size: 15px"/>
-                <p:growl life="1200"  />
+                <p:growl life="3600"  />
                 <p:focus for="parametrypodatnika10"/><br/>
                 <p:panelGrid id="parametrypodatnika10" columns="2" style="padding: 5px;">
                     <p:selectBooleanCheckbox value="#{podatnikView.selected.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">

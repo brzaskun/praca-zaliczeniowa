@@ -13,7 +13,7 @@
             <h:form id="formmail">
                 <p:panelGrid columns="2">
                     <p:column>
-                        <p:growl life="1200"  id="messages" autoUpdate="true"/>
+                        <p:growl life="3600"  id="messages" autoUpdate="true"/>
                        <p:editor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" width="1200" height="600"/>
                        <p:commandButton value="Save" actionListener="#{adminMailView.zachowajMaila}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"  update=":akordeon:wysylanie:wprowadzonymail"/>
                        <p:commandButton value="Reset" type="button" onclick="PF('editorWidget').clear();" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-close"  update=":akordeon:wysylanie:wprowadzonymail"/>

@@ -10,7 +10,7 @@
         </ui:define>
         <ui:define name="body">
              <h:form>
-                    <p:growl life="1200"  id="fifi"/>
+                    <p:growl life="3600"  id="fifi"/>
                     <p:confirmDialog id="confirmDialog" message="Sprzedać wybrany środek trwały?"  
                                      header="Initiating destroy process" severity="alert" widgetVar="confirmation" style="width: 350px;">  
                         <p:commandButton id="confirm" value="Sprzedać" update="fifi" oncomplete="PF('confirmation').hide()"  
@@ -20,7 +20,7 @@
                     </p:confirmDialog>  
                 </h:form>
              <h:form>
-                    <p:growl life="1200"  id="fifi1"/>
+                    <p:growl life="3600"  id="fifi1"/>
                     <p:confirmDialog id="confirmDialog" message="Cofnąć sprzedaż wybranego środka trwałego?"  
                                      header="Initiating destroy process" severity="alert" widgetVar="confirmation1" style="width: 350px;">  
                         <p:commandButton id="confirm" value="Cofnij" update="fifi1" oncomplete="PF('confirmation1').hide()"  
@@ -40,7 +40,7 @@
                             
                            <p:panel style="width: 1000px; margin-top: -10px;" >
                                 <h:form id="auto">
-                                    <p:growl life="1200"  id="fifi2"/>
+                                    <p:growl life="3600"  id="fifi2"/>
                                     <p:commandButton id="wprowadzenieNowegoAut" action="#{DokumentView.dodajNowyWpisAutomatyczny()}" value="Amortyzacja" update=":auto:fifi2" global="false" style="width: 150px;"/>  
                                     <p:commandButton id="skopiujPoprzednia" action="#{DokumentView.skopiujdokument()}" value="Skopiuj Alt-Q" update=":auto:fifi2"  accesskey="q"  style="width: 150px; margin-left: 10px;" />  
 
