@@ -133,6 +133,7 @@ public class AmodokView implements Serializable {
                             amoDok.setUmorzenia(null);
                             amoDok.getPlanumorzen().add(umAkt);
                         }
+                        break;
                     }
                 }
             }

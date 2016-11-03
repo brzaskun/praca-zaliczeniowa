@@ -52,7 +52,17 @@ public class AmoDokDAO extends DAO implements Serializable {
         }
     }
     
-     public void destroy(String podatnik, int rok, int mc){
+     
+    public void usun(String podatnik, int rok, int mc){
+        try {
+            amodokFacade.usunAmoDokByMcRok(podatnik,rok,mc);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    //Usuwa wszystkie pozniejsze
+    public void destroy(String podatnik, int rok, int mc){
         List<Amodok> lista = amodokFacade.findAmodok(podatnik);
         for(Amodok tmp : lista){
             int wynikporownywania = Data.compare(tmp.getAmodokPK().getRok(), tmp.getAmodokPK().getMc(), rok, mc);

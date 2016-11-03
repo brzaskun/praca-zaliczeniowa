@@ -31,6 +31,7 @@ import waluty.Z;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Amodok.findAll", query = "SELECT a FROM Amodok a"),
+    @NamedQuery(name = "Amodok.usunAmoDokByMcRok", query = "DELETE FROM Amodok a WHERE a.amodokPK.podatnik = :podatnik AND a.amodokPK.rok = :rok AND a.amodokPK.mc = :mc"),
     @NamedQuery(name = "Amodok.findByMc", query = "SELECT a FROM Amodok a WHERE a.amodokPK.mc = :mc"),
     @NamedQuery(name = "Amodok.findByPodatnik", query = "SELECT a FROM Amodok a WHERE a.amodokPK.podatnik = :podatnik"),
     @NamedQuery(name = "Amodok.findByPodatnikRok", query = "SELECT a FROM Amodok a WHERE a.amodokPK.podatnik = :podatnik AND a.amodokPK.rok = :rok"),

@@ -1849,4 +1849,8 @@ public class SessionFacade<T> implements Serializable {
     public Konto findKontoMacierzystyNrkonta(String podatnik, Integer rok, Konto kontomacierzyste, String numerkonta) {
         return (Konto) em.createNamedQuery("Konto.findKontoMacierzystyNrkonta").setParameter("kontomacierzyste", kontomacierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("nrkonta", numerkonta).getSingleResult();
     }
+
+    public void usunAmoDokByMcRok(String podatnik, int rok, int mc) {
+        em.createNamedQuery("Amodok.usunAmoDokByMcRok").setParameter("podatnik",podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
+    }
 }
