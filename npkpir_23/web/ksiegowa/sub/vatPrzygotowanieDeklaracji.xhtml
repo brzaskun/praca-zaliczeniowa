@@ -16,7 +16,7 @@
             <h:outputText value="Wymuś zapis jako deklarację pierwotną." rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:selectBooleanCheckbox value="#{vat7DKView.pierwotnazamiastkorekty}" style="width: 120px" immediate="true" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
               </p:panelGrid>
-            <p:growl id="msg" />
+            <p:growl life="1200"  id="msg" />
             <p:panel header="Dane do bieżącej deklaracji VAT7 miesięcznej. Podatnik: #{vat7DKView.nowadeklaracja.podatnik}"/>
             <h:panelGrid columns="2" columnClasses="fifty-percent,fifty-percent" style="width: 90%;">
                 <p:column>

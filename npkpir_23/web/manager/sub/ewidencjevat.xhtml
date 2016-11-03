@@ -11,7 +11,7 @@
         <p:tab title="Definiowanie ewidencji VAT">  
             <h:form id="form0" >
                 <h:outputText value="definiowanie ewidencji VAT" style="font-size: 15px"/>
-                <p:growl id="msg1" showDetail="true"/>
+                <p:growl life="1200"  id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10" selection="#{evewidencjaView.wybrany}" selectionMode="single" rowKey="#{loop.nazwa}"
                              sortBy="#{loop.nrpolanetto}"
@@ -32,7 +32,7 @@
                 </p:dataTable>
             </h:form>
             <h:form id="parametryewidencji">
-                <p:growl id="msg1" showDetail="true"/>
+                <p:growl life="1200"  id="msg1" showDetail="true"/>
                 <p:focus for="parametr"/><br/>
                 <h:outputText value="dodaj nową deklarację"/><br/>
                 <p:panelGrid id="parametr" columns="2" >
@@ -86,7 +86,7 @@
         <p:tab title="Lista nazw ewidencji VAT">  
             <h:form id="form1" >
                 <h:outputText value="Nazwy ewidencji VAT" style="font-size: 15px"/>
-                <p:growl id="msg1" showDetail="true"/>
+                <p:growl life="1200"  id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evopisView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10"  rowKey="#{loop.opis}" sortBy="#{loop.opis}" sortOrder="ascending"
                              editable="true" resizableColumns="true" paginatorPosition="top"  style="width: 400px;"
@@ -112,7 +112,7 @@
         <p:tab title="Segment deklaracji VAT">  
             <h:form id="form2" >
                 <h:outputText value="Definiowanie wierszy deklaracji VAT" style="font-size: 15px"/>
-                <p:growl id="msg1" showDetail="true"/>
+                <p:growl life="1200"  id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evpozycjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              rows="10" selection="#{evpozycjaView.selected}" selectionMode="single" rowKey="#{loop.nazwapola}" style="width: 980px;"
                              editable="true" resizableColumns="true" paginatorPosition="top" sortBy="#{loop.nazwapola}" sortOrder="ascending">
@@ -136,7 +136,7 @@
                 </p:dataTable>
             </h:form>
             <h:form>
-                <p:growl id="msg1" showDetail="true"/>
+                <p:growl life="1200"  id="msg1" showDetail="true"/>
                 <p:focus for="parametr"/><br/>
                 <h:outputText value="dodaj nowy opis wiersza deklaracji"/><br/>
                 <p:panelGrid id="parametr" columns="2" >

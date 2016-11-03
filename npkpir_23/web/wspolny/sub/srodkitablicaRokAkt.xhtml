@@ -13,7 +13,7 @@
 
      </style>
     <h:form id="formSTR2">
-        <p:growl id="mess_add" />
+        <p:growl life="1200"  id="mess_add" />
         <p:commandButton  value="Zachowaj w pdf" global="false" actionListener="#{sesjaView.dodajwydruk()}" action="#{STREwidencja.drukewidencjaSTR()}" onsuccess="wydrukstr('#{WpisView.podatnikWpisu}');">
         </p:commandButton>  
         <p:commandButton id="ewwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show()" style="display: none;" >

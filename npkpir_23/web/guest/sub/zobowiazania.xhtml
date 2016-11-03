@@ -11,7 +11,7 @@
     <h:form id="formZob">
         <p:outputPanel deferred="true">
         <pe:tooltip global="true" myPosition="left center" atPosition="right center"/>  
-        <p:growl id="wiad" showDetail="true"/>
+        <p:growl life="1200"  id="wiad" showDetail="true"/>
         <p:focus for="dokumentyLista"/>
         <p:panelGrid id="dokumentyLista" rendered="#{PlatnosciView.selectedZob.zus52 eq null ? false : true}">
             <f:facet name="header">
@@ -120,7 +120,7 @@
     <p:tab id="tab1" title="Wykaz zobowiązań z tytułu podatku dochodowego PIT-5/PIT-5L">
     <h:form id="formZob1">
         <p:outputPanel deferred="true">
-        <p:growl id="wiad1" showDetail="true"/>
+        <p:growl life="1200"  id="wiad1" showDetail="true"/>
         <p:panelGrid id="dokumentyLista1" rendered="#{PlatnosciView.selectedZob.pit5 eq 0 ? false : true}"> 
             <f:facet name="header">
                 <p:row>
@@ -185,7 +185,7 @@
          <p:tab id="tab3" title="Wykaz zobowiązań z tytułu podatku od wynagrodzeń PIT4">
     <h:form id="formZob3">
         <p:outputPanel deferred="true">
-        <p:growl id="wiad3" showDetail="true"/>
+        <p:growl life="1200"  id="wiad3" showDetail="true"/>
         <p:panelGrid id="dokumentyLista3" rendered="#{PlatnosciView.selectedZob.pit4 eq null ? false : true}">> 
             <f:facet name="header">
                 <p:row>
@@ -259,7 +259,7 @@
         <p:tab id="tab2" title="Wykaz zobowiązań z tytułu VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
     <h:form id="formZob2">
         <p:outputPanel deferred="true">
-        <p:growl id="wiad2" showDetail="true"/>
+        <p:growl life="1200"  id="wiad2" showDetail="true"/>
         <p:panelGrid id="dokumentyLista2" >
             <f:facet name="header">
                   <p:row>

@@ -12,7 +12,7 @@
         <ui:define name="body">
             <bcf:ajaxs value="Trwa przetwarzanie wybranych operacji" />
                   <h:form>
-                    <p:growl id="fifi"/>
+                    <p:growl life="1200"  id="fifi"/>
                     <p:confirmDialog id="confirmDialog" message="Usunąć deklarację?"  
                                      header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
 

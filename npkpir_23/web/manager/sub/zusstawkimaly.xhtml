@@ -9,7 +9,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
 
     <h:form id="formlista">
-        <p:growl id="msgzus" autoUpdate="true"/>
+        <p:growl life="1200"  id="msgzus" autoUpdate="true"/>
         <p:panel header="Mały ZUS. Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 100%;">
             <p:dataTable value="#{zUSstawkiView.listapobranychstawekMalyZUS}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
                          sortFunction="#{zUSstawkiView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" 

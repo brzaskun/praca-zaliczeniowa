@@ -11,7 +11,7 @@
            
                 <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
                     <br/>
-                <p:growl id="msgzus" showDetail="true"/>
+                <p:growl life="1200"  id="msgzus" showDetail="true"/>
                 <br/>
                 <h:form id="formzob" >
                 <p:panelGrid columns="1" style="width: 900px">
@@ -70,7 +70,7 @@
             <h:form id="form2" >
                  <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
                     <br/>
-                <p:growl showDetail="true"/>
+                <p:growl life="1200"  showDetail="true"/>
                 <p:focus for="parametryp1"/><br/>
                 <p:panelGrid id="historia" columns="4" style="width: 500px">
                     <p:dataTable value="#{odsetkiView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">

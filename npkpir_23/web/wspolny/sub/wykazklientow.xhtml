@@ -9,7 +9,7 @@
     <h:form id="formX">
     <p:panel id="panelDodawaniaDokumentu">
         <p:panel menuTitle="Wprowadzanie/edytowanie danych nowych klientów" header="Wprowadzanie danych nowych klientów (* - dane fakultatywne)" style="width: 1200px;" >
-            <p:growl id="mess_add" autoUpdate="true"/>
+            <p:growl life="1200"  id="mess_add" autoUpdate="true"/>
             <p:focus id="focus" context="polawprowadzania" />
             <p:panelGrid id="polawprowadzania" columns="5" >
                 <h:outputLabel value="nazwa pełna" style="font-weight: 700"/>
@@ -91,7 +91,7 @@
     </h:form>
 <!--    Wykaz wprowadzonych kontrahentów-->
     <h:form id="formY">
-        <p:growl/>
+        <p:growl life="1200" />
         <p:dataTable var="wpis" value="#{KlView.kl1}"  id="tabelaKontr" editable="true"
                  paginator="true" paginatorAlwaysVisible="true" rows="20"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 

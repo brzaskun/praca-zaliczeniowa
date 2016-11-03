@@ -9,7 +9,7 @@
     <p:panelGrid columns="4" style="width: 700px" rendered="#{WpisView.ksiegaryczalt}" >
             <h:form id="formpi" style="width: 500px" >
 
-                <p:growl id="messages" autoUpdate="true"/>
+                <p:growl life="1200"  id="messages" autoUpdate="true"/>
 
                 <p:panel >
                     <f:facet name="header">
@@ -112,7 +112,7 @@
         </p:panelGrid>
     <p:panelGrid columns="4" style="width: 600px" rendered="#{!WpisView.ksiegaryczalt}">
                 <h:form id="formpi1" style="width: 400px" >
-                    <p:growl id="messages" autoUpdate="true"/>
+                    <p:growl life="1200"  id="messages" autoUpdate="true"/>
 
                     <p:panel header="wprowadzone PIT-y (ryczałt): " /><br/>
                     <p:dataTable id="tablicapit" value="#{ryczView.lista}" var="loop" selectionMode="single" selection="#{ryczView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 

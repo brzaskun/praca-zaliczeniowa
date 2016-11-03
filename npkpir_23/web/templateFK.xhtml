@@ -72,7 +72,7 @@
             // ]]> 
             </script>-->
         <h:body>
-            <p:growl id="messageslogout" showDetail="true" sticky="true" widgetVar="messageslogout"/>
+            <p:growl  id="messageslogout" showDetail="true" sticky="true" widgetVar="messageslogout"/>
             <p:socket onMessage="handleMessage" channel="/notify" />
             <p:socket onMessage="handleMessage" channel="/ksiegowa" rendered="#{request.isUserInRole('Bookkeeper') or request.isUserInRole('BookkeeperFK')}"/>
             <p:idleMonitor timeout="600000">  

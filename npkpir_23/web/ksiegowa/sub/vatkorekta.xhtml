@@ -10,7 +10,7 @@
     <p:tabView id="akordeon">
         <p:tab title="Wpisy">
             <h:form id="formX">
-                <p:growl id="msg" autoUpdate="true"/>
+                <p:growl life="1200"  id="msg" autoUpdate="true"/>
                 <p:panel header="Wykaz wysłanych deklaracji"/>
                 <p:dataTable value="#{vatKorektaView.deklaracjeWyslane}" var="item" sortBy="#{item.miesiac}" rowIndexVar="row"
                              id="dokumentyLista" emptyMessage="brak deklaracji do wyslania" selection="#{vatKorektaView.deklaracjaVAT}"
@@ -175,7 +175,7 @@
         </p:tab>
         <p:tab title="Przed korektą">
             <h:form id="formprzedkorekta">
-            <p:growl id="msg" />
+            <p:growl life="1200"  id="msg" />
             <p:panel header="Dane deklaracji korygowanej do bieżącej deklaracji VAT7. Podatnik: #{vatKorektaView.deklaracjaVAT.podatnik}"/>
             <h:panelGrid columns="2" columnClasses="fifty-percent,fifty-percent" style="width: 90%;">
                 <p:column>
@@ -361,7 +361,7 @@
         </p:tab>
         <p:tab title="Korekta">
              <h:form id="korekta">
-            <p:growl id="msg" />
+            <p:growl life="1200"  id="msg" />
             <p:panel header="Kwoty korekty do bieżącej deklaracji VAT7"/>
             <h:panelGrid columns="2" columnClasses="fifty-percent,fifty-percent" style="width: 90%;">
                 <p:column>
@@ -547,7 +547,7 @@
         </p:tab>
         <p:tab title="Po korekcie">
             <h:form id="formpokorekcie">
-            <p:growl id="msg" />
+            <p:growl life="1200"  id="msg" />
             <p:panel header="Dane deklaracji po uwzględnieniu korekty. Podatnik: #{vatKorektaView.deklaracjaVATPoKorekcie.podatnik}"/>
             <h:panelGrid columns="2" columnClasses="fifty-percent,fifty-percent" style="width: 90%;">
                 <p:column>

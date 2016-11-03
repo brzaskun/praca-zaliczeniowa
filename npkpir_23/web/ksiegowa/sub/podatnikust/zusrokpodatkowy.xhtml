@@ -9,7 +9,7 @@
     <p:tab title="Wykaz kwot ZUS za rok podatkowy" id="tab3">  
         <h:form id="form3" >
             <h:outputText value="Wykaz kwot ZUS za rok podatkowy" style="font-size: 15px"/>
-            <p:growl showDetail="true"/>
+            <p:growl life="1200"  showDetail="true"/>
             <p:focus for="parametryp2"/><br/>
             <p:panelGrid columns="4" style="width: 920px">
                 <p:dataTable value="#{podatnikView.selected.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginatorPosition="top"

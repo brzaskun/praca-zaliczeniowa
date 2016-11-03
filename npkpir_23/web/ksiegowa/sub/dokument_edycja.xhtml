@@ -39,7 +39,7 @@
         <p:commandButton id="usunkol" value="usunkolumne" actionListener="#{DokumentView.usunwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
         <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" 
                  style="width: 900px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
-            <p:growl id="mess_add" autoUpdate="true"/>
+            <p:growl life="1200"  id="mess_add" autoUpdate="true"/>
             <p:focus for="polawprowadzania1"/>
             <p:panelGrid  columns="2" >
                 <p:panelGrid id="polawprowadzania1" style="width: 300px;">
