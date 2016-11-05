@@ -208,8 +208,10 @@ public class Evewidencja implements Serializable {
 
     @Override
     public String toString() {
-        return pole;
+        return "Evewidencja{" + "nazwa=" + nazwa + ", pole=" + pole + ", nrpolanetto=" + nrpolanetto + ", nrpolavat=" + nrpolavat + ", rodzajzakupu=" + rodzajzakupu + ", transakcja=" + transakcja + ", tylkoNetto=" + tylkoNetto + ", typewidencji=" + typewidencji + ", de=" + de + ", stawkavat=" + stawkavat + '}';
     }
+
+   
     
    
     

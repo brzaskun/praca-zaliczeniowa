@@ -111,7 +111,7 @@ public class VatKorektaView implements Serializable {
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             for (Rodzajedok p : rodzajedokumentow) {
                 List opisewidencji = new ArrayList<>();
-                opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(p.getRodzajtransakcji()));
+                opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(p.getRodzajtransakcji()));
                 if (!opisewidencji.isEmpty()) {
                     rodzajedokumentowFilter.add(p);
                 }
@@ -134,7 +134,7 @@ public class VatKorektaView implements Serializable {
         }
         /*wyswietlamy ewidencje VAT*/
         List<Evewidencja> ewidencje = new ArrayList<>();
-        ewidencje.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
+        ewidencje.addAll(listaEwidencjiVat.pobierzEvewidencje(transakcjiRodzaj));
         List<EwidencjaAddwiad> ewidencja = new ArrayList<>();
         int k = 0;
         for (Evewidencja p : ewidencje) {

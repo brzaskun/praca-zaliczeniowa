@@ -387,7 +387,7 @@ public final class DokView implements Serializable {
                 /*wyswietlamy ewidencje VAT*/
                 List<Evewidencja> opisewidencji = new ArrayList<>();
                 selDokument.setDokumentProsty(false);
-                opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
+                opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(transakcjiRodzaj));
                 double sumanetto = sumujnetto();
                 Tabelanbp t = selDokument.getTabelanbp();
                 if (t != null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {

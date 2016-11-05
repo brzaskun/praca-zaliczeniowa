@@ -113,7 +113,7 @@ public class ListaEwidencjiVat implements Serializable{
 
     }
     
-    public List<Evewidencja> pobierzOpisyEwidencji(String transakcjiRodzaj) {
+    public List<Evewidencja> pobierzEvewidencje(String transakcjiRodzaj) {
         switch (transakcjiRodzaj) {
                     case ("zakup"):
                         return zakupVList;

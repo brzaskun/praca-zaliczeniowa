@@ -224,7 +224,7 @@ public class InterpaperImportView implements Serializable {
                     if (!nievatowiec && nd.getRodzajedok().getKategoriadokumentu() != 0) {
                         /*wyswietlamy ewidencje VAT*/
                         List<Evewidencja> opisewidencji = new ArrayList<>();
-                        opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(nd.getRodzajedok().getRodzajtransakcji()));
+                        opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(nd.getRodzajedok().getRodzajtransakcji()));
                         int k = 0;
                         for (Evewidencja p : opisewidencji) {
                             EVatwpisFK eVatwpisFK = new EVatwpisFK();

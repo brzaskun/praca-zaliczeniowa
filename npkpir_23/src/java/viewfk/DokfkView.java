@@ -487,7 +487,7 @@ public class DokfkView implements Serializable {
                     }
                     /*wyswietlamy ewidencje VAT*/
                     List<Evewidencja> opisewidencji = new ArrayList<>();
-                    opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(selected.getRodzajedok().getRodzajtransakcji()));
+                    opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(selected.getRodzajedok().getRodzajtransakcji()));
                     int k = 0;
                     if (rodzaj == 1) {
                         k = this.selected.getEwidencjaVAT().size();
