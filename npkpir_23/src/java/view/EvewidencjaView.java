@@ -46,7 +46,7 @@ public class EvewidencjaView implements  Serializable {
     @PostConstruct
     private void init() {
         try{
-            lista = evwidencjaDAO.findAll();
+                lista = evwidencjaDAO.findAll();
         } catch (Exception e) { 
             E.e(e); 
         }
@@ -67,9 +67,8 @@ public class EvewidencjaView implements  Serializable {
             selected = new Evewidencja();
             Msg.msg("i", "Dodano nową ewidencję VAT");
         } catch (Exception e) { 
-            E.e(e); 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka ewidencja już istnieje", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            E.e(e);
+            Msg.msg("e","Taka ewidencja już istnieje");
         }
     }
     
@@ -99,8 +98,7 @@ public class EvewidencjaView implements  Serializable {
             evwidencjaDAO.edit(selected);
             Msg.msg("i", "Poprawiono ewidencję VAT");
         } catch (Exception e) { E.e(e); 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka ewidencja już istnieje", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e","Taka ewidencja już istnieje");
         }
     }
 
@@ -126,8 +124,6 @@ public class EvewidencjaView implements  Serializable {
     public void setLista(List<Evewidencja> lista) {
         this.lista = lista;
     }
-
-   
 
     public EvewidencjaDAO getEvewidencjaDAO() {
         return evwidencjaDAO;

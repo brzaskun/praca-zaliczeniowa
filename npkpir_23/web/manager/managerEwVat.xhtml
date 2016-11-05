@@ -8,29 +8,19 @@
             <h:outputText value="Tworzenie i edycja ewidencji vat"></h:outputText>
         </ui:define>
         <ui:define name="body">
-             
-                <f:view contentType="text/html">
-                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
-                        <!--                       
-                        -->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
-                         <ui:include src="sub/layout/east.xhtml"/>   <!-- panel zachodni-->
-                        <p:layoutUnit position="center">
-                            <h:form id="formularz">
-<!--                                <p:ajaxStatus>
-                                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
-                                    <f:facet name="success"><h:outputText value="" /></f:facet>
-                                    <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
-                                </p:ajaxStatus>-->
-                            </h:form>
+            <f:view contentType="text/html">
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
+                    <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
+                    <p:layoutUnit position="center">
+                        <h:form>
                             <ui:include src="sub/menu_wiad.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
-                            <ui:include src="sub/ewidencjevat.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                        </p:layoutUnit>
-                       
-                    </p:layout>
-                </f:view>
-            
+                        </h:form>
+                        <ui:include src="sub/ewidencjevat.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
         </ui:define>
     </ui:composition>
 </html>

@@ -7,7 +7,7 @@ package view;
 import dao.EvopisDAO;
 import entity.Evopis;
 import error.E;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -26,7 +26,8 @@ import org.primefaces.event.RowEditEvent;
  */
 @ManagedBean
 @ViewScoped
-public class EvopisView {
+public class EvopisView  implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private List<Evopis> lista;
 

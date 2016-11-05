@@ -63,6 +63,8 @@ public class Evewidencja implements Serializable {
     private String typewidencji;
     @Column(name = "de")
     private String de;
+    @Column(name = "stawkavat")
+    private double stawkavat;
 //    @OneToMany(mappedBy = "ewidencja", cascade = CascadeType.ALL,  orphanRemoval=true)
 //    private List<EVatwpis1> eVatwpisList;
 
@@ -77,6 +79,18 @@ public class Evewidencja implements Serializable {
         this.rodzajzakupu = rodzajzakupu;
         this.transakcja = transakcja;
         this.tylkoNetto = tylkoNetto;
+    }
+    
+    
+    public Evewidencja(String nazwa, String pole, String nrpolanetto, String nrpolavat, String rodzajzakupu, String transakcja, boolean tylkoNetto, double stawkavat) {
+        this.nazwa = nazwa;
+        this.pole = pole;
+        this.nrpolanetto = nrpolanetto;
+        this.nrpolavat = nrpolavat;
+        this.rodzajzakupu = rodzajzakupu;
+        this.transakcja = transakcja;
+        this.tylkoNetto = tylkoNetto;
+        this.stawkavat = stawkavat;
     }
 
        
@@ -160,6 +174,14 @@ public class Evewidencja implements Serializable {
 
     public void setDe(String de) {
         this.de = de;
+    }
+
+    public double getStawkavat() {
+        return stawkavat;
+    }
+
+    public void setStawkavat(double stawkavat) {
+        this.stawkavat = stawkavat;
     }
 
      

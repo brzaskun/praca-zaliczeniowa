@@ -657,6 +657,12 @@
         </converter-class>
     </converter>
     <converter>  
+        <converter-id>EvpozycjaConv</converter-id>  
+        <converter-class>  
+            converter.EvpozycjaConv  
+        </converter-class>
+    </converter>
+    <converter>  
         <converter-id>SkladkaStowarzyszenieConv</converter-id>  
         <converter-class>converter.SkladkaStowarzyszenieConv</converter-class>
     </converter>

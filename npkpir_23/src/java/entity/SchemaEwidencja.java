@@ -25,7 +25,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames={"deklaracjaVatSchema, evewidencja"})
+    @UniqueConstraint(columnNames={"deklaracjaVatSchema, evewidencja, polenetto, polevat"})
 })
 @NamedQueries({
     @NamedQuery(name = "SchemaEwidencja.findEwidencjeSchemy", query = "SELECT t FROM SchemaEwidencja t WHERE t.deklaracjaVatSchema = :deklarachaVatSchema")

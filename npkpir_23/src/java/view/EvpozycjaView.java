@@ -7,12 +7,14 @@ package view;
 import dao.EvpozycjaDAO;
 import entity.Evpozycja;
 import error.E;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -24,10 +26,12 @@ import org.primefaces.event.RowEditEvent;
  * @author Osito
  */
 @ManagedBean
-@RequestScope
-public class EvpozycjaView {
-    private List<Evpozycja> lista;
+@ViewScoped
+public class EvpozycjaView  implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    private List<Evpozycja> lista;
+    private List<Evpozycja> listamacierzyste;
     @Inject
     private Evpozycja selected;
     @Inject
@@ -35,14 +39,18 @@ public class EvpozycjaView {
 
     public EvpozycjaView() {
         lista = new ArrayList<>();
+        listamacierzyste = new ArrayList<>();
     }
     
     
     @PostConstruct
     private void init() {
-        try{
-        lista.addAll(epozycjaDAO.findAll());
-        } catch (Exception e) { E.e(e); }
+        try {
+            lista = epozycjaDAO.findAll();
+            listamacierzyste = pobierzMacierzyste(lista);
+        } catch (Exception e) {
+            E.e(e);
+        }
     }
 
     public void dodaj() {
@@ -57,10 +65,13 @@ public class EvpozycjaView {
             }
             epozycjaDAO.dodaj(selected);
             lista.add(selected);
+            if (Character.isUpperCase(selected.getNazwapola().charAt(0))) {
+                listamacierzyste.add(selected);
+            }
             selected = new Evpozycja();
+            Msg.dP();
         } catch (Exception e) { E.e(e); 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka pozycja już istnieje", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e","Taka pozycja już istnieje");
         }
     }
 
@@ -71,14 +82,26 @@ public class EvpozycjaView {
             epozycjaDAO.edit(evpozycja);
             Msg.msg("Zachowano zmiany");
         } catch (Exception e) { E.e(e); 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka pozycja już istnieje", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e","Taka pozycja już istnieje");
         }
+    }
+    
+    private List<Evpozycja> pobierzMacierzyste(List<Evpozycja> lista) {
+        List<Evpozycja> l = new ArrayList<>();
+        for (Evpozycja p : lista) {
+            if (Character.isUpperCase(p.getNazwapola().charAt(0))) {
+                l.add(p);
+            }
+        }
+        return l;
     }
 
     public void usun(Evpozycja evpozycja) {
         epozycjaDAO.destroy(evpozycja);
         lista.remove(evpozycja);
+        if (Character.isUpperCase(selected.getNazwapola().charAt(0))) {
+            listamacierzyste.add(selected);
+        }
     }
 
     public Evpozycja getSelected() {
@@ -97,6 +120,14 @@ public class EvpozycjaView {
         this.lista = lista;
     }
 
+    public List<Evpozycja> getListamacierzyste() {
+        return listamacierzyste;
+    }
+
+    public void setListamacierzyste(List<Evpozycja> listamacierzyste) {
+        this.listamacierzyste = listamacierzyste;
+    }
+
    
     public EvpozycjaDAO getEpozycjaDAO() {
         return epozycjaDAO;
@@ -113,4 +144,6 @@ public class EvpozycjaView {
     public void setEvpozycjaDAO(EvpozycjaDAO epozycjaDAO) {
         this.epozycjaDAO = epozycjaDAO;
     }
+
+    
 }

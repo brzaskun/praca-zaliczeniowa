@@ -9,6 +9,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -42,6 +44,9 @@ public class Evpozycja implements Serializable {
     @Size(max = 255)
     @Column(name = "nrpolavat")
     private String nrpolavat;
+    @JoinColumn(name = "macierzysty", referencedColumnName = "nazwapola",nullable = true)
+    @ManyToOne
+    private Evpozycja macierzysty;
 
     public Evpozycja() {
     }
@@ -72,6 +77,14 @@ public class Evpozycja implements Serializable {
 
     public void setNrpolavat(String nrpolavat) {
         this.nrpolavat = nrpolavat;
+    }
+
+    public Evpozycja getMacierzysty() {
+        return macierzysty;
+    }
+
+    public void setMacierzysty(Evpozycja macierzysty) {
+        this.macierzysty = macierzysty;
     }
 
     @Override

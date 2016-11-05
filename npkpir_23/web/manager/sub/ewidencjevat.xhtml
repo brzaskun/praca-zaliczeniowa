@@ -5,17 +5,20 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:accordionPanel id="akordeon">
+        
         <p:tab title="Definiowanie ewidencji VAT">  
             <h:form id="form0" >
+                
                 <h:outputText value="definiowanie ewidencji VAT" style="font-size: 15px"/>
                 <p:growl life="3600"  id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10" selection="#{evewidencjaView.wybrany}" selectionMode="single" rowKey="#{loop.nazwa}"
                              sortBy="#{loop.nrpolanetto}"
-                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 1200px;" emptyMessage="nie zdefiniowano ewidencji">
+                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 1230px;" emptyMessage="nie zdefiniowano ewidencji">
                     <p:ajax event="rowSelect" listener="#{evewidencjaView.przygotujdoedycji}" global="false" update="akordeon:parametryewidencji:parametr"/>
                     <p:column headerText="nazwa ewidencji" width="200" filterBy="#{loop.nazwa}">
                         <h:outputText id="in1" value="#{loop.nazwa}"/>
@@ -26,15 +29,15 @@
                     <p:column headerText="rodzaj zakupu" sortBy="#{loop.rodzajzakupu}"><h:outputText id="in6" value="#{loop.rodzajzakupu}"/></p:column>
                     <p:column headerText="tylko netto"><h:outputText id="in7" value="#{loop.tylkoNetto eq true ? 'tak' : null}"/></p:column>
                     <p:column headerText="typ ewidencji" width="70" style="text-align: center;" sortBy="#{loop.typewidencji}"><h:outputText id="in8" value="#{loop.typewidencji eq 'sz' ? '+/-' : loop.typewidencji eq 's' ? '+' : '-'}"/></p:column>
+                    <p:column headerText="stawka vat" width="60"><bcf:outputpl value="#{loop.stawkavat}"/></p:column>
                     <p:column id="deleteColumn" headerText="usuń" width="70" style="text-align: center;">
                         <p:commandButton action="#{evewidencjaView.usun()}" id="delete" icon="ui-icon ui-icon-trash" update="@form" type="submit" />
                     </p:column>
                 </p:dataTable>
             </h:form>
             <h:form id="parametryewidencji">
-                <p:growl life="3600"  id="msg1" showDetail="true"/>
                 <p:focus for="parametr"/><br/>
-                <h:outputText value="dodaj nową deklarację"/><br/>
+                <h:outputText value="dodaj nową definicję ewidencji"/><br/>
                 <p:panelGrid id="parametr" columns="2" >
                     <h:outputText value="nazwa ewidencji"/>
                     <p:selectOneMenu value="#{evewidencjaView.selected.nazwa}" style="width: 400px;" >
@@ -65,6 +68,8 @@
                         <f:selectItem itemLabel="naliczony" itemValue="z"/>
                         <f:selectItem itemLabel="należny/naliczony" itemValue="sz"/>
                     </p:selectOneMenu>
+                     <h:outputText value="domyślna stawka vat"/>
+                     <pe:inputNumber value="#{evewidencjaView.selected.stawkavat}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" />
                 </p:panelGrid>
                     <p:commandButton action="#{evewidencjaView.dodaj()}" value="dodaj" update="akordeon:form0:tablica1, akordeon:parametryewidencji:parametr" type="submit" style="width: 120px; margin: 10px;"/>
                     <p:commandButton action="#{evewidencjaView.edytuj()}" value="edytuj" update="akordeon:form0:tablica1, akordeon:parametryewidencji:parametr" type="submit" style="width: 120px; margin: 10px;"/>
@@ -72,8 +77,10 @@
         </p:tab>
         <p:tab title="Internacjonalizacja"> 
             <h:form>
-                <p:commandButton action="#{evewidencjaView.zachowajnowenazwy()}" value="zachowaj" update="@form" type="submit" style="width: 120px; margin: 10px;"/>
+                <p:commandButton action="#{evewidencjaView.zachowajnowenazwy()}" value="zachowaj" 
+                                 update="@form" type="submit" style="width: 120px; margin: 10px;"/>
                 <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
+                             sortBy="#{loop.nazwa}"
                              pageLinks="12" rows="10" selection="#{evewidencjaView.selected}" selectionMode="single" rowKey="#{loop.nazwa}"
                              editable="true" resizableColumns="true" paginatorPosition="top" style="width: 600px;">
                     <p:column headerText="nazwa ewidencji">
@@ -86,7 +93,7 @@
         <p:tab title="Lista nazw ewidencji VAT">  
             <h:form id="form1" >
                 <h:outputText value="Nazwy ewidencji VAT" style="font-size: 15px"/>
-                <p:growl life="3600"  id="msg1" showDetail="true"/>
+
                 <p:dataTable id="tablica1" value="#{evopisView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10"  rowKey="#{loop.opis}" sortBy="#{loop.opis}" sortOrder="ascending"
                              editable="true" resizableColumns="true" paginatorPosition="top"  style="width: 400px;"
@@ -112,35 +119,46 @@
         <p:tab title="Segment deklaracji VAT">  
             <h:form id="form2" >
                 <h:outputText value="Definiowanie wierszy deklaracji VAT" style="font-size: 15px"/>
-                <p:growl life="3600"  id="msg1" showDetail="true"/>
+
                 <p:dataTable id="tablica1" value="#{evpozycjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              rows="10" selection="#{evpozycjaView.selected}" selectionMode="single" rowKey="#{loop.nazwapola}" style="width: 980px;"
                              editable="true" resizableColumns="true" paginatorPosition="top" sortBy="#{loop.nazwapola}" sortOrder="ascending">
                     <p:ajax event="rowEdit" listener="#{evpozycjaView.edytuj}" />
-                    <p:column headerText="nazwa pola" width="700">
+                    <p:column headerText="nazwa pola" width="500">
+                            <h:outputText value="#{loop.nazwapola}" />
+                    </p:column>
+                    <p:column headerText="macierzysty" width="300" style="text-align: center;">
+                        
                         <p:cellEditor>
                             <f:facet name="output">  
-                                <h:outputText value="#{loop.nazwapola}" />
+                                <h:outputText value="#{loop.macierzysty.nazwapola}"/>
                             </f:facet>
                             <f:facet name="input">  
-                                <p:inputText value="#{loop.nazwapola}" style="width: 700px;"/>
+                                <p:selectOneMenu value="#{loop.macierzysty}"  converter="EvpozycjaConv" style="width: 280px;">
+                                        <f:selectItem itemLabel="wybierz (opcjonalne)" noSelectionOption="true"/>
+                                        <f:selectItems value="#{evpozycjaView.listamacierzyste}" var="wpis" itemValue="#{wpis}" itemLabel="#{wpis.nazwapola}"/>
+                                    </p:selectOneMenu>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-<!--                    <p:column id="editColumn" style="text-align: center; width: 40px;">
+                    <p:column id="editColumn" style="text-align: center; width: 40px;">
                         <p:rowEditor />
-                    </p:column>-->
+                    </p:column>
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center; width: 40px;">
                         <p:commandButton action="#{evpozycjaView.usun(loop)}" id="delete" icon="ui-icon ui-icon-trash" update="@form, :akordeon:form2, akordeon:parametryewidencji" type="submit"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
             <h:form>
-                <p:growl life="3600"  id="msg1" showDetail="true"/>
+
                 <p:focus for="parametr"/><br/>
-                <h:outputText value="dodaj nowy opis wiersza deklaracji"/><br/>
-                <p:panelGrid id="parametr" columns="2" >
+                <h:outputText value="dodaj nowy opis wiersza deklaracji i ewentualnie wybierz wiersz macierzysty"/><br/>
+                <p:panelGrid id="parametr" columns="1" >
                     <p:inputText value="#{evpozycjaView.selected.nazwapola}" style="width: 700px;"/>
+                    <p:selectOneMenu value="#{evpozycjaView.selected.macierzysty}" converter="EvpozycjaConv">
+                        <f:selectItem itemLabel="wybierz (opcjonalne)" noSelectionOption="true"/>
+                        <f:selectItems value="#{evpozycjaView.listamacierzyste}" var="wpis" itemValue="#{wpis}" itemLabel="#{wpis.nazwapola}"/>
+                    </p:selectOneMenu>
                 </p:panelGrid>
                 <p:commandButton action="#{evpozycjaView.dodaj()}" value="dodaj" update="@form, :akordeon:form2, akordeon:parametryewidencji" type="submit" style="width: 120px; margin: 10px;"/>
             </h:form>

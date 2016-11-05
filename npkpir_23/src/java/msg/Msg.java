@@ -94,6 +94,29 @@ public class Msg implements Serializable {
           FacesMessage msg = new FacesMessage(sl,messagetext, null);
           FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+     
+    public static void uP(){
+          Severity sl = FacesMessage.SEVERITY_INFO;
+          FacesMessage msg = new FacesMessage(sl,"Usunięto pozycję z tabeli", null);
+          FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    public static void uPe(){
+          Severity sl = FacesMessage.SEVERITY_ERROR;
+          FacesMessage msg = new FacesMessage(sl,"Wystąpił błąd, nie usunięto pozycji z tabeli", null);
+          FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public static void dP(){
+          Severity sl = FacesMessage.SEVERITY_INFO;
+          FacesMessage msg = new FacesMessage(sl,"Dodano pozycję do tabeli", null);
+          FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public static void dPe(){
+          Severity sl = FacesMessage.SEVERITY_ERROR;
+          FacesMessage msg = new FacesMessage(sl,"Wystąpił błąd, nie dodano pozycji do tabeli", null);
+          FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
     
     public static FacesMessage validator(String severitylevel,String messagetext){
           Severity sl = null;

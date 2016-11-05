@@ -139,6 +139,29 @@ public class DeklaracjaVatSchemaView implements Serializable {
         Msg.msg("Zachowano schemat ewidencji");
     }
     
+    public void duplikuj(SchemaEwidencja s) {
+        try {
+            SchemaEwidencja c = serialclone.SerialClone.clone(s);
+            c.setId(null);
+            c.setPolenetto(null);
+            c.setPolevat(null);
+            schemaewidencjalista.add(c);
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+    
+    public void usun(SchemaEwidencja s) {
+        try {
+            schemaEwidencjaDAO.destroy(s);
+            schemaewidencjalista.remove(s);
+            Msg.uP();
+        } catch (Exception e) {
+            Msg.uPe();
+        }
+    }
+    
     public void pobierzschemawiersz() {
         List<DeklaracjaVatWierszSumaryczny> listawierszy = deklaracjaVatWierszSumarycznyDAO.findAll();
         schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(wybranaschema);
