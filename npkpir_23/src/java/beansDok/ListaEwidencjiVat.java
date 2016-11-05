@@ -35,17 +35,17 @@ public class ListaEwidencjiVat implements Serializable{
     }
     @Inject
     private EvewidencjaDAO eVDAO;
-    private List<String> sprzedazVList;
-    private List<String> zakupVList;
-    private List<String> srodkitrwaleVList;
-    private List<String> wdtVList;
-    private List<String> wntVList;
-    private List<String> rvcVList;//reverse charge - odwrotne obciazenie
-    private List<String> rvcVListS;//reverse charge - odwrotne obciazenie sprzedawca
-    private List<String> importuslugList;
-    private List<String> uslugiPTK;
-    private List<String> eksporttowarow;
-    private List<String> listadostepnychewidencji;
+    private List<Evewidencja> sprzedazVList;
+    private List<Evewidencja> zakupVList;
+    private List<Evewidencja> srodkitrwaleVList;
+    private List<Evewidencja> wdtVList;
+    private List<Evewidencja> wntVList;
+    private List<Evewidencja> rvcVList;//reverse charge - odwrotne obciazenie
+    private List<Evewidencja> rvcVListS;//reverse charge - odwrotne obciazenie sprzedawca
+    private List<Evewidencja> importuslugList;
+    private List<Evewidencja> uslugiPTK;
+    private List<Evewidencja> eksporttowarow;
+    private List<Evewidencja> listadostepnychewidencji;
 
 
     public ListaEwidencjiVat() {
@@ -68,53 +68,52 @@ public class ListaEwidencjiVat implements Serializable{
     //po pobraniu ewidencji z EVDAO podkleja je pod trzy kategorie ewidencji w celu ich wygenerowania programowego
     @PostConstruct
     public void init(){
-        List<Evewidencja> tmp = new ArrayList<>();
-        tmp.addAll(eVDAO.findAll());
+        List<Evewidencja> tmp = eVDAO.findAll();
         Collections.sort(tmp, new Evewidencjacomparator());
         for (Evewidencja up : tmp){
-            listadostepnychewidencji.add(up.getNazwa());
+            listadostepnychewidencji.add(up);
             switch(up.getTransakcja()) {
                 case "zakup" : 
-                    zakupVList.add(up.getNazwa());
+                    zakupVList.add(up);
                     break;
                 case "srodek trw" : 
-                    srodkitrwaleVList.add(up.getNazwa());
+                    srodkitrwaleVList.add(up);
                     break;
                 case "inwestycja" : 
-                    srodkitrwaleVList.add(up.getNazwa());
+                    srodkitrwaleVList.add(up);
                     break;
                 case "WDT" : 
-                    wdtVList.add(up.getNazwa());
+                    wdtVList.add(up);
                     break;
                 case "WNT" : 
-                    wntVList.add(up.getNazwa());
+                    wntVList.add(up);
                     break;
                 case "odwrotne obciążenie" : 
-                    rvcVList.add(up.getNazwa());
+                    rvcVList.add(up);
                     break;
                 case ("odwrotne obciążenie sprzedawca"):
-                    rvcVListS.add(up.getNazwa());
+                    rvcVListS.add(up);
                     break;
                 case "import uslug" : 
-                    importuslugList.add(up.getNazwa());
+                    importuslugList.add(up);
                     break;
                 case "import usług" : 
-                    importuslugList.add(up.getNazwa());
+                    importuslugList.add(up);
                     break;
                 case "usługi poza ter." :
-                    uslugiPTK.add(up.getNazwa());
+                    uslugiPTK.add(up);
                     break;
                 case "eksport towarów" :
-                    eksporttowarow.add(up.getNazwa());
+                    eksporttowarow.add(up);
                     break;
                 default : 
-                    sprzedazVList.add(up.getNazwa());
+                    sprzedazVList.add(up);
             }
         }
 
     }
     
-    public List<String> pobierzOpisyEwidencji(String transakcjiRodzaj) {
+    public List<Evewidencja> pobierzOpisyEwidencji(String transakcjiRodzaj) {
         switch (transakcjiRodzaj) {
                     case ("zakup"):
                         return zakupVList;
@@ -149,84 +148,93 @@ public class ListaEwidencjiVat implements Serializable{
         return naglowekVList;
     }
     
-    public List<String> getSprzedazVList() {
+    public List<Evewidencja> getSprzedazVList() {
         return sprzedazVList;
     }
-    
-    public List<String> getZakupVList() {
+
+    public void setSprzedazVList(List<Evewidencja> sprzedazVList) {
+        this.sprzedazVList = sprzedazVList;
+    }
+
+    public List<Evewidencja> getZakupVList() {
         return zakupVList;
     }
-    
-    public List<String> getSrodkitrwaleVList() {
+
+    public void setZakupVList(List<Evewidencja> zakupVList) {
+        this.zakupVList = zakupVList;
+    }
+
+    public List<Evewidencja> getSrodkitrwaleVList() {
         return srodkitrwaleVList;
     }
-    
-    public List<String> getListadostepnychewidencji() {
-        return listadostepnychewidencji;
+
+    public void setSrodkitrwaleVList(List<Evewidencja> srodkitrwaleVList) {
+        this.srodkitrwaleVList = srodkitrwaleVList;
     }
-    
-    public void setListadostepnychewidencji(List<String> listadostepnychewidencji) {
-        this.listadostepnychewidencji = listadostepnychewidencji;
-    }
-    
-    public List<String> getWdtVList() {
+
+    public List<Evewidencja> getWdtVList() {
         return wdtVList;
     }
-    
-    public void setWdtVList(List<String> wdtVList) {
+
+    public void setWdtVList(List<Evewidencja> wdtVList) {
         this.wdtVList = wdtVList;
     }
-    
-    public List<String> getWntVList() {
+
+    public List<Evewidencja> getWntVList() {
         return wntVList;
     }
 
-    public List<String> getRvcVList() {
+    public void setWntVList(List<Evewidencja> wntVList) {
+        this.wntVList = wntVList;
+    }
+
+    public List<Evewidencja> getRvcVList() {
         return rvcVList;
     }
 
-    public List<String> getRvcVListS() {
+    public void setRvcVList(List<Evewidencja> rvcVList) {
+        this.rvcVList = rvcVList;
+    }
+
+    public List<Evewidencja> getRvcVListS() {
         return rvcVListS;
     }
 
-    public void setRvcVListS(List<String> rvcVListS) {
+    public void setRvcVListS(List<Evewidencja> rvcVListS) {
         this.rvcVListS = rvcVListS;
     }
 
-    public void setRvcVList(List<String> rvcVList) {
-        this.rvcVList = rvcVList;
-    }
-    
-    public void setWntVList(List<String> wntVList) {
-        this.wntVList = wntVList;
-    }
-    
-    public List<String> getImportuslugList() {
+    public List<Evewidencja> getImportuslugList() {
         return importuslugList;
     }
-    
-    public void setImportuslugList(List<String> importuslugList) {
+
+    public void setImportuslugList(List<Evewidencja> importuslugList) {
         this.importuslugList = importuslugList;
     }
-    
-    public List<String> getUslugiPTK() {
+
+    public List<Evewidencja> getUslugiPTK() {
         return uslugiPTK;
     }
-    
-    public void setUslugiPTK(List<String> uslugiPTK) {
+
+    public void setUslugiPTK(List<Evewidencja> uslugiPTK) {
         this.uslugiPTK = uslugiPTK;
     }
-    
-    public List<String> getEksporttowarow() {
+
+    public List<Evewidencja> getEksporttowarow() {
         return eksporttowarow;
     }
-    
-    public void setEksporttowarow(List<String> eksporttowarow) {
+
+    public void setEksporttowarow(List<Evewidencja> eksporttowarow) {
         this.eksporttowarow = eksporttowarow;
     }
-    
-    
-    //</editor-fold>
+
+    public List<Evewidencja> getListadostepnychewidencji() {
+        return listadostepnychewidencji;
+    }
+
+    public void setListadostepnychewidencji(List<Evewidencja> listadostepnychewidencji) {
+        this.listadostepnychewidencji = listadostepnychewidencji;
+    }
    
-   
+   //</editor-fold>
 }

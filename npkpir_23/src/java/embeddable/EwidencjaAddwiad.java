@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import entity.Evewidencja;
 import entity.Klienci;
 import entityfk.Wiersz;
 import java.io.Serializable;
@@ -19,7 +20,7 @@ public class EwidencjaAddwiad implements Serializable{
     private static final long serialVersionUID = -595126647192102178L;
     
     private int lp;
-    private String opis;
+    private Evewidencja evewidencja;
     private double netto;
     private double vat;
     private double brutto;
@@ -33,8 +34,8 @@ public class EwidencjaAddwiad implements Serializable{
     }
 
         
-    public EwidencjaAddwiad(String opis, double netto, double vat, double brutto, String opzw) {
-        this.opis = opis;
+    public EwidencjaAddwiad(Evewidencja opis, double netto, double vat, double brutto, String opzw) {
+        this.evewidencja = opis;
         this.netto = netto;
         this.vat = vat;
         this.brutto = brutto;
@@ -58,7 +59,7 @@ public class EwidencjaAddwiad implements Serializable{
             return false;
         }
         final EwidencjaAddwiad other = (EwidencjaAddwiad) obj;
-        if (!Objects.equals(this.opis, other.opis)) {
+        if (!Objects.equals(this.evewidencja, other.evewidencja)) {
             return false;
         }
         if (!Objects.equals(this.klient, other.klient)) {
@@ -72,7 +73,7 @@ public class EwidencjaAddwiad implements Serializable{
 
     @Override
     public String toString() {
-        return "EwidencjaAddwiad{" + "opis=" + opis + ", netto=" + netto + ", vat=" + vat + ", brutto=" + brutto + ", opzw=" + opzw + ", datadokumentu=" + datadokumentu + ", dataoperacji=" + dataoperacji + ", klient=" + klient + ", wiersz=" + wiersz + '}';
+        return "EwidencjaAddwiad{" + "opis=" + evewidencja.getNazwa() + ", netto=" + netto + ", vat=" + vat + ", brutto=" + brutto + ", opzw=" + opzw + ", datadokumentu=" + datadokumentu + ", dataoperacji=" + dataoperacji + ", klient=" + klient + ", wiersz=" + wiersz + '}';
     }
 
     
@@ -85,14 +86,14 @@ public class EwidencjaAddwiad implements Serializable{
         this.lp = lp;
     }
 
-    
-    public String getOpis() {
-        return opis;
+    public Evewidencja getEvewidencja() {
+        return evewidencja;
     }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
+    public void setEvewidencja(Evewidencja evewidencja) {
+        this.evewidencja = evewidencja;
     }
+
 
     public double getNetto() {
         return netto;

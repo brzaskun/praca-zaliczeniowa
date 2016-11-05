@@ -14,6 +14,7 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import embeddablefk.InterpaperXLS;
+import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -222,13 +223,13 @@ public class InterpaperImportView implements Serializable {
                     boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
                     if (!nievatowiec && nd.getRodzajedok().getKategoriadokumentu() != 0) {
                         /*wyswietlamy ewidencje VAT*/
-                        List<String> opisewidencji = new ArrayList<>();
+                        List<Evewidencja> opisewidencji = new ArrayList<>();
                         opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(nd.getRodzajedok().getRodzajtransakcji()));
                         int k = 0;
-                        for (String p : opisewidencji) {
+                        for (Evewidencja p : opisewidencji) {
                             EVatwpisFK eVatwpisFK = new EVatwpisFK();
                             eVatwpisFK.setLp(k++);
-                            eVatwpisFK.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
+                            eVatwpisFK.setEwidencja(p);
                             if (p.equals("sprzedaż 23%")||p.equals("usługi świad. poza ter.kraju")) {
                                 eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLN()));
                                 eVatwpisFK.setVat(0.0);

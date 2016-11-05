@@ -28,6 +28,7 @@ import embeddable.VatKorektaDok;
 import embeddable.Vatpoz;
 import entity.DeklaracjaVatSchema;
 import entity.Deklaracjevat;
+import entity.Evewidencja;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.VATDeklaracjaKorektaDok;
@@ -132,14 +133,14 @@ public class VatKorektaView implements Serializable {
             }
         }
         /*wyswietlamy ewidencje VAT*/
-        List opisewidencji = new ArrayList<>();
-        opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
+        List<Evewidencja> ewidencje = new ArrayList<>();
+        ewidencje.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
         List<EwidencjaAddwiad> ewidencja = new ArrayList<>();
         int k = 0;
-        for (Object p : opisewidencji) {
+        for (Evewidencja p : ewidencje) {
             EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
             ewidencjaAddwiad.setLp(k++);
-            ewidencjaAddwiad.setOpis((String) p);
+            ewidencjaAddwiad.setEvewidencja(p);
             ewidencjaAddwiad.setNetto(0.0);
             ewidencjaAddwiad.setVat(0.0);
             ewidencjaAddwiad.setBrutto(0.0);
@@ -200,7 +201,7 @@ public class VatKorektaView implements Serializable {
         /**
          * Sporzadza i przeksztalca dokumenty korekty w ewidencje vat
          */
-        EwidencjaVATSporzadzanie.transferujDokdoEVatwpis(listadokumentowDoKorekty, listadokvatprzetworzona, wpisView.getRokWpisuSt() , wpisView.getMiesiacWpisu(), evewidencjaDAO);
+        EwidencjaVATSporzadzanie.transferujDokdoEVatwpis(listadokumentowDoKorekty, listadokvatprzetworzona, wpisView.getRokWpisuSt() , wpisView.getMiesiacWpisu());
         HashMap<String, List<EVatViewPola>> listaewidencji = new HashMap<>();
         HashMap<String, EVatwpisSuma> sumaewidencjiPierwotna = new HashMap<>();
         EwidencjaVATSporzadzanie.rozdzielEVatwpisNaEwidencje(listadokvatprzetworzona, listaewidencji, sumaewidencjiPierwotna, evewidencjaDAO);

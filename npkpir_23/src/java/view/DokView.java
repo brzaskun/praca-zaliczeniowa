@@ -385,7 +385,7 @@ public final class DokView implements Serializable {
             }
             if (nieVatowiec == false || typdok.equals("IU")) {
                 /*wyswietlamy ewidencje VAT*/
-                List opisewidencji = new ArrayList<>();
+                List<Evewidencja> opisewidencji = new ArrayList<>();
                 selDokument.setDokumentProsty(false);
                 opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
                 double sumanetto = sumujnetto();
@@ -395,10 +395,10 @@ public final class DokView implements Serializable {
                 }
                 ewidencjaAddwiad = new ArrayList<>();
                 int k = 0;
-                for (Object p : opisewidencji) {
+                for (Evewidencja p : opisewidencji) {
                     EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
                     ewidencjaAddwiad.setLp(k++);
-                    ewidencjaAddwiad.setOpis((String) p);
+                    ewidencjaAddwiad.setEvewidencja(p);
                     ewidencjaAddwiad.setNetto(0.0);
                     ewidencjaAddwiad.setVat(0.0);
                     ewidencjaAddwiad.setBrutto(0.0);
@@ -484,20 +484,11 @@ public final class DokView implements Serializable {
     public void updatenetto(EwidencjaAddwiad e) {
         String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
         int lp = e.getLp();
-        String stawkavat = e.getOpis().replaceAll("[^\\d]", "");
+        double stawkavat = e.getEvewidencja().getStawkavat();
         try {
-            double stawkaint = Double.parseDouble(stawkavat) / 100;
-            e.setVat(e.getNetto() * stawkaint);
+            e.setVat(Z.z(e.getNetto() * stawkavat/100));
         } catch (Exception ex) {
             Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt());
-            String opis = e.getOpis();
-            if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP") || opis.contains("sprzedaż zw")) {
-                e.setVat(0.0);
-            } else if (r.getProcentvat() != 0.0) {
-                e.setVat((e.getNetto() * 0.23) / 2);
-            } else {
-                e.setVat(e.getNetto() * 0.23);
-            }
         }
         e.setBrutto(e.getNetto() + e.getVat());
         sumbruttoAddwiad();
@@ -516,7 +507,7 @@ public final class DokView implements Serializable {
             int lp = e.getLp();
             double vat = 0.0;
             try {
-                String ne = e.getOpis();
+                String ne = e.getEvewidencja().getNazwa();
                 double n = Math.abs(e.getNetto());
                 switch (ne) {
                     case "sprzedaż 23%":
@@ -697,13 +688,11 @@ public final class DokView implements Serializable {
         try {
             String rodzajOpodatkowania = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
             if ((!rodzajOpodatkowania.contains("bez VAT")) || (selDokument.isDokumentProsty() == false)) {
-                Map<String, Evewidencja> zdefiniowaneEwidencje = evewidencjaDAO.findAllMap();
                 List<EVatwpis1> ewidencjeDokumentu = new ArrayList<>();
                 for (EwidencjaAddwiad p : ewidencjaAddwiad) {
                     if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
-                        String op = p.getOpis();
                         EVatwpis1 eVatwpis = new EVatwpis1();
-                        eVatwpis.setEwidencja(zdefiniowaneEwidencje.get(op));
+                        eVatwpis.setEwidencja(p.getEvewidencja());
                         eVatwpis.setNetto(p.getNetto());
                         eVatwpis.setVat(p.getVat());
                         eVatwpis.setEstawka(p.getOpzw());
@@ -1341,7 +1330,7 @@ public final class DokView implements Serializable {
         try {//trzeba ignorowac w przypadku dokumentow prostych
             for (EVatwpis1 s : selDokument.getEwidencjaVAT1()) {
                 EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
-                ewidencjaAddwiad.setOpis(s.getEwidencja().getNazwa());
+                ewidencjaAddwiad.setEvewidencja(s.getEwidencja());
                 ewidencjaAddwiad.setOpzw(s.getEwidencja().getRodzajzakupu());
                 ewidencjaAddwiad.setNetto(s.getNetto());
                 ewidencjaAddwiad.setVat(s.getVat());

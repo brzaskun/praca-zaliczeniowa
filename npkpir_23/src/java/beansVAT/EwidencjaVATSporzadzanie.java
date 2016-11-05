@@ -35,7 +35,7 @@ public class EwidencjaVATSporzadzanie {
     
     
     
-    public static void transferujDokdoEVatwpis(List<VatKorektaDok> listadokvat, List<EVatViewPola>listadokvatprzetworzona, String rok, String mc, EvewidencjaDAO evewidencjaDAO) {
+    public static void transferujDokdoEVatwpis(List<VatKorektaDok> listadokvat, List<EVatViewPola>listadokvatprzetworzona, String rok, String mc) {
          for (VatKorektaDok dokumentkorekty : listadokvat) {
                 if (dokumentkorekty.getEwidencjaVAT() != null) {
                     List<EwidencjaAddwiad> ewidencja = new ArrayList<>();
@@ -51,7 +51,7 @@ public class EwidencjaVATSporzadzanie {
                                 wiersz.setKontr(null);
                                 wiersz.setNrWlDk(dokumentkorekty.getNrwłasny());
                                 wiersz.setOpis(dokumentkorekty.getOpisDokumnetu());
-                                Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(ewidwiersz.getOpis());
+                                Evewidencja nowaEv = ewidwiersz.getEvewidencja();
                                 wiersz.setNazwaewidencji(nowaEv);
                                 wiersz.setNrpolanetto(nowaEv.getNrpolanetto());
                                 wiersz.setNrpolavat(nowaEv.getNrpolavat());

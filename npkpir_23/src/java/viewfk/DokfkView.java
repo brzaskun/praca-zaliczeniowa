@@ -486,16 +486,16 @@ public class DokfkView implements Serializable {
                         symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
                     }
                     /*wyswietlamy ewidencje VAT*/
-                    List<String> opisewidencji = new ArrayList<>();
+                    List<Evewidencja> opisewidencji = new ArrayList<>();
                     opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(selected.getRodzajedok().getRodzajtransakcji()));
                     int k = 0;
                     if (rodzaj == 1) {
                         k = this.selected.getEwidencjaVAT().size();
                     }
-                    for (String p : opisewidencji) {
+                    for (Evewidencja p : opisewidencji) {
                         EVatwpisFK eVatwpisFK = new EVatwpisFK();
                         eVatwpisFK.setLp(k++);
-                        eVatwpisFK.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
+                        eVatwpisFK.setEwidencja(p);
                         eVatwpisFK.setNetto(0.0);
                         eVatwpisFK.setVat(0.0);
                         eVatwpisFK.setDokfk(selected);

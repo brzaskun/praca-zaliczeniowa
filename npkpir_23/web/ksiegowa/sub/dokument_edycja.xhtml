@@ -450,7 +450,7 @@
                 <!--                alternatywne pola ewidencji vat-->
                 <p:dataTable id="tablicavat" value="#{DokumentView.ewidencjaAddwiad}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="width: 80%;" rendered="#{!DokumentView.ukryjEwiencjeVAT}">
                     <p:column headerText="rodzaj ewidencji" style="width: 25%;">
-                        <h:outputText value="#{item.opis}"/>
+                        <h:outputText value="#{item.evewidencja}"/>
                     </p:column>
                     <p:column headerText="#{mgs.netto}" style="width: 20%;">
                         <pe:inputNumber id="netto" value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
