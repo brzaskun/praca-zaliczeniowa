@@ -528,7 +528,6 @@ public class EwidencjaVatView implements Serializable {
                     eVatViewPole.setNrKolejny(nrdok);
                     eVatViewPole.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
                     eVatViewPole.setOpis(ewidwiersz.getWiersz().getOpisWiersza());
-                    eVatViewPole.setProcentvat(ewidwiersz.getDokfk().getRodzajedok().getProcentvat());
                 } else {
                     eVatViewPole.setDataSprz(ewidwiersz.getDokfk().getDataoperacji());
                     eVatViewPole.setDataWyst(ewidwiersz.getDokfk().getDatadokumentu());
@@ -537,7 +536,12 @@ public class EwidencjaVatView implements Serializable {
                     eVatViewPole.setNrKolejny(nrdok);
                     eVatViewPole.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
                     eVatViewPole.setOpis(ewidwiersz.getDokfk().getOpisdokfk());
-                    eVatViewPole.setProcentvat(ewidwiersz.getDokfk().getRodzajedok().getProcentvat());
+                    
+                }
+                eVatViewPole.setDokfkPK(ewidwiersz.getDokfk().getDokfkPK());
+                eVatViewPole.setProcentvat(ewidwiersz.getDokfk().getRodzajedok().getProcentvat());
+                if (ewidwiersz.isPaliwo()) {
+                    eVatViewPole.setProcentvat(50.0);
                 }
                 eVatViewPole.setId(k++);
                 eVatViewPole.setNazwaewidencji(ewidwiersz.getEwidencja());

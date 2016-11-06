@@ -18,8 +18,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.persistence.EntityManager;
+import msg.Msg;
 import waluty.Z;
 
 /**
@@ -31,6 +33,8 @@ import waluty.Z;
 public class EwidencjaVatCheckView implements Serializable {
 
     private List<EwidencjaKonto> ewkonto;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
    public void wykryjbledy(List<List<EVatViewPola>> ewidencje, List<SaldoKonto> kontavat) {
        List<EVatViewPola> ewidencjezawartosc = pobierzdane(ewidencje);
@@ -51,9 +55,13 @@ public class EwidencjaVatCheckView implements Serializable {
                suma += p.getKwota();
            }
            System.out.println("sa braki na kontach "+suma);
+           Msg.msg("e","Zakończono sprawdzanie ewidencji. Wykryto błędy.");
+       } else {
+           Msg.msg("i","Zakończono sprawdzanie ewidencji. Nie wykryto błędów.");
        }
        ewkonto = stworzzestawienie(brakinakoncie, brakiwewidencji);
        System.out.println("jest lista zbiorcza "+ewkonto.size());
+       
    }
 
    private List<EVatViewPola> pobierzdane(List<List<EVatViewPola>> ewidencje) {
@@ -81,7 +89,7 @@ public class EwidencjaVatCheckView implements Serializable {
         for (Iterator it = zapisy.iterator(); it.hasNext(); ) {
             StronaWiersza r = (StronaWiersza) it.next();
             if (Z.zAbs(p.getVat()) == Z.z(r.getKwotaPLN())) {
-                if (p.getKontr().equals(r.getDokfk().getKontr())) {
+                if (p.getDokfkPK().equals(r.getDokfk().getDokfkPK())) {
                     if (p.getNrWlDk().equals(r.getDokfk().getNumerwlasnydokfk())) {
                         jest = true;
                         it.remove();
@@ -139,10 +147,20 @@ public class EwidencjaVatCheckView implements Serializable {
     private List<StronaWiersza> sprawdzbrakiwewidencji(List<EVatViewPola> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
        List<StronaWiersza> brakiwewidencji = new ArrayList<>();
        for (StronaWiersza p : zakupy) {
-           boolean nk = czyjestwewidencji(p, ewidencjezawartosc);
-            if (nk == false) {
-                    brakiwewidencji.add(p);
-            }
+           if (p.getDokfk().getVatM().equals(wpisView.getMiesiacWpisu()) && p.getDokfk().getVatR().equals(wpisView.getRokWpisuSt())) {
+            boolean nk = czyjestwewidencji(p, ewidencjezawartosc);
+             if (nk == false) {
+                     brakiwewidencji.add(p);
+             }
+           }
+       }
+       for (StronaWiersza p : sprzedaz) {
+           if (p.getDokfk().getVatM().equals(wpisView.getMiesiacWpisu()) && p.getDokfk().getVatR().equals(wpisView.getRokWpisuSt())) {
+            boolean nk = czyjestwewidencji(p, ewidencjezawartosc);
+             if (nk == false) {
+                     brakiwewidencji.add(p);
+             }
+           }
        }
        return brakiwewidencji;
     }
@@ -151,7 +169,7 @@ public class EwidencjaVatCheckView implements Serializable {
         boolean jest = false;
         for (EVatViewPola p : ewidencjezawartosc) {
              if (Z.z(p.getVat()) == Z.z(r.getKwotaPLN())) {
-                if (p.getKontr().equals(r.getDokfk().getKontr())) {
+                if (p.getDokfkPK().equals(r.getDokfk().getDokfkPK())) {
                     if (p.getNrWlDk().equals(r.getDokfk().getNumerwlasnydokfk())) {
                         jest = true;
                         break;
@@ -178,6 +196,14 @@ public class EwidencjaVatCheckView implements Serializable {
             }
         }
         return l;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
 
     public List<EwidencjaKonto> getEwkonto() {
