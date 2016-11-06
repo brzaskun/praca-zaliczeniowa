@@ -367,9 +367,11 @@ public class DokfkWeryfikacjaView implements Serializable {
                 }
             } else {
                 if (!p.getRodzajedok().getSkrot().equals("VAT")) {
-                    double sumazewidencji = podsumujvatwewidencji(p.getEwidencjaVAT());
-                    double sumanakontach = podsumujkwotynakontach(p.getListawierszy());
-                    if (sumazewidencji != sumanakontach) {
+                    double sumazewidencji0 = podsumujvatwewidencji0(p.getEwidencjaVAT());
+                    double sumazewidencji1 = podsumujvatwewidencji1(p.getEwidencjaVAT());
+                    double sumanakontach0 = podsumujkwotynakontach0(p.getListawierszy());
+                    double sumanakontach1 = podsumujkwotynakontach1(p.getListawierszy());
+                    if (sumazewidencji0 != sumanakontach0 || sumazewidencji1 != sumanakontach1) {
                         listaniezgodnoscvatkonto.add(p);
                     }
                 }
@@ -381,6 +383,36 @@ public class DokfkWeryfikacjaView implements Serializable {
         return zwrot;
     }
 
+    private double podsumujvatwewidencji0(List<EVatwpisFK> ewidencjaVAT) {
+        double zwrot = 0.0;
+        for (EVatwpisFK p : ewidencjaVAT) {
+            if (p.getInnyokres() == 0) {
+                if (p.getEwidencja().getTypewidencji().equals("sz")) {
+                    zwrot += p.getVat() * 2;
+                } else {
+                    zwrot += p.getVat();
+                }
+            }
+       }
+        return Z.z(zwrot);
+    }
+    
+    private double podsumujvatwewidencji1(List<EVatwpisFK> ewidencjaVAT) {
+        double zwrot = 0.0;
+        for (EVatwpisFK p : ewidencjaVAT) {
+            if (p.getInnyokres() != 0) {
+                if (p.getEwidencja().getTypewidencji().equals("sz")) {
+                    zwrot += p.getVat() * 2;
+                } else {
+                    zwrot += p.getVat();
+                }
+            }
+       }
+        return Z.z(zwrot);
+    }
+    
+       
+    
     private double podsumujvatwewidencji(List<EVatwpisFK> ewidencjaVAT) {
         double zwrot = 0.0;
         for (EVatwpisFK p : ewidencjaVAT) {
@@ -389,14 +421,35 @@ public class DokfkWeryfikacjaView implements Serializable {
         return Z.z(zwrot);
     }
     
-    private double podsumujkwotynakontach(List<Wiersz> listawierszy) {
+    private double podsumujkwotynakontach0(List<Wiersz> listawierszy) {
         double suma = 0.0;
         for (Wiersz t : listawierszy) {
             if (t.getKontoWn().getZwyklerozrachszczegolne().equals("vat")) {
-                suma += t.getKwotaWnPLN();
+                if (t.getKontoWn().getPelnynumer().equals("221-1") || t.getKontoWn().getPelnynumer().equals("221-3")) {
+                    suma += t.getKwotaWnPLN();
+                }
             }
             if (t.getKontoMa().getZwyklerozrachszczegolne().equals("vat")) {
-                suma += t.getKwotaMaPLN();
+                if (t.getKontoWn().getPelnynumer().equals("221-1") || t.getKontoWn().getPelnynumer().equals("221-3")) {
+                    suma += t.getKwotaMaPLN();
+                }
+            }
+        }
+        return Z.z(suma);
+    }
+    
+    private double podsumujkwotynakontach1(List<Wiersz> listawierszy) {
+        double suma = 0.0;
+        for (Wiersz t : listawierszy) {
+            if (t.getKontoWn().getZwyklerozrachszczegolne().equals("vat")) {
+                if (t.getKontoWn().getPelnynumer().equals("221-2") || t.getKontoWn().getPelnynumer().equals("221-4")) {
+                    suma += t.getKwotaWnPLN();
+                }
+            }
+            if (t.getKontoMa().getZwyklerozrachszczegolne().equals("vat")) {
+                if (t.getKontoWn().getPelnynumer().equals("221-2") || t.getKontoWn().getPelnynumer().equals("221-4")) {
+                    suma += t.getKwotaMaPLN();
+                }
             }
         }
         return Z.z(suma);
