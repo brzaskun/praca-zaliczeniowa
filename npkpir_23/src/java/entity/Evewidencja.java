@@ -9,6 +9,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -42,8 +44,9 @@ public class Evewidencja implements Serializable {
     @Column(name = "nazwa")
     private String nazwa;
     @Size(max = 255)
-    @Column(name = "pole")
-    private String pole;
+    @JoinColumn(name = "pole", referencedColumnName = "nazwapola",nullable = true)
+    @ManyToOne
+    private Evpozycja pole;
     @Size(max = 2)
     @Column(name = "nrpolanetto")
     private String nrpolanetto;
@@ -71,7 +74,7 @@ public class Evewidencja implements Serializable {
     public Evewidencja() {
     }
 
-    public Evewidencja(String nazwa, String pole, String nrpolanetto, String nrpolavat, String rodzajzakupu, String transakcja, boolean tylkoNetto) {
+    public Evewidencja(String nazwa, Evpozycja pole, String nrpolanetto, String nrpolavat, String rodzajzakupu, String transakcja, boolean tylkoNetto) {
         this.nazwa = nazwa;
         this.pole = pole;
         this.nrpolanetto = nrpolanetto;
@@ -82,7 +85,7 @@ public class Evewidencja implements Serializable {
     }
     
     
-    public Evewidencja(String nazwa, String pole, String nrpolanetto, String nrpolavat, String rodzajzakupu, String transakcja, boolean tylkoNetto, double stawkavat) {
+    public Evewidencja(String nazwa, Evpozycja pole, String nrpolanetto, String nrpolavat, String rodzajzakupu, String transakcja, boolean tylkoNetto, double stawkavat) {
         this.nazwa = nazwa;
         this.pole = pole;
         this.nrpolanetto = nrpolanetto;
@@ -112,11 +115,11 @@ public class Evewidencja implements Serializable {
         this.nazwa = nazwa;
     }
 
-    public String getPole() {
+    public Evpozycja getPole() {
         return pole;
     }
 
-    public void setPole(String pole) {
+    public void setPole(Evpozycja pole) {
         this.pole = pole;
     }
 

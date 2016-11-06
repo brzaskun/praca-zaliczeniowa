@@ -699,6 +699,10 @@ public class SessionFacade<T> implements Serializable {
     public List<Evewidencja> findEvewidencjaByTransakcja(String transakcja) {
         return em.createNamedQuery("Evewidencja.findByTransakcja").setParameter("transakcja", transakcja).getResultList();
     }
+    
+    public Evewidencja findEvewidencjaByPole(Evpozycja macierzysty) {
+        return (Evewidencja) em.createNamedQuery("Evewidencja.findByPole").setParameter("pole", macierzysty).getSingleResult();
+    }
 
     public List<Faktura> findByKontrahent_nip(String kontrahent_nip, String wystawca) {
         return em.createNamedQuery("Faktura.findByKontrahent").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList();
@@ -1853,4 +1857,6 @@ public class SessionFacade<T> implements Serializable {
     public void usunAmoDokByMcRok(String podatnik, int rok, int mc) {
         em.createNamedQuery("Amodok.usunAmoDokByMcRok").setParameter("podatnik",podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
     }
+
+    
 }

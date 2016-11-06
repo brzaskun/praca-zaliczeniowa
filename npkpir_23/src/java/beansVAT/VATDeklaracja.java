@@ -14,6 +14,7 @@ import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
 import entity.Evewidencja;
+import entity.Evpozycja;
 import entity.Podatnik;
 import entity.SchemaEwidencja;
 import error.E;
@@ -194,8 +195,8 @@ public class VATDeklaracja implements Serializable {
         ewidencjeDoPrzegladu.addAll(ewidencjeUzupelniane);
     }
 
-    public static void agregacjaEwidencjiZakupowych5152(ArrayList<EVatwpisSuma> ewidencjeUzupelniane) {
-        Evewidencja ewidencjaSumarycznaZakupy = new Evewidencja("sumaryczna", "Nabycie towarów i usług pozostałych", "51", "52", "opodatkowane", "zakup suma", false);
+    public static void agregacjaEwidencjiZakupowych5152(ArrayList<EVatwpisSuma> ewidencjeUzupelniane, Evpozycja evpozycjanabycie) {
+        Evewidencja ewidencjaSumarycznaZakupy = new Evewidencja("sumaryczna", evpozycjanabycie, "51", "52", "opodatkowane", "zakup suma", false);
         EVatwpisSuma zakupyVatwpis = new EVatwpisSuma(ewidencjaSumarycznaZakupy, BigDecimal.ZERO, BigDecimal.ZERO, "");
         for (Iterator<EVatwpisSuma> it = ewidencjeUzupelniane.iterator(); it.hasNext();) {
             EVatwpisSuma ew = it.next();
@@ -426,7 +427,7 @@ public class VATDeklaracja implements Serializable {
         }
         return lista;
     }
-
+    
     public static DeklaracjaVatSchemaWierszSum pobierzschemawiersz(List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista, String opis) {
         DeklaracjaVatSchemaWierszSum wiersz = null;
         for (DeklaracjaVatSchemaWierszSum p : schemawierszsumarycznylista) {
@@ -444,4 +445,6 @@ public class VATDeklaracja implements Serializable {
        System.out.println("i "+i);
        //System.out.println("j "+j);
    }
+
+    
 }

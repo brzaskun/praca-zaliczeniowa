@@ -7,6 +7,7 @@ package embeddable;
 
 import entity.SchemaEwidencja;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
 
@@ -37,6 +38,38 @@ public class SchemaEwidencjaSuma  implements Serializable{
     public void setEVatwpisSuma(EVatwpisSuma eVatwpisSuma) {
         this.eVatwpisSuma = eVatwpisSuma;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 19 * hash + Objects.hashCode(this.schemaEwidencja);
+        hash = 19 * hash + Objects.hashCode(this.eVatwpisSuma);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SchemaEwidencjaSuma other = (SchemaEwidencjaSuma) obj;
+        if (!Objects.equals(this.schemaEwidencja, other.schemaEwidencja)) {
+            return false;
+        }
+        if (!Objects.equals(this.eVatwpisSuma, other.eVatwpisSuma)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
 
     @Override
     public String toString() {

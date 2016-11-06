@@ -10,6 +10,7 @@ import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjaVatSchemaPozKoncoweDAO;
 import dao.DeklaracjaVatSchemaWierszSumDAO;
 import dao.DeklaracjevatDAO;
+import dao.EvpozycjaDAO;
 import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
 import dao.SchemaEwidencjaDAO;
@@ -27,6 +28,7 @@ import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaPozKoncowe;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
+import entity.Evpozycja;
 import entity.Podatnik;
 import entity.SchemaEwidencja;
 import error.E;
@@ -68,9 +70,11 @@ public class Vat7DKView implements Serializable {
     @Inject
     private Vatpoz pozycjeDeklaracjiVAT;
     @Inject
-    PodatnikDAO podatnikDAO;
+    private PodatnikDAO podatnikDAO;
     @Inject
-    EwidencjeVatDAO ewidencjeVatDAO;
+    private EwidencjeVatDAO ewidencjeVatDAO;
+    @Inject
+    private EvpozycjaDAO evpozycjaDAO;
     @Inject
     private TKodUS tKodUS;
     @Inject
@@ -133,7 +137,8 @@ public class Vat7DKView implements Serializable {
         //tu zduplikowac ewidencje
         //VATDeklaracja.duplikujZapisyDlaTransakcji(wartosci);
         //sumuj ewidencje 51 i52 pola
-        VATDeklaracja.agregacjaEwidencjiZakupowych5152(wartosci);
+        Evpozycja evpozycja = evpozycjaDAO.find("Nabycie towarów i usług pozostałych");
+        VATDeklaracja.agregacjaEwidencjiZakupowych5152(wartosci,evpozycja);
         //
         pozycjeDeklaracjiVAT.setCelzlozenia("1");
         //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji

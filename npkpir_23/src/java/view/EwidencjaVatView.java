@@ -21,6 +21,7 @@ import embeddable.Parametr;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
+import entity.Evpozycja;
 import entity.Ewidencjevat;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -479,10 +480,25 @@ public class EwidencjaVatView implements Serializable {
                         if (wiersz.getNazwaewidencji().getTypewidencji().equals("sz")) {
                             listadokvatprzetworzona.add(duplikujEVatViewPola(wiersz));
                         }
+                        if (wiersz.getNazwaewidencji().getPole().getMacierzysty() != null){
+                            listadokvatprzetworzona.add(duplikujsubwiersze(wiersz));
+                        }
                     }
                 }
             }
         }
+    }
+    
+     private EVatViewPola duplikujsubwiersze(EVatViewPola wiersz) {
+        Evpozycja macierzysty = wiersz.getNazwaewidencji().getPole().getMacierzysty();
+        Evewidencja ewidencja = evewidencjaDAO.znajdzponazwiePola(macierzysty);
+        EVatViewPola duplikat = new EVatViewPola(wiersz);
+        //wpisuje pola zakupu
+        duplikat.setNazwaewidencji(ewidencja);
+        duplikat.setNrpolanetto("");
+        duplikat.setNrpolavat("");
+        duplikat.setDuplikat(true);
+        return duplikat;
     }
     
     private EVatViewPola duplikujEVatViewPola(EVatViewPola wiersz) {

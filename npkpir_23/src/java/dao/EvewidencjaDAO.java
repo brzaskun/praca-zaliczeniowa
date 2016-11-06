@@ -6,6 +6,7 @@ package dao;
 
 import comparator.Evewidencjacomparator;
 import entity.Evewidencja;
+import entity.Evpozycja;
 import entityfk.EVatwpisDedra;
 import entityfk.EVatwpisFK;
 import error.E;
@@ -69,6 +70,15 @@ public class EvewidencjaDAO extends DAO implements Serializable {
             return evewidencjaFacade.findEvewidencjaByTransakcja(nazwa);
         } catch (Exception e) { E.e(e); 
             throw new Exception();
+        }
+    }
+
+    public Evewidencja znajdzponazwiePola(Evpozycja macierzysty) {
+        try {
+            return evewidencjaFacade.findEvewidencjaByPole(macierzysty);
+        } catch (Exception e) { 
+            E.e(e); 
+            return null;
         }
     }
 

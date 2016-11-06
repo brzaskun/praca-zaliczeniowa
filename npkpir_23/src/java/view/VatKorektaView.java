@@ -13,6 +13,7 @@ import comparator.Vatcomparator;
 import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjevatDAO;
 import dao.EvewidencjaDAO;
+import dao.EvpozycjaDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.VATDeklaracjaKorektaDokDAO;
@@ -29,6 +30,7 @@ import embeddable.Vatpoz;
 import entity.DeklaracjaVatSchema;
 import entity.Deklaracjevat;
 import entity.Evewidencja;
+import entity.Evpozycja;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.VATDeklaracjaKorektaDok;
@@ -68,6 +70,8 @@ public class VatKorektaView implements Serializable {
     private DeklaracjevatDAO deklaracjevatDAO;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
+    @Inject
+    private EvpozycjaDAO evpozycjaDAO;
     @Inject
     private VATDeklaracjaKorektaDokDAO vATDeklaracjaKorektaDokDAO;
     @Inject
@@ -210,7 +214,8 @@ public class VatKorektaView implements Serializable {
          * pobiera stowrzone ewidencje i robi pozycje szczegolowe korekta zeby wyswietlic
          */
         VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane);
-        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
+        Evpozycja evpozycja = evpozycjaDAO.find("Nabycie towarów i usług pozostałych");
+        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane,evpozycja);
         VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVATKorekta, nowaWartoscVatZPrzeniesienia);
         /**
          * tworze nowa deklaracje kopiujac stara binarnie
@@ -227,7 +232,7 @@ public class VatKorektaView implements Serializable {
         ewidencjeUzupelniane.clear();
         ewidencjeUzupelniane.addAll(sumaewidencjiNowakorekta.values());
         VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane);
-        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
+        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane,evpozycja);
         VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, deklaracjaVATPoKorekcie.getPozycjeszczegolowe(), nowaWartoscVatZPrzeniesienia);
         /**
          * robie podsumowanie szczegolowych oraz uzupelniam pozycje nowej deklaracji, usuwam jakies statusy i wpisy
