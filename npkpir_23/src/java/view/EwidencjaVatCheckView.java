@@ -147,7 +147,8 @@ public class EwidencjaVatCheckView implements Serializable {
     private List<StronaWiersza> sprawdzbrakiwewidencji(List<EVatViewPola> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
        List<StronaWiersza> brakiwewidencji = new ArrayList<>();
        for (StronaWiersza p : zakupy) {
-           if (p.getDokfk().getVatM().equals(wpisView.getMiesiacWpisu()) && p.getDokfk().getVatR().equals(wpisView.getRokWpisuSt())) {
+           if (p.getDokfk().getVatM().equals(wpisView.getMiesiacWpisu()) && p.getDokfk().getVatR().equals(wpisView.getRokWpisuSt())
+                   && !p.getDokfk().getRodzajedok().getSkrot().equals("VAT")) {
             boolean nk = czyjestwewidencji(p, ewidencjezawartosc);
              if (nk == false) {
                      brakiwewidencji.add(p);
@@ -155,7 +156,8 @@ public class EwidencjaVatCheckView implements Serializable {
            }
        }
        for (StronaWiersza p : sprzedaz) {
-           if (p.getDokfk().getVatM().equals(wpisView.getMiesiacWpisu()) && p.getDokfk().getVatR().equals(wpisView.getRokWpisuSt())) {
+           if (p.getDokfk().getVatM().equals(wpisView.getMiesiacWpisu()) && p.getDokfk().getVatR().equals(wpisView.getRokWpisuSt())
+                   && !p.getDokfk().getRodzajedok().getSkrot().equals("VAT")) {
             boolean nk = czyjestwewidencji(p, ewidencjezawartosc);
              if (nk == false) {
                      brakiwewidencji.add(p);

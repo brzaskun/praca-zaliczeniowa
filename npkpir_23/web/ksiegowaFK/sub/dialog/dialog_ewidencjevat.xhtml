@@ -368,6 +368,9 @@
                         <p:column headerText="wpis w ewidencji" width="200">
                             <h:outputText value="#{wpis.zapisEwidencja}"/>
                         </p:column>
+                        <p:column headerText="nr dok" width="100">
+                            <h:outputText value="#{wpis.ewidencja.dokfkPK.toString()}"/>
+                        </p:column>
                         <p:column headerText="data">
                             <h:outputText value="#{wpis.dataewidencja}"/>
                         </p:column>
