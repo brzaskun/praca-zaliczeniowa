@@ -74,12 +74,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (listaRozniceWnMa.size() > 0) {
             main = "Występują różnice w stronach Wn i Ma w PLN w " + listaRozniceWnMa.size() + " dokumentach: ";
-            b = new StringBuilder();
-            b.append(main);
-            for (Dokfk p : listaRozniceWnMa) {
-                b.append(p.getDokfkPK().toString2());
-                b.append(", ");
-            }
+            b = pobierzbledy(listaRozniceWnMa, main);
             czysto = false;
             dokDAOfk.editList(listaRozniceWnMa);
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
@@ -104,51 +99,41 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (listabrakiPozycji.size() > 0) {
             main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
-            b = new StringBuilder();
-            b.append(main);
-            for (Dokfk p : listabrakiPozycji) {
-                b.append(p.getDokfkPK().toString2());
-                b.append(", ");
-            }
+            b = pobierzbledy(listabrakiPozycji, main);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakivat.size() > 0) {
             main = "Niezgodność między miesiącem ewidencji vat a typem konta vat w " + listabrakivat.size() + " dokumentach: ";
-            b = new StringBuilder();
-            b.append(main);
-            for (Dokfk p : listabrakivat) {
-                b.append(p.getDokfkPK().toString2());
-                b.append(", ");
-            }
+            b = pobierzbledy(listabrakivat, main);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listapustaewidencja.size() > 0) {
             main = "Puste ewidencje vat w " + listapustaewidencja.size() + " dokumentach: ";
-            b = new StringBuilder();
-            b.append(main);
-            for (Dokfk p : listapustaewidencja) {
-                b.append(p.getDokfkPK().toString2());
-                b.append(", ");
-            }
+            b = pobierzbledy(listapustaewidencja, main);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
          if (listaniezgodnoscvatkonto.size() > 0) {
             main = "VAT z ewidencji vat niezgodny z kontem w " + listaniezgodnoscvatkonto.size() + " dokumentach: ";
-            b = new StringBuilder();
-            b.append(main);
-            for (Dokfk p : listaniezgodnoscvatkonto) {
-                b.append(p.getDokfkPK().toString2());
-                b.append(", ");
-            }
+            b = pobierzbledy(listaniezgodnoscvatkonto, main);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (czysto) {
             Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy", "zestawieniedokumentow:wiadomoscsprawdzenie");
         }
+    }
+    
+    private StringBuilder pobierzbledy(List<Dokfk> l, String main) {
+        StringBuilder b = new StringBuilder();
+        b.append(main);
+        for (Dokfk p : l) {
+            b.append(p.getDokfkPK().toString2());
+            b.append(", ");
+        }
+        return b;
     }
 
     public WpisView getWpisView() {
@@ -380,6 +365,14 @@ public class DokfkWeryfikacjaView implements Serializable {
                 if (czysakwotynakontach == false) {
                     listaniezgodnoscvatkonto.add(p);
                 }
+            } else {
+                if (!p.getRodzajedok().getSkrot().equals("VAT")) {
+                    double sumazewidencji = podsumujvatwewidencji(p.getEwidencjaVAT());
+                    double sumanakontach = podsumujkwotynakontach(p.getListawierszy());
+                    if (sumazewidencji != sumanakontach) {
+                        listaniezgodnoscvatkonto.add(p);
+                    }
+                }
             }
         } catch (Exception e) {
             zwrot = false;
@@ -394,6 +387,19 @@ public class DokfkWeryfikacjaView implements Serializable {
             zwrot += p.getVat();
         }
         return Z.z(zwrot);
+    }
+    
+    private double podsumujkwotynakontach(List<Wiersz> listawierszy) {
+        double suma = 0.0;
+        for (Wiersz t : listawierszy) {
+            if (t.getKontoWn().getZwyklerozrachszczegolne().equals("vat")) {
+                suma += t.getKwotaWnPLN();
+            }
+            if (t.getKontoMa().getZwyklerozrachszczegolne().equals("vat")) {
+                suma += t.getKwotaMaPLN();
+            }
+        }
+        return Z.z(suma);
     }
 
     private boolean sprawdzkwotynakontach(List<Wiersz> listawierszy, double vatewidencja, double procent) {
@@ -427,5 +433,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
             return zwrot;
         }
+
+    
 
 }

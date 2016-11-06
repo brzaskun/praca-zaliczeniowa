@@ -11,8 +11,6 @@ import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;

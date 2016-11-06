@@ -126,7 +126,7 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
-                         style="width: 1460px; height: 500px; " filteredValue="#{dokfkView.filteredValue}" 
+                         style="width: 1460px; height: 450px; " filteredValue="#{dokfkView.filteredValue}" 
                          rowsPerPageTemplate="50,100,300,500" paginatorPosition="top"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane" rowSelectMode="add"
                          rows="200" paginator="true"
@@ -180,8 +180,8 @@
                 <p:column headerText="#{mgs.VAT}" styleClass="vatzak" width="30" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
                     <h:outputText value="#{item.ewidencjaVAT.size() gt 0 ? item.vatM : null}" style="color: #{item.vatM ne item.miesiac ? 'red' : null}" id="vatdokumentuzest"/>
                 </p:column>
-                <p:column headerText="wzór" width="30" sortBy="#{item.wzorzec}" style="text-align: center; #{item.wzorzec eq true ? 'color: red;' : null}">
-                    <h:outputText value="#{item.wzorzec eq true ? 'tak' : ''}" style="width: 25px;"/>
+                <p:column headerText="" width="30" sortBy="#{dokfkView.charakterdokumentu(item)}" style="text-align: center; #{dokfkView.charakterdokumentu(item) eq '' ? null : 'color: red;'}">
+                    <h:outputText value="#{dokfkView.charakterdokumentu(item)}" style="width: 25px;"/>
                 </p:column>
                 <p:column headerText="ujęto" width="40" style="text-align: center;" sortBy="#{item.dataujecia}">
                     <h:outputText value="#{item.dataujecia}" style="width: 40px;">

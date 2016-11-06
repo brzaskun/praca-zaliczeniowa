@@ -38,7 +38,6 @@ import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Parametr;
-import embeddablefk.SaldoKonto;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -307,6 +306,22 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
+    }
+    
+    public String charakterdokumentu (Dokfk d) {
+        String zwrot = "";
+        if (d != null) {
+            if (d.isWzorzec()) {
+                zwrot += "wzr";
+            }
+            if (d.isZawierarmk()) {
+                zwrot += " RMK";
+            }
+            if (d.isZawierasrodkitrw()) {
+                zwrot += " ŚTR";
+            }
+        }
+        return zwrot;
     }
 
     private void resetprzyciskow() {
