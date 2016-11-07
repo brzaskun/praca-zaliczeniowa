@@ -1448,15 +1448,21 @@ public class DokfkView implements Serializable {
         setZapisz0edytuj1(true);
     }
 
-    public void znajdzDokumentOznaczWierszDoPodswietlenia(List<StronaWiersza> wybranekontadosumowania) {
-        if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
-            StronaWiersza s = wybranekontadosumowania.get(0);
-            Wiersz w = s.getWiersz();
+    public void znajdzDokumentOznaczWierszDoPodswietlenia(StronaWiersza stronawiersza) {
+        if (stronawiersza != null) {
+            Wiersz w = stronawiersza.getWiersz();
             Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(w.getDokfk());
             selected = odnalezionywbazie;
             int numer = w.getIdporzadkowy() - 1;
             wierszDoPodswietlenia = numer;
             setZapisz0edytuj1(true);
+            totylkoedycjazapis = true;
+            Msg.msg("Wybrano dokument do edycji: "+selected.getDokfkSN());
+//            RequestContext.getCurrentInstance().update("formwpisdokument");
+//            RequestContext.getCurrentInstance().update("zestawieniezapisownakontachpola");
+//            String nazwa = "formwpisdokument:dataList:"+numer+":opis";
+//            String wierszf = "$(document.getElementById('"+nazwa+"')).select()";
+//            RequestContext.getCurrentInstance().execute(wierszf);
         }
     }
 
@@ -3442,10 +3448,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void edycjazapis() {
-        this.totylkoedycjazapis = true;
-    }
-    
+        
     public void edycjaanalityczne() {
         this.totylkoedycjaanalityczne = true;
     }
