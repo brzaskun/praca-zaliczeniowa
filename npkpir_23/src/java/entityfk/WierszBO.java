@@ -73,9 +73,10 @@ public class WierszBO implements Serializable {
         this.rozrachunek = false;
     }
 
-    public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, Konto konto, Waluty waluta, Uz wprowadzil) {
+    public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, String mc, Konto konto, Waluty waluta, Uz wprowadzil) {
         this.wierszBOPK = new WierszBOPK();
         this.wierszBOPK.setRok(rok);
+        this.wierszBOPK.setMc(mc);
         if (p.getOpisdlabo() != null) {
             System.out.println("");
         }

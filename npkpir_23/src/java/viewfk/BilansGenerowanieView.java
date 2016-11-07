@@ -162,76 +162,81 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     public void generuj() {
-        this.komunikatyok = new ArrayList<>();
-        this.komunikatyerror = new ArrayList<>();
-        this.komunikatyerror2 = new ArrayList<>();
-        this.komunikatyerror3 = new ArrayList<>();
-        this.sabledy = false;
-        this.sabledy2 = false;
-        boolean stop = false;
-        List<Konto> konta = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        if (konta.isEmpty()) {
-            stop = true;
-            String error = "Brak kont w roku " + wpisView.getRokWpisuSt() + " nie można generować BO";
-            Msg.msg("e", error);
-            komunikatyerror.add(error);
-        } else {
-            komunikatyok.add("Sprawdzono obecnosc planu kont. Liczba kont: " + konta.size());
-        }
-        List<UkladBR> uklad = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        if (uklad.isEmpty()) {
-            stop = true;
-            String error = "Brak ukladu w roku " + wpisView.getRokWpisuSt() + " nie można generować BO";
-            Msg.msg("e", error);
-            komunikatyerror.add(error);
-        } else {
-            komunikatyok.add("Sprawdzono obecnosc układu. Liczba ukladów: " + uklad.size());
-        }
-        if (stop == true) {
-            sabledy = true;
-        } else {
-            wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-            saldoAnalitykaView.initGenerowanieBO();
-            List<SaldoKonto> listaSaldoKontoRokPop = saldoAnalitykaView.getListaSaldoKonto();
-            List<Konto> kontaNowyRok = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            resetujBOnaKonto(kontaNowyRok);
-            Konto kontowyniku = PlanKontFKBean.findKonto860(kontaNowyRok);
-            obliczkontawynikowe(kontowyniku, listaSaldoKontoRokPop, walpln);
-            //tutaj trzeba przerobic odpowiednio listaSaldo
-            List<SaldoKonto> listaSaldoKontoPrzetworzone = przetwarzajSaldoKonto(listaSaldoKontoRokPop);
-            List<WierszBO> wierszeBO = new ArrayList<>();
-            List<Konto> kontazdziecmi = new ArrayList<>();
-            List<Konto> brakujacekontanowyrok = zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok, kontazdziecmi);
-            if (!brakujacekontanowyrok.isEmpty()) {
-                komunikatyerror.add("W nowym roku nie ma następujących kont w planie kont: ");
-                for (Konto p : brakujacekontanowyrok) {
-                    komunikatyerror.add(p.getPelnynumer() + " " + p.getNazwapelna());
-                    sabledy = true;
-                }
+        try {
+            this.komunikatyok = new ArrayList<>();
+            this.komunikatyerror = new ArrayList<>();
+            this.komunikatyerror2 = new ArrayList<>();
+            this.komunikatyerror3 = new ArrayList<>();
+            this.sabledy = false;
+            this.sabledy2 = false;
+            boolean stop = false;
+            List<Konto> konta = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            if (konta.isEmpty()) {
+                stop = true;
+                String error = "Brak kont w roku " + wpisView.getRokWpisuSt() + " nie można generować BO";
+                Msg.msg("e", error);
+                komunikatyerror.add(error);
+            } else {
+                komunikatyok.add("Sprawdzono obecnosc planu kont. Liczba kont: " + konta.size());
             }
-            if (!kontazdziecmi.isEmpty()) {
-                komunikatyerror2.add("W nowym roku następujące konta mają subkonta, trzeba przeksięgować kwoty na subkonto dla kwot z następujacych kont poprzedniego roku: ");
-                for (Konto p : kontazdziecmi) {
-                    komunikatyerror2.add(p.getPelnynumer() + " " + p.getNazwapelna());
-                    sabledy2 = true;
-                }
+            List<UkladBR> uklad = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            if (uklad.isEmpty()) {
+                stop = true;
+                String error = "Brak ukladu w roku " + wpisView.getRokWpisuSt() + " nie można generować BO";
+                Msg.msg("e", error);
+                komunikatyerror.add(error);
+            } else {
+                komunikatyok.add("Sprawdzono obecnosc układu. Liczba ukladów: " + uklad.size());
             }
-            komunikatyok.add("Wygenerowano BO na rok " + wpisView.getRokWpisuSt());
-            wierszBODAO.editList(wierszeBO);
-            zapiszBOnaKontach(wierszeBO, kontaNowyRok);
-            obliczsaldoBOkonta(kontaNowyRok);
-            kontoDAO.editList(kontaNowyRok);
-            List<RoznicaSaldBO> kontainnesaldo = znajdzroznicesald(listaSaldoKontoRokPop, kontaNowyRok);
-            if (!kontainnesaldo.isEmpty()) {
-                komunikatyerror3.add("Po generacji jest różnica sald z BO. Sprawdź w poprzednim roku wiersze BO z dokumentem BO: ");
-                for (RoznicaSaldBO p : kontainnesaldo) {
-                    komunikatyerror3.add(p.getKonto().getPelnynumer() + " " + p.getKwotaroznicy());
+            if (stop == true) {
+                sabledy = true;
+            } else {
+                wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+                saldoAnalitykaView.initGenerowanieBO();
+                List<SaldoKonto> listaSaldoKontoRokPop = saldoAnalitykaView.getListaSaldoKonto();
+                List<Konto> kontaNowyRok = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                resetujBOnaKonto(kontaNowyRok);
+                Konto kontowyniku = PlanKontFKBean.findKonto860(kontaNowyRok);
+                obliczkontawynikowe(kontowyniku, listaSaldoKontoRokPop, walpln);
+                //tutaj trzeba przerobic odpowiednio listaSaldo
+                List<SaldoKonto> listaSaldoKontoPrzetworzone = przetwarzajSaldoKonto(listaSaldoKontoRokPop);
+                List<WierszBO> wierszeBO = new ArrayList<>();
+                List<Konto> kontazdziecmi = new ArrayList<>();
+                List<Konto> brakujacekontanowyrok = zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok, kontazdziecmi);
+                if (!brakujacekontanowyrok.isEmpty()) {
+                    komunikatyerror.add("W nowym roku nie ma następujących kont w planie kont: ");
+                    for (Konto p : brakujacekontanowyrok) {
+                        komunikatyerror.add(p.getPelnynumer() + " " + p.getNazwapelna());
+                        sabledy = true;
+                    }
                 }
+                if (!kontazdziecmi.isEmpty()) {
+                    komunikatyerror2.add("W nowym roku następujące konta mają subkonta, trzeba przeksięgować kwoty na subkonto dla kwot z następujacych kont poprzedniego roku: ");
+                    for (Konto p : kontazdziecmi) {
+                        komunikatyerror2.add(p.getPelnynumer() + " " + p.getNazwapelna());
+                        sabledy2 = true;
+                    }
+                }
+                komunikatyok.add("Wygenerowano BO na rok " + wpisView.getRokWpisuSt());
+                wierszBODAO.editList(wierszeBO);
+                zapiszBOnaKontach(wierszeBO, kontaNowyRok);
+                obliczsaldoBOkonta(kontaNowyRok);
+                kontoDAO.editList(kontaNowyRok);
+                List<RoznicaSaldBO> kontainnesaldo = znajdzroznicesald(listaSaldoKontoRokPop, kontaNowyRok);
+                if (!kontainnesaldo.isEmpty()) {
+                    komunikatyerror3.add("Po generacji jest różnica sald z BO. Sprawdź w poprzednim roku wiersze BO z dokumentem BO: ");
+                    for (RoznicaSaldBO p : kontainnesaldo) {
+                        komunikatyerror3.add(p.getKonto().getPelnynumer() + " " + p.getKwotaroznicy());
+                    }
+                }
+                bilansWprowadzanieView.init();
+                bilansWprowadzanieView.zapiszBilansBOdoBazy();
+                Msg.msg("Generuje bilans");
             }
-            bilansWprowadzanieView.init();
-            bilansWprowadzanieView.zapiszBilansBOdoBazy();
-            Msg.msg("Generuje bilans");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił błąd podczas generowania bilansu otwarcia "+e);
         }
     }
 
@@ -336,7 +341,7 @@ public class BilansGenerowanieView implements Serializable {
                         if (k.isMapotomkow()) {
                             kontazdziecmi.add(k);
                         }
-                        wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), k, p.getWalutadlabo(), wpisView.getWprowadzil()));
+                        wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), k, p.getWalutadlabo(), wpisView.getWprowadzil()));
                     } else {
                         brakujacekontanowyrok.add(p.getKonto());
                     }
