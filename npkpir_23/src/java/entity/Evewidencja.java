@@ -44,9 +44,11 @@ public class Evewidencja implements Serializable {
     @Column(name = "nazwa")
     private String nazwa;
     @Size(max = 255)
-    @JoinColumn(name = "pole", referencedColumnName = "nazwapola",nullable = true)
+    @JoinColumn(name = "nazwapola", referencedColumnName = "nazwapola",nullable = true)
     @ManyToOne
-    private Evpozycja pole;
+    private Evpozycja nazwapola;
+    @Column(name = "pole")
+    private String pole;
     @Size(max = 2)
     @Column(name = "nrpolanetto")
     private String nrpolanetto;
@@ -76,7 +78,7 @@ public class Evewidencja implements Serializable {
 
     public Evewidencja(String nazwa, Evpozycja pole, String nrpolanetto, String nrpolavat, String rodzajzakupu, String transakcja, boolean tylkoNetto) {
         this.nazwa = nazwa;
-        this.pole = pole;
+        this.nazwapola = pole;
         this.nrpolanetto = nrpolanetto;
         this.nrpolavat = nrpolavat;
         this.rodzajzakupu = rodzajzakupu;
@@ -87,7 +89,7 @@ public class Evewidencja implements Serializable {
     
     public Evewidencja(String nazwa, Evpozycja pole, String nrpolanetto, String nrpolavat, String rodzajzakupu, String transakcja, boolean tylkoNetto, double stawkavat) {
         this.nazwa = nazwa;
-        this.pole = pole;
+        this.nazwapola = pole;
         this.nrpolanetto = nrpolanetto;
         this.nrpolavat = nrpolavat;
         this.rodzajzakupu = rodzajzakupu;
@@ -115,12 +117,12 @@ public class Evewidencja implements Serializable {
         this.nazwa = nazwa;
     }
 
-    public Evpozycja getPole() {
-        return pole;
+    public Evpozycja getNazwapola() {
+        return nazwapola;
     }
 
-    public void setPole(Evpozycja pole) {
-        this.pole = pole;
+    public void setNazwapola(Evpozycja nazwapola) {
+        this.nazwapola = nazwapola;
     }
 
     public String getNrpolanetto() {
@@ -187,7 +189,15 @@ public class Evewidencja implements Serializable {
         this.stawkavat = stawkavat;
     }
 
-     
+    public String getPole() {
+        return pole;
+    }
+
+    public void setPole(String pole) {
+        this.pole = pole;
+    }
+
+  
     
     @Override
     public int hashCode() {
@@ -211,7 +221,7 @@ public class Evewidencja implements Serializable {
 
     @Override
     public String toString() {
-        return "Evewidencja{" + "nazwa=" + nazwa + ", pole=" + pole + ", nrpolanetto=" + nrpolanetto + ", nrpolavat=" + nrpolavat + ", rodzajzakupu=" + rodzajzakupu + ", transakcja=" + transakcja + ", tylkoNetto=" + tylkoNetto + ", typewidencji=" + typewidencji + ", de=" + de + ", stawkavat=" + stawkavat + '}';
+        return "Evewidencja{" + "nazwa=" + nazwa + ", pole=" + nazwapola + ", nrpolanetto=" + nrpolanetto + ", nrpolavat=" + nrpolavat + ", rodzajzakupu=" + rodzajzakupu + ", transakcja=" + transakcja + ", tylkoNetto=" + tylkoNetto + ", typewidencji=" + typewidencji + ", de=" + de + ", stawkavat=" + stawkavat + '}';
     }
 
    

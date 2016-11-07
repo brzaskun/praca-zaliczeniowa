@@ -24,7 +24,7 @@
                         <h:outputText id="in1" value="#{loop.nazwa}"/>
                     </p:column>
                     <p:column headerText="lp" width="30" sortBy="#{loop.nrpolanetto}"><h:outputText id="in3" value="#{loop.nrpolanetto}"/></p:column>
-                    <p:column headerText="nazwa pola w deklaracji" width="350" sortBy="#{loop.pole}"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
+                    <p:column headerText="nazwa pola w deklaracji" width="350" sortBy="#{loop.nazwapola}"><h:outputText id="in2" value="#{nazwapola.pole}"/></p:column>
                     <p:column headerText="rodzaj transkacji" width="150" sortBy="#{loop.transakcja}"><h:outputText id="in5" value="#{loop.transakcja}"/></p:column>
                     <p:column headerText="rodzaj zakupu" sortBy="#{loop.rodzajzakupu}"><h:outputText id="in6" value="#{loop.rodzajzakupu}"/></p:column>
                     <p:column headerText="tylko netto"><h:outputText id="in7" value="#{loop.tylkoNetto eq true ? 'tak' : null}"/></p:column>
@@ -44,7 +44,7 @@
                         <f:selectItems value="#{evopisView.lista}"/>
                     </p:selectOneMenu>
                     <h:outputText value="pole w deklaracji"/>
-                    <p:selectOneMenu value="#{evewidencjaView.selected.pole}" style="width: 400px;">
+                    <p:selectOneMenu value="#{evewidencjaViewnazwapolaected.pole}" style="width: 400px;">
                         <f:selectItems value="#{evpozycjaView.lista}"/>
                     </p:selectOneMenu>
                     <h:outputText value="nr kolejny"/>

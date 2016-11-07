@@ -480,7 +480,7 @@ public class EwidencjaVatView implements Serializable {
                         if (wiersz.getNazwaewidencji().getTypewidencji().equals("sz")) {
                             listadokvatprzetworzona.add(duplikujEVatViewPola(wiersz));
                         }
-                        if (wiersz.getNazwaewidencji().getPole().getMacierzysty() != null){
+                        if (wiersz.getNazwaewidencji().getNazwapola() != null && wiersz.getNazwaewidencji().getNazwapola().getMacierzysty() != null){
                             listadokvatprzetworzona.add(duplikujsubwiersze(wiersz));
                         }
                     }
@@ -490,7 +490,7 @@ public class EwidencjaVatView implements Serializable {
     }
     
      private EVatViewPola duplikujsubwiersze(EVatViewPola wiersz) {
-        Evpozycja macierzysty = wiersz.getNazwaewidencji().getPole().getMacierzysty();
+        Evpozycja macierzysty = wiersz.getNazwaewidencji().getNazwapola().getMacierzysty();
         Evewidencja ewidencja = evewidencjaDAO.znajdzponazwiePola(macierzysty);
         EVatViewPola duplikat = new EVatViewPola(wiersz);
         //wpisuje pola zakupu

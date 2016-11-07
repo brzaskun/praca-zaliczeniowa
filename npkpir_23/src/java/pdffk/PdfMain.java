@@ -1484,7 +1484,7 @@ public class PdfMain {
             if (nazwaklasy.equals("embeddable.SchemaEwidencjaSuma")) {
                 SchemaEwidencjaSuma p = (SchemaEwidencjaSuma) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getEvewidencja().getPole(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getEvewidencja().getNazwapola(), "left", 8));
                 table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getPolenetto(), "center", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getEVatwpisSuma().getNetto())), "right", 8));
                 if (p.getEVatwpisSuma().getVat().doubleValue() > 0.0) {
