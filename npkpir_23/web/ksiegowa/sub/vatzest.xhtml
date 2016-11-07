@@ -13,10 +13,13 @@
         <p:tab id="ewid1" title="ewidencje">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
                 <p:tab title="#{item[0].nazwaewidencji.nazwa}">
-                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}', this); $('wydrukbuttonvat').show()"  style="width: 120px;"/>
-                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}', this); $('wydrukbuttonvat').show()"  style="width: 120px;"/>
-                <p:commandButton value="Wyślij" id="wyslijvatbutton" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" widgetVar="wydrukbuttonvat"
-                                 onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%; display: none;">
+                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" 
+                                 onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}');pokazwyslijbutton(this);"  style="width: 120px;"/>
+                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" 
+                                 onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}');pokazwyslijbutton(this);"  style="width: 120px;"/>
+                <p:commandButton value="Wyślij" id="wyslijvatbutton" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" 
+                                 actionListener="#{sesjaView.dodajmail()}" widgetVar="wydrukbuttonvat"
+                                 style="width: 120px; margin-left: 2%; display: none;">
                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji.nazwa))}"/>
                 </p:commandButton>
                 <p:separator/>

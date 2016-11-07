@@ -81,6 +81,21 @@ var wydrukpit5 = function(kto){
     window.open('../wydruki/pit5'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
+var pokazwyslijbutton = function(kto) {
+     if (typeof kto !== "undefined") {
+        var sib = r(kto.source).siblings("button");
+        $(sib[1]).show();
+    }
+};
+
+var wydrukewidencje = function(kto,nazwa){
+    if(!nazwa.indexOf("sprzedaż", 0)){
+    var nazwanowa = nazwa.substr(0, nazwa.length-1);
+    } else {
+        nazwanowa = nazwa;
+    }
+    window.open('../wydruki/vat-'+nazwanowa+'-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+};
 var wydrukewidencje = function(kto,nazwa){
     if(!nazwa.indexOf("sprzedaż", 0)){
     var nazwanowa = nazwa.substr(0, nazwa.length-1);
