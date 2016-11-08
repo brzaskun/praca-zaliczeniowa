@@ -89,12 +89,14 @@
         };
 
     var zaznaczpole = function() {
-        var czywidzialne = rj("zapisy").getAttribute("aria-hidden");
-        if (czywidzialne === "false"){
-            var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
-            var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
-            $(document.getElementById(nazwa)).select();  
-        }
+        try {
+            var czywidzialne = rj("zapisy").getAttribute("aria-hidden");
+            if (czywidzialne === "false"){
+                var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
+                var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
+                $(document.getElementById(nazwa)).select();  
+            }
+        } catch (e) {}
         };
     </script>
     <p:dialog id="dialogpierwszy" 
