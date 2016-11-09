@@ -1,7 +1,0 @@
-ALTER TABLE stronawiersza DROP FOREIGN KEY FK_stronawiersza_idwiersza
-ALTER TABLE fktest.WIERSZ DROP FOREIGN KEY FK_WIERSZ_dokid
-ALTER TABLE rozrachunek DROP FOREIGN KEY FK_rozrachunek_stronaWiersza
-DROP TABLE fktest.DOKUMENT
-DROP TABLE stronawiersza
-DROP TABLE fktest.WIERSZ
-DROP TABLE rozrachunek
