@@ -134,7 +134,11 @@ public class DokFKBean {
             if ((typ == 0 || typ == 5)) {
                 kontoWn = wierszbiezacy.getStronaWn().getKonto();
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();
-                if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
+                double kwotaWn = Z.z(wierszbiezacy.getStronaWn().getKwota());
+                double kwotaMa = Z.z(wierszbiezacy.getStronaMa().getKwota());
+                if (kwotaWn == 0.0 && kwotaMa == 0.0) {
+                    czyWszystkoWprowadzono = false;
+                } else if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
                     czyWszystkoWprowadzono = true;
                 }
             } else if (typ == 7 || typ == 2) {

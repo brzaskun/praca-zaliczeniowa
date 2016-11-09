@@ -459,9 +459,8 @@ public class DokfkView implements Serializable {
     }
 
     public void dodajPustyWierszNaKoncu() {
-        int dlugosc = selected.getListawierszy().size();
         int wynik = DialogWpisywanie.dodajPustyWierszNaKoncu(selected);
-        selected.przeliczKwotyWierszaDoSumyDokumentu();
+        //selected.przeliczKwotyWierszaDoSumyDokumentu();
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
         if (wynik == 1) {
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");

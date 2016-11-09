@@ -423,7 +423,7 @@ var usunpodswietlenie = function(source) {
 };
 
 var focusNowyWiersz = function () {
-    setTimeout(robfocus(), 1000);
+    robfocus();
 };
 
 var robfocus = function() {

@@ -11,9 +11,7 @@ import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import error.E;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
-import msg.Msg;
 import viewfk.subroutines.ObslugaWiersza;
 import waluty.Z;
 
@@ -75,17 +73,19 @@ public class DialogWpisywanie {
         Wiersz wierszbiezacy = selected.getListawierszy().get(wierszbiezacyIndex);
         try {
             boolean czyWszystkoWprowadzono = DokFKBean.sprawdzczyWnRownasieMa(wierszbiezacy);
-            int nrgrupy = wierszbiezacy.getLpmacierzystego() == 0 ? wierszbiezacy.getIdporzadkowy() : wierszbiezacy.getLpmacierzystego();
-            double roznica = 0.0;
-            if (!wierszbiezacy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+            if (czyWszystkoWprowadzono) {
+                int nrgrupy = wierszbiezacy.getLpmacierzystego() == 0 ? wierszbiezacy.getIdporzadkowy() : wierszbiezacy.getLpmacierzystego();
+                double roznica = 0.0;
+                if (!wierszbiezacy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
                     roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
+                }
+                if (roznica == 0) {
+                    ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 0);
+                } else if (roznica != 0.0) {
+                    ObslugaWiersza.wygenerujWierszRoznicowy(wierszbiezacy, false, nrgrupy, selected);
+                }
+                //to jest tez w  DokfkView.dodajPustyWierszNaKoncu selected.przeliczKwotyWierszaDoSumyDokumentu();
             }
-            if (roznica == 0 && czyWszystkoWprowadzono == true) {
-                 ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 0);
-             } else if (roznica != 0.0 && czyWszystkoWprowadzono == true) {
-                 ObslugaWiersza.wygenerujWierszRoznicowy(wierszbiezacy, false, nrgrupy, selected);
-             }
-            selected.przeliczKwotyWierszaDoSumyDokumentu();
             return 0;
         } catch (Exception e) {  
             E.e(e);
