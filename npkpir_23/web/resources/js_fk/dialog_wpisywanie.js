@@ -422,8 +422,13 @@ var usunpodswietlenie = function(source) {
     };
 };
 
+var liczba = 0;
+
 var focusNowyWiersz = function () {
-    robfocus();
+    setTimeout(function() {
+        robfocus();
+    },400);
+    //r("formwpisdokument:poletext").text("kk "+liczba++);
 };
 
 var robfocus = function() {

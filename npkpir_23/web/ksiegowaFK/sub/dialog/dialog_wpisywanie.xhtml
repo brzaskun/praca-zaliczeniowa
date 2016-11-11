@@ -606,7 +606,7 @@
                     </p:dataTable>
                     <p:panelGrid style="text-align: left; margin-left: 10px;">
                         <h:outputText id="komunikatywpisdok" value="#{dokfkView.komunikatywpisdok}" style="color: red;"/>
-                    </p:panelGrid>
+                    </p:panelGrid> 
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
                         <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne ''}">
@@ -650,7 +650,7 @@
                 <p:commandButton id="vatRK" value="+" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" 
                                  style="width: 30px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
                 <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
-                                     global="false" update=":formwpisdokument:dataList" oncomplete="focusNowyWiersz();" style="display: none;" />
+                                     global="false" update=":formwpisdokument:dataList" style="display: none;" />
                 <p:commandButton id="buttonusun" value="(U)suń" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
                                  styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument" oncomplete="focusNaOstatnimWierszu();"/>
                 <p:commandButton id="uruchomrozrachunki" value="(R)ozrachunki" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
