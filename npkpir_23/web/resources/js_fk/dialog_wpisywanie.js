@@ -427,7 +427,7 @@ var liczba = 0;
 var focusNowyWiersz = function () {
     setTimeout(function() {
         robfocus();
-    },400);
+    },300);
     //r("formwpisdokument:poletext").text("kk "+liczba++);
 };
 
