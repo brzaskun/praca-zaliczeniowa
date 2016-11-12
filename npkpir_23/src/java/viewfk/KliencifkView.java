@@ -147,6 +147,8 @@ public class KliencifkView implements Serializable {
             } catch (Exception e) {
                 E.e(e);
             }
+        } else if (wybranyklient instanceof Klienci && wybranyklient.getNpelna().equals("nowy klient")) {
+            klientBezKonta = new Kliencifk();
         }
         return -1;
     }

@@ -17,9 +17,9 @@
             <p:autoComplete id="wyborkontrahenta" value="#{kliencifkView.wybranyklient}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="30" converterMessage="Nieudana konwersja Klient"
-                                widgetVar="dialogklient" style="width: 500px;" onblur="sprawdzczybrakklienta();" styleClass="wyborkontrahenta"
+                                widgetVar="dialogklient" style="width: 500px;" styleClass="wyborkontrahenta"
                                 required="true" requiredMessage="Pole klienta nie może być puste" >
-                <p:ajax event="itemSelect" listener="#{kliencifkView.pobieraniekontaFK}" update=":kontoformV, :kontoformE" global="false"/>
+                <p:ajax event="itemSelect" listener="#{kliencifkView.pobieraniekontaFK}" oncomplete="sprawdzczybrakklienta()" update=":kontoformV, :kontoformE" global="false"/>
                 <p:ajax event="query" global="false"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -70,7 +70,8 @@
                 <h:inputText value="#{wpis.nrkonta}" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:column>
         </p:dataTable>
-            <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokonta}" style="margin: 2%;" rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}" 
+            <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokonta}" style="margin: 2%;" 
+                             rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}" 
                              update=":kliencifk, :kontoformV, :kontoformE" oncomplete="$('#kliencifk\\:wyborkontrahenta_input').select();"/>
          </h:form>
     </p:dialog>

@@ -44,6 +44,21 @@ var ustawdialog = function(nazwa,rodzic, szerokosc, wysokosc) {
 
 };
 
+var ustawdialogAuto = function(nazwa, szerokosc, wysokosc) {
+    $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
+    try {
+        $(document.getElementById(nazwa)).position({
+        my: "left top",
+        at: "left+60px top+30px",
+        of: $(document.getElementById(znajdzmenu(nazwa))),
+        collision: "none none"
+        });
+    } catch (Exception) {
+       //alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
+    }
+
+};
+
 var ustawdialogCenter = function(nazwa,rodzic, szerokosc, wysokosc) {
     $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
     try {
@@ -80,4 +95,6 @@ var resetujdialog = function(nazwa) {
     $(document.getElementById(nazwa)).removeAttr('style');
 };
 
-
+var znajdzmenu = function(nazwa) {
+    return $(document.getElementById(nazwa)).parent().find(".menutabView")[0].id;
+};

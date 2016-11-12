@@ -25,7 +25,7 @@
     <p:panel rendered="#{WpisView.czegosbrakuje}">
         <h:outputText value="Niepełne ustawienia danych firmy. Proszę uzupełnić i ponownie się wybrać firmę." style="color: red; font-weight: 900;"/>
     </p:panel>
-    <p:tabView id="menudokumenty" orientation="left" style=" height: 500px;width: 600px; box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;"
+    <p:tabView id="menudokumenty"  styleClass="menutabView" orientation="left" style=" height: 500px;width: 600px; box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;"
                 rendered="#{WpisView.czegosbrakuje == false}">  
         <p:tab title="dokumenty">
             <h:form id="dialog1menu2">

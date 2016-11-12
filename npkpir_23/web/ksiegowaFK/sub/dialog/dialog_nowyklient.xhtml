@@ -10,8 +10,8 @@
             width: 180px !important;
         }
     </style>
-    <p:dialog id="dialogEdycja" header="Dane nowego klienta:aa ( * - dane fakultatywne)" widgetVar="dlgwprowadzanieklienta" resizable="false" modal="false" appendTo="@(body)"
-              onShow="ustawdialog('dialogEdycja','menudokumenty',1100,200);" focus=":formXNowyKlient:nazwaPole" onHide="resetujdialog('dialogEdycja');" >
+    <p:dialog id="dialogEdycja" header="Dane nowego klienta:_ ( * - dane fakultatywne)" widgetVar="dlgwprowadzanieklienta" resizable="false" modal="false" appendTo="@(body)"
+              onShow="ustawdialogAuto('dialogEdycja',1100,200);" focus=":formXNowyKlient:nazwaPole" onHide="resetujdialog('dialogEdycja');" >
         <h:form id="formXNowyKlient" >
             <p:panel >
                 <p:focus id="focus" for="polawprowadzania"  />
@@ -59,7 +59,8 @@
                                                      $(this).addClass('ui-state-default');" >
                         <f:selectItems value="#{kolmn.kolumnList}" />
                     </h:selectOneMenu>
-                    <p:commandButton value="dodaj" action="#{KlView.dodajKlientafk(dokfkView.selected, dokfkView.ewidencjaVatRK)}" oncomplete="skopiujdanenowegoklientafk();" style="width: 120px;"/>
+                    <p:commandButton value="dodaj" action="#{KlView.dodajKlientafk(dokfkView.selected, dokfkView.ewidencjaVatRK)}"
+                                     oncomplete="skopiujdanenowegoklientafk();" style="width: 120px;"/>
                 </p:panelGrid>
                 <p:panelGrid id="polawprowadzania1" columns="5" >
                     <h:outputLabel value="kraj*" style="font-weight: 700"/>
