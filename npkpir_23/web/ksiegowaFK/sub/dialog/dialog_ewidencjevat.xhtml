@@ -48,6 +48,8 @@
                             <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%;">
                                 <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                             </p:commandButton>
+                            <p:commandButton value="Odśwież zap." icon="ui-icon-arrowreturnthick-1-n" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK()}" 
+                                             update="form" style="width: 120px; margin-left: 200px;"/>
 <!--                            <h:outputText value="suma netto "/>
                             <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'n')}"/>
                             <h:outputText value="suma vat "/>

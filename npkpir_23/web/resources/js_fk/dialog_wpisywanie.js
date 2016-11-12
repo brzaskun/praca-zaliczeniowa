@@ -155,10 +155,10 @@ var sprawdzmcshift = function (pole) {
 
 //aktywuje nowy wiersz
 var aktywujPierwszePoleNowegoWierszaVAT = function(event, wiersz){
-    var lp = wiersz.name.split(":")[2];
-    var nextlp = parseInt(lp)+1;
-    var nextwiersz = "formwpisdokument:tablicavat:"+nextlp+":netto_input";
     try {
+        var lp = wiersz.name.split(":")[2];
+        var nextlp = parseInt(lp)+1;
+        var nextwiersz = "formwpisdokument:tablicavat:"+nextlp+":netto_input";
         var tresc = document.getElementById(nextwiersz).value;
         if (tresc === "0.00 zł") {
             $(document.getElementById(nextwiersz)).focus();
