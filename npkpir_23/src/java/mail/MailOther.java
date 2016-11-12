@@ -410,7 +410,7 @@ public class MailOther implements Serializable{
             MimeBodyPart mbp2 = new MimeBodyPart();
              mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
             // attach the file to the message
-            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nazwaewidencji + "-" + wpisView.getPodatnikWpisu() + ".pdf");
+            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nazwaewidencji + "-" + wpisView.getPodatnikObiekt().getNip() + ".pdf");
             if (fds.getFile().exists()) {
                 mbp2.setDataHandler(new DataHandler(fds));
                 mbp2.setFileName(fds.getName());
@@ -424,7 +424,7 @@ public class MailOther implements Serializable{
                 message.setContent(mp);
                 Transport.send(message);
                   try {
-                        File file = Plik.plik("vat-" + nazwaewidencji + "-" + wpisView.getPodatnikWpisu() + ".pdf", true);
+                        File file = Plik.plik("vat-" + nazwaewidencji + "-" + wpisView.getPodatnikObiekt().getNip() + ".pdf", true);
                         file.delete();
                      } catch (Exception ef) {
                          Msg.msg("e", "Nieudane usunięcie pliku");

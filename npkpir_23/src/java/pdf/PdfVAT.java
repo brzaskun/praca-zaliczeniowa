@@ -77,7 +77,7 @@ public class PdfVAT {
                     } else {
                         nowanazwa = p;
                     }
-                    String nazwapliku = "vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf";
+                    String nazwapliku = "vat-" + nowanazwa + "-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
                     try {
                         File file = Plik.plik(nazwapliku, true);
                         if (file.isFile()) {
@@ -227,7 +227,7 @@ public class PdfVAT {
                     } else {
                         nowanazwa = p;
                     }
-                    String nazwapliku = "vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf";
+                    String nazwapliku = "vat-" + nowanazwa + "-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
                     try {
                         File file = Plik.plik(nazwapliku, true);
                         if (file.isFile()) {

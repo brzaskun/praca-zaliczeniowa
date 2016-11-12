@@ -215,12 +215,14 @@
             <p:commandButton value="dołącz kontr." global="false" onclick="PF('dialog_kliencifk_dolaczanie').show();" style="width: 120px; float: right;"/>
         </h:form>
         <h:form id="formbilanswprowadzanie2">
-            <p:panelGrid columns="9" style="margin-top: 5px;">
+            <p:panelGrid columns="11" style="margin-top: 5px;">
                 <p:commandButton value="0" actionListener="#{bilansWprowadzanieView.pobierzlista(0)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="1" actionListener="#{bilansWprowadzanieView.pobierzlista(1)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="2" actionListener="#{bilansWprowadzanieView.pobierzlista(2)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="3" actionListener="#{bilansWprowadzanieView.pobierzlista(3)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
+                <p:commandButton value="4" actionListener="#{bilansWprowadzanieView.pobierzlista(4)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3" rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
                 <p:commandButton value="6" actionListener="#{bilansWprowadzanieView.pobierzlista(6)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
+                <p:commandButton value="7" actionListener="#{bilansWprowadzanieView.pobierzlista(7)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3" rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
                 <p:commandButton value="8" actionListener="#{bilansWprowadzanieView.pobierzlista(8)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <h:outputText value="wprowadzanie i edycja kont grupy #{bilansWprowadzanieView.nraktualnejlisty}" style="margin-left: 10px;"/>
                 <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukujBO()}" style="width: 120px; margin-left: 300px;"/>

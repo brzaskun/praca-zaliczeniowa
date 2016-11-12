@@ -37,12 +37,6 @@ public class PlanKontBOView implements Serializable {
     private KontoDAOfk kontoDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    private List<Konto> wykazkont0;
-    private List<Konto> wykazkont1;
-    private List<Konto> wykazkont2;
-    private List<Konto> wykazkont3;
-    private List<Konto> wykazkont6;
-    private List<Konto> wykazkont8;
     private Map<Integer,List<Konto>> wykazkontGrupa;
     private List<Konto> wykazkont;
     private List<Konto> listakontSrodkiTrwale;
@@ -56,12 +50,14 @@ public class PlanKontBOView implements Serializable {
     @PostConstruct
     public void init() {
         if (wpisView instanceof WpisView) {
-            wykazkont0 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
-            wykazkont1 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "1%");
-            wykazkont2 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "2%");
-            wykazkont3 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "3%");
-            wykazkont6 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "6%");
-            wykazkont8 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "8%");
+            List<Konto> wykazkont0 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
+            List<Konto> wykazkont1 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "1%");
+            List<Konto> wykazkont2 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "2%");
+            List<Konto> wykazkont3 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "3%");
+            List<Konto> wykazkont4 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "4%");
+            List<Konto> wykazkont6 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "6%");
+            List<Konto> wykazkont7 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "7%");
+            List<Konto> wykazkont8 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "8%");
             listakontSrodkiTrwale = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
             usunzbednekonta(listakontSrodkiTrwale);
             listakontSrodkiTrwaleUmorzenia  = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "07%");
@@ -70,7 +66,9 @@ public class PlanKontBOView implements Serializable {
             wykazkontGrupa.put(1, wykazkont1);
             wykazkontGrupa.put(2, wykazkont2);
             wykazkontGrupa.put(3, wykazkont3);
+            wykazkontGrupa.put(4, wykazkont4);
             wykazkontGrupa.put(6, wykazkont6);
+            wykazkontGrupa.put(7, wykazkont7);
             wykazkontGrupa.put(8, wykazkont8);
         }
     }
