@@ -110,16 +110,7 @@ var odtworzwierszKontoWpisKontrahent = function(nazwakontrahenta) {
 
 var wpisywanieOnShow = function (szer, wys) {
     try {
-        var menudokumenty = document.getElementById('menudokumenty');
-        var menuzapisykont = document.getElementById('menuzapisykont');
-        var menuzestawienia = document.getElementById('menuzestawienia');
-        if (menudokumenty !== null) {
-            ustawdialog('dialogpierwszy','menudokumenty',szer, wys);
-        } else if (menuzapisykont !== null) {
-            ustawdialog('dialogpierwszy','zapisy',szer, wys+30);
-        } else {
-            ustawdialog('dialogpierwszy','saldakontanalitycznych',szer, wys+30);
-        }
+        ustawdialogAuto('dialogpierwszy',szer, wys+30);
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).focus();
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();
     } catch (Exception) {

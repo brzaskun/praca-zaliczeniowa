@@ -69,6 +69,7 @@ import waluty.Z;
     @NamedQuery(name = "Dokfk.findByPodatnikRokKategoria", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.rodzajedok.skrot = :kategoria"),
     @NamedQuery(name = "Dokfk.findByPodatnikRokKategoriaOrderByNo", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.rodzajedok.skrot = :kategoria ORDER BY d.dokfkPK.nrkolejnywserii"),
     @NamedQuery(name = "Dokfk.findByBKVAT", query = "SELECT d FROM Dokfk d WHERE d.vatR = :vatR AND d.podatnikObj = :podatnik"),
+    @NamedQuery(name = "Dokfk.findByDokfkPK", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK = :dokfkPK"),
     @NamedQuery(name = "Dokfk.findByPK", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnikObj AND d.dokfkPK.nrkolejnywserii = :nrkolejnywserii"),
     @NamedQuery(name = "Dokfk.findByDuplikat", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnikObj AND d.numerwlasnydokfk = :numerwlasnydokfk"),
     @NamedQuery(name = "Dokfk.findByDokEdycjaFK", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnikObj AND d.numerwlasnydokfk = :numerwlasnydokfk AND d.kontr = :kontrahent"),

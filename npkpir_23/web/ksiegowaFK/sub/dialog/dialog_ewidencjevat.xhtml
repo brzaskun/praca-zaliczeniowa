@@ -53,13 +53,19 @@
                             <h:outputText value="suma vat "/>
                             <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'v')}"/>-->
                             <p:separator/>
+                            <p:contextMenu for="tabela" style="width: 200px;">
+                                 <p:menuitem value="wybierz dok" global="false" icon="fa fa-google-wallet" update=":formwpisdokument"
+                                             actionListener="#{dokfkView.znajdzDokumentOznaczDoPodswietlenia(ewidencjaVatView.zachowanewybranewierszeewidencji)}"/>
+                                 <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
+                                     onsuccess="zapisywierszywybordok();"/>
+                             </p:contextMenu>
                             <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1150px; margin-bottom: 30px; height: 500px;"
                                          rowKey="#{itemik.hashCode()}" selection="#{ewidencjaVatView.wybranewierszeewidencji}" rowSelectMode="add"
                                          scrollable="true" scrollRows="20" scrollHeight="450" rowIndexVar="index">
                                 <f:facet name="header">  
                                     <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
                                 </f:facet>
-                                <p:ajax event="rowSelectCheckbox"  global="false"/>
+                                <p:ajax event="rowSelectCheckbox"  global="false" oncomplete="pokazmes();"/>
                                 <p:ajax event="rowUnselectCheckbox" global="false"/>
                                 <p:ajax event="toggleSelect" global="false"/>
                                 <p:column selectionMode="multiple" width="30" 
@@ -115,8 +121,8 @@
                     <h:form id="formVATUE">
                         <p:outputPanel id="wrapper"> 
                             
-                            <p:dataTable  var="wpis" value="#{vatUeFKView.klienciWDTWNT}" id="dokumentyLista" 
-                                          rowKey="#{wpis.hashCode()}" selection="#{vatUeFKView.listawybranych}"
+                            <p:dataTable  var="wpis1" value="#{vatUeFKView.klienciWDTWNT}" id="dokumentyLista" 
+                                          rowKey="#{wpis1.hashCode()}" selection="#{vatUeFKView.listawybranych}"
                                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
                                           style="max-width: 95%" widgetVar="dokTable" 
                                           > 
@@ -129,47 +135,47 @@
                                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{vatUeFKView.podsumuj()}" update="form:akordeon:panelue"/>
                                 <p:ajax event="toggleSelect" global="false"  listener="#{vatUeFKView.podsumuj()}" update="form:akordeon:panelue"/>
                                 <p:ajax event="rowToggle" global="false"/>
-                                <p:column selectionMode="multiple" width="30" style="text-align: center;" rendered="#{wpis.transakcja ne 'podsumowanie'}"/>
-                                <p:column width="30" style="text-align: center;" rendered="#{wpis.transakcja eq 'podsumowanie'}"/>
+                                <p:column selectionMode="multiple" width="30" style="text-align: center;" rendered="#{wpis1.transakcja ne 'podsumowanie'}"/>
+                                <p:column width="30" style="text-align: center;" rendered="#{wpis1.transakcja eq 'podsumowanie'}"/>
                                 <p:column style="width: 5%;">
-                                    <p:rowToggler rendered="#{wpis.zawierafk.size() gt 0 ? true : false}"/>
+                                    <p:rowToggler rendered="#{wpis1.zawierafk.size() gt 0 ? true : false}"/>
                                 </p:column>
-                                <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis.transakcja}" filterMatchMode="contains" sortBy="#{wpis.transakcja}" style="width: 15%;" filterStyle="display : none;" >  
-                                    <h:outputText value="#{wpis.transakcja}"/>
+                                <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis1.transakcja}" filterMatchMode="contains" sortBy="#{wpis1.transakcja}" style="width: 15%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis1.transakcja}"/>
                                 </p:column>
-                                <p:column id="krajkodColumn" headerText="kraj" filterBy="#{wpis.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.krajkod}" 
+                                <p:column id="krajkodColumn" headerText="kraj" filterBy="#{wpis1.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis1.kontrahent.krajkod}" 
                                           style="width: 15%; text-align: center;" filterStyle="display : none;" >  
-                                    <h:outputText value="#{wpis.kontrahent.krajkod}"/>
+                                    <h:outputText value="#{wpis1.kontrahent.krajkod}"/>
                                 </p:column>
-                                <p:column id="nipColumn" headerText="nip" filterBy="#{wpis.kontrahent.nip}" 
-                                          filterMatchMode="contains" sortBy="#{wpis.kontrahent.nip}" style="width: 20%;" filterStyle="display : none;" >  
-                                    <h:outputText value="#{wpis.kontrahent.nip}" />
+                                <p:column id="nipColumn" headerText="nip" filterBy="#{wpis1.kontrahent.nip}" 
+                                          filterMatchMode="contains" sortBy="#{wpis1.kontrahent.nip}" style="width: 20%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis1.kontrahent.nip}" />
                                 </p:column>
-                                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" 
-                                          sortBy="#{wpis.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" width="300">  
-                                    <h:outputText value="#{wpis.kontrahent.npelna}"  />
+                                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis1.kontrahent.npelna}" filterMatchMode="contains" 
+                                          sortBy="#{wpis1.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" width="300">  
+                                    <h:outputText value="#{wpis1.kontrahent.npelna}"  />
                                 </p:column>
-                                <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}" style="width: 15%;" filterStyle="display : none;" >  
-                                    <h:outputText value="#{wpis.netto}" style="float: right;">
+                                <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis1.netto}" filterMatchMode="contains" sortBy="#{wpis1.netto}" style="width: 15%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis1.netto}" style="float: right;">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column id="nettoWalutaColumn" headerText="#{mgs.waluta}" filterBy="#{wpis.nettowaluta}" filterMatchMode="contains" sortBy="#{wpis.nettowaluta}" style="width: 15%;" filterStyle="display : none;" >  
-                                    <h:outputText value="#{wpis.nettowaluta}" style="float: right;">
+                                <p:column id="nettoWalutaColumn" headerText="#{mgs.waluta}" filterBy="#{wpis1.nettowaluta}" filterMatchMode="contains" sortBy="#{wpis1.nettowaluta}" style="width: 15%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis1.nettowaluta}" style="float: right;">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column id="nettoWaluta" filterBy="#{wpis.nazwawaluty}" filterMatchMode="contains" sortBy="#{wpis.nazwawaluty}" style="width: 40px; text-align: center;" filterStyle="display : none;" >  
-                                    <h:outputText value="#{wpis.nazwawaluty}"/>
+                                <p:column id="nettoWaluta" filterBy="#{wpis1.nazwawaluty}" filterMatchMode="contains" sortBy="#{wpis1.nazwawaluty}" style="width: 40px; text-align: center;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis1.nazwawaluty}"/>
                                 </p:column>
-                                <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis.liczbadok}" filterMatchMode="contains" sortBy="#{wpis.liczbadok}" style="width: 15%;" filterStyle="display : none;" >  
-                                    <h:outputText value="#{wpis.liczbadok}" style="float: right;" rendered="#{wpis.transakcja eq 'podsumowanie' ? false : true}">
+                                <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis1.liczbadok}" filterMatchMode="contains" sortBy="#{wpis1.liczbadok}" style="width: 15%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis1.liczbadok}" style="float: right;" rendered="#{wpis1.transakcja eq 'podsumowanie' ? false : true}">
                                         <f:convertNumber minFractionDigits="0" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
                                 <p:rowExpansion>
                                     <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >  
-                                        <p:dataTable var="subwpis" value="#{wpis.zawierafk}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 95%;">
+                                        <p:dataTable var="subwpis" value="#{wpis1.zawierafk}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 95%;">
                                             <p:column id="SubColumn0" headerText="waluta" style="text-align: center;" width="40">  
                                                 <h:outputText value="#{subwpis.walutadokumentu.symbolwaluty}" />
                                             </p:column>
@@ -276,30 +282,30 @@
                     </p:dataTable>
                     <p:outputPanel style="margin-top: 10px">
         <!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
-                        <p:dataTable value="#{kontaVatFKView.kontavat}" var="item" style="width: 700px;" id="saldokontvat"
+                        <p:dataTable value="#{kontaVatFKView.kontavat}" var="item1" style="width: 700px;" id="saldokontvat"
                                      emptyMessage="Brak kont oznaczonych jako konta VAT. Sprawdź plan kont!">
                             <p:ajax event="rowToggle" global="false" />
                             <p:column style="height: 19px; text-align: center;" width="20">
                                 <p:rowToggler />
                             </p:column>
                             <p:column headerText="nr konta" width="50">
-                                <h:outputText value="#{item.konto.pelnynumer}"/>
+                                <h:outputText value="#{item1.konto.pelnynumer}"/>
                             </p:column>
                             <p:column headerText="#{mgs.nazwakonta}">
-                                <h:outputText value="#{item.konto.nazwapelna}"/>
+                                <h:outputText value="#{item1.konto.nazwapelna}"/>
                             </p:column>
                             <p:column headerText="saldo Wn">
-                                <h:outputText value="#{item.saldoWn}" style="float: right;">
+                                <h:outputText value="#{item1.saldoWn}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="saldo Ma">
-                                <h:outputText value="#{item.saldoMa}" style="float: right;">
+                                <h:outputText value="#{item1.saldoMa}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
                             <p:rowExpansion>
-                                <p:dataTable value="#{item.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" 
+                                <p:dataTable value="#{item1.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" 
                                              scrollable="true" scrollHeight="90">
                                     <p:ajax event="page" global="false"/>
                                     <p:column headerText="#{mgs.dokument}" width="70">
@@ -561,6 +567,9 @@
                     </p:outputPanel>
                 </p:tab>-->
             </p:tabView>
+        </h:form>
+         <h:form id="zestawieniezapisownakontachpola">
+            <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>
     </p:dialog>
 </ui:composition>

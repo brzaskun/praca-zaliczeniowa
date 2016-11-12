@@ -8,6 +8,7 @@ import dao.DAO;
 import entity.Klienci;
 import entity.Podatnik;
 import entityfk.Dokfk;
+import entityfk.DokfkPK;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -129,6 +130,14 @@ public class DokDAOfk extends DAO implements Serializable {
     public Dokfk findDokfkObj(Dokfk selected) {
        try {
            return dokFacade.findDokfk(selected);
+       } catch (Exception e ){
+           return null;
+       }
+    }
+    
+    public Dokfk findDokfkPK(DokfkPK selected) {
+       try {
+           return dokFacade.findDokfkPK(selected);
        } catch (Exception e ){
            return null;
        }

@@ -806,6 +806,17 @@ public class SessionFacade<T> implements Serializable {
             return null;
         }
     }
+    
+    public Dokfk findDokfkPK(DokfkPK selected) {
+        try {
+            return (Dokfk) em.createNamedQuery("Dokfk.findByDokfkPK")
+                    .setParameter("dokfkPK", selected)
+                    .getSingleResult();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
 
     public Dokfk findDokfkObject(Dokfk selected) {
         return em.find(Dokfk.class, selected.getDokfkPK());

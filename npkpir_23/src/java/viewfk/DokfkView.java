@@ -37,6 +37,7 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
+import embeddable.EVatViewPola;
 import embeddable.Parametr;
 import entity.Evewidencja;
 import entity.Klienci;
@@ -45,6 +46,7 @@ import entity.SrodekTrw;
 import entity.Uz;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
+import entityfk.DokfkPK;
 import entityfk.EVatwpisFK;
 import entityfk.Konto;
 import entityfk.RMK;
@@ -1446,7 +1448,7 @@ public class DokfkView implements Serializable {
         wierszDoPodswietlenia = numer;
         setZapisz0edytuj1(true);
     }
-
+    
     public void znajdzDokumentOznaczWierszDoPodswietlenia(StronaWiersza stronawiersza) {
         if (stronawiersza != null) {
             Wiersz w = stronawiersza.getWiersz();
@@ -1454,6 +1456,23 @@ public class DokfkView implements Serializable {
             selected = odnalezionywbazie;
             int numer = w.getIdporzadkowy() - 1;
             wierszDoPodswietlenia = numer;
+            setZapisz0edytuj1(true);
+            totylkoedycjazapis = true;
+            Msg.msg("Wybrano dokument do edycji: "+selected.getDokfkSN());
+//            RequestContext.getCurrentInstance().update("formwpisdokument");
+//            RequestContext.getCurrentInstance().update("zestawieniezapisownakontachpola");
+//            String nazwa = "formwpisdokument:dataList:"+numer+":opis";
+//            String wierszf = "$(document.getElementById('"+nazwa+"')).select()";
+//            RequestContext.getCurrentInstance().execute(wierszf);
+        }
+    }
+
+    public void znajdzDokumentOznaczDoPodswietlenia(List<EVatViewPola> stronawiersza) {
+        if (stronawiersza != null) {
+            DokfkPK d = stronawiersza.get(0).getDokfkPK();
+            Dokfk odnalezionywbazie = dokDAOfk.findDokfkPK(d);
+            selected = odnalezionywbazie;
+            wierszDoPodswietlenia = 0;
             setZapisz0edytuj1(true);
             totylkoedycjazapis = true;
             Msg.msg("Wybrano dokument do edycji: "+selected.getDokfkSN());

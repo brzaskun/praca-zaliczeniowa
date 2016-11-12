@@ -1236,6 +1236,14 @@ public class EwidencjaVatView implements Serializable {
         this.ewidencje = ewidencje;
     }
 
+    public List<EVatViewPola> getZachowanewybranewierszeewidencji() {
+        return zachowanewybranewierszeewidencji;
+    }
+
+    public void setZachowanewybranewierszeewidencji(List<EVatViewPola> zachowanewybranewierszeewidencji) {
+        this.zachowanewybranewierszeewidencji = zachowanewybranewierszeewidencji;
+    }
+
     public List<EVatwpisFK> getListaprzesunietychPrzychody() {
         return listaprzesunietychPrzychody;
     }

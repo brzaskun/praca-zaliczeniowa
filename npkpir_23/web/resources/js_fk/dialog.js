@@ -12,8 +12,13 @@ var ustawdialogWindow = function(nazwa, szerokosc, wysokosc) {
     } catch (Exception) {
        //alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
     }
-
 };
+    
+var pokazmes = function() {
+  PF('grmes').renderMessage({summary:'Wybrano wiersz', detail: 'można edytować', severity: 'info'});  
+};
+
+
 var ustawdialog = function(nazwa,rodzic) {
     $(document.getElementById(nazwa)).width(1250).height(700);
     try {

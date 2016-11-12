@@ -7,9 +7,9 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <p:dialog id="dialog_cechy_zapisu_recznie" header="Korekta wyniku finansowego" widgetVar="dialog_cechy_zapisu_recznie" resizable="false" 
-              onShow="ustawdialogCenter('dialog_cechy_zapisu_recznie','dialogcechyzapisowpodsumowanie',500,500);" focus=":formCH" modal="true" appendTo="@(body)"
+              onShow="ustawdialogCenter('dialog_cechy_zapisu_recznie','dialogcechyzapisowpodsumowanie',500,500);" focus=":form_dialog_cechy_zapisu_recznie" modal="true" appendTo="@(body)"
               closeOnEscape="true">
-        <h:form id="formCH" >
+        <h:form id="form_dialog_cechy_zapisu_recznie" >
             
             <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" style="height: 300px;"
                          paginator="true" rows="7" paginatorPosition="top" rowKey="#{item.cechazapisuPK.nazwacechy}">
@@ -27,7 +27,7 @@
                 </p:column>
                 <p:column style="text-align: center;">
                     <p:commandButton value="usuń"  actionListener="#{cechazapisuView.usun(item)}"
-                             update=":formCH:dataList"/>
+                             update=":form_dialog_cechy_zapisu_recznie:dataList"/>
                 </p:column>
             </p:dataTable>
             <p:panelGrid id="nowacecha" >
@@ -57,7 +57,7 @@
                 </p:row>
             </p:panelGrid>
             <p:commandButton value="dodaj" style="width: 120px; margin-left: 10px;" actionListener="#{cechazapisuView.dodajnowacecha()}"
-                             update=":formCH:dataList"/>
+                             update=":form_dialog_cechy_zapisu_recznie:dataList"/>
             
         </h:form>
     </p:dialog>
