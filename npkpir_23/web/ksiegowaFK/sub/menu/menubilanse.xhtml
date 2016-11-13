@@ -24,9 +24,12 @@
                 <p:tab title="#{mgs.RZiS}" >
                     <h:form id="dialog1menu3">
                         <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="zestawienie RZiS" onclick="PF('dialogrziszestawienie').show();" actionListener="#{pozycjaBRZestawienieView.pobierzukladprzegladRZiS()}" 
+                            <p:menuitem value="przegladaj RZiS porównanie" onclick="PF('dialog_rzis_porownanie').show();" 
+                                        actionListener="#{pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData()}"
+                                        update=":form_dialog_rzis_porownanie"></p:menuitem>
+                            <p:menuitem value="przeglądaj RZiS" onclick="PF('dialogrziszestawienie').show();" actionListener="#{pozycjaBRZestawienieView.pobierzukladprzegladRZiS()}" 
                                         update=":formdialogrziszestawienie"></p:menuitem>
-                            <p:menuitem value="przeglądaj RZiS" onclick="PF('rzisprzeglad').show();" actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}"
+                            <p:menuitem value="przeglądaj RZiS zapisy" onclick="PF('rzisprzeglad').show();" actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}"
                                         update=":formprzeglad"></p:menuitem>
                             <p:menuitem value="przyporządkowanie kont" onclick="PF('rzisuklad').show();"></p:menuitem>
                             <p:menuitem value="internacjonalizacja" onclick="PF('dialog_rzis_projekt_inter').show();"></p:menuitem>

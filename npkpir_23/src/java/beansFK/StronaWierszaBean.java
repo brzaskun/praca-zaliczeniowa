@@ -85,6 +85,10 @@ public class StronaWierszaBean {
             return zwrot;
         }
      
+    public static List<StronaWiersza> pobraniezapisowwynikoweRokPop(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
+        return stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+    }
+     
     public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
         int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

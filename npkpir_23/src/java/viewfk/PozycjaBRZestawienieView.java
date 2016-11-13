@@ -181,6 +181,30 @@ public class PozycjaBRZestawienieView implements Serializable {
         Msg.msg("i", "Pobrano układ ");
     }
 
+    
+    
+    public void obliczRZiSOtwarciaRZiSData() {
+        if (uklad.getUklad() == null) {
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        }
+        ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+        pobierzPozycje(pozycje);
+        rootProjektRZiS.getChildren().clear();
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
+        List<StronaWiersza> zapisyRokPop = StronaWierszaBean.pobraniezapisowwynikoweRokPop(stronaWierszaDAO, wpisView);
+        List<Konto> plankontRokPop = kontoDAO.findKontaWynikowePodatnikaBezPotomkowRokPop(wpisView);
+        try {
+            PozycjaRZiSFKBean.ustawRootaRokPop(rootProjektRZiS, pozycje, zapisy, plankont, zapisyRokPop, plankontRokPop);
+            level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
+            Msg.msg("i", "Pobrano układ ");
+        } catch (Exception e) {
+            E.e(e);
+            rootProjektRZiS.getChildren().clear();
+            Msg.msg("e", e.getLocalizedMessage());
+        }
+    }
+            
     public void pobierzukladprzegladRZiS() {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -681,14 +705,24 @@ public class PozycjaBRZestawienieView implements Serializable {
         pobierzukladprzegladRZiS();
     }
     
+    public void odswiezrzisBO() {
+        wpisView.wpisAktualizuj();
+        obliczRZiSOtwarciaRZiSData();
+    }
+    
     public void odswiezbilans() {
         wpisView.wpisAktualizuj();
         pobierzukladprzegladBilans("aktywa");
     }
     
     public void drukujRZiS() {
-        PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView);
+        PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView,0);
     }
+    
+    public void drukujRZiSBO() {
+        PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView,3);
+    }
+    
     
     public void drukujRZiSPozycje() {
         PdfRZiS.drukujRZiSPozycje(rootProjektRZiS, wpisView);

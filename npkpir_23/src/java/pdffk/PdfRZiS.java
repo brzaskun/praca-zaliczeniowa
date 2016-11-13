@@ -31,7 +31,7 @@ import view.WpisView;
 
 public class PdfRZiS {
 
-    public static void drukujRZiS(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
+    public static void drukujRZiS(TreeNodeExtended rootProjektRZiS, WpisView wpisView, int modyfikator) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -44,7 +44,7 @@ public class PdfRZiS {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-            dodajTabele(document, testobjects.testobjects.getTabelaRZiS(rootProjektRZiS),75,0);
+            dodajTabele(document, testobjects.testobjects.getTabelaRZiS(rootProjektRZiS),75,modyfikator);
             finalizacjaDokumentu(document);
             String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
