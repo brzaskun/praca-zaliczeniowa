@@ -31,7 +31,7 @@ import view.WpisView;
 
 public class PdfRZiS {
 
-    public static void drukujRZiS(TreeNodeExtended rootProjektRZiS, WpisView wpisView, int modyfikator) {
+    public static void drukujRZiS(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -44,7 +44,29 @@ public class PdfRZiS {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-            dodajTabele(document, testobjects.testobjects.getTabelaRZiSBO(rootProjektRZiS),75,modyfikator);
+            dodajTabele(document, testobjects.testobjects.getTabelaRZiS(rootProjektRZiS),75,0);
+            finalizacjaDokumentu(document);
+            String f = "wydrukRZiS('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano RZiS do wydruku");
+        }
+    }
+    
+     public static void drukujRZiSBO(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (rootProjektRZiS != null && rootProjektRZiS.getChildren().size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajTabele(document, testobjects.testobjects.getTabelaRZiSBO(rootProjektRZiS),75,3);
             finalizacjaDokumentu(document);
             String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
