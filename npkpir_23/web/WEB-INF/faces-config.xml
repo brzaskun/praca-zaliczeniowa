@@ -450,7 +450,11 @@
             <from-outcome>rejestryFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKRejestry.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-         <navigation-case>
+        <navigation-case>
+            <from-outcome>guestwynikFK</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKWynik.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>guestzestFK</from-outcome>
             <to-view-id>/ksiegowaFK/guestFKZestawienia.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
@@ -590,6 +594,10 @@
         <navigation-case>
             <from-outcome>gfkZestawienia</from-outcome>
             <to-view-id>/guestFK/guestFKZestawienia.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>gfkWynik</from-outcome>
+            <to-view-id>/guestFK/guestFKWynik.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>gfkBilanse</from-outcome>

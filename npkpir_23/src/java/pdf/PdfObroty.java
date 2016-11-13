@@ -43,7 +43,8 @@ public class PdfObroty  {
 
     public static void drukuj(List<Dok> goscwybral, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
-        PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR("obroty" + wpisView.getPodatnikWpisu() + ".pdf"));
+        String nazwapliku = "obroty" + wpisView.getPodatnikWpisu() + ".pdf";
+        PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR(nazwapliku));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
@@ -116,6 +117,7 @@ public class PdfObroty  {
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
+        pdffk.PdfMain.dodajQR(nazwapliku);
         RequestContext.getCurrentInstance().execute("wydrukobroty('"+wpisView.getPodatnikWpisu()+"');");
         Msg.msg("i", "Wydrukowano obroty", "form:messages");
     }

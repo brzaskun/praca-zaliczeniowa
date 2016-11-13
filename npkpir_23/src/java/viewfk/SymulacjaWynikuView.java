@@ -8,7 +8,6 @@ package viewfk;
 import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import beansFK.StronaWierszaBean;
-import dao.PodatnikUdzialyDAO;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
@@ -24,9 +23,9 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -77,12 +76,9 @@ public class SymulacjaWynikuView implements Serializable {
     private double pmn_mc;
     private double pmn_mc_pop;
     private List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCecha;
-    private Map<String, Double> podatnikkwotarazem;
     private double wynikfinansowy;
-    private double wynikfinansowynetto;
-    private Map<String, Double> pozycjeDoWyplatyNarastajaco;
-    @Inject
-    private PodatnikUdzialyDAO podatnikUdzialyDAO;
+    private boolean tylkokontasyntetyczne;
+
 
     public SymulacjaWynikuView() {
          E.m(this);
@@ -110,6 +106,7 @@ public class SymulacjaWynikuView implements Serializable {
 //        pozycjeDoWyplatyNarastajaco = symulacjaWynikuNarastajacoView.danedobiezacejsym();
 //        obliczkwotydowyplaty();
         System.out.println("");
+        tylkokontasyntetyczneoblicz();
     }
 
     public void odswiezsymulacjewynikuanalityczne() {
@@ -202,7 +199,6 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
     private void obliczsymulacje() {
-        podatnikkwotarazem = new HashMap<>();
         pozycjePodsumowaniaWyniku = new ArrayList<>();
         double przychody = Z.z(sumuj(listakontaprzychody, B.b("przychody")));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("przychodyrazem"), przychody));
@@ -218,37 +214,6 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("pmn pop mce",Z.z(pmn_mc_pop)));
         double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc + kupmn_mc_pop - npup - pmn_mc - pmn_mc_pop);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
-        double wynikspolki = wynikpodatkowy;
-//        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
-//            double podstawaopodatkowania = Z.z0(wynikpodatkowy);
-//            double podatek = 0.0;
-//            if (podstawaopodatkowania > 0) {
-//                podatek = Z.z0(podstawaopodatkowania*0.19);
-//            }
-//            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("pdop"), podatek));
-//            wynikspolki = wynikpodatkowy - podatek; 
-//            wynikfinansowynetto = wynikspolki - npup + nkup;
-//            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
-//        } else {
-//            wynikfinansowynetto = wynikspolki - npup + nkup;
-//            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
-//        }
-//        pozycjeObliczeniaPodatku = new ArrayList<>();
-//        try {
-//            int i = 1;
-//            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
-//            for (PodatnikUdzialy p : udzialy) {
-//                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-//                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie(), udział));
-//                double podstawaopodatkowania = Z.z0(udział*wynikspolki);
-//                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
-//                double podatek = Z.z0(podstawaopodatkowania*0.19);
-//                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podatekdochodowy")+" #"+String.valueOf(i++), podatek));
-//                podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
-//            }
-//        } catch (Exception e) {  E.e(e);
-//            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
-//        }
     }
     
     
@@ -361,40 +326,64 @@ public class SymulacjaWynikuView implements Serializable {
             Msg.msg("e", "Wystąpił błąd. Nie zachowano wyniku.");
         }
     }
+   
     
-//    private void obliczkwotydowyplaty() {
-//        pozycjeDoWyplaty = new ArrayList<>();
-//        try {
-//            int i = 1;
-//            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
-//            for (PodatnikUdzialy p : udzialy) {
-//                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-//                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
-//                double dowyplaty = Z.z(udział*wynikfinansowynetto);
-//                double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
-//                double zamc = Z.z(dowyplaty-zaplacono);
-//                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("należnazamc")+" #"+String.valueOf(i), zamc));
-//                double wyplaconopopmce = 0.0;
-//                if (pozycjeDoWyplatyNarastajaco != null && pozycjeDoWyplatyNarastajaco.size() > 0) {
-//                wyplaconopopmce = pozycjeDoWyplatyNarastajaco.get(p.getNazwiskoimie());
-//                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wypłaconopopmce")+" #"+String.valueOf(i), Z.z(wyplaconopopmce)));
-//                double roznica = Z.z(wyplaconopopmce+zamc);
-//                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dowypłatyodpocz.rok")+" #"+String.valueOf(i), roznica));
-//                } else {
-//                    if (wpisView.getMiesiacWpisu().equals("01")) {
-//                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pierwszymc")+" #"+String.valueOf(i), 0.0));
-//                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wroku")+" #"+String.valueOf(i), 0.0));
-//                    } else {
-//                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("niezachowanopop.mcy")+" #"+String.valueOf(i), 0.0));
-//                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("niemożnaobliczyć")+" #"+String.valueOf(i), 0.0));
-//                    }
-//                }
-//                i++;
-//            }
-//        } catch (Exception e) {  E.e(e);
-//            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
-//        }
-//    }
+    public void tylkokontasyntetyczneoblicz() {
+        if (tylkokontasyntetyczne) {
+            listakontaprzychody = zredukuj(listakontaprzychody);
+            listakontakoszty = zredukuj(listakontakoszty);
+        }
+    }
+    
+    private List<SaldoKonto> zredukuj(List<SaldoKonto> lista) {
+        List<SaldoKonto> macierzyste = new ArrayList<>();
+        for (SaldoKonto p : lista) {
+            SaldoKonto macierzystewiersz = jestmacierzyste(macierzyste,p.getKonto().getKontomacierzyste());
+            if (macierzystewiersz != null) {
+                naniesnamacierzyste(macierzystewiersz,p);
+            } else {
+                macierzystewiersz = stworzmacierzyste(p);
+                macierzyste.add(macierzystewiersz);
+            }
+        }
+        int i = 1;
+        for (SaldoKonto p : macierzyste) {
+            p.setId(i);
+            p.wyliczSaldo();
+        }
+        return macierzyste;
+    }
+       
+    private void naniesnamacierzyste(SaldoKonto macierzystewiersz, SaldoKonto p) {
+        macierzystewiersz.setObrotyWn(macierzystewiersz.getObrotyWn()+p.getObrotyBoWn());
+        macierzystewiersz.setObrotyMa(macierzystewiersz.getObrotyMa()+p.getObrotyBoMa());
+        macierzystewiersz.setObrotyBoWn(macierzystewiersz.getObrotyBoWn()+p.getObrotyBoWn());
+        macierzystewiersz.setObrotyBoMa(macierzystewiersz.getObrotyBoMa()+p.getObrotyBoMa());
+    }
+
+    private SaldoKonto stworzmacierzyste(SaldoKonto p) {
+        SaldoKonto macierzystewiersz = new SaldoKonto();
+        Konto mac = p.getKonto().getKontomacierzyste() != null ? p.getKonto().getKontomacierzyste() : p.getKonto();
+        macierzystewiersz.setKonto(mac);
+        macierzystewiersz.setObrotyWn(macierzystewiersz.getObrotyWn()+p.getObrotyBoWn());
+        macierzystewiersz.setObrotyMa(macierzystewiersz.getObrotyMa()+p.getObrotyBoMa());
+        macierzystewiersz.setObrotyBoWn(macierzystewiersz.getObrotyBoWn()+p.getObrotyBoWn());
+        macierzystewiersz.setObrotyBoMa(macierzystewiersz.getObrotyBoMa()+p.getObrotyBoMa());
+        return macierzystewiersz;
+    }
+
+    private SaldoKonto jestmacierzyste(List<SaldoKonto> macierzyste, Konto kontomacierzyste) {
+        SaldoKonto zwrot = null;
+        for (SaldoKonto p : macierzyste) {
+            if (p.getKonto().equals(kontomacierzyste)) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
+    }
+    
+
     //<editor-fold defaultstate="collapsed" desc="comment">
 
     public List<SaldoKonto> getWybraneprzychody() {
@@ -403,6 +392,14 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setWybraneprzychody(List<SaldoKonto> wybraneprzychody) {
         this.wybraneprzychody = wybraneprzychody;
+    }
+
+    public boolean isTylkokontasyntetyczne() {
+        return tylkokontasyntetyczne;
+    }
+
+    public void setTylkokontasyntetyczne(boolean tylkokontasyntetyczne) {
+        this.tylkokontasyntetyczne = tylkokontasyntetyczne;
     }
 
     public List<CechyzapisuPrzegladView.CechaStronaWiersza> getZapisyZCecha() {
@@ -510,6 +507,9 @@ public class SymulacjaWynikuView implements Serializable {
     public void setPozycjeObliczeniaPodatku(List<PozycjeSymulacji> pozycjeObliczeniaPodatku) {
         this.pozycjeObliczeniaPodatku = pozycjeObliczeniaPodatku;
     }
+
+    
+    
     
 
 

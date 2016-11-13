@@ -27,10 +27,14 @@
                 r('akordeon:formsymulacjanarastajaco:xlsbutton_menuButton').show();
                 r('akordeon:formsymulacja:drukujtab').show();
                 r('akordeon:formsymulacja:drukujszcz').show();
+                r('akordeon:formsymulacja:tylkosyntopis').show();
+                r('akordeon:formsymulacja:tylkosyntcheck').show();
             };
         </script>
         <h:form id="formsymulacja">
-            <p:panelGrid columns="7" style="margin-left: 2%;" >
+            <p:panelGrid columns="11" style="margin-left: 2%;" >
+                <h:outputText value="rok" style="margin-right: 10px;"/>
+                <h:outputText value="#{WpisView.rokWpisuSt}" style="margin-right: 10px;"/>
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
@@ -46,12 +50,18 @@
                 <h:outputText value="#{mgs.przetwarzanie}"/>
                 <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}', 1)"/>
                 <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}', 2)"/>
+                <h:outputText id="tylkosyntopis" value="tylko konta syntetyczne" style="margin-left: 15px; display: none;"/>
+                <p:selectBooleanCheckbox  id="tylkosyntcheck" value="#{symulacjaWynikuView.tylkokontasyntetyczne}"  style="margin-left: 15px; display: none;">
+                    <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" partialSubmit="true" update="akordeon:formsymulacja"
+                            oncomplete="pokazprzyciski();"/>
+                </p:selectBooleanCheckbox>
             </p:panelGrid>
             
 
             <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
-                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 900px" 
+                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1000px"
+                         scrollable="true" scrollHeight="400"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.zapisyprzychodowe}: #{symulacjaWynikuView.sumaprzychody}"/>
@@ -67,7 +77,7 @@
                 <p:column headerText="id" width="20" sortBy="#{loop.id}"  style="text-align: center;">
                     <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>
-                <p:column headerText="#{mgs.konto}" width="40" >
+                <p:column headerText="#{mgs.konto}" width="70" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >
@@ -123,7 +133,8 @@
             </p:dataTable>
             <p:dataTable id="tablicasymulacjaK" value="#{symulacjaWynikuView.listakontakoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoKoszty}" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 900px" widgetVar="tablicasymulacjaK"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1000px" widgetVar="tablicasymulacjaK"
+                         scrollable="true" scrollHeight="500"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.zapisykosztowe}: #{symulacjaWynikuView.sumakoszty}"/>
@@ -139,7 +150,7 @@
                 <p:column headerText="id" width="20" sortBy="#{loop.id}" style="text-align: center;" >
                     <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>
-                <p:column headerText="#{mgs.konto}" width="40" >
+                <p:column headerText="#{mgs.konto}" width="70" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >

@@ -110,7 +110,7 @@ public class PdfSymulacjaWyniku {
 
     private static PdfPTable tablica(WpisView wpisView, List<SaldoKonto> listakonta, String pk, int rodzajdruku) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(8);
-        table.setWidths(new int[]{1, 2, 8, 2, 2, 2, 2, 3});
+        table.setWidths(new int[]{1, 3, 8, 3, 3, 3, 3, 5});
         table.setWidthPercentage(100);
         table.setSpacingBefore(15);
         try {
@@ -138,7 +138,7 @@ public class PdfSymulacjaWyniku {
         }
         int i = 1;
         for (SaldoKonto rs : listakonta) {
-            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7, 20f));
             table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7));
             Locale browserLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
             if (browserLocale.getLanguage().equals("pl")) {
