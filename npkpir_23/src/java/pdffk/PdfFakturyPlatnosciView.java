@@ -55,7 +55,7 @@ public class PdfFakturyPlatnosciView implements Serializable {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie "+zaplaconyniezaplacony+" faktur za okres", wpisView.getPodatnikObiekt(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaFakturyPlatnosci(wiersze, zaplaconyniezaplacony),100,0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             if (zaplaconyniezaplacony.equals("zapłaconych")) {
                 f = "wydrukFakturyPlatnosci('"+wpisView.getPodatnikObiekt().getNip()+"');";

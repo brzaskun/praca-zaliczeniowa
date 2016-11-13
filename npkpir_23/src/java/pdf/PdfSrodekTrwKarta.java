@@ -14,12 +14,10 @@ import error.E;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.finalizacjaDokumentu;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
@@ -27,7 +25,7 @@ import static pdffk.PdfMain.dodajpagraf;
 import testobjects.testobjects;
 import view.WpisView;
 import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 
 /**
  *
@@ -50,7 +48,7 @@ public class PdfSrodekTrwKarta {
             dodajOpisWstepny(document, "Karta środka trwałego w firmie:", wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             naniesdanewstepne(document, srodek);
             dodajTabele(document, testobjects.getSrodekUmorzenie(srodek.getPlanumorzen()),50,0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {

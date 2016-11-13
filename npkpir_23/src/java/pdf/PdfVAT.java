@@ -32,7 +32,6 @@ import entity.Podatnik;
 import error.E;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,7 +41,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import plik.Plik;
 import view.WpisView;
 
@@ -195,6 +193,7 @@ public class PdfVAT {
                     pdf.add(table);
                     pdf.addAuthor("Biuro Rachunkowe Taxman");
                     pdf.close();
+pdffk.PdfMain.dodajQR(nazwapliku);
 
                 }
             }
@@ -343,7 +342,7 @@ public class PdfVAT {
                     pdf.add(table);
                     pdf.addAuthor("Biuro Rachunkowe Taxman");
                     pdf.close();
-
+                    pdffk.PdfMain.dodajQR(nazwapliku);
                 }
             }
             //Msg.msg("i","Wydrukowano ewidencje","form:messages");

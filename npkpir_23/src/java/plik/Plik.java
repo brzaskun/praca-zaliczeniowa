@@ -42,5 +42,24 @@ public class Plik {
             return fileOutputStream;
         }
     }
+
+    public static String getKatalog() {
+        return katalog;
+    }
+
+    public static void usun(String nazwa) {
+        File f = new File(nazwa);
+        if (f.exists()) {
+            f.delete();
+        }
+    }
+
+    public static void zapiszjako(String zrodlo, String nazwadocelowa) {
+        File plik = new File(zrodlo);
+        if (plik.exists()) {
+            plik.renameTo(new File(nazwadocelowa));
+        }
+    }
+    
     
 }

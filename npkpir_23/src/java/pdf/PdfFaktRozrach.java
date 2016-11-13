@@ -50,7 +50,7 @@ public class PdfFaktRozrach {
                 dodajLinieOpisu(document, "");
                 dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
             }
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -79,7 +79,7 @@ public class PdfFaktRozrach {
                 dodajLinieOpisu(document, "");
                 dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
             }
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
         } else {
             Msg.msg("w", "Błąd wydruku rozrachunków z klientem");
         }
@@ -100,7 +100,7 @@ public class PdfFaktRozrach {
             dodajOpisWstepny(document, "Rozrachunki  ", wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             dodajLinieOpisu(document, "wszyscy kontrahenci podatnika");
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(zbiorcze, 1),90,1);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {

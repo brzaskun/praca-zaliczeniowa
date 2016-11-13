@@ -10,13 +10,12 @@ import com.itextpdf.text.pdf.PdfWriter;
 import embeddablefk.TreeNodeExtended;
 import entity.Uz;
 import java.io.File;
-import javax.ejb.Stateless;
 import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.finalizacjaDokumentu;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
@@ -45,7 +44,7 @@ public class PdfRZiS {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiS(rootProjektRZiS),75,0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -67,7 +66,7 @@ public class PdfRZiS {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSBO(rootProjektRZiS),75,3);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -89,7 +88,7 @@ public class PdfRZiS {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, B.b("RachunekZyskówiStratfirmy"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSKonta(rootProjektRZiS),95,1);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -111,7 +110,7 @@ public class PdfRZiS {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, B.b("RachunekZyskówiStratznrkont"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSKontaPrzyporządkowane(rootProjektRZiS),75,2);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {

@@ -17,7 +17,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.finalizacjaDokumentu;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
@@ -47,7 +47,7 @@ public class PdfPlanKont {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Plan Kont firmy ", wpisView.getPodatnikObiekt(),null, wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaPlanKont(wykazkont),95,0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -69,7 +69,7 @@ public class PdfPlanKont {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, B.b("plankontfirmy"), wpisView.getPodatnikObiekt(),null, wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaPlanKontTR(wykazkont),95,2);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {

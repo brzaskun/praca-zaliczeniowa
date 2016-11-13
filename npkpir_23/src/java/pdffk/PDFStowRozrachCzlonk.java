@@ -38,7 +38,7 @@ public class PDFStowRozrachCzlonk {
             otwarcieDokumentu(document, nazwa);
             dodajLinieOpisu(document, "Zestawienie naliczonych i zapłaconych kwot w roku kalendarzowym "+wybranyczlonek.getOpismiejsca()+" rok "+rokWpisuSt);
             dodajTabele(document, testobjects.testobjects.getStowRozrachCzlonk(wykaz),95,0,8);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -66,7 +66,7 @@ public class PDFStowRozrachCzlonk {
                 dodajTabele(document, testobjects.testobjects.getStowRozrachCzlonk(p),95,0,8);
                 dodajLinieOpisu(document, "");
             };
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {

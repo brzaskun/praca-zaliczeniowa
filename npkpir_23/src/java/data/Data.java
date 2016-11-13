@@ -14,6 +14,7 @@ import java.util.List;
 import javax.inject.Named;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import view.WpisView;
@@ -133,6 +134,18 @@ public class Data implements Serializable {
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
         String formattedDate = formatter.print(dataRozrachunku);
         return formattedDate;
+    }
+    
+    public static String aktualnaDataCzas() {
+        DateTime dt = new DateTime();
+        LocalDate dataRozrachunku = dt.toLocalDate();
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+        String formattedDate = formatter.print(dataRozrachunku);
+        LocalTime czas = dt.toLocalTime();
+        formatter = DateTimeFormat.forPattern("hh:mm");
+        String formattedCzas = formatter.print(czas);
+        String zwrot = formattedDate+" "+formattedCzas;
+        return zwrot;
     }
     
     public static String aktualnyRok() {

@@ -5,7 +5,6 @@
  */
 package pdffk;
 
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeAlignNOBorder;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
@@ -63,11 +62,14 @@ import testobjects.WierszKonta;
 import testobjects.WierszTabeli;
 import testobjects.WierszWNTWDT;
 import waluty.Z;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import entityfk.EVatwpisDedra;
 import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfrazeAlign;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import entity.Statystyka;
+import java.io.FileOutputStream;
 import viewfk.StowRozrachCzlonkView;
 
 /**
@@ -92,7 +94,7 @@ public class PdfMain {
 //        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()), 100,0);
 ////        dodajpodpis(document,"Jan","Kowalski");
 //        //dodajStopke(writer);
-//        finalizacjaDokumentu(document);
+//        finalizacjaDokumentuQR(document,nazwa);
 //        
 //    }
     
@@ -110,7 +112,7 @@ public class PdfMain {
 //        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()));
 //        dodajpodpis(document,"Jan","Kowalski");
 //        dodajStopke(writer);
-//        finalizacjaDokumentu(document);
+//        finalizacjaDokumentuQR(document,nazwa);
 //    }
     
     public static Document inicjacjaA4Portrait() {
@@ -174,6 +176,11 @@ public class PdfMain {
     public static void finalizacjaDokumentu(Document document) {
         document.close();
     }
+    
+    public static void finalizacjaDokumentuQR(Document document, String nazwapliku) {
+        document.close();
+        dodajQR(nazwapliku);
+    }
 
     public static void naglowekStopkaL(PdfWriter writer) {
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(1);
@@ -204,6 +211,65 @@ public class PdfMain {
             E.e(ex);
         }
     }
+    
+    public static void dodajQR(String nazwapliku) {
+        try {
+            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/taxman.jpg";
+            String nazwa = nazwapliku;
+            if (!nazwapliku.endsWith(".pdf")) {
+                nazwapliku = nazwapliku+".pdf";
+            }
+            if (!nazwapliku.contains("/")) {
+                nazwa = Plik.getKatalog()+nazwapliku;
+            }
+            File f = new File(nazwaplikuzbazy);
+            if(f.exists()) {
+                Image logo = Image.getInstance(nazwaplikuzbazy);
+                logo.scaleToFit(50f, 50f);
+                PdfReader reader = new PdfReader(nazwa);
+                String plikzqr = Plik.getKatalog()+"nowa.pdf";
+                PdfStamper pdfStamper = new PdfStamper(reader,new FileOutputStream(plikzqr));
+                PdfContentByte content = pdfStamper.getUnderContent(reader.getNumberOfPages());
+                logo.setAbsolutePosition(10, 10); //e
+                content.addImage(logo);
+                pdfStamper.close();
+                reader.close();
+                Plik.usun(nazwa);
+                Plik.zapiszjako(plikzqr,nazwa);
+            }
+            System.out.println("Dodano QR");
+        } catch (Exception ex) {
+            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   }
+    
+    public static void main(String[] args) {
+        try {
+            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/taxman.jpg";
+            String nazwa = Plik.getKatalog()+"2.pdf";
+            File f = new File(nazwaplikuzbazy);
+            if(f.exists()) {
+                Image logo = Image.getInstance(nazwaplikuzbazy);
+                logo.scaleToFit(50f, 50f);
+                PdfReader reader = new PdfReader(nazwa);
+                String plikzqr = Plik.getKatalog()+"nowa.pdf";
+                PdfStamper pdfStamper = new PdfStamper(reader,new FileOutputStream(plikzqr));
+                PdfContentByte content = pdfStamper.getUnderContent(reader.getNumberOfPages());
+                int rot = reader.getPageRotation(reader.getNumberOfPages());
+                logo.setAbsolutePosition(10, 10); //e
+                content.addImage(logo);
+                pdfStamper.close();
+                reader.close();
+                Plik.usun(nazwa);
+                Plik.zapiszjako(plikzqr,nazwa);
+            }
+            System.out.println("Dodano QR");
+        } catch (Exception ex) {
+            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   }
+    
+   
     
     public static void dodajpagraf(Document document, String tresc, String lrcj, int rozmiar) {
         try {
@@ -1904,29 +1970,29 @@ public class PdfMain {
         }
     }
  
-    public static void main(String[] args) throws Exception {
-
-		NumberFormat format1 = NumberFormat.getInstance();
-		displayNumbers("default", format1);
-
-		NumberFormat format2 = NumberFormat.getInstance();
-		format2.setMinimumFractionDigits(2);
-		format2.setMaximumFractionDigits(4);
-		displayNumbers("min fraction digits 2, max fraction digits 4", format2);
-
-		NumberFormat format3 = NumberFormat.getInstance();
-		format3.setMinimumIntegerDigits(6);
-		displayNumbers("min integer digits 6", format3);
-
-		NumberFormat format4 = NumberFormat.getInstance();
-		format4.setMaximumIntegerDigits(5);
-		displayNumbers("max integer digits 5", format4);
-
-		NumberFormat format5 = NumberFormat.getInstance();
-		format5.setGroupingUsed(false);
-		displayNumbers("grouping off", format5);
-
-	}
+//    public static void main(String[] args) throws Exception {
+//
+//		NumberFormat format1 = NumberFormat.getInstance();
+//		displayNumbers("default", format1);
+//
+//		NumberFormat format2 = NumberFormat.getInstance();
+//		format2.setMinimumFractionDigits(2);
+//		format2.setMaximumFractionDigits(4);
+//		displayNumbers("min fraction digits 2, max fraction digits 4", format2);
+//
+//		NumberFormat format3 = NumberFormat.getInstance();
+//		format3.setMinimumIntegerDigits(6);
+//		displayNumbers("min integer digits 6", format3);
+//
+//		NumberFormat format4 = NumberFormat.getInstance();
+//		format4.setMaximumIntegerDigits(5);
+//		displayNumbers("max integer digits 5", format4);
+//
+//		NumberFormat format5 = NumberFormat.getInstance();
+//		format5.setGroupingUsed(false);
+//		displayNumbers("grouping off", format5);
+//
+//	}
 
 	public static void displayNumbers(String whichFormat, NumberFormat numberFormat) {
 		System.out.println("Format:" + whichFormat);

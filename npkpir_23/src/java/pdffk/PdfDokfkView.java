@@ -6,8 +6,6 @@
 package pdffk;
 
 import beansPdf.PdfDokfk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.pdf.PdfWriter;
 import dao.UzDAO;
 import entity.Uz;
 import entityfk.Dokfk;
@@ -16,7 +14,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import static pdffk.PdfMain.*;
 import view.WpisView;
 
 /**

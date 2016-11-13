@@ -52,7 +52,7 @@ public class PdfHeaderFooter extends PdfPageEventHelper {
 
         @Override
         public void onOpenDocument(PdfWriter writer, Document document) {
-            header = new Phrase("Dokument wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman. Nie wymaga podpisu.",font);
+            header = new Phrase("Dokument wygenerowano elektronicznie dnia "+data.Data.aktualnaDataCzas() +" w autorskim programie księgowym Biura Rachunkowego Taxman. Nie wymaga podpisu.",font);
         }
 
         @Override

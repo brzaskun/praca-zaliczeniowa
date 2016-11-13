@@ -63,7 +63,8 @@ public class PdfKontoZapisy {
         try {
             List<Parametr> param = pod.getVatokres();
             Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 20);
-            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("zapiskonto-" + wpisView.getPodatnikWpisu() + ".pdf"));
+            String nazwapliku = "zapiskonto-" + wpisView.getPodatnikWpisu() + ".pdf";
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
             int liczydlo = 1;
             PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
             writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
@@ -235,7 +236,7 @@ public class PdfKontoZapisy {
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
             document.add(table);
             document.close();
-
+            pdffk.PdfMain.dodajQR(nazwapliku);
             //Msg.msg("i","Wydrukowano ewidencje","form:messages");
         } catch (Exception e) {
             E.e(e);

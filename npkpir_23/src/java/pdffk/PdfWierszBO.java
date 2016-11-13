@@ -40,7 +40,7 @@ public class PdfWierszBO {
             dodajOpisWstepny(document, "Zestawienie wierszy BO w firmie", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaWierszBO(pobranetransakcje),97,0);
             dodajLinieOpisu(document, obliczsumy(pobranetransakcje));
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -63,7 +63,7 @@ public class PdfWierszBO {
             dodajOpisWstepny(document, "Zestawienie wierszy BO w firmie", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaWierszBOKonsolidacyjna(pobranetransakcje),97,1);
             dodajLinieOpisu(document, obliczsumy(pobranetransakcje));
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {

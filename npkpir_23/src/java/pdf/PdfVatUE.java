@@ -4,8 +4,6 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -15,29 +13,20 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import daoFK.VatuepodatnikDAO;
-import embeddable.Kwartaly;
 import embeddable.Parametr;
 import embeddable.VatUe;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Uz;
 import entityfk.Dokfk;
-import entityfk.Vatuepodatnik;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
-import javax.ejb.Stateless;
-import msg.B;
-import msg.Msg;
 import org.primefaces.context.RequestContext;
-import static pdf.PdfVAT7.absText;
 import pdffk.PdfMain;
-import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.finalizacjaDokumentu;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
@@ -49,6 +38,7 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
 import error.E;
 import static pdf.PdfVAT7.absText;
 import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 
 /**
  *
@@ -350,7 +340,7 @@ public class PdfVatUE {
             dodajOpisWstepny(document, "Ewidencja dokumentów VAT-UE", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             czyjestpodsumowanie(listawybranych);
             dodajTabele(document, testobjects.testobjects.getEwidencjaVATUE(listawybranych), 100, 0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('" + nazwa + "');";
             RequestContext.getCurrentInstance().execute(f);
         } catch (Exception e) {

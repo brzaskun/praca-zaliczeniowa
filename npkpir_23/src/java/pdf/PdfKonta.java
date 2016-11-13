@@ -63,6 +63,7 @@ public class PdfKonta {
             } else {
                 drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc, sumaSaldoKonto);
             }
+            pdffk.PdfMain.dodajQR(nazwapliku);
             Msg.msg("Wydruk zestawienia obrotów sald");
         } catch (Exception e) {
             E.e(e);

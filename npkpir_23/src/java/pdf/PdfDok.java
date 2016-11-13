@@ -21,6 +21,7 @@ import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.dodajpodpis;
 import static pdffk.PdfMain.finalizacjaDokumentu;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.infooFirmie;
 import static pdffk.PdfMain.informacjaoZaksiegowaniu;
 import static pdffk.PdfMain.inicjacjaA4Landscape;
@@ -52,13 +53,13 @@ public class PdfDok extends Pdf implements Serializable {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma -  ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getListaDok(lista),100,0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } catch (Exception e) {
             E.e(e);
         } finally {
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
         }
         
     }

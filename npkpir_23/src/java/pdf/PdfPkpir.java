@@ -56,6 +56,7 @@ public class PdfPkpir {
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
+        pdffk.PdfMain.dodajQR(nazwapliku);
         RequestContext.getCurrentInstance().execute("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
         Msg.msg("i", "Wydrukowano księgę", "form:messages");
     }
@@ -87,6 +88,7 @@ public class PdfPkpir {
         }
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
+        pdffk.PdfMain.dodajQR(nazwapliku);
         RequestContext.getCurrentInstance().execute("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
         Msg.msg("i", "Wydrukowano księgę", "form:messages");
     }

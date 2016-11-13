@@ -64,7 +64,7 @@ public class PdfCechyZapisow {
                 NumberFormat format = getNumberFormater();
                 dodajLinieOpisu(document, "razem: "+format.format(razem));
             }
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukCechyzapisu('"+wpisView.getPodatnikObiekt().getNip()+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {

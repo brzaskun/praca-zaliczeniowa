@@ -39,7 +39,7 @@ public class PdfDokfk {
         }
         saldokoncowe(document, selected);
         dodajpodpis(document, uz.getImie(), uz.getNazw());
-        finalizacjaDokumentu(document);
+        finalizacjaDokumentuQR(document,nazwa);
     }
     
 }

@@ -8,16 +8,14 @@ package pdffk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Uz;
-import entityfk.Konto;
 import entityfk.Transakcja;
 import java.io.File;
 import java.util.List;
-import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.finalizacjaDokumentu;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
@@ -46,7 +44,7 @@ public class PdfRRK {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie różnic kursowych w firmie", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRRK(pobranetransakcje),97,0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {

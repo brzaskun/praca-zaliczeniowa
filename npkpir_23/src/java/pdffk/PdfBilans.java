@@ -8,7 +8,6 @@ package pdffk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddablefk.TreeNodeExtended;
-import entity.Uz;
 import entityfk.PozycjaBilans;
 import java.io.File;
 import java.text.NumberFormat;
@@ -17,7 +16,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.finalizacjaDokumentu;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
@@ -56,7 +55,7 @@ public class PdfBilans {
                 dodajOpisWstepny(document, B.b("BilansPasywafirmy"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjekt),75,0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             if (ap.equals("a")) {
                 f = "pokazwydruk('"+nazwa+"');";
@@ -93,7 +92,7 @@ public class PdfBilans {
                 dodajOpisWstepny(document, B.b("BilansPasywafirmy"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjekt),75,5);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             if (ap.equals("a")) {
                 f = "pokazwydruk('"+nazwa+"');";
@@ -179,7 +178,7 @@ public class PdfBilans {
                 dodajOpisWstepny(document, "Bilans Otwarcia Pasywa", wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjekt),75,0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             if (ap.equals("a")) {
                 f = "pokazwydruk('"+nazwa+"');";
@@ -220,7 +219,7 @@ public class PdfBilans {
                 dodajTabele(document, testobjects.testobjects.getTabelaBilansKonta(rootProjekt),95,1);
             }
             
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             if (ap.equals("a")) {
                 f = "pokazwydruk('"+nazwa+"');";
@@ -260,7 +259,7 @@ public class PdfBilans {
             } else {
                 dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowane(rootProjekt),95,2);
             }
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             if (ap.equals("a")) {
                 f = "pokazwydruk('"+nazwa+"');";

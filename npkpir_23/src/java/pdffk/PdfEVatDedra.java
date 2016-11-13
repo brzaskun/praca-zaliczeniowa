@@ -9,7 +9,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Uz;
 import entityfk.EVatwpisDedra;
-import entityfk.Konto;
 import java.io.File;
 import java.util.List;
 import msg.B;
@@ -17,7 +16,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.finalizacjaDokumentu;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
@@ -45,7 +44,7 @@ public class PdfEVatDedra {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, B.b("EwidencjaVAT")+" "+B.b("firma"), wpisView.getPodatnikObiekt(),null, wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaEVatwpisDedra(wykazkont),95,0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {

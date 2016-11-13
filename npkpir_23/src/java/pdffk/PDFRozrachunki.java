@@ -84,7 +84,7 @@ public class PDFRozrachunki {
             dodajLinieOpisuBezOdstepu(document, "..................... ");
             dodajLinieOpisu(document, "salda zgodnie potwierdzam");
             dodajLinieOpisu(document, kontrahent);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -105,7 +105,7 @@ public class PDFRozrachunki {
 //            otwarcieDokumentu(document, nazwa);
 //            dodajOpisWstepny(document, B.b("zestawienierozrachunków"),wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
 //            dodajTabele(document, testobjects.testobjects.getTabelaRozrachunki(stronyWiersza),95,1);
-//            finalizacjaDokumentu(document);
+//            finalizacjaDokumentuQR(document,nazwa);
 //            String f = "pokazwydruk('"+nazwa+"');";
 //            RequestContext.getCurrentInstance().execute(f);
 //        } else {

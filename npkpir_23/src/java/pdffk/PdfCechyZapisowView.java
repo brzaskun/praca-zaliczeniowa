@@ -49,7 +49,7 @@ public class PdfCechyZapisowView implements Serializable {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajTabele(document, testobjects.testobjects.getTabelaCechyZapisow(wiersze),100,0);
-            finalizacjaDokumentu(document);
+            finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukCechyzapisu('"+wpisView.getPodatnikObiekt().getNip()+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
