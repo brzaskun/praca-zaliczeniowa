@@ -800,7 +800,17 @@ public class PdfMain {
                     col71[levele++] = 10;
                     col71[levele] = 8;
                     return col71;
-                } else if (modyfikator == 5) {//BO + Data
+                } else if (modyfikator==3) {//rok biezacy plus uprzedni
+                    int[] col71 = new int[size];
+                    int levele = size-3;
+                    for (int i = 0; i < levele ; i++) {
+                        col71[i] = 1;
+                    }
+                    col71[levele++] = 10;
+                    col71[levele++] = 3;
+                    col71[levele] = 3;
+                    return col71;
+                }else if (modyfikator == 5) {//BO + Data
                     int[] col7 = new int[size];
                     int levele = size-3;
                     for (int i = 0; i < levele ; i++) {
@@ -1183,6 +1193,13 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
                     }
                 }
+                if (modyfikator == 3) {
+                    if (p.getKwota() != 0.0) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "right", 7));
+                    }
+                }
                 if (modyfikator != 2) {
                     if (p.getKwota() != 0.0) {
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
@@ -1190,7 +1207,7 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlign("", "right", 7));
                     }
                 }
-                if (modyfikator != 0) {
+                if (modyfikator != 0 && modyfikator != 3) {
                     String konta = p.getPrzyporzadkowanekonta() != null ? p.getPrzyporzadkowanekonta().toString() : "";
                     table.addCell(ustawfrazeAlign(konta, "left", 7));
                 }

@@ -747,7 +747,7 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void drukujRZiS() {
-        PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView);
+        PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView,0);
     }
     
     public void drukujRZiSPozycje() {

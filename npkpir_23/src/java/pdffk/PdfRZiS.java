@@ -44,7 +44,7 @@ public class PdfRZiS {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-            dodajTabele(document, testobjects.testobjects.getTabelaRZiS(rootProjektRZiS),75,modyfikator);
+            dodajTabele(document, testobjects.testobjects.getTabelaRZiSBO(rootProjektRZiS),75,modyfikator);
             finalizacjaDokumentu(document);
             String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);

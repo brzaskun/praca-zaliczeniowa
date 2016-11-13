@@ -573,6 +573,22 @@ public class testobjects {
        return tabela;
    }
    
+    public static List[] getTabelaRZiSBO(TreeNodeExtended rootProjektRZiS) {
+       int level = rootProjektRZiS.ustaldepthDT();
+       List n = new ArrayList();
+       for (int i = 0; i < level; i++) {
+        n.add("");
+       }
+       n.add(B.b("nazwapozycjiRZiS"));
+       n.add(B.b("rokpoprzedni"));
+       n.add(B.b("rokbiezacy"));
+       List t = getWierszeRZiS(rootProjektRZiS, level);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
    public static List[] getTabelaRZiSKonta(TreeNodeExtended rootProjektRZiS) {
        int level = rootProjektRZiS.ustaldepthDT();
        List n = new ArrayList();
@@ -823,7 +839,6 @@ public class testobjects {
    public static List<PozycjaRZiSBilans> getWierszeRZiS(TreeNodeExtended rootProjektRZiS, int level) {
        List<PozycjaRZiSBilans> w = new ArrayList<PozycjaRZiSBilans>();
        rootProjektRZiS.getChildrenTree(new ArrayList<TreeNodeExtended>(), w);
-       System.out.println("");
        return w;
    }
    
