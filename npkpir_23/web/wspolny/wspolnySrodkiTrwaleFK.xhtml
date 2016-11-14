@@ -13,15 +13,18 @@
             <f:view contentType="text/html">
                 <h:form>
                     <p:growl life="3600"  id="fifi"/>
-                    <p:confirmDialog id="confirmDialog" message="Usunąć wybrany środek trwały?"  
-                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
-                        <h:outputLabel for="powerusun" value="twarde usuwanie"/>
-                        <h:selectBooleanCheckbox id="powerusun" value="#{STRTableView.napewnousunac}" title="napewno usunac"/>
-                        <p:separator/>
-                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :akordeon:str_posiadane" oncomplete="PF('confirmation').hide()"  
-                                         actionListener="#{STRTableView.destroy2()}" />  
-                        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
-                    </p:confirmDialog>  
+                    <p:dialog id="confirmDialog" header="Usunąć wybrany środek trwały?"  resizable="false" closable="false"
+                                      widgetVar="confirmation">  
+                        <p:panelGrid columns="2">
+                            <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :akordeon:str_posiadane :akordeon:str_posiadane2" oncomplete="PF('confirmation').hide()"  
+                                             actionListener="#{STRTableView.destroy2()}" />  
+                            <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" style="text-align: left;">
+                            <h:outputLabel for="powerusun" value="twarde usuwanie"/>
+                            <h:selectBooleanCheckbox id="powerusun" value="#{STRTableView.napewnousunac}" title="napewno usunac"/>
+                        </p:panelGrid>
+                    </p:dialog>  
                 </h:form>
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                     <ui:include src="../ksiegowaFK/sub/layout/north.xhtml"/>  <!-- panel polnocny-->
