@@ -62,7 +62,7 @@ public class BilansPodgladView  implements Serializable{
     //tworzy nody z bazy danych dla tablicy nodow plan kont
     private void getNodes(){
         this.root = new TreeNodeExtended("root", null);
-        List<Konto> listakont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         level = root.ustaldepthDT(listakont)-1;
         podsumujkonta(listakont, level);
         usunzerowe(listakont);

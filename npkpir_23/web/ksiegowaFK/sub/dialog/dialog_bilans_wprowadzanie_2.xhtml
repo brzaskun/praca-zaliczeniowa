@@ -158,11 +158,21 @@
                             <p:ajax event="blur" global="false" partialSubmit="true" />
                             <p:ajax event="query" global="false"/></p:autoComplete>
                     </p:column>
-                    <p:column>
-                        <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 150px;" id="opis1">
-                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto2"/>
-                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis1')}"/>
+                     <p:column width="210" rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}">
+                        <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 200px;"  id="opis3" 
+                                          >
+                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
                         </p:inputText>
+                    </p:column>
+                     <p:column width="210" rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}">
+                        <p:selectOneMenu value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 200px;"  id="opis4"
+                                         editable="true" >
+                            <f:selectItem itemLabel="obroty Wn" itemValue="obroty Wn"/>
+                            <f:selectItem itemLabel="obroty Ma" itemValue="obroty Ma"/>
+                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
+                        </p:selectOneMenu>
                     </p:column>
                     <p:column>
                         <pe:inputNumber  value="#{bilansWprowadzanieView.selected.kurs}" symbol=" zł" required="true"

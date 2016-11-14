@@ -53,7 +53,7 @@ public class PdfKonta {
     public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto) {
         try {
             Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
-            String nazwapliku = "konta-" + wpisView.getPodatnikWpisu() + ".pdf";
+            String nazwapliku = "konta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
@@ -74,7 +74,7 @@ public class PdfKonta {
 
     private static void drukujcd(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto)  throws DocumentException, FileNotFoundException, IOException {
         Document document = inicjacjaA4Landscape();
-        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(595, 842, 0, 0));
@@ -131,7 +131,7 @@ public class PdfKonta {
     
     private static void drukujcdWal(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 20,20,40,30);
-        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(595, 842, 0, 0));
