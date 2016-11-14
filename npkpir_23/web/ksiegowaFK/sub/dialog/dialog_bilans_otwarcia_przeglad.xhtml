@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="dialogpierwszy" header="Bilans otwarcia - przegląd sald - #{WpisView.podatnikWpisu}" widgetVar="bilansprzeglad" 
+    <p:dialog id="dialogpierwszy" header="Bilans otwarcia i obroty rozpoczęcia - przegląd sald - #{WpisView.podatnikWpisu}" widgetVar="bilansprzeglad" 
               resizable="false" onShow="ustawdialog('dialogpierwszy','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="formbilans">
 
@@ -24,7 +24,7 @@
                         }
                     }
             </script>
-              <p:panelGrid columns="9">
+              <p:panelGrid columns="10">
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{bilansPodgladView.rozwinwszystkie()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{bilansPodgladView.rozwin()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{bilansPodgladView.zwinwszystkie()}" update=":formbilans:dataList" style="float: left; width: 140px;" />

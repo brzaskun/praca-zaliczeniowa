@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -271,7 +272,55 @@ public class BilansWprowadzanieView implements Serializable {
             RequestContext.getCurrentInstance().execute("try{PF('tab0zlozona').clearFilters()}catch(e){}");
         }
     }
+    
+    public void pobierzlistaS() {
+        List<WierszBO> listawstepna = new ArrayList<>();
+        for (List<WierszBO> l : listazbiorcza.values()) {
+            listawstepna.addAll(l);
+        }
+        Set<WierszBO> wierszemac = new HashSet<>();
+        for (WierszBO wb : listawstepna) {
+            if (wb.getKonto() != null && niezawiera(wb,wierszemac)) {
+                WierszBO nowy = serialclone.SerialClone.clone(wb);
+                nowy.setKwotaMa(0);
+                nowy.setKwotaWn(0);
+                nowy.setKwotaMaPLN(0);
+                nowy.setKwotaWnPLN(0);
+                wierszemac.add(nowy);
+            }
+        }
+        for (WierszBO wb : wierszemac) {
+            for (WierszBO wb1 : listawstepna) {
+                if (wb1.getKonto() != null && wb1.getKonto().equals(wb.getKonto())) {
+                    wb.setKwotaWn(wb.getKwotaWn()+wb1.getKwotaWn());
+                    wb.setKwotaMa(wb.getKwotaMa()+wb1.getKwotaMa());
+                       wb.setKwotaWnPLN(wb.getKwotaWnPLN()+wb1.getKwotaWnPLN());
+                    wb.setKwotaMaPLN(wb.getKwotaMaPLN()+wb1.getKwotaMaPLN());
+                }
+            }
+        }
+        listaBO = new ArrayList<>();
+        listaBO.addAll(wierszemac);
+        Collections.sort(listaBO, new WierszBOcomparator());
+        podsumujWnMa(listaBO, listaBOsumy);
+        if (listaBOFiltered != null) {
+            listaBOFiltered = null;
+            RequestContext.getCurrentInstance().execute("try{PF('tab0prosta').clearFilters()}catch(e){}");
+            RequestContext.getCurrentInstance().execute("try{PF('tab0zlozona').clearFilters()}catch(e){}");
+        }
+    }
 
+    private boolean niezawiera(WierszBO wb, Set<WierszBO> wierszemac) {
+        boolean zwrot = true;
+        for (WierszBO p : wierszemac) {
+            if (p.getKonto().equals(wb.getKonto())) {
+                zwrot = false;
+                break;
+            }
+        }
+        return zwrot;
+    }
+    
     private void tworzListeZbiorcza() {
         this.listazbiorcza = new HashMap<>();
         this.listazbiorcza.put(0, lista0);
@@ -1539,4 +1588,6 @@ public class BilansWprowadzanieView implements Serializable {
         boolean s = pierwszy.toLowerCase().contains(drugi.toLowerCase());
         System.out.println(s);
     }
+
+    
 }
