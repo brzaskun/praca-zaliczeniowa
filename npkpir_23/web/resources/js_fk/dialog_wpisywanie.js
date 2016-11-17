@@ -416,9 +416,10 @@ var usunpodswietlenie = function(source) {
 var liczba = 0;
 
 var focusNowyWiersz = function () {
-    setTimeout(function() {
-        robfocus();
-    },300);
+    robfocus();
+//    setTimeout(function() {
+//        robfocus();
+//    },300);
     //r("formwpisdokument:poletext").text("kk "+liczba++);
 };
 

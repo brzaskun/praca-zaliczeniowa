@@ -60,7 +60,7 @@
     <jndi-name>jms/pkpirQueue</jndi-name>
   </message-destination-ref>-->
   <class-loader delegate="true"/>
-  <jsp-config>
+    <jsp-config>
     <property name="keepgenerated" value="true">
       <description>Keep a copy of the generated servlet class' java code.</description>
     </property>
