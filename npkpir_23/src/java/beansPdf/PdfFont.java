@@ -36,9 +36,10 @@ public class PdfFont {
 
     public static PdfPCell ustawfraze(String fraza, int colsp, int rowsp){
         try {
+            String fraza2 = String.valueOf( fraza != null ? fraza : "");
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 8);
-            PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
+            PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
             if (rowsp > 0) {
                 cell.setRowspan(rowsp);
             } else {
@@ -58,9 +59,10 @@ public class PdfFont {
     
     public static PdfPCell ustawfrazeAF(String fraza, int colsp, int rowsp, int uluz, int font_size) {
         try {
+            String fraza2 = String.valueOf( fraza != null ? fraza : "");
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, font_size);
-            PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
+            PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
             if (rowsp > 0) {
                 cell.setRowspan(rowsp);
             } else {
@@ -80,9 +82,10 @@ public class PdfFont {
     
     public static PdfPCell ustawfraze(String fraza, int colsp, int rowsp, float fixedHeigth){
         try {
+            String fraza2 = String.valueOf( fraza != null ? fraza : "");
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 8);
-            PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
+            PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
             if (rowsp > 0) {
                 cell.setRowspan(rowsp);
             } else {
@@ -102,9 +105,10 @@ public class PdfFont {
     }
     
     public static PdfPCell ustawfrazeSpanFont(String fraza, int colsp, int rowsp, int fontsize) throws DocumentException, IOException {
+        String fraza2 = String.valueOf( fraza != null ? fraza : "");
         BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
         Font font = new Font(helvetica, fontsize);
-        PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
+        PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
         if (rowsp > 0) {
             cell.setRowspan(rowsp);
         } else {
@@ -118,7 +122,7 @@ public class PdfFont {
  
  public static PdfPCell ustawfrazeAlignNOBorder(Object fraza, String orient, int fontsize) {
         try {
-            String fraza2 = String.valueOf(fraza);
+            String fraza2 = String.valueOf( fraza != null ? fraza : "");
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, fontsize);
             PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
@@ -149,7 +153,7 @@ public class PdfFont {
     }
     public static PdfPCell ustawfrazeAlign(Object fraza, String orient, int fontsize) {
         try {
-            String fraza2 = String.valueOf(fraza);
+            String fraza2 = String.valueOf( fraza != null ? fraza : "");
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, fontsize);
             PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
@@ -180,7 +184,7 @@ public class PdfFont {
     
     public static PdfPCell ustawfrazeAlign(String fraza, String orient, int fontsize) {
         try {
-            String fraza2 = fraza;
+            String fraza2 = fraza != null ? fraza : "";
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, fontsize);
             PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
@@ -212,7 +216,7 @@ public class PdfFont {
     
     public static PdfPCell ustawfrazeAlign(Object fraza, String orient, int fontsize, float fixedHeigth) {
         try {
-            String fraza2 = String.valueOf(fraza);
+            String fraza2 = String.valueOf( fraza != null ? fraza : "");
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, fontsize);
             PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));

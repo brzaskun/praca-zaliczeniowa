@@ -7,7 +7,7 @@
       xmlns:bcf="http://brzaskun.com/facelets">
     <h:form id="form_dialog_stowarzyszenie_wykaz_czlonkow">
             <p:outputPanel style="margin: 10px;">
-                <p:commandButton value="drukuj" style="width: 120px;"/>
+                <p:commandButton value="drukuj" actionListener="#{miejscePrzychodowView.drukujczlonkowie}" style="width: 120px;"/>
             </p:outputPanel>
         </h:form>
         <h:form id="form_dialog_stowarzyszenie_wykaz_czlonkow_lista">

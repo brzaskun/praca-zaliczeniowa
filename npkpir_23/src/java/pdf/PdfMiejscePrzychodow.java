@@ -33,8 +33,18 @@ import static pdf.PdfVAT7.absText;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import entityfk.MiejscePrzychodow;
+import error.E;
+import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
+import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajTabele;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
+import static pdffk.PdfMain.inicjacjaA4Landscape;
+import static pdffk.PdfMain.inicjacjaWritera;
+import static pdffk.PdfMain.naglowekStopkaP;
+import static pdffk.PdfMain.otwarcieDokumentu;
 
 /**
  *
@@ -156,5 +166,28 @@ public class PdfMiejscePrzychodow {
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 6));
         }
         return table;
+    }
+
+    public static void drukujczlonkowie(List<MiejscePrzychodow> tabela, WpisView wpisView) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"listadok";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        Document document = PdfMain.inicjacjaA4Portrait();
+        try {
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Wykaz członków stowarzyszenia -  ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajTabele(document, testobjects.testobjects.getCzlonkowie(tabela),100,0);
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } catch (Exception e) {
+            E.e(e);
+        } finally {
+            finalizacjaDokumentuQR(document,nazwa);
+        }
     }
 }

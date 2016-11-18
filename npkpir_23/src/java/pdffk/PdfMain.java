@@ -69,6 +69,7 @@ import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import entity.Statystyka;
+import entityfk.MiejscePrzychodow;
 import java.io.FileOutputStream;
 import viewfk.StowRozrachCzlonkView;
 
@@ -610,6 +611,15 @@ public class PdfMain {
                 col[0] = 2;
                 col[1] = 6;
                 col[2] = 3;
+                return col;
+            case "entityfk.MiejscePrzychodow":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 6;
+                col[2] = 3;
+                col[3] = 3;
+                col[4] = 3;
+                col[5] = 4;
                 return col;
             case "entity.Statystyka":
                 col = new int[size];
@@ -1191,6 +1201,15 @@ public class PdfMain {
                 } else {
                     table.addCell(ustawfrazeAlign("", "right", 8));
                 }
+            }
+            if (nazwaklasy.equals("entityfk.MiejscePrzychodow")) {
+                MiejscePrzychodow p = (MiejscePrzychodow) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOpismiejsca(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getNrkonta(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getPoczatek(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getKoniec(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getEmail(), "left", 8));
             }
             if (nazwaklasy.equals("viewfk.StowRozrachCzlonkView$Pozycja")) {
                 StowRozrachCzlonkView.Pozycja p = (StowRozrachCzlonkView.Pozycja) it.next();

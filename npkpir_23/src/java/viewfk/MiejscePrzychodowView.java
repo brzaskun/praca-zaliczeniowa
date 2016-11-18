@@ -185,6 +185,20 @@ public class MiejscePrzychodowView  implements Serializable{
         }
         return 0;
     }
+    public void drukujczlonkowie() {
+        try {
+            if (czlonkowiestowarzyszenia != null) {
+                List tabela = new LinkedList(czlonkowiestowarzyszenia);
+                PdfMiejscePrzychodow.drukujczlonkowie(tabela, wpisView);
+                Msg.dP();
+            } else {
+                Msg.msg("e", "Lista jest pusta");
+            }
+        } catch(Exception e) {
+            E.e(e);
+            Msg.dPe();
+        }
+    }
     
     public void drukuj(int i) {
         if (listawybranychprzychodow != null && listawybranychprzychodow.size() > 0) {

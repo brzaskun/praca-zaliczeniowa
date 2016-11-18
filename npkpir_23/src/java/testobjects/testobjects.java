@@ -28,6 +28,7 @@ import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.EVatwpisDedra;
 import entityfk.Konto;
+import entityfk.MiejscePrzychodow;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
@@ -45,6 +46,8 @@ import viewfk.StowRozrachCzlonkView;
  * @author Osito
  */
 public class testobjects {
+    
+    
     
     public static Dokfk getDokfk(String rodzaj) {
         DokfkPK dp = new DokfkPK(rodzaj, 12, "WZORCOWY", "2015");
@@ -124,6 +127,20 @@ public class testobjects {
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = t;
+       return tabela;
+   }
+   
+   public static List[] getCzlonkowie(List<MiejscePrzychodow> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("imię i nazwisko");
+       n.add("nr konta");
+       n.add("członkostwo od");
+       n.add("czonkostwo do");
+       n.add("email");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
        return tabela;
    }
    
