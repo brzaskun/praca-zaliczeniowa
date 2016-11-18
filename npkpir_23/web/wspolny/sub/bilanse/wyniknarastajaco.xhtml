@@ -44,7 +44,7 @@
                     <p:menuitem value="XLS przychody szcz." actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS(1)}" global="false" ajax="false"/>
             </p:splitButton>
             </p:panelGrid>
-            <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop" rowKey="#{loop.id}"
+            <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop_wyn" rowKey="#{loop_wyn.id}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 950px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
                          >
@@ -52,42 +52,42 @@
                     <h:outputText value="#{mgs.pobraniewynikow}"/>
                 </f:facet>
                 <p:column headerText="#{mgs.miesiąc}" width="40" style="text-align: center;">
-                    <h:outputText value="#{loop.mc}"/>
+                    <h:outputText value="#{loop_wyn.mc}"/>
                 </p:column>
                 <p:column headerText="#{mgs.przychód}" width="60" >
-                    <bcf:outputpl value="#{loop.przychody}"/>
+                    <bcf:outputpl value="#{loop_wyn.przychody}"/>
                 </p:column>
                 <p:column headerText="#{mgs.koszt}" width="60" >
-                    <bcf:outputpl value="#{loop.koszty}"/>
+                    <bcf:outputpl value="#{loop_wyn.koszty}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wynikfinansowy}" width="60" >
-                    <bcf:outputpl value="#{loop.wynikfinansowy}"/>
+                    <bcf:outputpl value="#{loop_wyn.wynikfinansowy}"/>
                 </p:column>
                 <p:column headerText="#{mgs.npup}" width="60" >
-                    <bcf:outputpl value="#{loop.npup}"/>
+                    <bcf:outputpl value="#{loop_wyn.npup}"/>
                 </p:column>
                 <p:column headerText="#{mgs.nkup}" width="60" >
-                    <bcf:outputpl value="#{loop.nkup}"/>
+                    <bcf:outputpl value="#{loop_wyn.nkup}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wynikpodatkowy}" width="60" >
-                    <bcf:outputpl value="#{loop.wynikpodatkowy}"/>
+                    <bcf:outputpl value="#{loop_wyn.wynikpodatkowy}"/>
                 </p:column>
 <!--                <p:column headerText="#{mgs.pdop}" width="60">
-                    <bcf:outputpl value="#{loop.podatek}"/>
+                    <bcf:outputpl value="#{loop_wyn.podatek}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wynikfinansowynetto}" width="60">
-                    <bcf:outputpl value="#{loop.wynikfinansowynetto}"/>
+                    <bcf:outputpl value="#{loop_wyn.wynikfinansowynetto}"/>
                 </p:column>-->
                 <p:column headerText="#{mgs.zapisał}" width="60" style="text-align: center;" >
-                    <h:outputText value="#{loop.wprowadzil}"/>
+                    <h:outputText value="#{loop_wyn.wprowadzil}"/>
                 </p:column>
                 <p:column headerText="#{mgs.data}" width="60" style="text-align: center;">
-                    <h:outputText value="#{loop.data}">
+                    <h:outputText value="#{loop_wyn.data}">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>
                 </p:column>
                 <p:column style="text-align: center;" width="30">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{symulacjaWynikuNarastajacoView.usun(loop)}" update="akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar" />
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{symulacjaWynikuNarastajacoView.usun(loop_wyn)}" update="akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar" />
                 </p:column>
             </p:dataTable>
               <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuNarastajacoView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
