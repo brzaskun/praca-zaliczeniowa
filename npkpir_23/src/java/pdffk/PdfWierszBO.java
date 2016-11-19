@@ -48,6 +48,29 @@ public class PdfWierszBO {
         }
     }
     
+    public static void drukujWierszeObroty(List<WierszBO> pobranetransakcje, WpisView wpisView) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"obrotyRozp";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (pobranetransakcje != null && pobranetransakcje.size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Zestawienie obrotów rozpoczęcia w firmie", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajTabele(document, testobjects.testobjects.getTabelaWierszObrotyRozp(pobranetransakcje),97,2);
+            dodajLinieOpisu(document, obliczsumy(pobranetransakcje));
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano wierszy obrotów do wydruku");
+        }
+    }
+    
     public static void drukujListaKonsolidacyjna(List<WierszBO> pobranetransakcje, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"wierszBO";
         File file = Plik.plik(nazwa, true);

@@ -1541,6 +1541,25 @@ public class BilansWprowadzanieView implements Serializable {
         dodajwierszsumy(w);
         PdfWierszBO.drukujWierszeBO(w, wpisView);
     }
+    
+    public void drukujObroty() {
+        System.out.println("");
+        List<WierszBO> w = new ArrayList<>();
+        if (listaBOs != null && listaBOs.size() > 0) {
+            w = listaBOs;
+        } else if (listaBOs1 != null && listaBOs1.size() > 0) {
+            w = listaBOs1;
+        } else if (listaBOFiltered != null && listaBOFiltered.size() >0) {
+            w = listaBOFiltered;
+        } else if (listaBO != null && listaBO.size() > 0) {
+            w = listaBO;
+        }
+        if (sortujwgwartosci) {
+            sortujliste(w);
+        }
+        dodajwierszsumy(w);
+        PdfWierszBO.drukujWierszeObroty(w, wpisView);
+    }
 
     private void sortujliste(List<WierszBO> w) {
         Collections.sort(w, new WierszBOcomparatorKwota());

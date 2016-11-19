@@ -235,7 +235,7 @@
             <p:commandButton value="dołącz kontr." global="false" onclick="PF('dialog_kliencifk_dolaczanie').show();" style="width: 120px; float: right;"/>
         </h:form>
         <h:form id="formbilanswprowadzanie2">
-            <p:panelGrid columns="11" style="margin-top: 5px;">
+            <p:panelGrid columns="12" style="margin-top: 5px;">
                 <p:commandButton value="0" actionListener="#{bilansWprowadzanieView.pobierzlista(0)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="1" actionListener="#{bilansWprowadzanieView.pobierzlista(1)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="2" actionListener="#{bilansWprowadzanieView.pobierzlista(2)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
@@ -246,7 +246,10 @@
                 <p:commandButton value="8" actionListener="#{bilansWprowadzanieView.pobierzlista(8)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="S" actionListener="#{bilansWprowadzanieView.pobierzlistaS()}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <h:outputText value="wprowadzanie i edycja kont grupy #{bilansWprowadzanieView.nraktualnejlisty}" style="margin-left: 10px;"/>
-                <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukujBO()}" style="width: 120px; margin-left: 300px;"/>
+                <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukujBO()}" style="width: 120px; margin-left: 300px;"
+                                  rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
+                <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukujObroty()}" style="width: 120px; margin-left: 300px;"
+                                  rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
                 <p:selectBooleanCheckbox value="#{bilansWprowadzanieView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:selectBooleanCheckbox>

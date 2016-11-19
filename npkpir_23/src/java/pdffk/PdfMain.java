@@ -985,7 +985,7 @@ public class PdfMain {
                     return col13;
                 }
             case "entityfk.WierszBO":
-                if (modyfikator==0) {
+                if (modyfikator==0 || modyfikator==2) {
                     int[] col14 = new int[size];
                     col14[0] = 1;
                     col14[1] = 6;
@@ -1726,6 +1726,47 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("entityfk.WierszBO")) {
                 if (modyfikator == 0) {
+                    WierszBO p = (WierszBO) it.next();
+                    table.addCell(ustawfrazeAlign(i++, "left", 7, 22f));
+                    table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 7));
+                    double kwota = p.getKurs();
+                    if (kwota > 0.0) {
+                        number.setMinimumFractionDigits(4);
+                        number.setMaximumFractionDigits(4);
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    String waluta = p.getWaluta().getSymbolwaluty();
+                    table.addCell(ustawfrazeAlign(waluta, "center", 7));
+                    kwota = p.getKwotaWn(); 
+                    number.setMinimumFractionDigits(2);
+                    number.setMaximumFractionDigits(2);
+                    if (kwota != 0.0) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    kwota = p.getKwotaWnPLN();
+                    if (kwota != 0.0 && !waluta.equals("PLN")) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    kwota = p.getKwotaMa();
+                    if (kwota != 0.0) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    kwota = p.getKwotaMaPLN();
+                    if (kwota != 0.0 && !waluta.equals("PLN")) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                } else if (modyfikator == 2) {
                     WierszBO p = (WierszBO) it.next();
                     table.addCell(ustawfrazeAlign(i++, "left", 7, 22f));
                     table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
