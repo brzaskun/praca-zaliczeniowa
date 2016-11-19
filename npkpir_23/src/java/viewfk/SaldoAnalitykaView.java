@@ -67,7 +67,7 @@ public class SaldoAnalitykaView implements Serializable {
     private boolean tylkozapisywalutowe;
 
     public SaldoAnalitykaView() {
-         E.m(this);
+        E.m(this);
         sumaSaldoKonto = new ArrayList<>();
         wybranyRodzajKonta = "wszystkie";
     }
@@ -94,7 +94,7 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
         przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta);
     }
-    
+
     public void zmienkryteriawyswietlania() {
         if (tylkosaldaniezerowe) {
             for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
@@ -198,7 +198,7 @@ public class SaldoAnalitykaView implements Serializable {
         p.sumujBOZapisy();
         p.wyliczSaldo();
     }
-    
+
     private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String rodzajkonta) {
         List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta);
         Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
@@ -421,7 +421,7 @@ public class SaldoAnalitykaView implements Serializable {
         }
 
     }
-    
+
     private void nanieskonkretnyzapis(StronaWiersza r, Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> wierszenieuzupelnione) {
         try {
             String mc = wpisView.getMiesiacWpisu();
@@ -480,7 +480,7 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
     }
-    
+
     private boolean czynieBOnieObroty(StronaWiersza r) {
         boolean zwrot = true;
         if (r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
@@ -490,7 +490,7 @@ public class SaldoAnalitykaView implements Serializable {
         }
         return zwrot;
     }
-    
+
     //sumuje tylko zapisy w bo
     private void naniesZapisyNaKontoBO(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione) {
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
@@ -536,12 +536,12 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     private List<StronaWiersza> pobierzzapisy(String rodzajkont) {
-         List<StronaWiersza> zapisyRok = null;
+        List<StronaWiersza> zapisyRok = null;
         if (rodzajkont.equals("wszystkie")) {
             zapisyRok = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         } else if (rodzajkont.equals("bilansowe")) {
             zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        } else if (rodzajkont.equals("wynikowe")){
+        } else if (rodzajkont.equals("wynikowe")) {
             zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         return zapisyRok;
@@ -597,7 +597,7 @@ public class SaldoAnalitykaView implements Serializable {
         }
         return l;
     }
-    
+
 //    private List<Sprawozdanie_0> generujgrupe0(List<SaldoKonto> pobranekonta) {
 //
 //    }

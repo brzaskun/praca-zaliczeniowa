@@ -9,6 +9,7 @@ package viewfk;
 import beansFK.BOFKBean;
 import beansFK.KontaFKBean;
 import dao.StronaWierszaDAO;
+import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
@@ -44,7 +45,7 @@ public class SaldoSyntetykaView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
-    private WierszBODAO wierszBODAO;
+    private DokDAOfk dokDAOfk;
     @Inject
     private KontoDAOfk kontoDAOfk;
     @Inject
@@ -155,7 +156,7 @@ public class SaldoSyntetykaView implements Serializable {
 //</editor-fold>
 
     private void naniesBOnaKonto(SaldoKonto saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBOSyntetyka(kontoDAOfk, p, wierszBODAO, wpisView);
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBOSyntetyka(kontoDAOfk, p, dokDAOfk, wpisView);
         for (StronaWiersza r : zapisyBO) {
             if (r.getWnma().equals("Wn")) {
                 saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
@@ -168,7 +169,7 @@ public class SaldoSyntetykaView implements Serializable {
     private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
         for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
             StronaWiersza st = (StronaWiersza) it.next();
-            if (st.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+            if (st.getDokfk().getDokfkPK().getSeriadokfk().equals("BO") && st.getDokfk().getDokfkPK().getNrkolejnywserii() == 1) {
                 it.remove();
             }
         }
@@ -178,8 +179,14 @@ public class SaldoSyntetykaView implements Serializable {
             if (p.getPelnynumer().equals(r.getKonto().getSyntetycznenumer()) || p.getPelnynumer().equals(r.getKonto().getPelnynumer())) {
                 if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                     if (r.getWnma().equals("Wn")) {
+                        if (r.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                            saldoKonto.setObrotyWnMc(Z.z(saldoKonto.getObrotyWnMc() + r.getKwotaPLN()));
+                        }
                         saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
                     } else {
+                        if (r.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                            saldoKonto.setObrotyMaMc(Z.z(saldoKonto.getObrotyMaMc() + r.getKwotaPLN()));
+                        }
                         saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
                     }
                     saldoKonto.getZapisy().add(r);

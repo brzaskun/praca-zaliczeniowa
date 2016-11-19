@@ -125,6 +125,8 @@ public class KontaFKBean implements Serializable{
             p.setBoMa(Z.z(p.getBoMa() + r.getBoMa()));
             p.setObrotyWn(Z.z(p.getObrotyWn() + r.getObrotyWn()));
             p.setObrotyMa(Z.z(p.getObrotyMa() + r.getObrotyMa()));
+            p.setObrotyWnMc(Z.z(p.getObrotyWnMc()+ r.getObrotyWnMc()));
+            p.setObrotyMaMc(Z.z(p.getObrotyMaMc()+ r.getObrotyMaMc()));
             p.setObrotyBoWn(Z.z(p.getObrotyBoWn() + r.getObrotyBoWn()));
             p.setObrotyBoMa(Z.z(p.getObrotyBoMa() + r.getObrotyBoMa()));
             p.setSaldoWn(Z.z(p.getSaldoWn() + r.getSaldoWn()));
@@ -134,6 +136,8 @@ public class KontaFKBean implements Serializable{
         p.setBoMa(Z.z(p.getBoMa()));
         p.setObrotyWn(Z.z(p.getObrotyWn()));
         p.setObrotyMa(Z.z(p.getObrotyMa()));
+        p.setObrotyWnMc(Z.z(p.getObrotyWnMc()));
+        p.setObrotyMaMc(Z.z(p.getObrotyMaMc()));
         p.setObrotyBoWn(Z.z(p.getObrotyBoWn()));
         p.setObrotyBoMa(Z.z(p.getObrotyBoMa()));
         p.setSaldoWn(Z.z(p.getSaldoWn()));
