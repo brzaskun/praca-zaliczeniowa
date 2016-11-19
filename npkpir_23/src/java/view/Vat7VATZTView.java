@@ -5,6 +5,7 @@
 package view;
 
 import deklaracjaVAT7_13.VATZT;
+import entity.DeklaracjaVatZT;
 import entity.DeklaracjaVatZZPowod;
 import entity.Deklaracjevat;
 import error.E;
@@ -49,16 +50,17 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
     public void dodajzalacznikVATZT() throws IOException{
         String podatnik = wpisView.getPodatnikWpisu();
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
+        DeklaracjaVatZT zal = temp.getSchemaobj().getDeklaracjaVatZT();
         Msg.msg("i","Wprowadzono tresc informacji "+informacja,"formX:msg");
         String zalacznik;
         String trescdeklaracji = temp.getDeklaracja();
         //pozbywamy sie koncowki </ns:Deklaracja> ale szukamy wpierw czy isteje juz inny zalacznik
         int lastIndexOf = trescdeklaracji.lastIndexOf("</Zalaczniki>");
         if (lastIndexOf == -1) {
-            zalacznik = new VATZT(kwota,informacja,0).getVatzt();
+            zalacznik = new VATZT(zal,kwota,informacja,0).getVatzt();
             lastIndexOf = trescdeklaracji.lastIndexOf("<podp:DaneAutoryzujace");
         } else {
-            zalacznik = new VATZT(kwota,informacja,1).getVatzt();
+            zalacznik = new VATZT(zal,kwota,informacja,1).getVatzt();
         }
         String koncowka = trescdeklaracji.substring(lastIndexOf);
         trescdeklaracji = trescdeklaracji.substring(0, lastIndexOf);
@@ -76,6 +78,7 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
         }
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml?faces-redirect=true");
     }
+   
 
     public String getInformacja() {
         return informacja;

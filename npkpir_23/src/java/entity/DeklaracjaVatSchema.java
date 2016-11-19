@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,10 +57,10 @@ public class DeklaracjaVatSchema implements Serializable {
     @Column(name = "mc0kw1")
     private boolean mc0kw1;
     @JoinColumn(name = "deklaracjaVatZZ",referencedColumnName = "id")
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private DeklaracjaVatZZ deklaracjaVatZZ;
     @JoinColumn(name = "deklaracjaVatZT",referencedColumnName = "id")
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private DeklaracjaVatZT deklaracjaVatZT;
 
     public DeklaracjaVatSchema() {

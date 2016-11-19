@@ -787,6 +787,7 @@ public class Vat7DKView implements Serializable {
         nowadekl.setStatus("");
         nowadekl.setOpis("");
         nowadekl.setWzorschemy(schema.getNazwaschemy());
+        nowadekl.setSchemaobj(schema);
         return nowadekl;
     }
 

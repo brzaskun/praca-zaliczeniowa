@@ -112,11 +112,17 @@ public class DeklVATZalSchemaView  implements Serializable {
     }
     
     public void edytujschemeZZ() {
+        DeklaracjaVatSchema d = nowaschemaZZ.getDeklaracjaVatSchema();
+        d.setDeklaracjaVatZZ(nowaschemaZZ);
+        deklaracjaVatSchemaDAO.edit(d);
         deklaracjaVatZZDAO.edit(nowaschemaZZ);
         Msg.msg("Udana edycja schemy ZZ");
     }
     
     public void edytujschemeZT() {
+        DeklaracjaVatSchema d = nowaschemaZT.getDeklaracjaVatSchema();
+        d.setDeklaracjaVatZT(nowaschemaZT);
+        deklaracjaVatSchemaDAO.edit(d);
         deklaracjaVatZTDAO.edit(nowaschemaZT);
         Msg.msg("Udana edycja schemy ZT");
     }

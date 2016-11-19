@@ -19,7 +19,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -128,6 +130,9 @@ public class Deklaracjevat implements Serializable {
     private boolean testowa;
     @Column(name = "wzorschemy")
     private String wzorschemy;
+    @JoinColumn(name = "schemaobj", referencedColumnName = "id")
+    @ManyToOne
+    private DeklaracjaVatSchema schemaobj;
     @OneToOne(cascade = {CascadeType.ALL})
     private VATDeklaracjaKorektaDok vatDeklaracjaKorektaDokWykaz;
     @Column(name = "kwotadoprzeniesienia")
@@ -358,6 +363,16 @@ public class Deklaracjevat implements Serializable {
     public void setVatzz(String vatzz) {
         this.vatzz = vatzz;
     }
+
+    public DeklaracjaVatSchema getSchemaobj() {
+        return schemaobj;
+    }
+
+    public void setSchemaobj(DeklaracjaVatSchema schemaobj) {
+        this.schemaobj = schemaobj;
+    }
+
+    
 
     
     
