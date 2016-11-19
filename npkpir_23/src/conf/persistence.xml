@@ -8,8 +8,8 @@
     <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
-      
+<!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
+      <property name="eclipselink.ddl-generation" value="none"/>
     </properties> 
  </persistence-unit>
   <!--ABY TO DZIAŁAŁO NALEŻY ZAZNACZYC WE WLASCIWOSCIACH PROJEKTU - COMPILE ON SAVE!!!!!-->
