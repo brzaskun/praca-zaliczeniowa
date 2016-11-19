@@ -1,0 +1,102 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:accordionPanel id="akordeon">
+        <p:tab title="Schemy załącznika VAT-ZT">  
+            <h:form id="form_deklVATZalSchemaView">
+                <p:growl life="3600"  autoUpdate="true"/>
+                <p:dataTable value="#{deklVATZalSchemaView.schemyDeklaracjiVatZT}" var="item" style="width: 680px;"
+                             emptyMessage="nie ma zdefiniowanych schem ZT" id="wykazschem" rowKey="#{item.id}"
+                             selection="#{deklVATZalSchemaView.wybranaschemaZT}" selectionMode="single" sortBy="#{item.nazwaschemy}" sortOrder="descending">
+                    <p:ajax event="toggleSelect" global="false"/>
+                    <p:ajax event="rowSelect" global="false" listener="#{deklVATZalSchemaView.skopiujschemaZT()}" update="akordeon:wprowadzanieschemy"/>
+                    <f:facet name="header">
+                        <h:outputText value="lista zdefiniowanych schem"/>
+                    </f:facet>
+                    <p:column width="30" style="text-align: center;">
+                        <p:rowToggler/>
+                    </p:column>
+                    <p:column width="300">
+                        <f:facet name="header">
+                            <h:outputText value="Nazwa schemy"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nazwaschemy}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="Deklaracja"/>
+                        </f:facet>
+                        <h:outputText value="#{item.deklaracjaVatSchema.nazwaschemy}"/>
+                    </p:column>
+                    <p:column width="40">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{deklVATZalSchemaView.usunschemeZT(item)}"
+                                         update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:panelGrid>
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="wstęp"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="naglowek"/>
+                                    </p:column>
+                                    <p:column width="40">
+                                        <h:outputText value="kwota"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="uzasadnienie"/>
+                                    </p:column>
+                                </p:row>
+                            </f:facet>
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="#{item.wstep}"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{item.naglowek}"/>
+                                </p:column>
+                                <p:column style="text-align: center;" styleClass="ten-percent">
+                                     <h:outputText value="#{item.kwota}"/>
+                                </p:column>
+                                <p:column style="text-align: center;" styleClass="ten-percent">
+                                    <h:outputText value="#{item.uzasadnienie}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:rowExpansion>
+                </p:dataTable>
+            </h:form>
+            <h:form id="wprowadzanieschemy">
+                <p:panelGrid id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
+                    <h:outputText value="nazwa schemy: "/>
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZT.nazwaschemy}" style="width: 200px;" placeholder="ZT-"/>
+                </p:panelGrid>
+                <p:panelGrid columns="2" style="padding: 10px;">
+                    <h:outputText value="wstęp: " />
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZT.wstep}" style="width: 600px;"/>
+                    <h:outputText value="nagłówek: " />
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZT.naglowek}" style="width: 600px;"/>
+                    <h:outputText value="deklaracja: " />
+                    <p:selectOneListbox value="#{deklVATZalSchemaView.nowaschemaZT.deklaracjaVatSchema}" converter="DeklaracjaVatSchemaConv">
+                        <f:selectItems value="#{deklVATZalSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
+                    </p:selectOneListbox>
+                    <h:outputText value="kwota pole" />
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZT.kwota}" style="width: 100px;"/>
+                    <h:outputText value="powód uzasadnienie" />
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZT.uzasadnienie}" style="width: 100px;"/>
+                 </p:panelGrid>
+                <p:commandButton value="dodaj" actionListener="#{deklVATZalSchemaView.dodajschemeZT()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
+                <p:commandButton value="edytuj" actionListener="#{deklVATZalSchemaView.edytujschemeZT()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
+            </h:form>
+        </p:tab>
+    </p:accordionPanel>
+</ui:composition>   
+

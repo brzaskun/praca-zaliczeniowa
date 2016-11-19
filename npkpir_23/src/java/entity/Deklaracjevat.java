@@ -122,6 +122,8 @@ public class Deklaracjevat implements Serializable {
     private String ordzu;
     @Column(name = "vatzt")
     private String vatzt;
+    @Column(name = "vatzz")
+    private String vatzz;
     @Column(name="testowa")
     private boolean testowa;
     @Column(name = "wzorschemy")
@@ -347,6 +349,14 @@ public class Deklaracjevat implements Serializable {
 
     public void setSchemawierszsumarycznylista(List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista) {
         this.schemawierszsumarycznylista = schemawierszsumarycznylista;
+    }
+
+    public String getVatzz() {
+        return vatzz;
+    }
+
+    public void setVatzz(String vatzz) {
+        this.vatzz = vatzz;
     }
 
     

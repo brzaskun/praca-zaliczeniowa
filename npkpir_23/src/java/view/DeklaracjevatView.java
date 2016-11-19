@@ -62,7 +62,7 @@ public class DeklaracjevatView implements Serializable {
     private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
     @Inject
     private SchemaEwidencjaDAO schemaEwidencjaDAO;
-    private boolean pokazZZ;
+    private boolean pokazZT;
 
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();
@@ -88,8 +88,8 @@ public class DeklaracjevatView implements Serializable {
                 Deklaracjevat p = oczekujace.get(0);
                 DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(p.getSchemawierszsumarycznylista(),"do zwrotu w terminie 25 dni");
                 int kwota = narachunek25dni.getDeklaracjaVatWierszSumaryczny().getSumavat();
-                if (kwota > 0) {
-                    pokazZZ = true;
+                if (kwota > 0 && p.getVatzt() == null) {
+                    pokazZT = true;
                 }
             }
         } catch (Exception e) {
@@ -332,12 +332,12 @@ public class DeklaracjevatView implements Serializable {
         this.wyslaneniepotwierdzone = wyslaneniepotwierdzone;
     }
 
-    public boolean isPokazZZ() {
-        return pokazZZ;
+    public boolean isPokazZT() {
+        return pokazZT;
     }
 
-    public void setPokazZZ(boolean pokazZZ) {
-        this.pokazZZ = pokazZZ;
+    public void setPokazZT(boolean pokazZT) {
+        this.pokazZT = pokazZT;
     }
     
     

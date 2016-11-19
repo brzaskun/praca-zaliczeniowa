@@ -5,15 +5,17 @@
  */
 package view;
 
-import beansDok.DeklaracjaVatSchemaBean;
+import beansDok.DeklaracjaVatZTBean;
 import beansDok.DeklaracjaVatZZBean;
 import comparator.DeklaracjaVatSchemacomparator;
 import dao.DeklaracjaVatSchemaDAO;
+import dao.DeklaracjaVatZTDAO;
 import dao.DeklaracjaVatZZDAO;
 import entity.DeklaracjaVatSchema;
+import entity.DeklaracjaVatZT;
 import entity.DeklaracjaVatZZ;
+import error.E;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -32,63 +34,125 @@ public class DeklVATZalSchemaView  implements Serializable {
     @Inject
     private DeklaracjaVatZZDAO deklaracjaVatZZDAO;
     @Inject
+    private DeklaracjaVatZTDAO deklaracjaVatZTDAO;
+    @Inject
     private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
     private List<DeklaracjaVatSchema> schemyDeklaracjiVat;
     private List<DeklaracjaVatZZ> schemyDeklaracjiVatZZ;
+    private List<DeklaracjaVatZT> schemyDeklaracjiVatZT;
     @Inject
-    private DeklaracjaVatZZ wybranaschema;
+    private DeklaracjaVatZZ wybranaschemaZZ;
     @Inject
-    private DeklaracjaVatZZ nowaschema;
+    private DeklaracjaVatZZ nowaschemaZZ;
+    @Inject
+    private DeklaracjaVatZT wybranaschemaZT;
+    @Inject
+    private DeklaracjaVatZT nowaschemaZT;
     
     @PostConstruct
     private void init() {
         schemyDeklaracjiVatZZ = deklaracjaVatZZDAO.findAll();
+        schemyDeklaracjiVatZT = deklaracjaVatZTDAO.findAll();
         schemyDeklaracjiVat = deklaracjaVatSchemaDAO.findAll();
         Collections.sort(schemyDeklaracjiVat, new DeklaracjaVatSchemacomparator());
     }
     
-    public void skopiujschema() {
-        nowaschema = wybranaschema;
-        Msg.msg("Wybrano schemę "+wybranaschema.getNazwaschemy());
+    public void skopiujschemaZZ() {
+        nowaschemaZZ = wybranaschemaZZ;
+        Msg.msg("Wybrano schemę ZZ "+wybranaschemaZZ.getNazwaschemy());
     }
     
-    public int dodajscheme() {
+    public void skopiujschemaZT() {
+        nowaschemaZT = wybranaschemaZT;
+        Msg.msg("Wybrano schemę ZT "+wybranaschemaZZ.getNazwaschemy());
+    }
+    
+    public int dodajschemeZZ() {
         int zwrot = 0;
-        int czyschemaistnieje = DeklaracjaVatZZBean.sprawdzScheme(nowaschema, schemyDeklaracjiVatZZ);
+        int czyschemaistnieje = DeklaracjaVatZZBean.sprawdzScheme(nowaschemaZZ, schemyDeklaracjiVatZZ);
         if (czyschemaistnieje == 1) {
-            Msg.msg("e", "Nie można dodać, taka schema o takiej nazwie już istnieje.");
+            Msg.msg("e", "Nie można dodać, taka schema ZZ o takiej nazwie już istnieje.");
         } else if (czyschemaistnieje == 3) {
-            Msg.msg("e", "Nie można dodać, brak nazwy nowej schemy.");
+            Msg.msg("e", "Nie można dodać, brak nazwy nowej schemy ZZ.");
         } else if (czyschemaistnieje == 4) {
-            Msg.msg("e", "Nie można dodać. Nazwa schemy nie rozpoczyna się od M- lub K-");
+            Msg.msg("e", "Nie można dodać. Nazwa schemy nie rozpoczyna się od ZZ");
         } else {
-            deklaracjaVatZZDAO.dodaj(nowaschema);
-            schemyDeklaracjiVatZZ.add(nowaschema);
-            DeklaracjaVatSchema d = nowaschema.getDeklaracjaVatSchema();
-            d.setDeklaracjaVatZZ(nowaschema);
+            deklaracjaVatZZDAO.dodaj(nowaschemaZZ);
+            schemyDeklaracjiVatZZ.add(nowaschemaZZ);
+            DeklaracjaVatSchema d = nowaschemaZZ.getDeklaracjaVatSchema();
+            d.setDeklaracjaVatZZ(nowaschemaZZ);
             deklaracjaVatSchemaDAO.edit(d);
-            Msg.msg("Dodano schemę");
+            Msg.msg("Dodano schemę ZZ");
             zwrot = 1;
-            nowaschema = new DeklaracjaVatZZ();
+            nowaschemaZZ = new DeklaracjaVatZZ();
         }
         return zwrot;
     }
     
-    public void edytujscheme() {
-        deklaracjaVatZZDAO.edit(nowaschema);
-        Msg.msg("Udana edycja schemy");
+    public int dodajschemeZT() {
+        int zwrot = 0;
+        int czyschemaistnieje = DeklaracjaVatZTBean.sprawdzScheme(nowaschemaZT, schemyDeklaracjiVatZT);
+        if (czyschemaistnieje == 1) {
+            Msg.msg("e", "Nie można dodać, taka schema ZT o takiej nazwie już istnieje.");
+        } else if (czyschemaistnieje == 3) {
+            Msg.msg("e", "Nie można dodać, brak nazwy nowej schemy ZT.");
+        } else if (czyschemaistnieje == 4) {
+            Msg.msg("e", "Nie można dodać. Nazwa schemy nie rozpoczyna się od ZT");
+        } else {
+            deklaracjaVatZTDAO.dodaj(nowaschemaZT);
+            schemyDeklaracjiVatZT.add(nowaschemaZT);
+            DeklaracjaVatSchema d = nowaschemaZT.getDeklaracjaVatSchema();
+            d.setDeklaracjaVatZT(nowaschemaZT);
+            deklaracjaVatSchemaDAO.edit(d);
+            Msg.msg("Dodano schemę ZT");
+            zwrot = 1;
+            nowaschemaZT = new DeklaracjaVatZT();
+        }
+        return zwrot;
     }
     
-    public void usun(DeklaracjaVatZZ s) {
-        deklaracjaVatZZDAO.destroy(s);
-        DeklaracjaVatSchema d = s.getDeklaracjaVatSchema();
-        d.setDeklaracjaVatZZ(null);
-        deklaracjaVatSchemaDAO.edit(d);
-        schemyDeklaracjiVatZZ.remove(s);
-        if (schemyDeklaracjiVatZZ.size() > 0) {
-            wybranaschema = schemyDeklaracjiVatZZ.get(schemyDeklaracjiVatZZ.size()-1);
+    public void edytujschemeZZ() {
+        deklaracjaVatZZDAO.edit(nowaschemaZZ);
+        Msg.msg("Udana edycja schemy ZZ");
+    }
+    
+    public void edytujschemeZT() {
+        deklaracjaVatZTDAO.edit(nowaschemaZT);
+        Msg.msg("Udana edycja schemy ZT");
+    }
+    
+    public void usunschemeZZ(DeklaracjaVatZZ s) {
+        try {
+            DeklaracjaVatSchema d = s.getDeklaracjaVatSchema();
+            d.setDeklaracjaVatZZ(null);
+            deklaracjaVatSchemaDAO.edit(d);
+            deklaracjaVatZZDAO.destroy(s);
+            schemyDeklaracjiVatZZ.remove(s);
+            if (schemyDeklaracjiVatZZ.size() > 0) {
+                wybranaschemaZZ = schemyDeklaracjiVatZZ.get(schemyDeklaracjiVatZZ.size()-1);
+            }
+            Msg.msg("Usunieto schemę ZZ");
+        } catch(Exception e) {
+            E.e(e);
+            Msg.dPe();
         }
-        Msg.msg("Usunieto schemę");
+    }
+    
+    public void usunschemeZT(DeklaracjaVatZT s) {
+        try {
+            DeklaracjaVatSchema d = s.getDeklaracjaVatSchema();
+            d.setDeklaracjaVatZT(null);
+            deklaracjaVatSchemaDAO.edit(d);
+            deklaracjaVatZTDAO.destroy(s);
+            schemyDeklaracjiVatZT.remove(s);
+            if (schemyDeklaracjiVatZT.size() > 0) {
+                wybranaschemaZT = schemyDeklaracjiVatZT.get(schemyDeklaracjiVatZT.size() - 1);
+            }
+            Msg.msg("Usunieto schemę ZT");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
+        }
     }
     
     public DeklaracjaVatZZDAO getDeklaracjaVatZZDAO() {
@@ -107,20 +171,20 @@ public class DeklVATZalSchemaView  implements Serializable {
         this.schemyDeklaracjiVatZZ = schemyDeklaracjiVatZZ;
     }
 
-    public DeklaracjaVatZZ getWybranaschema() {
-        return wybranaschema;
+    public DeklaracjaVatZZ getWybranaschemaZZ() {
+        return wybranaschemaZZ;
     }
 
-    public void setWybranaschema(DeklaracjaVatZZ wybranaschema) {
-        this.wybranaschema = wybranaschema;
+    public void setWybranaschemaZZ(DeklaracjaVatZZ wybranaschemaZZ) {
+        this.wybranaschemaZZ = wybranaschemaZZ;
     }
 
-    public DeklaracjaVatZZ getNowaschema() {
-        return nowaschema;
+    public DeklaracjaVatZZ getNowaschemaZZ() {
+        return nowaschemaZZ;
     }
 
-    public void setNowaschema(DeklaracjaVatZZ nowaschema) {
-        this.nowaschema = nowaschema;
+    public void setNowaschemaZZ(DeklaracjaVatZZ nowaschemaZZ) {
+        this.nowaschemaZZ = nowaschemaZZ;
     }
 
     public List<DeklaracjaVatSchema> getSchemyDeklaracjiVat() {
@@ -129,6 +193,30 @@ public class DeklVATZalSchemaView  implements Serializable {
 
     public void setSchemyDeklaracjiVat(List<DeklaracjaVatSchema> schemyDeklaracjiVat) {
         this.schemyDeklaracjiVat = schemyDeklaracjiVat;
+    }
+
+    public List<DeklaracjaVatZT> getSchemyDeklaracjiVatZT() {
+        return schemyDeklaracjiVatZT;
+    }
+
+    public void setSchemyDeklaracjiVatZT(List<DeklaracjaVatZT> schemyDeklaracjiVatZT) {
+        this.schemyDeklaracjiVatZT = schemyDeklaracjiVatZT;
+    }
+
+    public DeklaracjaVatZT getWybranaschemaZT() {
+        return wybranaschemaZT;
+    }
+
+    public void setWybranaschemaZT(DeklaracjaVatZT wybranaschemaZT) {
+        this.wybranaschemaZT = wybranaschemaZT;
+    }
+
+    public DeklaracjaVatZT getNowaschemaZT() {
+        return nowaschemaZT;
+    }
+
+    public void setNowaschemaZT(DeklaracjaVatZT nowaschemaZT) {
+        this.nowaschemaZT = nowaschemaZT;
     }
     
     

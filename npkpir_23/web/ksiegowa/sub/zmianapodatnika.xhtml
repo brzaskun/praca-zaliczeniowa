@@ -8,16 +8,16 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     
     <h:form id="form">
-        <p:panel menuTitle="Zmien na:" header="Zmień na:" style="max-width: 800px; height: 200px;">
+        <p:panel menuTitle="Zmien na:" header="Zmień na:" style="max-width: 800px; height: 310px;">
             <p:panelGrid columns="4" style="margin-left: 0%; height: 100px;">
                 <h:outputLabel value="#{mgs['nazwa.podatnika']}"/>
                 <h:outputLabel value="#{mgs.rok}"/>
                 <h:outputLabel value="#{mgs.mc}"/>
                 <h:outputLabel value=""/>
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 250px;" >
+                <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 350px;" >
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
                     <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form" />
-                </p:selectOneMenu>
+                </p:selectOneListbox>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form" />

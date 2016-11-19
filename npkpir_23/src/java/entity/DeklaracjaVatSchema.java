@@ -58,12 +58,15 @@ public class DeklaracjaVatSchema implements Serializable {
     @JoinColumn(name = "deklaracjaVatZZ",referencedColumnName = "id")
     @OneToOne(cascade = CascadeType.ALL)
     private DeklaracjaVatZZ deklaracjaVatZZ;
+    @JoinColumn(name = "deklaracjaVatZT",referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private DeklaracjaVatZT deklaracjaVatZT;
 
     public DeklaracjaVatSchema() {
     }
 
     public DeklaracjaVatSchema(DeklaracjaVatSchema dk) {
-        this.rokOd = rokOd;
+        this.rokOd = dk.rokOd;
         this.mcOd = dk.mcOd;
         this.nazwaschemy = dk.nazwaschemy;
         this.wstep = dk.wstep;
@@ -177,6 +180,14 @@ public class DeklaracjaVatSchema implements Serializable {
 
     public void setDeklaracjaVatZZ(DeklaracjaVatZZ deklaracjaVatZZ) {
         this.deklaracjaVatZZ = deklaracjaVatZZ;
+    }
+
+    public DeklaracjaVatZT getDeklaracjaVatZT() {
+        return deklaracjaVatZT;
+    }
+
+    public void setDeklaracjaVatZT(DeklaracjaVatZT deklaracjaVatZT) {
+        this.deklaracjaVatZT = deklaracjaVatZT;
     }
     
     public String getOswiadczenie() {

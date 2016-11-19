@@ -12,10 +12,10 @@
             <h:form id="form_deklVATZalSchemaView">
                 <p:growl life="3600"  autoUpdate="true"/>
                 <p:dataTable value="#{deklVATZalSchemaView.schemyDeklaracjiVatZZ}" var="item" style="width: 680px;"
-                             emptyMessage="nie ma zdefiniowanych schem" id="wykazschem" rowKey="#{item.id}"
-                             selection="#{deklVATZalSchemaView.wybranaschema}" selectionMode="single" sortBy="#{item.nazwaschemy}" sortOrder="descending">
+                             emptyMessage="nie ma zdefiniowanych schem ZZ" id="wykazschem" rowKey="#{item.id}"
+                             selection="#{deklVATZalSchemaView.wybranaschemaZZ}" selectionMode="single" sortBy="#{item.nazwaschemy}" sortOrder="descending">
                     <p:ajax event="toggleSelect" global="false"/>
-                    <p:ajax event="rowSelect" global="false" listener="#{deklVATZalSchemaView.skopiujschema()}" update="akordeon:wprowadzanieschemy"/>
+                    <p:ajax event="rowSelect" global="false" listener="#{deklVATZalSchemaView.skopiujschemaZZ()}" update="akordeon:wprowadzanieschemy"/>
                     <f:facet name="header">
                         <h:outputText value="lista zdefiniowanych schem"/>
                     </f:facet>
@@ -35,7 +35,7 @@
                         <h:outputText value="#{item.deklaracjaVatSchema.nazwaschemy}"/>
                     </p:column>
                     <p:column width="40">
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{deklVATZalSchemaView.usun(item)}"
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{deklVATZalSchemaView.usunschemeZZ(item)}"
                                          update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
                     </p:column>
                     <p:rowExpansion>
@@ -69,10 +69,10 @@
                                 <p:column style="text-align: center;">
                                      <h:outputText value="#{item.powod}"/>
                                 </p:column>
-                                 <p:column style="text-align: center;">
+                                 <p:column style="text-align: center;" styleClass="ten-percent">
                                      <h:outputText value="#{item.kwota}"/>
                                 </p:column>
-                                <p:column style="text-align: center;">
+                                <p:column style="text-align: center;" styleClass="ten-percent">
                                     <h:outputText value="#{item.uzasadnienie}"/>
                                 </p:column>
                             </p:row>
@@ -83,26 +83,26 @@
             <h:form id="wprowadzanieschemy">
                 <p:panelGrid id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
                     <h:outputText value="nazwa schemy: "/>
-                    <p:inputText value="#{deklVATZalSchemaView.nowaschema.nazwaschemy}" style="width: 200px;" placeholder="ZZ-"/>
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZZ.nazwaschemy}" style="width: 200px;" placeholder="ZZ-"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="padding: 10px;">
                     <h:outputText value="wstęp: " />
-                    <p:inputText value="#{deklVATZalSchemaView.nowaschema.wstep}" style="width: 600px;"/>
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZZ.wstep}" style="width: 600px;"/>
                     <h:outputText value="nagłówek: " />
-                    <p:inputText value="#{deklVATZalSchemaView.nowaschema.naglowek}" style="width: 600px;"/>
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZZ.naglowek}" style="width: 600px;"/>
                     <h:outputText value="deklaracja: " />
-                    <p:selectOneListbox value="#{deklVATZalSchemaView.nowaschema.deklaracjaVatSchema}" converter="DeklaracjaVatSchemaConv">
+                    <p:selectOneListbox value="#{deklVATZalSchemaView.nowaschemaZZ.deklaracjaVatSchema}" converter="DeklaracjaVatSchemaConv">
                         <f:selectItems value="#{deklVATZalSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
                     </p:selectOneListbox>
                     <h:outputText value="powód pole" />
-                    <p:inputText value="#{deklVATZalSchemaView.nowaschema.powod}" style="width: 100px;"/>
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZZ.powod}" style="width: 100px;"/>
                     <h:outputText value="kwota pole" />
-                    <p:inputText value="#{deklVATZalSchemaView.nowaschema.kwota}" style="width: 100px;"/>
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZZ.kwota}" style="width: 100px;"/>
                     <h:outputText value="powód uzasadnienie" />
-                    <p:inputText value="#{deklVATZalSchemaView.nowaschema.uzasadnienie}" style="width: 100px;"/>
+                    <p:inputText value="#{deklVATZalSchemaView.nowaschemaZZ.uzasadnienie}" style="width: 100px;"/>
                  </p:panelGrid>
-                <p:commandButton value="dodaj" actionListener="#{deklVATZalSchemaView.dodajscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
-                <p:commandButton value="edytuj" actionListener="#{deklVATZalSchemaView.edytujscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
+                <p:commandButton value="dodaj" actionListener="#{deklVATZalSchemaView.dodajschemeZZ()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
+                <p:commandButton value="edytuj" actionListener="#{deklVATZalSchemaView.edytujschemeZZ()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
             </h:form>
         </p:tab>
         <p:tab title="Lista powodów dla załączników VAT-ZZ">

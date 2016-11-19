@@ -391,8 +391,12 @@
             <to-view-id>/manager/managerDeklaracjevat.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>deklaracjevatzal</from-outcome>
-            <to-view-id>/manager/managerDeklaracjevatZalaczniki.xhtml?faces-redirect=true</to-view-id>
+            <from-outcome>deklaracjevatzz</from-outcome>
+            <to-view-id>/manager/managerDeklaracjevatZZ.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>deklaracjevatzt</from-outcome>
+            <to-view-id>/manager/managerDeklaracjevatZT.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>kasa</from-outcome>

@@ -108,13 +108,13 @@ public class Msg implements Serializable {
     
     public static void dP(){
           Severity sl = FacesMessage.SEVERITY_INFO;
-          FacesMessage msg = new FacesMessage(sl,"Dodano pozycję do tabeli", null);
+          FacesMessage msg = new FacesMessage(sl,"Operacja zakończona sukcesem", null);
           FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
     public static void dPe(){
           Severity sl = FacesMessage.SEVERITY_ERROR;
-          FacesMessage msg = new FacesMessage(sl,"Wystąpił błąd, nie dodano pozycji do tabeli", null);
+          FacesMessage msg = new FacesMessage(sl,"Wystąpił błąd, operacja nie udana", null);
           FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     

@@ -6,19 +6,13 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -34,9 +28,9 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames={"nazwaschemy"})
 })
 @NamedQueries({
-    @NamedQuery(name = "DeklaracjaVatZZ.usunliste", query = "DELETE FROM DeklaracjaVatZZ p WHERE p.nazwaschemy = :nazwaschemy")
+    @NamedQuery(name = "DeklaracjaVatZT.usunliste", query = "DELETE FROM DeklaracjaVatZT p WHERE p.nazwaschemy = :nazwaschemy")
 })
-public class DeklaracjaVatZZ implements Serializable {
+public class DeklaracjaVatZT implements Serializable {
    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,34 +43,22 @@ public class DeklaracjaVatZZ implements Serializable {
     private String wstep;
     @Column(name = "naglowek", length = 2048)
     private String naglowek;
-    @Column(name = "powod")
-    private String powod;
     @Column(name = "kwota")
     private String kwota;
     @Column(name = "uzasadnienie")
     private String uzasadnienie;
-    @OneToOne(mappedBy = "deklaracjaVatZZ")
+    @OneToOne(mappedBy = "deklaracjaVatZT")
     private DeklaracjaVatSchema deklaracjaVatSchema;
-    @ManyToMany(fetch=FetchType.EAGER)
-    @JoinTable(
-            name = "zz_powody",
-            joinColumns = {
-                @JoinColumn(name = "powody", referencedColumnName = "id"),
-            },
-            inverseJoinColumns = {
-                @JoinColumn(name = "vatzzty", referencedColumnName = "id"),
-            })
-    private List<DeklaracjaVatZZPowod> powody;
 
-    public DeklaracjaVatZZ() {
-        this.powody = new ArrayList<>();
+
+    public DeklaracjaVatZT() {
+        
     }
 
-    public DeklaracjaVatZZ(DeklaracjaVatZZ dk) {
+    public DeklaracjaVatZT(DeklaracjaVatZT dk) {
         this.nazwaschemy = dk.nazwaschemy;
         this.wstep = dk.wstep;
         this.naglowek = dk.naglowek;
-        this.powody = new ArrayList<>();
     }
 
         
@@ -97,7 +79,7 @@ public class DeklaracjaVatZZ implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DeklaracjaVatZZ other = (DeklaracjaVatZZ) obj;
+        final DeklaracjaVatZT other = (DeklaracjaVatZT) obj;
         if (!Objects.equals(this.nazwaschemy, other.nazwaschemy)) {
             return false;
         }
@@ -106,7 +88,7 @@ public class DeklaracjaVatZZ implements Serializable {
 
     @Override
     public String toString() {
-        return "DeklaracjaVatZZ{" + "nazwaschemy=" + nazwaschemy + ", wstep=" + wstep + ", naglowek=" + naglowek + ", powod=" + powod + ", kwota=" + kwota + ", uzasadnienie=" + uzasadnienie + ", deklaracjaVatSchema=" + deklaracjaVatSchema + '}';
+        return "DeklaracjaVatZZ{" + "nazwaschemy=" + nazwaschemy + ", wstep=" + wstep + ", naglowek=" + naglowek + ", kwota=" + kwota + ", uzasadnienie=" + uzasadnienie + ", deklaracjaVatSchema=" + deklaracjaVatSchema + '}';
     }
 
     
@@ -138,14 +120,6 @@ public class DeklaracjaVatZZ implements Serializable {
         this.wstep = wstep;
     }
 
-    public String getPowod() {
-        return powod;
-    }
-
-    public void setPowod(String powod) {
-        this.powod = powod;
-    }
-
     public String getKwota() {
         return kwota;
     }
@@ -170,14 +144,6 @@ public class DeklaracjaVatZZ implements Serializable {
         this.deklaracjaVatSchema = deklaracjaVatSchema;
     }
 
-    public List<DeklaracjaVatZZPowod> getPowody() {
-        return powody;
-    }
-
-    public void setPowody(List<DeklaracjaVatZZPowod> powody) {
-        this.powody = powody;
-    }
-    
     public String getNaglowek() {
         return naglowek;
     }
