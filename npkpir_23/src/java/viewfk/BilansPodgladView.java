@@ -157,7 +157,7 @@ public class BilansPodgladView  implements Serializable{
             if (sortujwgwartosci) {
                 sortujliste(w);
             }
-            dodajwierszsumy(w);
+            dodajwierszsumyAll(w);
             PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
         } else {
             List<Konto> w = new ArrayList<Konto>();
@@ -165,7 +165,7 @@ public class BilansPodgladView  implements Serializable{
             if (sortujwgwartosci) {
                 sortujliste(w);
             }
-            dodajwierszsumy(w);
+            dodajwierszsumyAll(w);
             PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
         }
     }
@@ -202,9 +202,26 @@ public class BilansPodgladView  implements Serializable{
         }
     }
     
+    private void dodajwierszsumyAll(List<Konto> w) {
+        double wn = 0.0;
+        double ma = 0.0;
+        for (Konto p : w) {
+            if (p.getMacierzysty()==0) {
+                wn += p.getBoWn();
+                ma += p.getBoMa();
+            }
+        }
+        w.add(new Konto("podsumowanie", Z.z(wn), Z.z(ma)));
+    }
+     
     private void dodajwierszsumy(List<Konto> w) {
         double wn = 0.0;
         double ma = 0.0;
+        for (Konto p : w) {
+            wn += p.getBoWn();
+            ma += p.getBoMa();
+        }
+        w.add(new Konto("podsumowanie", Z.z(wn), Z.z(ma)));
     }
     
     private void modyfikujlistedowydruku(boolean analityka, List<Konto> w) {

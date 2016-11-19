@@ -272,6 +272,12 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.idslownika = 0;
         this.syntetycznenumer = syntetycznenumer;
     }   
+
+    public Konto(String podsumowanie, double wn, double ma) {
+        this.nazwapelna = podsumowanie;
+        this.boWn = wn;
+        this.boMa = ma;
+    }
     
     public void getAllChildren(List<Konto> listakontwszystkie, WpisView wpisView, SessionFacade kontoFacade) {
         List<Konto> children = kontoFacade.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), this.pelnynumer);
