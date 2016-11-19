@@ -369,17 +369,17 @@ public class PozycjaBRZestawienieView implements Serializable {
         }
     }
 
-    private void naniesBOnaKonto(Konto p) {
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
-        for (StronaWiersza r : zapisyBO) {
-            if (r.getWnma().equals("Wn")) {
-                p.setBoWn(Z.z(p.getBoWn() + r.getKwotaPLN()));
-            } else {
-                p.setBoMa(Z.z(p.getBoMa() + r.getKwotaPLN()));
-            }
-        }
-    }
-    
+//    private void naniesBOnaKonto(Konto p) {
+//        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
+//        for (StronaWiersza r : zapisyBO) {
+//            if (r.getWnma().equals("Wn")) {
+//                p.setBoWn(Z.z(p.getBoWn() + r.getKwotaPLN()));
+//            } else {
+//                p.setBoMa(Z.z(p.getBoMa() + r.getKwotaPLN()));
+//            }
+//        }
+//    }
+//    
    
    
 

@@ -8,6 +8,7 @@ package viewfk;
 
 import beansFK.BOFKBean;
 import dao.StronaWierszaDAO;
+import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
@@ -42,9 +43,9 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
-    private WierszBODAO wierszBODAO;
-    @Inject
     private KontoDAOfk kontoDAOfk;
+    @Inject
+    private DokDAOfk dokDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     private String wybranyRodzajKonta;
@@ -56,7 +57,6 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
     
     public void init() {
-       listaSaldoKonto = new ArrayList<>();
        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
         if (wybranyRodzajKonta.equals("bilansowe")) {
             for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
@@ -71,8 +71,10 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
                 }
             }
         }
-       List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(wierszBODAO, wpisView);
-       przygotowanalistasald(kontaklienta, zapisyBO);
+       listaSaldoKonto = new ArrayList<>();
+       List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
+       List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+       przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp);
     }
     
     public void odswiezsaldoanalityczne() {
@@ -80,7 +82,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
          init();
     }
     
-     private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO) {
+     private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp) {
         List<StronaWiersza> zapisyRok = pobierzzapisy();
         Map<String,SaldoKontoNarastajaco> przygotowanalista = new HashMap<>();
         int licznik = 0;
@@ -94,7 +96,8 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
             przygotowanalista.put(p.getPelnynumer(),saldoKonto);
         }
         naniesBOnaKonto(przygotowanalista, zapisyBO);
-        naniesZapisyNaKonto(przygotowanalista, zapisyRok);
+        naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, false);
+        naniesZapisyNaKonto(przygotowanalista, zapisyRok, true);
         for (SaldoKontoNarastajaco saldoKontoNarastajaco : przygotowanalista.values()) {
             saldoKontoNarastajaco.sumujBOZapisy();
             saldoKontoNarastajaco.wyliczSaldo();
@@ -172,13 +175,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         }
     }
 
-    private void naniesZapisyNaKonto(Map<String,SaldoKontoNarastajaco> przygotowanalista, List<StronaWiersza> zapisyRok) {
-        for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
-            StronaWiersza st = (StronaWiersza) it.next();
-            if (st.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
-                it.remove();
-            }
-        }
+    private void naniesZapisyNaKonto(Map<String,SaldoKontoNarastajaco> przygotowanalista, List<StronaWiersza> zapisyRok, boolean obroty0zapisy1) {
         List<String> listamcy = new ArrayList<>();
         for (String m : Mce.getMceListS()) {
             if (m.equals(wpisView.getMiesiacNastepny()) && !wpisView.getMiesiacWpisu().equals("12")) {
@@ -188,29 +185,43 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
             }
         }  
         if (zapisyRok != null && zapisyRok.size() > 0) {
-            for (StronaWiersza r : zapisyRok) {
-                SaldoKontoNarastajaco p = przygotowanalista.get(r.getKonto().getPelnynumer());
-                if (r.getKonto().getPelnynumer().equals("403-9-21")) {
-                    System.out.println("d");
-                }
-                String mc = r.getWiersz().getDokfk().getMiesiac();
-                if (listamcy.contains(mc)) {
-                    try {
-                        SaldoKontoNarastajaco.Obrotymca o = p.getObrotymiesiecy().get(mc);
-                        if (r.getWnma().equals("Wn")) {
-                            o.setObrotyWn(o.getObrotyWn() + Z.z(r.getKwotaPLN()));
-                        } else {
-                            o.setObrotyMa(o.getObrotyMa() + Z.z(r.getKwotaPLN()));
-                        }
-                    } catch (Exception e) {
-                        E.e(e);
-                    }
+            for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
+                StronaWiersza r = (StronaWiersza) it.next();
+                if (obroty0zapisy1 == true && !r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                    nanieskonkretnyzapis(r, przygotowanalista, listamcy);
+                } else if (obroty0zapisy1 == false && r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                    nanieskonkretnyzapis(r, przygotowanalista, listamcy);
                 }
             }
         }
     }
+    
+    private void nanieskonkretnyzapis(StronaWiersza r, Map<String, SaldoKontoNarastajaco> przygotowanalista, List<String> listamcy) {
+        SaldoKontoNarastajaco p = przygotowanalista.get(r.getKonto().getPelnynumer());
+        String mc = r.getWiersz().getDokfk().getMiesiac();
+        if (listamcy.contains(mc)) {
+            try {
+                SaldoKontoNarastajaco.Obrotymca o = p.getObrotymiesiecy().get(mc);
+                if (r.getWnma().equals("Wn")) {
+                    o.setObrotyWn(o.getObrotyWn() + Z.z(r.getKwotaPLN()));
+                } else {
+                    o.setObrotyMa(o.getObrotyMa() + Z.z(r.getKwotaPLN()));
+                }
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+    }
 
-
+    private boolean czynieBO(StronaWiersza r) {
+        boolean zwrot = false;
+        if (!r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+            zwrot = true;
+        } else if (r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO") && r.getDokfk().getDokfkPK().getNrkolejnywserii() != 1) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
 
     private List<StronaWiersza> pobierzzapisy() {
         List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

@@ -5,8 +5,10 @@
  */
 package beansFK;
 
+import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
+import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.WierszBO;
@@ -23,31 +25,53 @@ import view.WpisView;
 
 public class BOFKBean {
     
-    public static List<StronaWiersza> pobierzZapisyBO(WierszBODAO wierszBODAO, WpisView wpisView) {
+    public static List<StronaWiersza> pobierzZapisyBO(DokDAOfk dokDAOfk, WpisView wpisView) {
         List<StronaWiersza> zapisy = new ArrayList<>();
-        List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        for (WierszBO p : wierszeBO) {
-            if (p.getKwotaWnPLN() != 0.0) {
-                zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
-            } else {
-                zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
+        List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
+        for (Dokfk p : dokfk) {
+            if (p.getDokfkPK().getNrkolejnywserii()==1) {
+                zapisy.addAll(p.getStronyWierszy());
             }
         }
         return zapisy;
     }
+    
+    public static List<StronaWiersza> pobierzZapisyObrotyRozp(DokDAOfk dokDAOfk, WpisView wpisView) {
+        List<StronaWiersza> zapisy = new ArrayList<>();
+        List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
+        for (Dokfk p : dokfk) {
+            if (p.getDokfkPK().getNrkolejnywserii()!=1) {
+                zapisy.addAll(p.getStronyWierszy());
+            }
+        }
+        return zapisy;
+    }
+    
+//    public static List<StronaWiersza> pobierzZapisyBO(WierszBODAO wierszBODAO, WpisView wpisView) {
+//        List<StronaWiersza> zapisy = new ArrayList<>();
+//        List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+//        for (WierszBO p : wierszeBO) {
+//            if (p.getKwotaWnPLN() != 0.0) {
+//                zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
+//            } else {
+//                zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
+//            }
+//        }
+//        return zapisy;
+//    }
 
-    public static List<StronaWiersza> pobierzZapisyBO(Konto konto, WierszBODAO wierszBODAO, WpisView wpisView) {
-        List<StronaWiersza> zapisy = new ArrayList<>();
-        List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
-        for (WierszBO p : wierszeBO) {
-            if (p.getKwotaWnPLN() != 0.0) {
-                zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
-            } else {
-                zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
-            }
-        }
-        return zapisy;
-    }
+//    public static List<StronaWiersza> pobierzZapisyBO(Konto konto, WierszBODAO wierszBODAO, WpisView wpisView) {
+//        List<StronaWiersza> zapisy = new ArrayList<>();
+//        List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
+//        for (WierszBO p : wierszeBO) {
+//            if (p.getKwotaWnPLN() != 0.0) {
+//                zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
+//            } else {
+//                zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
+//            }
+//        }
+//        return zapisy;
+//    }
 
     public static List<StronaWiersza> pobierzZapisyBO(Konto konto, String waluta, WierszBODAO wierszBODAO, WpisView wpisView) {
         List<StronaWiersza> zapisy = new ArrayList<>();
