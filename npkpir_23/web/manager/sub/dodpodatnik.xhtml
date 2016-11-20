@@ -42,6 +42,9 @@
                 <f:validateLength minimum="9"/>
                 <p:ajax event="blur" partialSubmit="true" global="false"/>
             </h:inputText>
+            <h:outputLabel value="data rozpoczęcia działalności"/>
+                    <p:inputMask id="datarozpoczecia" value="#{podatnikView.selectedDod.datarozpoczecia}" mask="9999-99-99" required="true" requiredMessage="Data rozpoczęcia - jest wymagana, uzupełnij!"
+                                 onblur="weryfikujsporzadzfakture(this);"/>
             <h:outputLabel value="telefon"/>
             <p:inputMask id="telefon" value="#{podatnikView.selectedDod.telefonkontaktowy}" mask="999-999-999" required="true" requiredMessage="Telefon - jest wymagany, uzupełnij!">
                 <p:ajax event="blur" partialSubmit="true" global="false"/>

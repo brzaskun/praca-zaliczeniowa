@@ -12,14 +12,15 @@ import data.Data;
 import entity.Granica;
 import entity.Pitpoz;
 import entity.Ryczpoz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -49,6 +50,7 @@ public class GranicaObliczView  implements Serializable {
     
     @PostConstruct
     private void init() {
+        try {
         List<Granica> l = granicaDAO.findByRok(wpisView.getRokWpisuSt());
         for (Granica p : l) {
                 switch (p.getNazwalimitu()) {
@@ -100,56 +102,61 @@ public class GranicaObliczView  implements Serializable {
         progrespkpir = progrespkpir > 150 ? 150 : progrespkpir;
         progresksiegi = progresksiegi > 150 ? 150 : progresksiegi;
         progreskasa = progreskasa > 150 ? 150 : progreskasa;
-        System.out.println("d");
+        } catch(Exception e) {
+            E.e(e);
+            Msg.msg("e", "Błąd przy generowaniu limitów");
+        }
     }
-
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public int getProgresvat() {
         return progresvat;
     }
-
+    
     public void setProgresvat(int progresvat) {
         this.progresvat = progresvat;
     }
-
+    
     public int getProgrespkpir() {
         return progrespkpir;
     }
-
+    
     public void setProgrespkpir(int progrespkpir) {
         this.progrespkpir = progrespkpir;
     }
-
+    
     public int getProgresksiegi() {
         return progresksiegi;
     }
-
+    
     public void setProgresksiegi(int progresksiegi) {
         this.progresksiegi = progresksiegi;
     }
-
+    
     public int getProgreskasa() {
         return progreskasa;
     }
-
+    
     public void setProgreskasa(int progreskasa) {
         this.progreskasa = progreskasa;
     }
-
+    
     public double getObrot() {
         return obrot;
     }
-
+    
     public void setObrot(double obrot) {
         this.obrot = obrot;
     }
     
+//</editor-fold>
     
 }

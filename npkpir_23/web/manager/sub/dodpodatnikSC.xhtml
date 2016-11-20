@@ -43,6 +43,9 @@
                 <p:inputText id="regon" value="#{podatnikView.selectedDod.regon}" maxlength="9" required="true" requiredMessage="Regon - jest wymagany, uzupełnij!">
                     <f:validateLength minimum="9"/>
                 </p:inputText>
+                <h:outputLabel value="data rozpoczęcia działalności"/>
+                    <p:inputMask id="datarozpoczecia" value="#{podatnikView.selectedDod.datarozpoczecia}" mask="9999-99-99" required="true" requiredMessage="Data rozpoczęcia - jest wymagana, uzupełnij!"
+                                 onblur="weryfikujsporzadzfakture(this);"/>
                 <h:outputLabel value="telefon kom."/>
                 <p:inputMask id="telefon" value="#{podatnikView.selectedDod.telefonkontaktowy}" mask="999-999-999" required="true" requiredMessage="Telefon - jest wymagany, uzupełnij!"/>
                 <h:outputLabel value="fax"/>
