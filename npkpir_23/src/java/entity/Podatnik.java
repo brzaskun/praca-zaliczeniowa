@@ -276,7 +276,9 @@ public class Podatnik implements Serializable {
     
     
     //<editor-fold defaultstate="collapsed" desc="comment">
-        
+    public String getAdres() {
+        return kodpocztowy+" "+miejscowosc+" "+ulica+" "+nrdomu+"/"+nrlokalu;
+    }
     public String getSchematnumeracji() {
         return schematnumeracji;
     }

@@ -36,6 +36,24 @@
 <!--        <p:commandButton value="zamien opodatkowanie" actionListener="#{podatnikView.zamienOpodatkowanieDochodowym()}"/>-->
 <!--        <p:commandButton value="naprawfaktury" actionListener="#{fakturaView.zrobfakt()}"/>-->
 
+    
+    <p:dataTable value="#{podatnicyView.podatnicy}" var="loop" rowIndexVar="index">
+        <p:column>
+            <h:outputText value="#{index+1}"/>
+        </p:column>
+        <p:column>
+            <h:outputText value="#{loop.nazwapelna}"/>
+        </p:column>
+        <p:column>
+            <h:outputText value="#{loop.nip}"/>
+        </p:column>
+        <p:column>
+            <h:outputText value="#{loop.adres}"/>
+        </p:column>
+        <p:column>
+            <h:outputText value="#{loop.email}"/>
+        </p:column>
+    </p:dataTable>
 
 </ui:composition>
 
