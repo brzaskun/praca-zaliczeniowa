@@ -235,6 +235,9 @@ public class Podatnik implements Serializable {
     @JoinColumn(name = "podatnik")
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
     private List<ParamVatUE> paramVatUE;
+    @Column(name = "datarozpoczecia")
+    @Size(max = 10)
+    private String datarozpoczecia;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -280,6 +283,14 @@ public class Podatnik implements Serializable {
 
     public void setSchematnumeracji(String schematnumeracji) {
         this.schematnumeracji = schematnumeracji;
+    }
+
+    public String getDatarozpoczecia() {
+        return datarozpoczecia;
+    }
+
+    public void setDatarozpoczecia(String datarozpoczecia) {
+        this.datarozpoczecia = datarozpoczecia;
     }
 
     public Uz getKsiegowa() {

@@ -8,6 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     
     <h:form id="form">
+        <p:focus for="form:podatnikWpisu"/>
         <p:panel menuTitle="Zmien na:" header="Zmień na:" style="max-width: 800px; height: 310px;">
             <p:panelGrid columns="4" style="margin-left: 0%; height: 100px;">
                 <h:outputLabel value="#{mgs['nazwa.podatnika']}"/>
@@ -16,15 +17,15 @@
                 <h:outputLabel value=""/>
                 <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 350px;" >
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                    <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form" />
+                    <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form form:panellimity" />
                 </p:selectOneListbox>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form form:panellimity" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form form:panellimity"/>
                 </p:selectOneMenu>
                 
             </p:panelGrid>
@@ -32,6 +33,19 @@
             <h:outputText value="miesiąc zamknięty, możliwe jedynie przeglądanie danych i sporządzanie deklaracji" rendered="#{zamkniecieView.sprawdzMiesiacRok()}" style="font-weight: 800; color: blue;"/>
         </p:panel>
         <p:messages autoUpdate="true" style="width: 500px; margin-left: 2%;"/>
+        <p:panel id="panellimity" header="limity" style="width: 200px;">
+            <h:outputText value="kwota obrotu od pocz.roku"/>
+            <bcf:outputpl value="#{granicaObliczView.obrot}"/>
+            <p:separator/>
+            <h:outputText value="limit do vat"/>
+            <p:progressBar value="#{granicaObliczView.progresvat}" labelTemplate="#{granicaObliczView.progresvat}%"/>
+            <h:outputText value="limit do pkpir"/>
+            <p:progressBar value="#{granicaObliczView.progrespkpir}" labelTemplate="#{granicaObliczView.progrespkpir}%"/>
+            <h:outputText value="limit do ksiąg rachunkowych"/>
+            <p:progressBar value="#{granicaObliczView.progresksiegi}" labelTemplate="#{granicaObliczView.progresksiegi}%"/>
+            <h:outputText value="limit do kasy fiskalnej"/>
+            <p:progressBar value="#{granicaObliczView.progreskasa}" labelTemplate="#{granicaObliczView.progreskasa}%"/>
+        </p:panel>
 <!--        <h:form>
             <p:commandButton value="Trasformacja" style="width: 150px;" actionListener="{transformacjaView.ewidencjewDekalracji}"/>
         </h:form>-->

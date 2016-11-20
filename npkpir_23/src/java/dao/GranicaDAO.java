@@ -34,4 +34,8 @@ public class GranicaDAO extends DAO implements Serializable{
             return null;
         }
    }
+
+    public List<Granica> findByRok(String rokWpisuSt) {
+        return sessionFacade.getEntityManager().createNamedQuery("Granica.findByRok").setParameter("rok", rokWpisuSt).getResultList();
+    }
 }

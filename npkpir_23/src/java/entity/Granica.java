@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -26,8 +27,7 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames={"nazwalimitu","rok"})
 })
 @NamedQueries({
-//    @NamedQuery(name = "EVatOpis.findAll", query = "SELECT d FROM EVatOpis d"),
-//    @NamedQuery(name = "EVatOpis.findByLogin", query = "SELECT d FROM EVatOpis d WHERE d.login = :login"),
+        @NamedQuery(name = "Granica.findByRok", query = "SELECT d FROM Granica d WHERE d.rok = :rok")
     })
 public class Granica implements Serializable {
    private static final long serialVersionUID = 1L;

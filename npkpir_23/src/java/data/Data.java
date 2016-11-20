@@ -251,4 +251,18 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
+
+    public static int mcedoproporcji(String datarozpoczecia, WpisView wpisView) {
+        int zwrot = 12;
+        String rokdata = datarozpoczecia.split("-")[2];
+        String mcdata = datarozpoczecia.split("-")[2];
+        if (Integer.parseInt(rokdata) > wpisView.getRokWpisu()) {
+            zwrot = 0;
+        } else if (Integer.parseInt(rokdata) == wpisView.getRokWpisu()) {
+            zwrot = 13 - Integer.parseInt(mcdata);
+        }
+        return zwrot;
+    }
+
+    
 }
