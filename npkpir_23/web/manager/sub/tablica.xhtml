@@ -37,8 +37,9 @@
 <!--        <p:commandButton value="naprawfaktury" actionListener="#{fakturaView.zrobfakt()}"/>-->
 
     
-    <p:dataTable value="#{podatnicyView.podatnicy}" var="loop" rowIndexVar="index">
-        <p:column>
+     <p:dataTable value="#{podatnicyView.podatnicy}" var="loop" rowIndexVar="index" style="width: 1000px;"
+                 sortBy="#{loop.nazwapelna}">
+        <p:column width="30">
             <h:outputText value="#{index+1}"/>
         </p:column>
         <p:column>
@@ -47,7 +48,7 @@
         <p:column>
             <h:outputText value="#{loop.nip}"/>
         </p:column>
-        <p:column>
+        <p:column width="400">
             <h:outputText value="#{loop.adres}"/>
         </p:column>
         <p:column>
