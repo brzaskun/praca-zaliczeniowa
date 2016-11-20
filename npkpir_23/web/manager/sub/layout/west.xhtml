@@ -7,6 +7,16 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="west" size="250"  collapsible="true">
+        <p:panel style="padding: 5px,5px,5px,5px;" header="Ustawianie ZUS dla wszystkich podatników">
+            <h:form>
+                <p:menu >
+                    <p:menuitem value="ZUS pełny - wzorzec"  outcome="zusstawki" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="ZUS mały - wzorzec"  outcome="zusstawkimaly" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="Kwoty indywidualne"  outcome="zbiorcze" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="ZUS mail"  outcome="managerzusmail" icon="ui-icon-circle-arrow-e" />  
+                </p:menu>
+            </h:form>
+        </p:panel>
         <p:panel header="Ustawianie parametrów dla wszystkich podatników">
             <h:form>
                 <p:menu >
@@ -23,17 +33,16 @@
                 </p:menu>
             </h:form>
         </p:panel>
-        <p:separator/>
-        <p:panel style="padding: 5px,5px,5px,5px;" header="Ustawianie ZUS dla wszystkich podatników">
+        
+        <p:panel style="padding: 5px,5px,5px,5px;" header="Limity dla wszystkich podatników">
             <h:form>
                 <p:menu >
-                    <p:menuitem value="ZUS pełny - wzorzec"  outcome="zusstawki" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="ZUS mały - wzorzec"  outcome="zusstawkimaly" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="Kwoty indywidualne"  outcome="zbiorcze" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="ZUS mail"  outcome="managerzusmail" icon="ui-icon-circle-arrow-e" />  
+                    <p:menuitem value="limity"  outcome="managerlimity" icon="ui-icon-circle-arrow-e"/>  
                 </p:menu>
             </h:form>
         </p:panel>
+        
+        
          <p:panel style="padding: 5px,5px,5px,5px;" header="Rozliczanie faktur">
             <h:form>
                 <p:menu >
@@ -41,7 +50,7 @@
                 </p:menu>
             </h:form>
         </p:panel>
-        <p:separator/>
+        
         <p:panel>
             <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;"/> 
         </p:panel>

@@ -43,7 +43,7 @@ import pdf.PdfPkpir;
 @ManagedBean
 @ViewScoped
 public class KsiegaView implements Serializable {
-
+private static final long serialVersionUID = 1L;
     private ArrayList<DokKsiega> lista;
     private ArrayList<DokKsiega> listaFiltered;
     @ManagedProperty(value = "#{WpisView}")

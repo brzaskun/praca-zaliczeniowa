@@ -387,6 +387,10 @@
             <to-view-id>/manager/managerEwVat.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>managerlimity</from-outcome>
+            <to-view-id>/manager/managerLimity.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>deklaracjevat</from-outcome>
             <to-view-id>/manager/managerDeklaracjevat.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

@@ -1,0 +1,217 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:accordionPanel id="akordeon">
+        <p:tab title="limit do VAT">  
+            <h:form id="form_limitdovat">
+                <p:growl life="3600"  autoUpdate="true"/>
+                <p:dataTable value="#{granicaView.granicevat}" var="item" style="width: 480px;" rowIndexVar="index"
+                             emptyMessage="nie ma zdefiniowanych limitów do vat" id="wykazschem" rowKey="#{item.id}"
+                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
+                    <p:ajax event="toggleSelect" global="false"/>
+                    <p:ajax event="rowSelect" global="false" listener="#{granicaView.skopiuj()}" update="akordeon:form_limitdovat:panelwprowadzania"/>
+                    <f:facet name="header">
+                        <h:outputText value="lista zdefiniowanych limitów to vat"/>
+                    </f:facet>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="rok"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rok}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="kwota"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{item.kwota}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="proporcja"/>
+                        </f:facet>
+                        <h:outputText value="#{item.proporcja}"/>
+                    </p:column>
+                    <p:column width="40">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{granicaView.usun(item)}" update="akordeon:form_limitdovat"/>
+                    </p:column>
+                </p:dataTable>
+                <p:panelGrid id="panelwprowadzania" columns="2" style="padding: 10px;">
+                    <h:outputText value="rok: " />
+                    <p:selectOneMenu id="rokWpisu" value="#{granicaView.nowa.rok}" style="width: 70px;">
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                        <f:selectItems value="#{Roki.rokiList}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="kwota: " />
+                    <bcf:inputpl value="#{granicaView.nowa.kwota}" stylePlus="width: 70px;"/>
+                    <h:outputText value="proporcjonalnie: " />
+                    <p:selectBooleanCheckbox value="#{granicaView.nowa.proporcja}"/>
+                 </p:panelGrid>
+                <p:commandButton value="dodaj" actionListener="#{granicaView.dodaj('vat')}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_limitdovat"/>
+                <p:commandButton value="edytuj" actionListener="#{granicaView.edytuj()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_limitdovat"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="limit do pkpir">  
+            <h:form id="form_limitdopkpir">
+                <p:growl life="3600"  autoUpdate="true"/>
+                <p:dataTable value="#{granicaView.granicepkpir}" var="item" style="width: 480px;" rowIndexVar="index"
+                             emptyMessage="nie ma zdefiniowanych limitów do pkpir" id="wykazschem" rowKey="#{item.id}"
+                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
+                    <p:ajax event="toggleSelect" global="false"/>
+                    <p:ajax event="rowSelect" global="false" listener="#{granicaView.skopiuj()}" update="akordeon:form_limitdopkpir:panelwprowadzania"/>
+                    <f:facet name="header">
+                        <h:outputText value="lista zdefiniowanych limitów to pkpir"/>
+                    </f:facet>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="rok"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rok}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="kwota"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{item.kwota}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="proporcja"/>
+                        </f:facet>
+                        <h:outputText value="#{item.proporcja}"/>
+                    </p:column>
+                    <p:column width="40">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{granicaView.usun(item)}" update="akordeon:form_limitdopkpir"/>
+                    </p:column>
+                </p:dataTable>
+                <p:panelGrid id="panelwprowadzania" columns="2" style="padding: 10px;">
+                    <h:outputText value="rok: " />
+                    <p:selectOneMenu id="rokWpisu" value="#{granicaView.nowa.rok}" style="width: 70px;">
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                        <f:selectItems value="#{Roki.rokiList}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="kwota: " />
+                    <bcf:inputpl value="#{granicaView.nowa.kwota}" stylePlus="width: 70px;"/>
+                    <h:outputText value="proporcjonalnie: " />
+                    <p:selectBooleanCheckbox value="#{granicaView.nowa.proporcja}"/>
+                 </p:panelGrid>
+                <p:commandButton value="dodaj" actionListener="#{granicaView.dodaj('pkpir')}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_limitdopkpir"/>
+                <p:commandButton value="edytuj" actionListener="#{granicaView.edytuj()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_limitdopkpir"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="limit do księgi">  
+            <h:form id="form_limitdoksiegi">
+                <p:growl life="3600"  autoUpdate="true"/>
+                <p:dataTable value="#{granicaView.graniceksiegi}" var="item" style="width: 480px;" rowIndexVar="index"
+                             emptyMessage="nie ma zdefiniowanych limitów do księgi" id="wykazschem" rowKey="#{item.id}"
+                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
+                    <p:ajax event="toggleSelect" global="false"/>
+                    <p:ajax event="rowSelect" global="false" listener="#{granicaView.skopiuj()}" update="akordeon:form_limitdoksiegi:panelwprowadzania"/>
+                    <f:facet name="header">
+                        <h:outputText value="lista zdefiniowanych limitów do księgi"/>
+                    </f:facet>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="rok"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rok}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="kwota"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{item.kwota}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="proporcja"/>
+                        </f:facet>
+                        <h:outputText value="#{item.proporcja}"/>
+                    </p:column>
+                    <p:column width="40">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{granicaView.usun(item)}" update="akordeon:form_limitdoksiegi"/>
+                    </p:column>
+                </p:dataTable>
+                <p:panelGrid id="panelwprowadzania" columns="2" style="padding: 10px;">
+                    <h:outputText value="rok: " />
+                    <p:selectOneMenu id="rokWpisu" value="#{granicaView.nowa.rok}" style="width: 70px;">
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                        <f:selectItems value="#{Roki.rokiList}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="kwota: " />
+                    <bcf:inputpl value="#{granicaView.nowa.kwota}" stylePlus="width: 70px;"/>
+                    <h:outputText value="proporcjonalnie: " />
+                    <p:selectBooleanCheckbox value="#{granicaView.nowa.proporcja}"/>
+                 </p:panelGrid>
+                <p:commandButton value="dodaj" actionListener="#{granicaView.dodaj('ksiegi')}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_limitdoksiegi"/>
+                <p:commandButton value="edytuj" actionListener="#{granicaView.edytuj()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_limitdoksiegi"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="limit do kasa">  
+            <h:form id="form_limitdokasa">
+                <p:growl life="3600"  autoUpdate="true"/>
+                <p:dataTable value="#{granicaView.granicekasa}" var="item" style="width: 480px;" rowIndexVar="index"
+                             emptyMessage="nie ma zdefiniowanych limitów do kasa" id="wykazschem" rowKey="#{item.id}"
+                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
+                    <p:ajax event="toggleSelect" global="false"/>
+                    <p:ajax event="rowSelect" global="false" listener="#{granicaView.skopiuj()}" update="akordeon:form_limitdokasa:panelwprowadzania"/>
+                    <f:facet name="header">
+                        <h:outputText value="lista zdefiniowanych limitów do kasa"/>
+                    </f:facet>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="rok"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rok}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="kwota"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{item.kwota}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="proporcja"/>
+                        </f:facet>
+                        <h:outputText value="#{item.proporcja}"/>
+                    </p:column>
+                    <p:column width="40">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{granicaView.usun(item)}" update="akordeon:form_limitdokasa"/>
+                    </p:column>
+                </p:dataTable>
+                <p:panelGrid id="panelwprowadzania" columns="2" style="padding: 10px;">
+                    <h:outputText value="rok: " />
+                    <p:selectOneMenu id="rokWpisu" value="#{granicaView.nowa.rok}" style="width: 70px;">
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                        <f:selectItems value="#{Roki.rokiList}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="kwota: " />
+                    <bcf:inputpl value="#{granicaView.nowa.kwota}" stylePlus="width: 70px;"/>
+                    <h:outputText value="proporcjonalnie: " />
+                    <p:selectBooleanCheckbox value="#{granicaView.nowa.proporcja}"/>
+                 </p:panelGrid>
+                <p:commandButton value="dodaj" actionListener="#{granicaView.dodaj('kasa')}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_limitdokasa"/>
+                <p:commandButton value="edytuj" actionListener="#{granicaView.edytuj()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_limitdokasa"/>
+            </h:form>
+        </p:tab>
+    </p:accordionPanel>
+</ui:composition>   
+
