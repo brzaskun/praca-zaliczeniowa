@@ -80,7 +80,7 @@
                     <h:outputText value="#{loop.tytul}"/>
                 </p:column>
                 <p:column headerText="treść">
-                    <h:outputText value="#{loop.tresc}"/>
+                    <h:outputText value="#{loop.tresc}" escape="false"/>
                 </p:column>
                 <p:column headerText="liczba maili" width="30">
                     <h:outputText value="#{loop.maile.size()}"/>

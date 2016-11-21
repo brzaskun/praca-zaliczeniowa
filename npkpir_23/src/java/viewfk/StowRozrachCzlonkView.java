@@ -5,19 +5,16 @@
  */
 package viewfk;
 
+import comparator.MiejscePrzychodowcomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.MiejscePrzychodowDAO;
-import daoFK.StowNaliczenieDAO;
-import data.Data;
-import embeddable.Mce;
 import entityfk.Konto;
 import entityfk.MiejscePrzychodow;
-import entityfk.MiejsceSuper;
-import entityfk.StowNaliczenie;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -39,6 +36,7 @@ import waluty.Z;
 @ManagedBean
 @ViewScoped
 public class StowRozrachCzlonkView implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private List<MiejscePrzychodow> czlonkowiestowarzyszenia;
     private List<Konto> konta;
@@ -53,50 +51,51 @@ public class StowRozrachCzlonkView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private MiejscePrzychodow wybranyczlonek;
-    
+
     public StowRozrachCzlonkView() {
         this.wybranyczlonek = null;
         this.lista = new ArrayList<>();
     }
-   
-   @PostConstruct
-   public void pobierz() {
-       this.wybranyczlonek = null;
-       this.lista = new ArrayList<>();
-       this.listazapisy = new ArrayList<>();
-       czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
-   }
-   
-   public void pobierzdane() {
-       this.lista = new ArrayList<>();
-       this.listazapisy = new ArrayList<>();
-       konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
-       for (Iterator<Konto> it = konta.iterator(); it.hasNext();) {
-           Konto p = it.next();
-           if (!p.getPelnynumer().startsWith("2")) {
-               it.remove();
-           }
-       }
-       for (Konto r : konta) {
-           Konto kontowlasciwe = kontoDAOfk.findKontoMacierzystyNrkonta(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), r, wybranyczlonek.getNrkonta());
-           List<StronaWiersza> li = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(wpisView.getPodatnikObiekt(), kontowlasciwe, wpisView.getRokWpisuSt());
-           Pozycja pozycjaWn = new Pozycja(kontowlasciwe, false);//przypisy
-           Pozycja pozycjaMa = new Pozycja(kontowlasciwe, true);//wplaty
-           for (StronaWiersza s : li){
-               if (s.isWn()) {
-                   pozycjaWn.odejmijkwote(s);
-               } else {
-                   pozycjaMa.dodajkwote(s);
-               }
-           }
-           pozycjaWn.podsumuj();
-           pozycjaMa.podsumuj();
-           lista.add(pozycjaWn);
-           lista.add(pozycjaMa);
-           listazapisy.addAll(li);
-       }
-       dodajwierszsumy();
-   }
+
+    @PostConstruct
+    public void pobierz() {
+        this.wybranyczlonek = null;
+        this.lista = new ArrayList<>();
+        this.listazapisy = new ArrayList<>();
+        czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
+        Collections.sort(czlonkowiestowarzyszenia, new MiejscePrzychodowcomparator());
+    }
+
+    public void pobierzdane() {
+        this.lista = new ArrayList<>();
+        this.listazapisy = new ArrayList<>();
+        konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
+        for (Iterator<Konto> it = konta.iterator(); it.hasNext();) {
+            Konto p = it.next();
+            if (!p.getPelnynumer().startsWith("2")) {
+                it.remove();
+            }
+        }
+        for (Konto r : konta) {
+            Konto kontowlasciwe = kontoDAOfk.findKontoMacierzystyNrkonta(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), r, wybranyczlonek.getNrkonta());
+            List<StronaWiersza> li = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(wpisView.getPodatnikObiekt(), kontowlasciwe, wpisView.getRokWpisuSt());
+            Pozycja pozycjaWn = new Pozycja(kontowlasciwe, false);//przypisy
+            Pozycja pozycjaMa = new Pozycja(kontowlasciwe, true);//wplaty
+            for (StronaWiersza s : li) {
+                if (s.isWn()) {
+                    pozycjaWn.odejmijkwote(s);
+                } else {
+                    pozycjaMa.dodajkwote(s);
+                }
+            }
+            pozycjaWn.podsumuj();
+            pozycjaMa.podsumuj();
+            lista.add(pozycjaWn);
+            lista.add(pozycjaMa);
+            listazapisy.addAll(li);
+        }
+        dodajwierszsumy();
+    }
 
     public void dodajwierszsumy() {
         Pozycja suma = new Pozycja();
@@ -117,27 +116,27 @@ public class StowRozrachCzlonkView implements Serializable {
         }
         lista.add(suma);
     }
-    
+
     public void drukuj() {
         try {
             if (lista.size() > 0) {
                 PDFStowRozrachCzlonk.drukuj(lista, wybranyczlonek, wpisView.getRokWpisuSt());
             }
         } catch (Exception e) {
-            
+
         }
     }
-    
-     public void drukujwszystko(Map<MiejscePrzychodow, List<Pozycja>> czlonkowie) {
+
+    public void drukujwszystko(Map<MiejscePrzychodow, List<Pozycja>> czlonkowie) {
         try {
             if (lista.size() > 0) {
                 PDFStowRozrachCzlonk.drukuj(czlonkowie, wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt().getNip());
             }
         } catch (Exception e) {
-            
+
         }
     }
-    
+
     public void drukujwszystkie() {
         try {
             Map<MiejscePrzychodow, List<Pozycja>> czlonkowie = new HashMap<>();
@@ -148,11 +147,12 @@ public class StowRozrachCzlonkView implements Serializable {
             });
             drukujwszystko(czlonkowie);
         } catch (Exception e) {
-            
+
         }
     }
-   
-   public static class Pozycja {
+
+    public static class Pozycja {
+
         private Konto konto;
         private double m01;
         private double m02;
@@ -170,6 +170,7 @@ public class StowRozrachCzlonkView implements Serializable {
         private String opisP;
         private String opisW;
         private boolean przypis0wplata1;
+
         public Pozycja() {
         }
 
@@ -207,9 +208,8 @@ public class StowRozrachCzlonkView implements Serializable {
         public String toString() {
             return "Pozycja{" + "miejsce=" + konto.getPelnynumer() + ", m01=" + m01 + ", m02=" + m02 + ", m03=" + m03 + ", m04=" + m04 + ", m05=" + m05 + ", m06=" + m06 + ", m07=" + m07 + ", m08=" + m08 + ", m09=" + m09 + ", m10=" + m10 + ", m11=" + m11 + ", m12=" + m12 + '}';
         }
-        
-//<editor-fold defaultstate="collapsed" desc="comment">
 
+//<editor-fold defaultstate="collapsed" desc="comment">
         public Konto getKonto() {
             return konto;
         }
@@ -217,99 +217,99 @@ public class StowRozrachCzlonkView implements Serializable {
         public void setKonto(Konto konto) {
             this.konto = konto;
         }
-        
+
         public double getM01() {
             return m01;
         }
-        
+
         public void setM01(double m01) {
             this.m01 = m01;
         }
-        
+
         public double getM02() {
             return m02;
         }
-        
+
         public void setM02(double m02) {
             this.m02 = m02;
         }
-        
+
         public double getM03() {
             return m03;
         }
-        
+
         public void setM03(double m03) {
             this.m03 = m03;
         }
-        
+
         public double getM04() {
             return m04;
         }
-        
+
         public void setM04(double m04) {
             this.m04 = m04;
         }
-        
+
         public double getM05() {
             return m05;
         }
-        
+
         public void setM05(double m05) {
             this.m05 = m05;
         }
-        
+
         public double getM06() {
             return m06;
         }
-        
+
         public void setM06(double m06) {
             this.m06 = m06;
         }
-        
+
         public double getM07() {
             return m07;
         }
-        
+
         public void setM07(double m07) {
             this.m07 = m07;
         }
-        
+
         public double getM08() {
             return m08;
         }
-        
+
         public void setM08(double m08) {
             this.m08 = m08;
         }
-        
+
         public double getM09() {
             return m09;
         }
-        
+
         public void setM09(double m09) {
             this.m09 = m09;
         }
-        
+
         public double getM10() {
             return m10;
         }
-        
+
         public void setM10(double m10) {
             this.m10 = m10;
         }
-        
+
         public double getM11() {
             return m11;
         }
-        
+
         public void setM11(double m11) {
             this.m11 = m11;
         }
-        
+
         public double getM12() {
             return m12;
         }
-        
+
         public void setM12(double m12) {
             this.m12 = m12;
         }
@@ -321,8 +321,7 @@ public class StowRozrachCzlonkView implements Serializable {
         public void setPrzypis0wplata1(boolean przypis0wplata1) {
             this.przypis0wplata1 = przypis0wplata1;
         }
-        
-        
+
         public double getRazem() {
             return razem;
         }
@@ -334,101 +333,101 @@ public class StowRozrachCzlonkView implements Serializable {
         public String getOpisP() {
             String zwrot = "saldo rozliczeń";
             if (this.konto != null) {
-                zwrot = this.konto.getKontomacierzyste().getNazwapelna()+" - "+this.konto.getPelnynumer()+" przypis";
+                zwrot = this.konto.getKontomacierzyste().getNazwapelna() + " - " + this.konto.getPelnynumer() + " przypis";
             }
             return zwrot;
         }
-        
+
         public String getOpisW() {
             String zwrot = "saldo rozliczeń";
             if (this.konto != null) {
-                zwrot = this.konto.getKontomacierzyste().getNazwapelna()+" - "+this.konto.getPelnynumer()+" wpłata";
+                zwrot = this.konto.getKontomacierzyste().getNazwapelna() + " - " + this.konto.getPelnynumer() + " wpłata";
             }
             return zwrot;
         }
-        
-//</editor-fold>        
 
-       private void dodajkwote(StronaWiersza sn) {
-           switch (sn.getDokfk().getMiesiac()) {
-               case "01":
-                   this.setM01(this.getM01()+sn.getKwota());
-                   break;
-               case "02":
-                   this.setM02(this.getM02()+sn.getKwota());
-                   break;
-               case "03":
-                   this.setM03(this.getM03()+sn.getKwota());
-                   break;
-               case "04":
-                   this.setM04(this.getM04()+sn.getKwota());
-                   break;
-               case "05":
-                   this.setM05(this.getM05()+sn.getKwota());
-                   break;
-               case "06":
-                   this.setM06(this.getM06()+sn.getKwota());
-                   break;
-               case "07":
-                   this.setM07(this.getM07()+sn.getKwota());
-                   break;
-               case "08":
-                   this.setM08(this.getM08()+sn.getKwota());
-                   break;
-               case "09":
-                   this.setM09(this.getM09()+sn.getKwota());
-                   break;
-               case "10":
-                   this.setM10(this.getM10()+sn.getKwota());
-                   break;
-               case "11":
-                   this.setM11(this.getM11()+sn.getKwota());
-                   break;
-               case "12":
-                   this.setM12(this.getM12()+sn.getKwota());
-                   break;
-           }
-       }
-       private void odejmijkwote(StronaWiersza sn) {
-           switch (sn.getDokfk().getMiesiac()) {
-               case "01":
-                   this.setM01(this.getM01()-sn.getKwota());
-                   break;
-               case "02":
-                   this.setM02(this.getM02()-sn.getKwota());
-                   break;
-               case "03":
-                   this.setM03(this.getM03()-sn.getKwota());
-                   break;
-               case "04":
-                   this.setM04(this.getM04()-sn.getKwota());
-                   break;
-               case "05":
-                   this.setM05(this.getM05()-sn.getKwota());
-                   break;
-               case "06":
-                   this.setM06(this.getM06()-sn.getKwota());
-                   break;
-               case "07":
-                   this.setM07(this.getM07()-sn.getKwota());
-                   break;
-               case "08":
-                   this.setM08(this.getM08()-sn.getKwota());
-                   break;
-               case "09":
-                   this.setM09(this.getM09()-sn.getKwota());
-                   break;
-               case "10":
-                   this.setM10(this.getM10()-sn.getKwota());
-                   break;
-               case "11":
-                   this.setM11(this.getM11()-sn.getKwota());
-                   break;
-               case "12":
-                   this.setM12(this.getM12()-sn.getKwota());
-                   break;
-           }
-       }
+//</editor-fold>        
+        private void dodajkwote(StronaWiersza sn) {
+            switch (sn.getDokfk().getMiesiac()) {
+                case "01":
+                    this.setM01(this.getM01() + sn.getKwota());
+                    break;
+                case "02":
+                    this.setM02(this.getM02() + sn.getKwota());
+                    break;
+                case "03":
+                    this.setM03(this.getM03() + sn.getKwota());
+                    break;
+                case "04":
+                    this.setM04(this.getM04() + sn.getKwota());
+                    break;
+                case "05":
+                    this.setM05(this.getM05() + sn.getKwota());
+                    break;
+                case "06":
+                    this.setM06(this.getM06() + sn.getKwota());
+                    break;
+                case "07":
+                    this.setM07(this.getM07() + sn.getKwota());
+                    break;
+                case "08":
+                    this.setM08(this.getM08() + sn.getKwota());
+                    break;
+                case "09":
+                    this.setM09(this.getM09() + sn.getKwota());
+                    break;
+                case "10":
+                    this.setM10(this.getM10() + sn.getKwota());
+                    break;
+                case "11":
+                    this.setM11(this.getM11() + sn.getKwota());
+                    break;
+                case "12":
+                    this.setM12(this.getM12() + sn.getKwota());
+                    break;
+            }
+        }
+
+        private void odejmijkwote(StronaWiersza sn) {
+            switch (sn.getDokfk().getMiesiac()) {
+                case "01":
+                    this.setM01(this.getM01() - sn.getKwota());
+                    break;
+                case "02":
+                    this.setM02(this.getM02() - sn.getKwota());
+                    break;
+                case "03":
+                    this.setM03(this.getM03() - sn.getKwota());
+                    break;
+                case "04":
+                    this.setM04(this.getM04() - sn.getKwota());
+                    break;
+                case "05":
+                    this.setM05(this.getM05() - sn.getKwota());
+                    break;
+                case "06":
+                    this.setM06(this.getM06() - sn.getKwota());
+                    break;
+                case "07":
+                    this.setM07(this.getM07() - sn.getKwota());
+                    break;
+                case "08":
+                    this.setM08(this.getM08() - sn.getKwota());
+                    break;
+                case "09":
+                    this.setM09(this.getM09() - sn.getKwota());
+                    break;
+                case "10":
+                    this.setM10(this.getM10() - sn.getKwota());
+                    break;
+                case "11":
+                    this.setM11(this.getM11() - sn.getKwota());
+                    break;
+                case "12":
+                    this.setM12(this.getM12() - sn.getKwota());
+                    break;
+            }
+        }
 
         private void podsumuj() {
             double suma = 0.0;
@@ -447,7 +446,7 @@ public class StowRozrachCzlonkView implements Serializable {
             this.razem = suma;
         }
     }
-   
+
     public MiejscePrzychodow getWybranyczlonek() {
         return wybranyczlonek;
     }
@@ -472,7 +471,6 @@ public class StowRozrachCzlonkView implements Serializable {
         this.listazapisy = listazapisy;
     }
 
-
     public List<MiejscePrzychodow> getCzlonkowiestowarzyszenia() {
         return czlonkowiestowarzyszenia;
     }
@@ -488,8 +486,5 @@ public class StowRozrachCzlonkView implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-   
-   
-   
 
 }

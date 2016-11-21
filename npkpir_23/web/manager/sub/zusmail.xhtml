@@ -123,11 +123,25 @@
                     <h:outputText value="#{item.adresmail}"/>
                 </p:column>
                 <p:rowExpansion>
-                    <p:panelGrid columns="2">
-                        <h:outputText value="Tytul"/>
-                        <h:outputText value="#{item.tytul}"/>
-                        <h:outputText value="Tresc"/>
-                        <h:outputText value="#{item.tresc}"/>
+                    <p:panelGrid>
+                        <f:facet name="header">
+                            <p:row>
+                            <p:column styleClass="thirty-percent">
+                                <h:outputText value="tytuł"/>
+                            </p:column>
+                            <p:column styleClass="seventy-percent">
+                                <h:outputText value="treść"/>
+                            </p:column>
+                            </p:row>
+                        </f:facet>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{item.tytul}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{item.tresc}" escape="false"/>
+                            </p:column>
+                        </p:row>
                     </p:panelGrid>
                 </p:rowExpansion>
                 <p:column style="text-align: center;" width="100">
