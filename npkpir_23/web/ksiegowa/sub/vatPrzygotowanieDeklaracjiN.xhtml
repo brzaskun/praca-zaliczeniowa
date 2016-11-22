@@ -11,14 +11,14 @@
     >
             <h:form id="form">
             <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
-                <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowa()}" update=":form deklaracjauwagavatzz" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
+                <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowa()}" update="@form :form deklaracjauwagavatzz" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje()}" update=":form deklaracjauwagavatzz" style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
             <h:outputText value="Wymuś zapis jako deklarację pierwotną." rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:selectBooleanCheckbox value="#{vat7DKView.pierwotnazamiastkorekty}" style="width: 120px" immediate="true" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
               </p:panelGrid>
-            <p:growl life="3600"  id="msg" />
+            <p:messages autoUpdate="true" id="messages"/>
             <p:panel header="Dane do bieżącej deklaracji VAT-7 miesięcznej. Podatnik: #{vat7DKView.nowadeklaracja.podatnik}. Schema: #{vat7DKView.nowadeklaracja.wzorschemy}"/>
-            <p:panelGrid columns="1"  style="width: 90%;">
+            <p:panelGrid columns="1"  style="width: 90%;" rendered="#{vat7DKView.flaga eq 0}">
                 <p:dataTable value="#{vat7DKView.sumaschemewidencjilista}" var="loop" sortBy="#{loop.schemaEwidencja.polenetto}" style="width: 800px;"
                              emptyMessage="nie pobrano danych" >
                     <f:facet name="header">
@@ -85,7 +85,7 @@
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
-            <p:panelGrid columns="2"  style="width: 800px;">
+            <p:panelGrid columns="2"  style="width: 800px;"   rendered="#{vat7DKView.flaga eq 0}">
                 <h:outputText value="przeniesienie z pop.deklaracji"/>
                 <pe:inputNumber value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0"/>
                 <h:outputText value="kwota wydatkowana na zakup kasy rejestrującej"/>
@@ -98,7 +98,7 @@
                 <pe:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0"/>
             </p:panelGrid>
         </h:form>
-    <h:form id="deklaracjauwagavatzz">
+    <h:form id="deklaracjauwagavatzz"   rendered="#{vat7DKView.flaga eq 0}">
         <h:outputText value="Wystąpiono o kwotę do zwrotu na rachunek bankowy w terminie 25 dni. Należy wypełnić załącznik VAT-ZZ" 
                       style="font-weight: 900; padding: 10px;"
                       rendered="#{vat7DKView.pokazinfovatzz}"/>
