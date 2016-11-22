@@ -150,8 +150,9 @@
 <!--                <p:column headerText="nowy nr" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkLP}" filterBy="#{item.dokfkLP}">
                     <h:outputText value="#{item.dokfkLP}"/>
                 </p:column>-->
-                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" sortFunction="#{dokfkView.sortujzaksiegowane}"
-                          filterBy="#{item.dokfkSN}">
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" 
+                          sortFunction="#{dokfkView.sortujzaksiegowane}"
+                          filterBy="#{item.dokfkSN}" filterMatchMode="contains">
                     <h:outputText value="#{item.dokfkSN}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                 </p:column>
                 <p:column headerText="nip" styleClass="zaksiegowanewaski" width="80" sortBy="#{item.kontr.nip}" filterBy="#{item.kontr.nip}">

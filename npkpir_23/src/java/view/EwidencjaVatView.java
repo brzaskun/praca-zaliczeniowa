@@ -264,7 +264,7 @@ public class EwidencjaVatView implements Serializable {
             /**
              * Dodaj sumy do ewidencji dla wydruku
              */
-            dodajsumyDoEwidencji();
+//            dodajsumyDoEwidencji();
             przetransformujIZachowajwBD(vatokres);
             obliczwynikokresu();
 
