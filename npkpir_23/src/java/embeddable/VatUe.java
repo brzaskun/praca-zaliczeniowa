@@ -146,6 +146,11 @@ public class VatUe implements Serializable{
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "VatUe{" + "transakcja=" + transakcja + ", kontrahent=" + kontrahent.getNpelna() + ", netto=" + netto + ", nettowaluta=" + nettowaluta + ", liczbadok=" + liczbadok + ", nazwawaluty=" + nazwawaluty + ", zawiera=" + zawiera + ", zawierafk=" + zawierafk + '}';
+    }
+
   
     
 }

@@ -766,9 +766,7 @@ public class Dokfk implements Serializable {
 
     public int sprawdzczynaniesionorozrachunki() {
         int brakrozrachunkow = 0;
-        Iterator it = this.getStronyWierszy().iterator();
-        while (it.hasNext()) {
-            StronaWiersza p = (StronaWiersza) it.next();
+        for (StronaWiersza p : this.getStronyWierszy()) {
             boolean jestrozrachunkowe = p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
             boolean jestnowatransakcja = p.isNowatransakcja();
             boolean saplatnosci = p.getRozliczono() > 0;
@@ -850,5 +848,14 @@ public class Dokfk implements Serializable {
     
     public double getWartoscdokumentuPLN() {
         return Z.z(this.wartoscdokumentu*this.getTabelanbp().getKurssredniPrzelicznik());
+    }
+    
+    public String getWartoswPLN() {
+        double w = 0.0;
+        for (StronaWiersza p : this.getStronyWierszy()) {
+            w += p.getKwotaPLN();
+        }
+        w = Z.z(w/2);
+        return beansPdf.PdfFont.formatujLiczba(w);
     }
 }

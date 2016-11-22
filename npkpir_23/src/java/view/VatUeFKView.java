@@ -16,6 +16,7 @@ import embeddable.Parametr;
 import embeddable.VatUe;
 import entity.Podatnik;
 import entityfk.Dokfk;
+import entityfk.EVatwpisFK;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
 import error.E;
@@ -32,6 +33,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import pdf.PdfVatUE;
+import waluty.Z;
 
 /**
  *
@@ -91,8 +93,9 @@ public class VatUeFKView implements Serializable {
         for (Dokfk p : listadokumentow) {
             for (VatUe s : klienciWDTWNT) {
                 if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
-                    double netto = p.getEwidencjaVAT().get(0).getNetto();
-                    double nettowaluta = p.getEwidencjaVAT().get(0).getNettowwalucie();
+                    double[] t = pobierzwartosci(p.getEwidencjaVAT());
+                    double netto = t[0];
+                    double nettowaluta = t[1];
                     s.setNetto(netto + s.getNetto());
                     s.setNettowaluta(nettowaluta + s.getNettowaluta());
                     s.setLiczbadok(s.getLiczbadok() + 1);
@@ -111,6 +114,16 @@ public class VatUeFKView implements Serializable {
 //            pobierzdanezdeklaracji();
 //        } catch (Exception e) { E.e(e); 
 //        }
+    }
+    
+    private double[] pobierzwartosci(List<EVatwpisFK> lista) {
+        double netto = 0.0;
+        double nettowaluta = 0.0;
+        for (EVatwpisFK p : lista) {
+            netto += p.getNetto();
+            nettowaluta += p.getNettowwalucie();
+        }
+        return new double[]{Z.z(netto),Z.z(nettowaluta)};
     }
 
     private void zachowajwbazie(String rok, String symbolokresu, String klient) {

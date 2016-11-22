@@ -51,10 +51,11 @@ public class PdfVatUE {
     public static void drukujewidencje(List<VatUe> lista, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Podatnik podatnik = wpisView.getPodatnikObiekt();
         Document document = new Document();
+        String nazwapliku = "VATUE" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
         try {
             List<Parametr> param = podatnik.getVatokres();
             //problem kwartalu
-            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("VATUE" + wpisView.getPodatnikWpisu() + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
             writer.setInitialLeading(16);
             document.addTitle("VAT-UE dokumenty");
             document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
@@ -114,11 +115,12 @@ public class PdfVatUE {
             document.add(new Paragraph("___________________________", fontS));
             document.add(new Paragraph("sporządził", fontS));
             document.close();
+            finalizacjaDokumentuQR(document, nazwapliku);
         } catch (Exception e) {
             document.close();
             E.e(e);
         }
-        RequestContext.getCurrentInstance().execute("wydrukvatue('" + wpisView.getPodatnikWpisu() + "');");
+        RequestContext.getCurrentInstance().execute("wydrukvatue('" + wpisView.getPodatnikObiekt().getNip() + "');");
     }
 
     private static PdfPTable createsubtable(List<Dok> zawiera) {
