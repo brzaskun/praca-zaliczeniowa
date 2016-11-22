@@ -16,6 +16,7 @@ import beansFK.TabelaNBPBean;
 import beansPdf.PdfDokfk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import comparator.DokfkLPcomparator;
 import comparator.Dokfkcomparator;
 import comparator.Rodzajedokcomparator;
@@ -503,7 +504,7 @@ public class DokfkView implements Serializable {
                     }
                     /*wyswietlamy ewidencje VAT*/
                     List<Evewidencja> opisewidencji = new ArrayList<>();
-                    opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(selected.getRodzajedok().getRodzajtransakcji()));
+                    opisewidencji.addAll(pobierzewidencje());
                     int k = 0;
                     if (rodzaj == 1) {
                         k = this.selected.getEwidencjaVAT().size();
@@ -524,8 +525,29 @@ public class DokfkView implements Serializable {
                     RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
                 }
             } else {
-                this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
+                this.selected.setEwidencjaVAT(null);
             }
+    }
+    
+    private List<Evewidencja> pobierzewidencje() {
+        List<Evewidencja> l = new ArrayList<>();
+        l.addAll(listaEwidencjiVat.pobierzEvewidencje(selected.getRodzajedok().getRodzajtransakcji()));
+        if (selected.getDokfkPK().getSeriadokfk().equals("UPTK")) {
+            for (Iterator<Evewidencja> it = l.iterator();it.hasNext();) {
+                Evewidencja p = it.next();
+                if (p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
+                    it.remove();
+                }
+            }
+        } else if (selected.getDokfkPK().getSeriadokfk().equals("UPTK100")) {
+            for (Iterator<Evewidencja> it = l.iterator();it.hasNext();) {
+                Evewidencja p = it.next();
+                if (p.getNazwa().equals("usługi świad. poza ter.kraju")) {
+                    it.remove();
+                }
+            }
+        }
+        return l;
     }
 
     public void usunEwidencjeDodatkowa(EVatwpisFK eVatwpisFK) {

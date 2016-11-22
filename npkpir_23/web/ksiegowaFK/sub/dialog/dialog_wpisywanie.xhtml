@@ -377,7 +377,8 @@
                                 <h:outputText value="#{item.lp+1}" styleClass="lpwierszavat"/>
                             </p:column>
                             <p:column headerText="rodzaj ewid." width="80">
-                                <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px;"/>
+                                <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px;" rendered="#{item.ewidencja.nazwa.length() lt 15}"/>
+                                <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px; font-size: smaller" rendered="#{item.ewidencja.nazwa.length() ge 15}"/>
                             </p:column>
                             <p:column headerText="#{mgs.netto}" width="80">
                                 <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
