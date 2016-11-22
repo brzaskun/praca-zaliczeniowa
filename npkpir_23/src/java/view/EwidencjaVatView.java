@@ -105,10 +105,9 @@ public class EwidencjaVatView implements Serializable {
     private DokDAO dokDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
-    @Inject
-    private DokDAOfk dokDAOfk;
     private String nazwaewidencjiMail;
     private List<EVatViewPola> wybranewierszeewidencji;
+    private List<EVatViewPola> filteredwierszeewidencji;
     private List<EVatViewPola> zachowanewybranewierszeewidencji;
     private Evewidencja ewidencjazakupu;
 
@@ -1057,6 +1056,14 @@ public class EwidencjaVatView implements Serializable {
 
     public void setNazwaewidencjiMail(String nazwaewidencjiMail) {
         this.nazwaewidencjiMail = nazwaewidencjiMail;
+    }
+
+    public List<EVatViewPola> getFilteredwierszeewidencji() {
+        return filteredwierszeewidencji;
+    }
+
+    public void setFilteredwierszeewidencji(List<EVatViewPola> filteredwierszeewidencji) {
+        this.filteredwierszeewidencji = filteredwierszeewidencji;
     }
 
     public List<Dok> getListadokvat() {
