@@ -75,6 +75,10 @@
                 <p:commandButton value="re-wysyłka" actionListener="#{beanek.przerzucdowysylki(item.identyfikator)}" update=":formX, :formX:msg"  style="width: 80px;"
                                  rendered="#{item.status eq '300' ? true : false}" />
             </p:column>
+             <p:column id="deleteColumn" headerText="usuń" width="80" style="text-align: center;">
+                <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="PF('confirmation').show()" 
+                                 id="delete" icon="ui-icon ui-icon-trash" type="submit"  style="width: 80px;"/>
+             </p:column>
         </p:dataTable>
     </p:tab>
 

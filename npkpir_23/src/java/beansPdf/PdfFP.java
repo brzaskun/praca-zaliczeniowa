@@ -977,11 +977,30 @@ public class PdfFP {
                 if (ilerow > 0) {
                     table.addCell(ustawfraze(" ", 6, 0));
                 }
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(ewidencjapk.get(i).getNetto()-ewidencja.get(i).getNetto())), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(ewidencja.get(i).getEstawka())) + "%", "center", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(ewidencjapk.get(i).getVat()-ewidencja.get(i).getVat())), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format((ewidencjapk.get(i).getNetto() + ewidencjapk.get(i).getVat())-(ewidencja.get(i).getNetto() + ewidencja.get(i).getVat()))), "right", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
+                EVatwpis ewpier = ewidencja.get(i);
+                double nettoPK = 0.0;
+                double vatPK = 0.0;
+                double bruttoPK = 0.0;
+                for (EVatwpis l : ewidencjapk) {
+                    int rozmiarpier = ewidencjapk.size();
+                    if (l.getEwidencja().equals(ewpier.getEwidencja())) {
+                        nettoPK = l.getNetto();
+                        vatPK = l.getVat();
+                        bruttoPK = Z.z(nettoPK+vatPK);
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(nettoPK-ewpier.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(ewpier.getEstawka())) + "%", "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(vatPK-ewpier.getVat())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(bruttoPK-(ewpier.getNetto() + ewpier.getVat()))), "right", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                    } else if (!l.getEwidencja().equals(ewpier.getEwidencja()) && rozmiarpier == 1) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(-ewpier.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(ewpier.getEstawka())) + "%", "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(-ewpier.getVat())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(-(ewpier.getNetto() + ewpier.getVat()))), "right", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                    }
+                    rozmiarpier--;
+                }
                 ilerow++;
             }
         }

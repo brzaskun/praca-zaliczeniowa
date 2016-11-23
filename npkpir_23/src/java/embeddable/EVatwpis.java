@@ -18,6 +18,7 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 public class EVatwpis implements Serializable {
+    private static final long serialVersionUID = -3177617915718651903L;
     @Inject
     private Evewidencja ewidencja;
     private double netto;
@@ -99,6 +100,11 @@ public class EVatwpis implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "EVatwpis{" + "ewidencja=" + ewidencja.getNazwa() + ", netto=" + netto + ", vat=" + vat + ", estawka=" + estawka + '}';
     }
 
    
