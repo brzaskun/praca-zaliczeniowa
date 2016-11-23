@@ -124,9 +124,15 @@ public class FDfkBean {
                                 s = t;
                             }
                         }
-                        EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka());
-                        eVatwpisFK.setDokfk(nd);
-                        ewidencjaTransformowana.add(eVatwpisFK);
+                        if (s != null) {
+                            EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka());
+                            eVatwpisFK.setDokfk(nd);
+                            ewidencjaTransformowana.add(eVatwpisFK);
+                        } else {
+                            EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), -r.getNetto(), -r.getVat(), r.getEstawka());
+                            eVatwpisFK.setDokfk(nd);
+                            ewidencjaTransformowana.add(eVatwpisFK);
+                        }
                     } else {
                         EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
                         eVatwpisFK.setDokfk(nd);
