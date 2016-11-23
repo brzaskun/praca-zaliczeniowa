@@ -1873,5 +1873,9 @@ public class SessionFacade<T> implements Serializable {
         em.createNamedQuery("Amodok.usunAmoDokByMcRok").setParameter("podatnik",podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
     }
 
+    public List<Deklaracjevat> findDeklaracjeByPodatnik(String podatnikWpisu) {
+        return em.createNamedQuery("Deklaracjevat.findByPodatnik").setParameter("podatnik", podatnikWpisu).getResultList();
+    }
+
     
 }

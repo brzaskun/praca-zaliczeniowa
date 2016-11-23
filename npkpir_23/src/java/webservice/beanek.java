@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -58,7 +59,9 @@ import view.WpisView;
  */
 @ManagedBean
 @ViewScoped
-public class beanek {
+public class beanek  implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
 //</editor-fold>
     public static void main(String[] args) {
@@ -219,7 +222,7 @@ public class beanek {
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMB);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMB, wpisView);
         List<String> komunikat = null;
         if (temp.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
@@ -233,7 +236,7 @@ public class beanek {
         statMBT = stat.value + " "+opis.value;
         opisMBT = komunikat.get(1);
         temp.setUpo(upoMBT);
-        temp.setStatus(statMBT);
+        temp.setStatus(String.valueOf(stat.value));
         temp.setOpis(opisMBT);
         deklaracjevatDAO.edit(temp);
     }
@@ -247,7 +250,7 @@ public class beanek {
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
-        Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator, wpisView);
         List<String> komunikat = null;
         if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
@@ -261,13 +264,19 @@ public class beanek {
         statMBT = stat.value + " "+opis.value;
         opisMBT = komunikat.get(1);
         sprawdzanadeklaracja.setUpo(upoMBT);
-        sprawdzanadeklaracja.setStatus(statMBT);
+        sprawdzanadeklaracja.setStatus(String.valueOf(stat.value));
         sprawdzanadeklaracja.setOpis(opisMBT);
         sprawdzanadeklaracja.setDataupo(new Date());
         deklaracjevatView.getWyslaneniepotwierdzone().remove(sprawdzanadeklaracja);
-        deklaracjevatView.getWyslanenormalne().add(sprawdzanadeklaracja);
+        if (stat.value == 200) {
+            deklaracjevatView.getWyslanenormalne().add(sprawdzanadeklaracja);
+        } else if (String.valueOf(stat.value).startsWith("4")) {
+            deklaracjevatView.getWyslanezbledem().add(sprawdzanadeklaracja);
+        }
         deklaracjevatDAO.edit(sprawdzanadeklaracja);
-        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
+        RequestContext.getCurrentInstance().update("formX:akordeon:dataList");
+        RequestContext.getCurrentInstance().update("formX:akordeon:dataLista");
+        RequestContext.getCurrentInstance().update("formX:akordeon:dataList1");
     }
 
     private void requestUPO_Test(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
@@ -314,7 +323,7 @@ public class beanek {
             upoMBT = upo.value;
             statMBT = stat.value + " "+opis.value;
             temp.setIdentyfikator(idMBT);
-            temp.setStatus(statMBT.toString());
+            temp.setStatus(String.valueOf(stat.value));
             temp.setOpis(opisMBT);
             temp.setDatazlozenia(new Date());
             temp.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
@@ -369,7 +378,7 @@ public class beanek {
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMBT);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMBT, wpisView);
         List<String> komunikat = null;
         if (temp.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
@@ -399,7 +408,7 @@ public class beanek {
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
-        Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator, wpisView);
         List<String> komunikat = null;
         if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");

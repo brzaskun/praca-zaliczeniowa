@@ -61,8 +61,8 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         }
     }
 
-    public Deklaracjevat findDeklaracjeDopotwierdzenia(String identyfikator) {
-        List<Deklaracjevat> temp = deklaracjevatFacade.findAll(Deklaracjevat.class);
+    public Deklaracjevat findDeklaracjeDopotwierdzenia(String identyfikator, WpisView wpisView) {
+        List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjeByPodatnik(wpisView.getPodatnikWpisu());
         Deklaracjevat wynik = new Deklaracjevat();
         for(Deklaracjevat p :temp){
             if(p.getIdentyfikator().equals(identyfikator)){
@@ -131,6 +131,18 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     
     public Deklaracjevat findDeklaracjaPodatnik(String identyfikator, String podatnik) {
          return deklaracjevatFacade.findDeklaracjaPodatnik(identyfikator, podatnik);
+    }
+
+    public Deklaracjevat findDeklaracjeDopotwierdzenia(WpisView wpisView) {
+        List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjeByPodatnik(wpisView.getPodatnikWpisu());
+        Deklaracjevat wynik = null;
+        String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
+        for(Deklaracjevat p :temp){
+            if(p.getStatus().startsWith("3") && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
+                wynik = p;
+            }
+        }
+        return wynik;
     }
 
  

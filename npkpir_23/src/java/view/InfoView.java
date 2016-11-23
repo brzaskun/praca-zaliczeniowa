@@ -277,7 +277,7 @@ public class InfoView implements Serializable{
         }
         } catch (Exception e) { E.e(e); }
         try{
-            Deklaracjevat wyslane1 = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(podatnik);
+            Deklaracjevat wyslane1 = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(wpisView);
             if(wyslane1.getRok()!=null){
                 liczbavatdopotw = "Należy odebrać potwierdzenie deklaracji za "+wyslane1.getRok()+"/"+wyslane1.getMiesiac();
             } else {
