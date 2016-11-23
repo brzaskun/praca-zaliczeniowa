@@ -93,18 +93,18 @@ public class VatUeFKView implements Serializable {
         for (Dokfk p : listadokumentow) {
             for (VatUe s : klienciWDTWNT) {
                 if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
-                    double[] t = pobierzwartosci(p.getEwidencjaVAT());
-                    double netto = t[0];
-                    double nettowaluta = t[1];
-                    s.setNetto(netto + s.getNetto());
-                    s.setNettowaluta(nettowaluta + s.getNettowaluta());
-                    s.setLiczbadok(s.getLiczbadok() + 1);
-                    s.getZawierafk().add(p);
-                    String nazwawal = p.getWalutadokumentu() != null ? p.getWalutadokumentu().getSymbolwaluty() : "";
-                    s.setNazwawaluty(nazwawal);
-                    sumanettovatue += netto;
-                    break;
-                }
+                        double[] t = pobierzwartosci(p.getEwidencjaVAT());
+                        double netto = t[0];
+                        double nettowaluta = t[1];
+                        s.setNetto(netto + s.getNetto());
+                        s.setNettowaluta(nettowaluta + s.getNettowaluta());
+                        s.setLiczbadok(s.getLiczbadok() + 1);
+                        s.getZawierafk().add(p);
+                        String nazwawal = p.getWalutadokumentu() != null ? p.getWalutadokumentu().getSymbolwaluty() : "";
+                        s.setNazwawaluty(nazwawal);
+                        sumanettovatue += netto;
+                        break;
+                    }
             }
         }
         VatUe rzadpodsumowanie = new VatUe("podsum.", null, (double) Math.round(sumanettovatue), 0, null);
@@ -151,14 +151,24 @@ public class VatUeFKView implements Serializable {
     private Set<VatUe> kontrahenci(List<Dokfk> listadokumentow) {
         Set<VatUe> klienty = new HashSet<>();
         for (Dokfk p : listadokumentow) {
-            if (p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK")) {
+            if (warunekkontrahenci(p)) {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
                 VatUe veu = new VatUe(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
-                veu.setZawierafk(new ArrayList<Dokfk>());
+                veu.setZawierafk(new ArrayList<>());
                 klienty.add(veu);
             }
         }
         return klienty;
+    }
+    
+    private boolean warunekkontrahenci(Dokfk p) {
+        boolean zwrot = false;
+        if (Data.czyjestpo("2016-11-30  ", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
+            zwrot = p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK100");
+        } else {
+            zwrot = p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK");
+        }
+        return zwrot;
     }
     
     private List<Dokfk> zmodyfikujlisteMcKw(List<Dokfk> listadokvat, String vatokres) throws Exception {

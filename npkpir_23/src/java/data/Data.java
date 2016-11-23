@@ -247,7 +247,7 @@ public class Data implements Serializable {
     private static String pobierzokres(String data, int pole) {
         String zwrot = null;
         if (data.length()==10) {
-            zwrot = data.split("-")[1];
+            zwrot = data.split("-")[pole];
         }
         return zwrot;
     }
