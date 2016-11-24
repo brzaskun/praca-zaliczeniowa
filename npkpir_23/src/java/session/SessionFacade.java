@@ -1587,12 +1587,20 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("MiejsceKosztow.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
     
+    public List<MiejsceKosztow> findMiejscaPodatnikWszystkie(Podatnik podatnik) {
+        return em.createNamedQuery("MiejsceKosztow.findByPodatnikWszystkie").setParameter("podatnik", podatnik).getResultList();
+    }
+    
     public List<MiejsceKosztow> findMiejscaPrzychodowPodatnikRok(Podatnik podatnik, int rok) {
         return em.createNamedQuery("MiejscePrzychodow.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
     public List<MiejsceKosztow> findMiejscaPrzychodowPodatnik(Podatnik podatnik) {
         return em.createNamedQuery("MiejscePrzychodow.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
+    
+    public List<MiejsceKosztow> findMiejscaPrzychodowPodatnikWszystkie(Podatnik podatnik) {
+        return em.createNamedQuery("MiejscePrzychodow.findByPodatnikWszystkie").setParameter("podatnik", podatnik).getResultList();
     }
 
     public long countMiejscaKosztow(Podatnik podatnikObiekt) {

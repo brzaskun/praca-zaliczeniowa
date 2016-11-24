@@ -11,28 +11,32 @@
         }
     </style>
     <p:dialog id="dialog_miejscakosztow_dolaczanie" header="Definiowanie miejsca powstawania kosztu" widgetVar="dialog_miejscakosztow_dolaczanie" 
-              resizable="false"  onShow="ustawdialog('dialog_miejscakosztow_dolaczanie','menukartoteki',900,600);" 
+              resizable="false"  onShow="ustawdialog('dialog_miejscakosztow_dolaczanie','menukartoteki',950,650);" 
               closeOnEscape="true" onHide="resetujdialog('dialog_miejscakosztow_dolaczanie');" 
               dynamic="true">
        
         <h:form id="miejscakosztow">
             <p:panelGrid columns="2" >
                 <h:outputText value="nazwa miejsca kosztów "/>
-                <p:inputText id="nazwamiejsca" value="#{miejsceKosztowView.selected.opismiejsca}" style="width: 180px;">
+                <p:inputText id="nazwamiejsca" value="#{miejsceKosztowView.selected.opismiejsca}" style="width: 250px;">
                     <p:ajax event="blur" oncomplete="kopiujtrescpola('miejscakosztow:nazwamiejsca','miejscakosztow:nazwamiejscas')" global="false"/>
                 </p:inputText>
                 <h:outputText value="nazwa skrócona"/>
-                <p:inputText id="nazwamiejscas" value="#{miejsceKosztowView.selected.opisskrocony}" style="width: 180px;"/>
+                <p:inputText id="nazwamiejscas" value="#{miejsceKosztowView.selected.opisskrocony}" style="width: 250px;"/>
             </p:panelGrid>
             <p:commandButton value="dodaj" actionListener="#{miejsceKosztowView.dodaj()}" style="margin: 2%; width: 120px;" 
                              update=":miejscakosztow, :miejscakosztowlista" rendered="#{miejsceKosztowView.zapisz0edytuj1 == false}"/>
             <p:commandButton value="edytuj" actionListener="#{miejsceKosztowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
-                             update=":miejscakosztow, :miejscakosztowlista" 
+                             update=":miejscakosztow, :miejscakosztowlista"
+                             oncomplete="PF('listamiejscakosztow').clearFilters();"
+                             rendered="#{miejsceKosztowView.zapisz0edytuj1 == true}"/>
+            <p:commandButton value="rezygnuj" actionListener="#{miejsceKosztowView.canceledycje()}" style="margin: 2%; width: 120px;" 
+                             update=":miejscakosztow" global="false"
                              oncomplete="PF('listamiejscakosztow').clearFilters();"
                              rendered="#{miejsceKosztowView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="miejscakosztowlista">
-            <p:dataTable value="#{miejsceKosztowView.miejscakosztow}" var="item"  resizableColumns="true" style="width: 850px;"
+            <p:dataTable value="#{miejsceKosztowView.miejscakosztow}" var="item"  resizableColumns="true" style="width: 900px;"
                          scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc kosztów"
                          sortBy="#{item}"  sortFunction="#{miejsceKosztowView.sortMiejsceKosztow}"
                          widgetVar="listamiejscakosztow">
@@ -40,14 +44,19 @@
                 <p:column headerText="#{mgs.nr}" style="width: 40px;">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
-                <p:column headerText="pełny opis miejsca" style="width: 300px;">
+                <p:column headerText="pełny opis miejsca" style="width: 300px;" filterBy="#{item.opismiejsca}" filterMatchMode="contains" styleClass="filter220">
                     <h:outputText value="#{item.opismiejsca}"/>
                 </p:column>
                 <p:column headerText="opis skrócony" style="width: 200px;">
                     <h:outputText value="#{item.opisskrocony}"/>
                 </p:column>
-                <p:column headerText="nr konta">
+                <p:column headerText="nr konta" style="text-align: center;">
                     <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="ukryj" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{item.pokaz0chowaj1}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{miejsceKosztowView.zapiszedycje(item)}" global="false"/>
+                    </p:selectBooleanCheckbox>
                 </p:column>
                 <p:column headerText="edytuj" style="text-align: center; width: 60px;">
                     <p:commandButton icon="ui-icon-comment" actionListener="#{miejsceKosztowView.edytuj(item)}" update=":miejscakosztow, :miejscakosztowlista" 

@@ -20,9 +20,13 @@
                              update="miejscaprzychodow miejscaprzychodowlista:lista"
                              oncomplete="PF('listamiejscaprzychodow').clearFilters();"
                              rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
+            <p:commandButton value="rezygnuj" actionListener="#{miejscePrzychodowView.canceledycje()}" style="margin: 2%; width: 120px;" 
+                             update="miejscaprzychodow" global="false"
+                             oncomplete="PF('listamiejscaprzychodow').clearFilters();"
+                             rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="miejscaprzychodowlista">
-            <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item" style="width: 1130px;" id="lista"
+            <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item" style="width: 1180px;" id="lista"
                          scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc przychodów"
                          sortBy="#{item}"  sortFunction="#{miejscePrzychodowView.sortMiejscePrzychodow}"
                          widgetVar="listamiejscaprzychodow">
@@ -51,6 +55,11 @@
                         <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.koniec, 0)}"/>
                     </p:inputMask>
                 </p:column>
+                 <p:column headerText="ukryj" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{item.pokaz0chowaj1}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{miejscePrzychodowView.zapiszedycje(item)}" global="false"/>
+                    </p:selectBooleanCheckbox>
+                 </p:column>
                 <p:column headerText="edytuj" style="text-align: center; width: 60px;">
                     <p:commandButton icon="ui-icon-comment" actionListener="#{miejscePrzychodowView.edytuj(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista" 
                                      rendered="#{WpisView.rokWpisu eq item.rok}" style="width: 40px;"/>

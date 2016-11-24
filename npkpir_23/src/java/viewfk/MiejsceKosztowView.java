@@ -17,6 +17,7 @@ import daoFK.UkladBRDAO;
 import embeddablefk.MiejsceZest;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
+import entityfk.MiejscePrzychodow;
 import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
@@ -70,7 +71,7 @@ public class MiejsceKosztowView  implements Serializable{
     @PostConstruct
     public void init() {
         try {
-            miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+            miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnikWszystkie(wpisView.getPodatnikObiekt());
         } catch (Exception e) {  E.e(e);
             
         }
@@ -131,6 +132,18 @@ public class MiejsceKosztowView  implements Serializable{
         miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         zapisz0edytuj1 = false;
         Msg.msg("Naniesiono zmiany");
+    }
+    
+    public void zapiszedycje(MiejsceKosztow miejsceKosztow) {
+        miejsceKosztowDAO.edit(miejsceKosztow);
+        zapisz0edytuj1 = false;
+        Msg.msg("Naniesiono zmiany");
+    }
+    
+    public void canceledycje() {
+        zapisz0edytuj1 = false;
+        selected = new MiejsceKosztow();
+        Msg.msg("Rezygnazja z edycji");
     }
     
     public void zapisykontmiesiace() {

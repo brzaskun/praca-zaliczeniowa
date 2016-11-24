@@ -17,6 +17,7 @@ import daoFK.MiejscePrzychodowDAO;
 import daoFK.UkladBRDAO;
 import embeddablefk.MiejsceZest;
 import entityfk.Konto;
+import entityfk.MiejsceKosztow;
 import entityfk.MiejscePrzychodow;
 import entityfk.StronaWiersza;
 import error.E;
@@ -71,7 +72,7 @@ public class MiejscePrzychodowView  implements Serializable{
     @PostConstruct
     public void init() {
         try {
-            miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+            miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnikWszystkie(wpisView.getPodatnikObiekt());
             czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         } catch (Exception e) {  
             E.e(e);
@@ -141,6 +142,17 @@ public class MiejscePrzychodowView  implements Serializable{
         Msg.msg("Naniesiono zmiany");
     }
     
+    public void zapiszedycje(MiejscePrzychodow miejscePrzychodow) {
+        miejscePrzychodowDAO.edit(miejscePrzychodow);
+        zapisz0edytuj1 = false;
+        Msg.msg("Naniesiono zmiany");
+    }
+    
+    public void canceledycje() {
+        zapisz0edytuj1 = false;
+        selected = new MiejscePrzychodow();
+        Msg.msg("Rezygnazja z edycji");
+    }
     public void edytujpozycje(MiejscePrzychodow miejscePrzychodow, String dane, int dataemail) {
         boolean czyok = false;
         if (dataemail == 0) {
