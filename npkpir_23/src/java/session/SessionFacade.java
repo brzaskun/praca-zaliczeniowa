@@ -521,6 +521,10 @@ public class SessionFacade<T> implements Serializable {
     public List<Dok> findDokBK(String pod, String rok, String mc) {
         return em.createNamedQuery("Dok.findByBKM").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
     }
+    
+    public List<Dok> findDokBKWaluta(String pod, String rok, String mc) {
+        return em.createNamedQuery("Dok.findByBKMWaluta").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
+    }
 
     public List<Dok> findDokRokKW(String pod, String rok, List<String> mce) {
         return em.createNamedQuery("Dok.findByRokKW").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList();

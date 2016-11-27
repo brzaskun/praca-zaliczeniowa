@@ -4,21 +4,26 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="220" header="Bieżący podatnik" collapsible="true" resizable="true" style="box-shadow: 10px 10px 5px #888;">
+    
+    <p:layoutUnit position="west" size="220" header="Bieżący podatnik" collapsible="true" resizable="true"  style="box-shadow: 10px 10px 5px #888;">
         <h:form id="westKsiegowa">
-            <h:messages id="westmsg"/>
-            
+           
             <p:panelGrid id="westKsiegowaWidok" columns="2" style="margin-left: 7%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikWpisu}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.rokWpisu}"/>
-                <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.miesiacWpisu}"/>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabeleTabela}" update=":form:dokumentyLista, :form:menutablica, westKsiegowa:linki"/>
+                </p:selectOneMenu>
+                <h:outputText value="Miesiąc:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{Mce.mceList}"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabeleTabela}" update=":form:dokumentyLista, :form:menutablica, westKsiegowa:linki"/>
+                </p:selectOneMenu>
             </p:panelGrid>
            <p:panel id="linki" header="linki">
-                
-                   <p:menu >
+                  <p:menu >
                         <p:menuitem global="false" value="zmiana podatnika"  outcome="zmianapodatnika" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem global="false" value="info podatnik"  outcome="info" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem global="false" value="parametry" outcome="parampodatnika" icon="ui-icon-circle-arrow-e" />
@@ -40,12 +45,9 @@
                     <p:menu>
                         <p:menuitem global="false" value="środki trwałe"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
                     </p:menu>
-                    <p:menu>
+                   <p:menu>
                         <p:menuitem global="false" value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
-                          <p:menuitem global="false" value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westKsiegowa" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
-                            
-                            
-                            
+                        <p:menuitem global="false" value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westKsiegowa" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                         </p:menuitem>
                         <p:menuitem global="false" value="zamknięcie miesiąca"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
@@ -58,8 +60,8 @@
                 </p:menu>
                     <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;"/>
             </p:panel>
-
         </h:form>
     </p:layoutUnit>
+         
 </ui:composition>   
 

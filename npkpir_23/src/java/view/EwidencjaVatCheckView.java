@@ -5,12 +5,8 @@
 package view;
 
 import implement.ListExt;
-import em.Em;
 import embeddable.EVatViewPola;
-import embeddable.EVatwpisSuma;
 import embeddablefk.SaldoKonto;
-import entity.EVatOpis;
-import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,7 +16,6 @@ import java.util.Objects;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.persistence.EntityManager;
 import msg.Msg;
 import waluty.Z;
 

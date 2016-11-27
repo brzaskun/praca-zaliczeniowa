@@ -24,10 +24,6 @@ public abstract class DAO<T> {
     @Inject
     protected SessionFacade sessionFacade;
     private Class<T> entityClass;
-    /**
-     *
-     */
-    protected ArrayList<T> downloaded;
 
     protected DAO(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -139,22 +135,7 @@ public abstract class DAO<T> {
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    public ArrayList<T> getDownloaded() {
-        return downloaded;
-    }
-
-    /**
-     *
-     * @param downloaded
-     */
-    public void setDownloaded(ArrayList<T> downloaded) {
-        this.downloaded = downloaded;
-    }
-    
+       
     
 
 }

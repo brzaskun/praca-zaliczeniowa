@@ -14,7 +14,7 @@
         }
     </style>
     <p:dialog id="dialogwpissrodkitrwale" header="Wpisywanie nowego środka trwałego dla dok #{srodkiTrwaleView.dokfk.dokfkSN}" widgetVar="dialogwpissrodkitrwale"  modal="true" appendTo="@(body)"
-              resizable="false"  onShow="ustawdialog('dialogwpissrodkitrwale','zestawieniedokumentow:sumawybranych',1200,400);" 
+              resizable="false"  onShow="ustawdialog('dialogwpissrodkitrwale','zestawieniedokumentow:dataList',1200,400);" 
               closeOnEscape="true" onHide="resetujdialog('dialogwpissrodkitrwale');" >
         <h:form id="srodkiwpis"> 
             <!--pola ewidencji SRODKOW TRWALYCH-->
@@ -152,10 +152,13 @@
                 <p:column>
                     <p:selectOneListbox value="#{srodkiTrwaleView.selectedSTR.kontoumorzenie}" style="width: 350px;" scrollHeight="95" converter="KontoConv">
                         <f:selectItems value="#{planKontBOView.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                        <p:ajax event="focus" onstart="r('srodkiwpis:buttonsrodektrw').show();" global="false"/>
                     </p:selectOneListbox>
                 </p:column>
             </p:panelGrid>
-            <p:commandButton value="dodaj środek" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px;" onclick="PF('confirm1').show();"/>
+            <p:commandButton id="buttonsrodektrw" value="dodaj środek" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px; display: none;" 
+                             onclick="PF('confirm1').show();"
+                             />
             <p:commandButton value="zamknij" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px;" onclick="PF('dialogwpissrodkitrwale').hide();"/>
         </h:form>
     </p:dialog>
