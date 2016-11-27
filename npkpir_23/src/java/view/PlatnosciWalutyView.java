@@ -11,7 +11,6 @@ import dao.PlatnoscWalutaDAO;
 import daoFK.TabelanbpDAO;
 import entity.Dok;
 import entity.PlatnoscWaluta;
-import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
 import java.io.Serializable;
@@ -19,6 +18,7 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -28,8 +28,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import msg.Msg;
 import org.joda.time.DateTime;
-import org.primefaces.context.RequestContext;
+import waluty.Z;
 
 /**
  *
@@ -57,14 +58,18 @@ public class PlatnosciWalutyView  implements Serializable {
     private List<PlatnoscWaluta> platnosci;
     @Inject
     private PlatnoscWaluta nowa;
+    private double dorozliczenia;
+    private boolean ukryjrozliczone;
+    private double kwotadorozliczenia;
     
     @PostConstruct
     private void init() {
+        ukryjrozliczone = true;
         kontrahentypodatnika = new ArrayList<>();
         skrotwalutywdokum = new ArrayList<>();
         dokumentypodatnika = new ArrayList<>();
         walutywdokum = new ArrayList<>();
-        dokumenty = dokDAO.zwrocBiezacegoKlientaRokMCWaluta(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        zmienliste();
         Set<String> k = new HashSet<>();
         Set<String> w = new HashSet<>();
         Set<String> d = new HashSet<>();
@@ -91,7 +96,17 @@ public class PlatnosciWalutyView  implements Serializable {
 
     public void pobierzplatnosci() {
         List<PlatnoscWaluta> p = platnoscWalutaDAO.findByDok(selected);
-        nowa = new PlatnoscWaluta(selected);
+        nowa = new PlatnoscWaluta(selected, wpisView);
+        dorozliczenia = selected.getNettoWaluta();
+        if (p != null) {
+            platnosci = p;
+            for (PlatnoscWaluta r : p) {
+                dorozliczenia -= r.getKwota();
+            }
+            dorozliczenia = Z.z(dorozliczenia);
+        } else {
+            platnosci = new ArrayList<>();
+        }
     }
     
     public void pobierzkursNBP(ValueChangeEvent el) {
@@ -104,6 +119,82 @@ public class PlatnosciWalutyView  implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
+    }
+    
+    public void przelicz(ValueChangeEvent e) {
+        if (selected != null) {
+            if (dorozliczenia > 0.0) {
+                double kwota = (double) e.getNewValue();
+                if (kwota > dorozliczenia) {
+                    kwota = dorozliczenia;
+                    Msg.msg("w", "Ograniczono kwotę rozliczenia do makimum");
+                }
+                nowa.setKwota(kwota);
+                double kwotapln = Z.z(kwota * nowa.getTabelanbp().getKurssredni());
+                nowa.setKwotapln(kwotapln);
+                double roznice = Z.z(kwota * selected.getTabelanbp().getKurssredni()) - kwotapln;
+                nowa.setRoznice(-roznice);
+            } else {
+                Msg.msg("e", "Wszystko już rozliczono");
+            }
+        } else {
+            Msg.msg("e", "Nie wybrano faktury");
+        }
+    }
+    
+    public void dodaj() {
+        if (selected != null) {
+            if (dorozliczenia > 0.0) {
+                if (selected.getPlatnosciwaluta() == null) {
+                    selected.setPlatnosciwaluta(new ArrayList<>());
+                }
+                selected.getPlatnosciwaluta().add(nowa);
+                dokDAO.edit(selected);
+                platnosci.add(nowa);
+                dorozliczenia -= nowa.getKwota();
+                dorozliczenia = Z.z(dorozliczenia);
+                nowa = new PlatnoscWaluta();
+                Msg.msg("i","Dodano płatność");
+            } else {
+                Msg.msg("w","Całość została już wcześniej rozliczona. Nie dodano pozycji");
+            }
+        } else {
+            Msg.msg("e","Nie wybrano faktury");
+        }
+    }
+    
+    public void usun(PlatnoscWaluta p) {
+        if (p != null) {
+            selected.getPlatnosciwaluta().remove(p);
+            dokDAO.edit(selected);
+            platnosci.remove(p);
+            dorozliczenia += p.getKwota();
+            dorozliczenia = Z.z(dorozliczenia);
+            Msg.msg("i","Usunięto płatność");
+        } else {
+            Msg.msg("e","Nie udane usunięcie płatności");
+        }
+    }
+    
+    public void zmienliste() {
+        dokumenty = dokDAO.zwrocBiezacegoKlientaRokMCWaluta(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (ukryjrozliczone) {
+            for (Iterator<Dok> it = dokumenty.iterator(); it.hasNext();) {
+                double suma = obliczsume(it.next());
+                if (suma == 0.0) {
+                    it.remove();
+                }
+            }
+        }
+    }
+    
+    public double obliczsume(Dok dok) {
+        double suma = dok.getNettoWaluta();
+        List<PlatnoscWaluta> p = dok.getPlatnosciwaluta();
+        for (PlatnoscWaluta r : p) {
+            suma -= r.getKwota();
+        }
+        return Z.z(suma);
     }
     
     public List<Dok> getDokumenty() {
@@ -184,6 +275,30 @@ public class PlatnosciWalutyView  implements Serializable {
 
     public void setNowa(PlatnoscWaluta nowa) {
         this.nowa = nowa;
+    }
+
+    public double getDorozliczenia() {
+        return dorozliczenia;
+    }
+
+    public void setDorozliczenia(double dorozliczenia) {
+        this.dorozliczenia = dorozliczenia;
+    }
+
+    public boolean isUkryjrozliczone() {
+        return ukryjrozliczone;
+    }
+
+    public void setUkryjrozliczone(boolean ukryjrozliczone) {
+        this.ukryjrozliczone = ukryjrozliczone;
+    }
+
+    public double getKwotadorozliczenia() {
+        return kwotadorozliczenia;
+    }
+
+    public void setKwotadorozliczenia(double kwotadorozliczenia) {
+        this.kwotadorozliczenia = kwotadorozliczenia;
     }
 
     

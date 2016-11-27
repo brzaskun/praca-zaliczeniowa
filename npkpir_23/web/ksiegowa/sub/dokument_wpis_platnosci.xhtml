@@ -34,13 +34,19 @@
     </style>
     
     <h:form id="form_dokument_wpis_platnosci">
+        <p:outputPanel style="width: 200px; padding: 10px;">
+            <h:outputText value="ukryj rozliczone"/>
+            <p:selectBooleanCheckbox value="#{platnosciWalutyView.ukryjrozliczone}" label="ukryj rozliczone">
+                <p:ajax event="change" listener="#{platnosciWalutyView.zmienliste()}" global="false" partialSubmit="true" update="form_dokument_wpis_platnosci:dokumentyLista"/>
+            </p:selectBooleanCheckbox>
+        </p:outputPanel>
         <p:dataTable  var="wpis" value="#{platnosciWalutyView.dokumenty}" id="dokumentyLista"  filteredValue="#{platnosciWalutyView.dokumentyFiltered}" rowIndexVar="index"
                       style="width: 1200px; margin-top: 10px; overflow-y: scroll; height: 400px;" rowKey="#{wpis.idDok}" selection="#{platnosciWalutyView.selected}" widgetVar="dokTable"
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="single" styleClass="grid" 
                           >
-            <p:ajax event="rowSelect"  listener="#{platnosciWalutyView.pobierzplatnosci()}" update="form_dokument_wpis_platnosci1 form_dokument_wpis_platnosci2:dokumentyLista1"/>
+            <p:ajax event="rowSelect"  listener="#{platnosciWalutyView.pobierzplatnosci()}" update="form_dokument_wpis_platnosci1 form_dokument_wpis_platnosci2"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie #{platnosciWalutyView.dokumenty.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów walutowych " />  
                     <h:outputText value="- wyszukiwanie: " />  
@@ -59,7 +65,7 @@
                             <f:selectItems value="#{platnosciWalutyView.kontrahentypodatnika}" />
                         </p:selectOneMenu>
                     </f:facet>
-                    <h:outputText style="font-weight: bold;" value="#{wpis.kontr.npelna}"  />
+                    <h:outputText style="font-weight: bold;#{platnosciWalutyView.obliczsume(wpis) eq 0 ? 'color: blue':null}" value="#{wpis.kontr.npelna}"  />
                     <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  rendered="#{!(wpis.kontr.nip eq '0000000000')}"/>
                     <h:outputText value=" #{wpis.kontr.miejscowosc}"  rendered="#{wpis.kontr.nip eq '0000000000'}"/>
                 </p:column>
@@ -79,24 +85,20 @@
                     <h:outputText value="#{wpis.opis}"/>
                 </p:column>
                 <p:column id="nettoColumn" headerText="#{mgs.netto}" rendered="#{platnosciWalutyView.skrotwalutywdokum.size() gt 0 and platnosciWalutyView.skrotwalutywdokum.get(0) ne 'PLN'}"
-                          filterBy="#{wpis.symbolWaluty}" filterMatchMode="contains"  sortBy="#{wpis.symbolWaluty}"  style="width: 60px;">  
+                          filterBy="#{wpis.nettoWaluta}" filterMatchMode="contains"  sortBy="#{wpis.nettoWaluta}"  style="width: 60px;">  
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('dokTable').filter()" >
                             <f:selectItem itemLabel="wszyst" itemValue="#{null}" noSelectionOption="true"/>
                             <f:selectItems value="#{platnosciWalutyView.skrotwalutywdokum}" />
                         </p:selectOneMenu>
                     </f:facet>
-                    <bcf:outputpl value="#{wpis.netto}"/>
-                    <br/>
-                   <bcf:outputpl value="#{wpis.nettoWaluta}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/> 
-                    <h:outputText value="#{wpis.symbolWaluty}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/>
+                   <bcf:outputpl value="#{wpis.nettoWaluta}" stylePlus="#{platnosciWalutyView.obliczsume(wpis) eq 0 ? 'color: blue':null}"/> 
+                    <h:outputText value="#{wpis.symbolWaluty}" style="#{platnosciWalutyView.obliczsume(wpis) eq 0 ? 'color: blue':null}"/>
                 </p:column>
-                <p:column id="nettoColumn1" headerText="#{mgs.netto}" styleClass="filter40"
+                <p:column id="nettoColumn1" headerText="netto pln" styleClass="filter40"
                           filterBy="#{wpis.netto}" filterMatchMode="contains"  sortBy="#{wpis.netto}"  style="width: 60px;">  
-                    <bcf:outputpl value="#{wpis.netto}"/>
-                    <br/>
-                    <bcf:outputpl value="#{wpis.nettoWaluta}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/> 
-                    <h:outputText value="#{wpis.symbolWaluty}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/>
+                    <bcf:outputpl value="#{wpis.netto}" stylePlus="#{platnosciWalutyView.obliczsume(wpis) eq 0 ? 'color: blue':null}"/> 
+                    <h:outputText value="PLN" style="#{platnosciWalutyView.obliczsume(wpis) eq 0 ? 'color: blue':null}"/>
                 </p:column>
                 <p:column id="status" headerText="tab"  style="width: 7%; text-align: center;">
                     <h:outputText value="#{wpis.tabelanbp.nrtabeli} " rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
@@ -128,6 +130,15 @@
                 </p:column>
                 <p:column>
                     <h:outputText value="kurs"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="kwota pln"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="różnica kurs"/>
+                </p:column>
+                <p:column>
+                    
                 </p:column>
             </p:row>
             </f:facet>
@@ -163,13 +174,17 @@
                                           $(this).addClass('ui-state-default');"
                                   style="height: 26px;"
                                   >
-                    <p:ajax event="change" partialSubmit="true" update="form_dokument_wpis_platnosci1:wprowadzanieplatnosci"/>
+                    <p:ajax event="change" partialSubmit="true" update="@form"/>
                     <f:selectItem itemValue="" itemLabel="wal" noSelectionOption="true"/>
                     <f:selectItems value="#{platnosciWalutyView.walutywdokum}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                 </h:selectOneMenu>
             </p:column>
             <p:column headerText="kwota" style="width: 110px;">
-                <bcf:inputpl value="#{platnosciWalutyView.nowa.kwota}"/>
+                <pe:inputNumber  value="#{platnosciWalutyView.kwotadorozliczenia}" 
+                                 style="float: right; margin-right: 4px;" valueChangeListener="#{platnosciWalutyView.przelicz}"
+                    symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000">
+                    <p:ajax event="change" partialSubmit="true" global="false" update="@this @namingcontainer"/>
+                </pe:inputNumber>
             </p:column>
             <p:column headerText="tabela NBP" style="width: 110px;" >
                 <h:outputText value="#{platnosciWalutyView.nowa.tabelanbp}"/>
@@ -177,32 +192,60 @@
             <p:column headerText="kurs" style="width: 110px;" id="tabelanbp">
                 <bcf:outputkurs value="#{platnosciWalutyView.nowa.tabelanbp.kurssredni}"/>
             </p:column>
+            <p:column  style="width: 90px;">
+                <bcf:outputpl value="#{platnosciWalutyView.nowa.kwotapln}"/>
+            </p:column>
+            <p:column  style="width: 90px;">
+                <bcf:outputpl value="#{platnosciWalutyView.nowa.roznice}"/>
+            </p:column>
+                <p:column style="text-align: center;">
+                    <p:commandButton actionListener="#{platnosciWalutyView.dodaj()}" icon="ui-icon-plus" global="false"
+                                     update="@form form_dokument_wpis_platnosci2 form_dokument_wpis_platnosci:dokumentyLista"/>
+                </p:column>
             </p:row>
         </p:panelGrid>
     </h:form>
     <h:form id="form_dokument_wpis_platnosci2">
         <p:dataTable value="#{platnosciWalutyView.platnosci}" var="wpis1" id="dokumentyLista1" 
-                     emptyMessage="brak płatności" style="margin-top: 20px; width: 800px;" rowIndexVar="index1"
+                     emptyMessage="brak płatności" style="margin-top: 20px; width: 940px;" rowIndexVar="index1"
                      >
             <f:facet name="header">
-                <h:outputText value="płatności do dokumentu"/>
+                <h:outputText value="płatności przyporządkowane do dokumentu nr:  #{platnosciWalutyView.selected.nrWlDk} z dnia #{platnosciWalutyView.selected.dataWyst}"/>
             </f:facet>
             <p:column style="width: 20px; text-align: center;" headerText="lp">
                 <h:outputText value="#{index1+1}"/>
             </p:column>
-            <p:column headerText="typ płatności" style="width: 70px;">
+            <p:column headerText="typ płatności" style="width: 40px; text-align: center;">
                 <h:outputText value="#{wpis1.typplatnosci}"/>
             </p:column>
-            <p:column headerText="data płatności" style="width: 100px;">
+            <p:column headerText="data płatności" style="width: 100px; text-align: center;">
                 <h:outputText value="#{wpis1.dataplatnosci}"/>
             </p:column>
-            <p:column headerText="waluta"  style="width: 60px;">
+            <p:column headerText="waluta"  style="width: 40px; text-align: center;">
                 <h:outputText value="#{wpis1.walutadokumentu.symbolwaluty}"/>
             </p:column>
             <p:column headerText="kwota" style="width: 110px;">
                 <bcf:outputpl value="#{wpis1.kwota}"/>
             </p:column>
+            <p:column headerText="kurs" style="width: 70px;">
+                <bcf:outputkurs value="#{wpis1.tabelanbp.kurssredni}"/>
+            </p:column>
+            <p:column headerText="kwota pl" style="width: 110px;">
+                <bcf:outputpl value="#{wpis1.kwotapln}"/>
+            </p:column>
+            <p:column headerText="różnice" style="width: 70px;">
+                <bcf:outputpl value="#{wpis1.roznice}"/>
+            </p:column>
+            <p:column  style="width: 40px; text-align: center;">
+                <p:commandButton actionListener="#{platnosciWalutyView.usun(wpis1)}" icon="ui-icon-minus" global="false" 
+                                 update="form_dokument_wpis_platnosci2 form_dokument_wpis_platnosci:dokumentyLista"/>
+            </p:column>
         </p:dataTable>
+        <p:outputPanel style="width: 200px; padding: 10px;">
+            <h:outputText value="do rozliczenia" rendered="#{platnosciWalutyView.dorozliczenia gt 0}"/>
+            <bcf:outputwal symbolwaluty="#{platnosciWalutyView.selected.symbolWaluty}" value="#{platnosciWalutyView.dorozliczenia}" rendered="#{platnosciWalutyView.dorozliczenia gt 0}"/>
+            <h:outputText value="dokument rozliczony w całości" rendered="#{platnosciWalutyView.dorozliczenia eq 0}"/>
+        </p:outputPanel>
     </h:form>
 </ui:composition>   
 

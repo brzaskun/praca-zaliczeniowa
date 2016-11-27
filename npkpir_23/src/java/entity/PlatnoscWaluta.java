@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
+import view.WpisView;
 
 /**
  *
@@ -39,7 +40,7 @@ public class PlatnoscWaluta implements Serializable {
     @Column(name = "id")
     private int id;
     @JoinColumn(name = "dokument", referencedColumnName = "id_dok")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Dok dokument;
     @JoinColumn(name = "tabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne
@@ -70,6 +71,12 @@ public class PlatnoscWaluta implements Serializable {
     
     public PlatnoscWaluta(Dok selected) {
         this.dokument = selected;
+    }
+
+    public PlatnoscWaluta(Dok selected, WpisView wpisView) {
+        this.dokument = selected;
+        this.rok = wpisView.getRokWpisuSt();
+        this.mc = wpisView.getMiesiacWpisu();
     }
 
     public int getId() {

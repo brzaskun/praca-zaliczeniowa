@@ -208,6 +208,8 @@ public class Dok implements Serializable {
     @JoinColumn(name = "inwestycja", referencedColumnName = "id")
     @ManyToOne
     private Inwestycje inwestycja;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokument", cascade = CascadeType.ALL,  orphanRemoval=true)
+    private List<PlatnoscWaluta> platnosciwaluta;
     
     public Dok() {
         this.listakwot1 = new ArrayList<>();
@@ -370,6 +372,10 @@ public class Dok implements Serializable {
         this.dataK = dataK;
     }
 
+    public List<PlatnoscWaluta> getPlatnosciwaluta() {
+        return platnosciwaluta;
+    }
+
 //    public List<EVatwpis> getEwidencjaVAT() {
 //        return ewidencjaVAT;
 //    }
@@ -377,6 +383,9 @@ public class Dok implements Serializable {
 //    public void setEwidencjaVAT(List<EVatwpis> ewidencjaVAT) {
 //        this.ewidencjaVAT = ewidencjaVAT;
 //    }
+    public void setPlatnosciwaluta(List<PlatnoscWaluta> platnosciwaluta) {
+        this.platnosciwaluta = platnosciwaluta;
+    }
 
     public boolean isDokumentProsty() {
         return dokumentProsty;

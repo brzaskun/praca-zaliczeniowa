@@ -27,6 +27,7 @@ import entity.Klienci;
 import entity.MultiuserSettings;
 import entity.Pismoadmin;
 import entity.Pitpoz;
+import entity.PlatnoscWaluta;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
@@ -94,7 +95,6 @@ public class SessionFacade<T> implements Serializable {
 
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
-    private Exception EVatwpisFK;
 
     public SessionFacade() {
     }
@@ -1887,6 +1887,10 @@ public class SessionFacade<T> implements Serializable {
 
     public List<Deklaracjevat> findDeklaracjeByPodatnik(String podatnikWpisu) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnik").setParameter("podatnik", podatnikWpisu).getResultList();
+    }
+
+    public List<PlatnoscWaluta> findPlatnoscWalutaByDok(Dok selected) {
+        return em.createNamedQuery("PlatnoscWaluta.findByDok").setParameter("dokument", selected).getResultList();
     }
 
     

@@ -21,8 +21,6 @@ import session.SessionFacade;
 @Named
 public class PlatnoscWalutaDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade evopisFacade;
 
     public PlatnoscWalutaDAO() {
         super(PlatnoscWaluta.class);
@@ -30,13 +28,13 @@ public class PlatnoscWalutaDAO extends DAO implements Serializable {
     
     public  List<PlatnoscWaluta> findAll(){
         try {
-            return evopisFacade.findAll(PlatnoscWaluta.class);
+            return sessionFacade.findAll(PlatnoscWaluta.class);
         } catch (Exception e) { E.e(e); 
             return null;
         }
    }
 
     public List<PlatnoscWaluta> findByDok(Dok selected) {
-        return sessionFacade.getEntityManager().createNamedQuery("PlatnoscWaluta.findByDok").setParameter("dokument", selected).getResultList();
+        return sessionFacade.findPlatnoscWalutaByDok(selected);
     }
 }
