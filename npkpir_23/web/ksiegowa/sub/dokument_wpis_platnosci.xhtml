@@ -32,7 +32,14 @@
 
 
     </style>
-    
+    <script>
+        var podswietlpierwszepole = function() {
+          var v = r('form_dokument_wpis_platnosci1:poledataplatnosci').find("input").val();
+          if (v === "") {
+            r('form_dokument_wpis_platnosci1:polepoczatekplatnosc').focus();
+          };
+        };
+    </script>
     <h:form id="form_dokument_wpis_platnosci">
         <p:outputPanel style="width: 200px; padding: 10px;">
             <h:outputText value="ukryj rozliczone"/>
@@ -147,8 +154,8 @@
                 <h:outputText value="#{index1+1}"/>
             </p:column>
             <p:column headerText="typ płatności" style="width: 70px;">
-                <h:selectOneMenu value="#{platnosciWalutyView.nowa.typplatnosci}"
-                    styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                <h:selectOneMenu value="#{platnosciWalutyView.nowa.typplatnosci}" id="polepoczatekplatnosc"
+                    styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all polepoczatekplatnosc"
                      onfocus="$(this).removeClass('ui-state-default');
                              $(this).addClass('ui-state-focus');"
                      onblur="$(this).removeClass('ui-state-focus');
@@ -158,9 +165,10 @@
                     <f:selectItem itemValue="komp" itemLabel="komp"/>
                 </h:selectOneMenu>
             </p:column>
-            <p:column headerText="data płatności" style="width: 70px;">
+            <p:column headerText="data płatności" style="width: 70px;" id="poledataplatnosci">
                 <p:inputText value="#{platnosciWalutyView.nowa.dataplatnosci}">
-                    <p:ajax event="blur" partialSubmit="true" global="false"/>
+                    <p:ajax event="blur" partialSubmit="true" global="false"
+                            onstart="ustawDateGen2(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu},'form_dokument_wpis_platnosci1:poledataplatnosci');"/>
                 </p:inputText>
             </p:column>
             <p:column headerText="waluta"  style="width: 60px;">
@@ -199,7 +207,7 @@
                 <bcf:outputpl value="#{platnosciWalutyView.nowa.roznice}"/>
             </p:column>
                 <p:column style="text-align: center;">
-                    <p:commandButton actionListener="#{platnosciWalutyView.dodaj()}" icon="ui-icon-plus" global="false"
+                    <p:commandButton actionListener="#{platnosciWalutyView.dodaj()}" icon="ui-icon-plus" global="false" onfocus="podswietlpierwszepole();"
                                      update="@form form_dokument_wpis_platnosci2 form_dokument_wpis_platnosci:dokumentyLista"/>
                 </p:column>
             </p:row>
