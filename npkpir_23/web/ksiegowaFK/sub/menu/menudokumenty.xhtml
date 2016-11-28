@@ -39,7 +39,7 @@
                                 actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":form_dialog_zestawieniezaksiegowanychrmk:dataListsrodkiRMK"></p:menuitem>
                     <p:menuitem value="wiersze w dokumentach" onclick="PF('zapisywdokumentach').show();" 
                                 actionListener="#{wierszeView.init}" update=":zestawieniezapisownakontach, :zestawieniezapisownakontach_footer" global="false"></p:menuitem>
-                    <p:menuitem value="#{mgs.zestawienia}"  outcome="guestbilansFK" icon="ui-icon-circle-arrow-e" oncomplete="$('#akordeon\\:symulacjawyniku').click();"/>
+                    <p:menuitem value="#{mgs.zestawienia}"  outcome="guestwynikFK" icon="ui-icon-circle-arrow-e" oncomplete="$('#akordeon\\:symulacjawyniku').click();"/>
                     <p:menuitem value="wierszeWDT" onclick="PF('zapisywdokumentachWDT').show();" global="false"></p:menuitem>
                     <p:menuitem value="wierszeWNT" onclick="PF('zapisywdokumentachWNT').show();" global="false"></p:menuitem>
                 </p:menu>  
