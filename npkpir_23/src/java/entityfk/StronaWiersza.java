@@ -63,6 +63,7 @@ import waluty.Z;
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokWalutaWynik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokWynik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikWynikCecha", query = "SELECT t FROM StronaWiersza  t JOIN t.wiersz.dokfk s WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(s.cechadokumentuLista) > 0)"),
+    @NamedQuery(name = "StronaWiersza.findByPodatnikWynikCechaRokMc", query = "SELECT t FROM StronaWiersza  t JOIN t.wiersz.dokfk s WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(s.cechadokumentuLista) > 0) AND s.dokfkPK.rok = :rok AND s.miesiac = :mc"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokMcWynik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.miesiac = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokMcWynikSlownik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.miesiac = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.konto.slownikowe = '1'"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokWynikSlownik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.konto.slownikowe = '1'"),
@@ -656,6 +657,11 @@ public class StronaWiersza implements Serializable {
     public boolean isWn() {
         return this.wnma.equals("Wn");
     }
+    
+    public String getRokMc() {
+        return this.getDokfk().getMcRok();
+    }
+    
 
     @Override
     public int hashCode() {
@@ -693,11 +699,11 @@ public class StronaWiersza implements Serializable {
     @Override
     public String toString() {
         if (this.id != null) {
-            return "StronaWiersza{" + "id=" + id + ", konto=" + konto.getPelnynumer() + ", wnma=" + wnma + ", wiersz=" + wiersz.getIdporzadkowy() + ", kwota=" + kwota+ ", kwotapln=" + kwotaPLN + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo+ "wal: "+ this.getSymbolWalutBOiSW() + ", nowatransakcja=" + typStronaWiersza + '}';
+            return "SW" + "id=" + id + ", konto=" + konto.getPelnynumer() + "," + " "+this.getRokMc()+" "+ wnma + ", wiersz=" + wiersz.getIdporzadkowy() + ", kwota=" + kwota+ ", kwotapln=" + kwotaPLN + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo+ "wal: "+ this.getSymbolWalutBOiSW() + ", nowatransakcja=" + typStronaWiersza + '}';
         } else if (this.id == null && this.konto != null) {
-            return "StronaWiersza{" + "id=null, wnma=" + wnma + ", konto= " + konto.getPelnynumer() + ", wiersz= " + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
+            return "SW" + "id=null," + wnma + ", konto= " + konto.getPelnynumer() + ", wiersz= " + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
         } else {
-            return "StronaWiersza{" + "id=null, wnma=" + wnma + ", wiersz= " + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
+            return "SW" + "id=null," + wnma + ", wiersz= " + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
         }
     }
 

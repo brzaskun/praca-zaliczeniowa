@@ -632,6 +632,10 @@ public class Dokfk implements Serializable {
     public String getMcRok() {
         return this.miesiac + "/" + this.dokfkPK.getRok();
     }
+    
+    public String getRok() {
+        return this.dokfkPK.getRok();
+    }
 
     public void dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {
         try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad

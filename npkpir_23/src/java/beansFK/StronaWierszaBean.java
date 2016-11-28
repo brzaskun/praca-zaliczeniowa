@@ -7,10 +7,12 @@
 package beansFK;
 
 import dao.StronaWierszaDAO;
+import data.Data;
 import embeddable.Mce;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import error.E;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
@@ -102,23 +104,31 @@ public class StronaWierszaBean {
         }
         return pobranezapisy;
     }
-     
-    public static List<StronaWiersza> pobraniezapisowwynikoweCecha(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
-        int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
-        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikWynikCecha(wpisView.getPodatnikObiekt());
-        for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
-            StronaWiersza p = it.next();
-            int mc = Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac());
-            int rok = Integer.parseInt(p.getDokfk().getDokfkPK().getRok());
-            if (rok == wpisView.getRokWpisu() && mc > granicagorna) {
-                it.remove();
-            }
-            if ((rok < wpisView.getRokWpisu() && mc < 11) || rok > wpisView.getRokWpisu()) {
-                it.remove();
-            }
-        }
+    
+       public static List<StronaWiersza> pobraniezapisowwynikoweCecha(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
+        List<StronaWiersza> pobranezapisy = new ArrayList<>();
+        pobranezapisy.addAll(stronaWierszaDAO.findStronaByPodatnikWynikCechaRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+        String[] mce = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        pobranezapisy.addAll(stronaWierszaDAO.findStronaByPodatnikWynikCechaRokMc(wpisView.getPodatnikObiekt(), mce[1], mce[0]));
         return pobranezapisy;
     }
+     
+//    public static List<StronaWiersza> pobraniezapisowwynikoweCecha(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
+//        int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+//        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikWynikCecha(wpisView.getPodatnikObiekt());
+//        for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
+//            StronaWiersza p = it.next();
+//            int mc = Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac());
+//            int rok = Integer.parseInt(p.getDokfk().getDokfkPK().getRok());
+//            if (rok == wpisView.getRokWpisu() && mc > granicagorna) {
+//                it.remove();
+//            }
+//            if ((rok < wpisView.getRokWpisu() && mc < 11) || rok > wpisView.getRokWpisu()) {
+//                it.remove();
+//            }
+//        }
+//        return pobranezapisy;
+//    }
      
      public static List<StronaWiersza> pobraniezapisowbilansowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
         int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());

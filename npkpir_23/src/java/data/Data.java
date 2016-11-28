@@ -171,7 +171,14 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
-    
+    /**
+     * Generowanie pary poprzedni rok-mc
+     * 
+     * @param mc miesiac obecny
+     * @param rok rok obecny
+     * @return    array[0] mc poprzedni
+     * @return    array[1] rok poprzedni
+     */
     public static String[] poprzedniOkres (String mc, String rok) {
         String[] poprzedniOkres = new String[2];
         if (mc.equals("01")) {
