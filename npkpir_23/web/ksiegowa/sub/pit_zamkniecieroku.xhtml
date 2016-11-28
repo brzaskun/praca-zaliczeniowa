@@ -8,7 +8,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets">
         <h:form>
-            <p:dataTable value="#{zamkniecieRokuRozliczenieView.lista}" var="item" style="width: 1000px; overflow-y: scroll; height: 400px;"
+            <p:dataTable value="#{zamkniecieRokuRozliczenieView.lista}" var="item" style="width: 1050px; overflow-y: scroll; height: 400px;"
                          emptyMessage="nie pobrano wartości" rowIndexVar="index">
                 <f:facet name="header">
                     <h:outputText value="rozliczenie etapów zamknięcia roku podatkowego w firmie #{WpisView.podatnikWpisu} za rok #{WpisView.rokWpisuSt}"/>
@@ -22,7 +22,7 @@
                     </f:facet>
                     <h:outputText value="#{item.zamkniecieRokuEtap.opis}"/>
                 </p:column>
-                <p:column style="width: 90px;">
+                <p:column  style="width: 120px; text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="data"/>
                     </f:facet>
@@ -36,7 +36,7 @@
                     </f:facet>
                     <h:outputText value="#{item.wprowadzil.login}"/>
                 </p:column>
-                <p:column>
+                <p:column style="width: 120px; text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="zatwierdzono"/>
                     </f:facet>
