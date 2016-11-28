@@ -35,14 +35,16 @@
 <!--        <p:commandButton value="skopiuj udzialy" actionListener="#{podatnikView.zamienudzialy()}"/>-->
 <!--        <p:commandButton value="zamien opodatkowanie" actionListener="#{podatnikView.zamienOpodatkowanieDochodowym()}"/>-->
 <!--        <p:commandButton value="naprawfaktury" actionListener="#{fakturaView.zrobfakt()}"/>-->
-
-    
+    <h:form>
+    <p:commandButton value="Export as PDF" ajax="false" >
+<p:dataExporter type="pdf" target="klienci" fileName="adresy"/>
+</p:commandButton>
      <p:dataTable value="#{podatnicyView.podatnicy}" var="loop" rowIndexVar="index" style="width: 1100px;"
-                 sortBy="#{loop.nazwapelna}">
+                  sortBy="#{loop.nazwapelna}" id="klienci">
          <f:facet name="header">
              <h:outputText value="wykaz klientów biura"/>
          </f:facet>
-        <p:column width="30">
+         <p:column width="30" exportable="false">
             <h:outputText value="#{index+1}"/>
         </p:column>
          <p:column width="200">
@@ -58,6 +60,6 @@
             <h:outputText value="#{loop.email}"/>
         </p:column>
     </p:dataTable>
-
+</h:form>
 </ui:composition>
 
