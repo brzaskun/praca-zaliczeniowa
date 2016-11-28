@@ -287,6 +287,10 @@
             <to-view-id>/ksiegowa/ksiegowaPitoblicz.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>pitzamkniecieroku</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaPitZamkniecieRoku.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>pit36</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaPit36.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

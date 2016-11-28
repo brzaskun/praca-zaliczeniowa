@@ -28,6 +28,7 @@ import javax.persistence.UniqueConstraint;
 })
 @NamedQueries({
     @NamedQuery(name = "ZamkniecieRokuEtap.findAll", query = "SELECT e FROM ZamkniecieRokuEtap e"),
+    @NamedQuery(name = "ZamkniecieRokuEtap.findByRok", query = "SELECT e FROM ZamkniecieRokuEtap e WHERE e.rok = :rok")
 })
 public class ZamkniecieRokuEtap implements Serializable {
     private static final long serialVersionUID = 1L;

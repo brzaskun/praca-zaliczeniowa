@@ -35,4 +35,8 @@ public class ZamkniecieRokuEtapDAO extends DAO implements Serializable {
             return null;
         }
    }
+
+    public List<ZamkniecieRokuEtap> findByRok(String rok) {
+        return wpisFacade.findZakmniecieRokuEtapByRok(rok);
+    }
 }

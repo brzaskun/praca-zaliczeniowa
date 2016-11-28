@@ -1,0 +1,54 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+        <h:form>
+            <p:dataTable value="#{zamkniecieRokuRozliczenieView.lista}" var="item" style="width: 1000px; overflow-y: scroll; height: 400px;"
+                         emptyMessage="nie pobrano wartości" rowIndexVar="index">
+                <f:facet name="header">
+                    <h:outputText value="rozliczenie etapów zamknięcia roku podatkowego w firmie #{WpisView.podatnikWpisu} za rok #{WpisView.rokWpisuSt}"/>
+                </f:facet>
+                <p:column style="width: 40px; text-align: center;">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column style="width: 340px;">
+                    <f:facet name="header">
+                        <h:outputText value="nazwa etapu"/>
+                    </f:facet>
+                    <h:outputText value="#{item.zamkniecieRokuEtap.opis}"/>
+                </p:column>
+                <p:column style="width: 90px;">
+                    <f:facet name="header">
+                        <h:outputText value="data"/>
+                    </f:facet>
+                    <h:outputText value="#{item.data}">
+                        <f:convertDateTime pattern="yyyy-MM-dd  HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="wprowadzil"/>
+                    </f:facet>
+                    <h:outputText value="#{item.wprowadzil.login}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="zatwierdzono"/>
+                    </f:facet>
+                    <h:outputText value="#{item.zatwierdzono}">
+                        <f:convertDateTime pattern="yyyy-MM-dd  HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column style="width: 50px; text-align: center;">
+                    <p:commandButton icon="ui-icon-plus" value="#{zamkniecieRokuRozliczenieView.nanies(item)}" update="@form"
+                                     global="false" rendered="#{item.zatwierdzono eq null}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+</ui:composition>

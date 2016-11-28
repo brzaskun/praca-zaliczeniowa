@@ -46,6 +46,8 @@ import entity.StornoDok;
 import entity.Sumypkpir;
 import entity.Uz;
 import entity.Wpis;
+import entity.ZamkniecieRokuEtap;
+import entity.ZamkniecieRokuRozliczenie;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entity.Zusmail;
@@ -1895,6 +1897,14 @@ public class SessionFacade<T> implements Serializable {
 
     public List<PlatnoscWaluta> findPlatnoscWalutaByDok(Dok selected) {
         return em.createNamedQuery("PlatnoscWaluta.findByDok").setParameter("dokument", selected).getResultList();
+    }
+
+    public List<ZamkniecieRokuRozliczenie> findZakmniecieRokuByRokPodatnik(Podatnik podatnikObiekt, String rok) {
+        return em.createNamedQuery("ZamkniecieRokuRozliczenie.findByRokPodatnik").setParameter("podatnik", podatnikObiekt).setParameter("rok", rok).getResultList();
+    }
+
+    public List<ZamkniecieRokuEtap> findZakmniecieRokuEtapByRok(String rok) {
+        return em.createNamedQuery("ZamkniecieRokuEtap.findByRok").setParameter("rok", rok).getResultList();
     }
 
     
