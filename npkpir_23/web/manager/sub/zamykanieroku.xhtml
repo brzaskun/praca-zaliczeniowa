@@ -1,0 +1,118 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form>
+        <p:dataTable value="#{zamkniecieRokuEtapView.lista}" style="width: 800px; overflow-y: scroll; height: 300px; padding: 10px;"
+                     rowIndexVar="index"
+                     var="wpis" emptyMessage="nie wprowadzono wartości">
+            <p:column style="width: 40px;">
+                <f:facet name="header">
+                    <h:outputText value="id"/>
+                </f:facet>
+                <h:outputText value="#{index+1}"/>
+            </p:column>
+            <p:column style="width: 150px;">
+                <f:facet name="header">
+                    <h:outputText value="opis"/>
+                </f:facet>
+                <h:outputText value="#{wpis.opis}"/>
+            </p:column>
+            <p:column style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="rok"/>
+                </f:facet>
+                <h:outputText value="#{wpis.rok}"/>
+            </p:column>
+     
+            <p:column style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="pkpir"/>
+                </f:facet>
+                <h:outputText value="#{wpis.pkpir eq true ? '&#x2713;':''}"/>
+            </p:column>
+            <p:column style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="ryczałt"/>
+                </f:facet>
+                <h:outputText value="#{wpis.ryczalt eq true ? '&#x2713;':''}"/>
+            </p:column>
+            <p:column style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="księgi"/>
+                </f:facet>
+                <h:outputText value="#{wpis.ksiegi eq true ? '&#x2713;':''}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="vat"/>
+                </f:facet>
+                <h:outputText value="#{wpis.vat eq true ? '&#x2713;':''}"/>
+            </p:column>
+            <p:column style="text-align: center;">
+                 <p:commandButton actionListener="#{zamkniecieRokuEtapView.usun(wpis)}" global="false" update="@form" icon="ui-icon-minus"/>
+            </p:column>
+        </p:dataTable>
+        <p:outputPanel style="margin-top: 10px; padding: 10px;">
+            <p:panelGrid style="margin-top: 10px;width: 600px;" id="wprowadzanieplatnosci">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="opis"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="rok"/>
+                        </p:column>
+                        <p:column >
+                            <h:outputText value="pkpir"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="ryczałt"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="księgi"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="vat"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column>
+                        <p:inputText value="#{zamkniecieRokuEtapView.nowy.opis}"  style="width: 150px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="rokWpisu" value="#{zamkniecieRokuEtapView.nowy.rok}" style="text-align: center; width: 70px;">
+                            <f:selectItems value="#{Roki.rokiList}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column style="text-align: center; width: 50px;">
+                        <p:selectBooleanCheckbox value="#{zamkniecieRokuEtapView.nowy.pkpir}"/>
+                    </p:column>
+                    <p:column style="text-align: center; width: 50px;">
+                        <p:selectBooleanCheckbox value="#{zamkniecieRokuEtapView.nowy.ryczalt}"/>
+                    </p:column>
+                    <p:column style="text-align: center; width: 50px;">
+                        <p:selectBooleanCheckbox value="#{zamkniecieRokuEtapView.nowy.ksiegi}"/>
+                    </p:column>
+                    <p:column style="text-align: center; width: 50px;">
+                        <p:selectBooleanCheckbox value="#{zamkniecieRokuEtapView.nowy.vat}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <p:commandButton actionListener="#{zamkniecieRokuEtapView.dodaj()}" icon="ui-icon-plus" 
+                                         global="false"
+                                         update="@form"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </p:outputPanel>
+    </h:form>
+
+
+
+</ui:composition>   
+

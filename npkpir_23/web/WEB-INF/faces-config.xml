@@ -359,6 +359,10 @@
             <to-view-id>/manager/managerAktywacjaPodatnik.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>zamykanieroku</from-outcome>
+            <to-view-id>/manager/managerZamykanieRoku.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>podstawki</from-outcome>
             <to-view-id>/manager/managerPodstawki.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
