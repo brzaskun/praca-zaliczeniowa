@@ -39,6 +39,8 @@ public class ZamkniecieRokuEtap implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "kolejnosc")
+    private Integer kolejnosc;
     @Column(name = "opis")
     private String opis;
     @Column(name = "rok")
@@ -146,6 +148,14 @@ public class ZamkniecieRokuEtap implements Serializable {
 
     public void setVat(boolean vat) {
         this.vat = vat;
+    }
+
+    public Integer getKolejnosc() {
+        return kolejnosc;
+    }
+
+    public void setKolejnosc(Integer kolejnosc) {
+        this.kolejnosc = kolejnosc;
     }
     
     

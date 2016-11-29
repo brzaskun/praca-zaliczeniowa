@@ -7,14 +7,20 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:form>
-        <p:dataTable value="#{zamkniecieRokuEtapView.lista}" style="width: 800px; overflow-y: scroll; height: 300px; padding: 10px;"
-                     rowIndexVar="index"
+        <p:dataTable value="#{zamkniecieRokuEtapView.lista}" style="width: 850px; overflow-y: scroll; height: 400px; padding: 10px;"
+                     rowIndexVar="index" sortBy="#{wpis.kolejnosc}"
                      var="wpis" emptyMessage="nie wprowadzono wartości">
             <p:column style="width: 40px;">
                 <f:facet name="header">
                     <h:outputText value="id"/>
                 </f:facet>
                 <h:outputText value="#{index+1}"/>
+            </p:column>
+            <p:column style="width: 40px;">
+                <f:facet name="header">
+                    <h:outputText value="kolejność"/>
+                </f:facet>
+                <h:outputText value="#{wpis.kolejnosc}"/>
             </p:column>
             <p:column style="width: 150px;">
                 <f:facet name="header">
@@ -58,11 +64,14 @@
             </p:column>
         </p:dataTable>
         <p:outputPanel style="margin-top: 10px; padding: 10px;">
-            <p:panelGrid style="margin-top: 10px;width: 600px;" id="wprowadzanieplatnosci">
+            <p:panelGrid style="margin-top: 10px;width: 650px;" id="wprowadzanieplatnosci">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
                             <h:outputText value="opis"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="kolejność"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="rok"/>
@@ -84,6 +93,9 @@
                 <p:row>
                     <p:column>
                         <p:inputText value="#{zamkniecieRokuEtapView.nowy.opis}"  style="width: 150px;"/>
+                    </p:column>
+                     <p:column>
+                         <p:inputText value="#{zamkniecieRokuEtapView.nowy.kolejnosc}"  style="width: 60px;"/>
                     </p:column>
                     <p:column>
                         <p:selectOneMenu id="rokWpisu" value="#{zamkniecieRokuEtapView.nowy.rok}" style="text-align: center; width: 70px;">

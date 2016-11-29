@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
         <h:form>
             <p:dataTable value="#{zamkniecieRokuRozliczenieView.lista}" var="item" style="width: 1050px; overflow-y: scroll; height: 400px;"
-                         emptyMessage="nie pobrano wartości" rowIndexVar="index">
+                         emptyMessage="nie pobrano wartości" rowIndexVar="index" sortBy="#{item.zamkniecieRokuEtap.kolejnosc}">
                 <f:facet name="header">
                     <h:outputText value="rozliczenie etapów zamknięcia roku podatkowego w firmie #{WpisView.podatnikWpisu} za rok #{WpisView.rokWpisuSt}"/>
                 </f:facet>
@@ -45,7 +45,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column style="width: 50px; text-align: center;">
-                    <p:commandButton icon="ui-icon-plus" value="#{zamkniecieRokuRozliczenieView.nanies(item)}" update="@form"
+                    <p:commandButton icon="ui-icon-plus" actionListener="#{zamkniecieRokuRozliczenieView.nanies(item)}" update="@form"
                                      global="false" rendered="#{item.zatwierdzono eq null}"/>
                 </p:column>
             </p:dataTable>
