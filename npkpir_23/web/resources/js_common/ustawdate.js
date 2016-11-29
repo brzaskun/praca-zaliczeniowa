@@ -100,7 +100,7 @@ function ustawDateSprzedazy(rok,mc){
    };
    
    function ustawDateGen2(rok,mc,pole){
-    var dataWyst = r('form_dokument_wpis_platnosci1:poledataplatnosci').find("input")[0];
+    var dataWyst = r('akordeon:form_dokument_wpis_platnosci1:poledataplatnosci').find("input")[0];
     var wart = dataWyst.value;
     if(mc!==10&&mc!==11&&mc!==12){
         mc = "0"+mc;

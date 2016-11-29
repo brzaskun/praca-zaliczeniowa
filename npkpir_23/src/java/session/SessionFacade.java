@@ -1907,5 +1907,9 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("ZamkniecieRokuEtap.findByRok").setParameter("rok", rok).getResultList();
     }
 
+    public List<PlatnoscWaluta> findPlatnoscWalutaByPodRokMc(Podatnik podatnikObiekt, String rokWpisuSt, String miesiacWpisu) {
+        return em.createNamedQuery("PlatnoscWaluta.findByPodRokMc").setParameter("podatnik", podatnikObiekt.getNazwapelna()).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
+    }
+
     
 }

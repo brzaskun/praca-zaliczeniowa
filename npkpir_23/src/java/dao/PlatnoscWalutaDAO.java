@@ -7,6 +7,7 @@ package dao;
 import entity.Dok;
 import entity.Evopis;
 import entity.PlatnoscWaluta;
+import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
@@ -36,5 +37,9 @@ public class PlatnoscWalutaDAO extends DAO implements Serializable {
 
     public List<PlatnoscWaluta> findByDok(Dok selected) {
         return sessionFacade.findPlatnoscWalutaByDok(selected);
+    }
+
+    public List<PlatnoscWaluta> findByPodRokMc(Podatnik podatnikObiekt, String rokWpisuSt, String miesiacWpisu) {
+        return sessionFacade.findPlatnoscWalutaByPodRokMc(podatnikObiekt, rokWpisuSt, miesiacWpisu);
     }
 }

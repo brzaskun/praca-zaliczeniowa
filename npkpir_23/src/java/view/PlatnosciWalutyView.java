@@ -56,11 +56,18 @@ public class PlatnosciWalutyView  implements Serializable {
     private List<String> dokumentypodatnika;
     private List<Dok> dokumentyFiltered;
     private List<PlatnoscWaluta> platnosci;
+    private List<PlatnoscWaluta> wszystkieplatnosci;
     @Inject
     private PlatnoscWaluta nowa;
     private double dorozliczenia;
     private boolean ukryjrozliczone;
     private double kwotadorozliczenia;
+    private double sumadokum;
+    private double sumaplatnosci;
+    private double sumaprzychplus;
+    private double sumaprzychminus;
+    private double sumakosztplus;
+    private double sumakosztminus;
     
     @PostConstruct
     private void init() {
@@ -154,6 +161,7 @@ public class PlatnosciWalutyView  implements Serializable {
                 dorozliczenia -= nowa.getKwota();
                 dorozliczenia = Z.z(dorozliczenia);
                 nowa = new PlatnoscWaluta();
+                kwotadorozliczenia = 0.0;
                 Msg.msg("i","Dodano płatność");
             } else {
                 Msg.msg("w","Całość została już wcześniej rozliczona. Nie dodano pozycji");
@@ -195,6 +203,25 @@ public class PlatnosciWalutyView  implements Serializable {
             suma -= r.getKwota();
         }
         return Z.z(suma);
+    }
+    
+    
+    public void pobierzwszystkie() {
+        sumadokum = 0.0;
+        sumaplatnosci = 0.0;
+        sumaprzychplus = 0.0;
+        sumaprzychminus = 0.0;
+        sumakosztplus = 0.0;
+        sumakosztminus  = 0.0;
+        wszystkieplatnosci = platnoscWalutaDAO.findByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        for (PlatnoscWaluta p : wszystkieplatnosci) {
+            sumadokum += p.getDokument().getNetto();
+            sumaplatnosci += p.getKwotapln();
+            sumaprzychplus += p.getSprzedazPlus();
+            sumaprzychminus += p.getSprzedazMinus();
+            sumakosztplus += p.getZakupPlus();
+            sumakosztminus += p.getZakupMinus();
+        }
     }
     
     public List<Dok> getDokumenty() {
@@ -299,6 +326,62 @@ public class PlatnosciWalutyView  implements Serializable {
 
     public void setKwotadorozliczenia(double kwotadorozliczenia) {
         this.kwotadorozliczenia = kwotadorozliczenia;
+    }
+
+    public List<PlatnoscWaluta> getWszystkieplatnosci() {
+        return wszystkieplatnosci;
+    }
+
+    public void setWszystkieplatnosci(List<PlatnoscWaluta> wszystkieplatnosci) {
+        this.wszystkieplatnosci = wszystkieplatnosci;
+    }
+
+    public double getSumadokum() {
+        return Z.z(sumadokum);
+    }
+
+    public void setSumadokum(double sumadokum) {
+        this.sumadokum = sumadokum;
+    }
+
+    public double getSumaplatnosci() {
+        return Z.z(sumaplatnosci);
+    }
+
+    public void setSumaplatnosci(double sumaplatnosci) {
+        this.sumaplatnosci = sumaplatnosci;
+    }
+
+    public double getSumaprzychplus() {
+        return Z.z(sumaprzychplus);
+    }
+
+    public void setSumaprzychplus(double sumaprzychplus) {
+        this.sumaprzychplus = sumaprzychplus;
+    }
+
+    public double getSumaprzychminus() {
+        return Z.z(sumaprzychminus);
+    }
+
+    public void setSumaprzychminus(double sumaprzychminus) {
+        this.sumaprzychminus = sumaprzychminus;
+    }
+
+    public double getSumakosztplus() {
+        return Z.z(sumakosztplus);
+    }
+
+    public void setSumakosztplus(double sumakosztplus) {
+        this.sumakosztplus = sumakosztplus;
+    }
+
+    public double getSumakosztminus() {
+        return Z.z(sumakosztminus);
+    }
+
+    public void setSumakosztminus(double sumakosztminus) {
+        this.sumakosztminus = sumakosztminus;
     }
 
     

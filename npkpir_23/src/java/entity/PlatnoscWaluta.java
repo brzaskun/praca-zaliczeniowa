@@ -29,7 +29,8 @@ import view.WpisView;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "PlatnoscWaluta.findAll", query = "SELECT o FROM Odsetki o"),
-    @NamedQuery(name = "PlatnoscWaluta.findByDok", query = "SELECT o FROM PlatnoscWaluta o WHERE o.dokument = :dokument")
+    @NamedQuery(name = "PlatnoscWaluta.findByDok", query = "SELECT o FROM PlatnoscWaluta o WHERE o.dokument = :dokument"),
+    @NamedQuery(name = "PlatnoscWaluta.findByPodRokMc", query = "SELECT o FROM PlatnoscWaluta o WHERE o.dokument.podatnik = :podatnik AND o.rok = :rok AND o.mc = :mc")
 })
 public class PlatnoscWaluta implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -79,6 +80,48 @@ public class PlatnoscWaluta implements Serializable {
         this.mc = wpisView.getMiesiacWpisu();
     }
 
+    public double getSprzedazPlus() {
+        double zwrot = 0.0;
+        if (this.dokument.getRodzTrans().equals("sprzedaz")) {
+            if (this.roznice > 0.0) {
+                zwrot = this.roznice;
+            }
+        }
+        return zwrot;
+    }
+    
+    public double getSprzedazMinus() {
+        double zwrot = 0.0;
+        if (this.dokument.getRodzTrans().equals("sprzedaz")) {
+            if (this.roznice < 0.0) {
+                zwrot = this.roznice;
+            }
+        }
+        return zwrot;
+    }
+    
+    public double getZakupPlus() {
+        double zwrot = 0.0;
+        if (!this.dokument.getRodzTrans().equals("sprzedaz")) {
+            if (this.roznice > 0.0) {
+                zwrot = this.roznice;
+            }
+        }
+        return zwrot;
+    }
+    
+    public double getZakupMinus() {
+        double zwrot = 0.0;
+        if (!this.dokument.getRodzTrans().equals("sprzedaz")) {
+            if (this.roznice < 0.0) {
+                zwrot = this.roznice;
+            }
+        }
+        return zwrot;
+    }
+    
+
+    
     public int getId() {
         return id;
     }
