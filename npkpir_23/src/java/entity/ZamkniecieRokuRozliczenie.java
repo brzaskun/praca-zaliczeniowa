@@ -51,12 +51,12 @@ public class ZamkniecieRokuRozliczenie implements Serializable {
     private Podatnik podatnikObj;
     @JoinColumn(name = "zamkniecieRokuEtap", referencedColumnName = "id")
     private ZamkniecieRokuEtap zamkniecieRokuEtap;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name = "data")
     private Date data;
     @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
     private Uz wprowadzil;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name = "zatwierdzono")
     private Date zatwierdzono;
 
