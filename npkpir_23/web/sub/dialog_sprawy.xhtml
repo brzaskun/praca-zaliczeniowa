@@ -1,0 +1,67 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    <p:dialog id="dialog_sprawy" header="Sprawy do załatwienia" widgetVar="dialog_sprawy" dynamic="true"
+              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1200, 200);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
+              <h:form id="form_dialog_sprawy">
+            <p:dataTable value="#{sprawaView.sprawy}" var="item3" style="width: 1180px;"
+                         widgetVar="sprawytable" emptyMessage="brak spraw"
+                         sortBy="#{item3.datasporzadzenia}" sortOrder="descending"
+                         >
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="Data nadania"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.datasporzadzenia}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="klient"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.klient.nazwapelna}"/>
+                </p:column>
+                <p:column filterBy="#{item3.tresc}" filterMatchMode="contains" filterStyle="display: none;">
+                    <f:facet name="header">
+                        <h:outputText value="treść" style="width: 200px;"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.tresc}"/>
+                </p:column>
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="ważność"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.waznosc}"/>
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="nadawca"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.nadawca.login}"/>
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="termin"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.termindo}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="Admin zmienił status dnia"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.datastatusu}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>  

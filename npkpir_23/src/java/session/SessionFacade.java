@@ -40,6 +40,7 @@ import entity.Rodzajedok;
 import entity.Ryczpoz;
 import entity.SchemaEwidencja;
 import entity.Sesja;
+import entity.Sprawa;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
@@ -1909,6 +1910,10 @@ public class SessionFacade<T> implements Serializable {
 
     public List<PlatnoscWaluta> findPlatnoscWalutaByPodRokMc(Podatnik podatnikObiekt, String rokWpisuSt, String miesiacWpisu) {
         return em.createNamedQuery("PlatnoscWaluta.findByPodRokMc").setParameter("podatnik", podatnikObiekt.getNazwapelna()).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
+    }
+
+    public List<Sprawa> findSprawaByOdbiorca(Uz odbiorca) {
+        return em.createNamedQuery("Sprawa.findByOdbiorca").setParameter("odbiorca", odbiorca).getResultList();
     }
 
     
