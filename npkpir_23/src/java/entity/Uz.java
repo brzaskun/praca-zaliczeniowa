@@ -9,6 +9,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -74,6 +76,9 @@ public class Uz implements Serializable {
     @Size(max = 4)
     @Column(name = "locale")
     private String locale;
+    @JoinColumn(name = "loginglowny", referencedColumnName = "login")
+    @ManyToOne
+    private Uz loginglowny;
 
     public Uz() {
     }
@@ -172,6 +177,14 @@ public class Uz implements Serializable {
     }
     public String getImieNazwisko() {
         return this.getImie()+" "+this.getNazw();
+    }
+
+    public Uz getLoginglowny() {
+        return loginglowny;
+    }
+
+    public void setLoginglowny(Uz loginglowny) {
+        this.loginglowny = loginglowny;
     }
     
     
