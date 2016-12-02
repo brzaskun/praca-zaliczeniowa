@@ -83,6 +83,9 @@ public class SprawaView  implements Serializable{
             if (s.getLoginglowny() != null) {
                 it.remove();
             }
+            if (s.getUprawnienia().equals("Guest")||s.getUprawnienia().equals("GuestFK")||s.getUprawnienia().equals("GuestFaktura")||s.getUprawnienia().equals("Multiuser")||s.getUprawnienia().equals("Dedra")) {
+                it.remove();
+            }
         }
         Collections.sort(odbiorcy, new Uzcomparator());
         klienci = podatnikDAO.findAll();

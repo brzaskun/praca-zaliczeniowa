@@ -69,6 +69,7 @@ public class WpisView implements Serializable {
     private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
     private boolean czegosbrakuje;
     private String formaprawna;
+    private boolean niegosc;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -90,6 +91,7 @@ public class WpisView implements Serializable {
             }
            obsluzMce(wpis);
            uzupelnijdanepodatnika();
+           czyniegosc();
         }
      
     }
@@ -195,6 +197,7 @@ public class WpisView implements Serializable {
         wpis.setMiesiacDo(miesiacDo);
         wpisDAO.edit(wpis);
         uzupelnijdanepodatnika();
+        czyniegosc();
        
     }
     
@@ -324,6 +327,13 @@ public class WpisView implements Serializable {
             miesiacOd = miesiacWpisu;
         }
     }
+    
+    private void czyniegosc() {
+        niegosc = true;
+        if (this.wprowadzil.getUprawnienia().equals("Guest")||this.wprowadzil.getUprawnienia().equals("GuestFK")||this.wprowadzil.getUprawnienia().equals("GuestFaktura")||this.wprowadzil.getUprawnienia().equals("Multiuser")||this.wprowadzil.getUprawnienia().equals("Dedra")) {
+            niegosc = false;
+        }
+    }
 
 
 //<editor-fold defaultstate="collapsed" desc="comment">
@@ -430,6 +440,14 @@ public class WpisView implements Serializable {
     
     public void setSrodkTrw(boolean srodkTrw) {
         this.srodkTrw = srodkTrw;
+    }
+
+    public boolean isNiegosc() {
+        return niegosc;
+    }
+
+    public void setNiegosc(boolean niegosc) {
+        this.niegosc = niegosc;
     }
     
       
