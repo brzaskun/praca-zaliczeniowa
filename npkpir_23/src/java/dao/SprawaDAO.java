@@ -42,4 +42,8 @@ public class SprawaDAO extends DAO implements Serializable {
     public List<Sprawa> findSprawaByOdbiorca(Uz odbiorca) {
         return wpisFacade.findSprawaByOdbiorca(odbiorca);
     }
+
+    public List<Sprawa> findSprawaByNadawca(Uz nadawca) {
+        return wpisFacade.findSprawaByNadawca(nadawca);
+    }
 }

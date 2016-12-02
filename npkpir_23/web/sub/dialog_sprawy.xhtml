@@ -6,14 +6,17 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-    <p:dialog id="dialog_sprawy" header="Sprawy do załatwienia" widgetVar="dialog_sprawy" dynamic="true"
-              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1200, 200);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
+    <p:dialog id="dialog_sprawy" header="Sprawy do załatwienia/przejrzenia" widgetVar="dialog_sprawy" dynamic="true"
+              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1260, 400);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
               <h:form id="form_dialog_sprawy">
-            <p:dataTable value="#{sprawaView.sprawy}" var="item3" style="width: 1180px;"
-                         widgetVar="sprawytable" emptyMessage="brak spraw"
+            <p:dataTable value="#{sprawaView.sprawy}" var="item3" style="width: 1240px; overflow-y: scroll; height: 380px;"
+                         widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1"
                          sortBy="#{item3.datasporzadzenia}" sortOrder="descending"
                          >
-                <p:column width="80">
+                <p:column width="30" style="text-align: center;">
+                    <h:outputText value="#{index1+1}"/>
+                </p:column>
+                <p:column width="80" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="Data nadania"/>
                     </f:facet>
@@ -21,7 +24,7 @@
                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                     </h:outputText>
                 </p:column>
-                <p:column width="100">
+                <p:column width="140">
                     <f:facet name="header">
                         <h:outputText value="klient"/>
                     </f:facet>
@@ -43,9 +46,15 @@
                     <f:facet name="header">
                         <h:outputText value="nadawca"/>
                     </f:facet>
-                    <h:outputText value="#{item3.nadawca.login}"/>
+                    <h:outputText value="#{item3.nadawca.login}" rendered="#{item3.nadawca ne WpisView.wprowadzil}"/>
                 </p:column>
-                <p:column width="100">
+                 <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="odbiorca"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.odbiorca.login}" rendered="#{item3.nadawca eq WpisView.wprowadzil}"/>
+                </p:column>
+                <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="termin"/>
                     </f:facet>
@@ -53,13 +62,26 @@
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="80">
+                <p:column width="160" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="Admin zmienił status dnia"/>
+                        <h:outputText value="oznacz/oznaczono"/>
                     </f:facet>
-                    <h:outputText value="#{item3.datastatusu}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    <p:selectOneMenu id="waznosc" value="#{item3.status}"  rendered="#{item3.nadawca ne WpisView.wprowadzil}">
+                         <f:selectItem itemLabel="wybierz" itemValue="wybierz" noSelectionOption="true"/>
+                        <f:selectItems value="#{sprawaView.status}"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.nanies(item3)}"/>
+                    </p:selectOneMenu>
+                    <p:panelGrid columns="1">
+                    <h:outputText value="#{item3.status}" rendered="#{item3.nadawca eq WpisView.wprowadzil}"/>
+                    <h:outputText value="#{item3.datastatusu}" rendered="#{item3.nadawca eq WpisView.wprowadzil}">
+                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
                     </h:outputText>
+                    </p:panelGrid>
+                </p:column>
+                <p:column width="30" headerText="usuń" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{item3.usunieta}" rendered="#{item3.status eq 'gotowa' and item3.nadawca eq WpisView.wprowadzil}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.niepokazuj(item3)}" global="false"/>
+                    </p:selectBooleanCheckbox>
                 </p:column>
             </p:dataTable>
         </h:form>

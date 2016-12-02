@@ -31,7 +31,8 @@ import javax.validation.constraints.Size;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Sprawa.findAll", query = "SELECT p FROM Sprawa p"),
-    @NamedQuery(name = "Sprawa.findByOdbiorca", query = "SELECT p FROM Sprawa p WHERE p.odbiorca = :odbiorca")
+    @NamedQuery(name = "Sprawa.findByOdbiorca", query = "SELECT p FROM Sprawa p WHERE p.odbiorca = :odbiorca"),
+    @NamedQuery(name = "Sprawa.findByNadawca", query = "SELECT p FROM Sprawa p WHERE p.nadawca = :nadawca")
 })
 public class Sprawa  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -43,7 +44,7 @@ public class Sprawa  implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "datasporzadzenia", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date datasporzadzenia;
     @Basic(optional = false)
     @NotNull
@@ -70,14 +71,16 @@ public class Sprawa  implements Serializable {
     @Column(name = "waznosc", nullable = false, length = 100)
     private String waznosc;
     @Column(name = "termindo", nullable = true)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date termindo;
     @Size(max = 150)
     @Column(name = "status", length = 150)
     private String status;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "datastatus")
     private Date datastatusu;
+    @Column(name = "usunieta")
+    private boolean usunieta;
 
     @Override
     public int hashCode() {
@@ -197,6 +200,14 @@ public class Sprawa  implements Serializable {
 
     public void setDatastatusu(Date datastatusu) {
         this.datastatusu = datastatusu;
+    }
+
+    public boolean isUsunieta() {
+        return usunieta;
+    }
+
+    public void setUsunieta(boolean usunieta) {
+        this.usunieta = usunieta;
     }
     
     

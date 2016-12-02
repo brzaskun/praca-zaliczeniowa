@@ -15,11 +15,11 @@ import entity.Sprawa;
 import entity.Uz;
 import error.E;
 import java.io.Serializable;
-import java.text.Collator;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -48,11 +48,34 @@ public class SprawaView  implements Serializable{
     private List<Sprawa> sprawy;
     private List<Uz> odbiorcy;
     private List<Podatnik> klienci;
+    private static final List<String> status;
+    
+    static {
+        status = new ArrayList<>();
+        status.add("przeczytana");
+        status.add("załatwiana");
+        status.add("gotowa");
+        status.add("musi czekać");
+    }
     
     
     @PostConstruct
     private void init() {
         sprawy = sprawaDAO.findSprawaByOdbiorca(wpisView.getWprowadzil());
+        for (Iterator<Sprawa> it = sprawy.iterator();it.hasNext();) {
+            Sprawa p = it.next();
+            if (p.getStatus().equals("gotowa")) {
+                it.remove();
+            }
+        }
+        List<Sprawa> nadane = sprawaDAO.findSprawaByNadawca(wpisView.getWprowadzil());
+        for (Iterator<Sprawa> it = nadane.iterator();it.hasNext();) {
+            Sprawa p = it.next();
+            if (p.isUsunieta()) {
+                it.remove();
+            }
+        }
+        sprawy.addAll(nadane);
         odbiorcy = uzDAO.findAll();
         Collections.sort(odbiorcy, new Uzcomparator());
         klienci = podatnikDAO.findAll();
@@ -71,6 +94,17 @@ public class SprawaView  implements Serializable{
             E.e(e);
             Msg.msg("Nie udało się dodać sprawę");
         }
+    }
+    
+    public void nanies(Sprawa sprawa) {
+        sprawa.setDatastatusu(new Date());
+        sprawaDAO.edit(sprawa);
+        Msg.msg("Odnotowano zmianę statusu");
+    }
+    
+    public void niepokazuj(Sprawa sprawa) {
+        sprawaDAO.edit(sprawa);
+        Msg.msg("Ukryto załatwioną sprawę");
     }
     
     public WpisView getWpisView() {
@@ -111,6 +145,10 @@ public class SprawaView  implements Serializable{
 
     public void setKlienci(List<Podatnik> klienci) {
         this.klienci = klienci;
+    }
+
+    public List<String> getStatus() {
+        return status;
     }
     
     

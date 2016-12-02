@@ -1916,5 +1916,9 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("Sprawa.findByOdbiorca").setParameter("odbiorca", odbiorca).getResultList();
     }
 
+    public List<Sprawa> findSprawaByNadawca(Uz nadawca) {
+        return em.createNamedQuery("Sprawa.findByNadawca").setParameter("nadawca", nadawca).getResultList();
+    }
+
     
 }
