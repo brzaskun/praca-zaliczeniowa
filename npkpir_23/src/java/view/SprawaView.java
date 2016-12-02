@@ -78,6 +78,12 @@ public class SprawaView  implements Serializable{
         }
         sprawy.addAll(nadane);
         odbiorcy = uzDAO.findAll();
+        for(Iterator<Uz> it = odbiorcy.iterator(); it.hasNext();) {
+            Uz s = it.next();
+            if (s.getLoginglowny() != null) {
+                it.remove();
+            }
+        }
         Collections.sort(odbiorcy, new Uzcomparator());
         klienci = podatnikDAO.findAll();
         Collections.sort(klienci, new Podatnikcomparator());
