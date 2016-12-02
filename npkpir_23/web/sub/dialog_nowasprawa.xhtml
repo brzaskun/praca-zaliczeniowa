@@ -35,8 +35,9 @@
                           </p:row>
                       </f:facet>
                       <p:row>
-                          <p:column>
+                          <p:column width="100">
                               <p:selectOneMenu value="#{sprawaView.nowa.odbiorca}" converter="UzConv">
+                                  <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                                   <f:selectItems value="#{sprawaView.odbiorcy}" var="item1" itemLabel="#{item1.login}" itemValue="#{item1}"/>
                               </p:selectOneMenu>
                           </p:column>
@@ -45,18 +46,24 @@
                           </p:column>
                           <p:column>
                               <p:selectOneMenu value="#{sprawaView.nowa.klient}" style="width: 150px;" converter="PodatConv">
+                                  <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                                   <f:selectItems value="#{sprawaView.klienci}" var="item2" itemLabel="#{item2.nazwapelna}" itemValue="#{item2}"/>
                               </p:selectOneMenu>
                           </p:column>
                           <p:column>
                               <p:selectOneMenu value="#{sprawaView.nowa.organ}">
+                                  <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                                  <f:selectItem itemLabel="US" itemValue="US"/>
                                   <f:selectItem itemLabel="I US" itemValue="I US"/>
                                   <f:selectItem itemLabel="II US" itemValue="II US"/>
                                   <f:selectItem itemLabel="III US" itemValue="III US"/>
+                                  <f:selectItem itemLabel="ZachUs" itemValue="ZachUs"/>
+                                  <f:selectItem itemLabel="ZUS" itemValue="ZUS"/>
                               </p:selectOneMenu>
                           </p:column>
                           <p:column>
                               <p:selectOneMenu value="#{sprawaView.nowa.waznosc}">
+                                  <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                                   <f:selectItem itemLabel="na wczoraj" itemValue="na wczoraj"/>
                                   <f:selectItem itemLabel="istotne" itemValue="istotne"/>
                                   <f:selectItem itemLabel="do zrobienia" itemValue="do zrobienia"/>
