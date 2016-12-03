@@ -1,0 +1,44 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+      <p:tab id="stopkaniemiecka" title="Stopka niemiecka">
+          <h:form id="formstopkaniemiecka">
+              <p:panelGrid columns="2">
+                  <h:outputText value="nazwa firmy"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.nazwafirmy}" style="width: 400px;"/>
+                  <h:outputText value="prezes"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.prezes}" style="width: 400px;"/>
+                  <h:outputText value="adres"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.adres}" style="width: 400px;"/>
+                  <h:outputText value="telefon"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.telefon}" style="width: 400px;"/>
+                  <h:outputText value="komórka"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.komorka}" style="width: 400px;"/>
+                  <h:outputText value="email"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.email}" style="width: 400px;"/>
+                  <h:outputText value="KRS"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.krs}" style="width: 400px;"/>
+                  <h:outputText value="urząd skarbowy"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.urzadskarbowy}" style="width: 400px;"/>
+                  <h:outputText value="NIP"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.nip}" style="width: 400px;"/>
+                  <h:outputText value="bank"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.bank}" style="width: 400px;"/>
+                  <h:outputText value="IBAN"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.iban}" style="width: 400px;"/>
+                  <h:outputText value="BIC"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.bic}" style="width: 400px;"/>
+                  <h:outputText value="BLC"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.blz}" style="width: 400px;"/>
+                  <h:outputText value="numer konta"/>
+                  <p:inputText value="#{fakturaStopkaNiemieckaView.fakturaStopkaNiemiecka.ktonr}" style="width: 400px;"/>
+              </p:panelGrid>
+              <p:commandButton value="zapisz zmiany" actionListener="#{fakturaStopkaNiemieckaView.zachowajzmiany()}" update=":akordeon:formwzor"
+                               style="margin-top: 5px;"/>
+          </h:form>
+        </p:tab>
+</ui:composition>   
+
