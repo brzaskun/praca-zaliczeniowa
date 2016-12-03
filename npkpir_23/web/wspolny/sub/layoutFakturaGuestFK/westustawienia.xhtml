@@ -6,20 +6,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="west" size="260" header="#{mgs.zmianaokresu}" collapsible="true" resizable="true">
         <h:form id="west">
-            <p:panelGrid  columns="2" >
-                <p:column>
-                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
-                        <f:selectItems value="#{Roki.rokiList}"/>
-                        <p:ajax event="change" listener="#{fakturaView.aktualizujTabeleTabelaGuest}"  update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formokresowe:dokumentyOkresowe"/>
-                    </p:selectOneMenu>
-                </p:column>
-                <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
-                        <f:selectItems value="#{Mce.mceList}"/>
-                        <p:ajax event="change" listener="#{fakturaView.aktualizujTabeleTabelaGuest}"  update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formokresowe:dokumentyOkresowe"/>
-                    </p:selectOneMenu>
-                </p:column>
-            </p:panelGrid>
             <p:panel header="Menu:">
                 <p:panelGrid columns="1">
                     <p:menu style="width: 200px;">

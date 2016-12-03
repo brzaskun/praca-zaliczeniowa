@@ -118,7 +118,9 @@ public class Pozycjenafakturze implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Pozycjenafakturze[ pozycjenafakturzePK=" + pozycjenafakturzePK + " ]";
+        return "Pozycjenafakturze " + pozycjenafakturzePK.getNazwa() + ", aktywny=" + aktywny + ", gora=" + gora + ", lewy=" + lewy + '}';
     }
+
+    
     
 }

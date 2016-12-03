@@ -5,8 +5,10 @@
 package view;
 
 import dao.FakturadodelementyDAO;
+import dao.FakturaelementygraficzneDAO;
 import entity.Fakturadodelementy;
 import entity.FakturadodelementyPK;
+import entity.Fakturaelementygraficzne;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,6 +33,15 @@ import msg.Msg;
 public class FakturadodelementyView implements Serializable {
 
     private static final Map<String, String> elementy;
+    private static Map<String,String[]> pozycjecss;
+    @Inject
+    private FakturaelementygraficzneDAO fakturaelementygraficzneDAO;
+    private List<Fakturadodelementy> fakturadodelementy;
+    @Inject
+    private FakturadodelementyDAO fakturadodelementyDAO;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
+    private String mailfakturastopka;
 
     static {
         elementy = new HashMap<String, String>();
@@ -44,18 +55,13 @@ public class FakturadodelementyView implements Serializable {
                 + "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.");
         elementy.put("mailstopka", Mail.getStopka());
     }
-    private List<Fakturadodelementy> fakturadodelementy;
-    @Inject
-    private FakturadodelementyDAO fakturadodelementyDAO;
-    @ManagedProperty(value = "#{WpisView}")
-    private WpisView wpisView;
-    private String mailfakturastopka;
+    
 
     public FakturadodelementyView() {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         try {
             fakturadodelementy = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
             mailfakturastopka = Mail.getStopka();
@@ -80,6 +86,9 @@ public class FakturadodelementyView implements Serializable {
                     }
                 }
             }
+            Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+            pozycjecss = new HashMap<>();
+            pozycjecss.put("logo", new String[]{elementgraficzny.getSzerokosc(),elementgraficzny.getWysokosc()});
         } catch (Exception e) { E.e(e); 
         }
     }
@@ -136,6 +145,11 @@ public class FakturadodelementyView implements Serializable {
     public void setFakturadodelementy(List<Fakturadodelementy> fakturadodelementy) {
         this.fakturadodelementy = fakturadodelementy;
     }
+
+    public Map<String, String[]> getPozycjecss() {
+        return pozycjecss;
+    }
+    
     public String getMailfakturastopka() {
         return mailfakturastopka;
     }
@@ -143,6 +157,8 @@ public class FakturadodelementyView implements Serializable {
     public void setMailfakturastopka(String mailfakturastopka) {
         this.mailfakturastopka = mailfakturastopka;
     }
+
+    
     public WpisView getWpisView() {
         return wpisView;
     }

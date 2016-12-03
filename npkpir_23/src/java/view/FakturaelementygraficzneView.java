@@ -21,6 +21,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.io.FileUtils;
@@ -47,70 +48,48 @@ public class FakturaelementygraficzneView implements Serializable {
     private FakturadodelementyView fakturadodelementyView;
     @Inject
     private FakturadodelementyDAO fakturadodelementyDAO;
+    private String logoszerokosc;
+    private String logowysokosc;
 
     public FakturaelementygraficzneView() {
     }
 
     @PostConstruct
     private void init() {
-        
-//        try {
-//            fakturaelementygraficzne = fakturaelementygraficzneDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-//            if (fakturaelementygraficzne == null || fakturaelementygraficzne.isEmpty()) {
-//                fakturaelementygraficzne = new ArrayList<>();
-//            }
-//            for (String p : elementy.keySet()) {
-//                String podatnik = wpisView.getPodatnikWpisu();
-//                FakturaelementygraficznePK fPK = new FakturaelementygraficznePK(podatnik, p);
-//                Fakturaelementygraficzne f = new Fakturaelementygraficzne(fPK, elementy.get(p), false);
-//                if (!fakturaelementygraficzne.contains(f)) {
-//                    fakturaelementygraficzneDAO.dodaj(f);
-//                    fakturaelementygraficzne.add(f);
-//                }
-//            }
-//        } catch (Exception e) { E.e(e); 
-//        }
+        Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+        if (elementgraficzny != null) {
+            logoszerokosc = elementgraficzny.getSzerokosc();
+            logowysokosc = elementgraficzny.getWysokosc();
+        }
     }
 
     public String aktualnelogo() {
         Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
         if (elementgraficzny != null) {
+            logoszerokosc = elementgraficzny.getSzerokosc() != null ? elementgraficzny.getSzerokosc() : "100px";
+            logowysokosc = elementgraficzny.getWysokosc() != null ? elementgraficzny.getWysokosc() : "100px";
             return "/resources/images/logo/"+elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu();
         } else {
             return "";
         }
     }
     
-    public void zachowajzmiany() {
+    public void zapiszwymiarylogo() {
         try {
-            for (Fakturaelementygraficzne p : fakturaelementygraficzne) {
-                fakturaelementygraficzneDAO.dodaj(p);
+            Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+            if (elementgraficzny != null) {
+                elementgraficzny.setSzerokosc(logoszerokosc);
+                elementgraficzny.setWysokosc(logowysokosc);
+                fakturaelementygraficzneDAO.edit(elementgraficzny);
+                FacesContext context = FacesContext.getCurrentInstance();
+                FakturadodelementyView fd = (FakturadodelementyView) context.getELContext().getELResolver().getValue(context.getELContext(), null, "fakturadodelementyView");
+                fd.init();
+                Msg.msg("Zachowano nowe wymiary");
             }
-            Msg.msg("i", "Zachowano dodatkowe elementy faktury.");
-        } catch (Exception e) { E.e(e); 
-            for (Fakturaelementygraficzne p : fakturaelementygraficzne) {
-                fakturaelementygraficzneDAO.edit(p);
-            }
-            Msg.msg("i", "Wyedytowano dodatkowe elementy faktury.");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
         }
-    }
-    
-    public boolean czydodatkowyelementjestAktywny (String element) {
-        for (Fakturaelementygraficzne p : fakturaelementygraficzne) {
-            if (p.getFakturaelementygraficznePK().getNazwaelementu().equals(element)) {
-                return p.getAktywny();
-            }
-        }
-        return false;
-    }
-    
-    public String pobierzelementdodatkowy (String element) {
-        for (Fakturaelementygraficzne p : fakturaelementygraficzne) {
-            if (p.getFakturaelementygraficznePK().getNazwaelementu().equals(element)) {
-                return p.getTrescelementu();
-            }
-        }
-        return "nie odnaleziono";
     }
     
     public void zachowajZaladowanyPlik(FileUploadEvent event) {
@@ -214,6 +193,21 @@ public class FakturaelementygraficzneView implements Serializable {
         this.fakturadodelementyView = fakturadodelementyView;
     }
 
+    public String getLogoszerokosc() {
+        return logoszerokosc;
+    }
+
+    public void setLogoszerokosc(String logoszerokosc) {
+        this.logoszerokosc = logoszerokosc;
+    }
+
+    public String getLogowysokosc() {
+        return logowysokosc;
+    }
+
+    public void setLogowysokosc(String logowysokosc) {
+        this.logowysokosc = logowysokosc;
+    }
     public UploadedFile getUploadedFile() {
         return uploadedFile;
     }

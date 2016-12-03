@@ -34,6 +34,7 @@ public class PozycjeNaFakturzeView implements Serializable {
     private String coTablica;
     private static final List<Pozycjenafakturzebazadanych> zestaw;
     private String west;
+    private String westustawienia;
 
     static {
         zestaw = new ArrayList<>();
@@ -52,14 +53,19 @@ public class PozycjeNaFakturzeView implements Serializable {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         if (request.isUserInRole("Guest")) {
             west = "sub/layoutFaktura/west.xhtml";
+            westustawienia = "sub/layoutFaktura/westustawienia.xhtml";
         } else if (request.isUserInRole("Bookkeeper")) {
             west = "sub/layoutFakturaKsiegowa/west.xhtml";
+            westustawienia = "sub/layoutFakturaKsiegowa/westustawienia.xhtml";
         } else if (request.isUserInRole("GuestFK")) {
             west = "../wspolny/sub/layoutFakturaGuestFK/west.xhtml";
+            westustawienia = "../wspolny/sub/layoutFakturaGuestFK/westustawienia.xhtml";
         } else if (request.isUserInRole("GuestFaktura")) {
             west = "../wspolny/sub/layoutFakturaGuestFaktura/west.xhtml";
+            westustawienia = "../wspolny/sub/layoutFakturaGuestFaktura/westustawienia.xhtml";
         } else if (request.isUserInRole("Multiuser")) {
             west = "../wspolny/sub/layoutFakturaMultiuser/west.xhtml";
+            westustawienia = "../wspolny/sub/layoutFakturaMultiuser/westustawienia.xhtml";
         }
     }
 
@@ -166,5 +172,15 @@ public class PozycjeNaFakturzeView implements Serializable {
         this.wpisView = wpisView;
     }
 
+    public String getWestustawienia() {
+        return westustawienia;
+    }
+
+    public void setWestustawienia(String westustawienia) {
+        this.westustawienia = westustawienia;
+    }
+    
+    
    //</editor-fold>
+
 }

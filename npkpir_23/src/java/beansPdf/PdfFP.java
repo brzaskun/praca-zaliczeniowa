@@ -228,8 +228,10 @@ public class PdfFP {
                             if(f.exists()) {
                                 Image logo = Image.getInstance(nazwaplikuzbazy);
                                 // Set the position of image
-                                logo.scaleToFit(90f, 90f);
-                                logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:logo") - 50); //e
+                                float wysokosc = zamienStringnaFloat(element.getWysokosc());
+                                float szerokosc = zamienStringnaFloat(element.getSzerokosc());
+                                logo.scaleToFit(szerokosc, wysokosc);
+                                logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:logo") - wysokosc*.85f); //e
                                 // Add paragraph to PDF document.
                                 document.add(logo);
                             }
@@ -324,8 +326,10 @@ public class PdfFP {
                             if (f.exists()) {
                                 Image logo = Image.getInstance(nazwaplikuzbazy);
                                 // Set the position of image
-                                logo.scaleToFit(90f, 90f);
-                                logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:logo") - 50); //e
+                                float wysokosc = zamienStringnaFloat(element.getWysokosc());
+                                float szerokosc = zamienStringnaFloat(element.getSzerokosc());
+                                logo.scaleToFit(szerokosc, wysokosc);
+                                logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:logo")-wysokosc*.85f); //e
                                 // Add paragraph to PDF document.
                                 return logo;
                             }
@@ -342,6 +346,10 @@ public class PdfFP {
         return null;
     }
 
+     private static float zamienStringnaFloat(String w) {
+         String obciete = w.substring(0, w.length()-2);
+         return Float.parseFloat(obciete)/2f;
+     }
     
     public static void dolaczpozycjedofakturydlugacz1(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfContentByte canvas, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();

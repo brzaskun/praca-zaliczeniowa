@@ -15,7 +15,7 @@
                 <bcf:ajaxs/>
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj" >
                         <ui:include src="sub/layoutFaktura/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="#{pozycjeNaFakturzeView.west}"/>   <!-- panel zachodni-->
+                        <ui:include src="#{pozycjeNaFakturzeView.westustawienia}"/>   <!-- panel zachodni-->
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                         
                         <p:panel toggleable="true" closable="true" style="width: 1000px;"  rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
@@ -24,7 +24,7 @@
                             </f:facet>
                         </p:panel>
                         <ui:include src="sub/menu_wiad.xhtml"/> 
-                        <ui:include src="sub/faktura.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                        <ui:include src="sub/fakturaustawienia.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                     </p:layoutUnit>
                 </p:layout>
             </f:view>

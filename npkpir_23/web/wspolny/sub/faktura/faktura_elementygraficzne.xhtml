@@ -7,7 +7,8 @@
       <p:tab id="grafika" title="Dodatkowe elementy graficzne">
           <h:form id="formelementygraficzne">
               <p:panel header="aktualne logo" id="panellogo">
-                  <p:graphicImage value="#{fakturaelementygraficzneView.aktualnelogo()}" height="100" width="100"  rendered="#{fakturaelementygraficzneView.aktualnelogo() ne ''}"/><br/>
+                  <p:graphicImage value="#{fakturaelementygraficzneView.aktualnelogo()}" 
+                                  height="#{fakturaelementygraficzneView.logowysokosc}" width="#{fakturaelementygraficzneView.logowysokosc}"  rendered="#{fakturaelementygraficzneView.aktualnelogo() ne ''}"/><br/>
                   <h:outputText value="Brak pliku z logiem firmy w bazie danych" rendered="#{fakturaelementygraficzneView.aktualnelogo() eq ''}"/>
                   <p:commandButton value="Usuń z bazy" style="width: 120px;" actionListener="#{fakturaelementygraficzneView.usunlogo()}" rendered="#{fakturaelementygraficzneView.aktualnelogo() ne ''}"/>
                 </p:panel>
@@ -21,7 +22,31 @@
                                 style="height: 200px;">
                 </p:fileUpload>
                     <p:growl life="3600"  id="messages1" showDetail="true"/>
-                </h:form>
+            </h:form>
+            <h:form id="formelementygraficzne2">
+                <p:panelGrid>
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="szerokość"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="wysokość"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:inputText value="#{fakturaelementygraficzneView.logoszerokosc}"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{fakturaelementygraficzneView.logowysokosc}"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                </p:panelGrid>
+                <p:commandButton value="zapisz wymiary" global="false" actionListener="#{fakturaelementygraficzneView.zapiszwymiarylogo}" 
+                                 update="akordeon:formwzor akordeon:formelementygraficzne"/>
+            </h:form>
         </p:tab>
 </ui:composition>   
 
