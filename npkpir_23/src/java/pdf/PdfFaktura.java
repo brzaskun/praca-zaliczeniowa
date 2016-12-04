@@ -320,11 +320,11 @@ public class PdfFaktura extends Pdf implements Serializable {
     private boolean czyjeststopkaniemiecka(List<Fakturadodelementy> elementydod) {
         boolean zwrot = false;
         for (Fakturadodelementy p : elementydod) {
-            if (p.getFakturadodelementyPK().getNazwaelementu().equals("stopka niemiecka")) {
+            if (p.getFakturadodelementyPK().getNazwaelementu().equals("stopka niemiecka") && p.getAktywny()) {
                 zwrot = true;
             }
         }
-        return true;
+        return zwrot;
     }
     
      private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
@@ -342,7 +342,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         prost(writer.getDirectContent(), 12, 817, 560, 10);
         //stopka
         absText(writer, "Fakturę wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman.", 15, 26, 6);
-        absText(writer, "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.", 15, 18, 6);
+        absText(writer, "Dokument nie wymaga podpisu. Odbiorca wyraził zgode na otrzymanie faktury w formie elektr.", 15, 18, 6);
         prost(writer.getDirectContent(), 12, 15, 560, 20);
         PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiary, lista, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
         document.close();
