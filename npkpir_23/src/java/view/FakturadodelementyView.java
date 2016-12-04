@@ -54,6 +54,7 @@ public class FakturadodelementyView implements Serializable {
         elementy.put("stopka", "Fakturę wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman. "
                 + "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.");
         elementy.put("mailstopka", Mail.getStopka());
+        elementy.put("stopka niemiecka","Nie wpisywać. Dane pobierane z zakładki 'Stopka niemiecka'");
     }
     
 

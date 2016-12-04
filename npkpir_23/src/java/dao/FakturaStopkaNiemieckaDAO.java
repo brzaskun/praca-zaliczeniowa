@@ -38,7 +38,11 @@ public class FakturaStopkaNiemieckaDAO  extends DAO implements Serializable {
    }
 
     public FakturaStopkaNiemiecka findByPodatnik(Podatnik podatnikObiekt) {
-        return sessionFacade.findStopkaNiemieckaByPodatnik(podatnikObiekt);
+        try {
+            return sessionFacade.findStopkaNiemieckaByPodatnik(podatnikObiekt);
+        } catch (Exception e) {
+            return null;
+        }
     }
     
 }

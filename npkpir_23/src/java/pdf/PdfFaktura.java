@@ -5,19 +5,16 @@
 package pdf;
 
 import beansPdf.PdfFP;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.*;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfReader;
@@ -27,12 +24,14 @@ import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.itextpdf.text.pdf.parser.TextMarginFinder;
 import com.lowagie.tools.Executable;
 import comparator.Pozycjenafakturzecomparator;
+import dao.FakturaStopkaNiemieckaDAO;
 import dao.FakturaXXLKolumnaDAO;
 import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
 import dao.PozycjenafakturzeDAO;
 import entity.Faktura;
 import entity.FakturaDuplikat;
+import entity.FakturaStopkaNiemiecka;
 import entity.Fakturadodelementy;
 import entity.Fakturywystokresowe;
 import entity.Pozycjenafakturze;
@@ -46,6 +45,8 @@ import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
@@ -64,6 +65,7 @@ import view.WpisView;
 @RequestScoped
 public class PdfFaktura extends Pdf implements Serializable {
 
+    
  
     @Inject
     private PozycjenafakturzeDAO pozycjeDAO;
@@ -73,6 +75,8 @@ public class PdfFaktura extends Pdf implements Serializable {
     private FakturaelementygraficzneDAO fakturaelementygraficzneDAO;
     @Inject
     private FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO;
+    @Inject
+    private FakturaStopkaNiemieckaDAO  fakturaStopkaNiemieckaDAO;
 
     public void drukujmail(List<Faktura> fakturydruk, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         int i = 0;
@@ -293,8 +297,17 @@ public class PdfFaktura extends Pdf implements Serializable {
                 if (duplikat) {
                     PdfFP.dodajoznaczenieduplikat(writer, duplikatobj);
                 }
-                PdfFP.dodajnaglowekstopka(writer, elementydod);
-                PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                if (czyjeststopkaniemiecka(elementydod)) {
+                    PdfFP.dodajnaglowek(writer, elementydod);
+                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                    FakturaStopkaNiemiecka f = fakturaStopkaNiemieckaDAO.findByPodatnik(wpisView.getPodatnikObiekt());
+                    if (f != null) {
+                        stopkaniemiecka(writer, document, f);
+                    }
+                } else {
+                    PdfFP.dodajnaglowekstopka(writer, elementydod);
+                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                }
                 document.close();
             }
              if (przeznaczenie.equals("druk")) {
@@ -302,6 +315,16 @@ public class PdfFaktura extends Pdf implements Serializable {
                     RequestContext.getCurrentInstance().execute(funkcja);
                 }
         }
+    }
+    
+    private boolean czyjeststopkaniemiecka(List<Fakturadodelementy> elementydod) {
+        boolean zwrot = false;
+        for (Fakturadodelementy p : elementydod) {
+            if (p.getFakturadodelementyPK().getNazwaelementu().equals("stopka niemiecka")) {
+                zwrot = true;
+            }
+        }
+        return true;
     }
     
      private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
@@ -336,6 +359,39 @@ public class PdfFaktura extends Pdf implements Serializable {
                e.printStackTrace();
             }        
     }
+    
+    private static void stopkaniemiecka(PdfWriter writer, Document document, FakturaStopkaNiemiecka f) {
+        PdfPTable table = null;
+        try {
+            table = new PdfPTable(4);
+            table.setTotalWidth(new float[]{165,120,120,165});
+            table.setWidthPercentage(95);
+            table.getDefaultCell().setBorderColor(BaseColor.WHITE);
+            table.addCell(ustawfrazeAlignNOBorder(f.getNazwafirmy(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Mobil: "+f.getKomorka(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Amstgericht Hanau"+f.getUrzadskarbowy(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder(f.getBank(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Geschäftsführer "+f.getPrezes(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Büro: "+f.getTelefon(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("HRB "+f.getKrs(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("IBAN "+f.getIban(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder(f.getUlica(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Finanzamt "+f.getUrzadskarbowy(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("BIC "+f.getBic(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder(f.getMiejscowosc(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Mail: "+f.getEmail(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Steuernummer "+f.getNip(), "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("BLZ "+f.getBlz()+" | KTO-NR "+f.getKtonr(), "left", 7));
+            table.completeRow();
+            table.writeSelectedRows(0, -1,
+            document.left(document.leftMargin()+15f),
+            table.getTotalHeight() + document.bottom(document.bottomMargin()-15f), 
+            writer.getDirectContent());
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
@@ -344,7 +400,7 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
-        writer.setPageEvent(headerfoter);
+        //writer.setPageEvent(headerfoter);
         writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
         document.setMargins(0, 0, 400, 20);
         document.addTitle("Faktura");
@@ -378,7 +434,7 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
         table.addCell(ustawfrazeAlign("wartość brutto", "center", 7));
         table.setHeaderRows(1);
-        for (int i = 0; i < 69; i++) {
+        for (int i = 0; i < 9; i++) {
             table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
             table.addCell(ustawfrazeAlign("lolo", "left", 7));
             table.addCell(ustawfrazeAlign("pkwiu", "center", 7));
@@ -420,12 +476,13 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
 //        }
         float dzielnik = 2;
         document.add(table);
+        stopkaniemiecka(writer,document);
         //table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
         document.close();
         writer.close();
         PdfReader reader = new PdfReader("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\wydruki\\testowa.pdf");
         PdfReaderContentParser parser = new PdfReaderContentParser(reader);
-        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("c:/tparser.pdf"));
+        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("d:/tparser.pdf"));
         TextMarginFinder finder;
         int n = reader.getNumberOfPages();
         finder = parser.processContent(n, new TextMarginFinder());
@@ -434,10 +491,44 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         System.out.println(finder.getWidth());
         System.out.println(finder.getHeight());
         //PdfContentByte canvas = stamper.getImportedPage(reader, n);
-        PdfContentByte canvas = stamper.getOverContent(2);
-        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), finder.getLlx()+30, finder.getLly()-20, 0);
+//        PdfContentByte canvas = stamper.getOverContent(1);
+//        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), finder.getLlx()+30, finder.getLly()-20, 0);
         stamper.close();
         reader.close();
         System.out.println("no ");
     }
+
+    private static void stopkaniemiecka(PdfWriter writer, Document document) {
+        PdfPTable table = null;
+        try {
+            table = new PdfPTable(4);
+            table.setTotalWidth(new float[]{165,120,120,165});
+            table.setWidthPercentage(95);
+            table.getDefaultCell().setBorderColor(BaseColor.WHITE);
+            table.addCell(ustawfrazeAlignNOBorder("TECHNOLOGY BAU GmbH", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Mobil: +49 (0) 170 900 01 05", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Amstgericht Hanau", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Vr Bank Main-Kinzig Bundingen AG", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Geschäftsführer Darius Dankiewitsch", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Büro: +49 (0) 6183 720 882 8", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("HRB 95151", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("IBAN DE80 5066 1639 0003 3091 42", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Römerstrasse 39", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Finanzamt Offebach", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("BIC GENODEF1LSR", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("D-63526 Erlensee", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Mail: info@technology-bau.de", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("Steuernummer 044 248 05197", "left", 7));
+            table.addCell(ustawfrazeAlignNOBorder("BLZ 50661639 | KTO-NR 0003309142", "left", 7));
+            table.completeRow();
+            table.writeSelectedRows(0, -1,
+            document.left(document.leftMargin()+15f),
+            table.getTotalHeight() + document.bottom(document.bottomMargin()-15f), 
+            writer.getDirectContent());
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

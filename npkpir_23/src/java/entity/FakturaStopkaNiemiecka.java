@@ -46,14 +46,18 @@ public class FakturaStopkaNiemiecka  implements Serializable {
     private String nazwafirmy;
     @Column(name = "prezes")
     private String prezes;
-    @Column(name = "adres")
-    private String adres;
+    @Column(name = "miejscowosc")
+    private String miejscowosc;
+    @Column(name = "ulica")
+    private String ulica;
     @Column(name = "telefon")
     private String telefon;
     @Column(name = "komorka")
     private String komorka;
     @Column(name = "email")
     private String email;
+    @Column(name = "sad")
+    private String sad;
     @Column(name = "krs")
     private String krs;
     @Column(name = "urzadskarbowy")
@@ -102,7 +106,7 @@ public class FakturaStopkaNiemiecka  implements Serializable {
 
     @Override
     public String toString() {
-        return "FakturaStopkaNiemiecka{" + "podatnik=" + podatnik.getNazwapelna() + ", nazwafirmy=" + nazwafirmy + ", prezes=" + prezes + ", adres=" + adres + ", telefon=" + telefon + ", komorka=" + komorka + ", email=" + email + ", krs=" + krs + ", urzadskarbowy=" + urzadskarbowy + ", nip=" + nip + ", bank=" + bank + ", iban=" + iban + ", bic=" + bic + ", blz=" + blz + ", ktonr=" + ktonr + '}';
+        return "FakturaStopkaNiemiecka{" + "podatnik=" + podatnik.getNazwapelna() + ", nazwafirmy=" + nazwafirmy + ", prezes=" + prezes + ", adres=" + ulica +" " + miejscowosc + ", telefon=" + telefon + ", komorka=" + komorka + ", email=" + email + ", krs=" + krs + ", urzadskarbowy=" + urzadskarbowy + ", nip=" + nip + ", bank=" + bank + ", iban=" + iban + ", bic=" + bic + ", blz=" + blz + ", ktonr=" + ktonr + '}';
     }
 
     public Integer getId() {
@@ -137,13 +141,31 @@ public class FakturaStopkaNiemiecka  implements Serializable {
         this.prezes = prezes;
     }
 
-    public String getAdres() {
-        return adres;
+    public String getMiejscowosc() {
+        return miejscowosc;
     }
 
-    public void setAdres(String adres) {
-        this.adres = adres;
+    public String getSad() {
+        return sad;
     }
+
+    public void setSad(String sad) {
+        this.sad = sad;
+    }
+
+    public void setMiejscowosc(String miejscowosc) {
+        this.miejscowosc = miejscowosc;
+    }
+
+    public String getUlica() {
+        return ulica;
+    }
+
+    public void setUlica(String ulica) {
+        this.ulica = ulica;
+    }
+
+ 
 
     public String getTelefon() {
         return telefon;

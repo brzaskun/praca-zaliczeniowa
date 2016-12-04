@@ -34,6 +34,7 @@
                             zachowaj(this);
                         });
                     };
+                    ustawstopkaniemiecka();
                 });
             </script>
               <p:outputPanel style="background-color: #6374AB; height: 1672px; width: 1168px;">
@@ -147,6 +148,11 @@
                         <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('logo')} rozmiary width: #{fakturadodelementyView.pozycjecss.get('logo')[0]} height: #{fakturadodelementyView.pozycjecss.get('logo')[1]}" />
                     </p:panelGrid>
                     <p:draggable for="logo" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
+                </p:panel>
+                <p:panel id="stopkaniemiecka" style="width: 1150px; height: 150px;color: gray; background-color: gray; margin-top: 300px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('stopka niemiecka')}" >  
+                    <p:panelGrid columns="1">
+                        <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('stopka niemiecka')}" />
+                    </p:panelGrid>
                 </p:panel>
               </p:outputPanel>
               </h:form>

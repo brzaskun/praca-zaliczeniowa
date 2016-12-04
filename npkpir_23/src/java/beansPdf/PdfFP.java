@@ -48,6 +48,14 @@ import waluty.Z;
 
 public class PdfFP {
 
+    public static void dodajnaglowek(PdfWriter writer, List<Fakturadodelementy> elementydod) {
+        if (czydodatkowyelementjestAktywny("nagłówek", elementydod)) {
+            //naglowek
+            absText(writer, pobierzelementdodatkowy("nagłówek", elementydod), 15, 820, 6);
+            prost(writer.getDirectContent(), 12, 817, 560, 10);
+        }
+    }
+    
     public static void dodajnaglowekstopka(PdfWriter writer, List<Fakturadodelementy> elementydod) {
         if (czydodatkowyelementjestAktywny("nagłówek", elementydod)) {
             //naglowek
