@@ -195,7 +195,7 @@
             <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
             <p:panelGrid columns="2" style="width: 855px;" columnClasses="forty-percent, sixty-percent">
                 <p:dataTable id="tabelapkpir" value="#{DokumentView.selDokument.listakwot1}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" 
-                             rowIndexVar="index" tableStyle="">
+                             rowIndexVar="index" >
                     <p:column headerText="kwota netto*"  width="105">
                         <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol="#{DokumentView.symbolWalutyNettoVat}" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 

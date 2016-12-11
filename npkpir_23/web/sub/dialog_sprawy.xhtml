@@ -6,11 +6,16 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    <style>
+        .ui-datatable-data tr {
+            height: 20px;
+        }
+    </style>
     <p:dialog id="dialog_sprawy" header="Sprawy do załatwienia/przejrzenia" widgetVar="dialog_sprawy" dynamic="true"
-              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1260, 400);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
-              <h:form id="form_dialog_sprawy">
-            <p:dataTable value="#{sprawaView.sprawy}" var="item3" style="width: 1240px; overflow-y: scroll; height: 380px;"
-                         widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1"
+              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1260, 520);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
+        <h:form id="form_dialog_sprawy">
+            <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 1240px; overflow-y: scroll; height: 240px;"
+                         widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1" 
                          sortBy="#{item3.datasporzadzenia}" sortOrder="descending"
                          >
                 <p:column width="30" style="text-align: center;">
@@ -28,7 +33,7 @@
                     <f:facet name="header">
                         <h:outputText value="klient"/>
                     </f:facet>
-                    <h:outputText value="#{item3.klient.nazwapelna}"/>
+                    <h:outputText value="#{item3.klient.nazwapelna.toLowerCase()}"/>
                 </p:column>
                 <p:column filterBy="#{item3.tresc}" filterMatchMode="contains" filterStyle="display: none;">
                     <f:facet name="header">
@@ -42,17 +47,17 @@
                     </f:facet>
                     <h:outputText value="#{item3.waznosc}"/>
                 </p:column>
-                <p:column width="100">
+                <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="nadawca"/>
                     </f:facet>
-                    <h:outputText value="#{item3.nadawca.login}" rendered="#{item3.nadawca ne WpisView.wprowadzil}"/>
+                    <h:outputText value="#{item3.nadawca.login}"/>
                 </p:column>
-                 <p:column width="100">
+                <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="odbiorca"/>
+                        <h:outputText value="urząd"/>
                     </f:facet>
-                    <h:outputText value="#{item3.odbiorca.login}" rendered="#{item3.nadawca eq WpisView.wprowadzil}"/>
+                    <h:outputText value="#{item3.organ}"/>
                 </p:column>
                 <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
@@ -64,18 +69,79 @@
                 </p:column>
                 <p:column width="160" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="oznacz/oznaczono"/>
+                        <h:outputText value="oznacz"/>
                     </f:facet>
-                    <p:selectOneMenu id="waznosc" value="#{item3.status}"  rendered="#{item3.nadawca ne WpisView.wprowadzil}">
-                         <f:selectItem itemLabel="wybierz" itemValue="wybierz" noSelectionOption="true"/>
+                    <p:selectOneMenu id="waznosc" value="#{item3.status}" >
+                        <f:selectItem itemLabel="wybierz" itemValue="wybierz" noSelectionOption="true"/>
                         <f:selectItems value="#{sprawaView.status}"/>
                         <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.nanies(item3)}"/>
                     </p:selectOneMenu>
-                    <p:panelGrid columns="1">
-                    <h:outputText value="#{item3.status}" rendered="#{item3.nadawca eq WpisView.wprowadzil}"/>
-                    <h:outputText value="#{item3.datastatusu}" rendered="#{item3.nadawca eq WpisView.wprowadzil}">
-                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                </p:column>
+             </p:dataTable>
+        </h:form>
+        <h:form id="form_dialog_sprawy_nadane">
+            <p:dataTable value="#{sprawaView.sprawyNadane}" var="item3" style="width: 1240px; overflow-y: scroll; height: 240px;"
+                         widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1" 
+                         sortBy="#{item3.datasporzadzenia}" sortOrder="descending" 
+                         >
+                <p:column width="30" style="text-align: center;">
+                    <h:outputText value="#{index1+1}"/>
+                </p:column>
+                <p:column width="80" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Data nadania"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.datasporzadzenia}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                     </h:outputText>
+                </p:column>
+                <p:column width="140">
+                    <f:facet name="header">
+                        <h:outputText value="klient"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.klient.nazwapelna.toLowerCase()}"/>
+                </p:column>
+                <p:column width="250" filterBy="#{item3.tresc}" filterMatchMode="contains" filterStyle="display: none;">
+                    <f:facet name="header">
+                        <h:outputText value="treść" style="width: 250px;"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.tresc}"/>
+                </p:column>
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="ważność"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.waznosc}"/>
+                </p:column>
+                <p:column width="100" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="odbiorca"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.odbiorca.login}"/>
+                </p:column>
+                <p:column width="100" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="urząd"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.organ}"/>
+                </p:column>
+                <p:column width="100" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="termin"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.termindo}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="100" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="oznaczono"/>
+                    </f:facet>
+                    <p:panelGrid columns="1">
+                        <h:outputText value="#{item3.status}" rendered="#{item3.nadawca eq WpisView.wprowadzil}"/>
+                        <h:outputText value="#{item3.datastatusu}" rendered="#{item3.nadawca eq WpisView.wprowadzil}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                        </h:outputText>
                     </p:panelGrid>
                 </p:column>
                 <p:column width="30" headerText="usuń" style="text-align: center;">

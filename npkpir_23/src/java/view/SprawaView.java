@@ -45,7 +45,8 @@ public class SprawaView  implements Serializable{
     private PodatnikDAO podatnikDAO;
     @Inject
     private Sprawa nowa;
-    private List<Sprawa> sprawy;
+    private List<Sprawa> sprawyOdebrane;
+    private List<Sprawa> sprawyNadane;
     private List<Uz> odbiorcy;
     private List<Podatnik> klienci;
     private static final List<String> status;
@@ -62,21 +63,20 @@ public class SprawaView  implements Serializable{
     @PostConstruct
     private void init() {
         Uz login = wpisView.getWprowadzil().getLoginglowny() != null ? wpisView.getWprowadzil().getLoginglowny() : wpisView.getWprowadzil();
-        sprawy = sprawaDAO.findSprawaByOdbiorca(login);
-        for (Iterator<Sprawa> it = sprawy.iterator();it.hasNext();) {
+        sprawyOdebrane = sprawaDAO.findSprawaByOdbiorca(login);
+        for (Iterator<Sprawa> it = sprawyOdebrane.iterator();it.hasNext();) {
             Sprawa p = it.next();
             if (p.getStatus().equals("gotowa")) {
                 it.remove();
             }
         }
-        List<Sprawa> nadane = sprawaDAO.findSprawaByNadawca(login);
-        for (Iterator<Sprawa> it = nadane.iterator();it.hasNext();) {
+        sprawyNadane = sprawaDAO.findSprawaByNadawca(login);
+        for (Iterator<Sprawa> it = sprawyNadane.iterator();it.hasNext();) {
             Sprawa p = it.next();
             if (p.isUsunieta()) {
                 it.remove();
             }
         }
-        sprawy.addAll(nadane);
         odbiorcy = uzDAO.findAll();
         for(Iterator<Uz> it = odbiorcy.iterator(); it.hasNext();) {
             Uz s = it.next();
@@ -125,12 +125,20 @@ public class SprawaView  implements Serializable{
         this.wpisView = wpisView;
     }
 
-    public List<Sprawa> getSprawy() {
-        return sprawy;
+    public List<Sprawa> getSprawyOdebrane() {
+        return sprawyOdebrane;
     }
 
-    public void setSprawy(List<Sprawa> sprawy) {
-        this.sprawy = sprawy;
+    public void setSprawyOdebrane(List<Sprawa> sprawyOdebrane) {
+        this.sprawyOdebrane = sprawyOdebrane;
+    }
+
+    public List<Sprawa> getSprawyNadane() {
+        return sprawyNadane;
+    }
+
+    public void setSprawyNadane(List<Sprawa> sprawyNadane) {
+        this.sprawyNadane = sprawyNadane;
     }
 
     public Sprawa getNowa() {
