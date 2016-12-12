@@ -63,7 +63,7 @@ public class Sprawa  implements Serializable {
     @JoinColumn(name = "klient", referencedColumnName = "nip", nullable = true)
     private Podatnik klient;
     @Size(min = 1, max = 100)
-    @Column(name = "organ", nullable = false, length = 100)
+    @Column(name = "organ", nullable = true, length = 100)
     private String organ;
     @Basic(optional = false)
     @NotNull
