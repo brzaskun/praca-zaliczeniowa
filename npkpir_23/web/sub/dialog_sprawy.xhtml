@@ -138,8 +138,8 @@
                         <h:outputText value="oznaczono"/>
                     </f:facet>
                     <p:panelGrid columns="1">
-                        <h:outputText value="#{item3.status}" rendered="#{item3.nadawca eq WpisView.wprowadzil}"/>
-                        <h:outputText value="#{item3.datastatusu}" rendered="#{item3.nadawca eq WpisView.wprowadzil}">
+                        <h:outputText value="#{item3.status}">
+                        <h:outputText value="#{item3.datastatusu}">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
                         </h:outputText>
                     </p:panelGrid>
