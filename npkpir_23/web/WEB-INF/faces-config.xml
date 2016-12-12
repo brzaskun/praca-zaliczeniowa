@@ -330,9 +330,13 @@
             <from-outcome>faktura</from-outcome>
             <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-         <navigation-case>
+        <navigation-case>
             <from-outcome>fakturarozrachunki</from-outcome>
             <to-view-id>/wspolny/wspolnyFakturaRozrachunki.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>fakturaustawienia</from-outcome>
+            <to-view-id>/wspolny/wspolnyFakturaUstawienia.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>srodkiewidencja</from-outcome>
@@ -483,6 +487,10 @@
             <to-view-id>/ksiegowaFK/guestFKFaktury.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>guestfakturaustawieniaFK</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKFakturyUstawienia.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>guestfakturaplatnosciFK</from-outcome>
             <to-view-id>/ksiegowaFK/guestFKFakturyPlatnosci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
@@ -582,6 +590,10 @@
         <navigation-case>
             <from-outcome>gfkFaktura</from-outcome>
             <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gfkFakturaUstawienia</from-outcome>
+            <to-view-id>/wspolny/wspolnyFakturaUstawienia.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>guestfkNaleznosci</from-outcome>

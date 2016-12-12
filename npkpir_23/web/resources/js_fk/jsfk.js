@@ -154,6 +154,14 @@ var petlawywolujaca = function(lw, gr, co) {
     }
 };
 
+var ustawstopkaniemiecka = function() {
+    try {
+         $(document.getElementById('akordeon:formwzor:stopkaniemiecka')).css({position: "absolute",
+            marginLeft: 0, marginTop: 0,
+            top: 1550, left: 27});
+    } catch (e) {}
+};
+
 var sprawdzczynazwaskroconafakturaniejestshown = function() {
     var czywidzialne = rj("nazwaskroconafaktura").getAttribute("aria-hidden");
     if (czywidzialne === "true"){

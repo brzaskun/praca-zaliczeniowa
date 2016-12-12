@@ -24,9 +24,19 @@
                 <p:panelGrid columns="1">
                     <p:menu style="width: 200px;">
                         <p:menuitem value="#{mgs.dokumenty}"  outcome="gfktablica" icon="ui-icon-circle-arrow-e" actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow"/>
-                        <p:menuitem value="#{mgs.faktury}"  outcome="gfkFaktura" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
-                        <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                        <p:menuitem value="#{mgs.faktury}"  outcome="gfkFaktura" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="#{mgs.fakturyustawienia}"  outcome="gfkFakturaUstawienia" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="#{mgs.kontrahenci}"  outcome="gfakturaFakturaKontrahenci" icon="ui-icon-circle-arrow-e"/>
+                    </p:menu>
+                    <p:menu style="width: 200px;" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}">
+                        <p:menuitem value="defin. miejsc przychodów" outcome="gfk_stow_miejscaprzychodow" icon="ui-icon-circle-arrow-e" ></p:menuitem>
+                        <p:menuitem value="wykaz członków stow." outcome="gfk_stow_wykazczlonkow" icon="ui-icon-circle-arrow-e" ></p:menuitem>
+                        <p:menuitem value="rodzaje członkostwa" outcome="gfk_stow_rodzajeczlonkostwa" icon="ui-icon-circle-arrow-e" actionListener="#{rodzajeCzlonkostwaView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="składki" outcome="gfk_stow_skladki" icon="ui-icon-circle-arrow-e" actionListener="#{skladkaStowarzyszenieView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="członek-składka" outcome="gfk_stow_czlonekskladka" icon="ui-icon-circle-arrow-e" actionListener="#{skladkaCzlonekView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="roczne zestaw. naliczeń" outcome="gfk_stow_zestawienienaliczen" icon="ui-icon-circle-arrow-e" actionListener="#{stowNaliczenieZestView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="zestaw. rozrach. z członkami" outcome="gfk_stow_rozrachunkizczlonkami" icon="ui-icon-circle-arrow-e" actionListener="#{stowRozrachCzlonkView.pobierz()}"></p:menuitem>
                     </p:menu>
                     <p:menu style="width: 200px;">
                         <p:menuitem value="#{mgs.grupykosztów}"  outcome="gfkZestawienia" icon="ui-icon-circle-arrow-e"/>

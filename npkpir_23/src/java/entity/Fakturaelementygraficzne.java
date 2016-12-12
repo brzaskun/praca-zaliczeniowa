@@ -35,12 +35,16 @@ public class Fakturaelementygraficzne implements Serializable {
     protected FakturaelementygraficznePK fakturaelementygraficznePK;
     @Basic(optional = false)
     @NotNull
-    @Column
+    @Column(name = "trescelementu")
     private String trescelementu;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "aktywny",nullable = false)
     private boolean aktywny;
+    @Column(name = "szerokosc")
+    private String szerokosc;
+    @Column(name = "wysokosc")
+    private String wysokosc;
 
     public Fakturaelementygraficzne() {
         this.setFakturaelementygraficznePK(new FakturaelementygraficznePK());
@@ -83,6 +87,24 @@ public class Fakturaelementygraficzne implements Serializable {
     public void setAktywny(boolean aktywny) {
         this.aktywny = aktywny;
     }
+
+    public String getSzerokosc() {
+        return szerokosc;
+    }
+
+    public void setSzerokosc(String szerokosc) {
+        this.szerokosc = szerokosc;
+    }
+
+    public String getWysokosc() {
+        return wysokosc;
+    }
+
+    public void setWysokosc(String wysokosc) {
+        this.wysokosc = wysokosc;
+    }
+    
+    
 
     @Override
     public int hashCode() {

@@ -25,7 +25,7 @@
                                     rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() eq ''}"/>
                   </p:column>
               </p:dataTable>
-              <p:commandButton value="Użyj wybrane na fakturze" actionListener="#{fakturadodelementyView.zachowajzmiany()}" update=":akordeon:formwzor, :akordeon:formstworz:panelfaktury"
+              <p:commandButton value="Użyj wybrane na fakturze" actionListener="#{fakturadodelementyView.zachowajzmiany()}" update=":akordeon:formwzor"
                                style="margin-top: 5px;"/>
           </h:form>
         </p:tab>

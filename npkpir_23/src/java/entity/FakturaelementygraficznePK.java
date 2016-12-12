@@ -20,12 +20,12 @@ public class FakturaelementygraficznePK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 250)
-    @Column(nullable = false, length = 250)
+    @Column(name = "podatnik", nullable = false, length = 250)
     private String podatnik;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 150)
-    @Column(nullable = false, length = 150)
+    @Column(name = "nazwaelementu", nullable = false, length = 150)
     private String nazwaelementu;
 
     public FakturaelementygraficznePK() {

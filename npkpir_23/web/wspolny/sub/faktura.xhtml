@@ -5,17 +5,6 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <f:event type="preRenderView" listener="#{pozycjeNaFakturzeView.odchowaj()}"/>
-    <h:form id="formXY">
-        <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30" style="display: none;"/>
-        <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30" style="display: none;"/>
-        <h:inputText id="co" value="#{pozycjeNaFakturzeView.co}" size="30" style="display: none;"/>
-        <h:inputText id="lewyTablica" value="#{pozycjeNaFakturzeView.lewyTablica}" size="30" style="display: none;"/>
-        <h:inputText id="goraTablica" value="#{pozycjeNaFakturzeView.goraTablica}" size="30" style="display: none;"/>
-        <h:inputText id="coTablica" value="#{pozycjeNaFakturzeView.coTablica}" size="30" style="display: none;"/>
-        <br/>
-        <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
-    </h:form>
     <p:confirmDialog id="confirmDialog" message="Usunąć wybrane faktury? Sztuk #{fakturaView.gosciwybral.size()}"  appendTo="@(body)"
                      header="Rozpoczęcie usuwania faktur" severity="alert" widgetVar="confirmationFaktura" >  
         <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmationFaktura').hide()" type="button" style="margin-left: 15px;"/>   
@@ -38,12 +27,6 @@
         <ui:include src="faktura/faktura_archiwum.xhtml"/>
         <ui:include src="faktura/faktura_okresowe.xhtml"/>
         <ui:include src="faktura/faktura_zestawienie.xhtml"/>
-        <ui:include src="faktura/faktura_wzor.xhtml"/>
-        <ui:include src="faktura/faktura_elementyopcjonalne.xhtml"/>
-        <ui:include src="faktura/faktura_elementygraficzne.xhtml"/>
-        <ui:include src="faktura/faktura_danedofaktury.xhtml"/>
-        <ui:include src="faktura/faktura_danedofaktury_xxl.xhtml"/>
-        <ui:include src="faktura/faktura_stopka.xhtml"/>
     </p:tabView>
 
 </ui:composition>   
