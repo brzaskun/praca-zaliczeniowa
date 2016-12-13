@@ -96,7 +96,7 @@ public class UzView implements Serializable {
                 uzDAO.dodaj(selUzytkownik);
                 String wiadomosc = B.b("rejestracjaudana");
                 Msg.msg(wiadomosc);
-                Mail.nadajMailRejestracjaNowegoUzera(selUzytkownik.getEmail(), selUzytkownik.getLogin());
+                Mail.nadajMailRejestracjaNowegoUzera(selUzytkownik.getEmail(), selUzytkownik.getLogin(), null);
                 renderujrejestracje = false;
             } catch (Exception e) {
                 E.e(e); 
@@ -117,7 +117,7 @@ public class UzView implements Serializable {
                     }
                     uzDAO.edit(selUzytkownik);
                     Msg.msg("Udana zmiana hasła/adresu email");
-                    Mail.udanazmianaHasla(selUzytkownik.getEmail(), selUzytkownik.getLogin());
+                    Mail.udanazmianaHasla(selUzytkownik.getEmail(), selUzytkownik.getLogin(), null);
                     nowehaslo = null;
                     nowedrugiehaslo = null;
                 } catch (Exception e) { 
@@ -217,7 +217,7 @@ public class UzView implements Serializable {
         if (!nowy.equals("Noobie")) {
             try {
                 sformatuj();
-                Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy);
+                Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy, null);
                 System.out.println("Nadano uprawnienia "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
                 Msg.msg("Nowy uzytkownik edytowany: "+selUzytkownik.getLogin());
             } catch (Exception e) { 

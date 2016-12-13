@@ -8,12 +8,12 @@ package mail;
  *
  * @author Osito
  */
+import beansMail.SMTPBean;
+import entity.SMTPSettings;
 import error.E;
 import java.util.Properties;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -59,10 +59,10 @@ public class Mail {
    
     
     
-    public static void nadajMailRejestracjaNowegoUzera(String adres, String login) {
+    public static void nadajMailRejestracjaNowegoUzera(String adres, String login, SMTPSettings settings) {
         try {
-            MimeMessage message = new MimeMessage(logintoMail());
-            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -81,10 +81,10 @@ public class Mail {
         }
     }
     
-    public static void udanazmianaHasla(String adres, String login) {
+    public static void udanazmianaHasla(String adres, String login, SMTPSettings settings) {
         try {
-            MimeMessage message = new MimeMessage(logintoMail());
-            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -102,10 +102,10 @@ public class Mail {
         }
     }
     
-    public static void nadanoUprawniednia(String adres, String login, String uprawnienia) {
+    public static void nadanoUprawniednia(String adres, String login, String uprawnienia, SMTPSettings settings) {
         try {
-            MimeMessage message = new MimeMessage(logintoMail());
-            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -128,10 +128,10 @@ public class Mail {
         }
     }
       
-       public static void resetowaniehasla(String adres, String login) {
+       public static void resetowaniehasla(String adres, String login, SMTPSettings settings) {
         try {
-            MimeMessage message = new MimeMessage(logintoMail());
-            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -152,28 +152,7 @@ public class Mail {
             throw new RuntimeException(e);
         }
     }
-      
-      
-    private static Session logintoMail(){
-        final String username = "info@e-taxman.pl";
-        final String password = "Pufikun7005*";
-
-        Properties props = new Properties();
-		props.put("mail.smtp.host", "mailng.az.pl");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable","true");
-        
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-        return session;
-    }
-
+   
     public static String getStopka() {
         return stopka;
     }

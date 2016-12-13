@@ -8,6 +8,8 @@ import beansDok.ListaEwidencjiVat;
 import beansFaktura.FDfkBean;
 import beansFaktura.FakturaBean;
 import beansFaktura.FakturaOkresowaGenNum;
+import beansMail.OznaczFaktBean;
+import beansMail.SMTPBean;
 import sortfunction.FakturaSortBean;
 import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
@@ -73,6 +75,7 @@ import pdf.PdfFakturySporzadzone;
 import plik.Plik;
 import serialclone.SerialClone;
 import static com.sun.faces.el.ELUtils.createValueExpression;
+import dao.SMTPSettingsDAO;
 import waluty.Z;
 
 /**
@@ -109,6 +112,8 @@ public class FakturaView implements Serializable {
     private FakturywystokresoweDAO fakturywystokresoweDAO;
     @Inject
     private FakturadodelementyDAO fakturadodelementyDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     //faktury z bazy danych
     private List<Faktura> faktury;
     //faktury z bazy danych przefiltrowane
@@ -1259,7 +1264,7 @@ public class FakturaView implements Serializable {
         try {
             pdfFaktura.drukujmail(gosciwybral, wpisView);
             Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-            MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu());
+            MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getWprowadzil()));
         } catch (Exception e) { E.e(e); 
             Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
             System.out.println("Błąd podczas wysyłki faktury "+e.getMessage());
@@ -1283,11 +1288,11 @@ public class FakturaView implements Serializable {
     
     
     public void oznaczonejakowyslane() {
-        MailOther.oznaczonejakowyslane(gosciwybral, fakturaDAO);
+        OznaczFaktBean.oznaczonejakowyslane(gosciwybral, fakturaDAO);
     }
     
     public void oznaczonejakozaksiegowane() {
-        MailOther.oznaczonejakozaksiegowane(gosciwybral, fakturaDAO);
+        OznaczFaktBean.oznaczonejakozaksiegowane(gosciwybral, fakturaDAO);
     }
     
     public void drukujokresowa() {

@@ -7,6 +7,7 @@ package mail;
 
 import dao.FakturaDAO;
 import entity.Klienci;
+import entity.SMTPSettings;
 import format.F;
 import java.io.File;
 import java.io.Serializable;
@@ -28,11 +29,11 @@ import view.WpisView;
  */
 public class MailFaktRozrach implements Serializable{
     
-    public static void rozrachunek(Klienci szukanyklient, WpisView wpisView, FakturaDAO fakturaDAO, double saldo, String stopka) {
+    public static void rozrachunek(Klienci szukanyklient, WpisView wpisView, FakturaDAO fakturaDAO, double saldo, String stopka, SMTPSettings settings) {
         Msg.msg("Rozpoczynam wysylanie maila z rozrachunkami. Czekaj na wiadomość końcową");
         int i = 0;
         try {
-            MimeMessage message = MailSetUp.logintoMailFakt(szukanyklient, wpisView);
+            MimeMessage message = MailSetUp.logintoMailFakt(szukanyklient, wpisView, settings);
             message.setSubject("Przypomnienie o zaległych płatnościach na rzecz Biura Rachunkowego Taxman","UTF-8");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();

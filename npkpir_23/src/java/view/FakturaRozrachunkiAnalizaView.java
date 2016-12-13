@@ -5,12 +5,14 @@
  */
 package view;
 
+import beansMail.SMTPBean;
 import comparator.FakturaPodatnikRozliczeniecomparator;
 import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.FakturadodelementyDAO;
 import dao.KlienciDAO;
+import dao.SMTPSettingsDAO;
 import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
@@ -68,6 +70,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private FakturadodelementyDAO fakturadodelementyDAO;
     @Inject
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     private int aktywnytab;
     private UISelectOne selectOneUI;
     private boolean pokaznadplaty;
@@ -349,7 +353,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 obetnijliste(p);
                 PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
                 Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-                MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu());
+                MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getWprowadzil()));
                 if (r != null) {
                     r.setDataupomnienia(new Date());
                     p.setDataupomnienia(new Date());

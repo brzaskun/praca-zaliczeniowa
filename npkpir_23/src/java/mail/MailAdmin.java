@@ -31,7 +31,7 @@ public class MailAdmin implements Serializable {
     public static void mailAdmin(String adres, String temat, String tresc)  {
         try {
             MailSetUp mailSetUp = new MailSetUp();
-            MimeMessage message = mailSetUp.logintoMailAdmin(adres);
+            MimeMessage message = mailSetUp.logintoMailAdmin(adres, null);
             message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             MimeBodyPart mbp1 = new MimeBodyPart();
             String tresczpodpisem = tresc.concat(Mail.stopka);
@@ -51,7 +51,7 @@ public class MailAdmin implements Serializable {
     public static void usterkausunieta(Pismoadmin p, Uz uz, WpisView wpisView) {
         try {
              MailSetUp mailSetUp = new MailSetUp();
-             MimeMessage message = mailSetUp.logintoMailAdmin(uz.getEmail());
+             MimeMessage message = mailSetUp.logintoMailAdmin(uz.getEmail(), null);
              message.setSubject("Taxman - Informacja o rozwiązaniu problemu","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
@@ -81,7 +81,7 @@ public class MailAdmin implements Serializable {
      public static void zablokowanoIPinfoDlaadmina(String ip) {
         try {
              MailSetUp mailSetUp = new MailSetUp();
-             MimeMessage message = mailSetUp.logintoMailAdmin("brzaskun@gmail.com");
+             MimeMessage message = mailSetUp.logintoMailAdmin("brzaskun@gmail.com", null);
              message.setSubject("Zablokowano IP usera","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();

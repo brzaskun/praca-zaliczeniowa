@@ -39,6 +39,8 @@ import entity.Pozycjenafakturze;
 import entity.Rejestrlogowan;
 import entity.Rodzajedok;
 import entity.Ryczpoz;
+import entity.SMTPSettings;
+import entity.SMTPSettings_;
 import entity.SchemaEwidencja;
 import entity.Sesja;
 import entity.Sprawa;
@@ -1923,6 +1925,14 @@ public class SessionFacade<T> implements Serializable {
 
     public FakturaStopkaNiemiecka findStopkaNiemieckaByPodatnik(Podatnik podatnikObiekt) {
         return (FakturaStopkaNiemiecka) em.createNamedQuery("FakturaStopkaNiemiecka.findByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
+    }
+
+    public SMTPSettings findSMTPSettingsByUzytkownik(Uz uzytkownik) {
+        return (SMTPSettings) em.createNamedQuery("SMTPSettings.findByUzytkownik").setParameter("uzytkownik", uzytkownik).getSingleResult();
+    }
+
+    public SMTPSettings findSMTPSettingsByDef() {
+        return (SMTPSettings) em.createNamedQuery("SMTPSettings.findByDef").getSingleResult();
     }
 
     

@@ -197,7 +197,7 @@ public class ZUSMailView implements Serializable {
     
     public void wyslijMailZUS(Zusmail zusmail) {
         try {
-            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail());
+            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail(), null);
             usuzpelnijdane(zusmail);
             Msg.msg("i", "Wyslano wiadomość");
         } catch (Exception e) {
@@ -207,7 +207,7 @@ public class ZUSMailView implements Serializable {
     
      public void wyslijMailZUSSilent(Zusmail zusmail) {
         try {
-            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail());
+            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail(), null);
             usuzpelnijdane(zusmail);
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());

@@ -5,7 +5,6 @@
  */
 package beansLogowanie;
 
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
