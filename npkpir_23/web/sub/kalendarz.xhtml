@@ -9,8 +9,8 @@
  <h:form id="form_kalendarz">
     <p:outputPanel>
         <p:panelGrid columns="1" rendered="true"  style="width: 200px; margin-left: auto; margin-right: auto; text-align: center; box-shadow: #888888;">
-            <h:outputText value="masz #{sprawaView.sprawyOdebrane.size()} sprawy do przejrzenia" style="font-weight: 700" rendered="#{sprawaView.sprawyOdebrane.size() > 0}"/>
-            <p:commandLink onclick="PF('dialog_sprawy').show()" global="false" rendered="#{sprawaView.sprawyOdebrane.size() > 0}">
+            <h:outputText value="masz #{sprawaView.sprawyOdebrane.size()} sprawy do przejrzenia" style="font-weight: 700" rendered="#{sprawaView.sprawyOdebrane.size() gt 0  || sprawaView.sprawyNadane.size() gt 0}"/>
+            <p:commandLink onclick="PF('dialog_sprawy').show()" global="false" rendered="#{sprawaView.sprawyOdebrane.size() gt 0  || sprawaView.sprawyNadane.size() gt 0}">
                 <p:graphicImage value="../resources/images/mailbox.png"  width="60" height="60" />
             </p:commandLink>
             <h:outputText value="nadaj nową sprawę" style="font-weight: 700"/>
