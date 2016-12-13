@@ -145,7 +145,7 @@
                     </p:panelGrid>
                 </p:column>
                 <p:column width="30" headerText="usuń" style="text-align: center;">
-                    <p:selectBooleanCheckbox value="#{item3.usunieta}" rendered="#{item3.status eq 'gotowa' and item3.nadawca eq WpisView.wprowadzil}">
+                    <p:selectBooleanCheckbox value="#{item3.usunieta}" rendered="#{item3.status eq 'gotowa'}">
                         <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.niepokazuj(item3)}" global="false"/>
                     </p:selectBooleanCheckbox>
                 </p:column>
