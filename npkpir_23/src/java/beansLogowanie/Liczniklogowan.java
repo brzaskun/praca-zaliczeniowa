@@ -8,8 +8,8 @@ package beansLogowanie;
 
 import dao.RejestrlogowanDAO;
 import entity.Rejestrlogowan;
+import entity.SMTPSettings;
 import java.util.Date;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import mail.MailAdmin;
 
@@ -33,7 +33,7 @@ public class Liczniklogowan {
         }
     }
     
-    public static int odejmijLogowanie (String ip, RejestrlogowanDAO rejestrlogowanDAO) {
+    public static int odejmijLogowanie (String ip, RejestrlogowanDAO rejestrlogowanDAO, SMTPSettings ogolne) {
         try {
             Rejestrlogowan biezacelogowanie = rejestrlogowanDAO.findByIP(ip);
             int ilosclogowan = biezacelogowanie.getIlosclogowan();
@@ -43,7 +43,7 @@ public class Liczniklogowan {
                 rejestrlogowanDAO.edit(biezacelogowanie);
                 return ilosclogowan;
             } else {
-                MailAdmin.zablokowanoIPinfoDlaadmina(ip);
+                MailAdmin.zablokowanoIPinfoDlaadmina(ip,ogolne);
                 return 0;
             }
         } catch (Exception e) {

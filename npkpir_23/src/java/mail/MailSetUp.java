@@ -33,11 +33,9 @@ import view.WpisView;
 
 public class MailSetUp implements Serializable{
 
-    @Inject
-    private SMTPSettingsDAO sMTPSettingsDAO;
     
-    public static MimeMessage logintoMail(WpisView wpisView, SMTPSettings settings) {
-       MimeMessage message = new MimeMessage(otworzsesje(settings));
+    public static MimeMessage logintoMail(WpisView wpisView, SMTPSettings settings, SMTPSettings ogolne) {
+       MimeMessage message = new MimeMessage(otworzsesje(settings, ogolne));
         try {
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
         } catch (MessagingException ex) {
@@ -64,8 +62,8 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-    public static MimeMessage logintoMailFakt(Klienci klient, WpisView wpisView, SMTPSettings settings)  {
-        MimeMessage message = new MimeMessage(otworzsesje(settings));
+    public static MimeMessage logintoMailFakt(Klienci klient, WpisView wpisView, SMTPSettings settings, SMTPSettings ogolne)  {
+        MimeMessage message = new MimeMessage(otworzsesje(settings, ogolne));
         try {
             message.setSentDate(new Date());
             message.addHeader("X-Priority", "1");
@@ -91,8 +89,8 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-     public static MimeMessage logintoMailAdmin(String adreskontrahenta, SMTPSettings settings) {
-        MimeMessage message = new MimeMessage(otworzsesje(settings));
+     public static MimeMessage logintoMailAdmin(String adreskontrahenta, SMTPSettings settings, SMTPSettings ogolne) {
+        MimeMessage message = new MimeMessage(otworzsesje(settings, ogolne));
         try {
             message.setSentDate(new Date());
             message.addHeader("X-Priority", "1");
@@ -110,8 +108,8 @@ public class MailSetUp implements Serializable{
         return message;
     }
      
-     public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy, SMTPSettings settings) {
-        MimeMessage message = new MimeMessage(otworzsesje(settings));
+     public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy, SMTPSettings settings, SMTPSettings ogolne) {
+        MimeMessage message = new MimeMessage(otworzsesje(settings, ogolne));
         try {
             message.setSentDate(new Date());
             message.addHeader("X-Priority", "1");
@@ -126,15 +124,20 @@ public class MailSetUp implements Serializable{
         return message;
     }
      
-      public static Session otworzsesje(SMTPSettings settings) {
+      public static Session otworzsesje(SMTPSettings settings, SMTPSettings ogolne) {
         Session session = null;
         if (settings == null) {
-            final String username = "info@taxman.pl";
-            final String password = "Taxman7005*";
+            final String username = ogolne.getUsername();
+            final String password = ogolne.getPassword();
             Properties props = new Properties();
-            props.put("mail.smtp.host", "taxman.pl");
-            props.put("mail.smtp.port", "25");
-            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.host", ogolne.getSmtphost());
+            props.put("mail.smtp.port", ogolne.getSmtpport());
+            if (ogolne.isSmtpauth()) {
+                props.put("mail.smtp.auth", "true");
+            }
+            if (ogolne.isStarttlsenable()) {
+                props.put("mail.smtp.starttls.enable", "true");
+            }
             session = Session.getInstance(props,
                     new javax.mail.Authenticator() {
                         @Override

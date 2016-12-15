@@ -59,9 +59,9 @@ public class Mail {
    
     
     
-    public static void nadajMailRejestracjaNowegoUzera(String adres, String login, SMTPSettings settings) {
+    public static void nadajMailRejestracjaNowegoUzera(String adres, String login, SMTPSettings settings, SMTPSettings ogolne) {
         try {
-            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings));
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
@@ -81,9 +81,9 @@ public class Mail {
         }
     }
     
-    public static void udanazmianaHasla(String adres, String login, SMTPSettings settings) {
+    public static void udanazmianaHasla(String adres, String login, SMTPSettings settings, SMTPSettings ogolne) {
         try {
-            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings));
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
@@ -102,9 +102,9 @@ public class Mail {
         }
     }
     
-    public static void nadanoUprawniednia(String adres, String login, String uprawnienia, SMTPSettings settings) {
+    public static void nadanoUprawniednia(String adres, String login, String uprawnienia, SMTPSettings settings, SMTPSettings ogolne) {
         try {
-            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings));
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
@@ -128,9 +128,9 @@ public class Mail {
         }
     }
       
-       public static void resetowaniehasla(String adres, String login, SMTPSettings settings) {
+       public static void resetowaniehasla(String adres, String login, SMTPSettings settings, SMTPSettings ogolne) {
         try {
-            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings));
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));

@@ -4,6 +4,7 @@
  */
 package view;
 
+import dao.SMTPSettingsDAO;
 import dao.UzDAO;
 import entity.Uz;
 import error.E;
@@ -26,6 +27,8 @@ public class ResetHasla implements Serializable {
     private Uz user;
     @Inject
     private UzDAO uzDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
 
     public void reset() {
         try {
@@ -38,7 +41,7 @@ public class ResetHasla implements Serializable {
         }
         user.setHaslo("abe31fe1a2113e7e8bf174164515802806d388cf4f394cceace7341a182271ab");//haslo :)
         uzDAO.edit(user);
-        Mail.resetowaniehasla(user.getEmail(), user.getLogin(), null);
+        Mail.resetowaniehasla(user.getEmail(), user.getLogin(), null, sMTPSettingsDAO.findSprawaByDef());
         Msg.msg("i", "Hasło zresetowane. Nowe haslo przeslane mailem", "formlog1:logowanie");
     }
 

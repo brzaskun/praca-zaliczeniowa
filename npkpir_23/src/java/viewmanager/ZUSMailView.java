@@ -8,6 +8,7 @@ package viewmanager;
 
 import comparator.Podatnikcomparator;
 import dao.PodatnikDAO;
+import dao.SMTPSettingsDAO;
 import dao.ZusmailDAO;
 import embeddable.Mce;
 import entity.Podatnik;
@@ -55,6 +56,8 @@ public class ZUSMailView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @Inject
     private ZusmailDAO zusmailDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
 
@@ -197,7 +200,7 @@ public class ZUSMailView implements Serializable {
     
     public void wyslijMailZUS(Zusmail zusmail) {
         try {
-            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail(), null);
+            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
             usuzpelnijdane(zusmail);
             Msg.msg("i", "Wyslano wiadomość");
         } catch (Exception e) {
@@ -207,7 +210,7 @@ public class ZUSMailView implements Serializable {
     
      public void wyslijMailZUSSilent(Zusmail zusmail) {
         try {
-            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail(), null);
+            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
             usuzpelnijdane(zusmail);
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());

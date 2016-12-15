@@ -6,6 +6,7 @@ package view;
 
 import comparator.Dokcomparator;
 import dao.DokDAO;
+import dao.SMTPSettingsDAO;
 import dao.WpisDAO;
 import embeddable.Mce;
 import entity.Dok;
@@ -56,6 +57,8 @@ public class ObrotyView implements Serializable{
     private WpisView wpisView;
     @Inject  private DokDAO dokDAO;
     @Inject private WpisDAO wpisDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     private Double podsumowaniewybranych;
     private Double podsumowaniewybranychnetto;
     private List<String> dokumentypodatnika;
@@ -218,7 +221,7 @@ public class ObrotyView implements Serializable{
    
    public void mailobroty() {
        try {
-           MailOther.obroty(wpisView);
+           MailOther.obroty(wpisView, sMTPSettingsDAO.findSprawaByDef());
        } catch (Exception e) { 
            E.e(e); 
        }

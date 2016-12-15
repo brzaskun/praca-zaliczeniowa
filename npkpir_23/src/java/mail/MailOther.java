@@ -36,9 +36,9 @@ public class MailOther implements Serializable{
  
     
      
-    public static void pkpir(WpisView wpisView) {
+    public static void pkpir(WpisView wpisView, SMTPSettings ogolne) {
          try {
-             MimeMessage message = MailSetUp.logintoMail(wpisView, null);
+             MimeMessage message = MailSetUp.logintoMail(wpisView, null, ogolne);
              message.setSubject("Wydruk podatkowej księgi przychodów i rozchodów za miesiąc","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
@@ -78,13 +78,13 @@ public class MailOther implements Serializable{
          }
      }
     
-     public static void faktura(List<Faktura> fakturydomaila, WpisView wpisView, FakturaDAO fakturaDAO, String wiadomoscdodatkowa, String stopka, SMTPSettings settings) {
+     public static void faktura(List<Faktura> fakturydomaila, WpisView wpisView, FakturaDAO fakturaDAO, String wiadomoscdodatkowa, String stopka, SMTPSettings settings, SMTPSettings ogolne) {
          Msg.msg("Rozpoczynam wysylanie maila z fakturą. Czekaj na wiadomość końcową");
          int i = 0;
          for (Faktura faktura : fakturydomaila){
              try {
                  Klienci klientf = faktura.getKontrahent();
-                 MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings);
+                 MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings, ogolne);
                  String nazwa = wpisView.getPodatnikObiekt().getNazwadlafaktury() != null ? wpisView.getPodatnikObiekt().getNazwadlafaktury() : wpisView.getPodatnikWpisu();
                  message.setSubject("Wydruk faktury VAT - "+SMTPBean.nazwaFirmyFrom(settings),"UTF-8");
                  // create and fill the first message part
@@ -132,14 +132,14 @@ public class MailOther implements Serializable{
          }
      }
      
-     public static void fakturaarchiwum(List<Faktura> fakturydomaila, WpisView wpisView, FakturaDAO fakturaDAO, String wiadomoscdodatkowa, SMTPSettings settings) {
+     public static void fakturaarchiwum(List<Faktura> fakturydomaila, WpisView wpisView, FakturaDAO fakturaDAO, String wiadomoscdodatkowa, SMTPSettings settings, SMTPSettings ogolne) {
          Msg.msg("Rozpoczynam wysylanie maila z fakturą. Czekaj na wiadomość końcową");
          int i = 0;
          for (Faktura faktura : fakturydomaila){
              try {
                  
                  Klienci klientf = faktura.getKontrahent();
-                 MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings);
+                 MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings, ogolne);
                  message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
                  // create and fill the first message part
                  MimeBodyPart mbp1 = new MimeBodyPart();
@@ -189,9 +189,9 @@ public class MailOther implements Serializable{
      
      
      
-     public static void pit5(WpisView wpisView) {     
+     public static void pit5(WpisView wpisView, SMTPSettings ogolne) {     
          try {
-             MimeMessage message = MailSetUp.logintoMail(wpisView, null);
+             MimeMessage message = MailSetUp.logintoMail(wpisView, null, ogolne);
              message.setSubject("Wydruk deklaracji PIT za miesiąc","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
@@ -230,9 +230,9 @@ public class MailOther implements Serializable{
          }
      }
     
-     public static void obroty(WpisView wpisView) {
+     public static void obroty(WpisView wpisView, SMTPSettings ogolne) {
          try {
-             MimeMessage message = MailSetUp.logintoMail(wpisView, null);
+             MimeMessage message = MailSetUp.logintoMail(wpisView, null, ogolne);
              message.setSubject("Wydruk obrotów z kontrahentem","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
@@ -272,9 +272,9 @@ public class MailOther implements Serializable{
          }
      }
      
-      public static void ewidencjaSTR(WpisView wpisView) {
+      public static void ewidencjaSTR(WpisView wpisView, SMTPSettings ogolne) {
           try {
-              MimeMessage message = MailSetUp.logintoMail(wpisView, null);
+              MimeMessage message = MailSetUp.logintoMail(wpisView, null, ogolne);
               message.setSubject("Wydruk ewidencji środków trwałych","UTF-8");
               // create and fill the first message part
               MimeBodyPart mbp1 = new MimeBodyPart();
@@ -317,9 +317,9 @@ public class MailOther implements Serializable{
       
       
     
-    public static void vat7(int row, WpisView wpisView, int stara0nowa1) {
+    public static void vat7(int row, WpisView wpisView, int stara0nowa1, SMTPSettings ogolne) {
         try {
-            MimeMessage message = MailSetUp.logintoMail(wpisView, null);
+            MimeMessage message = MailSetUp.logintoMail(wpisView, null, ogolne);
             message.setSubject("Wydruk dekalracji VAT-7","UTF-8");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
@@ -376,9 +376,9 @@ public class MailOther implements Serializable{
     }
     
     
-    public static void vatewidencja(WpisView wpisView, String nazwaewidencji) {
+    public static void vatewidencja(WpisView wpisView, String nazwaewidencji, SMTPSettings ogolne) {
         try {
-            MimeMessage message = MailSetUp.logintoMail(wpisView, null);
+            MimeMessage message = MailSetUp.logintoMail(wpisView, null, ogolne);
             message.setSubject("Wydruk bieżącej ewidencji VAT  za miesiąc","UTF-8");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();

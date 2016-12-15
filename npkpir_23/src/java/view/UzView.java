@@ -5,6 +5,7 @@
 package view;
 
 import dao.PodatnikDAO;
+import dao.SMTPSettingsDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
 import entity.Podatnik;
@@ -53,6 +54,8 @@ public class UzView implements Serializable {
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
+    @Inject
     private Uz selUzytkownik;
     private String confPassword;
     private String login;
@@ -96,7 +99,7 @@ public class UzView implements Serializable {
                 uzDAO.dodaj(selUzytkownik);
                 String wiadomosc = B.b("rejestracjaudana");
                 Msg.msg(wiadomosc);
-                Mail.nadajMailRejestracjaNowegoUzera(selUzytkownik.getEmail(), selUzytkownik.getLogin(), null);
+                Mail.nadajMailRejestracjaNowegoUzera(selUzytkownik.getEmail(), selUzytkownik.getLogin(), null, sMTPSettingsDAO.findSprawaByDef());
                 renderujrejestracje = false;
             } catch (Exception e) {
                 E.e(e); 
@@ -117,7 +120,7 @@ public class UzView implements Serializable {
                     }
                     uzDAO.edit(selUzytkownik);
                     Msg.msg("Udana zmiana hasła/adresu email");
-                    Mail.udanazmianaHasla(selUzytkownik.getEmail(), selUzytkownik.getLogin(), null);
+                    Mail.udanazmianaHasla(selUzytkownik.getEmail(), selUzytkownik.getLogin(), null, sMTPSettingsDAO.findSprawaByDef());
                     nowehaslo = null;
                     nowedrugiehaslo = null;
                 } catch (Exception e) { 
@@ -217,7 +220,7 @@ public class UzView implements Serializable {
         if (!nowy.equals("Noobie")) {
             try {
                 sformatuj();
-                Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy, null);
+                Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy, null, sMTPSettingsDAO.findSprawaByDef());
                 System.out.println("Nadano uprawnienia "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
                 Msg.msg("Nowy uzytkownik edytowany: "+selUzytkownik.getLogin());
             } catch (Exception e) { 

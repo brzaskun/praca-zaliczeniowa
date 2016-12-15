@@ -33,8 +33,8 @@ import javax.mail.internet.MimeUtility;
 
 public class MaiManager implements Serializable {
     
-   public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy, SMTPSettings settings) {
-        MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings));
+   public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy, SMTPSettings settings, SMTPSettings ogolne) {
+        MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
         try {
             message.setSentDate(new Date());
             message.addHeader("X-Priority", "1");
@@ -49,9 +49,9 @@ public class MaiManager implements Serializable {
         return message;
     }
 
-    public static void mailManagerZUS(String adres, String temat, String tresc, String wysylajacy, SMTPSettings settings) throws MessagingException, UnsupportedEncodingException {
+    public static void mailManagerZUS(String adres, String temat, String tresc, String wysylajacy, SMTPSettings settings, SMTPSettings ogolne) throws MessagingException, UnsupportedEncodingException {
         //MailSetUp mailSetUp = new MailSetUp();
-        MimeMessage message = logintoMailZUS(adres, wysylajacy, settings);
+        MimeMessage message = logintoMailZUS(adres, wysylajacy, settings, ogolne);
         try {
             message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             MimeBodyPart mbp1 = new MimeBodyPart();
@@ -73,7 +73,7 @@ public class MaiManager implements Serializable {
     
     public static void main (String[] args) throws MessagingException {
         try {
-            MaiManager.mailManagerZUS("info@taxman.biz.pl", "Test", "test \n test", "brzaskun@wp.pl", null);
+            MaiManager.mailManagerZUS("info@taxman.biz.pl", "Test", "test \n test", "brzaskun@wp.pl", null, null);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(MaiManager.class.getName()).log(Level.SEVERE, null, ex);
         }

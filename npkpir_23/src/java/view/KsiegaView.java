@@ -6,6 +6,7 @@ package view;
 
 import beansDok.KsiegaBean;
 import dao.DokDAO;
+import dao.SMTPSettingsDAO;
 import dao.SumypkpirDAO;
 import dao.WpisDAO;
 import embeddable.DokKsiega;
@@ -57,6 +58,8 @@ private static final long serialVersionUID = 1L;
     private DokDAO dokDAO;
     @Inject 
     private WpisDAO wpisDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     private Map<String, List<DokKsiega>> ksiegimiesieczne;
 
     public KsiegaView() {
@@ -175,7 +178,7 @@ private static final long serialVersionUID = 1L;
 
     public void mailpkpir() {
         try {
-            MailOther.pkpir(wpisView);
+            MailOther.pkpir(wpisView, sMTPSettingsDAO.findSprawaByDef());
         } catch (Exception e) { E.e(e); 
             
         }

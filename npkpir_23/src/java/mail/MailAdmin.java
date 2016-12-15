@@ -6,6 +6,7 @@ package mail;
 
 import data.Data;
 import entity.Pismoadmin;
+import entity.SMTPSettings;
 import entity.Uz;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -28,10 +29,10 @@ import view.WpisView;
 
 public class MailAdmin implements Serializable {
 
-    public static void mailAdmin(String adres, String temat, String tresc)  {
+    public static void mailAdmin(String adres, String temat, String tresc, SMTPSettings ogolne)  {
         try {
             MailSetUp mailSetUp = new MailSetUp();
-            MimeMessage message = mailSetUp.logintoMailAdmin(adres, null);
+            MimeMessage message = mailSetUp.logintoMailAdmin(adres, null, ogolne);
             message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             MimeBodyPart mbp1 = new MimeBodyPart();
             String tresczpodpisem = tresc.concat(Mail.stopka);
@@ -48,10 +49,10 @@ public class MailAdmin implements Serializable {
         }
     }
     
-    public static void usterkausunieta(Pismoadmin p, Uz uz, WpisView wpisView) {
+    public static void usterkausunieta(Pismoadmin p, Uz uz, WpisView wpisView, SMTPSettings ogolne) {
         try {
              MailSetUp mailSetUp = new MailSetUp();
-             MimeMessage message = mailSetUp.logintoMailAdmin(uz.getEmail(), null);
+             MimeMessage message = mailSetUp.logintoMailAdmin(uz.getEmail(), null, ogolne);
              message.setSubject("Taxman - Informacja o rozwiązaniu problemu","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
@@ -78,10 +79,10 @@ public class MailAdmin implements Serializable {
         
     }
     
-     public static void zablokowanoIPinfoDlaadmina(String ip) {
+     public static void zablokowanoIPinfoDlaadmina(String ip, SMTPSettings ogolne) {
         try {
              MailSetUp mailSetUp = new MailSetUp();
-             MimeMessage message = mailSetUp.logintoMailAdmin("brzaskun@gmail.com", null);
+             MimeMessage message = mailSetUp.logintoMailAdmin("brzaskun@gmail.com", null, ogolne);
              message.setSubject("Zablokowano IP usera","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
@@ -109,6 +110,6 @@ public class MailAdmin implements Serializable {
     
     
     public static void main (String[] args) throws MessagingException {
-        MailAdmin.mailAdmin("brzaskun@o2.pl", "Test", "test \n test");
+        MailAdmin.mailAdmin("brzaskun@o2.pl", "Test", "test \n test", null);
     }
 }

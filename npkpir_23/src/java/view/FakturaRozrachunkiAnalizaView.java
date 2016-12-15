@@ -353,7 +353,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 obetnijliste(p);
                 PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
                 Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-                MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getWprowadzil()));
+                MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getWprowadzil()), sMTPSettingsDAO.findSprawaByDef());
                 if (r != null) {
                     r.setDataupomnienia(new Date());
                     p.setDataupomnienia(new Date());

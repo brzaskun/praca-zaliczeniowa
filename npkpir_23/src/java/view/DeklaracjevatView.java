@@ -9,6 +9,7 @@ import comparator.Vatcomparator;
 import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjevatDAO;
 import dao.PodatnikDAO;
+import dao.SMTPSettingsDAO;
 import dao.SchemaEwidencjaDAO;
 import dao.WpisDAO;
 import entity.DeklaracjaVatSchema;
@@ -62,6 +63,8 @@ public class DeklaracjevatView implements Serializable {
     private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
     @Inject
     private SchemaEwidencjaDAO schemaEwidencjaDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     private boolean pokazZT;
 
     public DeklaracjevatView() {
@@ -165,7 +168,7 @@ public class DeklaracjevatView implements Serializable {
 
     public void mailvat7(int row) {
         try {
-            MailOther.vat7(row, wpisView, 0);
+            MailOther.vat7(row, wpisView, 0, sMTPSettingsDAO.findSprawaByDef());
         } catch (Exception e) { E.e(e); 
             
         }
@@ -173,7 +176,7 @@ public class DeklaracjevatView implements Serializable {
     
     public void mailvat7N(int row) {
         try {
-            MailOther.vat7(row, wpisView, 1);
+            MailOther.vat7(row, wpisView, 1, sMTPSettingsDAO.findSprawaByDef());
         } catch (Exception e) { E.e(e); 
             
         }

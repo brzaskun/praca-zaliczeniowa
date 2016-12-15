@@ -5,26 +5,20 @@
 package view;
 
 import beansDok.EwidencjaPrzychBean;
-import beansDok.KsiegaBean;
-import comparator.Dokcomparator;
 import dao.DokDAO;
+import dao.SMTPSettingsDAO;
 import dao.SumypkpirDAO;
 import dao.WpisDAO;
 import embeddable.DokEwidPrzych;
-import embeddable.DokKsiega;
 import embeddable.Mce;
 import entity.Dok;
-import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
-import entity.Sumypkpir;
-import entity.SumypkpirPK;
 import entity.Wpis;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +33,6 @@ import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
 import pdf.PdfEwidencjaPrzychodow;
-import pdf.PdfPkpir;
 
 /**
  *
@@ -61,6 +54,8 @@ public class EwidencjaPrzychodowView implements Serializable {
     @Inject
     private DokDAO dokDAO;
     @Inject private WpisDAO wpisDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     private Map<String, List<DokEwidPrzych>> ksiegimiesieczne;
 
     public EwidencjaPrzychodowView() {
@@ -112,7 +107,7 @@ public class EwidencjaPrzychodowView implements Serializable {
 
     public void mailpkpir() {
         try {
-            MailOther.pkpir(wpisView);
+            MailOther.pkpir(wpisView, sMTPSettingsDAO.findSprawaByDef());
         } catch (Exception e) { E.e(e); 
             
         }
