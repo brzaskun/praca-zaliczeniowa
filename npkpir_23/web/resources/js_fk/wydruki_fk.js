@@ -1,7 +1,15 @@
 "use strict";
 
 var wydrukidedra = function(co){
-    window.open('../resources/uploaded/deklaracjevat/'+co,'','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    var nazwapliku = '../resources/uploaded/deklaracjevat/'+co;
+    $.get(nazwapliku)
+    .done(function() { 
+        // exists code 
+        window.open(nazwapliku,'','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    }).fail(function() { 
+        // not exists code
+        alert("Nie ma takiego pliku z deklaracją");
+    });
 };
 
 var wydrukpkpir = function(kto){

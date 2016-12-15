@@ -45,6 +45,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         List<Dokfk> listabrakiKontaAnalityczne = new ArrayList<>();
         List<Integer> listabrakiKontaAnalityczne_nr = new ArrayList<>();
         List<Dokfk> listabraki = new ArrayList<>();
+        List<Dokfk> listabrakiKonto = new ArrayList<>();
         List<Dokfk> listabrakiPozycji = new ArrayList<>();
         List<Dokfk> listabrakivat = new ArrayList<>();
         List<Dokfk> listapustaewidencja = new ArrayList<>();
@@ -54,7 +55,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             boolean usunietopusteewidencje = usunpusteewidencje(p, listapustaewidencja);
             boolean ustawionookresyvat = ustawokresyvat(p);
             boolean sprawdzonokontavat = sprawdzkontavat(p, listabrakivat);
-            boolean pozostaletrzybraki = sprawdzpozostaletrzybraki(p, listabraki, listabrakiPozycji, listabrakiKontaAnalityczne, listabrakiKontaAnalityczne_nr, listaRozniceWnMa);
+            boolean pozostaletrzybraki = sprawdzpozostaletrzybraki(p, listabraki, listabrakiPozycji, listabrakiKontaAnalityczne, listabrakiKontaAnalityczne_nr, listaRozniceWnMa, listabrakiKonto);
             boolean porownanoewidencjakonto = porownajewidencjakonto(p,listaniezgodnoscvatkonto);
         }
         boolean czysto = true;
@@ -100,6 +101,12 @@ public class DokfkWeryfikacjaView implements Serializable {
         if (listabrakiPozycji.size() > 0) {
             main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
             b = pobierzbledy(listabrakiPozycji, main);
+            czysto = false;
+            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+        }
+        if (listabrakiKonto.size() > 0) {
+            main = "Brakuje numeru konta w " + listabrakiKonto.size() + " dokumentach: ";
+            b = pobierzbledy(listabrakiKonto, main);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
@@ -271,13 +278,14 @@ public class DokfkWeryfikacjaView implements Serializable {
         return zwrot;
     }
 
-    private boolean sprawdzpozostaletrzybraki(Dokfk p, List<Dokfk> listabraki, List<Dokfk> listabrakiPozycji, List<Dokfk> listabrakiKontaAnalityczne, List<Integer> listabrakiKontaAnalityczne_nr, List<Dokfk> listaRozniceWnMa) {
+    private boolean sprawdzpozostaletrzybraki(Dokfk p, List<Dokfk> listabraki, List<Dokfk> listabrakiPozycji, List<Dokfk> listabrakiKontaAnalityczne, List<Integer> listabrakiKontaAnalityczne_nr, List<Dokfk> listaRozniceWnMa, List<Dokfk> listabrakiKonto) {
         boolean zwrot = true;
         try {
             double sumawn = 0.0;
             double sumama = 0.0;
             boolean jestkontonieostatnieWn = false;
             boolean jestkontonieostatnieMa = false;
+            boolean brakkonto = false;
             boolean brakwpln = false;
             boolean brakPozycji = false;
             int liczbawierszy = p.getListawierszy().size();
@@ -286,13 +294,14 @@ public class DokfkWeryfikacjaView implements Serializable {
                     StronaWiersza wn = r.getStronaWn();
                     StronaWiersza ma = r.getStronaMa();
                     if (wn != null) {
-                        if (wn.getKonto().getPelnynumer().equals("402-1")) {
-                            System.out.println("d");
-                        }
-                        if (wn.getKonto().getKontopozycjaID() == null) {
+                        if (wn.getKonto() == null) {
+                            brakkonto = true;
+                        } else if (wn.getKonto().getKontopozycjaID() == null) {
                             brakPozycji = true;
                         }
-                        jestkontonieostatnieWn = wn.getKonto().isMapotomkow();
+                        if (wn.getKonto() != null) {
+                            jestkontonieostatnieWn = wn.getKonto().isMapotomkow();
+                        }
                         if (wn.getKwota() > 0 && wn.getKwotaPLN() == 0) {
                             brakwpln = true;
                         }
@@ -304,10 +313,14 @@ public class DokfkWeryfikacjaView implements Serializable {
                         sumawn += wn.getKwotaPLN();
                     }
                     if (ma != null) {
-                        if (ma.getKonto().getKontopozycjaID() == null) {
+                        if (ma.getKonto() == null) {
+                            brakkonto = true;
+                        } else if (ma.getKonto().getKontopozycjaID() == null) {
                             brakPozycji = true;
                         }
-                        jestkontonieostatnieMa = ma.getKonto().isMapotomkow();
+                        if (ma.getKonto() != null) {
+                            jestkontonieostatnieMa = ma.getKonto().isMapotomkow();
+                        }
                         if (ma.getKwota() > 0 && ma.getKwotaPLN() == 0) {
                             brakwpln = true;
                         }
@@ -341,6 +354,9 @@ public class DokfkWeryfikacjaView implements Serializable {
                         }
                     }
                 }
+            }
+            if (brakkonto == true) {
+                listabrakiKonto.add(p);
             }
             if (brakwpln == true) {
                 listabraki.add(p);
