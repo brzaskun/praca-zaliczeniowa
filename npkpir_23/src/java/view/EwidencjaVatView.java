@@ -10,6 +10,7 @@ import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
 import dao.RodzajedokDAO;
+import dao.SMTPSettingsDAO;
 import daoFK.DokDAOfk;
 import daoFK.EVatwpisFKDAO;
 import data.Data;
@@ -92,6 +93,8 @@ public class EwidencjaVatView implements Serializable {
     private EwidencjeVatDAO ewidencjeVatDAO;
     @Inject
     private EVatwpisFKDAO eVatwpisFKDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private List<EVatViewPola> goscwybral;
@@ -821,7 +824,7 @@ public class EwidencjaVatView implements Serializable {
 
     public void vatewidencja() {
         try {
-            MailOther.vatewidencja(wpisView, nazwaewidencjiMail);
+            MailOther.vatewidencja(wpisView, nazwaewidencjiMail, sMTPSettingsDAO.findSprawaByDef());
         } catch (Exception e) { E.e(e); 
 
         }

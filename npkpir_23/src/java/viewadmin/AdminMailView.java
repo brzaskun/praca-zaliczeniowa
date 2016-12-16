@@ -6,6 +6,7 @@ package viewadmin;
 
 import dao.AdminmailDAO;
 import dao.FakturywystokresoweDAO;
+import dao.SMTPSettingsDAO;
 import embeddable.Mce;
 import entity.Adminmail;
 import entity.Fakturywystokresowe;
@@ -40,6 +41,8 @@ public class AdminMailView implements Serializable {
     private FakturywystokresoweDAO fakturywystokresoweDAO;
     @Inject
     private AdminmailDAO adminmailDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     private Set<Klienci> klientList;
     private List<Adminmail> wyslanemaile;
 
@@ -84,7 +87,7 @@ public class AdminMailView implements Serializable {
         for (Klienci p : klientList) {
         try {
             if (p.getEmail() != null) {
-                MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila);
+                MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef());
             } else {
                 Msg.msg("w", "Brak maila dla " + p.getNpelna());
             }
@@ -98,7 +101,7 @@ public class AdminMailView implements Serializable {
     
     public void wyslijAdminMailTest() {
         try {
-            MailAdmin.mailAdmin("info@taxman.biz.pl", tematwiadomosci, zawartoscmaila);
+            MailAdmin.mailAdmin("info@taxman.biz.pl", tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef());
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
         }

@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.SMTPSettings;
 import entity.Sprawa;
 import entity.Uz;
 import entity.ZamkniecieRokuRozliczenie;
@@ -13,25 +14,24 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
-import view.WpisView;
 
 /**
  *
  * @author Osito
  */
 @Named
-public class SprawaDAO extends DAO implements Serializable {
+public class SMTPSettingsDAO extends DAO implements Serializable {
     @Inject
     private SessionFacade wpisFacade;
     
-    public SprawaDAO(){
-        super(Sprawa.class);
+    public SMTPSettingsDAO(){
+        super(SMTPSettings.class);
     }
 
     
-    public  List<Sprawa> findAll(){
+    public  List<SMTPSettings> findAll(){
         try {
-            return wpisFacade.findAll(Sprawa.class);
+            return wpisFacade.findAll(SMTPSettings.class);
         } catch (Exception e) { 
             E.e(e); 
             return null;
@@ -39,11 +39,17 @@ public class SprawaDAO extends DAO implements Serializable {
    }
 
  
-    public List<Sprawa> findSprawaByOdbiorca(Uz odbiorca) {
-        return wpisFacade.findSprawaByOdbiorca(odbiorca);
+    public SMTPSettings findSprawaByUzytkownik(Uz uzytkownik) {
+        return wpisFacade.findSMTPSettingsByUzytkownik(uzytkownik);
     }
 
-    public List<Sprawa> findSprawaByNadawca(Uz nadawca) {
-        return wpisFacade.findSprawaByNadawca(nadawca);
+    public SMTPSettings findSprawaByDef() {
+        try {
+            return wpisFacade.findSMTPSettingsByDef();
+        } catch (Exception e) {
+            return null;
+        }
     }
+
+
 }

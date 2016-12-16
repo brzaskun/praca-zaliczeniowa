@@ -6,6 +6,7 @@ package view;
 
 import dao.PitDAO;
 import dao.PodatnikDAO;
+import dao.SMTPSettingsDAO;
 import dao.WpisDAO;
 import entity.Pitpoz;
 import entity.Wpis;
@@ -43,6 +44,8 @@ public class PitView implements Serializable {
     private WpisView wpisView;
     @Inject
     private WpisDAO wpisDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
    
 
     public PitView() {
@@ -82,7 +85,7 @@ public class PitView implements Serializable {
 
      public void mailPIT5() {
          try {
-             MailOther.pit5(wpisView);
+             MailOther.pit5(wpisView, sMTPSettingsDAO.findSprawaByDef());
          } catch (Exception e) { E.e(e); 
              
          }

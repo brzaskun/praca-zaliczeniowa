@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <p:dialog id="dialog_nowasprawa" header="Sprawy do załatwienia" widgetVar="dialog_nowasprawa"
-              resizable="false" onShow="ustawdialogWindow('dialog_nowasprawa', 1200, 150);"
+              resizable="false" onShow="ustawdialogWindow('dialog_nowasprawa', 1200, 190);"
               closeOnEscape="true" onHide="resetujdialog('dialog_nowasprawa');"  >
               <h:form id="form_dialog_nowasprawa">
                   <p:growl autoUpdate="true"/>
@@ -42,7 +42,7 @@
                               </p:selectOneMenu>
                           </p:column>
                           <p:column>
-                              <p:inputText value="#{sprawaView.nowa.tresc}" size="70"/>
+                              <p:inputTextarea value="#{sprawaView.nowa.tresc}" rows="3" cols="70"/>
                           </p:column>
                           <p:column>
                               <p:selectOneMenu value="#{sprawaView.nowa.klient}" style="width: 150px;" converter="PodatConv">

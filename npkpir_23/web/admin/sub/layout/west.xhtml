@@ -8,7 +8,7 @@
     <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true">
         <h:form>
             <p:menu id="menuWest">  
-                <p:submenu label="Ajax Menuitems">  
+                <p:submenu>  
                     <p:menuitem value="autoryzacja" outcome="aindex" icon="ui-icon-circle-arrow-e" />
                     <p:menuitem value="multiuser" outcome="multiuser" icon="ui-icon-circle-arrow-e" />
                     <p:menuitem value="sesja" outcome="asesja" icon="ui-icon-circle-arrow-e" />
@@ -22,19 +22,10 @@
                     <p:menuitem value="kalkulacja" outcome="adminstatystykaobroty" icon="ui-icon-circle-arrow-e" />
                     <p:menuitem value="faktury" outcome="adminstatystykafaktury" icon="ui-icon-circle-arrow-e" />
                     <p:menuitem value="status programu" outcome="adminstatusprogramu" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="ustawienia smtp" outcome="ustawieniasmtp" icon="ui-icon-circle-arrow-e" />
                 </p:submenu>  
             </p:menu>
         </h:form>
-  <p:panel header="linki">
-            <h:form>
-                <p:panelGrid columns="1">
-                <h:link outcome="admin">admin</h:link>
-                <h:link outcome="manager">manager</h:link>
-                 <h:link accesskey="s" outcome="home" title="księgowanie dokumentów">ksiegowa</h:link>
-                </p:panelGrid>
-                <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="margin-left: 25%"/>
-            </h:form>
-        </p:panel>
     </p:layoutUnit>
 </ui:composition>   
 

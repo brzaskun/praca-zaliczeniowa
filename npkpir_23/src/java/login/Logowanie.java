@@ -8,10 +8,12 @@ import beansLogowanie.IPaddress;
 import beansLogowanie.Liczniklogowan;
 import dao.PodatnikDAO;
 import dao.RejestrlogowanDAO;
+import dao.SMTPSettingsDAO;
 import dao.SesjaDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
 import entity.Podatnik;
+import entity.SMTPSettings;
 import entity.Sesja;
 import entity.Uz;
 import entity.Wpis;
@@ -34,7 +36,6 @@ import javax.servlet.http.HttpSession;
 import language.LocaleChanger;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import view.WpisView;
 
 /**
  *
@@ -60,13 +61,13 @@ public class Logowanie implements Serializable {
     private WpisDAO wpisDAO;
     @Inject
     private RejestrlogowanDAO rejestrlogowanDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     @ManagedProperty(value = "#{localeChanger}")
     private LocaleChanger localeChanger;
-//    @ManagedProperty(value = "#{WpisView}")
-//    private WpisView wpisView;
 
     public Logowanie() {
-       //invalidatesession();
+       
     }
 
     @PostConstruct
@@ -151,7 +152,7 @@ public class Logowanie implements Serializable {
             return navto;
         } catch (ServletException e) {
             Msg.msg("e", "Podałeś nieprawidłowy login lub hasło. Nie możesz rozpocząć pracy z programem");
-            Liczniklogowan.odejmijLogowanie(ipusera, rejestrlogowanDAO);
+            Liczniklogowan.odejmijLogowanie(ipusera, rejestrlogowanDAO, sMTPSettingsDAO.findSprawaByDef());
             return "failure";
         }
     }

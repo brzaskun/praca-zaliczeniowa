@@ -82,6 +82,10 @@
             <from-outcome>adminstatusprogramu</from-outcome>
             <to-view-id>/admin/adminStatusProgramu.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>ustawieniasmtp</from-outcome>
+            <to-view-id>/admin/adminUstawieniasmtp.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>aindex</from-outcome>
             <to-view-id>/admin/adminIndex.xhtml?faces-redirect=true</to-view-id>

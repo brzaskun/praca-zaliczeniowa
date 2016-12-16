@@ -1,0 +1,59 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ck="http://code.google.com/ck-jsf-editor"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:tab id="smtp" title="Faktura mail SMTP">
+        <h:form id="form1smtp">
+            <p:outputPanel style="padding: 10px;">
+                <p:panel header="bieżące domyślne ustawienia smtp" style="width: 400px;"/>
+                <p:panelGrid columns="2">
+                    <h:outputText value="user email"/>
+                    <h:outputText value="#{sMTPSettingsView.selected.useremail}"/>
+                    <h:outputText value="nazwa firmy"/>
+                    <h:outputText value="#{sMTPSettingsView.selected.nazwafirmy}"/>
+                    <h:outputText value="username"/>
+                    <h:outputText value="#{sMTPSettingsView.selected.username}"/>
+                    <h:outputText value="password"/>
+                    <h:outputText value="#{sMTPSettingsView.selected.password}"/>
+                    <h:outputText value="smtp host"/>
+                    <h:outputText value="#{sMTPSettingsView.selected.smtphost}"/>
+                    <h:outputText value="smtp port"/>
+                    <h:outputText value="#{sMTPSettingsView.selected.smtpport}"/>
+                    <h:outputText value="smtp auth"/>
+                    <p:selectBooleanCheckbox value="#{sMTPSettingsView.selected.smtpauth}" disabled="true"/>
+                    <h:outputText value="smtp starttls"/>
+                    <p:selectBooleanCheckbox value="#{sMTPSettingsView.selected.starttlsenable}" disabled="true"/>
+                </p:panelGrid>
+                <p:commandButton value="edytuj" style="width: 120px;" actionListener="#{sMTPSettingsView.przygotujedycja}" global="false" update="akordeon:form2smtp"/>
+            </p:outputPanel>
+        </h:form>
+        <h:form id="form2smtp">
+            <p:outputPanel style="padding: 10px;">
+                <p:panel header="ustawienia domyślnych ustawień smtp" style="width: 400px;"/>
+                <p:panelGrid columns="2">
+                    <h:outputText value="user email"/>
+                    <p:inputText value="#{sMTPSettingsView.nowy.useremail}" style="width: 200px;"/>
+                    <h:outputText value="nazwa firmy"/>
+                    <p:inputText value="#{sMTPSettingsView.nowy.nazwafirmy}" style="width: 200px;"/>
+                    <h:outputText value="username"/>
+                    <p:inputText value="#{sMTPSettingsView.nowy.username}" style="width: 200px;"/>
+                    <h:outputText value="password"/>
+                    <p:inputText value="#{sMTPSettingsView.nowy.password}" style="width: 200px;"/>
+                    <h:outputText value="smtp host"/>
+                    <p:inputText value="#{sMTPSettingsView.nowy.smtphost}" style="width: 200px;"/>
+                    <h:outputText value="smtp port"/>
+                    <p:inputText value="#{sMTPSettingsView.nowy.smtpport}" style="width: 200px;"/>
+                    <h:outputText value="smtp auth"/>
+                    <p:selectBooleanCheckbox value="#{sMTPSettingsView.nowy.smtpauth}"/>
+                    <h:outputText value="smtp starttls"/>
+                    <p:selectBooleanCheckbox value="#{sMTPSettingsView.nowy.starttlsenable}"/>
+                </p:panelGrid>
+                <p:commandButton value="dodaj" style="width: 120px;" actionListener="#{sMTPSettingsView.dodajuser}" global="false" update="akordeon:form1smtp akordeon:form2smtp"/>
+            </p:outputPanel>
+        </h:form>
+    </p:tab>
+</ui:composition>   
+

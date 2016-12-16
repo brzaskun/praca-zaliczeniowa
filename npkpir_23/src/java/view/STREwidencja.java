@@ -5,6 +5,7 @@
 package view;
 
 import comparator.SrodekTrwcomparatorData;
+import dao.SMTPSettingsDAO;
 import dao.STRDAO;
 import embeddable.Mce;
 import embeddable.STRtabela;
@@ -40,6 +41,8 @@ public class STREwidencja implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private STRDAO sTRDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     //tablica obiektw danego klienta
@@ -181,7 +184,7 @@ public class STREwidencja implements Serializable {
     
     public void mailewidencjaSTR() {
         try {
-            MailOther.ewidencjaSTR(wpisView);
+            MailOther.ewidencjaSTR(wpisView, sMTPSettingsDAO.findSprawaByDef());
         } catch (Exception e) { E.e(e); 
 
         }

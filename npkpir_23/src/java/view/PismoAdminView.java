@@ -5,6 +5,7 @@
 package view;
 
 import dao.PismoadminDAO;
+import dao.SMTPSettingsDAO;
 import dao.UzDAO;
 import entity.Pismoadmin;
 import entity.Uz;
@@ -36,6 +37,8 @@ import msg.Msg;
 public class PismoAdminView implements Serializable{
     @Inject
     private UzDAO uzDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     private static final List<String> listamenu;
     private static final List<String> listamenu_fk;
     private static final List<String> waznosc;
@@ -163,7 +166,7 @@ public class PismoAdminView implements Serializable{
              Msg.msg("i", "Udało się dodać infomację dla Admina");
              if (p.getStatus().equals("zmiany naniesione")){
                  Uz uz = uzDAO.findUzByLogin(p.getNadawca());
-                 MailAdmin.usterkausunieta(p, uz, wpisView);
+                 MailAdmin.usterkausunieta(p, uz, wpisView, sMTPSettingsDAO.findSprawaByDef());
                  Msg.msg("i", "Poinformowano zlecającego o załatwieniu sprawy.");
              }
          } catch (Exception e) { E.e(e); 
