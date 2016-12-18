@@ -96,6 +96,10 @@ public class WpisView implements Serializable {
      
     }
     
+    public void initpublic() {
+        init();
+    }
+    
     //swiezowpisany uzer nie ma ustawionych parametrow
     private void inicjacjaUz(Wpis wpis) {
         miesiacWpisu = "01";

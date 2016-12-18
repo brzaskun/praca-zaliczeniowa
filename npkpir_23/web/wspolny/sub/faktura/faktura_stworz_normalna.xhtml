@@ -1,0 +1,147 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:outputPanel rendered="#{fakturaView.fakturazwykla}">
+        <p:outputPanel style="margin-top: 15px;">
+            <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
+                         style="width: 790px;"
+                         >
+                <f:facet name="header" >
+                    <h:outputText value="przed korektą"  rendered="#{fakturaView.fakturakorekta}"/>
+                </f:facet>
+                <p:column headerText="nazwa" width="230" style="text-align: center;">
+                    <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 220px;"
+                                 styleClass="komorka"  label="text" title="nazwa towaru lub usługi" >
+                        <p:watermark for="nazwa" value="nazwa towaru lub usługi" />
+                        <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
+                    </p:inputText>   
+                </p:column>
+                <p:column headerText="pkwiu" width="80" style="text-align: center;">
+                    <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiu" value="sym.PKWiU" /></p:inputText>    
+                </p:column>
+                <p:column headerText="jedn. miary" width="65" style="text-align: center;">
+                    <h:selectOneMenu id="jednmiary" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 60px;"
+                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');
+                                             $(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');
+                                             $(this).addClass('ui-state-default');" >
+                        <f:selectItem itemLabel="szt." itemValue="szt."/>
+                        <f:selectItem itemLabel="godz." itemValue="godz."/>
+                        <f:selectItem itemLabel="kg" itemValue="kg"/>
+                        <f:selectItem itemLabel="km" itemValue="km"/>
+                        <f:selectItem itemLabel="kpl" itemValue="kpl"/>
+                        <f:selectItem itemLabel="m-c" itemValue="m-c"/>
+                        <f:selectItem itemLabel="osb." itemValue="osb."/>
+                        <f:selectItem itemLabel="Mg" itemValue="Mg"/>
+                    </h:selectOneMenu>
+                </p:column>
+                <p:column headerText="ilość" width="60" style="text-align: center;">
+                    <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosc" value="ilość" /></p:inputText>
+                </p:column>
+                <p:column headerText="cena jedn.netto" width="90" style="text-align: center;">
+                    <pe:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
+                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                </p:column>
+                <p:column headerText="stawka VAT" width="70" style="text-align: center;">
+                    <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 60px;" 
+                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');
+                                             $(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');
+                                             $(this).addClass('ui-state-default');" >
+                        <f:selectItem itemLabel="23%" itemValue="23"/>
+                        <f:selectItem itemLabel="8%" itemValue="8"/>
+                        <f:selectItem itemLabel="5%" itemValue="5"/>
+                        <f:selectItem itemLabel="0%" itemValue="0"/>
+                        <f:selectItem itemLabel="np" itemValue="-1"/>
+                    </h:selectOneMenu>
+                </p:column>
+                <p:column style="text-align: center;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaView.usunwierszSrodek(row)}" update="@namingcontainer" global="false"/>
+                </p:column>
+            </p:dataTable>
+        </p:outputPanel>
+        <p:outputPanel  style="margin-top: 25px;">
+            <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" 
+                             oncomplete="wybierzrzadfaktury();" style="margin-bottom: 25px; width: 120px;" partialSubmit="true"/>
+            <p:commandButton id="usunkol" value="usuń wiersz" actionListener="#{fakturaView.usunwiersz()}" partialSubmit="true"
+                             style="margin-left: 25px; width: 120px;"
+                             />
+        </p:outputPanel>
+        <!--                panel korekty-->
+        <p:outputPanel id="panelkorekty" style="margin-top: 15px;" rendered="#{fakturaView.fakturakorekta}">
+            <p:dataTable id="rzadkorekty" value="#{fakturaView.selected.pozycjepokorekcie}" 
+                         var="row" rowIndexVar="rowStat" 
+                         style="width: 790px;"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="po korekcie"/>
+                </f:facet>
+                <p:column headerText="nazwa" width="230">
+                    <p:inputText id="nazwak" value="#{row.nazwa}" style="width: 220px; text-align: left;"
+                                 styleClass="komorkak"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwak" value="nazwa towaru lub usługi" />
+                        <p:ajax global="false" event="focus" />
+                    </p:inputText>   
+                </p:column>
+                <p:column headerText="pkwiu" width="80" style="text-align: center;">
+                    <p:inputText id="pkwiuk" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiuk" value="sym.PKWiU" /></p:inputText>    
+                </p:column>
+                <p:column headerText="jedn. miary" width="65" style="text-align: center;">
+                    <h:selectOneMenu id="jednmiaryk" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 60px;"
+                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');
+                                             $(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');
+                                             $(this).addClass('ui-state-default');" >
+                        <f:selectItem itemLabel="szt." itemValue="szt."/>
+                        <f:selectItem itemLabel="godz." itemValue="godz."/>
+                        <f:selectItem itemLabel="kg" itemValue="kg"/>
+                        <f:selectItem itemLabel="km" itemValue="km"/>
+                        <f:selectItem itemLabel="kpl" itemValue="kpl"/>
+                        <f:selectItem itemLabel="m-c" itemValue="m-c"/>
+                        <f:selectItem itemLabel="osb." itemValue="osb."/>
+                        <f:selectItem itemLabel="Mg" itemValue="Mg"/>
+                    </h:selectOneMenu>
+                </p:column>
+                <p:column headerText="ilość" width="60" style="text-align: center;">
+                    <p:inputText id="ilosck" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosck" value="ilość" /></p:inputText>
+                </p:column>
+                <p:column headerText="cena jedn.netto" width="90" style="text-align: center;">
+                    <pe:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
+                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                </p:column>
+                <p:column headerText="stawka VAT" width="70">
+                    <h:selectOneMenu id="podatekk" value="#{row.podatek}" title="stawka podatku VAT" style="width: 60px;" 
+                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');
+                                             $(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');
+                                             $(this).addClass('ui-state-default');" >
+                        <f:selectItem itemLabel="23%" itemValue="23"/>
+                        <f:selectItem itemLabel="8%" itemValue="8"/>
+                        <f:selectItem itemLabel="5%" itemValue="5"/>
+                        <f:selectItem itemLabel="0%" itemValue="0"/>
+                        <f:selectItem itemLabel="np" itemValue="-1"/>
+                    </h:selectOneMenu>
+                </p:column>
+                <p:column style="text-align: center;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaView.usunwierszSrodekk(row)}" update="@namingcontainer" global="false"/>
+                </p:column>
+            </p:dataTable>
+        </p:outputPanel>
+        <p:outputPanel  style="margin-top: 25px;"  rendered="#{fakturaView.fakturakorekta}">
+            <p:commandButton id="dodkolk" value="dodaj wiersz" actionListener="#{fakturaView.dodajwierszk()}" 
+                             oncomplete="wybierzrzadfakturykorekta();" style="margin-bottom: 25px; width: 120px;" partialSubmit="true"/>
+            <p:commandButton id="usunkolk" value="usuń wiersz" actionListener="#{fakturaView.usunwierszk()}" partialSubmit="true"
+                             style="margin-left: 25px; width: 120px;"
+                             />
+        </p:outputPanel>
+    </p:outputPanel>
+</ui:composition>

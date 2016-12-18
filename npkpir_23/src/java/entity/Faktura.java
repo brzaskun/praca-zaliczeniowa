@@ -202,8 +202,10 @@ public class Faktura implements Serializable {
     private int lp;
     @Column
     private String datazaplaty;
-    @Column
+    @Column(name = "fakturaxxl")
     private boolean fakturaxxl;
+    @Column(name = "fakturaniemiecka13b")
+    private boolean fakturaniemiecka13b;
     @Column(length = 512)
     private String przyczynakorekty;
     @Column
@@ -259,6 +261,7 @@ public class Faktura implements Serializable {
         this.mc = stara.mc;
         this.numerzamowienia = stara.numerzamowienia;
         this.fakturaxxl = stara.fakturaxxl;
+        this.fakturaniemiecka13b = stara.fakturaniemiecka13b;
         this.datawysylki = null;
         this.duplikaty = new ArrayList<>();
     }
@@ -341,6 +344,17 @@ public class Faktura implements Serializable {
             zwrot = this.bruttopk-this.brutto;
         }
         return zwrot;
+    }
+    
+    public boolean isFakturaNormalna() {
+        boolean fakturaNormalna = true;
+        if (this.fakturaxxl) {
+            fakturaNormalna = false;
+        }
+        if (this.fakturaniemiecka13b) {
+            fakturaNormalna = false;
+        }
+        return fakturaNormalna;
     }
     
     public Date getDatatelefon() {
@@ -474,6 +488,14 @@ public class Faktura implements Serializable {
     
     public void setFakturaPK(FakturaPK fakturaPK) {
         this.fakturaPK = fakturaPK;
+    }
+
+    public boolean isFakturaniemiecka13b() {
+        return fakturaniemiecka13b;
+    }
+
+    public void setFakturaniemiecka13b(boolean fakturaniemiecka13b) {
+        this.fakturaniemiecka13b = fakturaniemiecka13b;
     }
     
     public Podatnik getWystawca() {
