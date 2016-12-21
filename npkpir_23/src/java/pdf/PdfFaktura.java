@@ -214,10 +214,8 @@ public class PdfFaktura extends Pdf implements Serializable {
             boolean jestkorekta = selected.getPozycjepokorekcie() != null;
             if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta) || (wierszewtabelach > 7 && jestkorekta)) {
                 Document document = new Document();
-                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr0" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
-                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
-                writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
-                writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+                PdfWriter writer = writerCreate(document, nrfakt);
+                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
                 PdfFP.dodajopisdok(document);
                 document.setMargins(0, 0, 400, 20);
                 document.open();
@@ -286,12 +284,8 @@ public class PdfFaktura extends Pdf implements Serializable {
                 System.out.println("no ");
             } else {
                 Document document = new Document();
-                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
-                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
-                writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
-                writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+                PdfWriter writer = writerCreate(document, nrfakt);
                 PdfFP.dodajopisdok(document);
-                document.setMargins(0, 0, 400, 20);
                 document.open();
                 document.setMargins(0, 0, 20, 20);
                 if (duplikat) {
@@ -302,7 +296,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                     PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                     FakturaStopkaNiemiecka f = fakturaStopkaNiemieckaDAO.findByPodatnik(wpisView.getPodatnikObiekt());
                     if (f != null) {
-                        stopkaniemiecka(writer, document, f);
+                        PdfFP.stopkaniemiecka(writer, document, f);
                     }
                 } else {
                     PdfFP.dodajnaglowekstopka(writer, elementydod);
@@ -315,6 +309,19 @@ public class PdfFaktura extends Pdf implements Serializable {
                     RequestContext.getCurrentInstance().execute(funkcja);
                 }
         }
+    }
+    
+    private PdfWriter writerCreate(Document document, int nrfakt) {
+        PdfWriter writer = null;
+        try {
+            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
+            writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+            writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
+            writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+        } catch (Exception ex) {
+            Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return writer;
     }
     
     private boolean czyjeststopkaniemiecka(List<Fakturadodelementy> elementydod) {
@@ -360,38 +367,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             }        
     }
     
-    private static void stopkaniemiecka(PdfWriter writer, Document document, FakturaStopkaNiemiecka f) {
-        PdfPTable table = null;
-        try {
-            table = new PdfPTable(4);
-            table.setTotalWidth(new float[]{165,120,120,165});
-            table.setWidthPercentage(95);
-            table.getDefaultCell().setBorderColor(BaseColor.WHITE);
-            table.addCell(ustawfrazeAlignNOBorder(f.getNazwafirmy(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Mobil: "+f.getKomorka(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Amstgericht Hanau"+f.getUrzadskarbowy(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder(f.getBank(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Geschäftsführer "+f.getPrezes(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Büro: "+f.getTelefon(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("HRB "+f.getKrs(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("IBAN "+f.getIban(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder(f.getUlica(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("", "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Finanzamt "+f.getUrzadskarbowy(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("BIC "+f.getBic(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder(f.getMiejscowosc(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Mail: "+f.getEmail(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Steuernummer "+f.getNip(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("BLZ "+f.getBlz()+" | KTO-NR "+f.getKtonr(), "left", 7));
-            table.completeRow();
-            table.writeSelectedRows(0, -1,
-            document.left(document.leftMargin()+15f),
-            table.getTotalHeight() + document.bottom(document.bottomMargin()-15f), 
-            writer.getDirectContent());
-        } catch (DocumentException ex) {
-            Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 
 public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();

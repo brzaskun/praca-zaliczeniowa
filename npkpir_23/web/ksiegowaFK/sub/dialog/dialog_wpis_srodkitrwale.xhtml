@@ -113,6 +113,7 @@
                         <pe:inputNumber value="#{loop.netto}" symbol=" zł" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
+                            <p:ajax event="focus" onstart="r('srodkiwpis:buttonsrodektrw').show();" global="false"/>
                         </pe:inputNumber>
                     </p:column>
                     <p:column headerText="pod.VAT" style="text-align: center;">
@@ -152,7 +153,7 @@
                 <p:column>
                     <p:selectOneListbox value="#{srodkiTrwaleView.selectedSTR.kontoumorzenie}" style="width: 350px;" scrollHeight="95" converter="KontoConv">
                         <f:selectItems value="#{planKontBOView.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
-                        <p:ajax event="focus" onstart="r('srodkiwpis:buttonsrodektrw').show();" global="false"/>
+                        
                     </p:selectOneListbox>
                 </p:column>
             </p:panelGrid>
