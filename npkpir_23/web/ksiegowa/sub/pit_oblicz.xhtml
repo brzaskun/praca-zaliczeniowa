@@ -149,9 +149,7 @@
             </h:form>
         </p:tab>
         <p:tab id="tab4" title="Oblicz Ryczałt" rendered="#{!WpisView.ksiegaryczalt}">
-            <h:form>
-
-            </h:form> 
+            <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
             <h:form id="formpit1">
                 <p:growl life="3600"  id="messages" autoUpdate="true" />
                 <p:panelGrid  columns="3" >
@@ -162,6 +160,9 @@
                             <f:selectItems value="#{ZestawienieRyczaltView.listawybranychudzialowcow}"/>
                             <p:ajax event="change" update=":akordeon:formpit1" listener="#{ZestawienieRyczaltView.obliczPit()}"/>
                         </p:selectOneMenu>
+                        <p:panel header="opodatkowanie: "/>
+                        <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
+                        <h:outputText value="#{WpisView.mc0kw1 ? ' rozliczenie kwartalne': null}"/>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >
                         <p:panel header="dane do ryczałtu: #{ZestawienieRyczaltView.wybranyudzialowiec} #{ZestawienieRyczaltView.wybranyprocent}%" style="width: 450px;"/>

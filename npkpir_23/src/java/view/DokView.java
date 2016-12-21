@@ -341,7 +341,11 @@ public final class DokView implements Serializable {
         }
         List valueList = new ArrayList();
         UISelectItems ulista = new UISelectItems();
-        kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
+        if (wpisView.isKsiegaryczalt()) {
+            kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
+        } else {
+            kolumny = Kolmn.zwrockolumny();
+        }
         /*dodajemy na poczatek zwyczajawa kolumne klienta*/
         if (selDokument.getKontr() != null) {
             if (selDokument.getKontr().getPkpirKolumna() != null) {

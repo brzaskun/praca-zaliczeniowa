@@ -105,6 +105,10 @@ public class Kolmn implements Serializable{
         }
     }
     
+     public static List<String> zwrockolumny() {
+         return kolumnRyczalt;
+    }
+    
     public static void main(String[] args) {
         
         String pricesString = "1 100.00zł";
