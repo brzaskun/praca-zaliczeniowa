@@ -8,8 +8,8 @@
 
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tabView id="akordeon" >
-
         <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ksiegaryczalt}" >
+            <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
             <h:form id="formpit">
                 <p:growl life="3600"  id="messages" autoUpdate="true" />
                 <h:outputText value="#{ZestawienieView.komunikatblad}" style="color: red;"/>
@@ -37,9 +37,10 @@
                         <h:outputText value="#{ZestawienieView.wybranyudzialowiec}"/>
                         <p:panel header="opodatkowanie: "/>
                         <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
+                        <h:outputText value="#{WpisView.mc0kw1 ? ' rozliczenie kwartalne': null}"/>
                         <h:outputText id="pole1" value="czy to jest pierwszy PIT w roku?" rendered="#{ZestawienieView.pierwszypitwrokuzaznacz}"/>
                         <h:selectBooleanCheckbox id="pole2" value="#{ZestawienieView.pierwszypitwroku}"  rendered="#{ZestawienieView.pierwszypitwrokuzaznacz}">
-                            <p:ajax event="change" partialSubmit="true" listener="#{ZestawienieView.obliczPit()}" global="false"/>
+                            <p:ajax event="change" partialSubmit="true"  global="false"/>
                         </h:selectBooleanCheckbox>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >
