@@ -344,7 +344,7 @@ public final class DokView implements Serializable {
         if (wpisView.isKsiegaryczalt()) {
             kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
         } else {
-            kolumny = Kolmn.zwrockolumny();
+            kolumny = Kolmn.zwrockolumnyR(transakcjiRodzaj);
         }
         /*dodajemy na poczatek zwyczajawa kolumne klienta*/
         if (selDokument.getKontr() != null) {
