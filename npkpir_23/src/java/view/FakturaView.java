@@ -344,10 +344,13 @@ public class FakturaView implements Serializable {
                    selected.setWygenerowanaautomatycznie(false);
             }
             fakturaDAO.edit(selected);
+            faktury = new ArrayList<>();
             init();
             Msg.msg("i", "Wyedytowano fakturę.");
             pokazfakture = false;
             fakturaxxl = false;
+            fakturaniemiecka = false;
+            fakturazwykla = false;
             fakturakorekta = false;
             selected = new Faktura();
             
@@ -372,6 +375,9 @@ public class FakturaView implements Serializable {
             //dataTablepozycjenafakturze.setStyle("width: 790px;");
             //dataTablepozycjenafakturzekorekta.setStyle("width: 790px;");
         }
+        fakturazwykla = faktura.isFakturaNormalna();
+        fakturaxxl = faktura.isFakturaxxl();
+        fakturaniemiecka = faktura.isFakturaniemiecka13b();
         fakturakorekta = faktura.getPozycjepokorekcie() != null;
         aktywnytab = 0;
         pokazfakture = true;
@@ -389,7 +395,9 @@ public class FakturaView implements Serializable {
         selected.setZaksiegowana(false);
         selected.setWyslana(false);
         selected.setPrzyczynakorekty("Korekta faktury nr "+faktura.getFakturaPK().getNumerkolejny()+" z dnia "+faktura.getDatawystawienia()+" z powodu: ");
+        fakturazwykla = faktura.isFakturaNormalna();
         fakturaxxl = faktura.isFakturaxxl();
+        fakturaniemiecka = faktura.isFakturaniemiecka13b();
         fakturakorekta = true;
         aktywnytab = 0;
         pokazfakture = true;
