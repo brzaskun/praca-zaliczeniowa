@@ -105,9 +105,31 @@ public class Kolmn implements Serializable{
         }
     }
     
-     public static List<String> zwrockolumny() {
-         return kolumnRyczalt;
+    public static List<String> zwrockolumnyR(String transakcjiRodzaj) {
+        switch (transakcjiRodzaj) {
+            case "ryczałt":
+            case "ryczałt bez VAT":
+                return kolumnRyczalt;
+            case "zakup":
+            case "import usług":
+            case "WNT":
+            case "odwrotne obciążenie":
+                return kolumnKoszty;
+            case "srodek trw":
+            case "inwestycja":
+                return kolumnST;
+            case "srodek trw sprzedaz":
+                return kolumnSTsprz;
+            case "eksport towarów":
+            case "usługi poza ter.":
+            case "WDT":
+            case "sprzedaz":
+                return kolumnRyczalt;
+            default:
+                return kolumnList;
+        }
     }
+    
     
     public static void main(String[] args) {
         

@@ -163,7 +163,7 @@ public class VatUeFKView implements Serializable {
     
     private boolean warunekkontrahenci(Dokfk p) {
         boolean zwrot = false;
-        if (Data.czyjestpo("2016-11-30  ", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
+        if (Data.czyjestpo("2016-11-30", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
             zwrot = p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK100");
         } else {
             zwrot = p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK");
