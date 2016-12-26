@@ -29,6 +29,8 @@ import java.security.PermissionCollection;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -309,61 +311,66 @@ public class JavaApplication1 {
         return content.toCharArray();
     }
 
-    public static void main(String[] args) throws Exception {
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("Blowfish");
-        keyGenerator.init(128);
-        Key blowfishKey = keyGenerator.generateKey();
+//    public static void hello() throws Exception {
+//        KeyGenerator keyGenerator = KeyGenerator.getInstance("Blowfish");
+//        keyGenerator.init(128);
+//        Key blowfishKey = keyGenerator.generateKey();
+//
+//        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+//        keyPairGenerator.initialize(1024);
+//        KeyPair keyPair = keyPairGenerator.genKeyPair();
+//
+//        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+//        cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
+//
+//        byte[] blowfishKeyBytes = blowfishKey.getEncoded();
+//        System.out.println(new String(blowfishKeyBytes));
+//        byte[] cipherText = cipher.doFinal(blowfishKeyBytes);
+//        System.out.println(new String(cipherText));
+//        cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
+//
+//        byte[] decryptedKeyBytes = cipher.doFinal(cipherText);
+//        System.out.println(new String(decryptedKeyBytes));
+//        SecretKey newBlowfishKey = new SecretKeySpec(decryptedKeyBytes, "Blowfish");
+//    }
 
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(1024);
-        KeyPair keyPair = keyPairGenerator.genKeyPair();
-
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
-
-        byte[] blowfishKeyBytes = blowfishKey.getEncoded();
-        System.out.println(new String(blowfishKeyBytes));
-        byte[] cipherText = cipher.doFinal(blowfishKeyBytes);
-        System.out.println(new String(cipherText));
-        cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
-
-        byte[] decryptedKeyBytes = cipher.doFinal(cipherText);
-        System.out.println(new String(decryptedKeyBytes));
-        SecretKey newBlowfishKey = new SecretKeySpec(decryptedKeyBytes, "Blowfish");
-    }
-
-    public byte[] readFileBytes(String filename) throws IOException {
+    public static byte[] readFileBytes(String filename) throws IOException {
         Path path = Paths.get(filename);
         return Files.readAllBytes(path);
     }
 
-    public PrivateKey readPrivateKey(String filename) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PrivateKey readPrivateKey(String filename) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(readFileBytes(filename));
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         return keyFactory.generatePrivate(keySpec);
     }
 
-    public PublicKey readPublicKey(String filename) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        X509EncodedKeySpec publicSpec = new X509EncodedKeySpec(readFileBytes(filename));
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        return keyFactory.generatePublic(publicSpec);
+    public static PublicKey readPublicKey(String filename) throws Exception {
+        FileInputStream fin = new FileInputStream(filename);
+        CertificateFactory f = CertificateFactory.getInstance("X.509");
+        X509Certificate certificate = (X509Certificate)f.generateCertificate(fin);
+        return certificate.getPublicKey();
+//        X509EncodedKeySpec publicSpec = new X509EncodedKeySpec(readFileBytes(filename));
+//        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//        return keyFactory.generatePublic(publicSpec);
     }
 
-    public byte[] encrypt(PublicKey key, byte[] plaintext) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
+    public static byte[] encrypt(PublicKey key, byte[] plaintext) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, key);
         return cipher.doFinal(plaintext);
     }
 
-    public byte[] decrypt(PrivateKey key, byte[] ciphertext) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
+    public static byte[] decrypt(PrivateKey key, byte[] ciphertext) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.DECRYPT_MODE, key);
         return cipher.doFinal(ciphertext);
     }
 
-    public void Hello() {
+    public static void main(String[] args) {
         try {
-            PublicKey publicKey = readPublicKey("public.der");
+            removeCryptographyRestrictions();
+            PublicKey publicKey = readPublicKey("D:\\Biuro\\JPK\\wysylka\\pubkey.pem");
             PrivateKey privateKey = readPrivateKey("private.der");
             byte[] message = "Hello World".getBytes("UTF8");
             byte[] secret = encrypt(publicKey, message);
