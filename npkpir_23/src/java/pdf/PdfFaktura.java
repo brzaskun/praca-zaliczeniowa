@@ -214,7 +214,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             boolean jestkorekta = selected.getPozycjepokorekcie() != null;
             if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta) || (wierszewtabelach > 7 && jestkorekta)) {
                 Document document = new Document();
-                PdfWriter writer = writerCreate(document, nrfakt);
+                PdfWriter writer = writerCreate(document, nrfakt, wpisView.getPodatnikObiekt().getNip());
                 String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
                 PdfFP.dodajopisdok(document);
                 document.setMargins(0, 0, 400, 20);
@@ -284,7 +284,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 System.out.println("no ");
             } else {
                 Document document = new Document();
-                PdfWriter writer = writerCreate(document, nrfakt);
+                PdfWriter writer = writerCreate(document, nrfakt, wpisView.getPodatnikObiekt().getNip());
                 PdfFP.dodajopisdok(document);
                 document.open();
                 document.setMargins(0, 0, 20, 20);
@@ -311,15 +311,15 @@ public class PdfFaktura extends Pdf implements Serializable {
         }
     }
     
-    private PdfWriter writerCreate(Document document, int nrfakt) {
+    private PdfWriter writerCreate(Document document, int nrfakt, String NIP) {
         PdfWriter writer = null;
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
+            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ NIP + ".pdf";
             writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
             writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
             writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
         } catch (Exception ex) {
-            Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
         return writer;
     }
