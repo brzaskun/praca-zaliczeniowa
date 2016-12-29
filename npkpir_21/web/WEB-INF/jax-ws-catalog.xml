@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="file:/C:/uslugi/dokumenty.wsdl" uri="wsdl/dokumenty.wsdl"/>
-    <system systemId="file:/C:/uslugi/GateService.xsd" uri="wsdl/GateService.xsd"/>
-    <system systemId="file:/C:/uslugi/test/testdok.wsdl" uri="wsdl/testdok.wsdl"/>
-    <system systemId="file:/C:/uslugi/test/GateService.xsd" uri="wsdl/GateService.xsd"/>
-</catalog>
