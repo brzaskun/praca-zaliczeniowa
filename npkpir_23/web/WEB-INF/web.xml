@@ -240,6 +240,18 @@
         <error-code>403</error-code>
         <location>/faces/AccessDenied.xhtml?faces-redirect=true</location>
     </error-page>
+     <error-page>
+        <error-code>500</error-code>
+        <location>/faces/PropertyNotFoundException.xhtml?faces-redirect=true</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.faces.application.PropertyNotFoundException</exception-type>
+        <location>/faces/PropertyNotFoundException.xhtml?faces-redirect=true</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.IllegalStateException</exception-type>
+        <location>/faces/PropertyNotFoundException.xhtml?faces-redirect=true</location>
+    </error-page>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
         <location>/faces/SessionExpired.xhtml?faces-redirect=true</location>

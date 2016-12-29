@@ -68,6 +68,17 @@
                     <br/>
                     <p:graphicImage value="../resources/images/template-loader.gif" style="margin-top: 30px;"/>
                 </p:outputPanel>
+                 <h:form>
+                <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
+                          height="500px">
+                    Message: #{pfExceptionHandler.message} <br/>
+                    StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" /> <br />
+
+                    <p:button onclick="document.location.href = document.location.href;"
+                              value="Reload!"
+                              rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
+                </p:dialog>
+            </h:form>
                 <ui:insert class="bodi" name="body"> 
                 </ui:insert>
 

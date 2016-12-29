@@ -11,13 +11,11 @@ import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
-import daoFK.DokDAOfk;
 import daoFK.EVatwpisFKDAO;
 import data.Data;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
-import embeddable.Mce;
 import embeddable.Parametr;
 import entity.Dok;
 import entity.EVatwpis1;
@@ -113,6 +111,8 @@ public class EwidencjaVatView implements Serializable {
     private List<EVatViewPola> filteredwierszeewidencji;
     private List<EVatViewPola> zachowanewybranewierszeewidencji;
     private Evewidencja ewidencjazakupu;
+    private String ewidencjadosprawdzania;
+    private List<EVatViewPola> wybranaewidencja;
 
     public EwidencjaVatView() {
         nazwyewidencji = new ArrayList<>();
@@ -232,6 +232,7 @@ public class EwidencjaVatView implements Serializable {
             }
             RequestContext.getCurrentInstance().update("form");
             RequestContext.getCurrentInstance().update("formEwidencjeGuest");
+            RequestContext.getCurrentInstance().update("form_dialog_ewidencjevat_sprawdzanie");
         } catch (Exception e) { 
             E.e(e); 
             System.out.println("blad przy tworzeniu ewidencji vat "+e.getMessage());
@@ -903,6 +904,10 @@ public class EwidencjaVatView implements Serializable {
 
         }
     }
+     
+     public void wybierzewidencje() {
+         wybranaewidencja = listaewidencji.get(ewidencjadosprawdzania);
+     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     //generuje poszczegolen ewidencje
@@ -1060,6 +1065,8 @@ public class EwidencjaVatView implements Serializable {
     public void setNazwaewidencjiMail(String nazwaewidencjiMail) {
         this.nazwaewidencjiMail = nazwaewidencjiMail;
     }
+
+    
 
     public List<EVatViewPola> getFilteredwierszeewidencji() {
         return filteredwierszeewidencji;
@@ -1282,6 +1289,22 @@ public class EwidencjaVatView implements Serializable {
         return sumaprzesunietychBardziejPrzychody;
     }
 
+    public List<String> getNazwyewidencji() {
+        return nazwyewidencji;
+    }
+
+    public void setNazwyewidencji(List<String> nazwyewidencji) {
+        this.nazwyewidencji = nazwyewidencji;
+    }
+
+    public String getEwidencjadosprawdzania() {
+        return ewidencjadosprawdzania;
+    }
+
+    public void setEwidencjadosprawdzania(String ewidencjadosprawdzania) {
+        this.ewidencjadosprawdzania = ewidencjadosprawdzania;
+    }
+
     public void setSumaprzesunietychBardziejPrzychody(double sumaprzesunietychBardziejPrzychody) {
         this.sumaprzesunietychBardziejPrzychody = sumaprzesunietychBardziejPrzychody;
     }
@@ -1290,6 +1313,15 @@ public class EwidencjaVatView implements Serializable {
         return wybranewierszeewidencji;
     }
 
+    public List<EVatViewPola> getWybranaewidencja() {
+        return wybranaewidencja;
+    }
+
+    public void setWybranaewidencja(List<EVatViewPola> wybranaewidencja) {
+        this.wybranaewidencja = wybranaewidencja;
+    }
+
+    
     public void setWybranewierszeewidencji(List<EVatViewPola> wybranewierszeewidencji) {
         this.wybranewierszeewidencji = wybranewierszeewidencji;
         if (wybranewierszeewidencji != null && wybranewierszeewidencji.size() > 0) {
