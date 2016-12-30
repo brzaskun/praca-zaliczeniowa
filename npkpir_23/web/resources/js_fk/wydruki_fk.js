@@ -33,12 +33,6 @@ var wydrukWNTWDT = function(kto){
     window.open('../wydruki/'+kto+'dokumentwntwdt.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50')
     , 4000);
 };
-var wydrukzbiorczeryczalt = function(kto){
-    window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    try {
-        document.getElementById("akordeon:form:zestawieniewysylka").style.display='inline';
-    } catch (e) {}
-};
 
 var wydrukstr = function(kto){
     window.open('../wydruki/srodki'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');

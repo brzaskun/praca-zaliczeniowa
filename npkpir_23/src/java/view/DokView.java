@@ -392,6 +392,21 @@ public final class DokView implements Serializable {
                 List<Evewidencja> opisewidencji = new ArrayList<>();
                 selDokument.setDokumentProsty(false);
                 opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(transakcjiRodzaj));
+                if (typdokumentu.equals("UPTK")) {
+                    for (Iterator<Evewidencja> it = opisewidencji.iterator(); it.hasNext();) {
+                        Evewidencja p = it.next();
+                        if (p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
+                            it.remove();
+                        }
+                    }
+                } else if (typdokumentu.equals("UPTK100")) {
+                    for (Iterator<Evewidencja> it = opisewidencji.iterator(); it.hasNext();) {
+                        Evewidencja p = it.next();
+                        if (p.getNazwa().equals("usługi świad. poza ter.kraju")) {
+                            it.remove();
+                        }
+                    }
+                }
                 double sumanetto = sumujnetto();
                 Tabelanbp t = selDokument.getTabelanbp();
                 if (t != null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {

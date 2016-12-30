@@ -99,17 +99,7 @@
             <!--        <h:form id="templateform">
                         <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="{Logowanie.logout()}" style="display: none;"/>
                     </h:form>-->
-            <h:form>
-                <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
-                          height="500px">
-                    Message: #{pfExceptionHandler.message} <br/>
-                    StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" /> <br />
-
-                    <p:button onclick="document.location.href = document.location.href;"
-                              value="Reload!"
-                              rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
-                </p:dialog>
-            </h:form>
+            
             <ui:insert name="body" > 
                 
             </ui:insert>
