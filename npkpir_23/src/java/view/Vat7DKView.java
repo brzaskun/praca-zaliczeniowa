@@ -582,21 +582,21 @@ public class Vat7DKView implements Serializable {
                         f = 1;
                     } else if (badana.getStatus().startsWith("4")) {
                         pozycjeDeklaracjiVAT.setCelzlozenia("1");
-                        Msg.msg("i", "Utworzono nową deklarację"+l+". Wysłanie poprzedniej zakończyło się błędem","form:messages");
+                        Msg.msg("w", "Utworzono nową deklarację"+l+". Wysłanie poprzedniej zakończyło się błędem. Jeśli chcesz sporządzić korektę usuń najpierw błędną deklarację.","form:messages");
                         nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                     } else if (badana.getStatus().startsWith("200") && pierwotnazamiastkorekty == false) {
                         nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                         pozycjeDeklaracjiVAT.setCelzlozenia("2");
-                        Msg.msg("i", "Przygotowano do zachowania korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc,"form:messages");
-                        Msg.msg("i", "Prosze wypełnić treść załącznika ORD-ZU zawierającego wyjaśnienie przyczyny korekty","form:messages");
+                        Msg.msg("w", "Przygotowano do zachowania korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc,"form:messages");
+                        Msg.msg("w", "Prosze wypełnić treść załącznika ORD-ZU zawierającego wyjaśnienie przyczyny korekty","form:messages");
                     } else if (badana.getStatus().startsWith("200") && pierwotnazamiastkorekty == true) {
                         nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                         pozycjeDeklaracjiVAT.setCelzlozenia("1");
-                        Msg.msg("i", "Wysłano już deklarację za ten okres. Jednakże w opcjach ustawiono wymuszenie deklaracji pierwotnej","form:messages");
-                        Msg.msg("i", "Przygotowano do zachowania drugą wersję poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc,"form:messages");
+                        Msg.msg("w", "Wysłano już deklarację za ten okres. Jednakże w opcjach ustawiono wymuszenie deklaracji pierwotnej","form:messages");
+                        Msg.msg("w", "Przygotowano do zachowania drugą wersję poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc,"form:messages");
                     } else {
                         f = 1;
-                        Msg.msg("i", "Wystąpił dziwny błąd wołaj szefa","form:messages");
+                        Msg.msg("e", "Wystąpił dziwny błąd wołaj szefa","form:messages");
 
                     }
                 }

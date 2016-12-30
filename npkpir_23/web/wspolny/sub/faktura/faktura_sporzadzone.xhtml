@@ -38,7 +38,7 @@
                 <p:menuitem value="Oznacz jako zaksiegowaną" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakozaksiegowane()}" />
                 <p:menuitem value="Wymuś usunięcie" update=":akordeon:formsporzadzone:dokumentyLista,  :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.wymusdestroysporzadzone()}" icon="ui-icon-trash" />
             </p:contextMenu>
-            <p:panelGrid id="panelsum">
+            <p:panelGrid id="panelsum" style="height: 40px;">
                 <f:facet name="header">
                     <p:row>
                     <p:column>
@@ -69,6 +69,9 @@
                         <bcf:outputpl id="podsumowaniewybrbrutto" value="#{fakturaView.podsumowaniewybranychbrutto}"/>
                     </p:column>
                 </p:row>
+            </p:panelGrid>
+            <p:panelGrid rendered="#{sMTPSettingsView.selected eq nukl}">
+                <h:outputText value="Nie skonfigurowano maila firmy. Faktury będą wysyłane z domyślnego maila programu: info@taxman.pl" style="font-weight: 900; color: red;"/>
             </p:panelGrid>
             <p:panel header="dołącz krótką wiadomość do wysyłanego maila">
                 <h:inputText value="#{fakturaView.wiadomoscdodatkowa}" style="width: 800px;"/>
@@ -119,7 +122,10 @@
                 </p:column>
                 <p:column styleClass="data3" headerText="wys." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains"  
                           style="text-align: center;"  width="30">
-                    <h:outputText value="#{wpis.wyslana ? 'tak' : 'nie'}"/>
+                    <h:outputText value="#{wpis.datawysylki}" rendered="#{wpis.wyslana}">
+                        <f:convertDateTime dateStyle="short"/>
+                    </h:outputText>
+                    <h:outputText value="nie" rendered="#{!wpis.wyslana}" style="color: green;"/>
                 </p:column>
                 <p:column styleClass="data3" headerText="zaks." sortBy="#{wpis.zaksiegowana}" filterBy="#{wpis.zaksiegowana ? 'tak' : 'nie'}" filterMatchMode="contains"  
                           style="text-align: center;" width="30">

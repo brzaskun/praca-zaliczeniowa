@@ -73,7 +73,15 @@ public class SMTPSettingsView implements Serializable {
     
     public void przygotujedycja() {
         nowy = selected;
-        Msg.msg("Pobrano do edycji");
+        Msg.msg("Pobrano dane do edycji");
+    }
+    
+    public void usunsmtp() {
+        nowy = new SMTPSettings();
+        if (selected != null) {
+            sMTPSettingsDAO.destroy(selected);
+        }
+        Msg.msg("Usunięto konfigurację maila do wysyłki faktur");
     }
     
     public WpisView getWpisView() {

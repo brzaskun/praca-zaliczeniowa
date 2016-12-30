@@ -100,7 +100,10 @@
                 </p:column>
                 <p:column headerText="wysł." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}"
                           filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;"  width="30">
-                    <h:outputText value="#{wpis.wyslana ? 'tak' : 'nie'}"/>
+                   <h:outputText value="#{wpis.datawysylki}" rendered="#{wpis.wyslana}">
+                       <f:convertDateTime  pattern="dd-MM"/>
+                    </h:outputText>
+                    <h:outputText value="nie" rendered="#{!wpis.wyslana}" style="color: green;"/>
                 </p:column>
                 <p:column headerText="zaks." sortBy="#{wpis.zaksiegowana}" filterBy="#{zaksiegowana ? 'tak' : 'nie'}"
                           filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;" width="30">
