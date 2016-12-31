@@ -303,6 +303,7 @@ public class BilansWprowadzanieView implements Serializable {
         listaBO.addAll(wierszemac);
         Collections.sort(listaBO, new WierszBOcomparator());
         podsumujWnMa(listaBO, listaBOsumy);
+        nraktualnejlisty = 9;
         if (listaBOFiltered != null) {
             listaBOFiltered = null;
             RequestContext.getCurrentInstance().execute("try{PF('tab0prosta').clearFilters()}catch(e){}");

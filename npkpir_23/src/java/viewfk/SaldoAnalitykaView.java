@@ -239,7 +239,7 @@ public class SaldoAnalitykaView implements Serializable {
         Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
         for (Konto p : kontaklienta) {
-            if (p.getPelnynumer().equals("202-1-5")) {
+            if (p.getPelnynumer().equals("201-2-34")) {
                 System.out.println("stop");
             }
             SaldoKonto saldoKonto = new SaldoKonto();

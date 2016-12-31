@@ -286,13 +286,15 @@
                     <f:facet name="header">
                         <h:outputText value="Kwota Wn"/>
                     </f:facet>
-                    <bcf:outputpl value="#{item.kwotaWn}" rendered="#{item.kwotaWn ne 0.0}"/>
+                    <bcf:outputpl value="#{item.kwotaWn}" rendered="#{item.kwotaWn ne 0.0 and bilansWprowadzanieView.nraktualnejlisty ne 9}"/>
+                    <bcf:outputpl value="#{item.kwotaWnPLN}" rendered="#{item.kwotaWnPLN ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
                 </p:column>
                 <p:column style="text-align: center;" sortBy="#{item.kwotaMa}" width="90">
                     <f:facet name="header">
                         <h:outputText value="Kwota Ma"/>
                     </f:facet>
-                    <bcf:outputpl value="#{item.kwotaMa}" rendered="#{item.kwotaMa ne 0.0}"/>
+                    <bcf:outputpl value="#{item.kwotaMa}" rendered="#{item.kwotaMa ne 0.0 and bilansWprowadzanieView.nraktualnejlisty ne 9}"/>
+                    <bcf:outputpl value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
                 </p:column>
                 <p:column style="text-align: center;" width="40">
                     <f:facet name="header">
@@ -394,19 +396,22 @@
             <p:panelGrid columns="2">
                 <p:column>
                     <p:panelGrid  id="sum0" columns="12" style="margin-top: 10px;margin-left: 10px;">
+                        <p:outputPanel  rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 9}">
                         <h:outputText value="Wn: "/>
-                            <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(0)}" rendered="true" style="font-weight: 900;"/>
+                            <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(0)}" style="font-weight: 900;"/>
                         <h:outputText value=" Ma: " style="margin-left: 10px;"/>
-                            <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(1)}" rendered="true" style="font-weight: 900;"/>
+                            <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(1)}" style="font-weight: 900;"/>
                         <h:outputText value=" różnica: " style="margin-left: 10px;font-weight: 900;"/>
-                        <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(2)}" rendered="true" style="margin-left: 10px;font-weight: 900;; color: #{bilansWprowadzanieView.listaBOsumy.get(0) - bilansWprowadzanieView.listaBOsumy.get(1) != 0 ? 'red' : 'black'};"/>
-                        <p:outputPanel rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}">
+                            <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(2)}" style="margin-left: 10px;font-weight: 900; color: #{bilansWprowadzanieView.listaBOsumy.get(0) - bilansWprowadzanieView.listaBOsumy.get(1) != 0 ? 'red' : 'black'};"
+                                          />
+                        </p:outputPanel>
+                        <p:outputPanel rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2 or bilansWprowadzanieView.nraktualnejlisty eq 9}">
                             <h:outputText value="Wn-PLN: "/>
-                                 <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(3)}" rendered="true" style="font-weight: 900;"/>
+                                 <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(3)}" style="font-weight: 900;"/>
                              <h:outputText value=" Ma-PLN: " style="margin-left: 10px;"/>
-                                <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(4)}" rendered="true" style="font-weight: 900;"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(4)}" style="font-weight: 900;"/>
                             <h:outputText value=" różnica PLN: " style="margin-left: 10px;"/>
-                            <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(5)}" rendered="true" style="margin-left: 10px;font-weight: 900;; color: #{bilansWprowadzanieView.listaBOsumy.get(3) - bilansWprowadzanieView.listaBOsumy.get(4) != 0 ? 'red' : 'black'};"/>
+                            <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(5)}" style="margin-left: 10px;font-weight: 900;; color: #{bilansWprowadzanieView.listaBOsumy.get(3) - bilansWprowadzanieView.listaBOsumy.get(4) != 0 ? 'red' : 'black'};"/>
                         </p:outputPanel>
                     </p:panelGrid>
                 </p:column>

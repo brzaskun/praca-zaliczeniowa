@@ -499,7 +499,7 @@
                             <pe:inputNumber id="wnpln" value="#{loop.stronaWn.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{loop.stronaWn != null}" 
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
-                                            readOnly="true"
+                                            
                                             >
                                 <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                             </pe:inputNumber>
@@ -546,7 +546,7 @@
                             <pe:inputNumber id="mapln" value="#{loop.stronaMa.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{loop.stronaMa != null}"
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
-                                            readonly="true"
+                                            
                                             >
                                 <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                             </pe:inputNumber> 
