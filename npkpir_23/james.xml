@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Wniosek_VAT-ZZ xmlns="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/08/03/eD/VATZZ/">
+    <Naglowek>
+        <WariantFormularza>0</WariantFormularza>
+    </Naglowek>
+    <PozycjeSzczegolowe>
+        <P_8>1</P_8>
+        <P_9>100</P_9>
+        <P_10>Bo tak</P_10>
+    </PozycjeSzczegolowe>
+</Wniosek_VAT-ZZ>

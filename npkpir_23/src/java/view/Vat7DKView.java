@@ -110,6 +110,7 @@ public class Vat7DKView implements Serializable {
     private DeklaracjaVatSchema pasujacaSchema;
     private HashMap<String, EVatwpisSuma> mapaewidencji;
     private boolean pokazinfovatzz;
+    private boolean flagazt;
    
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -190,6 +191,7 @@ public class Vat7DKView implements Serializable {
     }
     
     public void obliczNowa() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        flagazt = false;
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
         String vatokres = sprawdzjakiokresvat();
         if (!vatokres.equals("miesięczne")) {
@@ -268,6 +270,7 @@ public class Vat7DKView implements Serializable {
             doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
             pokazinfovatzz =  false;
             if (zwrot25dni != null) {
+                ustawflagazt(nż);
                 pokazinfovatzz = true;
                 DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
                 DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
@@ -276,6 +279,7 @@ public class Vat7DKView implements Serializable {
                 doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot25dni);
             }
             if (zwrot60dni != null) {
+                ustawflagazt(nż);
                 DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
                 DeklaracjaVatSchemaWierszSum narachunek60dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 60 dni");
                 narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot60dni);
@@ -283,6 +287,7 @@ public class Vat7DKView implements Serializable {
                 doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot60dni);
             }
             if (zwrot180dni != null) {
+                ustawflagazt(nż);
                 DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
                 DeklaracjaVatSchemaWierszSum narachunek180dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 180 dni");
                 narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot180dni);
@@ -290,6 +295,12 @@ public class Vat7DKView implements Serializable {
                 doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot180dni);
             }
            VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
+        }
+    }
+    
+    private void ustawflagazt(int nż) {
+        if (nż == 0) {
+            flagazt = true;
         }
     }
     
@@ -993,6 +1004,14 @@ public class Vat7DKView implements Serializable {
 
     public void setPokazinfovatzz(boolean pokazinfovatzz) {
         this.pokazinfovatzz = pokazinfovatzz;
+    }
+
+    public boolean isFlagazt() {
+        return flagazt;
+    }
+
+    public void setFlagazt(boolean flagazt) {
+        this.flagazt = flagazt;
     }
 
     

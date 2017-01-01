@@ -66,6 +66,7 @@ public class DeklaracjevatView implements Serializable {
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
     private boolean pokazZT;
+    private boolean pokazZZ;
 
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();
@@ -79,6 +80,8 @@ public class DeklaracjevatView implements Serializable {
     
     @PostConstruct
     private void init() {
+        pokazZT = false;
+        pokazZZ = false;
         wyslane = new ArrayList<>();
         oczekujace = new ArrayList<>();
         wyslanenormalne = new ArrayList<>();
@@ -90,9 +93,22 @@ public class DeklaracjevatView implements Serializable {
             if (oczekujace != null && oczekujace.size() == 1) {
                 Deklaracjevat p = oczekujace.get(0);
                 DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(p.getSchemawierszsumarycznylista(),"do zwrotu w terminie 25 dni");
-                int kwota = narachunek25dni.getDeklaracjaVatWierszSumaryczny().getSumavat();
-                if (kwota > 0 && p.getVatzt() == null) {
+                int kwota25 = narachunek25dni.getDeklaracjaVatWierszSumaryczny().getSumavat();
+                if (kwota25 > 0 && p.getVatzt() == null) {
                     pokazZT = true;
+                } else {
+                    DeklaracjaVatSchemaWierszSum narachunek60dni = VATDeklaracja.pobierzschemawiersz(p.getSchemawierszsumarycznylista(),"do zwrotu w terminie 60 dni");
+                    DeklaracjaVatSchemaWierszSum narachunek180dni = VATDeklaracja.pobierzschemawiersz(p.getSchemawierszsumarycznylista(),"do zwrotu w terminie 180 dni");
+                    int kwota60 = narachunek60dni.getDeklaracjaVatWierszSumaryczny().getSumavat();
+                    int kwota180 = narachunek180dni.getDeklaracjaVatWierszSumaryczny().getSumavat();
+                    DeklaracjaVatSchemaWierszSum sumasprzedazy = VATDeklaracja.pobierzschemawiersz(p.getSchemawierszsumarycznylista(),"Razem (suma przychodów)");
+                    int vatkwota = sumasprzedazy.getDeklaracjaVatWierszSumaryczny().getSumavat();
+                    if ((kwota60 > 0 || kwota180 > 0) && vatkwota == 0) {
+                        pokazZZ = true;
+                    }
+                    if (kwota25 > 0 && p.getVatzt() == null) {
+                        pokazZT = true;
+                    }
                 }
             }
         } catch (Exception e) {
@@ -299,6 +315,14 @@ public class DeklaracjevatView implements Serializable {
 
     public void setSelected(Deklaracjevat selected) {
         this.selected = selected;
+    }
+
+    public boolean isPokazZZ() {
+        return pokazZZ;
+    }
+
+    public void setPokazZZ(boolean pokazZZ) {
+        this.pokazZZ = pokazZZ;
     }
 
    
