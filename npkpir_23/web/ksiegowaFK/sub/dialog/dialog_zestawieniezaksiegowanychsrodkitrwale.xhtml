@@ -77,7 +77,10 @@
                 /* ]]> */
             </script>
             <p:contextMenu for="dataListsrodkitrwale" style="width: 200px;">
-                <p:menuitem value="dodaj środek trw." icon="fa fa-truck" actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyDokfk(dokfkView.selectedlist)}" oncomplete="PF('dialogwpissrodkitrwale').show();" update="dialogwpissrodkitrwale"/>
+                <p:menuitem value="dodaj środek trw." icon="fa fa-truck" 
+                            actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyDokfk(dokfkView.selectedlist)}" 
+                            oncomplete="PF('dialogwpissrodkitrwale').show();"
+                            update="dialogwpissrodkitrwale"/>
                 <p:menuitem value="usuń zaznaczone" icon="fa fa-times" actionListener="#{dokfkView.usunzaznaczone}" update=":form_dialog_zestawieniezaksiegowanychsrodkitrwale:dataListsrodkitrwale"/>
             </p:contextMenu>
 
