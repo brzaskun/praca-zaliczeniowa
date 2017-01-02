@@ -382,6 +382,7 @@ public class Vat7DKView implements Serializable {
     
     private String kwotaautoryzujcaPobierz() {
         String kwotaautoryzujaca = null;
+        String kwotaautoryzujacarokpop = null;
         try {
             List<Parametr> listakwotaautoryzujaca = wpisView.getPodatnikObiekt().getKwotaautoryzujaca();
             if (listakwotaautoryzujaca.isEmpty()) {
@@ -390,11 +391,17 @@ public class Vat7DKView implements Serializable {
             //bo wazny jet nie rok na deklaracji ale rok z ktorego sie wysyla
             DateTime datawysylki = new DateTime();
             String rokwysylki = String.valueOf(datawysylki.getYear());
+            String rokpoprzedni = String.valueOf(datawysylki.getYear()-1);
             for (Parametr par : listakwotaautoryzujaca) {
+                if (par.getRokOd().equals(rokpoprzedni)) {
+                    kwotaautoryzujacarokpop = par.getParametr();
+                }
                 if (par.getRokOd().equals(rokwysylki)) {
                     kwotaautoryzujaca = par.getParametr();
-                    break;
                 }
+            }
+            if (kwotaautoryzujaca == null) {
+                kwotaautoryzujaca = kwotaautoryzujacarokpop;
             }
         } catch (Exception e) {
             E.e(e);
