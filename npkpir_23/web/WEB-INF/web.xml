@@ -242,7 +242,7 @@
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/faces/login.xhtml?faces-redirect=true</location>
+        <location>/faces/login.xhtml</location>
     </error-page>
      <error-page>
         <error-code>500</error-code>
