@@ -713,6 +713,7 @@ public class PodatnikView implements Serializable {
             selected.setKwotaautoryzujaca(lista);
             zachowajZmiany(selected);
             parametr = new Parametr();
+            wpisView.aktualizuj();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr kwota autoryzująca do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
@@ -727,6 +728,7 @@ public class PodatnikView implements Serializable {
         tmp.remove(tmp.size() - 1);
         selected.setKwotaautoryzujaca(tmp);
         zachowajZmiany(selected);
+        wpisView.aktualizuj();
     }
 
     public void dodajnrpkpir() {
