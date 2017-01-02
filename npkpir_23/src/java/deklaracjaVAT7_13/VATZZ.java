@@ -17,7 +17,7 @@ import javax.inject.Named;
 @Named
 public class VATZZ implements Serializable{
     
-    private static String vatzt;
+    private static String vatzt = "";
 
     public VATZZ() {
     }

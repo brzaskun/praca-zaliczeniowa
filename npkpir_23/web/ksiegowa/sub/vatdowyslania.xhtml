@@ -97,7 +97,7 @@
                 <p:selectOneMenu value="#{vat7VATZZView.powod}" converter="DeklaracjaVatZZPowodConv" style="width: 700px;">
                         <f:selectItem itemLabel="wybierz powód" itemValue=""/>
                         <f:selectItems value="#{deklaracjaVatZZPowodPrzypView.powodysource}" var="item" itemLabel="#{item.tresc}" itemValue="#{item}"/>
-                        <p:ajax event="change" listener="#{deklaracjaVatZZPowodPrzypView.pobierzprzyporzadkowanie}" partialSubmit="true" 
+                        <p:ajax event="change" listener="#{deklaracjaVatZZPowodPrzypView.pobierzprzyporzadkowanie}" partialSubmit="true" global="false"
                                 />
                 </p:selectOneMenu>
                 <h:outputText value="wpisz uzasadnienie wniosku: "/><p:inputTextarea rows="5" style="width: 900px;" value="#{vat7VATZZView.informacja}"/>
@@ -107,7 +107,7 @@
     </h:form>
     <h:outputText value="Aby wysłać należy najpierw wypełnić załącznik  VAT-ZT" style="color: red;" rendered="#{deklaracjevatView.pokazZT and !deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}"/>
     <h:form id="zalacznikZT">
-        <h:outputText value="Załącznik VAT-ZT podpięty." rendered="#{deklaracjevatView.oczekujace.size() gt 0 and ew.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}" style="color: green;"/>
+        <h:outputText value="Załącznik VAT-ZT podpięty." rendered="#{deklaracjevatView.oczekujace.size() gt 0 and deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}" style="color: green;"/>
         <p:panel header="Załącznik VAT-ZT załączany do deklaracji w przypadku wystąpienia o zwrot w 25 dni" rendered="#{deklaracjevatView.pokazZT}"  style="max-width: 1400px;">
             <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}">
                 <h:outputText value="Przygotowana korekta deklaracji nie zawiera wniosku o zwrot VAT i nie może być wysłana!"/>
