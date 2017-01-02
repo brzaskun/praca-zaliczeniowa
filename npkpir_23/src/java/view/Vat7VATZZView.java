@@ -59,10 +59,10 @@ public class Vat7VATZZView extends Vat7DKView implements Serializable{
         //pozbywamy sie koncowki </ns:Deklaracja> ale szukamy wpierw czy isteje juz inny zalacznik
         int lastIndexOf = trescdeklaracji.lastIndexOf("</Zalaczniki>");
         if (lastIndexOf == -1) {
-            zalacznik = new VATZZ(zal,powod,kwota,informacja,0).getVatzt();
+            zalacznik = new VATZZ(zal,powod,kwota,informacja,0).getVatzz();
             lastIndexOf = trescdeklaracji.lastIndexOf("<podp:DaneAutoryzujace");
         } else {
-            zalacznik = new VATZZ(zal,powod,kwota,informacja,1).getVatzt();
+            zalacznik = new VATZZ(zal,powod,kwota,informacja,1).getVatzz();
         }
         String koncowka = trescdeklaracji.substring(lastIndexOf);
         trescdeklaracji = trescdeklaracji.substring(0, lastIndexOf);

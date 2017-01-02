@@ -15,9 +15,10 @@ import javax.inject.Named;
 @Named
 public class VATZT implements Serializable{
     
-    private static String vatzt = "";
+    private String vatzt;
 
     public VATZT() {
+        vatzt = "";
     }
     
     public VATZT(DeklaracjaVatZT zal, String kwota, String informacja, int innezalaczniki) {
@@ -40,7 +41,7 @@ public class VATZT implements Serializable{
     }
 
     public void setVatzt(String vatzt) {
-        VATZT.vatzt = vatzt;
+        this.vatzt = vatzt;
     }
     
     

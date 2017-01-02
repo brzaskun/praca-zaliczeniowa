@@ -16,7 +16,7 @@
                     <p:confirmDialog id="confirmDialog" message="Usunąć deklarację?"  
                                      header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
 
-                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formX:dokumentyLista" oncomplete="PF('confirmation').hide()"  
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="paneldeklaracjadowyslania" oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{deklaracjevatView.destroy2()}" />  
                         <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
 

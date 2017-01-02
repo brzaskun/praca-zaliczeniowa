@@ -17,33 +17,34 @@ import javax.inject.Named;
 @Named
 public class VATZZ implements Serializable{
     
-    private static String vatzt = "";
+    private String vatzz;
 
     public VATZZ() {
+        vatzz = "";
     }
     
     public VATZZ(DeklaracjaVatZZ zal, DeklaracjaVatZZPowod powod, String kwota, String informacja, int innezalaczniki) {
         if (innezalaczniki == 0) {
-            vatzt = "<Zalaczniki>";
+            vatzz = "<Zalaczniki>";
         }
-        vatzt += zal.getWstep();
-        vatzt += zal.getNaglowek();
-        vatzt += "<vzz:PozycjeSzczegolowe>";
-        vatzt += "<vzz:P_"+zal.getPowod()+">"+powod.getNr()+"</vzz:P_"+zal.getPowod()+">";
-        vatzt += "<vzz:P_"+zal.getKwota()+">"+kwota+"</vzz:P_"+zal.getKwota()+">";
-        vatzt += "<vzz:P_"+zal.getUzasadnienie()+">"+informacja+"</vzz:P_"+zal.getUzasadnienie()+">";
-        vatzt += "</vzz:PozycjeSzczegolowe></vzz:Wniosek_VAT-ZZ>";
+        vatzz += zal.getWstep();
+        vatzz += zal.getNaglowek();
+        vatzz += "<vzz:PozycjeSzczegolowe>";
+        vatzz += "<vzz:P_"+zal.getPowod()+">"+powod.getNr()+"</vzz:P_"+zal.getPowod()+">";
+        vatzz += "<vzz:P_"+zal.getKwota()+">"+kwota+"</vzz:P_"+zal.getKwota()+">";
+        vatzz += "<vzz:P_"+zal.getUzasadnienie()+">"+informacja+"</vzz:P_"+zal.getUzasadnienie()+">";
+        vatzz += "</vzz:PozycjeSzczegolowe></vzz:Wniosek_VAT-ZZ>";
         if (innezalaczniki == 0) {
-            vatzt += "</Zalaczniki>";
+            vatzz += "</Zalaczniki>";
         }
     }
 
-    public String getVatzt() {
-        return vatzt;
+    public String getVatzz() {
+        return vatzz;
     }
 
-    public void setVatzt(String vatzt) {
-        VATZZ.vatzt = vatzt;
+    public void setVatzz(String vatzz) {
+        this.vatzz = vatzz;
     }
     
     
