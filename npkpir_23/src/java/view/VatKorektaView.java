@@ -252,6 +252,7 @@ public class VatKorektaView implements Serializable {
         deklaracjaVATPoKorekcie.setPodsumowanieewidencji(sumaewidencjiNowakorekta);
         deklaracjaVATPoKorekcie.setOrdzu("Korekta");
         deklaracjaVATPoKorekcie.setVatzt(null);
+        deklaracjaVATPoKorekcie.setVatzz(null);
         Vatpoz pozycjeDeklaracjiVAT = deklaracjaVATPoKorekcie.getSelected();
         pozycjeDeklaracjiVAT.setPozycjeszczegolowe(deklaracjaVATPoKorekcie.getPozycjeszczegolowe());
         pozycjeDeklaracjiVAT.setCelzlozenia("2");

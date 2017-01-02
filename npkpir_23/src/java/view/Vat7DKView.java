@@ -270,7 +270,7 @@ public class Vat7DKView implements Serializable {
             doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
             pokazinfovatzz =  false;
             if (zwrot25dni != null) {
-                ustawflagazt(nż);
+                flagazt = true;
                 pokazinfovatzz = true;
                 DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
                 DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");

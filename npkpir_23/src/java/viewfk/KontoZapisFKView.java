@@ -23,6 +23,7 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import error.E;
+import extclass.ReverseIterator;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,13 +41,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.ToggleSelectEvent;
 import org.primefaces.model.TreeNode;
 import pdf.PdfKontoZapisy;
 import view.WpisView;
@@ -539,7 +538,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
     private  Map<String, ListaSum> sumujzapisy() {
-        Map<String, ListaSum> zbiorcza = stworzliste(kontozapisy);
+        Map<String, ListaSum> zbiorcza = stworzlisteSumwWalutach(kontozapisy);
         for (StronaWiersza p : kontozapisy) {
             ListaSum r = zbiorcza.get(p.getSymbolWalutBOiSW());
             r.setTabelanbp(p.getWiersz().getTabelanbp());
@@ -554,6 +553,45 @@ public class KontoZapisFKView implements Serializable{
                 }
             }
         }
+        for (ListaSum s : zbiorcza.values()) {
+            if (s.getSumaWn() > s.getSumaMa()) {
+                s.setSaldoWn(Z.z(s.getSumaWn() - s.getSumaMa()));
+            } else {
+                s.setSaldoMa(Z.z(s.getSumaMa() - s.getSumaWn()));
+            }
+            if (s.getSumaWnPLN()> s.getSumaMaPLN()) {
+                s.setSaldoWnPLN(Z.z(s.getSumaWnPLN()- s.getSumaMaPLN()));
+            } else {
+                s.setSaldoMa(Z.z(s.getSumaMaPLN()- s.getSumaWnPLN()));
+            }
+        }
+        return zbiorcza;
+    }
+    
+    private  Map<String, ListaSum> sumujzapisyKontobankowe() {
+        Map<String, ListaSum> zbiorcza = stworzlisteSumwWalutachBezPLN(kontozapisy);
+        for (ListaSum wierszsum : zbiorcza.values()) {
+            String waluta = wierszsum.getWaluta();
+            double sumawn = 0.0;
+            double sumama = 0.0;
+            for (StronaWiersza p : kontozapisy) {
+                if (p.getSymbolWalutBOiSW().equals(waluta)) {
+                    if (p.getWnma().equals("Wn")) {
+                        sumawn += p.getKwota();
+                    } else if (p.getWnma().equals("Ma")) {
+                        sumama += p.getKwota();
+                    }
+                }
+            }
+            double suma = Z.z(sumawn) > 0.0 ? sumawn : sumama;
+            double sumaodkonca = 0.0;
+            for (ReverseIterator<StronaWiersza> it = (ReverseIterator<StronaWiersza>) kontozapisy.iterator();it.hasNext();) {
+                StronaWiersza p = it.next();
+                sumaodkonca += p.getKwota();
+                
+            }
+        }
+        
         for (ListaSum s : zbiorcza.values()) {
             if (s.getSumaWn() > s.getSumaMa()) {
                 s.setSaldoWn(Z.z(s.getSumaWn() - s.getSumaMa()));
@@ -600,6 +638,54 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
+    public void rozliczkontobankowe() {
+        if (kontozapisy != null && kontozapisy.size() > 0) {
+            Map<String, ListaSum> listasum = sumujzapisyKontobankowe();
+            String opis = "automatyczne rozliczenie walut na koncie bankowym na koniec "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu();
+            Dokfk nowydok = DokumentFKBean.generujdokumentAutomRozrach(wpisView, klienciDAO, "ARS", opis, rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, listasum, dokDAOfk);
+            dokDAOfk.dodaj(nowydok);
+            dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
+            this.listasum = new ArrayList<>();
+            ListaSum l = new ListaSum();
+            this.listasum.add(l);
+            sumazapisowAut();
+            sumazapisowplnAut();
+            Msg.msg("Dodano rozliczenie walut konta bankowego");
+        } else {
+            Msg.msg("e", "Nie ma czego rozliczać, Lista zapisów jest pusta.");
+        }
+    }
+   
+   private Map<String, ListaSum> stworzlisteSumwWalutach(List<StronaWiersza> kontozapisy) {
+        Map<String, ListaSum> zbiorcza = new HashMap<>();
+        Set<String> waluty = new HashSet<>();
+        for (StronaWiersza p : kontozapisy) {
+            waluty.add(p.getSymbolWalutBOiSW());
+        }
+        for (String r : waluty) {
+            ListaSum l = new ListaSum();
+            l.setWaluta(r);
+            zbiorcza.put(r, l);
+        }
+        return zbiorcza;
+    }
+    
+    private Map<String, ListaSum> stworzlisteSumwWalutachBezPLN(List<StronaWiersza> kontozapisy) {
+        Map<String, ListaSum> zbiorcza = new HashMap<>();
+        Set<String> waluty = new HashSet<>();
+        for (StronaWiersza p : kontozapisy) {
+            if (!p.getSymbolWalutBOiSW().equals("PLN")) {
+                waluty.add(p.getSymbolWalutBOiSW());
+            }
+        }
+        for (String r : waluty) {
+            ListaSum l = new ListaSum();
+            l.setWaluta(r);
+            zbiorcza.put(r, l);
+        }
+        return zbiorcza;
+    } 
+   
    private void dodajzapisy(Konto konto, Dokfk nowydok) {
        for (StronaWiersza p : nowydok.getStronyWierszy())
            if (p.getKonto() == konto) {
@@ -764,199 +850,190 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
+//<editor-fold defaultstate="collapsed" desc="comment">
     
-
+    
     public List<Konto> getWykazkont() {
         return wykazkont;
     }
-
+    
     public void setWykazkont(List<Konto> wykazkont) {
         this.wykazkont = wykazkont;
     }
-
+    
     public Konto getWybranekonto() {
         return wybranekonto;
     }
-
+    
     public void setWybranekonto(Konto wybranekonto) {
         this.wybranekonto = wybranekonto;
     }
-
+    
     public List<StronaWiersza> getKontozapisy() {
         return kontozapisy;
     }
-
+    
     public void setKontozapisy(List<StronaWiersza> kontozapisy) {
         this.kontozapisy = kontozapisy;
     }
-
+    
     public StronaWiersza getWybranyzapis() {
         return wybranyzapis;
     }
-
+    
     public void setWybranyzapis(StronaWiersza wybranyzapis) {
         this.wybranyzapis = wybranyzapis;
     }
-
+    
     public List<StronaWiersza> getKontorozrachunki() {
         return kontorozrachunki;
     }
-
+    
     public void setKontorozrachunki(List<StronaWiersza> kontorozrachunki) {
         this.kontorozrachunki = kontorozrachunki;
     }
-
+    
     public List<StronaWiersza> getWybranekontadosumowania() {
         return wybranekontadosumowania;
     }
-
+    
     public void setWybranekontadosumowania(List<StronaWiersza> wybranekontadosumowania) {
         this.wybranekontadosumowania = wybranekontadosumowania;
     }
-
+    
     public Double getSumaWn() {
         return sumaWn;
     }
-
+    
     public void setSumaWn(Double sumaWn) {
         this.sumaWn = sumaWn;
     }
-
+    
     public Double getSumaMa() {
         return sumaMa;
     }
-
+    
     public void setSumaMa(Double sumaMa) {
         this.sumaMa = sumaMa;
     }
-
+    
     public Double getSaldoWn() {
         return saldoWn;
     }
-
+    
     public void setSaldoWn(Double saldoWn) {
         this.saldoWn = saldoWn;
     }
-
+    
     public Double getSaldoMa() {
         return saldoMa;
     }
-
+    
     public void setSaldoMa(Double saldoMa) {
         this.saldoMa = saldoMa;
     }
-
+    
     public Double getSumaWnPLN() {
         return sumaWnPLN;
     }
-
+    
     public void setSumaWnPLN(Double sumaWnPLN) {
         this.sumaWnPLN = sumaWnPLN;
     }
-
+    
     public Double getSumaMaPLN() {
         return sumaMaPLN;
     }
-
+    
     public void setSumaMaPLN(Double sumaMaPLN) {
         this.sumaMaPLN = sumaMaPLN;
     }
-
+    
     public List<StronaWiersza> getKontozapisyfiltered() {
         return kontozapisyfiltered;
     }
-
+    
     public void setKontozapisyfiltered(List<StronaWiersza> kontozapisyfiltered) {
         this.kontozapisyfiltered = kontozapisyfiltered;
     }
-
+    
     public Double getSaldoWnPLN() {
         return saldoWnPLN;
     }
-
+    
     public void setSaldoWnPLN(Double saldoWnPLN) {
         this.saldoWnPLN = saldoWnPLN;
     }
-
+    
     public Double getSaldoMaPLN() {
         return saldoMaPLN;
     }
-
+    
     public void setSaldoMaPLN(Double saldoMaPLN) {
         this.saldoMaPLN = saldoMaPLN;
     }
-
+    
     public List getZapisydopodswietlenia() {
         return zapisydopodswietlenia;
     }
-
+    
     public void setZapisydopodswietlenia(List zapisydopodswietlenia) {
         this.zapisydopodswietlenia = zapisydopodswietlenia;
     }
-
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public String getWybranaWalutaDlaKont() {
         return wybranaWalutaDlaKont;
     }
-
+    
     public void setWybranaWalutaDlaKont(String wybranaWalutaDlaKont) {
         this.wybranaWalutaDlaKont = wybranaWalutaDlaKont;
     }
-
+    
     public List<ListaSum> getListasum() {
         return listasum;
     }
-
+    
     public void setListasum(List<ListaSum> listasum) {
         this.listasum = listasum;
     }
-
+    
     public List<StronaWiersza> getZapisyRok() {
         return zapisyRok;
     }
-
+    
     public void setZapisyRok(List<StronaWiersza> zapisyRok) {
         this.zapisyRok = zapisyRok;
     }
-
+    
     public String getWybranyRodzajKonta() {
         return wybranyRodzajKonta;
     }
-
+    
     public void setWybranyRodzajKonta(String wybranyRodzajKonta) {
         this.wybranyRodzajKonta = wybranyRodzajKonta;
     }
-
+    
     public boolean isNierenderujkolumnnywalut() {
         return nierenderujkolumnnywalut;
     }
-
+    
     public void setNierenderujkolumnnywalut(boolean nierenderujkolumnnywalut) {
         this.nierenderujkolumnnywalut = nierenderujkolumnnywalut;
     }
     
     
+//</editor-fold>
+  
 
-    private Map<String, ListaSum> stworzliste(List<StronaWiersza> kontozapisy) {
-        Map<String, ListaSum> zbiorcza = new HashMap<>();
-        Set<String> waluty = new HashSet<>();
-        for (StronaWiersza p : kontozapisy) {
-            waluty.add(p.getSymbolWalutBOiSW());
-        }
-        for (String r : waluty) {
-            ListaSum l = new ListaSum();
-            l.setWaluta(r);
-            zbiorcza.put(r, l);
-        }
-        return zbiorcza;
-    }
+    
     
     public List<Konto> complete(String qr) {
         if (qr != null) {

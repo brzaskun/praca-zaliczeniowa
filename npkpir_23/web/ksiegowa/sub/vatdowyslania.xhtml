@@ -84,11 +84,12 @@
             </p:rowExpansion>
         </p:dataTable>
     </h:form><br/>
-    <h:outputText value="Aby wysłać należy najpierw wypełnić załącznik VAT-ZZ" style="color: red;" rendered="#{deklaracjevatView.pokazZZ and !deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}"/>
+    <h:outputText value="Aby wysłać należy najpierw wypełnić załącznik VAT-ZZ" style="color: red;"
+                  rendered="#{deklaracjevatView.pokazZZ and !deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}"/>
     <h:form id="zalacznikZZ">
+        <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}"/>
         <p:panel header="Załącznik VAT-ZZ załączany do deklaracji w przypadku wystąpienia o zwrot i braku sprzedaży opodatkowanej"
                  rendered="#{deklaracjevatView.pokazZZ}"  style="max-width: 1400px;">
-            <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}"/>
             <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}">
                 <h:outputText value="Przygotowana korekta deklaracji nie zawiera wniosku o zwrot VAT i nie może być wysłana!"/>
                 <h:outputText value="wpisz wnioskowaną kwotę "/><p:inputText style="width: 200px;" value="#{vat7VATZZView.kwota}"/>
@@ -106,8 +107,8 @@
     </h:form>
     <h:outputText value="Aby wysłać należy najpierw wypełnić załącznik  VAT-ZT" style="color: red;" rendered="#{deklaracjevatView.pokazZT and !deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}"/>
     <h:form id="zalacznikZT">
+        <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}"/>
         <p:panel header="Załącznik VAT-ZT załączany do deklaracji w przypadku wystąpienia o zwrot w 25 dni" rendered="#{deklaracjevatView.pokazZT}"  style="max-width: 1400px;">
-            <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}"/>
             <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}">
                 <h:outputText value="Przygotowana korekta deklaracji nie zawiera wniosku o zwrot VAT i nie może być wysłana!"/>
                 <h:outputText value="wpisz wnioskowaną kwotę "/><p:inputText style="width: 200px;" value="#{vat7VATZTView.kwota}"/>
