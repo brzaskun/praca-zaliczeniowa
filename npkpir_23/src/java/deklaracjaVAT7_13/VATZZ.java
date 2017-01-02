@@ -26,6 +26,8 @@ public class VATZZ implements Serializable{
     public VATZZ(DeklaracjaVatZZ zal, DeklaracjaVatZZPowod powod, String kwota, String informacja, int innezalaczniki) {
         if (innezalaczniki == 0) {
             vatzz = "<Zalaczniki>";
+        } else {
+            vatzz = "";
         }
         vatzz += zal.getWstep();
         vatzz += zal.getNaglowek();
