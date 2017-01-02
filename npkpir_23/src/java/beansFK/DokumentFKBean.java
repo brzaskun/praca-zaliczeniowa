@@ -79,6 +79,16 @@ public class DokumentFKBean implements Serializable {
         }
         return nowydok;
     }
+    
+    public static Dokfk generujdokumentAutomSaldo(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, KontoDAOfk kontoDAOfk, List konta, double[] rownicawnroznicama, DokDAOfk dokDAOfk) {
+        Dokfk nowydok = stworznowydokument(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
+        nowydok.setNumerwlasnydokfk(DokFKBean.wygenerujnumerkolejnyRozrach(nowydok, wpisView, dokDAOfk));
+        ustawwierszePKSaldo(nowydok, konta, rownicawnroznicama, wpisView, kontoDAOfk, tabelanbpDAO);
+        if (nowydok.getListawierszy() != null) {
+            nowydok.przeliczKwotyWierszaDoSumyDokumentu();
+        }
+        return nowydok;
+    }
 
     private static Dokfk stworznowydokument(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, DokDAOfk dokDAOfk) {
         int numerkolejny = oblicznumerkolejny(dokDAOfk, wpisView, symbokdok);
@@ -286,7 +296,7 @@ public class DokumentFKBean implements Serializable {
             w.setOpisWiersza(opiswiersza);
             double kwotaWal = pobierzkwotezsumyWal(wierszsum);
             double kwotaPLN = pobierzkwotezsumyPLN(wierszsum);
-            if (wierszsum.getSaldoWn() > 0) {
+            if (wierszsum.getSaldoWn() > 0.0) {
                 StronaWiersza strWn = new StronaWiersza(w, "Wn", kwotaWal, pko);
                 StronaWiersza strMa = new StronaWiersza(w, "Ma", kwotaWal, kontodorozliczenia);
                 w.setStronaWn(strWn);
@@ -302,6 +312,38 @@ public class DokumentFKBean implements Serializable {
             nowydok.getListawierszy().add(w);
         }
     }
+    
+    private static void ustawwierszePKSaldo(Dokfk nowydok, List stronywiersza, double[] roznicawnroznicama, WpisView wpisView, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO) {
+        nowydok.setListawierszy(new ArrayList<Wiersz>());
+        int idporzadkowy = 1;
+        StronaWiersza sw = (StronaWiersza) stronywiersza.get(0);
+        Konto pko = kontoDAOfk.findKonto("764", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto ppo = kontoDAOfk.findKonto("763", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto kontodorozliczenia = sw.getKonto();
+        double roznicawn = roznicawnroznicama[0];
+        double roznicama = roznicawnroznicama[1];
+            Wiersz w = new Wiersz(idporzadkowy++, 0);
+            uzupelnijwierszWaluta(w, nowydok, tabelanbpDAO.findByTabelaPLN());
+            String opiswiersza = "różnice kursowe na środkach własnych: " + sw.getKonto().getPelnynumer() + " na koniec " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
+            w.setOpisWiersza(opiswiersza);
+            if (roznicawn > 0.0) {
+                StronaWiersza strWn = new StronaWiersza(w, "Wn", roznicawn, pko);
+                StronaWiersza strMa = new StronaWiersza(w, "Ma", roznicawn, kontodorozliczenia);
+                strWn.setKwotaPLN(roznicawn);
+                strMa.setKwotaPLN(roznicawn);
+                w.setStronaWn(strWn);
+                w.setStronaMa(strMa);
+            } else {
+                StronaWiersza strWn = new StronaWiersza(w, "Wn", roznicama, kontodorozliczenia);
+                StronaWiersza strMa = new StronaWiersza(w, "Ma", roznicama, ppo);
+                strWn.setKwotaPLN(roznicama);
+                strMa.setKwotaPLN(roznicama);
+                w.setStronaWn(strWn);
+                w.setStronaMa(strMa);
+            }
+            nowydok.getListawierszy().add(w);
+    }
+    
     
     private static double pobierzkwotezsumyWal(ListaSum wierszsum) {
         double zwrot = 0.0;

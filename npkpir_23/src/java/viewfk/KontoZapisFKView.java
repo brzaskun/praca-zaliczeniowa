@@ -568,43 +568,61 @@ public class KontoZapisFKView implements Serializable{
         return zbiorcza;
     }
     
-    private  Map<String, ListaSum> sumujzapisyKontobankowe() {
-        Map<String, ListaSum> zbiorcza = stworzlisteSumwWalutachBezPLN(kontozapisy);
-        for (ListaSum wierszsum : zbiorcza.values()) {
-            String waluta = wierszsum.getWaluta();
-            double sumawn = 0.0;
-            double sumama = 0.0;
-            for (StronaWiersza p : kontozapisy) {
-                if (p.getSymbolWalutBOiSW().equals(waluta)) {
-                    if (p.getWnma().equals("Wn")) {
-                        sumawn += p.getKwota();
-                    } else if (p.getWnma().equals("Ma")) {
-                        sumama += p.getKwota();
+    private  double[] sumujzapisyKontobankowe() {
+        double saldowalutywn = listasum.get(0).getSaldoWn();
+        double saldowalutyma = listasum.get(0).getSaldoMa();
+        String waluta = wybranaWalutaDlaKont;
+        double sumazliczanie = 0.0;
+        double sumazliczaniePLN = 0.0;
+        double sumagranica = Z.z(saldowalutywn) > 0.0 ? Z.z(saldowalutywn) : Z.z(saldowalutyma);
+        double saldowalutywnpln = listasum.get(0).getSaldoWnPLN();
+        double saldowalutymapln = listasum.get(0).getSaldoMaPLN();
+        double roznicawn = 0.0;
+        double roznicama = 0.0;
+        for (Iterator<StronaWiersza> it = new ReverseIterator<StronaWiersza>(kontozapisy).iterator(); it.hasNext();) {
+            StronaWiersza p = it.next();
+            if (!p.getSymbolWalutBOiSW().equals("PLN")) {
+                if (saldowalutywn > 0.0) {
+                    if (p.isWn()) {
+                        if (p.getKwota() < (sumagranica-sumazliczanie)) {
+                            sumazliczanie += p.getKwota();
+                            sumazliczaniePLN += p.getKwotaPLN();
+                        } else {
+                            double ilezostalo = (sumagranica-sumazliczanie);
+                            double proporcja = ilezostalo/p.getKwota();
+                            sumazliczaniePLN += Z.z(p.getKwotaPLN()*proporcja);
+                            roznicawn = Z.z(saldowalutywnpln-sumazliczaniePLN);
+                            break;
+                        }
+
+                    }
+                }
+                if (saldowalutyma > 0.0) {
+                    if (!p.isWn()) {
+                        if (p.getKwota() < (sumagranica-sumazliczanie)) {
+                            sumazliczanie += p.getKwota();
+                            sumazliczaniePLN += p.getKwotaPLN();
+                        } else {
+                            double ilezostalo = (sumagranica-sumazliczanie);
+                            double proporcja = ilezostalo/p.getKwota();
+                            sumazliczaniePLN += Z.z(p.getKwotaPLN()*proporcja);
+                            roznicama = Z.z(saldowalutymapln-sumazliczaniePLN);
+                            break;
+                        }
+
                     }
                 }
             }
-            double suma = Z.z(sumawn) > 0.0 ? sumawn : sumama;
-            double sumaodkonca = 0.0;
-            for (ReverseIterator<StronaWiersza> it = (ReverseIterator<StronaWiersza>) kontozapisy.iterator();it.hasNext();) {
-                StronaWiersza p = it.next();
-                sumaodkonca += p.getKwota();
-                
-            }
         }
-        
-        for (ListaSum s : zbiorcza.values()) {
-            if (s.getSumaWn() > s.getSumaMa()) {
-                s.setSaldoWn(Z.z(s.getSumaWn() - s.getSumaMa()));
-            } else {
-                s.setSaldoMa(Z.z(s.getSumaMa() - s.getSumaWn()));
-            }
-            if (s.getSumaWnPLN()> s.getSumaMaPLN()) {
-                s.setSaldoWnPLN(Z.z(s.getSumaWnPLN()- s.getSumaMaPLN()));
-            } else {
-                s.setSaldoMa(Z.z(s.getSumaMaPLN()- s.getSumaWnPLN()));
-            }
+        if (roznicawn < 0.0) {
+            roznicama = -roznicawn;
+            roznicawn = 0.0;
+        } else if (roznicama < 0.0) {
+            roznicawn = -roznicama;
+            roznicama = 0.0;
         }
-        return zbiorcza;
+        System.out.println("koniec roznica do zaksiegowania "+roznicawn);
+        return new double[]{roznicawn,roznicama};
     }
     
     public void rozliczzaznaczone() {
@@ -639,20 +657,28 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void rozliczkontobankowe() {
-        if (kontozapisy != null && kontozapisy.size() > 0) {
-            Map<String, ListaSum> listasum = sumujzapisyKontobankowe();
-            String opis = "automatyczne rozliczenie walut na koncie bankowym na koniec "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu();
-            Dokfk nowydok = DokumentFKBean.generujdokumentAutomRozrach(wpisView, klienciDAO, "ARS", opis, rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, listasum, dokDAOfk);
-            dokDAOfk.dodaj(nowydok);
-            dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
-            this.listasum = new ArrayList<>();
-            ListaSum l = new ListaSum();
-            this.listasum.add(l);
-            sumazapisowAut();
-            sumazapisowplnAut();
-            Msg.msg("Dodano rozliczenie walut konta bankowego");
+        if (!wpisView.getMiesiacDo().equals(wpisView.getMiesiacWpisu())) {
+            Msg.msg("e", "Miesiąc 'do' nie jest taki sam jak bieżący miesiąc wpisu. Nie można rozliczyć salda.");
         } else {
-            Msg.msg("e", "Nie ma czego rozliczać, Lista zapisów jest pusta.");
+            if (kontozapisy != null && kontozapisy.size() > 0) {
+                double[] roznicawnroznicama = sumujzapisyKontobankowe();
+                if (roznicawnroznicama[0] > 0.0 || roznicawnroznicama[1] > 0.0) {
+                    String opis = "automatyczne rozliczenie walut na koncie bankowym na koniec "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu();
+                    Dokfk nowydok = DokumentFKBean.generujdokumentAutomSaldo(wpisView, klienciDAO, "ARS", opis, rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, roznicawnroznicama, dokDAOfk);
+                    dokDAOfk.dodaj(nowydok);
+                    dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
+                    this.listasum = new ArrayList<>();
+                    ListaSum l = new ListaSum();
+                    this.listasum.add(l);
+                    sumazapisowAut();
+                    sumazapisowplnAut();
+                    Msg.msg("Dodano rozliczenie walut konta bankowego");
+                } else {
+                    Msg.msg("e", "Różnice wynoszą zero. Dokument niezaksięgowany");
+                }
+            } else {
+                Msg.msg("e", "Nie ma czego rozliczać, Lista zapisów jest pusta.");
+            }
         }
     }
    
@@ -670,21 +696,6 @@ public class KontoZapisFKView implements Serializable{
         return zbiorcza;
     }
     
-    private Map<String, ListaSum> stworzlisteSumwWalutachBezPLN(List<StronaWiersza> kontozapisy) {
-        Map<String, ListaSum> zbiorcza = new HashMap<>();
-        Set<String> waluty = new HashSet<>();
-        for (StronaWiersza p : kontozapisy) {
-            if (!p.getSymbolWalutBOiSW().equals("PLN")) {
-                waluty.add(p.getSymbolWalutBOiSW());
-            }
-        }
-        for (String r : waluty) {
-            ListaSum l = new ListaSum();
-            l.setWaluta(r);
-            zbiorcza.put(r, l);
-        }
-        return zbiorcza;
-    } 
    
    private void dodajzapisy(Konto konto, Dokfk nowydok) {
        for (StronaWiersza p : nowydok.getStronyWierszy())

@@ -240,9 +240,13 @@
         <error-code>403</error-code>
         <location>/faces/AccessDenied.xhtml?faces-redirect=true</location>
     </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/NMTS.xhtml?faces-redirect=true</location>
+    </error-page>
      <error-page>
         <error-code>500</error-code>
-        <location>/faces/PropertyNotFoundException.xhtml</location>
+        <location>/PropertyNotFoundException.xhtml?faces-redirect=true</location>
     </error-page>
 <!--    <error-page>
         <exception-type>javax.faces.application.PropertyNotFoundException</exception-type>

@@ -181,7 +181,7 @@
                      <p:contextMenu for="tabela" style="width: 200px;">
                          <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
                          <p:menuitem value="rozlicz saldo" icon="fa minus-square" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
-                         <p:menuitem value="rozlicz konto bankowe" icon="fa minus-square" actionListener="#{kontoZapisFKView.rozliczkontobankowe()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                         <p:menuitem value="rozlicz konto bankowe" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczkontobankowe()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                          <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
                          <p:menuitem value="wybierz dok" global="false" icon="fa fa-google-wallet" update="formwpisdokument zestawieniezapisownakontachpola"
                                      actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania.get(0))}"/>
