@@ -606,7 +606,6 @@ public class Vat7DKView implements Serializable {
                         nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                         pozycjeDeklaracjiVAT.setCelzlozenia("2");
                         Msg.msg("w", "Przygotowano do zachowania korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc,"form:messages");
-                        Msg.msg("w", "Prosze wypełnić treść załącznika ORD-ZU zawierającego wyjaśnienie przyczyny korekty","form:messages");
                     } else if (badana.getStatus().startsWith("200") && pierwotnazamiastkorekty == true) {
                         nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                         pozycjeDeklaracjiVAT.setCelzlozenia("1");
