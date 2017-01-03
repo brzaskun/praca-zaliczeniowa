@@ -22,6 +22,7 @@
     <ui:include src="faktura/dialog_nowyklient_faktura.xhtml"/>
     <ui:include src="faktura/dialog_nazwaskroconafaktura.xhtml"/>
     <p:tabView id="akordeon" style="max-width: 1500px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}" >
+        <p:ajax event="tabChange" onstart="PF('dokTableFaktury').clearFilters()" global="false"/>
         <ui:include src="faktura/faktura_stworz.xhtml"/>
         <ui:include src="faktura/faktura_sporzadzone.xhtml"/>
         <ui:include src="faktura/faktura_archiwum.xhtml"/>
