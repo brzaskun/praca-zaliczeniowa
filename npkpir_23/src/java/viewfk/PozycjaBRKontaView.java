@@ -621,6 +621,10 @@ public class PozycjaBRKontaView implements Serializable {
             Msg.msg("e", "Nie można kopiować układu w ten sam układ");
             return;
         }
+        if (ukladdocelowykonta.getRok().equals(wpisView.getRokWpisuSt())) {
+            Msg.msg("e", "Układ docelowy nie jest bieżącym rokiem wpisu. Nie można skopiować");
+            return;
+        }
         if (rb.equals("r")) {
             Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-wynikowych");
             skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik);
