@@ -39,7 +39,7 @@
         </h:form>
         <h:form id="formstworz">
             <p:outputPanel id="panelfaktury"  rendered="#{fakturaView.pokazfakture ? true : false}">
-                <div class="ui-grid ui-grid-responsive" style="height: 300px; max-width: 900px;">
+                <div class="ui-grid ui-grid-responsive" style="height: 300px; width: 1100px;">
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
                             <h:outputLabel value="miejsce wystawienia faktury: " />
@@ -201,21 +201,21 @@
                     </div>
                     
                 </div>
-                <ui:include src="faktura_stworz_normalna.xhtml"/>
-                <ui:include src="faktura_stworz_niemiecka.xhtml"/>
-                <ui:include src="faktura_stworz_xxl.xhtml"/>
+                <ui:include src="faktura_stworz_normalna.xhtml" rendered="#{fakturaView.fakturazwykla}"/>
+                <ui:include src="faktura_stworz_niemiecka.xhtml" rendered="#{fakturaView.fakturaniemiecka}"/>
+                <ui:include src="faktura_stworz_xxl.xhtml" rendered="#{fakturaView.fakturaxxl}"/>
                 <p:messages id="messagesinline"/>
                 <p:outputPanel  style="margin-top: 15px;">
                     <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" title="zapisz fakturę w bazie danych"
-                                     update="akordeon:formprzygotuj akordeon:formstworz akordeon:formsporzadzone" style="margin-bottom: 25px; width: 120px; height: 45px;" 
+                                     update="akordeon:formprzygotuj akordeon:formstworz akordeon:formsporzadzone" style="margin-bottom: 25px; width: 140px; height: 45px;" 
                                      rendered="#{fakturaView.zapis0edycja1 eq false}"/>
                     <p:commandButton id="edytujfakt" value="edytuj fakture" actionListener="#{fakturaView.edytuj()}" title="zapisz fakturę w bazie danych"
                                      update="akordeon:formprzygotuj akordeon:formstworz akordeon:formsporzadzone" style="margin-bottom: 25px; width: 120px; height: 45px;"
                                      rendered="#{fakturaView.zapis0edycja1 eq true}"/>
-                    <p:commandButton style="margin-left: 25px; width: 120px; height: 45px;" id="dodajwzorcowywiersz" value="wzorcowy wiersz" 
+                    <p:commandButton style="margin-left: 25px; width: 140px; height: 45px;" id="dodajwzorcowywiersz" value="wzorcowy wiersz" 
                                      title="zachowaj pierwszy wiersz jako wzorcowy" actionListener="#{fakturaView.zachowajwierszwzorcowy()}"/>
-                    <p:commandButton style="margin-left: 25px; width: 120px; height: 45px;" actionListener="#{pdfFaktura.drukujPodgladfaktury(fakturaView.selected, WpisView)}" 
-                                     value="podgląd bieżącej faktury" 
+                    <p:commandButton style="margin-left: 25px; width: 140px; height: 45px;" actionListener="#{pdfFaktura.drukujPodgladfaktury(fakturaView.selected, WpisView)}" 
+                                     value="podgląd faktury" 
                                      title="podejrzyj fakturę w pdf" />
                 </p:outputPanel>
             </p:outputPanel>

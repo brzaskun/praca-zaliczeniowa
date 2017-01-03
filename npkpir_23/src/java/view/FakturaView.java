@@ -610,7 +610,6 @@ public class FakturaView implements Serializable {
         poz.setPodatek(23);
         poz.setIlosc(1);
         selected.getPozycjenafakturze().add(poz);
-        RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
     }
     
     public void dodajwierszk() {
@@ -618,7 +617,6 @@ public class FakturaView implements Serializable {
         poz.setPodatek(23);
         poz.setIlosc(1);
         selected.getPozycjepokorekcie().add(poz);
-        RequestContext.getCurrentInstance().update("akordeon:formstworz:panelkorekty");
     }
 
     public void usunwiersz() {

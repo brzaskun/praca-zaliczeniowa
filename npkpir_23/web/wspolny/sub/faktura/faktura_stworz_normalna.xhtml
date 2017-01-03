@@ -9,7 +9,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:outputPanel rendered="#{fakturaView.fakturazwykla}">
         <p:outputPanel style="margin-top: 15px;">
-            <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
+            <p:dataTable id="rzadn" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
                          style="width: 790px;"
                          >
                 <f:facet name="header" >
@@ -69,15 +69,15 @@
             </p:dataTable>
         </p:outputPanel>
         <p:outputPanel  style="margin-top: 25px;">
-            <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" 
+            <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" update="akordeon:formstworz:rzadn"
                              oncomplete="wybierzrzadfaktury();" style="margin-bottom: 25px; width: 120px;" partialSubmit="true"/>
-            <p:commandButton id="usunkol" value="usuń wiersz" actionListener="#{fakturaView.usunwiersz()}" partialSubmit="true"
+            <p:commandButton id="usunkol" value="usuń wiersz" actionListener="#{fakturaView.usunwiersz()}" partialSubmit="true"  update="akordeon:formstworz:rzadn"
                              style="margin-left: 25px; width: 120px;"
                              />
         </p:outputPanel>
         <!--                panel korekty-->
         <p:outputPanel id="panelkorekty" style="margin-top: 15px;" rendered="#{fakturaView.fakturakorekta}">
-            <p:dataTable id="rzadkorekty" value="#{fakturaView.selected.pozycjepokorekcie}" 
+            <p:dataTable id="rzadkorektyn" value="#{fakturaView.selected.pozycjepokorekcie}" 
                          var="row" rowIndexVar="rowStat" 
                          style="width: 790px;"
                          >
@@ -137,9 +137,9 @@
             </p:dataTable>
         </p:outputPanel>
         <p:outputPanel  style="margin-top: 25px;"  rendered="#{fakturaView.fakturakorekta}">
-            <p:commandButton id="dodkolk" value="dodaj wiersz" actionListener="#{fakturaView.dodajwierszk()}" 
+            <p:commandButton id="dodkolk" value="dodaj wiersz" actionListener="#{fakturaView.dodajwierszk()}"  update="akordeon:formstworz:rzadkorektyn"
                              oncomplete="wybierzrzadfakturykorekta();" style="margin-bottom: 25px; width: 120px;" partialSubmit="true"/>
-            <p:commandButton id="usunkolk" value="usuń wiersz" actionListener="#{fakturaView.usunwierszk()}" partialSubmit="true"
+            <p:commandButton id="usunkolk" value="usuń wiersz" actionListener="#{fakturaView.usunwierszk()}" partialSubmit="true" update="akordeon:formstworz:rzadkorektyn"
                              style="margin-left: 25px; width: 120px;"
                              />
         </p:outputPanel>
