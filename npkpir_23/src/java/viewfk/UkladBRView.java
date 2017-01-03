@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -116,6 +117,8 @@ public class UkladBRView implements Serializable {
             lista.add(ukladBR);
             wybranyukladwzorcowy = null;
             Msg.msg("i", "Skopiowano układ podatnika");
+        } catch (EJBException ejb) {
+            Msg.msg("e", "Nieudana próba skopiowania układu. Układ za dany rok już istnieje " + ejb.getMessage());
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba skopiowania układu. " + e.getMessage());

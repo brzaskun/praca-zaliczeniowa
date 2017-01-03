@@ -12,9 +12,12 @@
         }
     </style>
     <p:dialog id="dialog_uklad_kopiuj" header="Kopiowanie układu w inny układ klienta" widgetVar="dialog_uklad_kopiuj" dynamic="true"
-              resizable="false" onShow="ustawdialog('dialog_uklad_kopiuj','menubilanse', 650, 170);" closeOnEscape="true" onHide="resetujdialog('dialog_uklad_kopiuj');"  >
+              resizable="false" onShow="ustawdialog('dialog_uklad_kopiuj','menubilanse', 650, 220);" closeOnEscape="true" onHide="resetujdialog('dialog_uklad_kopiuj');"  >
         <h:form id="formdialog_uklad_kopiuj">
             <p:outputPanel>
+                <h:outputText value="Ważne! Kopiowanie układu można zrobić będąc w nowym roku podatkowym i pod warunkiem, że wcześniej wygenerowano plan kont na nowy rok" style="margin-left: auto; margin-right: auto; color: red;"/>
+            </p:outputPanel>
+            <p:outputPanel style="margin-top: 5px;">
                 <h:outputText value="#{WpisView.podatnikWpisu}" style="margin-left: auto; margin-right: auto;"/>
             </p:outputPanel>
             <p:panelGrid  columns="2" style="padding: 10px;">

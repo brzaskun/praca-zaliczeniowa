@@ -93,8 +93,14 @@
                     </h:form>
             </p:panel>
             <h:form id="formlog1">
-                 
-                <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 380px" header="#{facesContext.viewRoot.locale.language.equals('pl') ? statusProgramuView.aktualnystatus.tekst : (facesContext.viewRoot.locale.language.equals('de') ? statusProgramuView.aktualnystatus.tekst_de : statusProgramuView.aktualnystatus.tekst_en)}">
+                <style>
+                    .aktywny .ui-widget-header {
+                        color:red;
+                    }
+                </style> 
+                <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 380px"
+                         header="#{facesContext.viewRoot.locale.language.equals('pl') ? statusProgramuView.aktualnystatus.tekst : (facesContext.viewRoot.locale.language.equals('de') ? statusProgramuView.aktualnystatus.tekst_de : statusProgramuView.aktualnystatus.tekst_en)}"
+                         styleClass="#{statusProgramuView.aktualnystatus ne null ? 'aktywny':null}">
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;"  rendered="#{logowanie.liczniklogowan gt 0}">
                         <h:outputText id="loginnazwa" value="#{mgs.login}"/>

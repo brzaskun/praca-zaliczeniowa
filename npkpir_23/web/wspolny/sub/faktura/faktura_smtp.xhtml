@@ -28,7 +28,7 @@
                     <p:selectBooleanCheckbox value="#{sMTPSettingsView.selected.starttlsenable}" disabled="true"/>
                 </p:panelGrid>
                 <p:commandButton value="edytuj" style="width: 120px;" actionListener="#{sMTPSettingsView.przygotujedycja}" global="false" update="akordeon:form2smtp"/>
-                <p:commandButton value="usuń" style="width: 120px;" actionListener="#{sMTPSettingsView.usunsmtp}" style="margin-left: 15px;"
+                <p:commandButton value="usuń" style="width: 120px;margin-left: 15px;" actionListener="#{sMTPSettingsView.usunsmtp}"
                                  global="false" update="akordeon:form1smtp akordeon:form2smtp"/>
             </p:outputPanel>
         </h:form>

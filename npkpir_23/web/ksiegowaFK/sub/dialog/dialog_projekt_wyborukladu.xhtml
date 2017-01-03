@@ -26,14 +26,11 @@
                                  styleClass="tablicaplankont" style="width: 650px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.uklad}" scrollable="true" scrollHeight="500"
                                  emptyMessage="Brak układów RZiS">
                         <p:ajax event="rowSelect" listener="#{ukladBRView.wybranouklad}" global="false"/>
-                        <p:column headerText="nazwa ukladu" width="150">
+                        <p:column headerText="nazwa ukladu" width="150"  style="text-align: center;">
                             <h:outputText value="#{loop.uklad}" style="font-weight: bolder; width: 200px;" /> 
                         </p:column>
-                        <p:column headerText="rok">
+                        <p:column headerText="rok" style="text-align: center;">
                             <h:outputText value="#{loop.rok}"/> 
-                        </p:column>
-                        <p:column headerText="podatnik" width="150">
-                            <h:outputText value="#{loop.podatnik}"/>
                         </p:column>
                         <p:column headerText="import" style="text-align: center;">
                             <h:outputText value="#{loop.importowany eq true ? 'tak' : ''}"/>

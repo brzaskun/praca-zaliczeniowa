@@ -100,7 +100,9 @@ public class WalutyViewFK implements Serializable {
         if (symboleTabelRecznie.size()>0) {
             symbolRecznie = symboleTabelRecznie.get(0);
         }
-        kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(symbolRecznie, wprowadzonekursyRok));
+        if (!symboleTabelRecznie.isEmpty()) {
+            kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(symbolRecznie, wprowadzonekursyRok));
+        }
         System.out.println("");
     }
     
