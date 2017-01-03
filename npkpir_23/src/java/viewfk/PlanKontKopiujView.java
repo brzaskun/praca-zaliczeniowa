@@ -54,7 +54,7 @@ public class PlanKontKopiujView implements Serializable {
         rokzrodlowy = Roki.rokPoprzedni(wpisView.getRokWpisuSt());
         rokzrodlowy_wzorzec = wpisView.getRokWpisuSt();
         rokdocelowy = wpisView.getRokWpisuSt();
-        kopiujSlownikowe = false;
+        kopiujSlownikowe = true;
         podatnikzrodlowy = wpisView.getPodatnikObiekt();
         podatnikdocelowy = wpisView.getPodatnikObiekt();
     }

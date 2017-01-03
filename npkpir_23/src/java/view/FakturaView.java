@@ -357,9 +357,6 @@ public class FakturaView implements Serializable {
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Błąd. Niedokonano edycji faktury.");
         }
-        RequestContext.getCurrentInstance().update("akordeon:formstworz");
-        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");  
-//        RequestContext.getCurrentInstance().execute("PF('dokTableFaktury').sort();");
     }
 
     

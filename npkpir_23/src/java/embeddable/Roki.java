@@ -53,6 +53,15 @@ public class Roki implements Serializable{
         return rokiList;
     }
     
+    public List<Integer> getRokiListMinusJeden() {
+        List<Integer> rokimniej = new ArrayList<>();
+        rokimniej.addAll(rokiList);
+        if (rokimniej.size() > 0) {
+            rokimniej.remove(0);
+        }
+        return rokimniej;
+    }
+    
     public List<String> getRokiListString() {
         return rokiListS;
     }

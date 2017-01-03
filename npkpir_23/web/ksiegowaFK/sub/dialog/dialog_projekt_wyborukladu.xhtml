@@ -50,7 +50,7 @@
                         <h:outputText value="wpisz nazwę nowego układu" style="margin-top: 10px;"/>
                         <p:inputText value="#{ukladBRView.wybranyukladwzorcowy}" style="width: 250px; margin-top: 10px;"/>
                         <p:commandButton value="dodaj" actionListener="#{ukladBRView.dodaj}" style="width: 120px; margin-top: 10px;" global="false"
-                                         update=":formprojektuklad, :formprojekt, :formbilansprojekt, :formdialog_uklad_kopiuj"/>
+                                         update=":formprojektuklad :formprojekt :formbilansuklad :formbilansprojekt :formdialog_uklad_kopiuj :formdialog_dialog_rzis_przypisywanie_podatnik_kopiuj :formdialog_dialog_bilans_przypisywanie_podatnik_kopiuj"/>
                     </p:panel>
                 </h:form>
                 <h:form>
@@ -61,8 +61,8 @@
                                            itemValue="#{String.valueOf(item.lp)}"/>
                         </p:selectOneListbox>
                         <p:commandButton value="implementuj" actionListener="#{ukladBRView.implementujWzorcowy}" style="width: 120px; margin-top: 10px;" global="false"
-                                         update=":formprojektuklad, :formprojekt, :formbilansprojekt, :formdialog_uklad_kopiuj"/>
-                    </p:panel>
+                                         update=":formprojektuklad :formprojekt :formbilansuklad :formrzisuklad :formbilansprojekt :formdialog_uklad_kopiuj :formdialog_dialog_rzis_przypisywanie_podatnik_kopiuj :formdialog_dialog_bilans_przypisywanie_podatnik_kopiuj"/>
+                    </p:panel> :formbilansuklad
                 </h:form>
             </p:panelGrid>
         </p:panelGrid>

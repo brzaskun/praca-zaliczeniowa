@@ -614,7 +614,7 @@ public class PozycjaBRKontaView implements Serializable {
             Msg.msg("e", "Podatnik nie posiada zdefiniowanych układów Bilansu i RZiS. Nie można zaimplementować przyporządkowania.");
         }
     }
-
+//r, true
     public void kopiujwzorcoweprzyporzadkowanie(String rb, boolean wzorcowe0podatnik1) {
         String podatnik = wzorcowe0podatnik1 == false ? "Wzorcowy" : wpisView.getPodatnikWpisu();
         if (ukladdocelowykonta.equals(ukladzrodlowykonta)) {

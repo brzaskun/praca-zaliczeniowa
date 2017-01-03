@@ -5,11 +5,13 @@
 package viewfk;
 
 import comparator.UkladBRcomparator;
+import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
+import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.UkladBR;
@@ -56,6 +58,8 @@ public class UkladBRView implements Serializable {
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
+    private KontoDAOfk kontoDAOfk;
+    @Inject
     private UkladBR ukladzrodlowy;
     private String ukladdocelowyrok;
 
@@ -70,6 +74,7 @@ public class UkladBRView implements Serializable {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
             listaWzorcowy = ukladBRDAO.findPodatnik("Wzorcowy");
             Collections.sort(listaWzorcowy, new UkladBRcomparator());
+            ukladdocelowyrok = wpisView.getRokWpisuSt();
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString());
         }
@@ -103,20 +108,28 @@ public class UkladBRView implements Serializable {
     
     public void kopiujuklad() {
         try {
-            UkladBR ukladBR = serialclone.SerialClone.clone(ukladzrodlowy);
-            ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
-            ukladBR.setRok(ukladdocelowyrok);
-            ukladBR.setImportowany(true);
-            ukladBRDAO.dodaj(ukladBR);
-            implementujRZiS(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
-            implementujBilans(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
-//            skopiujPozycje("r", ukladBR, ukladzrodlowy);
-//            zaksiegujzmianypozycji("r", ukladBR);
-//            skopiujPozycje("b", ukladBR, ukladzrodlowy);
-//            zaksiegujzmianypozycji("b", ukladBR);
-            lista.add(ukladBR);
-            wybranyukladwzorcowy = null;
-            Msg.msg("i", "Skopiowano układ podatnika");
+            List<Konto> kontagrupa0 = kontoDAOfk.findKontaGrupa0(wpisView);
+            if (kontagrupa0 == null || kontagrupa0.isEmpty()) {
+                Msg.msg("e", "Brak planu kont w bieżacym roku. Nie można kopiować układu");
+            } else if (!ukladdocelowyrok.equals(wpisView.getRokWpisuSt())) {
+                Msg.msg("e", "Rok docelowy jest inny od roku bieżącego. Nie można kopiować układu");
+            } else {
+                UkladBR ukladBR = serialclone.SerialClone.clone(ukladzrodlowy);
+                ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
+                ukladBR.setRok(ukladdocelowyrok);
+                ukladBR.setImportowany(true);
+                ukladBRDAO.dodaj(ukladBR);
+                implementujRZiS(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
+                implementujBilans(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
+    //            skopiujPozycje("r", ukladBR, ukladzrodlowy);
+    //            zaksiegujzmianypozycji("r", ukladBR);
+    //            skopiujPozycje("b", ukladBR, ukladzrodlowy);
+    //            zaksiegujzmianypozycji("b", ukladBR);
+                lista.add(ukladBR);
+                Collections.sort(lista, new UkladBRcomparator());
+                wybranyukladwzorcowy = null;
+                Msg.msg("i", "Skopiowano układ podatnika");
+            }
         } catch (EJBException ejb) {
             Msg.msg("e", "Nieudana próba skopiowania układu. Układ za dany rok już istnieje " + ejb.getMessage());
         } catch (Exception e) {
