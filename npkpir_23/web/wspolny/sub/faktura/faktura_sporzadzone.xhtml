@@ -121,9 +121,9 @@
                     <bcf:outputpl value="#{wpis.bruttoFaktura}"/>
                 </p:column>
                 <p:column styleClass="data3" headerText="wys." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains"  
-                          style="text-align: center;"  width="30">
+                          style="text-align: center;"  width="40">
                     <h:outputText value="#{wpis.datawysylki}" rendered="#{wpis.wyslana}">
-                        <f:convertDateTime dateStyle="short"/>
+                        <f:convertDateTime  pattern="dd-MM"/>
                     </h:outputText>
                     <h:outputText value="nie" rendered="#{!wpis.wyslana}" style="color: green;"/>
                 </p:column>
