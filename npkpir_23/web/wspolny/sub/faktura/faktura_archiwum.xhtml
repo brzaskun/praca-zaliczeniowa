@@ -50,16 +50,16 @@
                 </p:row>
             </p:panelGrid>
             <p:panel header="">
-                <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
+                <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone(fakturaView.gosciwybralarchiuwm)}" style="width: 150px; margin-left: 30px;"/>
             </p:panel>
-            <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyFiltered}"
-                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1400px;"
+            <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyFilteredarchiwum}"
+                         selection="#{fakturaView.gosciwybralarchiuwm}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1400px;"
                          sortBy="#{wpis.fakturaPK.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}"
                          emptyMessage="Nie ma wygenerowanych i zaksięgowanych faktur w tym miesiącu" >
-                <p:ajax event="filter" global="false" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:panelsum1"/>
-                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
-                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
-                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:panelsum1" global="false"/>      
+                <p:ajax event="filter" global="false" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1"/>
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
+                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/>      
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksiegowanych faktur w mc #{WpisView.miesiacWpisu} " />  
                     <h:outputText value="- wyszukiwanie: " />  

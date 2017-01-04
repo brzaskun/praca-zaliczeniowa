@@ -84,6 +84,8 @@ public class FakturaView implements Serializable {
     private static final long serialVersionUID = 1L;
     //faktury wybrane z listy
     private List<Faktura> gosciwybral;
+    //faktury wybrane z listy
+    private List<Faktura> gosciwybralarchiuwm;
     //faktury okresowe wybrane z listy
     private List<Fakturywystokresowe> gosciwybralokres;
 
@@ -112,6 +114,8 @@ public class FakturaView implements Serializable {
     private List<Faktura> faktury;
     //faktury z bazy danych przefiltrowane
     private List<Faktura> fakturyFiltered;
+    //faktury z bazy danych przefiltrowane
+    private List<Faktura> fakturyFilteredarchiwum;
     //faktury z bazy danych
     private List<Faktura> fakturyarchiwum;
     //faktury okresowe z bazy danych
@@ -507,19 +511,22 @@ public class FakturaView implements Serializable {
     }
 
     public void destroyarchiwalne() {
-        for (Faktura p : gosciwybral) {
+        for (Faktura p : gosciwybralarchiuwm) {
             try {
+                if (p.isWygenerowanaautomatycznie() == true) {
+                    zaktualizujokresowa(p);
+                }
+                p.setIdfakturaokresowa(null);
+                fakturaDAO.edit(p);
                 fakturaDAO.destroy(p);
                 fakturyarchiwum.remove(p);
                 if (fakturyFiltered != null) {
                     fakturyFiltered.remove(p);
                 }
-                if (p.isWygenerowanaautomatycznie() == true) {
-                    zaktualizujokresowa(p);
-                }
                 Msg.msg("i", "Usunięto fakturę archiwalną: " + p.getFakturaPK().getNumerkolejny());
                 usunfakturezaksiegowana(p);
-            } catch (Exception e) { E.e(e); 
+            } catch (Exception e) { 
+                E.e(e); 
                 Msg.msg("e", "Nie usunięto faktury archiwalnej: " + p.getFakturaPK().getNumerkolejny());
             }
             
@@ -1222,7 +1229,7 @@ public class FakturaView implements Serializable {
         Msg.msg("Skopiowano okresowe do nowego roku");
     }
 
-    public void sumawartosciwybranych() {
+    public void sumawartosciwybranych(List<Faktura> gosciwybral) {
         podsumowaniewybranychbrutto = 0.0;
         podsumowaniewybranychnetto = 0.0;
         podsumowaniewybranychvat = 0.0;
@@ -1355,7 +1362,7 @@ public class FakturaView implements Serializable {
         return FakturaSortBean.sortZaksiegowaneDok(o1, o2, wpisView);
     }
     
-    public void drukujfakturysporzadzone() {
+    public void drukujfakturysporzadzone(List<Faktura> gosciwybral) {
         try {
             String nazwapliku = "fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
@@ -1595,6 +1602,14 @@ public class FakturaView implements Serializable {
         this.podsumowaniewybranychbrutto = podsumowaniewybranychbrutto;
     }
 
+    public List<Faktura> getGosciwybralarchiuwm() {
+        return gosciwybralarchiuwm;
+    }
+
+    public void setGosciwybralarchiuwm(List<Faktura> gosciwybralarchiuwm) {
+        this.gosciwybralarchiuwm = gosciwybralarchiuwm;
+    }
+
     public String getDatawystawienia() {
         return datawystawienia;
     }
@@ -1666,6 +1681,14 @@ public class FakturaView implements Serializable {
 
     public void setFakturazwykla(boolean fakturazwykla) {
         this.fakturazwykla = fakturazwykla;
+    }
+
+    public List<Faktura> getFakturyFilteredarchiwum() {
+        return fakturyFilteredarchiwum;
+    }
+
+    public void setFakturyFilteredarchiwum(List<Faktura> fakturyFilteredarchiwum) {
+        this.fakturyFilteredarchiwum = fakturyFilteredarchiwum;
     }
 
     public AutoComplete getKontrahentstworz() {
