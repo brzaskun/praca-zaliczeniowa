@@ -1518,23 +1518,28 @@ public class DokfkView implements Serializable {
    
 
     public void sprawdzsalda(String wybranakategoriadok) {
-        List<Dokfk> wykaz = dokDAOfk.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, wybranakategoriadok);
-        for (Dokfk p : wykaz) {
-            int nrserii = p.getDokfkPK().getNrkolejnywserii();
-            if (nrserii == 1) {
-                double saldobo = DokFKBean.pobierzwartosczBO(p.getRodzajedok().getKontorozrachunkowe(), wpisView, wierszBODAO);
-                p.setSaldopoczatkowe(saldobo);
-            } else {
-                Dokfk poprzedni = wykaz.get(wykaz.indexOf(p) - 1);
-                double saldopoprzednie = poprzedni.getSaldokoncowe();
-                p.setSaldopoczatkowe(saldopoprzednie);
+        if (wybranakategoriadok.startsWith("RK") || wybranakategoriadok.startsWith("WB")) {
+            List<Dokfk> wykaz = dokDAOfk.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, wybranakategoriadok);
+            for (Dokfk p : wykaz) {
+                int nrserii = p.getDokfkPK().getNrkolejnywserii();
+                if (nrserii == 1) {
+                    double saldobo = DokFKBean.pobierzwartosczBO(p.getRodzajedok().getKontorozrachunkowe(), wpisView, wierszBODAO);
+                    p.setSaldopoczatkowe(saldobo);
+                } else {
+                    Dokfk poprzedni = wykaz.get(wykaz.indexOf(p) - 1);
+                    double saldopoprzednie = poprzedni.getSaldokoncowe();
+                    p.setSaldopoczatkowe(saldopoprzednie);
+                }
+                for (Wiersz w : p.getListawierszy()) {
+                    DialogWpisywanie.naprawsaldo(p, w);
+                }
             }
-            for (Wiersz w : p.getListawierszy()) {
-                DialogWpisywanie.naprawsaldo(p, w);
-            }
+            dokDAOfk.editList(wykaz);
+            wykazZaksiegowanychDokumentow = wykaz;
+            Msg.msg("Zakończono weryfikację sald dokumnetów wb/rk");
+        } else {
+            Msg.msg("Można sprawdzać salda jedynie dokumentów typu RK i WB");
         }
-        dokDAOfk.editList(wykaz);
-        wykazZaksiegowanychDokumentow = wykaz;
     }
 
     /**
