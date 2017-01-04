@@ -24,7 +24,7 @@
                 </p:column>
                 <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
                 <p:column>
-                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{cechyzapisuPrzegladView.drukujzaksiegowanydokument()}" styleClass="fkbutton"
+                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{cechyzapisuPrzegladView.drukujzaksiegowanydokument()}" styleClass="fkbutton"
                                       style="margin-left: 100px; width: 120px;" />
                 </p:column>
                 <p:column>

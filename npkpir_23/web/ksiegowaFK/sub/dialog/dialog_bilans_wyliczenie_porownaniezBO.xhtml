@@ -48,9 +48,9 @@
                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
                  <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":form_dialogbilansporownanie:dataList" style="float: left;" />
                  <p:column>
-                      <p:commandButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilansBOData('a', pozycjaBRView.sumabilansowaaktywaBO, pozycjaBRView.sumabilansowaaktywa)}">
+                      <p:commandButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRView.drukujBilansBOData('a', pozycjaBRView.sumabilansowaaktywaBO, pozycjaBRView.sumabilansowaaktywa)}">
                       </p:commandButton>
-                      <p:commandButton value="#{mgs.drukujpasywa}"  style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilansBOData('p', pozycjaBRView.sumabilansowapasywaBO, pozycjaBRView.sumabilansowapasywa)}">
+                      <p:commandButton value="#{mgs.drukujpasywa}"  style="margin-left: 10px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRView.drukujBilansBOData('p', pozycjaBRView.sumabilansowapasywaBO, pozycjaBRView.sumabilansowapasywa)}">
                       </p:commandButton>
                 </p:column>
             </p:panelGrid>

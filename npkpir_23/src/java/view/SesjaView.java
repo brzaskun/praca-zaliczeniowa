@@ -16,7 +16,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
-import javax.websocket.PongMessage;
 
 /**
  *
@@ -59,7 +58,7 @@ public class SesjaView implements Serializable {
     public void dodajwydruk() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         try {
-            sesja = sesjaDAO.find(session.getId());
+            Sesja sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscwydrukow();
             ilosc = ilosc + 1;
             sesja.setIloscwydrukow(ilosc);
@@ -71,7 +70,7 @@ public class SesjaView implements Serializable {
     public void dodajmail() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         try {
-            sesja = sesjaDAO.find(session.getId());
+            Sesja sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscmaili();
             ilosc = ilosc + 1;
             sesja.setIloscmaili(ilosc);
@@ -83,7 +82,7 @@ public class SesjaView implements Serializable {
     public void dodajdokument() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         try {
-            sesja = sesjaDAO.find(session.getId());
+            Sesja sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscdokumentow();
             ilosc = ilosc + 1;
             sesja.setIloscdokumentow(ilosc);

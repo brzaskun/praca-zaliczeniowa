@@ -36,7 +36,7 @@
                                 <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
                                 <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                             </h:selectOneMenu>
-                            <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{kontoObrotyFKView.drukujPdfObrotyNaKoncie}"   style="width: 120px; margin-left: 50px;"/>
+                            <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{kontoObrotyFKView.drukujPdfObrotyNaKoncie}"   style="width: 120px; margin-left: 50px;"/>
                         </p:panelGrid>
                     </h:form>
                 </p:panelGrid>

@@ -246,9 +246,9 @@
                 <p:commandButton value="8" actionListener="#{bilansWprowadzanieView.pobierzlista(8)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="S" actionListener="#{bilansWprowadzanieView.pobierzlistaS()}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <h:outputText value="wprowadzanie i edycja kont grupy #{bilansWprowadzanieView.nraktualnejlisty}" style="margin-left: 10px;"/>
-                <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukujBO()}" style="width: 120px; margin-left: 300px;"
+                <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujBO()}" style="width: 120px; margin-left: 300px;"
                                   rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
-                <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukujObroty()}" style="width: 120px; margin-left: 300px;"
+                <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujObroty()}" style="width: 120px; margin-left: 300px;"
                                   rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
                 <p:selectBooleanCheckbox value="#{bilansWprowadzanieView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
                     <p:ajax event="change" partialSubmit="true" global="false"/>

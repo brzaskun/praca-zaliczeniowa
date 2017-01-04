@@ -54,10 +54,10 @@
                 </p:column>
                 
                     <h:outputText value="#{mgs.przetwarzanie}"/>
-                    <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
-                    <p:commandButton value="druk bez 0" actionListener="#{saldoAnalitykaView.drukuj(4)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
+                    <p:commandButton value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
+                    <p:commandButton value="druk bez 0" action="#{sesjaView.dodajwydruk()}" actionListener="#{saldoAnalitykaView.drukuj(4)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
 <!--                    <p:commandButton value="druk Euro" actionListener="#{saldoAnalitykaView.drukuj(5)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>-->
-                    <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
+                    <p:commandButton value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
                  <p:column >
                      <p:selectOneMenu id="rodzajkont" value="#{saldoAnalitykaView.wybranyRodzajKonta}"  style="margin-left: 20px;">
                         <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" 

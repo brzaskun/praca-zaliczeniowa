@@ -8,7 +8,6 @@ package interceptor;
 import dao.SesjaDAO;
 import entity.Sesja;
 import error.E;
-import java.io.Serializable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Osito
  */
-
+@Interceptor
 public class WydrukInterceptor {
     
     @Inject
@@ -38,7 +37,7 @@ public class WydrukInterceptor {
             sesja.setIloscwydrukow(ilosc);
             System.out.println("ilosc wydrukow "+ilosc);
             result = ctx.proceed();
-            //sesjaDAO.edit(sesja);
+            sesjaDAO.edit(sesja);
         } catch (Exception e) { 
             E.e(e);
         } finally {

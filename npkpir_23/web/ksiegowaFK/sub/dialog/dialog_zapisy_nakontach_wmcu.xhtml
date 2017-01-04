@@ -77,8 +77,8 @@
                         <f:selectItems value="#{zapisyKontaPodatnikFKView.grupykont}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="#{mgs.pobierz}" actionListener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" style="width: 120px; margin-left: 10px;" update=":formzapisynakontachwmcu"/>
-                <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{zapisyKontaPodatnikFKView.drukujPdfZapisyNaKoncie}"   style="width: 120px; margin-left: 30px;"/>
+                <p:commandButton value="#{mgs.pobierz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" style="width: 120px; margin-left: 10px;" update=":formzapisynakontachwmcu"/>
+                <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{zapisyKontaPodatnikFKView.drukujPdfZapisyNaKoncie}"   style="width: 120px; margin-left: 30px;"/>
             </p:panelGrid>
 
             <p:dataTable id="tabelazapisywmcu" value="#{zapisyKontaPodatnikFKView.kontozapisy}" var="loop" 

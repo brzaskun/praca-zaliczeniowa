@@ -89,8 +89,8 @@
                 </f:facet>
             </p:dataTable>
             <p:outputPanel style="margin-top: 10px">
-                <p:commandButton value="zaksięguja" style="width: 120px; margin-bottom: 10px;" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
-                <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-bottom: 10px; margin-left: 10px;" actionListener="#{rozniceKursoweFKView.drukowanieRRK()}"/>
+                <p:commandButton value="zaksięguja" style="width: 120px; margin-bottom: 10px;" action="#{sesjaView.dodajwydruk()}" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
+                <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-bottom: 10px; margin-left: 10px;" action="#{sesjaView.dodajwydruk()}" actionListener="#{rozniceKursoweFKView.drukowanieRRK()}"/>
             </p:outputPanel>
         </h:form>
     </p:dialog>

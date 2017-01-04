@@ -68,7 +68,7 @@
                     </p:column>
                 <p:column>
                     <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist)}" styleClass="fkbutton"
-                                      style="margin-left: 20px; width: 120px;"  rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"/>
+                                       action="#{sesjaView.dodajwydruk()}" style="margin-left: 20px; width: 120px;"  rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"/>
                 </p:column>
                 <p:column>
                     <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
@@ -196,7 +196,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column width="25" style="text-align: center;" >
-                    <p:commandButton id="drukujbutton" icon="fa fa-print" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
+                    <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
                                      update=":formwpisdokument" style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;" >

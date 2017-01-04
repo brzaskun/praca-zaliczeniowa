@@ -57,18 +57,18 @@
                   <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form_dialog_plankont:dataList_data')" global="false" style="float: left;" />
                   <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form_dialog_plankont:dataList_data')"  global="false" style="float: left;" />
                   <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form_dialog_plankont:dataList_data')"  global="false" style="float: left;" />
-                  <p:splitButton value="#{mgs.drukuj}" actionListener="#{planKontView.drukujPlanKont('all')}" global="false" style="margin-left: 20px;">
-                      <p:menuitem global="false" value="wynikowe" actionListener="#{planKontView.drukujPlanKont('wynikowe')}" icon="fa fa-print"/>  
-                      <p:menuitem global="false" value="bilansowe" actionListener="#{planKontView.drukujPlanKont('bilansowe')}" icon="fa fa-print"/>  
-                      <p:menuitem global="false" value="grupa 0" actionListener="#{planKontView.drukujPlanKont('grupa0')}" icon="fa fa-print"/>  
-                      <p:menuitem global="false" value="grupa 1" actionListener="#{planKontView.drukujPlanKont('grupa1')}" icon="fa fa-print"/>  
-                      <p:menuitem global="false" value="grupa 2" actionListener="#{planKontView.drukujPlanKont('grupa2')}" icon="fa fa-print"/>  
-                      <p:menuitem global="false" value="grupa 3" actionListener="#{planKontView.drukujPlanKont('grupa3')}" icon="fa fa-print"/>  
-                      <p:menuitem global="false" value="grupa 4" actionListener="#{planKontView.drukujPlanKont('grupa4')}" icon="fa fa-print"/>  
-                      <p:menuitem global="false" value="grupa 5" actionListener="#{planKontView.drukujPlanKont('grupa5')}" icon="fa fa-print"/>  
-                      <p:menuitem global="false" value="grupa 6" actionListener="#{planKontView.drukujPlanKont('grupa6')}" icon="fa fa-print"/>  
-                      <p:menuitem global="false" value="grupa 7" actionListener="#{planKontView.drukujPlanKont('grupa7')}" icon="fa fa-print"/>  
-                      <p:menuitem global="false" value="grupa 8" actionListener="#{planKontView.drukujPlanKont('grupa8')}" icon="fa fa-print"/>  
+                  <p:splitButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('all')}"  action="#{sesjaView.dodajwydruk()}" global="false" style="margin-left: 20px;">
+                      <p:menuitem global="false" value="wynikowe" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('wynikowe')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="bilansowe" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('bilansowe')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 0" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa0')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 1" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa1')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 2" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa2')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 3" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa3')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 4" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa4')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 5" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa5')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 6" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa6')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 7" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa7')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 8" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa8')}" icon="fa fa-print"/>  
                   </p:splitButton>
                   <p:selectBooleanCheckbox id="bezslownikowych" itemLabel="bez słownikowych" value="#{planKontView.bezslownikowych}">
                       <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont:dataList"/>
