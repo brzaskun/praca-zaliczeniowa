@@ -621,7 +621,7 @@ public class PozycjaBRKontaView implements Serializable {
             Msg.msg("e", "Nie można kopiować układu w ten sam układ");
             return;
         }
-        if (ukladdocelowykonta.getRok().equals(wpisView.getRokWpisuSt())) {
+        if (!ukladdocelowykonta.getRok().equals(wpisView.getRokWpisuSt())) {
             Msg.msg("e", "Układ docelowy nie jest bieżącym rokiem wpisu. Nie można skopiować");
             return;
         }

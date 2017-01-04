@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import javax.websocket.PongMessage;
 
 /**
  *
@@ -37,7 +38,7 @@ public class SesjaView implements Serializable {
 
     @PostConstruct
     private void init() {
-
+        pobierzsesje();
     }
 
     public void pobierzsesje() {
@@ -50,7 +51,8 @@ public class SesjaView implements Serializable {
                     it.remove();
                 }
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
         }
     }
 
