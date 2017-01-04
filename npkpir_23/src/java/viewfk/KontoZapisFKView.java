@@ -612,6 +612,15 @@ public class KontoZapisFKView implements Serializable{
 
                     }
                 }
+                //gdy nie ma walut ale zostalo saldo w pln
+                if (saldowalutywn == 0.0 && saldowalutyma == 0.0 && (saldowalutywnpln > 0.0 || saldowalutymapln > 0.0)) {
+                    if (saldowalutywnpln > 0.0) {
+                        roznicawn = saldowalutywnpln;
+                    }
+                    if (saldowalutymapln > 0.0) {
+                        roznicama = saldowalutymapln;
+                    }
+                }
             }
         }
         if (roznicawn < 0.0) {
