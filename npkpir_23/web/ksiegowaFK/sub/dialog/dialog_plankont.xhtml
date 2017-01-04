@@ -57,7 +57,7 @@
                   <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form_dialog_plankont:dataList_data')" global="false" style="float: left;" />
                   <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form_dialog_plankont:dataList_data')"  global="false" style="float: left;" />
                   <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form_dialog_plankont:dataList_data')"  global="false" style="float: left;" />
-                  <p:splitButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('all')}"  action="#{sesjaView.dodajwydruk()}" global="false" style="margin-left: 20px;">
+                  <p:splitButton value="#{mgs.drukuj}"  actionListener="#{planKontView.drukujPlanKont('all')}"  action="#{sesjaView.dodajwydruk()}" global="false" style="margin-left: 20px;">
                       <p:menuitem global="false" value="wynikowe" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('wynikowe')}" icon="fa fa-print"/>  
                       <p:menuitem global="false" value="bilansowe" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('bilansowe')}" icon="fa fa-print"/>  
                       <p:menuitem global="false" value="grupa 0" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa0')}" icon="fa fa-print"/>  
