@@ -37,7 +37,7 @@ public class SesjaView implements Serializable {
 
     @PostConstruct
     private void init() {
-        pobierzsesje();
+       
     }
 
     public void pobierzsesje() {
@@ -56,7 +56,7 @@ public class SesjaView implements Serializable {
     }
 
     public void dodajwydruk() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         try {
             Sesja sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscwydrukow();
@@ -68,7 +68,7 @@ public class SesjaView implements Serializable {
     }
 
     public void dodajmail() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         try {
             Sesja sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscmaili();
@@ -80,7 +80,7 @@ public class SesjaView implements Serializable {
     }
 
     public void dodajdokument() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         try {
             Sesja sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscdokumentow();
