@@ -9,7 +9,7 @@
               id="dodawaniekontaanalitycznego" onShow="snapshot('form_dialog_plankont:dataList_data');" onHide="recover('form_dialog_plankont:dataList_data');">  
         <h:form id="formY">  
         <p:focus for="dkp">
-            <p:panelGrid id="dkp" columns="2" style="width: 400px;">
+            <p:panelGrid id="dkp" columns="2" style="width: 550px;">
                        <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
                         <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.noweKonto.nazwapelna}" 
                                          title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required." onblur="kopiujnazwepelnakonta('formY:nazwapelna','formY:nazwaskrocona')"/>
