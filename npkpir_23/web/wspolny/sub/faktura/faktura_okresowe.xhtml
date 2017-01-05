@@ -70,6 +70,9 @@
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>      
                 <p:ajax event="rowToggle" global="false" />
+                <p:column style="text-align: center;" width="20"> 
+                    <h:outputText value="#{row+1}"/>
+                </p:column>
                 <p:column width="20">
                     <p:rowToggler />
                 </p:column>

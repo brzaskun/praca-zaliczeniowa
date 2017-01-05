@@ -179,7 +179,8 @@ public class FakturaView implements Serializable {
         fakturyokresoweFiltered = null;
         fakturyFiltered = null;
         aktywnytab = 1;
-        fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
         for (Faktura fakt : fakturytmp) {
             if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
@@ -918,7 +919,8 @@ public class FakturaView implements Serializable {
 
     public void usunfaktureokresowa() {
         for (Fakturywystokresowe p : gosciwybralokres) {
-            fakturywystokresoweDAO.destroy(p);
+            p.setBiezaca0archiwalna1(true);
+            fakturywystokresoweDAO.edit(p);
             fakturyokresowe.remove(p);
             if (fakturyokresoweFiltered != null) {
                 fakturyokresoweFiltered.remove(p);
