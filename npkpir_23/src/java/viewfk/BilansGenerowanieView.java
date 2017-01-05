@@ -35,6 +35,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdffk.PdfBilansGen;
 import testobjects.WierszBO_T;
 import static testobjects.testobjects.getKlienci;
 import static testobjects.testobjects.getPodatnik;
@@ -240,6 +241,16 @@ public class BilansGenerowanieView implements Serializable {
         }
     }
 
+    public void drukuj() {
+        try {
+            String nazwa = "bogenerr"+wpisView.getPodatnikObiekt().getNip();
+            PdfBilansGen.drukujbilansgen(nazwa, komunikatyerror, komunikatyerror2, komunikatyerror3, wpisView.getWprowadzil());
+            Msg.dP();
+        } catch (Exception e){
+            Msg.dPe();
+        }
+    }
+    
     private List<RoznicaSaldBO> znajdzroznicesald(List<SaldoKonto> listaSaldoKontoRokPop, List<Konto> kontaNowyRok) {
         List<RoznicaSaldBO> listaroznic = new ArrayList<>();
         for (SaldoKonto p : listaSaldoKontoRokPop) {

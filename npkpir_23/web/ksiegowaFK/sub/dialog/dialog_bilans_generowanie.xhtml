@@ -68,6 +68,9 @@
                              update="form_dialog_bilans_generowanie formbilanswprowadzanie3:kwotysum"/>
             <p:commandButton value="zamknij" style="margin-left: 40px; width: 120px;" global="false"
                              onclick="PF('dialog_bilans_generowanie').hide();"/>
+            <p:commandButton value="drukuj" style="margin-left: 40px; width: 120px;" actionListener="#{bilansGenerowanieView.drukuj()}" 
+                             action="#{sesjaView.dodajwydruk()}" global="false" oncomplete="pokazwydruk('bogenerr#{WpisView.getPodatnikObiekt().getNip()}')"
+                             />
         </h:form>
     </p:dialog>
 </ui:composition>
