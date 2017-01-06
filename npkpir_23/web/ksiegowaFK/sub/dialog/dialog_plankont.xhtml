@@ -12,7 +12,7 @@
     <p:outputPanel deferredMode="true">
     <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu} rok #{WpisView.rokWpisuSt}" widgetVar="dialogplankont" dynamic="true"
               resizable="false" 
-              onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);ustalmaxlevel('form_dialog_plankont:dataList_data');zwinwszystkie('form_dialog_plankont:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
+              onShow="ustawdialog('dialogpierwszy','menuustawienia', 1330, 750);ustalmaxlevel('form_dialog_plankont:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form_dialog_plankont">
            
             <p:contextMenu id="contextforplankont" for="dataList"  style="width: 200px;">
@@ -92,8 +92,8 @@
                                               (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
-                             styleClass="tablicaplankont" rowHover="true" initMode="immediate"
-                             style="width: 1200px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             styleClass="tablicaplankont" rowHover="true" initMode="immediate" editable="true" editMode="cell"
+                             style="width: 1280px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
@@ -113,6 +113,7 @@
                             <p:column colspan="1" headerText="blok" width="40"/>
                             <p:column colspan="1" headerText="słow" width="40"/>
                             <p:column colspan="1" headerText="P/K" width="40"/>
+                            <p:column colspan="1" headerText="saldo" width="40"/>
                         </p:row>
                     </p:columnGroup>
                     <p:column>
@@ -157,14 +158,28 @@
                     <p:column  style="width: 100px; text-align: center;">
                         <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : '!'}" style="#{loop.kontopozycjaID == null ? 'color: red' : null}"/> 
                     </p:column>
-                    <p:column  style="width: 40px;">
+                    <p:column  style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
                     </p:column>
-                    <p:column style="width: 40px;">
+                    <p:column style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
                     </p:column>
-                    <p:column style="width: 40px;">
+                    <p:column style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
+                    </p:column>
+                    <p:column style="width: 40px; text-align: center;">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{loop.wnma0wm1ma2S}" /></f:facet>
+                            <f:facet name="input">
+                                <h:selectOneMenu value="#{loop.wnma0wm1ma2}" style="width:100%">
+                                    <f:selectItem itemLabel="wnma" itemValue="0"/>
+                                    <f:selectItem itemLabel="wn" itemValue="1"/>
+                                    <f:selectItem itemLabel="ma" itemValue="2"/>
+                                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.nanieswnma(loop)}" update="form_dialog_plankont:dataList"/>
+                                </h:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>

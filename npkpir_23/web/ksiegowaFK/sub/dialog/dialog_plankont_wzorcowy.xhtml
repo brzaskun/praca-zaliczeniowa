@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
    
     <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" dynamic="true"
-              resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
+              resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1350, 750);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy" style="width: 200px;">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="PF('nowekontosyntetyczne').show();" />
@@ -37,17 +37,29 @@
                                     }
                                 }
                         </script>-->
-            <p:panelGrid columns="6">
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
+            <p:panelGrid columns="8">
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie"  onclick="rozwinwszystkie('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
                 <p:spacer width="50"/>
+                 <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
+                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczneWzorcowy()}" update="formwzorcowy:dataListwzorcowy"/>
+                  </p:selectBooleanCheckbox>
+                  <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.kontadowyswietlenia}"  style="width: 170px;">
+                        <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczneWzorcowy()}" update="formwzorcowy:dataListwzorcowy"/>
+                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                  </p:selectOneMenu>
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataListwzorcowy" value="#{planKontView.wykazkontwzor}" var="loop"  selectionMode="single"
                              selection="#{planKontView.selectednodekontowzorcowy}" 
-                             rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 
+                             rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
+                                              (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :
+                                              (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
+                                              (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont"
                              style="width: 1290px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
@@ -55,6 +67,7 @@
                     <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkontawzorcowy, :formedycjanazwwzorcowy" global="false" listener="#{planKontView.selrowwzorcowy()}"/>
                     <p:columnGroup type="header">
                         <p:row>
+                            <p:column colspan="1" headerText="" width="1" />
                             <p:column colspan="1" headerText="numerkonts" width="80" />
                             <p:column colspan="1" headerText="nazwa pełna" width="300"/>
                             <p:column colspan="1" headerText="nazwa skrócona" width="200"/>
@@ -67,8 +80,12 @@
                             <p:column colspan="1" headerText="słow" width="40"/>
                             <p:column colspan="1" headerText="P/K" width="40"/>
                             <p:column colspan="1" headerText="rok" width="40"/>
+                            <p:column colspan="1" headerText="saldo" width="40"/>
                         </p:row>
                     </p:columnGroup>
+                    <p:column>
+                        <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
+                    </p:column>
                     <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}" >
                         <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
@@ -102,17 +119,20 @@
                      <p:column  style="width: 100px;">
                         <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : 'nieprzyp.'}" /> 
                     </p:column>
-                    <p:column  style="width: 60px;">
+                    <p:column  style="width: 60px; text-align: center;">
                         <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
                     </p:column>
-                    <p:column style="width: 60px;">
+                    <p:column style="width: 60px; text-align: center;">
                         <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
                     </p:column>
-                    <p:column style="width: 40px;">
+                    <p:column style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
                     </p:column>
                     <p:column style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.rok}" /> 
+                    </p:column>
+                    <p:column style="width: 40px; text-align: center;">
+                        <h:outputText value="#{loop.wnma0wm1ma2S}" /> 
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>

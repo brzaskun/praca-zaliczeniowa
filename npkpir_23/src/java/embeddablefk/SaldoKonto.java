@@ -184,6 +184,21 @@ public class SaldoKonto implements Serializable {
         this.opisdlabo = "konto: "+t.getKonto().getPelnynumer()+" nierozliczone różnice kursowe";
     }
     
+     public String getStyleWn() {
+        String zwrot = "float: right; color: green; font-weight: 700;";
+        if (this.saldoWn != 0.0 && this.konto.getWnma0wm1ma2() == 2) {
+            zwrot = "float: right; color: red; font-weight: 900;";
+        }
+        return zwrot;
+    }
+    
+    public String getStyleMa() {
+        String zwrot = "float: right; color: green; font-weight: 700;";
+        if (this.saldoMa != 0.0 && this.konto.getWnma0wm1ma2() == 1) {
+            zwrot = "float: right; color: red; font-weight: 900;";
+        }
+        return zwrot;
+    }
     
     @Override
     public int hashCode() {
@@ -363,6 +378,14 @@ public class SaldoKonto implements Serializable {
     
     public void setSaldoMaPLN(double saldoMaPLN) {
         this.saldoMaPLN = saldoMaPLN;
+    }
+    
+    public String getNazwaObcieta(int ilepokazac) {
+        String zwrot = this.konto.getNazwapelna();
+        if (zwrot.length() > ilepokazac) {
+            zwrot = zwrot.substring(0,ilepokazac);
+        }
+        return zwrot;
     }
 //</editor-fold>
     

@@ -99,8 +99,9 @@
                 <p:column styleClass="filter60" headerText="#{mgs.konto}" width="50"  filterBy="#{loop.konto.pelnynumer}">
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" width="140" >
-                    <h:outputText id="pol1" value="#{loop.konto.nazwapelna}"/>
+                <p:column  headerText="#{mgs.opis}" width="140" >
+                    <h:outputText id="pol1" value="#{loop.getNazwaObcieta(60)}"/>
+                    <p:tooltip for="pol1" value="#{loop.konto.nazwapelna}" />
                 </p:column>
                 <p:column headerText="#{mgs.boWn}" width="60">
                     <h:outputText id="pol2" value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
@@ -143,18 +144,18 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.saldoWn}" width="60" sortBy="#{loop.saldoWn}">
-                    <h:outputText  id="pol10" value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 600;">
+                    <h:outputText  id="pol10" value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="#{loop.styleWn}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.saldoMa}" width="60" sortBy="#{loop.saldoMa}">
-                    <h:outputText id="pol11" value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 600;">
+                    <h:outputText id="pol11" value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="#{loop.styleMa}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="syntetyka" width="140" >
-                    <h:outputText id="pol12" value="#{loop.konto.kontomacierzyste.nazwapelna}"/>
-                    <p:tooltip for="pol12" value="#{loop.konto.kontomacierzyste.pelnynumer}" />
+                    <h:outputText id="pol12" value="#{loop.konto.kontomacierzyste.getNazwaObcieta(40)}"/>
+                    <p:tooltip for="pol12" value="#{loop.konto.kontomacierzyste.pelnynumer} #{loop.konto.kontomacierzyste.nazwapelna}" />
                 </p:column>
                 <p:rowExpansion rendered="#{saldoAnalitykaView.zzapisami}">
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" rowKey="#{loopik.hashCode()}"

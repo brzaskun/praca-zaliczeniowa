@@ -185,6 +185,36 @@ public class PlanKontView implements Serializable {
         styltabeliplankont = opracujstylwierszatabeli();
     }
     
+    public void planBezSlownikowychSyntetyczneWzorcowy() {
+        if (bezslownikowych == true && tylkosyntetyka == true) {
+            wykazkontwzor = kontoDAOfk.findKontazLeveluWzorcowy(wpisView,0);
+        } else if (bezslownikowych == true) {
+            wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik("Wzorcowy", wpisView.getRokWpisuSt());
+        } else if (tylkosyntetyka == true) {
+            wykazkontwzor = kontoDAOfk.findKontazLeveluWzorcowy(wpisView,0);
+        } else {
+            wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", wpisView.getRokWpisuSt());
+        }
+        if (kontadowyswietlenia.equals("bilansowe")) {
+            for (Iterator it = wykazkontwzor.iterator(); it.hasNext();) {
+                Konto k = (Konto) it.next();
+                if (k.getBilansowewynikowe().equals("wynikowe")) {
+                    it.remove();
+                }
+            }
+        }
+        if (kontadowyswietlenia.equals("wynikowe")) {
+            for (Iterator it = wykazkontwzor.iterator(); it.hasNext();) {
+                Konto k = (Konto) it.next();
+                if (k.getBilansowewynikowe().equals("bilansowe")) {
+                    it.remove();
+                }
+            }
+        }
+        Collections.sort(wykazkontwzor, new Kontocomparator());
+        styltabeliplankont = opracujstylwierszatabeli();
+    }
+    
     public void planTylkoSyntetyczne() {
         if (tylkosyntetyka == true) {
             wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
@@ -1435,6 +1465,90 @@ public class PlanKontView implements Serializable {
         }
     }
     
+     public void nanieswnma(Konto p) {
+        try {
+            kontoDAOfk.edit(p);
+            if (p.isMapotomkow()) {
+                List<Konto> potomki = pobierzpotomkow(p);
+                for (Konto r : potomki) {
+                    r.setWnma0wm1ma2(p.getWnma0wm1ma2());
+                    kontoDAOfk.edit(r);
+                    nanieswnmaWzorcowy(r);
+                }
+            }
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+    
+    private List<Konto> pobierzpotomkow(Konto macierzyste) {
+          try {
+              return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), macierzyste.getPelnynumer());
+          } catch (Exception e) {  E.e(e);
+              Msg.msg("e", "nie udane pobierzpotomkow");
+          }
+          return null;
+      }
+    
+    public void nanieswnmaWzorcowy(Konto p) {
+        kontoDAOfk.edit(p);
+        if (p.isMapotomkow()) {
+            List<Konto> potomki = pobierzpotomkowWzorcowy(p);
+            for (Konto r : potomki) {
+                r.setWnma0wm1ma2(p.getWnma0wm1ma2());
+                kontoDAOfk.edit(r);
+                nanieswnmaWzorcowy(r);
+            }
+        }
+    }
+    
+    private List<Konto> pobierzpotomkowWzorcowy(Konto macierzyste) {
+          try {
+              return kontoDAOfk.findKontaPotomnePodatnik("Wzorcowy", wpisView.getRokWpisu(), macierzyste.getPelnynumer());
+          } catch (Exception e) {  E.e(e);
+              Msg.msg("e", "nie udane pobierzpotomkow");
+          }
+          return null;
+      }
+    
+    public void implementujwmma0mn1ma0() {
+        try {
+            for (Konto p : wykazkontwzor) {
+                if (p.getMacierzysty() == 0) {
+                    Konto r = kontoDAOfk.findKonto(p.getPelnynumer(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                    if (r != null) {
+                        nanieswnmaImpl(r, p.getWnma0wm1ma2());
+                    }
+                }
+            }
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+    
+    public void nanieswnmaImpl(Konto p, int wnma0wn1ma2) {
+        p.setWnma0wm1ma2(wnma0wn1ma2);
+        kontoDAOfk.edit(p);
+        if (p.isMapotomkow()) {
+            List<Konto> potomki = pobierzpotomkowImpl(p);
+            for (Konto r : potomki) {
+                r.setWnma0wm1ma2(p.getWnma0wm1ma2());
+                kontoDAOfk.edit(r);
+                nanieswnmaImpl(r,wnma0wn1ma2);
+            }
+        }
+    }
+    
+    private List<Konto> pobierzpotomkowImpl(Konto macierzyste) {
+          try {
+              return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), macierzyste.getPelnynumer());
+          } catch (Exception e) {  E.e(e);
+              Msg.msg("e", "nie udane pobierzpotomkow");
+          }
+          return null;
+      }
     
 //    "#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
 //    (loop.zwyklerozrachszczegolne eq 'zwykłe ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : 'rowb_rozrachunkowe') :

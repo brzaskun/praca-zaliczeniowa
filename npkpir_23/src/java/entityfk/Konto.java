@@ -235,6 +235,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "kontokategoria",referencedColumnName = "id")
     private Kontokategoria kontokategoria;
+    @Column(name = "wnma0wm1ma2")
+    private int wnma0wm1ma2;
     
 //    @OneToMany(mappedBy = "konto")
 //    private List<StronaWiersza> stronaWiersza;
@@ -353,6 +355,25 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public void setSyntetycznenumer(String syntetycznenumer) {
         this.syntetycznenumer = syntetycznenumer;
+    }
+
+    public int getWnma0wm1ma2() {
+        return wnma0wm1ma2;
+    }
+
+    public void setWnma0wm1ma2(int wnma0wm1ma2) {
+        this.wnma0wm1ma2 = wnma0wm1ma2;
+    }
+    
+    public String getWnma0wm1ma2S() {
+        String zwrot = "wnma";
+        if (wnma0wm1ma2 == 1) {
+            zwrot = "wn";
+        }
+        if (wnma0wm1ma2 == 2) {
+            zwrot = "ma";
+        }
+        return zwrot;
     }
     
 
@@ -580,7 +601,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.kontomacierzyste = kontomacierzyste;
     }
 
-    
+   
     
     
     @Override
@@ -652,7 +673,13 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         }
         return null;
     }
-
+    public String getNazwaObcieta(int ilepokazac) {
+        String zwrot = this.getNazwapelna();
+        if (zwrot.length() > ilepokazac) {
+            zwrot = zwrot.substring(0,ilepokazac);
+        }
+        return zwrot;
+    }
   public static void main(String[] args) throws Exception  {
         EntityManager em = Em.getEm();
         List<Object> konta = em.createNamedQuery("Konto.findAll").getResultList();
