@@ -28,8 +28,8 @@
             </p:panelGrid>
             <h:outputText value="wybierz parametr aktualny"/><br/>
             <p:panelGrid id="parametrypodatnika12" columns="4" >
-                <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-                <p:selectOneMenu value="#{podatnikView.parametr.parametr}">
+                <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.paramCzworkiPiatki.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
+                <p:selectOneMenu value="#{podatnikView.paramCzworkiPiatki.parametr}">
                     <f:selectItem itemLabel="tylko konta zesp.4" itemValue="nie"/>
                     <f:selectItem itemLabel="konto 490 + 5" itemValue="tak"/>
                 </p:selectOneMenu>

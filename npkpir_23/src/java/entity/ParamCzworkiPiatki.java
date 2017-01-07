@@ -22,7 +22,7 @@ public class ParamCzworkiPiatki extends ParamSuper implements Serializable{
         
     public ParamCzworkiPiatki(Parametr r) {
         this.mcOd = r.getMcOd();
-        this.rokOd = r.getMcOd();
+        this.rokOd = r.getRokOd();
         this.mcDo = r.getMcDo();
         this.rokDo = r.getRokDo();
         this.parametr = r.getParametr();
