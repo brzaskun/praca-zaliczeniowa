@@ -11,6 +11,7 @@ import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
+import dao.WpisDAO;
 import daoFK.EVatwpisFKDAO;
 import data.Data;
 import embeddable.EVatViewPola;
@@ -23,9 +24,11 @@ import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Ewidencjevat;
 import entity.Rodzajedok;
+import entity.Wpis;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import error.E;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -44,7 +47,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
 import org.primefaces.component.tabview.TabView;
@@ -104,6 +109,8 @@ public class EwidencjaVatView implements Serializable {
     //tablica obiektw danego klienta
     @Inject
     private DokDAO dokDAO;
+    @Inject 
+    private WpisDAO wpisDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
     private String nazwaewidencjiMail;
@@ -146,6 +153,24 @@ public class EwidencjaVatView implements Serializable {
        }
     }
 
+    public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
+        aktualizuj();
+        init();
+        stworzenieEwidencjiZDokumentow();
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
+    }
+    
+    private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
+        wpisView.naniesDaneDoWpis();
+    }
+    
     public void wybranewierszeewidencjiczysc() {
         wybranewierszeewidencji = null;
         zachowanewybranewierszeewidencji = null;

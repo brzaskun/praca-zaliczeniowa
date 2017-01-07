@@ -5,19 +5,25 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:layoutUnit position="west" size="220" header="Bieżący podatnik" collapsible="true" resizable="true" style="box-shadow: 10px 10px 5px #888;">
+        <bcf:ajaxs/>
         <h:form id="westWpis">
-
             <p:panelGrid id="westWpisWidok" columns="2" style="margin-left: 7%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikWpisu}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.rokWpisu}"/>
-                <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.miesiacWpisu}"/>
+                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <p:ajax event="change" listener="#{ksiegaView.aktualizujTabeleTabela}" update="formVatZestKsiegowa westWpis:linki"/>
+                </p:selectOneMenu>
+                <h:outputText value="Miesiąc:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{Mce.mceList}"/>
+                    <p:ajax event="change" listener="#{ksiegaView.aktualizujTabeleTabela}" update="formVatZestKsiegowa westWpis:linki"/>
+                </p:selectOneMenu>
             </p:panelGrid>
-        
         <p:panel id="linki" header="linki">
             
                 <p:panelGrid columns="1">
