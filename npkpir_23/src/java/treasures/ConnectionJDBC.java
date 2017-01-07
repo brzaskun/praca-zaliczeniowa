@@ -5,6 +5,8 @@
  */
 package treasures;
 
+import entity.Podatnik;
+import error.E;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,6 +21,8 @@ import javax.naming.NamingException;
  * @author Osito
  */
 public class ConnectionJDBC {
+    //to nie jest niestety idealne rozwiazanie testowania bazy danych bo tu dostajemy
+    //jedynie dostep do pol a nie ma transofrmacji rzedu na object
      public static Connection getConnection() throws NamingException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         String url = "jdbc:mysql://localhost:3306/";
         String dbName = "pkpir?useUnicode=true&amp;characterEncoding=UTF-8";
@@ -41,12 +45,13 @@ public class ConnectionJDBC {
             ResultSet result =  ps.executeQuery();
             List<String> list = new ArrayList<>();
             while(result.next()){
+                
                 list.add(result.getString("nip"));
                 System.out.println(result.getString("nip"));
             }
             System.out.println("e");
         } catch (Exception ex) {
-            
+            E.e(ex);
         }
     }
 }

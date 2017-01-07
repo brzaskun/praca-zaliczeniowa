@@ -11,6 +11,7 @@ import dao.WpisDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Roki;
+import entity.ParamCzworkiPiatki;
 import entity.Podatnik;
 import entity.Uz;
 import entity.Wpis;
@@ -258,9 +259,9 @@ public class WpisView implements Serializable {
     }
 
     private void obsluzPiatki() {
-        List<Parametr> piatki = podatnikObiekt.getFKpiatki();
+        List<ParamCzworkiPiatki> piatki = podatnikObiekt.getParamCzworkiPiatki();
         if (piatki != null && (!piatki.isEmpty())) {
-            for (Parametr p : piatki) {
+            for (ParamCzworkiPiatki p : piatki) {
                 if (p.getRokOd().equals(rokWpisuSt)) {
                     FKpiatki = (p.getParametr().equals("tak") ? true : false);
                 }

@@ -4,6 +4,8 @@
  */
 package view;
 
+import beanParametr.BeanParamSuper;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import dao.ParamVatUEDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
@@ -14,6 +16,7 @@ import daoFK.KontoDAOfk;
 import data.Data;
 import embeddable.Parametr;
 import embeddable.Udzialy;
+import entity.ParamCzworkiPiatki;
 import entity.ParamSuper;
 import entity.ParamVatUE;
 import entity.Podatnik;
@@ -85,6 +88,8 @@ public class PodatnikView implements Serializable {
     private Zusstawki zusstawkiWybierz;
     @Inject
     private Parametr parametr;
+    @Inject
+    private ParamSuper paramSuper;
     @Inject
     private Parametr ostatniparametr;
     @Inject
@@ -763,16 +768,14 @@ public class PodatnikView implements Serializable {
         zachowajZmiany(selected);
     }
     
-     public void dodajFKpiatki() {
+     public void dodajParamCzworkiPiatki() {
         selected = wpisView.getPodatnikObiekt();
-        List<Parametr> lista = new ArrayList<>();
-        try {
-            lista.addAll(selected.getFKpiatki());
-        } catch (Exception e) { E.e(e); 
+        List<ParamCzworkiPiatki> lista = new ArrayList<>();
+        if (selected.getParamCzworkiPiatki() == null) {
+            selected.setParamCzworkiPiatki(new ArrayList<ParamCzworkiPiatki>());
         }
-        if (sprawdzrok(parametr, lista) == 0) {
-            lista.add(parametr);
-            selected.setFKpiatki(lista);
+        if (BeanParamSuper.sprawdzrok(paramSuper, lista) == 0) {
+            selected.getParamCzworkiPiatki().add((ParamCzworkiPiatki) paramSuper);
             zachowajZmiany(selected);
             parametr = new Parametr();
             Msg.msg("Dodano ustawienie piątek");
@@ -781,11 +784,8 @@ public class PodatnikView implements Serializable {
         }
     }
 
-    public void usunFKpiatki() {
-        List<Parametr> tmp = new ArrayList<>();
-        tmp.addAll(selected.getFKpiatki());
-        tmp.remove(tmp.size() - 1);
-        selected.setFKpiatki(tmp);
+    public void usunParamCzworkiPiatki() {
+        selected.getParamCzworkiPiatki().remove(selected.getParamCzworkiPiatki().size()-1);
         zachowajZmiany(selected);
     }
 
@@ -1082,6 +1082,14 @@ public class PodatnikView implements Serializable {
 
     public void setListaKontKasaBank(List<Konto> listaKontKasaBank) {
         this.listaKontKasaBank = listaKontKasaBank;
+    }
+
+    public ParamSuper getParamSuper() {
+        return paramSuper;
+    }
+
+    public void setParamSuper(ParamSuper paramSuper) {
+        this.paramSuper = paramSuper;
     }
 
     public List<Konto> getListaKontRozrachunkowych() {

@@ -217,6 +217,9 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "FKpiatki")
     private List<Parametr> FKpiatki;
+    @JoinColumn(name = "podatnik")
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
+    private List<ParamCzworkiPiatki> paramCzworkiPiatki;
     @OneToMany(mappedBy = "podatnikObj")
     private List<MiejsceKosztow> miejsceKosztowList;
     @Column(name = "formaprawna")
@@ -238,6 +241,8 @@ public class Podatnik implements Serializable {
     @Column(name = "datarozpoczecia")
     @Size(max = 10)
     private String datarozpoczecia;
+    @OneToMany(mappedBy = "podatnikObj")
+    private List<PodatnikOpodatkowanieD> podatnikOpodatkowanieD;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -285,6 +290,14 @@ public class Podatnik implements Serializable {
 
     public void setSchematnumeracji(String schematnumeracji) {
         this.schematnumeracji = schematnumeracji;
+    }
+
+    public List<PodatnikOpodatkowanieD> getPodatnikOpodatkowanieD() {
+        return podatnikOpodatkowanieD;
+    }
+
+    public void setPodatnikOpodatkowanieD(List<PodatnikOpodatkowanieD> podatnikOpodatkowanieD) {
+        this.podatnikOpodatkowanieD = podatnikOpodatkowanieD;
     }
 
     public String getDatarozpoczecia() {
@@ -375,8 +388,17 @@ public class Podatnik implements Serializable {
         this.FKpiatki = FKpiatki;
     }
 
+   
     public boolean isWysylkazusmail() {
         return wysylkazusmail;
+    }
+
+    public List<ParamCzworkiPiatki> getParamCzworkiPiatki() {
+        return paramCzworkiPiatki;
+    }
+
+    public void setParamCzworkiPiatki(List<ParamCzworkiPiatki> paramCzworkiPiatki) {
+        this.paramCzworkiPiatki = paramCzworkiPiatki;
     }
 
     public void setWysylkazusmail(boolean wysylkazusmail) {

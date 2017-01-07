@@ -13,7 +13,7 @@
             <p:focus for="parametrypodatnika12"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
-                <p:dataList value="#{podatnikView.selected.FKpiatki}"  var="loop" itemType="disc" 
+                <p:dataList value="#{podatnikView.selected.paramCzworkiPiatki}"  var="loop" itemType="disc" 
                             paginator="true" pageLinks="12" rows="12" emptyMessage="Nie wprowadzono" >
                     <h:outputText value="od: " />
                     <h:outputText value="#{loop.mcOd}-" />
@@ -36,8 +36,8 @@
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
-                <p:commandButton action="#{podatnikView.usunFKpiatki()}" value="usun parametr" update="form12" type="submit"/>
-                <p:commandButton action="#{podatnikView.dodajFKpiatki()}" value="dodaj parametr" update="form12" type="submit"/>
+                <p:commandButton action="#{podatnikView.usunParamCzworkiPiatki()}" value="usun parametr" update="form12" type="submit"/>
+                <p:commandButton action="#{podatnikView.dodajParamCzworkiPiatki()}" value="dodaj parametr" update="form12" type="submit"/>
             </p:panelGrid>
         </h:form>
         <br/><br/>
