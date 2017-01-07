@@ -14,20 +14,20 @@ import java.util.List;
  * @author Osito
  */
 public class BeanParamSuper {
-    public static int sprawdzrok(Object parametr, List stare) {
+    public static int sprawdzrok(ParamSuper parametr, List stare) {
         if (stare.isEmpty()) {
-            ((ParamSuper) parametr).setMcOd("01");
-            ((ParamSuper) parametr).setMcDo("12");
-            ((ParamSuper) parametr).setRokDo(((ParamSuper) parametr).getRokOd());
+            parametr.setMcOd("01");
+            parametr.setMcDo("12");
+            parametr.setRokDo(parametr.getRokOd());
             return 0;
         } else {
             ParamSuper ostatniparametr = (ParamSuper) stare.get(stare.size() - 1);
             Integer old_rokDo = Integer.parseInt(ostatniparametr.getRokDo());
-            Integer new_rokOd = Integer.parseInt(((ParamSuper) parametr).getRokOd());
+            Integer new_rokOd = Integer.parseInt(parametr.getRokOd());
             if (old_rokDo == new_rokOd - 1) {
-                ((ParamSuper) parametr).setMcOd("01");
-                ((ParamSuper) parametr).setMcDo("12");
-                ((ParamSuper) parametr).setRokDo(((ParamSuper) parametr).getRokOd());
+                parametr.setMcOd("01");
+                parametr.setMcDo("12");
+                parametr.setRokDo(parametr.getRokOd());
                 return 0;
             } else {
                 return 1;
