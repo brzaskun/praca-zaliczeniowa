@@ -89,7 +89,7 @@ public class PodatnikView implements Serializable {
     @Inject
     private Parametr parametr;
     @Inject
-    private ParamSuper paramSuper;
+    private ParamCzworkiPiatki paramCzworkiPiatki;
     @Inject
     private Parametr ostatniparametr;
     @Inject
@@ -774,8 +774,8 @@ public class PodatnikView implements Serializable {
         if (selected.getParamCzworkiPiatki() == null) {
             selected.setParamCzworkiPiatki(new ArrayList<ParamCzworkiPiatki>());
         }
-        if (BeanParamSuper.sprawdzrok(paramSuper, lista) == 0) {
-            selected.getParamCzworkiPiatki().add((ParamCzworkiPiatki) paramSuper);
+        if (BeanParamSuper.sprawdzrok(paramCzworkiPiatki, lista) == 0) {
+            selected.getParamCzworkiPiatki().add((ParamCzworkiPiatki) paramCzworkiPiatki);
             zachowajZmiany(selected);
             parametr = new Parametr();
             Msg.msg("Dodano ustawienie piątek");
@@ -1084,13 +1084,14 @@ public class PodatnikView implements Serializable {
         this.listaKontKasaBank = listaKontKasaBank;
     }
 
-    public ParamSuper getParamSuper() {
-        return paramSuper;
+    public ParamCzworkiPiatki getParamCzworkiPiatki() {
+        return paramCzworkiPiatki;
     }
 
-    public void setParamSuper(ParamSuper paramSuper) {
-        this.paramSuper = paramSuper;
+    public void setParamCzworkiPiatki(ParamCzworkiPiatki paramCzworkiPiatki) {
+        this.paramCzworkiPiatki = paramCzworkiPiatki;
     }
+
 
     public List<Konto> getListaKontRozrachunkowych() {
         return listaKontRozrachunkowych;
