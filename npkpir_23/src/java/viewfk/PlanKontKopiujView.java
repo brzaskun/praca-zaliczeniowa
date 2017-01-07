@@ -93,7 +93,7 @@ public class PlanKontKopiujView implements Serializable {
 
     public void implementujplankontWzorcowy() {
         List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", rokzrodlowy);
-        if (wpisView.isFKpiatki() == false) {
+        if (wpisView.isParamCzworkiPiatki() == false) {
             for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
                 Konto p = it.next();
                 if (p.getPelnynumer().startsWith("5")) {

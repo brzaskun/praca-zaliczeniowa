@@ -364,7 +364,7 @@ public class DokFKVATBean {
                        lpnastepnego++;
                        limitwierszy++;
                 }
-                if (wpisView.isFKpiatki() && selected.getListawierszy().size() == limitwierszy && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
+                if (wpisView.isParamCzworkiPiatki() && selected.getListawierszy().size() == limitwierszy && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
                     Wiersz wierszdrugi;
                     wierszdrugi = ObslugaWiersza.utworzNowyWiersz5(selected, 2, wartosciVAT[0], 1);
                     wierszdrugi.setTabelanbp(selected.getTabelanbp());
@@ -376,7 +376,7 @@ public class DokFKVATBean {
                     wierszdrugi.getStronaMa().setKonto(k);
                     selected.getListawierszy().add(wierszdrugi);
                     dolaczwiersz2_3(wartosciVAT, w, lpnastepnego+1, 0, selected, kontoDAOfk, wpisView);
-                } else if (!wpisView.isFKpiatki() && selected.getListawierszy().size() == limitwierszy && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
+                } else if (!wpisView.isParamCzworkiPiatki() && selected.getListawierszy().size() == limitwierszy && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
                     dolaczwiersz2_3(wartosciVAT, w, lpnastepnego, 0, selected, kontoDAOfk, wpisView);
                 }
                 pobierzkontaZpoprzedniegoDokumentu(dAOfk, wpisView, selected);
@@ -537,11 +537,11 @@ public class DokFKVATBean {
                        dolaczwiersz2_3KosztEdit(wartosciVAT, w, 1, 1, selected);
                        lpnastepnego++;
                 }
-                if (wpisView.isFKpiatki() && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
+                if (wpisView.isParamCzworkiPiatki() && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
                     Wiersz wierszdrugi = selected.getListawierszy().get(1);
                     wierszdrugi.getStronaWn().setKwota(wartosciVAT[0]);
                     dolaczwiersz2_3Edit(wartosciVAT, w, lpnastepnego+1, 0, selected);
-                } else if (!wpisView.isFKpiatki() && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
+                } else if (!wpisView.isParamCzworkiPiatki() && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
                     if (selected.getRodzajedok().getProcentvat() != 0.0) {
                         dolaczwiersz2_3Edit(wartosciVAT, w, 2, 0, selected);
                     } else {

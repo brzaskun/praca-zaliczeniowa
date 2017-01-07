@@ -57,7 +57,7 @@ public class WpisView implements Serializable {
     private boolean ksiegaryczalt;
     private boolean mc0kw1;
     private boolean ksiegirachunkowe;
-    private boolean FKpiatki;
+    private boolean paramCzworkiPiatki;
     @Inject
     private Podatnik podatnikObiekt;
     @Inject
@@ -263,7 +263,7 @@ public class WpisView implements Serializable {
         if (piatki != null && (!piatki.isEmpty())) {
             for (ParamCzworkiPiatki p : piatki) {
                 if (p.getRokOd().equals(rokWpisuSt)) {
-                    FKpiatki = (p.getParametr().equals("tak") ? true : false);
+                    paramCzworkiPiatki = (p.getParametr().equals("tak") ? true : false);
                 }
             }
         }
@@ -383,12 +383,12 @@ public class WpisView implements Serializable {
         this.ksiegirachunkowe = ksiegirachunkowe;
     }
 
-    public boolean isFKpiatki() {
-        return FKpiatki;
+    public boolean isParamCzworkiPiatki() {
+        return paramCzworkiPiatki;
     }
 
-    public void setFKpiatki(boolean FKpiatki) {
-        this.FKpiatki = FKpiatki;
+    public void setParamCzworkiPiatki(boolean paramCzworkiPiatki) {
+        this.paramCzworkiPiatki = paramCzworkiPiatki;
     }
     
     public String getPodatnikWpisu() {

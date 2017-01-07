@@ -214,9 +214,6 @@ public class Podatnik implements Serializable {
     private boolean odliczeniezus52;
     @Column(name = "datamalyzus")
     private String datamalyzus;
-    @Lob
-    @Column(name = "FKpiatki")
-    private List<Parametr> FKpiatki;
     @JoinColumn(name = "podatnik")
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
     private List<ParamCzworkiPiatki> paramCzworkiPiatki;
@@ -246,13 +243,11 @@ public class Podatnik implements Serializable {
     
     public Podatnik() {
         this.podmiotaktywny = true;
-        this.FKpiatki = new ArrayList<>();
     }
 
     public Podatnik(String nip) {
         this.nip = nip;
         this.podmiotaktywny = true;
-        this.FKpiatki = new ArrayList<>();
     }
     
     public String podatnikDaneWydruk() {
@@ -380,15 +375,7 @@ public class Podatnik implements Serializable {
         this.wystawcafaktury = wystawcafaktury;
     }
 
-    public List<Parametr> getFKpiatki() {
-        return FKpiatki;
-    }
-
-    public void setFKpiatki(List<Parametr> FKpiatki) {
-        this.FKpiatki = FKpiatki;
-    }
-
-   
+ 
     public boolean isWysylkazusmail() {
         return wysylkazusmail;
     }

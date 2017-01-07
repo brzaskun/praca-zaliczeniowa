@@ -621,7 +621,7 @@ public class PlanKontView implements Serializable {
     public void implementacjaKontWzorcowych() {
         if (!wykazkontwzor.isEmpty()) {
             for (Konto p : wykazkontwzor) {
-                if (wpisView.isFKpiatki() == false && p.getPelnynumer().startsWith("5")) {
+                if (wpisView.isParamCzworkiPiatki() == false && p.getPelnynumer().startsWith("5")) {
                     System.out.println("Nie implementuje konta 5");
                 } else {
                     p.setMapotomkow(false);
