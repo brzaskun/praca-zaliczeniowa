@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -18,7 +17,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -237,6 +235,12 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private Kontokategoria kontokategoria;
     @Column(name = "wnma0wm1ma2")
     private int wnma0wm1ma2;
+    @Column(name = "saldoWnksiegi")
+    private double saldoWnksiegi;
+    @Column(name = "saldoMaksiegi")
+    private double saldoMaksiegi;
+    @Column(name = "zaksiegowane")
+    private boolean zaksiegowane;
     
 //    @OneToMany(mappedBy = "konto")
 //    private List<StronaWiersza> stronaWiersza;
@@ -322,6 +326,30 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public double getSaldoWnksiegi() {
+        return saldoWnksiegi;
+    }
+
+    public void setSaldoWnksiegi(double saldoWnksiegi) {
+        this.saldoWnksiegi = saldoWnksiegi;
+    }
+
+    public double getSaldoMaksiegi() {
+        return saldoMaksiegi;
+    }
+
+    public void setSaldoMaksiegi(double saldoMaksiegi) {
+        this.saldoMaksiegi = saldoMaksiegi;
+    }
+
+    public boolean isZaksiegowane() {
+        return zaksiegowane;
+    }
+
+    public void setZaksiegowane(boolean zaksiegowane) {
+        this.zaksiegowane = zaksiegowane;
     }
 
     
