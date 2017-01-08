@@ -585,12 +585,14 @@ public class SaldoAnalitykaView implements Serializable {
             kontoDAOfk.zerujsaldazaksiegowane(wpisView);
             for (SaldoKonto p : listaSaldoKonto) {
                 Konto anal = p.getKonto();
-                anal.setZaksiegowane(true);
-                anal.setSaldoWnksiegi(p.getSaldoWn());
-                anal.setSaldoMaksiegi(p.getSaldoMa());
-                kontoDAOfk.edit(anal);
-                if (anal.getKontomacierzyste() != null) {
-                    obsluzmacierzyste(anal, anal.getSaldoWnksiegi(), anal.getSaldoMaksiegi());
+                if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
+                    anal.setZaksiegowane(true);
+                    anal.setSaldoWnksiegi(p.getSaldoWn());
+                    anal.setSaldoMaksiegi(p.getSaldoMa());
+                    kontoDAOfk.edit(anal);
+                    if (anal.getKontomacierzyste() != null) {
+                        obsluzmacierzyste(anal, anal.getSaldoWnksiegi(), anal.getSaldoMaksiegi());
+                    }
                 }
             }
             Msg.dP();

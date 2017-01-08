@@ -17,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import pdffk.PdfPlanKont;
 import view.WpisView;
 
 /**
@@ -49,7 +50,7 @@ public class PlanKontSaldaView implements Serializable {
         } else {
             infozebrakslownikowych = "";
         }
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownikKsiegi(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
         bezslownikowych = true;
         kontadowyswietlenia = "wszystkie";
@@ -74,11 +75,11 @@ public class PlanKontSaldaView implements Serializable {
         if (bezslownikowych == true && tylkosyntetyka == true) {
             wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
         } else if (bezslownikowych == true) {
-            wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownikKsiegi(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         } else if (tylkosyntetyka == true) {
             wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
         } else {
-            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaKsiegi(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
         if (kontadowyswietlenia.equals("bilansowe")) {
             for (Iterator it = wykazkont.iterator(); it.hasNext();) {
@@ -98,7 +99,75 @@ public class PlanKontSaldaView implements Serializable {
         }
         Collections.sort(wykazkont, new Kontocomparator());
     }
-    
+    public void drukujPlanKont(String parametr) {
+        switch (parametr) {
+            case "all":
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "wynikowe":
+                wykazkont = kontoDAOfk.findWszystkieKontaWynikowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "bilansowe":
+                wykazkont = kontoDAOfk.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa0":
+                wykazkont = kontoDAOfk.findKontaGrupa0(wpisView);
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa1":
+                wykazkont = kontoDAOfk.findKontaGrupa1(wpisView);
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa2":
+                wykazkont = kontoDAOfk.findKontaGrupa2(wpisView);
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa3":
+                wykazkont = kontoDAOfk.findKontaGrupa3(wpisView);
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa4":
+                wykazkont = kontoDAOfk.findKontaGrupa4(wpisView);
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa5":
+                wykazkont = kontoDAOfk.findKontaGrupa5(wpisView);
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa6":
+                wykazkont = kontoDAOfk.findKontaGrupa6(wpisView);
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa7":
+                wykazkont = kontoDAOfk.findKontaGrupa7(wpisView);
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa8":
+                wykazkont = kontoDAOfk.findKontaGrupa8(wpisView);
+                
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "tłumaczenie":
+                
+                PdfPlanKont.drukujPlanKontTłumaczenie(wykazkont, wpisView);
+                break;
+        }
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Collections.sort(wykazkont, new Kontocomparator());
+    }
     public List<Konto> getWykazkont() {
         return wykazkont;
     }
