@@ -40,18 +40,18 @@
          <h:form>
              <p:panelGrid style="margin: 5px;" columns="2">
                  <h:outputText value="miesiąc:" />
-                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
+                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.zmianaokresuMc}" style="width: 70px;">
                      <f:selectItems value="#{Mce.mceList}"/>
                      <p:ajax event="change" partialSubmit="true" global="false"/>
                  </p:selectOneMenu>
                  <h:outputText value="rok:" />
-                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
+                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.zmianaokresuRok}" style="width: 70px;">
                      <f:selectItems value="#{Roki.rokiList}"/>
                      <p:ajax event="change" partialSubmit="true" global="false"/>
                  </p:selectOneMenu>
              </p:panelGrid>
-             <p:commandButton value="zmień" actionListener="#{WpisView.naniesDaneDoWpis()}" update="@(form)"
-                              style="float: right" oncomplete="PF('dialogZmianaOkresu').hide();otworzdialogi();"/>
+             <p:commandButton value="zmień" actionListener="#{WpisView.zmianaokresuWpis()}" update="@(form)"
+                              style="float: right" oncomplete="PF('dialogZmianaOkresu').hide();"/>
              <p:commandButton value="data" onclick="PF('dialogZmianaOkresu').show()" global="false" onstart="zamknijdialogi();"
                                      update="@form" accesskey="o" style="display: none;"/>
          </h:form>

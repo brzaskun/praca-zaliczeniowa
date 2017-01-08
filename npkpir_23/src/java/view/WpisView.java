@@ -8,6 +8,7 @@ import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
+import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Roki;
@@ -71,6 +72,8 @@ public class WpisView implements Serializable {
     private boolean czegosbrakuje;
     private String formaprawna;
     private boolean niegosc;
+    private Integer zmianaokresuRok;
+    private String zmianaokresuMc;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -87,8 +90,10 @@ public class WpisView implements Serializable {
                 inicjacjaUz(wpis);
             } else {
                 miesiacWpisu = wpis.getMiesiacWpisu();
+                zmianaokresuMc =  wpis.getMiesiacWpisu();
                 miesiacWpisuArchiwum = wpis.getMiesiacWpisu();
                 rokWpisu = wpis.getRokWpisu();
+                zmianaokresuRok =  wpis.getRokWpisu();
             }
            obsluzMce(wpis);
            uzupelnijdanepodatnika();
@@ -103,11 +108,11 @@ public class WpisView implements Serializable {
     
     //swiezowpisany uzer nie ma ustawionych parametrow
     private void inicjacjaUz(Wpis wpis) {
-        miesiacWpisu = "01";
-        wpis.setMiesiacWpisu("01");
-        wpis.setMiesiacOd("01");
-        wpis.setMiesiacDo("01");
-        miesiacWpisuArchiwum = "01";
+        miesiacWpisu = Data.aktualnyMc();
+        wpis.setMiesiacWpisu(Data.aktualnyMc());
+        wpis.setMiesiacOd(Data.aktualnyMc());
+        wpis.setMiesiacDo(Data.aktualnyMc());
+        miesiacWpisuArchiwum = Data.aktualnyMc();
         wpis.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size() - 1));
         Uz podatnikwpisu = uzDAO.findUzByLogin(wpis.getWprowadzil());
         String nipfirmy;
@@ -185,6 +190,12 @@ public class WpisView implements Serializable {
         naniesDaneDoWpis();
     }
 
+    public final void zmianaokresuWpis() {
+        miesiacWpisu = zmianaokresuMc;
+        rokWpisu = zmianaokresuRok;
+        naniesDaneDoWpis();
+    }
+    
     public final void naniesDaneDoWpis() {
         czegosbrakuje = false;
         String wprowadzilX = getPrincipal().getName();
@@ -195,7 +206,9 @@ public class WpisView implements Serializable {
         if (!miesiacWpisu.equals("CR")) {
             wpis.setMiesiacWpisu(miesiacWpisu);
             miesiacWpisuArchiwum = miesiacWpisu;
-        } 
+        } else {
+            wpis.setMiesiacWpisu(Data.aktualnyMc());
+        }
         wpis.setRokWpisuSt(String.valueOf(rokWpisu));
         wpis.setRokWpisu(rokWpisu);
         wpis.setMiesiacOd(miesiacOd);
@@ -348,6 +361,22 @@ public class WpisView implements Serializable {
 
     public void setRokNastepny(Integer rokNastepny) {
         this.rokNastepny = rokNastepny;
+    }
+
+    public Integer getZmianaokresuRok() {
+        return zmianaokresuRok;
+    }
+
+    public void setZmianaokresuRok(Integer zmianaokresuRok) {
+        this.zmianaokresuRok = zmianaokresuRok;
+    }
+
+    public String getZmianaokresuMc() {
+        return zmianaokresuMc;
+    }
+
+    public void setZmianaokresuMc(String zmianaokresuMc) {
+        this.zmianaokresuMc = zmianaokresuMc;
     }
 
     public String getFormaprawna() {

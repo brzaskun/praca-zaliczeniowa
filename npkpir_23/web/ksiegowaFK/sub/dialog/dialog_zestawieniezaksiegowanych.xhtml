@@ -42,7 +42,7 @@
                     <h:outputText value="miesiąc: "/>
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{dokfkView.mczaksiegowane}" style="width: 60px;">
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 60px;">
                         <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" partialSubmit="true"
                                 onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
                                 update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
