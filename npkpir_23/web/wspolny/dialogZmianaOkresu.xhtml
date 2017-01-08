@@ -5,24 +5,55 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:bcf="http://brzaskun.com/facelets">
-     <p:dialog id="dialogZmianaOkresu" header="zmiana okresu rozliczeniowego" widgetVar="dialogZmianaOkresu"  maximizable="true"  dynamic="true"
-              resizable="true" onShow="ustawdialogWindow('dialogZmianaOkresu',300,120);"
+    <script>
+        var zamknijdialogi = function() {
+          try {
+            MYAPP.dialogdia = new Array();
+            var dialogi = $(".ui-dialog");
+            for (var dia in dialogi) {
+                if (dialogi[dia].getAttribute("aria-hidden") === "false" &amp;&amp;
+                dialogi[dia].id !== "dialogZmianaOkresu") {
+            console.log("widze");
+            $(dialogi[dia]).hide();
+            (MYAPP.dialogdia).push(dialogi[dia]);
+            }
+            }
+            } catch (e) {
+            console.log("wyjatek");
+            }
+        };
+//        var otworzdialogi = function() {
+//          try {
+//            for (var dia in MYAPP.dialogdia) {
+//                $(MYAPP.dialogdia[dia]).show();
+//            (MYAPP.dialogdia).push(dialogi[dia]);
+//            }
+//            } catch (e) {
+//            console.log("wyjatek");
+//            }
+//        };
+    </script>
+     <p:dialog id="dialogZmianaOkresu" header="zmiana okresu rozliczeniowego" widgetVar="dialogZmianaOkresu"
+               onShow="ustawdialogWindow('dialogZmianaOkresu',300,125);"
               onHide="resetujdialog('dialogZmianaOkresu');"  closeOnEscape="true" appendTo="@(body)" modal="true"
          >
          <h:form>
-             <p:outputPanel style="margin: 30px;">
-                 <h:outputText value="rok:" />
-                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
-                     <f:selectItems value="#{Roki.rokiList}"/>
-                     <p:ajax event="change" listener="#{WpisView.naniesDaneDoWpis()}" update="@(form)" oncomplete="PF('dialogZmianaOkresu').hide();" global="false"/>
-                 </p:selectOneMenu>
-                 <h:outputText value=" "/>
+             <p:panelGrid style="margin: 5px;" columns="2">
                  <h:outputText value="miesiąc:" />
                  <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
                      <f:selectItems value="#{Mce.mceList}"/>
-                     <p:ajax event="change" listener="#{WpisView.naniesDaneDoWpis()}" update="@(form)" oncomplete="PF('dialogZmianaOkresu').hide();" global="false"/>
+                     <p:ajax event="change" partialSubmit="true" global="false"/>
                  </p:selectOneMenu>
-             </p:outputPanel>
+                 <h:outputText value="rok:" />
+                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
+                     <f:selectItems value="#{Roki.rokiList}"/>
+                     <p:ajax event="change" partialSubmit="true" global="false"/>
+                 </p:selectOneMenu>
+             </p:panelGrid>
+             <p:commandButton value="zmień" actionListener="#{WpisView.naniesDaneDoWpis()}" update="@(form)"
+                              style="float: right" oncomplete="PF('dialogZmianaOkresu').hide();otworzdialogi();"/>
+             <p:commandButton value="data" onclick="PF('dialogZmianaOkresu').show()" global="false" onstart="zamknijdialogi();"
+                                     update="@form" accesskey="o" style="display: none;"/>
          </h:form>
      </p:dialog>
 </html>

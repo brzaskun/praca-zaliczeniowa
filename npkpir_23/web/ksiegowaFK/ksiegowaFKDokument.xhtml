@@ -31,7 +31,7 @@
                              message="Usunąć dokument #{dokfkView.dokumentdousuniecia.opisDokfkUsun}"  
                              header="Usuwanie dok" severity="alert" widgetVar="confirm3" width="500" appendTo="@(zestawieniezaksiegowanych)" 
                              >
-                <h:form>
+                <h:form id="formconfirmDialog3">
                             <p:commandButton id="confirm" value="Usuń"  oncomplete="PF('confirm3').hide();"
                                              actionListener="#{dokfkView.usundokument()}"
                                              style="float: left; width: 120px; margin-left: 30px;" update="zestawieniedokumentow:dataList">
@@ -47,7 +47,7 @@
                     <p:hotkey bind="down" global="false"  handler="przejdzwiersz();" ignoreAutoUpdate="true"/>
                     <p:hotkey bind="up" global="false" handler="wrocwiersz();" ignoreAutoUpdate="true"/>
                     <ui:include src="sub/menu/menudokumenty.xhtml"/>
-                    <ui:include src="sub/common/panel_okresrozliczeniowy.xhtml"/>
+                    
                     <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>
                     <ui:include src="sub/dialog/dialog_delegacje_stworz.xhtml"/>
                     <ui:include src="sub/dialog/dialog_wpisywanie.xhtml"/>

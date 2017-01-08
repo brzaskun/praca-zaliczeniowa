@@ -1188,11 +1188,11 @@ public class DokfkView implements Serializable {
     }
 
     public void przygotujDokumentEdycja() {
-        selected.setwTrakcieEdycji(true);
-        obsluzcechydokumentu();
-        RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-        RequestContext.getCurrentInstance().update("wpisywaniefooter");
         try {
+            selected.setwTrakcieEdycji(true);
+            obsluzcechydokumentu();
+            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+            RequestContext.getCurrentInstance().update("wpisywaniefooter");
             Msg.msg("i", "Wybrano dokument do edycji " + selected.getDokfkPK().toString());
             setZapisz0edytuj1(true);
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
