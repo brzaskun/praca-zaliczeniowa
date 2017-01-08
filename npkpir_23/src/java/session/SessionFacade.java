@@ -1111,9 +1111,16 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Konto> findKontoPodatnik(String podatnik, String rok) {
         return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
+    
+    public List<Konto> findKontoPodatnikKsiegi(String podatnik, String rok) {
+        return em.createNamedQuery("Konto.findByPodatnikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+    }
 
     public List<Konto> findKontoPodatnikBezSlownik(String podatnik, String rok) {
         return em.createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+    }
+    public List<Konto> findKontoPodatnikBezSlownikKsiegi(String podatnik, String rok) {
+        return em.createNamedQuery("Konto.findByPodatnikBezSlownikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
 
     public List<Konto> findKontoPodatnikTylkoSlownik(String podatnik, String rok) {
@@ -1784,6 +1791,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         em.createNamedQuery("Konto.NullObrotyMaLevel").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("level", i).executeUpdate();
     }
 
+    public void wyzerujSaldaZaksiegowanewKontach(WpisView wpisView) {
+        em.createNamedQuery("Konto.wyzerujSaldaZaksiegowanewKontach").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).executeUpdate();
+    }
+    
+    
     public List<UkladBR> findUkladBRWzorcowyRok(String rokWpisu) {
         return em.createNamedQuery("UkladBR.findByWzorcowyRok").setParameter("rok", rokWpisu).getResultList();
     }
