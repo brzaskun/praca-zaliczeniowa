@@ -614,4 +614,8 @@ public class KontoDAOfk extends DAO implements Serializable {
         return (Konto) sessionFacade.getEntityManager().createNamedQuery("Konto.findBySlownikoweMacierzyste").setParameter("kontomacierzyste", konto).setParameter("nrkonta", nrkonta).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
 
+    public void zerujsaldazaksiegowane(WpisView wpisView) {
+        kontoFacade.wyzerujSaldaZaksiegowanewKontach(wpisView);
+    }
+
 }

@@ -36,7 +36,7 @@
               onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
               >
         <h:form id="formtablicaanalityczne">
-            <p:panelGrid columns="7" style="margin-left: 2%;" >
+            <p:panelGrid columns="8" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                                     <f:selectItems value="#{Roki.rokiList}"/>
@@ -67,6 +67,7 @@
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                     </p:selectOneMenu>
                 </p:column>
+                    <p:commandButton value="zaksięguj" actionListener="#{saldoAnalitykaView.zaksiegujsaldakont()}" style="width: 120px; margin-left: 20px;"/>
                     <p:selectBooleanCheckbox id="tylkoniezerowe" itemLabel="tylko niezerowe" value="#{saldoAnalitykaView.tylkosaldaniezerowe}" style="margin-left: 5px;">
                         <p:ajax event="change" partialSubmit="true" global="false" listener="#{saldoAnalitykaView.zmienkryteriawyswietlania}" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
                     </p:selectBooleanCheckbox>
