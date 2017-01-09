@@ -191,7 +191,7 @@ public class WpisView implements Serializable {
     }
 
     public final void zmianaokresuWpis() {
-        miesiacWpisu = zmianaokresuMc;
+        miesiacWpisu = new String(zmianaokresuMc);
         rokWpisu = zmianaokresuRok;
         naniesDaneDoWpis();
     }
@@ -206,7 +206,7 @@ public class WpisView implements Serializable {
         if (!miesiacWpisu.equals("CR")) {
             wpis.setMiesiacWpisu(miesiacWpisu);
             miesiacWpisuArchiwum = miesiacWpisu;
-        } else {
+        } else if (miesiacWpisu.equals("CR")){
             wpis.setMiesiacWpisu(Data.aktualnyMc());
         }
         wpis.setRokWpisuSt(String.valueOf(rokWpisu));
@@ -372,10 +372,12 @@ public class WpisView implements Serializable {
     }
 
     public String getZmianaokresuMc() {
+        System.out.println("pobieram okres z "+zmianaokresuMc);
         return zmianaokresuMc;
     }
 
     public void setZmianaokresuMc(String zmianaokresuMc) {
+        System.out.println("z,mieniam okres na "+zmianaokresuMc);
         this.zmianaokresuMc = zmianaokresuMc;
     }
 

@@ -42,6 +42,7 @@ import view.WpisView;
 public class StowNaliczenieView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<StowNaliczenie> lista;
+    private List<StowNaliczenie> listaselected;
     private List<Konto> konta;
     @Inject
     private MiejscePrzychodowDAO miejscePrzychodowDAO;
@@ -64,6 +65,7 @@ public class StowNaliczenieView  implements Serializable {
     private String wybranakategoria;
     private Konto kontoWn;
     private Konto kontoMa;
+    private double kwotadlawszystkich;
 
 
     public StowNaliczenieView() {
@@ -87,16 +89,46 @@ public class StowNaliczenieView  implements Serializable {
             case "składka":
                 generujskladki();
                 break;
+            default:
+                for (StowNaliczenie p : lista) {
+                    p.setKwota(0.0);
+                    p.setKategoria(null);
+                    p.setMc(null);
+                    p.setRok(null);
+                }
+                break;
+        }
+    }
+    
+    public void pobierzkoszty() {
+         try {
+             if (listaselected != null) {
+                for (StowNaliczenie p :listaselected) {
+                    naniesdane(p, kwotadlawszystkich);
+                }
+                Msg.dP();
+             } else {
+                 Msg.msg("e", "Nie wybrano człoknków stowarzyszenia do naliczenia");
+             }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
         }
     }
     
     private void generujskladki() {
-        List<SkladkaCzlonek> listaskladki = skladkaCzlonekDAO.findAll();
-        for (StowNaliczenie p : lista) {
-            if (nalicz(p)) {
-                double kwota = pobierzkwote(listaskladki,p);
-                naniesdane(p, kwota);
+        try {
+            List<SkladkaCzlonek> listaskladki = skladkaCzlonekDAO.findAll();
+            for (StowNaliczenie p : lista) {
+                if (nalicz(p)) {
+                    double kwota = pobierzkwote(listaskladki,p);
+                    naniesdane(p, kwota);
+                }
             }
+            Msg.dP();
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
         }
     }
     
@@ -145,12 +177,21 @@ public class StowNaliczenieView  implements Serializable {
     }
     
     
+    
+    
     public void generujPK() {
         if (kontoWn == null || kontoMa == null) {
             Msg.msg("e", "Nie wybrano konta, nie można wygenerować dokumentu");
         } else {
             try {
-                Dokfk dokfk = DokumentFKBean.generujdokumentSkladki(wpisView, klienciDAO, "PK", "naliczenie - "+wybranakategoria, rodzajedokDAO, tabelanbpDAO, kontoWn, kontoMa, kontoDAOfk, lista, dokDAOfk);
+                Dokfk dokfk = null;
+                switch (wybranakategoria) {
+                    case "składka":
+                        dokfk = DokumentFKBean.generujdokumentSkladki(wpisView, klienciDAO, "PK", "naliczenie - "+wybranakategoria, rodzajedokDAO, tabelanbpDAO, kontoWn, kontoMa, kontoDAOfk, lista, dokDAOfk);
+                    default:
+                        dokfk = DokumentFKBean.generujdokumentSkladki(wpisView, klienciDAO, "PK", "przypis - "+wybranakategoria, rodzajedokDAO, tabelanbpDAO, kontoWn, kontoMa, kontoDAOfk, lista, dokDAOfk);
+                        break;
+                }
                 dokDAOfk.dodaj(dokfk);
                 Msg.msg("Zaksięgowano dokument PK");
             } catch (Exception e) {
@@ -169,6 +210,14 @@ public class StowNaliczenieView  implements Serializable {
     
     public void setLista(List<StowNaliczenie> lista) {
         this.lista = lista;
+    }
+
+    public List<StowNaliczenie> getListaselected() {
+        return listaselected;
+    }
+
+    public void setListaselected(List<StowNaliczenie> listaselected) {
+        this.listaselected = listaselected;
     }
 
     public List<Konto> getKonta() {
@@ -202,7 +251,14 @@ public class StowNaliczenieView  implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-    
+    public double getKwotadlawszystkich() {
+        return kwotadlawszystkich;
+    }
+
+    public void setKwotadlawszystkich(double kwotadlawszystkich) {
+        this.kwotadlawszystkich = kwotadlawszystkich;
+    }
+
     public String getWybranakategoria() {
         return wybranakategoria;
     }
@@ -214,6 +270,7 @@ public class StowNaliczenieView  implements Serializable {
     
 //</editor-fold>
 
+    
    
     
     

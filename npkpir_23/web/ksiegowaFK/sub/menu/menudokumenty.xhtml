@@ -48,7 +48,7 @@
         <p:tab title="stowarzyszenie">
             <h:form>
                 <p:menu  styleClass="d1m" style="width: 400px; text-align: center; height: 150px;">
-                    <p:menuitem value="generuj dokumenty składek" oncomplete="PF('dialog_stowarzyszenie_generujskladki').show();" ></p:menuitem>
+                    <p:menuitem value="generuj dokumenty składek/przypisów" oncomplete="PF('dialog_stowarzyszenie_generujskladki').show();" ></p:menuitem>
                     <p:menuitem value="roczne zestawienie naliczeń" actionListener="#{stowNaliczenieZestView.pobierz()}" update="form_dialog_stowarzyszenie_zestawienienaliczen"
                                 oncomplete="PF('dialog_stowarzyszenie_zestawienienaliczen').show();" ></p:menuitem>
                     <p:menuitem value="zestawienie rozrachunków z członkami" actionListener="#{stowRozrachCzlonkView.pobierz()}" update="form_dialog_stowarzyszenie_rozrachunki"

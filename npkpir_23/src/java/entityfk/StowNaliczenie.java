@@ -61,10 +61,11 @@ public class StowNaliczenie implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.miejsce);
-        hash = 97 * hash + Objects.hashCode(this.rok);
-        hash = 97 * hash + Objects.hashCode(this.mc);
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.miejsce);
+        hash = 83 * hash + Objects.hashCode(this.rok);
+        hash = 83 * hash + Objects.hashCode(this.mc);
+        hash = 83 * hash + Objects.hashCode(this.kategoria);
         return hash;
     }
 
@@ -97,6 +98,8 @@ public class StowNaliczenie implements Serializable {
         }
         return true;
     }
+
+    
 
     @Override
     public String toString() {

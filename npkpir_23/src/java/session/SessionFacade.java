@@ -40,7 +40,6 @@ import entity.Rejestrlogowan;
 import entity.Rodzajedok;
 import entity.Ryczpoz;
 import entity.SMTPSettings;
-import entity.SMTPSettings_;
 import entity.SchemaEwidencja;
 import entity.Sesja;
 import entity.Sprawa;
@@ -1516,7 +1515,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Konto> findlistaKontGrupa3(WpisView wpisView) {
         return em.createNamedQuery("Konto.findlistaKontGrupa3").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-
+//moga
     public List<Konto> findlistaKontGrupa4(WpisView wpisView) {
         return em.createNamedQuery("Konto.findlistaKontGrupa4").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }

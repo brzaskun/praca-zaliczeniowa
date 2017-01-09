@@ -30,6 +30,7 @@ public class StowNaliczenieKategorie implements Serializable {
         this.lista.add("energia");
         this.lista.add("woda");
         this.lista.add("ścieki");
+        this.lista.add("hangar");
         this.lista.add("pod. od nieruch.");
     }
     
