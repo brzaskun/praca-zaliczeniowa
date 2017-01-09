@@ -100,7 +100,7 @@ public class KwadracikiNaDole {
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_73>"+today+"</P_73>");
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
-    
+    //przystosowac w nowych dekalracjach numery pol
     private void schemaM17K11(PozycjeSzczegoloweVAT pozycjelista, String today){
         if(pozycjelista.getPoleI57()>0 && pozycjelista.getPoleI58()==0){
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_66>1</P_66>");
