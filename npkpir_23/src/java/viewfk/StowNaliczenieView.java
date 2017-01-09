@@ -24,6 +24,8 @@ import entityfk.StowNaliczenie;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -85,26 +87,38 @@ public class StowNaliczenieView  implements Serializable {
     }
     
     public void pobierz() {
+        try {
+            lista = stowNaliczenieDAO.findByMcKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wybranakategoria);
+            Msg.dP();
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
+        }
+    }
+    
+    public void oblicz() {
         switch (wybranakategoria) {
             case "składka":
-                generujskladki();
+                obliczprzychod();
                 break;
             default:
-                for (StowNaliczenie p : lista) {
-                    p.setKwota(0.0);
-                    p.setKategoria(null);
-                    p.setMc(null);
-                    p.setRok(null);
-                }
+                obliczkoszty();
                 break;
         }
     }
     
-    public void pobierzkoszty() {
+    public void obliczprzychod() {
+        generujskladki();
+    }
+    
+    public void obliczkoszty() {
          try {
              if (listaselected != null) {
+                for (StowNaliczenie p :lista) {
+                    naniesdane(p, 0.0, false);
+                }
                 for (StowNaliczenie p :listaselected) {
-                    naniesdane(p, kwotadlawszystkich);
+                    naniesdane(p, kwotadlawszystkich, true);
                 }
                 Msg.dP();
              } else {
@@ -122,7 +136,7 @@ public class StowNaliczenieView  implements Serializable {
             for (StowNaliczenie p : lista) {
                 if (nalicz(p)) {
                     double kwota = pobierzkwote(listaskladki,p);
-                    naniesdane(p, kwota);
+                    naniesdane(p, kwota, false);
                 }
             }
             Msg.dP();
@@ -140,11 +154,11 @@ public class StowNaliczenieView  implements Serializable {
         return jestpo && jestprzed;
     }
     
-    private void naniesdane(StowNaliczenie p, double kwota) {
+    private void naniesdane(StowNaliczenie p, double kwota, boolean przychod0koszt1) {
         p.setKategoria(wybranakategoria);
         p.setMc(wpisView.getMiesiacWpisu());
         p.setRok(wpisView.getRokWpisuSt());
-        p.setPrzych0koszt1(false);
+        p.setPrzych0koszt1(przychod0koszt1);
         p.setKwota(kwota);
     }
     
@@ -170,6 +184,14 @@ public class StowNaliczenieView  implements Serializable {
         } catch (Exception e) {
         }
         try {
+            for(Iterator<StowNaliczenie> it = lista.iterator();it.hasNext();) {
+                StowNaliczenie t = it.next();
+                if (t.getKwota() == 0.0) {
+                    it.remove();
+                } else {
+                    t.setDataksiegowania(new Date());
+                }
+            }
             stowNaliczenieDAO.editList(lista);
             Msg.msg("Zachowano listę");
         } catch (Exception e) {

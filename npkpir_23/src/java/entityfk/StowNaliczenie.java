@@ -6,6 +6,7 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 /**
@@ -50,6 +53,9 @@ public class StowNaliczenie implements Serializable {
     private double kwota;
     @Column(name="kategoria")
     private String kategoria;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "dataksiegowania")
+    private Date dataksiegowania;
 
     public StowNaliczenie() {
     }
@@ -163,6 +169,14 @@ public class StowNaliczenie implements Serializable {
 
     public void setKategoria(String kategoria) {
         this.kategoria = kategoria;
+    }
+
+    public Date getDataksiegowania() {
+        return dataksiegowania;
+    }
+
+    public void setDataksiegowania(Date dataksiegowania) {
+        this.dataksiegowania = dataksiegowania;
     }
  
     

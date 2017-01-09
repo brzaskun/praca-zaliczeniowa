@@ -62,7 +62,7 @@ public class DokumentFKBean implements Serializable {
     }
     
     public static Dokfk generujdokumentSkladki(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, Konto kontoWn, Konto kontoMa, KontoDAOfk kontoDAOfk, List wiersze, DokDAOfk dokDAOfk) {
-        Dokfk nowydok = stworznowydokument(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
+        Dokfk nowydok = stworznowydokumentPK(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
         ustawwierszeSkladki(nowydok, wiersze, wpisView, kontoWn, kontoMa,kontoDAOfk, tabelanbpDAO);
         if (nowydok.getListawierszy() != null) {
             nowydok.przeliczKwotyWierszaDoSumyDokumentu();
@@ -103,10 +103,29 @@ public class DokumentFKBean implements Serializable {
         ustawtabelenbp(nd, tabelanbpDAO);
         return nd;
     }
+    
+    private static Dokfk stworznowydokumentPK(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, DokDAOfk dokDAOfk) {
+        int numerkolejny = oblicznumerkolejny(dokDAOfk, wpisView, symbokdok);
+        Dokfk nd = new Dokfk(symbokdok, numerkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        ustawdaty(nd, wpisView);
+        ustawkontrahenta(nd, klienciDAO, wpisView);
+        nd.setNumerwlasnydokfk(oblicznumerwlasnykolejny(dokDAOfk, wpisView, symbokdok));
+        ustawopis(nd, wpisView, opisdok);
+        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+        nd.setWprowadzil(wpisView.getWprowadzil().getLogin());
+        ustawrodzajedok(nd, symbokdok, rodzajedokDAO, wpisView);
+        ustawtabelenbp(nd, tabelanbpDAO);
+        return nd;
+    }
 
     private static int oblicznumerkolejny(DokDAOfk dokDAOfk, WpisView wpisView, String symbokdok) {
         Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), symbokdok, wpisView.getRokWpisuSt());
         return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii() + 1;
+    }
+    
+    private static String oblicznumerwlasnykolejny(DokDAOfk dokDAOfk, WpisView wpisView, String symbokdok) {
+        Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), symbokdok, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        return poprzednidokumentvat == null ?  "1/"+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt()+"/PK" : zwieksznumerojeden(poprzednidokumentvat.getNumerwlasnydokfk());
     }
     
   

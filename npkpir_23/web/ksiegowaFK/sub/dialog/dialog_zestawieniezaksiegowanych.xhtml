@@ -186,7 +186,7 @@
                 </p:column>
                 <p:column headerText="ujęto" width="40" style="text-align: center;" sortBy="#{item.dataujecia}">
                     <h:outputText value="#{item.dataujecia}" style="width: 40px;">
-                        <f:convertDateTime dateStyle="medium"  />
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                     </h:outputText>
                 </p:column>
                 <p:column headerText="b/k" width="40" style="text-align: center;">
