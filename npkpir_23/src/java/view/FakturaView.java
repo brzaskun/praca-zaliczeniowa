@@ -1248,7 +1248,14 @@ public class FakturaView implements Serializable {
                     podsumowaniewybranychbrutto += (p.getBruttopk()-p.getBrutto());
                 }
             }
-        } else {
+        }
+    }
+    
+     public void sumawartosciwybranychokresowe() {
+        podsumowaniewybranychbrutto = 0.0;
+        podsumowaniewybranychnetto = 0.0;
+        podsumowaniewybranychvat = 0.0;
+        if (gosciwybralokres.size() > 0) {
             iloscwybranych = gosciwybralokres.size();
             for (Fakturywystokresowe p : gosciwybralokres) {
                 podsumowaniewybranychnetto += p.getNetto();

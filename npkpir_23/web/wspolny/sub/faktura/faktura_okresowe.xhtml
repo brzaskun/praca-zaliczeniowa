@@ -66,9 +66,9 @@
                     <p:inputText id="globalFilter" onkeyup="PF('okresTable').filter()" style="width:150px" />  
                 </f:facet>
                 <p:ajax event="filter" global="false"/>
-                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
-                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
-                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>      
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
+                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>      
                 <p:ajax event="rowToggle" global="false" />
                 <p:column style="text-align: center;" width="20"> 
                     <h:outputText value="#{row+1}"/>
