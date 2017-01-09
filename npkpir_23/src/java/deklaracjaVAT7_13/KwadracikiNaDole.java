@@ -102,10 +102,11 @@ public class KwadracikiNaDole {
     }
     
     private void schemaM17K11(PozycjeSzczegoloweVAT pozycjelista, String today){
-        if(pozycjelista.getPoleI55()>0 && pozycjelista.getPoleI56()==0){
+        if(pozycjelista.getPoleI57()>0 && pozycjelista.getPoleI58()==0){
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_66>1</P_66>");
         }
-        if(pozycjelista.getPoleI55()>0 && pozycjelista.getPoleI56()>0){
+        if(pozycjelista.getPoleI57()>0 && pozycjelista.getPoleI58()>0){
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_66>1</P_66>");
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_67>1</P_67>");
         }
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_74>"+today+"</P_74>");
