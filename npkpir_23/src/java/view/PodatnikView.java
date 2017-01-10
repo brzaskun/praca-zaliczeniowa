@@ -777,7 +777,7 @@ public class PodatnikView implements Serializable {
         if (BeanParamSuper.sprawdzrok(paramCzworkiPiatki, lista) == 0) {
             selected.getParamCzworkiPiatki().add((ParamCzworkiPiatki) paramCzworkiPiatki);
             zachowajZmiany(selected);
-            parametr = new Parametr();
+            paramCzworkiPiatki = new ParamCzworkiPiatki();
             Msg.msg("Dodano ustawienie piątek");
         } else {
             Msg.msg("e", "Nie udało się zmienić ustawienie piątek");
