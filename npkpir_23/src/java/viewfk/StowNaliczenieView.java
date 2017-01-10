@@ -112,31 +112,31 @@ public class StowNaliczenieView  implements Serializable {
     }
     
     public void obliczkoszty() {
-         try {
-             if (listaselected != null) {
-                for (StowNaliczenie p :lista) {
-                    naniesdane(p, 0.0, false);
+        try {
+            if (listaselected != null) {
+                for (StowNaliczenie p : lista) {
+                    p.setKwota(0.0);
                 }
-                for (StowNaliczenie p :listaselected) {
-                    naniesdane(p, kwotadlawszystkich, true);
+                for (StowNaliczenie p : listaselected) {
+                    p.setKwota(kwotadlawszystkich);
                 }
                 Msg.dP();
-             } else {
-                 Msg.msg("e", "Nie wybrano człoknków stowarzyszenia do naliczenia");
-             }
+            } else {
+                Msg.msg("e", "Nie wybrano człoknków stowarzyszenia do naliczenia");
+            }
         } catch (Exception e) {
             E.e(e);
             Msg.dPe();
         }
     }
-    
+
     private void generujskladki() {
         try {
             List<SkladkaCzlonek> listaskladki = skladkaCzlonekDAO.findAll();
             for (StowNaliczenie p : lista) {
                 if (nalicz(p)) {
                     double kwota = pobierzkwote(listaskladki,p);
-                    naniesdane(p, kwota, false);
+                    p.setKwota(kwota);
                 }
             }
             Msg.dP();
@@ -154,12 +154,14 @@ public class StowNaliczenieView  implements Serializable {
         return jestpo && jestprzed;
     }
     
-    private void naniesdane(StowNaliczenie p, double kwota, boolean przychod0koszt1) {
-        p.setKategoria(wybranakategoria);
-        p.setMc(wpisView.getMiesiacWpisu());
-        p.setRok(wpisView.getRokWpisuSt());
-        p.setPrzych0koszt1(przychod0koszt1);
-        p.setKwota(kwota);
+     
+    private void usupelnijdane(boolean przychod0koszt1) {
+        for (StowNaliczenie p : lista) {
+            p.setKategoria(wybranakategoria);
+            p.setMc(wpisView.getMiesiacWpisu());
+            p.setRok(wpisView.getRokWpisuSt());
+            p.setPrzych0koszt1(przychod0koszt1);
+        }
     }
     
     private double pobierzkwote(List<SkladkaCzlonek> listaskladki, StowNaliczenie p) {
@@ -184,13 +186,17 @@ public class StowNaliczenieView  implements Serializable {
         } catch (Exception e) {
         }
         try {
+            switch (wybranakategoria) {
+                case "składka":
+                    usupelnijdane(false);
+                    break;
+                default:
+                    usupelnijdane(true);
+                    break;
+            }
             for(Iterator<StowNaliczenie> it = lista.iterator();it.hasNext();) {
                 StowNaliczenie t = it.next();
-                if (t.getKwota() == 0.0) {
-                    it.remove();
-                } else {
-                    t.setDataksiegowania(new Date());
-                }
+                t.setDataksiegowania(new Date());
             }
             stowNaliczenieDAO.editList(lista);
             Msg.msg("Zachowano listę");
