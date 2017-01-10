@@ -49,7 +49,7 @@
                     </p:panelGrid>
                 </p:panel>  
                 <p:draggable for="odbiorca" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
-                <p:panel id="wystawca" style="width: 480px; height: 160px;">  
+                <p:panel id="wystawca" style="width: 480px; height: 160px;"  rendered="#{!fakturadodelementyView.czydodatkowyelementjestAktywny('stopka niemiecka')}" >  
                     <p:panelGrid columns="2">
                         <h:outputText value="Wystawca: " style="font-size: larger"/><br/>
                         <h:outputText value="Bober Mizialski"/><br/>

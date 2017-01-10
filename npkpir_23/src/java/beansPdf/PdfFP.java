@@ -15,6 +15,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.FakturaXXLKolumnaDAO;
@@ -180,14 +181,16 @@ public class PdfFP {
                     break;
                 case "akordeon:formwzor:wystawca":
                     //Dane do modulu sprzedawca
-                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "wystawca");
-                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:wystawca") - 65, 250, 80);
-                    absText(writer, B.b("sprzedawca")+":", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca"), 10);
-                    absText(writer, selected.getWystawca().getNazwadlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 20, 8);
-                    adres = selected.getWystawca().getAdresdlafaktury();
-                    absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 40, 8);
-                    String nip = selected.getWystawca().getNipdlafaktury() != null ? selected.getWystawca().getNipdlafaktury() : selected.getWystawca().getNip();
-                    absText(writer, "NIP: " + selected.getWystawca().getNipdlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 60, 8);
+                    if (!czydodatkowyelementjestAktywny("stopka niemiecka", elementydod)) {
+                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "wystawca");
+                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:wystawca") - 65, 250, 80);
+                        absText(writer, B.b("sprzedawca")+":", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca"), 10);
+                        absText(writer, selected.getWystawca().getNazwadlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 20, 8);
+                        adres = selected.getWystawca().getAdresdlafaktury();
+                        absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 40, 8);
+                        String nip = selected.getWystawca().getNipdlafaktury() != null ? selected.getWystawca().getNipdlafaktury() : selected.getWystawca().getNip();
+                        absText(writer, "NIP: " + selected.getWystawca().getNipdlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 60, 8);
+                    }
                     break;
                 case "akordeon:formwzor:odbiorca":
                     //Dane do modulu odbiorca
@@ -404,13 +407,15 @@ public class PdfFP {
                     break;
                 case "akordeon:formwzor:wystawca":
                     //Dane do modulu sprzedawca
-                    pobrane = zwrocPolozenieElementu(skladnikifaktury, "wystawca");
-                    prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:wystawca") - 65, 250, 80);
-                    absText(canvas, "Sprzedawca:", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca"), 10);
-                    absText(canvas, selected.getWystawca().getNazwadlafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 20, 8);
-                    adres = selected.getWystawca().getAdresdlafaktury();
-                    absText(canvas, adres, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 40, 8);
-                    absText(canvas, "NIP: " + selected.getWystawca().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 60, 8);
+                    if (!czydodatkowyelementjestAktywny("stopka niemiecka", elementydod)) {
+                        pobrane = zwrocPolozenieElementu(skladnikifaktury, "wystawca");
+                        prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:wystawca") - 65, 250, 80);
+                        absText(canvas, "Sprzedawca:", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca"), 10);
+                        absText(canvas, selected.getWystawca().getNazwadlafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 20, 8);
+                        adres = selected.getWystawca().getAdresdlafaktury();
+                        absText(canvas, adres, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 40, 8);
+                        absText(canvas, "NIP: " + selected.getWystawca().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 60, 8);
+                    }
                     break;
                 case "akordeon:formwzor:odbiorca":
                     //Dane do modulu odbiorca
@@ -782,7 +787,7 @@ public class PdfFP {
                 if (p.getEstawka().equals("-1.0")) {
                     table.addCell(ustawfraze(" ", 6, 0));
                 } else {
-                    table.addCell(ustawfraze(B.b("wgstawekvat"), 4, 0));
+                    table.addCell(ustawfraze(B.b("kwotavat"), 4, 0));
                     table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
                 }
@@ -1290,22 +1295,22 @@ public class PdfFP {
             table.setTotalWidth(new float[]{165,120,120,165});
             table.setWidthPercentage(95);
             table.getDefaultCell().setBorderColor(BaseColor.WHITE);
-            table.addCell(ustawfrazeAlignNOBorder(f.getNazwafirmy(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Mobil: "+f.getKomorka(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Amstgericht Hanau"+f.getUrzadskarbowy(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder(f.getBank(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Geschäftsführer "+f.getPrezes(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Büro: "+f.getTelefon(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("HRB "+f.getKrs(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("IBAN "+f.getIban(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder(f.getUlica(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("", "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Finanzamt "+f.getUrzadskarbowy(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("BIC "+f.getBic(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder(f.getMiejscowosc(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Mail: "+f.getEmail(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("Steuernummer "+f.getNip(), "left", 7));
-            table.addCell(ustawfrazeAlignNOBorder("BLZ "+f.getBlz()+" | KTO-NR "+f.getKtonr(), "left", 7));
+            table.addCell(frazaNoBorderkolor(f.getNazwafirmy()));
+            table.addCell(frazaNoBorderkolor("Mobil: "+f.getKomorka()));
+            table.addCell(frazaNoBorderkolor("Amstgericht "+f.getKrs()));
+            table.addCell(frazaNoBorderkolor(f.getBank()));
+            table.addCell(frazaNoBorderkolor("Geschäftsführer "+f.getPrezes()));
+            table.addCell(frazaNoBorderkolor("Büro: "+f.getTelefon()));
+            table.addCell(frazaNoBorderkolor("HRB "+f.getKrs()));
+            table.addCell(frazaNoBorderkolor("IBAN "+f.getIban()));
+            table.addCell(frazaNoBorderkolor(f.getUlica()));
+            table.addCell(frazaNoBorderkolor(""));
+            table.addCell(frazaNoBorderkolor("Finanzamt "+f.getUrzadskarbowy()));
+            table.addCell(frazaNoBorderkolor("BIC "+f.getBic()));
+            table.addCell(frazaNoBorderkolor(f.getMiejscowosc()));
+            table.addCell(frazaNoBorderkolor("EMail "+f.getEmail()));
+            table.addCell(frazaNoBorderkolor("Steuernummer "+f.getNip()));
+            table.addCell(frazaNoBorderkolor("BLZ "+f.getBlz()+" | KTO-NR "+f.getKtonr()));
             table.completeRow();
             table.writeSelectedRows(0, -1,
             document.left(document.leftMargin()+15f),
@@ -1314,5 +1319,11 @@ public class PdfFP {
         } catch (DocumentException ex) {
             Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private static PdfPCell frazaNoBorderkolor(String f) {
+        PdfPCell cell = ustawfrazeAlignNOBorder(f, "left", 7);
+        cell.setBackgroundColor(new BaseColor(170, 170, 170, 20));
+        return cell;
     }
 }

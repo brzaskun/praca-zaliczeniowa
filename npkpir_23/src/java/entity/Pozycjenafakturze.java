@@ -118,7 +118,7 @@ public class Pozycjenafakturze implements Serializable {
 
     @Override
     public String toString() {
-        return "Pozycjenafakturze " + pozycjenafakturzePK.getNazwa() + ", aktywny=" + aktywny + ", gora=" + gora + ", lewy=" + lewy + '}';
+        return "pozycje na fakturze: " + pozycjenafakturzePK.getNazwa() + ", aktywny:" + aktywny + ", gora:" + gora + ", lewy:" + lewy;
     }
 
     

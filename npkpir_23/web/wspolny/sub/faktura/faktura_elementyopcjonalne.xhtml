@@ -4,30 +4,33 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-      <p:tab id="elementy" title="Dodatkowe elementy faktury">
-          <h:form id="formelementy">
-              <p:dataTable value="#{fakturadodelementyView.fakturadodelementy}" var="wpis" style="width: 1000px;">
-                  <f:facet name="header">
-                      <h:outputText value="Wybierze elementy opcjonalne faktury"/>
-                  </f:facet>
-                  <p:column headerText="#{mgs.wybierzmcrok}" width="60">
-                      <p:selectBooleanCheckbox value="#{wpis.aktywny}" style="margin-left: 30%" rendered="#{wpis.fakturadodelementyPK.nazwaelementu ne 'logo'}"/>
-                      <p:selectBooleanCheckbox value="#{wpis.aktywny}" style="margin-left: 30%" rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() ne ''}"/>
-                  </p:column>
-                  <p:column headerText="nazwa elementu" width="200">
-                      <h:outputText value="#{wpis.fakturadodelementyPK.nazwaelementu}"/>
-                  </p:column>
-                  <p:column headerText="tresc elementu" style="height: 60px;">
-                      <p:inputTextarea value="#{wpis.trescelementu}" cols="80" rendered="#{wpis.fakturadodelementyPK.nazwaelementu ne 'logo'}"/>
-                      <h:outputText value="Na fakturze zostanie umieszczony załadowany plik graficzny" 
-                                    rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() ne ''}"/>
-                      <h:outputText value="Brak pliku graficznego do umieszczenia na fakturze" 
-                                    rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() eq ''}"/>
-                  </p:column>
-              </p:dataTable>
-              <p:commandButton value="Użyj wybrane na fakturze" actionListener="#{fakturadodelementyView.zachowajzmiany()}" update=":akordeon:formwzor"
-                               style="margin-top: 5px;"/>
-          </h:form>
-        </p:tab>
+    <p:tab id="elementy" title="Dodatkowe elementy faktury">
+        <h:form id="formelementy">
+            <p:dataTable value="#{fakturadodelementyView.fakturadodelementy}" sortBy="#{wpis.fakturadodelementyPK.nazwaelementu}"
+                         var="wpis" style="width: 1000px;">
+                <f:facet name="header">
+                    <h:outputText value="Wybierze elementy opcjonalne faktury"/>
+                </f:facet>
+                <p:column headerText="#{mgs.wybierzmcrok}" width="60">
+                    <p:selectBooleanCheckbox value="#{wpis.aktywny}" style="margin-left: 30%" rendered="#{wpis.fakturadodelementyPK.nazwaelementu ne 'logo'}">
+                        <p:ajax event="change" global="false" listener="#{fakturadodelementyView.zachowajzmiany()}"  update=":akordeon:formwzor"/>
+                    </p:selectBooleanCheckbox>
+                    <p:selectBooleanCheckbox value="#{wpis.aktywny}" style="margin-left: 30%" rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() ne ''}">
+                        <p:ajax event="change" global="false" listener="#{fakturadodelementyView.zachowajzmiany()}"  update=":akordeon:formwzor"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="nazwa elementu" width="200">
+                    <h:outputText value="#{wpis.fakturadodelementyPK.nazwaelementu}"/>
+                </p:column>
+                <p:column headerText="tresc elementu" style="height: 60px;">
+                    <p:inputTextarea value="#{wpis.trescelementu}" cols="80" rendered="#{wpis.fakturadodelementyPK.nazwaelementu ne 'logo'}"/>
+                    <h:outputText value="Na fakturze zostanie umieszczony załadowany plik graficzny" 
+                                  rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() ne ''}"/>
+                    <h:outputText value="Brak pliku graficznego do umieszczenia na fakturze" 
+                                  rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() eq ''}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>
 </ui:composition>   
 
