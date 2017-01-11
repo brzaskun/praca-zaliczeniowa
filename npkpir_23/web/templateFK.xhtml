@@ -81,7 +81,7 @@
             </p:idleMonitor>
             <ui:include src="/wspolny/dialogZmianaOkresu.xhtml"/>
             <h:form>
-            <p:commandButton value="data" onclick="PF('dialogZmianaOkresu').show()" global="false" onstart="zamknijdialogi();"
+                <p:commandButton value="data" onclick="PF('dialogZmianaOkresu').show()" actionListener="#{WpisView.kopiujmiesiac}" global="false" onstart="zamknijdialogi();"
                               update="form_dialogZmianaOkresu" accesskey="o" style="display: none;"/>
             </h:form>
             <p:outputPanel style="margin-left: auto; margin-right: auto; margin-top: 300px; text-align: center;">
