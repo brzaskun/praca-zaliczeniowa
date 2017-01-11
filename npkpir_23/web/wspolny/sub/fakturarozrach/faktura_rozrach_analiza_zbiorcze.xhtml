@@ -37,7 +37,7 @@
                 <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>
             </p:panelGrid>
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 980px; margin-top: 20px;"
-                         emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" rowKey="#{item.lp}"
+                         emptyMessage="nie znaleziono żadnych księgowań" rowKey="#{item.lp}"
                          selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}"
                          >
                 <p:ajax event="toggleSelect" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>

@@ -287,6 +287,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 it.remove();
             }
         }
+        System.out.println("pobrane faktury rozliczenia");
     }
     
     public void sumujwybrane() {
