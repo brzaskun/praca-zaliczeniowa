@@ -40,15 +40,19 @@
          <h:form id="form_dialogZmianaOkresu">
              <p:panelGrid style="margin: 5px;" columns="2">
                  <h:outputText value="miesiąc:" />
-                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.zmianaokresuMc}" style="width: 70px;">
+                 <h:selectOneMenu id="miesiacWpisu" value="#{WpisView.zmianaokresuMc}" style="width: 70px;"
+                        onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                        onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" >
                      <f:selectItems value="#{Mce.mceList}"/>
-                 </p:selectOneMenu>
+                 </h:selectOneMenu>
                  <h:outputText value="rok:" />
-                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.zmianaokresuRok}" style="width: 70px;">
+                 <h:selectOneMenu id="rokWpisu" value="#{WpisView.zmianaokresuRok}" style="width: 70px;"
+                        onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                        onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" >
                      <f:selectItems value="#{Roki.rokiList}"/>
-                 </p:selectOneMenu>
+                 </h:selectOneMenu>
              </p:panelGrid>
-             <p:commandButton value="zmień" actionListener="#{WpisView.zmianaokresuWpis()}" update="@(form)"
+             <p:commandButton value="zmień" actionListener="#{WpisView.zmianaokresuWpis()}" global="false"
                               style="float: right" oncomplete="PF('dialogZmianaOkresu').hide();"/>
          </h:form>
      </p:dialog>

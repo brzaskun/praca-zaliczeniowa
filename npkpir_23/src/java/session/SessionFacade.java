@@ -722,6 +722,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Faktura> findByKontrahentNipRok(String kontrahent_nip, String wystawca, String rok) {
         return em.createNamedQuery("Faktura.findByKontrahentRok").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).setParameter("rok", rok).getResultList();
     }
+    
+    public List<Faktura> findByKontrahentNipPo2015(String kontrahent_nip, String wystawca) {
+        return em.createNamedQuery("Faktura.findByKontrahentRokPo2015").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList();
+    }
 
     public List<Faktura> findFakturyByRok(String rok) {
         return em.createNamedQuery("Faktura.findByRok").setParameter("rok", rok).getResultList();
