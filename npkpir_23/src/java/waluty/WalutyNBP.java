@@ -110,6 +110,7 @@ public class WalutyNBP implements Serializable {
                     inputStream = url.openStream();
                 } catch (Exception e) {
                     data = zmiendate(data);
+                    numerTabeliNBP = skorygujNumerTabeliZmianaRoku(data, numerTabeliNBP);
                 }
             }
             if (inputStream != null) {

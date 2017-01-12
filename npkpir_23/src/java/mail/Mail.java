@@ -149,6 +149,25 @@ public class Mail {
             throw new RuntimeException(e);
         }
     }
+       
+    public static void nadajMailWystapilBlad(String blad, SMTPSettings settings, SMTPSettings ogolne) {
+        try {
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("info@taxman.pl"));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("brzaskun@gmail.com"));
+            message.setSubject("Błąd w programie");
+            message.setContent("Szanowny Użytkowniku,"
+                    + "<span style=\"color: green;\">"+blad+"</span>"
+                    + stopka,  "text/html; charset=utf-8");
+            Transport.send(message);
+            message.setHeader("Content-Type", "text/html; charset=utf-8");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
    
     public static String getStopka() {
         return stopka;
