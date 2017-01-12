@@ -53,7 +53,7 @@
                  </h:selectOneMenu>
              </p:panelGrid>
              <p:commandButton value="zmień" actionListener="#{WpisView.zmianaokresuWpis()}" global="false"
-                              style="float: right" oncomplete="PF('dialogZmianaOkresu').hide();"/>
+                              style="float: right" oncomplete="PF('dialogZmianaOkresu').hide();" update="@all"/>
          </h:form>
      </p:dialog>
 </html>

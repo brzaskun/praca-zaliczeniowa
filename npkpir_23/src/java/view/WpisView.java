@@ -195,10 +195,6 @@ public class WpisView implements Serializable {
         miesiacWpisu = new String(zmianaokresuMc);
         rokWpisu = zmianaokresuRok;
         naniesDaneDoWpis();
-        try {
-            RequestContext.getCurrentInstance().update("zestawieniedokumentow:miesiacWpisu");
-            RequestContext.getCurrentInstance().update("menubarnorth");
-        } catch (Exception e) {}
     }
     
     public final void naniesDaneDoWpis() {
