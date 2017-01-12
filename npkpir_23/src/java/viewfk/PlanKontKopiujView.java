@@ -60,7 +60,10 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     public void kopiujplankont() {
-        if (podatnikzrodlowy.equals(podatnikdocelowy) && rokzrodlowy.equals(rokdocelowy)) {
+        List<Konto> plankont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        if (plankont != null && !plankont.isEmpty()) {
+            Msg.msg("e", "W bieżącym roku istnieje już plan kont firmy. Usuń go najpierw, aby skopiować plan kont z innego roku/firmy");
+        } else if (podatnikzrodlowy.equals(podatnikdocelowy) && rokzrodlowy.equals(rokdocelowy)) {
             Msg.msg("e", "Podatnik oraz rok źródłowy i docelowy jest ten sam");
         } else {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(podatnikzrodlowy.getNazwapelna(), rokzrodlowy);
