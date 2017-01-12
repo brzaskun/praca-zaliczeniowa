@@ -6,6 +6,7 @@
 package beansFK;
 
 import comparator.Tabelanbpcomparator;
+import dao.SMTPSettingsDAO;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import entityfk.Tabelanbp;
@@ -40,6 +41,8 @@ public class WalutyFKBean {
     private WalutyDAOfk walutyDAOfk;
     @Inject
     private WalutyNBP walutyNBP;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     
     
 
@@ -78,7 +81,7 @@ public class WalutyFKBean {
         return wierszepobranezNBP;
     }
     
-    @Schedule(hour = "10,14", persistent = false)
+    @Schedule(hour = "10,15", persistent = false)
     public void pobierzkursy() {
         System.out.println("pobieram kursy ********************************************************************");
         String datawstepna;
@@ -113,7 +116,8 @@ public class WalutyFKBean {
             try {
                 wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
-                E.e(e);
+                mail.Mail.nadajMailWystapilBlad(E.e(e), null, sMTPSettingsDAO.findSprawaByDef());
+                
             }
             for (Tabelanbp p : wierszepobranezNBP) {
                tabelanbpDAO.dodaj(p);
