@@ -112,7 +112,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum, Klienci klient) {
         List<FakturaPodatnikRozliczenie> pozycje = null;
         if (klient != null) {
-            List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahent(wpisView, klient);
+            List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView, klient);
             //problem jest zeby nie brac wczesniejszych niz 2016 wiec BO sie robi
             List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
