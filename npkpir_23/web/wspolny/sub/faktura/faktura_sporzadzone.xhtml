@@ -79,7 +79,7 @@
             </p:panel>
             <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFiltered}" 
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1400px;"
-                         sortBy="#{wpis.fakturaPK.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
+                         sortBy="#{wpis.kontrahent.npelna}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowanych faktur w mc #{WpisView.miesiacWpisu} " />  
 <!--                    <h:outputText value="- wyszukiwanie: " />  
@@ -108,11 +108,11 @@
                 </p:column>
                 <p:column styleClass="data1" headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 
                           filterMatchMode="contains"  width="60">
-                    <h:outputText value="#{wpis.datawystawienia}"/>
+                    <h:outputText value="#{wpis.datawystawienia.substring(2)}"/>
                 </p:column>
                 <p:column styleClass="data1" headerText="termin płatności" sortBy="#{wpis.terminzaplaty}" filterBy="#{wpis.terminzaplaty}" 
                           filterMatchMode="contains"  width="60">
-                    <h:outputText value="#{wpis.terminzaplaty}"/>
+                    <h:outputText value="#{wpis.terminzaplaty.substring(2)}"/>
                 </p:column>
                 <p:column styleClass="data2" headerText="netto"  sortBy="#{wpis.nettoFaktura}" filterBy="#{wpis.nettoFaktura}" filterMatchMode="contains"   width="70">
                     <bcf:outputpl value="#{wpis.nettoFaktura}"/>
