@@ -78,6 +78,10 @@ public class StowNaliczenieView  implements Serializable {
     private void init() {
         //przychody
         konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
+        Konto kontoprzychodypo = kontoDAOfk.findKonto("844-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        if (kontoprzychodypo != null) {
+            konta.add(kontoprzychodypo);
+        }
         List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
             if (Data.czyjestpomiedzy(p.getPoczatek(), p.getKoniec(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
