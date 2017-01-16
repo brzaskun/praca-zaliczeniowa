@@ -24,11 +24,11 @@
                         <p:spinner id="spinnerBasic" value="#{WpisView.podatnikObiekt.platnoscwdni}" max="365" min="0" size="3" />  
                         <h:outputLabel value="nazwa firmy umieszczana na fakturach sprzedaży"/>
                         <p:inputText id="nazwadlafaktury" value="#{WpisView.podatnikObiekt.nazwadlafaktury}" maxlength="512" style="width: 400px;">
-                            <f:validateLength minimum="10"/>
+                            
                         </p:inputText>
                         <h:outputLabel value="adres firmy umieszczana na fakturach sprzedaży"/>
                         <p:inputText id="adresdlafaktury" value="#{WpisView.podatnikObiekt.adresdlafaktury}" maxlength="512" style="width: 400px;">
-                            <f:validateLength minimum="10"/>
+                            
                         </p:inputText>
                         <h:outputLabel value="NIP dla faktury"/>
                         <p:inputText id="nipdlafaktury" value="#{WpisView.podatnikObiekt.nipdlafaktury}" maxlength="25" style="width: 300px;" required="false">

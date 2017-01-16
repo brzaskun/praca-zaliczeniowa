@@ -23,7 +23,9 @@
                     <h:outputText value="#{wpis.fakturadodelementyPK.nazwaelementu}"/>
                 </p:column>
                 <p:column headerText="tresc elementu" style="height: 60px;">
-                    <p:inputTextarea value="#{wpis.trescelementu}" cols="80" rendered="#{wpis.fakturadodelementyPK.nazwaelementu ne 'logo'}"/>
+                    <p:inputTextarea value="#{wpis.trescelementu}" cols="80" rendered="#{wpis.fakturadodelementyPK.nazwaelementu ne 'logo'}">
+                        <p:ajax event="change" global="false" listener="#{fakturadodelementyView.zachowajzmiany()}"  update=":akordeon:formwzor"/>
+                    </p:inputTextarea>
                     <h:outputText value="Na fakturze zostanie umieszczony załadowany plik graficzny" 
                                   rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() ne ''}"/>
                     <h:outputText value="Brak pliku graficznego do umieszczenia na fakturze" 
