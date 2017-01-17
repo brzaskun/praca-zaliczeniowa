@@ -72,6 +72,7 @@ import pdf.PdfFakturySporzadzone;
 import plik.Plik;
 import serialclone.SerialClone;
 import dao.SMTPSettingsDAO;
+import pdf.PdfFakturyOkresowe;
 import waluty.Z;
 
 /**
@@ -1470,7 +1471,17 @@ public class FakturaView implements Serializable {
         Msg.msg("Przenumerowałem faktury");
     }
     
-    
+    public void drukujokresowe() {
+        try {
+            if (gosciwybralokres != null && gosciwybralokres.size() > 0) {
+                PdfFakturyOkresowe.drukuj(gosciwybralokres, wpisView.getPodatnikObiekt().getNip());
+            } else {
+                PdfFakturyOkresowe.drukuj(fakturyokresowe, wpisView.getPodatnikObiekt().getNip());
+            }
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
     
 //    public void naprawCarrefour() {
 //        Klienci k = klienciDAO.findKlientById(4994);

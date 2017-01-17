@@ -16,6 +16,7 @@ import embeddablefk.TreeNodeExtended;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
 import entity.Faktura;
+import entity.Fakturywystokresowe;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -127,6 +128,19 @@ public class testobjects {
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = t;
+       return tabela;
+   }
+   
+   public static List[] getFakturyOkresowe(List<Fakturywystokresowe> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("kontrahent");
+       n.add("opis");
+       n.add("netto");
+       n.add("brutto");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
        return tabela;
    }
    

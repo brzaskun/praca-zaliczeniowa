@@ -68,6 +68,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import entity.Fakturywystokresowe;
 import entity.Statystyka;
 import entityfk.MiejscePrzychodow;
 import java.io.FileOutputStream;
@@ -611,6 +612,14 @@ public class PdfMain {
                 col[0] = 2;
                 col[1] = 6;
                 col[2] = 3;
+                return col;
+            case "entity.Fakturywystokresowe":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 8;
+                col[2] = 8;
+                col[3] = 3;
+                col[4] = 3;
                 return col;
             case "entityfk.MiejscePrzychodow":
                 col = new int[size];
@@ -1191,6 +1200,14 @@ public class PdfMain {
                     }
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
                 }
+            }
+            if (nazwaklasy.equals("entity.Fakturywystokresowe")) {
+                Fakturywystokresowe p = (Fakturywystokresowe) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDokument().getKontrahent().getNpelna(), "left", 8, 15f));
+                table.addCell(ustawfrazeAlign(p.getDokument().getOpisFaktury(), "left", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDokument().getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDokument().getBrutto())), "right", 8));
             }
             if (nazwaklasy.equals("testobjects.WierszTabeli")) {
                 WierszTabeli p = (WierszTabeli) it.next();

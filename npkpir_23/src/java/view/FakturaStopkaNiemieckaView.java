@@ -32,7 +32,8 @@ public class FakturaStopkaNiemieckaView implements Serializable {
     private void init() {
         try {
             fakturaStopkaNiemiecka = fakturaStopkaNiemieckaDAO.findByPodatnik(wpisView.getPodatnikObiekt());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         if (fakturaStopkaNiemiecka == null) {
             fakturaStopkaNiemiecka = new FakturaStopkaNiemiecka();
             fakturaStopkaNiemiecka.setPodatnik(wpisView.getPodatnikObiekt());

@@ -212,7 +212,7 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
        var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
        var testw = poleDaty.value;
          if (!testw.match(re)){
-             poleDaty.value = "0000-00-00";
+             poleDaty.value = null;
          }
    };
    
