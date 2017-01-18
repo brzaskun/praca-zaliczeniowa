@@ -66,7 +66,7 @@ public class KliencifkView implements Serializable {
     private DokfkView dokfkView;
     @ManagedProperty(value = "#{planKontCompleteView}")
     private PlanKontCompleteView planKontCompleteView;
-    @ManagedProperty(value = "#{planKontBOView}")
+    @ManagedProperty(value = "#{planKontSrTrw}")
     private PlanKontSrTrw planKontSrTrw;
     private boolean makonto0niemakonta1;
     @Inject
