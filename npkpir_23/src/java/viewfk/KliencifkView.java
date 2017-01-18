@@ -250,14 +250,15 @@ public class KliencifkView implements Serializable {
         return listawszystkichklientow;
     }
 
-    public PlanKontSrTrw getPlanKontBOView() {
+    public PlanKontSrTrw getPlanKontSrTrw() {
         return planKontSrTrw;
     }
 
-    public void setPlanKontBOView(PlanKontSrTrw planKontSrTrw) {
+    public void setPlanKontSrTrw(PlanKontSrTrw planKontSrTrw) {
         this.planKontSrTrw = planKontSrTrw;
     }
 
+   
     public Klienci getWybranyklient1() {
         return wybranyklient1;
     }
