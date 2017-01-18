@@ -67,7 +67,7 @@ public class KliencifkView implements Serializable {
     @ManagedProperty(value = "#{planKontCompleteView}")
     private PlanKontCompleteView planKontCompleteView;
     @ManagedProperty(value = "#{planKontBOView}")
-    private PlanKontBOView planKontBOView;
+    private PlanKontSrTrw planKontSrTrw;
     private boolean makonto0niemakonta1;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
@@ -177,7 +177,7 @@ public class KliencifkView implements Serializable {
     
     public void przyporzadkujdokontaBO() {
         przyporzadkujdokonta();
-        planKontBOView.init();
+        planKontSrTrw.init();
         planKontCompleteView.init();
     }
     
@@ -250,12 +250,12 @@ public class KliencifkView implements Serializable {
         return listawszystkichklientow;
     }
 
-    public PlanKontBOView getPlanKontBOView() {
-        return planKontBOView;
+    public PlanKontSrTrw getPlanKontBOView() {
+        return planKontSrTrw;
     }
 
-    public void setPlanKontBOView(PlanKontBOView planKontBOView) {
-        this.planKontBOView = planKontBOView;
+    public void setPlanKontBOView(PlanKontSrTrw planKontSrTrw) {
+        this.planKontSrTrw = planKontSrTrw;
     }
 
     public Klienci getWybranyklient1() {

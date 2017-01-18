@@ -62,7 +62,7 @@ public class DelegacjeView  implements Serializable{
     private int jest1niema0;
 
     public DelegacjeView() {
-        E.m(this);
+        
    }
     
     

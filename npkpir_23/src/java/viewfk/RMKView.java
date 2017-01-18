@@ -77,7 +77,6 @@ public class RMKView  implements Serializable {
     private double sumarmk;
 
     public RMKView() {
-         E.m(this);
         this.listakontkosztowych = new ArrayList<>();
         this.listarmk = new ArrayList<>();
     }

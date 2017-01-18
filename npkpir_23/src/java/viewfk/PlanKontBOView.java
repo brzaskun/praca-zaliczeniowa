@@ -39,8 +39,6 @@ public class PlanKontBOView implements Serializable {
     private WpisView wpisView;
     private Map<Integer,List<Konto>> wykazkontGrupa;
     private List<Konto> wykazkont;
-    private List<Konto> listakontSrodkiTrwale;
-    private List<Konto> listakontSrodkiTrwaleUmorzenia;
 
     public PlanKontBOView() {
          E.m(this);
@@ -58,9 +56,6 @@ public class PlanKontBOView implements Serializable {
             List<Konto> wykazkont6 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "6%");
             List<Konto> wykazkont7 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "7%");
             List<Konto> wykazkont8 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "8%");
-            listakontSrodkiTrwale = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
-            usunzbednekonta(listakontSrodkiTrwale);
-            listakontSrodkiTrwaleUmorzenia  = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "07%");
             wykazkont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             wykazkontGrupa.put(0, wykazkont0);
             wykazkontGrupa.put(1, wykazkont1);
@@ -136,30 +131,6 @@ public class PlanKontBOView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
-    }
-
-    public List<Konto> getListakontSrodkiTrwale() {
-        return listakontSrodkiTrwale;
-    }
-
-    public void setListakontSrodkiTrwale(List<Konto> listakontSrodkiTrwale) {
-        this.listakontSrodkiTrwale = listakontSrodkiTrwale;
-    }
-
-    public List<Konto> getListakontSrodkiTrwaleUmorzenia() {
-        return listakontSrodkiTrwaleUmorzenia;
-    }
-
-    public void setListakontSrodkiTrwaleUmorzenia(List<Konto> listakontSrodkiTrwaleUmorzenia) {
-        this.listakontSrodkiTrwaleUmorzenia = listakontSrodkiTrwaleUmorzenia;
-    }
-
-    private void usunzbednekonta(List<Konto> listakontSrodkiTrwale) {
-        for (Iterator<Konto> it = listakontSrodkiTrwale.iterator(); it.hasNext();) {
-            if (it.next().getPelnynumer().startsWith("07")) {
-                it.remove();
-            }
-        }
     }
 
     

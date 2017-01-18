@@ -47,7 +47,7 @@ public class WierszeView implements Serializable {
     private boolean tylkobezrozrachunkow;
 
     public WierszeView() {
-         E.m(this);
+         
     }
     
     
