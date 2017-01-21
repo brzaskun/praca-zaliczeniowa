@@ -19,7 +19,7 @@
             }
         </style>
         <h:form id="fakturarozliczenia">
-            <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci(WpisView.miesiacWpisu)}" update="fakturarozliczenia" global="false"/>
+            <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci()}" update="fakturarozliczenia" global="false"/>
             <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
                          widgetVar="fakturarozliczenia_tablica" editable="true">
@@ -130,7 +130,8 @@
                     <p:rowEditor style="height: 30px;"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiRozlView.usun(item)}" update="akordeon:fakturarozliczenia:wprowadzonetabela"/>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiRozlView.usun(item)}" 
+                                     update="akordeon:fakturarozliczenia:wprowadzonetabela akordeon:form_wprowadzoneplatnosci"/>
                 </p:column>
             </p:dataTable>
         </h:form>

@@ -1882,6 +1882,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<FakturaRozrachunki> findByPodatnik(WpisView wpisView) {
         return em.createNamedQuery("FakturaRozrachunki.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
+    
+    public List<FakturaRozrachunki> findByPodatnikRokMc(WpisView wpisView) {
+        return em.createNamedQuery("FakturaRozrachunki.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+    }
 
     public List<FakturaRozrachunki> findByPodatnikKontrahent(WpisView wpisView, Klienci kontrahent) {
         return em.createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahent").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("kontrahent", kontrahent).getResultList();

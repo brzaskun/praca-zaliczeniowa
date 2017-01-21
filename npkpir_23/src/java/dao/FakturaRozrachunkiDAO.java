@@ -49,6 +49,15 @@ public class FakturaRozrachunkiDAO extends DAO implements Serializable {
         }
     }
     
+     public List<FakturaRozrachunki> findByPodatnikrokMc(WpisView wpisView) {
+        try {
+            return sessionFacade.findByPodatnikRokMc(wpisView);
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
     public List<FakturaRozrachunki> findByPodatnikKontrahent(WpisView wpisView, Klienci kontrahent) {
         try {
             return sessionFacade.findByPodatnikKontrahent(wpisView, kontrahent);

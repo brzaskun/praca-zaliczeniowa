@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "FakturaRozrachunki.findAll", query = "SELECT e FROM FakturaRozrachunki e"),
     @NamedQuery(name = "FakturaRozrachunki.findByData_k", query = "SELECT e FROM FakturaRozrachunki e WHERE e.dataksiegowania = :data AND e.wystawca = :podatnik"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnik", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik"),
+    @NamedQuery(name = "FakturaRozrachunki.findByPodatnikRokMc", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.rok = :rok AND e.mc = :mc"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnikKontrahent", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.kontrahent = :kontrahent"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnikKontrahentRok", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.kontrahent = :kontrahent AND e.rok = :rok")
 })

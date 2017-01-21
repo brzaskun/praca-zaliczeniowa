@@ -199,19 +199,14 @@ public class FakturaRozrachunkiView  implements Serializable {
         //fakturaRozrachunkiAnalizaView.zestawieniezbiorcze();
     }
     
-    private List<FakturaRozrachunki> pobierzplatnosci(String mc) {
-        List<FakturaRozrachunki> wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnik(wpisView);
-        for (Iterator<FakturaRozrachunki> it = wprowadzoneplatnosci.iterator(); it.hasNext();) {
-            if (!it.next().getMc().equals(mc)) {
-                it.remove();
-            }
-        }
+    private List<FakturaRozrachunki> pobierzplatnosci() {
+        List<FakturaRozrachunki> wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnikrokMc(wpisView);
         return wprowadzoneplatnosci;
     }
     
     public void pobierzostatninumer() {
         selected.setNrdokumentu(null);
-        List<FakturaRozrachunki> wprowadzoneplatnosci = pobierzplatnosci(wpisView.getMiesiacWpisu());
+        List<FakturaRozrachunki> wprowadzoneplatnosci = pobierzplatnosci();
         for (Iterator<FakturaRozrachunki> it = wprowadzoneplatnosci.iterator(); it.hasNext();) {
             if (!it.next().getRodzajdokumentu().equals(selected.getRodzajdokumentu())) {
                 it.remove();

@@ -59,17 +59,12 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
                 }
             }
         }
-        pobierzplatnosci(wpisView.getMiesiacWpisu());
+        pobierzplatnosci();
         System.out.println("d");
     }
     
-    public void pobierzplatnosci(String mc) {
-        wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnik(wpisView);
-        for (Iterator<FakturaRozrachunki> it = wprowadzoneplatnosci.iterator(); it.hasNext();) {
-            if (!it.next().getMc().equals(mc)) {
-                it.remove();
-            }
-        }
+    public void pobierzplatnosci() {
+        wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnikrokMc(wpisView);
     }
    
     private Collection<? extends Klienci> pobierzkontrahentow() {
