@@ -79,6 +79,23 @@ public class SkladkaCzlonekView implements Serializable {
         Msg.msg("Zachowano zmiany");
     }
     
+    public void wartoscdomyslna() {
+        if (!skladkaCzlonekLista.isEmpty()) {
+            SkladkaStowarzyszenie ss = null;
+            for (SkladkaStowarzyszenie s : skladkaStowarzyszenieLista) {
+                if (s.getRodzajCzlonkostwa().getNazwa().equals("zwykłe")) {
+                    ss = s;
+                    break;
+                }
+            }
+            for(SkladkaCzlonek t : skladkaCzlonekLista) {
+                t.setSkladka(ss);
+            }
+            skladkaCzlonekDAO.editList(skladkaCzlonekLista);
+            Msg.msg("Pobrano wartość domyślną");
+        }
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public SkladkaCzlonek getSkladkaCzlonek() {

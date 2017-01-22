@@ -149,5 +149,6 @@ public class SkladkaStowarzyszenie implements Serializable{
         return rodzajCzlonkostwa.getNazwa() + ", " + kwota + ", " + okres;
     }
     
+   
     
 }

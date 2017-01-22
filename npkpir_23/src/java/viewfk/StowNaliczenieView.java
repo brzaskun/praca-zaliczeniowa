@@ -112,6 +112,12 @@ public class StowNaliczenieView  implements Serializable {
     }
     
     public void obliczprzychod() {
+        List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
+        for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
+            if (Data.czyjestpomiedzy(p.getPoczatek(), p.getKoniec(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
+                lista.add(new StowNaliczenie(p));
+            }
+        }
         generujskladki();
     }
     
@@ -140,7 +146,11 @@ public class StowNaliczenieView  implements Serializable {
             for (StowNaliczenie p : lista) {
                 if (nalicz(p)) {
                     double kwota = pobierzkwote(listaskladki,p);
-                    p.setKwota(kwota);
+                    if (kwotadlawszystkich != 0.0) {
+                        p.setKwota(kwotadlawszystkich);
+                    } else {
+                        p.setKwota(kwota);
+                    }
                 }
             }
             Msg.dP();

@@ -20,7 +20,7 @@
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;"/>
             <pe:inputNumber value="#{stowNaliczenieView.kwotadlawszystkich}"  decimalPlaces="2" decimalSeparator="."
                             thousandSeparator=" " symbol=" zł" symbolPosition="s">
-            <p:ajax event="blur" partialSubmit="true"/>
+                <p:ajax event="blur" partialSubmit="true" global="false"/>
             </pe:inputNumber>
             <p:commandButton value="oblicz" actionListener="#{stowNaliczenieView.oblicz}"
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;"/>
