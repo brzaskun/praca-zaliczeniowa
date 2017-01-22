@@ -831,6 +831,25 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
+     public void drukujPdfZapisyNaKoncieKompakt() {
+        try {
+            if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
+                sumazapisow();
+                sumazapisowpln();
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisyfiltered, wybranekonto, listasum, 2);
+            } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+                sumazapisow();
+                sumazapisowpln();
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, wybranekontadosumowania, wybranekonto, listasum, 2);
+            } else {
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisy, wybranekonto, listasum, 2);
+            }
+        } catch (Exception e) {  
+            E.e(e);
+        }
+    }
+    
+    
     public void drukujPdfZapisyNaKoncieDuzy() {
         try {
              if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {

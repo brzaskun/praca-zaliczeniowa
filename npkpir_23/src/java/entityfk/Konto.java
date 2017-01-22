@@ -704,6 +704,19 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         }
         return null;
     }
+    
+    public String getNumerNazwa() {
+        StringBuilder s = new StringBuilder();
+        s.append(this.pelnynumer);
+        s.append("-");
+        s.append(this.nazwapelna);
+        s.append(" macierzyste ");
+        s.append(this.kontomacierzyste.pelnynumer);
+        s.append("-");
+        s.append(this.kontomacierzyste.nazwapelna);
+        return s.toString();
+    }
+    
     public String getNazwaObcieta(int ilepokazac) {
         String zwrot = this.getNazwapelna();
         if (zwrot.length() > ilepokazac) {

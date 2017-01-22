@@ -4,12 +4,9 @@
  */
 package pdf;
 
-import beansPdf.PdfFont;
 import static beansPdf.PdfFont.formatujKurs;
 import static beansPdf.PdfFont.formatujLiczba;
 import static beansPdf.PdfFont.formatujWaluta;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -32,23 +29,22 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import plik.Plik;
 import view.WpisView;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
+import entity.Uz;
+import java.io.File;
+import java.util.ArrayList;
+import msg.Msg;
+import org.primefaces.context.RequestContext;
+import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajTabele;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
+import static pdffk.PdfMain.inicjacjaA4Portrait;
+import static pdffk.PdfMain.inicjacjaWritera;
+import static pdffk.PdfMain.naglowekStopkaP;
+import static pdffk.PdfMain.otwarcieDokumentu;
 
 /**
  *
@@ -57,7 +53,8 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
 
 public class PdfKontoZapisy {
 
-    public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, boolean duzy0maly1)  throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, 
+            boolean duzy0maly1)  throws DocumentException, FileNotFoundException, IOException {
         Podatnik pod = wpisView.getPodatnikObiekt();
         Konto konto = wybranekonto;
         try {
@@ -315,6 +312,34 @@ public class PdfKontoZapisy {
             }
         } catch (Exception e) {
             E.e(e);
+        }
+    }
+    
+    public static void drukujzapisyKompakt(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, 
+            int opcja)  {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"plankont";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (kontozapisy != null && kontozapisy.size() > 0) {
+            List<StronaWiersza> nowalista = new ArrayList<>();
+            nowalista.addAll(kontozapisy);
+            nowalista.add(new StronaWiersza(listasum, 2));
+            nowalista.add(new StronaWiersza(listasum, 3));
+            nowalista.add(new StronaWiersza(listasum, 1));
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            String mce = "od "+wpisView.getMiesiacOd()+" do "+wpisView.getMiesiacDo();
+            dodajOpisWstepny(document, "Zapisy na koncie "+wybranekonto.getNumerNazwa(), wpisView.getPodatnikObiekt(),mce, wpisView.getRokWpisuSt());
+            dodajTabele(document, testobjects.testobjects.getKontoZapisy(nowalista),95,2);
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano Planu kont do wydruku");
         }
     }
     

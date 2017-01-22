@@ -6,6 +6,7 @@
 package entityfk;
 
 import embeddable.Mce;
+import embeddablefk.ListaSum;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -223,6 +224,35 @@ public class StronaWiersza implements Serializable {
         this.cechazapisuLista = new ArrayList<>();
     }
 
+    public StronaWiersza(List<ListaSum> listasum, int saldo1sWn2sMa3) {
+        if (listasum != null) {
+            ListaSum l = listasum.get(0);
+            if (saldo1sWn2sMa3 == 1) {
+                this.opisBO = "saldo koncowe";
+                if (l.getSaldoWn() > 0.0) {
+                    this.setWnma("Wn");
+                    this.kwota = l.getSaldoWnPLN();
+                } else {
+                    this.setWnma("Ma");
+                    this.kwota = l.getSaldoMaPLN();
+                }
+            } else {
+                if (saldo1sWn2sMa3 == 2) {
+                    this.opisBO = "suma strony Wn";
+                    this.setWnma("Wn");
+                    this.kwota = l.getSumaWnPLN();
+                }
+                if (saldo1sWn2sMa3 == 3) {
+                    this.opisBO = "suma strony Ma";
+                    this.setWnma("Ma");
+                    this.kwota = l.getSumaMaPLN();
+                }
+            }
+        }
+    }
+
+
+    
     public double getKursBO() {
         return kursBO;
     }
@@ -545,10 +575,7 @@ public class StronaWiersza implements Serializable {
         return wiersz.getDokfk();
     }
 
-    public String getDokfkS() {
-        return wiersz.getDokfk().getDokfkPK().toString2();
-    }
-
+   
     public List<Cechazapisu> getListaCechazapisu() {
         return wiersz.getDokfk().getCechadokumentuLista();
     }
@@ -706,6 +733,69 @@ public class StronaWiersza implements Serializable {
             return "SW" + "id=null," + wnma + ", wiersz= " + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
         }
     }
-
+    
+    //do druku i dla podsumowania
+    public String getDataOperacji() {
+        String zwrot = "";
+        if (this.wiersz != null) {
+            zwrot = this.wiersz.getDokfk().getDataoperacji();
+        }
+        return zwrot;
+    }
+    
+    public String getDokfkS() {
+        String zwrot = "";
+        if (this.wiersz != null) {
+            zwrot = this.wiersz.getDokfkS();
+        }
+        return zwrot;
+    }
+    
+    public int getIdporzadkowy() {
+        int zwrot = 0;
+        if (this.wiersz != null) {
+            zwrot = this.wiersz.getIdporzadkowy();
+        }
+        return zwrot;
+    }
+     public String getNumerwlasnydokfk() {
+        String zwrot = "";
+        if (this.wiersz != null) {
+            zwrot = this.wiersz.getDokfk().getNumerwlasnydokfk();
+        }
+        return zwrot;
+    }
+     public String getOpisWiersza(int l) {
+        String zwrot = "";
+        if (this.wiersz != null) {
+            zwrot = this.wiersz.getOpisWiersza(l);
+        } else if (opisBO != null) {
+            zwrot = opisBO;
+        }
+        return zwrot;
+    }
+  
+    public String getKontoPrzeciwstawneNumer() {
+        String zwrot = "";
+        if (this.wiersz != null) {
+            Wiersz w = this.getWiersz();
+            if (this.wnma.equals("Wn")) {
+                if (w.getStronaMa() != null) {
+                    zwrot = w.getStronaMa().getKonto().getPelnynumer();
+                }
+            } else if (w.getStronaWn() != null) {
+                zwrot = w.getStronaWn().getKonto().getPelnynumer();
+            }
+        }
+        return zwrot;
+    }
+    
+    public String getSymbolWalutPrint() {
+        String zwrot = "";
+        if (this.wiersz != null) {
+            zwrot = getSymbolWalutBOiSW();
+        }
+        return zwrot;
+    }
 }
 

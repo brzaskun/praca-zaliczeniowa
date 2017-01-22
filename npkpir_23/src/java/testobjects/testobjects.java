@@ -295,6 +295,25 @@ public class testobjects {
        tabela[1] = wiersze;
        return tabela;
    }
+    
+    public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
+       List n = new ArrayList();
+       //9
+       n.add("lp");
+       n.add("data zdarz.gosp.");
+       n.add("nr dow. księg.");
+       n.add("w.");
+       n.add("nr własny");
+       n.add("opis");
+       n.add("Wn");  
+       n.add("Ma");
+       n.add("wal.");
+       n.add("k. przec.");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
    
     public static List[] getTabelaEVatwpisDedra(List<EVatwpisDedra> wiersze) {
        List n = new ArrayList();
