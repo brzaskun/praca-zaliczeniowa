@@ -78,7 +78,7 @@ public class StowNaliczenieView  implements Serializable {
     private void init() {
         //przychody
         konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
-        Konto kontoprzychodypo = kontoDAOfk.findKonto("844-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto kontoprzychodypo = kontoDAOfk.findKonto("251", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
         if (kontoprzychodypo != null) {
             konta.add(kontoprzychodypo);
         }
@@ -136,7 +136,7 @@ public class StowNaliczenieView  implements Serializable {
 
     private void generujskladki() {
         try {
-            List<SkladkaCzlonek> listaskladki = skladkaCzlonekDAO.findAll();
+            List<SkladkaCzlonek> listaskladki = skladkaCzlonekDAO.findPodatnikRok(wpisView);
             for (StowNaliczenie p : lista) {
                 if (nalicz(p)) {
                     double kwota = pobierzkwote(listaskladki,p);
@@ -170,7 +170,7 @@ public class StowNaliczenieView  implements Serializable {
     
     private double pobierzkwote(List<SkladkaCzlonek> listaskladki, StowNaliczenie p) {
         SkladkaCzlonek skladkaCzlonek = pobierzpozycje(listaskladki, p.getMiejsce());
-        return skladkaCzlonek.wyliczkwote();
+        return skladkaCzlonek.getSkladka().getKwota();
     }
     
     private SkladkaCzlonek pobierzpozycje(List<SkladkaCzlonek> listaskladki, MiejsceSuper czlonek) {
