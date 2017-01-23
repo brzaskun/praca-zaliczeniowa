@@ -50,7 +50,6 @@ public class WalutyViewFK implements Serializable {
     private List<Waluty> pobraneRodzajeWalut;
     private List<Waluty> walutywuzyciu;
     private List<String> symboleWalut;
-    private List<Tabelanbp> pobranekursy;
     private List<Tabelanbp> pobranekursyRok;
     private List<Tabelanbp> wprowadzonekursyRok;
     private List<String> symboleTabelRecznie;
@@ -69,7 +68,6 @@ public class WalutyViewFK implements Serializable {
     public WalutyViewFK() {
          E.m(this);
         pobraneRodzajeWalut = new ArrayList<>();
-        pobranekursy = new ArrayList<>();
         walutywuzyciu = new ArrayList<>();
         symboleWalut = new ArrayList<>();
         wprowadzonekursyRok = new ArrayList<>();
@@ -79,7 +77,6 @@ public class WalutyViewFK implements Serializable {
     @PostConstruct
     private void init() {
         pobraneRodzajeWalut = walutyDAOfk.findAll();
-        pobranekursy = tabelanbpDAO.findAll();
         pobranekursyRok = tabelanbpDAO.findKursyRokNBP(wpisView.getRokWpisuSt());
         wprowadzonekursyRok = tabelanbpDAO.findKursyRokNieNBP(wpisView.getRokWpisuSt());
         for (Waluty w : pobraneRodzajeWalut) {
@@ -170,7 +167,6 @@ public class WalutyViewFK implements Serializable {
         List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
         wierszepobranezNBP.addAll(walutyFKBean.pobierzkursy(tabelanbpDAO, walutyDAOfk));
         for (Tabelanbp p : wierszepobranezNBP) {
-            pobranekursy.add(p);
             pobranekursyRok.add(p);
         }
     }
@@ -308,14 +304,6 @@ public class WalutyViewFK implements Serializable {
 
     public void setPobraneRodzajeWalut(List<Waluty> pobraneRodzajeWalut) {
         this.pobraneRodzajeWalut = pobraneRodzajeWalut;
-    }
-
-    public List<Tabelanbp> getPobranekursy() {
-        return pobranekursy;
-    }
-
-    public void setPobranekursy(List<Tabelanbp> pobranekursy) {
-        this.pobranekursy = pobranekursy;
     }
 
     public Waluty getNowawaluta() {

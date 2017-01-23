@@ -13,8 +13,9 @@
             <p:focus for="formkursrecznie:dataKursReczny"/>
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 760px;">
                  <p:column headerText="tabela" width="100" style="text-align: center;">
-                     <p:selectOneMenu value="#{walutyViewFK.symbolRecznie}" id="polewyboruwaluty"
+                     <p:selectOneMenu value="#{walutyViewFK.symbolRecznie}" id="polewyboruwaluty" maxlength="3"
                                       editable="true" >
+                         <f:selectItem itemValue="wybierz" itemLabel="wybierz" noSelectionOption="true"/>
                          <f:selectItems value="#{walutyViewFK.symboleTabelRecznie}" />
                          <p:ajax event="change" global="false" listener="#{walutyViewFK.generujNumerTabeli()}" partialSubmit="true"
                                  update="formkursrecznie:dataKursReczny:0:kodPole"/>
@@ -22,7 +23,7 @@
                 </p:column>
                 <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
                     <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr" size="14">
-                        <p:ajax event="blur" partialSubmit="true"/>
+                        <p:ajax event="blur" partialSubmit="true" global="false"/>
                     </p:inputMask>
                 </p:column>
                 <p:column headerText="data tabeli" width="100" style="text-align: center;">
