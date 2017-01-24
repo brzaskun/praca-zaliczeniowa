@@ -191,6 +191,7 @@ public class Vat7DKView implements Serializable {
     }
     
     public void obliczNowa() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        flaga = 0;
         flagazt = false;
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
         String vatokres = sprawdzjakiokresvat();
@@ -234,19 +235,22 @@ public class Vat7DKView implements Serializable {
                         naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji);
                     }
                 } else {
-                    if (przeniesieniezpoprzedniejdeklaracji != null) {
+                    if (przeniesieniezpoprzedniejdeklaracji == null) {
+                        Integer kwotazprzeniesienia = pobierz47zustawienN();
+                        przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
+                        naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
+                        najpierwszadeklaracja();
+                        Msg.msg("i", "Pobrałem kwotę do przeniesienia z ustawień");
+                    } else {
                         przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniezpoprzedniejdeklaracji);
                         naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji);
                         RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
                         Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
                     }
+                    flaga = 0;
                 }
             } catch (Exception ex) {
-                E.e(ex);
-                Integer kwotazprzeniesienia = pobierz47zustawienN();
-                przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
-                naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
-                najpierwszadeklaracja();
+               E.e(ex);
             }
             int nż = należny.getDeklaracjaVatWierszSumaryczny().getSumavat();
             int nl = naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat();
@@ -295,6 +299,7 @@ public class Vat7DKView implements Serializable {
                 doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot180dni);
             }
            VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
+           System.out.println("sporzadzono deklaracje");
         }
     }
     
@@ -486,8 +491,6 @@ public class Vat7DKView implements Serializable {
                 Integer poleI47 = Integer.parseInt(pole47);
                 kwotazprzeniesienia = poleI47;
             }
-            deklaracjawyslana.setIdentyfikator("lolo");
-            deklaracjawyslana.setPodatnik("manolo");
         } catch (Exception e) {
             E.e(e);
             flaga = 1;

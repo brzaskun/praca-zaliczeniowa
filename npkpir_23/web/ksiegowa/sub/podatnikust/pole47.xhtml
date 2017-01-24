@@ -14,10 +14,15 @@
             <p:focus for="parametrypodatnika8"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
-                <p:dataList value="#{podatnikView.selected.pole47N}"  var="loop" itemType="disc" >
+                <p:dataTable value="#{podatnikView.selected.pole47N}"  var="loop" 
+                            emptyMessage="Nie wprowadzono wartości pola do przeniesienia">
+                    <p:column>
                     <h:outputText value="kwota pola47: " />
+                    </p:column>
+                    <p:column>
                     <bcf:outputpl0 value="#{loop}" />
-                </p:dataList>
+                    </p:column>
+                </p:dataTable>
             </p:panelGrid>
             <h:outputText value="wpisz kwotę"/><br/>
             <p:panelGrid id="parametrypodatnika8" columns="4" >

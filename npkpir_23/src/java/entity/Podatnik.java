@@ -627,8 +627,8 @@ public class Podatnik implements Serializable {
         return pole47;
     }
     
-    public int getPole47N() {
-        int wartosc = 0;
+    public Integer getPole47N() {
+        Integer wartosc = null;
         if (pole47 != null && !pole47.equals("") ) {
             wartosc = Integer.parseInt(pole47);
         }
