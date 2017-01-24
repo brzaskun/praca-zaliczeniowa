@@ -710,10 +710,12 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         s.append(this.pelnynumer);
         s.append("-");
         s.append(this.nazwapelna);
-        s.append(" macierzyste ");
-        s.append(this.kontomacierzyste.pelnynumer);
-        s.append("-");
-        s.append(this.kontomacierzyste.nazwapelna);
+        if (this.kontomacierzyste != null) {
+            s.append(" macierzyste ");
+            s.append(this.kontomacierzyste.pelnynumer);
+            s.append("-");
+            s.append(this.kontomacierzyste.nazwapelna);
+        }
         return s.toString();
     }
     
