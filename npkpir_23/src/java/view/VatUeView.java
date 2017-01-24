@@ -157,11 +157,11 @@ public class VatUeView implements Serializable {
             case "miesięczne": {
                 List<Dok> listatymczasowa = new ArrayList<>();
                 for (Dok p : listadokvat) {
-                    if (p.getVatM().equals(wpisView.getMiesiacWpisu()) && (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT"))) {
+                    if (p.getVatM().equals(wpisView.getMiesiacWpisu()) && (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT") || p.getTypdokumentu().equals("UPTK100"))) {
                         //pobieramy dokumenty z danego okresu do sumowania
                         listatymczasowa.add(p);
                         //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                        if (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT")) {
+                        if (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT") || p.getTypdokumentu().equals("UPTK100")) {
                             klienty.add(new VatUe(p.getTypdokumentu(), p.getKontr(), 0.0, 0, new ArrayList<Dok>()));
                         }
                     }
@@ -176,10 +176,10 @@ public class VatUeView implements Serializable {
                 Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                 List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                 for (Dok p : listadokvat) {
-                    if (p.getVatM().equals(miesiacewkwartale.get(0)) || p.getVatM().equals(miesiacewkwartale.get(1)) || p.getVatM().equals(miesiacewkwartale.get(2)) && (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT"))) {
+                    if (p.getVatM().equals(miesiacewkwartale.get(0)) || p.getVatM().equals(miesiacewkwartale.get(1)) || p.getVatM().equals(miesiacewkwartale.get(2)) && (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT") || p.getTypdokumentu().equals("UPTK100"))) {
                         listatymczasowa.add(p);
                         //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                        if (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT")) {
+                        if (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT") || p.getTypdokumentu().equals("UPTK100")) {
                             klienty.add(new VatUe(p.getTypdokumentu(), p.getKontr(), 0.0, 0, new ArrayList<Dok>()));
                         }
                     }
