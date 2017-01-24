@@ -170,7 +170,27 @@ public class PozycjaBRView implements Serializable {
         }
         
     }
-
+    //gdy sa obroty rozpoczecia
+    public void pobierzukladprzegladRZiSBO() {
+        if (uklad.getUklad() == null) {
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        }
+        ArrayList<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
+        UkladBRBean.czyscPozycje(pozycje);
+        rootProjektRZiS.getChildren().clear();
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikoweBO(stronaWierszaDAO, wpisView);
+        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
+        try {
+            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
+            level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
+            Msg.msg("i", "Pobrano układ ");
+        } catch (Exception e) {
+            E.e(e);
+            rootProjektRZiS.getChildren().clear();
+            Msg.msg("e", e.getLocalizedMessage());
+        }
+    }
+    
     public void pobierzukladprzegladRZiS() {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -297,7 +317,7 @@ public class PozycjaBRView implements Serializable {
 //                }
 //            }
             Konto kontowyniku = PlanKontFKBean.findKonto860(plankont);
-            naniesKwoteWynikFinansowy(kontowyniku);
+            naniesKwoteWynikFinansowyBO(kontowyniku);
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");
@@ -347,6 +367,25 @@ public class PozycjaBRView implements Serializable {
         }
     }
     
+    private void naniesKwoteWynikFinansowyBO(Konto kontowyniku) {
+        pobierzukladprzegladRZiSBO();
+        List<Object> listazwrotnapozycji = new ArrayList<>();
+        rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
+        PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 1);
+        double wynikfinansowy = pozycjawynikfin.getKwota();
+        double wf = Z.z(Math.abs(wynikfinansowy));
+        if (wynikfinansowy > 0) {//zysk
+            kontowyniku.setObrotyMa(kontowyniku.getObrotyMa()+wf);
+        } else {//strata
+            kontowyniku.setObrotyWn(kontowyniku.getObrotyWn()+wf);
+        }
+        double wynikkwota = kontowyniku.getObrotyWn()-kontowyniku.getObrotyMa();
+        if ( wynikkwota > 0) {
+            kontowyniku.setSaldoWn(wynikkwota);
+        } else {
+            kontowyniku.setSaldoMa(Math.abs(wynikkwota));
+        }
+    }
     
     private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
         pobierzukladprzegladRZiS();

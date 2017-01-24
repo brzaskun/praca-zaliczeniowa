@@ -105,6 +105,11 @@ public class StronaWierszaBean {
         return pobranezapisy;
     }
     
+    public static List<StronaWiersza> pobraniezapisowwynikoweBO(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokWynikBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        return pobranezapisy;
+    }
+    
        public static List<StronaWiersza> pobraniezapisowwynikoweCecha(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
         List<StronaWiersza> pobranezapisy = new ArrayList<>();
         pobranezapisy.addAll(stronaWierszaDAO.findStronaByPodatnikWynikCechaRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));

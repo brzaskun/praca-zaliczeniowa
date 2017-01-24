@@ -1419,6 +1419,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<StronaWiersza> findStronaByPodatnikRokWynik(Podatnik podatnik, String rok) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
     }
+    
+    public List<StronaWiersza> findStronaByPodatnikRokWynikBO(Podatnik podatnik, String rok) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWynikBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
+    }
 
     public List<StronaWiersza> findStronaByPodatnikWynikCecha(Podatnik podatnik) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikWynikCecha").setParameter("podatnikObj", podatnik).getResultList();
