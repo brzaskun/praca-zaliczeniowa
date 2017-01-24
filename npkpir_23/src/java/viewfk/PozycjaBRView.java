@@ -296,6 +296,8 @@ public class PozycjaBRView implements Serializable {
 //                    System.out.println("");
 //                }
 //            }
+            Konto kontowyniku = PlanKontFKBean.findKonto860(plankont);
+            naniesKwoteWynikFinansowy(kontowyniku);
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");

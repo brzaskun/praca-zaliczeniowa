@@ -29,7 +29,7 @@ public class BOFKBean {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
         for (Dokfk p : dokfk) {
-            if (p.getDokfkPK().getNrkolejnywserii()==1) {
+            if (p.getOpisdokfk().contains("bilans otwarcia roku:")) {
                 zapisy.addAll(p.getStronyWierszy());
             }
         }
@@ -40,7 +40,7 @@ public class BOFKBean {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
         for (Dokfk p : dokfk) {
-            if (p.getDokfkPK().getNrkolejnywserii()!=1) {
+            if (!p.getOpisdokfk().contains("bilans otwarcia roku:")) {
                 zapisy.addAll(p.getStronyWierszy());
             }
         }

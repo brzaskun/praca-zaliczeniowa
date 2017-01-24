@@ -839,6 +839,7 @@ public class BilansWprowadzanieView implements Serializable {
             nd.setOpisdokfk("obroty rozpoczęcia na koniec: " + wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
         }
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+        nd.setWprowadzil(wpisView.getWprowadzil().getLogin());
         ustawrodzajedok(nd);
         ustawtabelenbp(nd);
         ustawwiersze(nd, pobierzWierszeBO(nd, listazbiorcza));
