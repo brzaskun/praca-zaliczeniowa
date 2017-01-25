@@ -36,7 +36,10 @@
               </p:selectOneMenu>
                     </p:column>
             </p:dataTable>
-        <p:commandButton value="war.domyślna" actionListener="#{skladkaCzlonekView.wartoscdomyslna}" update="form_czlonekskladka_lista:czlonekskladka_lista"/>
+        <p:column>
+            <p:commandButton value="war.domyślna" actionListener="#{skladkaCzlonekView.wartoscdomyslna}" styleClass="nb" update="form_czlonekskladka_lista:czlonekskladka_lista"/>
+        <p:commandButton value="zeruj" actionListener="#{skladkaCzlonekView.zeruj}" styleClass="nb" update="form_czlonekskladka_lista:czlonekskladka_lista"/>
+        </p:column>
         </p:panelGrid>
         </h:form>
 </html>

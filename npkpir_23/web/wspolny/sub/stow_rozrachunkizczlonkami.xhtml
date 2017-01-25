@@ -79,7 +79,7 @@
             </p:dataTable>
              <br/>
              <p:dataTable id="dataList" value="#{stowRozrachCzlonkView.listazapisy}" var="loop"
-                         rowIndexVar="row" style="width: 900px; height: 240px; overflow-y: scroll;" 
+                         rowIndexVar="row" style="width: 1150px; height: 340px; overflow-y: scroll;" 
                          widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy" styleClass="compact"
                          rowKey="#{loop.idwiersza}" editable="true"  sortBy="#{loop.dokfk.datadokumentu}">
                 <f:facet name="header">  
@@ -100,7 +100,7 @@
                           filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.wiersz.idporzadkowy}">
                     <h:outputText value="#{loop.wiersz.idporzadkowy}" />
                 </p:column>
-                <p:column headerText="#{mgs.opis}" width="250" filterBy="#{loop.wiersz.opisWiersza}" 
+                <p:column headerText="#{mgs.opis}" width="300" filterBy="#{loop.wiersz.opisWiersza}" 
                           filterMatchMode="contains" sortBy="#{loop.wiersz.opisWiersza}">
                     <h:outputText value="#{loop.wiersz.opisWiersza.length() gt 45 ? loop.wiersz.opisWiersza.substring(0,44) : loop.wiersz.opisWiersza}" />
                 </p:column>

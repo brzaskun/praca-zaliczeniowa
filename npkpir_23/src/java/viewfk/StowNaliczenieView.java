@@ -6,6 +6,7 @@
 package viewfk;
 
 import beansFK.DokumentFKBean;
+import comparator.Kontocomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import daoFK.DokDAOfk;
@@ -24,6 +25,7 @@ import entityfk.StowNaliczenie;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -82,6 +84,7 @@ public class StowNaliczenieView  implements Serializable {
         if (kontoprzychodypo != null) {
             konta.add(kontoprzychodypo);
         }
+        Collections.sort(konta, new Kontocomparator());
         List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
             if (Data.czyjestpomiedzy(p.getPoczatek(), p.getKoniec(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
@@ -211,8 +214,8 @@ public class StowNaliczenieView  implements Serializable {
             for(Iterator<StowNaliczenie> it = lista.iterator();it.hasNext();) {
                 StowNaliczenie t = it.next();
                 t.setDataksiegowania(new Date());
+                stowNaliczenieDAO.edit(t);
             }
-            stowNaliczenieDAO.editList(lista);
             Msg.msg("Zachowano listę");
         } catch (Exception e) {
         }

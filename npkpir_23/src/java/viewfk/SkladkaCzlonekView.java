@@ -96,6 +96,16 @@ public class SkladkaCzlonekView implements Serializable {
         }
     }
     
+    public void zeruj() {
+        if (!skladkaCzlonekLista.isEmpty()) {
+            for(SkladkaCzlonek t : skladkaCzlonekLista) {
+                t.setSkladka(null);
+            }
+            skladkaCzlonekDAO.editList(skladkaCzlonekLista);
+            Msg.msg("Wyzerowano pozycje");
+        }
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public SkladkaCzlonek getSkladkaCzlonek() {

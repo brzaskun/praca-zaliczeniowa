@@ -280,15 +280,15 @@ public class DokumentFKBean implements Serializable {
             if (kwota != 0.0) {
                 Wiersz w = new Wiersz(idporzadkowy++, 0);
                 uzupelnijwiersz(w, nd, tabelanbpDAO);
-                String opiswiersza = ((MiejscePrzychodow) p.getMiejsce()).getOpismiejsca() + " nal.składka za okres " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
+                String opiswiersza = ((MiejscePrzychodow) p.getMiejsce()).getOpismiejsca() + " nal.składka " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
                 w.setOpisWiersza(opiswiersza);
                 //dzieki temu mozna po jednej stronie dac analityke, a po drugiej konto zbiorcze.
                 Konto analitykaWn = kontoWn;
-                if (kontoWn.isSlownikowe()) {
+                if (kontoWn.getIdslownika() == 7) {
                     analitykaWn = znajdzanalityke(kontoWn, (MiejscePrzychodow) p.getMiejsce(), kontoDAOfk, wpisView);
                 }
                 Konto analitykaMa = kontoMa;
-                if (kontoWn.isSlownikowe()) {
+                if (kontoMa.getIdslownika() == 7) {
                     analitykaMa = znajdzanalityke(kontoMa, (MiejscePrzychodow) p.getMiejsce(), kontoDAOfk, wpisView);
                 }
                 StronaWiersza stronaWn = new StronaWiersza(w, "Wn", kwota, analitykaWn);

@@ -13,6 +13,9 @@
 /*.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
     padding: 0px !important;
 }*/
+.nb {
+    width: 120px;
+}
  .ui-panelgrid {
            border-collapse: separate !important;
         }
