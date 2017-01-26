@@ -91,8 +91,12 @@ public class Pit36View implements Serializable {
         for (Ryczpoz p : listaryczalt) {
             przychody += p.getPrzychody().doubleValue();
             przychodyWgUdzialu += p.getPrzychodyudzial().doubleValue();
-            zus51 += p.getZus51().doubleValue();
-            zus52 += p.getZus52().doubleValue();
+            if(p.getZus51() != null) {
+                zus51 += p.getZus51().doubleValue();
+            }
+            if (p.getZus52() != null) {
+                zus52 += p.getZus52().doubleValue();
+            }
             naleznazaliczka += p.getNaleznazal().doubleValue();
             id = p.getId() > id ? p.getId() : id;
         }
