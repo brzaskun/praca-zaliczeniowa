@@ -9,6 +9,7 @@ import data.Data;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import error.E;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import waluty.Z;
@@ -19,28 +20,43 @@ import waluty.Z;
  */
 public class RozniceKursoweBean {
     
-     public static void naniestransakcje(List<StronaWiersza> w) {
+     public static List<StronaWiersza> naniestransakcje(List<StronaWiersza> w) {
         StronaWiersza nowatransakcja = pobierznowatransakcje(w);
         if (nowatransakcja.getTypStronaWiersza() != 1) {
-            nowatransakcja.setTypStronaWiersza(2);
+            nowatransakcja.setTypStronaWiersza(1);
         }
         Double limit = nowatransakcja.getPozostalo();
         for (StronaWiersza platnosc : w) {
             double dorozliczenia = obliczkwotedorozliczenia(limit, platnosc);
             if (dorozliczenia > 0.0) {
+                platnosc.setTypStronaWiersza(2);
                 Transakcja transakcja = new Transakcja(platnosc, nowatransakcja);
                 transakcja.setDatarozrachunku(wyliczdatetransakcji(platnosc));
-                transakcja.setKwotatransakcji(limit);
-                transakcja.setKwotawwalucierachunku(limit);
+                transakcja.setKwotatransakcji(dorozliczenia);
+                transakcja.setKwotawwalucierachunku(dorozliczenia);
                 rozliczroznicekursowe(transakcja);
-                nowatransakcja.getPlatnosci().add(transakcja);
-                //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
-                platnosc.getNowetransakcje().add(transakcja);
+                if (nowatransakcja.getPlatnosci() != null) {
+                    nowatransakcja.getPlatnosci().add(transakcja);
+                } else {
+                    List<Transakcja> nowalistatransakcji = new ArrayList<>();
+                    nowalistatransakcji.add(transakcja);
+                    nowatransakcja.setPlatnosci(nowalistatransakcji);
+                }
+                if (platnosc.getNowetransakcje() != null) {
+                    //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
+                    platnosc.getNowetransakcje().add(transakcja);
+                } else {
+                    List<Transakcja> nowalistaplatnosci = new ArrayList<>();
+                    nowalistaplatnosci.add(transakcja);
+                    platnosc.setNowetransakcje(nowalistaplatnosci);
+                }
                 limit = limit - dorozliczenia;
             } else {
                 break;
             }
         }
+        w.add(nowatransakcja);
+        return w;
     }
     
     private static void rozliczroznicekursowe(Transakcja loop) {

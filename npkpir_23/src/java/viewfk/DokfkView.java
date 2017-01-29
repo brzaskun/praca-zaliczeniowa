@@ -1946,23 +1946,17 @@ public class DokfkView implements Serializable {
 
     public void zapistransakcji() {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() != 1) {
+            //oznacza rozliczajacy wiersz jako nowa transakcje??
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(2);
         }
 //        biezacetransakcje
         Iterator it = aktualnyWierszDlaRozrachunkow.getNowetransakcje().iterator();
         while (it.hasNext()) {
             Transakcja tr = (Transakcja) it.next();
-            if (tr.getKwotatransakcji() == 0.0) {
+            if (Z.z(tr.getKwotatransakcji()) == 0.0) {
                 it.remove();
             } else if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza() != null) {
-                String datawiersza;
-                if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza().length() == 1) {
-                    datawiersza = "0" + aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza();
-                } else {
-                    datawiersza = aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza();
-                }
-                String data = selected.getDokfkPK().getRok() + "-" + selected.getMiesiac() + "-" + datawiersza;
-                tr.setDatarozrachunku(data);
+                tr.setDatarozrachunku(ustawdatetransakcji());
             } else {
                 tr.setDatarozrachunku(Data.aktualnaData());
             }
@@ -1985,6 +1979,15 @@ public class DokfkView implements Serializable {
         //RequestContext.getCurrentInstance().execute("wybierzWierszPoZmianieWaluty();");
     }
 
+    private String ustawdatetransakcji() {
+        String datawiersza;
+        if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza().length() == 1) {
+            datawiersza = "0" + aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza();
+        } else {
+            datawiersza = aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza();
+        }
+        return selected.getDokfkPK().getRok() + "-" + selected.getMiesiac() + "-" + datawiersza;
+    }
 //
 //    //********************
 //    //a to jest rodzial dotyczacy walut

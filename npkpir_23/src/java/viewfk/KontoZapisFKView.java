@@ -94,7 +94,8 @@ public class KontoZapisFKView implements Serializable{
     private List<Konto> wykazkont;
     private List<StronaWiersza> zapisyRok;
     private String wybranyRodzajKonta;
-    boolean nierenderujkolumnnywalut;
+    private boolean nierenderujkolumnnywalut;
+    private boolean pokaztransakcje;
 
     
 
@@ -180,6 +181,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
+        pokaztransakcje = false;
         nierenderujkolumnnywalut = true;
         try {
             wybranekontadosumowania = new ArrayList<>();
@@ -637,11 +639,11 @@ public class KontoZapisFKView implements Serializable{
     public void rozliczzaznaczone() {
         if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 1) {
             if (RozniceKursoweBean.wiecejnizjednatransakcja(wybranekontadosumowania)) {
-                Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje. Nie można rozliczyć zapisów.");
+                Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje/faktury. Nie można rozliczyć zapisów.");
             } else {
                 Msg.msg("Rozliczam oznaczone transakcje");
-                RozniceKursoweBean.naniestransakcje(wybranekontadosumowania);
-                stronaWierszaDAO.editList(wybranekontadosumowania);
+                List<StronaWiersza> listapoedycji = RozniceKursoweBean.naniestransakcje(wybranekontadosumowania);
+                stronaWierszaDAO.editList(listapoedycji);
             }
         } else {
             Msg.msg("e", "Należy wybrać przynajmniej dwa zapisy po różnych stronach konta w celu rozliczenia transakcji");
@@ -878,6 +880,7 @@ public class KontoZapisFKView implements Serializable{
                 }
             }
             sumazapisowtotal();
+            pokaztransakcje = true;
         } catch (Exception e) {  
             E.e(e);
         }
@@ -898,6 +901,14 @@ public class KontoZapisFKView implements Serializable{
     
     public void setWykazkont(List<Konto> wykazkont) {
         this.wykazkont = wykazkont;
+    }
+
+    public boolean isPokaztransakcje() {
+        return pokaztransakcje;
+    }
+
+    public void setPokaztransakcje(boolean pokaztransakcje) {
+        this.pokaztransakcje = pokaztransakcje;
     }
     
     public Konto getWybranekonto() {

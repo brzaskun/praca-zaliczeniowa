@@ -38,7 +38,7 @@
                         </h:selectOneMenu>
                     </h:form>
                     <h:form>
-                        <p:panelGrid columns="7" style="margin-left: 15px; width: 800px;">
+                        <p:panelGrid columns="8" style="margin-left: 15px; width: 800px;">
                             <h:outputText value="od"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
@@ -57,8 +57,12 @@
                                 <p:menuitem global="false" value="druk kompakt" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieKompakt}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print"/>  
                             </p:splitButton>
                             <p:commandButton value="duży druk" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikObiekt}')"   style="width: 120px; margin-left: 30px;"/>
-                            <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" style="width: 120px; margin-left: 10px;"
-                                             update="tabelazzapisami, :tabelazsumami:sumy"/>
+                            <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" 
+                                             style="width: 120px; margin-left: 10px;"
+                                             update="tabelazzapisami, :tabelazsumami:sumy" />
+                            <p:commandButton value="wszystkie" icon="fa fa-file-text" actionListener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" 
+                                             style="width: 120px; margin-left: 10px;"
+                                             update="tabelazzapisami, :tabelazsumami:sumy" />
                         </p:panelGrid>
                     </h:form>
                 </p:panelGrid>
@@ -235,22 +239,31 @@
                             </h:outputText>
                             <p:tooltip value="#{loop.wiersz.tabelanbp.nrtabeli}" for="kurswierszazapisy"/>
                         </p:column>
-                        <p:column headerText="Wn" width="40" style="background-color: #e6f2ff;" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
-                            <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;">
+                        <p:column headerText="Wn" width="40" style="background-color: #e6f2ff;" sortBy="#{loop.kwota}" 
+                                  rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false or kontoZapisFKView.pokaztransakcje eq true}">
+                            <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText id="kwotawnwiersztr" value="#{loop.wnma eq 'Wn' ? loop.pozostalo : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Wn PLN" width="50" sortBy="#{loop.kwotaPLN}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}" >
+                        <p:column headerText="Wn PLN" width="50" sortBy="#{loop.kwotaPLN}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.pokaztransakcje eq false}">
                             <h:outputText id="kwotawnwierszPLN" value="#{loop.wnma eq 'Wn' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma" width="40" style="background-color: #e6f2ff;" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
-                            <h:outputText id="kwotamawiersz" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;">
+                        <p:column headerText="Ma" width="40" style="background-color: #e6f2ff;" sortBy="#{loop.kwota}" 
+                                  rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false or kontoZapisFKView.pokaztransakcje eq true}">
+                            <h:outputText id="kwotamawiersz" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText id="kwotamawiersztr" value="#{loop.wnma eq 'Ma' ? loop.pozostalo : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma PLN" width="50" sortBy="#{loop.kwotaPLN}"  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}" >
+                        <p:column headerText="Ma PLN" width="50" sortBy="#{loop.kwotaPLN}"  
+                                  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.pokaztransakcje eq false}" >
                             <h:outputText id="kwotamawierszPLN" value="#{loop.wnma eq 'Ma' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>

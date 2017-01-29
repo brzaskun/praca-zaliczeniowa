@@ -216,14 +216,14 @@
                             <bcf:outputpl value="#{loop.pozostaloPLN}" rendered="#{loop.pozostaloPLN ne 0.0}"/>
                         </p:column>
                         <p:rowExpansion>
-                            <p:column  headerText="wykaz transakcji" width="500" resizable="true" rendered="#{loop.platnosci.size() gt 0}">
+                            <p:column  headerText="wykaz transakcji" width="500" resizable="true" rendered="#{loop.platnosci.size() gt 0 or loop.nowetransakcje.size() gt 0}">
                                 <style>
                                     .dokumentyZestawienie tr td {
                                         padding: 0px !important;
                                         margin: 0px !important;
                                     }
                                 </style>
-                                <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 90%; float: right;">
+                                    <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci.size() gt 0 ? loop.platnosci : loop.nowetransakcje}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 90%; float: right;">
                                     <p:column headerText="kwota trans." >
                                         <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
                                             <f:convertNumber minFractionDigits="2" locale="PL"/>
