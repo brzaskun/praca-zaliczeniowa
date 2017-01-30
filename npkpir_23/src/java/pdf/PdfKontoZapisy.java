@@ -316,7 +316,7 @@ public class PdfKontoZapisy {
     }
     
     public static void drukujzapisyKompakt(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, 
-            int opcja)  {
+            int opcja, boolean nierenderujkolumnnywalut)  {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"plankont";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -325,9 +325,14 @@ public class PdfKontoZapisy {
         if (kontozapisy != null && kontozapisy.size() > 0) {
             List<StronaWiersza> nowalista = new ArrayList<>();
             nowalista.addAll(kontozapisy);
-            nowalista.add(new StronaWiersza(listasum, 2));
-            nowalista.add(new StronaWiersza(listasum, 3));
-            nowalista.add(new StronaWiersza(listasum, 1));
+            if (!nierenderujkolumnnywalut) {
+                nowalista.add(new StronaWiersza(listasum, 2, nierenderujkolumnnywalut));
+                nowalista.add(new StronaWiersza(listasum, 3, nierenderujkolumnnywalut));
+                nowalista.add(new StronaWiersza(listasum, 1, nierenderujkolumnnywalut));
+            }
+            nowalista.add(new StronaWiersza(listasum, 2, true));
+            nowalista.add(new StronaWiersza(listasum, 3, true));
+            nowalista.add(new StronaWiersza(listasum, 1, true));
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);

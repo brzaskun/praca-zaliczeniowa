@@ -199,9 +199,18 @@ public class KontoZapisFKView implements Serializable{
                     if (!r.getSymbolWalutBOiSW().equals("PLN")) {
                         nierenderujkolumnnywalut = false;
                     }
-                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                    if (mc >= granicaDolna && mc <=granicaGorna) {
-                        kontozapisy.add(r);
+                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                        if (mc >= granicaDolna && mc <= granicaGorna) {
+                            kontozapisy.add(r);
+                        }
+                    } else {
+                        if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
+                            int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                            if (mc >= granicaDolna && mc <= granicaGorna) {
+                                kontozapisy.add(r);
+                            }
+                        }
                     }
                 }
             }
@@ -266,6 +275,9 @@ public class KontoZapisFKView implements Serializable{
         int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
         for (StronaWiersza r : zapisyRok) {
             if (kontapotomneListaOstateczna.contains(r.getKonto())) {
+                if (!r.getSymbolWalutBOiSW().equals("PLN")) {
+                        nierenderujkolumnnywalut = false;
+                }
                 if (wybranaWalutaDlaKont.equals("wszystkie")) {
                     int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                     if (mc >= granicaDolna && mc <= granicaGorna) {
@@ -458,20 +470,36 @@ public class KontoZapisFKView implements Serializable{
         if (p.getWnma().equals("Wn")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
                 if (!p.getSymbolWalutBOiSW().equals("PLN")) {
-                    sumaWn = Z.z(sumaWn + p.getKwota());
+                    sumawnwiersz(p);
                 }
             } else {
-                sumaWn = Z.z(sumaWn + p.getKwota());
+                sumawnwiersz(p);
             }
         } else if (p.getWnma().equals("Ma")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
                 if (!p.getSymbolWalutBOiSW().equals("PLN")) {
-                    sumaMa = Z.z(sumaMa + p.getKwota());
+                    sumamawiersz(p);
                 }
             } else {
-                sumaMa = Z.z(sumaMa + p.getKwota());
+                sumamawiersz(p);
             }
 
+        }
+    }
+    
+    private void sumawnwiersz(StronaWiersza p) {
+        if (pokaztransakcje) {
+            sumaWn = Z.z(sumaWn + p.getPozostalo());
+        } else {
+            sumaWn = Z.z(sumaWn + p.getKwota());
+        }
+    }
+    
+    private void sumamawiersz(StronaWiersza p) {
+        if (pokaztransakcje) {
+            sumaMa = Z.z(sumaMa + p.getPozostalo());
+        } else {
+            sumaMa = Z.z(sumaMa + p.getKwota());
         }
     }
     
@@ -480,26 +508,29 @@ public class KontoZapisFKView implements Serializable{
         sumaMaPLN = 0.0;
         if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
             for(StronaWiersza p : kontozapisyfiltered){
+                double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
-                    Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
+                    Z.z(sumaWnPLN = sumaWnPLN + kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
-                    Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
+                    Z.z(sumaMaPLN = sumaMaPLN + kwotadlasumy);
                 }
             }
         } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
             for(StronaWiersza p : wybranekontadosumowania){
+                double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
-                    Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
+                    Z.z(sumaWnPLN = sumaWnPLN + kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
-                    Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
+                    Z.z(sumaMaPLN = sumaMaPLN + kwotadlasumy);
                 }
             }
         } else {
             for(StronaWiersza p : kontozapisy){
+                double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
-                    Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
+                    Z.z(sumaWnPLN = sumaWnPLN + kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
-                    Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
+                    Z.z(sumaMaPLN = sumaMaPLN + kwotadlasumy);
                 }
             }
         }
@@ -639,7 +670,7 @@ public class KontoZapisFKView implements Serializable{
     public void rozliczzaznaczone() {
         if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 1) {
             if (RozniceKursoweBean.wiecejnizjednatransakcja(wybranekontadosumowania)) {
-                Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje/faktury. Nie można rozliczyć zapisów.");
+                Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje/faktury. Nie można rozliczyć zapisów. Zmień oznaczenie w zakładce Rozrachunki");
             } else {
                 Msg.msg("Rozliczam oznaczone transakcje");
                 List<StronaWiersza> listapoedycji = RozniceKursoweBean.naniestransakcje(wybranekontadosumowania);
@@ -838,13 +869,13 @@ public class KontoZapisFKView implements Serializable{
             if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisyfiltered, wybranekonto, listasum, 2);
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisyfiltered, wybranekonto, listasum, 2, nierenderujkolumnnywalut);
             } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisyKompakt(wpisView, wybranekontadosumowania, wybranekonto, listasum, 2);
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, wybranekontadosumowania, wybranekonto, listasum, 2, nierenderujkolumnnywalut);
             } else {
-                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisy, wybranekonto, listasum, 2);
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisy, wybranekonto, listasum, 2, nierenderujkolumnnywalut);
             }
         } catch (Exception e) {  
             E.e(e);
@@ -873,14 +904,16 @@ public class KontoZapisFKView implements Serializable{
     
     public void usunPozycjeRozliczone() {
         try {
+            pokaztransakcje = true;
             for (Iterator<StronaWiersza> it = kontozapisy.iterator(); it.hasNext(); ) {
                 StronaWiersza sw = it.next();
-                if (Z.z(sw.getPozostalo()) == 0.0 || sw.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
+                if (!wybranaWalutaDlaKont.equals("wszystkie") && !sw.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
+                    it.remove();
+                } else if (Z.z(sw.getPozostalo()) == 0.0 || sw.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
                     it.remove();
                 }
             }
             sumazapisowtotal();
-            pokaztransakcje = true;
         } catch (Exception e) {  
             E.e(e);
         }

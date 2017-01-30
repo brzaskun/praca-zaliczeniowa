@@ -225,28 +225,32 @@ public class StronaWiersza implements Serializable {
         this.cechazapisuLista = new ArrayList<>();
     }
 
-    public StronaWiersza(List<ListaSum> listasum, int saldo1sWn2sMa3) {
+    public StronaWiersza(List<ListaSum> listasum, int saldo1sWn2sMa3, boolean nierenderujkolumnnywalut) {
         if (listasum != null) {
             ListaSum l = listasum.get(0);
+            double saldown = nierenderujkolumnnywalut ? l.getSaldoWnPLN() : l.getSaldoWn();
+            double saldoma = nierenderujkolumnnywalut ? l.getSaldoMaPLN() : l.getSaldoMa();
+            double sumawn = nierenderujkolumnnywalut ? l.getSumaWnPLN() : l.getSumaWn();
+            double sumama = nierenderujkolumnnywalut ? l.getSumaMaPLN() : l.getSumaMa();
             if (saldo1sWn2sMa3 == 1) {
-                this.opisBO = "saldo koncowe";
+                this.opisBO = nierenderujkolumnnywalut ? "saldo koncowe w pln": "saldo koncowe w walucie";
                 if (l.getSaldoWn() > 0.0) {
                     this.setWnma("Wn");
-                    this.kwota = l.getSaldoWnPLN();
+                    this.kwota = saldown;
                 } else {
                     this.setWnma("Ma");
-                    this.kwota = l.getSaldoMaPLN();
+                    this.kwota = saldoma;
                 }
             } else {
                 if (saldo1sWn2sMa3 == 2) {
-                    this.opisBO = "suma strony Wn";
+                    this.opisBO = nierenderujkolumnnywalut ? "suma strony Wn w pln" : "suma strony Wn w walucie";
                     this.setWnma("Wn");
-                    this.kwota = l.getSumaWnPLN();
+                    this.kwota = sumawn;
                 }
                 if (saldo1sWn2sMa3 == 3) {
-                    this.opisBO = "suma strony Ma";
+                    this.opisBO = nierenderujkolumnnywalut ? "suma strony Ma w pln" : "suma strony Ma w walucie";
                     this.setWnma("Ma");
-                    this.kwota = l.getSumaMaPLN();
+                    this.kwota = sumama;
                 }
             }
         }
