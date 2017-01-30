@@ -1312,7 +1312,7 @@ public class PdfMain {
                     }
                 }
                 if (modyfikator == 3) {
-                    if (p.getKwota() != 0.0) {
+                    if (p.getKwotabo()!= 0.0) {
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 7));

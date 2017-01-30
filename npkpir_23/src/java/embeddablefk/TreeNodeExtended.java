@@ -298,9 +298,6 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
                 Konto kontopobrane = plankont.get(plankont.indexOf(stronaWiersza.getKonto()));
-                if (kontopobrane.getPelnynumer().equals("755")) {
-                    System.out.println("33");
-                }
                 String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
                 String pozycjaRZiS_ma = kontopobrane.getKontopozycjaID().getPozycjaMa();
                 boolean wn = false;
