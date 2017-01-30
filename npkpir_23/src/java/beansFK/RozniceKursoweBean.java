@@ -113,8 +113,8 @@ public class RozniceKursoweBean {
     
     private static double obliczkwotedorozliczenia(Double limit, StronaWiersza pl) {
         double kwotadorozliczenia = limit;
-        if (pl.getKwota() <= limit) {
-            kwotadorozliczenia = pl.getKwota();
+        if (pl.getPozostalo() <= limit) {
+            kwotadorozliczenia = pl.getPozostalo();
         }
         return kwotadorozliczenia;
     }

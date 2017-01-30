@@ -85,31 +85,33 @@ public class VatUeFKView implements Serializable {
             E.e(e); 
         }
         //jest miesiecznie wiec nie ma co wybierac
-
-        Collections.sort(listadokumentow, new Dokfkcomparator());
-        //a teraz podsumuj klientów
-        klienciWDTWNT.addAll(kontrahenci(listadokumentow));
-        double sumanettovatue = 0.0;
-        for (Dokfk p : listadokumentow) {
-            for (VatUe s : klienciWDTWNT) {
-                if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
-                        double[] t = pobierzwartosci(p.getEwidencjaVAT());
-                        double netto = t[0];
-                        double nettowaluta = t[1];
-                        s.setNetto(netto + s.getNetto());
-                        s.setNettowaluta(nettowaluta + s.getNettowaluta());
-                        s.setLiczbadok(s.getLiczbadok() + 1);
-                        s.getZawierafk().add(p);
-                        String nazwawal = p.getWalutadokumentu() != null ? p.getWalutadokumentu().getSymbolwaluty() : "";
-                        s.setNazwawaluty(nazwawal);
-                        sumanettovatue += netto;
-                        break;
-                    }
+        if (listadokumentow != null) {
+            Collections.sort(listadokumentow, new Dokfkcomparator());
+            //a teraz podsumuj klientów
+            klienciWDTWNT.addAll(kontrahenci(listadokumentow));
+            double sumanettovatue = 0.0;
+            for (Dokfk p : listadokumentow) {
+                for (VatUe s : klienciWDTWNT) {
+                    if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
+                            double[] t = pobierzwartosci(p.getEwidencjaVAT());
+                            double netto = t[0];
+                            double nettowaluta = t[1];
+                            s.setNetto(netto + s.getNetto());
+                            s.setNettowaluta(nettowaluta + s.getNettowaluta());
+                            s.setLiczbadok(s.getLiczbadok() + 1);
+                            s.getZawierafk().add(p);
+                            String nazwawal = p.getWalutadokumentu() != null ? p.getWalutadokumentu().getSymbolwaluty() : "";
+                            s.setNazwawaluty(nazwawal);
+                            sumanettovatue += netto;
+                            break;
+                        }
+                }
             }
+             VatUe rzadpodsumowanie = new VatUe("podsum.", null, (double) Math.round(sumanettovatue), 0, null);
+            klienciWDTWNT.add(rzadpodsumowanie);
+            zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), podatnik);
         }
-        VatUe rzadpodsumowanie = new VatUe("podsum.", null, (double) Math.round(sumanettovatue), 0, null);
-        klienciWDTWNT.add(rzadpodsumowanie);
-        zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), podatnik);
+       
 //        try {
 //            pobierzdanezdeklaracji();
 //        } catch (Exception e) { E.e(e); 
@@ -191,14 +193,15 @@ public class VatUeFKView implements Serializable {
                     Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                     for (Dokfk p : listadokvat) {
-                        if (p.getVatM().equals(miesiacewkwartale.get(0)) || p.getVatM().equals(miesiacewkwartale.get(1)) || p.getVatM().equals(miesiacewkwartale.get(2))) {
+                        if (p.getVatM() != null && (p.getVatM().equals(miesiacewkwartale.get(0)) || p.getVatM().equals(miesiacewkwartale.get(1)) || p.getVatM().equals(miesiacewkwartale.get(2)))) {
                             listatymczasowa.add(p);
                         }
                     }
                     return listatymczasowa;
                 }
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e); 
             Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
             return null;
         }
