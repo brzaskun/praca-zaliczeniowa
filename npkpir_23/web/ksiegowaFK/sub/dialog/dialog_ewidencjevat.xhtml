@@ -194,13 +194,18 @@
                                             <p:column id="SubColumn1c" headerText="#{mgs.opis}" width="250">  
                                                 <h:outputText value="#{subwpis.opisdokfk}" />
                                             </p:column>
-                                            <p:column id="SubColumn1a"  headerText="wartość w pln">  
-                                                <h:outputText value="#{subwpis.wartoswPLN}" style="float: right;">
+                                            <p:column id="SubColumn1a"  headerText="wartość netto w pln">  
+                                                <h:outputText value="#{subwpis.nettoPLNWNT}" style="float: right;">
                                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                                 </h:outputText>
                                             </p:column>
-                                             <p:column id="SubColumn1e"  headerText="wartość w wal.">  
-                                                <h:outputText value="#{subwpis.wartoscdokumentu}" style="float: right;">
+                                            <p:column  headerText="wartość VAT">  
+                                                <h:outputText value="#{subwpis.getVATPLNWNT()}" style="float: right;">
+                                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                                </h:outputText>
+                                            </p:column>
+                                             <p:column id="SubColumn1e"  headerText="netto w wal.">  
+                                                <h:outputText value="#{subwpis.nettoWALWNT}" style="float: right;">
                                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                                 </h:outputText>
                                             </p:column>

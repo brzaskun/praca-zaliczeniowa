@@ -90,6 +90,7 @@ public class VatUeFKView implements Serializable {
             //a teraz podsumuj klientów
             klienciWDTWNT.addAll(kontrahenci(listadokumentow));
             double sumanettovatue = 0.0;
+            double sumanettovatuewaluta = 0.0;
             for (Dokfk p : listadokumentow) {
                 for (VatUe s : klienciWDTWNT) {
                     if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
@@ -103,11 +104,12 @@ public class VatUeFKView implements Serializable {
                             String nazwawal = p.getWalutadokumentu() != null ? p.getWalutadokumentu().getSymbolwaluty() : "";
                             s.setNazwawaluty(nazwawal);
                             sumanettovatue += netto;
+                            sumanettovatuewaluta += nettowaluta;
                             break;
                         }
                 }
             }
-             VatUe rzadpodsumowanie = new VatUe("podsum.", null, (double) Math.round(sumanettovatue), 0, null);
+             VatUe rzadpodsumowanie = new VatUe("podsum.", null, Z.z(sumanettovatue), Z.z(sumanettovatuewaluta));
             klienciWDTWNT.add(rzadpodsumowanie);
             zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), podatnik);
         }

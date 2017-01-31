@@ -153,19 +153,21 @@ public class PdfVatUE {
     }
 
     private static PdfPTable createsubtablefk(List<Dokfk> zawiera) {
-        PdfPTable table = new PdfPTable(6);
+        PdfPTable table = new PdfPTable(8);
         try {
             table.setWidthPercentage(95);
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            table.setWidths(new int[]{3, 2, 2, 6, 3, 2});
+            table.setWidths(new int[]{3, 2, 2, 6, 3, 3, 3, 2});
             table.addCell(ustawfraze("symbol", 0, 1));
             table.addCell(ustawfraze("data wyst.", 0, 1));
             table.addCell(ustawfraze("nr własny", 0, 1));
             table.addCell(ustawfraze("opis", 0, 1));
             table.addCell(ustawfraze("netto", 0, 1));
+            table.addCell(ustawfraze("vat", 0, 1));
+            table.addCell(ustawfraze("netto wal", 0, 1));
             table.addCell(ustawfraze("okres VAT", 0, 1));
             table.setHeaderRows(1);
             int i = 1;
@@ -174,10 +176,13 @@ public class PdfVatUE {
                 table.addCell(ustawfrazeAlign(p.getDatadokumentu(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getNumerwlasnydokfk(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getOpisdokfk(), "left", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartoscdokumentu())), "right", 7));
+                table.addCell(ustawfrazeAlign(p.getNettoPLNWNT(), "right", 7));
+                table.addCell(ustawfrazeAlign(p.getVATPLNWNT(), "right", 7));
+                table.addCell(ustawfrazeAlign(p.getNettoWALWNT(), "right", 7));
                 table.addCell(ustawfrazeAlign((p.getVatR() + "/" + p.getVatM()), "center", 7));
             }
         } catch (Exception e) {
+            E.e(e);
         }
         return table;
     }

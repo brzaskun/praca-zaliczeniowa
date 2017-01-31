@@ -44,6 +44,13 @@ public class VatUe implements Serializable{
         this.zawiera = zawiera;
     }
     
+    public VatUe(String transakcja, Klienci kontrahent, double netto, double nettowal) {
+        this.transakcja = transakcja;
+        this.kontrahent = kontrahent;
+        this.netto = netto;
+        this.nettowaluta = nettowal;
+    }
+    
     public VatUe(String transakcja, Klienci kontrahent, Double netto, int liczbadok) {
         this.transakcja = transakcja;
         this.kontrahent = kontrahent;

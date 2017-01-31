@@ -862,4 +862,34 @@ public class Dokfk implements Serializable {
         w = Z.z(w/2);
         return beansPdf.PdfFont.formatujLiczba(w);
     }
+    
+    public String getNettoPLNWNT() {
+        double w = 0.0;
+        for (StronaWiersza p : this.getStronyWierszy()) {
+            if (p.getKonto().getBilansowewynikowe().equals("wynikowe") || p.getKonto().getPelnynumer().startsWith("3")) {
+                w += p.getKwotaPLN();
+            }
+        }
+        return beansPdf.PdfFont.formatujLiczba(w);
+    }
+    
+     public String getVATPLNWNT() {
+        double w = 0.0;
+        for (StronaWiersza p : this.getStronyWierszy()) {
+            if (p.getKonto().getPelnynumer().startsWith("221")) {
+                w += p.getKwotaPLN();
+            }
+        }
+        return beansPdf.PdfFont.formatujLiczba(w);
+    }
+    
+     public String getNettoWALWNT() {
+        double w = 0.0;
+        for (StronaWiersza p : this.getStronyWierszy()) {
+            if (p.getKonto().getBilansowewynikowe().equals("wynikowe") || p.getKonto().getPelnynumer().startsWith("3")) {
+                w += p.getKwota();
+            }
+        }
+        return beansPdf.PdfFont.formatujLiczba(w);
+    }
 }
