@@ -671,6 +671,8 @@ public class KontoZapisFKView implements Serializable{
         if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 1) {
             if (RozniceKursoweBean.wiecejnizjednatransakcja(wybranekontadosumowania)) {
                 Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje/faktury. Nie można rozliczyć zapisów. Zmień oznaczenie w zakładce Rozrachunki");
+            } else if (czyroznewaluty(wybranekontadosumowania)){
+                Msg.msg("e", "Zaznaczone dokumenty są różnowalutowe. Nie można zrobić szybkiego rozliczenia");
             } else {
                 Msg.msg("Rozliczam oznaczone transakcje");
                 List<StronaWiersza> listapoedycji = RozniceKursoweBean.naniestransakcje(wybranekontadosumowania);
@@ -680,7 +682,20 @@ public class KontoZapisFKView implements Serializable{
             Msg.msg("e", "Należy wybrać przynajmniej dwa zapisy po różnych stronach konta w celu rozliczenia transakcji");
         }
     }
-    
+    private boolean czyroznewaluty(List<StronaWiersza> l) {
+        boolean zwrot = false;
+        if (l != null) {
+            String waluta = l.get(0).getSymbolWalutBOiSW();
+            for (StronaWiersza p : l) {
+                if (!waluta.equals(p.getSymbolWalutBOiSW())) {
+                    zwrot = true;
+                }
+            }
+        } else {
+            zwrot = true;
+        }
+        return zwrot;
+    }
     public void rozliczsaldo() {
         if (kontozapisy != null && kontozapisy.size() > 0) {
             Map<String, ListaSum> listasum = sumujzapisy();
