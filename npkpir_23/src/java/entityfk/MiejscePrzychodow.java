@@ -43,6 +43,8 @@ public class MiejscePrzychodow extends MiejsceSuper implements Serializable {
     private String koniec;
     @Column(name = "email")
     private String email;
+    @Column(name = "nrlegitymacji")
+    private String nrlegitymacji;
 
     public MiejscePrzychodow() {
     }
@@ -86,6 +88,14 @@ public class MiejscePrzychodow extends MiejsceSuper implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNrlegitymacji() {
+        return nrlegitymacji;
+    }
+
+    public void setNrlegitymacji(String nrlegitymacji) {
+        this.nrlegitymacji = nrlegitymacji;
     }
     
     

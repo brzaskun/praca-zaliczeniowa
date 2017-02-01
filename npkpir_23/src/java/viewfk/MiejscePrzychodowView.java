@@ -159,6 +159,8 @@ public class MiejscePrzychodowView  implements Serializable{
             czyok = sprawdzdata(dane);
         } else if (dataemail == 1) {
             czyok = sprawdzemail(dane);
+        } else {
+            czyok = true;
         }
         if (czyok) {
             miejscePrzychodowDAO.edit(miejscePrzychodow);
