@@ -37,4 +37,8 @@ public class SkladkaStowarzyszenieDAO extends DAO implements Serializable{
         return sessionFacade.getEntityManager().createNamedQuery("SkladkaStowarzyszenie.findByPodatnikRok").setParameter("podatnikObj", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
     
+    public List<SkladkaStowarzyszenie> findByPodatnik(WpisView wpisView) {
+        return sessionFacade.getEntityManager().createNamedQuery("SkladkaStowarzyszenie.findByPodatnik").setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
+    }
+    
 }

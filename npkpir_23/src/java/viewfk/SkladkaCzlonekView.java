@@ -45,6 +45,7 @@ public class SkladkaCzlonekView implements Serializable {
     boolean zapisz0edytuj1;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private SkladkaStowarzyszenie skladkadomyslna;
     
     @PostConstruct
     private void init() {
@@ -80,19 +81,12 @@ public class SkladkaCzlonekView implements Serializable {
     }
     
     public void wartoscdomyslna() {
-        if (!skladkaCzlonekLista.isEmpty()) {
-            SkladkaStowarzyszenie ss = null;
-            for (SkladkaStowarzyszenie s : skladkaStowarzyszenieLista) {
-                if (s.getRodzajCzlonkostwa().getNazwa().equals("zwykłe")) {
-                    ss = s;
-                    break;
-                }
-            }
+        if (skladkadomyslna != null) {
             for(SkladkaCzlonek t : skladkaCzlonekLista) {
-                t.setSkladka(ss);
+                t.setSkladka(skladkadomyslna);
             }
             skladkaCzlonekDAO.editList(skladkaCzlonekLista);
-            Msg.msg("Pobrano wartość domyślną");
+            Msg.msg("Pobrano wskazaną wartość domyślną");
         }
     }
     
@@ -123,6 +117,14 @@ public class SkladkaCzlonekView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public SkladkaStowarzyszenie getSkladkadomyslna() {
+        return skladkadomyslna;
+    }
+
+    public void setSkladkadomyslna(SkladkaStowarzyszenie skladkadomyslna) {
+        this.skladkadomyslna = skladkadomyslna;
     }
 
     public boolean isZapisz0edytuj1() {

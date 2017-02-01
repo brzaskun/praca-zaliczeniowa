@@ -29,7 +29,8 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames = {"podatnik","rok", "rodzajCzlonkostwa", "okres"})
 })
 @NamedQueries({
-    @NamedQuery(name = "SkladkaStowarzyszenie.findByPodatnikRok", query = "SELECT m FROM SkladkaStowarzyszenie m WHERE m.podatnik = :podatnikObj AND m.rok = :rok")
+    @NamedQuery(name = "SkladkaStowarzyszenie.findByPodatnikRok", query = "SELECT m FROM SkladkaStowarzyszenie m WHERE m.podatnik = :podatnikObj AND m.rok = :rok"),
+    @NamedQuery(name = "SkladkaStowarzyszenie.findByPodatnik", query = "SELECT m FROM SkladkaStowarzyszenie m WHERE m.podatnik = :podatnikObj")
 })
 public class SkladkaStowarzyszenie implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -146,7 +147,7 @@ public class SkladkaStowarzyszenie implements Serializable{
     }
 
    public String toString2() {
-        return rodzajCzlonkostwa.getNazwa() + ", " + kwota + ", " + okres;
+        return rodzajCzlonkostwa.getNazwa() + ", " + kwota + ", " + okres+", "+rok;
     }
     
    

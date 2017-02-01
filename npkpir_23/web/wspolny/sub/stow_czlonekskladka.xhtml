@@ -6,8 +6,8 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:bcf="http://brzaskun.com/facelets">
     <h:form id="form_czlonekskladka_lista">
-            
-    <p:panelGrid columns="2">
+
+        <p:panelGrid columns="2">
             <p:dataTable value="#{skladkaCzlonekView.skladkaCzlonekLista}" var="item" rowIndexVar="index"
                          style="width: 760px; height: 550px;overflow-y: scroll;"  emptyMessage="brak zdefiniowanych członków"
                          sortBy="#{item.czlonek.opismiejsca}" id="czlonekskladka_lista">
@@ -18,25 +18,35 @@
                           filterMatchMode="contains">
                     <h:outputText value="#{item.czlonek.opismiejsca}" />
                 </p:column>
-                 <p:column headerText="data przystąpienia" style="text-align: center; width: 90px;" sortBy="#{item.czlonek.poczatek}">
+                <p:column headerText="data przystąpienia" style="text-align: center; width: 90px;" sortBy="#{item.czlonek.poczatek}">
                     <h:outputText value="#{item.czlonek.poczatek}" />
                 </p:column>
                 <p:column headerText="data wystąpienia" style="text-align: center; width: 90px;" sortBy="#{item.czlonek.koniec}">
                     <h:outputText value="#{item.czlonek.koniec}" />
                 </p:column>
                 <p:column headerText="rodzaj składki">
-                <p:selectOneMenu value="#{item.skladka}" style="width: 200px;" converter="SkladkaStowarzyszenieConv">
-                    <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{skladkaCzlonekView.skladkaStowarzyszenieLista}" var="wpis" itemLabel="#{wpis.toString2()}" itemValue="#{wpis}"/>
-                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{skladkaCzlonekView.zachowajzmiany(item)}"/>
-              </p:selectOneMenu>
-                    </p:column>
+                    <p:selectOneMenu value="#{item.skladka}" style="width: 200px;" converter="SkladkaStowarzyszenieConv">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{skladkaCzlonekView.skladkaStowarzyszenieLista}" var="wpis" itemLabel="#{wpis.toString2()}" itemValue="#{wpis}"/>
+                        <p:ajax event="change" global="false" partialSubmit="true" listener="#{skladkaCzlonekView.zachowajzmiany(item)}"/>
+                    </p:selectOneMenu>
+                </p:column>
             </p:dataTable>
-        <p:column>
-            <p:commandButton value="war.domyślna" actionListener="#{skladkaCzlonekView.wartoscdomyslna}" styleClass="nb" update="form_czlonekskladka_lista:czlonekskladka_lista"/>
-        <p:commandButton value="zeruj" actionListener="#{skladkaCzlonekView.zeruj}" styleClass="nb" update="form_czlonekskladka_lista:czlonekskladka_lista"/>
-        </p:column>
+            <p:panelGrid columns="1">
+                <p:column headerText="składka domyślna">
+                    <p:selectOneMenu value="#{skladkaCzlonekView.skladkadomyslna}" style="width: 200px;" converter="SkladkaStowarzyszenieConv">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{skladkaCzlonekView.skladkaStowarzyszenieLista}" var="wpis" itemLabel="#{wpis.toString2()}" itemValue="#{wpis}"/>
+                        <p:ajax event="change" global="false" partialSubmit="true"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="war.domyślna" actionListener="#{skladkaCzlonekView.wartoscdomyslna}" styleClass="nb" update="form_czlonekskladka_lista:czlonekskladka_lista"/>
+                    <p:commandButton value="zeruj" actionListener="#{skladkaCzlonekView.zeruj}" style="margin-left: 10px;"
+                                     styleClass="nb" update="form_czlonekskladka_lista:czlonekskladka_lista"/>
+                </p:column>
+            </p:panelGrid>
         </p:panelGrid>
-        </h:form>
+    </h:form>
 </html>
 
