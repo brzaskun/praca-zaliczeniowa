@@ -119,6 +119,7 @@ public class StowNaliczenieView  implements Serializable {
     }
     
     public void obliczprzychod() {
+        lista = new ArrayList<>();
         List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
             if (Data.czyjestpomiedzy(p.getPoczatek(), p.getKoniec(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
