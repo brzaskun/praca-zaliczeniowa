@@ -11,10 +11,13 @@
             </p:outputPanel>
         </h:form>
         <h:form id="form_dialog_stowarzyszenie_wykaz_czlonkow_lista">
-            <p:dataTable value="#{miejscePrzychodowView.czlonkowiestowarzyszenia}" var="item" style="width: 1030px;"
+            <p:dataTable value="#{miejscePrzychodowView.czlonkowiestowarzyszenia}" var="item" style="width: 1030px;" rowIndexVar="index"
                          scrollable="true" scrollHeight="450"  emptyMessage="brak zdefiniowanych członków stowarzyszenia"
                          sortBy="#{item.opismiejsca}">
-                <p:column headerText="#{mgs.nr}" style="width: 40px;">
+                <p:column sortBy="#{index+1}">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{mgs.nr}" style="width: 40px;" sortBy="#{item.nrkonta}">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
                 <p:column headerText="nazwisko i imię" style="width: 250px;" sortBy="#{item.opismiejsca}" filterBy="#{item.opismiejsca}"

@@ -164,7 +164,7 @@ public class MiejscePrzychodowView  implements Serializable{
         }
         if (czyok) {
             miejscePrzychodowDAO.edit(miejscePrzychodow);
-            Msg.msg("Naniesiono zmiany początku/końca");
+            Msg.msg("Naniesiono zmiany");
         } else {
             if (dane.equals("____-__-__") && dataemail == 0) {
                if (miejscePrzychodow.getPoczatek().equals("____-__-__")) {
