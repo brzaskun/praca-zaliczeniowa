@@ -28,7 +28,7 @@
                 <f:selectItem itemLabel="rok" itemValue="rok"/>
             </p:selectOneMenu>
             <h:outputText value="rok obowiązywania"/>
-            <p:inputText value="#{skladkaStowarzyszenieView.skladkaStowarzyszenie.rok}"/>
+            <p:inputText value="#{skladkaStowarzyszenieView.skladkaStowarzyszenie.rok}" size="4"/>
         </p:panelGrid>
         <p:commandButton value="dodaj" actionListener="#{skladkaStowarzyszenieView.dodaj()}" style="margin: 2%; width: 120px;" global="false"
                          update="form_skladka form_skladka_lista:skladka_lista" rendered="#{skladkaStowarzyszenieView.zapisz0edytuj1 == false}"/>
@@ -53,7 +53,7 @@
             <p:column headerText="okres" style="text-align: center; width: 120px;" sortBy="#{item.okres}" filterBy="#{item.okres}">
                 <h:outputText value="#{item.okres}"/>
             </p:column>
-            <p:column headerText="rok" style="text-align: center; width: 80px;" sortBy="#{item.rok}" filterBy="#{item.rok}">
+            <p:column headerText="rok" style="text-align: center; width: 120px;" sortBy="#{item.rok}" filterBy="#{item.rok}">
                 <h:outputText value="#{item.rok}"/>
             </p:column>
             <p:column headerText="edytuj" style="text-align: center;">

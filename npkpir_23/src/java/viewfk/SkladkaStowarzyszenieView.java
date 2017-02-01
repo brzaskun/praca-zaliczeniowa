@@ -56,7 +56,6 @@ public class SkladkaStowarzyszenieView implements Serializable {
     public void dodaj() {
         try {
             skladkaStowarzyszenie.setPodatnik(wpisView.getPodatnikObiekt());
-            skladkaStowarzyszenie.setRok(wpisView.getRokWpisuSt());
             skladkaStowarzyszenieDAO.dodaj(skladkaStowarzyszenie);
             skladkaStowarzyszenieLista.add(skladkaStowarzyszenie);
             skladkaStowarzyszenie = new SkladkaStowarzyszenie();
