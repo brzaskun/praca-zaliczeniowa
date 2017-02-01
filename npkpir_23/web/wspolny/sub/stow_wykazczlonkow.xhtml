@@ -14,10 +14,10 @@
             <p:dataTable value="#{miejscePrzychodowView.czlonkowiestowarzyszenia}" var="item" style="width: 1030px;" rowIndexVar="index"
                          scrollable="true" scrollHeight="450"  emptyMessage="brak zdefiniowanych członków stowarzyszenia"
                          sortBy="#{item.opismiejsca}">
-                <p:column sortBy="#{index+1}">
+                <p:column style="width: 30px;">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{mgs.nr}" style="width: 40px;" sortBy="#{item.nrkonta}">
+                <p:column headerText="#{mgs.nr}" style="width: 40px;" sortBy="#{item.nrkonta}" sortFunction="#{miejscePrzychodowView.compare}">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
                 <p:column headerText="nazwisko i imię" style="width: 250px;" sortBy="#{item.opismiejsca}" filterBy="#{item.opismiejsca}"
@@ -40,7 +40,7 @@
                         <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.email, 1)}"/>
                     </p:inputText>
                 </p:column>
-                <p:column headerText="nr legit." style="text-align: center;" sortBy="#{item.nrlegitymacji}" filterBy="#{item.nrlegitymacji}"
+                <p:column headerText="nr legit." style="text-align: center;" sortBy="#{item.nrlegitymacji}" filterBy="#{item.nrlegitymacji}"  sortFunction="#{miejscePrzychodowView.compare}"
                           filterMatchMode="contains"  styleClass="filter80">
                     <p:inputText value="#{item.nrlegitymacji}" size="4">
                         <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.nrlegitymacji, 2)}"/>

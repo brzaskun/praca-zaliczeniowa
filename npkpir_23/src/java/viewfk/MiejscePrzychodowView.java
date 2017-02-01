@@ -223,6 +223,18 @@ public class MiejscePrzychodowView  implements Serializable{
         }
     }
     
+    public int compare(Object o1, Object o2) {
+        int zwrot = 0;
+        int nr1 = Integer.parseInt((String) o1);
+        int nr2 = Integer.parseInt((String) o2);
+        if (nr1 < nr2) {
+            zwrot = -1;
+        } else if (nr1 > nr2) {
+            zwrot = 1;
+        }
+        return zwrot;
+    }
+    
     public void message() {
         Msg.msg("Wybrano wiersz");
     }

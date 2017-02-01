@@ -11,7 +11,7 @@
                 width: 250px !important;
             }
         </style>
-        <p:panelGrid columns="2" >
+        <p:panelGrid columns="4" >
             <h:outputText value="nazwa członkostwa"/>
             <p:selectOneMenu value="#{skladkaStowarzyszenieView.skladkaStowarzyszenie.rodzajCzlonkostwa}" style="width: 180px;" converter="RodzajCzlonkostwaConv">
                 <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
@@ -27,6 +27,8 @@
                 <f:selectItem itemLabel="półrok" itemValue="polrok"/>
                 <f:selectItem itemLabel="rok" itemValue="rok"/>
             </p:selectOneMenu>
+            <h:outputText value="rok obowiązywania"/>
+            <p:inputText value="#{skladkaStowarzyszenieView.skladkaStowarzyszenie.rok}"/>
         </p:panelGrid>
         <p:commandButton value="dodaj" actionListener="#{skladkaStowarzyszenieView.dodaj()}" style="margin: 2%; width: 120px;" global="false"
                          update="form_skladka form_skladka_lista:skladka_lista" rendered="#{skladkaStowarzyszenieView.zapisz0edytuj1 == false}"/>
@@ -50,6 +52,9 @@
             </p:column>
             <p:column headerText="okres" style="text-align: center; width: 120px;" sortBy="#{item.okres}" filterBy="#{item.okres}">
                 <h:outputText value="#{item.okres}"/>
+            </p:column>
+            <p:column headerText="rok" style="text-align: center; width: 80px;" sortBy="#{item.rok}" filterBy="#{item.rok}">
+                <h:outputText value="#{item.rok}"/>
             </p:column>
             <p:column headerText="edytuj" style="text-align: center;">
                 <p:commandButton icon="ui-icon-comment" actionListener="#{skladkaStowarzyszenieView.edytuj(item)}" 
