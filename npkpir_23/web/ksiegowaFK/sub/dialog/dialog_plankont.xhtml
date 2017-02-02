@@ -130,6 +130,8 @@
                     </p:column>
                     <p:column  style="width: 200px;">
                         <h:outputText value="#{loop.nazwapelna}" /> 
+                        <h:outputText value=" id " /> 
+                        <h:outputText value="#{loop.idslownika}" /> 
                     </p:column>
                     <p:column style="width: 30px; text-align: center;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
                         <h:outputText value="#{loop.mapotomkow eq true ? 't' : null}"/> 

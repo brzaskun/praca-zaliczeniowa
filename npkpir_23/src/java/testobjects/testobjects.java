@@ -41,6 +41,7 @@ import java.util.List;
 import msg.B;
 import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
 import viewfk.StowRozrachCzlonkView;
+import viewfk.StowRozrachCzlonkZbiorczeView;
 
 /**
  *
@@ -309,6 +310,20 @@ public class testobjects {
        n.add("Ma");
        n.add("wal.");
        n.add("k. przec.");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getStowRozrach(List<StowRozrachCzlonkZbiorczeView.Zapisy> wiersze) {
+       List n = new ArrayList();
+       //9
+       n.add("lp");
+       n.add("nazwisko i imię");
+       n.add("przypis");
+       n.add("wpłata");
+       n.add("zaległośc");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

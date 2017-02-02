@@ -97,7 +97,9 @@ public class PozycjaBRKontaView implements Serializable {
         for (UkladBR p : listaukladow) {
             if (p.getRok().equals(wpisView.getRokWpisuSt())) {
                 uklad = p;
-                break;
+                ukladdocelowykonta = p;
+            } else if (p.getRok().equals(wpisView.getRokUprzedniSt())) {
+                ukladzrodlowykonta = p;
             }
         }
     }

@@ -53,6 +53,8 @@
                                 oncomplete="PF('dialog_stowarzyszenie_zestawienienaliczen').show();" ></p:menuitem>
                     <p:menuitem value="zestawienie rozrachunków z członkami" actionListener="#{stowRozrachCzlonkView.pobierz()}" update="form_dialog_stowarzyszenie_rozrachunki"
                                 oncomplete="PF('dialog_stowarzyszenie_rozrachunki').show();" ></p:menuitem>
+                    <p:menuitem value="zbiorcze zestawienie rozrachunków z członkami" actionListener="#{stowRozrachCzlonkZbiorczeView.pobierzzbiorcze()}" update="form_dialog_stowarzyszenie_rozrachunki_zbiorcze"
+                                oncomplete="PF('dialog_stowarzyszenie_rozrachunki_zbiorcze').show();" ></p:menuitem>
                 </p:menu>
             </h:form>      
         </p:tab>

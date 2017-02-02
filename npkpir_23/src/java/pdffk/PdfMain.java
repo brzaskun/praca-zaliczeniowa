@@ -64,6 +64,7 @@ import testobjects.WierszWNTWDT;
 import waluty.Z;
 import entityfk.EVatwpisDedra;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
@@ -73,6 +74,7 @@ import entity.Statystyka;
 import entityfk.MiejscePrzychodow;
 import java.io.FileOutputStream;
 import viewfk.StowRozrachCzlonkView;
+import viewfk.StowRozrachCzlonkZbiorczeView;
 
 /**
  *
@@ -881,6 +883,14 @@ public class PdfMain {
                 col6[5] = 2;
                 col6[6] = 2;
                 return col6;
+            case "viewfk.StowRozrachCzlonkZbiorczeView$Zapisy":
+                col6 = new int[size];
+                col6[0] = 1;
+                col6[1] = 4;
+                col6[2] = 2;
+                col6[3] = 2;
+                col6[4] = 2;
+                return col6;
             case "entityfk.PozycjaRZiS":
                  if (modyfikator==1) {//pozycje
                     int[] col91 = new int[size];
@@ -1614,6 +1624,30 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "left", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
+                }
+            }
+            if (nazwaklasy.equals("viewfk.StowRozrachCzlonkZbiorczeView$Zapisy")) {
+                StowRozrachCzlonkZbiorczeView.Zapisy p = (StowRozrachCzlonkZbiorczeView.Zapisy) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+                if (p.getKonto() == null) {
+                    table.addCell(ustawfrazeAlign("razem", "center", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(p.getKonto().getNazwapelna(), "left", 8));
+                }
+                if (p.getSumawn() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSumawn())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                }
+                if (p.getSumama() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSumama())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                }
+                if (p.getSaldo() >= 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8, BaseColor.RED));
                 }
             }
             if (nazwaklasy.equals("embeddable.SchemaEwidencjaSuma")) {

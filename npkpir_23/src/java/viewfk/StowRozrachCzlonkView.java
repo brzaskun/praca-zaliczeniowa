@@ -57,7 +57,7 @@ public class StowRozrachCzlonkView implements Serializable {
         this.lista = new ArrayList<>();
     }
 
-    @PostConstruct
+    
     public void pobierz() {
         this.wybranyczlonek = null;
         this.lista = new ArrayList<>();
@@ -65,6 +65,8 @@ public class StowRozrachCzlonkView implements Serializable {
         czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         Collections.sort(czlonkowiestowarzyszenia, new MiejscePrzychodowcomparator());
     }
+    
+    
 
     public void pobierzdane() {
         this.lista = new ArrayList<>();

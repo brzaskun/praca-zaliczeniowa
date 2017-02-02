@@ -8,23 +8,18 @@ package beansPdf;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
-import entity.Deklaracjevat;
 import error.E;
-import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.Currency;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import javax.inject.Named;
-import javax.persistence.metamodel.SingularAttribute;
 
 /**
  *
@@ -156,6 +151,37 @@ public class PdfFont {
             String fraza2 = String.valueOf( fraza != null ? fraza : "");
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, fontsize);
+            PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            switch (orient) {
+                case "right":
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    break;
+                case "left":
+                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    break;
+                case "center":
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    break;
+                case "just":
+                    cell.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+                    break;
+            }
+            return cell;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public static PdfPCell ustawfrazeAlign(String fraza, String orient, int fontsize, BaseColor color) {
+        try {
+            String fraza2 = fraza != null ? fraza : "";
+            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica, fontsize, Font.NORMAL, color);
             PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             switch (orient) {
