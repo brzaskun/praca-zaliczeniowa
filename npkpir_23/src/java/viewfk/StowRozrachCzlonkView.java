@@ -57,7 +57,8 @@ public class StowRozrachCzlonkView implements Serializable {
         this.lista = new ArrayList<>();
     }
 
-    
+    //nie ruszac bo nie dziala u geusta
+    @PostConstruct
     public void pobierz() {
         this.wybranyczlonek = null;
         this.lista = new ArrayList<>();

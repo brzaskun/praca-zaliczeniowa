@@ -63,7 +63,11 @@
          <navigation-case>
             <from-outcome>gfk_stow_rozrachunkizczlonkami</from-outcome>
             <to-view-id>/wspolny/wspolny_stow_rozrachunkizczlonkami.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case><navigation-case>
+            <from-outcome>gfk_stow_rozrachunkizczlonkami_zbiorcze</from-outcome>
+            <to-view-id>/wspolny/wspolny_stow_rozrachunkizczlonkami_zbiorcze.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+
         <navigation-case>
             <from-outcome>pismoadminobrobka</from-outcome>
             <to-view-id>/admin/adminPismoadmin.xhtml?faces-redirect=true</to-view-id>

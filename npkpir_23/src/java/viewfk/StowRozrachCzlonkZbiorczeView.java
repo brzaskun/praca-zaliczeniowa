@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -47,8 +48,8 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
         this.listazapisow = new ArrayList<>();
     }
     
-    
-    
+    //nie ruszac bo nie dziala u geusta
+    @PostConstruct
     public void pobierzzbiorcze() {
         konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
         //Collections.sort(czlonkowiestowarzyszenia, new MiejscePrzychodowcomparator());
