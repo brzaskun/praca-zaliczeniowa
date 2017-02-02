@@ -43,13 +43,14 @@ public class PdfStowRozrachunki {
             if (listazapisow != null && listazapisow.size() > 0) {
                 List<StowRozrachCzlonkZbiorczeView.Zapisy> nowalista = new ArrayList<>();
                 nowalista.addAll(listazapisow);
-                nowalista.add(podsumuj(listazapisow));
+                StowRozrachCzlonkZbiorczeView.Zapisy s = podsumuj(listazapisow);
+                nowalista.add(s);
                 Document document = inicjacjaA4Portrait();
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
                 dodajOpisWstepny(document, "Rozrachunki z członkami - " + wybranekonto.getNazwapelna(), wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
-                dodajTabele(document, testobjects.testobjects.getStowRozrach(listazapisow), 95, 0);
+                dodajTabele(document, testobjects.testobjects.getStowRozrach(nowalista), 95, 0);
                 finalizacjaDokumentuQR(document, nazwa);
                 String f = "pokazwydruk('" + nazwa + "');";
                 RequestContext.getCurrentInstance().execute(f);

@@ -324,6 +324,8 @@ public class testobjects {
        n.add("przypis");
        n.add("wpłata");
        n.add("zaległośc");
+       n.add("data przyst.");
+       n.add("nr legit.");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

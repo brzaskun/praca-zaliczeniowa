@@ -9,7 +9,9 @@ import comparator.Kontocomparator;
 import comparator.MiejscePrzychodowcomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import daoFK.MiejscePrzychodowDAO;
 import entityfk.Konto;
+import entityfk.MiejscePrzychodow;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,10 +37,14 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<Konto> konta;
+    private List<MiejscePrzychodow> miejscaprzychodow;
     private List<Zapisy> listazapisow;
+    private List<Zapisy> listazapisowfiltered;
     private Konto wybranekonto;
     @Inject
     private KontoDAOfk kontoDAOfk;
+    @Inject
+    private MiejscePrzychodowDAO miejscePrzychodowDAO;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     @ManagedProperty(value = "#{WpisView}")
@@ -52,6 +58,7 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
     @PostConstruct
     public void pobierzzbiorcze() {
         konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
+        miejscaprzychodow = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         //Collections.sort(czlonkowiestowarzyszenia, new MiejscePrzychodowcomparator());
     }
    
@@ -60,7 +67,8 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
             listazapisow = new ArrayList<>();
             List<StronaWiersza> pobierzzapisynapotomkach = stronaWierszaDAO.findStronaByPodatnikKontoMacierzysteRok(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
             for (StronaWiersza p : pobierzzapisynapotomkach) {
-                Zapisy z = new Zapisy(p.getKonto());
+                MiejscePrzychodow mp = pobierzmiejsceprzychodow(p.getKonto());
+                Zapisy z = new Zapisy(p.getKonto(),mp);
                 if (listazapisow.contains(z)) {
                     Zapisy zo = listazapisow.get(listazapisow.indexOf(z));
                     zo.dodaj(p);
@@ -84,13 +92,31 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
     
     public void drukuj() {
         try {
-            PdfStowRozrachunki.drukuj(wpisView, wybranekonto, listazapisow);
+            if (listazapisowfiltered != null && !listazapisowfiltered.isEmpty()) {
+                PdfStowRozrachunki.drukuj(wpisView, wybranekonto, listazapisowfiltered);
+            } else {
+                PdfStowRozrachunki.drukuj(wpisView, wybranekonto, listazapisow);
+            }
             msg.Msg.dP();
         } catch (Exception e) {
             msg.Msg.dPe();
         }
     }
+    private void obliczsalda() {
+        for (Zapisy p : listazapisow) {
+             p.saldo = p.sumawn - p.sumama;
+        }
+    }
 
+    private MiejscePrzychodow pobierzmiejsceprzychodow(Konto konto) {
+        MiejscePrzychodow p = null;
+        for (MiejscePrzychodow r : miejscaprzychodow) {
+            if (r.getNrkonta().equals(konto.getNrkonta())) {
+                p = r;
+            }
+        }
+        return p;
+    }
     public List<Konto> getKonta() {
         return konta;
     }
@@ -123,16 +149,21 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
         this.listazapisow = listazapisow;
     }
 
-    private void obliczsalda() {
-        for (Zapisy p : listazapisow) {
-             p.saldo = p.sumawn - p.sumama;
-        }
+    public List<Zapisy> getListazapisowfiltered() {
+        return listazapisowfiltered;
     }
+
+    public void setListazapisowfiltered(List<Zapisy> listazapisowfiltered) {
+        this.listazapisowfiltered = listazapisowfiltered;
+    }
+
+   
     
     
 
     public static class Zapisy {
         private Konto konto;
+        private MiejscePrzychodow mp;
         private double sumawn;
         private double sumama;
         private double saldo;
@@ -144,12 +175,25 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
             this.konto = konto;
         }
 
+        private Zapisy(Konto konto, MiejscePrzychodow mp) {
+            this.konto = konto;
+            this.mp = mp;
+        }
+
         public Konto getKonto() {
             return konto;
         }
 
         public void setKonto(Konto konto) {
             this.konto = konto;
+        }
+
+        public MiejscePrzychodow getMp() {
+            return mp;
+        }
+
+        public void setMp(MiejscePrzychodow mp) {
+            this.mp = mp;
         }
 
         public double getSumawn() {

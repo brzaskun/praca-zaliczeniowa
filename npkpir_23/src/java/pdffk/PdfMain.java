@@ -5,6 +5,7 @@
  */
 package pdffk;
 
+import static beansPdf.PdfFont.emptyCell;
 import static beansPdf.PdfFont.ustawfrazeAlignNOBorder;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
@@ -890,6 +891,8 @@ public class PdfMain {
                 col6[2] = 2;
                 col6[3] = 2;
                 col6[4] = 2;
+                col6[5] = 3;
+                col6[6] = 2;
                 return col6;
             case "entityfk.PozycjaRZiS":
                  if (modyfikator==1) {//pozycje
@@ -1648,6 +1651,13 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8, BaseColor.RED));
+                }
+                if (p.getMp() != null) {
+                    table.addCell(ustawfrazeAlign(p.getMp().getPoczatek(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getMp().getNrlegitymacji(), "center", 8));
+                } else {
+                    table.addCell(emptyCell());
+                    table.addCell(emptyCell());
                 }
             }
             if (nazwaklasy.equals("embeddable.SchemaEwidencjaSuma")) {

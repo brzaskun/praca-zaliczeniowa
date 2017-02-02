@@ -14,15 +14,18 @@
             <p:commandButton value="drukuj" styleClass="nb" actionListener="#{stowRozrachCzlonkZbiorczeView.drukuj}" global="false"/>
             </p:panelGrid>
         <p:dataTable value="#{stowRozrachCzlonkZbiorczeView.listazapisow}" var="wpisek" rowIndexVar="index"
-                     style="overflow-y: scroll; height: 600px; width: 600px; margin-top: 15px;" emptyMessage="nie pobrano danych"
+                     filteredValue="#{stowRozrachCzlonkZbiorczeView.listazapisowfiltered}"
+                     style="overflow-y: scroll; height: 600px; width: 800px; margin-top: 15px;" emptyMessage="nie pobrano danych"
                      sortBy="#{wpisek.konto.nazwapelna}">
+            <p:ajax event="filter" global="false"/>
             <f:facet name="header">
                 <h:outputText value="Wykaz rozliczeń w roku #{WpisView.rokWpisuSt}"/>
             </f:facet>
             <p:column style="width: 30px;">
                 <h:outputText value="#{index+1}"/>
             </p:column>
-            <p:column headerText="nazwisko i imię" styleClass="filter120"  style="width: 250px;" filterBy="#{wpisek.konto.nazwapelna}" filterMatchMode="contains" sortBy="#{wpisek.konto.nazwapelna}">
+            <p:column headerText="nazwisko i imię" styleClass="filter120"  style="width: 250px;" filterBy="#{wpisek.konto.nazwapelna}" 
+                      filterMatchMode="contains" sortBy="#{wpisek.konto.nazwapelna}">
                 <h:outputText value="#{wpisek.konto.nazwapelna}"/>
             </p:column>
             <p:column headerText="przypis">
@@ -31,8 +34,16 @@
             <p:column headerText="wpłata">
                 <bcf:outputpl value="#{wpisek.sumama}" rendered="#{wpisek.sumama ne 0.0}"/>
             </p:column>
-            <p:column headerText="zadłużenie">
-                <bcf:outputpl value="#{wpisek.saldo}"/>
+            <p:column headerText="zadłużenie" sortBy="#{wpisek.saldo}">
+                <bcf:outputpl value="#{wpisek.saldo}" stylePlus="#{wpisek.saldo lt 0.0 ? 'color: red':null}"/>
+            </p:column>
+            <p:column headerText="data przyst." style="text-align: center" sortBy="#{wpisek.mp.poczatek}">
+                <h:outputText value="#{wpisek.mp.poczatek}">
+                    <f:convertDateTime pattern="yyyy-mm-dd"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="nr legit." style="text-align: center" sortBy="#{wpisek.mp.nrlegitymacji}">
+                <h:outputText value="#{wpisek.mp.nrlegitymacji}"/>
             </p:column>
         </p:dataTable>
     </h:form>

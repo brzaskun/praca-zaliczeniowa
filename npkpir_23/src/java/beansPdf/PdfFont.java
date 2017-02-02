@@ -208,6 +208,10 @@ public class PdfFont {
         }
     }
     
+    public static PdfPCell emptyCell() {
+        return new PdfPCell();
+    }
+    
     public static PdfPCell ustawfrazeAlign(String fraza, String orient, int fontsize) {
         try {
             String fraza2 = fraza != null ? fraza : "";
