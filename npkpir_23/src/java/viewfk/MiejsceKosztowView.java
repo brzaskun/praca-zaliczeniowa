@@ -18,11 +18,13 @@ import embeddablefk.MiejsceZest;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import entityfk.MiejscePrzychodow;
+import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,6 +82,7 @@ public class MiejsceKosztowView  implements Serializable{
     public void sumymiesiecy() {
         try {
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+            usunukryte();
             listasummiejsckosztow = new LinkedHashSet<>();
             obliczsumymiejsc();
         } catch (Exception e) {  E.e(e);
@@ -126,7 +129,7 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void zapiszedycje() {
         miejsceKosztowDAO.edit(selected);
-        SlownikiBean.aktualizujkontapoedycji(selected, 3, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
+        SlownikiBean.aktualizujkontapoedycji(selected, 2, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
         selected.setOpismiejsca(null);
         selected.setOpisskrocony(null);
         miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
@@ -134,8 +137,9 @@ public class MiejsceKosztowView  implements Serializable{
         Msg.msg("Naniesiono zmiany");
     }
     
-    public void zapiszedycje(MiejsceKosztow miejsceKosztow) {
+    public void ukryjmiejscekosztow(MiejsceKosztow miejsceKosztow) {
         miejsceKosztowDAO.edit(miejsceKosztow);
+        SlownikiBean.ukryjkontapodeycji(miejsceKosztow, 2, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk, miejsceKosztow.isPokaz0chowaj1());
         zapisz0edytuj1 = false;
         Msg.msg("Naniesiono zmiany");
     }
@@ -232,6 +236,14 @@ public class MiejsceKosztowView  implements Serializable{
         this.listawybranychmiejsckosztow = listawybranychmiejsckosztow;
     }
 //</editor-fold>
+
+     private void usunukryte() {
+        for (Iterator<MiejsceKosztow> it = miejscakosztow.iterator(); it.hasNext();) {
+            if (it.next().isPokaz0chowaj1()) {
+                it.remove();
+            }
+        }
+    }
 
    
     

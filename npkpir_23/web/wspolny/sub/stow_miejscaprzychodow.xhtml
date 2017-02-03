@@ -5,7 +5,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:bcf="http://brzaskun.com/facelets">
-   <h:form id="miejscaprzychodow">
+    <h:form id="miejscaprzychodow">
+        <p:panelGrid columns="2" >
             <p:panelGrid columns="2" >
                 <h:outputText value="nazwa miejsca przychodów "/>
                 <p:inputText id="nazwamiejsca" value="#{miejscePrzychodowView.selected.opismiejsca}" style="width: 180px;">
@@ -14,60 +15,63 @@
                 <h:outputText value="nazwa skrócona"/>
                 <p:inputText id="nazwamiejscas" value="#{miejscePrzychodowView.selected.opisskrocony}" style="width: 180px;"/>
             </p:panelGrid>
-            <p:commandButton value="dodaj" actionListener="#{miejscePrzychodowView.dodaj()}" style="margin: 2%; width: 120px;" 
-                             update="miejscaprzychodow miejscaprzychodowlista:lista" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == false}"/>
-            <p:commandButton value="edytuj" actionListener="#{miejscePrzychodowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
-                             update="miejscaprzychodow miejscaprzychodowlista:lista"
-                             oncomplete="PF('listamiejscaprzychodow').clearFilters();"
-                             rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
-            <p:commandButton value="rezygnuj" actionListener="#{miejscePrzychodowView.canceledycje()}" style="margin: 2%; width: 120px;" 
-                             update="miejscaprzychodow" global="false"
-                             oncomplete="PF('listamiejscaprzychodow').clearFilters();"
-                             rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
-        </h:form>
-        <h:form id="miejscaprzychodowlista">
-            <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item" style="width: 1180px;" id="lista"
-                         scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc przychodów"
-                         sortBy="#{item}"  sortFunction="#{miejscePrzychodowView.sortMiejscePrzychodow}"
-                         widgetVar="listamiejscaprzychodow">
-                <p:ajax event="filter" global="false"/>
-                <p:column headerText="#{mgs.nr}" style="width: 40px;">
-                    <h:outputText value="#{item.nrkonta}"/>
-                </p:column>
-                <p:column headerText="pełny opis miejsca" style="width: 300px;" sortBy="#{item.opismiejsca}" filterBy="#{item.opismiejsca}"
-                          filterMatchMode="contains"  styleClass="filter240">
-                    <h:outputText value="#{item.opismiejsca}" />
-                </p:column>
-                <p:column headerText="opis skrócony" style="width: 200px;" sortBy="#{item.opisskrocony}" filterBy="#{item.opisskrocony}"
-                          filterMatchMode="contains">
-                    <h:outputText value="#{item.opisskrocony}"/>
-                </p:column>
-                <p:column headerText="nr konta" style="text-align: center; width: 40px;">
-                    <h:outputText value="#{item.nrkonta}"/>
-                </p:column>
-                <p:column headerText="aktywne od" style="text-align: center;">
-                    <p:inputMask value="#{item.poczatek}" mask="9999-99-99" maxlength="10" size="10" slotChar="____-__-__">
-                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.poczatek, 0)}"/>
-                    </p:inputMask>
-                </p:column>
-                <p:column headerText="aktywne do" style="text-align: center;">
-                    <p:inputMask value="#{item.koniec}" mask="9999-99-99" maxlength="10" size="10" slotChar="____-__-__">
-                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.koniec, 0)}"/>
-                    </p:inputMask>
-                </p:column>
-                 <p:column headerText="ukryj" style="text-align: center;">
-                    <p:selectBooleanCheckbox value="#{item.pokaz0chowaj1}">
-                        <p:ajax event="change" partialSubmit="true" listener="#{miejscePrzychodowView.zapiszedycje(item)}" global="false"/>
-                    </p:selectBooleanCheckbox>
-                 </p:column>
-                <p:column headerText="edytuj" style="text-align: center; width: 60px;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejscePrzychodowView.edytuj(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista" 
-                                     rendered="#{WpisView.rokWpisu eq item.rok}" style="width: 40px;"/>
-                    <h:outputText value="#{item.rok}" rendered="#{WpisView.rokWpisu ne item.rok}"/>
-                </p:column>
-                <p:column headerText="usuń"  style="text-align: center; width: 60px;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejscePrzychodowView.usun(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista"  rendered="#{WpisView.rokWpisu eq item.rok and item.aktywny eq false}" style="width: 40px;"/>
-                </p:column>
-            </p:dataTable>
-        </h:form>
+            <p:panelGrid columns="2" >
+                <p:commandButton value="dodaj" actionListener="#{miejscePrzychodowView.dodaj()}" style="margin: 2%; width: 120px;" 
+                                 update="miejscaprzychodow miejscaprzychodowlista:lista" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == false}"/>
+                <p:commandButton value="edytuj" actionListener="#{miejscePrzychodowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
+                                 update="miejscaprzychodow miejscaprzychodowlista:lista"
+                                 oncomplete="PF('listamiejscaprzychodow').clearFilters();"
+                                 rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
+                <p:commandButton value="rezygnuj" actionListener="#{miejscePrzychodowView.canceledycje()}" style="margin: 2%; width: 120px;" 
+                                 update="miejscaprzychodow" global="false"
+                                 oncomplete="PF('listamiejscaprzychodow').clearFilters();"
+                                 rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"/>
+            </p:panelGrid>
+        </p:panelGrid>
+    </h:form>
+    <h:form id="miejscaprzychodowlista">
+        <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item" style="width: 1180px;" id="lista"
+                     scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc przychodów"
+                     sortBy="#{item}"  sortFunction="#{miejscePrzychodowView.sortMiejscePrzychodow}"
+                     widgetVar="listamiejscaprzychodow">
+            <p:ajax event="filter" global="false"/>
+            <p:column headerText="#{mgs.nr}" style="width: 40px;">
+                <h:outputText value="#{item.nrkonta}"/>
+            </p:column>
+            <p:column headerText="pełny opis miejsca" style="width: 300px;" sortBy="#{item.opismiejsca}" filterBy="#{item.opismiejsca}"
+                      filterMatchMode="contains"  styleClass="filter240">
+                <h:outputText value="#{item.opismiejsca}" />
+            </p:column>
+            <p:column headerText="opis skrócony" style="width: 200px;" sortBy="#{item.opisskrocony}" filterBy="#{item.opisskrocony}"
+                      filterMatchMode="contains">
+                <h:outputText value="#{item.opisskrocony}"/>
+            </p:column>
+            <p:column headerText="nr konta" style="text-align: center; width: 40px;">
+                <h:outputText value="#{item.nrkonta}"/>
+            </p:column>
+            <p:column headerText="aktywne od" style="text-align: center;">
+                <p:inputMask value="#{item.poczatek}" mask="9999-99-99" maxlength="10" size="10" slotChar="____-__-__">
+                    <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.poczatek, 0)}"/>
+                </p:inputMask>
+            </p:column>
+            <p:column headerText="aktywne do" style="text-align: center;">
+                <p:inputMask value="#{item.koniec}" mask="9999-99-99" maxlength="10" size="10" slotChar="____-__-__">
+                    <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.koniec, 0)}"/>
+                </p:inputMask>
+            </p:column>
+            <p:column headerText="ukryj" style="text-align: center;">
+                <p:selectBooleanCheckbox value="#{item.pokaz0chowaj1}">
+                    <p:ajax event="change" partialSubmit="true" listener="#{miejscePrzychodowView.ukryjmiejsceprzychodow(item)}" global="false"/>
+                </p:selectBooleanCheckbox>
+            </p:column>
+            <p:column headerText="edytuj" style="text-align: center; width: 60px;">
+                <p:commandButton icon="ui-icon-comment" actionListener="#{miejscePrzychodowView.edytuj(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista" 
+                                 rendered="#{WpisView.rokWpisu eq item.rok}" style="width: 40px;"/>
+                <h:outputText value="#{item.rok}" rendered="#{WpisView.rokWpisu ne item.rok}"/>
+            </p:column>
+            <p:column headerText="usuń"  style="text-align: center; width: 60px;">
+                <p:commandButton icon="ui-icon-trash" actionListener="#{miejscePrzychodowView.usun(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista"  rendered="#{WpisView.rokWpisu eq item.rok and item.aktywny eq false}" style="width: 40px;"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
 </html>

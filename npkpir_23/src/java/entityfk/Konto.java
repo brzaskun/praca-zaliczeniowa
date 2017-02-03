@@ -244,6 +244,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private double saldoMaksiegi;
     @Column(name = "zaksiegowane")
     private boolean zaksiegowane;
+    @Column(name = "niewidoczne")
+    private boolean niewidoczne;
     
 //    @OneToMany(mappedBy = "konto")
 //    private List<StronaWiersza> stronaWiersza;
@@ -353,6 +355,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public void setZaksiegowane(boolean zaksiegowane) {
         this.zaksiegowane = zaksiegowane;
+    }
+
+    public boolean isNiewidoczne() {
+        return niewidoczne;
+    }
+
+    public void setNiewidoczne(boolean niewidoczne) {
+        this.niewidoczne = niewidoczne;
     }
 
     

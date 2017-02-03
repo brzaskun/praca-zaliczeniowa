@@ -71,4 +71,18 @@ public class SlownikiBean {
         return pola;
      }
      
+      public static void ukryjkontapodeycji(Object obiekt, int nrslownika, String podatnik, Integer rok, KontoDAOfk kontoDAOfk, boolean niewidoczne) {
+        String[] pola = pobierzpola(obiekt);
+        List<Konto> kontaslownik = null;
+        kontaslownik = kontoDAOfk.findKontaMaSlownik(podatnik, rok, nrslownika);
+        for (Konto p : kontaslownik) {
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, p.getPelnynumer());
+            for (Konto r : kontapotomne) {
+                if (r.getNrkonta().equals(pola[0])) {
+                    r.setNiewidoczne(niewidoczne);
+                    kontoDAOfk.edit(r);
+                }
+            } 
+        }
+    }
 }

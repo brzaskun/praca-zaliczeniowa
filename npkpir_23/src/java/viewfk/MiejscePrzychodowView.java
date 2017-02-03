@@ -17,12 +17,12 @@ import daoFK.MiejscePrzychodowDAO;
 import daoFK.UkladBRDAO;
 import embeddablefk.MiejsceZest;
 import entityfk.Konto;
-import entityfk.MiejsceKosztow;
 import entityfk.MiejscePrzychodow;
 import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,6 +82,7 @@ public class MiejscePrzychodowView  implements Serializable{
     public void sumymiesiecy() {
         try {
             miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+            usunukryte();
             listasummiejscprzychodow = new LinkedHashSet<>();
             obliczsumymiejsc();
         } catch (Exception e) {  E.e(e);
@@ -142,7 +143,7 @@ public class MiejscePrzychodowView  implements Serializable{
         Msg.msg("Naniesiono zmiany");
     }
     
-    public void zapiszedycje(MiejscePrzychodow miejscePrzychodow) {
+    public void ukryjmiejsceprzychodow(MiejscePrzychodow miejscePrzychodow) {
         miejscePrzychodowDAO.edit(miejscePrzychodow);
         zapisz0edytuj1 = false;
         Msg.msg("Naniesiono zmiany");
@@ -315,6 +316,14 @@ public class MiejscePrzychodowView  implements Serializable{
         this.listawybranychprzychodow = listawybranychprzychodow;
     }
 //</editor-fold>
+
+     private void usunukryte() {
+        for (Iterator<MiejscePrzychodow> it = miejscaprzychodow.iterator(); it.hasNext();) {
+            if (it.next().isPokaz0chowaj1()) {
+                it.remove();
+            }
+        }
+    }
 
     
    

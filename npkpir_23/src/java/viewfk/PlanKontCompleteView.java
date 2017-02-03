@@ -74,7 +74,7 @@ public class PlanKontCompleteView implements Serializable {
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
                     for (Konto p : listakontOstatniaAnalitykaklienta) {
-                        if (p.getPelnynumer().startsWith(query)) {
+                        if (p.getPelnynumer().startsWith(query) && !p.isNiewidoczne()) {
                             results.add(p);
                         }
                     }
@@ -82,14 +82,14 @@ public class PlanKontCompleteView implements Serializable {
                     if (nazwa != null && nazwa.length() > 2) {
                         for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
                             Konto r = it.next();
-                            if (!r.getNazwapelna().toLowerCase().contains(nazwa.toLowerCase())) {
+                            if (!r.getNazwapelna().toLowerCase().contains(nazwa.toLowerCase()) && !r.isNiewidoczne()) {
                                 it.remove();
                             }
                         }
                     }
                 } catch (NumberFormatException e) {
                     for (Konto p : listakontOstatniaAnalitykaklienta) {
-                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase()) && !p.isNiewidoczne()) {
                             results.add(p);
                         }
                     }

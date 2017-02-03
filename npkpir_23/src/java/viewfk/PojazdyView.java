@@ -16,11 +16,13 @@ import daoFK.PojazdyDAO;
 import daoFK.UkladBRDAO;
 import embeddablefk.PojazdyZest;
 import entityfk.Konto;
+import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,6 +77,7 @@ public class PojazdyView  implements Serializable{
      public void sumymiesiecy() {
         try {
             pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
+            usunukryte();
             listasumpojazdy = new LinkedHashSet<>();
             obliczsumy();
         } catch (Exception e) { 
@@ -112,6 +115,13 @@ public class PojazdyView  implements Serializable{
             pojazdyDAO.destroy(pojazdy);
             this.pojazdy.remove(pojazdy);
         }
+    }
+    
+     public void ukryjpojazd(Pojazdy pojazd) {
+        pojazdyDAO.edit(pojazd);
+        SlownikiBean.ukryjkontapodeycji(pojazd, 3, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk, pojazd.isPokaz0chowaj1());
+        zapisz0edytuj1 = false;
+        Msg.msg("Naniesiono zmiany");
     }
     
     public void edytuj(Pojazdy pojazdy) {
@@ -212,8 +222,20 @@ public class PojazdyView  implements Serializable{
         this.rozwinwszystkie = rozwinwszystkie;
     }
 
-    
+    private void usunukryte() {
+        for (Iterator<Pojazdy> it = pojazdy.iterator(); it.hasNext();) {
+            if (it.next().isPokaz0chowaj1()) {
+                it.remove();
+            }
+        }
+    }
 
+     public void canceledycje() {
+        zapisz0edytuj1 = false;
+        selected = new Pojazdy();
+        Msg.msg("Rezygnazja z edycji");
+    }
+    
    
      public static class TabelaPojazdy {
         private int id;

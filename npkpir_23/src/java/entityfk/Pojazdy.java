@@ -72,6 +72,9 @@ public class Pojazdy implements Serializable {
     private String nrkonta;
     @Column(name = "rok")
     private int rok;
+    @Basic(optional = true)
+    @Column(name = "pokaz0chowaj1", nullable = true)
+    protected boolean pokaz0chowaj1;
 
     public Pojazdy() {
     }
@@ -146,6 +149,14 @@ public class Pojazdy implements Serializable {
 
     public void setRok(int rok) {
         this.rok = rok;
+    }
+
+    public boolean isPokaz0chowaj1() {
+        return pokaz0chowaj1;
+    }
+
+    public void setPokaz0chowaj1(boolean pokaz0chowaj1) {
+        this.pokaz0chowaj1 = pokaz0chowaj1;
     }
     
     
