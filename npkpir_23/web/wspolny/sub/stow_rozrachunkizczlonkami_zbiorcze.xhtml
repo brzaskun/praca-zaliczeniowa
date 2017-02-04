@@ -35,7 +35,7 @@
                 <bcf:outputpl value="#{wpisek.sumama}" rendered="#{wpisek.sumama ne 0.0}"/>
             </p:column>
             <p:column headerText="zadłużenie" sortBy="#{wpisek.saldo}">
-                <bcf:outputpl value="#{wpisek.saldo}" stylePlus="#{wpisek.saldo lt 0.0 ? 'color: red':null}"/>
+                <bcf:outputpl value="#{wpisek.saldo}" stylePlus="#{wpisek.saldo lt 0.0 ? 'color: red':null}" rendered="#{wpisek.saldo ne 0.0}"/>
             </p:column>
             <p:column headerText="data przyst." style="text-align: center" sortBy="#{wpisek.mp.poczatek}">
                 <h:outputText value="#{wpisek.mp.poczatek}">
