@@ -803,6 +803,16 @@ public class PozycjaBRView implements Serializable {
         }
     }
     
+    public void drukujBilansAP(double sumabilansowaA, double sumabilansowaP) {
+           PdfBilans.drukujBilansAP(rootBilansAktywa, rootBilansPasywa, wpisView, sumabilansowaA, sumabilansowaP);
+    }
+    
+    public void drukujBilansBODataAP(String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP) {
+        if (ap.equals("x")) {
+            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, ap, sumabilansowaBO, sumabilansowaA, sumabilansowaP);
+        }
+    }
+    
     public void drukujBilansBOData(String ap, double sumabilansowaBO, double sumabilansowa) {
         if (ap.equals("a")) {
             PdfBilans.drukujBilansBOData(rootBilansAktywa, wpisView, ap, sumabilansowaBO, sumabilansowa);

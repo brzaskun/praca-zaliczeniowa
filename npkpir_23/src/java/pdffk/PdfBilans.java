@@ -30,6 +30,35 @@ import view.WpisView;
  */
 
 public class PdfBilans {
+    
+    public static void drukujBilansAP(TreeNodeExtended rootProjektA, TreeNodeExtended rootProjektP, WpisView wpisView, double sumabilansowaA, double sumabilansowaP) {
+        String nazwa = null;
+        nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansObliczenie-"+wpisView.getRokWpisuSt();
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (rootProjektA != null && rootProjektA.getChildren().size() > 0) {
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajsuma(rootProjektA, "a", sumabilansowaA);
+            dodajsuma(rootProjektP, "p", sumabilansowaP);
+            dodajOpisWstepny(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            PdfMain.dodajLinieOpisu(document, "Strona aktywów");
+            dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjektA),75,0);
+            document.newPage();
+            PdfMain.dodajLinieOpisu(document, "Strona pasywów");
+            dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjektP),75,0);
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = null;
+            f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano strony Bilansu do wydruku");
+        }
+    }
 
     public static void drukujBilans(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa) {
         String nazwa = null;
@@ -62,6 +91,39 @@ public class PdfBilans {
             } else {
                 f = "pokazwydruk('"+nazwa+"');";
             }
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano strony Bilansu do wydruku");
+        }
+    }
+    
+    public static void drukujBilansBODataAP(TreeNodeExtended rootProjektA, TreeNodeExtended rootProjektP,WpisView wpisView, String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP) {
+        String nazwa = null;
+        if (ap.equals("a")) {
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansObliczenieAktywaBOData-"+wpisView.getRokWpisuSt();
+        } else {
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczeniePasywaBOData-"+wpisView.getRokWpisuSt();
+        }
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (rootProjektA != null && rootProjektA.getChildren().size() > 0) {
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajsuma(rootProjektA, "a", sumabilansowaBO, sumabilansowaA);
+            dodajsuma(rootProjektP, "b", sumabilansowaBO, sumabilansowaP);
+            dodajOpisWstepny(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            PdfMain.dodajLinieOpisu(document, "Strona aktywów");
+            dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjektA),75,5);
+            document.newPage();
+            PdfMain.dodajLinieOpisu(document, "Strona pasywów");
+            dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjektP),75,5);
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = null;
+            f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
             Msg.msg("w", "Nie wybrano strony Bilansu do wydruku");

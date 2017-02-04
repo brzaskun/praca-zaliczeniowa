@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialogbilansprzeglad" header="Bilans za okres rozliczeniowy wyliczenie - #{WpisView.podatnikWpisu}" widgetVar="bilansprzegladuklad" 
-              resizable="false" onShow="ustawdialog('dialogbilansprzeglad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprzeglad');"  >
+              resizable="false" onShow="ustawdialog('dialogbilansprzeglad','menubilanse', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprzeglad');"  >
         <h:form id="formprzegladbilans">
 <!--            <p:contextMenu for="dataList">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -43,11 +43,12 @@
                     </p:column>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.obliczBilansNaDzien()}" update=":formprzegladbilans"/>
                 </p:panelGrid>
-                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
+<!--                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootBilansAktywa)}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootBilansAktywa)}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootBilansAktywa)}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootBilansAktywa)}" update=":formprzegladbilans:dataList" style="float: left;" />-->
                  <p:column>
+                     <p:commandButton value="#{mgs.drukuj}" styleClass="nb"  style="margin-left: 30px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRView.drukujBilansAP(pozycjaBRView.sumabilansowaaktywa, pozycjaBRView.sumabilansowapasywa)}"></p:commandButton>
                       <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a', pozycjaBRView.sumabilansowaaktywa)}">
                           <p:menuitem global="false" value="#{mgs.aktywaznrkont}" action="#{sesjaView.dodajwydruk()}"  actionListener="#{pozycjaBRView.drukujBilansKonta('a', pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
                           <p:menuitem global="false" value="#{mgs.aktywaznrkont} bez 0"  action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRView.drukujBilansKontaBez0('a', pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
