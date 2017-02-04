@@ -213,6 +213,12 @@ public class KontaFKBean implements Serializable{
         }
     }
    
-    
+    public static int czytesamekonta(Konto kontozrodlowe, Konto kontodocelowe) {
+        int zwrot = 0;
+        if (kontozrodlowe.equals(kontodocelowe)) {
+            zwrot = 1;
+        }
+        return zwrot;
+    }
     
 }

@@ -78,6 +78,7 @@ public class KontoZapisFKView implements Serializable{
     @Inject
     private KlienciDAO klienciDAO;
     @Inject private Konto wybranekonto;
+    @Inject private Konto kontodoprzeksiegowania;
     private Double sumaWn;
     private Double sumaMa;
     private Double saldoWn;
@@ -96,6 +97,7 @@ public class KontoZapisFKView implements Serializable{
     private String wybranyRodzajKonta;
     private boolean nierenderujkolumnnywalut;
     private boolean pokaztransakcje;
+    private List<Konto> ostatniaanalityka;
 
     
 
@@ -111,22 +113,24 @@ public class KontoZapisFKView implements Serializable{
     
 
     public void init() {
+        ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        wybierzgrupekont();
         pobierzzapisy();
         usunkontabezsald();
+        wybierzgrupekont();
 //        if (wykazkont != null) {
 //            wybranekonto = wykazkont.get(0);
 //        }
     }
     
     public void publicinit() {
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-       wybierzgrupekont();
+       ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
+       wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         if (wykazkont != null) {
             wybranekonto = wykazkont.get(0);
             usunkontabezsald();
         }
+        wybierzgrupekont();
     }
     
     private void wybierzgrupekont() {
@@ -940,6 +944,42 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
+    public void przeksieguj() {
+        try {
+            if (wybranekonto != null && wybranekonto.getId() != null) {
+                if (KontaFKBean.czytesamekonta(wybranekonto, kontodoprzeksiegowania) == 1) {
+                    Msg.msg("e", "Konto źródłowe jest tożsame z docelowym, przerywam przeksięgowanie");
+                    return;
+                }
+                if (wybranekontadosumowania == null || wybranekontadosumowania.isEmpty()) {
+                    Msg.msg("e", "Nie wybrano pozycji do przeksięgowania. Nie można wykonać przeksięgowania");
+                    return;
+                }
+                int rozrachunkowe = 0;
+                for (StronaWiersza p : wybranekontadosumowania) {
+                    if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
+                        p.setKonto(kontodoprzeksiegowania);
+                        stronaWierszaDAO.edit(p);
+                    } else {
+                        rozrachunkowe++;
+                    }
+                    p.setKonto(kontodoprzeksiegowania);
+                }
+                if (rozrachunkowe > 0) {
+                    Msg.msg("w", "Nie przeksiegowano pozycji z rozrachunkami w liczbie "+rozrachunkowe);
+                }
+                kontodoprzeksiegowania = null;
+                pobierzzapisy();
+                publicinit();
+                pobierzZapisyNaKoncieNode(wybranekonto);
+            }
+            Msg.dP();
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
+        }
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     
@@ -1102,6 +1142,14 @@ public class KontoZapisFKView implements Serializable{
     public void setListasum(List<ListaSum> listasum) {
         this.listasum = listasum;
     }
+
+    public Konto getKontodoprzeksiegowania() {
+        return kontodoprzeksiegowania;
+    }
+
+    public void setKontodoprzeksiegowania(Konto kontodoprzeksiegowania) {
+        this.kontodoprzeksiegowania = kontodoprzeksiegowania;
+    }
     
     public List<StronaWiersza> getZapisyRok() {
         return zapisyRok;
@@ -1173,6 +1221,60 @@ public class KontoZapisFKView implements Serializable{
                     }
                 } catch (NumberFormatException e) {
                     for (Konto p : wykazkont) {
+                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                            results.add(p);
+                        }
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            Collections.sort(results, new Kontocomparator());
+            return results;
+        }
+        return null;
+    }
+    
+    public List<Konto> completeOstAnal(String qr) {
+        if (qr != null) {
+            String query = null;
+            List<Konto> results = new ArrayList<>();
+            if (ostatniaanalityka != null) {
+                String nazwa = null;
+                if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {
+                    String[] pola = qr.split(" ");
+                    if (pola.length > 1) {
+                        query = pola[0];
+                        nazwa = pola[1];
+                    } else {
+                        query = qr;
+                    }
+                } else {
+                    query = qr.trim();
+                }
+                try {
+                    String q = query.substring(0, 1);
+                    int i = Integer.parseInt(q);
+                    if (query.length() == 4 && !query.contains("-")) {
+                        //wstawia - do ciagu konta
+                        query = query.substring(0, 3) + "-" + query.substring(3, 4);
+                    }
+                    for (Konto p : ostatniaanalityka) {
+                        if (p.getPelnynumer().startsWith(query)) {
+                            results.add(p);
+                        }
+                    }
+                    //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
+                    if (nazwa != null && nazwa.length() > 2) {
+                        for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
+                            Konto r = it.next();
+                            if (!r.getNazwapelna().toLowerCase().contains(nazwa.toLowerCase())) {
+                                it.remove();
+                            }
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    for (Konto p : ostatniaanalityka) {
                         if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
                             results.add(p);
                         }

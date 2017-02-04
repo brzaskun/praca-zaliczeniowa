@@ -80,14 +80,14 @@
                     <script>
                         /* <![CDATA[ */
                         //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                        $(document).on("click", '.gridzap tr', function(e) {
+                        $(document).on("click", '.gridzap tr', function (e) {
                             try {
                                 zachowajobiekt(this, e);
                             } catch (ex) {
                                 alert('error dialog zapisynakoncie' + ex.toString());
                             }
                         });
-                        $(document).on("click", '.grid1zap tr', function(event) {
+                        $(document).on("click", '.grid1zap tr', function (event) {
                             var listawierszy = $("#tabelazzapisami\\:tabela_data").children("tr");
                             var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
                             try {
@@ -106,47 +106,49 @@
                                      update="tabelazzapisami:tabela tabelazsumami:sumy" oncomplete="fwiersz();" global="false"/>
                     <p:remoteCommand name="toggleall" actionListener="#{kontoZapisFKView.toggleAll}" 
                                      update="tabelazzapisami:tabela tabelazsumami:sumy" oncomplete="fwiersz();" global="false"/>
-                       <script>
-                        var fwiersz = function() {
-                            $(".ui-chkbox-all span").click(function(event) {
+                    <script>
+                        var fwiersz = function () {
+                            $(".ui-chkbox-all span").click(function (event) {
                                 console.log("single")
                                 reversetoggle();
                                 try {
                                     event.stopPropagation();
                                     event.preventDefault();
                                     event.cancelBubble();
-                                } catch (e) {}
+                                } catch (e) {
+                                }
                             });
-                            $(".ui-chkbox-all span").dblclick(function(event) {
+                            $(".ui-chkbox-all span").dblclick(function (event) {
                                 console.log("doble")
                                 toggleall();
                                 try {
                                     event.stopPropagation();
                                     event.preventDefault();
                                     event.cancelBubble();
-                                } catch (e) {}
+                                } catch (e) {
+                                }
                             });
                         };
                     </script>
                     <p:outputPanel id="kontenertabeli">
-                          <style>
-                                .gridzap .ui-widget-content .ui-datatable-odd td{
-                                    height : 30px !important;
-                                    padding: 0px 0px  !important;
-                                }
-                                .gridzap .ui-widget-content .ui-datatable-even td{
-                                    height : 30px !important;
-                                    padding: 0px 0px  !important;
-                                }
-                                .grid1zap .ui-widget-content .ui-datatable-odd td{
-                                    height : 30px !important;
-                                    padding: 0px 0px  !important;
-                                }
-                                .grid1zap .ui-widget-content .ui-datatable-even td{
-                                    height : 30px !important;
-                                    padding: 0px 0px  !important;
-                                }
-                          </style>
+                        <style>
+                            .gridzap .ui-widget-content .ui-datatable-odd td{
+                                height : 30px !important;
+                                padding: 0px 0px  !important;
+                            }
+                            .gridzap .ui-widget-content .ui-datatable-even td{
+                                height : 30px !important;
+                                padding: 0px 0px  !important;
+                            }
+                            .grid1zap .ui-widget-content .ui-datatable-odd td{
+                                height : 30px !important;
+                                padding: 0px 0px  !important;
+                            }
+                            .grid1zap .ui-widget-content .ui-datatable-even td{
+                                height : 30px !important;
+                                padding: 0px 0px  !important;
+                            }
+                        </style>
                         <p:dataTable id="dataList" value="#{kontoZapisFKView.wykazkont}" var="loop1" selectionMode="single" 
                                      selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
                                      styleClass="gridzap" style="width: 100%; height: 500px; overflow-y: scroll;" 
@@ -184,18 +186,18 @@
                     }
                 </style>
                 <h:form id="tabelazzapisami">
-                     <p:contextMenu for="tabela" style="width: 200px;">
-                         <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
-                         <p:menuitem value="rozlicz saldo" icon="fa minus-square" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
-                         <p:menuitem value="rozlicz konto bankowe" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczkontobankowe()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
-                         <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
-                         <p:menuitem value="wybierz dok" global="false" icon="fa fa-google-wallet" update="formwpisdokument zestawieniezapisownakontachpola"
-                                     actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania.get(0))}"/>
-                         <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
-                                     onsuccess="zapisywierszywybordok();"/>
-                     </p:contextMenu>
+                    <p:contextMenu for="tabela" style="width: 200px;">
+                        <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
+                        <p:menuitem value="rozlicz saldo" icon="fa minus-square" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="rozlicz konto bankowe" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczkontobankowe()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
+                        <p:menuitem value="wybierz dok" global="false" icon="fa fa-google-wallet" update="formwpisdokument zestawieniezapisownakontachpola"
+                                    actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania.get(0))}"/>
+                        <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
+                                    onsuccess="zapisywierszywybordok();"/>
+                    </p:contextMenu>
                     <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>
-                 
+
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1170px; height: 535px; overflow-y: scroll;"
@@ -206,6 +208,7 @@
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" oncomplete="odswietlrozrachunki()"/>
                         <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
                         <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>
+                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
                         <p:ajax event="filter" global="false" oncomplete="przeliczfilterzapisy()"/>
                         <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                         <p:column headerText="id" width="20"  >
@@ -282,60 +285,80 @@
                 </h:form>  
             </p:layoutUnit> 
             <p:layoutUnit position="south" style="height: 70px;">
-                <h:form>
-                    <h:outputText value="rodzaje kont: "/>
-                     <p:selectOneMenu id="rodzajkont" value="#{kontoZapisFKView.wybranyRodzajKonta}"  style="margin-left: 20px;">
-                         <p:ajax event="change" listener="#{kontoZapisFKView.publicinit()}" update="form:dataList tabelazsumami"/>
-                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
-                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
-                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
-                    </p:selectOneMenu>
-                </h:form>
-                <h:form id="tabelazsumami">
-                    <p:dataTable id="sumy" value="#{kontoZapisFKView.listasum}" var="loop"
-                                 style="float: right; margin-left: 300px; width: 800px; height: 70px;" emptyMessage="#{mgs.niewybranokonta}">
-                        <p:column headerText="suma Wn wal">
-                            <h:outputText value="#{loop.sumaWn}" style="float: right; font-weight: 700;">
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="suma Ma wal">
-                            <h:outputText value="#{loop.sumaMa}" style="float: right; font-weight: 700;">
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="saldo Wn wal">
-                            <h:outputText value="#{loop.saldoWn}" style="float: right; font-weight: 900; color: green;">
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="saldo Ma wal">
-                            <h:outputText value="#{loop.saldoMa}" style="float: right; font-weight: 900; color: green;">
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="suma Wn PLN">
-                            <h:outputText value="#{loop.sumaWnPLN}" style="float: right; font-weight: 700;">
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="suma Ma PLN">
-                            <h:outputText value="#{loop.sumaMaPLN}" style="float: right; font-weight: 700;">
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="saldo Wn PLN">
-                            <h:outputText value="#{loop.saldoWnPLN}" style="float: right; font-weight: 900; color: green;">
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="saldo Ma PLN">
-                            <h:outputText value="#{loop.saldoMaPLN}" style="float: right; font-weight: 900; color: green;">
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
+                <p:panelGrid columns="3">
+                    <h:form>
+                        <p:panelGrid columns="2">
+                        <h:outputText value="rodzaje kont: "/>
+                        <p:selectOneMenu id="rodzajkont" value="#{kontoZapisFKView.wybranyRodzajKonta}"  style="margin-left: 20px;">
+                            <p:ajax event="change" listener="#{kontoZapisFKView.publicinit()}" update="form:dataList tabelazsumami"/>
+                            <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                            <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                            <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                        </p:selectOneMenu>
+                        </p:panelGrid>
+                    </h:form>
+                    <h:form>
+                        <p:panelGrid columns="3">
+                        <h:outputText value="#{mgs.wybierzkonto}: "/>
+                        <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.kontodoprzeksiegowania}" completeMethod="#{kontoZapisFKView.completeOstAnal}" 
+                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
+                                        minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv"
+                                        converterMessage="Nieudana konwersja Klient" queryDelay="1" 
+                                        styleClass="kontoinput, autoCompleteBig" onfocus="usunspacje(this)"
+                                        >
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" global="false"/>
+                        </p:autoComplete>
+                        <p:commandButton value="przeksięguj" styleClass="nb" actionListener="#{kontoZapisFKView.przeksieguj}" 
+                                         update="tabelazzapisami:tabela tabelazsumami:sumy @form form:dataList"/>
+                        </p:panelGrid>
+                    </h:form>
+                    <h:form id="tabelazsumami">
+                        <p:dataTable id="sumy" value="#{kontoZapisFKView.listasum}" var="loop"
+                                     style="float: right; margin-left: 50px; width: 800px; height: 70px;" emptyMessage="#{mgs.niewybranokonta}">
+                            <p:column headerText="suma Wn wal">
+                                <h:outputText value="#{loop.sumaWn}" style="float: right; font-weight: 700;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="suma Ma wal">
+                                <h:outputText value="#{loop.sumaMa}" style="float: right; font-weight: 700;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="saldo Wn wal">
+                                <h:outputText value="#{loop.saldoWn}" style="float: right; font-weight: 900; color: green;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="saldo Ma wal">
+                                <h:outputText value="#{loop.saldoMa}" style="float: right; font-weight: 900; color: green;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="suma Wn PLN">
+                                <h:outputText value="#{loop.sumaWnPLN}" style="float: right; font-weight: 700;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="suma Ma PLN">
+                                <h:outputText value="#{loop.sumaMaPLN}" style="float: right; font-weight: 700;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="saldo Wn PLN">
+                                <h:outputText value="#{loop.saldoWnPLN}" style="float: right; font-weight: 900; color: green;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="saldo Ma PLN">
+                                <h:outputText value="#{loop.saldoMaPLN}" style="float: right; font-weight: 900; color: green;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:panelGrid>
             </p:layoutUnit>  
         </p:layout>
         <h:form id="zestawieniezapisownakontachpola">
