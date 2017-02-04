@@ -53,7 +53,7 @@
                     <h:outputText value="#{loop.stronaMa.konto.zwyklerozrachszczegolne eq 'rozrachunkowe' ? (loop.stronaMa.typStronaWiersza eq 0 ? 'Ma' : null) : null}"/>
                 </p:column>
                  <p:column headerText="data dokum" width="50">
-                     <h:outputText value="#{loop.dokfk.datadokumentu}" style="#{loop.dokfk.datadokumentu.length() ne 10 ? 'color: red;': null}"/>
+                     <h:outputText value="#{loop.dokfk.datadokumentu.substring(2)}" style="#{loop.dokfk.datadokumentu.length() ne 10 ? 'color: red;': null}"/>
                 </p:column>
                 <p:column headerText="id dokumentu" width="90" sortBy="#{loop.dokfk.dokfkLP}" filterBy="#{loop.dokfk.dokfkLP}">
                      <h:outputText value="#{loop.dokfk.dokfkLP}"/>

@@ -55,7 +55,11 @@ public class WierszeView implements Serializable {
     public void init(){
         sumawn = 0.0;
         sumama = 0.0;
-        wiersze = wierszeDAO.findWierszePodatnikMcRok(wpisView.getPodatnikObiekt(), wpisView);
+        if (wpisView.getMiesiacWpisu().equals("CR")) {
+            wiersze = wierszeDAO.findWierszePodatnikRok(wpisView.getPodatnikObiekt(), wpisView);
+        } else {
+            wiersze = wierszeDAO.findWierszePodatnikMcRok(wpisView.getPodatnikObiekt(), wpisView);
+        }
         if (tylkobezrozrachunkow == true) {
             for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
                 Wiersz p = (Wiersz) it.next();
