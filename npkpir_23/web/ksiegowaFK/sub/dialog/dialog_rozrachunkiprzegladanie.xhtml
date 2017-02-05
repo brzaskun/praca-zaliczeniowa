@@ -276,32 +276,8 @@
                         </p:selectOneMenu>
                     </h:form>
 
+             
                     <h:form id="tabelazsumamirozrach">
-                        <p:dataTable id="sumy" value="#{kontoZapisFKView.listasum}" var="loop"
-                                     style="margin-left: 60px; width: 400px; height: 70px; float: left;" emptyMessage="#{mgs.niewybranokonta}">
-                            <p:column headerText="saldo Wn">
-                                <h:outputText value="#{loop.saldoWn}" style="float: right; font-weight: 900; color: green;">
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="saldo Ma">
-                                <h:outputText value="#{loop.saldoMa}" style="float: right; font-weight: 900; color: green;">
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="saldo Wn PLN">
-                                <h:outputText value="#{loop.saldoWnPLN}" style="float: right; font-weight: 900; color: green;">
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="saldo Ma PLN">
-                                <h:outputText value="#{loop.saldoMaPLN}" style="float: right; font-weight: 900; color: green;">
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                        </p:dataTable>
-                    </h:form>
-                    <h:form>
                         <p:panelGrid columns="4" style="float: left; width: 400px;margin-left: 20px;">
                             <h:outputText value="suma w walucie dokumentu: " rendered="#{rozrachunkiPrzegladView.sumawaluta ne 0.0}"/>
                             <bcf:outputpl value="#{rozrachunkiPrzegladView.sumawaluta}" rendered="#{rozrachunkiPrzegladView.sumawaluta ne 0.0}"

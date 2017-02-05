@@ -226,14 +226,14 @@ public class RozrachunkiPrzegladView implements Serializable{
         filtrrozrachunkow();
         kontoZapisFKView.pobierzZapisyNaKoncieNodeRozrachunki(wybranekonto);
         kontoZapisFKView.setWybranekonto(wybranekonto);
+        sumawaluta = 0.0;
+        sumapl = 0.0;
+        sumujwszystkie();
         RequestContext.getCurrentInstance().update("paseknorth");
         RequestContext.getCurrentInstance().update("tabelazzapisami");
         RequestContext.getCurrentInstance().update("form:dataList");
         RequestContext.getCurrentInstance().update("form:kontenertabeli");
-        RequestContext.getCurrentInstance().update("tabelazsumami");
-        sumawaluta = 0.0;
-        sumapl = 0.0;
-        sumujwszystkie();
+        RequestContext.getCurrentInstance().update("tabelazsumamirozrach");
     }
     
     private void filtrrozrachunkow() {
@@ -374,11 +374,17 @@ public class RozrachunkiPrzegladView implements Serializable{
         sumapl = 0.0;
         if (stronyWiersza != null && stronyWiersza.size() > 0) {
             for (StronaWiersza p : stronyWiersza) {
-                if (p.getPozostalo() > 0.0) {
-                    sumawaluta += p.getPozostalo();
-                }
-                if (p.getPozostaloPLN() > 0.0) {
-                    sumapl += p.getPozostaloPLN();
+                 if (coWyswietlacRozrachunkiPrzeglad.equals("rozliczone")) {
+                    if (p.getRozliczono() > 0.0) {
+                        sumawaluta += p.getRozliczono();
+                    }
+                } else {
+                    if (p.getPozostalo() > 0.0) {
+                        sumawaluta += p.getPozostalo();
+                    }
+                    if (p.getPozostaloPLN() > 0.0) {
+                        sumapl += p.getPozostaloPLN();
+                    }
                 }
             }
         }
@@ -390,11 +396,17 @@ public class RozrachunkiPrzegladView implements Serializable{
         sumapl = 0.0;
         if (stronyWierszawybrane != null && stronyWierszawybrane.size() > 0) {
             for (StronaWiersza p : stronyWierszawybrane) {
-                if (p.getPozostalo() > 0.0) {
-                    sumawaluta += p.getPozostalo();
-                }
-                if (p.getPozostaloPLN() > 0.0) {
-                    sumapl += p.getPozostaloPLN();
+                if (coWyswietlacRozrachunkiPrzeglad.equals("rozliczone")) {
+                    if (p.getRozliczono() > 0.0) {
+                        sumawaluta += p.getRozliczono();
+                    }
+                } else {
+                    if (p.getPozostalo() > 0.0) {
+                        sumawaluta += p.getPozostalo();
+                    }
+                    if (p.getPozostaloPLN() > 0.0) {
+                        sumapl += p.getPozostaloPLN();
+                    }
                 }
             }
         }

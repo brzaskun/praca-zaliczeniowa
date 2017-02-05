@@ -803,5 +803,16 @@ public class StronaWiersza implements Serializable {
         }
         return zwrot;
     }
+    
+    public boolean getSaRozrachunki (){
+        boolean zwrot = false;
+        if (this.nowetransakcje != null && !this.nowetransakcje.isEmpty()) {
+            zwrot = true;
+        }
+        if (this.platnosci != null && !this.platnosci.isEmpty()) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
 }
 

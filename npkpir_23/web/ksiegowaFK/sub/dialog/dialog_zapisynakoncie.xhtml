@@ -200,7 +200,7 @@
 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1170px; height: 535px; overflow-y: scroll;"
+                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1200px; height: 535px; overflow-y: scroll;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1zap" rowSelectMode="add"
                                  >
@@ -277,6 +277,9 @@
                         <p:column headerText="przec." width="40" sortBy="#{loop.kontoPrzeciwstawne.pelnynumer}">
                             <h:outputText id="kontonr" value="#{loop.kontoPrzeciwstawne.pelnynumer}"/>
                             <p:tooltip value="#{loop.kontoPrzeciwstawne.nazwapelna}" for="kontonr"/>
+                        </p:column>
+                        <p:column width="10" style="text-align: center;">
+                            <h:outputText value="r" style="#{loop.saRozrachunki ? 'color: blue': null}" rendered="#{loop.saRozrachunki}"/>
                         </p:column>
                         <!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
                                                     <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>

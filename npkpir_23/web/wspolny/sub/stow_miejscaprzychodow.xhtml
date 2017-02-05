@@ -32,7 +32,7 @@
     <h:form id="miejscaprzychodowlista">
         <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item" style="width: 1180px;" id="lista"
                      scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc przychodów"
-                     sortBy="#{item}"  sortFunction="#{miejscePrzychodowView.sortMiejscePrzychodow}"
+                     sortBy="#{item.opismiejsca}"  
                      widgetVar="listamiejscaprzychodow">
             <p:ajax event="filter" global="false"/>
             <p:column headerText="#{mgs.nr}" style="width: 40px;">
