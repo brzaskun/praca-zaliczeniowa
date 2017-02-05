@@ -111,6 +111,7 @@ public class PlanKontView implements Serializable {
     private String elementslownika_nazwaskrocona;
     private String elementslownika_numerkonta;
     private String styltabeliplankont;
+    private boolean usunprzyporzadkowanie;
 
     public PlanKontView() {
         bezslownikowych = true;
@@ -1143,19 +1144,42 @@ public class PlanKontView implements Serializable {
         try {
             List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomnePodatnik(wpisView, selectednodekonto);
             for (Konto p : kontapotomne) {
-                p.setZwyklerozrachszczegolne(selectednodekonto.getZwyklerozrachszczegolne());
-                p.setBilansowewynikowe(selectednodekonto.getBilansowewynikowe());
-                kontoDAOfk.edit(p);
-                Konto r = wykazkont.get(wykazkont.indexOf(p));
-                if (r != null) {
-                    r.setZwyklerozrachszczegolne(selectednodekonto.getZwyklerozrachszczegolne());
-                    r.setBilansowewynikowe(selectednodekonto.getBilansowewynikowe());
+                if (p != null) {
+                    p.setZwyklerozrachszczegolne(selectednodekonto.getZwyklerozrachszczegolne());
+                    p.setBilansowewynikowe(selectednodekonto.getBilansowewynikowe());
+                    try {
+                        Konto r = wykazkont.get(wykazkont.indexOf(p));
+                        if (r != null) {
+                            r.setZwyklerozrachszczegolne(selectednodekonto.getZwyklerozrachszczegolne());
+                            r.setBilansowewynikowe(selectednodekonto.getBilansowewynikowe());
+                        }
+                        if (usunprzyporzadkowanie) {
+                            r.setKontopozycjaID(null);
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
+                    }
+                    if (usunprzyporzadkowanie) {
+                        KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, ukladBRDAO);
+                        if (kp != null) {
+                            kontopozycjaZapisDAO.destroy(kp);
+                        }
+                        p.setKontopozycjaID(null);
+                    }
+                    kontoDAOfk.edit(p);
                 }
             }
+            if (usunprzyporzadkowanie) {
+                KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(selectednodekonto, ukladBRDAO);
+                if (kp != null) {
+                    kontopozycjaZapisDAO.destroy(kp);
+                }
+                selectednodekonto.setKontopozycjaID(null);
+            }
             kontoDAOfk.edit(selectednodekonto);
+            usunprzyporzadkowanie = false;
         } catch (Exception e) {
             E.e(e);
-
         }
     }
 
@@ -1163,19 +1187,42 @@ public class PlanKontView implements Serializable {
         try {
             List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomneWzorcowy(wpisView, selectednodekontowzorcowy);
             for (Konto p : kontapotomne) {
-                p.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
-                p.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
-                kontoDAOfk.edit(p);
-                Konto r = wykazkontwzor.get(wykazkontwzor.indexOf(p));
-                if (r != null) {
-                    r.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
-                    r.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
+                if (p != null) {
+                    p.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
+                    p.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
+                    try {
+                        Konto r = wykazkontwzor.get(wykazkontwzor.indexOf(p));
+                        if (r != null) {
+                            r.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
+                            r.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
+                        }
+                        if (usunprzyporzadkowanie) {
+                            r.setKontopozycjaID(null);
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
+                    }
+                    if (usunprzyporzadkowanie) {
+                        KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, ukladBRDAO);
+                        if (kp != null) {
+                            kontopozycjaZapisDAO.destroy(kp);
+                        }
+                        p.setKontopozycjaID(null);
+                    }
+                    kontoDAOfk.edit(p);
                 }
             }
+            if (usunprzyporzadkowanie) {
+                KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(selectednodekontowzorcowy, ukladBRDAO);
+                if (kp != null) {
+                    kontopozycjaZapisDAO.destroy(kp);
+                }
+                selectednodekontowzorcowy.setKontopozycjaID(null);
+            }
             kontoDAOfk.edit(selectednodekontowzorcowy);
+            usunprzyporzadkowanie = false;
         } catch (Exception e) {
             E.e(e);
-
         }
     }
 
@@ -1701,6 +1748,14 @@ public class PlanKontView implements Serializable {
 
     public void setStyltabeliplankont(String styltabeliplankont) {
         this.styltabeliplankont = styltabeliplankont;
+    }
+
+    public boolean isUsunprzyporzadkowanie() {
+        return usunprzyporzadkowanie;
+    }
+
+    public void setUsunprzyporzadkowanie(boolean usunprzyporzadkowanie) {
+        this.usunprzyporzadkowanie = usunprzyporzadkowanie;
     }
 
        
