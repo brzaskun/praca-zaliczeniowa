@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "dok")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Dok.findAll", query = "SELECT d FROM Dok d"),
     @NamedQuery(name = "Dok.findByIdDok", query = "SELECT d FROM Dok d WHERE d.idDok = :idDok"),
     @NamedQuery(name = "Dok.findByIdDokOdDo", query = "SELECT d FROM Dok d WHERE d.idDok > :odd AND D.idDok < :dod"),
     @NamedQuery(name = "Dok.findByTypDokumentu", query = "SELECT d FROM Dok d WHERE d.typdokumentu = :typdokumentu"),

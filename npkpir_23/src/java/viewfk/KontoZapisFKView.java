@@ -6,6 +6,7 @@ package viewfk;
 
 import beansFK.DokumentFKBean;
 import beansFK.KontaFKBean;
+import beansFK.RozliczTransakcjeBean;
 import beansFK.RozniceKursoweBean;
 import comparator.Kontocomparator;
 import dao.KlienciDAO;
@@ -673,13 +674,15 @@ public class KontoZapisFKView implements Serializable{
     
     public void rozliczzaznaczone() {
         if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 1) {
-            if (RozniceKursoweBean.wiecejnizjednatransakcja(wybranekontadosumowania)) {
+            if (RozliczTransakcjeBean.sprawdznowatransakcje(wybranekontadosumowania)==null) {
+                Msg.msg("e", "Żadna z pozycji nie jest oznaczona jako rachunek. Nie można zrobić szybkiego rozliczenia");
+            } else if (RozliczTransakcjeBean.wiecejnizjednatransakcja(wybranekontadosumowania)) {
                 Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje/faktury. Nie można rozliczyć zapisów. Zmień oznaczenie w zakładce Rozrachunki");
             } else if (czyroznewaluty(wybranekontadosumowania)){
                 Msg.msg("e", "Zaznaczone dokumenty są różnowalutowe. Nie można zrobić szybkiego rozliczenia");
             } else {
                 Msg.msg("Rozliczam oznaczone transakcje");
-                List<StronaWiersza> listapoedycji = RozniceKursoweBean.naniestransakcje(wybranekontadosumowania);
+                List<StronaWiersza> listapoedycji = RozliczTransakcjeBean.naniestransakcje(wybranekontadosumowania);
                 stronaWierszaDAO.editList(listapoedycji);
             }
         } else {

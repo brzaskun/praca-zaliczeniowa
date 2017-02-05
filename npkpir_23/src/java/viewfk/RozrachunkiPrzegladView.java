@@ -6,6 +6,7 @@
 
 package viewfk;
 
+import beansFK.RozliczTransakcjeBean;
 import beansFK.RozniceKursoweBean;
 import comparator.StronaWierszacomparator;
 import dao.StronaWierszaDAO;
@@ -460,11 +461,11 @@ public class RozrachunkiPrzegladView implements Serializable{
     
      public void rozliczzaznaczone() {
         if (stronyWierszawybrane != null && stronyWierszawybrane.size() > 1) {
-            if (RozniceKursoweBean.wiecejnizjednatransakcja(stronyWierszawybrane)) {
+            if (RozliczTransakcjeBean.wiecejnizjednatransakcja(stronyWierszawybrane)) {
                 Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje. Nie można rozliczyć zapisów.");
             } else {
                 Msg.msg("Rozliczam oznaczone transakcje");
-                RozniceKursoweBean.naniestransakcje(stronyWierszawybrane);
+                RozliczTransakcjeBean.naniestransakcje(stronyWierszawybrane);
                 stronaWierszaDAO.editList(stronyWierszawybrane);
             }
         } else {

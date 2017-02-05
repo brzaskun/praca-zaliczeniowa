@@ -45,9 +45,7 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.znajdzKontr1Null();
     }
     
-    public List<Dok> findAll(){
-        return dokFacade.findAll(Dok.class);
-    }
+
     public Dok findDokByNr(String numer) {
         return dokFacade.findDokByNr(numer);
     }
