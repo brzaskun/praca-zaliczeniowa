@@ -459,29 +459,31 @@ function isScrolledIntoView(elem)
 
 //podswietla powiazane rozrachunki w zapisach konta
 var podswietlrozrachunki = function () {
-    var listawierszy = document.getElementById("zapisydopodswietlenia").innerHTML;
-    if (listawierszy.length === 0) {
-        alert("Lista kont pusta, nie ma co podswietlac");
-    }
-    listawierszy = listawierszy.replace(/[^0-9\\.]+/g, ' ').trim();
-    listawierszy = listawierszy.split(' ');
-    var wierszewtabeli = $("#tabelazzapisami\\:tabela_data").children("tr");
-    var dlugosc = wierszewtabeli.length;
-    var znaleziono = -1;
-    for (var i = 0; i < dlugosc; i++) {
-        var wierszdoobrobki = wierszewtabeli[i];
-        var komorki = $(wierszdoobrobki).children("td");
-        var nrpolazapisu = komorki[1].innerHTML;
-        znaleziono = $.inArray(nrpolazapisu, listawierszy);
-        if (znaleziono > -1) {
-            MYAPP.znalezionorozrachunki = true;
-            for (var kom = 0; kom < 15; kom++) {
-                $(komorki[kom]).css("font-weight", "600");
-                $(komorki[kom]).css("color", "green");
-            }
-            break;
+    try {
+        var listawierszy = document.getElementById("zapisydopodswietlenia").innerHTML;
+        if (listawierszy.length === 0) {
+            alert("Lista kont pusta, nie ma co podswietlac");
         }
-    }
+        listawierszy = listawierszy.replace(/[^0-9\\.]+/g, ' ').trim();
+        listawierszy = listawierszy.split(' ');
+        var wierszewtabeli = $("#tabelazzapisami\\:tabela_data").children("tr");
+        var dlugosc = wierszewtabeli.length;
+        var znaleziono = -1;
+        for (var i = 0; i < dlugosc; i++) {
+            var wierszdoobrobki = wierszewtabeli[i];
+            var komorki = $(wierszdoobrobki).children("td");
+            var nrpolazapisu = komorki[1].innerHTML;
+            znaleziono = $.inArray(nrpolazapisu, listawierszy);
+            if (znaleziono > -1) {
+                MYAPP.znalezionorozrachunki = true;
+                for (var kom = 0; kom < 15; kom++) {
+                    $(komorki[kom]).css("font-weight", "600");
+                    $(komorki[kom]).css("color", "green");
+                }
+                break;
+            }
+        }
+    } catch (e) {}
 };
 
 var odswietlrozrachunki = function () {
