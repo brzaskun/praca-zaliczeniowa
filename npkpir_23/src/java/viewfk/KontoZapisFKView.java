@@ -190,6 +190,7 @@ public class KontoZapisFKView implements Serializable{
         nierenderujkolumnnywalut = true;
         try {
             wybranekontadosumowania = new ArrayList<>();
+            kontozapisyfiltered = null;
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
             kontozapisy = new ArrayList<>();
             List<Konto> kontapotomnetmp = new ArrayList<>();
