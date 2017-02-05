@@ -269,7 +269,7 @@ var znalezionoduplikat = function() {
 
 
 var czydodackontoShow = function (){
-    $(document.getElementById('czydodackonto')).width(300).height(80);
+    $(document.getElementById('czydodackonto')).width(370).height(90);
     try {
         $(document.getElementById('czydodackonto')).position({
         my: "center center",
