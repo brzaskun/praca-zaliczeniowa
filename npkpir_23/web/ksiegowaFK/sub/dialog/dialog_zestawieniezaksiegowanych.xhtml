@@ -186,14 +186,15 @@
                 </p:column>
                 <p:column headerText="ujęto" width="40" style="text-align: center;" sortBy="#{item.dataujecia}">
                     <h:outputText value="#{item.dataujecia}" style="width: 40px;">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        <f:convertDateTime pattern="dd/MM/yy HH:mm:ss" />
                     </h:outputText>
                 </p:column>
                 <p:column headerText="b/k" width="40" style="text-align: center;">
                     <h:outputText value="bufor #{item.wprowadzil}" rendered="#{item.dataksiegowania eq null}" style="width: 40px;"/>
                     <h:outputText value="#{item.dataksiegowania}" rendered="#{item.dataksiegowania ne null}" style="width: 40px;">
-                        <f:convertDateTime dateStyle="medium"  />
+                        <f:convertDateTime pattern="dd/MM/yy"/>
                     </h:outputText>
+                    <h:outputText value=" #{item.wprowadzil}" rendered="#{item.dataksiegowania ne null}"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;" >
                     <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
