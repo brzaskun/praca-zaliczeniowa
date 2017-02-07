@@ -235,23 +235,23 @@ public class StronaWiersza implements Serializable {
             double sumama = nierenderujkolumnnywalut ? l.getSumaMaPLN() : l.getSumaMa();
             if (saldo1sWn2sMa3 == 1) {
                 this.opisBO = nierenderujkolumnnywalut ? "saldo koncowe w pln": "saldo koncowe w walucie";
-                if (l.getSaldoWn() > 0.0) {
+                if (saldown > 0.0) {
                     this.setWnma("Wn");
-                    this.kwota = saldown;
+                    this.kwota = Z.z(saldown);
                 } else {
                     this.setWnma("Ma");
-                    this.kwota = saldoma;
+                    this.kwota = Z.z(saldoma);
                 }
             } else {
                 if (saldo1sWn2sMa3 == 2) {
                     this.opisBO = nierenderujkolumnnywalut ? "suma strony Wn w pln" : "suma strony Wn w walucie";
                     this.setWnma("Wn");
-                    this.kwota = sumawn;
+                    this.kwota = Z.z(sumawn);
                 }
                 if (saldo1sWn2sMa3 == 3) {
                     this.opisBO = nierenderujkolumnnywalut ? "suma strony Ma w pln" : "suma strony Ma w walucie";
                     this.setWnma("Ma");
-                    this.kwota = sumama;
+                    this.kwota = Z.z(sumama);
                 }
             }
         }
