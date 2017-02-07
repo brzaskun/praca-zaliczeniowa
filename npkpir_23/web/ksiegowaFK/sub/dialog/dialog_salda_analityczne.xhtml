@@ -1,4 +1,4 @@
-<ui:composition 
+    <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -73,6 +73,9 @@
                     </p:selectBooleanCheckbox>
                     <p:selectBooleanCheckbox id="zzapisami" itemLabel="z zapisami" value="#{saldoAnalitykaView.zzapisami}" style="margin-left: 5px;">
                         <p:ajax event="change" partialSubmit="true" global="false" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
+                    </p:selectBooleanCheckbox>
+                    <p:selectBooleanCheckbox id="bezslownika" itemLabel="bez słownikowych" value="#{saldoAnalitykaView.bezslownikowych}" style="margin-left: 5px;">
+                        <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.zmienkryteriabezslownikowych}" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
                     </p:selectBooleanCheckbox>
                     <p:selectBooleanCheckbox id="zwaluta" itemLabel="zapisy w walucie" value="#{saldoAnalitykaView.tylkozapisywalutowe}" style="margin-left: 5px;">
                         <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
