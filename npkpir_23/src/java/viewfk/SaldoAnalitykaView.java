@@ -65,6 +65,7 @@ public class SaldoAnalitykaView implements Serializable {
     private boolean tylkosaldaniezerowe;
     private boolean zzapisami;
     private boolean tylkozapisywalutowe;
+    private boolean bezslownikowych;
 
     public SaldoAnalitykaView() {
         E.m(this);
@@ -100,6 +101,19 @@ public class SaldoAnalitykaView implements Serializable {
             for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
                 SaldoKonto p = it.next();
                 if (p.getSaldoWn() == 0.0 && p.getSaldoMa() == 0.0) {
+                    it.remove();
+                }
+            }
+        } else {
+            init();
+        }
+    }
+    
+    public void zmienkryteriabezslownikowych() {
+        if (bezslownikowych) {
+            for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
+                SaldoKonto p = it.next();
+                if (p.getKonto().isSlownikowe()) {
                     it.remove();
                 }
             }
@@ -362,6 +376,14 @@ public class SaldoAnalitykaView implements Serializable {
 
     public void setListaSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
         this.listaSaldoKonto = listaSaldoKonto;
+    }
+
+    public boolean isBezslownikowych() {
+        return bezslownikowych;
+    }
+
+    public void setBezslownikowych(boolean bezslownikowych) {
+        this.bezslownikowych = bezslownikowych;
     }
 
     public WpisView getWpisView() {
