@@ -81,6 +81,7 @@ public class SMTPSettingsView implements Serializable {
         nowy = new SMTPSettings();
         if (selected != null) {
             sMTPSettingsDAO.destroy(selected);
+            selected = new SMTPSettings();
         }
         Msg.msg("Usunięto konfigurację maila do wysyłki faktur");
     }

@@ -137,6 +137,14 @@
             <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>gfaktura</from-outcome>
+            <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gfakturaustawienia</from-outcome>
+            <to-view-id>/wspolny/wspolnyFakturaUstawienia.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>gtablica</from-outcome>
             <to-view-id>/guest/guestTablica.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
