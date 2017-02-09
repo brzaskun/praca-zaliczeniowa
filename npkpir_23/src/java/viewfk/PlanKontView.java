@@ -7,6 +7,7 @@ package viewfk;
 import beansFK.KontaFKBean;
 import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import comparator.Kontocomparator;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
@@ -870,9 +871,7 @@ public class PlanKontView implements Serializable {
         //resetuj kolumne macierzyste
         kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, "wynikowe");
         kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, "bilansowe");
-        for (Konto p : wykazkont) {
-            p.setKontopozycjaID(null);
-        }
+        resetujpozycjebiezace();
         //tutaj nanosi czy ma potomkow
         KontaFKBean.ustawCzyMaPotomkow(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -880,7 +879,7 @@ public class PlanKontView implements Serializable {
             if (p.getPelnynumer().equals("010")) {
                 System.out.println("s");
             }
-            PlanKontFKBean.naniesprzyporzadkowanieSlownikowe(p, wpisView, kontoDAOfk, kontopozycjaZapisDAO, ukladBRDAO);
+            PlanKontFKBean.naniesprzyporzadkowanie(p, wpisView, kontoDAOfk, kontopozycjaZapisDAO, ukladBRDAO);
             if (p.isMapotomkow() == true) {
                 if (p.getBilansowewynikowe().equals("wynikowe")) {
                     if (p.getZwyklerozrachszczegolne().equals("szczególne")) {
@@ -895,15 +894,24 @@ public class PlanKontView implements Serializable {
                 }
             }
         }
-        kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, wewy);
+        kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, "wynikowe");
+        kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, "bilansowe");
+        List<KontopozycjaZapis> nowepozycje = new ArrayList<>();
         for (Konto p : wykazkont) {
             try {
-                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p.getKontopozycjaID()));
+                nowepozycje.add(new KontopozycjaZapis(p.getKontopozycjaID()));
             } catch (Exception e) {
                 E.e(e);
             }
         }
+        kontopozycjaZapisDAO.createListRefresh(nowepozycje);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+    }
+    
+    private void resetujpozycjebiezace() {
+        for (Konto p : wykazkont) {
+            p.setKontopozycjaID(null);
+        }
     }
 
     public void porzadkowanieKontWzorcowych() {

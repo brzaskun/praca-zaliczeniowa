@@ -50,7 +50,7 @@ public class KontaFKBean implements Serializable{
                     if (!sprawdzonemacierzyste.contains(macierzyste)) {
                         naniesBlokade(macierzyste, kontoDAO);
                         sprawdzonemacierzyste.add(macierzyste);
-                        PlanKontFKBean.naniesprzyporzadkowanieSlownikowe(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                        PlanKontFKBean.naniesprzyporzadkowanie(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
                     }
                 } catch (PersistenceException e) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
@@ -75,7 +75,7 @@ public class KontaFKBean implements Serializable{
                     Konto macierzyste = pobierzmacierzysteWzorcowy(p, kontoDAO, wpisView);
                     naniesBlokade(macierzyste, kontoDAO);
                     sprawdzonemacierzyste.add(macierzyste);
-                    PlanKontFKBean.naniesprzyporzadkowanieSlownikoweWzorcowy(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                    PlanKontFKBean.naniesprzyporzadkowanieWzorcowy(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
                 } catch (PersistenceException e) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
                 } catch (Exception ef) {
