@@ -868,12 +868,13 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontPodatnika() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         //resetuj kolumne macierzyste
-        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, wewy);
+        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, "wynikowe");
+        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, "bilansowe");
         for (Konto p : wykazkont) {
             p.setKontopozycjaID(null);
         }
         //tutaj nanosi czy ma potomkow
-        KontaFKBean.czyszczenieKont(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+        KontaFKBean.ustawCzyMaPotomkow(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         for (Konto p : wykazkont) {
             if (p.getPelnynumer().equals("010")) {
@@ -908,7 +909,7 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontWzorcowych() {
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         //resetuj kolumne macierzyste
-        KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAOfk, "Wzorcowy", wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+        KontaFKBean.ustawCzyMaPotomkowWzorcowy(wykazkontwzor, kontoDAOfk, "Wzorcowy", wpisView, kontopozycjaZapisDAO, ukladBRDAO);
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
     }
 
