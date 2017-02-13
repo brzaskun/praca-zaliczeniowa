@@ -36,21 +36,22 @@ public class KontaFKBean implements Serializable{
      * @param kontoDAO KontoDAOfk
      * @param podatnikWpisu String
      */
-    public static void czyszczenieKont(List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
+    public static void ustawCzyMaPotomkow(List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         for (Konto r : wykazkont) {
             r.setMapotomkow(false);
             r.setBlokada(false);
         }
         kontoDAO.editList(wykazkont);
-//         kontoDAO.resetujKolumneMapotomkow(podatnikWpisu);
-//         kontoDAO.resetujKolumneZablokowane(podatnikWpisu);
-         for (Konto p : wykazkont) {
-            if (!"0".equals(p.getMacierzyste())) {
+        List<Konto> sprawdzonemacierzyste = new ArrayList<>();
+        for (Konto p : wykazkont) {
+            if (!p.getMacierzyste().equals("0")) {
                 try {
-                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-                    macierzyste.setMapotomkow(true);
-                    macierzyste.setBlokada(true);
-                    kontoDAO.edit(macierzyste);
+                    Konto macierzyste = pobierzmacierzyste(p, kontoDAO, wpisView);
+                    if (!sprawdzonemacierzyste.contains(macierzyste)) {
+                        naniesBlokade(macierzyste, kontoDAO);
+                        sprawdzonemacierzyste.add(macierzyste);
+                        PlanKontFKBean.naniesprzyporzadkowanie(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                    }
                 } catch (PersistenceException e) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
                 } catch (Exception ef) {
@@ -61,22 +62,20 @@ public class KontaFKBean implements Serializable{
         }
     }
     
-    public static void czyszczenieKont(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static void ustawCzyMaPotomkowWzorcowy(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         for (Konto r : wykazkont) {
             r.setMapotomkow(false);
             r.setBlokada(false);
         }
         kontoDAO.editList(wykazkont);
-//         kontoDAO.resetujKolumneMapotomkow(podatnikWpisu);
-//         kontoDAO.resetujKolumneZablokowane(podatnikWpisu);
-         for (Konto p : wykazkont) {
-            if (!"0".equals(p.getMacierzyste())) {
+        List<Konto> sprawdzonemacierzyste = new ArrayList<>();
+        for (Konto p : wykazkont) {
+             if (!p.getMacierzyste().equals("0")) {
                 try {
-                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), "Wzorcowy", wpisView.getRokWpisu());
-                    macierzyste.setMapotomkow(true);
-                    macierzyste.setBlokada(true);
-                    kontoDAO.edit(macierzyste);
-                    PlanKontFKBean.naniesprzyporzadkowanieSlownikoweWzorcowy(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                    Konto macierzyste = pobierzmacierzysteWzorcowy(p, kontoDAO, wpisView);
+                    naniesBlokade(macierzyste, kontoDAO);
+                    sprawdzonemacierzyste.add(macierzyste);
+                    PlanKontFKBean.naniesprzyporzadkowanieWzorcowy(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
                 } catch (PersistenceException e) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
                 } catch (Exception ef) {
@@ -85,6 +84,28 @@ public class KontaFKBean implements Serializable{
                
             } 
         }
+    }
+    
+    private static Konto pobierzmacierzyste(Konto p, KontoDAOfk kontoDAO, WpisView wpisView) {
+        Konto macierzyste = p.getKontomacierzyste();
+        if (macierzyste == null) {
+            macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        }
+        return macierzyste;
+    }
+    
+    private static Konto pobierzmacierzysteWzorcowy(Konto p, KontoDAOfk kontoDAO, WpisView wpisView) {
+        Konto macierzyste = p.getKontomacierzyste();
+        if (macierzyste == null) {
+            macierzyste = kontoDAO.findKonto(p.getMacierzyste(), "Wzorcowy", wpisView.getRokWpisu());
+        }
+        return macierzyste;
+    }
+    
+    private static void naniesBlokade(Konto macierzyste, KontoDAOfk kontoDAO) {
+        macierzyste.setMapotomkow(true);
+        macierzyste.setBlokada(true);
+        kontoDAO.edit(macierzyste);
     }
     
     public static List<StronaWiersza> pobierzZapisyRok(Konto konto, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO) {
