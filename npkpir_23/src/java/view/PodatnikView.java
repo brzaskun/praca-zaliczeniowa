@@ -274,8 +274,6 @@ public class PodatnikView implements Serializable {
             String formatka = null;
             s.setNazwapelna(s.getNazwapelna().toUpperCase());
             s.setWojewodztwo(s.getWojewodztwo().substring(0, 1).toUpperCase() + s.getWojewodztwo().substring(1).toLowerCase());
-            s.setImie(s.getImie().substring(0, 1).toUpperCase() + s.getImie().substring(1).toLowerCase());
-            s.setNazwisko(s.getNazwisko().substring(0, 1).toUpperCase() + s.getNazwisko().substring(1).toLowerCase());
         } catch (Exception r) {
             Msg.msg("e", "Wystąpił błąd podczas formatowania wprowadzonych danych");
             throw new Exception();
