@@ -335,7 +335,7 @@ public class PlanKontView implements Serializable {
                         if (kpo.getSyntetykaanalityka().equals("analityka")) {
                             Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                         } else {
-                            PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
+                            PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
                         }
                     }
                 } catch (Exception e) {
@@ -392,7 +392,7 @@ public class PlanKontView implements Serializable {
                     if (kpo.getSyntetykaanalityka().equals("analityka")) {
                         Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                     } else {
-                        PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
+                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
                     }
                 } catch (Exception e) {
                     E.e(e);
@@ -904,8 +904,9 @@ public class PlanKontView implements Serializable {
                 E.e(e);
             }
         }
-        kontopozycjaZapisDAO.createListRefresh(nowepozycje);
+        kontopozycjaZapisDAO.editList(nowepozycje);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Msg.msg("Zakończono porządkowanie kont");
     }
     
     private void resetujpozycjebiezace() {

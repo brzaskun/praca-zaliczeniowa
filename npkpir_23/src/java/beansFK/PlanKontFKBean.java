@@ -347,12 +347,12 @@ public class PlanKontFKBean {
             if (macierzyste != null) {
                 kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBRDAO);
                 if (kpo != null) {
-                    naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
                 }
             } else {
                 kpo = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBRDAO);
                 if (kpo != null) {
-                    naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka(), ukladBRDAO);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka(), ukladBRDAO);
                 }
             }
         } catch (Exception e) {
@@ -375,12 +375,12 @@ public class PlanKontFKBean {
             if (macierzyste != null) {
                 kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBRDAO);
                 if (kpo != null) {
-                    naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
                 }
             } else {
                 kpo = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBRDAO);
                 if (kpo != null) {
-                    naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka(), ukladBRDAO);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka(), ukladBRDAO);
                 }
             }
         } catch (Exception e) {
@@ -555,7 +555,7 @@ public class PlanKontFKBean {
                     if (kpo.getSyntetykaanalityka().equals("analityka")) {
                         Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                     } else {
-                        PlanKontFKBean.naniesPrzyporzadkowanie(kpo, nowekonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
+                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, nowekonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
                     }
                 } catch (Exception e) {
                     E.e(e);
@@ -708,7 +708,7 @@ public class PlanKontFKBean {
     }
 
     
-    public static void naniesPrzyporzadkowanie(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, String wersja, UkladBRDAO ukladBRDAO) {
+    public static void naniesPrzyporzadkowaniePojedynczeKonto(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, String wersja, UkladBRDAO ukladBRDAO) {
         try {
             KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBRDAO);
             if (kp == null) {
