@@ -10,6 +10,9 @@
             <h:form id="dialog1menu1">
                 <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
                     <p:menuitem value="Plan kont bieżącej firmy " onclick="PF('dialogplankont').show();" global="false" actionListener="#{planKontView.init}" update="form_dialog_plankont:dataList"></p:menuitem>
+                    <p:menuitem value="Plan kont inne ustawienia" onclick="PF('dialogplankont1').show();" 
+                                actionListener="#{planKontView.planBezSlownikowychSyntetyczne}"  update="form_dialog_plankont1:dataList"
+                                ></p:menuitem>
                     <p:menuitem value="Nazwy kont - edycja" onclick="PF('dialog_plankont_nazwy_pl').show();" global="false"></p:menuitem>
                     <p:menuitem value="Nazwy kont - internacjonalizacja" onclick="PF('dialog_plankont_nazwy').show();" global="false"></p:menuitem>
                     <p:menuitem value="Kopiuj plan kont z firmy do firmy / z roku do doku" onclick="PF('dialog_plankont_kopiuj').show();" global="false"

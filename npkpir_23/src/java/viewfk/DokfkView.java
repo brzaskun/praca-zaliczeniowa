@@ -386,22 +386,22 @@ public class DokfkView implements Serializable {
 //            }
 //        }
 //    }
-//    public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
-//        int indexwTabeli = wiersz.getIdporzadkowy() - 1;
-//        if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) {
-//            ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
-//            //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-//            return;
-//        }
-//        if (wiersz.getTypWiersza() != 0) {
-//            int licznbawierszy = selected.getListawierszy().size();
-//            if (licznbawierszy > 1) {
-//                if (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7) {
-//                    ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
-//                }
-//            }
-//        }
-//    }
+    public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
+        int indexwTabeli = wiersz.getIdporzadkowy() - 1;
+        if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) {
+            ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
+            //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+            return;
+        }
+        if (wiersz.getTypWiersza() != 0) {
+            int licznbawierszy = selected.getListawierszy().size();
+            if (licznbawierszy > 1) {
+                if (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7) {
+                    ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
+                }
+            }
+        }
+    }
 //    //sprawdza czy wiersz po stronie wn z kwotami takimi samymi po stronie wn i ma
 //    private boolean rowneStronyWnMa (Wiersz wiersz) {
 //        StronaWiersza wn = wiersz.getStronaWn();
