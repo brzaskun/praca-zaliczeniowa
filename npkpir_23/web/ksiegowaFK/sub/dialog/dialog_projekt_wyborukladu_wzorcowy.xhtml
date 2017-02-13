@@ -23,15 +23,15 @@
                 <p:panelGrid columns="1" style="width: 550px;">
                 <p:dataTable id="dataList" value="#{ukladBRWzorcowyView.lista}" var="loop" selectionMode="single" selection="#{ukladBRWzorcowyView.selected}" 
                              style="width: 550px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.uklad}" scrollable="true" scrollHeight="500"
-                             emptyMessage="Brak układów RZiS">
+                             emptyMessage="Brak wzorcowych układów">
                     <p:ajax event="rowSelect" listener="#{ukladBRWzorcowyView.wybranouklad}" global="false"/>
                     <p:column headerText="nazwa ukladu" width="200">
                         <h:outputText value="#{loop.uklad}" style="font-weight: bolder; width: 200px;" /> 
                     </p:column>
-                    <p:column headerText="rok">
+                    <p:column headerText="rok" style="text-align: center;">
                         <h:outputText value="#{loop.rok}"/> 
                     </p:column>
-                    <p:column headerText="podatnik">
+                    <p:column headerText="podatnik" style="text-align: center;">
                         <h:outputText value="#{loop.podatnik}"/>
                     </p:column>
                     <p:column headerText="zablokowany" style="width: 120px; text-align: center;">
@@ -41,7 +41,7 @@
                 </p:dataTable>
                 </p:panelGrid>
                 <p:panelGrid columns="1" style="width: 200px;">
-                <p:panel header="twórz własny układ">
+                <p:panel header="twórz nowy układ wzorcowy">
                     <h:outputText value="wpisz nazwę nowego układu" style="margin-top: 10px;"/>
                     <p:inputText value="#{ukladBRWzorcowyView.nazwanowegoukladu}" style="width: 250px; margin-top: 10px;"/>
                     <p:commandButton value="dodaj" actionListener="#{ukladBRWzorcowyView.dodaj}" style="width: 120px; margin-top: 10px;"

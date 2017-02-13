@@ -126,8 +126,8 @@ public class UkladBRWzorcowyView implements Serializable{
                 ukladdocelowy.setRok(ukladdocelowyrok);
                 ukladBRDAO.dodaj(ukladdocelowy);
                 lista.add(ukladdocelowy);
-                implementujRZiS(ukladzrodlowy,ukladdocelowyrok);
-                implementujBilans(ukladzrodlowy,ukladdocelowyrok);
+                implementujRZiS(ukladzrodlowy,ukladdocelowy);
+                implementujBilans(ukladzrodlowy,ukladdocelowy);
                 Msg.msg("Skopiowano ukłąd wzorcowy z pozycjami");
             } catch (Exception e) {
                 E.e(e);
@@ -139,33 +139,33 @@ public class UkladBRWzorcowyView implements Serializable{
     
     
         
-     private void implementujRZiS(UkladBR ukladzrodlowy, String rok) {
+     private void implementujRZiS(UkladBR ukladzrodlowy, UkladBR ukladdocelowy) {
         List<PozycjaRZiS> pozycje = pozycjaRZiSDAO.findRzisuklad(ukladzrodlowy);
-        List<PozycjaRZiS> macierzyste = skopiujlevel0RZiS(pozycje, rok);
+        List<PozycjaRZiS> macierzyste = skopiujlevel0RZiS(pozycje, ukladdocelowy);
         Integer maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladzrodlowy);
         for(int i = 1; i <= maxlevel;i++) {
-                macierzyste = skopiujlevelRZiS(pozycje, macierzyste,i, rok);
+                macierzyste = skopiujlevelRZiS(pozycje, macierzyste,i, ukladdocelowy);
         }
         System.out.println("Kopiuje RZiS");
     }
      
-      private void implementujBilans(UkladBR ukladzrodlowy, String rok) {
+      private void implementujBilans(UkladBR ukladzrodlowy, UkladBR ukladdocelowy) {
         List<PozycjaBilans> pozycje = pozycjaBilansDAO.findBilansukladAktywa(ukladzrodlowy);
-        List<PozycjaBilans> macierzyste = skopiujlevel0Bilans(pozycje, rok);
+        List<PozycjaBilans> macierzyste = skopiujlevel0Bilans(pozycje, ukladdocelowy);
         Integer maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikAktywa(ukladzrodlowy);
         for(int i = 1; i <= maxlevel;i++) {
-                macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, rok);
+                macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, ukladdocelowy);
         }
         pozycje = pozycjaBilansDAO.findBilansukladPasywa(ukladzrodlowy);
-        macierzyste = skopiujlevel0Bilans(pozycje, rok);
+        macierzyste = skopiujlevel0Bilans(pozycje, ukladdocelowy);
         maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikPasywa(ukladzrodlowy);
         for(int i = 1; i <= maxlevel;i++) {
-                macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, rok);
+                macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, ukladdocelowy);
         }
         System.out.println("Kopiuje Bilans");
     }
      
-      private List<PozycjaRZiS> skopiujlevel0RZiS(List<PozycjaRZiS> pozycje, String rok) {
+      private List<PozycjaRZiS> skopiujlevel0RZiS(List<PozycjaRZiS> pozycje, UkladBR ukladdocelowy) {
         List<PozycjaRZiS> macierzyste = new ArrayList<>();
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel()==0) {
@@ -173,7 +173,8 @@ public class UkladBRWzorcowyView implements Serializable{
                 r.setPrzyporzadkowanekonta(null);
                 r.setPrzyporzadkowanestronywiersza(null);
                 r.setPodatnik("Wzorcowy");
-                r.setRok(rok);
+                r.setUklad(ukladdocelowy.getUklad());
+                r.setRok(ukladdocelowy.getRok());
                 try {
                     pozycjaRZiSDAO.dodaj(r);
                 } catch (Exception e) {  E.e(e);
@@ -185,7 +186,7 @@ public class UkladBRWzorcowyView implements Serializable{
         return macierzyste;
     }
       
-      private List<PozycjaBilans> skopiujlevel0Bilans(List<PozycjaBilans> pozycje, String rok) {
+      private List<PozycjaBilans> skopiujlevel0Bilans(List<PozycjaBilans> pozycje, UkladBR ukladdocelowy) {
         List<PozycjaBilans> macierzyste = new ArrayList<>();
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel()==0) {
@@ -193,7 +194,8 @@ public class UkladBRWzorcowyView implements Serializable{
                 r.setPrzyporzadkowanekonta(null);
                 r.setPrzyporzadkowanestronywiersza(null);
                 r.setPodatnik("Wzorcowy");
-                r.setRok(rok);
+                r.setUklad(ukladdocelowy.getUklad());
+                r.setRok(ukladdocelowy.getRok());
                 try {
                     pozycjaBilansDAO.dodaj(r);
                 } catch (Exception e) {  E.e(e);
@@ -205,7 +207,7 @@ public class UkladBRWzorcowyView implements Serializable{
         return macierzyste;
     }
 
-    private List<PozycjaRZiS> skopiujlevelRZiS(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i, String rok) {
+    private List<PozycjaRZiS> skopiujlevelRZiS(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i, UkladBR ukladdocelowy) {
          List<PozycjaRZiS> nowemacierzyste = new ArrayList<>();
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel()==i) {
@@ -214,7 +216,8 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setPrzyporzadkowanekonta(null);
                     r.setPrzyporzadkowanestronywiersza(null);
                     r.setPodatnik("Wzorcowy");
-                    r.setRok(rok);
+                    r.setUklad(ukladdocelowy.getUklad());
+                    r.setRok(ukladdocelowy.getRok());
                     r.setLp(null);
                     PozycjaRZiS macierzyste = wyszukajmacierzysteRZiS(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
@@ -228,7 +231,7 @@ public class UkladBRWzorcowyView implements Serializable{
         return nowemacierzyste;
     }
     
-    private List<PozycjaBilans> skopiujlevelBilans(List<PozycjaBilans> pozycje, List<PozycjaBilans> macierzystelista, int i, String rok) {
+    private List<PozycjaBilans> skopiujlevelBilans(List<PozycjaBilans> pozycje, List<PozycjaBilans> macierzystelista, int i, UkladBR ukladdocelowy) {
          List<PozycjaBilans> nowemacierzyste = new ArrayList<>();
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel()==i) {
@@ -237,7 +240,8 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setPrzyporzadkowanekonta(null);
                     r.setPrzyporzadkowanestronywiersza(null);
                     r.setPodatnik("Wzorcowy");
-                    r.setRok(rok);
+                    r.setUklad(ukladdocelowy.getUklad());
+                    r.setRok(ukladdocelowy.getRok());
                     r.setLp(null);
                     PozycjaBilans macierzyste = wyszukajmacierzysteBilans(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
