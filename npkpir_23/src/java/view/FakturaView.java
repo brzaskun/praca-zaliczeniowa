@@ -166,17 +166,18 @@ public class FakturaView implements Serializable {
     
 
     public FakturaView() {
-        faktury = new ArrayList<>();
-        fakturyarchiwum = new ArrayList<>();
+
+    }
+
+    @PostConstruct
+    private void init() {
         fakturyokresowe = new ArrayList<>();
         gosciwybral = new ArrayList<>();
         gosciwybralokres = new ArrayList<>();
         waloryzajca = 0.0;
         kwotaprzedwaloryzacja = 0.0;
-    }
-
-    @PostConstruct
-    private void init() {
+        faktury = new ArrayList<>();
+        fakturyarchiwum = new ArrayList<>();
         fakturyokresoweFiltered = null;
         fakturyFiltered = null;
         aktywnytab = 1;
@@ -350,7 +351,6 @@ public class FakturaView implements Serializable {
                    selected.setWygenerowanaautomatycznie(false);
             }
             fakturaDAO.edit(selected);
-            faktury = new ArrayList<>();
             init();
             Msg.msg("i", "Wyedytowano fakturę.");
             pokazfakture = false;
