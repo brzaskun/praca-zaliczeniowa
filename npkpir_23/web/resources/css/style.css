@@ -142,7 +142,10 @@ body {
      width: 50%;
      vertical-align: top;
 }
-
+.threefive-percent {
+     width: 35%;
+     vertical-align: top;
+}
 .forty-percent {
      width: 40%;
      vertical-align: top;

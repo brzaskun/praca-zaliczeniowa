@@ -269,7 +269,10 @@ body {
      width: 70%;
      vertical-align: top;
 }
-
+.threefive-percent {
+     width: 35%;
+     vertical-align: top;
+}
 .onefive-percent {
      width: 15%;
      vertical-align: top;

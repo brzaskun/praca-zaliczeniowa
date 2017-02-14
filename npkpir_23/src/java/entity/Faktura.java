@@ -4,6 +4,7 @@
  */
 package entity;
 
+import data.Data;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
 import java.io.Serializable;
@@ -736,7 +737,13 @@ public class Faktura implements Serializable {
         this.przyczynakorekty = przyczynakorekty;
     }
     
+    public String getOkresCit() {
+        return this.rok+" "+this.mc;
+    }
     
+    public String getOkresVat() {
+        return Data.getRok(this.datasprzedazy)+" "+Data.getMc(this.datasprzedazy);
+    }
     
     
 //</editor-fold>

@@ -271,5 +271,43 @@ public class Data implements Serializable {
         return zwrot;
     }
 
+    public static String getRok(String data) {
+        String zwrot = "";
+        if (data != null) {
+            zwrot = getCzescDaty(data, 0);
+        }
+        return zwrot;
+    }
     
+    public static String getMc(String data) {
+        String zwrot = "";
+        if (data != null) {
+            zwrot = getCzescDaty(data, 1);
+        }
+        return zwrot;
+    }
+    
+    public static String getDzien(String data) {
+        String zwrot = "";
+        if (data != null) {
+            zwrot = getCzescDaty(data, 2);
+        }
+        return zwrot;
+    }
+    
+    public static String getCzescDaty(String data, int rok0mc1d2) {
+        String zwrot = "";
+        switch (rok0mc1d2) {
+            case 0 :
+                zwrot = data.substring(0,4);
+                break;
+            case 1 :
+                zwrot = data.substring(5,7);
+                break;
+            case 2 :
+                zwrot = data.substring(8,10);
+                break;
+        }
+        return zwrot;
+    }
 }
