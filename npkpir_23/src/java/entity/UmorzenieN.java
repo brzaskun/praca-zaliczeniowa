@@ -25,6 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import waluty.Z;
 
@@ -33,7 +34,9 @@ import waluty.Z;
  * @author Osito
  */
 @Entity
-@Table(name = "umorzenie")
+@Table(name = "umorzenie", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"rokUmorzenia", "mcUmorzenia", "srodekTrw"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UmorzenieN.findAll", query = "SELECT k FROM UmorzenieN k"),
