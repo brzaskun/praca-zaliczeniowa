@@ -69,6 +69,7 @@ public class PdfSrodekTrwKarta {
              dodajpagraf(document, "cena zakupu: "+PdfMain.getCurrencyFormater().format(srodek.getNetto()), "l", 1);
              dodajpagraf(document, "stawka amortyzacyjna: "+PdfMain.getPercentFormater().format(srodek.getStawka()/100), "l", 1);
              dodajpagraf(document, "umorzenie początkowe: "+PdfMain.getCurrencyFormater().format(srodek.getUmorzeniepoczatkowe()), "l", 1);
+             dodajpagraf(document, "kwota nkup: "+PdfMain.getCurrencyFormater().format(srodek.getNiepodlegaamortyzacji()), "l", 1);
              dodajpagraf(document, "odpis roczny: "+PdfMain.getCurrencyFormater().format(srodek.getOdpisrok()), "l", 1);
              dodajpagraf(document, "odpis miesięczny: "+PdfMain.getCurrencyFormater().format(srodek.getOdpismc()), "l", 1);
              dodajpagraf(document, "konto księgowe: "+srodek.getKontonetto().getPelnynumer(), "l", 1);

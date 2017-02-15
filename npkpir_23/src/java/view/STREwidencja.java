@@ -141,8 +141,6 @@ public class STREwidencja implements Serializable {
                         strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getM().get(mc));
                     } else if (um.getRokUmorzenia() < wpisView.getRokWpisu()) {
                         umorzenianarastajaco += um.getKwota();
-                    } else if (um.getRokUmorzenia() > wpisView.getRokWpisu()) {
-                        break;
                     }
                 }
                 umorzenianarastajaco += str.getUmorzeniepoczatkowe();
@@ -165,7 +163,7 @@ public class STREwidencja implements Serializable {
         podsumowanie.setKst("");
         podsumowanie.setSymbol("");
         podsumowanie.setDatazak("");
-        podsumowanie.setDataprzek("podsumowanie");
+        podsumowanie.setDataprzek("razem");
         podsumowanie.setDatawy("");
         podsumowanie.setPodatnik("");
         podsumowanie.setNetto(0.0);

@@ -20,7 +20,7 @@
         </p:commandButton>
         <p:separator/>
         <p:dataTable  var="wpis" value="#{STREwidencja.strtabela}" id="dokumsrodkiListaRok" editable="true" 
-                      scrollable="true" scrollHeight="530" scrollRows="15" styleClass="ewidencjavat"
+                      style="overflow-y: scroll; height: 530px;" styleClass="ewidencjavat"
                       emptyMessage="W firmie nie ma środków trwałych" sortOrder="descending"> 
             <p:ajax event="filter" global="false"/>
             <f:facet name="header">  
@@ -35,22 +35,21 @@
                 <h:outputText value="#{wpis.nazwa}"  style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 700;' : null}"/>
             </p:column>
             <p:column id="Column2" headerText="data przyj." width="65" style="text-align: center;">  
-                <h:outputText value="#{wpis.dataprzek}" style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 700;' : null}">
-                    <f:convertDateTime dateStyle="medium"  />
+                <h:outputText value="#{wpis.dataprzeksub}" style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 700;' : null}">
                 </h:outputText>
             </p:column>  
             <p:column id="Column3" headerText="KST" width="30" sortBy="#{wpis.kst}" style="text-align: center;">  
                 <h:outputText value="#{wpis.kst}"  style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 700;' : null}"/>
             </p:column>   
-            <p:column id="Column4" headerText="cena zakupu" width="50" sortBy="#{wpis.netto}">  
+            <p:column id="Column4" headerText="cena zakupu" width="70" sortBy="#{wpis.netto}">  
                 <bcf:outputpl value="#{wpis.netto}"/>
             </p:column>
-            <p:column id="Column5" headerText="odpis za #{WpisView.rokWpisuSt}" width="50" sortBy="#{wpis.odpisrok}">  
+            <p:column id="Column5" headerText="odpis za #{WpisView.rokWpisuSt}" width="70" sortBy="#{wpis.odpisrok}">  
                 <h:outputText value="#{wpis.odpisrok}"  style="float: right;">
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText>
             </p:column>
-            <p:column id="Column6" headerText="umorz. na pocz. rok" width="50" sortBy="#{wpis.umorzeniaDo}">  
+            <p:column id="Column6" headerText="umorz. na pocz. rok" width="70" sortBy="#{wpis.umorzeniaDo}">  
                 <h:outputText value="#{wpis.umorzeniaDo}"  style="float: right;">
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText>

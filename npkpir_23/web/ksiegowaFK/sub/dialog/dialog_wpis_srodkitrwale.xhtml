@@ -18,7 +18,7 @@
               closeOnEscape="true" onHide="resetujdialog('dialogwpissrodkitrwale');" >
         <h:form id="srodkiwpis"> 
             <!--pola ewidencji SRODKOW TRWALYCH-->
-            <p:panel id="panelwyszukiwarki" style="height: 70px;" >
+            <p:panel id="panelwyszukiwarki" style="height: 50px;" >
                 <p:panelGrid>
                     <f:facet name="header">
                         <p:row>
@@ -90,13 +90,13 @@
                     </p:column>
                     <p:column headerText="data zakupu" width="65" style="text-align: center;">
                         <p:inputText id="datazak" value="#{loop.datazak}"  placeholder="rrrr-mm-dd" size="10"
-                                     onblur="weryfikujsporzadzfakture(this);" style="text-align: center;">
+                                     onblur="weryfikujsporzadzfakture(this);">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>
                     </p:column>
                     <p:column headerText="data przyjecia" width="65" style="text-align: center;">
                         <p:inputText id="dataprz" value="#{loop.dataprzek}"  placeholder="rrrr-mm-dd" size="10"
-                                     onblur="weryfikujsporzadzfakture(this);" style="text-align: center;">
+                                     onblur="weryfikujsporzadzfakture(this);">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>
                     </p:column>

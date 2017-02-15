@@ -70,6 +70,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import embeddable.Mce;
 import entity.Fakturywystokresowe;
 import entity.Statystyka;
 import entityfk.MiejscePrzychodow;
@@ -1574,11 +1575,11 @@ public class PdfMain {
                     }
                 }
             }
-             if (nazwaklasy.equals("embeddable.UmorzenieN")) {
+             if (nazwaklasy.equals("entity.UmorzenieN")) {
                 UmorzenieN p = (UmorzenieN) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getRokUmorzenia(), "left", 8));
-                table.addCell(ustawfrazeAlign(p.getMcUmorzenia(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getRokUmorzenia(), "center", 8));
+                table.addCell(ustawfrazeAlign(Mce.getNumberToMiesiac().get(p.getMcUmorzenia()), "center", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
             }
             if (nazwaklasy.equals("entity.Ryczpoz")) {

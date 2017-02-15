@@ -12,8 +12,7 @@
             <p:tab id="zestawieniestr1" title="umarzane miesięcznie">
                 <h:form id="str_umorzenia">
                 <p:dataTable  var="wpis" value="#{STRTableView.planUmorzen}" id="srodkiLista1" editable="true" 
-                              scrollable="true" scrollHeight="390"
-                              style="width: 1000px;" emptyMessage="Nie naliczono umorzeń"
+                              style="width: 1200px; overflow-y: scroll; height: 390px;" emptyMessage="Nie naliczono umorzeń"
                               rowKey="#{wpis.id}" selectionMode="single"> 
 
                     <f:facet name="header">  
@@ -89,21 +88,18 @@
                     </p:column>
                     <p:rowExpansion>
                     <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="#{wpis.planumorzen}" filterMatchMode="contains" 
-                              filterStyle="display : none;" style="width: 550px; text-align: center;">  
+                              filterStyle="display : none;" style="width: 350px; text-align: center;">  
                         <p:dataTable var="subwpis" value="#{wpis.planumorzen}" emptyMessage="Nie naliczono umorzeń"
-                                     scrollable="true" scrollHeight="250" sortBy="#{subwpis.nrUmorzenia}" 
-                                     style="width: 550px;">
+                                     sortBy="#{subwpis.nrUmorzenia}" 
+                                     style="width: 650px; overflow-y: scroll; height: 250px;">
                             <p:column id="SubColumn1" headerText="id" style="width: 20px;">  
                                 <h:outputText value="#{subwpis.nrUmorzenia}" />
-                            </p:column>
-                            <p:column id="SubColumn1a" headerText="nazwa" style="width: 200px; text-align: left;">  
-                                <h:outputText value="#{subwpis.srodekTrw.nazwa}" />
                             </p:column>
                             <p:column id="SubColumn2" headerText="rok" style="width: 40px;">  
                                 <h:outputText value="#{subwpis.rokUmorzenia}" />
                             </p:column>
                             <p:column id="SubColumn3" headerText="mc" style="width: 20px;">  
-                                <h:outputText value="#{subwpis.mcUmorzenia}" />
+                                <h:outputText value="#{subwpis.mcUmorzeniaNazwa}" />
                             </p:column>
                             <p:column id="SubColumn4" headerText="#{mgs.kwota}"  style="width: 50px;">  
                                 <bcf:outputpl value="#{subwpis.kwota}" />

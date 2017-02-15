@@ -11,8 +11,7 @@
     <p:tab id="zestawienieposiadane2" title="posiadane2">
         <h:form id="str_posiadane2">
                 <p:dataTable  var="wpis" value="#{STRTableView.posiadane2}" id="srodkiLista2" 
-                              scrollable="true" scrollHeight="390" 
-                              widgetVar="srodkiLista2" style="width: 1400px;" 
+                              widgetVar="srodkiLista2" style="width: 1400px; overflow-y: scroll; height: 390px;" 
                               rowKey="#{wpis.id}" > 
                     <p:ajax event="rowSelect" global="false" update="form_dialog_srodkitrwale_zmianawartosci"/>
                     <p:ajax event="filter" global="false"/>

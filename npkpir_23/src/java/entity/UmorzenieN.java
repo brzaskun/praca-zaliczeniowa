@@ -6,6 +6,7 @@
 package entity;
 
 import em.Em;
+import embeddable.Mce;
 import embeddable.Umorzenie;
 
 import java.io.Serializable;
@@ -154,6 +155,10 @@ public class UmorzenieN implements Serializable {
     
     public int getMcUmorzenia() {
         return mcUmorzenia;
+    }
+    
+    public String getMcUmorzeniaNazwa() {
+        return Mce.getNumberToNazwamiesiaca().get(mcUmorzenia);
     }
     
     public void setMcUmorzenia(int mcUmorzenia) {

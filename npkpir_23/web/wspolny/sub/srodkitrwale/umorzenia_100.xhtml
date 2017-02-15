@@ -12,8 +12,7 @@
             <p:tab id="zestawieniestr5" title="umorzone w 100%">
                 <h:form id="str_umorzenia_100">
                 <p:dataTable  var="wpis" value="#{STRTableView.planUmorzen_100}" id="srodkiLista5" editable="true" 
-                              scrollable="true" scrollHeight="390"
-                              style="width: 830px;" emptyMessage="Nie naliczono umorzeń"
+                              style="width: 1200px; overflow-y: scroll; height: 390px;" emptyMessage="Nie naliczono umorzeń"
                               rowKey="#{wpis.id}" selectionMode="single"> 
 
                     <f:facet name="header">  
@@ -82,7 +81,7 @@
                               filterStyle="display : none;" style="width: 550px; text-align: center;">  
                         <p:dataTable var="subwpis" value="#{wpis.planumorzen}" emptyMessage="Nie naliczono umorzeń"
                                      scrollable="true" scrollHeight="30" sortBy="#{subwpis.nrUmorzenia}" 
-                                     style="width: 550px;">
+                                     style="width: 650px;">
                             <p:column id="SubColumn1" headerText="id" style="width: 20px;">  
                                 <h:outputText value="#{subwpis.nrUmorzenia}" />
                             </p:column>

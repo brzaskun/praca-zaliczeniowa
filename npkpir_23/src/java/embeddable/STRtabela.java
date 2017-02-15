@@ -105,6 +105,14 @@ public class STRtabela {
         return dataprzek;
     }
     
+    public String getDataprzeksub() {
+        String zwrot = dataprzek;
+        if (zwrot.length() == 10) {
+            zwrot = dataprzek.substring(2, 10);
+        }
+        return zwrot;
+    }
+    
     public void setDataprzek(String dataprzek) {
         this.dataprzek = dataprzek;
     }
