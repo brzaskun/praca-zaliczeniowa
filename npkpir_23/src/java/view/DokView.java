@@ -972,6 +972,10 @@ public final class DokView implements Serializable {
     public void dodajNowyWpisAutomatyczny() {
         double kwotaumorzenia = 0.0;
         Amodok amodokBiezacy = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
+        if (amodokBiezacy == null) {
+            Msg.msg("e", "Brak naliczeń odpisów za bieżący miesiąc. Nie można utworzyć dokumentu AMO");
+            return;
+        }
         Dok znalezionyBiezacy = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokBiezacy.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokBiezacy.getAmodokPK().getMc()));
         if (znalezionyBiezacy == null) {
             String[] poprzedniOkres = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());

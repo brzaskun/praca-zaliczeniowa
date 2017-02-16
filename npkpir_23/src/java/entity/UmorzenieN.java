@@ -117,7 +117,12 @@ public class UmorzenieN implements Serializable {
 
     @Override
     public String toString() {
-        return "UmorzenieN{" + "id=" + id + ", srodekTrw=" + srodekTrw.getNazwa() + ", podatnik =" + srodekTrw.getDokfk().getPodatnikObj().getNazwapelna() + ", nrUmorzenia=" + nrUmorzenia + ", rokUmorzenia=" + rokUmorzenia + ", mcUmorzenia=" + mcUmorzenia + ", kwota=" + kwota + ", kontonetto=" + kontonetto + ", kontoumorzenie=" + kontoumorzenie + ", rodzaj=" + rodzaj + '}';
+        if (kontonetto != null && srodekTrw.getDokfk() != null){
+            return "UmorzenieN{" + "id=" + id + ", srodekTrw=" + srodekTrw.getNazwa() + ", podatnik =" + srodekTrw.getDokfk().getPodatnikObj().getNazwapelna() + ", nrUmorzenia=" + nrUmorzenia + ", rokUmorzenia=" + rokUmorzenia + ", mcUmorzenia=" + mcUmorzenia + ", kwota=" + kwota + ", kontonetto=" + kontonetto + ", kontoumorzenie=" + kontoumorzenie + ", rodzaj=" + rodzaj + '}';
+        } else {
+            return "UmorzenieN{" + "id=" + id + ", srodekTrw=" + srodekTrw.getNazwa() + ", podatnik =" + srodekTrw.getPodatnik() + ", nrUmorzenia=" + nrUmorzenia + ", rokUmorzenia=" + rokUmorzenia + ", mcUmorzenia=" + mcUmorzenia + ", kwota=" + kwota + ", rodzaj=" + rodzaj + '}';
+        }
+
     }
 
    

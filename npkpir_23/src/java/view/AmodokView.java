@@ -123,6 +123,8 @@ public class AmodokView implements Serializable {
                 for (UmorzenieN umAkt : srodek.getPlanumorzen()) {
                     if ((umAkt.getRokUmorzenia() == rokOd) && (umAkt.getMcUmorzenia() == mcOd)) {
                         if (umAkt.getKwota() > 0) {
+                            amoDok.setUmorzenia(null);
+                            amoDok.getPlanumorzen().add(umAkt);
                             umAkt.setSrodekTrw(srodek);
                             umAkt.setRodzaj(srodek.getTyp());
                             umAkt.setAmodok(amoDok);
@@ -130,18 +132,17 @@ public class AmodokView implements Serializable {
                                 umAkt.setKontonetto(srodek.getKontonetto().getPelnynumer());
                                 umAkt.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
                             }
-                            amoDok.setUmorzenia(null);
-                            amoDok.getPlanumorzen().add(umAkt);
                         }
                         break;
                     }
                 }
+                sTRDAO.edit(srodek);
             }
             //ZAZNACZA PUSTE JAKO TRUe a to w celu zachwoania ciaglosci a to w celu pokazania ze sa sporzadzone za zadany okres a ze nie wsyatpil blad
             if (amoDok.getPlanumorzen().isEmpty()) {
                 amoDok.setZaksiegowane(true);
             }
-            amoDokDAO.dodaj(amoDok);
+            amoDokDAO.edit(amoDok);
             if (mcOd == 12) {
                 rokOd++;
                 mcOd = 1;
@@ -149,6 +150,7 @@ public class AmodokView implements Serializable {
             } else {
                 mcOd++;
             }
+            
         }
         nowalistadokamo();
         Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane od miesiąca " + wpisView.getMiesiacWpisu() + " roku " + wpisView.getRokWpisuSt(), "formSTR:mess_add");
