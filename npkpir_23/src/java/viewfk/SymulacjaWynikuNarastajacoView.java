@@ -198,7 +198,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             double podstawaopodatkowania = Z.z0(wynikpodatkowy);
             pdop = 0.0;
             if (podstawaopodatkowania > 0) {
-                pdop = Z.z0(podstawaopodatkowania*0.19);
+                pdop = Z.z0(podstawaopodatkowania*wpisView.getStawkapodatkuospr());
             }
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pdop"), pdop));
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("zapłacono"), zaplacono));

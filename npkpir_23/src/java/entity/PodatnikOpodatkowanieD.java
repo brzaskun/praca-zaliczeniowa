@@ -52,6 +52,8 @@ public class PodatnikOpodatkowanieD implements Serializable{
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnikObj;
+    @Column(name="stawkapodatkuospr")
+    private double stawkapodatkuospr;
 
     public PodatnikOpodatkowanieD() {
         
@@ -168,6 +170,13 @@ public class PodatnikOpodatkowanieD implements Serializable{
         this.mc0kw1 = mc0kw1;
     }
 
+    public double getStawkapodatkuospr() {
+        return stawkapodatkuospr;
+    }
+
+    public void setStawkapodatkuospr(double stawkapodatkuospr) {
+        this.stawkapodatkuospr = stawkapodatkuospr;
+    }
 
     public Long getId() {
         return id;

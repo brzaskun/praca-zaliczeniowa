@@ -11,7 +11,7 @@
             <h:outputText value="Wybór opodatkowania podatkiem dochodowym" style="font-size: 15px"/>
             <p:focus for="parametrypodatnika"/><br/>
             <h:outputText value="dane historyczne"/><br/>
-            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" >
+            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 900px;">
                     <p:column headerText="od">
                         <h:outputText value="#{loop.mcOd}-" />
                         <h:outputText value="#{loop.rokOd}" />
@@ -24,7 +24,12 @@
                         <h:outputText value="#{loop.formaopodatkowania}" />
                     </p:column>
                     <p:column headerText="mies./kwart.">
-                        <h:outputText value="#{loop.mc0kw1 eq false ? 'miesięcznie' : 'kwartalnie'} " />
+                        <h:outputText value="#{loop.mc0kw1 eq false ? 'miesięcznie' : 'kwartalnie'}" />
+                    </p:column>
+                    <p:column headerText="stawka pod." rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}">
+                        <h:outputText value="#{loop.stawkapodatkuospr}">
+                            <f:convertNumber type="percent"/>
+                        </h:outputText>
                     </p:column>
             </p:dataTable>
             <h:outputText value="wybierz parametry aktualne"/><br/>
@@ -43,7 +48,9 @@
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.mc0kw1}" >
                     <f:selectItem itemLabel="miesięczne" itemValue="false"/> 
                     <f:selectItem itemLabel="kwartalne" itemValue="true"/>
-                    </p:selectOneMenu>
+                </p:selectOneMenu>
+                <h:outputText value="stawka pod. (0,19)" rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
+                <pe:inputNumber value="#{podatnikView.wybranyPodatnikOpodatkowanie.stawkapodatkuospr}" decimalPlaces="2" maxValue="1"  rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">

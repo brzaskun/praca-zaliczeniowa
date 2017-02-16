@@ -96,6 +96,10 @@
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.obliczeniewyniku}"/>
+                    <h:outputText value=" podatek stawka"/>
+                    <h:outputText value="#{WpisView.stawkapodatkuospr}">
+                        <f:convertNumber type="percent"/>
+                    </h:outputText>
                 </f:facet>
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.nazwa}"/>

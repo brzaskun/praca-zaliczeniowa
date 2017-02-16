@@ -75,6 +75,7 @@ public class WpisView implements Serializable {
     private boolean niegosc;
     private Integer zmianaokresuRok;
     private String zmianaokresuMc;
+    private double stawkapodatkuospr;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -300,6 +301,9 @@ public class WpisView implements Serializable {
             mc0kw1 = zwrocmc0kw1();
             rodzajopodatkowania = zwrocindexparametrzarok();
             if (rodzajopodatkowania != null) {
+                if (this.podatnikObiekt.getFormaPrawna().toString().equals("SPOLKA_Z_O_O")) {
+                    stawkapodatkuospr = stawkapodatkuospr();
+                }
                 if (rodzajopodatkowania.contains("ryczałt")) {
                     ksiegaryczalt = false;
                 } else {
@@ -322,6 +326,10 @@ public class WpisView implements Serializable {
             czegosbrakuje = true;
             E.e(e);
         }
+    }
+    
+    private double stawkapodatkuospr() {
+        return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(this).getStawkapodatkuospr();
     }
     
     private String zwrocindexparametrzarok() {
@@ -365,6 +373,14 @@ public class WpisView implements Serializable {
 
     public void setRokNastepny(Integer rokNastepny) {
         this.rokNastepny = rokNastepny;
+    }
+
+    public double getStawkapodatkuospr() {
+        return stawkapodatkuospr;
+    }
+
+    public void setStawkapodatkuospr(double stawkapodatkuospr) {
+        this.stawkapodatkuospr = stawkapodatkuospr;
     }
 
     public Integer getZmianaokresuRok() {
