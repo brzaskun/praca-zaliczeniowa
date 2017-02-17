@@ -32,6 +32,8 @@
                         <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                   </p:selectOneMenu>
+                  <p:commandButton value="implementuj ust."  actionListener="#{planKontView.implementujwmma0mn1ma0Podatnik}" 
+                                   style="float: left; width: 130px; margin-left: 20px;" update="form_dialog_plankont1:dataList"/>
             </p:panelGrid>
             <p:outputPanel style="padding: 10px;">
                 <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>

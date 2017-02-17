@@ -1568,43 +1568,65 @@ public class PlanKontView implements Serializable {
           }
           return null;
       }
+    public void implementujwmma0mn1ma0Podatnik() {
+        implementujwmma0mn1ma0();
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Collections.sort(wykazkont, new Kontocomparator());
+    }
     
     public void implementujwmma0mn1ma0() {
         try {
+            List<Konto> kontapodatnika = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
             for (Konto p : wykazkontwzor) {
                 if (p.getMacierzysty() == 0) {
-                    Konto r = kontoDAOfk.findKonto(p.getPelnynumer(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                    Konto r = pobierzkontopodatnika(kontapodatnika,p);
                     if (r != null) {
-                        nanieswnmaImpl(r, p.getWnma0wm1ma2());
+                        nanieswnmaImpl(r, p.getWnma0wm1ma2(), kontapodatnika);
                     }
                 }
             }
+            kontoDAOfk.editList(kontapodatnika);
             Msg.dP();
         } catch (Exception e) {
             Msg.dPe();
         }
     }
     
-    public void nanieswnmaImpl(Konto p, int wnma0wn1ma2) {
+    private Konto pobierzkontopodatnika(List<Konto> kontapodatnika, Konto wzorcowe) {
+        Konto zwrot = new Konto();
+        for (Konto r : kontapodatnika) {
+            if (r.getPelnynumer().equals(wzorcowe.getPelnynumer())) {
+                zwrot = r;
+                break;
+            }
+        }
+        return zwrot;
+    }
+    
+    public void nanieswnmaImpl(Konto p, int wnma0wn1ma2, List<Konto> kontapodatnika) {
         p.setWnma0wm1ma2(wnma0wn1ma2);
-        kontoDAOfk.edit(p);
         if (p.isMapotomkow()) {
-            List<Konto> potomki = pobierzpotomkowImpl(p);
+            List<Konto> potomki = pobierzpotomkowImpl(p, kontapodatnika);
             for (Konto r : potomki) {
                 r.setWnma0wm1ma2(p.getWnma0wm1ma2());
-                kontoDAOfk.edit(r);
-                nanieswnmaImpl(r,wnma0wn1ma2);
+                nanieswnmaImpl(r,wnma0wn1ma2, kontapodatnika);
             }
         }
     }
     
-    private List<Konto> pobierzpotomkowImpl(Konto macierzyste) {
+    private List<Konto> pobierzpotomkowImpl(Konto macierzyste, List<Konto> kontapodatnika) {
+        List<Konto> potomne = new ArrayList<>();
           try {
-              return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), macierzyste.getPelnynumer());
+              for (Konto p : kontapodatnika) {
+                  if (p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(macierzyste)) {
+                      potomne.add(p);
+                  }
+              }
           } catch (Exception e) {  E.e(e);
               Msg.msg("e", "nie udane pobierzpotomkow");
           }
-          return null;
+          return potomne;
       }
     
 //    "#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
@@ -1767,6 +1789,8 @@ public class PlanKontView implements Serializable {
     public void setUsunprzyporzadkowanie(boolean usunprzyporzadkowanie) {
         this.usunprzyporzadkowanie = usunprzyporzadkowanie;
     }
+
+    
 
        
 
