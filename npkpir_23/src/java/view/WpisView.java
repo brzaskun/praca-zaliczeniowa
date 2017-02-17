@@ -301,7 +301,7 @@ public class WpisView implements Serializable {
             mc0kw1 = zwrocmc0kw1();
             rodzajopodatkowania = zwrocindexparametrzarok();
             if (rodzajopodatkowania != null) {
-                if (this.podatnikObiekt.getFormaPrawna().toString().equals("SPOLKA_Z_O_O")) {
+                if (this.podatnikObiekt.getFormaPrawna() != null && this.podatnikObiekt.getFormaPrawna().toString().equals("SPOLKA_Z_O_O")) {
                     stawkapodatkuospr = stawkapodatkuospr();
                 }
                 if (rodzajopodatkowania.contains("ryczałt")) {

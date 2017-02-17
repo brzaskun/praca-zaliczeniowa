@@ -81,6 +81,8 @@ public class AmodokView implements Serializable {
 
     public void odpisypojedynczysrodek(SrodekTrw srodek) {
         try {
+            srodek.setPlanumorzen(null);
+            sTRDAO.edit(srodek);
             srodek.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
             sTRDAO.edit(srodek);
         } catch (Exception e) {
@@ -136,13 +138,12 @@ public class AmodokView implements Serializable {
                         break;
                     }
                 }
-                sTRDAO.edit(srodek);
             }
-            //ZAZNACZA PUSTE JAKO TRUe a to w celu zachwoania ciaglosci a to w celu pokazania ze sa sporzadzone za zadany okres a ze nie wsyatpil blad
             if (amoDok.getPlanumorzen().isEmpty()) {
                 amoDok.setZaksiegowane(true);
             }
             amoDokDAO.edit(amoDok);
+            //ZAZNACZA PUSTE JAKO TRUe a to w celu zachwoania ciaglosci a to w celu pokazania ze sa sporzadzone za zadany okres a ze nie wsyatpil blad
             if (mcOd == 12) {
                 rokOd++;
                 mcOd = 1;
@@ -152,6 +153,7 @@ public class AmodokView implements Serializable {
             }
             
         }
+        sTRDAO.editList(srodkiTrwale);
         nowalistadokamo();
         Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane od miesiąca " + wpisView.getMiesiacWpisu() + " roku " + wpisView.getRokWpisuSt(), "formSTR:mess_add");
     }
