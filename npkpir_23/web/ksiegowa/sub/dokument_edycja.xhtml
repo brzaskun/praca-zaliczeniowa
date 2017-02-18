@@ -516,7 +516,7 @@
                     </p:column>
                     <p:column>
                         <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj" 
-                                         update=":dodWiad :form" style="width: 150px;" oncomplete="PF('dialogEdycjaZaksiegowanychDokumentow').hide()">
+                                         update=":dodWiad form:dokumentyLista" style="width: 150px;" oncomplete="PF('dialogEdycjaZaksiegowanychDokumentow').hide()">
                             <p:ajax event="click" listener="#{sesjaView.dodajdokument()}" global="false"/>
                         </p:commandButton>
                     </p:column>

@@ -1349,7 +1349,7 @@ public final class DokView implements Serializable {
         }
         ewidencjaAddwiad.clear();;
         sumbrutto = 0.0;
-        int j = 1;
+        int j = 0;
         try {//trzeba ignorowac w przypadku dokumentow prostych
             for (EVatwpis1 s : selDokument.getEwidencjaVAT1()) {
                 EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
