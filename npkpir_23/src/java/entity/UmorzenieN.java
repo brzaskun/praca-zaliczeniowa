@@ -40,7 +40,7 @@ import waluty.Z;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UmorzenieN.findAll", query = "SELECT k FROM UmorzenieN k"),
-    @NamedQuery(name = "UmorzenieN.findStr", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw = :srt"),
+    @NamedQuery(name = "UmorzenieN.findStr", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw = :srodekTrw"),
     @NamedQuery(name = "UmorzenieN.findStrMcRok", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw.id = :srt AND k.mcUmorzenia = :mc AND k.rokUmorzenia = :rok"),
     @NamedQuery(name = "UmorzenieN.findStrNazwaMcRok", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw.nazwa = :srt AND k.srodekTrw.podatnik = :podatnik AND k.mcUmorzenia = :mc AND k.rokUmorzenia = :rok")
 })

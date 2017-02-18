@@ -5,6 +5,7 @@
 package session;
 
 import embeddable.Mce;
+import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -47,6 +48,7 @@ import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
 import entity.Sumypkpir;
+import entity.UmorzenieN;
 import entity.Uz;
 import entity.Wpis;
 import entity.ZamkniecieRokuEtap;
@@ -1969,6 +1971,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public SMTPSettings findSMTPSettingsByDef() {
         return (SMTPSettings) em.createNamedQuery("SMTPSettings.findByDef").getSingleResult();
+    }
+
+    public List<UmorzenieN> findUmorzenieBySrodek(SrodekTrw str) {
+        return em.createNamedQuery("UmorzenieN.findStr").setParameter("srodekTrw", str).getResultList();
     }
 
     

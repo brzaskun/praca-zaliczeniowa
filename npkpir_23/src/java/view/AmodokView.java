@@ -15,6 +15,7 @@ import dao.AmoDokDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.STRDAO;
+import dao.UmorzenieDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
@@ -58,6 +59,8 @@ public class AmodokView implements Serializable {
     private KontoDAOfk kontoDAOfk;
     @Inject
     protected STRDAO sTRDAO;
+    @Inject
+    private UmorzenieDAO umorzenieDAO;
 
     public AmodokView() {
         this.amodoklist = new ArrayList<>();
@@ -69,22 +72,18 @@ public class AmodokView implements Serializable {
     }
 
     public void generujamodokumenty() {
-        List<SrodekTrw> srodkiTrwale = new ArrayList<>();
         try {
-            srodkiTrwale = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
+            generujodpisy();
+            generujdokumenty();
         } catch (Exception e) {
             E.e(e);
         }
-        generujodpisy();
-        generujdokumenty(srodkiTrwale);
     }
 
-    public void odpisypojedynczysrodek(SrodekTrw srodek) {
+    private void odpisypojedynczysrodek(SrodekTrw srodek) {
         try {
             srodek.setPlanumorzen(null);
-            sTRDAO.edit(srodek);
             srodek.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
-            sTRDAO.edit(srodek);
         } catch (Exception e) {
             E.e(e);
         }
@@ -92,12 +91,7 @@ public class AmodokView implements Serializable {
 
     //przyporzadkowuje planowane odpisy do konkretnych miesiecy
     public void generujodpisy() {
-        List<SrodekTrw> srodkiTrwale = new ArrayList<>();
-        try {
-            srodkiTrwale = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
-        } catch (Exception e) {
-            E.e(e);
-        }
+        List<SrodekTrw> srodkiTrwale = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
         if (srodkiTrwale == null || srodkiTrwale.size() == 0) {
             init();
             Msg.msg("Pobieram środki do umorzeń");
@@ -113,7 +107,8 @@ public class AmodokView implements Serializable {
         Msg.msg("Odpisy wygenerowane. Pamiętaj o wygenerowaniu dokumentów umorzeń! W tym celu wybierz w menu stronę umorzenie");
     }
     
-    private void generujdokumenty(List<SrodekTrw> srodkiTrwale) {
+    private void generujdokumenty() {
+        List<SrodekTrw> srodkiTrwale = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
         String pod = wpisView.getPodatnikWpisu();
         Integer rokOd = wpisView.getRokWpisu();
         Integer mcOd = Integer.parseInt(wpisView.getMiesiacWpisu());
@@ -122,14 +117,13 @@ public class AmodokView implements Serializable {
         while (roki.getRokiList().contains(rokOd)) {
             Amodok amoDok = new Amodok(mcOd, pod, rokOd);
             for (SrodekTrw srodek : srodkiTrwale) {
-                for (UmorzenieN umAkt : srodek.getPlanumorzen()) {
+                List<UmorzenieN> umorzenia = umorzenieDAO.findBySrodek(srodek);
+                for (UmorzenieN umAkt : umorzenia) {
                     if ((umAkt.getRokUmorzenia() == rokOd) && (umAkt.getMcUmorzenia() == mcOd)) {
                         if (umAkt.getKwota() > 0) {
-                            amoDok.setUmorzenia(null);
-                            amoDok.getPlanumorzen().add(umAkt);
-                            umAkt.setSrodekTrw(srodek);
                             umAkt.setRodzaj(srodek.getTyp());
                             umAkt.setAmodok(amoDok);
+                            amoDok.getPlanumorzen().add(umAkt);
                             if (srodek.getKontonetto() != null) {
                                 umAkt.setKontonetto(srodek.getKontonetto().getPelnynumer());
                                 umAkt.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
@@ -153,7 +147,7 @@ public class AmodokView implements Serializable {
             }
             
         }
-        sTRDAO.editList(srodkiTrwale);
+        //sTRDAO.editList(srodkiTrwale);
         nowalistadokamo();
         Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane od miesiąca " + wpisView.getMiesiacWpisu() + " roku " + wpisView.getRokWpisuSt(), "formSTR:mess_add");
     }
