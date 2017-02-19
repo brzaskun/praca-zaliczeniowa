@@ -8,6 +8,7 @@ import embeddable.Mce;
 import entity.UmorzenieN;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -310,4 +311,80 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
+
+    public static String dzienpierwszy(WpisView wpisView) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(wpisView.getRokWpisuSt());
+        sb.append("-");
+        sb.append(wpisView.getMiesiacWpisu());
+        sb.append("-");
+        sb.append("01");
+        return sb.toString();
+    }
+
+    public static String dzienostatni(WpisView wpisView) {
+        return pobierzdzien(wpisView);
+    }
+
+    private static String pobierzdzien(WpisView wpisView) {
+        String dzien = null;
+        String mc = wpisView.getMiesiacWpisu();
+        Integer rok = wpisView.getRokWpisu();
+        int mod = Integer.parseInt(mc) % 2;
+        Year currentYear = Year.of(rok);
+        boolean jestprzestepny = currentYear.isLeap();
+        if (mc.equals("02")) {
+            if (jestprzestepny) {
+                dzien = "29";
+            } else {
+                dzien = "28";
+            }
+        } else {
+            if (mc.equals("07")) {
+                dzien = "31";
+            } else if (mod==0) {
+                dzien = "30";
+            } else {
+                dzien = "31";
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(rok);
+        sb.append("-");
+        sb.append(mc);
+        sb.append("-");
+        sb.append(dzien);
+        return sb.toString();
+   }
+    
+   public static void main(String[] args) {
+        String dzien = null;
+        String mc = "05";
+        Integer rok = 2017;
+        int mod = Integer.parseInt(mc) % 2;
+        Year currentYear = Year.of(rok);
+        boolean jestprzestepny = currentYear.isLeap();
+        if (mc.equals("02")) {
+            if (jestprzestepny) {
+                dzien = "29";
+            } else {
+                dzien = "28";
+            }
+        } else {
+            if (mc.equals("07")) {
+                dzien = "31";
+            } else if (mod==0) {
+                dzien = "30";
+            } else {
+                dzien = "31";
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(rok);
+        sb.append("-");
+        sb.append(mc);
+        sb.append("-");
+        sb.append(dzien);
+        System.out.println(sb.toString());
+   }
 }

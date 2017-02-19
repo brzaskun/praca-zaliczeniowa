@@ -70,6 +70,18 @@ public class Evewidencja implements Serializable {
     private String de;
     @Column(name = "stawkavat")
     private double stawkavat;
+    @Column(name = "polejpk_netto_sprzedaz")
+    private String polejpk_netto_sprzedaz;
+    @Column(name = "polejpk_vat_sprzedaz")
+    private String polejpk_vat_sprzedaz;
+    @Column(name = "polejpk_netto_sprzedaz_suma")
+    private String polejpk_netto_sprzedaz_suma;
+    @Column(name = "polejpk_vat_sprzedaz_suma")
+    private String polejpk_vat_sprzedaz_suma;
+    @Column(name = "polejpk_netto_zakup")
+    private String polejpk_netto_zakup;
+    @Column(name = "polejpk_vat_zakup")
+    private String polejpk_vat_zakup;
 //    @OneToMany(mappedBy = "ewidencja", cascade = CascadeType.ALL,  orphanRemoval=true)
 //    private List<EVatwpis1> eVatwpisList;
 
@@ -197,6 +209,57 @@ public class Evewidencja implements Serializable {
         this.pole = pole;
     }
 
+    public String getPolejpk_netto_sprzedaz() {
+        return polejpk_netto_sprzedaz;
+    }
+
+    public void setPolejpk_netto_sprzedaz(String polejpk_netto_sprzedaz) {
+        this.polejpk_netto_sprzedaz = polejpk_netto_sprzedaz;
+    }
+
+    public String getPolejpk_vat_sprzedaz() {
+        return polejpk_vat_sprzedaz;
+    }
+
+    public void setPolejpk_vat_sprzedaz(String polejpk_vat_sprzedaz) {
+        this.polejpk_vat_sprzedaz = polejpk_vat_sprzedaz;
+    }
+
+    public String getPolejpk_netto_sprzedaz_suma() {
+        return polejpk_netto_sprzedaz_suma;
+    }
+
+    public void setPolejpk_netto_sprzedaz_suma(String polejpk_netto_sprzedaz_suma) {
+        this.polejpk_netto_sprzedaz_suma = polejpk_netto_sprzedaz_suma;
+    }
+
+    public String getPolejpk_vat_sprzedaz_suma() {
+        return polejpk_vat_sprzedaz_suma;
+    }
+
+    public void setPolejpk_vat_sprzedaz_suma(String polejpk_vat_sprzedaz_suma) {
+        this.polejpk_vat_sprzedaz_suma = polejpk_vat_sprzedaz_suma;
+    }
+
+    public String getPolejpk_netto_zakup() {
+        return polejpk_netto_zakup;
+    }
+
+    public void setPolejpk_netto_zakup(String polejpk_netto_zakup) {
+        this.polejpk_netto_zakup = polejpk_netto_zakup;
+    }
+
+    public String getPolejpk_vat_zakup() {
+        return polejpk_vat_zakup;
+    }
+
+    public void setPolejpk_vat_zakup(String polejpk_vat_zakup) {
+        this.polejpk_vat_zakup = polejpk_vat_zakup;
+    }
+
+    
+
+  
   
     
     @Override
