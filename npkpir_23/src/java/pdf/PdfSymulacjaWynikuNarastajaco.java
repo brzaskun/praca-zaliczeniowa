@@ -42,7 +42,7 @@ public class PdfSymulacjaWynikuNarastajaco {
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) {
         try {
-            String nazwapliku = "symulacjawynikunar-" + wpisView.getPodatnikWpisu() + ".pdf";
+            String nazwapliku = "symulacjawynikunar-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();

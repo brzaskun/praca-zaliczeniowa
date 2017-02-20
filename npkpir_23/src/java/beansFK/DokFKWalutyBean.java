@@ -106,6 +106,27 @@ public class DokFKWalutyBean implements Serializable{
         }
     }
     
+    public static void przewalutujwiersz(Wiersz p) {
+          //robimy w zlotowkach
+        double kurs = p.getTabelanbp().getKurssredniPrzelicznik();
+        if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
+            if (p.getStronaWn().getKwota() != 0.0) {
+                double kwota = p.getStronaWn().getKwota();
+                double kwotaPLN = Math.round(kwota * kurs * 100);
+                kwotaPLN /= 100;
+                p.getStronaWn().setKwotaPLN(kwotaPLN);
+            }
+        }
+        if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
+            if (p.getStronaMa().getKwota() != 0.0) {
+                double kwota = p.getStronaMa().getKwota();
+                double kwotaPLN = Math.round(kwota * kurs * 100);
+                kwotaPLN /= 100;
+                p.getStronaMa().setKwotaPLN(kwotaPLN);
+            }
+        }
+    }
+    
     
 }
 

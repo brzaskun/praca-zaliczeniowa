@@ -48,8 +48,8 @@
                                      style="width: 120px; margin-left: 20px;" update="akordeon:formsymulacja"/>
                 </p:column>
                 <h:outputText value="#{mgs.przetwarzanie}"/>
-                <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}', 1)"/>
-                <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}', 2)"/>
+                <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)"/>
+                <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>
                 <h:outputText id="tylkosyntopis" value="tylko konta syntetyczne" style="margin-left: 15px; display: none;"/>
                 <p:selectBooleanCheckbox  id="tylkosyntcheck" value="#{symulacjaWynikuView.tylkokontasyntetyczne}"  style="margin-left: 15px; display: none;">
                     <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" partialSubmit="true" update="akordeon:formsymulacja"

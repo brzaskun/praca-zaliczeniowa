@@ -60,9 +60,9 @@ public class PdfSymulacjaWyniku {
         try {
             String nazwapliku = null;
             if (rodzajdruku == 1) {
-                nazwapliku = "symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf";
+                nazwapliku = "symulacjawyniku-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             } else {
-                nazwapliku = "symulacjawynikukonta-" + wpisView.getPodatnikWpisu() + ".pdf";
+                nazwapliku = "symulacjawynikukonta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             }
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
@@ -80,9 +80,9 @@ public class PdfSymulacjaWyniku {
         Document document = new Document();
         try {
             if (rodzajdruku == 1) {
-                PdfWriter.getInstance(document, Plik.plikR("symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf"));
+                PdfWriter.getInstance(document, Plik.plikR("symulacjawyniku-" + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
             } else {
-                PdfWriter.getInstance(document, Plik.plikR("symulacjawynikukonta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+                PdfWriter.getInstance(document, Plik.plikR("symulacjawynikukonta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
             }
             document.addTitle(B.b("zestawieniesymulacjawyniku"));
             document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
