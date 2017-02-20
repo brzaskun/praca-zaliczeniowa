@@ -1320,6 +1320,20 @@ public class DokfkView implements Serializable {
             Msg.msg("Usunieto wiersz");
         }
     }
+    
+    public void przewalutujWskazanyWiersz() {
+        if (wybranyWiersz == null) {
+            Msg.msg("e", "Nie wybrano wiersza do usunięcia.");
+            return;
+        }
+        try {
+            DokFKWalutyBean.przewalutujwiersz(wybranyWiersz);
+            Msg.msg("Przewalutowano wiersz");
+        } catch (Exception e) {
+            Msg.dPe();
+            E.e(e);
+        }
+    }
 
     private String sprawdzWierszeSasiednie(Wiersz wiersz) {
         Wiersz poprzedni = null;

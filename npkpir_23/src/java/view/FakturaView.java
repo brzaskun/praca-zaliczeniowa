@@ -72,6 +72,7 @@ import pdf.PdfFakturySporzadzone;
 import plik.Plik;
 import serialclone.SerialClone;
 import dao.SMTPSettingsDAO;
+import data.Data;
 import pdf.PdfFakturyOkresowe;
 import waluty.Z;
 
@@ -332,8 +333,8 @@ public class FakturaView implements Serializable {
             return;
         }
         selected.setKontrahent_nip(selected.getKontrahent().getNip());
-        selected.setRok(String.valueOf(wpisView.getRokWpisu()));
-        selected.setMc(wpisView.getMiesiacWpisu());
+        selected.setRok(Data.getCzescDaty(selected.getDatawystawienia(), 0));
+        selected.setMc(Data.getCzescDaty(selected.getDatawystawienia(), 1));
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
             selected.setPodpis("");

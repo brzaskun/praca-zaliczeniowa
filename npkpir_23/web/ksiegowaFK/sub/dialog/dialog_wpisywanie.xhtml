@@ -431,10 +431,11 @@
                 <div style="height: 340px;">
                     <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
 <!--ARCHIWUM            <p:menuitem value="napraw wiersz" icon="ui-icon-arrowreturn-1-n" update=":formwpisdokument:dataList" actionListener="#{dokfkView.naprawwiersznkup}"/>-->
-                        <p:menuitem value="saldo konta" icon="fa fa-table" update="panelwpisbutton" global="false"/>
                         <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                         <p:menuitem value="wymuś usuniecie" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"
                                     actionListener="#{dokfkView.usunWskazanyWierszWymus}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
+                        <p:menuitem value="przewalutuj wiersz" icon="fa fa-bug" actionListener="#{dokfkView.przewalutujWskazanyWiersz}"  global="false"/>
+                        <p:menuitem value="saldo konta" icon="fa fa-table" update="panelwpisbutton" global="false"/>
                     </p:contextMenu>
 
                     <!--                POSZCZEGÓLNE WIERSZE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
