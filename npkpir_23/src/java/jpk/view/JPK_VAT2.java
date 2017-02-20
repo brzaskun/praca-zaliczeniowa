@@ -36,31 +36,52 @@ public class JPK_VAT2 implements Serializable {
     private WpisView wpisView;
     
     public void przygotujXML(List<EVatwpis1> wiersze) {
-        List<JPK.SprzedazWiersz> listas = utworzwierszjpkSprzedaz(wiersze, EVatwpis1.class);
-        List<JPK.ZakupWiersz> listaz = utworzwierszjpkZakup(wiersze, EVatwpis1.class);
-        generujXML(listas, listaz);
+        Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpis1.class);
+        List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
+        JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];
+        Object[] zakup = utworzwierszjpkZakup(wiersze, EVatwpis1.class);
+        List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
+        JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
+        generujXML(listas, listaz, sprzedazCtrl, zakupCtrl);
     }
     
     public void przygotujXMLFK(List<EVatwpisFK> wiersze) {
-        List<JPK.SprzedazWiersz> listas = utworzwierszjpkSprzedaz(wiersze, EVatwpisFK.class);
-        List<JPK.ZakupWiersz> listaz = utworzwierszjpkZakup(wiersze, EVatwpisFK.class);
-        generujXML(listas, listaz);
+        Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpisFK.class);
+        List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
+        JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];
+        Object[] zakup = utworzwierszjpkZakup(wiersze, EVatwpisFK.class);
+        List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
+        JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
+        generujXML(listas, listaz, sprzedazCtrl, zakupCtrl);
     }
     
     
-    public void generujXML(List<JPK.SprzedazWiersz> listas, List<JPK.ZakupWiersz> listaz) {
+    public void generujXML(List<JPK.SprzedazWiersz> listas, List<JPK.ZakupWiersz> listaz, JPK.SprzedazCtrl sprzedazCtrl, JPK.ZakupCtrl zakupCtrl) {
         try {
             JPK jpk = new JPK();
             jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.dzienostatni(wpisView),wpisView.getPodatnikObiekt().getUrzadskarbowy()));
             jpk.setPodmiot1(podmiot1(wpisView));
             jpk.getSprzedazWiersz().addAll(listas);
-            jpk.setSprzedazCtrl(obliczsprzedazCtrl(jpk));
+            jpk.setSprzedazCtrl(sprzedazCtrl);
             jpk.getZakupWiersz().addAll(listaz);
-            jpk.setZakupCtrl(obliczzakupCtrl(jpk));
+            jpk.setZakupCtrl(zakupCtrl);
+            marszajuldoplikuxml(jpk);
             Msg.dP();
         } catch(Exception e) {
             Msg.dPe();
             E.e(e);
+        }
+    }
+    
+    private void marszajuldoplikuxml(JPK jpk) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(JPK.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.marshal(jpk, System.out);
+            marshaller.marshal(jpk, new FileWriter("testowa.xml"));
+        } catch (Exception ex) {
+            E.e(ex);
         }
     }
     
@@ -94,14 +115,16 @@ public class JPK_VAT2 implements Serializable {
     }
 
 
-    private List<JPK.SprzedazWiersz> utworzwierszjpkSprzedaz(List wiersze, Class c) {
+    private Object[] utworzWierszeJpkSprzedaz(List wiersze, Class c) {
+        Object[] zwrot = new Object[2];
         List<JPK.SprzedazWiersz> lista = new ArrayList<>();
+        JPK.SprzedazCtrl sprzedazCtrl = new JPK.SprzedazCtrl();
         if (c.getName().equals("EVatwpis1")) {
             int lp = 1;
             for (Object p : wiersze) {
                 EVatwpis1 wiersz = (EVatwpis1) p;
                 if (!wiersz.getEwidencja().getTypewidencji().equals("z")) {
-                    lista.add(dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++)));
+                    lista.add(dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
                 }
             }
         } else {
@@ -109,15 +132,19 @@ public class JPK_VAT2 implements Serializable {
             for (Object p : wiersze) {
                 EVatwpisFK wiersz = (EVatwpisFK) p;
                 if (!wiersz.getEwidencja().getTypewidencji().equals("z")) {
-                    lista.add(dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++)));
+                    lista.add(dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
                 }
             }
         }
-        return lista;
+        zwrot[0] = lista;
+        zwrot[1] = sprzedazCtrl;
+        return zwrot;
     }
     
-    private List<JPK.ZakupWiersz> utworzwierszjpkZakup(List wiersze, Class c) {
+    private Object[] utworzwierszjpkZakup(List wiersze, Class c) {
+        Object[] zwrot = new Object[2];
         List<JPK.ZakupWiersz> lista = new ArrayList<>();
+        JPK.ZakupCtrl zakupCtrl = new JPK.ZakupCtrl();
         if (c.getName().equals("EVatwpis1")) {
             int lp = 1;
             for (Object p : wiersze) {
@@ -135,7 +162,9 @@ public class JPK_VAT2 implements Serializable {
                 }
             }
         }
-        return lista;
+        zwrot[0] = lista;
+        zwrot[1] = zakupCtrl;
+        return zwrot;
     }
 
     

@@ -176,7 +176,7 @@ public class JPK_VAT2_Bean {
         jpk.getSprzedazWiersz().add(dodajwierszsprzedazy());
     }
     
-    public static JPK.SprzedazWiersz dodajwierszsprzedazy(EVatwpis1 ev, BigInteger lp) {
+    public static JPK.SprzedazWiersz dodajwierszsprzedazy(EVatwpis1 ev, BigInteger lp, JPK.SprzedazCtrl sprzedazCtrl) {
         JPK.SprzedazWiersz w = new JPK.SprzedazWiersz();
         try {
             w.setLpSprzedazy(lp);
@@ -187,7 +187,7 @@ public class JPK_VAT2_Bean {
             w.setAdresKontrahenta(ev.getDok().getKontr1().getAdres());
             w.setDowodSprzedazy(ev.getDok().getNrWlDk());
             w.setTyp("G");
-            dodajkwotydowierszaSprzedazy(w,ev);
+            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl);
         } catch (Exception ex) {
 
         }
@@ -196,7 +196,7 @@ public class JPK_VAT2_Bean {
     
     
     
-    public static JPK.SprzedazWiersz dodajwierszsprzedazy(EVatwpisFK ev, BigInteger lp) {
+    public static JPK.SprzedazWiersz dodajwierszsprzedazy(EVatwpisFK ev, BigInteger lp, JPK.SprzedazCtrl sprzedazCtrl) {
         JPK.SprzedazWiersz w = new JPK.SprzedazWiersz();
         try {
             w.setLpSprzedazy(lp);
@@ -207,7 +207,7 @@ public class JPK_VAT2_Bean {
             w.setAdresKontrahenta(ev.getDokfk().getKontr().getAdres());
             w.setDowodSprzedazy(ev.getDokfk().getNumerwlasnydokfk());
             w.setTyp("G");
-            dodajkwotydowierszaSprzedazy(w,ev);
+            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl);
         } catch (Exception ex) {
 
         }
@@ -249,14 +249,16 @@ public class JPK_VAT2_Bean {
         } else {
             s.setLiczbaWierszySprzedazy(s.getLiczbaWierszySprzedazy().add(BigInteger.ONE));
         }
-        BigDecimal b1 = s.getPodatekNalezny();
+        BigDecimal podnal = s.getPodatekNalezny();
         if (b == null) {
             s.setPodatekNalezny(r.getK20());
         } else {
-            s.setPodatekNalezny(s.getPodatekNalezny().add(r.getK20()));
+            s.setPodatekNalezny(podnal.add(r.getK20()));
         }
     }
 
+
+    
     public static void dodajWierszeZakupy(JPK jpk) {
         jpk.getZakupWiersz().add(dodajwierszzakupu());
     }
@@ -339,7 +341,7 @@ public class JPK_VAT2_Bean {
         }
     }
 
-    private static void dodajkwotydowierszaSprzedazy(JPK.SprzedazWiersz w, EVatwpis1 ev) {
+    private static void dodajkwotydowierszaSprzedazy(JPK.SprzedazWiersz w, EVatwpis1 ev, JPK.SprzedazCtrl sprzedazCtrl) {
         try {
             String netto = ev.getEwidencja().getPolejpk_netto_sprzedaz().replace("_", null);
             String vat = ev.getEwidencja().getPolejpk_netto_sprzedaz() != null ? ev.getEwidencja().getPolejpk_netto_sprzedaz().replace("_", null) : null;
@@ -350,13 +352,14 @@ public class JPK_VAT2_Bean {
             if (vat != null) {
                 Method method = JPK.SprzedazWiersz.class.getMethod(zwrocpolejpk(ev.getEwidencja(),vat),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(ev.getVat()));
+                sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())));
             }
         } catch (Exception e) {
             E.e(e);
         }
     }
     
-    private static void dodajkwotydowierszaSprzedazy(JPK.SprzedazWiersz w, EVatwpisFK ev) {
+    private static void dodajkwotydowierszaSprzedazy(JPK.SprzedazWiersz w, EVatwpisFK ev, JPK.SprzedazCtrl sprzedazCtrl) {
         try {
             String netto = ev.getEwidencja().getPolejpk_netto_sprzedaz().replace("_", null);
             String vat = ev.getEwidencja().getPolejpk_netto_sprzedaz() != null ? ev.getEwidencja().getPolejpk_netto_sprzedaz().replace("_", null) : null;
@@ -367,6 +370,7 @@ public class JPK_VAT2_Bean {
             if (vat != null) {
                 Method method = JPK.SprzedazWiersz.class.getMethod(zwrocpolejpk(ev.getEwidencja(),vat),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(ev.getVat()));
+                sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())));
             }
         } catch (Exception e) {
             E.e(e);
@@ -434,4 +438,6 @@ public class JPK_VAT2_Bean {
             Logger.getLogger(JPK_VAT2_Bean.class.getName()).log(Level.SEVERE, null, ex);
         }
    }
+
+    
 }

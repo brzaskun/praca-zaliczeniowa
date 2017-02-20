@@ -140,7 +140,6 @@
                          <f:selectItems value="#{polaJPK_VAT2.polajpk}" var="item" itemLabel="#{item.toString()}" itemValue="#{item.symbol}"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
-                    <p:commandButton action="#{evewidencjaView.dodaj()}" value="dodaj" update="akordeon:form11:tablica1, akordeon:parametryewidencji2:parametr" type="submit" style="width: 120px; margin: 10px;"/>
                     <p:commandButton action="#{evewidencjaView.edytuj()}" value="edytuj" update="akordeon:form11:tablica1, akordeon:parametryewidencji2:parametr" type="submit" style="width: 120px; margin: 10px;"/>
             </h:form>
         </p:tab>
