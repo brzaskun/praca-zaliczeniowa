@@ -38,6 +38,13 @@
             width: 85px !important;
         }
     </style>
+     <script>
+        var pobierzxml = function() {
+            document.getElementById('link').setAttribute('href','../resources/xml/testowa#{WpisView.podatnikObiekt.nip}.xml');
+            document.getElementById('link').setAttribute('download','jpk#{WpisView.podatnikObiekt.nip}_#{WpisView.rokWpisuSt}#{WpisView.miesiacWpisu}.xml');
+            document.getElementById('link').click()
+        }
+    </script>
             <p:tabView id="akordeon" style="height: 750px;" dynamic="true" >
                 <p:tab title="ewidencje">
                     <p:tabView id="akordeon2" value="#{ewidencjaVatView.ewidencje}"  var="item">
@@ -245,8 +252,11 @@
                     </h:outputText>
                     <p:commandButton value="zaksięguj VAT" style="width: 120px; margin-left: 30px; margin-right: 30px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT()}"/>
                     <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
-                    <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 100px;"/>
-                    <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 10px;"/>
+                    <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 70px;"/>
+                    <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 5px;"/>
+                     <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jPK_VAT2.przygotujXMLFK(ewidencjaVatView.ewidencjeZdokumentuFK)}"
+                                     oncomplete="pobierzxml()"
+                             style="width: 120px; margin-left: 5px;"/>
                     <p:separator/>
                     <p:separator/>
                     <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
@@ -379,7 +389,7 @@
                         <h:outputText value="razem koszty m-ce następne "/>
                         <bcf:outputpl value="#{ewidencjaVatView.sumaprzesunietychBardziej + ewidencjaVatView.sumaprzesunietych}"/>
                     </p:outputPanel>
-                   
+                   <a  download='jpkvat' id="link"></a>
                 </p:tab>
                 <p:tab title="kontrola">
                     <p:commandButton value="Sprawdź" icon="ui-icon-check" update="form:akordeon:tabelasprawdzania"

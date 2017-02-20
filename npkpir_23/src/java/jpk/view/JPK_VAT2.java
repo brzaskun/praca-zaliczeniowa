@@ -6,17 +6,21 @@
 package jpk.view;
 
 import data.Data;
+import embeddable.TKodUS;
 import entity.EVatwpis1;
-import entity.Evewidencja;
 import entityfk.EVatwpisFK;
 import error.E;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -24,16 +28,21 @@ import jpk201701.JPK;
 import static jpk.view.JPK_VAT2_Bean.*;
 import msg.Msg;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
  * @author Osito
  */
+@ManagedBean
+@ViewScoped
 public class JPK_VAT2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @Inject
+    private TKodUS tKodUS;
     
     public void przygotujXML(List<EVatwpis1> wiersze) {
         Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpis1.class);
@@ -59,12 +68,16 @@ public class JPK_VAT2 implements Serializable {
     public void generujXML(List<JPK.SprzedazWiersz> listas, List<JPK.ZakupWiersz> listaz, JPK.SprzedazCtrl sprzedazCtrl, JPK.ZakupCtrl zakupCtrl) {
         try {
             JPK jpk = new JPK();
-            jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.dzienostatni(wpisView),wpisView.getPodatnikObiekt().getUrzadskarbowy()));
+            jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.dzienostatni(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
             jpk.setPodmiot1(podmiot1(wpisView));
             jpk.getSprzedazWiersz().addAll(listas);
-            jpk.setSprzedazCtrl(sprzedazCtrl);
+            if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
+                jpk.setSprzedazCtrl(sprzedazCtrl);
+            }
             jpk.getZakupWiersz().addAll(listaz);
-            jpk.setZakupCtrl(zakupCtrl);
+            if (zakupCtrl.getLiczbaWierszyZakupow().intValue() > 0) {
+                jpk.setZakupCtrl(zakupCtrl);
+            }
             marszajuldoplikuxml(jpk);
             Msg.dP();
         } catch(Exception e) {
@@ -78,8 +91,9 @@ public class JPK_VAT2 implements Serializable {
             JAXBContext context = JAXBContext.newInstance(JPK.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.marshal(jpk, System.out);
-            marshaller.marshal(jpk, new FileWriter("testowa.xml"));
+            marshaller.marshal(jpk, new FileWriter("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\xml\\testowa"+wpisView.getPodatnikObiekt().getNip()+".xml"));
         } catch (Exception ex) {
             E.e(ex);
         }
@@ -119,11 +133,13 @@ public class JPK_VAT2 implements Serializable {
         Object[] zwrot = new Object[2];
         List<JPK.SprzedazWiersz> lista = new ArrayList<>();
         JPK.SprzedazCtrl sprzedazCtrl = new JPK.SprzedazCtrl();
-        if (c.getName().equals("EVatwpis1")) {
+        sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
+        sprzedazCtrl.setPodatekNalezny(BigDecimal.ZERO);
+        if (c.getName().equals("entity.EVatwpis1")) {
             int lp = 1;
             for (Object p : wiersze) {
                 EVatwpis1 wiersz = (EVatwpis1) p;
-                if (!wiersz.getEwidencja().getTypewidencji().equals("z")) {
+                if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
                     lista.add(dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
                 }
             }
@@ -131,8 +147,8 @@ public class JPK_VAT2 implements Serializable {
             int lp = 1;
             for (Object p : wiersze) {
                 EVatwpisFK wiersz = (EVatwpisFK) p;
-                if (!wiersz.getEwidencja().getTypewidencji().equals("z")) {
-                    lista.add(dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                    lista.add(dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
                 }
             }
         }
@@ -145,20 +161,22 @@ public class JPK_VAT2 implements Serializable {
         Object[] zwrot = new Object[2];
         List<JPK.ZakupWiersz> lista = new ArrayList<>();
         JPK.ZakupCtrl zakupCtrl = new JPK.ZakupCtrl();
-        if (c.getName().equals("EVatwpis1")) {
+        zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
+        zakupCtrl.setPodatekNaliczony(BigDecimal.ZERO);
+        if (c.getName().equals("entity.EVatwpis1")) {
             int lp = 1;
             for (Object p : wiersze) {
                 EVatwpis1 wiersz = (EVatwpis1) p;
-                if (!wiersz.getEwidencja().getTypewidencji().equals("s")) {
-                    lista.add(dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++)));
+                if (!wiersz.getEwidencja().getTypewidencji().equals("s") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                    lista.add(dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
                 }
             }
         } else {
             int lp = 1;
             for (Object p : wiersze) {
                 EVatwpisFK wiersz = (EVatwpisFK) p;
-                if (!wiersz.getEwidencja().getTypewidencji().equals("s")) {
-                    lista.add(dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++)));
+                if (!wiersz.getEwidencja().getTypewidencji().equals("s") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                    lista.add(dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
                 }
             }
         }

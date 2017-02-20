@@ -6,7 +6,13 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
-
+    <script>
+        var pobierzxml = function() {
+            document.getElementById('link').setAttribute('href','../resources/xml/testowa#{WpisView.podatnikObiekt.nip}.xml');
+            document.getElementById('link').setAttribute('download','jpk#{WpisView.podatnikObiekt.nip}_#{WpisView.rokWpisuSt}#{WpisView.miesiacWpisu}.xml');
+            document.getElementById('link').click()
+        }
+    </script>
     <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}"/>
 
     <p:tabView>
@@ -72,7 +78,9 @@
             <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
             <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 100px;"/>
                     <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 10px;"/>
-                <p:separator/>
+                    <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jPK_VAT2.przygotujXML(ewidencjaVatView.ewidencjeZdokumentu)}"
+                                     oncomplete="pobierzxml()"
+                             style="width: 120px; margin-left: 10px;"/>
             <p:separator/>
             <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
                          selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
@@ -121,6 +129,7 @@
                 </p:column>
 
             </p:dataTable>
+                <a  download='jpkvat' id="link"></a>
         </p:tab>
     </p:tabView>
 

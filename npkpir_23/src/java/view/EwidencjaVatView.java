@@ -120,6 +120,8 @@ public class EwidencjaVatView implements Serializable {
     private Evewidencja ewidencjazakupu;
     private String ewidencjadosprawdzania;
     private List<EVatViewPola> wybranaewidencja;
+    private List<EVatwpis1> ewidencjeZdokumentu;
+    private List<EVatwpisFK> ewidencjeZdokumentuFK;
 
     public EwidencjaVatView() {
         nazwyewidencji = new ArrayList<>();
@@ -130,6 +132,8 @@ public class EwidencjaVatView implements Serializable {
         sumaewidencji = new HashMap<>();
         goscwybral = new ArrayList<>();
         listanowa = new ArrayList<>();
+        ewidencjeZdokumentu = new ArrayList<>();
+        ewidencjeZdokumentuFK = new ArrayList<>();
         suma1 = 0.0;
         suma2 = 0.0;
         suma3 = 0.0;
@@ -188,6 +192,8 @@ public class EwidencjaVatView implements Serializable {
         listadokvatprzetworzona = new ArrayList<>();
         sumaewidencji = new HashMap<>();
         listaprzesunietychKoszty = new ArrayList<>();
+        ewidencjeZdokumentu = new ArrayList<>();
+        ewidencjeZdokumentuFK = new ArrayList<>();
     }
 
     public void stworzenieEwidencjiZDokumentow() {
@@ -230,6 +236,7 @@ public class EwidencjaVatView implements Serializable {
             System.out.println("vat okres: "+vatokres);
             List<EVatwpisFK> listaprzetworzona = pobierzEVatRokFK(vatokres);
             Collections.sort(listaprzetworzona,new EVatwpisFKcomparator());
+            ewidencjeZdokumentuFK.addAll(listaprzetworzona);
             listadokvatprzetworzona = transferujEVatwpisFKDoEVatViewPola(listaprzetworzona, vatokres);
             listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
             wyluskajzlisty(listaprzesunietychKoszty, "koszty");
@@ -486,6 +493,7 @@ public class EwidencjaVatView implements Serializable {
             if (zaksiegowanafaktura.getEwidencjaVAT1() != null) {
                 List<EVatwpis1> ewidencjeZdokumentu = new ArrayList<>();
                 ewidencjeZdokumentu.addAll(zaksiegowanafaktura.getEwidencjaVAT1());
+                this.ewidencjeZdokumentu.addAll(zaksiegowanafaktura.getEwidencjaVAT1());
                 for (EVatwpis1 ewidwiersz : ewidencjeZdokumentu) {
                     if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
                         EVatViewPola wiersz = new EVatViewPola();
@@ -1345,6 +1353,24 @@ public class EwidencjaVatView implements Serializable {
     public void setWybranaewidencja(List<EVatViewPola> wybranaewidencja) {
         this.wybranaewidencja = wybranaewidencja;
     }
+
+    public List<EVatwpis1> getEwidencjeZdokumentu() {
+        return ewidencjeZdokumentu;
+    }
+
+    public void setEwidencjeZdokumentu(List<EVatwpis1> ewidencjeZdokumentu) {
+        this.ewidencjeZdokumentu = ewidencjeZdokumentu;
+    }
+
+    public List<EVatwpisFK> getEwidencjeZdokumentuFK() {
+        return ewidencjeZdokumentuFK;
+    }
+
+    public void setEwidencjeZdokumentuFK(List<EVatwpisFK> ewidencjeZdokumentuFK) {
+        this.ewidencjeZdokumentuFK = ewidencjeZdokumentuFK;
+    }
+
+   
 
     
     public void setWybranewierszeewidencji(List<EVatViewPola> wybranewierszeewidencji) {
