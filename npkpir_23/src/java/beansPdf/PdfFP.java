@@ -184,19 +184,19 @@ public class PdfFP {
                     if (!czydodatkowyelementjestAktywny("stopka niemiecka", elementydod)) {
                         pozycja = zwrocPolozenieElementu(skladnikifaktury, "wystawca");
                         prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:wystawca") - 65, 250, 80);
-                        absText(writer, B.b("sprzedawca")+":", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca"), 10);
+                        absText(writer, B.b("sprzedawca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca"), 10);
                         absText(writer, selected.getWystawca().getNazwadlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 20, 8);
                         adres = selected.getWystawca().getAdresdlafaktury();
                         absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 40, 8);
                         String nip = selected.getWystawca().getNipdlafaktury() != null ? selected.getWystawca().getNipdlafaktury() : selected.getWystawca().getNip();
-                        absText(writer, "NIP: " + selected.getWystawca().getNipdlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 60, 8);
+                        absText(writer, B.b("sprzedawca")+": " + selected.getWystawca().getNipdlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 60, 8);
                     }
                     break;
                 case "akordeon:formwzor:odbiorca":
                     //Dane do modulu odbiorca
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "odbiorca");
                     prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:odbiorca") - 65, 250, 80);
-                    absText(writer, B.b("nabywca")+":", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca"), 10);
+                    absText(writer, B.b("nabywca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca"), 10);
                     absText(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 20, 8);
                     if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
                         adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
@@ -289,7 +289,7 @@ public class PdfFP {
                     //Dane do modulu przewłaszczenie
                     if (PdfFP.czydodatkowyelementjestAktywny("warunki dostawy", elementydod)) {
                         pozycja = zwrocPolozenieElementu(skladnikifaktury, "warunkidostawy");
-                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:warunkidostawy") - 5, 360, 15);
+                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:warunkidostawy") - 5, 400, 15);
                         absText(writer, PdfFP.pobierzelementdodatkowy("warunki dostawy", elementydod), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:warunkidostawy"), 8);
                     }
                     break;
@@ -397,35 +397,35 @@ public class PdfFP {
                     //Dane do moudlu data
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "data");
                     prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:data") - 5, 140, 15);
-                    absText(canvas, selected.getMiejscewystawienia() + " dnia: " + selected.getDatawystawienia(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:data"), 8);
+                    absText(canvas, selected.getMiejscewystawienia() + " "+B.b("dnia")+" " + selected.getDatawystawienia(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:data"), 8);
                     break;
                 case "akordeon:formwzor:fakturanumer":
                     //Dane do modulu fakturanumer
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "fakturanumer");
                     prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:fakturanumer") - 5, 190, 20);
-                    absText(canvas, "Faktura nr " + selected.getFakturaPK().getNumerkolejny(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:fakturanumer"), 10);
+                    absText(canvas, B.b("fakturanr")+" " + selected.getFakturaPK().getNumerkolejny(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:fakturanumer"), 10);
                     break;
                 case "akordeon:formwzor:wystawca":
                     //Dane do modulu sprzedawca
                     if (!czydodatkowyelementjestAktywny("stopka niemiecka", elementydod)) {
                         pobrane = zwrocPolozenieElementu(skladnikifaktury, "wystawca");
                         prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:wystawca") - 65, 250, 80);
-                        absText(canvas, "Sprzedawca:", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca"), 10);
+                        absText(canvas, B.b("sprzedawca")+":", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca"), 10);
                         absText(canvas, selected.getWystawca().getNazwadlafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 20, 8);
                         adres = selected.getWystawca().getAdresdlafaktury();
                         absText(canvas, adres, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 40, 8);
-                        absText(canvas, "NIP: " + selected.getWystawca().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 60, 8);
+                        absText(canvas, B.b("NIP")+": " + selected.getWystawca().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 60, 8);
                     }
                     break;
                 case "akordeon:formwzor:odbiorca":
                     //Dane do modulu odbiorca
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "odbiorca");
                     prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:odbiorca") - 65, 250, 80);
-                    absText(canvas, "Nabywca:", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca"), 10);
+                    absText(canvas, B.b("nabywca")+":", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca"), 10);
                     absText(canvas, selected.getKontrahent().getNpelna(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 20, 8);
                     adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
                     absText(canvas, adres, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 40, 8);
-                    absText(canvas, "NIP: " + selected.getKontrahent().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 60, 8);
+                    absText(canvas, B.b("NIP")+": " + selected.getKontrahent().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 60, 8);
                     break;
                 case "akordeon:formwzor:przewłaszczenie":
                     //Dane do modulu przewłaszczenie
@@ -439,7 +439,7 @@ public class PdfFP {
                     //Dane do modulu przewłaszczenie
                     if (PdfFP.czydodatkowyelementjestAktywny("warunki dostawy", elementydod)) {
                         pobrane = zwrocPolozenieElementu(skladnikifaktury, "warunkidostawy");
-                        prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:warunkidostawy") - 5, 360, 15);
+                        prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:warunkidostawy") - 5, 400, 15);
                         absText(canvas, PdfFP.pobierzelementdodatkowy("warunki dostawy", elementydod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:warunkidostawy"), 8);
                     }
                     break;
