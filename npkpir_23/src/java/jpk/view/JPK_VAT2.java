@@ -27,6 +27,7 @@ import javax.xml.bind.Unmarshaller;
 import jpk201701.JPK;
 import static jpk.view.JPK_VAT2_Bean.*;
 import msg.Msg;
+import view.EwidencjaVatView;
 import view.WpisView;
 import waluty.Z;
 
@@ -41,10 +42,17 @@ public class JPK_VAT2 implements Serializable {
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{ewidencjaVatView}")
+    private EwidencjaVatView ewidencjaVatView;
     @Inject
     private TKodUS tKodUS;
+    private JPK jpk;
     
-    public void przygotujXML(List<EVatwpis1> wiersze) {
+    
+    public void przygotujXML() {
+        ewidencjaVatView.setPobierzmiesiacdlajpk(true);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentow();
+        List<EVatwpis1> wiersze = ewidencjaVatView.getEwidencjeZdokumentu();
         Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpis1.class);
         List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
         JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];
@@ -54,7 +62,10 @@ public class JPK_VAT2 implements Serializable {
         generujXML(listas, listaz, sprzedazCtrl, zakupCtrl);
     }
     
-    public void przygotujXMLFK(List<EVatwpisFK> wiersze) {
+    public void przygotujXMLFK() {
+        ewidencjaVatView.setPobierzmiesiacdlajpk(true);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
+        List<EVatwpisFK> wiersze = ewidencjaVatView.getEwidencjeZdokumentuFK();
         Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpisFK.class);
         List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
         JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];
@@ -67,7 +78,7 @@ public class JPK_VAT2 implements Serializable {
     
     public void generujXML(List<JPK.SprzedazWiersz> listas, List<JPK.ZakupWiersz> listaz, JPK.SprzedazCtrl sprzedazCtrl, JPK.ZakupCtrl zakupCtrl) {
         try {
-            JPK jpk = new JPK();
+            jpk = new JPK();
             jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.dzienostatni(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
             jpk.setPodmiot1(podmiot1(wpisView));
             jpk.getSprzedazWiersz().addAll(listas);
@@ -185,8 +196,14 @@ public class JPK_VAT2 implements Serializable {
         return zwrot;
     }
 
-    
-     
+    public EwidencjaVatView getEwidencjaVatView() {
+        return ewidencjaVatView;
+    }
+
+    public void setEwidencjaVatView(EwidencjaVatView ewidencjaVatView) {
+        this.ewidencjaVatView = ewidencjaVatView;
+    }
+ 
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -194,5 +211,14 @@ public class JPK_VAT2 implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+
+    public JPK getJpk() {
+        return jpk;
+    }
+
+    public void setJpk(JPK jpk) {
+        this.jpk = jpk;
+    }
+    
     
 }

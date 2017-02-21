@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
     <script>
         var pobierzxml = function() {
             document.getElementById('link').setAttribute('href','../resources/xml/testowa#{WpisView.podatnikObiekt.nip}.xml');
@@ -13,9 +14,8 @@
             document.getElementById('link').click()
         }
     </script>
-    <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}"/>
-
-    <p:tabView>
+    <p:commandButton value="sporządź" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}" update="formVatZestKsiegowa" style="width: 120px; padding: 5px;"/>
+    <p:tabView id="akordeon">
         <p:tab id="ewid1" title="ewidencje">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
                 <p:tab title="#{item[0].nazwaewidencji.nazwa}">
@@ -78,10 +78,12 @@
             <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
             <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 100px;"/>
                     <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 10px;"/>
-                    <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jPK_VAT2.przygotujXML(ewidencjaVatView.ewidencjeZdokumentu)}"
-                                     oncomplete="pobierzxml()"
+                    <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jPK_VAT2.przygotujXML()}"
+                                     oncomplete="pobierzxml()" update="formVatZestKsiegowa"
                              style="width: 120px; margin-left: 10px;"/>
             <p:separator/>
+             <p:panelGrid id="panelposumowaniavat" columns="2" columnClasses="fifty-percent fifty-percent">
+                        <p:panelGrid columns="1">
             <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
                          selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
                          >
@@ -129,6 +131,16 @@
                 </p:column>
 
             </p:dataTable>
+            </p:panelGrid>
+                        <p:panelGrid id="paneljpk" columns="4">
+                            <p:panelGrid rendered="#{jPK_VAT2.jpk ne null}" style="width: 300px;" columns="2">
+                                <h:outputText value="jpk sprzedaż"/><bcf:outputpl value="#{jPK_VAT2.jpk.sprzedazCtrl.podatekNalezny}"/>
+                                <h:outputText value="jpk sprzedaż wiersze"/><h:outputText value="#{jPK_VAT2.jpk.sprzedazCtrl.liczbaWierszySprzedazy}"/>
+                                <h:outputText value="jpk zakup"/><bcf:outputpl value="#{jPK_VAT2.jpk.zakupCtrl.podatekNaliczony}"/>
+                                <h:outputText value="jpk zakup wiersze"/><h:outputText value="#{jPK_VAT2.jpk.zakupCtrl.liczbaWierszyZakupow}"/>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                        </p:panelGrid>
                 <a  download='jpkvat' id="link"></a>
         </p:tab>
     </p:tabView>

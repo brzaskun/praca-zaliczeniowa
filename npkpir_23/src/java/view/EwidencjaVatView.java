@@ -122,6 +122,7 @@ public class EwidencjaVatView implements Serializable {
     private List<EVatViewPola> wybranaewidencja;
     private List<EVatwpis1> ewidencjeZdokumentu;
     private List<EVatwpisFK> ewidencjeZdokumentuFK;
+    private boolean pobierzmiesiacdlajpk;
 
     public EwidencjaVatView() {
         nazwyewidencji = new ArrayList<>();
@@ -202,6 +203,9 @@ public class EwidencjaVatView implements Serializable {
             zerujListy();
             pobierzdokumentyzaOkres();
             String vatokres = sprawdzjakiokresvat();
+            if (pobierzmiesiacdlajpk) {
+                vatokres = "miesięczne";
+            }
             listadokvat = zmodyfikujlisteMcKw(listadokvat, vatokres);
             List<Rodzajedok> listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Map<String,Double> rodzajProcent = pobierzprocenty(listaPodatnika);
@@ -213,8 +217,11 @@ public class EwidencjaVatView implements Serializable {
             for (List<EVatViewPola> p : listaewidencji.values()) {
                 ewidencje.add(p);
             }
-            RequestContext.getCurrentInstance().update("form");
+            pobierzmiesiacdlajpk = false;
+            RequestContext.getCurrentInstance().update("formVatZestKsiegowa");
+            Msg.msg("Sporządzono ewidencje");
         } catch (Exception e) { 
+            Msg.dPe();
             E.e(e);
         }
         //drukuj ewidencje
@@ -233,6 +240,9 @@ public class EwidencjaVatView implements Serializable {
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
             zerujListy();
             String vatokres = sprawdzjakiokresvat();
+            if (pobierzmiesiacdlajpk) {
+                vatokres = "miesięczne";
+            }
             System.out.println("vat okres: "+vatokres);
             List<EVatwpisFK> listaprzetworzona = pobierzEVatRokFK(vatokres);
             Collections.sort(listaprzetworzona,new EVatwpisFKcomparator());
@@ -262,6 +272,7 @@ public class EwidencjaVatView implements Serializable {
                 }
                 ewidencje.add(p);
             }
+            pobierzmiesiacdlajpk = false;
             RequestContext.getCurrentInstance().update("form");
             RequestContext.getCurrentInstance().update("formEwidencjeGuest");
             RequestContext.getCurrentInstance().update("form_dialog_ewidencjevat_sprawdzanie");
@@ -1394,6 +1405,14 @@ public class EwidencjaVatView implements Serializable {
 
     private void tlumaczewidencje(List<EVatViewPola> l) {
         
+    }
+
+    public boolean isPobierzmiesiacdlajpk() {
+        return pobierzmiesiacdlajpk;
+    }
+
+    public void setPobierzmiesiacdlajpk(boolean pobierzmiesiacdlajpk) {
+        this.pobierzmiesiacdlajpk = pobierzmiesiacdlajpk;
     }
 
     

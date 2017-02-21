@@ -254,13 +254,14 @@
                     <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
                     <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 70px;"/>
                     <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 5px;"/>
-                     <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jPK_VAT2.przygotujXMLFK(ewidencjaVatView.ewidencjeZdokumentuFK)}"
-                                     oncomplete="pobierzxml()"
+                     <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jPK_VAT2.przygotujXMLFK()}"
+                                      oncomplete="pobierzxml()" update="paneljpk"
                              style="width: 120px; margin-left: 5px;"/>
                     <p:separator/>
-                    <p:separator/>
+                    <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
+                        <p:panelGrid id="panelposumowaniavat" columns="1">
                     <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
-                                 selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
+                                 selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}"
                                  >
                         <f:facet name="header">
                             <h:outputText value="zestawienie ewidencji vat - sprzedaż"/>
@@ -283,7 +284,7 @@
 
                     </p:dataTable>
                     <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemik" 
-                                 selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
+                                 selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" 
                                  >
                         <f:facet name="header">
                             <h:outputText value="zestawienie ewidencji vat - koszty"/>
@@ -306,6 +307,16 @@
                         </p:column>
 
                     </p:dataTable>
+                            </p:panelGrid>
+                        <p:panelGrid id="paneljpk" columns="4">
+                            <p:panelGrid rendered="#{jPK_VAT2.jpk ne null}" style="width: 300px;" columns="2">
+                                <h:outputText value="jpk sprzedaż"/><bcf:outputpl value="#{jPK_VAT2.jpk.sprzedazCtrl.podatekNalezny}"/>
+                                <h:outputText value="jpk sprzedaż wiersze"/><h:outputText value="#{jPK_VAT2.jpk.sprzedazCtrl.liczbaWierszySprzedazy}"/>
+                                <h:outputText value="jpk zakup"/><bcf:outputpl value="#{jPK_VAT2.jpk.zakupCtrl.podatekNaliczony}"/>
+                                <h:outputText value="jpk zakup wiersze"/><h:outputText value="#{jPK_VAT2.jpk.zakupCtrl.liczbaWierszyZakupow}"/>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                        </p:panelGrid>
                     <p:outputPanel style="margin-top: 10px">
         <!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
                         <p:dataTable value="#{kontaVatFKView.kontavat}" var="item1" style="width: 700px;" id="saldokontvat"
