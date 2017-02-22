@@ -287,8 +287,8 @@ public class JPK_VAT2_Bean {
             w.setLpZakupu(lp);
             w.setDataZakupu(dataoddo(ev.getDokfk().getDataoperacji()));
             w.setDataWplywu(dataoddo(ev.getDokfk().getDatawystawienia()));
-            w.setNazwaDostawcy(ev.getDokfk().getKontr().getNip());
-            w.setNrDostawcy(ev.getDokfk().getKontr().getNpelna());
+            w.setNazwaDostawcy(ev.getDokfk().getKontr().getNpelna());
+            w.setNrDostawcy(ev.getDokfk().getKontr().getNip());
             w.setAdresDostawcy(ev.getDokfk().getKontr().getAdres());
             w.setDowodZakupu(ev.getDokfk().getNumerwlasnydokfk());
             w.setTyp("G");
