@@ -15,7 +15,7 @@
                 <ui:include src="sub/dialogi/dialog_czynaniescplatnoscfaktury.xhtml"/>
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj" >
                         <ui:include src="sub/layoutFaktura/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutFakturaGuestFakturaPlatnosci/west.xhtml"/>
+                        <ui:include src="#{pozycjeNaFakturzeView.westustawienia}"/>   <!-- panel zachodni-->
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                         <p:panel toggleable="true" closable="true" style="width: 1200px;" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
                             <f:facet name="header">
