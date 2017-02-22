@@ -11,7 +11,9 @@ import entity.EVatwpis1;
 import entityfk.EVatwpisFK;
 import error.E;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -104,7 +106,10 @@ public class JPK_VAT2 implements Serializable {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.marshal(jpk, System.out);
-            marshaller.marshal(jpk, new FileWriter("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\xml\\testowa"+wpisView.getPodatnikObiekt().getNip()+".xml"));
+            String plik = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\xml\\testowa"+wpisView.getPodatnikObiekt().getNip()+".xml";
+            FileOutputStream fileStream = new FileOutputStream(new File(plik));
+            OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
+            marshaller.marshal(jpk, writer);
         } catch (Exception ex) {
             E.e(ex);
         }
@@ -123,9 +128,12 @@ public class JPK_VAT2 implements Serializable {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(jpk, System.out);
-            marshaller.marshal(jpk, new FileWriter("james.xml"));
-            Wysylka.zipfile("james.xml");
-            Wysylka.encryptAES("james.xml.zip");
+            FileOutputStream fileStream = new FileOutputStream(new File("james2.xml"));
+            OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
+            marshaller.marshal(jpk, writer);
+            //marshaller.marshal(jpk, new FileWriter("james2.xml"));
+            Wysylka.zipfile("james2.xml");
+            Wysylka.encryptAES("james2.xml.zip");
             Unmarshaller unmarshaller = context.createUnmarshaller();
             JPK person2 = (JPK) unmarshaller.unmarshal(new File("james.xml"));
             //System.out.println(person2);

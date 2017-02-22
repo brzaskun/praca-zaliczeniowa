@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://jpk.mf.gov.pl/wzor/2016/10/26/10261/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_VAT (2)" wersjaSchemy="1-0">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <CelZlozenia>1</CelZlozenia>
+        <DataWytworzeniaJPK>2017-02-22T13:29:21.276Z</DataWytworzeniaJPK>
+        <DataOd>2016-09-01</DataOd>
+        <DataDo>2016-09-30</DataDo>
+        <DomyslnyKodWaluty>PLN</DomyslnyKodWaluty>
+        <KodUrzedu>2002</KodUrzedu>
+    </Naglowek>
+    <Podmiot1>
+        <IdentyfikatorPodmiotu>
+            <ns2:NIP>1111111111</ns2:NIP>
+            <ns2:PelnaNazwa>Pełna Nazwa</ns2:PelnaNazwa>
+            <ns2:REGON>123456789</ns2:REGON>
+        </IdentyfikatorPodmiotu>
+        <AdresPodmiotu>
+            <KodKraju>PL</KodKraju>
+            <Wojewodztwo>Zachodniopomorskie</Wojewodztwo>
+            <Powiat>powiat</Powiat>
+            <Gmina>gmina</Gmina>
+            <Ulica>ulica</Ulica>
+            <NrDomu>nrdomu</NrDomu>
+            <NrLokalu>nrlokalu</NrLokalu>
+            <Miejscowosc>miejscowosc</Miejscowosc>
+            <KodPocztowy>70-100</KodPocztowy>
+            <Poczta>poczta</Poczta>
+        </AdresPodmiotu>
+    </Podmiot1>
+    <SprzedazWiersz typ="G">
+        <LpSprzedazy>1</LpSprzedazy>
+        <NrKontrahenta>nrkonrahenta</NrKontrahenta>
+        <NazwaKontrahenta>nazwakontrahenta</NazwaKontrahenta>
+        <AdresKontrahenta>adreskontrahenta</AdresKontrahenta>
+        <DowodSprzedazy>dowodsprzedazy</DowodSprzedazy>
+        <DataWystawienia>2016-01-02</DataWystawienia>
+        <DataSprzedazy>2016-01-01</DataSprzedazy>
+        <K_19>100</K_19>
+        <K_20>23</K_20>
+    </SprzedazWiersz>
+    <SprzedazCtrl>
+        <LiczbaWierszySprzedazy>1</LiczbaWierszySprzedazy>
+        <PodatekNalezny>23</PodatekNalezny>
+    </SprzedazCtrl>
+    <ZakupWiersz typ="G">
+        <LpZakupu>1</LpZakupu>
+        <NrDostawcy>nrdostawcy</NrDostawcy>
+        <NazwaDostawcy>nazwadostawcy</NazwaDostawcy>
+        <AdresDostawcy>adresdostawcy</AdresDostawcy>
+        <DowodZakupu>dowodzakupu</DowodZakupu>
+        <DataZakupu>2016-01-01</DataZakupu>
+        <DataWplywu>2016-01-02</DataWplywu>
+        <K_45>1000</K_45>
+        <K_46>230</K_46>
+    </ZakupWiersz>
+    <ZakupCtrl>
+        <LiczbaWierszyZakupow>1</LiczbaWierszyZakupow>
+        <PodatekNaliczony>230</PodatekNaliczony>
+    </ZakupCtrl>
+</JPK>
