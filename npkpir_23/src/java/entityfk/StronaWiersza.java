@@ -749,6 +749,15 @@ public class StronaWiersza implements Serializable {
         return zwrot;
     }
     
+    //do druku i dla podsumowania
+    public String getDataDokumentuShort() {
+        String zwrot = "";
+        if (this.wiersz.getDokfk() != null) {
+            zwrot = this.wiersz.getDokfk().getDatadokumentu().substring(2,10);
+        }
+        return zwrot;
+    }
+    
     public String getDokfkS() {
         String zwrot = "";
         if (this.wiersz != null) {
