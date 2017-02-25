@@ -134,8 +134,8 @@
                                                              $(this).addClass('ui-state-focus');"
                                              onblur="$(this).removeClass('ui-state-focus');
                                                              $(this).addClass('ui-state-default');" >
-                                <f:selectItem itemLabel="przelew" itemValue="przelew"/>
-                                <f:selectItem itemLabel="gotówka" itemValue="gotówka"/>
+                                <f:selectItem itemLabel="#{mgs.przelew}" itemValue="przelew"/>
+                                <f:selectItem itemLabel="#{mgs.gotówka}" itemValue="gotówka"/>
                             </h:selectOneMenu>
                         </div>
                         <div class="ui-grid-col-2">
@@ -143,7 +143,8 @@
                         </div>
                         <div class="ui-grid-col-4">
                             <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                                <p:inputText value="#{fakturaView.selected.nrkontabankowego}" required="true" label="text" style="font-weight: bolder;" requiredMessage="Brakuje wpisanego numeru konta bankowego"/>  
+                                <p:inputText value="#{fakturaView.selected.nrkontabankowego}" 
+                                             label="text" style="font-weight: bolder;"/>  
                             </p:inplace>
                         </div>
                     </div>

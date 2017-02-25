@@ -305,12 +305,14 @@ public class PdfFP {
                     //Dane do modulu platnosc
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "platnosc");
                     prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:platnosc") - 25, 250, 35);
-                    text = B.b("sposobzaplaty")+": " + selected.getSposobzaplaty();
+                    text = B.b("sposobzaplaty")+": " + B.b(selected.getSposobzaplaty());
                     absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
                     text = B.b("terminplatnosci")+": " + selected.getTerminzaplaty();
                     absText(writer, text, (int) (pozycja.getLewy() / dzielnik) + 100, wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
                     text = B.b("nrkontabankowego")+": " + selected.getNrkontabankowego();
-                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 20, 8);
+                    if (selected.getSposobzaplaty().equals("przelew") && selected.getNrkontabankowego() != null) {
+                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 20, 8);
+                    }
                     break;
                 case "akordeon:formwzor:dozaplaty":
                     //Dane do modulu platnosc
