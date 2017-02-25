@@ -14,7 +14,7 @@ import static pdffk.PdfMain.dodajLinieOpisu;
  * @author Osito
  */
 public class F {
-    public static String n(double n) {
+    public static String number(double n) {
         NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
@@ -22,14 +22,14 @@ public class F {
         return formatter.format(n);
     }
     
-    public static String c(double n) {
+    public static String curr(double n) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
         return formatter.format(n);
     }
-    public static String c(double n, String symboluwaluty) {
+    public static String curr(double n, String symboluwaluty) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         Currency currency = Currency.getInstance(symboluwaluty);
         formatter.setCurrency(currency);
@@ -39,7 +39,7 @@ public class F {
         return formatter.format(n);
     }
     
-    public static String k(double n) {
+    public static String kurs(double n) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMaximumFractionDigits(4);
         formatter.setMinimumFractionDigits(4);

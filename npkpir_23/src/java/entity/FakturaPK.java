@@ -31,7 +31,7 @@ public class FakturaPK implements Serializable {
     public FakturaPK() {
     }
 
-    public FakturaPK(String wystawcanazwa, String numerkolejny) {
+    public FakturaPK(String numerkolejny, String wystawcanazwa) {
         this.wystawcanazwa = wystawcanazwa;
         this.numerkolejny = numerkolejny;
     }

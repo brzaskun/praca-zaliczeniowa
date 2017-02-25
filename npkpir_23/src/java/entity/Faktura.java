@@ -208,6 +208,8 @@ public class Faktura implements Serializable {
     private boolean fakturaxxl;
     @Column(name = "fakturaniemiecka13b")
     private boolean fakturaniemiecka13b;
+    @Column(name = "fakturavatmarza")
+    private boolean fakturavatmarza;
     @Column(length = 512)
     private String przyczynakorekty;
     @Column
@@ -264,6 +266,7 @@ public class Faktura implements Serializable {
         this.numerzamowienia = stara.numerzamowienia;
         this.fakturaxxl = stara.fakturaxxl;
         this.fakturaniemiecka13b = stara.fakturaniemiecka13b;
+        this.fakturavatmarza = stara.fakturavatmarza;
         this.datawysylki = null;
         this.duplikaty = new ArrayList<>();
     }
@@ -354,6 +357,9 @@ public class Faktura implements Serializable {
             fakturaNormalna = false;
         }
         if (this.fakturaniemiecka13b) {
+            fakturaNormalna = false;
+        }
+        if (this.fakturavatmarza) {
             fakturaNormalna = false;
         }
         return fakturaNormalna;
@@ -683,6 +689,14 @@ public class Faktura implements Serializable {
     
     public void setEwidencjavat(List<EVatwpis> ewidencjavat) {
         this.ewidencjavat = ewidencjavat;
+    }
+
+    public boolean isFakturavatmarza() {
+        return fakturavatmarza;
+    }
+
+    public void setFakturavatmarza(boolean fakturavatmarza) {
+        this.fakturavatmarza = fakturavatmarza;
     }
     
     

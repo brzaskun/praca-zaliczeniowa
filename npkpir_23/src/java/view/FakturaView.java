@@ -157,6 +157,7 @@ public class FakturaView implements Serializable {
     private String nazwaskroconafaktura;
     private boolean fakturazwykla;
     private boolean fakturaniemiecka;
+    private boolean fakturavatmarza;
     private boolean fakturaxxl;
     private boolean fakturakorekta;
     private AutoComplete kontrahentstworz;
@@ -199,6 +200,7 @@ public class FakturaView implements Serializable {
         fakturaxxl = false;
         fakturakorekta = false;
         fakturaniemiecka = false;
+        fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setRodzajdokumentu("faktura");
@@ -206,12 +208,27 @@ public class FakturaView implements Serializable {
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę. Należy uzupełnić pozostałe elementy.");
     }
+    public void przygotujfakturevatmarza() {
+        fakturazwykla = false;
+        fakturaxxl = false;
+        fakturakorekta = false;
+        fakturaniemiecka = false;
+        fakturavatmarza = true;
+        inicjalizacjaczesciwspolne();
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
+              selected.setWalutafaktury("PLN");
+        selected.setRodzajdokumentu("faktura VAT marża");
+        selected.setRodzajtransakcji("sprzedaż");
+        zapis0edycja1 = false;
+        Msg.msg("i", "Przygotowano wstępnie fakturę VAT marża. Należy uzupełnić pozostałe elementy.");
+    }
     
     public void przygotujfaktureniemiecka() {
         fakturazwykla = false;
         fakturaxxl = false;
         fakturakorekta = false;
         fakturaniemiecka = true;
+        fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setWalutafaktury("EUR");
@@ -226,6 +243,7 @@ public class FakturaView implements Serializable {
         fakturaxxl = true;
         fakturakorekta = false;
         fakturaniemiecka = false;
+        fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -236,9 +254,11 @@ public class FakturaView implements Serializable {
     }
     
      public void przygotujfakturekorekte() {
-        fakturazwykla = true;
-        fakturaxxl = false;
-        fakturakorekta = true;
+        fakturazwykla = false;
+        fakturaxxl = true;
+        fakturakorekta = false;
+        fakturaniemiecka = false;
+        fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -252,7 +272,9 @@ public class FakturaView implements Serializable {
     public void przygotujfakturekorektexxl() {
         fakturazwykla = false;
         fakturaxxl = true;
-        fakturakorekta = true;
+        fakturakorekta = false;
+        fakturaniemiecka = false;
+        fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -271,14 +293,15 @@ public class FakturaView implements Serializable {
         if (fakturaniemiecka) {
             selected.setFakturaniemiecka13b(true);
         }
+        if (fakturavatmarza) {
+            selected.setFakturavatmarza(true);
+        }
         String platnoscwdniach = wpisView.getPodatnikObiekt().getPlatnoscwdni() == null ? "0" : wpisView.getPodatnikObiekt().getPlatnoscwdni();
         selected.setDnizaplaty(Integer.parseInt(platnoscwdniach));
         String pelnadata = FakturaBean.obliczdatawystawienia(wpisView);
         selected.setDatawystawienia(pelnadata);
         selected.setDatasprzedazy(pelnadata);
-        FakturaPK fakturaPK = new FakturaPK();
-        fakturaPK.setNumerkolejny("wpisz numer");
-        fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
+        FakturaPK fakturaPK = new FakturaPK("wpisz numer",wpisView.getPodatnikWpisu());
         selected.setFakturaPK(fakturaPK);
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setMiejscewystawienia(FakturaBean.pobierzmiejscewyst(podatnikobiekt));
@@ -380,6 +403,7 @@ public class FakturaView implements Serializable {
             //dataTablepozycjenafakturzekorekta.setStyle("width: 790px;");
         }
         fakturazwykla = faktura.isFakturaNormalna();
+        fakturavatmarza = faktura.isFakturavatmarza();
         fakturaxxl = faktura.isFakturaxxl();
         fakturaniemiecka = faktura.isFakturaniemiecka13b();
         fakturakorekta = faktura.getPozycjepokorekcie() != null;
@@ -400,6 +424,7 @@ public class FakturaView implements Serializable {
         selected.setWyslana(false);
         selected.setPrzyczynakorekty("Korekta faktury nr "+faktura.getFakturaPK().getNumerkolejny()+" z dnia "+faktura.getDatawystawienia()+" z powodu: ");
         fakturazwykla = faktura.isFakturaNormalna();
+        fakturavatmarza = faktura.isFakturavatmarza();
         fakturaxxl = faktura.isFakturaxxl();
         fakturaniemiecka = faktura.isFakturaniemiecka13b();
         fakturakorekta = true;
@@ -1507,6 +1532,14 @@ public class FakturaView implements Serializable {
 
     public boolean isFakturaxxl() {
         return fakturaxxl;
+    }
+
+    public boolean isFakturavatmarza() {
+        return fakturavatmarza;
+    }
+
+    public void setFakturavatmarza(boolean fakturavatmarza) {
+        this.fakturavatmarza = fakturavatmarza;
     }
 
     

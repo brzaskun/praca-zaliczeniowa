@@ -42,7 +42,7 @@ public class MailFaktRozrach implements Serializable{
                      + "<p>W załączeniu bieżące rozliczenie płatności na rzecz naszego biura (plik pdf). Prosimy o niezwłoczne uregulowanie płatności.</p>"
                      + "<p>Firma "+szukanyklient.getNpelna()+"</p>"
                      + "<p>za okres "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu()+"</p>"
-                     + "<p>zaległa kwota do zapłaty "+F.c(saldo)+"</p>"
+                     + "<p>zaległa kwota do zapłaty "+F.curr(saldo)+"</p>"
                      + Mail.reklama
                      + stopka,  "text/html; charset=utf-8");
             // create the second message part

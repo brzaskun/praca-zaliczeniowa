@@ -293,10 +293,17 @@ public class FakturaBean {
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         List<EVatwpis> el = new ArrayList<>();
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
-        selected.setEwidencjavat(el);
-        selected.setNetto(sumy.get("netto"));
-        selected.setVat(Z.z(sumy.get("vat")));
-        selected.setBrutto(Z.z(sumy.get("brutto")));
+        if (selected.isFakturavatmarza()) {
+            selected.setEwidencjavat(new ArrayList<>());
+            selected.setNetto(sumy.get("netto"));
+            selected.setVat(0.0);
+            selected.setBrutto(Z.z(sumy.get("netto")));
+        } else {
+            selected.setEwidencjavat(el);
+            selected.setNetto(sumy.get("netto"));
+            selected.setVat(Z.z(sumy.get("vat")));
+            selected.setBrutto(Z.z(sumy.get("brutto")));
+        }
     }
     
     public static void ewidencjavatkorekta(Faktura selected, EvewidencjaDAO evewidencjaDAO) throws Exception {
@@ -307,10 +314,17 @@ public class FakturaBean {
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         List<EVatwpis> el = new ArrayList<>();
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
-        selected.setEwidencjavatpk(el);
-        selected.setNettopk(sumy.get("netto"));
-        selected.setVatpk(Z.z(sumy.get("vat")));
-        selected.setBruttopk(Z.z(sumy.get("brutto")));
+        if (selected.isFakturavatmarza()) {
+            selected.setEwidencjavatpk(new ArrayList<>());
+            selected.setNetto(sumy.get("netto"));
+            selected.setVat(0.0);
+            selected.setBrutto(Z.z(sumy.get("netto")));
+        } else {
+            selected.setEwidencjavatpk(el);
+            selected.setNetto(sumy.get("netto"));
+            selected.setVat(Z.z(sumy.get("vat")));
+            selected.setBrutto(Z.z(sumy.get("brutto")));
+        }
     }
     
     private static Map<String, Double> przetworzpozycje(List<Evewidencja> ew, List<EVatwpis> el, List<Pozycjenafakturzebazadanych> pozycje, Faktura selected) {
@@ -340,24 +354,31 @@ public class FakturaBean {
             double podatekstawka = p.getPodatek() > -1 ? p.getPodatek() : 0;
             double podatek = (wartosc * podatekstawka) / 100;
             vat += Z.z(podatek);
-            p.setPodatekkwota(Z.z(podatek));
-            double bruttop = Z.z(wartosc + podatek);
-            brutto += Z.z(bruttop);
-            p.setBrutto(Z.z(bruttop));
-            EVatwpis eVatwpis = new EVatwpis();
-            Evewidencja ewidencja = zwrocewidencje(ew, p);
-            //jezeli el bedzie juz wypelnione dana ewidencja to tylko zwieksz wartosc
-            //jesli nie to dodaj nowy wiersz
-            if (el.size() > 0) {
-                boolean jesttakaewiedencja = false;
-                for (EVatwpis r : el) {
-                    if (r.getEwidencja().equals(ewidencja)) {
-                        r.setNetto(Z.z(r.getNetto() + p.getNetto()));
-                        r.setVat(Z.z(r.getVat() + p.getPodatekkwota()));
-                        jesttakaewiedencja = true;
+            if (selected.isFakturavatmarza()) {
+                p.setPodatek(-2.0);
+                p.setPodatekkwota(0.0);
+                p.setBrutto(0.0);
+                EVatwpis eVatwpis = new EVatwpis();
+                Evewidencja ewidencja = zwrocewidencje(ew, p);
+                //jezeli el bedzie juz wypelnione dana ewidencja to tylko zwieksz wartosc
+                //jesli nie to dodaj nowy wiersz
+                if (el.size() > 0) {
+                    boolean jesttakaewiedencja = false;
+                    for (EVatwpis r : el) {
+                        if (r.getEwidencja().equals(ewidencja)) {
+                            r.setNetto(Z.z(r.getNetto() + p.getNetto()));
+                            r.setVat(Z.z(r.getVat() + p.getPodatekkwota()));
+                            jesttakaewiedencja = true;
+                        }
                     }
-                }
-                if (jesttakaewiedencja == false) {
+                    if (jesttakaewiedencja == false) {
+                        eVatwpis.setEwidencja(ewidencja);
+                        eVatwpis.setNetto(Z.z(p.getNetto()));
+                        eVatwpis.setVat(Z.z(p.getPodatekkwota()));
+                        eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
+                        el.add(eVatwpis);
+                    }
+                } else {
                     eVatwpis.setEwidencja(ewidencja);
                     eVatwpis.setNetto(Z.z(p.getNetto()));
                     eVatwpis.setVat(Z.z(p.getPodatekkwota()));
@@ -365,11 +386,10 @@ public class FakturaBean {
                     el.add(eVatwpis);
                 }
             } else {
-                eVatwpis.setEwidencja(ewidencja);
-                eVatwpis.setNetto(Z.z(p.getNetto()));
-                eVatwpis.setVat(Z.z(p.getPodatekkwota()));
-                eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
-                el.add(eVatwpis);
+                p.setPodatekkwota(Z.z(podatek));
+                double bruttop = Z.z(wartosc + podatek);
+                brutto += Z.z(bruttop);
+                p.setBrutto(Z.z(bruttop));
             }
         }
         sumy.put("netto", Z.z(netto));

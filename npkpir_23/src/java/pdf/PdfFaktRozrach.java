@@ -46,7 +46,7 @@ public class PdfFaktRozrach {
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
             if (n.getSaldo() > 0) {
-                dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia: "+F.c(n.getSaldo()));
+                dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia: "+F.curr(n.getSaldo()));
                 dodajLinieOpisu(document, "");
                 dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
             }
@@ -75,7 +75,7 @@ public class PdfFaktRozrach {
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
             if (n.getSaldo() > 0) {
-                dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia: "+F.c(n.getSaldo()));
+                dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia: "+F.curr(n.getSaldo()));
                 dodajLinieOpisu(document, "");
                 dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
             }

@@ -26,6 +26,9 @@
                 <p:commandButton value="faktura niemiecka" actionListener="#{fakturaView.przygotujfaktureniemiecka()}" 
                                  oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"
                                  style="margin-bottom: 5px; margin-top: 5px; width: 140px; margin-left: 5px;" />
+                <p:commandButton value="faktura VAT marża" actionListener="#{fakturaView.przygotujfakturevatmarza()}" 
+                                 oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"
+                                 style="margin-bottom: 5px; margin-top: 5px; width: 140px; margin-left: 5px;" />
                 <p:commandButton value="faktura korekta" actionListener="#{fakturaView.przygotujfakturekorekte()}" 
                                  style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" 
                                  update="akordeon:formstworz"/>
@@ -203,6 +206,7 @@
                     
                 </div>
                 <ui:include src="faktura_stworz_normalna.xhtml" rendered="#{fakturaView.fakturazwykla}"/>
+                <ui:include src="faktura_stworz_vatmarza.xhtml" rendered="#{fakturaView.fakturavatmarza}"/>
                 <ui:include src="faktura_stworz_niemiecka.xhtml" rendered="#{fakturaView.fakturaniemiecka}"/>
                 <ui:include src="faktura_stworz_xxl.xhtml" rendered="#{fakturaView.fakturaxxl}"/>
                 <p:messages id="messagesinline"/>

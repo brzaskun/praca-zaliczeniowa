@@ -75,7 +75,7 @@ public class PDFRozrachunki {
                 }
             }
             double wartosc = Math.abs(naleznosci-zobowiazania);
-            dodajLinieOpisuBezOdstepu(document, "Razem wartość powyższych kwot: "+F.c(wartosc,symbolwaluty));
+            dodajLinieOpisuBezOdstepu(document, "Razem wartość powyższych kwot: "+F.curr(wartosc,symbolwaluty));
             dodajLinieOpisu(document, "Słownie: "+Slownie.slownie(String.valueOf(wartosc), skrótsymbolu));
             String sp = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
             dodajLinieOpisuBezOdstepu(document, "..................... ");

@@ -217,8 +217,10 @@ public class PdfFP {
                         tablekorekta = wygenerujtablice(true, selected.getPozycjepokorekcie(), selected);
                     } else if (selected.getPozycjepokorekcie() == null && selected.isFakturaNormalna()) {
                         table = wygenerujtablice(false, selected.getPozycjenafakturze(), selected);
+                    } else if (selected.getPozycjepokorekcie() == null && selected.isFakturavatmarza()) {
+                        table = wygenerujtablicevatmarza(false, selected.getPozycjenafakturze(), selected);
                     } else if (selected.getPozycjepokorekcie() == null && selected.isFakturaniemiecka13b()) {
-                        table = wygenerujtablice13b(false, selected.getPozycjenafakturze(), selected);
+                        table = wygenerujtabliceNiemiecka13b(false, selected.getPozycjenafakturze(), selected);
                     } else if (selected.getPozycjepokorekcie() != null && selected.isFakturaxxl() == true) {
                         if (wierszewtabelach > 12) {
                             table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView, true);
@@ -490,6 +492,21 @@ public class PdfFP {
         }
         return null;
     }
+    
+    public static PdfPTable dolaczpozycjedofakturyvatmarza(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
+        Pozycjenafakturze pobrane = new Pozycjenafakturze();
+        for (Pozycjenafakturze p : skladnikifaktury) {
+            switch (p.getPozycjenafakturzePK().getNazwa()) {
+                case "akordeon:formwzor:towary":
+                    //Dane do tablicy z wierszami
+                    pobrane = zwrocPolozenieElementu(skladnikifaktury, "towary");
+                    return wygenerujtablicevatmarza(false, selected.getPozycjenafakturze(), selected);
+                default:
+                    break;
+            }
+        }
+        return null;
+    }
 
     public static PdfPTable dolaczpozycjedofaktury2normalkorekta(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
@@ -720,7 +737,73 @@ public class PdfFP {
         return table;
     }
     
-    private static PdfPTable wygenerujtablice13b(boolean korekta, List<Pozycjenafakturzebazadanych> poz, Faktura selected) throws DocumentException, IOException {
+    private static PdfPTable wygenerujtablicevatmarza(boolean korekta, List<Pozycjenafakturzebazadanych> poz, Faktura selected) throws DocumentException, IOException {
+        NumberFormat formatter = NumberFormat.getNumberInstance();
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+        formatter.setGroupingUsed(true);
+        PdfPTable table = new PdfPTable(7);
+        table.setTotalWidth(new float[]{20, 180, 40, 40, 40, 50, 60});
+        // set the total width of the table
+        table.setTotalWidth(450);
+        if (selected.getPozycjepokorekcie() != null) {
+            if (korekta) {
+                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("po korekcie", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+            } else {
+                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("przed korektą", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+            }
+        }
+        table.addCell(ustawfrazeAlign(B.b("lp"), "center", 8));
+        String opis = selected.getNazwa() != null ? selected.getNazwa() : B.b("opis");
+        table.addCell(ustawfrazeAlign(opis, "center", 8));
+        table.addCell(ustawfrazeAlign(B.b("pkwiu"), "center", 8));
+        table.addCell(ustawfrazeAlign(B.b("ilosc"), "center", 8));
+        table.addCell(ustawfrazeAlign(B.b("jednostkamiary"), "center", 8));
+        table.addCell(ustawfrazeAlign(B.b("cenanetto"), "center", 8));
+        table.addCell(ustawfrazeAlign(B.b("wartoscbrutto"), "center", 8));
+        if (selected.getPozycjepokorekcie() != null) {
+            table.setHeaderRows(2);
+        } else {
+            table.setHeaderRows(1);
+        }
+        int lp = 1;
+        for (Pozycjenafakturzebazadanych pozycje : poz) {
+            table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
+            table.addCell(ustawfrazeAlign(pozycje.getNazwa(), "left", 8));
+            table.addCell(ustawfrazeAlign(pozycje.getPKWiU(), "center", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 8));
+            table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCena())), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getNetto())), "right", 8));
+        }
+        if (korekta) {
+            table.addCell(ustawfraze(B.b("razem"), 6, 0));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk())), "right", 8));
+        } else {
+            table.addCell(ustawfraze(B.b("razem"), 6, 0));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 8));
+        }
+        if (korekta) {
+            wierszroznicy(selected, table);
+        }
+        // complete the table
+        table.completeRow();
+        return table;
+    }
+    
+    private static PdfPTable wygenerujtabliceNiemiecka13b(boolean korekta, List<Pozycjenafakturzebazadanych> poz, Faktura selected) throws DocumentException, IOException {
         NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
