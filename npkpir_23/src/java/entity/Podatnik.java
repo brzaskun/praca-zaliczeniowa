@@ -771,5 +771,20 @@ public class Podatnik implements Serializable {
         return "Podatnik{" + "nip=" + nip + ", imie=" + imie + ", nazwapelna=" + nazwapelna + ", nazwisko=" + nazwisko + '}';
     }
 
-   
+   public String getFirmaForma() {
+       String zwrot = "Fima";
+       if (this.formaPrawna != null) {
+           switch (this.formaPrawna.toString()) {
+               case "STOWARZYSZENIE":
+                   zwrot = "STOWARZYSZENIE";
+                   break;
+               case "FEDERACJA":
+                   zwrot = "";
+                   break;
+               default:
+                   zwrot = "FIRMA";
+           }
+       }
+       return zwrot;
+   }
 }

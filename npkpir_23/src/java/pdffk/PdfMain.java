@@ -365,7 +365,8 @@ public class PdfMain {
     public static void dodajOpisWstepny(Document document, String opis, Podatnik podatnik, String mc, String rok) {
         try {
             StringBuilder s = new StringBuilder();
-            s.append("Firma ");
+            s.append(podatnik.getFirmaForma());
+            s.append(" ");
             s.append(podatnik.getNazwapelna());
             s.append(" NIP ");
             s.append(podatnik.getNip());
