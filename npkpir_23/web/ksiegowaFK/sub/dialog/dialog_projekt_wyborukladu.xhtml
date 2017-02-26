@@ -48,7 +48,7 @@
                 <h:form>
                     <p:panel header="twórz własny układ">
                         <h:outputText value="wpisz nazwę nowego układu" style="margin-top: 10px;"/>
-                        <p:inputText value="#{ukladBRView.wybranyukladwzorcowy}" style="width: 250px; margin-top: 10px;"/>
+                        <p:inputText value="#{ukladBRView.nazwanowegoukladu}" style="width: 250px; margin-top: 10px;"/>
                         <p:commandButton value="dodaj" actionListener="#{ukladBRView.dodaj}" style="width: 120px; margin-top: 10px;" global="false"
                                          update=":formprojektuklad :formprojekt :formbilansuklad :formbilansprojekt :formdialog_uklad_kopiuj :formdialog_dialog_rzis_przypisywanie_podatnik_kopiuj :formdialog_dialog_bilans_przypisywanie_podatnik_kopiuj"/>
                     </p:panel>

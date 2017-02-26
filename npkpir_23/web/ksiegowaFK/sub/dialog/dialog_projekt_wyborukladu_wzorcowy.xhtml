@@ -45,7 +45,9 @@
                     <h:outputText value="wpisz nazwę nowego układu" style="margin-top: 10px;"/>
                     <p:inputText value="#{ukladBRWzorcowyView.nazwanowegoukladu}" style="width: 250px; margin-top: 10px;"/>
                     <p:commandButton value="dodaj" actionListener="#{ukladBRWzorcowyView.dodaj}" style="width: 120px; margin-top: 10px;"
-                                     update=":formprojektukladwzorcowy:dataList"/>
+                                     update=":formprojektukladwzorcowy:dataList :formprojektwzorcowy :form_dialog_bilans_projekt_wzorcowy_inter form_dialog_rzis_projekt_wzorcowy_inter
+                                         :formbilansprojekt 
+                                         "/>
                 </p:panel>
                 </p:panelGrid>
             </p:panelGrid>

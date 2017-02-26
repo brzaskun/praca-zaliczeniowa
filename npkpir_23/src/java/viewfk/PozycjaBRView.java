@@ -164,15 +164,18 @@ public class PozycjaBRView implements Serializable {
             pozycje = new ArrayList<>();
             pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, aktywapasywa, br);
             root.getChildren().clear();
-            PozycjaRZiSFKBean.ustawRootaprojekt(root, pozycje);
-            level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
-            Msg.msg("Pobrano układ ");
+            if (pozycje != null) {
+                PozycjaRZiSFKBean.ustawRootaprojekt(root, pozycje);
+                level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
+                Msg.msg("Pobrano układ ");
+            } else {
+                Msg.msg("e", "Pozycje sa puste");
+            }
         } catch (Exception e) {
             E.e(e);
             root.getChildren().clear();
             Msg.msg("e", "Wystąpił błąd, nie pobrano układu");
         }
-        
     }
     //gdy sa obroty rozpoczecia
     public void pobierzukladprzegladRZiSBO() {
@@ -484,10 +487,8 @@ public class PozycjaBRView implements Serializable {
     public void dodajnowapozycjeRZiS(String syntetycznaanalityczna) {
         if (syntetycznaanalityczna.equals("syntetyczna")) {
             //dodaje nowa syntetyke
-            if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
+            if (((PozycjaRZiS) rootProjektRZiS.getFirstChild()).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
                 pozycje.remove(0);
-            }
-            if (pozycje.isEmpty()) {
                 Msg.msg("i", nowyelementRZiS.getNazwa() + "zachowam pod A");
                 nowyelementRZiS.setPozycjaSymbol("A");
                 nowyelementRZiS.setPozycjaString("A");
@@ -521,7 +522,7 @@ public class PozycjaBRView implements Serializable {
             nowyelementRZiS = new PozycjaRZiS();
 
         } else {
-            if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
+            if (((PozycjaRZiS) rootProjektRZiS.getFirstChild()).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
                 Msg.msg("e", "Błąd. Najpierw dodaj pierwszą pozycje wyższego rzędu!");
                 return;
             }
@@ -569,10 +570,8 @@ public class PozycjaBRView implements Serializable {
     public void dodajnowapozycjeBilans(String syntetycznaanalityczna) {
         if (syntetycznaanalityczna.equals("syntetyczna")) {
             //dodaje nowa syntetyke
-            if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
+            if (((PozycjaBilans) rootProjektRZiS.getFirstChild()).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
                 pozycje.remove(0);
-            }
-            if (pozycje.isEmpty()) {
                 Msg.msg("i", nowyelementBilans.getNazwa() + "zachowam pod A");
                 nowyelementBilans.setPozycjaSymbol("A");
                 nowyelementBilans.setPozycjaString("A");
@@ -606,7 +605,7 @@ public class PozycjaBRView implements Serializable {
             nowyelementBilans = new PozycjaBilans();
 
         } else {
-            if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
+            if (((PozycjaBilans) rootProjektRZiS.getFirstChild()).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
                 Msg.msg("e", "Błąd. Najpierw dodaj pierwszą pozycje wyższego rzędu!");
                 return;
             }

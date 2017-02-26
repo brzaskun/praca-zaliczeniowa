@@ -6,6 +6,7 @@ package viewfk;
 
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
+import beansFK.UkladBRBean;
 import converter.RomNumb;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
@@ -144,23 +145,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     public void pobierzuklad(String br, TreeNodeExtended root, String aktywapasywa) {
         pozycje = new ArrayList<>();
         try {
-         if (br.equals("r")) {
-                pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
-                if (pozycje.isEmpty()) {
-                   pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                    Msg.msg("i", "Dodaje pusta pozycje");
-                }
-            } else {
-                if (aktywapasywa.equals("aktywa")) {
-                    pozycje.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
-                } else {
-                    pozycje.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
-                }
-                if (pozycje.isEmpty()) {
-                   pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                    Msg.msg("i", "Dodaje pusta pozycje");
-                }
-            }
+         pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, aktywapasywa, br);
         } catch (Exception e) {  E.e(e);
             System.out.println("Blad przy pobieraniu ukladu "+e.toString());
         }   
@@ -331,10 +316,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
     public void dodajnowapozycje(String syntetycznaanalityczna) {
         if (syntetycznaanalityczna.equals("syntetyczna")) {
             //dodaje nowa syntetyke
-            if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
+            if (((PozycjaRZiS) rootProjektRZiS.getFirstChild()).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
                 pozycje.remove(0);
-            }
-            if (pozycje.isEmpty()) {
                 Msg.msg("i", nowyelementRZiS.getNazwa() + "zachowam pod A");
                 nowyelementRZiS.setPozycjaSymbol("A");
                 nowyelementRZiS.setPozycjaString("A");
@@ -368,7 +351,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             nowyelementRZiS = new PozycjaRZiS();
 
         } else {
-            if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
+            if (((PozycjaRZiS) rootProjektRZiS.getFirstChild()).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
                 Msg.msg("e", "Błąd. Najpierw dodaj pierwszą pozycje wyższego rzędu!");
                 return;
             }
@@ -429,10 +412,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
     public void dodajnowapozycjeBilans(String syntetycznaanalityczna) {
         if (syntetycznaanalityczna.equals("syntetyczna")) {
             //dodaje nowa syntetyke
-            if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
+            if (((PozycjaBilans) rootProjektRZiS.getFirstChild()).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
                 pozycje.remove(0);
-            }
-            if (pozycje.isEmpty()) {
                 Msg.msg("i", nowyelementBilans.getNazwa() + "zachowam pod A");
                 nowyelementBilans.setPozycjaSymbol("A");
                 nowyelementBilans.setPozycjaString("A");
@@ -466,7 +447,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             nowyelementBilans = new PozycjaBilans();
 
         } else {
-            if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
+            if (((PozycjaBilans) rootProjektRZiS.getFirstChild()).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję")) {
                 Msg.msg("e", "Błąd. Najpierw dodaj pierwszą pozycje wyższego rzędu!");
                 return;
             }

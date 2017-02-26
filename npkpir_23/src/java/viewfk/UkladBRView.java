@@ -62,6 +62,7 @@ public class UkladBRView implements Serializable {
     @Inject
     private UkladBR ukladzrodlowy;
     private String ukladdocelowyrok;
+    private String nazwanowegoukladu;
 
     public UkladBRView() {
          E.m(this);
@@ -86,7 +87,7 @@ public class UkladBRView implements Serializable {
 
     public void dodaj() {
         for (UkladBR p : listaWzorcowy) {
-            if (p.getUklad().equals(wybranyukladwzorcowy)) {
+            if (p.getUklad().equals(nazwanowegoukladu)) {
                 Msg.msg("e", "Nazwa nowego układu jest już wykorzystana we wzorcach. Nie można dodać układu.");
                 return;
             }
@@ -95,14 +96,15 @@ public class UkladBRView implements Serializable {
             UkladBR ukladBR = new UkladBR();
             ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
             ukladBR.setRok(wpisView.getRokWpisuSt());
-            ukladBR.setUklad(wybranyukladwzorcowy.getUklad());
+            ukladBR.setUklad(nazwanowegoukladu);
+            ukladBR.setZwykly0wzrocowy1(false);
             ukladBRDAO.dodaj(ukladBR);
             lista.add(ukladBR);
-            wybranyukladwzorcowy = null;
-            Msg.msg("i", "Dodano nowy układ");
+            nazwanowegoukladu = null;
+            Msg.msg("i", "Dodano nowy układ podatnika");
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString());
-            Msg.msg("e", "Nieudana próba dodania układu. " + e.getMessage());
+            Msg.msg("e", "Nieudana próba dodania układu dla podatnika. " + e.getMessage());
         }
     }
     
@@ -149,10 +151,10 @@ public class UkladBRView implements Serializable {
             implementujBilans(wybranyukladwzorcowy, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wybranyukladwzorcowy.getUklad());
             lista.add(ukladBR);
             wybranyukladwzorcowy = null;
-            Msg.msg("i", "Dodano nowy układ");
+            Msg.msg("i", "Zaimplementowano układ wzorcowy jako nowy układ podatnika");
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString());
-            Msg.msg("e", "Nieudana próba dodania układu. " + e.getMessage());
+            Msg.msg("e", "Nieudana próba dodania implementacji układu wzorcowego. " + e.getMessage());
         }
     }
 
@@ -213,6 +215,14 @@ public class UkladBRView implements Serializable {
 
     public void setSelected(UkladBR selected) {
         this.selected = selected;
+    }
+
+    public String getNazwanowegoukladu() {
+        return nazwanowegoukladu;
+    }
+
+    public void setNazwanowegoukladu(String nazwanowegoukladu) {
+        this.nazwanowegoukladu = nazwanowegoukladu;
     }
 
     public UkladBR getUkladzrodlowy() {

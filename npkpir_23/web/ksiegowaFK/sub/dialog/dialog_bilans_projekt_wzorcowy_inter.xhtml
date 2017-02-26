@@ -36,7 +36,7 @@
                 </p:treeTable>
                 <p:panel id="wyborbilans" header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
-                    <p:selectOneListbox value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px;" converter="UkladBRWzorcowyConv">
+                    <p:selectOneListbox value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px; margin-top: 4px; width: 240px;" converter="UkladBRWzorcowyConv">
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.lp} #{loopik.uklad} - #{loopik.rok}"  itemValue="#{String.valueOf(loopik.lp)}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('b', pozycjaBRWzorcowyView.rootProjektRZiS, 'aktywa')}" update=":form_dialog_bilans_projekt_wzorcowy_inter:dataList"/>

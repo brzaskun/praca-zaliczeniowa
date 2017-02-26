@@ -71,6 +71,8 @@ public class UkladBR implements Serializable {
     private boolean importowany;
     @Column(name = "aktualny")
     private boolean aktualny;
+    @Column(name = "zwykly0wzrocowy1")
+    private boolean zwykly0wzrocowy1;
 
     public UkladBR() {
     }
@@ -160,6 +162,14 @@ public class UkladBR implements Serializable {
 
     public void setAktualny(boolean aktualny) {
         this.aktualny = aktualny;
+    }
+
+    public boolean isZwykly0wzrocowy1() {
+        return zwykly0wzrocowy1;
+    }
+
+    public void setZwykly0wzrocowy1(boolean zwykly0wzrocowy1) {
+        this.zwykly0wzrocowy1 = zwykly0wzrocowy1;
     }
     
     

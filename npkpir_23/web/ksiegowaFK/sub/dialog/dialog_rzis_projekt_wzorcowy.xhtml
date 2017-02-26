@@ -8,7 +8,7 @@
     <p:dialog id="dialogrzisprojektwzorcowy" header="Projekt Rachunku Zysków i Strat - Wzorcowy" widgetVar="dialogrzisprojektwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogrzisprojektwzorcowy','menuustawienia', 1000, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojektwzorcowy');"  >
         <h:form id="formprojektwzorcowy">
-            <p:contextMenu for="formprojektwzorcowy:dataList" style="width: 200px;">
+            <p:contextMenu for="formprojektwzorcowy:dataList" style="width: 250px;">
                 <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczne').show();"/>
                 <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
                 <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektanalityczne').show();"/>
@@ -44,7 +44,7 @@
                 </p:treeTable>
                 <p:panel id="wyborrziswzorcowy" header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
-                    <p:selectOneListbox id="selboxwzorzec" value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px;" converter="UkladBRWzorcowyConv">
+                    <p:selectOneListbox id="selboxwzorzec" value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px; margin-top: 4px; width: 240px;" converter="UkladBRWzorcowyConv">
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.lp} #{loopik.uklad} - #{loopik.rok}"  itemValue="#{String.valueOf(loopik.lp)}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('r', pozycjaBRWzorcowyView.rootProjektRZiS, '')}" update=":formprojektwzorcowy"/>

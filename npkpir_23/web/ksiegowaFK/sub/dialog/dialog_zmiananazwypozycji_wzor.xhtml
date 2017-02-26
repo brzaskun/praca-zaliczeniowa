@@ -6,8 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
-    <p:dialog id="dialog_zmiananazwypozycji_wzor" header="Wprowadzenie kursu ręcznie" widgetVar="dialog_zmiananazwypozycji_wzor"  
-              resizable="false"  onShow="ustawdialog('dialog_zmiananazwypozycji_wzor','menuustawienia',450,120);" closeOnEscape="true" onHide="resetujdialog('dialog_zmiananazwypozycji_wzor');" >
+    <p:dialog id="dialog_zmiananazwypozycji_wzor" header="Zmiana nazwy pozycji ukłądu RZiS" widgetVar="dialog_zmiananazwypozycji_wzor"  
+              resizable="false"  onShow="ustawdialogAuto('dialog_zmiananazwypozycji_wzor',450,120);" closeOnEscape="true" onHide="resetujdialog('dialog_zmiananazwypozycji_wzor');" >
         <h:form id="formdialog_zmiananazwypozycji_wzor">
             <p:panelGrid columns="1" style="text-align: center;">
                 <p:inputText value="#{pozycjaBRWzorcowyView.nowanazwa}" style="width: 400px;"/>

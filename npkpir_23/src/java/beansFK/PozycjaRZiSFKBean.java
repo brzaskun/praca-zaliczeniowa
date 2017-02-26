@@ -142,7 +142,9 @@ public class PozycjaRZiSFKBean {
     }
     
     public static void ustawRootaprojekt(TreeNodeExtended rt, ArrayList<PozycjaRZiSBilans> pz) {
-        rt.createTreeNodesForElement(pz);
+        ArrayList<PozycjaRZiSBilans> pozycjedlaroota = new ArrayList<>();
+        pozycjedlaroota.addAll(pz);
+        rt.createTreeNodesForElement(pozycjedlaroota);
         rt.expandAll();
     }
     

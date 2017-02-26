@@ -37,7 +37,8 @@ public class UkladBRWzorcowyView implements Serializable{
     private List<UkladBR> lista;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-
+    @ManagedProperty(value = "#{ukladBRView}")
+    private UkladBRView ukladBRView;
     @Inject
     private UkladBR selected;
     private String nazwanowegoukladu;
@@ -79,10 +80,12 @@ public class UkladBRWzorcowyView implements Serializable{
         try {
             UkladBR ukladBR = new UkladBR();
             ukladBR.setPodatnik("Wzorcowy");
+            ukladBR.setZwykly0wzrocowy1(true);
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setUklad(nazwanowegoukladu);
             ukladBRDAO.dodaj(ukladBR);
             lista.add(ukladBR);
+            ukladBRView.init();
             nazwanowegoukladu = "";
             Msg.msg("i", "Dodano nowy układ");
         } catch (Exception e) {  E.e(e);
@@ -124,6 +127,7 @@ public class UkladBRWzorcowyView implements Serializable{
                 UkladBR ukladdocelowy = new UkladBR(ukladzrodlowy);
                 ukladdocelowy.setUklad(ukladdocelowynazwa);
                 ukladdocelowy.setRok(ukladdocelowyrok);
+                ukladdocelowy.setZwykly0wzrocowy1(true);
                 ukladBRDAO.dodaj(ukladdocelowy);
                 lista.add(ukladdocelowy);
                 implementujRZiS(ukladzrodlowy,ukladdocelowy);
@@ -297,6 +301,14 @@ public class UkladBRWzorcowyView implements Serializable{
     
     public void setSelected(UkladBR selected) {
         this.selected = selected;
+    }
+
+    public UkladBRView getUkladBRView() {
+        return ukladBRView;
+    }
+
+    public void setUkladBRView(UkladBRView ukladBRView) {
+        this.ukladBRView = ukladBRView;
     }
 
        

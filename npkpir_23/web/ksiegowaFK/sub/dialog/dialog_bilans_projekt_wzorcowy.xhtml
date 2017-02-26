@@ -8,7 +8,7 @@
     <p:dialog id="dialogbilansprojektwzorcowy" header="Projekt Bilansu - #{WpisView.podatnikWpisu}" widgetVar="dialogbilansprojektwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogbilansprojektwzorcowy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprojektwzorcowy');"  >
         <h:form id="formbilansprojekt">
-            <p:contextMenu for="formbilansprojekt:dataList" style="width: 200px;">
+            <p:contextMenu for="formbilansprojekt:dataList" style="width: 250px;">
                 <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formbilansprojekt" onclick="PF('bilansprojektsyntetyczne').show();"/>
                 <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" update=":formbilansprojekt" onclick="PF('bilansprojektsyntetyczneformula').show();"/>
                 <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formbilansprojekt" onclick="PF('bilansprojektanalityczne').show();"/>
@@ -44,7 +44,7 @@
                 </p:treeTable>
                 <p:panel id="wyborbilans" header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
-                    <p:selectOneListbox value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px;" converter="UkladBRWzorcowyConv">
+                    <p:selectOneListbox value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px; margin-top: 4px; width: 240px;" converter="UkladBRWzorcowyConv">
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.lp} #{loopik.uklad} - #{loopik.rok}"  itemValue="#{String.valueOf(loopik.lp)}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('b', pozycjaBRWzorcowyView.rootProjektRZiS, 'aktywa')}" update=":formbilansprojekt:dataList"/>

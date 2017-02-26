@@ -201,6 +201,19 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
+    public Object getFirstChild() {
+        Object zwrot = null;
+        List<TreeNode> children = this.getChildren();
+        boolean madzieci = this.getChildCount() > 0;
+        if (madzieci == true) {
+            for (TreeNode o : children) {
+                zwrot = ((TreeNodeExtended) o).getData();
+                break;
+            }
+        }
+        return zwrot;
+    }
+    
     //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi Kontami
     public void getFinallChildrenData(ArrayList<TreeNodeExtended> finallNodes, List<Object> listazwrotna) {
         List<TreeNode> children = this.getChildren();

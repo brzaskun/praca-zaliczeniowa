@@ -17,7 +17,9 @@ body {
 /*    font-size: 0.8em !important;
     font-weight: 600 !important;*/
 }
-
+.nb {
+    width: 120px;
+}
 .pe-inputNumber {
             text-align: right;
         }
