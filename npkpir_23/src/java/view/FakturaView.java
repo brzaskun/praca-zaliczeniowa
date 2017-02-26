@@ -337,6 +337,7 @@ public class FakturaView implements Serializable {
             fakturaxxl = false;
             fakturakorekta = false;
             fakturaniemiecka = false;
+            fakturavatmarza = false;
             selected = new Faktura();
             
         } catch (Exception e) { E.e(e); 
@@ -381,6 +382,7 @@ public class FakturaView implements Serializable {
             fakturaxxl = false;
             fakturaniemiecka = false;
             fakturazwykla = false;
+            fakturavatmarza = false;
             fakturakorekta = false;
             selected = new Faktura();
             

@@ -316,14 +316,14 @@ public class FakturaBean {
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
         if (selected.isFakturavatmarza()) {
             selected.setEwidencjavatpk(new ArrayList<>());
-            selected.setNetto(sumy.get("netto"));
-            selected.setVat(0.0);
-            selected.setBrutto(Z.z(sumy.get("netto")));
+            selected.setNettopk(sumy.get("netto"));
+            selected.setVatpk(0.0);
+            selected.setBruttopk(Z.z(sumy.get("netto")));
         } else {
             selected.setEwidencjavatpk(el);
-            selected.setNetto(sumy.get("netto"));
-            selected.setVat(Z.z(sumy.get("vat")));
-            selected.setBrutto(Z.z(sumy.get("brutto")));
+            selected.setNettopk(sumy.get("netto"));
+            selected.setVatpk(Z.z(sumy.get("vat")));
+            selected.setBruttopk(Z.z(sumy.get("brutto")));
         }
     }
     

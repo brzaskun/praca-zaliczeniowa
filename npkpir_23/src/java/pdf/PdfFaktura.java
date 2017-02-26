@@ -235,7 +235,10 @@ public class PdfFaktura extends Pdf implements Serializable {
                         document.add(Chunk.NEWLINE );
                         document.add(PdfFP.dolaczpozycjedofakturydlugacz2korekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                     } else if (selected.isFakturavatmarza()){
-                    
+                        document.add(PdfFP.dolaczpozycjedofakturyvatmarza(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(new Paragraph(""));
+                        document.add(Chunk.NEWLINE );
+                        document.add(PdfFP.dolaczpozycjedofakturyvatmarzakorekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                     } else {
                         document.add(PdfFP.dolaczpozycjedofaktury2normal(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                         document.add(new Paragraph(""));

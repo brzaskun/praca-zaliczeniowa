@@ -30,6 +30,7 @@ import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
 import entity.Pozycjenafakturze;
 import error.E;
+import format.F;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -212,7 +213,10 @@ public class PdfFP {
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "towary");
                     PdfPTable table = null;
                     PdfPTable tablekorekta = null;
-                    if (selected.getPozycjepokorekcie() != null && selected.isFakturaxxl() == false) {
+                    if (selected.getPozycjepokorekcie() != null && selected.isFakturavatmarza() == true) {
+                        table = wygenerujtablicevatmarza(false, selected.getPozycjenafakturze(), selected);
+                        tablekorekta = wygenerujtablicevatmarza(true, selected.getPozycjepokorekcie(), selected);
+                    } else if (selected.getPozycjepokorekcie() != null && selected.isFakturaxxl() == false) {
                         table = wygenerujtablice(false, selected.getPozycjenafakturze(), selected);
                         tablekorekta = wygenerujtablice(true, selected.getPozycjepokorekcie(), selected);
                     } else if (selected.getPozycjepokorekcie() == null && selected.isFakturaNormalna()) {
@@ -522,6 +526,21 @@ public class PdfFP {
         }
         return null;
     }
+    
+    public static PdfPTable dolaczpozycjedofakturyvatmarzakorekta(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
+        Pozycjenafakturze pobrane = new Pozycjenafakturze();
+        for (Pozycjenafakturze p : skladnikifaktury) {
+            switch (p.getPozycjenafakturzePK().getNazwa()) {
+                case "akordeon:formwzor:towary":
+                    //Dane do tablicy z wierszami
+                    pobrane = zwrocPolozenieElementu(skladnikifaktury, "towary");
+                    return wygenerujtablicevatmarza(true, selected.getPozycjepokorekcie(), selected);
+                default:
+                    break;
+            }
+        }
+        return null;
+    }
 
     public static PdfPTable dolaczpozycjedofakturydlugacz2korekta(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
@@ -796,7 +815,7 @@ public class PdfFP {
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 8));
         }
         if (korekta) {
-            wierszroznicy(selected, table);
+            wierszroznicyvatmarza(selected, table);
         }
         // complete the table
         table.completeRow();
@@ -1171,6 +1190,11 @@ public class PdfFP {
         if (!fakturaXXLKolumna.getNettoopis5().equals("")) {
             szerokosci.add(65f);
         }
+    }
+    
+    private static void wierszroznicyvatmarza(Faktura selected, PdfPTable table) throws DocumentException, IOException {
+        table.addCell(ustawfraze("Różnica", 6, 0));
+        table.addCell(ustawfrazeAlign(String.valueOf(F.number(selected.getNettopk() - selected.getNetto())), "right", 8));
     }
 
     private static void wierszroznicy(Faktura selected, PdfPTable table) throws DocumentException, IOException {
