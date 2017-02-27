@@ -405,9 +405,9 @@ pdffk.PdfMain.dodajQR(nazwapliku);
             nazwy.addAll(mapa.keySet());
             String nazwapliku = null;
             if (wartosc) {
-                nazwapliku = "vat-wszystko-wartosc-" + wpisView.getPodatnikWpisu() + ".pdf";
+                nazwapliku = "vat-wszystko-wartosc-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             } else {
-                nazwapliku = "vat-wszystko-" + wpisView.getPodatnikWpisu() + ".pdf";
+                nazwapliku = "vat-wszystko-" + wpisView.getPodatnikObiekt().getNip()+ ".pdf";
             }
                 File file = Plik.plik(nazwapliku, true);
                 if (file.isFile()) {

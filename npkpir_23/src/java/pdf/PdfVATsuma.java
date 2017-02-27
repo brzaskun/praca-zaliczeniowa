@@ -46,7 +46,7 @@ public class PdfVATsuma {
 
     public static void drukuj(EwidencjeVatDAO ewidencjeVatDAO, WpisView wpisView) throws FileNotFoundException, DocumentException, IOException  {
         Document document = new Document();
-        PdfWriter.getInstance(document, Plik.plikR("vatsuma" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+        PdfWriter.getInstance(document, Plik.plikR("vatsuma" + wpisView.getPodatnikObiekt().getNip() + ".pdf")).setInitialLeading(16);
         document.addTitle("Zestawienie sum z ewidencji VAT");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk danych z ewidencji VAT");
