@@ -1824,6 +1824,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public UkladBR findukladBRPodatnikRokPodstawowy(String podatnikWpisu, String rokWpisuSt) {
         return (UkladBR) em.createNamedQuery("UkladBR.findByPodatnikRokPodstawowy").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getSingleResult();
     }
+    
+    public UkladBR findukladBRPodatnikRokAktywny(String podatnikWpisu, String rokWpisuSt) {
+        return (UkladBR) em.createNamedQuery("UkladBR.findByPodatnikRokAktywny").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getSingleResult();
+    }
 
     public KontopozycjaZapis fintKontoPozycjaZapisByKonto(Konto konto, UkladBR ukladBR) {
         return (KontopozycjaZapis) em.createNamedQuery("KontopozycjaZapis.findByKontoId").setParameter("kontoId", konto).setParameter("ukladBR", ukladBR).getSingleResult();
@@ -1975,6 +1979,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<UmorzenieN> findUmorzenieBySrodek(SrodekTrw str) {
         return em.createNamedQuery("UmorzenieN.findStr").setParameter("srodekTrw", str).getResultList();
+    }
+
+    public void ukladBRustawnieaktywne(String podatnik) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

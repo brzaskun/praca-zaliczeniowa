@@ -88,4 +88,20 @@ public class UkladBRDAO extends DAO implements Serializable{
         }
     }
     
+    public UkladBR findukladBRPodatnikRokAktywny(String podatnikWpisu, String rokWpisuSt) {
+         try {
+            return sessionFacade.findukladBRPodatnikRokAktywny(podatnikWpisu, rokWpisuSt);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+
+    public void ustawnieaktywne(String podatnik) {
+         try {
+            sessionFacade.ukladBRustawnieaktywne(podatnik);
+        } catch (Exception e) { E.e(e); 
+            
+        }
+    }
+    
 }

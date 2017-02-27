@@ -40,6 +40,7 @@ public class UkladBRView implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<UkladBR> lista;
+    private List<UkladBR> listarokbiezacy;
     private List<UkladBR> listaWzorcowy;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -73,6 +74,7 @@ public class UkladBRView implements Serializable {
     public void init() {
         try {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+            listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView);
             listaWzorcowy = ukladBRDAO.findPodatnik("Wzorcowy");
             Collections.sort(listaWzorcowy, new UkladBRcomparator());
             ukladdocelowyrok = wpisView.getRokWpisuSt();
@@ -271,6 +273,14 @@ public class UkladBRView implements Serializable {
 
     public void setUkladBRDAO(UkladBRDAO ukladBRDAO) {
         this.ukladBRDAO = ukladBRDAO;
+    }
+
+    public List<UkladBR> getListarokbiezacy() {
+        return listarokbiezacy;
+    }
+
+    public void setListarokbiezacy(List<UkladBR> listarokbiezacy) {
+        this.listarokbiezacy = listarokbiezacy;
     }
 
     public List<UkladBR> getListaWzorcowy() {

@@ -8,6 +8,7 @@ package beansFK;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import daoFK.UkladBRDAO;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
@@ -17,8 +18,8 @@ import error.E;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateless;
 import msg.Msg;
+import view.WpisView;
 
 /**
  *
@@ -75,4 +76,11 @@ public class UkladBRBean {
         }
     }
     
+    public static void ustawAktywny(UkladBR ukladBR, UkladBRDAO ukladBRDAO) {
+        if (ukladBR != null) {
+            ukladBRDAO.ustawnieaktywne(ukladBR.getPodatnik());
+            ukladBR.setAktualny(true);
+            ukladBRDAO.edit(ukladBR);
+        }
+    }
 }

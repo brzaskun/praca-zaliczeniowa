@@ -325,7 +325,12 @@ public class FakturaView implements Serializable {
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
             return;
         }
-        selected.setKontrahent_nip(selected.getKontrahent().getNip());
+        if (selected.getKontrahent() != null) {
+            selected.setKontrahent_nip(selected.getKontrahent().getNip());
+        } else {
+            Msg.msg("e", "Nie wybrano kontrahenta. Nie zachowano faktury");
+            return;
+        }
         if (selected.getNazwa()!=null && selected.getNazwa().equals("")) {
             selected.setNazwa(null);
         }

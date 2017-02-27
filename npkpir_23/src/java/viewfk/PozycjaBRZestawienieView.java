@@ -7,9 +7,12 @@ package viewfk;
 import beansFK.BOFKBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
+import beansFK.UkladBRBean;
 import converter.RomNumb;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import daoFK.KontopozycjaBiezacaDAO;
+import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
@@ -77,6 +80,10 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     @Inject
     private KontoDAOfk kontoDAO;
+    @Inject
+    private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject 
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
@@ -112,7 +119,7 @@ public class PozycjaBRZestawienieView implements Serializable {
 
     @PostConstruct
     private void init() {
-
+        uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
         pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
         pozycje_old.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
@@ -149,7 +156,7 @@ public class PozycjaBRZestawienieView implements Serializable {
 //            List<Konto> plankont = kontoDAO.findAll();
 //            ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
 //        }
-
+    
     }
     
 // to jest uruchamiane po wyborze ukladu pierwsza funkcja
@@ -204,7 +211,38 @@ public class PozycjaBRZestawienieView implements Serializable {
             Msg.msg("e", e.getLocalizedMessage());
         }
     }
+    public void zmianaukladprzegladRZiS() {
+        UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
+        ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+        pobierzPozycje(pozycje);
+        wyczyscKonta("wynikowe", wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
+        pobierzukladprzegladRZiS();
+    }
+    
+    public void zmianaukladprzegladRZiSBO() {
+        UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
+        ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+        pobierzPozycje(pozycje);
+        wyczyscKonta("wynikowe", wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
+        obliczRZiSOtwarciaRZiSData();
+    }
+    
             
+    public void zmianaukladprzegladBilans() {
+        UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
+        ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+        pobierzPozycje(pozycje);
+        wyczyscKonta("bilansowe", wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "bilansowe");
+        pobierzukladprzegladBilans();
+    }
+    
+    
     public void pobierzukladprzegladRZiS() {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -225,6 +263,15 @@ public class PozycjaBRZestawienieView implements Serializable {
         }
     }
     
+    private void wyczyscKonta(String rb, String podatnik, String rok) {
+        if (rb.equals("wynikowe")) {
+            List<Konto> listakont = kontoDAO.findWszystkieKontaWynikowePodatnika(podatnik, rok);
+            UkladBRBean.czyscPozycjeKont(kontoDAO, listakont);
+        } else {
+            List<Konto> listakont = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, rok);
+            UkladBRBean.czyscPozycjeKont(kontoDAO, listakont);
+        }
+    }
     private void pobierzPozycje(ArrayList<PozycjaRZiSBilans> pozycje) {
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
