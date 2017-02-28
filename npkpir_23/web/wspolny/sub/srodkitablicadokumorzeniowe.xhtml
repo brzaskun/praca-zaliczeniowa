@@ -32,6 +32,8 @@
             <p:panel id="infosrodki" header="Dokumenty umorzeniowe niezbędne do księgowania pk">
                 <p:commandButton id="generujdokumenty"  action="#{amodokView.generujamodokumenty()}" 
                                  value="Generuj dokumenty amort" update="formSTRUmorzenie:dokumsrodkiLista"/>  
+                <p:commandButton id="resetujumorzenia"  action="#{amodokView.resetujnaliczeniasrodkowwszystkich()}" rendered="#{facesContext.externalContext.remoteUser eq '4'}"
+                                 value="Resetuj umorzenia wszystkich" style="margin-left: 50px;"/>  
             </p:panel>
             <p:contextMenu for="dokumsrodkiLista" style="width: 250px;">
                 <p:menuitem value="O(d)znacz jako zaksięgowane" actionListener="#{amodokView.oznaczjakozaksiegowane()}" update="formSTRUmorzenie:dokumsrodkiLista" icon="ui-icon-locked" />

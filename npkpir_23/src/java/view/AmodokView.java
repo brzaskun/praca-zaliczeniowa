@@ -79,11 +79,40 @@ public class AmodokView implements Serializable {
             E.e(e);
         }
     }
+    
+    public void resetujnaliczeniasrodkowwszystkich() {
+        List<SrodekTrw> srodkiTrwale = sTRDAO.findAll();
+        if (srodkiTrwale == null || srodkiTrwale.size() == 0) {
+            init();
+            Msg.msg("Pobieram środki do umorzeń");
+        }
+        Iterator it = srodkiTrwale.iterator();
+        while (it.hasNext()) {
+            SrodekTrw srodek = (SrodekTrw) it.next();
+            //jak tego nie bedzie to zresetuje odpisy sprzedanych
+            if (srodek.getZlikwidowany() == 0) {
+                srodek.setPlanumorzen(null);
+                sTRDAO.edit(srodek);
+                srodek.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
+                sTRDAO.edit(srodek);
+            }
+        }
+        Msg.msg("Odpisy wygenerowane. Pamiętaj o wygenerowaniu dokumentów umorzeń! W tym celu wybierz w menu stronę umorzenie");
+    }
 
     private void odpisypojedynczysrodek(SrodekTrw srodek) {
         try {
-            srodek.setPlanumorzen(null);
-            srodek.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
+//            srodek.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
+//            sTRDAO.edit(srodek);
+            SrodkiTrwBean.usunumorzeniapozniejsze(srodek, wpisView);
+            sTRDAO.edit(srodek);
+            List<UmorzenieN> umorzeniawygenerowane = SrodkiTrwBean.generujumorzeniadlasrodkaAmo(srodek, wpisView);
+            if (srodek.getPlanumorzen() != null) {
+                srodek.getPlanumorzen().addAll(umorzeniawygenerowane);
+            } else {
+                srodek.setPlanumorzen(umorzeniawygenerowane);
+            }
+            sTRDAO.edit(srodek);
         } catch (Exception e) {
             E.e(e);
         }

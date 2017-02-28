@@ -6,6 +6,7 @@
 package beansSrodkiTrwale;
 
 import comparator.SrodekTrwNowaWartoscComparator;
+import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
 
@@ -153,26 +154,24 @@ public class SrodkiTrwBean implements Serializable {
     public static List<UmorzenieN> generujumorzeniadlasrodka(SrodekTrw srodek, WpisView wpisView) {
         List<UmorzenieN> umorzenia = new ArrayList<>();
         if (srodek.getZlikwidowany() == 0) {
-            List<Double> planowane = new ArrayList<>();
-            planowane.addAll(srodek.getUmorzPlan());
-            Integer rokOd = Integer.parseInt(srodek.getDataprzek().substring(0, 4));
+            String rok = Data.getRok(srodek.getDataprzek());
+            String miesiac = Data.getMc(srodek.getDataprzek());
+            List<Double> planowane = srodek.getUmorzPlan();
+            Integer rokOd = Integer.parseInt(rok);
             Integer mcOd = 0;
             if (srodek.getStawka() == 100) {
-                mcOd = Integer.parseInt(srodek.getDataprzek().substring(5, 7));
+                mcOd = Integer.parseInt(miesiac);
             } else {
-                String pob = srodek.getDataprzek().substring(5, 7);
                 // bo jest od miesiaca nastepnego po miesiacu
-                mcOd = Integer.parseInt(pob) + 1;
+                mcOd = Integer.parseInt(miesiac) + 1;
                 if (mcOd == 13) {
                     rokOd++;
                     mcOd = 1;
                 } else {
-                    mcOd = Integer.parseInt(srodek.getDataprzek().substring(5, 7)) + 1;
+                    mcOd = Integer.parseInt(miesiac) + 1;
                 }
             }
-
-            Iterator itX;
-            itX = planowane.iterator();
+            Iterator itX = planowane.iterator();
             int i = 1;
             while (itX.hasNext()) {
                 Integer[] mcrok = new Integer[2];
@@ -183,6 +182,7 @@ public class SrodkiTrwBean implements Serializable {
                 rokOd = mcrok[1];
                 Double kwotaodpisMC = (Double) itX.next();
                 UmorzenieN odpisZaDanyOkres = new UmorzenieN();
+                odpisZaDanyOkres.setRodzaj(srodek.getTyp());
                 odpisZaDanyOkres.setKwota(kwotaodpisMC);
                 odpisZaDanyOkres.setRokUmorzenia(rokOd);
                 odpisZaDanyOkres.setMcUmorzenia(mcOd);
@@ -194,6 +194,7 @@ public class SrodkiTrwBean implements Serializable {
                 if (srodek.getKontoumorzenie() != null) {
                     odpisZaDanyOkres.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
                 }
+                umorzenia.add(odpisZaDanyOkres);
                 i++;
                 if (mcOd == 12) {
                     rokOd++;
@@ -201,11 +202,69 @@ public class SrodkiTrwBean implements Serializable {
                 } else {
                     mcOd++;
                 }
-                umorzenia.add(odpisZaDanyOkres);
             }
         }
         return umorzenia;
     }
+    
+    public static List<UmorzenieN> generujumorzeniadlasrodkaAmo(SrodekTrw srodek, WpisView wpisView) {
+        List<UmorzenieN> umorzenia = new ArrayList<>();
+        if (srodek.getZlikwidowany() == 0) {
+            String rok = Data.getRok(srodek.getDataprzek());
+            String miesiac = Data.getMc(srodek.getDataprzek());
+            List<Double> planowane = srodek.getUmorzPlan();
+            Integer rokOd = Integer.parseInt(rok);
+            Integer mcOd = 0;
+            if (srodek.getStawka() == 100) {
+                mcOd = Integer.parseInt(miesiac);
+            } else {
+                // bo jest od miesiaca nastepnego po miesiacu
+                mcOd = Integer.parseInt(miesiac) + 1;
+                if (mcOd == 13) {
+                    rokOd++;
+                    mcOd = 1;
+                } else {
+                    mcOd = Integer.parseInt(miesiac) + 1;
+                }
+            }
+            Iterator itX = planowane.iterator();
+            int i = 1;
+            while (itX.hasNext()) {
+                Integer[] mcrok = new Integer[2];
+                mcrok[0] = mcOd;
+                mcrok[1] = rokOd;
+                danymiesiacniejestzawieszenie(mcrok, wpisView);
+                mcOd = mcrok[0];
+                rokOd = mcrok[1];
+                Double kwotaodpisMC = (Double) itX.next();
+                if (rokOd > wpisView.getRokWpisu() || (rokOd.equals(wpisView.getRokWpisu()) && mcOd >= Integer.parseInt(wpisView.getMiesiacWpisu()))) {
+                    UmorzenieN odpisZaDanyOkres = new UmorzenieN();
+                    odpisZaDanyOkres.setRodzaj(srodek.getTyp());
+                    odpisZaDanyOkres.setKwota(kwotaodpisMC);
+                    odpisZaDanyOkres.setRokUmorzenia(rokOd);
+                    odpisZaDanyOkres.setMcUmorzenia(mcOd);
+                    odpisZaDanyOkres.setNrUmorzenia(i);
+                    odpisZaDanyOkres.setSrodekTrw(srodek);
+                    if (srodek.getKontonetto() != null) {
+                        odpisZaDanyOkres.setKontonetto(srodek.getKontonetto().getPelnynumer());
+                    }
+                    if (srodek.getKontoumorzenie() != null) {
+                        odpisZaDanyOkres.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
+                    }
+                    umorzenia.add(odpisZaDanyOkres);
+                }
+                i++;
+                if (mcOd == 12) {
+                    rokOd++;
+                    mcOd = 1;
+                } else {
+                    mcOd++;
+                }
+            }
+        }
+        return umorzenia;
+    }
+    
     private static void danymiesiacniejestzawieszenie(Integer[] mcrok, WpisView wpisView) {
         Integer badanymiesiac = mcrok[0];
         Integer badanyrok = mcrok[1];
@@ -239,6 +298,19 @@ public class SrodkiTrwBean implements Serializable {
                         mcrok[0] = ostatnimiesiacint;
                     }
                 }
+            }
+        }
+    }
+
+    public static void usunumorzeniapozniejsze(SrodekTrw srodek, WpisView wpisView) {
+        Integer rokOd = wpisView.getRokWpisu();
+        Integer mcOd = Integer.parseInt(wpisView.getMiesiacWpisu());
+        for (Iterator<UmorzenieN> it = srodek.getPlanumorzen().iterator(); it.hasNext();) {
+            UmorzenieN p = it.next();
+            if (p.getRokUmorzenia() > rokOd) {
+                it.remove();
+            } else if (p.getRokUmorzenia() == rokOd && p.getMcUmorzenia() >= mcOd) {
+                it.remove();
             }
         }
     }
