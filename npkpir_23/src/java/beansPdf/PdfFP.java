@@ -1431,8 +1431,8 @@ public class PdfFP {
     }
     
     private static PdfPCell frazaNoBorderkolor(String f) {
-        PdfPCell cell = ustawfrazeAlignNOBorder(f, "left", 7);
-        cell.setBackgroundColor(new BaseColor(170, 170, 170, 20));
+        PdfPCell cell = ustawfrazeAlignNOBorder(f, "left", 8);
+        //cell.setBackgroundColor(new BaseColor(170, 170, 170, 90));
         return cell;
     }
 }
