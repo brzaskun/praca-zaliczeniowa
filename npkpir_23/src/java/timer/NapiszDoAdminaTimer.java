@@ -38,9 +38,11 @@ public class NapiszDoAdminaTimer implements Serializable{
                 DateTime dzisiaj = new DateTime();
                 if (datastatusu.compareTo(dzisiaj) < 0 && !p.getStatus().equals("admin przeczytał")) {
                     p.setStatus("archiwalna");
-                    pismoadminDAO.edit(p);
                 }
             }
+        }
+        if (lista != null) {
+            pismoadminDAO.editList(lista);
         }
     }
 }

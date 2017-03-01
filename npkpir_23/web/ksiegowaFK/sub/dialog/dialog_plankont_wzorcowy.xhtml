@@ -47,13 +47,13 @@
                       <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczneWzorcowy()}" update="formwzorcowy:dataListwzorcowy"/>
                   </p:selectBooleanCheckbox>
                   <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.kontadowyswietlenia}"  style="width: 170px;">
-                        <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczneWzorcowy()}" update="formwzorcowy:dataListwzorcowy"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczneWzorcowy()}" update="formwzorcowy:dataListwzorcowy"/>
                         <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                         <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                   </p:selectOneMenu>
             </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid columns="2">
                 <p:dataTable id="dataListwzorcowy" value="#{planKontView.wykazkontwzor}" var="loop"  selectionMode="single"
                              selection="#{planKontView.selectednodekontowzorcowy}" 
                              rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?

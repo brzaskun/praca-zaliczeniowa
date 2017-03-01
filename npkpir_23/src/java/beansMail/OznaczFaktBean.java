@@ -18,20 +18,24 @@ import msg.Msg;
 public class OznaczFaktBean {
 
     public static void oznaczonejakozaksiegowane(List<Faktura> fakturydomaila, FakturaDAO fakturaDAO) {
-        for (Faktura faktura : fakturydomaila) {
-            Klienci klientf = faktura.getKontrahent();
-            Msg.msg("i", "Oznaczono faktur\u0119 jako zaksi\u0119gowan\u0105 " + klientf.getNpelna());
-            faktura.setZaksiegowana(true);
-            fakturaDAO.edit(faktura);
+        if (fakturydomaila != null) {
+            for (Faktura faktura : fakturydomaila) {
+                Klienci klientf = faktura.getKontrahent();
+                Msg.msg("i", "Oznaczono faktur\u0119 jako zaksi\u0119gowan\u0105 " + klientf.getNpelna());
+                faktura.setZaksiegowana(true);
+            }
+            fakturaDAO.edit(fakturydomaila);
         }
     }
 
     public static void oznaczonejakowyslane(List<Faktura> fakturydomaila, FakturaDAO fakturaDAO) {
-        for (Faktura faktura : fakturydomaila) {
-            Klienci klientf = faktura.getKontrahent();
-            Msg.msg("i", "Oznaczono faktur\u0119 jako wys\u0142an\u0105 do klienta " + klientf.getNpelna());
-            faktura.setWyslana(true);
-            fakturaDAO.edit(faktura);
+        if (fakturydomaila != null) {
+            for (Faktura faktura : fakturydomaila) {
+                Klienci klientf = faktura.getKontrahent();
+                Msg.msg("i", "Oznaczono faktur\u0119 jako wys\u0142an\u0105 do klienta " + klientf.getNpelna());
+                faktura.setWyslana(true);
+            }
+            fakturaDAO.edit(fakturydomaila);
         }
     }
     

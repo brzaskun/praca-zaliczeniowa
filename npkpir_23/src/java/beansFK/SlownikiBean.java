@@ -31,13 +31,15 @@ public class SlownikiBean {
         kontaslownik = kontoDAOfk.findKontaMaSlownik(podatnik, rok, nrslownika);
         for (Konto p : kontaslownik) {
             List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, p.getPelnynumer());
-            for (Konto r : kontapotomne) {
-                if (r.getNrkonta().equals(pola[0])) {
-                    r.setNazwapelna(pola[1]);
-                    r.setNazwaskrocona(pola[2]);
-                    kontoDAOfk.edit(r);
-                }
-            } 
+            if (kontapotomne != null) {
+                for (Konto r : kontapotomne) {
+                    if (r.getNrkonta().equals(pola[0])) {
+                        r.setNazwapelna(pola[1]);
+                        r.setNazwaskrocona(pola[2]);
+                    }
+                } 
+                kontoDAOfk.editList(kontapotomne);
+            }
         }
     }
      
@@ -77,12 +79,14 @@ public class SlownikiBean {
         kontaslownik = kontoDAOfk.findKontaMaSlownik(podatnik, rok, nrslownika);
         for (Konto p : kontaslownik) {
             List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, p.getPelnynumer());
-            for (Konto r : kontapotomne) {
-                if (r.getNrkonta().equals(pola[0])) {
-                    r.setNiewidoczne(niewidoczne);
-                    kontoDAOfk.edit(r);
+            if (kontapotomne != null) {
+                for (Konto r : kontapotomne) {
+                    if (r.getNrkonta().equals(pola[0])) {
+                        r.setNiewidoczne(niewidoczne);
+                    }
                 }
-            } 
+               kontoDAOfk.editList(kontapotomne);
+            }
         }
     }
 }
