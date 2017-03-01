@@ -117,7 +117,6 @@ public class MailOther implements Serializable{
                  Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
                  faktura.setWyslana(true);
                  faktura.setDatawysylki(new Date());
-                 fakturaDAO.edit(faktura);
                  RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
                  try {
                     File file = Plik.plik("fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf", true);
@@ -130,6 +129,9 @@ public class MailOther implements Serializable{
              }
              i++;
          }
+         if (fakturydomaila != null) {
+             fakturaDAO.edit(fakturydomaila);
+         }
      }
      
      public static void fakturaarchiwum(List<Faktura> fakturydomaila, WpisView wpisView, FakturaDAO fakturaDAO, String wiadomoscdodatkowa, SMTPSettings settings, SMTPSettings ogolne) {
@@ -137,7 +139,6 @@ public class MailOther implements Serializable{
          int i = 0;
          for (Faktura faktura : fakturydomaila){
              try {
-                 
                  Klienci klientf = faktura.getKontrahent();
                  MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings, ogolne);
                  message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
@@ -170,7 +171,6 @@ public class MailOther implements Serializable{
                  Transport.send(message);
                  Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
                  faktura.setWyslana(true);
-                 fakturaDAO.edit(faktura);
                  RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
                  try {
                     File file = Plik.plik("faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf", true);
@@ -182,6 +182,9 @@ public class MailOther implements Serializable{
                  throw new RuntimeException(e);
              }
              i++;
+         }
+         if (fakturydomaila != null) {
+             fakturaDAO.edit(fakturydomaila);
          }
          Msg.msg("Wysłano ponownie fakture mailem do kontrahenta");
      }

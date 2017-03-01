@@ -27,18 +27,19 @@ import view.WpisView;
  */
 
 public class UkladBRBean {
-    
+
     public static int czyscPozycjeKont(KontoDAOfk kontoDAO, List<Konto> listakont) {
         int zwrot = 0;
         for (Konto p : listakont) {
-                p.setKontopozycjaID(null);
-                try {
-                    kontoDAO.edit(p);
-                } catch (Exception e) {
-                    zwrot = 1;
-                    E.e(e);
-                }
-            }
+            p.setKontopozycjaID(null);
+        }
+        try {
+            kontoDAO.editList(listakont);
+        } catch (Exception e) {
+            zwrot = 1;
+            E.e(e);
+        }
+
         return zwrot;
     }
 

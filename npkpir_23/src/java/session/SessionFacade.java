@@ -124,7 +124,7 @@ public class SessionFacade<T> implements Serializable {
         for (T p : entityList) {
             getEntityManager().persist(p);
         }
-        em.flush();
+        
     }
 
     public void refresh(T entity) {
@@ -137,29 +137,29 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public void remove(T entity) {
-        em.flush();
+        
         em.remove(em.merge(entity));
-        em.flush();
+        
     }
     
     public void remove(List<T> entityList) {
-        em.flush();
+        
         for (T p : entityList) {
             em.remove(em.merge(p));
         }
-        em.flush();
+        
     }
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
-        em.flush();
+        
     }
 
     public void edit(List<T> entityList) {
         for (T p : entityList) {
             getEntityManager().merge(p);
         }
-        em.flush();
+        
     }
 
     //to jest po to, ze jk juz jest cos w np. planie kont to 
@@ -168,7 +168,7 @@ public class SessionFacade<T> implements Serializable {
         for (T p : entityList) {
             try {
                 getEntityManager().persist(p);
-                em.flush();
+                
             } catch (Exception e) {
             }
         }
@@ -1297,7 +1297,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWaluta(Konto konto, String symbolwaluty, String wnma) {
         try {
-            em.flush();
+            
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);
@@ -1307,7 +1307,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMa(Konto konto, String wnma) {
         try {
-            em.flush();
+            
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);
@@ -1317,7 +1317,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaKorekta(Konto konto, String symbolwaluty, String wnma) {
         try {
-            em.flush();
+            
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaKorekta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);
@@ -1327,7 +1327,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaKorekta(Konto konto, String wnma) {
         try {
-            em.flush();
+            
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);
@@ -1337,7 +1337,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaBO(Konto konto, String wnma) {
         try {
-            em.flush();
+            
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoBO").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);

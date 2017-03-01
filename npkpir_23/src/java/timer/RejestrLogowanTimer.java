@@ -38,9 +38,11 @@ public class RejestrLogowanTimer implements Serializable{
                 DateTime dzisiaj = new DateTime();
                 if (datalogowania.compareTo(dzisiaj) < 0) {
                     p.setIlosclogowan(5);
-                    rejestrlogowanDAO.edit(p);
                 }
             }
+        }
+        if (lista != null) {
+            rejestrlogowanDAO.editList(lista);
         }
     }
 }

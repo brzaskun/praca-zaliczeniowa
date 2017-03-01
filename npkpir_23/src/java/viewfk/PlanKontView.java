@@ -641,13 +641,15 @@ public class PlanKontView implements Serializable {
             }
             List<Konto> wykazkonttmp = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             //a teraz trzeba pozmieniac id macierzystych bo inaczej sie nie odnajda
-            for (Konto p : wykazkonttmp) {
-                if (!p.getMacierzyste().equals("0")) {
-                    Konto macierzyste = kontoDAOfk.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-                    p.setMacierzysty(macierzyste.getId());
-                    p.setKontomacierzyste(macierzyste);
-                    kontoDAOfk.edit(p);
+            if (wykazkonttmp != null) {
+                for (Konto p : wykazkonttmp) {
+                    if (!p.getMacierzyste().equals("0")) {
+                        Konto macierzyste = kontoDAOfk.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                        p.setMacierzysty(macierzyste.getId());
+                        p.setKontomacierzyste(macierzyste);
+                    }
                 }
+                kontoDAOfk.editList(wykazkonttmp);
             }
             porzadkowanieKontPodatnika();
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -822,21 +824,17 @@ public class PlanKontView implements Serializable {
             List<Konto> listakont = kontoDAOfk.findWszystkieKontaWynikowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             for (Konto p : listakont) {
                 p.setKontopozycjaID(null);
-                try {
-                    kontoDAOfk.edit(p);
-                } catch (Exception e) {
-                    E.e(e);
-                }
+            }
+            if (listakont != null) {
+                kontoDAOfk.editList(listakont);
             }
         } else {
             List<Konto> listakont = kontoDAOfk.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             for (Konto p : listakont) {
                 p.setKontopozycjaID(null);
-                try {
-                    kontoDAOfk.edit(p);
-                } catch (Exception e) {
-                    E.e(e);
-                }
+            }
+            if (listakont != null) {
+                kontoDAOfk.editList(listakont);
             }
         }
     }
@@ -1141,13 +1139,14 @@ public class PlanKontView implements Serializable {
     }
 
     public void obslugaBlokadyKontaWszystkie() {
-        for (Konto p : wykazkont) {
-            Konto konto = p;
-            konto.setBlokada(false);
-            kontoDAOfk.edit(konto);
-
-        }
+        if (wykazkont != null) {
+            for (Konto p : wykazkont) {
+                Konto konto = p;
+                konto.setBlokada(false);
+            }
+        kontoDAOfk.edit(wykazkont);
         Msg.msg("w", "Odblokowano edycję kont");
+        }
     }
 
     public void zmiananazwykonta() {
@@ -1554,9 +1553,9 @@ public class PlanKontView implements Serializable {
             List<Konto> potomki = pobierzpotomkowWzorcowy(p);
             for (Konto r : potomki) {
                 r.setWnma0wm1ma2(p.getWnma0wm1ma2());
-                kontoDAOfk.edit(r);
                 nanieswnmaWzorcowy(r);
             }
+            kontoDAOfk.edit(potomki);
         }
     }
     
