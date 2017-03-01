@@ -87,66 +87,54 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     public void pobierzukladkontoR() {
+        przyporzadkowanekonta = new ArrayList<>();
+        wyczyscKontaWzorcowy(uklad, "wynikowe");
+        //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true, "wynikowe");
+        pozycje = new ArrayList<>();
         try {
-            uklad.oznaczUkladBR(ukladBRDAO);
-            przyporzadkowanekonta = new ArrayList<>();
-            wyczyscKontaWzorcowy(uklad, "wynikowe");
-            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
-            //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
-            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true, "wynikowe");
-            pozycje = new ArrayList<>();
-            try {
-                pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
-                if (pozycje.isEmpty()) {
-                    pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                    Msg.msg("i", "Dodaje pusta pozycje");
-                }
-            } catch (Exception e) {  E.e(e);
+            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+            if (pozycje.isEmpty()) {
+                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
             }
-            drugiinit();
-            uzupelnijpozycjeOKontaR(pozycje);
-            rootProjektKontaRZiS.getChildren().clear();
-            PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKontaRZiS, pozycje);
-            level = PozycjaRZiSFKBean.ustawLevel(rootProjektKontaRZiS, pozycje);
-            Msg.msg("i", "Pobrano układ ");
-        } catch (Exception e) {
-            E.e(e);
+        } catch (Exception e) {  E.e(e);
         }
+        drugiinit();
+        uzupelnijpozycjeOKontaR(pozycje);
+        rootProjektKontaRZiS.getChildren().clear();
+        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKontaRZiS, pozycje);
+        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKontaRZiS, pozycje);
+        Msg.msg("i", "Pobrano układ ");
     }
 
 
     public void pobierzukladkontoB(String aktywapasywa) {
+        przyporzadkowanekonta = new ArrayList<>();
+        wyczyscKontaWzorcowy(uklad, "bilansowe");
+        //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true, "bilansowe");
+        pozycje = new ArrayList<>();
         try {
-            uklad.oznaczUkladBR(ukladBRDAO);
-            przyporzadkowanekonta = new ArrayList<>();
-            wyczyscKontaWzorcowy(uklad, "bilansowe");
-            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
-            //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
-            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true, "bilansowe");
-            pozycje = new ArrayList<>();
-            try {
-                if (aktywapasywa.equals("aktywa")) {
-                    aktywa0pasywa1 = false;
-                    pozycje.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
-                } else {
-                    aktywa0pasywa1 = true;
-                    pozycje.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
-                }
-                if (pozycje.isEmpty()) {
-                    pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                    Msg.msg("i", "Dodaje pusta pozycje");
-                }
-            } catch (Exception e) {  E.e(e);
+            if (aktywapasywa.equals("aktywa")) {
+                aktywa0pasywa1 = false;
+                pozycje.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
+            } else {
+                aktywa0pasywa1 = true;
+                pozycje.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
             }
-            drugiinitbilansowe();
-            uzupelnijpozycjeOKonta(pozycje);
-            rootProjektKontaBilans.getChildren().clear();
-            PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKontaBilans, pozycje);
-            level = PozycjaRZiSFKBean.ustawLevel(rootProjektKontaBilans, pozycje);
-            Msg.msg("i", "Pobrano układ ");
-        } catch (Exception e) {
-            E.e(e);
+            if (pozycje.isEmpty()) {
+                pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
+            }
+        } catch (Exception e) {  E.e(e);
         }
+        drugiinitbilansowe();
+        uzupelnijpozycjeOKonta(pozycje);
+        rootProjektKontaBilans.getChildren().clear();
+        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKontaBilans, pozycje);
+        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKontaBilans, pozycje);
+        Msg.msg("i", "Pobrano układ ");
     }
 
     private void drugiinit() {

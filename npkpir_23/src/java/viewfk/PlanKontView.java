@@ -137,7 +137,6 @@ public class PlanKontView implements Serializable {
         Collections.sort(wykazkont, new Kontocomparator());
         //root = rootInit(wykazkont);
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
-        Collections.sort(wykazkontwzor, new Kontocomparator());
         styltabeliplankont = opracujstylwierszatabeli();
         //rootwzorcowy = rootInit(wykazkontwzor);
     }
