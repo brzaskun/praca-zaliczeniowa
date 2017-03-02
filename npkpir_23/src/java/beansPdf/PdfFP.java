@@ -190,7 +190,7 @@ public class PdfFP {
                         adres = selected.getWystawca().getAdresdlafaktury();
                         absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 40, 8);
                         String nip = selected.getWystawca().getNipdlafaktury() != null ? selected.getWystawca().getNipdlafaktury() : selected.getWystawca().getNip();
-                        absText(writer, B.b("sprzedawca")+": " + selected.getWystawca().getNipdlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 60, 8);
+                        absText(writer, B.b("NIP")+": " + selected.getWystawca().getNipdlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 60, 8);
                     }
                     break;
                 case "akordeon:formwzor:odbiorca":
