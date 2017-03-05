@@ -232,6 +232,18 @@ public class Faktura implements Serializable {
     private Date datatelefon;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<FakturaDuplikat> duplikaty;
+    @Column(name = "sprzedazsamochoduimportowanego", nullable = true)
+    private boolean sprzedazsamochoduimportowanego;
+    @Column(name = "markapojazdu", nullable = true)
+    private String markapojazdu;
+    @Column(name = "VIN", nullable = true)
+    private String VIN;
+    @Column(name = "datazakupusamochodu", nullable = true)
+    private String datazakupusamochodu;
+    @Column(name = "samochodbeztablic", nullable = true)
+    private boolean samochodbeztablic;
+    @Column(name = "samochodtablicezwrocone", nullable = true)
+    private boolean samochodtablicezwrocone;
 
     public Faktura() {
     }
@@ -323,6 +335,54 @@ public class Faktura implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public boolean isSprzedazsamochoduimportowanego() {
+        return sprzedazsamochoduimportowanego;
+    }
+
+    public void setSprzedazsamochoduimportowanego(boolean sprzedazsamochoduimportowanego) {
+        this.sprzedazsamochoduimportowanego = sprzedazsamochoduimportowanego;
+    }
+
+    public String getMarkapojazdu() {
+        return markapojazdu;
+    }
+
+    public void setMarkapojazdu(String markapojazdu) {
+        this.markapojazdu = markapojazdu;
+    }
+
+    public String getVIN() {
+        return VIN;
+    }
+
+    public void setVIN(String VIN) {
+        this.VIN = VIN;
+    }
+
+    public String getDatazakupusamochodu() {
+        return datazakupusamochodu;
+    }
+
+    public void setDatazakupusamochodu(String datazakupusamochodu) {
+        this.datazakupusamochodu = datazakupusamochodu;
+    }
+
+    public boolean isSamochodbeztablic() {
+        return samochodbeztablic;
+    }
+
+    public void setSamochodbeztablic(boolean samochodbeztablic) {
+        this.samochodbeztablic = samochodbeztablic;
+    }
+
+    public boolean isSamochodtablicezwrocone() {
+        return samochodtablicezwrocone;
+    }
+
+    public void setSamochodtablicezwrocone(boolean samochodtablicezwrocone) {
+        this.samochodtablicezwrocone = samochodtablicezwrocone;
     }
 
     public String getOpisFaktury() {

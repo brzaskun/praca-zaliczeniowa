@@ -8,6 +8,32 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:outputPanel rendered="#{fakturaView.fakturavatmarza}">
+        <p:panelGrid columns="2">
+            <h:outputText value="sprzedaż samochodu importowanego "/>
+            <p:selectBooleanCheckbox value="#{fakturaView.selected.sprzedazsamochoduimportowanego}">
+                <p:ajax event="change" update="akordeon:formstworz:zalacznikdofakturymarza"/>
+            </p:selectBooleanCheckbox>
+        </p:panelGrid>
+        <p:outputPanel  id="zalacznikdofakturymarza">
+            <p:panelGrid columns="4" rendered="#{fakturaView.selected.sprzedazsamochoduimportowanego}">
+                <h:outputText value="marka samochodu"/>
+                <p:inputText value="#{fakturaView.selected.markapojazdu}">
+                    <p:ajax event="blur" global="false" partialSubmit="true"/>
+                </p:inputText>
+                <h:outputText value="numer VIN"/>
+                <p:inputText value="#{fakturaView.selected.VIN}">
+                    <p:ajax event="blur" global="false" partialSubmit="true"/>
+                </p:inputText>
+                <h:outputText value="rok zakupu"/>
+                <p:inputText value="#{fakturaView.selected.datazakupusamochodu}" size="4">
+                    <p:ajax event="blur" partialSubmit="true" global="false" update="akordeon:formstworz:rzadvm" listener="#{fakturaView.dodajwierszsamochod()}"/>
+                </p:inputText>
+                <h:outputText value="samochód sprowadzony bez tablic"/>
+                <p:selectBooleanCheckbox value="#{fakturaView.selected.samochodbeztablic}"/>
+                <h:outputText value="tablice zdane do urzędu państwa pochodzenia"/>
+                <p:selectBooleanCheckbox value="#{fakturaView.selected.samochodtablicezwrocone}"/>
+            </p:panelGrid>
+        </p:outputPanel>
         <p:outputPanel style="margin-top: 15px;">
             <p:dataTable id="rzadvm" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
                          style="width: 790px;"

@@ -164,6 +164,7 @@ public class FakturaView implements Serializable {
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
     private boolean liczodwartoscibrutto;
+    
         
    
     
@@ -980,6 +981,19 @@ public class FakturaView implements Serializable {
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
 
     }
+    
+    public void dodajwierszsamochod() {
+        if (selected.getPozycjenafakturze() != null) {
+            Pozycjenafakturzebazadanych p = selected.getPozycjenafakturze().get(0);
+            StringBuilder sb = new StringBuilder();
+            sb.append("sprzedaż samochodu marki ");
+            sb.append(selected.getMarkapojazdu());
+            sb.append(" ");
+            sb.append("o numerze identyfikacyjnym VIN ");
+            sb.append(selected.getVIN());
+            p.setNazwa(sb.toString());
+        }
+    }
 
     public void wygenerujzokresowych() {
         for (Fakturywystokresowe p : gosciwybralokres) {
@@ -1674,6 +1688,7 @@ public class FakturaView implements Serializable {
     public Double getPodsumowaniewybranychbrutto() {
         return podsumowaniewybranychbrutto;
     }
+
 
     public void setPodsumowaniewybranychbrutto(Double podsumowaniewybranychbrutto) {
         this.podsumowaniewybranychbrutto = podsumowaniewybranychbrutto;

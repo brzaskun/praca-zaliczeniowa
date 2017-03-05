@@ -50,6 +50,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import pdf.PdfFaktura;
 import slownie.Slownie;
 import slownie.SlownieDE;
+import view.DeklaracjaVatSchemaView;
+import view.FakturaView;
 import view.WpisView;
 import waluty.Z;
 
@@ -1440,5 +1442,45 @@ public class PdfFP {
         PdfPCell cell = ustawfrazeAlignNOBorder(f, "left", 8);
         //cell.setBackgroundColor(new BaseColor(170, 170, 170, 90));
         return cell;
+    }
+
+    public static void sprzedazsamochoduimportowanego(PdfWriter writer, Document document, Faktura selected) {
+         PdfPTable table = null;
+        try {
+            table = new PdfPTable(2);
+            table.setTotalWidth(new float[]{400,140});
+            StringBuilder nb = new StringBuilder();
+            nb.append("Sprzedawca oświadcza, że jestem bezpośredniom importerem pojazdu marki: ");
+            nb.append(selected.getMarkapojazdu());
+            nb.append(", o numerze nadwozia (VIN) ");
+            nb.append(selected.getVIN());
+            nb.append(", który zakupiłem w roku ");
+            nb.append(selected.getDatazakupusamochodu());
+            table.addCell(ustawfrazeAlign(nb.toString(), "left",8));
+            table.addCell(ustawfrazeAlign(".............................","center",9));
+            nb = new StringBuilder();
+            if (selected.isSamochodbeztablic()) {
+                nb.append("Sprzedawca oświadcza, że pojazd marki ");
+                nb.append(selected.getMarkapojazdu());
+                nb.append(", o numerze nadwozia (VIN) ");
+                nb.append(selected.getVIN());
+                nb.append(" został sprowadzony bez tablic rejestracyjnych ");
+            } else {
+                nb.append("Sprzedawca oświadcza, że tablice rejestracyjne pojazdu marki ");
+                nb.append(selected.getMarkapojazdu());
+                nb.append(", o numerze nadwozia (VIN) ");
+                nb.append(selected.getVIN());
+                nb.append(" zostały zwrócone do organu rejestrującego państwa, z którego pojazd został sprowadzony");
+            }
+            table.addCell(ustawfrazeAlign(nb.toString(), "left",8));
+            table.addCell(ustawfrazeAlign(".............................","center",9));
+            table.completeRow();
+            table.writeSelectedRows(0, -1,
+            document.left(document.leftMargin()+25f),
+            table.getTotalHeight() + document.bottom(document.bottomMargin()-15f), 
+            writer.getDirectContent());
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
