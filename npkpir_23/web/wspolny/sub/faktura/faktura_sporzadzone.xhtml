@@ -145,7 +145,7 @@
                 </p:column>
                 <p:column  headerText="korekta" style="text-align: center;"  width="45">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpis)}" 
-                                      icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" />
+                                      icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" rendered="#{!wpis.fakturaniemiecka13b}"/>
                 </p:column>
                 <p:rowExpansion>
                     <p:panelGrid  columns="3"  style="width: 1100px" columnClasses="forty-percent, twenty-percent, forty-percent">
