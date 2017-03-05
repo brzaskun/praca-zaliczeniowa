@@ -181,7 +181,11 @@ public class PdfFP {
                     //Dane do modulu fakturanumer
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "fakturanumer");
                     prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:fakturanumer") - 5, 190, 20);
-                    text = B.b("fakturanr")+" "+ selected.getFakturaPK().getNumerkolejny();
+                    if (selected.isGutschrift()) {
+                        text = "Gutschrift Nr "+ selected.getFakturaPK().getNumerkolejny();
+                    } else {
+                        text = B.b("fakturanr")+" "+ selected.getFakturaPK().getNumerkolejny();
+                    }
                     absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:fakturanumer"), 10);
                     break;
                 case "akordeon:formwzor:wystawca":

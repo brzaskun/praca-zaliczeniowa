@@ -133,8 +133,8 @@
                 </p:column>
                 <p:column styleClass="data1" headerText="typ" sortBy="#{wpis.rodzajdokumentu}" filterBy="#{wpis.rodzajdokumentu}" filterMatchMode="contains" 
                           style="text-align: center;" width="60">
-                    <h:outputText value="#{wpis.rodzajdokumentu}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}"/>
-                    <h:outputText value=" korekta" rendered="#{wpis.pozycjepokorekcie.size() > 0}" style="color: red;"/>
+                    <h:outputText value="#{wpis.rodzajdokumentu}" style="#{wpis.pozycjepokorekcie.size() > 0  or wpis.gutschrift ? 'color:red;' : null}"/>
+                    <h:outputText value=" korekta" rendered="#{wpis.pozycjepokorekcie.size() > 0 or wpis.gutschrift}" style="color: red;"/>
                 </p:column>
                 <p:column  headerText="edytuj" style="text-align: center;"  width="40">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis)}" 
