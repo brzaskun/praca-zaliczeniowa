@@ -13,10 +13,12 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
 import javax.inject.Named;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -243,11 +245,15 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
-            //pobiermay dane z poszczegolnego konta
-            double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
+            addNumbersloop(stronaWiersza, finallNodes, plankont);
+        }
+    }
+    
+    private void addNumbersloop(StronaWiersza stronaWiersza, ArrayList<TreeNodeExtended> finallNodes, List<Konto> plankont) {
+        double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
             double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
-                Konto kontopobrane = plankont.get(plankont.indexOf(stronaWiersza.getKonto()));
+                Konto kontopobrane = stronaWiersza.getKonto();
                 if (kontopobrane.getPelnynumer().equals("755")) {
                     System.out.println("33");
                 }
@@ -296,10 +302,12 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         ma = true;
                     }
                 }
+                
+            //pobiermay dane z poszczegolnego konta
+            
             } catch (Exception e) {
                 //throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
             }
-        }
     }
     
     public void addNumbersBO(List<StronaWiersza> zapisynakontach, List<Konto> plankont) throws Exception {

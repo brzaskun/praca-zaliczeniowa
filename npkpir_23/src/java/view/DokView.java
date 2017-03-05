@@ -1677,6 +1677,8 @@ public final class DokView implements Serializable {
         }
         System.out.println("f");
     }
+    
+    
 
     public Klienci getSelectedKlient() {
         return selectedKlient;

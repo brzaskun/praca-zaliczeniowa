@@ -163,6 +163,7 @@ public class FakturaView implements Serializable {
     private AutoComplete kontrahentstworz;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
+    private boolean liczodwartoscibrutto;
         
    
     
@@ -184,6 +185,7 @@ public class FakturaView implements Serializable {
         fakturyFiltered = null;
         aktywnytab = 1;
         fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        liczodwartoscibrutto = false;
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
         for (Faktura fakt : fakturytmp) {
@@ -201,6 +203,7 @@ public class FakturaView implements Serializable {
         fakturakorekta = false;
         fakturaniemiecka = false;
         fakturavatmarza = false;
+        liczodwartoscibrutto = false;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setRodzajdokumentu("faktura");
@@ -214,6 +217,7 @@ public class FakturaView implements Serializable {
         fakturakorekta = false;
         fakturaniemiecka = false;
         fakturavatmarza = true;
+        liczodwartoscibrutto = false;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
               selected.setWalutafaktury("PLN");
@@ -229,6 +233,7 @@ public class FakturaView implements Serializable {
         fakturakorekta = false;
         fakturaniemiecka = true;
         fakturavatmarza = false;
+        liczodwartoscibrutto = false;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setWalutafaktury("EUR");
@@ -244,6 +249,7 @@ public class FakturaView implements Serializable {
         fakturakorekta = false;
         fakturaniemiecka = false;
         fakturavatmarza = false;
+        liczodwartoscibrutto = false;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -259,6 +265,7 @@ public class FakturaView implements Serializable {
         fakturakorekta = false;
         fakturaniemiecka = false;
         fakturavatmarza = false;
+        liczodwartoscibrutto = false;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -275,6 +282,7 @@ public class FakturaView implements Serializable {
         fakturakorekta = false;
         fakturaniemiecka = false;
         fakturavatmarza = false;
+        liczodwartoscibrutto = false;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -317,9 +325,9 @@ public class FakturaView implements Serializable {
 
     public void dodaj() {
         try {
-            FakturaBean.ewidencjavat(selected, evewidencjaDAO);
+            FakturaBean.ewidencjavat(selected, evewidencjaDAO, liczodwartoscibrutto);
             if (fakturakorekta) {
-                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO, liczodwartoscibrutto);
             }
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
@@ -353,9 +361,9 @@ public class FakturaView implements Serializable {
     
     public void edytuj() {
         try {
-            FakturaBean.ewidencjavat(selected, evewidencjaDAO);
+            FakturaBean.ewidencjavat(selected, evewidencjaDAO, liczodwartoscibrutto);
             if (fakturakorekta) {
-                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO, liczodwartoscibrutto);
             }
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
@@ -984,7 +992,7 @@ public class FakturaView implements Serializable {
                 }
             } else if (waloryzajca == -1) {
                 try {
-                    FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
+                    FakturaBean.ewidencjavat(nowa, evewidencjaDAO, liczodwartoscibrutto);
                     Msg.msg("i", "Generowanie nowej ewidencji vat");
                 } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:wygenerujzokresowych");
@@ -1535,6 +1543,14 @@ public class FakturaView implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="comment">
     public void setFakturakorekta(boolean fakturakorekta) {    
         this.fakturakorekta = fakturakorekta;
+    }
+
+    public boolean isLiczodwartoscibrutto() {
+        return liczodwartoscibrutto;
+    }
+
+    public void setLiczodwartoscibrutto(boolean liczodwartoscibrutto) {
+        this.liczodwartoscibrutto = liczodwartoscibrutto;
     }
 
     public boolean isFakturaxxl() {

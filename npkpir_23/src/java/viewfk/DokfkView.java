@@ -67,6 +67,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -95,6 +99,7 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
+import test.Rownolegle1;
 
 /**
  *
@@ -3504,5 +3509,30 @@ public class DokfkView implements Serializable {
         
     public void edycjaanalityczne() {
         this.totylkoedycjaanalityczne = true;
+    }
+    
+    public void stronawiersza() {
+        try {
+            List<Dokfk> listadokumentow = dokDAOfk.findAll();
+            java.util.concurrent.ExecutorService executorService = Executors.newFixedThreadPool(100);
+            for (Dokfk p : listadokumentow) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (StronaWiersza r : p.getStronyWierszy()) {
+                            System.out.println("s "+r.getId());
+                        }
+                    }
+                });
+            }
+            //executorService.shutdown();
+//            final boolean done = executorService.awaitTermination(1, TimeUnit.MINUTES);
+//            Logger logger = Logger.getLogger("com.foo");
+//            logger.log(Level.INFO,"All e-mails were sent so far? "+done);
+            //dokDAOfk.editList(listadokumentow);
+            Msg.dP();
+        } catch (Exception ex) {
+            Logger.getLogger(DokfkView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

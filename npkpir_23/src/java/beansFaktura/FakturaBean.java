@@ -285,14 +285,14 @@ public class FakturaBean {
         }
     }
     
-    public static void ewidencjavat(Faktura selected, EvewidencjaDAO evewidencjaDAO) throws Exception {
+    public static void ewidencjavat(Faktura selected, EvewidencjaDAO evewidencjaDAO, boolean liczodwartoscibrutto) throws Exception {
         //tu obliczamy wartosc netto wiersza
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
         ArrayList<Evewidencja> ew = new ArrayList<>();
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         List<EVatwpis> el = new ArrayList<>();
-        Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
+        Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected, liczodwartoscibrutto);
         if (selected.isFakturavatmarza()) {
             selected.setEwidencjavat(new ArrayList<>());
             selected.setNetto(sumy.get("netto"));
@@ -306,14 +306,14 @@ public class FakturaBean {
         }
     }
     
-    public static void ewidencjavatkorekta(Faktura selected, EvewidencjaDAO evewidencjaDAO) throws Exception {
+    public static void ewidencjavatkorekta(Faktura selected, EvewidencjaDAO evewidencjaDAO, boolean liczodwartoscibrutto) throws Exception {
         //tu obliczamy wartosc netto wiersza
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjepokorekcie();
         List<Evewidencja> ew = new ArrayList<>();
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         List<EVatwpis> el = new ArrayList<>();
-        Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
+        Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected, liczodwartoscibrutto);
         if (selected.isFakturavatmarza()) {
             selected.setEwidencjavatpk(new ArrayList<>());
             selected.setNettopk(sumy.get("netto"));
@@ -327,7 +327,8 @@ public class FakturaBean {
         }
     }
     
-    private static Map<String, Double> przetworzpozycje(List<Evewidencja> ew, List<EVatwpis> el, List<Pozycjenafakturzebazadanych> pozycje, Faktura selected) {
+    private static Map<String, Double> przetworzpozycje(List<Evewidencja> ew, List<EVatwpis> el, List<Pozycjenafakturzebazadanych> pozycje, 
+        Faktura selected, boolean liczodwartoscibrutto) {
         Map<String, Double> sumy = new HashMap<>();
         double netto = 0.0;
         double vat = 0.0;
@@ -349,15 +350,26 @@ public class FakturaBean {
                 cena += p.getCena();
                 wartosc = Z.z(ilosc * cena);
             }
-            netto += wartosc;
-            p.setNetto(wartosc);
-            double podatekstawka = p.getPodatek() > -1 ? p.getPodatek() : 0;
-            double podatek = (wartosc * podatekstawka) / 100;
-            vat += Z.z(podatek);
-            if (selected.isFakturavatmarza()) {
-                p.setPodatek(-2.0);
-                p.setPodatekkwota(0.0);
-                p.setBrutto(0.0);
+            if (liczodwartoscibrutto) {
+                brutto += wartosc;
+                p.setBrutto(Z.z(wartosc));
+                double podatekstawka = p.getPodatek() > -1 ? p.getPodatek() : 0;
+                double podatek = (wartosc * podatekstawka) / (100+podatekstawka);
+                vat += Z.z(podatek);
+                p.setPodatekkwota(Z.z(podatek));
+                netto += Z.z(brutto-podatek);
+                p.setNetto(netto);
+            } else {
+                netto += wartosc;
+                p.setNetto(wartosc);
+                double podatekstawka = p.getPodatek() > -1 ? p.getPodatek() : 0;
+                double podatek = (wartosc * podatekstawka) / 100;
+                vat += Z.z(podatek);
+                p.setPodatekkwota(Z.z(podatek));
+                double bruttop = Z.z(wartosc + podatek);
+                brutto += Z.z(bruttop);
+                p.setBrutto(Z.z(bruttop));
+            }
                 EVatwpis eVatwpis = new EVatwpis();
                 Evewidencja ewidencja = zwrocewidencje(ew, p);
                 //jezeli el bedzie juz wypelnione dana ewidencja to tylko zwieksz wartosc
@@ -385,13 +397,7 @@ public class FakturaBean {
                     eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
                     el.add(eVatwpis);
                 }
-            } else {
-                p.setPodatekkwota(Z.z(podatek));
-                double bruttop = Z.z(wartosc + podatek);
-                brutto += Z.z(bruttop);
-                p.setBrutto(Z.z(bruttop));
             }
-        }
         sumy.put("netto", Z.z(netto));
         sumy.put("vat", Z.z(vat));
         sumy.put("brutto", Z.z(brutto));

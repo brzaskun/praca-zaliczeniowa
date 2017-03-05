@@ -6,12 +6,14 @@
 package beansPdf;
 
 import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAF;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeAlignNOBorder;
 import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
@@ -747,6 +749,7 @@ public class PdfFP {
                 table.addCell(ustawfrazeAlign("", "center", 8));
                 ilerow++;
             }
+            
         }
         if (korekta) {
             wierszroznicy(selected, table);
@@ -790,7 +793,7 @@ public class PdfFP {
         table.addCell(ustawfrazeAlign(B.b("pkwiu"), "center", 8));
         table.addCell(ustawfrazeAlign(B.b("ilosc"), "center", 8));
         table.addCell(ustawfrazeAlign(B.b("jednostkamiary"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("cenanetto"), "center", 8));
+        table.addCell(ustawfrazeAlign(B.b("cenabrutto"), "center", 8));
         table.addCell(ustawfrazeAlign(B.b("wartoscbrutto"), "center", 8));
         if (selected.getPozycjepokorekcie() != null) {
             table.setHeaderRows(2);
@@ -866,7 +869,7 @@ public class PdfFP {
             table.addCell(ustawfrazeAlign(pozycje.getNazwa(), "left", 8));
             table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 8));
             table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCena())), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(Z.z(pozycje.getNetto()/pozycje.getIlosc()))), "right", 8));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getNetto())), "right", 8));
         }
         if (korekta) {
@@ -891,12 +894,15 @@ public class PdfFP {
                 if (p.getEstawka().equals("-1.0")) {
                     table.addCell(ustawfraze(" ", 6, 0));
                 } else {
-                    table.addCell(ustawfraze(B.b("kwotavat"), 4, 0));
+                    table.addCell(ustawfrazeAF(B.b("kwotavatwgstawek"), 4, 0, Element.ALIGN_RIGHT, 8));
                     table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
                 }
                 ilerow++;
             }
+            table.addCell(ustawfrazeAF(B.b("wartoscbrutto"), 4, 0, Element.ALIGN_RIGHT, 8));
+            table.addCell(ustawfrazeAlign("*", "center", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())), "right", 8));
         }
         if (korekta) {
             wierszroznicy(selected, table);

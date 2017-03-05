@@ -34,6 +34,7 @@ public class Rownolegle extends Thread {
     
     
     
+    @Override
     public void run() {
         for (Object rx : konta) {
             Konto r = (Konto) rx;
