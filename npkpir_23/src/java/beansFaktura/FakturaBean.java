@@ -290,6 +290,7 @@ public class FakturaBean {
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
         ArrayList<Evewidencja> ew = new ArrayList<>();
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         List<EVatwpis> el = new ArrayList<>();
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected, liczodwartoscibrutto);
@@ -311,6 +312,7 @@ public class FakturaBean {
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjepokorekcie();
         List<Evewidencja> ew = new ArrayList<>();
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         List<EVatwpis> el = new ArrayList<>();
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected, liczodwartoscibrutto);
@@ -357,8 +359,9 @@ public class FakturaBean {
                 double podatek = (wartosc * podatekstawka) / (100+podatekstawka);
                 vat += Z.z(podatek);
                 p.setPodatekkwota(Z.z(podatek));
-                netto += Z.z(brutto-podatek);
-                p.setNetto(netto);
+                double nettop = Z.z(wartosc-podatek);
+                netto += Z.z(nettop);
+                p.setNetto(Z.z(nettop));
             } else {
                 netto += wartosc;
                 p.setNetto(wartosc);
@@ -408,6 +411,11 @@ public class FakturaBean {
         for (Evewidencja r : ewidencje) {
             if (p.getPodatek() == -1) {
                 if (r.getNazwa().equals("usługi świad. poza ter.kraju")) {
+                    return r;
+                }
+            }
+            if ((int) p.getPodatek() == 19) {
+                if (r.getNazwa().equals("sprzedaż Niemcy")) {
                     return r;
                 }
             }

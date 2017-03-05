@@ -32,6 +32,7 @@ public class Trans implements Serializable{
         transList.add("srodek trw");
         transList.add("srodek trw sprzedaz");
         transList.add("sprzedaz");
+        transList.add("sprzedaz Niemcy");
         transList.add("inwestycja");
         transList.add("ryczałt");
         transList.add("WDT");
@@ -48,6 +49,7 @@ public class Trans implements Serializable{
         transListZO.add("srodek trw");
         transListZO.add("srodek trw sprzedaz");
         transListZO.add("sprzedaz");
+        transListZO.add("sprzedaz Niemcy");
         transListZO.add("inwestycja");
         transListZO.add("WDT");
         transListZO.add("WNT");
@@ -58,6 +60,7 @@ public class Trans implements Serializable{
         transListZO.add("odwrotne obciążenie sprzedawca");
         transListRY = new ArrayList<>();
         transListRY.add("ryczałt");
+        transListRY.add("sprzedaz Niemcy");
         transListRY.add("zakup");
         transListRY.add("srodek trw");
         transListRY.add("srodek trw sprzedaz");
