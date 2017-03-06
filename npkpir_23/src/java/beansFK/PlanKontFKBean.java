@@ -525,8 +525,7 @@ public class PlanKontFKBean {
     }
     
     
-    public static void porzadkujslownik(List<Konto> wykazkont, String npelna, String nskrocona, int numerkonta, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, int nrslownika, UkladBRDAO ukladBRDAO) {
-        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), nrslownika);
+    public static void porzadkujslownik(List<Konto> kontamacierzysteZeSlownikiem, List<Konto> wykazkont, String npelna, String nskrocona, int numerkonta, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, int nrslownika, UkladBRDAO ukladBRDAO) {
         for (Konto kontomacierzyste : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
             nowekonto.setNazwapelna(npelna);
