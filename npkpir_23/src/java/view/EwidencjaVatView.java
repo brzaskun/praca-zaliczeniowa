@@ -315,7 +315,8 @@ public class EwidencjaVatView implements Serializable {
             przetransformujIZachowajwBD(vatokres);
             obliczwynikokresu();
 
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
         }
         //drukuj ewidencje
     }
@@ -466,12 +467,17 @@ public class EwidencjaVatView implements Serializable {
     }
 
     private void uzupelnijSumyEwidencji() {
+        EVatwpisSuma sumauptk = new EVatwpisSuma(new Evewidencja("suma upkt"), BigDecimal.ZERO, BigDecimal.ZERO, "");
         EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
         for (EVatwpisSuma ew : sumydowyswietleniasprzedaz) {
             sumasprzedaz.setNetto(sumasprzedaz.getNetto().add(ew.getNetto()));
             sumasprzedaz.setVat(sumasprzedaz.getVat().add(ew.getVat()));
+            if (ew.getEwidencja().getNazwa().contains("usługi świad.")) {
+                sumauptk.setNetto(sumauptk.getNetto().add(ew.getNetto()));
+            }
         }
         sumydowyswietleniasprzedaz.add(sumasprzedaz);
+        sumydowyswietleniasprzedaz.add(sumauptk);
         EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
         for (EVatwpisSuma ew : sumydowyswietleniazakupy) {
             sumazakup.setNetto(sumazakup.getNetto().add(ew.getNetto()));
