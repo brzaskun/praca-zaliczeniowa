@@ -344,9 +344,9 @@ public class PdfFP {
                         absText(writer, B.b("dozwrotu")+": " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty"), 8);
                     }
                     if (FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl")) {
-                        absText(writer, B.b("slownie")+": "  + Slownie.slownie(String.valueOf(wynik)), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty") - 20, 8);
+                        absText(writer, B.b("slownie")+": "  + Slownie.slownie(String.valueOf(wynik),selected.getWalutafaktury()), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty") - 20, 8);
                     } else {
-                        absText(writer, B.b("slownie")+": "  + SlownieDE.slownie(String.valueOf(wynik)), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty") - 20, 8);
+                        absText(writer, B.b("slownie")+": "  + SlownieDE.slownie(String.valueOf(wynik),selected.getWalutafaktury()), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty") - 20, 8);
                     }
                     break;
                 case "akordeon:formwzor:podpis":

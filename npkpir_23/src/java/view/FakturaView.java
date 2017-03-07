@@ -987,6 +987,7 @@ public class FakturaView implements Serializable {
     public void wygenerujzokresowych() {
         for (Fakturywystokresowe p : gosciwybralokres) {
             Faktura nowa = SerialClone.clone(p.getDokument());
+            nowa.setDatawysylki(null);
             if (waloryzajca > 0) {
                 try {
                     waloryzacjakwoty(nowa, waloryzajca);
