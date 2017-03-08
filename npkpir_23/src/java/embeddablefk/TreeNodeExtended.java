@@ -22,6 +22,7 @@ import java.util.concurrent.Executors;
 import javax.inject.Named;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import waluty.Z;
 
 /**
  *
@@ -269,7 +270,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) wybranapozycja.getData();
                     if ((pozycja.getPozycjaString()).equals(pozycjaRZiS_wn)) {
                         //pobieramy kwoty oraz to czy jest to przychod czy koszt
-                        double kwotapierwotna = pozycja.getKwota();
+                        double kwotapierwotna = Z.z(pozycja.getKwota());
                         double donaniesienia = 0.0;
                         pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
                         if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
@@ -286,7 +287,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     }
                     if ((pozycja.getPozycjaString()).equals(pozycjaRZiS_ma)) {
                         //pobieramy kwoty oraz to czy jest to przychod czy koszt
-                        double kwotapierwotna = pozycja.getKwota();
+                        double kwotapierwotna = Z.z(pozycja.getKwota());
                         double donaniesienia = 0.0;
                         pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
                         if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
@@ -400,7 +401,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                 PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
                                 if (pozycja.getPozycjaString().equals(pozycjaBilansWn) || pozycja.getPozycjaString().equals(pozycjaBilansMa)) {
                                     if (kontopobrane.getZwyklerozrachszczegolne().equals("zwykłe")) {
-                                        double kwotapierwotna = pozycja.getKwota();
+                                        double kwotapierwotna = Z.z(pozycja.getKwota());
                                         if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
                                             //pobieramy kwoty oraz to czy jest to przychod czy koszt
                                                 if (stronaWn == false) {//jesli konto zwykle jest przyporzadowane do aktywow
@@ -423,7 +424,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                                 break;//tu break ma sens bo konto zwykle jest tylko w jednym miejscu
                                         }
                                     } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
-                                        double kwotapierwotna = pozycja.getKwota();
+                                        double kwotapierwotna = Z.z(pozycja.getKwota());
                                         if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                                             if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
                                                 if (stronaWn==false && stronaMa==false) {
@@ -446,7 +447,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                             }
                                         }
                                     } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
-                                        double kwotapierwotna = pozycja.getKwota();
+                                        double kwotapierwotna = Z.z(pozycja.getKwota());
                                         if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                                             if (aktywapasywa.equals("aktywa")) {
                                                 if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
@@ -635,69 +636,69 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         //sprawdzamy czy dane konto nalezy do danego wezla
                             PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
                             if (kontopobrane.getZwyklerozrachszczegolne().equals("zwykłe")) {
-                                double kwotapierwotna = pozycja.getKwota();
+                                double kwotapierwotna = Z.z(pozycja.getKwota());
                                 if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
                                     //pobieramy kwoty oraz to czy jest to przychod czy koszt
                                         if (stronaWn == false) {//jesli konto zwykle jest przyporzadowane do aktywow
                                             if (kontopobrane.getSaldoWn() > 0) {
-                                                pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoWn());
+                                                pozycja.setKwota(Z.z(kwotapierwotna+kontopobrane.getSaldoWn()));
                                                 pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
                                             } else {
-                                                pozycja.setKwota(kwotapierwotna-kontopobrane.getSaldoMa());
+                                                pozycja.setKwota(Z.z(kwotapierwotna-kontopobrane.getSaldoMa()));
                                                 pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
                                             }
                                         } else {
                                             if (kontopobrane.getSaldoMa() > 0) {
-                                                pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoMa());
+                                                pozycja.setKwota(Z.z(kwotapierwotna+kontopobrane.getSaldoMa()));
                                                 pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
                                             } else {
-                                                pozycja.setKwota(kwotapierwotna-kontopobrane.getSaldoWn());
+                                                pozycja.setKwota(Z.z(kwotapierwotna-kontopobrane.getSaldoWn()));
                                                 pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
                                             }
                                         }
                                 }
                             } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
-                                double kwotapierwotna = pozycja.getKwota();
+                                double kwotapierwotna = Z.z(pozycja.getKwota());
                                 if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
                                     if (stronaWn==false && stronaMa==false) {
-                                        pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoWn()-kontopobrane.getSaldoMa());
+                                        pozycja.setKwota(Z.z(kwotapierwotna+kontopobrane.getSaldoWn()-kontopobrane.getSaldoMa()));
                                     } else {
-                                        pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoWn());
+                                        pozycja.setKwota(Z.z(kwotapierwotna+kontopobrane.getSaldoWn()));
                                     }
                                     pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
                                 } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
                                     if (stronaWn==true && stronaMa==true) {
-                                        pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoMa()-kontopobrane.getSaldoWn());
+                                        pozycja.setKwota(Z.z(kwotapierwotna+kontopobrane.getSaldoMa()-kontopobrane.getSaldoWn()));
                                     } else {
-                                        pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoMa());
+                                        pozycja.setKwota(Z.z(kwotapierwotna+kontopobrane.getSaldoMa()));
                                     }
                                     pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
                                 }
                             } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
-                                double kwotapierwotna = pozycja.getKwota();
+                                double kwotapierwotna = Z.z(pozycja.getKwota());
                                 if (aktywapasywa.equals("aktywa")) {
                                     if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
                                         if (kontopobrane.getSaldoWn() != 0) {
-                                            pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoWn());
+                                            pozycja.setKwota(Z.z(kwotapierwotna+kontopobrane.getSaldoWn()));
                                             pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
                                         }
                                     } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
                                     if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
                                         if (kontopobrane.getSaldoMa() != 0) {
-                                            pozycja.setKwota(kwotapierwotna-kontopobrane.getSaldoMa());
+                                            pozycja.setKwota(Z.z(kwotapierwotna-kontopobrane.getSaldoMa()));
                                             pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
                                         }
                                     }
                                 } else {
                                     if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
                                         if (kontopobrane.getSaldoWn() != 0) {
-                                            pozycja.setKwota(kwotapierwotna-kontopobrane.getSaldoWn());
+                                            pozycja.setKwota(Z.z(kwotapierwotna-kontopobrane.getSaldoWn()));
                                             pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
                                         }
                                     } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
                                     if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
                                         if (kontopobrane.getSaldoMa() != 0) {
-                                            pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoMa());
+                                            pozycja.setKwota(Z.z(kwotapierwotna+kontopobrane.getSaldoMa()));
                                             pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
                                         }
                                     }
@@ -725,7 +726,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     if (((PozycjaRZiSBilans) p.getData()).getLevel() == lowestlevel) {
                         double kwotaparent = ((TreeNodeExtended) p.getParent()).getKwota();
                         double kwotanode = p.getKwota();
-                        ((PozycjaRZiSBilans) p.getParent().getData()).setKwota(kwotaparent + kwotanode);
+                        ((PozycjaRZiSBilans) p.getParent().getData()).setKwota(Z.z(kwotaparent + kwotanode));
                         if (!parents.contains(p.getParent())) {
                             parents.add((TreeNodeExtended) p.getParent());
                         }
@@ -752,7 +753,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     if (((PozycjaRZiSBilans) p.getData()).getLevel() == lowestlevel) {
                         double kwotaparent = ((TreeNodeExtended) p.getParent()).getKwotabo();
                         double kwotanode = p.getKwotabo();
-                        ((PozycjaRZiSBilans) p.getParent().getData()).setKwotabo(kwotaparent + kwotanode);
+                        ((PozycjaRZiSBilans) p.getParent().getData()).setKwotabo(Z.z(kwotaparent + kwotanode));
                         if (!parents.contains(p.getParent())) {
                             parents.add((TreeNodeExtended) p.getParent());
                         }
