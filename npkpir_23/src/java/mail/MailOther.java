@@ -130,7 +130,7 @@ public class MailOther implements Serializable{
              i++;
          }
          if (fakturydomaila != null) {
-             fakturaDAO.edit(fakturydomaila);
+             fakturaDAO.editList(fakturydomaila);
          }
      }
      

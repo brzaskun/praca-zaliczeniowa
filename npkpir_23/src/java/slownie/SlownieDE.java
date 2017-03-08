@@ -221,7 +221,7 @@ public class SlownieDE {
      *
      * @throws java.io.IOException bei Ein-/Ausgabeproblemen
      */
-    public static String slownie(String kwota){
+    public static String slownie(String kwota, String walutafaktury){
         double x;
         kwota.replace(",",".");
         x=Double.parseDouble(kwota);
