@@ -23,9 +23,9 @@
             <p:panel header="Menu:">
                 <p:panelGrid columns="1">
                         <p:menu style="width: 200px;">
-                            <p:menuitem value="#{mgs.faktury}"  outcome="gfakturaFaktura" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
-                            <p:menuitem value="#{mgs.fakturyustawienia}"  outcome="gfakturaFakturaUstawienia" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
-                            <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                            <p:menuitem value="#{mgs.faktury}"  outcome="gfakturaFaktura" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="#{mgs.fakturyustawienia}"  outcome="gfakturaFakturaUstawienia" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="#{mgs.kontrahenci}"  outcome="gfakturaFakturaKontrahenci" icon="ui-icon-circle-arrow-e"/>
                         </p:menu>
                         <p:menu style="width: 200px;" rendered="#{facesContext.externalContext.isUserInRole('GuestFaktura')}">
