@@ -94,6 +94,7 @@ public class KontoZapisFKView implements Serializable{
     private String wybranaWalutaDlaKont;
     private List<ListaSum> listasum;
     private List<Konto> wykazkont;
+    private List<Konto> wszystkiekonta;
     private List<StronaWiersza> zapisyRok;
     private String wybranyRodzajKonta;
     private boolean nierenderujkolumnnywalut;
@@ -116,6 +117,7 @@ public class KontoZapisFKView implements Serializable{
     public void init() {
         ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wszystkiekonta = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         pobierzzapisy();
         usunkontabezsald();
         wybierzgrupekont();
@@ -950,7 +952,7 @@ public class KontoZapisFKView implements Serializable{
     
     public void przeksieguj() {
         try {
-            if (wybranekonto != null && wybranekonto.getId() != null) {
+            if (wybranekonto != null && wybranekonto.getId() != null && kontodoprzeksiegowania != null) {
                 if (KontaFKBean.czytesamekonta(wybranekonto, kontodoprzeksiegowania) == 1) {
                     Msg.msg("e", "Konto źródłowe jest tożsame z docelowym, przerywam przeksięgowanie");
                     return;
@@ -959,29 +961,78 @@ public class KontoZapisFKView implements Serializable{
                     Msg.msg("e", "Nie wybrano pozycji do przeksięgowania. Nie można wykonać przeksięgowania");
                     return;
                 }
-                int rozrachunkowe = 0;
-                for (StronaWiersza p : wybranekontadosumowania) {
-                    if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
-                        p.setKonto(kontodoprzeksiegowania);
-                        stronaWierszaDAO.edit(p);
-                    } else {
-                        rozrachunkowe++;
-                    }
-                    p.setKonto(kontodoprzeksiegowania);
+                if (wybranekonto.isMapotomkow() == false) {
+                    przeksiegujanalityke();
+                } else if (wybranekonto.isMapotomkow() == true && wybranekonto.getIdslownika() > 0) {
+                    przeksiegujslownikowe();
+                } else {
+                    Msg.msg("e", "Konto docelowe ma analitykę i nie jest kontem słownikowym. Nie można przeksięgować");
                 }
-                if (rozrachunkowe > 0) {
-                    Msg.msg("w", "Nie przeksiegowano pozycji z rozrachunkami w liczbie "+rozrachunkowe);
-                }
-                kontodoprzeksiegowania = null;
-                pobierzzapisy();
-                publicinit();
-                pobierzZapisyNaKoncieNode(wybranekonto);
+            } else {
+                Msg.msg("e", "Nie wybrałeś konta docelowego");
             }
-            Msg.dP();
         } catch (Exception e) {
             E.e(e);
             Msg.dPe();
         }
+    }
+    
+    private void przeksiegujanalityke() {
+        int rozrachunkowe = 0;
+        for (StronaWiersza p : wybranekontadosumowania) {
+            if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
+                p.setKonto(kontodoprzeksiegowania);
+                stronaWierszaDAO.edit(p);
+            } else {
+                rozrachunkowe++;
+            }
+        }
+        if (rozrachunkowe > 0) {
+            Msg.msg("w", "Nie przeksiegowano pozycji z rozrachunkami w liczbie " + rozrachunkowe);
+        }
+        kontodoprzeksiegowania = null;
+        pobierzzapisy();
+        publicinit();
+        pobierzZapisyNaKoncieNode(wybranekonto);
+        Msg.dP();
+    }
+    
+    private void przeksiegujslownikowe() {
+        int rozrachunkowe = 0;
+        List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), kontodoprzeksiegowania.getPelnynumer());
+        if (potomne == null || potomne.size() == 0) {
+            Msg.msg("e", "Konto docelowe nie zawiera podłączonego słownika. Nie można przeksięgować");
+            return;
+        }
+        int brakkonta = 0;
+        for (StronaWiersza p : wybranekontadosumowania) {
+            Konto kontodocelowe = znajdzpotomne(potomne,p.getKonto());
+            if (kontodocelowe != null) {
+                    p.setKonto(kontodocelowe);
+                    stronaWierszaDAO.edit(p);
+            } else {
+                brakkonta++;
+            }
+        }
+        if (brakkonta > 0) {
+            Msg.msg("w", "Nie przeksiegowano pozycji z rozrachunkami w liczbie " + rozrachunkowe);
+        }
+        kontodoprzeksiegowania = null;
+        pobierzzapisy();
+        publicinit();
+        pobierzZapisyNaKoncieNode(wybranekonto);
+        Msg.dP();
+    }
+    
+    private Konto znajdzpotomne(List<Konto> potomne, Konto konto) {
+        Konto zwrot = null;
+        for (Konto p : potomne) {
+            if (p.getNrkonta().equals(konto.getNrkonta())) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
@@ -1225,6 +1276,60 @@ public class KontoZapisFKView implements Serializable{
                     }
                 } catch (NumberFormatException e) {
                     for (Konto p : wykazkont) {
+                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                            results.add(p);
+                        }
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            Collections.sort(results, new Kontocomparator());
+            return results;
+        }
+        return null;
+    }
+    
+    public List<Konto> completeWszystkieKonta(String qr) {
+        if (qr != null) {
+            String query = null;
+            List<Konto> results = new ArrayList<>();
+            if (wszystkiekonta != null) {
+                String nazwa = null;
+                if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {
+                    String[] pola = qr.split(" ");
+                    if (pola.length > 1) {
+                        query = pola[0];
+                        nazwa = pola[1];
+                    } else {
+                        query = qr;
+                    }
+                } else {
+                    query = qr.trim();
+                }
+                try {
+                    String q = query.substring(0, 1);
+                    int i = Integer.parseInt(q);
+                    if (query.length() == 4 && !query.contains("-")) {
+                        //wstawia - do ciagu konta
+                        query = query.substring(0, 3) + "-" + query.substring(3, 4);
+                    }
+                    for (Konto p : wszystkiekonta) {
+                        if (p.getPelnynumer().startsWith(query)) {
+                            results.add(p);
+                        }
+                    }
+                    //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
+                    if (nazwa != null && nazwa.length() > 2) {
+                        for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
+                            Konto r = it.next();
+                            if (!r.getNazwapelna().toLowerCase().contains(nazwa.toLowerCase())) {
+                                it.remove();
+                            }
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    for (Konto p : wszystkiekonta) {
                         if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
                             results.add(p);
                         }
