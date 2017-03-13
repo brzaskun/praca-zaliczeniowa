@@ -481,7 +481,7 @@ public class SaldoAnalitykaView implements Serializable {
             }
         } catch (Exception e) {
             if (r.getKonto() == null) {
-                System.out.println("Konto null " + r.toString());
+                System.out.println("Konto null " + r.getDokfkS());
             }
             if (r.getWiersz().getDokfk().getMiesiac() == null) {
                 System.out.println("Miesiac null " + r.toString());
