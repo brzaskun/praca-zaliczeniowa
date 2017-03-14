@@ -63,7 +63,7 @@ public class DokumentFKBean implements Serializable {
     
     public static Dokfk generujdokumentSkladki(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, Konto kontoWn, Konto kontoMa, KontoDAOfk kontoDAOfk, List wiersze, DokDAOfk dokDAOfk) {
         Dokfk nowydok = stworznowydokumentPK(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
-        ustawwierszeSkladki(nowydok, wiersze, wpisView, kontoWn, kontoMa,kontoDAOfk, tabelanbpDAO);
+        ustawwierszeSkladki(nowydok, wiersze, wpisView, kontoWn, kontoMa,kontoDAOfk, tabelanbpDAO, opisdok);
         if (nowydok.getListawierszy() != null) {
             nowydok.przeliczKwotyWierszaDoSumyDokumentu();
         }
@@ -271,7 +271,7 @@ public class DokumentFKBean implements Serializable {
         }
     }
     
-    private static void ustawwierszeSkladki(Dokfk nd, List lista, WpisView wpisView, Konto kontoWn, Konto kontoMa, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO) {
+    private static void ustawwierszeSkladki(Dokfk nd, List lista, WpisView wpisView, Konto kontoWn, Konto kontoMa, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO, String opisdok) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
         for (Iterator<StowNaliczenie> it = lista.iterator(); it.hasNext();) {
@@ -280,7 +280,7 @@ public class DokumentFKBean implements Serializable {
             if (kwota != 0.0) {
                 Wiersz w = new Wiersz(idporzadkowy++, 0);
                 uzupelnijwiersz(w, nd, tabelanbpDAO);
-                String opiswiersza = ((MiejscePrzychodow) p.getMiejsce()).getOpismiejsca() + " nal.składka " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
+                String opiswiersza = ((MiejscePrzychodow) p.getMiejsce()).getOpismiejsca() + " "+opisdok+" " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
                 w.setOpisWiersza(opiswiersza);
                 //dzieki temu mozna po jednej stronie dac analityke, a po drugiej konto zbiorcze.
                 Konto analitykaWn = kontoWn;
