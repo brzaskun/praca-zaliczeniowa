@@ -27,12 +27,12 @@ public class StowNaliczenieKategorie implements Serializable {
     @PostConstruct
     private void init() {
         this.lista.add("składka");
-        this.lista.add("media");
         this.lista.add("energia");
-        this.lista.add("woda");
-        this.lista.add("ścieki");
         this.lista.add("hangar");
+        this.lista.add("media");
         this.lista.add("pod. od nieruch.");
+        this.lista.add("ścieki");
+        this.lista.add("woda");
     }
     
     public List<String> getLista() {
