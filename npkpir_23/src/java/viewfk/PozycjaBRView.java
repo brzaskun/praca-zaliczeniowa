@@ -204,7 +204,7 @@ public class PozycjaBRView implements Serializable {
             Msg.msg("e", e.getLocalizedMessage());
         }
     }
-    
+     
     public void pobierzukladprzegladRZiS() {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -372,6 +372,10 @@ public class PozycjaBRView implements Serializable {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankontBO);
             zapisy = StronaWierszaBean.pobraniezapisowbilansowe(stronaWierszaDAO, wpisView);
+            List<StronaWiersza> zapisyrokpoprzedni = new ArrayList<>();
+            if (laczlata) {
+                zapisyrokpoprzedni = StronaWierszaBean.pobraniezapisowbilansowe(stronaWierszaDAO, "12", wpisView.getRokUprzedniSt(), wpisView.getPodatnikObiekt());
+            }
             Konto kontowyniku = PlanKontFKBean.findKonto860(plankont);
             naniesKwoteWynikFinansowy(kontowyniku);
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
@@ -528,7 +532,7 @@ public class PozycjaBRView implements Serializable {
         wyczyscKonta("bilansowe", wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
         PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "bilansowe");
-        obliczBilansOtwarciaBilansData();
+        obliczBilansOtwarciaBilansDataWybierz();
     }
     
      public void zmianaukladprzegladRZiS() {

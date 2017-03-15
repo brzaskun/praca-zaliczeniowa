@@ -167,6 +167,23 @@ public class StronaWierszaBean {
         return pobranezapisy;
     }
      
+     public static List<StronaWiersza> pobraniezapisowbilansowe(StronaWierszaDAO stronaWierszaDAO, String mc, String rok, Podatnik podatnik) {
+        int granicagorna = Mce.getMiesiacToNumber().get(mc);
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokBilans(podatnik, rok);
+        StronaWiersza p = null;
+        try {
+            for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
+                p = it.next();
+                if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna || p.getDokfk().getRodzajedok().getSkrot().equals("BO")) {
+                    it.remove();
+                }
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return pobranezapisy;
+    }
+     
      public static void main(String[] args) {
             double kwotawaluta = 6851.63;
             double kurs = 4.2295;
