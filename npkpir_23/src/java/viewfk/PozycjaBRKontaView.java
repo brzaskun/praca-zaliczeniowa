@@ -92,7 +92,7 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
         for (UkladBR p : listaukladow) {
             if (p.getRok().equals(wpisView.getRokWpisuSt())) {

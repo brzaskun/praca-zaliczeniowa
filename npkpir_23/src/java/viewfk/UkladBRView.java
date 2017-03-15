@@ -42,9 +42,11 @@ public class UkladBRView implements Serializable {
     private List<UkladBR> lista;
     private List<UkladBR> listarokbiezacy;
     private List<UkladBR> listaWzorcowy;
+    private List<UkladBR> listaWzorcowyBiezacy;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-
+    @ManagedProperty(value = "#{pozycjaBRKontaView}")
+    private PozycjaBRKontaView pozycjaBRKontaView;
     @Inject
     private UkladBR selected;
     private UkladBR wybranyukladwzorcowy;
@@ -76,6 +78,7 @@ public class UkladBRView implements Serializable {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
             listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView);
             listaWzorcowy = ukladBRDAO.findPodatnik("Wzorcowy");
+            listaWzorcowyBiezacy = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
             Collections.sort(listaWzorcowy, new UkladBRcomparator());
             ukladdocelowyrok = wpisView.getRokWpisuSt();
         } catch (Exception e) {
@@ -153,7 +156,12 @@ public class UkladBRView implements Serializable {
             implementujBilans(wybranyukladwzorcowy, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wybranyukladwzorcowy.getUklad());
             lista.add(ukladBR);
             wybranyukladwzorcowy = null;
+            init();
             Msg.msg("i", "Zaimplementowano układ wzorcowy jako nowy układ podatnika");
+            pozycjaBRKontaView.init();
+            pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("r");
+            pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("b");
+            Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba dodania implementacji układu wzorcowego. " + e.getMessage());
@@ -219,6 +227,14 @@ public class UkladBRView implements Serializable {
         this.selected = selected;
     }
 
+    public PozycjaBRKontaView getPozycjaBRKontaView() {
+        return pozycjaBRKontaView;
+    }
+
+    public void setPozycjaBRKontaView(PozycjaBRKontaView pozycjaBRKontaView) {
+        this.pozycjaBRKontaView = pozycjaBRKontaView;
+    }
+
     public String getNazwanowegoukladu() {
         return nazwanowegoukladu;
     }
@@ -281,6 +297,14 @@ public class UkladBRView implements Serializable {
 
     public void setListarokbiezacy(List<UkladBR> listarokbiezacy) {
         this.listarokbiezacy = listarokbiezacy;
+    }
+
+    public List<UkladBR> getListaWzorcowyBiezacy() {
+        return listaWzorcowyBiezacy;
+    }
+
+    public void setListaWzorcowyBiezacy(List<UkladBR> listaWzorcowyBiezacy) {
+        this.listaWzorcowyBiezacy = listaWzorcowyBiezacy;
     }
 
     public List<UkladBR> getListaWzorcowy() {

@@ -95,7 +95,7 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     public void implementujplankontWzorcowy() {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", rokzrodlowy);
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", rokzrodlowy_wzorzec);
         if (wpisView.isParamCzworkiPiatki() == false) {
             for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
                 Konto p = it.next();
@@ -105,7 +105,7 @@ public class PlanKontKopiujView implements Serializable {
             }
         }
         List<Konto> macierzyste = skopiujlevel0(wpisView.getPodatnikWpisu(), wykazkont, rokdocelowy);
-        int maxlevel = kontoDAOfk.findMaxLevelPodatnik("Wzorcowy", Integer.parseInt(rokzrodlowy));
+        int maxlevel = kontoDAOfk.findMaxLevelPodatnik("Wzorcowy", Integer.parseInt(rokzrodlowy_wzorzec));
         for (int i = 1; i <= maxlevel; i++) {
             macierzyste = skopiujlevel("Wzorcowy", wpisView.getPodatnikWpisu(), wykazkont, macierzyste, i, rokdocelowy);
         }

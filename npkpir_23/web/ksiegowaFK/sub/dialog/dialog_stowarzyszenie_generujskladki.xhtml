@@ -8,26 +8,28 @@
     xmlns:bcf="http://brzaskun.com/facelets">
       <p:dialog id="dialog_stowarzyszenie_generujskladki" header="Generowanie miesięcznych składek/obciążeń stowarzyszenia - #{WpisView.podatnikWpisu}" 
                 widgetVar="dialog_stowarzyszenie_generujskladki"  resizable="false"  
-             onShow="ustawdialog('dialog_stowarzyszenie_generujskladki','menudokumenty', 850, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_generujskladki');" >
+             onShow="ustawdialog('dialog_stowarzyszenie_generujskladki','menudokumenty', 950, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_generujskladki');" >
         <h:form id="form_dialog_stowarzyszenie_generujskladki">
               
-            <p:panelGrid columns="6">
+            <p:panelGrid columns="7">
             <p:selectOneMenu value="#{stowNaliczenieView.wybranakategoria}">
                 <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                 <f:selectItems value="#{stowNaliczenieKategorie.lista}"/>
             </p:selectOneMenu>
             <p:commandButton value="pobierz" actionListener="#{stowNaliczenieView.pobierz}"
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;"/>
+            <p:commandButton value="kopiuj" actionListener="#{stowNaliczenieView.kopiuj}"
+                                 update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;margin-left: 5px"/>
             <pe:inputNumber value="#{stowNaliczenieView.kwotadlawszystkich}"  decimalPlaces="2" decimalSeparator="."
                             thousandSeparator=" " symbol=" zł" symbolPosition="s">
                 <p:ajax event="blur" partialSubmit="true" global="false"/>
             </pe:inputNumber>
-            <p:commandButton value="oblicz" actionListener="#{stowNaliczenieView.oblicz}"
+            <p:commandButton value="oblicz" actionListener="#{stowNaliczenieView.oblicz}" title="Należy wybrać członków do obliczenia"
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;"/>
             <p:commandButton value="zachowaj" actionListener="#{stowNaliczenieView.zachowaj}"
-                                 update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;margin-left: 10px;"/>
+                                 update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;margin-left: 5px;"/>
             <p:commandButton value="generuj PK" actionListener="#{stowNaliczenieView.generujPK}"
-                                 update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;margin-left: 10px;"/>
+                                 update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;margin-left: 5px;"/>
             </p:panelGrid>
             <p:panelGrid columns="4">
             <h:outputText value="konto Wn"/>

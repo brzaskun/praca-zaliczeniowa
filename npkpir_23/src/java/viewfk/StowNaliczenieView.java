@@ -99,8 +99,37 @@ public class StowNaliczenieView  implements Serializable {
     
     public void pobierz() {
         try {
-            lista = stowNaliczenieDAO.findByMcKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wybranakategoria);
-            Msg.dP();
+            if (wybranakategoria.equals("wybierz")) {
+                Msg.msg("e", "Nie wybrano kategorii, nie można naliczyć kwot");
+            } else {
+                lista = stowNaliczenieDAO.findByMcKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wybranakategoria);
+                lista.addAll(dodajpuste());
+                Msg.dP();
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
+        }
+    }
+    
+    public void kopiuj() {
+        try {
+            if (wybranakategoria.equals("wybierz")) {
+                Msg.msg("e", "Nie wybrano kategorii, nie można naliczyć kwot");
+            } else {
+                String mcpop = wpisView.getMiesiacUprzedni();
+                if (!mcpop.equals("12")) {
+                    List<StowNaliczenie> naliczenia =  stowNaliczenieDAO.findByMcKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mcpop, wybranakategoria);
+                    for (StowNaliczenie p : naliczenia) {
+                       p.setId(null);
+                       p.setMc(wpisView.getMiesiacWpisu());
+                       p.setDataksiegowania(null);
+                    }
+                    lista = new ArrayList<>();
+                    lista.addAll(naliczenia);
+                    Msg.dP();
+                }
+            }
         } catch (Exception e) {
             E.e(e);
             Msg.dPe();
@@ -108,30 +137,61 @@ public class StowNaliczenieView  implements Serializable {
     }
     
     public void oblicz() {
-        switch (wybranakategoria) {
-            case "składka":
-                obliczprzychod();
-                break;
-            default:
-                obliczkoszty();
-                break;
+        if (wybranakategoria.equals("wybierz")) {
+            Msg.msg("e", "Nie wybrano kategorii, nie można naliczyć kwot");
+        } else {
+            switch (wybranakategoria) {
+                case "składka":
+                    obliczprzychod();
+                    break;
+                default:
+                    obliczkoszty();
+                    break;
+            }
+            Msg.dP();
         }
+    }
+    
+    private List<StowNaliczenie> dodajpuste() {
+        List<StowNaliczenie> nowenaliczenia = new ArrayList<>();
+        List<StowNaliczenie> naliczenia = generujnaliczanie();
+        if (naliczenia != null) {
+            for (StowNaliczenie p : naliczenia) {
+                boolean dodaj = true;
+                for (StowNaliczenie r : lista) {
+                    if (p.getMiejsce().equals(r.getMiejsce())) {
+                        dodaj = false;
+                        break;
+                    }
+                }
+                if (dodaj) {
+                    nowenaliczenia.add(p);
+                }
+            }
+        }
+        return nowenaliczenia;
+    }
+    
+    private List<StowNaliczenie> generujnaliczanie() {
+        List<StowNaliczenie> naliczenia = new ArrayList<>();
+        List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
+        for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
+            if (Data.czyjestpomiedzy(p.getPoczatek(), p.getKoniec(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
+                naliczenia.add(new StowNaliczenie(p));
+            }
+        }
+        return naliczenia;
     }
     
     public void obliczprzychod() {
         lista = new ArrayList<>();
-        List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
-        for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
-            if (Data.czyjestpomiedzy(p.getPoczatek(), p.getKoniec(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
-                lista.add(new StowNaliczenie(p));
-            }
-        }
+        lista.addAll(generujnaliczanie());
         generujskladki();
     }
     
     public void obliczkoszty() {
         try {
-            if (listaselected != null) {
+            if (listaselected != null && listaselected.size() > 0) {
                 for (StowNaliczenie p : lista) {
                     p.setKwota(0.0);
                 }
@@ -140,7 +200,7 @@ public class StowNaliczenieView  implements Serializable {
                 }
                 Msg.dP();
             } else {
-                Msg.msg("e", "Nie wybrano człoknków stowarzyszenia do naliczenia");
+                Msg.msg("e", "Nie wybrano członków stowarzyszenia do naliczenia");
             }
         } catch (Exception e) {
             E.e(e);
