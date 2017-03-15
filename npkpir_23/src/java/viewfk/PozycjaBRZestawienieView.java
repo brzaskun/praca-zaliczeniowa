@@ -96,6 +96,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     private WierszBODAO wierszBODAO;
     @Inject
     private UkladBRDAO ukladBRDAO;
+    private boolean laczlata;
     
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -218,7 +219,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         wyczyscKonta("wynikowe", wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
         PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
-        pobierzukladprzegladRZiS();
+        pobierzukladprzegladRZiSWybierz();
     }
     
     public void zmianaukladprzegladRZiSBO() {
@@ -242,6 +243,39 @@ public class PozycjaBRZestawienieView implements Serializable {
         pobierzukladprzegladBilans();
     }
     
+    public void pobierzukladprzegladRZiSWybierz() {
+        if (laczlata) {
+            pobierzukladprzegladRZiSDwaLata();
+        } else {
+            pobierzukladprzegladRZiS();
+        }
+    }
+    
+    public void pobierzukladprzegladRZiSDwaLata() {
+        if (uklad.getUklad() == null) {
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        }
+        ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+        pobierzPozycje(pozycje);
+        rootProjektRZiS.getChildren().clear();
+        List<StronaWiersza> zapisyrokpoprzedni = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, "12", wpisView.getRokUprzedniSt(), wpisView.getPodatnikObiekt());
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        if (zapisyrokpoprzedni != null) {
+            zapisy.addAll(zapisyrokpoprzedni);
+        }
+        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
+        try {
+            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
+            //to niepotrzebne bo usunalem przyciski zwijania, rozwijania
+            //level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
+            Msg.msg("i", "Obliczono rachunek zysków i strat");
+        } catch (Exception e) {
+            E.e(e);
+            rootProjektRZiS.getChildren().clear();
+            Msg.msg("e", e.getLocalizedMessage());
+        }
+    }
+    
     
     public void pobierzukladprzegladRZiS() {
         if (uklad.getUklad() == null) {
@@ -254,8 +288,9 @@ public class PozycjaBRZestawienieView implements Serializable {
         List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
             PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
-            level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
-            Msg.msg("i", "Pobrano układ ");
+            //to niepotrzebne bo usunalem przyciski zwijania, rozwijania
+            //level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
+            Msg.msg("i", "Obliczono rachunek zysków i strat");
         } catch (Exception e) {
             E.e(e);
             rootProjektRZiS.getChildren().clear();
@@ -370,7 +405,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     }
     
     private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
-        pobierzukladprzegladRZiS();
+        pobierzukladprzegladRZiSWybierz();
         List<Object> listazwrotnapozycji = new ArrayList<>();
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
         PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 1);
@@ -749,7 +784,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     public void odswiezrzis() {
         wpisView.wpisAktualizuj();
-        pobierzukladprzegladRZiS();
+        pobierzukladprzegladRZiSWybierz();
     }
     
     public void odswiezrzisBO() {
@@ -768,6 +803,14 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     public void drukujRZiSBO() {
         PdfRZiS.drukujRZiSBO(rootProjektRZiS, wpisView);
+    }
+
+    public boolean isLaczlata() {
+        return laczlata;
+    }
+
+    public void setLaczlata(boolean laczlata) {
+        this.laczlata = laczlata;
     }
     
     

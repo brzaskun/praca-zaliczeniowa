@@ -8,7 +8,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:dialog id="dialogrziszestawienie" header="Rachunek Zysków i Strat za okresy rozliczeniowe zestawienie" widgetVar="dialogrziszestawienie" 
+    <p:dialog id="dialogrziszestawienie" header="Rachunek Zysków i Strat za okresy rozliczeniowe zestawienie" widgetVar="dialogrziszestawienie"
               resizable="false" onShow="ustawdialog('dialogrziszestawienie','menubilanse', 1250, 780);" closeOnEscape="true" onHide="resetujdialog('dialogrziszestawienie');"  >
         <bcf:ajaxs/>
         <h:form id="formdialogrziszestawienie">
@@ -30,14 +30,14 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="7">
+            <p:panelGrid columns="5">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRZestawienieView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" listener="#{pozycjaBRZestawienieView.zmianaukladprzegladRZiS()}" update="formdialogrziszestawienie"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRZestawienieView.pobierzukladprzegladRZiS()}" update=":formdialogrziszestawienie"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRZestawienieView.pobierzukladprzegladRZiSWybierz()}" update=":formdialogrziszestawienie"/>
                 </p:panelGrid>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
@@ -45,14 +45,18 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRZestawienieView.rozwinwszystkie(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRZestawienieView.rozwinwszystkie(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRZestawienieView.rozwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRZestawienieView.zwinwszystkie(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRZestawienieView.zwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRZestawienieView.zwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />-->
                 <p:column>
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 30px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRZestawienieView.drukujRZiS()}"/>
                     <p:commandButton value="#{mgs.drukujnrkont}" style="width: 120px; margin-left: 10px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRZestawienieView.drukujRZiSPozycje()}"/>
                 </p:column>
+                <p:outputLabel for="laczlata" value="łącz lata "  style="margin-left: 20px;"/>
+                <p:selectBooleanCheckbox id="laczlata" value="#{pozycjaBRZestawienieView.laczlata}">
+                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>

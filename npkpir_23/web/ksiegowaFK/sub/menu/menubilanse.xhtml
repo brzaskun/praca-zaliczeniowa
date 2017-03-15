@@ -27,8 +27,8 @@
                             <p:menuitem value="przegladaj RZiS porównanie" onclick="PF('dialog_rzis_porownanie').show();" 
                                         actionListener="#{pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData()}"
                                         update=":form_dialog_rzis_porownanie"></p:menuitem>
-                            <p:menuitem value="przeglądaj RZiS" onclick="PF('dialogrziszestawienie').show();" actionListener="#{pozycjaBRZestawienieView.pobierzukladprzegladRZiS()}" 
-                                        update=":formdialogrziszestawienie"></p:menuitem>
+                            <p:menuitem value="przeglądaj RZiS" onclick="PF('dialogrziszestawienie').show();" actionListener="#{pozycjaBRZestawienieView.pobierzukladprzegladRZiSWybierz()}" 
+                                        update="formdialogrziszestawienie"></p:menuitem>
                             <p:menuitem value="przeglądaj RZiS zapisy" onclick="PF('rzisprzeglad').show();" actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}"
                                         update=":formprzeglad"></p:menuitem>
                             <p:menuitem value="przyporządkowanie kont" onclick="PF('rzisuklad').show();"></p:menuitem>

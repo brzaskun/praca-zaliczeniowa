@@ -9,6 +9,7 @@ package beansFK;
 import dao.StronaWierszaDAO;
 import data.Data;
 import embeddable.Mce;
+import entity.Podatnik;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import error.E;
@@ -94,6 +95,20 @@ public class StronaWierszaBean {
     public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
         int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        if (granicagorna < 12) {
+            for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext();) {
+                StronaWiersza p = it.next();
+                if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna) {
+                    it.remove();
+                }
+            }
+        }
+        return pobranezapisy;
+    }
+    
+    public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, String mc, String rok, Podatnik podatnik) {
+        int granicagorna = Mce.getMiesiacToNumber().get(mc);
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(podatnik, rok);
         if (granicagorna < 12) {
             for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext();) {
                 StronaWiersza p = it.next();

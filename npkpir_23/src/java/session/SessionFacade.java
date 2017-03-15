@@ -1159,6 +1159,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Konto> findKontaBilansowePodatnikaBezPotomkow(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
+    
+    public List<Konto> findKontaBilansowePodatnikaBezPotomkowRokPoprzedni(WpisView wpisView) {
+        return em.createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokUprzedni()).getResultList();
+    }
     public List<Konto> findKontaBilansowePodatnikaKwotaBezPotomkow(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByPodatnikBilansoweKwotaBezPotomkow").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
