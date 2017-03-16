@@ -19,7 +19,7 @@
                      <h:outputLabel value="nazwa pełna"/>
                     <p:inputText id="nazwapelna" value="#{podatnikView.selectedDod.nazwapelna}" required="true" requiredMessage="Nazwa pełna jest wymagana, uzupełnij!" style="width: 300px;">
                         <p:ajax event="blur" global="false" partialSubmit="true" listener="#{podatnikView.kopiujnazwe}"
-                                update="formwprowadzaniefirmy:nazwisko"/>
+                                update="form:nazwisko"/>
                     </p:inputText>
                     <h:outputLabel value="nazwisko"/>
                     <p:inputText id="nazwisko" value="#{podatnikView.selected.nazwisko}" required="true" requiredMessage="Nazwisko - jest wymagane, uzupełnij!"/>
