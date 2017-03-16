@@ -226,6 +226,7 @@ public class DokfkView implements Serializable {
     private int idwierszedycjaodswiezenie;
     private int duzyidwierszedycjaodswiezenie;
     private Evewidencja ewidencjadlaRKDEL;
+    private boolean pokazwszystkiedokumenty;
     
 
     public DokfkView() {
@@ -1577,28 +1578,32 @@ public class DokfkView implements Serializable {
     }
 
     public void odswiezzaksiegowane() {
-        if (wybranakategoriadok == null) {
-            wybranakategoriadok = "wszystkie";
-        }
-        if (wybranakategoriadok.equals("wszystkie")) {
-            if (wpisView.getMiesiacWpisu().equals("CR")) {
-                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
-            } else {
-                wpisView.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-                wpisView.wpisAktualizuj();
-                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-            }
-        } else if (wpisView.getMiesiacWpisu().equals("CR")) {
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+        if (pokazwszystkiedokumenty) {
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView);
         } else {
-            wpisView.wpisAktualizuj();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
-        }
-        if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
-            for (Iterator<Dokfk> it = wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
-                Dokfk r = (Dokfk) it.next();
-                if (r.isImportowany() == true) {
-                    it.remove();
+            if (wybranakategoriadok == null) {
+                wybranakategoriadok = "wszystkie";
+            }
+            if (wybranakategoriadok.equals("wszystkie")) {
+                if (wpisView.getMiesiacWpisu().equals("CR")) {
+                    wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
+                } else {
+                    wpisView.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+                    wpisView.wpisAktualizuj();
+                    wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+                }
+            } else if (wpisView.getMiesiacWpisu().equals("CR")) {
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+            } else {
+                wpisView.wpisAktualizuj();
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
+            }
+            if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
+                for (Iterator<Dokfk> it = wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
+                    Dokfk r = (Dokfk) it.next();
+                    if (r.isImportowany() == true) {
+                        it.remove();
+                    }
                 }
             }
         }
@@ -2782,6 +2787,14 @@ public class DokfkView implements Serializable {
 
     public void setWybranakategoriadok(String wybranakategoriadok) {
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public boolean isPokazwszystkiedokumenty() {
+        return pokazwszystkiedokumenty;
+    }
+
+    public void setPokazwszystkiedokumenty(boolean pokazwszystkiedokumenty) {
+        this.pokazwszystkiedokumenty = pokazwszystkiedokumenty;
     }
 
     public boolean isTotylkoedycjaanalityczne() {

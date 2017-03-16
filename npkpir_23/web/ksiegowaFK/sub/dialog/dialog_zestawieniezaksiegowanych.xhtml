@@ -12,7 +12,7 @@
         .vatzak input {
             width: 30px !important;
         }
-        
+
         .zaksiegowanewaski input {
             width: 72px !important;
         }
@@ -24,7 +24,7 @@
         }
     </style>
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanych" 
-               maximizable="true"  
+              maximizable="true"  
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1500, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -38,69 +38,75 @@
             </p:panelGrid>
             <p:panelGrid id="panelprzyciskowzestdok" style="margin-left: 2%;" >
                 <p:row>
-                <p:column>
-                    <h:outputText value="miesiąc: "/>
-                </p:column>
-                <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 60px;">
-                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" partialSubmit="true"
-                                onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
-                                update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
-                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
-                        <f:selectItems value="#{Mce.mceList}"/>
-                    </p:selectOneMenu>
-                </p:column>
-                <p:column>
-                    <p:commandButton id="pobierzzaksiegowane" value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" 
-                                     update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth"
-                                     onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
-                                    />
-                </p:column>
-                <p:column>
-                <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" id="kategoriadokumentu"
-                        style="width: 200px; margin-left: 100px;" rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}">
-                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" 
-                            onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
-                            update=":zestawieniedokumentow:dataList"/>
-                    <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
-                    <f:selectItems value="#{dokfkView.dokumentypodatnikazestawienie}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
-                </p:selectOneMenu>
+                    <p:column>
+                        <h:outputText value="miesiąc: "/>
                     </p:column>
-                <p:column>
-                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist)}" styleClass="fkbutton"
-                                       action="#{sesjaView.dodajwydruk()}" style="margin-left: 20px; width: 120px;"  rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"/>
-                </p:column>
-                <p:column>
-                    <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
-                                     actionListener="#{dokfkView.resetujDokument}"
-                                     oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanych').hide();"
-                                     style="margin-left: 20px; width: 120px;" />
-                </p:column>
-                <p:column>
-                    <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 150px;" 
-                                     update=":zestawieniedokumentow:dataList" rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"
-                                    />
-                </p:column>
-                     <p:column>
-                         <p:commandButton id="salda" value="salda" actionListener="#{dokfkView.sprawdzsalda(dokfkView.wybranakategoriadok)}" 
-                         style="width: 120px; margin-left: 10px;" 
-                         update=":zestawieniedokumentow:dataList"
-                                    />
-                </p:column>
-                    </p:row>
+                    <p:column>
+                        <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 60px;">
+                            <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" partialSubmit="true"
+                                    onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                    update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
+                            <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
+                            <f:selectItems value="#{Mce.mceList}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="pobierzzaksiegowane" value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" 
+                                         update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth"
+                                         onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                         />
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" id="kategoriadokumentu"
+                                         style="width: 200px; margin-left: 100px;" rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}">
+                            <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" 
+                                    onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                    update=":zestawieniedokumentow:dataList"/>
+                            <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
+                            <f:selectItems value="#{dokfkView.dokumentypodatnikazestawienie}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist)}" styleClass="fkbutton"
+                                         action="#{sesjaView.dodajwydruk()}" style="margin-left: 20px; width: 120px;"  rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
+                                         actionListener="#{dokfkView.resetujDokument}"
+                                         oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanych').hide();"
+                                         style="margin-left: 20px; width: 120px;" />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 150px;" 
+                                         update=":zestawieniedokumentow:dataList" rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"
+                                         />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="salda" value="salda" actionListener="#{dokfkView.sprawdzsalda(dokfkView.wybranakategoriadok)}" 
+                                         style="width: 120px; margin-left: 10px;" 
+                                         update=":zestawieniedokumentow:dataList"
+                                         />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="pokazwszystkiedokumenty" value="pokaż wszystkie" style="margin-left: 20px;"/>
+                        <p:selectBooleanCheckbox id="pokazwszystkiedokumenty" value="#{dokfkView.pokazwszystkiedokumenty}">
+                            <p:ajax event="change" global="false" partialSubmit="tue"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                </p:row>
             </p:panelGrid>
-            
+
             <script>
                 /* <![CDATA[ */
                 //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                $(document).on("click", '.gridZaksiegowane tr', function(e) {
+                $(document).on("click", '.gridZaksiegowane tr', function (e) {
                     try {
                         zachowajobiekt(this, e);
                     } catch (ex) {
                         alert('error dialog zapisynakoncie' + ex.toString());
                     }
                 });
-                $(document).on("click", '.gridZaksiegowane tr', function(e) {
+                $(document).on("click", '.gridZaksiegowane tr', function (e) {
                     var pierwszywiersz = $("#zestawieniedokumentow\\:dataList_data").children("tr");
                     var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
                     try {
