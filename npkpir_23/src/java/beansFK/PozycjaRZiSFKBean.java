@@ -106,7 +106,7 @@ public class PozycjaRZiSFKBean {
     public static void ustawRootaRokPop(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, List<StronaWiersza> zapisyRokPop, List<Konto> plankontRokPop) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbers(zapisy, plankont);
-        rootL.addNumbersBO(zapisyRokPop, plankont);
+        rootL.addNumbersBO(zapisyRokPop, plankontRokPop);
         rootL.sumNodes();
         rootL.sumNodesBO();
         rootL.resolveFormulas();
