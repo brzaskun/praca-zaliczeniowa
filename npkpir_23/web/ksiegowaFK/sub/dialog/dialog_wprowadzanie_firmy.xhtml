@@ -16,16 +16,19 @@
                 <p:panel id="panelwpisywanianowejfirmy" header="Rejestracja nowej firmy w programie" style="width: 850px;">
                 <p:focus for="wprowadzaniepodatnika"/>
                 <p:panelGrid id="wprowadzaniepodatnika" columns="4" >
-
                     <h:outputLabel value="nip firmy"/>
-                    <p:inputMask id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!"
-                             mask="9999999999" validatorMessage="Nip powinien składać się z 10 cyfr">
+                    <p:inputText id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!"
+                              validatorMessage="Nip powinien składać się z 10 cyfr">
                     <f:validateLength minimum="10" />
-                    </p:inputMask>
+                    </p:inputText>
                     <h:outputLabel value="nazwa pełna"/>
-                    <p:inputText id="nazwapelna" value="#{podatnikView.selectedDod.nazwapelna}" required="true" requiredMessage="Nazwa pełna jest wymagana, uzupełnij!" style="width: 300px;"/>
+                    <p:inputText id="nazwapelna" value="#{podatnikView.selectedDod.nazwapelna}" required="true" requiredMessage="Nazwa pełna jest wymagana, uzupełnij!" style="width: 300px;">
+                        <p:ajax event="blur" global="false" partialSubmit="true" listener="#{podatnikView.kopiujnazwe}"
+                                update="formwprowadzaniefirmy:nazwisko"/>
+                    </p:inputText>
                     <h:outputLabel value="nazwa skrócona"/>
-                    <p:inputText id="nazwisko" value="#{podatnikView.selectedDod.nazwisko}" required="true" requiredMessage="Nazwa skrócona jest wymagana, uzupełnij!"/>
+                    <p:inputText id="nazwisko" value="#{podatnikView.selectedDod.nazwisko}" required="true">
+                    </p:inputText>
                     <h:outputLabel value="nr KRS"/>
                     <p:inputText id="imie" value="#{podatnikView.selectedDod.imie}" required="true" requiredMessage="Numer KRS jest wymagany, uzupełnij!"/>
 
@@ -43,7 +46,7 @@
                     </p:inputMask>
                     <h:outputLabel value="email"/>
                     <p:inputText id="email" value="#{podatnikView.selectedDod.email}" required="true" requiredMessage="Email - jest wymagany, uzupełnij!"/>
-                    <h:outputLabel value="data rozpoczęcia dział."/>
+                    <h:outputLabel value="data umowy spółki."/>
                     <p:inputMask id="dataurodzenia" value="#{podatnikView.selectedDod.dataurodzenia}" mask="9999-99-99" required="true" requiredMessage="Data urodzenia - jest wymagana, uzupełnij!"
                                  onblur="weryfikujsporzadzfakture(this);"/>
                     <h:outputLabel value="województwo"/>
@@ -53,9 +56,14 @@
                         <f:selectItems value="#{wojewodztwa.wykazS}" />
                     </h:selectOneMenu>
                     <h:outputLabel value="powiat"/>
-                    <p:inputText id="powiat" value="#{podatnikView.selectedDod.powiat}" required="true" requiredMessage="Powiat - jest wymagany, uzupełnij!"/>
+                    <p:inputText id="powiat" value="#{podatnikView.selectedDod.powiat}" required="true" 
+                                 requiredMessage="Powiat - jest wymagany, uzupełnij!">
+                        <p:ajax event="blur" global="false" partialSubmit="true" listener="#{podatnikView.kopiujmiasto}"
+                                update="formwprowadzaniefirmy:gmina formwprowadzaniefirmy:miejscowosc formwprowadzaniefirmy:poczta"/>
+                    </p:inputText>
                     <h:outputLabel value="gmina"/>
-                    <p:inputText id="gmina" value="#{podatnikView.selectedDod.gmina}" required="true" requiredMessage="Gmina - jest wymagany, uzupełnij!"/>
+                    <p:inputText id="gmina" value="#{podatnikView.selectedDod.gmina}" required="true" requiredMessage="Gmina - jest wymagany, uzupełnij!">
+                    </p:inputText>
                     <h:outputLabel value="miejscowość"/>
                     <p:inputText id="miejscowosc" value="#{podatnikView.selectedDod.miejscowosc}" required="true" requiredMessage="Miejscowość - jest wymagany, uzupełnij!"/>
                     <h:outputLabel value="kod pocztowy"/>

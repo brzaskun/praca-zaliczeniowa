@@ -200,6 +200,20 @@ public class PodatnikView implements Serializable {
         }
     }
     
+    public void kopiujnazwe() {
+        if (selectedDod.getNazwapelna() != null) {
+            selectedDod.setNazwisko(selectedDod.getNazwapelna());
+        }
+    }
+    
+    public void kopiujmiasto() {
+        if (selectedDod.getPowiat() != null) {
+            selectedDod.setGmina(selectedDod.getPowiat());
+            selectedDod.setPoczta(selectedDod.getPowiat());
+            selectedDod.setMiejscowosc(selectedDod.getPowiat());
+        }
+    }
+    
     public void skopiujudzialy() {
         udzialy = wybranyPodatnikUdzialy;
     }
@@ -807,13 +821,16 @@ public class PodatnikView implements Serializable {
     public void dodajUdzialy() {
         selected = wpisView.getPodatnikObiekt();
         try {
-            Integer sumaudzialow = 0;
+            double sumaudzialow = 0;
             for (PodatnikUdzialy p : podatnikUdzialy) {
+                String udzial = p.getUdzial();
+                udzial = udzial.replace(",", ".");
+                double udzialkwota = Double.parseDouble(udzial);
                 try {
                     if (!p.getRokDo().isEmpty()) {
                     }
                 } catch (Exception ef) {
-                    sumaudzialow += Integer.parseInt(p.getUdzial());
+                    sumaudzialow += udzialkwota;
                 }
                 if (udzialy.getNazwiskoimie().equals(p.getNazwiskoimie())) {
                     throw new Exception();
@@ -822,8 +839,11 @@ public class PodatnikView implements Serializable {
                     throw new Exception();
                 }
             }
-            sumaudzialow += Integer.parseInt(udzialy.getUdzial());
-            if (sumaudzialow > 100) {
+            String udzial = udzialy.getUdzial();
+            udzial = udzial.replace(",", ".");
+            double udzialkwota = Double.parseDouble(udzial);
+            sumaudzialow += udzialkwota;
+            if (sumaudzialow > 100.0) {
                 throw new Exception();
             }
             udzialy.setPodatnikObj(selected);

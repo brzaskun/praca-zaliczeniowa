@@ -16,8 +16,11 @@
                     <p:inputText id="polenip" value="#{podatnikView.selected.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!" readonly="true">
                         <f:validateLength minimum="10"/>
                     </p:inputText>
-                    <h:outputLabel value="nazwa pełna"/>
-                    <p:inputText id="nazwapelna" value="#{podatnikView.selected.nazwapelna}" readonly="true" requiredMessage="Nazwa pełna - jest wymagana, uzupełnij!" maxlength="11" title="Nie więcej niż 11 znaków" alt="Nie więcej niż 11 znaków"/>
+                     <h:outputLabel value="nazwa pełna"/>
+                    <p:inputText id="nazwapelna" value="#{podatnikView.selectedDod.nazwapelna}" required="true" requiredMessage="Nazwa pełna jest wymagana, uzupełnij!" style="width: 300px;">
+                        <p:ajax event="blur" global="false" partialSubmit="true" listener="#{podatnikView.kopiujnazwe}"
+                                update="formwprowadzaniefirmy:nazwisko"/>
+                    </p:inputText>
                     <h:outputLabel value="nazwisko"/>
                     <p:inputText id="nazwisko" value="#{podatnikView.selected.nazwisko}" required="true" requiredMessage="Nazwisko - jest wymagane, uzupełnij!"/>
                     <h:outputLabel value="imię"/>
