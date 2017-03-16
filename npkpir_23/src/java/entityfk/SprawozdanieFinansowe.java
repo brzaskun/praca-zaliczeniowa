@@ -49,12 +49,12 @@ public class SprawozdanieFinansowe implements Serializable{
     @Column(name = "element")
     private int element;
     @Column(name = "sporzadzajacy")
-    private int sporzadzajacy;
+    private String sporzadzajacy;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "datasporzadzenia")
     private Date datasporzadzenia;
     @Column(name = "zatwierdzajacy")
-    private int zatwierdzajacy;
+    private String zatwierdzajacy;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "datazatwierdzenia")
     private Date datazatwierdzenia;
@@ -149,13 +149,7 @@ public class SprawozdanieFinansowe implements Serializable{
         this.element = element;
     }
     
-    public int getSporzadzajacy() {
-        return sporzadzajacy;
-    }
-    
-    public void setSporzadzajacy(int sporzadzajacy) {
-        this.sporzadzajacy = sporzadzajacy;
-    }
+  
     
     public Date getDatasporzadzenia() {
         return datasporzadzenia;
@@ -164,14 +158,23 @@ public class SprawozdanieFinansowe implements Serializable{
     public void setDatasporzadzenia(Date datasporzadzenia) {
         this.datasporzadzenia = datasporzadzenia;
     }
-    
-    public int getZatwierdzajacy() {
+
+    public String getSporzadzajacy() {
+        return sporzadzajacy;
+    }
+
+    public void setSporzadzajacy(String sporzadzajacy) {
+        this.sporzadzajacy = sporzadzajacy;
+    }
+
+    public String getZatwierdzajacy() {
         return zatwierdzajacy;
     }
-    
-    public void setZatwierdzajacy(int zatwierdzajacy) {
+
+    public void setZatwierdzajacy(String zatwierdzajacy) {
         this.zatwierdzajacy = zatwierdzajacy;
     }
+  
     
     public Date getDatazatwierdzenia() {
         return datazatwierdzenia;

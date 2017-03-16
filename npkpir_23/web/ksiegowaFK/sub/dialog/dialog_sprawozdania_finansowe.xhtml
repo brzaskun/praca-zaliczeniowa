@@ -11,9 +11,28 @@
 
         <h:form id="form_dialog_sprawozdania_finansowe">
             <p:growl life="3600"  id="msg" autoUpdate="true"/>
-                <p:selectOneMenu id="rokWpisu" value="#{SprawozdanieFinansoweView}">
-                    <f:selectItems value="#{Roki.rokiList}"/>
-                </p:selectOneMenu>
+            <p:selectOneMenu id="rokWpisu" value="#{sprawozdanieFinansoweView.wybranyrok}">
+                <f:selectItems value="#{Roki.rokiList}"/>
+            </p:selectOneMenu>
+            <p:panelGrid>
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="nazwa"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column>
+                        <p:selectOneMenu value="#{sprawozdanieFinansoweView.sprawozdanieFinansowe.element}">
+                            <f:selectItems value="#{sprawozdanieFinansoweView.elementy}" var="item" itemLabel="#{item}" itemValue="#{sprawozdanieFinansoweView.strtoint(item)}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="dodaj" actionListener="#{sprawozdanieFinansoweView.dodaj()}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
         </h:form>
     </p:dialog>
 </ui:composition>
