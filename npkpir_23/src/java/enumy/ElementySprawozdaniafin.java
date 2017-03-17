@@ -17,4 +17,5 @@ public class ElementySprawozdaniafin {
     public static final int PROTOKOL = 5;
     public static final int OBLICZENIE_CIT = 6;
     public static final int CIT = 7;
+    public static final int KRS_Z30 = 8;
 }

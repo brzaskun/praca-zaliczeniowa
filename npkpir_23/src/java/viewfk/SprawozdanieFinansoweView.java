@@ -5,16 +5,16 @@
  */
 package viewfk;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
-import com.sun.org.apache.xpath.internal.operations.Variable;
+import daoFK.SprawozdanieFinansoweDAO;
+import embeddable.Roki;
 import entityfk.SprawozdanieFinansowe;
 import enumy.ElementySprawozdaniafin;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -37,6 +37,10 @@ public class SprawozdanieFinansoweView implements Serializable {
     @Inject
     private SprawozdanieFinansowe sprawozdanieFinansowe;
     private List elementy;
+    private List<String> roki;
+    private List<SprawozdanieFinansowe> pozycjesprawozdania;
+    @Inject
+    private SprawozdanieFinansoweDAO sprawozdanieFinansoweDAO;
 
     public SprawozdanieFinansoweView() {
         
@@ -44,7 +48,11 @@ public class SprawozdanieFinansoweView implements Serializable {
 
     @PostConstruct
     private void init() {
-        wybranyrok = wpisView.getRokWpisuSt();
+        pozycjesprawozdania = new ArrayList<>();
+        if (wybranyrok == null) {
+            wybranyrok = wpisView.getRokUprzedniSt();
+        }
+        pozycjesprawozdania = sprawozdanieFinansoweDAO.findSprawozdanieRokPodatnik(wpisView, wybranyrok);
         elementy = new ArrayList<>();
         Class c = ElementySprawozdaniafin.class;
         Field[] p = c.getFields();
@@ -54,6 +62,28 @@ public class SprawozdanieFinansoweView implements Serializable {
             } catch (Exception ex) {
             }
         }
+        if (pozycjesprawozdania != null) {
+            for (Iterator<String> it = elementy.iterator(); it.hasNext();) {
+                String n = it.next();
+                for (SprawozdanieFinansowe sf : pozycjesprawozdania) {
+                    if (sf.getElement() == strtoint(n)) {
+                        it.remove();
+                        break;
+                    }
+                }
+            }
+        }
+        roki = new ArrayList<>();
+        for (Integer s : Roki.getRokiListS()) {
+            if (s < wpisView.getRokWpisu()) {
+                roki.add(String.valueOf(s));
+            }
+        }
+    }
+    
+    public void pobierzrok() {
+        init();
+        Msg.dP();
     }
     
     public int strtoint(String el) {
@@ -72,12 +102,112 @@ public class SprawozdanieFinansoweView implements Serializable {
         return zwrot;
     }
     
+    public String inttostr(int el) {
+        String zwrot = null;
+        Class c = ElementySprawozdaniafin.class;
+        Field[] p = c.getFields();
+        for (Field r : p) {
+            try {
+                if (r.getInt(r) == el) {
+                    zwrot = r.getName();
+                    break;
+                }
+            } catch (Exception ex) {
+            }
+        }
+        return zwrot;
+    }
+    
     public void dodaj() {
         sprawozdanieFinansowe.setPodatnik(wpisView.getPodatnikObiekt());
-        sprawozdanieFinansowe.setRok(wpisView.getRokWpisuSt());
+        sprawozdanieFinansowe.setRok(wybranyrok);
         sprawozdanieFinansowe.setSporzadzajacy(wpisView.getWprowadzil().getLogin());
+        sprawozdanieFinansowe.setDatasporzadzenia(new Date());
+        pozycjesprawozdania.add(sprawozdanieFinansowe);
+        usunopis();
+        sprawozdanieFinansowe = new SprawozdanieFinansowe();
         Msg.dP();
     }
+    
+    public void usun(SprawozdanieFinansowe sf) {
+        pozycjesprawozdania.remove(sf);
+        dodajopis(sf);
+        Msg.dP();;
+    }
+    
+    public void dodajopis(SprawozdanieFinansowe sf) {
+        elementy.add(inttostr(sf.getElement()));
+    }
+    
+    public void usunopis() {
+        for (Iterator<String> it = elementy.iterator(); it.hasNext();) {
+            String n = it.next();
+            if (sprawozdanieFinansowe.getElement() == strtoint(n)) {
+                it.remove();
+                break;
+            }
+        }
+    }
+    
+    public void zatwierdz(SprawozdanieFinansowe sf) {
+        sf.setZatwierdzajacy(wpisView.getWprowadzil().getLogin());
+        sf.setDatazatwierdzenia(new Date());
+        Msg.msg("Zatwierdzono element sprawozdania");
+    }
+    
+    public void wyslij(SprawozdanieFinansowe sf) {
+        sf.setWyslanedopodatnika(new Date());
+        Msg.msg("Oznaczono element sprawozdania");
+    }
+    
+    public void wroc(SprawozdanieFinansowe sf) {
+        sf.setWrociloodpodatnika(new Date());
+        Msg.msg("Oznaczono element sprawozdania");
+    }
+    
+    public void zlozone(SprawozdanieFinansowe sf) {
+        sf.setZlozonedokrs(new Date());
+        Msg.msg("Oznaczono element sprawozdania");
+    }
+    
+     public void zatwierdzone(SprawozdanieFinansowe sf) {
+        sf.setZatwierdzonewkrs(new Date());
+        Msg.msg("Oznaczono element sprawozdania");
+    }
+     
+     public void urzad(SprawozdanieFinansowe sf) {
+        sf.setZlozonewurzedzie(new Date());
+        Msg.msg("Oznaczono element sprawozdania");
+    }
+     
+     public void zapiszzmiany() {
+         try {
+            sprawozdanieFinansoweDAO.editList(pozycjesprawozdania);
+            Msg.dP();
+         } catch(Exception e) {
+             Msg.dPe();
+         }
+     }
+     
+     public void resetuj() {
+         try {
+            init();
+            Msg.dP();
+         } catch(Exception e) {
+             Msg.dPe();
+         }
+     }
+     
+     public void usunwszystko() {
+         try {
+            sprawozdanieFinansoweDAO.destroy(pozycjesprawozdania);
+            init();
+            Msg.dP();
+         } catch(Exception e) {
+             Msg.dPe();
+         }
+     }
+     
     
     public WpisView getWpisView() {
         return wpisView;
@@ -109,6 +239,22 @@ public class SprawozdanieFinansoweView implements Serializable {
 
     public void setElementy(List elementy) {
         this.elementy = elementy;
+    }
+
+    public List<String> getRoki() {
+        return roki;
+    }
+
+    public void setRoki(List<String> roki) {
+        this.roki = roki;
+    }
+
+    public List<SprawozdanieFinansowe> getPozycjesprawozdania() {
+        return pozycjesprawozdania;
+    }
+
+    public void setPozycjesprawozdania(List<SprawozdanieFinansowe> pozycjesprawozdania) {
+        this.pozycjesprawozdania = pozycjesprawozdania;
     }
     
     

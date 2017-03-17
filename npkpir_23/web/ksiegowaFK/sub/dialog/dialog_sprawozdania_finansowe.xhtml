@@ -6,15 +6,22 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
+    <style>
+        .ui-outputpanel{
+            height: 60px;
+        }
+    </style>
     <p:dialog id="dialog_sprawozdania_finansowe" header="Wprowadzanie danych nowej firmy" widgetVar="dialog_sprawozdania_finansowe"  
-              resizable="false"  onShow="ustawdialog('dialog_sprawozdania_finansowe','menufirma',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawozdania_finansowe');" >
+              resizable="false"  onShow="ustawdialog('dialog_sprawozdania_finansowe','menufirma',1200,600);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawozdania_finansowe');" >
 
         <h:form id="form_dialog_sprawozdania_finansowe">
             <p:growl life="3600"  id="msg" autoUpdate="true"/>
             <p:selectOneMenu id="rokWpisu" value="#{sprawozdanieFinansoweView.wybranyrok}">
-                <f:selectItems value="#{Roki.rokiList}"/>
+                <f:selectItems value="#{sprawozdanieFinansoweView.roki}"/>
+                <p:ajax event="change" listener="#{sprawozdanieFinansoweView.pobierzrok}" global="false" update="form_dialog_sprawozdania_finansowe"/>
             </p:selectOneMenu>
-            <p:panelGrid>
+            <p:outputPanel id="listaelementow">
+            <p:panelGrid  rendered="#{sprawozdanieFinansoweView.elementy.size() gt 0}" style="height: 40px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -23,15 +30,115 @@
                     </p:row>
                 </f:facet>
                 <p:row>
-                    <p:column>
-                        <p:selectOneMenu value="#{sprawozdanieFinansoweView.sprawozdanieFinansowe.element}">
+                    <p:column style="width: 200px;">
+                        <p:selectOneMenu  value="#{sprawozdanieFinansoweView.sprawozdanieFinansowe.element}"  style="width: 200px;">
                             <f:selectItems value="#{sprawozdanieFinansoweView.elementy}" var="item" itemLabel="#{item}" itemValue="#{sprawozdanieFinansoweView.strtoint(item)}"/>
                         </p:selectOneMenu>
                     </p:column>
                     <p:column>
-                        <p:commandButton value="dodaj" actionListener="#{sprawozdanieFinansoweView.dodaj()}"/>
+                        <p:commandButton value="dodaj" actionListener="#{sprawozdanieFinansoweView.dodaj()}" update="form_dialog_sprawozdania_finansowe:tabelasprawozdania  form_dialog_sprawozdania_finansowe:listaelementow"/>
                     </p:column>
                 </p:row>
+            </p:panelGrid>
+            </p:outputPanel>
+                  <p:dataTable id="tabelasprawozdania" value="#{sprawozdanieFinansoweView.pozycjesprawozdania}" var="item" rowIndexVar="index"
+                               sortBy="#{item.element}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Element"/>
+                            </f:facet>
+                            <h:outputText value="#{sprawozdanieFinansoweView.inttostr(item.element)}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Sporzadzajacy"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sporzadzajacy}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data sporzadzenia"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datasporzadzenia}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Zatwierdzajacy"/>
+                            </f:facet>
+                            <h:outputText value="#{item.zatwierdzajacy}" rendered="#{item.zatwierdzajacy ne null}"/>
+                            <p:commandButton value="zatwierdź" actionListener="#{sprawozdanieFinansoweView.zatwierdz(item)}" global="false" update="@this:@parent:@parent"
+                                              rendered="#{item.zatwierdzajacy eq null}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data zatwierdzenia"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datazatwierdzenia}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Wyslane do podatnika"/>
+                            </f:facet>
+                            <h:outputText value="#{item.wyslanedopodatnika}"  rendered="#{item.wyslanedopodatnika ne null}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                            <p:commandButton value="oznacz" actionListener="#{sprawozdanieFinansoweView.wyslij(item)}" global="false" update="@this:@parent:@parent"
+                                              rendered="#{item.wyslanedopodatnika eq null}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Wrocilo od podatnika"/>
+                            </f:facet>
+                            <h:outputText value="#{item.wrociloodpodatnika}"  rendered="#{item.wrociloodpodatnika ne null}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                            <p:commandButton value="oznacz" actionListener="#{sprawozdanieFinansoweView.wroc(item)}" global="false" update="@this:@parent:@parent"
+                                              rendered="#{item.wrociloodpodatnika eq null}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Zlozone do krs"/>
+                            </f:facet>
+                            <h:outputText value="#{item.zlozonedokrs}"  rendered="#{item.zlozonedokrs ne null}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                            <p:commandButton value="oznacz" actionListener="#{sprawozdanieFinansoweView.zlozone(item)}" global="false" update="@this:@parent:@parent"
+                                              rendered="#{item.zlozonedokrs eq null}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Zatwierdzone w krs"/>
+                            </f:facet>
+                            <h:outputText value="#{item.zatwierdzonewkrs}"  rendered="#{item.zatwierdzonewkrs ne null}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                            <p:commandButton value="oznacz" actionListener="#{sprawozdanieFinansoweView.zatwierdzone(item)}" global="false" update="@this:@parent:@parent"
+                                              rendered="#{item.zatwierdzonewkrs eq null}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Zlozone w urzedzie"/>
+                            </f:facet>
+                             <h:outputText value="#{item.zlozonewurzedzie}"  rendered="#{item.zlozonewurzedzie ne null}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                            <p:commandButton value="oznacz" actionListener="#{sprawozdanieFinansoweView.urzad(item)}" global="false" update="@this:@parent:@parent"
+                                              rendered="#{item.zlozonewurzedzie eq null}"/>
+                        </p:column>
+                <p:column style="text-align: center;" width="30">
+                            <p:commandButton icon="fa fa-trash" actionListener="#{sprawozdanieFinansoweView.usun(item)}" 
+                                             global="false" update="@this:@parent:@parent  form_dialog_sprawozdania_finansowe:listaelementow"
+                                             rendered="#{item.zatwierdzajacy eq null}"/>
+                        </p:column>
+            </p:dataTable>
+            <p:panelGrid columns="3">
+                <p:commandButton value="zapisz" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.zapiszzmiany}" global="false"/>
+                <p:commandButton value="resetuj" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.resetuj}" global="false" update="form_dialog_sprawozdania_finansowe"/>
+                <p:commandButton value="usuń" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.usunwszystko}" global="false" update="form_dialog_sprawozdania_finansowe"/>
             </p:panelGrid>
         </h:form>
     </p:dialog>

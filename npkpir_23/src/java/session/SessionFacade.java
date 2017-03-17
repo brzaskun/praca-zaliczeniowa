@@ -70,6 +70,7 @@ import entityfk.Pojazdy;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.RMK;
+import entityfk.SprawozdanieFinansowe;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
@@ -1991,6 +1992,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public void ukladBRustawnieaktywne(String podatnik) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<SprawozdanieFinansowe> findSprawozdanieRokPodatnik(WpisView wpisView, String rok) {
+        return em.createNamedQuery("SprawozdanieFinansowe.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", rok).getResultList();
     }
 
     

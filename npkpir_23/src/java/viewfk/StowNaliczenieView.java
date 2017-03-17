@@ -79,17 +79,19 @@ public class StowNaliczenieView  implements Serializable {
     @PostConstruct
     private void init() {
         try {
-            //przychody
-            konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
-            Konto kontoprzychodypo = kontoDAOfk.findKonto("251", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-            if (kontoprzychodypo != null) {
-                konta.add(kontoprzychodypo);
-            }
-            Collections.sort(konta, new Kontocomparator());
-            List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
-            for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
-                if (Data.czyjestpomiedzy(p.getPoczatek(), p.getKoniec(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
-                    lista.add(new StowNaliczenie(p));
+            if (wpisView.getFormaprawna().equals("STOWARZYSZENIE")) {
+                //przychody
+                konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
+                Konto kontoprzychodypo = kontoDAOfk.findKonto("251", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                if (kontoprzychodypo != null) {
+                    konta.add(kontoprzychodypo);
+                }
+                Collections.sort(konta, new Kontocomparator());
+                List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
+                for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
+                    if (Data.czyjestpomiedzy(p.getPoczatek(), p.getKoniec(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
+                        lista.add(new StowNaliczenie(p));
+                    }
                 }
             }
         } catch (Exception e) {

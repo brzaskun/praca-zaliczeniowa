@@ -32,8 +32,8 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames = {"podatnik","rok","element"})
 })
 @NamedQueries({
-    @NamedQuery(name = "SprawozdanieFinansowe.findByPodatnikRok", query = "SELECT m FROM SprawozdanieFinansowe m WHERE m.podatnik = :podatnik AND m.rok = :rok"),
-    @NamedQuery(name = "SprawozdanieFinansowe.findByPodatnik", query = "SELECT m FROM SprawozdanieFinansowe m WHERE m.podatnik = :podatnik")
+    @NamedQuery(name = "SprawozdanieFinansowe.findByPodatnikRok", query = "SELECT m FROM SprawozdanieFinansowe m WHERE m.podatnik = :podatnik AND m.rok = :rok ORDER BY m.element"),
+    @NamedQuery(name = "SprawozdanieFinansowe.findByPodatnik", query = "SELECT m FROM SprawozdanieFinansowe m WHERE m.podatnik = :podatnik ORDER BY m.element")
 })
 public class SprawozdanieFinansowe implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public class SprawozdanieFinansowe implements Serializable{
 
     @Override
     public String toString() {
-        return "SprawozdanieFinansowe{" + "rok=" + rok + ", podatnik=" + podatnik + ", element=" + element + ", sporzadzajacy=" + sporzadzajacy + '}';
+        return "SprawozdanieFinansowe{" + "rok=" + rok + ", podatnik=" + podatnik.getNazwapelna() + ", element=" + element + ", sporzadzajacy=" + sporzadzajacy + '}';
     }
 //<editor-fold defaultstate="collapsed" desc="comment">
     
