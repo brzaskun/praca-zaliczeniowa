@@ -397,6 +397,10 @@
             <to-view-id>/manager/managerZamykanieRoku.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>sprawozdaniefin</from-outcome>
+            <to-view-id>/manager/managerSprawozdaniefin.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>podstawki</from-outcome>
             <to-view-id>/manager/managerPodstawki.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

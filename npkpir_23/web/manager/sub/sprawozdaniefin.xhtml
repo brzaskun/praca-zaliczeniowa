@@ -1,0 +1,99 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+        
+    <p:growl life="3600"  id="msgzus" autoUpdate="true"/>
+
+    <p:accordionPanel id="akordeon" value="#{sprawozdanieFinansoweView.listapodatnikow}" var="podatnik" style="max-width: 1300px;" >
+
+        <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}" rendered="#{podatnik.podmiotaktywny}">
+            <h:form>
+                <p:dataTable id="tabelasprawozdania" value="#{podatnik.elementysprawozdaniafin}" var="item" rowIndexVar="index"
+                               sortBy="#{item.element}">
+                    <p:column width="150">
+                            <f:facet name="header">
+                                <h:outputText value="Element"/>
+                            </f:facet>
+                            <h:outputText value="#{sprawozdanieFinansoweView.inttostr(item.element)}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Sporzadzajacy"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sporzadzajacy}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data sporzadzenia"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datasporzadzenia}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Zatwierdzajacy"/>
+                            </f:facet>
+                            <h:outputText value="#{item.zatwierdzajacy}" rendered="#{item.zatwierdzajacy ne null}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data zatwierdzenia"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datazatwierdzenia}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Wyslane do podatnika"/>
+                            </f:facet>
+                            <h:outputText value="#{item.wyslanedopodatnika}"  rendered="#{item.wyslanedopodatnika ne null}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Wrocilo od podatnika"/>
+                            </f:facet>
+                            <h:outputText value="#{item.wrociloodpodatnika}"  rendered="#{item.wrociloodpodatnika ne null}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Zlozone do krs"/>
+                            </f:facet>
+                            <h:outputText value="#{item.zlozonedokrs}"  rendered="#{item.zlozonedokrs ne null}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Zatwierdzone w krs"/>
+                            </f:facet>
+                            <h:outputText value="#{item.zatwierdzonewkrs}"  rendered="#{item.zatwierdzonewkrs ne null}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Zlozone w urzedzie"/>
+                            </f:facet>
+                             <h:outputText value="#{item.zlozonewurzedzie}"  rendered="#{item.zlozonewurzedzie ne null}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+               
+            </p:dataTable>
+        </h:form>
+        </p:tab>
+    </p:accordionPanel>
+
+</ui:composition>   
+

@@ -18,7 +18,7 @@
             <p:growl life="3600"  id="msg" autoUpdate="true"/>
             <p:selectOneMenu id="rokWpisu" value="#{sprawozdanieFinansoweView.wybranyrok}">
                 <f:selectItems value="#{sprawozdanieFinansoweView.roki}"/>
-                <p:ajax event="change" listener="#{sprawozdanieFinansoweView.pobierzrok}" global="false" update="form_dialog_sprawozdania_finansowe"/>
+                <p:ajax event="change" listener="#{sprawozdanieFinansoweView.pobierzrok}" global="false" update="@form"/>
             </p:selectOneMenu>
             <p:outputPanel id="listaelementow">
             <p:panelGrid  rendered="#{sprawozdanieFinansoweView.elementy.size() gt 0}" style="height: 40px;">
@@ -36,7 +36,7 @@
                         </p:selectOneMenu>
                     </p:column>
                     <p:column>
-                        <p:commandButton value="dodaj" actionListener="#{sprawozdanieFinansoweView.dodaj()}" update="form_dialog_sprawozdania_finansowe:tabelasprawozdania  form_dialog_sprawozdania_finansowe:listaelementow"/>
+                        <p:commandButton value="dodaj" actionListener="#{sprawozdanieFinansoweView.dodaj()}" update="@form:tabelasprawozdania  @form:listaelementow"/>
                     </p:column>
                 </p:row>
             </p:panelGrid>
@@ -131,14 +131,14 @@
                         </p:column>
                 <p:column style="text-align: center;" width="30">
                             <p:commandButton icon="fa fa-trash" actionListener="#{sprawozdanieFinansoweView.usun(item)}" 
-                                             global="false" update="@this:@parent:@parent  form_dialog_sprawozdania_finansowe:listaelementow"
+                                             global="false" update="@this:@parent:@parent  @form:listaelementow"
                                              rendered="#{item.zatwierdzajacy eq null}"/>
                         </p:column>
             </p:dataTable>
             <p:panelGrid columns="3">
                 <p:commandButton value="zapisz" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.zapiszzmiany}" global="false"/>
-                <p:commandButton value="resetuj" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.resetuj}" global="false" update="form_dialog_sprawozdania_finansowe"/>
-                <p:commandButton value="usuń" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.usunwszystko}" global="false" update="form_dialog_sprawozdania_finansowe"/>
+                <p:commandButton value="resetuj" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.resetuj}" global="false" update="@form"/>
+                <p:commandButton value="usuń" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.usunwszystko}" global="false" update="@form"/>
             </p:panelGrid>
         </h:form>
     </p:dialog>

@@ -5,13 +5,17 @@
  */
 package viewfk;
 
+import comparator.Podatnikcomparator;
+import dao.PodatnikDAO;
 import daoFK.SprawozdanieFinansoweDAO;
 import embeddable.Roki;
+import entity.Podatnik;
 import entityfk.SprawozdanieFinansowe;
 import enumy.ElementySprawozdaniafin;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +45,9 @@ public class SprawozdanieFinansoweView implements Serializable {
     private List<SprawozdanieFinansowe> pozycjesprawozdania;
     @Inject
     private SprawozdanieFinansoweDAO sprawozdanieFinansoweDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
+    private List<Podatnik> listapodatnikow;
 
     public SprawozdanieFinansoweView() {
         
@@ -48,6 +55,8 @@ public class SprawozdanieFinansoweView implements Serializable {
 
     @PostConstruct
     private void init() {
+        listapodatnikow = podatnikDAO.findPodatnikFK();
+        Collections.sort(listapodatnikow, new Podatnikcomparator());
         pozycjesprawozdania = new ArrayList<>();
         if (wybranyrok == null) {
             wybranyrok = wpisView.getRokUprzedniSt();
@@ -255,6 +264,14 @@ public class SprawozdanieFinansoweView implements Serializable {
 
     public void setPozycjesprawozdania(List<SprawozdanieFinansowe> pozycjesprawozdania) {
         this.pozycjesprawozdania = pozycjesprawozdania;
+    }
+
+    public List<Podatnik> getListapodatnikow() {
+        return listapodatnikow;
+    }
+
+    public void setListapodatnikow(List<Podatnik> listapodatnikow) {
+        this.listapodatnikow = listapodatnikow;
     }
     
     

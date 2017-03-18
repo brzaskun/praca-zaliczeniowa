@@ -44,7 +44,7 @@ public class SprawozdanieFinansowe implements Serializable{
     private int id;
     @Column(name = "rok")
     private String rok;
-    @JoinColumn(name = "podatnik")
+    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
     private Podatnik podatnik;
     @Column(name = "element")
     private int element;

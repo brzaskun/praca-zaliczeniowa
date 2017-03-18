@@ -9,6 +9,7 @@ import embeddable.Pozycjenafakturzebazadanych;
 import embeddable.Straty1;
 import embeddable.Udzialy;
 import entityfk.MiejsceKosztow;
+import entityfk.SprawozdanieFinansowe;
 import enumy.FormaPrawna;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -240,6 +241,8 @@ public class Podatnik implements Serializable {
     private String datarozpoczecia;
     @OneToMany(mappedBy = "podatnikObj")
     private List<PodatnikOpodatkowanieD> podatnikOpodatkowanieD;
+    @OneToMany(mappedBy = "podatnik")
+    private List<SprawozdanieFinansowe> elementysprawozdaniafin;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -281,6 +284,14 @@ public class Podatnik implements Serializable {
     }
     public String getSchematnumeracji() {
         return schematnumeracji;
+    }
+
+    public List<SprawozdanieFinansowe> getElementysprawozdaniafin() {
+        return elementysprawozdaniafin;
+    }
+
+    public void setElementysprawozdaniafin(List<SprawozdanieFinansowe> elementysprawozdaniafin) {
+        this.elementysprawozdaniafin = elementysprawozdaniafin;
     }
 
     public void setSchematnumeracji(String schematnumeracji) {
