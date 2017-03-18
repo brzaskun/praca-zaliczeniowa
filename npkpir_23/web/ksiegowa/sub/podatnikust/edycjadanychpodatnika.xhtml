@@ -111,11 +111,11 @@
             </p:outputPanel>
         </h:form>
         <h:form id="formwprowadzaniefirmy">
-             <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 1}">
+            <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 1}" style="height: 600px;">
                 <p:growl life="3600"  id="msg" autoUpdate="true"/>
             <!--        wpisywanie firmy-->
                 <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
-                <p:panel id="panelwpisywanianowejfirmy" header="Rejestracja nowej firmy w programie" style="width: 850px;">
+                <p:panel id="panelwpisywanianowejfirmy" header="Edycja danych firmy w programie" style="width: 850px;">
                 <p:focus for="wprowadzaniepodatnika"/>
                 <p:panelGrid id="wprowadzaniepodatnika" columns="4" >
 

@@ -624,6 +624,10 @@
                             <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false)}" style="color: red;"/>
                         </p:column>
                         <p:column>
+                        <p:commandButton  value="dodaj ewidencja" styleClass="fkbutton" style="width: 150px;" 
+                                          actionListener="#{dokfkView.podepnijEwidencjeVat(0)}" rendered="#{WpisView.podatnikObiekt.nip eq '9552340951'}"
+                                         update="">
+                        </p:commandButton>
                         <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                          accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
                                          onfocus="focusNaNowoDodanymEnter();sprawdzgrupeprzykliknieciuwzapisz();" global="false"

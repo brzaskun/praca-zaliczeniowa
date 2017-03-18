@@ -3548,4 +3548,8 @@ public class DokfkView implements Serializable {
             Logger.getLogger(DokfkView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void dodajewidencjenaprawa() {
+        
+    }
 }
