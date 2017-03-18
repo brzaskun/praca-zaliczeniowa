@@ -188,6 +188,7 @@ public final class DokView implements Serializable {
     private List<Kolumna1Rozbicie> kolumna1rozbicielista;
     @Inject
     private Kolumna1Rozbicie sumarozbicie;
+    private double stawkaVATwPoprzednimDok;
 
     public DokView() {
         setWysDokument(null);
@@ -327,11 +328,10 @@ public final class DokView implements Serializable {
         }
         podepnijListecd(skrot);
     }
-
+    
     public void podepnijListecd(String skrot) {
-        Iterator itd;
-        itd = rodzajedokKlienta.iterator();
-        String transakcjiRodzaj = "";
+        Iterator itd = rodzajedokKlienta.iterator();
+        String transakcjiRodzaj = null;
         while (itd.hasNext()) {
             Rodzajedok temp = (Rodzajedok) itd.next();
             if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
@@ -339,33 +339,55 @@ public final class DokView implements Serializable {
                 break;
             }
         }
-        List valueList = new ArrayList();
-        UISelectItems ulista = new UISelectItems();
         if (wpisView.isKsiegaryczalt()) {
             kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
         } else {
             kolumny = Kolmn.zwrockolumnyR(transakcjiRodzaj);
         }
-        /*dodajemy na poczatek zwyczajawa kolumne klienta*/
-        if (selDokument.getKontr() != null) {
-            if (selDokument.getKontr().getPkpirKolumna() != null) {
-                String kol = selDokument.getKontr().getPkpirKolumna();
-                SelectItem selectI = new SelectItem(kol, kol);
-                valueList.add(selectI);
-            }
-            /**/
-            for (String kolumnanazwa : kolumny) {
-                SelectItem selectItem = new SelectItem(kolumnanazwa, kolumnanazwa);
-                valueList.add(selectItem);
-            }
-            ulista.setValue(valueList);
-            switch (transakcjiRodzaj) {
-                case "srodek trw sprzedaz":
+        if (transakcjiRodzaj.equals("srodek trw sprzedaz")){
                     setPokazEST(true);
                     RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
             }
-        }
     }
+
+//    public void podepnijListecd(String skrot) {
+//        Iterator itd;
+//        itd = rodzajedokKlienta.iterator();
+//        String transakcjiRodzaj = "";
+//        while (itd.hasNext()) {
+//            Rodzajedok temp = (Rodzajedok) itd.next();
+//            if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
+//                transakcjiRodzaj = temp.getRodzajtransakcji();
+//                break;
+//            }
+//        }
+//        List valueList = new ArrayList();
+//        UISelectItems ulista = new UISelectItems();
+//        if (wpisView.isKsiegaryczalt()) {
+//            kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
+//        } else {
+//            kolumny = Kolmn.zwrockolumnyR(transakcjiRodzaj);
+//        }
+//        /*dodajemy na poczatek zwyczajawa kolumne klienta*/
+//        if (selDokument.getKontr() != null) {
+//            if (selDokument.getKontr().getPkpirKolumna() != null) {
+//                String kol = selDokument.getKontr().getPkpirKolumna();
+//                SelectItem selectI = new SelectItem(kol, kol);
+//                valueList.add(selectI);
+//            }
+//            /**/
+//            for (String kolumnanazwa : kolumny) {
+//                SelectItem selectItem = new SelectItem(kolumnanazwa, kolumnanazwa);
+//                valueList.add(selectItem);
+//            }
+//            ulista.setValue(valueList);
+//            switch (transakcjiRodzaj) {
+//                case "srodek trw sprzedaz":
+//                    setPokazEST(true);
+//                    RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
+//            }
+//        }
+//    }
 
     public void podepnijEwidencjeVat() {
 //        if (selDokument.getTabelanbp() != null && !selDokument.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
@@ -431,30 +453,30 @@ public final class DokView implements Serializable {
                         || transakcjiRodzaj.equals("eksport towarów") || transakcjiRodzaj.equals("odwrotne obciążenie sprzedawca")) {
                     ewidencjaAddwiad.get(0).setVat(0.0);
                 } else if (r.getProcentvat() != 0.0) {
-                    ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2);
-                    ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2));
-                    sumbrutto = ewidencjaAddwiad.get(0).getNetto() + (ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                    ewidencjaAddwiad.get(0).setVat(Z.z((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2));
+                    ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + Z.z(((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2)));
+                    sumbrutto = ewidencjaAddwiad.get(0).getNetto() + Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23);
                 } else if (transakcjiRodzaj.equals("sprzedaz")) {
                     try {
                         String ne = nazwaEwidencjiwPoprzednimDok.getNazwa();
                         switch (ne) {
                             case "sprzedaż 23%":
                                 ewidencjaAddwiad.get(0).setNetto(sumanetto);
-                                ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                                ewidencjaAddwiad.get(0).setVat(Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23));
                                 ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
                                 sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                                 break;
                             case "sprzedaż 8%":
                                 ewidencjaAddwiad.get(0).setNetto(0.0);
                                 ewidencjaAddwiad.get(1).setNetto(sumanetto);
-                                ewidencjaAddwiad.get(1).setVat(ewidencjaAddwiad.get(1).getNetto() * 0.08);
+                                ewidencjaAddwiad.get(1).setVat(Z.z(ewidencjaAddwiad.get(1).getNetto() * 0.08));
                                 ewidencjaAddwiad.get(1).setBrutto(ewidencjaAddwiad.get(1).getNetto() + ewidencjaAddwiad.get(1).getVat());
                                 sumbrutto = ewidencjaAddwiad.get(1).getBrutto();
                                 break;
                             case "sprzedaż 5%":
                                 ewidencjaAddwiad.get(0).setNetto(0.0);
                                 ewidencjaAddwiad.get(2).setNetto(sumanetto);
-                                ewidencjaAddwiad.get(2).setVat(ewidencjaAddwiad.get(2).getNetto() * 0.05);
+                                ewidencjaAddwiad.get(2).setVat(Z.z(ewidencjaAddwiad.get(2).getNetto() * 0.05));
                                 ewidencjaAddwiad.get(2).setBrutto(ewidencjaAddwiad.get(2).getNetto() + ewidencjaAddwiad.get(2).getVat());
                                 sumbrutto = ewidencjaAddwiad.get(2).getBrutto();
                                 break;
@@ -473,12 +495,16 @@ public final class DokView implements Serializable {
                         }
                     } catch (Exception e) {
                         E.e(e);
-                        ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                        ewidencjaAddwiad.get(0).setVat(Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23));
                         ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
                         sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                     }
                 } else {
-                    ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                    if (stawkaVATwPoprzednimDok > 0.0) {
+                        ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * stawkaVATwPoprzednimDok) / 2);
+                    } else {
+                        ewidencjaAddwiad.get(0).setVat(Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23));
+                    }
                     ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
                     sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                 }
@@ -839,6 +865,7 @@ public final class DokView implements Serializable {
                 selDokument.setOpis(wysDokument.getOpis());
                 setRenderujwysz(false);
                 setPokazEST(false);
+                stawkaVATwPoprzednimDok = 0.0;
                 int i = 0;
                 try {
                     if (wysDokument.getListakwot1() != null) {
@@ -852,6 +879,7 @@ public final class DokView implements Serializable {
 
                 }
             } else {
+                stawkaVATwPoprzednimDok = 0.0;
                 selectedSTR = new SrodekTrw();
                 ewidencjaAddwiad.clear();
                 RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
@@ -1496,6 +1524,16 @@ public final class DokView implements Serializable {
                                 break;
                             }
                         }
+                    } else {
+                        List<EVatwpis1> e = poprzedniDokument.getEwidencjaVAT1();
+                        if (e.size()==1) {
+                            for (EVatwpis1 p : e) {
+                                if (p.getNetto() != 0) {
+                                    stawkaVATwPoprzednimDok = obliczstawke(p);
+                                    break;
+                                }
+                            }
+                        }
                     }
                     int i = 0;
                     try {
@@ -1514,6 +1552,14 @@ public final class DokView implements Serializable {
                 E.e(e);
             }
         }
+    }
+    
+    private double obliczstawke(EVatwpis1 p) {
+        double zwrot = 0.23;
+        if (p != null) {
+            zwrot = Z.z(p.getVat()/p.getNetto());
+        }
+        return zwrot;
     }
     
     public void pobierzkursNBPRozbicie(Kolumna1Rozbicie item, int id) {

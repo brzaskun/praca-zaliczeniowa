@@ -217,7 +217,8 @@
                         </pe:inputNumber>
                     </p:column>
                     <p:column headerText="kolumna pkpir" style="text-align: center;" width="170">
-                        <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}" style="width: 170px; text-align: center;" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                        <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}" 
+                                         style="width: 170px; text-align: center;" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                          onfocus="$(this).addClass('ui-state-focus');"
                                          onblur="$(this).removeClass('ui-state-focus');">
                             <f:selectItems value="#{DokumentView.kolumny}"/>
@@ -415,7 +416,7 @@
                             <p:inputText id="nazwasrodka" value="#{DokumentView.selectedSTR.nazwa}" style="width: 230px;"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="dataprz" value="#{DokumentView.selectedSTR.dataprzek}" onblur="ustawDateSrodekTrw();"/>
+                            <p:inputText id="dataprz" value="#{DokumentView.selectedSTR.dataprzek}" onblur="ustawDateSrodekTrw();" style="width: 80px;"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <p:inputText value="#{DokumentView.selectedSTR.kst}" style="width: 30px;"/>
