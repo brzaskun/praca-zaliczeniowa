@@ -61,18 +61,28 @@ public class SprawozdanieFinansowe implements Serializable{
     @Temporal(TemporalType.DATE)
     @Column(name = "wyslanedopodatnika")
     private Date wyslanedopodatnika;
+    @Column(name = "wyslal")
+    private String wyslal;
     @Temporal(TemporalType.DATE)
     @Column(name = "wrociloodpodatnika")
     private Date wrociloodpodatnika;
+    @Column(name = "wrocil")
+    private String wrocil;
     @Column(name = "zlozonedokrs")
     @Temporal(TemporalType.DATE)
     private Date zlozonedokrs;
+    @Column(name = "zlozyl")
+    private String zlozyl;
     @Temporal(TemporalType.DATE)
     @Column(name = "zatwierdzonewkrs")
     private Date zatwierdzonewkrs;
+    @Column(name = "zatwierdzil")
+    private String zatwierdzil;
     @Column(name = "zlozonewurzedzie")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date zlozonewurzedzie;
+    @Column(name = "zlozylurzad")
+    private String zlozylurzad;
 
     @Override
     public int hashCode() {
@@ -147,6 +157,46 @@ public class SprawozdanieFinansowe implements Serializable{
     
     public void setElement(int element) {
         this.element = element;
+    }
+
+    public String getWyslal() {
+        return wyslal;
+    }
+
+    public void setWyslal(String wyslal) {
+        this.wyslal = wyslal;
+    }
+
+    public String getWrocil() {
+        return wrocil;
+    }
+
+    public void setWrocil(String wrocil) {
+        this.wrocil = wrocil;
+    }
+
+    public String getZlozyl() {
+        return zlozyl;
+    }
+
+    public void setZlozyl(String zlozyl) {
+        this.zlozyl = zlozyl;
+    }
+
+    public String getZatwierdzil() {
+        return zatwierdzil;
+    }
+
+    public void setZatwierdzil(String zatwierdzil) {
+        this.zatwierdzil = zatwierdzil;
+    }
+
+    public String getZlozylurzad() {
+        return zlozylurzad;
+    }
+
+    public void setZlozylurzad(String zlozylurzad) {
+        this.zlozylurzad = zlozylurzad;
     }
     
   

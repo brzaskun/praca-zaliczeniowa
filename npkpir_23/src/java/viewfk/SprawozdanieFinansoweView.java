@@ -165,26 +165,31 @@ public class SprawozdanieFinansoweView implements Serializable {
     }
     
     public void wyslij(SprawozdanieFinansowe sf) {
+        sf.setWyslal(wpisView.getWprowadzil().getLogin());
         sf.setWyslanedopodatnika(new Date());
         Msg.msg("Oznaczono element sprawozdania");
     }
     
     public void wroc(SprawozdanieFinansowe sf) {
+        sf.setWrocil(wpisView.getWprowadzil().getLogin());
         sf.setWrociloodpodatnika(new Date());
         Msg.msg("Oznaczono element sprawozdania");
     }
     
     public void zlozone(SprawozdanieFinansowe sf) {
+        sf.setZlozyl(wpisView.getWprowadzil().getLogin());
         sf.setZlozonedokrs(new Date());
         Msg.msg("Oznaczono element sprawozdania");
     }
     
      public void zatwierdzone(SprawozdanieFinansowe sf) {
+        sf.setZatwierdzil(wpisView.getWprowadzil().getLogin());
         sf.setZatwierdzonewkrs(new Date());
         Msg.msg("Oznaczono element sprawozdania");
     }
      
      public void urzad(SprawozdanieFinansowe sf) {
+        sf.setZlozylurzad(wpisView.getWprowadzil().getLogin());
         sf.setZlozonewurzedzie(new Date());
         Msg.msg("Oznaczono element sprawozdania");
     }
