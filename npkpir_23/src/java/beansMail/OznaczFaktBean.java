@@ -8,6 +8,7 @@ package beansMail;
 import dao.FakturaDAO;
 import entity.Faktura;
 import entity.Klienci;
+import java.util.Date;
 import java.util.List;
 import msg.Msg;
 
@@ -24,18 +25,17 @@ public class OznaczFaktBean {
                 Msg.msg("i", "Oznaczono faktur\u0119 jako zaksi\u0119gowan\u0105 " + klientf.getNpelna());
                 faktura.setZaksiegowana(true);
             }
-            fakturaDAO.edit(fakturydomaila);
+            fakturaDAO.editList(fakturydomaila);
         }
     }
 
     public static void oznaczonejakowyslane(List<Faktura> fakturydomaila, FakturaDAO fakturaDAO) {
         if (fakturydomaila != null) {
             for (Faktura faktura : fakturydomaila) {
-                Klienci klientf = faktura.getKontrahent();
-                Msg.msg("i", "Oznaczono faktur\u0119 jako wys\u0142an\u0105 do klienta " + klientf.getNpelna());
                 faktura.setWyslana(true);
+                faktura.setDatawysylki(new Date());
             }
-            fakturaDAO.edit(fakturydomaila);
+            fakturaDAO.editList(fakturydomaila);
         }
     }
     

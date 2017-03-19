@@ -22,6 +22,7 @@ import javax.inject.Inject;
 @ManagedBean
 @RequestScoped
 public class EVatwpisFKConverterView implements Serializable{
+    private static final long serialVersionUID = 1L;
     
     private List<Evewidencja> listaEwidencji;
     @Inject

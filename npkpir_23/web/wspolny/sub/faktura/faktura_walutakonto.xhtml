@@ -1,0 +1,85 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:tab id="fakturawalutakonto" title="Dodatkowe elementy faktury">
+        <h:form id="form_fakturawalutakonto">
+            <p:panelGrid>
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="waluta"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="bank"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="BLZ"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="SWIFT"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="konta"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column>
+                    <p:selectOneMenu value="#{fakturaWalutaKontoView.selected.waluta}" converter="WalutyConv">
+                        <f:selectItems value="#{walutyViewFK.pobraneRodzajeWalut}" var="item" itemLabel="#{item.symbolwaluty}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="bank"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="BLZ"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="SWIFT"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="konta"/>
+                    </p:column>
+                    </p:row>
+            </p:panelGrid>
+            <p:dataTable value="#{fakturaWalutaKontoView.listakont}" var="item">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Waluta"/>
+                    </f:facet>
+                    <h:outputText value="#{item.waluta}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nazwabanku"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nazwabanku}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Blz"/>
+                    </f:facet>
+                    <h:outputText value="#{item.blz}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Swift"/>
+                    </f:facet>
+                    <h:outputText value="#{item.swift}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nrkonta"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>
+</ui:composition>   
+

@@ -1371,11 +1371,21 @@ public class FakturaView implements Serializable {
     
     
     public void oznaczonejakowyslane() {
-        OznaczFaktBean.oznaczonejakowyslane(gosciwybral, fakturaDAO);
+        try {
+            OznaczFaktBean.oznaczonejakowyslane(gosciwybral, fakturaDAO);
+            Msg.msg("i", "Oznaczono faktury jako wysłane");
+        } catch (Exception e) {
+            Msg.dPe();
+        }
     }
     
     public void oznaczonejakozaksiegowane() {
-        OznaczFaktBean.oznaczonejakozaksiegowane(gosciwybral, fakturaDAO);
+        try {
+            OznaczFaktBean.oznaczonejakozaksiegowane(gosciwybral, fakturaDAO);
+            Msg.msg("i", "Oznaczono faktury jako zaksięgowaną");
+        } catch (Exception e) {
+            Msg.dPe();
+        }
     }
     
     public void drukujokresowa() {
