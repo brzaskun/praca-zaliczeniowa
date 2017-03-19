@@ -238,11 +238,11 @@
     </security-constraint>
     <error-page>
         <error-code>403</error-code>
-        <location>/faces/AccessDenied.xhtml?faces-redirect=true</location>
+        <location>/AccessDenied.xhtml?faces-redirect=true</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/faces/blad_500.xhtml</location>
+        <location>/blad_500.xhtml</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>

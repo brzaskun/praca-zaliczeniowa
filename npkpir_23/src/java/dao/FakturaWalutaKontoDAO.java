@@ -32,11 +32,11 @@ public class FakturaWalutaKontoDAO extends DAO implements Serializable{
         return sessionFacade.findAll(FakturaWalutaKonto.class);
     }
 
-    public List<SkladkaCzlonek> findPodatnik(WpisView wpisView) {
-        return sessionFacade.getEntityManager().createNamedQuery("FakturaWalutaKonto.findByPodatnik").setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
+    public List<FakturaWalutaKonto> findPodatnik(WpisView wpisView) {
+        return sessionFacade.getEntityManager().createNamedQuery("FakturaWalutaKonto.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
     
-    public List<SkladkaCzlonek> findPodatnikAktywne(WpisView wpisView) {
-        return sessionFacade.getEntityManager().createNamedQuery("FakturaWalutaKonto.findByPodatnikAktywne").setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
+    public List<FakturaWalutaKonto> findPodatnikAktywne(WpisView wpisView) {
+        return sessionFacade.getEntityManager().createNamedQuery("FakturaWalutaKonto.findByPodatnikAktywne").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
 }

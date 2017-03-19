@@ -6,6 +6,7 @@
 package view;
 
 import dao.FakturaWalutaKontoDAO;
+import entity.FakturaWalutaKonto;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -26,8 +27,8 @@ public class FakturaWalutaKontoView implements Serializable{
     private WpisView wpisView;
     @Inject
     private FakturaWalutaKontoDAO fakturaWalutaKontoDAO;
-    private List listakont;
-    private List listakontaktywne;
+    private List<FakturaWalutaKonto> listakont;
+    private List<FakturaWalutaKonto> listakontaktywne;
     private FakturaWalutaKonto selected;
     
     @PostConstruct
@@ -58,6 +59,14 @@ public class FakturaWalutaKontoView implements Serializable{
 
     public void setListakontaktywne(List listakontaktywne) {
         this.listakontaktywne = listakontaktywne;
+    }
+
+    public FakturaWalutaKonto getSelected() {
+        return selected;
+    }
+
+    public void setSelected(FakturaWalutaKonto selected) {
+        this.selected = selected;
     }
     
     

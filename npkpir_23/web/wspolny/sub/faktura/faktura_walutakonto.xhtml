@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:tab id="fakturawalutakonto" title="Dodatkowe elementy faktury">
+    <p:tab id="fakturawalutakonto" title="Wykaz kont bankowych">
         <h:form id="form_fakturawalutakonto">
             <p:panelGrid>
                 <f:facet name="header">
@@ -28,45 +28,47 @@
                 </f:facet>
                 <p:row>
                     <p:column>
-                    <p:selectOneMenu value="#{fakturaWalutaKontoView.selected.waluta}" converter="WalutyConv">
-                        <f:selectItems value="#{walutyViewFK.pobraneRodzajeWalut}" var="item" itemLabel="#{item.symbolwaluty}"/>
-                    </p:selectOneMenu>
-                </p:column>
+                        <p:selectOneMenu value="#{fakturaWalutaKontoView.selected.waluta}" converter="WalutyConv">
+                            <f:selectItems value="#{walutyViewFK.pobraneRodzajeWalut}" var="item" itemLabel="#{item.symbolwaluty}"/>
+                        </p:selectOneMenu>
                     </p:column>
                     <p:column>
-                        <h:outputText value="bank"/>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.nazwabanku}" style="width: 200px;"/>
                     </p:column>
                     <p:column>
-                        <h:outputText value="BLZ"/>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.blz}" style="width: 120px;"/>
                     </p:column>
                     <p:column>
-                        <h:outputText value="SWIFT"/>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.swift}" style="width: 120px;"/>
                     </p:column>
                     <p:column>
-                        <h:outputText value="konta"/>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.nrkonta}" style="width: 300px;"/>
                     </p:column>
-                    </p:row>
+                    <p:column>
+                        <p:commandButton value="dodaj" styleClass="nb" global="false" update="akordeon:form_fakturawalutakonto:tabela"/>
+                    </p:column>
+                </p:row>
             </p:panelGrid>
-            <p:dataTable value="#{fakturaWalutaKontoView.listakont}" var="item">
-                <p:column>
+            <p:dataTable id="tabela" value="#{fakturaWalutaKontoView.listakont}" var="item" style="width: 1200px;" emptyMessage="Nie wprowadzono numerów kont bankowych">
+                <p:column width="50">
                     <f:facet name="header">
                         <h:outputText value="Waluta"/>
                     </f:facet>
                     <h:outputText value="#{item.waluta}"/>
                 </p:column>
-                <p:column>
+                <p:column width="300">
                     <f:facet name="header">
                         <h:outputText value="Nazwabanku"/>
                     </f:facet>
                     <h:outputText value="#{item.nazwabanku}"/>
                 </p:column>
-                <p:column>
+                <p:column width="80">
                     <f:facet name="header">
                         <h:outputText value="Blz"/>
                     </f:facet>
                     <h:outputText value="#{item.blz}"/>
                 </p:column>
-                <p:column>
+                <p:column width="80">
                     <f:facet name="header">
                         <h:outputText value="Swift"/>
                     </f:facet>
