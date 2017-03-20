@@ -501,7 +501,7 @@ public final class DokView implements Serializable {
                     }
                 } else {
                     if (stawkaVATwPoprzednimDok > 0.0) {
-                        ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * stawkaVATwPoprzednimDok) / 2);
+                        ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * stawkaVATwPoprzednimDok));
                     } else {
                         ewidencjaAddwiad.get(0).setVat(Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23));
                     }
