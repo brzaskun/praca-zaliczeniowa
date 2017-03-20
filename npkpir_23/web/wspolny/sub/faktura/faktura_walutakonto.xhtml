@@ -22,49 +22,61 @@
                             <h:outputText value="SWIFT"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="konta"/>
+                            <h:outputText value="IBAN"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="nr konta"/>
                         </p:column>
                     </p:row>
                 </f:facet>
                 <p:row>
                     <p:column>
-                        <p:selectOneMenu value="#{fakturaWalutaKontoView.selected.waluta}" converter="WalutyConv">
+                        <p:selectOneMenu value="#{fakturaWalutaKontoView.selected.waluta}" converter="WalutyConv"  required="true" requiredMessage="wybierz walutę">
+                            <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{walutyViewFK.pobraneRodzajeWalut}" var="item" itemLabel="#{item.symbolwaluty}"/>
                         </p:selectOneMenu>
                     </p:column>
                     <p:column>
-                        <p:inputText value="#{fakturaWalutaKontoView.selected.nazwabanku}" style="width: 200px;"/>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.nazwabanku}" style="width: 200px;" required="true" requiredMessage="wpisz nazwę banku"/>
                     </p:column>
                     <p:column>
                         <p:inputText value="#{fakturaWalutaKontoView.selected.blz}" style="width: 120px;"/>
                     </p:column>
                     <p:column>
-                        <p:inputText value="#{fakturaWalutaKontoView.selected.swift}" style="width: 120px;"/>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.swift}" style="width: 120px;" required="true" requiredMessage="wpisz kod swift/bic"/>
                     </p:column>
                     <p:column>
-                        <p:inputText value="#{fakturaWalutaKontoView.selected.nrkonta}" style="width: 300px;"/>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.iban}" maxlength="26"
+                                     style="width: 300px;" required="true" requiredMessage="wpisz numer konta w formacie iban"/>
                     </p:column>
                     <p:column>
-                        <p:commandButton value="dodaj" styleClass="nb" global="false" update="akordeon:form_fakturawalutakonto:tabela"/>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.nrkonta}" maxlength="24"
+                                     style="width: 300px;" required="true" requiredMessage="wpisz numer konta"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="dodaj" styleClass="nb" global="false" update="akordeon:form_fakturawalutakonto akordeon:form_fakturawalutakonto1:tabela"
+                                         actionListener="#{fakturaWalutaKontoView.dodaj()}"/>
                     </p:column>
                 </p:row>
             </p:panelGrid>
+        </h:form>
+        <h:form id="form_fakturawalutakonto1">
             <p:dataTable id="tabela" value="#{fakturaWalutaKontoView.listakont}" var="item" style="width: 1200px;" emptyMessage="Nie wprowadzono numerów kont bankowych">
                 <p:column width="50">
                     <f:facet name="header">
-                        <h:outputText value="Waluta"/>
+                        <h:outputText value="waluta"/>
                     </f:facet>
-                    <h:outputText value="#{item.waluta}"/>
+                    <h:outputText value="#{item.waluta.symbolwaluty}"/>
                 </p:column>
                 <p:column width="300">
                     <f:facet name="header">
-                        <h:outputText value="Nazwabanku"/>
+                        <h:outputText value="nazwa banku"/>
                     </f:facet>
                     <h:outputText value="#{item.nazwabanku}"/>
                 </p:column>
                 <p:column width="80">
                     <f:facet name="header">
-                        <h:outputText value="Blz"/>
+                        <h:outputText value="BLZ"/>
                     </f:facet>
                     <h:outputText value="#{item.blz}"/>
                 </p:column>
@@ -76,9 +88,27 @@
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="Nrkonta"/>
+                        <h:outputText value="iban"/>
                     </f:facet>
-                    <h:outputText value="#{item.nrkonta}"/>
+                    <h:outputText value="#{item.iban}"  style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="nr konta"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nrkonta}"  style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                </p:column>
+                <p:column width="70">
+                    <f:facet name="header">
+                        <h:outputText value="aktywne"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nieaktywny ? 'nie' : 'tak'}"/>
+                </p:column>
+                <p:column style="text-align: center;" width="40">
+                    <p:commandButton icon="fa fa-edit" actionListener="#{fakturaWalutaKontoView.dezaktywacja(item)}" global="false" update="@parent:@parent"/>
+                </p:column>
+                <p:column style="text-align: center;" width="40">
+                    <p:commandButton icon="fa fa-trash" actionListener="#{fakturaWalutaKontoView.usun(item)}" global="false" update="@parent:@parent:@parent"/>
                 </p:column>
             </p:dataTable>
         </h:form>

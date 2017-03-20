@@ -50,6 +50,8 @@ public class FakturaWalutaKonto  implements Serializable{
     private  String swift;
     @Column(name="nrkonta")
     private  String nrkonta;
+    @Column(name="iban")
+    private  String iban;
     @Column(name="nieaktywny")
     private  boolean nieaktywny;
 
@@ -144,6 +146,14 @@ public class FakturaWalutaKonto  implements Serializable{
 
     public String getNrkonta() {
         return nrkonta;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
     }
 
     public void setNrkonta(String nrkonta) {

@@ -15,6 +15,7 @@ import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
+import dao.FakturaStopkaNiemieckaDAO;
 import dao.FakturadodelementyDAO;
 import dao.FakturywystokresoweDAO;
 import dao.KlienciDAO;
@@ -73,6 +74,8 @@ import plik.Plik;
 import serialclone.SerialClone;
 import dao.SMTPSettingsDAO;
 import data.Data;
+import entity.FakturaStopkaNiemiecka;
+import entity.FakturaWalutaKonto;
 import pdf.PdfFakturyOkresowe;
 import waluty.Z;
 
@@ -98,6 +101,8 @@ public class FakturaView implements Serializable {
     private boolean pokazfakture;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{fakturaWalutaKontoView}")
+    private FakturaWalutaKontoView fakturaWalutaKontoView;
     @Inject
     private FakturaDAO fakturaDAO;
     @Inject
@@ -163,6 +168,8 @@ public class FakturaView implements Serializable {
     private AutoComplete kontrahentstworz;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
+    @Inject
+    private FakturaStopkaNiemieckaDAO fakturaStopkaNiemieckaDAO;
     
 
     public FakturaView() {
@@ -214,7 +221,6 @@ public class FakturaView implements Serializable {
         fakturavatmarza = true;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
-              selected.setWalutafaktury("PLN");
         selected.setRodzajdokumentu("faktura VAT marża");
         selected.setRodzajtransakcji("sprzedaż");
         zapis0edycja1 = false;
@@ -229,7 +235,6 @@ public class FakturaView implements Serializable {
         fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
-        selected.setWalutafaktury("EUR");
         selected.setRodzajdokumentu("faktura niemiecka");
         selected.setRodzajtransakcji("sprzedaż");
         zapis0edycja1 = false;
@@ -285,11 +290,13 @@ public class FakturaView implements Serializable {
     
     private void inicjalizacjaczesciwspolne() {
         selected = new Faktura();
+        selected.setWalutafaktury("PLN");
         if (fakturaxxl) {
             selected.setFakturaxxl(true);
         }
         if (fakturaniemiecka) {
             selected.setFakturaniemiecka13b(true);
+            selected.setWalutafaktury("EUR");
         }
         if (fakturavatmarza) {
             selected.setFakturavatmarza(true);
@@ -305,6 +312,7 @@ public class FakturaView implements Serializable {
         selected.setMiejscewystawienia(FakturaBean.pobierzmiejscewyst(podatnikobiekt));
         selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(podatnikobiekt, pelnadata));
         selected.setNrkontabankowego(FakturaBean.pobierznumerkonta(podatnikobiekt));
+        zmienkonto();
         selected.setPodpis(FakturaBean.pobierzpodpis(wpisView));
         selected.setAutor(wpisView.getWprowadzil().getLogin());
         setPokazfakture(true);
@@ -394,7 +402,28 @@ public class FakturaView implements Serializable {
         }
     }
 
-    
+    public void zmienkonto() {
+        String waluta = selected.getWalutafaktury();
+        List<FakturaWalutaKonto> konta = fakturaWalutaKontoView.getListakontaktywne();
+        if (konta != null) {
+            for (FakturaWalutaKonto p : konta) {
+                if (p.getWaluta().getSymbolwaluty().equals(waluta)) {
+                   selected.setNrkontabankowego(p.getNrkonta());
+                   try {
+                        FakturaStopkaNiemiecka fakturaStopkaNiemiecka = fakturaStopkaNiemieckaDAO.findByPodatnik(wpisView.getPodatnikObiekt());
+                        if (fakturaStopkaNiemiecka != null) {
+                            fakturaStopkaNiemiecka.setBank(p.getNazwabanku());
+                            fakturaStopkaNiemiecka.setBlz(p.getBlz());
+                            fakturaStopkaNiemiecka.setBic(p.getSwift());
+                            fakturaStopkaNiemiecka.setIban(p.getNrkonta());
+                            fakturaStopkaNiemieckaDAO.edit(fakturaStopkaNiemiecka);
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }
+    }
     
     public void skierujfakturedoedycji(Faktura faktura) {
         selected = serialclone.SerialClone.clone(faktura);
@@ -1570,6 +1599,14 @@ public class FakturaView implements Serializable {
 
     public void setFakturavatmarza(boolean fakturavatmarza) {
         this.fakturavatmarza = fakturavatmarza;
+    }
+
+    public FakturaWalutaKontoView getFakturaWalutaKontoView() {
+        return fakturaWalutaKontoView;
+    }
+
+    public void setFakturaWalutaKontoView(FakturaWalutaKontoView fakturaWalutaKontoView) {
+        this.fakturaWalutaKontoView = fakturaWalutaKontoView;
     }
 
     

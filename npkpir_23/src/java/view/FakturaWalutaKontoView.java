@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -29,6 +30,7 @@ public class FakturaWalutaKontoView implements Serializable{
     private FakturaWalutaKontoDAO fakturaWalutaKontoDAO;
     private List<FakturaWalutaKonto> listakont;
     private List<FakturaWalutaKonto> listakontaktywne;
+    @Inject
     private FakturaWalutaKonto selected;
     
     @PostConstruct
@@ -36,7 +38,46 @@ public class FakturaWalutaKontoView implements Serializable{
         listakont = fakturaWalutaKontoDAO.findPodatnik(wpisView);
         listakontaktywne = fakturaWalutaKontoDAO.findPodatnik(wpisView);
     }
+    
+    public void dodaj() {
+        try {
+            selected.setPodatnik(wpisView.getPodatnikObiekt());
+            fakturaWalutaKontoDAO.dodaj(selected);
+            listakont.add(selected);
+            listakontaktywne.add(selected);
+            selected = new FakturaWalutaKonto();
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+    
+    public void usun(FakturaWalutaKonto u) {
+        try {
+            fakturaWalutaKontoDAO.destroy(u);
+            listakont.remove(u);
+            listakontaktywne.remove(u);
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
 
+    public void dezaktywacja(FakturaWalutaKonto u) {
+        try {
+            if (u.isNieaktywny()) {
+                u.setNieaktywny(false);
+                fakturaWalutaKontoDAO.edit(u);
+            } else {
+                u.setNieaktywny(true);
+                fakturaWalutaKontoDAO.edit(u);
+            }
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+    
     public WpisView getWpisView() {
         return wpisView;
     }

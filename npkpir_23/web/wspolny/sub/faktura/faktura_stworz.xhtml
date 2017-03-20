@@ -71,6 +71,7 @@
                                                              $(this).addClass('ui-state-default');" >
                                 <f:selectItem itemLabel="PLN" itemValue="PLN"/>
                                 <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                                <p:ajax event="change" global="false" listener="#{fakturaView.zmienkonto}" partialSubmit="true" update="akordeon:formstworz:kontobankowe"/>
                             </h:selectOneMenu>
                         </div>
                     </div>
