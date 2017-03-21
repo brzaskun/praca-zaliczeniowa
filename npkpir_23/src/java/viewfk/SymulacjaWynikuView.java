@@ -121,7 +121,7 @@ public class SymulacjaWynikuView implements Serializable {
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
-            naniesZapisyNaKontoR(saldoKonto, p, zapisyRok);
+            naniesZapisyNaKontoR(saldoKonto, p, zapisyRok, przychod0koszt1);
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
             dodajdolisty(saldoKonto, przygotowanalista, przychod0koszt1);
@@ -135,15 +135,23 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
 
-    private void naniesZapisyNaKontoR(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
+    private void naniesZapisyNaKontoR(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok, int przychod0koszt1) {
         double sumaWn = 0.0;
         double sumaMa = 0.0;
         for (StronaWiersza r : zapisyRok) {
             if (r.getKonto().equals(p)) {
-                if (r.getWnma().equals("Wn")) {
-                    sumaWn += r.getKwotaPLN();
+                if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
+                     if (r.getWnma().equals("Wn") && przychod0koszt1 == 1) {
+                        sumaWn += r.getKwotaPLN();
+                     } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 0) {
+                        sumaMa += r.getKwotaPLN(); 
+                     }
                 } else {
-                    sumaMa += r.getKwotaPLN();
+                    if (r.getWnma().equals("Wn")) {
+                        sumaWn += r.getKwotaPLN();
+                    } else {
+                        sumaMa += r.getKwotaPLN();
+                    }
                 }
                 saldoKonto.getZapisy().add(r);
             }
