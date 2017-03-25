@@ -59,33 +59,36 @@ public class SrodkiTrwaleView implements Serializable {
     public void dodajSrodekTrwalyDokfk(List<Dokfk> wybranydok) {
         try {
             this.dokfk = wybranydok.get(0);
+            selectedSTR.setDatazak(dokfk.getDatawystawienia());
+            selectedSTR.setDataprzek(dokfk.getDatawystawienia());
         } catch (Exception e) { E.e(e); 
         }
     }
     
     public void dodajSrodekTrwalyFK() {
         try {
-            selectedSTR.setDatazak(dokfk.getDataoperacji());
-            selectedSTR.setPodatnik(wpisView.getPodatnikWpisu());
-            if (selectedSTR.getDatazak() == null) {
+            if (selectedSTR.getKontonetto() != null && selectedSTR.getKontoumorzenie() != null) {
                 selectedSTR.setDatazak(dokfk.getDataoperacji());
+                selectedSTR.setPodatnik(wpisView.getPodatnikWpisu());
+                if (selectedSTR.getDatazak() == null) {
+                    selectedSTR.setDatazak(dokfk.getDataoperacji());
+                }
+                selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
+                selectedSTR.setNrwldokzak(dokfk.getNumerwlasnydokfk());
+                selectedSTR.setZlikwidowany(0);
+                selectedSTR.setDatasprzedazy("");
+                selectedSTR.setDokfk(dokfk);
+                selectedSTR.setNrwldokumentu(dokfk.getNumerwlasnydokfk());
+                dodajSrodekTrwaly(selectedSTR);
+                selectedSTR = new SrodekTrw();
+                srodekkategoria = null;
+            } else {
+                Msg.msg("e", "Nie wybrano kont dla środka trwałego");
             }
-            selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
-            selectedSTR.setNrwldokzak(dokfk.getNumerwlasnydokfk());
-            selectedSTR.setZlikwidowany(0);
-            selectedSTR.setDatasprzedazy("");
-            selectedSTR.setDokfk(dokfk);
-            selectedSTR.setNrwldokumentu(dokfk.getNumerwlasnydokfk());
-            dodajSrodekTrwaly(selectedSTR);
-            Konto ktnetto = selectedSTR.getKontonetto();
-            Konto ktumorzenie = selectedSTR.getKontoumorzenie();
-            selectedSTR = new SrodekTrw();
-            selectedSTR.setKontonetto(ktnetto);
-            selectedSTR.setKontoumorzenie(ktumorzenie);
-            srodekkategoria = null;
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {            
+            E.e(e);            
             System.out.println("StrodkiTrwaleView - dodajSrodekTrwalyFK() blad");
-            Msg.msg("e", "Blad podczas dodawanie srodkow trwalych");
+            Msg.msg("e", "Blad podczas dodawanie srodkow trwalych " + E.e(e));
         }
     }
     //tutaj oblicza ilosc odpisow przed przyporzadkowaniem do miesiecy

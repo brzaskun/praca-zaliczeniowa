@@ -20,3 +20,8 @@ var ustawDateSrodekTrw = function() {
     }
 };
 
+var wprowadzsrodek = function() {
+    PF('confirm1').show();
+};
+
+
