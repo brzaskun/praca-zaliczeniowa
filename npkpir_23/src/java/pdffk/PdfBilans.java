@@ -110,7 +110,7 @@ public class PdfBilans {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajsuma(rootProjektA, "a", sumabilansowaBO, sumabilansowaA);
-            dodajsuma(rootProjektP, "b", sumabilansowaBO, sumabilansowaP);
+            dodajsuma(rootProjektP, "p", sumabilansowaBO, sumabilansowaP);
             dodajOpisWstepny(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             PdfMain.dodajLinieOpisu(document, "Strona aktywów");
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjektA),75,5);

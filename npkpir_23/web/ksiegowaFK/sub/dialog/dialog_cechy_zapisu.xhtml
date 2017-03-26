@@ -6,23 +6,29 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
-    <p:dialog id="dialogCechyZapisu" header="Wykaz bieżących cech zapisu" widgetVar="dialogCechyZapisu" resizable="false" 
-              onShow="ustawdialog('dialogCechyZapisu','menukartoteki',500,500);" focus=":formCH" 
+    <p:dialog id="dialogCechyZapisu" header="Wykaz bieżących cech zapisu/dokumentu" widgetVar="dialogCechyZapisu" resizable="false" 
+              onShow="ustawdialog('dialogCechyZapisu','menukartoteki',800,500);" focus=":formCH" 
               closeOnEscape="true">
         <h:form id="formCH" >
             <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" style="height: 300px;"
                          paginator="true" rows="7" paginatorPosition="top" rowKey="#{item.cechazapisuPK.nazwacechy}">
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="Nazwa cechy"/>
+                        <h:outputText value="nazwa cechy"/>
                     </f:facet>
                     <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="Rodzaj cechy"/>
+                        <h:outputText value="rodzaj cechy"/>
                     </f:facet>
                     <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="charakter"/>
+                    </f:facet>
+                    <h:outputText value="#{cechazapisuView.charakter(item.charaktercechy)}"/>
                 </p:column>
                 <p:column style="text-align: center;">
                     <p:commandButton value="usuń"  actionListener="#{cechazapisuView.usun(item)}"

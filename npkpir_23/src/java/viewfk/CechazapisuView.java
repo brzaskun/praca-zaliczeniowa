@@ -8,6 +8,7 @@ package viewfk;
 
 import daoFK.CechazapisuDAOfk;
 import entityfk.Cechazapisu;
+import entityfk.CharakterCechy;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -41,16 +42,28 @@ public class CechazapisuView implements Serializable {
     }
     
     public void dodajnowacecha() {
-        Cechazapisu nc = new Cechazapisu(nazwacechy, rodzajcechy);
-        cechazapisuDAOfk.dodaj(nc);
-        pobranecechy.add(nc);
-        Msg.msg("Dodano nową cechę");
+        try {
+            Cechazapisu nc = new Cechazapisu(nazwacechy, rodzajcechy);
+            cechazapisuDAOfk.dodaj(nc);
+            pobranecechy.add(nc);
+            Msg.msg("Dodano nową cechę");
+        } catch (Exception e) {
+            Msg.dPe();
+        }
     }
   
     public void usun(Cechazapisu c) {
-        cechazapisuDAOfk.destroy(c);
-        pobranecechy.remove(c);
-        Msg.msg("Usunięto cechę");
+        try {
+            cechazapisuDAOfk.destroy(c);
+            pobranecechy.remove(c);
+            Msg.msg("Usunięto cechę");
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+    
+    public String charakter(int num) {
+        return CharakterCechy.numtoString(num);
     }
     
       //<editor-fold defaultstate="collapsed" desc="comment">

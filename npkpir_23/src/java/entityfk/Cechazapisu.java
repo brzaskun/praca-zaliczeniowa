@@ -9,6 +9,7 @@ package entityfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -34,23 +35,30 @@ public class Cechazapisu implements Serializable {
     private List<Dokfk> dokfkLista;
     @ManyToMany(mappedBy = "cechazapisuLista")
     private List<StronaWiersza> stronaWierszaLista;
+    @Column(name = "charaktercechy")
+    private int charaktercechy;
+    @Column(name = "przesuniecie")
+    private int przesuniecie;
             
     
     public Cechazapisu() {
         this.dokfkLista = new ArrayList<>();
         this.stronaWierszaLista = new ArrayList<>();
+        this.charaktercechy = -1;
     }
 
     public Cechazapisu(CechazapisuPK cechazapisuPK) {
         this.cechazapisuPK = cechazapisuPK;
         this.dokfkLista = new ArrayList<>();
         this.stronaWierszaLista = new ArrayList<>();
+        this.charaktercechy = -1;
     }
 
     public Cechazapisu(String nazwacechy, String rodzajcechy) {
         this.cechazapisuPK = new CechazapisuPK(nazwacechy, rodzajcechy);
         this.dokfkLista = new ArrayList<>();
         this.stronaWierszaLista = new ArrayList<>();
+        this.charaktercechy = -1;
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -68,6 +76,22 @@ public class Cechazapisu implements Serializable {
     
     public void setDokfkLista(List<Dokfk> dokfkLista) {
         this.dokfkLista = dokfkLista;
+    }
+
+    public int getCharaktercechy() {
+        return charaktercechy;
+    }
+
+    public void setCharaktercechy(int charaktercechy) {
+        this.charaktercechy = charaktercechy;
+    }
+
+    public int getPrzesuniecie() {
+        return przesuniecie;
+    }
+
+    public void setPrzesuniecie(int przesuniecie) {
+        this.przesuniecie = przesuniecie;
     }
     
     public List<StronaWiersza> getStronaWierszaLista() {
