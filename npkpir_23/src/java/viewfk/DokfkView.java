@@ -2095,11 +2095,12 @@ public class DokfkView implements Serializable {
     public void przetworzwprowadzonakwote(Transakcja loop, int row) {
         try {
             if (!loop.getNowaTransakcja().getSymbolWalutBOiSW().equals("PLN") || !loop.getRozliczajacy().getSymbolWaluty().equals("PLN")) {
-                String wiersz = "rozrachunki:dataList:" + row + ":kwotarozliczenia_input";
-                String kwotazwiersza = (String) Params.params(wiersz);
-                kwotazwiersza = kwotazwiersza.replaceAll("\\s", "");
-                double placonakwota = Double.parseDouble(kwotazwiersza);
-                DokFKTransakcjeBean.wyliczroznicekursowa(loop, placonakwota);
+//                String wiersz = "rozrachunki:dataList:" + row + ":kwotarozliczenia_input";
+//                String kwotazwiersza = (String) Params.params(wiersz);
+//                kwotazwiersza = kwotazwiersza.replaceAll("\\s", "");
+//                double placonakwota = Double.parseDouble(kwotazwiersza);
+//                DokFKTransakcjeBean.wyliczroznicekursowa(loop, placonakwota);
+                DokFKTransakcjeBean.wyliczroznicekursowa(loop, loop.getKwotatransakcji());
             }
         } catch (Exception e) {
             E.e(e);

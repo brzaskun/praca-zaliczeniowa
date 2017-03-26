@@ -41,7 +41,6 @@ public class SprawozdanieFinansoweView implements Serializable {
     @Inject
     private SprawozdanieFinansowe sprawozdanieFinansowe;
     private List elementy;
-    private List<String> roki;
     private List<SprawozdanieFinansowe> pozycjesprawozdania;
     @Inject
     private SprawozdanieFinansoweDAO sprawozdanieFinansoweDAO;
@@ -59,7 +58,7 @@ public class SprawozdanieFinansoweView implements Serializable {
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         pozycjesprawozdania = new ArrayList<>();
         if (wybranyrok == null) {
-            wybranyrok = wpisView.getRokUprzedniSt();
+            wybranyrok = wpisView.getRokWpisuSt();
         }
         pozycjesprawozdania = sprawozdanieFinansoweDAO.findSprawozdanieRokPodatnik(wpisView, wybranyrok);
         elementy = new ArrayList<>();
@@ -80,12 +79,6 @@ public class SprawozdanieFinansoweView implements Serializable {
                         break;
                     }
                 }
-            }
-        }
-        roki = new ArrayList<>();
-        for (Integer s : Roki.getRokiListS()) {
-            if (s < wpisView.getRokWpisu()) {
-                roki.add(String.valueOf(s));
             }
         }
     }
@@ -253,14 +246,6 @@ public class SprawozdanieFinansoweView implements Serializable {
 
     public void setElementy(List elementy) {
         this.elementy = elementy;
-    }
-
-    public List<String> getRoki() {
-        return roki;
-    }
-
-    public void setRoki(List<String> roki) {
-        this.roki = roki;
     }
 
     public List<SprawozdanieFinansowe> getPozycjesprawozdania() {

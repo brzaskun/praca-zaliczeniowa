@@ -47,8 +47,9 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis.liczbadok}" filterMatchMode="contains" sortBy="#{wpis.liczbadok}" style="width: 15%;" filterStyle="display : none;" >  
-                    <h:outputText value="#{wpis.liczbadok}" style="float: right;" rendered="#{wpis.transakcja eq 'podsumowanie' ? false : true}">
+                <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis.liczbadok}" 
+                          filterMatchMode="contains" sortBy="#{wpis.liczbadok}" style="width: 15%; text-align: center;" filterStyle="display : none;" >  
+                    <h:outputText value="#{wpis.liczbadok}" rendered="#{wpis.transakcja eq 'podsum.' ? false : true}">
                         <f:convertNumber minFractionDigits="0" locale="PL"/>
                     </h:outputText>
                 </p:column>

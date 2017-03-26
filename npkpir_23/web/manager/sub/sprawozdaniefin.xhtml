@@ -6,12 +6,18 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-        
+    <style>
+        .ui-accordion-header {
+            color: red;
+            background-color: red;
+        }
+    </style>
     <p:growl life="3600"  id="msgzus" autoUpdate="true"/>
 
-    <p:accordionPanel id="akordeon" value="#{sprawozdanieFinansoweView.listapodatnikow}" var="podatnik" style="max-width: 1300px;" >
+    <p:accordionPanel id="akordeon" value="#{sprawozdanieFinansoweView.listapodatnikow}" var="podatnik" style="max-width: 1300px;"
+                      >
 
-        <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}" rendered="#{podatnik.podmiotaktywny}">
+        <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}" rendered="#{podatnik.podmiotaktywny}" titleStyle="#{podatnik.elementysprawozdaniafin ne null and podatnik.elementysprawozdaniafin.size() gt 1? 'color:red;' : null}">
             <h:form>
                 <p:dataTable id="tabelasprawozdania" value="#{podatnik.elementysprawozdaniafin}" var="item" rowIndexVar="index"
                                sortBy="#{item.element}">

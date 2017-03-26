@@ -114,7 +114,6 @@
                         <pe:inputNumber value="#{loop.netto}" symbol=" zł" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
-                            <p:ajax event="focus" onstart="r('srodkiwpis:buttonsrodektrw').show();" global="false"/>
                         </pe:inputNumber>
                     </p:column>
                     <p:column headerText="pod.VAT" style="text-align: center;">
@@ -147,21 +146,25 @@
                     </p:row>
                 </f:facet>
                 <p:column>
-                    <p:selectOneListbox value="#{srodkiTrwaleView.selectedSTR.kontonetto}" style="width: 350px;" scrollHeight="95" converter="KontoConv">
+                    <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontonetto}" style="width: 350px;"  converter="KontoConv" required="true"
+                                     requiredMessage="wybierz konto środka  ">
+                        <f:selectItem itemLabel="wybierz konto środka" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
-                    </p:selectOneListbox>
+                    </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:selectOneListbox value="#{srodkiTrwaleView.selectedSTR.kontoumorzenie}" style="width: 350px;" scrollHeight="95" converter="KontoConv">
+                    <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontoumorzenie}" style="width: 350px;"  converter="KontoConv"  required="true"
+                                     requiredMessage="wybierz konto umorzeń">
+                        <f:selectItem itemLabel="wybierz konto umorzeń" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
-                        
-                    </p:selectOneListbox>
+                        <p:ajax event="change" onstart="r('srodkiwpis:buttonsrodektrw').show();" global="false"/>
+                    </p:selectOneMenu>
                 </p:column>
             </p:panelGrid>
             <p:commandButton id="buttonsrodektrw" value="dodaj środek" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px; display: none;" 
-                             onclick="PF('confirm1').show();"
+                             onclick="wprowadzsrodek()"
                              />
-            <p:commandButton value="zamknij" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px;" onclick="PF('dialogwpissrodkitrwale').hide();"/>
+            <p:commandButton value="rezygnuj" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px;" onclick="PF('dialogwpissrodkitrwale').hide();"/>
         </h:form>
     </p:dialog>
 </ui:composition>

@@ -92,7 +92,8 @@
                             <p:column>
                                 <h:outputText value="kwota pierwotna w PLN"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>    
                             </p:column>
-                            <p:column rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 60px; text-align: right;">
+                            <p:column rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}" 
+                                      style="width: 60px; text-align: center    ;">
                                 <h:outputText value="kurs"/>
                             </p:column>
                             <p:column rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
@@ -125,12 +126,13 @@
                         </h:outputText>
                     </p:column>
                     <p:column rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nazwaWaluty ne 'PLN'}" style="text-align: right;">
-                        <h:outputText id="kursrozliczajacego" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kursWalutyBOSW}" style="font-weight: bold; width: 50px;"
+                        <h:outputText id="kursrozliczajacego" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kursWalutyBOSW}" 
+                                      style="font-weight: bold; width: 50px;"
                                       >
                             <f:convertNumber minFractionDigits="4" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nazwaWaluty ne 'PLN'}">
+                    <p:column  style="text-align: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nazwaWaluty ne 'PLN'}">
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.nrtabeli} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.datatabeli}" 
                                       style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
                     </p:column>
