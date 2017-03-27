@@ -245,6 +245,10 @@
         <location>/blad_500.xhtml</location>
     </error-page>
     <error-page>
+        <error-code>503</error-code>
+        <location>/blad_503.xhtml</location>
+    </error-page>
+    <error-page>
         <error-code>404</error-code>
         <location>/NMTS.xhtml?faces-redirect=true</location>
     </error-page>

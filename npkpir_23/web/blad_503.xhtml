@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+ <f:view locale="#{localeChanger.locale}">
+    <h:head>
+        <meta http-equiv="Accept-Encoding" content="gzip"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="Pragma" content="no-cache"/>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Expires" content="0" />
+            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+        <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+        <title>Zostałeś wylogowany :)</title>
+    </h:head>
+    <h:body styleClass="body">
+        <script>
+            var zielonyobrazek = function() {
+                document.getElementById("buttonwylogowanie").src = "/resources/images/greenbutton.png";
+            };
+            
+            var czerwonyobrazek = function() {
+                document.getElementById("buttonwylogowanie").src = "/resources/images/redbutton.png";
+            };
+        </script>
+            <p:panel style="text-align: center; margin: 10% auto;  width: 600px; border-style: none;">
+                <h:outputText value="Nie mozna sie zalogować. Trwają prace konserwacyjne. Prosze spróboważ ponownie za jakiś czas" style="font-weight: bold;"></h:outputText>
+                <p></p>
+                <form action="http://taxman.pl:8080">
+                    <input type="image" value="Zaloguj się ponownie" src="/resources/images/redbutton.png" style="width: 50px; height: 50px;"
+                           id="buttonwylogowanie"
+                           onmouseover="zielonyobrazek()" onmouseout="czerwonyobrazek()"
+                           />
+                </form>
+            </p:panel>
+      
+    </h:body>
+       </f:view>    
+</html>

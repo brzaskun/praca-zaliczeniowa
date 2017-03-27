@@ -46,11 +46,11 @@
                         <p:inputText value="#{fakturaWalutaKontoView.selected.swift}" style="width: 120px;" required="true" requiredMessage="wpisz kod swift/bic"/>
                     </p:column>
                     <p:column>
-                        <p:inputText value="#{fakturaWalutaKontoView.selected.iban}" maxlength="26"
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.iban}" maxlength="28"
                                      style="width: 300px;" required="true" requiredMessage="wpisz numer konta w formacie iban"/>
                     </p:column>
-                    <p:column>
-                        <p:inputText value="#{fakturaWalutaKontoView.selected.nrkonta}" maxlength="24"
+                    <p:column >
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.nrkonta}" maxlength="26"
                                      style="width: 300px;" required="true" requiredMessage="wpisz numer konta"/>
                     </p:column>
                     <p:column>
@@ -68,7 +68,7 @@
                     </f:facet>
                     <h:outputText value="#{item.waluta.symbolwaluty}"/>
                 </p:column>
-                <p:column width="300">
+                <p:column width="250">
                     <f:facet name="header">
                         <h:outputText value="nazwa banku"/>
                     </f:facet>
@@ -86,13 +86,13 @@
                     </f:facet>
                     <h:outputText value="#{item.swift}"/>
                 </p:column>
-                <p:column>
+                <p:column width="200">
                     <f:facet name="header">
                         <h:outputText value="iban"/>
                     </f:facet>
                     <h:outputText value="#{item.iban}"  style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
-                <p:column>
+                <p:column width="200">
                     <f:facet name="header">
                         <h:outputText value="nr konta"/>
                     </f:facet>

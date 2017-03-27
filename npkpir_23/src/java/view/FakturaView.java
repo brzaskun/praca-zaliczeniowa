@@ -415,11 +415,13 @@ public class FakturaView implements Serializable {
                             fakturaStopkaNiemiecka.setBank(p.getNazwabanku());
                             fakturaStopkaNiemiecka.setBlz(p.getBlz());
                             fakturaStopkaNiemiecka.setBic(p.getSwift());
-                            fakturaStopkaNiemiecka.setIban(p.getNrkonta());
+                            fakturaStopkaNiemiecka.setKtonr(p.getNrkonta());
+                            fakturaStopkaNiemiecka.setIban(p.getIban());
                             fakturaStopkaNiemieckaDAO.edit(fakturaStopkaNiemiecka);
                         }
                     } catch (Exception e) {
                     }
+                   break;
                 }
             }
         }
