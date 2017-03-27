@@ -67,6 +67,15 @@
                         </p:selectOneMenu>
                     </p:column>
                     <p:column>
+                        <h:outputText value="dok z cechami"/>
+                            <p:selectBooleanCheckbox value="#{dokfkView.wybranacechadok}" id="cechydokuk"
+                                         style="width: 200px; margin-left: 100px;" rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}">
+                            <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" 
+                                    onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                    update=":zestawieniedokumentow:dataList"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column>
                         <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist)}" styleClass="fkbutton"
                                          action="#{sesjaView.dodajwydruk()}" style="margin-left: 20px; width: 120px;"  rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"/>
                     </p:column>

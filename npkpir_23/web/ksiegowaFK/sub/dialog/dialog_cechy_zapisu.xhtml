@@ -7,11 +7,11 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <p:dialog id="dialogCechyZapisu" header="Wykaz bieżących cech zapisu/dokumentu" widgetVar="dialogCechyZapisu" resizable="false" 
-              onShow="ustawdialog('dialogCechyZapisu','menukartoteki',800,500);" focus=":formCH" 
+              onShow="ustawdialog('dialogCechyZapisu','menukartoteki',800,600);" focus=":formCH" 
               closeOnEscape="true">
         <h:form id="formCH" >
-            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" style="height: 300px;"
-                         paginator="true" rows="7" paginatorPosition="top" rowKey="#{item.cechazapisuPK.nazwacechy}">
+            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
+                        rowKey="#{item.cechazapisuPK.nazwacechy}" style="overflow-y: scroll; height: 400px;">
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="nazwa cechy"/>
@@ -30,39 +30,73 @@
                     </f:facet>
                     <h:outputText value="#{cechazapisuView.charakter(item.charaktercechy)}"/>
                 </p:column>
-                <p:column style="text-align: center;">
-                    <p:commandButton value="usuń"  actionListener="#{cechazapisuView.usun(item)}"
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="przesunięcie"/>
+                    </f:facet>
+                    <h:outputText value="#{cechazapisuView.przesuniecie(item.przesuniecie)}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="fa fa-edit"  actionListener="#{cechazapisuView.edit(item)}"
+                             update=":formCH:dataList formCH1:nowacecha"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton  icon="fa fa-trash"  actionListener="#{cechazapisuView.usun(item)}"
                              update=":formCH:dataList"/>
                 </p:column>
             </p:dataTable>
+            </h:form>
+        <h:form id="formCH1">
             <p:panelGrid id="nowacecha" >
                 <f:facet name="header">
                     <p:row>
                         <p:column>
-                            <h:outputText value="Nazwa cechy"/>
+                            <h:outputText value="nazwa cechy"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="Rodzaj cechy"/>
+                            <h:outputText value="rodzaj cechy"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="charakter"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="przesunięcie"/>
                         </p:column>
                     </p:row>
                 </f:facet>
                 <p:row>
                     <p:column>
-                        <p:inputText value="#{cechazapisuView.nazwacechy}" style="width: 150px;"/>
+                        <p:inputText value="#{cechazapisuView.selected.cechazapisuPK.nazwacechy}" style="width: 150px;" requiredMessage="Wpis nazwę cechy" required="true"/>
                     </p:column>
                     <p:column>
-                        <p:selectOneMenu value="#{cechazapisuView.rodzajcechy}" style="width: 300px;">
+                        <p:selectOneMenu value="#{cechazapisuView.selected.cechazapisuPK.rodzajcechy}" style="width: 300px;" requiredMessage="Wybierz rodzaj cechy" required="true">
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                             <f:selectItem itemLabel="nie stanowi k.u.p." itemValue="nkup"/>
                             <f:selectItem itemLabel="stanowi k.u.p. w m-c następnym" itemValue="kupmn"/>
                             <f:selectItem itemLabel="nie stanowi przychodu" itemValue="np"/>
                             <f:selectItem itemLabel="stanowi przychód w m-c następnym" itemValue="pmn"/>
                             <f:selectItem itemLabel="rmk" itemValue="rmk"/>
+                            <f:selectItem itemLabel="statystyczna" itemValue="statystyczna"/>
                         </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{cechazapisuView.selected.charaktercechy}" style="width: 140px;"  requiredMessage="Wybierz charakter cechy" required="true">
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="neutralna" itemValue="1"/>
+                            <f:selectItem itemLabel="koryguje przychody" itemValue="2"/>
+                            <f:selectItem itemLabel="koryguje koszty" itemValue="3"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{cechazapisuView.selected.przesuniecie}" style="width: 100px;"/>
                     </p:column>
                 </p:row>
             </p:panelGrid>
+            <p:outputPanel style="padding: 5px;">
+                <h:outputText value="*przesunięcie mówi o ile miesięcy w przód lub w tył rozliczać"/>
+            </p:outputPanel>
             <p:commandButton value="dodaj" style="width: 120px; margin-left: 10px;" actionListener="#{cechazapisuView.dodajnowacecha()}"
-                             update=":formCH:dataList"/>
+                             update=":formCH:dataList formCH1"/>
             
         </h:form>
     </p:dialog>

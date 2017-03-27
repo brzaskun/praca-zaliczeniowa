@@ -14,10 +14,7 @@ import java.io.Serializable;
 public class CharakterCechy implements Serializable {
     
     private static final long serialVersionUID = 1L;
-    public static final int NIEOKRESLONA = 0;
-    public static final int NEUTRALNA = 0;
-    public static final int PRZYCHOD = 1;
-    public static final int KOSZT = 2;
+
 
     public CharakterCechy() {
     }
@@ -26,14 +23,27 @@ public class CharakterCechy implements Serializable {
         String zwrot = "nieokreślona";
         switch(num) {
             case 1:
-                zwrot = "przychód";
+                zwrot = "neutralna";
                 break;
             case 2:
+                zwrot = "przychód";
+                break;
+            case 3:
                 zwrot = "koszt";
                 break;
             default:
                 zwrot = "nieokreślona";
                     
+        }
+        return zwrot;
+    }
+    
+    public static String przesuniecie(int num) {
+        String zwrot = "bez przesunięcia";
+        if (num > 0) {
+            zwrot = " do przodu o "+num+" mc";
+        } else if (num < 0) {
+            zwrot = " do tyłu o "+num+" mc";
         }
         return zwrot;
     }

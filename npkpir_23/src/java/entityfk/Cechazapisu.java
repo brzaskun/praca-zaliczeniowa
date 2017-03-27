@@ -42,6 +42,7 @@ public class Cechazapisu implements Serializable {
             
     
     public Cechazapisu() {
+        this.cechazapisuPK = new CechazapisuPK();
         this.dokfkLista = new ArrayList<>();
         this.stronaWierszaLista = new ArrayList<>();
         this.charaktercechy = -1;

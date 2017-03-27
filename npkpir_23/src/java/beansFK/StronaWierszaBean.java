@@ -183,6 +183,17 @@ public class StronaWierszaBean {
         }
         return pobranezapisy;
     }
+    
+    public static boolean niemacech(List<StronaWiersza> sw) {
+        boolean zwrot = true;
+        for (StronaWiersza w : sw) {
+            if (w.getCechazapisuLista() != null && w.getCechazapisuLista().size() > 0) {
+                zwrot = false;
+                break;  
+            }
+        }
+        return zwrot;
+    }
      
      public static void main(String[] args) {
             double kwotawaluta = 6851.63;

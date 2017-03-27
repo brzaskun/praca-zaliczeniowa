@@ -199,6 +199,7 @@ public class DokfkView implements Serializable {
     private List<Dokfk> filteredValue;
     private List<Dokfk> filteredValueimport;
     private String wybranakategoriadok;
+    private boolean wybranacechadok;
     private String wybranakategoriadokimport;
     private boolean ewidencjaVATRKzapis0edycja1;
     private Dokfk dokumentdousuniecia;
@@ -1578,38 +1579,56 @@ public class DokfkView implements Serializable {
     }
 
     public void odswiezzaksiegowane() {
-        if (pokazwszystkiedokumenty) {
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView);
-        } else {
-            if (wybranakategoriadok == null) {
-                wybranakategoriadok = "wszystkie";
-            }
-            if (wybranakategoriadok.equals("wszystkie")) {
-                if (wpisView.getMiesiacWpisu().equals("CR")) {
-                    wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
-                } else {
-                    wpisView.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-                    wpisView.wpisAktualizuj();
-                    wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-                }
-            } else if (wpisView.getMiesiacWpisu().equals("CR")) {
-                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+        try {
+            if (pokazwszystkiedokumenty) {
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView);
             } else {
-                wpisView.wpisAktualizuj();
-                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
-            }
-            if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
-                for (Iterator<Dokfk> it = wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
-                    Dokfk r = (Dokfk) it.next();
-                    if (r.isImportowany() == true) {
-                        it.remove();
+                if (wybranakategoriadok == null) {
+                    wybranakategoriadok = "wszystkie";
+                }
+                if (wybranakategoriadok.equals("wszystkie")) {
+                    if (wpisView.getMiesiacWpisu().equals("CR")) {
+                        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
+                    } else {
+                        wpisView.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+                        wpisView.wpisAktualizuj();
+                        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+                    }
+                } else if (wpisView.getMiesiacWpisu().equals("CR")) {
+                    wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+                } else {
+                    wpisView.wpisAktualizuj();
+                    wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
+                }
+                if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
+                    for (Iterator<Dokfk> it = wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
+                        Dokfk r = (Dokfk) it.next();
+                        if (r.isImportowany() == true) {
+                            it.remove();
+                        } else if (wybranacechadok) {
+                            boolean dousuniecia = false;
+                            boolean dousuniecia2 = false;
+                            if (r.getCechadokumentuLista() == null || r.getCechadokumentuLista().isEmpty()) {
+                                dousuniecia = true;
+                            }
+                            if (StronaWierszaBean.niemacech(r.getStronyWierszy())) {
+                                dousuniecia2 = true;
+                            }
+                            if (dousuniecia && dousuniecia2) {
+                                it.remove();
+                            }
+
+                        }
                     }
                 }
             }
+            dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
+            Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
+            filteredValue = null;
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","wystąpił błąd przy pobiernaiu dokumentów");
         }
-        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
-        Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
-        filteredValue = null;
     }
 
     public void sumawartosciwybranych() {
@@ -3055,6 +3074,16 @@ public class DokfkView implements Serializable {
     public void setZapisz0edytuj1(boolean zapisz0edytuj1) {
         this.zapisz0edytuj1 = zapisz0edytuj1;
     }
+
+    public boolean isWybranacechadok() {
+        return wybranacechadok;
+    }
+
+    public void setWybranacechadok(boolean wybranacechadok) {
+        this.wybranacechadok = wybranacechadok;
+    }
+
+    
 
     public Wiersz getWiersz() {
         return wiersz;

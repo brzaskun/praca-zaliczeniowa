@@ -28,11 +28,11 @@ public class CechazapisuView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject private CechazapisuDAOfk cechazapisuDAOfk;
     private List<Cechazapisu> pobranecechy;
-    private String nazwacechy;
-    private String rodzajcechy;
+    @Inject
+    private Cechazapisu selected;
 
     public CechazapisuView() {
-         E.m(this);
+        E.m(this);
         this.pobranecechy = new ArrayList<>();
     }
     
@@ -43,10 +43,14 @@ public class CechazapisuView implements Serializable {
     
     public void dodajnowacecha() {
         try {
-            Cechazapisu nc = new Cechazapisu(nazwacechy, rodzajcechy);
-            cechazapisuDAOfk.dodaj(nc);
-            pobranecechy.add(nc);
-            Msg.msg("Dodano nową cechę");
+            cechazapisuDAOfk.edit(selected);
+            if (!pobranecechy.contains(selected)) {
+                pobranecechy.add(selected);
+                Msg.msg("Dodano nową cechę");
+            } else {
+                Msg.msg("Wyedytowano wskazaną cechę");
+            }
+            selected = new Cechazapisu();
         } catch (Exception e) {
             Msg.dPe();
         }
@@ -54,34 +58,45 @@ public class CechazapisuView implements Serializable {
   
     public void usun(Cechazapisu c) {
         try {
-            cechazapisuDAOfk.destroy(c);
-            pobranecechy.remove(c);
-            Msg.msg("Usunięto cechę");
+            if (c.getCechazapisuPK().getNazwacechy().equals("KUPMN") || c.getCechazapisuPK().getNazwacechy().equals("NKUP") || c.getCechazapisuPK().getNazwacechy().equals("NPUP")|| c.getCechazapisuPK().getNazwacechy().equals("PMN")) {
+                Msg.msg("e", "Nie można usunąć cech podstawowych");
+                return;
+            } else {
+                cechazapisuDAOfk.destroy(c);
+                pobranecechy.remove(c);
+                Msg.msg("Usunięto cechę");
+            }
         } catch (Exception e) {
             Msg.dPe();
         }
     }
     
+    public void edit(Cechazapisu c) {
+        try {
+            selected = c;
+            Msg.msg("Wybrano cechę do edycji");
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+//<editor-fold defaultstate="collapsed" desc="comment">    
     public String charakter(int num) {
         return CharakterCechy.numtoString(num);
     }
     
-      //<editor-fold defaultstate="collapsed" desc="comment">
-    public String getNazwacechy() {
-        return nazwacechy;
+    public String przesuniecie(int num) {
+        return CharakterCechy.przesuniecie(num);
+    }
+    
+
+    public Cechazapisu getSelected() {
+        return selected;
     }
 
-    public void setNazwacechy(String nazwacechy) {
-        this.nazwacechy = nazwacechy;
+    public void setSelected(Cechazapisu selected) {
+        this.selected = selected;
     }
-
-    public String getRodzajcechy() {
-        return rodzajcechy;
-    }
-
-    public void setRodzajcechy(String rodzajcechy) {
-        this.rodzajcechy = rodzajcechy;
-    }
+   
        
     public List<Cechazapisu> getPobranecechy() {
         return pobranecechy;
