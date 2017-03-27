@@ -73,15 +73,15 @@ public class CechazapisuBean {
             if (p.getDokfk().getMiesiac().equals(mc)) {
                 if (nazwacechy.equals("NKUP") || nazwacechy.equals("KUPMN")) {
                     if (p.getWnma().equals("Wn")) {
-                        suma += p.getKwotaPLN();
+                        suma += Math.abs(p.getKwotaPLN());
                     } else {
-                        suma -= p.getKwotaPLN();
+                        suma -= Math.abs(p.getKwotaPLN());
                     }
                 } else {
                     if (p.getWnma().equals("Wn")) {
-                        suma -= p.getKwotaPLN();
+                        suma -= Math.abs(p.getKwotaPLN());
                     } else {
-                        suma += p.getKwotaPLN();
+                        suma += Math.abs(p.getKwotaPLN());
                     }
                 }
             }
