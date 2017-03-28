@@ -242,6 +242,8 @@
                             </p:dataTable>-->
                         </p:outputPanel>
                     </h:form>
+                    <h:outputText value="Uwaga! Sumowane są zapisy księgowe w danym dokumnecie, jeżeli oprócz kwot bezposrednio z dokumentu dokonano księgowań równoległych sumy w tabeli nie będa prawidłowe"
+                                  style="color: red;"/>
                 </p:tab>
                 <p:tab title="podsumowanie">
                     <p:panel header="firma nie będąca płatnikiem podatku VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>

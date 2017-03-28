@@ -88,7 +88,7 @@ public class VatUeFKView implements Serializable {
         if (listadokumentow != null) {
             Collections.sort(listadokumentow, new Dokfkcomparator());
             //a teraz podsumuj klientów
-            klienciWDTWNT.addAll(kontrahenci(listadokumentow));
+            klienciWDTWNT.addAll(kontrahenciUE(listadokumentow));
             double sumanettovatue = 0.0;
             double sumanettovatuewaluta = 0.0;
             for (Dokfk p : listadokumentow) {
@@ -152,7 +152,7 @@ public class VatUeFKView implements Serializable {
         }
     }
     
-    private Set<VatUe> kontrahenci(List<Dokfk> listadokumentow) {
+    private Set<VatUe> kontrahenciUE(List<Dokfk> listadokumentow) {
         Set<VatUe> klienty = new HashSet<>();
         for (Dokfk p : listadokumentow) {
             if (warunekkontrahenci(p)) {
