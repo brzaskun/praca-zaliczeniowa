@@ -242,11 +242,11 @@
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/blad_500.xhtml</location>
+        <location>/blad_500.xhtml?faces-redirect=true</location>
     </error-page>
     <error-page>
         <error-code>503</error-code>
-        <location>/blad_503.xhtml</location>
+        <location>/blad_503.xhtml?faces-redirect=true</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>

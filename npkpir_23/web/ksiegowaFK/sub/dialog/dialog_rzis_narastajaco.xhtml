@@ -1,0 +1,64 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:dialog id="dialog_rzis_narastajaco" header="Rachunek Zysków i Strat za okresy rozliczeniowe" widgetVar="dialog_rzis_narastajaco" 
+              resizable="false" onShow="ustawdialog('dialog_rzis_narastajaco','menubilanse', 1250, 780);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_narastajaco');"  >
+        <bcf:ajaxs/>
+        <h:form id="form_dialog_rzis_narastajaco">
+            <p:panelGrid columns="7">
+                <p:panelGrid columns="3">
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
+                    <p:selectOneMenu value="#{pozycjaBRZestawienieView.uklad}" converter="UkladBRConv">
+                        <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                        <p:ajax event="change" listener="#{pozycjaBRZestawienieView.zmianaukladprzegladRZiSBO()}" update="form_dialog_rzis_narastajaco"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData()}" update=":form_dialog_rzis_narastajaco"/>
+                </p:panelGrid>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{pozycjaBRZestawienieView.odswiezrzisBO()}" update="form_dialog_rzis_narastajaco" />
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                   <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 50px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRZestawienieView.drukujRZiSBO()}"/>
+                </p:column>
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="height: 600px;">
+                <p:column>
+                    <p:treeTable id="dataList" value="#{pozycjaBRZestawienieView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieView.selectedNodes}" 
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"
+                                 scrollable="true" style="height: 650px; margin-top: 0px; width: 700px; overflow-y: scroll;">
+                        <f:facet  name="header">
+                                <h:outputText value="#{mgs.rachunekzyskówistrat}"/>
+                            </f:facet>
+                        <p:column style="width: 440px;" headerText="pozycja">
+                            <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                            <h:outputText value=" " /> 
+                            <h:outputText value="#{loop.nazwa}" /> 
+                        </p:column>
+                        <p:column headerText="rok uprzedni">
+                            <h:outputText value="#{loop.kwotabo}" style="float: right; padding-right: 15%" rendered="#{loop.kwotabo != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="rok bieżący">
+                            <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%" rendered="#{loop.kwota!= 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:treeTable>
+                </p:column>
+                
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+
