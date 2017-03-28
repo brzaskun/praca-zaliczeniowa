@@ -4,10 +4,13 @@
  */
 package entityfk;
 
+import embeddable.Mce;
 import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -15,6 +18,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -48,8 +52,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PozycjaRZiS.findByUkladPodRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
     @NamedQuery(name = "PozycjaRZiS.findByUklad", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad")})
 public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
-   
-
+    
+    @Transient
+    private Map<String,Double> mce;
+    
     public PozycjaRZiS() {
     }
     
@@ -111,7 +117,6 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
         
     }
     
-
     @Override
     public Integer getLp() {
         return lp;
@@ -278,6 +283,14 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
     @Override
     public void setKwotabo(double kwotabo) {
         this.kwotabo = kwotabo;
+    }
+
+    public Map<String, Double> getMce() {
+        return mce;
+    }
+
+    public void setMce(Map<String, Double> mce) {
+        this.mce = mce;
     }
 
     @Override

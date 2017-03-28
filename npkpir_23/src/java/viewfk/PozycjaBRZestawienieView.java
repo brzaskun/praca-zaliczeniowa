@@ -146,18 +146,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         pozycje_old.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 0.0));
         pozycje_old.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
         pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
-        //tutaj dzieje sie magia :) tak funkcja przeksztalca baze danych w nody
         pozycje.addAll(pozycjaRZiSDAO.findAll());
-//        if (pozycje.size() == 0) {
-//            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-//            Msg.msg("i", "Dodaje pusta pozycje");
-//        }
-//        if (pozycje.size() > 0) {
-//            List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
-//            List<Konto> plankont = kontoDAO.findAll();
-//            ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
-//        }
-    
     }
     
 // to jest uruchamiane po wyborze ukladu pierwsza funkcja

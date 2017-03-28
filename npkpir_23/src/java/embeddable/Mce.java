@@ -389,6 +389,17 @@ public class Mce implements Serializable{
         }
         return -1;
     }
+
+    public static List getMiesiaceGranica(String mckoncowy) {
+        List mce = new ArrayList();
+        int granica = getMiesiacToNumber().get(mckoncowy);
+        for (String mc : getMceListS())  {
+            if (getMiesiacToNumber().get(mc) <= granica) {
+                mce.add(mc);
+            }
+        }
+        return mce;
+    }
    
     
     public Mce() {

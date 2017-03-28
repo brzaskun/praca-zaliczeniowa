@@ -6,19 +6,19 @@ package embeddablefk;
 
 import abstractClasses.ToBeATreeNodeObject;
 import comparator.Kontocomparator;
+import embeddable.Mce;
 import entityfk.Konto;
+import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
 import javax.inject.Named;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -250,9 +250,20 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
+     public void addNumbersNar(List<StronaWiersza> zapisynakontach, List<Konto> plankont, String mckoncowy) throws Exception {
+        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        this.getFinallChildren(finallNodes);
+        for (StronaWiersza stronaWiersza : zapisynakontach) {
+            String mc = stronaWiersza.getDokfk().getMiesiac();
+            if (Mce.getMiesiacToNumber().get(mc) <= Mce.getMiesiacToNumber().get(mckoncowy)) {
+                addNumbersloopNar(stronaWiersza, finallNodes, plankont, mc);
+            }
+        }
+    }
+    
     private void addNumbersloop(StronaWiersza stronaWiersza, ArrayList<TreeNodeExtended> finallNodes, List<Konto> plankont) {
         double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
-            double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
+        double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
                 Konto kontopobrane = stronaWiersza.getKonto();
                 if (kontopobrane.getPelnynumer().equals("755")) {
@@ -300,6 +311,64 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                             }
                         }
                         pozycja.setKwota(donaniesienia);
+                        ma = true;
+                    }
+                }
+                
+            //pobiermay dane z poszczegolnego konta
+            
+            } catch (Exception e) {
+                //throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
+            }
+    }
+    
+    private void addNumbersloopNar(StronaWiersza stronaWiersza, ArrayList<TreeNodeExtended> finallNodes, List<Konto> plankont, String mc) {
+        double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
+        double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
+            try {
+                Konto kontopobrane = stronaWiersza.getKonto();
+                String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
+                String pozycjaRZiS_ma = kontopobrane.getKontopozycjaID().getPozycjaMa();
+                boolean wn = false;
+                boolean ma = false;
+                for (TreeNodeExtended wybranapozycja : finallNodes) {
+                    if (wn==true && ma==true) {
+                        break;
+                    }
+                    //sprawdzamy czy dane konto nalezy do danego wezla
+                    PozycjaRZiS pozycja = (PozycjaRZiS) wybranapozycja.getData();
+                    if ((pozycja.getPozycjaString()).equals(pozycjaRZiS_wn)) {
+                        //pobieramy kwoty oraz to czy jest to przychod czy koszt
+                        double kwotapierwotna = Z.z(pozycja.getMce().get(mc));
+                        double donaniesienia = 0.0;
+                        pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
+                        if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
+                            donaniesienia = kwotapierwotna+kwotaWn;
+                        } else {
+                            if (kontopobrane.isPrzychod0koszt1() == true) {
+                                donaniesienia = kwotapierwotna+kwotaWn;
+                            } else {
+                                donaniesienia = kwotapierwotna-kwotaWn;
+                            }
+                        }
+                        pozycja.getMce().put(mc, donaniesienia);
+                        wn = true;
+                    }
+                    if ((pozycja.getPozycjaString()).equals(pozycjaRZiS_ma)) {
+                        //pobieramy kwoty oraz to czy jest to przychod czy koszt
+                        double kwotapierwotna = Z.z(pozycja.getMce().get(mc));
+                        double donaniesienia = 0.0;
+                        pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
+                        if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
+                            donaniesienia = kwotapierwotna+kwotaMa;
+                        } else {
+                            if (kontopobrane.isPrzychod0koszt1() == true) {
+                                donaniesienia = kwotapierwotna-kwotaMa;
+                            } else {
+                                donaniesienia = kwotapierwotna+kwotaMa;
+                            }
+                        }
+                        pozycja.getMce().put(mc, donaniesienia);
                         ma = true;
                     }
                 }
@@ -740,6 +809,36 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         } while (parents.size() > 0);
     }
     
+    public void sumNodesNar(String mckoncowy) {
+        List<String> mce = Mce.getMiesiaceGranica(mckoncowy);
+        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        this.getFinallChildren(finallNodes);
+        ArrayList<TreeNodeExtended> parents = new ArrayList<>();
+        do {
+            int lowestlevel = ustaldepth(finallNodes);
+            parents.clear();
+            for (TreeNodeExtended p : finallNodes) {
+                //ta fomula wyklyczamy roota i nody z formula do dodawania i odliczania kwot
+                if ((p.getParent()) instanceof TreeNodeExtended && !(p.getParent().getData() instanceof String) && p.getFormula().isEmpty()) {
+                    if (((PozycjaRZiSBilans) p.getData()).getLevel() == lowestlevel) {
+                        for (String mc : mce) {
+                            double kwotaparent = ((PozycjaRZiS) p.getParent().getData()).getMce().get(mc);
+                            double kwotanode = ((PozycjaRZiS) p.getData()).getMce().get(mc);
+                            ((PozycjaRZiS) p.getParent().getData()).getMce().put(mc,(Z.z(kwotaparent + kwotanode)));
+                        }
+                        if (!parents.contains(p.getParent())) {
+                            parents.add((TreeNodeExtended) p.getParent());
+                        }
+                    } else {
+                        parents.add(p);
+                    }
+                }
+            }
+            finallNodes.clear();
+            finallNodes.addAll(parents);
+        } while (parents.size() > 0);
+    }
+    
     public void sumNodesBO() {
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
@@ -847,6 +946,29 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
+    public void resolveFormulasNar(String mckoncowy) {
+        List<String> mce = Mce.getMiesiaceGranica(mckoncowy);
+        ArrayList<TreeNode> finallNodes = (ArrayList<TreeNode>) this.getChildren();
+        for (TreeNode p : finallNodes) {
+            try {
+                if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
+                    String formula = ((TreeNodeExtended) p).getFormula();
+                    int formulalength = formula.length();
+                    Character[] formulaParse = new Character[formulalength];
+                    for (int i = 0; i < formulalength; i++) {
+                        formulaParse[i] = formula.charAt(i);
+                    }
+                    for (String r : mce) {
+                        double wynik = dotheMathNar(finallNodes, formulaParse, formulalength,r);
+                        ((PozycjaRZiS) p.getData()).getMce().put(r,wynik);
+                    }
+                }
+            } catch (Exception e) {
+                
+            }
+        }
+    }
+    
     public void resolveFormulasBO() {
         ArrayList<TreeNode> finallNodes = (ArrayList<TreeNode>) this.getChildren();
         for (TreeNode p : finallNodes) {
@@ -900,6 +1022,21 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 wynik -= drugi.getKwota();
             } else {
                 wynik += drugi.getKwota();
+            }
+        }
+        return wynik;
+    }
+    
+    private double dotheMathNar(ArrayList<TreeNode> finallNodes, Character[] formulaParse, int formulalength, String mc) {
+        double wynik = ((PozycjaRZiS) findBypozycjaSymbol(finallNodes, formulaParse[0]).getData()).getMce().get(mc);
+        for (int i = 1; i < formulalength; i++) {
+            Character znak = formulaParse[i++];
+            TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
+            double kwota = ((PozycjaRZiS) drugi.getData()).getMce().get(mc);
+            if (znak == '-') {
+                wynik -= kwota;
+            } else {
+                wynik += kwota;
             }
         }
         return wynik;
