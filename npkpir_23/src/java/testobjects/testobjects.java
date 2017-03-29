@@ -657,6 +657,23 @@ public class testobjects {
        return tabela;
    }
    
+   public static List[] getTabelaRZiSNar(TreeNodeExtended rootProjektRZiS, List<String> mce) {
+       int level = rootProjektRZiS.ustaldepthDT();
+       List n = new ArrayList();
+       for (int i = 0; i < level; i++) {
+        n.add("");
+       }
+       n.add(B.b("nazwapozycjiRZiS"));
+       for (String m : mce) {
+           n.add(m);
+       }
+       List t = getWierszeRZiS(rootProjektRZiS, level);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
     public static List[] getTabelaRZiSBO(TreeNodeExtended rootProjektRZiS) {
        int level = rootProjektRZiS.ustaldepthDT();
        List n = new ArrayList();

@@ -22,7 +22,7 @@
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaRZiSNarView.obliczRZiSOtwarciaRZiSData()}" update=":form_dialog_rzis_narastajaco"/>
                 </p:panelGrid>
                 <p:column>
-                   <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 50px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaRZiSNarView.drukujRZiSBO()}"/>
+                   <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 50px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaRZiSNarView.drukujRZiSNar()}"/>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" style="height: 600px;">

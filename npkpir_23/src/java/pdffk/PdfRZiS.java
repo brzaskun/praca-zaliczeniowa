@@ -7,14 +7,18 @@ package pdffk;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
+import entity.Podatnik;
 import entity.Uz;
 import java.io.File;
+import java.util.List;
 import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
+import static pdffk.PdfMain.dodajTabeleNar;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
@@ -117,5 +121,44 @@ public class PdfRZiS {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
         }
     }
-    
+
+    public static void drukujRZiSNar(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (rootProjektRZiS != null && rootProjektRZiS.getChildren().size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = PdfMain.inicjacjaA4Landscape(20,20,20,20);
+            PdfWriter writer = inicjacjaWritera(document, nazwa,2);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            PdfMain.dodajOpisWstepnyKompakt(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            List<String> mce = Mce.getMiesiaceGranica(wpisView.getMiesiacWpisu());
+            int wielkosctabeli = mce.size() == 2 ? 50 : 75;
+            dodajTabeleNar(document, testobjects.testobjects.getTabelaRZiSNar(rootProjektRZiS, mce),wielkosctabeli,4,mce);
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "wydrukRZiS('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano RZiS do wydruku");
+        }
+    }
+    public static void main(String[] args) {
+        String nazwa = "RZiSobliczenie-";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        Document document = PdfMain.inicjacjaA4Landscape();
+        PdfWriter writer = inicjacjaWritera(document, nazwa,2);
+        naglowekStopkaP(writer);
+        otwarcieDokumentu(document, nazwa);
+        dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy", new Podatnik(), "03", "2017");
+        dodajTabele(document, testobjects.testobjects.getTabelaRZiS(new TreeNodeExtended("root", null)),75,0);
+        finalizacjaDokumentuQR(document,nazwa);
+        //String f = "wydrukRZiS('"+nazwa+"');";
+        //RequestContext.getCurrentInstance().execute(f);
+    }
 }

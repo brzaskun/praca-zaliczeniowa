@@ -129,6 +129,10 @@ public class PdfMain {
         return new Document(PageSize.A4_LANDSCAPE.rotate(), 20, 20, 40, 20);
     }
     
+     public static Document inicjacjaA4Landscape(int left, int right, int top, int bottom) {
+        return new Document(PageSize.A4_LANDSCAPE.rotate(), left, right, top, bottom);
+    }
+    
        
     private static Font[] czcionki() {
         try {
@@ -161,6 +165,24 @@ public class PdfMain {
             }
             PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwa));
             writer.setInitialLeading(16);
+            writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+            return writer;
+        } catch (DocumentException ex) {
+            System.out.println("Problem z otwarciem dokumentu PDFMain inicjacjaWritera");
+            E.e(ex);
+            return null;
+        }
+    }
+    
+    public static PdfWriter inicjacjaWritera(Document document, String nazwapliku, int leading) {
+        try {
+            String nazwa = nazwapliku + ".pdf";
+            File file = Plik.plik(nazwa, true);
+            if (file.isFile()) {
+                file.delete();
+            }
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwa));
+            writer.setInitialLeading(leading);
             writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
             return writer;
         } catch (DocumentException ex) {
@@ -358,6 +380,31 @@ public class PdfMain {
             document.add(opiswstepny);
         } catch (DocumentException ex) {
             System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny");
+            E.e(ex);
+        }
+    }
+    
+    public static void dodajOpisWstepnyKompakt(Document document, String opis, Podatnik podatnik, String mc, String rok) {
+        try {
+            StringBuilder s = new StringBuilder();
+            s.append(opis);
+            s.append(" ");
+            s.append(podatnik.getFirmaForma());
+            s.append(" ");
+            s.append(podatnik.getNazwapelna());
+            s.append(" NIP ");
+            s.append(podatnik.getNip());
+            s.append(" ");
+            s.append(B.b("danenakoniecmca"));
+            s.append(" ");
+            s.append(mc);
+            s.append("/");
+            s.append(rok);
+            Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
             E.e(ex);
         }
     }
@@ -571,6 +618,24 @@ public class PdfMain {
                 PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
                 ustawnaglowki(table, naglowki);
                 ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
+                document.add(table);
+            }
+        } catch (DocumentException ex) {
+            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
+            E.e(ex);
+        }
+    }
+    
+    public static void dodajTabeleNar(Document document, List[] tabela, int perc, int modyfikator, List<String> mce) {
+        try {
+            List naglowki = tabela[0];
+            List wiersze = tabela[1];
+            if (wiersze != null && wiersze.size() > 0) {
+                String nazwaklasy = wiersze.get(0).getClass().getName();
+                int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
+                PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
+                ustawnaglowki(table, naglowki);
+                ustawwierszeNar(table,wiersze, nazwaklasy, modyfikator, mce);
                 document.add(table);
             }
         } catch (DocumentException ex) {
@@ -925,6 +990,17 @@ public class PdfMain {
                     col71[levele++] = 10;
                     col71[levele++] = 3;
                     col71[levele] = 3;
+                    return col71;
+                }  else if (modyfikator==4) {//narastajaco
+                    int[] col71 = new int[size];
+                    int levele = size-3;
+                    for (int i = 0; i < levele ; i++) {
+                        col71[i] = 1;
+                    }
+                    col71[levele++] = 10;
+                    for (int i = levele; i < size ; i++) {
+                        col71[i] = 3;
+                    }
                     return col71;
                 }else if (modyfikator == 5) {//BO + Data
                     int[] col7 = new int[size];
@@ -2082,6 +2158,58 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS30())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+            }
+        }
+    }
+    
+    private static void ustawwierszeNar(PdfPTable table, List wiersze, String nazwaklasy, int modyfikator, List<String> mce) {
+        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        String l = locale.getLanguage();
+        NumberFormat currency = getCurrencyFormater();
+        NumberFormat number = getNumberFormater();
+        int i = 1;
+        int maxlevel = 0;
+        for (Iterator it = wiersze.iterator(); it.hasNext();) {
+            if (maxlevel == 0) {
+                for (Iterator<PozycjaRZiS> itX = wiersze.iterator(); itX.hasNext();) {
+                    PozycjaRZiS s = (PozycjaRZiS) itX.next();
+                    if (s.getLevel() > maxlevel) {
+                        maxlevel = s.getLevel();
+                    }
+                }
+            }
+            PozycjaRZiS p = (PozycjaRZiS) it.next();
+            int levelPlus = p.getLevel() + 1;
+            if (p.getLevel() != 0) {
+                for (int j = 0; j < p.getLevel(); j++) {
+                    table.addCell(ustawfrazeAlign("", "l", 7));
+                }
+            }
+            table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 7));
+            if (p.getLevel() < maxlevel) {
+                for (int k = levelPlus; k <= maxlevel; k++) {
+                    table.addCell(ustawfrazeAlign("", "l", 7));
+                }
+            }
+            if (p.getLevel() == 0) {
+                if (l.equals("pl")) {
+                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
+                }
+            } else {
+                if (l.equals("pl")) {
+                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
+                } else {
+                    table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
+                }
+            }
+            for (String m : mce) {
+                if (p.getMce().get(m) != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getMce().get(m))), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "right", 8));
                 }
             }
         }

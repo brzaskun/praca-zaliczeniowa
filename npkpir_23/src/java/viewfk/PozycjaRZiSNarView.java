@@ -32,6 +32,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdffk.PdfRZiS;
 import view.WpisView;
 
 /**
@@ -123,6 +124,10 @@ public class PozycjaRZiSNarView  implements Serializable {
             rootProjektRZiS.getChildren().clear();
             Msg.msg("e", e.getLocalizedMessage());
         }
+    }
+    
+    public void drukujRZiSNar() {
+        PdfRZiS.drukujRZiSNar(rootProjektRZiS, wpisView);
     }
     
     public WpisView getWpisView() {
