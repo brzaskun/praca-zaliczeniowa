@@ -57,6 +57,7 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
     private Map<String,Double> mce;
     
     public PozycjaRZiS() {
+        
     }
     
     public PozycjaRZiS(Integer lp) {

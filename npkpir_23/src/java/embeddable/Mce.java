@@ -450,6 +450,10 @@ public class Mce implements Serializable{
         return miesiacToNumber;
     }
     
+    public  Map<String, Integer> getMcToNumber() {
+        return miesiacToNumber;
+    }
+    
     public static Map<String, Integer> getMapamcyCalendar() {
         return mapamcyCalendar;
     }
@@ -457,6 +461,8 @@ public class Mce implements Serializable{
     public static Map<Integer, String> getNumberToNazwamiesiaca() {
         return numberToNazwamiesiaca;
     }
+    
+    
     
     public List<String> getMceList() {
         return mceList;

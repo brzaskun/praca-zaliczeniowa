@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialog_rzis_narastajaco" header="Rachunek Zysków i Strat za okresy rozliczeniowe" widgetVar="dialog_rzis_narastajaco" 
-              resizable="false" onShow="ustawdialog('dialog_rzis_narastajaco','menubilanse', 1250, 780);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_narastajaco');"  >
+              resizable="false" onShow="ustawdialog('dialog_rzis_narastajaco','menubilanse', 1600, 780);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_narastajaco');"  >
         <bcf:ajaxs/>
         <h:form id="form_dialog_rzis_narastajaco">
             <p:panelGrid columns="7">
@@ -28,8 +28,8 @@
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaRZiSNarView.rootProjektRZiS}" var="loop" selectionMode="checkbox" 
-                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"
-                                 scrollable="true" style="height: 650px; margin-top: 0px; width: 700px; overflow-y: scroll;">
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}" 
+                                 scrollable="true" style="height: 650px; margin-top: 0px; overflow-y: scroll; #{pozycjaRZiSNarView.obliczszerkosc()}">
                         <f:facet  name="header">
                                 <h:outputText value="#{mgs.rachunekzyskówistrat}"/>
                             </f:facet>
@@ -43,8 +43,58 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="02">
+                        <p:column headerText="02" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 1}">
                             <h:outputText value="#{loop.mce.get('02')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('02') != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="03" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 2}">
+                            <h:outputText value="#{loop.mce.get('03')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('03') != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="04" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 3}">
+                            <h:outputText value="#{loop.mce.get('04')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('04') != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="05"  rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 4}">
+                            <h:outputText value="#{loop.mce.get('05')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('05') != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="06" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 5}">
+                            <h:outputText value="#{loop.mce.get('06')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('06') != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="07" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 6}">
+                            <h:outputText value="#{loop.mce.get('07')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('07') != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="08" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 7}">
+                            <h:outputText value="#{loop.mce.get('08')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('08') != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                            <p:column headerText="09" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 8}">
+                               <h:outputText value="#{loop.mce.get('09')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('09') != 0.0}">
+                                   <f:convertNumber minFractionDigits="2" locale="PL"/>
+                               </h:outputText>
+                           </p:column>
+                         <p:column headerText="10" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 9}">
+                            <h:outputText value="#{loop.mce.get('10')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('10') != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="11" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 10}">
+                            <h:outputText value="#{loop.mce.get('11')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('11') != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="12" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 11}">
+                            <h:outputText value="#{loop.mce.get('12')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('12') != 0.0}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>

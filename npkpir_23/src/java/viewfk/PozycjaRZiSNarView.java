@@ -126,6 +126,32 @@ public class PozycjaRZiSNarView  implements Serializable {
         }
     }
     
+    public String obliczszerkosc() {
+        String zwrot = "width: ";
+        List mce = Mce.getMiesiaceGranica(wpisView.getMiesiacWpisu());
+        switch(mce.size()) {
+            case 1:
+            case 2:
+                zwrot += "850px;";
+            case 3:
+            case 4:
+                zwrot += "980px;";
+            case 5:
+            case 6:
+                zwrot += "1080px;";
+            case 7:
+            case 8:
+                zwrot += "1280px;";
+            case 9:
+            case 10:
+                zwrot += "1450px;";
+            case 11:
+            case 12:
+                zwrot += "1580px;";
+        }
+        return zwrot;
+    }
+    
     public void drukujRZiSNar() {
         PdfRZiS.drukujRZiSNar(rootProjektRZiS, wpisView);
     }

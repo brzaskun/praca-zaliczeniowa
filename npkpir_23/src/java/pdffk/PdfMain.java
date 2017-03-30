@@ -632,7 +632,7 @@ public class PdfMain {
             List wiersze = tabela[1];
             if (wiersze != null && wiersze.size() > 0) {
                 String nazwaklasy = wiersze.get(0).getClass().getName();
-                int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
+                int[] col = obliczKolumnyNar(naglowki.size(), mce.size());
                 PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
                 ustawnaglowki(table, naglowki);
                 ustawwierszeNar(table,wiersze, nazwaklasy, modyfikator, mce);
@@ -665,7 +665,18 @@ public class PdfMain {
         }
     }
     
-    
+     private static int[] obliczKolumnyNar(int size, int mce) {
+        int[] col71 = new int[size];
+        int levele = size-mce-1;
+        for (int i = 0; i < levele ; i++) {
+            col71[i] = 1;
+        }
+        col71[levele++] = 8;
+        for (int i = levele; i < size ; i++) {
+            col71[i] = 4;
+        }
+        return col71;
+     }                
         
     private static int[] obliczKolumny(int size, String classname, int modyfikator) {
         switch (classname) {
@@ -991,18 +1002,7 @@ public class PdfMain {
                     col71[levele++] = 3;
                     col71[levele] = 3;
                     return col71;
-                }  else if (modyfikator==4) {//narastajaco
-                    int[] col71 = new int[size];
-                    int levele = size-3;
-                    for (int i = 0; i < levele ; i++) {
-                        col71[i] = 1;
-                    }
-                    col71[levele++] = 10;
-                    for (int i = levele; i < size ; i++) {
-                        col71[i] = 3;
-                    }
-                    return col71;
-                }else if (modyfikator == 5) {//BO + Data
+                } else if (modyfikator == 5) {//BO + Data
                     int[] col7 = new int[size];
                     int levele = size-3;
                     for (int i = 0; i < levele ; i++) {
@@ -2183,7 +2183,7 @@ public class PdfMain {
             int levelPlus = p.getLevel() + 1;
             if (p.getLevel() != 0) {
                 for (int j = 0; j < p.getLevel(); j++) {
-                    table.addCell(ustawfrazeAlign("", "l", 7));
+                    table.addCell(ustawfrazeAlign("", "l", 7,20f));
                 }
             }
             table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 7));
