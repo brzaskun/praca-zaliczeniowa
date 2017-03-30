@@ -75,6 +75,9 @@
                     .tabelasrodkitrwaleOT td {
                        height: 30px; 
                     }
+                    .stawkaamort .ui-inputfield {
+                        width: 40px !important;
+                    }
                 </style>
                     <h:outputText value="Pamiętaj o wybraniu odpowiednich kont. Bez tego środek nie zostanie zaksięgowany" style="color:red;"/>
                 <p:dataTable id="tabelasrodkitrwaleOT" value="#{srodkiTrwaleView.selectedSTR}" var="loop" styleClass="tabelasrodkitrwaleOT"> 
@@ -106,9 +109,9 @@
                         </p:inputText>
                     </p:column>
                     <p:column headerText="stawka amort" width="50" style="text-align: center;">
-                        <p:inputText value="#{loop.stawka}" style="text-align: center;" size="4">
+                        <pe:inputNumber value="#{loop.stawka}" styleClass="stawkaamort" style="text-align: center; width: 40px;" decimalSeparator="." decimalPlaces="1" maxValue="100" maxlength="5">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
-                        </p:inputText>
+                        </pe:inputNumber>
                     </p:column>
                     <p:column headerText="cena zakupu" style="text-align: center;">
                         <pe:inputNumber value="#{loop.netto}" symbol=" zł" required="true" 

@@ -76,6 +76,7 @@ public class WpisView implements Serializable {
     private Integer zmianaokresuRok;
     private String zmianaokresuMc;
     private double stawkapodatkuospr;
+    private String zrodlo;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -107,7 +108,21 @@ public class WpisView implements Serializable {
     public void initpublic() {
         init();
     }
+    public String menustrona() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        String uri = ((HttpServletRequest) ctx.getExternalContext().getRequest()).getPathInfo();
+        zrodlo = uri+"?faces-redirect=true";
+        return "BookkeeperFK";
+    }
     
+    public String wroc() {
+        String zwrot = "/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true";
+        if (zrodlo != null) {
+            zwrot = zrodlo.toString();
+            zrodlo = null;
+        }
+        return zwrot;
+    }
     //swiezowpisany uzer nie ma ustawionych parametrow
     private void inicjacjaUz(Wpis wpis) {
         miesiacWpisu = Data.aktualnyMc();
@@ -373,6 +388,14 @@ public class WpisView implements Serializable {
 
     public void setRokNastepny(Integer rokNastepny) {
         this.rokNastepny = rokNastepny;
+    }
+
+    public String getZrodlo() {
+        return zrodlo;
+    }
+
+    public void setZrodlo(String zrodlo) {
+        this.zrodlo = zrodlo;
     }
 
     public double getStawkapodatkuospr() {

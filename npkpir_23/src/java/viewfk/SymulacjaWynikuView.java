@@ -143,8 +143,12 @@ public class SymulacjaWynikuView implements Serializable {
                 if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
                      if (r.getWnma().equals("Wn") && przychod0koszt1 == 1) {
                         sumaWn += r.getKwotaPLN();
+                     } else if (r.getWnma().equals("Wn") && przychod0koszt1 == 0 && r.getKwotaPLN() < 0.0) {
+                        sumaMa -= r.getKwotaPLN();
                      } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 0) {
                         sumaMa += r.getKwotaPLN(); 
+                     } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 1 && r.getKwotaPLN() < 0.0) {
+                        sumaWn -= r.getKwotaPLN(); 
                      }
                 } else {
                     if (r.getWnma().equals("Wn")) {
