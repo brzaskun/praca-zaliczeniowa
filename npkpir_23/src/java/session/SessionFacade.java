@@ -57,6 +57,7 @@ import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entity.Zusmail;
 import entity.Zusstawki;
+import entityfk.Cechazapisu;
 import entityfk.Delegacja;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
@@ -1996,6 +1997,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<SprawozdanieFinansowe> findSprawozdanieRokPodatnik(WpisView wpisView, String rok) {
         return em.createNamedQuery("SprawozdanieFinansowe.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", rok).getResultList();
+    }
+
+    public List<Cechazapisu> findCechaZapisuByPodatnik(Podatnik podatnikObiekt) {
+        return em.createNamedQuery("Cechazapisu.findByPodatnikOnly").setParameter("podatnik", podatnikObiekt).getResultList();
     }
 
     

@@ -6,13 +6,16 @@
 
 package entityfk;
 
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,6 +28,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Cechazapisu.findAll", query = "SELECT c FROM Cechazapisu c"),
+    @NamedQuery(name = "Cechazapisu.findByPodatnik", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik = :podatnik"),
+    @NamedQuery(name = "Cechazapisu.findByPodatnikOnly", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik IS NULL OR c.podatnik = :podatnik"),
     @NamedQuery(name = "Cechazapisu.findByNazwacechy", query = "SELECT c FROM Cechazapisu c WHERE c.cechazapisuPK.nazwacechy = :nazwacechy"),
     @NamedQuery(name = "Cechazapisu.findByRodzajcechy", query = "SELECT c FROM Cechazapisu c WHERE c.cechazapisuPK.rodzajcechy = :rodzajcechy")})
 public class Cechazapisu implements Serializable {
@@ -39,6 +44,9 @@ public class Cechazapisu implements Serializable {
     private int charaktercechy;
     @Column(name = "przesuniecie")
     private int przesuniecie;
+    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @ManyToOne
+    private Podatnik podatnik;
             
     
     public Cechazapisu() {
@@ -69,6 +77,14 @@ public class Cechazapisu implements Serializable {
     
     public void setCechazapisuPK(CechazapisuPK cechazapisuPK) {
         this.cechazapisuPK = cechazapisuPK;
+    }
+
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
     }
     
     public List<Dokfk> getDokfkLista() {

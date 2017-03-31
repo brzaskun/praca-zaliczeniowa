@@ -8,6 +8,7 @@ package viewfk;
 import beansFK.BOFKBean;
 import beansFK.KontaFKBean;
 import dao.StronaWierszaDAO;
+import daoFK.CechazapisuDAOfk;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.WalutyDAOfk;
@@ -15,6 +16,7 @@ import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import embeddablefk.Sprawozdanie_0;
+import entityfk.Cechazapisu;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Waluty;
@@ -66,6 +68,10 @@ public class SaldoAnalitykaView implements Serializable {
     private boolean zzapisami;
     private boolean tylkozapisywalutowe;
     private boolean bezslownikowych;
+    private String wybranacechadok;
+    private List<Cechazapisu> pobranecechypodatnik;
+    @Inject
+    private CechazapisuDAOfk cechazapisuDAOfk;
 
     public SaldoAnalitykaView() {
         E.m(this);
@@ -90,6 +96,7 @@ public class SaldoAnalitykaView implements Serializable {
                 }
             }
         }
+        pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
         listaSaldoKonto = new ArrayList<>();
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
@@ -121,6 +128,8 @@ public class SaldoAnalitykaView implements Serializable {
             init();
         }
     }
+    
+    
 
     public void initGenerowanieBO() {
         int rok = wpisView.getRokWpisu();
@@ -215,6 +224,40 @@ public class SaldoAnalitykaView implements Serializable {
 
     private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String rodzajkonta) {
         List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta);
+        if (wybranacechadok != null) {
+            for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
+                StronaWiersza p = it.next();
+                if (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0) {
+                    boolean usun = true;
+                    for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
+                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                            usun = false;
+                        }
+                    }
+                    if (usun) {
+                        it.remove();
+                    }
+                } else {
+                    it.remove();
+                }
+            }
+            for (Iterator<StronaWiersza> it = zapisyBO.iterator(); it.hasNext();) {
+                StronaWiersza p = it.next();
+                if (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0) {
+                    boolean usun = true;
+                    for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
+                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                            usun = false;
+                        }
+                    }
+                    if (usun) {
+                        it.remove();
+                    }
+                } else {
+                    it.remove();
+                }
+            }
+        }
         Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
         for (Konto p : kontaklienta) {
@@ -304,6 +347,22 @@ public class SaldoAnalitykaView implements Serializable {
 
     public void setSumaSaldoKonto(List<SaldoKonto> sumaSaldoKonto) {
         this.sumaSaldoKonto = sumaSaldoKonto;
+    }
+
+    public List<Cechazapisu> getPobranecechypodatnik() {
+        return pobranecechypodatnik;
+    }
+
+    public void setPobranecechypodatnik(List<Cechazapisu> pobranecechypodatnik) {
+        this.pobranecechypodatnik = pobranecechypodatnik;
+    }
+
+    public String getWybranacechadok() {
+        return wybranacechadok;
+    }
+
+    public void setWybranacechadok(String wybranacechadok) {
+        this.wybranacechadok = wybranacechadok;
     }
 
     public List<StronaWiersza> getWybranezpisykonta() {

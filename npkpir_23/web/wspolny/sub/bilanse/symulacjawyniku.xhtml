@@ -32,13 +32,14 @@
             };
         </script>
         <h:form id="formsymulacja">
-            <p:panelGrid columns="11" style="margin-left: 2%;" >
+            <p:panelGrid columns="13" style="margin-left: 2%;" >
                 <h:outputText value="rok" style="margin-right: 10px;"/>
                 <h:outputText value="#{WpisView.rokWpisuSt}" style="margin-right: 10px;"/>
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" update="akordeon:formsymulacja" oncomplete="pokazprzyciski();"/>
+                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
+                                update="akordeon:formsymulacja" oncomplete="pokazprzyciski();"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
@@ -55,6 +56,14 @@
                     <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" partialSubmit="true" update="akordeon:formsymulacja"
                             oncomplete="pokazprzyciski();"/>
                 </p:selectBooleanCheckbox>
+                <h:outputText value="księgowania z cechami"/>
+                            <p:selectOneMenu value="#{symulacjaWynikuView.wybranacechadok}" id="cechydokuk"
+                                         style="width: 200px;" >
+                            <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
+                                    update="akordeon:formsymulacja"  oncomplete="pokazprzyciski();"/>
+                            <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
+                            <f:selectItems value="#{symulacjaWynikuView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.cechazapisuPK.nazwacechy}" itemValue="#{item1.cechazapisuPK.nazwacechy}"/>
+                    </p:selectOneMenu>
             </p:panelGrid>
             
 
@@ -208,6 +217,7 @@
                     </p:dataTable>
                 </p:rowExpansion>
             </p:dataTable>
+            <p:outputPanel rendered="#{symulacjaWynikuView.wybranacechadok == null}">
             <p:dataTable id="tabelacechyzapisow" var="wpis" value="#{symulacjaWynikuView.zapisyZCecha}" editable="true" rowKey="#{wpis.id}"
                          emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" 
                          style="margin-top: 10px;width: 900px;"  scrollable="true" scrollRows="20" scrollHeight="300" 
@@ -283,6 +293,7 @@
             </p:dataTable>-->
             <p:commandButton value="#{mgs.zaksiegujrozliczenie}" actionListener="#{symulacjaWynikuView.zaksiegujwynik}"
                                 style="margin-top: 10px; width: 150px; margin-bottom: 400px;" update="akordeon:formsymulacjanarastajaco"/>
+            </p:outputPanel>
         </h:form>
     </p:tab>  
 </ui:composition>   

@@ -192,6 +192,7 @@ public class DokfkView implements Serializable {
     @Inject
     private CechazapisuDAOfk cechazapisuDAOfk;
     private List<Cechazapisu> pobranecechy;
+    private List<Cechazapisu> pobranecechypodatnik;
     private StronaWiersza stronaWierszaCechy;
     private List<Dokfk> filteredValue;
     private List<Dokfk> filteredValueimport;
@@ -239,6 +240,7 @@ public class DokfkView implements Serializable {
         this.zapisz0edytuj1 = false;
         this.listaewidencjivatRK = new ArrayList<>();
         this.pobranecechy = new ArrayList<>();
+        this.pobranecechypodatnik = new ArrayList<>();
         this.dokumentypodatnika = new ArrayList<>();
         this.wykazZaksiegowanychDokumentowSrodkiTrw = new ArrayList<>();
         this.wykazZaksiegowanychDokumentowRMK = new ArrayList<>();
@@ -260,6 +262,8 @@ public class DokfkView implements Serializable {
             klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             ewidencjadlaRKDEL = evewidencjaDAO.znajdzponazwie("zakup");
             wybranacechadok = null;
+            pobranecechy = cechazapisuDAOfk.findAll();
+            pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
             if (klientdlaPK == null) {
                 klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
             }
@@ -1575,6 +1579,8 @@ public class DokfkView implements Serializable {
         wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
         rodzajedokumentowPodatnika = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
         cechydokzlisty = znajdzcechy(wykazZaksiegowanychDokumentow);
+        pobranecechy = cechazapisuDAOfk.findAll();
+        pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
         wybranacechadok = null;
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
@@ -1797,20 +1803,22 @@ public class DokfkView implements Serializable {
     
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoStronaWierszaCecha() {
-        int idwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:lpwierszaWpisywanie"));
-        if (idwiersza > -1) {
-            Wiersz wiersz = selected.getListawierszy().get(idwiersza);
-            if (wnmadoprzeniesienia.equals("Wn")) {
-                stronaWierszaCechy = wiersz.getStronaWn();
-            } else {
-                stronaWierszaCechy = wiersz.getStronaMa();
+        if (pobranecechypodatnik != null) {
+            int idwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:lpwierszaWpisywanie"));
+            if (idwiersza > -1) {
+                Wiersz wiersz = selected.getListawierszy().get(idwiersza);
+                if (wnmadoprzeniesienia.equals("Wn")) {
+                    stronaWierszaCechy = wiersz.getStronaWn();
+                } else {
+                    stronaWierszaCechy = wiersz.getStronaMa();
+                }
+                pobranecechy = cechazapisuDAOfk.findAll();
+                List<Cechazapisu> cechyuzyte = stronaWierszaCechy.getCechazapisuLista();
+                for (Cechazapisu c : cechyuzyte) {
+                    pobranecechy.remove(c);
+                }
+                RequestContext.getCurrentInstance().update("formCHW");
             }
-            pobranecechy = cechazapisuDAOfk.findAll();
-            List<Cechazapisu> cechyuzyte = stronaWierszaCechy.getCechazapisuLista();
-            for (Cechazapisu c : cechyuzyte) {
-                pobranecechy.remove(c);
-            }
-            RequestContext.getCurrentInstance().update("formCHW");
         }
     }
 
@@ -2448,19 +2456,20 @@ public class DokfkView implements Serializable {
 
     private void obsluzcechydokumentu() {
         //usuwamy z listy dostepnych cech te, ktore sa juz przyporzadkowane do dokumentu
-        pobranecechy = cechazapisuDAOfk.findAll();
-        List<Cechazapisu> cechyuzyte = null;
-        if (selected != null) {
-            if (selected.getCechadokumentuLista() == null) {
-                cechyuzyte = new ArrayList<>();
-            } else {
-                cechyuzyte = selected.getCechadokumentuLista();
+        if (pobranecechypodatnik != null) {
+            List<Cechazapisu> cechyuzyte = null;
+            if (selected != null) {
+                if (selected.getCechadokumentuLista() == null) {
+                    cechyuzyte = new ArrayList<>();
+                } else {
+                    cechyuzyte = selected.getCechadokumentuLista();
+                }
+                for (Cechazapisu c : cechyuzyte) {
+                    pobranecechy.remove(c);
+                }
             }
-            for (Cechazapisu c : cechyuzyte) {
-                pobranecechy.remove(c);
-            }
+            RequestContext.getCurrentInstance().update("formCH");
         }
-        RequestContext.getCurrentInstance().update("formCH");
     }
 
     private double obliczsaldopoczatkowe() {
@@ -3174,6 +3183,14 @@ public class DokfkView implements Serializable {
 
     public void setWybranaTabelanbp(Tabelanbp wybranaTabelanbp) {
         this.wybranaTabelanbp = wybranaTabelanbp;
+    }
+
+    public List<Cechazapisu> getPobranecechypodatnik() {
+        return pobranecechypodatnik;
+    }
+
+    public void setPobranecechypodatnik(List<Cechazapisu> pobranecechypodatnik) {
+        this.pobranecechypodatnik = pobranecechypodatnik;
     }
 
     public boolean isPotraktujjakoNowaTransakcje() {

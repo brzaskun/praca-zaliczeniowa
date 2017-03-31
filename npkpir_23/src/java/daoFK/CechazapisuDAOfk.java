@@ -7,6 +7,7 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Podatnik;
 import entityfk.Cechazapisu;
 import java.io.Serializable;
 import java.util.List;
@@ -33,6 +34,10 @@ public class CechazapisuDAOfk extends DAO implements Serializable {
     
     public List<Cechazapisu> findAll() {
         return sessionFacade.findAll(Cechazapisu.class);
+    }
+
+    public List<Cechazapisu> findPodatnik(Podatnik podatnikObiekt) {
+        return sessionFacade.findCechaZapisuByPodatnik(podatnikObiekt);
     }
 
     

@@ -78,8 +78,17 @@
                         <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.zmienkryteriabezslownikowych}" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
                     </p:selectBooleanCheckbox>
                     <p:selectBooleanCheckbox id="zwaluta" itemLabel="zapisy w walucie" value="#{saldoAnalitykaView.tylkozapisywalutowe}" style="margin-left: 5px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}"
+                                update="formtablicaanalityczne:tablicasaldaanalityczne"/>
                     </p:selectBooleanCheckbox>
+                    <h:outputText value="księgowania z cechami"/>
+                            <p:selectOneMenu value="#{saldoAnalitykaView.wybranacechadok}" id="cechydokuk"
+                                         style="width: 200px;" >
+                            <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" 
+                                    update="formtablicaanalityczne:tablicasaldaanalityczne"/>
+                            <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
+                            <f:selectItems value="#{saldoAnalitykaView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.cechazapisuPK.nazwacechy}" itemValue="#{item1.cechazapisuPK.nazwacechy}"/>
+                    </p:selectOneMenu>
             </p:panelGrid>
             <p:remoteCommand actionListener="#{saldoAnalitykaView.sumujwybranekonta}" name="przeliczfilter" update=":tabelazsumamianalityka:sumy" global="false"/>
             <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.hashCode()}" 

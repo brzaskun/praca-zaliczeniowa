@@ -9,6 +9,7 @@ import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import beansFK.StronaWierszaBean;
 import dao.StronaWierszaDAO;
+import daoFK.CechazapisuDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import daoFK.WynikFKRokMcDAO;
@@ -24,6 +25,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.faces.bean.ManagedBean;
@@ -78,6 +80,10 @@ public class SymulacjaWynikuView implements Serializable {
     private List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCecha;
     private double wynikfinansowy;
     private boolean tylkokontasyntetyczne;
+    private String wybranacechadok;
+    private List<Cechazapisu> pobranecechypodatnik;
+    @Inject
+    private CechazapisuDAOfk cechazapisuDAOfk;
 
 
     public SymulacjaWynikuView() {
@@ -101,6 +107,7 @@ public class SymulacjaWynikuView implements Serializable {
         }
         listakontaprzychody = przygotowanalistasaldR(kontaklientaprzychody, 0);
         listakontakoszty = przygotowanalistasaldR(kontaklientakoszty, 1);
+        pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
         pobierzzapisyzcechami();
         obliczsymulacje();
 //        pozycjeDoWyplatyNarastajaco = symulacjaWynikuNarastajacoView.danedobiezacejsym();
@@ -118,6 +125,24 @@ public class SymulacjaWynikuView implements Serializable {
      private List<SaldoKonto> przygotowanalistasaldR(List<Konto> kontaklienta, int przychod0koszt1) {
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
         List<StronaWiersza> zapisyRok = pobierzzapisyR();
+        if (wybranacechadok != null) {
+            for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
+                StronaWiersza p = it.next();
+                if (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0) {
+                    boolean usun = true;
+                    for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
+                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                            usun = false;
+                        }
+                    }
+                    if (usun) {
+                        it.remove();
+                    }
+                } else {
+                    it.remove();
+                }
+            }
+        }
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
@@ -404,6 +429,22 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setWybraneprzychody(List<SaldoKonto> wybraneprzychody) {
         this.wybraneprzychody = wybraneprzychody;
+    }
+
+    public String getWybranacechadok() {
+        return wybranacechadok;
+    }
+
+    public void setWybranacechadok(String wybranacechadok) {
+        this.wybranacechadok = wybranacechadok;
+    }
+
+    public List<Cechazapisu> getPobranecechypodatnik() {
+        return pobranecechypodatnik;
+    }
+
+    public void setPobranecechypodatnik(List<Cechazapisu> pobranecechypodatnik) {
+        this.pobranecechypodatnik = pobranecechypodatnik;
     }
 
     public boolean isTylkokontasyntetyczne() {
