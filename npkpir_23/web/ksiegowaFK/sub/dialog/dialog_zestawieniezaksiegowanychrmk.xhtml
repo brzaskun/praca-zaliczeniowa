@@ -45,7 +45,7 @@
                     </p:column>
                     <p:column>
                         <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentowRMK, dokfkView.selectedlist)}" styleClass="fkbutton"
-                                         style="margin-left: 20px; width: 120px;"  rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"/>
+                                         style="margin-left: 20px; width: 120px;"  rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}"/>
                     </p:column>
                     <p:column>
                         <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 

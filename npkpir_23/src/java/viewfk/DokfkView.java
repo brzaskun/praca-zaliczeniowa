@@ -16,7 +16,6 @@ import beansFK.TabelaNBPBean;
 import beansPdf.PdfDokfk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import comparator.DokfkLPcomparator;
 import comparator.Dokfkcomparator;
 import comparator.Rodzajedokcomparator;
@@ -68,7 +67,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -99,7 +97,6 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
-import test.Rownolegle1;
 
 /**
  *
@@ -199,7 +196,8 @@ public class DokfkView implements Serializable {
     private List<Dokfk> filteredValue;
     private List<Dokfk> filteredValueimport;
     private String wybranakategoriadok;
-    private boolean wybranacechadok;
+    private String wybranacechadok;
+    private List cechydokzlisty;
     private String wybranakategoriadokimport;
     private boolean ewidencjaVATRKzapis0edycja1;
     private Dokfk dokumentdousuniecia;
@@ -213,7 +211,7 @@ public class DokfkView implements Serializable {
     private Tabelanbp wybranaTabelanbp;
     private String wierszedytowany;
     private List dokumentypodatnika;
-    private List dokumentypodatnikazestawienie;
+    private List rodzajedokumentowPodatnika;
     private double saldoBO;
     private int jest1niema0_konto;
     private String komunikatywpisdok;
@@ -244,6 +242,7 @@ public class DokfkView implements Serializable {
         this.dokumentypodatnika = new ArrayList<>();
         this.wykazZaksiegowanychDokumentowSrodkiTrw = new ArrayList<>();
         this.wykazZaksiegowanychDokumentowRMK = new ArrayList<>();
+        this.cechydokzlisty = new ArrayList<>();
     }
 
     //to zostaje bo tu i tak nie pobiera dokumentow
@@ -260,6 +259,7 @@ public class DokfkView implements Serializable {
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             ewidencjadlaRKDEL = evewidencjaDAO.znajdzponazwie("zakup");
+            wybranacechadok = null;
             if (klientdlaPK == null) {
                 klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
             }
@@ -1573,7 +1573,9 @@ public class DokfkView implements Serializable {
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
         wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
-        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
+        rodzajedokumentowPodatnika = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
+        cechydokzlisty = znajdzcechy(wykazZaksiegowanychDokumentow);
+        wybranacechadok = null;
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
     }
@@ -1605,24 +1607,26 @@ public class DokfkView implements Serializable {
                         Dokfk r = (Dokfk) it.next();
                         if (r.isImportowany() == true) {
                             it.remove();
-                        } else if (wybranacechadok) {
-                            boolean dousuniecia = false;
-                            boolean dousuniecia2 = false;
-                            if (r.getCechadokumentuLista() == null || r.getCechadokumentuLista().isEmpty()) {
-                                dousuniecia = true;
-                            }
-                            if (StronaWierszaBean.niemacech(r.getStronyWierszy())) {
-                                dousuniecia2 = true;
-                            }
-                            if (dousuniecia && dousuniecia2) {
+                        } else if (wybranacechadok != null) {
+                            boolean dousuniecia = true;
+                            if (r.getCechadokumentuLista() != null && r.getCechadokumentuLista().size() > 0) {
+                                for (Cechazapisu ch : r.getCechadokumentuLista()) {
+                                    if (ch.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                                        dousuniecia = false;
+                                    }
+                                }
+                                if (dousuniecia) {
+                                    it.remove();
+                                }
+                            } else {
                                 it.remove();
                             }
-
                         }
                     }
                 }
             }
-            dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
+            rodzajedokumentowPodatnika = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
+            cechydokzlisty = znajdzcechy(wykazZaksiegowanychDokumentow);
             Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
             filteredValue = null;
         } catch (Exception e) {
@@ -3075,15 +3079,14 @@ public class DokfkView implements Serializable {
         this.zapisz0edytuj1 = zapisz0edytuj1;
     }
 
-    public boolean isWybranacechadok() {
+    public String getWybranacechadok() {
         return wybranacechadok;
     }
 
-    public void setWybranacechadok(boolean wybranacechadok) {
+    public void setWybranacechadok(String wybranacechadok) {
         this.wybranacechadok = wybranacechadok;
     }
-
-    
+ 
 
     public Wiersz getWiersz() {
         return wiersz;
@@ -3256,12 +3259,12 @@ public class DokfkView implements Serializable {
         this.lpwierszaRK = lpwierszaRK;
     }
 
-    public List getDokumentypodatnikazestawienie() {
-        return dokumentypodatnikazestawienie;
+    public List getRodzajedokumentowPodatnika() {
+        return rodzajedokumentowPodatnika;
     }
 
-    public void setDokumentypodatnikazestawienie(List dokumentypodatnikazestawienie) {
-        this.dokumentypodatnikazestawienie = dokumentypodatnikazestawienie;
+    public void setRodzajedokumentowPodatnika(List rodzajedokumentowPodatnika) {
+        this.rodzajedokumentowPodatnika = rodzajedokumentowPodatnika;
     }
 
     public List<Dokfk> getWykazZaksiegowanychDokumentowRMK() {
@@ -3270,6 +3273,14 @@ public class DokfkView implements Serializable {
 
     public void setWykazZaksiegowanychDokumentowRMK(List<Dokfk> wykazZaksiegowanychDokumentowRMK) {
         this.wykazZaksiegowanychDokumentowRMK = wykazZaksiegowanychDokumentowRMK;
+    }
+
+    public List getCechydokzlisty() {
+        return cechydokzlisty;
+    }
+
+    public void setCechydokzlisty(List cechydokzlisty) {
+        this.cechydokzlisty = cechydokzlisty;
     }
 
     public int getRodzaj() {
@@ -3327,10 +3338,29 @@ public class DokfkView implements Serializable {
             Collections.sort(t, new Rodzajedokcomparator());
             return t;
         } else {
-            return dokumentypodatnikazestawienie;
+            return rodzajedokumentowPodatnika;
         }
     }
 
+    private List znajdzcechy(List<Dokfk> wykazZaksiegowanychDokumentow) {
+        if (wybranacechadok == null || wybranacechadok.equals("")) {
+            Set<String> lista = new HashSet<>();
+            for (Dokfk p : wykazZaksiegowanychDokumentow) {
+                if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
+                    for (Cechazapisu r : p.getCechadokumentuLista()) {
+                        lista.add(r.getCechazapisuPK().getNazwacechy());
+                    }
+                }
+            }
+            List<String> t = new ArrayList<>(lista);
+            Collections.sort(t);
+            return t;
+        } else {
+            return cechydokzlisty;
+        }
+    }
+    
+    
     public void powiekszliste() {
         dataTablezaksiegowane.setStyle("height: 800px;");
     }
@@ -3582,4 +3612,6 @@ public class DokfkView implements Serializable {
     public void dodajewidencjenaprawa() {
         
     }
+
+    
 }
