@@ -2003,5 +2003,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("Cechazapisu.findByPodatnikOnly").setParameter("podatnik", podatnikObiekt).getResultList();
     }
 
+    public List<Fakturywystokresowe> findOkresoweOstatnieByfaktura(Faktura p) {
+        return em.createNamedQuery("Fakturywystokresowe.findByFaktura").setParameter("faktura", p).getResultList();
+    }
+
     
 }

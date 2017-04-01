@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Faktura;
 import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import error.E;
@@ -78,6 +79,14 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
      public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc, String rok) {
         try {
             return fakturywystokresoweFacade.findOkresoweOstatnie(podatnik, mc, rok);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+
+    public List<Fakturywystokresowe> findFakturaOkresowaByFaktura(Faktura p) {
+        try {
+            return fakturywystokresoweFacade.findOkresoweOstatnieByfaktura(p);
         } catch (Exception e) { E.e(e); 
             return null;
         }

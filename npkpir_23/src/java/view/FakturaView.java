@@ -76,6 +76,7 @@ import dao.SMTPSettingsDAO;
 import data.Data;
 import entity.FakturaStopkaNiemiecka;
 import entity.FakturaWalutaKonto;
+import entity.Fakturyokresowe;
 import pdf.PdfFakturyOkresowe;
 import waluty.Z;
 
@@ -559,6 +560,14 @@ public class FakturaView implements Serializable {
     public void wymusdestroysporzadzone() {
         for (Faktura p : gosciwybral) {
             try {
+                List<Fakturywystokresowe> f = fakturywystokresoweDAO.findFakturaOkresowaByFaktura(p);
+                boolean mialokresowo = false;
+                if (f != null && f.size() > 1) {
+                    for (Fakturywystokresowe fw : f) {
+                        fakturywystokresoweDAO.destroy(fw);
+                    }
+                    mialokresowo = true;
+                }
                 fakturaDAO.destroy(p);
                 faktury.remove(p);
                 if (fakturyFiltered != null) {
@@ -568,7 +577,11 @@ public class FakturaView implements Serializable {
                     zaktualizujokresowa(p);
                 }
                 Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
-            } catch (Exception e) { E.e(e); 
+                if (mialokresowo) {
+                    Msg.msg("i", "Usunięto też fakturę okresową, która powstała na bazie usuwanej");
+                }
+            } catch (Exception e) { 
+                E.e(e); 
                 Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
             }
         }
