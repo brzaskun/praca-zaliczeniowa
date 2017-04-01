@@ -503,7 +503,6 @@ public class DokfkView implements Serializable {
     public void podepnijEwidencjeVat(int rodzaj) {
             boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
             if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5 && !nievatowiec) {
-                if (selected.iswTrakcieEdycji() == false) {
                     if (rodzaj == 0) {
                         this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
                     }
@@ -533,7 +532,6 @@ public class DokfkView implements Serializable {
                         this.selected.getEwidencjaVAT().add(eVatwpisFK);
                     }
                     RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
-                }
             } else {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             }
@@ -585,29 +583,32 @@ public class DokfkView implements Serializable {
     }
 
     public void dolaczWierszeZKwotami(EVatwpisFK evatwpis) {
-        //Msg.msg("dolaczWierszeZKwotami");
-        Rodzajedok rodzajdok = selected.getRodzajedok();
-        double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
-        if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
-            if (rodzajdok.getKategoriadokumentu() == 1) {
-                if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
-                    //oblicza polowe vat dla faktur samochody osobowe
-                    evatwpis.setVat(Z.z(wartosciVAT[4]));
-                    evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
-                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
-                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
+        if (!selected.iswTrakcieEdycji()){
+            Rodzajedok rodzajdok = selected.getRodzajedok();
+            double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
+            if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
+                if (rodzajdok.getKategoriadokumentu() == 1) {
+                    if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
+                        //oblicza polowe vat dla faktur samochody osobowe
+                        evatwpis.setVat(Z.z(wartosciVAT[4]));
+                        evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
+                        RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
+                        RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
+                    }
+                    DokFKVATBean.rozliczVatKoszt(evatwpis, wartosciVAT, selected, kliencifkDAO, kontoDAOfk, wpisView, dokDAOfk);
+                } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
+                    DokFKVATBean.rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kliencifkDAO, kontoDAOfk, wpisView, dokDAOfk);
                 }
-                DokFKVATBean.rozliczVatKoszt(evatwpis, wartosciVAT, selected, kliencifkDAO, kontoDAOfk, wpisView, dokDAOfk);
-            } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
-                DokFKVATBean.rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kliencifkDAO, kontoDAOfk, wpisView, dokDAOfk);
+            } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 1) {
+                DokFKVATBean.rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView);
+            } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 2) {
+                DokFKVATBean.rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView);
             }
-        } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 1) {
-            DokFKVATBean.rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView);
-        } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 2) {
-            DokFKVATBean.rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView);
+            selected.przeliczKwotyWierszaDoSumyDokumentu();
+            RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+        } else {
+            Msg.msg("w", "Dokument w trybie edycji. Automatyczne dodawanie wierszy wyłączone");
         }
-        selected.przeliczKwotyWierszaDoSumyDokumentu();
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
     }
 
     public void dolaczWierszZKwotamiRK() {
@@ -907,6 +908,7 @@ public class DokfkView implements Serializable {
                 selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size() - 1).getSaldoWBRK());
 
             }
+            selected.setwTrakcieEdycji(false);
             try {
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 if (selected.getDokfkPK().getSeriadokfk().equals("BO")) {
@@ -1367,10 +1369,7 @@ public class DokfkView implements Serializable {
 
     public void przygotujDokumentEdycja(Dokfk wybranyDokfk, Integer row) {
         try {
-            if (wybranyDokfk.iswTrakcieEdycji() == true) {
                 wybranyDokfk.setwTrakcieEdycji(true);
-                Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
-            } else {
                 idwierszedycjaodswiezenie = row;
                 selected = wybranyDokfk;
                 //selected.setwTrakcieEdycji(true);
@@ -1402,7 +1401,6 @@ public class DokfkView implements Serializable {
 //                    System.out.println("Udane obliczenie salda");
 //                }
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-            }
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
@@ -1412,10 +1410,7 @@ public class DokfkView implements Serializable {
     public void przygotujDokumentEdycjaAnalityka(StronaWiersza strona, Integer duzyrow, Integer row) {
         Dokfk wybranyDokfk = strona.getDokfk();
         try {
-            if (wybranyDokfk.iswTrakcieEdycji() == true) {
                 wybranyDokfk.setwTrakcieEdycji(true);
-                Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
-            } else {
                 idwierszedycjaodswiezenie = row;
                 duzyidwierszedycjaodswiezenie = duzyrow;
                 selected = wybranyDokfk;
@@ -1441,7 +1436,6 @@ public class DokfkView implements Serializable {
                 }
                 edycjaanalityczne();
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-            }
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
@@ -1459,27 +1453,22 @@ public class DokfkView implements Serializable {
         try {
             Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
             wierszedytowany = "zestawieniedokumentowimport:dataListImport:" + String.valueOf(row) + ":";
-            if (odnalezionywbazie.iswTrakcieEdycji() == true) {
-                wybranyDokfk.setwTrakcieEdycji(true);
-                Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
-                RequestContext.getCurrentInstance().update(wierszedytowany);
+            wybranyDokfk.setwTrakcieEdycji(true);
+            selected = wybranyDokfk;
+            selected.setwTrakcieEdycji(true);
+            wybranaTabelanbp = selected.getTabelanbp();
+            tabelenbp = new ArrayList<>();
+            tabelenbp.add(wybranaTabelanbp);
+            obsluzcechydokumentu();
+            RequestContext.getCurrentInstance().update(wierszedytowany);
+            Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
+            zapisz0edytuj1 = true;
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                pokazPanelWalutowy = true;
             } else {
-                selected = wybranyDokfk;
-                selected.setwTrakcieEdycji(true);
-                wybranaTabelanbp = selected.getTabelanbp();
-                tabelenbp = new ArrayList<>();
-                tabelenbp.add(wybranaTabelanbp);
-                obsluzcechydokumentu();
-                RequestContext.getCurrentInstance().update(wierszedytowany);
-                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
-                zapisz0edytuj1 = true;
-                if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                    pokazPanelWalutowy = true;
-                } else {
-                    pokazPanelWalutowy = false;
-                }
-                rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
+                pokazPanelWalutowy = false;
             }
+            rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
@@ -1535,6 +1524,7 @@ public class DokfkView implements Serializable {
 //    //dodalem to tutaj a nie przy funkcji edytuj bo wtedy nie wyswietlalo wiadomosci o edycji
     public void przywrocwpisbutton() {
         setZapisz0edytuj1(false);
+        selected.setwTrakcieEdycji(false);
         RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
     }
 
