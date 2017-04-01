@@ -48,7 +48,7 @@
                         }
                     }
             </script>-->
-              <p:panelGrid columns="8">
+              <p:panelGrid columns="10">
 <!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
@@ -83,8 +83,9 @@
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                   </p:selectOneMenu>
                    <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaBRKontaView.uklad}" converter="UkladBRConv">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                   <p:selectOneMenu value="#{planKontView.wybranyuklad}" converter="UkladBRConv">
+                        <f:selectItems value="#{planKontView.listaukladow}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                        <p:ajax event="change" update="form_dialog_plankont:dataList" listener="#{planKontView.zmienuklad()}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
             <p:outputPanel style="padding: 10px;">

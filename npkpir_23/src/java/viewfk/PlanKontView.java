@@ -7,7 +7,6 @@ package viewfk;
 import beansFK.KontaFKBean;
 import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import comparator.Kontocomparator;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
@@ -20,6 +19,7 @@ import daoFK.KontopozycjaZapisDAO;
 import daoFK.MiejsceKosztowDAO;
 import daoFK.MiejscePrzychodowDAO;
 import daoFK.PojazdyDAO;
+import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -104,6 +103,10 @@ public class PlanKontView implements Serializable {
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private WierszBODAO wierszBODAO;
+    @Inject
+    private PozycjaRZiSDAO pozycjaRZiSDAO;
+    @Inject
+    private KontoDAOfk kontoDAO;
     private String infozebrakslownikowych;
     @ManagedProperty(value = "#{planKontCompleteView}")
     private PlanKontCompleteView planKontCompleteView;
@@ -115,6 +118,9 @@ public class PlanKontView implements Serializable {
     private String elementslownika_numerkonta;
     private String styltabeliplankont;
     private boolean usunprzyporzadkowanie;
+    private List<UkladBR> listaukladow;
+    private UkladBR wybranyuklad;
+    
 
     public PlanKontView() {
         bezslownikowych = true;
@@ -125,6 +131,10 @@ public class PlanKontView implements Serializable {
     
     public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+        wybranyuklad = pobierzukladaktywny(listaukladow);
+        PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         int czysaslownikowe = sprawdzkonta();
         if (czysaslownikowe == 0) {
             infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
@@ -141,6 +151,20 @@ public class PlanKontView implements Serializable {
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         styltabeliplankont = opracujstylwierszatabeli();
         //rootwzorcowy = rootInit(wykazkontwzor);
+    }
+    
+    public void zmienuklad() {
+        listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+        for (UkladBR p : listaukladow) {
+            p.setAktualny(false);
+        }
+        ukladBRDAO.editList(listaukladow);
+        wybranyuklad.setAktualny(true);
+        ukladBRDAO.edit(wybranyuklad);
+        PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Collections.sort(wykazkont, new Kontocomparator());
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
@@ -1648,6 +1672,30 @@ public class PlanKontView implements Serializable {
           return potomne;
       }
     
+    private UkladBR pobierzukladaktywny(List<UkladBR> listaukladow) {
+        UkladBR wybrany = null;
+        boolean mamaktualny = false;
+        if (listaukladow != null) {
+            for (UkladBR p : listaukladow) {
+                if (p.isAktualny() && mamaktualny == false) {
+                    wybrany = p;
+                    mamaktualny = true;
+                } else if (mamaktualny == true) {
+                    p.setAktualny(false);
+                }
+            }
+            if (wybrany == null) {
+                for (UkladBR p : listaukladow) {
+                    if (p.getUklad().contains("Podstawowy")) {
+                       p.setAktualny(true);
+                       wybrany = p;
+                    }
+                }
+            }
+            ukladBRDAO.editList(listaukladow);
+        }
+        return wybrany;
+    }
 //    "#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
 //    (loop.zwyklerozrachszczegolne eq 'zwykłe ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : 'rowb_rozrachunkowe') :
 //    (planKontView.kontadowyswietlenia eq 'wynikowe' ?
@@ -1712,7 +1760,6 @@ public class PlanKontView implements Serializable {
         this.wpisView = wpisView;
     }
 
-//</editor-fold>
     public List<Konto> getWykazkontwzor() {
         return wykazkontwzor;
     }
@@ -1801,6 +1848,22 @@ public class PlanKontView implements Serializable {
         this.styltabeliplankont = styltabeliplankont;
     }
 
+    public List<UkladBR> getListaukladow() {
+        return listaukladow;
+    }
+
+    public void setListaukladow(List<UkladBR> listaukladow) {
+        this.listaukladow = listaukladow;
+    }
+
+    public UkladBR getWybranyuklad() {
+        return wybranyuklad;
+    }
+
+    public void setWybranyuklad(UkladBR wybranyuklad) {
+        this.wybranyuklad = wybranyuklad;
+    }
+
     public boolean isUsunprzyporzadkowanie() {
         return usunprzyporzadkowanie;
     }
@@ -1808,6 +1871,10 @@ public class PlanKontView implements Serializable {
     public void setUsunprzyporzadkowanie(boolean usunprzyporzadkowanie) {
         this.usunprzyporzadkowanie = usunprzyporzadkowanie;
     }
+
+    //</editor-fold>
+    
+    
 
     
 

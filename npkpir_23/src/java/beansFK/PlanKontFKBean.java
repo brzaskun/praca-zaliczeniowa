@@ -533,9 +533,6 @@ public class PlanKontFKBean {
             nowekonto.setSlownikowe(true);
             nowekonto.setPrzychod0koszt1(kontomacierzyste.isPrzychod0koszt1());
             int wynikdodaniakonta = 1;
-            if (numerkonta == 13) {
-                System.out.println("");
-            }
             wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, String.valueOf(numerkonta), wpisView);
             Konto konto = znajdzduplikat(wykazkont, nowekonto, kontoDAOfk, wpisView);
             if (konto != null && konto.getKontopozycjaID() == null) {
