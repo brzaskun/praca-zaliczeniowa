@@ -65,7 +65,6 @@
             </p:panelGrid>
         </h:form>
         <h:form id="form7" > 
-            <f:ajax >
             <p:focus for="parametryDokKsi"/><br/>
             <h:outputText value="Wpisz nowy dokument/Edytuj dane dokumentu" style="padding: 5px; margin-bottom: 10px;"/>
             
@@ -146,8 +145,8 @@
                 </p:panelGrid>
             
             <p:panelGrid columns="2" style="column-width: 350px; width: 300px; padding: 10px;">
-                <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" value="dodaj dokument" update=":akordeon:form6, :akordeon:form7" />
-                <p:commandButton actionListener="#{podatnikView.editdok()}" value="edytuj dokument" update=":akordeon:form6, :akordeon:form7" />
+                <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" global="false" value="dodaj dokument" update=":akordeon:form6:pDokKsi :akordeon:form7" />
+                <p:commandButton actionListener="#{podatnikView.editdok()}" global="false" value="edytuj dokument" update=":akordeon:form6:pDokKsi :akordeon:form7" />
             </p:panelGrid>
             <p:panelGrid columns="1" style="margin-top: 15px;">
                 <h:outputText value="*Dopuszczalne elementy wzorca: n - numer kolejny w roku, N - numer kolejny w miesiącu,	m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
@@ -155,7 +154,6 @@
                 <h:outputText value="***Dotyczy faktur tyypu WNT. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. WNT: 8"/>
             </p:panelGrid>
                 
-                </f:ajax>
         </h:form>
     </p:tab>
 </ui:composition> 

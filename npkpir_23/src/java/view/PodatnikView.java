@@ -5,8 +5,6 @@
 package view;
 
 import beanParametr.BeanParamSuper;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
-import dao.ParamVatUEDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
@@ -915,7 +913,8 @@ public class PodatnikView implements Serializable {
             rodzajedokDAO.edit(selectedDokKsi);
             selectedDokKsi = new Rodzajedok();
             Msg.msg("i", "Wyedytowano wzorce dokumentów");
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie zmieniono dokumentów");
         }
     }
