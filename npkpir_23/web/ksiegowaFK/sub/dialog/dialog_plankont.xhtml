@@ -100,8 +100,10 @@
                              styleClass="tablicaplankont" rowHover="true" initMode="immediate" editable="true" editMode="cell"
                              style="width: 1280px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
+                             rowIndexVar="index"
                              >
-                    <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
+                    <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" 
+                            listener="#{planKontView.selrow}" global="false"/>
                     <p:columnGroup type="header">
                         <p:row>
                             <p:column colspan="1" headerText="" width="1" />
@@ -134,7 +136,7 @@
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                     </p:column>
                     <p:column  style="width: 200px;">
-                        <h:outputText value="#{loop.nazwapelna}" /> 
+                        <h:outputText id="nazwapelna" value="#{loop.nazwapelna}" /> 
                         <h:outputText value=" id " rendered="#{loop.idslownika gt 0}"/> 
                         <h:outputText value="#{loop.idslownika}" rendered="#{loop.idslownika gt 0}"/> 
                     </p:column>

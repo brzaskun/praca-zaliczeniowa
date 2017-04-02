@@ -41,15 +41,19 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
 import msg.Msg;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import pdffk.PdfPlanKont;
 import view.WpisView;
@@ -120,6 +124,7 @@ public class PlanKontView implements Serializable {
     private boolean usunprzyporzadkowanie;
     private List<UkladBR> listaukladow;
     private UkladBR wybranyuklad;
+    private String wybranapozycja_wiersz;
     
 
     public PlanKontView() {
@@ -131,7 +136,7 @@ public class PlanKontView implements Serializable {
     
     public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+        listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
         wybranyuklad = pobierzukladaktywny(listaukladow);
         PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
@@ -893,8 +898,8 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontPodatnika() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         //resetuj kolumne macierzyste
-        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, "wynikowe");
-        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, "bilansowe");
+        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(wybranyuklad, "wynikowe");
+        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(wybranyuklad, "bilansowe");
         resetujpozycjebiezace();
         //tutaj nanosi czy ma potomkow
         KontaFKBean.ustawCzyMaPotomkow(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
@@ -1262,6 +1267,9 @@ public class PlanKontView implements Serializable {
     }
 
     public void selrow() {
+        Map<String,String> par_map = new HashMap<String,String>(); par_map=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String id=par_map.get("form_dialog_plankont:dataList_selection");
+        wybranapozycja_wiersz = "row_"+id;
         Msg.msg("i", "Wybrano: " + selectednodekonto.getPelnynumer() + " " + selectednodekonto.getNazwapelna());
     }
 

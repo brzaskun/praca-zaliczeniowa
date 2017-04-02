@@ -165,26 +165,30 @@ public class PozycjaRZiSFKBean {
     }
     
     public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR uklad, WpisView wpisView, boolean wzorcowy, String bilansowewynikowe) {
-        List<KontopozycjaZapis> kontopozycja = new ArrayList<>();
-        if (bilansowewynikowe.equals("wynikowe")) {
-            kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"wynikowe"));
-        } else {
-            kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"bilansowe"));
-        }
-        List<Konto> l = new ArrayList<>();
-        for (KontopozycjaZapis p : kontopozycja) {
-            try {
-                if (!p.getSyntetykaanalityka().equals("syntetyka")) {
-                    //System.out.println("d");
-                }
-                Konto konto = p.getKontoID();
-                konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
-                l.add(konto);
-            } catch (Exception e) {
-                E.e(e);
+        try {
+            List<KontopozycjaZapis> kontopozycja = new ArrayList<>();
+            if (bilansowewynikowe.equals("wynikowe")) {
+                kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"wynikowe"));
+            } else {
+                kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"bilansowe"));
             }
+            List<Konto> l = new ArrayList<>();
+            for (KontopozycjaZapis p : kontopozycja) {
+                try {
+                    if (!p.getSyntetykaanalityka().equals("syntetyka")) {
+                        //System.out.println("d");
+                    }
+                    Konto konto = p.getKontoID();
+                    konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
+                    l.add(konto);
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            kontoDAO.editList(l);
+        } catch (Exception e) {
+            E.e(e);
         }
-        kontoDAO.editList(l);
     }
     
     public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy, UkladBR uklad) {

@@ -194,3 +194,15 @@ var removeczujnik = function(listawierszy) {
         $(listawierszy[wiersz]).unbind('dblclick');
     }
 };
+
+var ponumerujwiersze = function(lista) {
+    if (typeof  lista !== 'undefined') {
+        let wiersze = r(lista).children();
+        $(wiersze).each(function(){
+            let rowid = $(this).attr("data-rk");
+            let wowid = "row_"+rowid;
+            $(this).attr("id",wowid);
+        });
+        console.log("d");
+    }
+};

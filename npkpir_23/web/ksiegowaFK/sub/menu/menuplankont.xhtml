@@ -9,7 +9,7 @@
         <p:tab title="Plan kont">
             <h:form id="dialog1menu1">
                 <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
-                    <p:menuitem value="Plan kont bieżącej firmy " onclick="PF('dialogplankont').show();" global="false" actionListener="#{planKontView.init}"
+                    <p:menuitem value="Plan kont bieżącej firmy " onclick="PF('dialogplankont').show();" global="false" actionListener="#{planKontView.init}" oncomplete="ponumerujwiersze('form_dialog_plankont:dataList_data');"
                                 update="form_dialog_plankont"></p:menuitem>
                     <p:menuitem value="Plan kont inne ustawienia" onclick="PF('dialogplankont1').show();" 
                                 actionListener="#{planKontView.planBezSlownikowychSyntetyczne}"  update="form_dialog_plankont1:dataList"
