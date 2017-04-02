@@ -1557,18 +1557,22 @@ public class PlanKontView implements Serializable {
     
     public void usunslownik() {
         try {
-            List<Konto> kontadousuniecia = kontoDAOfk.findKontaSiostrzanePodatnik(wpisView, selectednodekonto.getMacierzyste());
-            kontoDAOfk.destroy(kontadousuniecia);
-            for (Konto p : kontadousuniecia) {
-                wykazkont.remove(p);
+            if (selectednodekonto.isSlownikowe()) {
+                List<Konto> kontadousuniecia = kontoDAOfk.findKontaSiostrzanePodatnik(wpisView, selectednodekonto.getMacierzyste());
+                kontoDAOfk.destroy(kontadousuniecia);
+                for (Konto p : kontadousuniecia) {
+                    wykazkont.remove(p);
+                }
+                Konto macierzyste = kontoDAOfk.findKonto(selectednodekonto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                Konto macierzystelista = wykazkont.get(wykazkont.indexOf(macierzyste));
+                macierzystelista.setBlokada(false);
+                macierzystelista.setMapotomkow(false);
+                kontoDAOfk.edit(macierzystelista);
+                selectednodekonto = null;
+                Msg.msg("Usunięto słownik z kontami analitycznymi");
+            } else {
+                Msg.msg("e", "Próbujesz usunąc niewłaściwe konto. Wybierz konto bez numeru rozpoczynające sie od słowa 'Słownik'");
             }
-            Konto macierzyste = kontoDAOfk.findKonto(selectednodekonto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-            Konto macierzystelista = wykazkont.get(wykazkont.indexOf(macierzyste));
-            macierzystelista.setBlokada(false);
-            macierzystelista.setMapotomkow(false);
-            kontoDAOfk.edit(macierzystelista);
-            selectednodekonto = null;
-            Msg.msg("Usunięto słownik z kontami analitycznymi");
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd, nie usunięto słownika z kontami analitycznymi");

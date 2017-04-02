@@ -20,7 +20,7 @@
                         <f:selectItem itemLabel="saldem Ma" itemValue="ma"/>
                     </h:selectOneMenu>
                     <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaView.onKontoDropKontaSpecjalne(false,pozycjaBRKontaView.wybranyuklad)}" 
-                                     update=":formbilansuklad, :formkontowybor"
+                                     update=":formkontowybor :formbilansuklad:dostepnekonta :formbilansuklad:selected"
                                      oncomplete="PF('kontownmawybor').hide();"/>
                 </p:focus>
             </p:panelGrid>

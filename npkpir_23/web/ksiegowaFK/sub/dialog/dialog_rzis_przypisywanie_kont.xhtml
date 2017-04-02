@@ -35,7 +35,7 @@
                               emptyMessage="Brak pozycji RZiS">
                     <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeRZiS}"  update=":formrzisuklad:selected"/>
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBRKontaView.wybranyuklad.wybranyuklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRKontaView.wybranyuklad.uklad}"/>
                     </f:facet>
                     <p:column >
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder;" /> 

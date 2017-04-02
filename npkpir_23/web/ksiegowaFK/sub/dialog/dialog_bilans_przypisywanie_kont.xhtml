@@ -43,7 +43,7 @@
                                  emptyMessage="Brak pozycji Bilansu">
                         <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
                         <f:facet name="header">
-                            <h:outputText value="uklad #{pozycjaBRKontaView.wybranyuklad.wybranyuklad}, strona #{pozycjaBRKontaView.aktywa0pasywa1 == false ? 'aktywa' : 'pasywa'}"/>
+                            <h:outputText value="uklad #{pozycjaBRKontaView.wybranyuklad.uklad}, strona #{pozycjaBRKontaView.aktywa0pasywa1 == false ? 'aktywa' : 'pasywa'}"/>
                         </f:facet>
                         <p:column >
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 

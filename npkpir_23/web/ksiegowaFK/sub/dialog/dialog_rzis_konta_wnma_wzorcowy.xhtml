@@ -22,7 +22,7 @@
                     </h:selectOneMenu>
                     <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropKontaSpecjalneRZiS(true, pozycjaBRKontaWzorcowyView.uklad)}" 
                                      oncomplete="PF('dialog_rzis_konta_wnma_wzorcowy').hide();"
-                                     update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList"/>
+                                     update=":formdialog_rzis_konta_wnma_wzorcowy :formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane/>
                 </p:focus>
             </p:panelGrid>
         </h:form>
