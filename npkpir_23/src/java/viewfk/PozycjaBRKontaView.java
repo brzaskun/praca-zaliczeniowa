@@ -32,9 +32,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.component.treetable.TreeTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
 import pdffk.PdfBilans;
@@ -76,6 +78,7 @@ public class PozycjaBRKontaView implements Serializable {
     private WpisView wpisView;
     private int level = 0;
     private String wybranapozycja;
+    private String wybranapozycja_wiersz;
     private int lpwybranapozycja;
     private TreeNode wybranynodekonta;
     private UkladBR ukladzrodlowykonta;
@@ -216,6 +219,7 @@ public class PozycjaBRKontaView implements Serializable {
                 kontabezprzydzialu.remove(konto);
                 uzupelnijpozycjeOKontaR(pozycje);   
             }
+            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
         }
     }
 
@@ -440,10 +444,14 @@ public class PozycjaBRKontaView implements Serializable {
             Collections.sort(kontabezprzydzialu, new Kontocomparator());
         }
         uzupelnijpozycjeOKontaR(pozycje);
-        RequestContext.getCurrentInstance().update("form:dataList");
+        RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
     }
 
     public void wybranopozycjeRZiS() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        TreeTable table = (TreeTable) ctx.getViewRoot().findComponent("formrzisuklad:dataList");
+        String rowkey = table.getRowKey();
+        wybranapozycja_wiersz = "formrzisuklad:dataList:"+rowkey+":liczba";
         wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja, wpisView, aktywa0pasywa1, false, uklad));
@@ -912,6 +920,14 @@ public class PozycjaBRKontaView implements Serializable {
 
     public void setPozycje(ArrayList<PozycjaRZiSBilans> pozycje) {
         this.pozycje = pozycje;
+    }
+
+    public String getWybranapozycja_wiersz() {
+        return wybranapozycja_wiersz;
+    }
+
+    public void setWybranapozycja_wiersz(String wybranapozycja_wiersz) {
+        this.wybranapozycja_wiersz = wybranapozycja_wiersz;
     }
 
     public List<UkladBR> getListaukladow() {

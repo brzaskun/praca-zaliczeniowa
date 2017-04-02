@@ -376,9 +376,6 @@ public class PozycjaRZiSFKBean {
     
     public static void przyporzadkujpotkomkowZwykle(String macierzyste, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, String podatnik, String bilanswynik, Integer rok) {
         List<Konto> potomki = null;
-        if (macierzyste.equals("407")) {
-            System.out.println("dd");
-        }
         potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, macierzyste);
         if (potomki != null) {
             for (Konto p : potomki) {
