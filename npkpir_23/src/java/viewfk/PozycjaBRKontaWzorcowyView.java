@@ -30,9 +30,11 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.component.treetable.TreeTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
 import pdffk.PdfBilans;
@@ -74,6 +76,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     private WpisView wpisView;
     private int level = 0;
     private String wybranapozycja;
+    private String wybranapozycja_wiersz;
     private TreeNode wybranynodekonta;
     
 
@@ -205,6 +208,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
             }
             uzupelnijpozycjeOKontaR(pozycje);
+            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
         }
     }
 
@@ -236,7 +240,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 kontabezprzydzialu.remove(konto);
                 uzupelnijpozycjeOKonta(pozycje);
             }
-            
+            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
         }
 
     }
@@ -288,7 +292,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 //czesc nanoszaca informacje na potomku
             }
             uzupelnijpozycjeOKonta(pozycje);
-            RequestContext.getCurrentInstance().update(":formdialogbilansukladwzorcowy");
+            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
         }
         
     }
@@ -386,6 +390,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             Msg.msg("Konto niezwykle");
         }
         uzupelnijpozycjeOKonta(pozycje);
+        RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
     }
 
     public void onKontoRemoveR(Konto konto, String br) {
@@ -456,9 +461,14 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             Collections.sort(kontabezprzydzialu, new Kontocomparator());
         }
         uzupelnijpozycjeOKontaR(pozycje);
+        RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
     }
 
     public void wybranopozycjeRZiS() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        TreeTable table = (TreeTable) ctx.getViewRoot().findComponent("formprzypisywaniekont:dataList");
+        String rowkey = table.getRowKey();
+        wybranapozycja_wiersz = "formprzypisywaniekont:dataList:"+rowkey+":liczba";
         wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja, wpisView, aktywa0pasywa1, true, uklad));
@@ -466,6 +476,10 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     public void wybranopozycjeBilans() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        TreeTable table = (TreeTable) ctx.getViewRoot().findComponent("formdialogbilansukladwzorcowy:dataList");
+        String rowkey = table.getRowKey();
+        wybranapozycja_wiersz = "formdialogbilansukladwzorcowy:dataList:"+rowkey+":liczba";
         wybranapozycja = ((PozycjaBilans) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowaneB(kontoDAO, wybranapozycja, wpisView, aktywa0pasywa1, true, uklad));

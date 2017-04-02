@@ -20,15 +20,16 @@
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRKontaWzorcowyView.uklad}" converter="UkladBRWzorcowyConv">
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                        <p:ajax event="change" listener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoB('aktywa')}" update=":formdialogbilansukladwzorcowy:dataList :formdialogbilansukladwzorcowy:dostepnekonta :formdialogbilansukladwzorcowy:kontaprzypisane"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoB('aktywa')}" update=":formdialogbilansukladwzorcowy:dataList, :formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane"/>
-                    <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoB('pasywa')}" update=":formdialogbilansukladwzorcowy:dataList, :formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane"/>
+                    <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoB('aktywa')}" update=":formdialogbilansukladwzorcowy:dataList :formdialogbilansukladwzorcowy:dostepnekonta :formdialogbilansukladwzorcowy:kontaprzypisane"/>
+                    <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoB('pasywa')}" update=":formdialogbilansukladwzorcowy:dataList :formdialogbilansukladwzorcowy:dostepnekonta :formdialogbilansukladwzorcowy:kontaprzypisane"/>
                 </p:panelGrid>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinwszystkie(rootProjektKonta)}" update=":formdialogbilansukladwzorcowy:dataList" style="float: left;" />
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinwszystkie(rootProjektKonta)}" update=":formdialogbilansukladwzorcowy:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaWzorcowyView.rozwin(rootProjektKonta)}" update=":formdialogbilansukladwzorcowy:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaWzorcowyView.zwinwszystkie(rootProjektKonta)}" update=":formdialogbilansukladwzorcowy:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaWzorcowyView.zwin(rootProjektKonta)}" update=":formdialogbilansukladwzorcowy:dataList" style="float: left;" />
-                <p:spacer width="40"/>
+                <p:spacer width="40"/>-->
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaWzorcowyView.zaksiegujzmianypozycji('b')}" icon="ui-icon-locked" update=":formdialogbilansukladwzorcowy, :formwzorcowy"/>
                 <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaWzorcowyView.resetujprzyporzadkowanie('b')}" icon="ui-icon-locked" update=":formdialogbilansukladwzorcowy, :formwzorcowy" style="margin-left: 10px;"/>
                 <p:column>
@@ -40,7 +41,8 @@
                     <p:treeTable id="dataList" value="#{pozycjaBRKontaWzorcowyView.rootProjektKontaBilans}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaWzorcowyView.wybranynodekonta}" 
                                  styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 420px; overflow-y: scroll;"
                                  emptyMessage="Brak pozycji Bilansu">
-                        <p:ajax event="select" global="false" listener="#{pozycjaBRKontaWzorcowyView.wybranopozycjeBilans()}" update=":formdialogbilansukladwzorcowy:kontaprzypisane"/>
+                        <p:ajax event="select" global="false" listener="#{pozycjaBRKontaWzorcowyView.wybranopozycjeBilans()}"
+                                update=":formdialogbilansukladwzorcowy:kontaprzypisane :formdialogbilansukladwzorcowy:dostepnekonta"/>
                         <f:facet name="header">
                             <h:outputText value="uklad #{pozycjaBRKontaWzorcowyView.uklad.uklad}, strona #{pozycjaBRKontaWzorcowyView.aktywa0pasywa1 == false ? 'aktywa' : 'pasywa'}"/>
                         </f:facet>
@@ -50,7 +52,7 @@
                             <h:outputText value="#{loop.nazwa}"/> 
                         </p:column>
                         <p:column >
-                            <h:outputText value="#{loop.przyporzadkowanekonta.size() > 0 ? loop.przyporzadkowanekonta.size() : null}" /> 
+                            <h:outputText id="liczba" value="#{loop.przyporzadkowanekonta.size() > 0 ? loop.przyporzadkowanekonta.size() : null}" /> 
                         </p:column>
                     </p:treeTable>
                 </p:column>

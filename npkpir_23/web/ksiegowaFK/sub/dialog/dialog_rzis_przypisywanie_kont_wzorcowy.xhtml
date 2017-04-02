@@ -19,8 +19,9 @@
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRKontaWzorcowyView.uklad}" converter="UkladBRWzorcowyConv" style="width: 200px;" >
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}" />
+                        <p:ajax event="change" listener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList :formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList, :formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList :formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
                 </p:panelGrid>
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinwszystkie(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaWzorcowyView.rozwin(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
@@ -47,7 +48,7 @@
                         <h:outputText value="#{loop.nazwa}"/> 
                     </p:column>
                     <p:column >
-                        <h:outputText value="#{loop.przyporzadkowanekonta.size() > 0 ? loop.przyporzadkowanekonta.size() : null}" style="text-align: left;"/> 
+                        <h:outputText id="liczba" value="#{loop.przyporzadkowanekonta.size() > 0 ? loop.przyporzadkowanekonta.size() : null}" style="text-align: left;"/> 
                     </p:column>
                 </p:treeTable>
                 <p:column>
@@ -60,14 +61,14 @@
                         <p:column  style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
                             <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" global="false"
                                            actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropR(konto,'r')}" 
-                                           update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList"
+                                           update=":formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"
                                            style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
                                            rendered="#{konto.mapotomkow == true ? true : (konto.level != 0 ? true : false)}">
-                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinrzadanalityki(konto)}" global="false"  update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.mapotomkow}"/>  
-                                <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaWzorcowyView.zwinrzadanalityki(konto)}" global="false" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.level != 0}"/>  
+                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinrzadanalityki(konto)}" global="false"  update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.mapotomkow}"/>  
+                                <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaWzorcowyView.zwinrzadanalityki(konto)}" global="false" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.level != 0}"/>  
                             </p:splitButton>
                             <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" global="false"
-                                             actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList"
+                                             actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"
                                              style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};"
                                              rendered="#{konto.mapotomkow == false ? (konto.level == 0 ? true : false) : null}">
                             </p:commandButton>
@@ -89,7 +90,7 @@
                         </f:facet>
                         <p:column style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
                             <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" global="global"
-                                             actionListener="#{pozycjaBRKontaWzorcowyView.onKontoRemoveR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList"/>
+                                             actionListener="#{pozycjaBRKontaWzorcowyView.onKontoRemoveR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
                         </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
                             <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>

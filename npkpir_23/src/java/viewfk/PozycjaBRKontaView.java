@@ -251,6 +251,7 @@ public class PozycjaBRKontaView implements Serializable {
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
             }
             uzupelnijpozycjeOKonta(pozycje);
+            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
         }
 
     }
@@ -277,7 +278,7 @@ public class PozycjaBRKontaView implements Serializable {
                 //czesc nanoszaca informacje na potomku
             }
             uzupelnijpozycjeOKontaR(pozycje);
-            RequestContext.getCurrentInstance().update(":form");
+            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
         }
     }
 
@@ -309,7 +310,7 @@ public class PozycjaBRKontaView implements Serializable {
                 //czesc nanoszaca informacje na potomku
             }
             uzupelnijpozycjeOKonta(pozycje);
-            RequestContext.getCurrentInstance().update(":formbilansuklad");
+            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
         }
     }
 
@@ -389,7 +390,7 @@ public class PozycjaBRKontaView implements Serializable {
             Collections.sort(kontabezprzydzialu, new Kontocomparator());
         }
         uzupelnijpozycjeOKonta(pozycje);
-        RequestContext.getCurrentInstance().update("formbilansuklad:dataList");
+        RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
     }
 
     public void onKontoRemoveR(Konto konto, String br) {
@@ -459,6 +460,10 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     public void wybranopozycjeBilans() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        TreeTable table = (TreeTable) ctx.getViewRoot().findComponent("formbilansuklad:dataList");
+        String rowkey = table.getRowKey();
+        wybranapozycja_wiersz = "formbilansuklad:dataList:"+rowkey+":liczba";
         wybranapozycja = ((PozycjaBilans) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowaneB(kontoDAO, wybranapozycja, wpisView, aktywa0pasywa1, false, uklad));
