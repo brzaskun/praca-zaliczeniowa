@@ -11,7 +11,7 @@
             <p:panelGrid columns="10">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaBRKontaView.uklad}" converter="UkladBRConv">
+                    <p:selectOneMenu value="#{pozycjaBRKontaView.wybranyuklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" listener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":formrzisuklad"/>
                     </p:selectOneMenu>
@@ -22,7 +22,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />-->
                 <p:spacer width="40"/>
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r',pozycjaBRKontaView.uklad)}" icon="fa fa-lock" update=":formrzisuklad"/>
+                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r',pozycjaBRKontaView.wybranyuklad)}" icon="fa fa-lock" update=":formrzisuklad"/>
                 <p:spacer width="40"/>
                 <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" update=":formrzisuklad:" icon="fa fa-sign-in"/>
                 <p:column>
@@ -35,7 +35,7 @@
                               emptyMessage="Brak pozycji RZiS">
                     <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeRZiS}"  update=":formrzisuklad:selected"/>
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBRKontaView.uklad.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRKontaView.wybranyuklad.wybranyuklad}"/>
                     </f:facet>
                     <p:column >
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder;" /> 

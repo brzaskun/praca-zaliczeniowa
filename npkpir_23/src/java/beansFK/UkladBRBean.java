@@ -84,4 +84,30 @@ public class UkladBRBean {
             ukladBRDAO.edit(ukladBR);
         }
     }
+    
+    public static UkladBR pobierzukladaktywny(UkladBRDAO ukladBRDAO, WpisView wpisView) {
+        UkladBR wybrany = null;
+        boolean mamaktualny = false;
+        List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
+        if (listaukladow != null) {
+            for (UkladBR p : listaukladow) {
+                if (p.isAktualny() && mamaktualny == false) {
+                    wybrany = p;
+                    mamaktualny = true;
+                } else if (mamaktualny == true) {
+                    p.setAktualny(false);
+                }
+            }
+            if (wybrany == null) {
+                for (UkladBR p : listaukladow) {
+                    if (p.getUklad().contains("Podstawowy")) {
+                       p.setAktualny(true);
+                       wybrany = p;
+                    }
+                }
+            }
+            ukladBRDAO.editList(listaukladow);
+        }
+        return wybrany;
+    }
 }

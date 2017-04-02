@@ -14,6 +14,7 @@ import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class KontaFKBean implements Serializable{
      * @param kontoDAO KontoDAOfk
      * @param podatnikWpisu String
      */
-    public static void ustawCzyMaPotomkow(List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static void ustawCzyMaPotomkow(List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         for (Konto r : wykazkont) {
             r.setMapotomkow(false);
             r.setBlokada(false);
@@ -50,7 +51,7 @@ public class KontaFKBean implements Serializable{
                     if (!sprawdzonemacierzyste.contains(macierzyste)) {
                         naniesBlokade(macierzyste, kontoDAO);
                         sprawdzonemacierzyste.add(macierzyste);
-                        PlanKontFKBean.naniesprzyporzadkowanie(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                        PlanKontFKBean.naniesprzyporzadkowanie(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
                     }
                 } catch (PersistenceException e) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
@@ -62,7 +63,7 @@ public class KontaFKBean implements Serializable{
         }
     }
     
-    public static void ustawCzyMaPotomkowWzorcowy(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static void ustawCzyMaPotomkowWzorcowy(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         for (Konto r : wykazkont) {
             r.setMapotomkow(false);
             r.setBlokada(false);
@@ -75,7 +76,7 @@ public class KontaFKBean implements Serializable{
                     Konto macierzyste = pobierzmacierzysteWzorcowy(p, kontoDAO, wpisView);
                     naniesBlokade(macierzyste, kontoDAO);
                     sprawdzonemacierzyste.add(macierzyste);
-                    PlanKontFKBean.naniesprzyporzadkowanieWzorcowy(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                    PlanKontFKBean.naniesprzyporzadkowanieWzorcowy(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
                 } catch (PersistenceException e) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
                 } catch (Exception ef) {

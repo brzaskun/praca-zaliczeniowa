@@ -566,7 +566,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 } catch (Exception e) {
                     // ma usuwac jak zmienie kwalifikacje przyporzadkowanego juz konta
                     E.e(e);
-                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID(), ukladBRDAO);
+                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID(), uklad);
                     if (znajda != null) {
                         kontopozycjaZapisDAO.destroy(znajda);
                         kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
@@ -585,7 +585,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 } catch (Exception e) {
                     // ma usuwac jak zmienie kwalifikacje przyporzadkowanego juz konta
                     E.e(e);
-                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID(), ukladBRDAO);
+                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID(), uklad);
                     if (znajda != null) {
                         kontopozycjaZapisDAO.destroy(znajda);
                         kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));

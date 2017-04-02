@@ -135,48 +135,48 @@ public class PlanKontFKBean {
          return zachowajkonto(wykazkont, nowekonto, kontoDAOfk, wpisView);
     }
     
-    public static int dodajslownikKontrahenci(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajslownikKontrahenci(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         nowekonto.setNazwapelna("Słownik kontrahenci");
         nowekonto.setNazwaskrocona("Kontrahenci");
-        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBR);
     }
     
-    public static int dodajslownikMiejscaKosztow(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajslownikMiejscaKosztow(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         nowekonto.setNazwapelna("Słownik miejsca kosztów");
         nowekonto.setNazwaskrocona("Miejsca kosztów");
-        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBR);
     }
     
-    public static int dodajslownikPojazdyiMaszyny(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajslownikPojazdyiMaszyny(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         nowekonto.setNazwapelna("Słownik pojazdy i maszyny");
         nowekonto.setNazwaskrocona("Pojazd");
-        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBR);
     }
     
-    public static int dodajslownikMiesiace(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajslownikMiesiace(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         nowekonto.setNazwapelna("Słownik miesiące");
         nowekonto.setNazwaskrocona("Miesiąc");
-        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBR);
     }
     
-    public static int dodajslownikDelegacjeKrajowe(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajslownikDelegacjeKrajowe(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         nowekonto.setNazwapelna("Słownik delegacji krajowych");
         nowekonto.setNazwaskrocona("Delegacje krajowe");
-        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBR);
     }
     
-    public static int dodajslownikDelegacjeZagraniczne(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajslownikDelegacjeZagraniczne(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         nowekonto.setNazwapelna("Słownik delegacji zagranicznych");
         nowekonto.setNazwaskrocona("Delegacje zagraniczne");
-        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBR);
     }
     
-    public static int dodajslownikMiejscaPrzychodow(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajslownikMiejscaPrzychodow(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         nowekonto.setNazwapelna("Słownik miejsca przychodów");
         nowekonto.setNazwaskrocona("Miejsca przychodów");
-        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBR);
     }
-    private static int uzupelnijdaneslownika(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    private static int uzupelnijdaneslownika(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         if (macierzyste.getLevel()==0) {
              nowekonto.setSyntetycznenumer(macierzyste.getPelnynumer());
          } else {
@@ -198,11 +198,11 @@ public class PlanKontFKBean {
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
          int wynikdodaniakonta = zachowajkonto(wykazkont,nowekonto, kontoDAOfk, wpisView);
-         naniesPozycjenaKonto(wynikdodaniakonta, kontopozycjaZapisDAO, nowekonto, macierzyste, kontoDAOfk, ukladBRDAO);
+         naniesPozycjenaKonto(wynikdodaniakonta, kontopozycjaZapisDAO, nowekonto, macierzyste, kontoDAOfk, ukladBR);
          return wynikdodaniakonta;
     }
     
-    public static int dodajelementyslownikaKontrahenci(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajelementyslownikaKontrahenci(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         List<Kliencifk> listaprzyporzadkowanychklientow = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         if (listaprzyporzadkowanychklientow != null) {
             for (Kliencifk p : listaprzyporzadkowanychklientow) {
@@ -215,7 +215,7 @@ public class PlanKontFKBean {
                 if (wynikdodania == 1) {
                     return 1;
                 }
-                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
             }
             return 0;
         } else {
@@ -223,7 +223,7 @@ public class PlanKontFKBean {
         }
     }
     
-    public static int dodajelementyslownikaMiejscaKosztow(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, MiejsceKosztowDAO miejsceKosztowDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajelementyslownikaMiejscaKosztow(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, MiejsceKosztowDAO miejsceKosztowDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         List<MiejsceKosztow> listamiejsckosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         if (listamiejsckosztow != null) {
             for (MiejsceKosztow p : listamiejsckosztow) {
@@ -238,7 +238,7 @@ public class PlanKontFKBean {
                 }
                 p.setAktywny(true);
                 miejsceKosztowDAO.edit(p);
-                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
             }
             return 0;
         } else {
@@ -246,7 +246,7 @@ public class PlanKontFKBean {
         }
     }
     
-    public static int dodajelementyslownikaMiejscaPrzychodow(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, MiejscePrzychodowDAO miejscePrzychodowDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajelementyslownikaMiejscaPrzychodow(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, MiejscePrzychodowDAO miejscePrzychodowDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         List<MiejscePrzychodow> listamiejscprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         if (listamiejscprzychodow != null) {
             for (MiejscePrzychodow p : listamiejscprzychodow) {
@@ -261,7 +261,7 @@ public class PlanKontFKBean {
                 }
                 p.setAktywny(true);
                 miejscePrzychodowDAO.edit(p);
-                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
             }
             return 0;
         } else {
@@ -269,7 +269,7 @@ public class PlanKontFKBean {
         }
     }
     
-    public static int dodajelementyslownikaPojazdy(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, PojazdyDAO pojazdyDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajelementyslownikaPojazdy(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, PojazdyDAO pojazdyDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         List<Pojazdy> listapojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
         if (listapojazdy != null) {
             for (Pojazdy p : listapojazdy) {
@@ -284,7 +284,7 @@ public class PlanKontFKBean {
                 }
                 p.setAktywny(true);
                 pojazdyDAO.edit(p);
-                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
                
             }
             return 0;
@@ -293,7 +293,7 @@ public class PlanKontFKBean {
         }
     }
     
-    public static int dodajelementyslownikaMiesiace(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int dodajelementyslownikaMiesiace(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         List<String> listamiesiace = Mce.getMcenazwaListSlownik();
         if (listamiesiace != null) {
             int i = 1;
@@ -307,14 +307,14 @@ public class PlanKontFKBean {
                 if (wynikdodania == 1) {
                     return 1;
                 }
-                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
             }
             return 0;
         } else {
             return 0;
         }
     }
-     public static int dodajelementyslownikaDelegacje(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, DelegacjaDAO delegacjaDAO, WpisView wpisView, boolean krajowa0zagraniczna1, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+     public static int dodajelementyslownikaDelegacje(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, DelegacjaDAO delegacjaDAO, WpisView wpisView, boolean krajowa0zagraniczna1, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         List<Delegacja> listadelegacje = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
         if (listadelegacje != null) {
             for (Delegacja p : listadelegacje) {
@@ -329,7 +329,7 @@ public class PlanKontFKBean {
                 }
                 p.setAktywny(true);
                 delegacjaDAO.edit(p);
-                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
             }
             return 0;
         } else {
@@ -337,7 +337,7 @@ public class PlanKontFKBean {
         }
     }
      
-     public static void naniesprzyporzadkowanie(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+     public static void naniesprzyporzadkowanie(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         try {
             Konto macierzyste = pobierzmacierzyste(noweKonto, kontoDAOfk, wpisView);
             if (noweKonto.getPelnynumer().equals("010-3")){
@@ -345,14 +345,14 @@ public class PlanKontFKBean {
             }
             KontopozycjaZapis kpo = null;
             if (macierzyste != null) {
-                kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBRDAO);
+                kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
                 if (kpo != null) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBR);
                 }
             } else {
-                kpo = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBRDAO);
+                kpo = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
                 if (kpo != null) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka(), ukladBRDAO);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka(), ukladBR);
                 }
             }
         } catch (Exception e) {
@@ -368,19 +368,19 @@ public class PlanKontFKBean {
         return macierzyste;
     }
      
-     public static void naniesprzyporzadkowanieWzorcowy(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+     public static void naniesprzyporzadkowanieWzorcowy(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         try {
             Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), "Wzorcowy", wpisView.getRokWpisu());
             KontopozycjaZapis kpo = null;
             if (macierzyste != null) {
-                kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBRDAO);
+                kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
                 if (kpo != null) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBR);
                 }
             } else {
-                kpo = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBRDAO);
+                kpo = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
                 if (kpo != null) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka(), ukladBRDAO);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka(), ukladBR);
                 }
             }
         } catch (Exception e) {
@@ -402,7 +402,14 @@ public class PlanKontFKBean {
                 if (wynikdodania == 1) {
                     return 1;
                 }
-                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
+                try {
+                    for (UkladBR ukladBR : listaukladow) {
+                        naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
                 kliencifk.setAktywny(true);
                 kliencifkDAO.edit(kliencifk);
             }
@@ -434,7 +441,14 @@ public class PlanKontFKBean {
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
             int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, miejscekosztow.getNrkonta(), wpisView);
-            naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+            List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
+            try {
+                for (UkladBR ukladBR : listaukladow) {
+                    naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                }
+            } catch (Exception e) {
+                E.e(e);
+            }
             if (wynikdodania == 1) {
                 return 1;
             }
@@ -454,7 +468,14 @@ public class PlanKontFKBean {
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, miejsceprzychodow.getNrkonta(), wpisView);
-                naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
+                try {
+                    for (UkladBR ukladBR : listaukladow) {
+                        naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
                 if (wynikdodania == 1) {
                     return 1;
                 }
@@ -476,7 +497,14 @@ public class PlanKontFKBean {
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
             int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, pojazd.getNrkonta(), wpisView);
-            naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+            List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
+            try {
+                for (UkladBR ukladBR : listaukladow) {
+                    naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                }
+            } catch (Exception e) {
+                E.e(e);
+            }
             if (wynikdodania == 1) {
                 return 1;
             }
@@ -495,7 +523,14 @@ public class PlanKontFKBean {
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
             int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, delegacja.getNrkonta(), wpisView);
-            naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+            List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
+            try {
+                for (UkladBR ukladBR : listaukladow) {
+                    naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                }
+            } catch (Exception e) {
+                E.e(e);
+            }
             if (wynikdodania == 1) {
                 return 1;
             }
@@ -514,7 +549,14 @@ public class PlanKontFKBean {
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
             int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, delegacja.getNrkonta(), wpisView);
-            naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+            List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
+            try {
+                for (UkladBR ukladBR : listaukladow) {
+                    naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                }
+            } catch (Exception e) {
+                E.e(e);
+            }
             if (wynikdodania == 1) {
                 return 1;
             }
@@ -525,7 +567,7 @@ public class PlanKontFKBean {
     }
     
     
-    public static void porzadkujslownik(List<Konto> kontamacierzysteZeSlownikiem, List<Konto> wykazkont, String npelna, String nskrocona, int numerkonta, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, int nrslownika, UkladBRDAO ukladBRDAO) {
+    public static void porzadkujslownik(List<Konto> kontamacierzysteZeSlownikiem, List<Konto> wykazkont, String npelna, String nskrocona, int numerkonta, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, int nrslownika, UkladBR ukladBR) {
         for (Konto kontomacierzyste : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
             nowekonto.setNazwapelna(npelna);
@@ -536,22 +578,22 @@ public class PlanKontFKBean {
             wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, String.valueOf(numerkonta), wpisView);
             Konto konto = znajdzduplikat(wykazkont, nowekonto, kontoDAOfk, wpisView);
             if (konto != null && konto.getKontopozycjaID() == null) {
-                naniesPozycjenaKonto(0, kontopozycjaZapisDAO, konto, kontomacierzyste, kontoDAOfk, ukladBRDAO);
+                naniesPozycjenaKonto(0, kontopozycjaZapisDAO, konto, kontomacierzyste, kontoDAOfk, ukladBR);
             } else {
-                naniesPozycjenaKonto(wynikdodaniakonta, kontopozycjaZapisDAO, nowekonto, kontomacierzyste, kontoDAOfk, ukladBRDAO);
+                naniesPozycjenaKonto(wynikdodaniakonta, kontopozycjaZapisDAO, nowekonto, kontomacierzyste, kontoDAOfk, ukladBR);
             }
             
         }
     }
     
-    private static void naniesPozycjenaKonto(int wynikdodaniakonta, KontopozycjaZapisDAO kontopozycjaZapisDAO, Konto nowekonto, Konto kontomacierzyste, KontoDAOfk kontoDAOfk, UkladBRDAO ukladBRDAO) {
+    private static void naniesPozycjenaKonto(int wynikdodaniakonta, KontopozycjaZapisDAO kontopozycjaZapisDAO, Konto nowekonto, Konto kontomacierzyste, KontoDAOfk kontoDAOfk, UkladBR ukladBR) {
          if (wynikdodaniakonta == 0) {
                 try {
-                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, ukladBRDAO);
+                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, ukladBR);
                     if (kpo.getSyntetykaanalityka().equals("analityka")) {
                         Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                     } else {
-                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, nowekonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
+                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, nowekonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBR);
                     }
                 } catch (Exception e) {
                     E.e(e);
@@ -561,11 +603,11 @@ public class PlanKontFKBean {
     
     
             
-    public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO, String podatnik, Integer rok, List<Konto> wykazkont, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO, String podatnik, Integer rok, List<Konto> wykazkont, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         List<Konto> listakont = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, kontomacierzyste);
         if (listakont != null) {
             for (Konto p : listakont) {
-                kontopozycjaZapisDAO.destroy(kontopozycjaZapisDAO.findByKonto(p, ukladBRDAO));
+                kontopozycjaZapisDAO.destroy(kontopozycjaZapisDAO.findByKonto(p, ukladBR));
                 kontoDAO.destroy(p);
                 wykazkont.remove(p);
             }
@@ -704,9 +746,9 @@ public class PlanKontFKBean {
     }
 
     
-    public static void naniesPrzyporzadkowaniePojedynczeKonto(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, String wersja, UkladBRDAO ukladBRDAO) {
+    public static void naniesPrzyporzadkowaniePojedynczeKonto(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, String wersja, UkladBR ukladBR) {
         try {
-            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBRDAO);
+            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
             if (kp == null) {
                 kp = new KontopozycjaZapis();
                 kp.setPozycjaWn(kpo.getPozycjaWn());
@@ -734,7 +776,7 @@ public class PlanKontFKBean {
             }
         } catch (Exception e) {
             E.e(e);
-            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBRDAO);
+            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
             if (kp != null) {
                 noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
                 kontoDAOfk.edit(noweKonto);
