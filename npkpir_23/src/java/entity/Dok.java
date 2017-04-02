@@ -5,6 +5,7 @@
 package entity;
 
 import embeddable.Stornodoch;
+import entityfk.Cechazapisu;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import java.io.Serializable;
@@ -22,7 +23,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -209,15 +212,28 @@ public class Dok implements Serializable {
     private Inwestycje inwestycja;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokument", cascade = CascadeType.ALL,  orphanRemoval=true)
     private List<PlatnoscWaluta> platnosciwaluta;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "Dok_Cechazapisu",
+            joinColumns = {
+                @JoinColumn(name = "id_dok", referencedColumnName = "id_dok"),
+            },
+            inverseJoinColumns = {
+                @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
+                @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
+            })
+    private List<Cechazapisu> cechadokumentuLista;
     
     public Dok() {
         this.listakwot1 = new ArrayList<>();
+        this.cechadokumentuLista = new ArrayList<>();
         this.typdokumentu = "";
         this.getListakwot1().add(new KwotaKolumna1());
     }
 
     public Dok(Long idDok) {
         this.listakwot1 = new ArrayList<>();
+        this.cechadokumentuLista = new ArrayList<>();
         this.typdokumentu = "";
         this.getListakwot1().add(new KwotaKolumna1());
         this.idDok = idDok;
@@ -238,6 +254,14 @@ public class Dok implements Serializable {
 
     public void setNrWpkpir(int nrWpkpir) {
         this.nrWpkpir = nrWpkpir;
+    }
+
+    public List<Cechazapisu> getCechadokumentuLista() {
+        return cechadokumentuLista;
+    }
+
+    public void setCechadokumentuLista(List<Cechazapisu> cechadokumentuLista) {
+        this.cechadokumentuLista = cechadokumentuLista;
     }
 
     public Klienci getKontr() {

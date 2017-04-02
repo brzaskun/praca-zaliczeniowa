@@ -6,6 +6,7 @@
 
 package entityfk;
 
+import entity.Dok;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class Cechazapisu implements Serializable {
     protected CechazapisuPK cechazapisuPK  = new CechazapisuPK();
     @ManyToMany(mappedBy = "cechadokumentuLista")
     private List<Dokfk> dokfkLista;
+    @ManyToMany(mappedBy = "cechadokumentuLista")
+    private List<Dok> dokLista;
     @ManyToMany(mappedBy = "cechazapisuLista")
     private List<StronaWiersza> stronaWierszaLista;
     @Column(name = "charaktercechy")
@@ -52,6 +55,7 @@ public class Cechazapisu implements Serializable {
     public Cechazapisu() {
         this.cechazapisuPK = new CechazapisuPK();
         this.dokfkLista = new ArrayList<>();
+        this.dokLista = new ArrayList<>();
         this.stronaWierszaLista = new ArrayList<>();
         this.charaktercechy = -1;
     }
@@ -59,6 +63,7 @@ public class Cechazapisu implements Serializable {
     public Cechazapisu(CechazapisuPK cechazapisuPK) {
         this.cechazapisuPK = cechazapisuPK;
         this.dokfkLista = new ArrayList<>();
+        this.dokLista = new ArrayList<>();
         this.stronaWierszaLista = new ArrayList<>();
         this.charaktercechy = -1;
     }
@@ -66,6 +71,7 @@ public class Cechazapisu implements Serializable {
     public Cechazapisu(String nazwacechy, String rodzajcechy) {
         this.cechazapisuPK = new CechazapisuPK(nazwacechy, rodzajcechy);
         this.dokfkLista = new ArrayList<>();
+        this.dokLista = new ArrayList<>();
         this.stronaWierszaLista = new ArrayList<>();
         this.charaktercechy = -1;
     }
@@ -77,6 +83,14 @@ public class Cechazapisu implements Serializable {
     
     public void setCechazapisuPK(CechazapisuPK cechazapisuPK) {
         this.cechazapisuPK = cechazapisuPK;
+    }
+
+    public List<Dok> getDokLista() {
+        return dokLista;
+    }
+
+    public void setDokLista(List<Dok> dokLista) {
+        this.dokLista = dokLista;
     }
 
     public Podatnik getPodatnik() {

@@ -10,7 +10,7 @@
 
     <p:panel header="Parametryzowanie indywidualne podatnika: #{podatnikView.nazwaWybranegoPodatnika}" style="font-weight: bold; width: 1000px;"/>
     
-    <p:tabView id="akordeon" style="width: 1000px;">
+    <p:tabView id="akordeon" style="width: 1200px;">
        <ui:include src="podatnikust/edycjadanychpodatnika.xhtml"/>
        <ui:include src="podatnikust/aktywnedokumentyksiegowe.xhtml"/>
        <ui:include src="podatnikust/udzialywfirmie.xhtml"/>
@@ -25,6 +25,7 @@
        <ui:include src="podatnikust/danedofaktury.xhtml"/>
        <ui:include src="podatnikust/wysylkazusmail.xhtml"/>
        <ui:include src="podatnikust/zawieszeniedzialalnosci.xhtml"/>
+       <ui:include src="podatnikust/cechydokumentow.xhtml"/>
     </p:tabView>
     <p:panelGrid columns="1" style="padding: 10px;" rendered="#{podatnikView.selected.datawprowadzenia ne null}">
         <h:outputText value="ostatnia zmiana - #{podatnikView.selected.wprowadzil.toStringLIN()}"/>

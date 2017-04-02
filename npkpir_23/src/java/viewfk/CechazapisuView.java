@@ -13,6 +13,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -28,6 +29,7 @@ public class CechazapisuView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject private CechazapisuDAOfk cechazapisuDAOfk;
     private List<Cechazapisu> pobranecechy;
+    private List<Cechazapisu> pobranecechyfiltered;
     @Inject
     private Cechazapisu selected;
 
@@ -36,7 +38,7 @@ public class CechazapisuView implements Serializable {
         this.pobranecechy = new ArrayList<>();
     }
     
-    
+    @PostConstruct
     public void init() {
         pobranecechy = cechazapisuDAOfk.findAll();
     }
@@ -95,6 +97,14 @@ public class CechazapisuView implements Serializable {
 
     public void setSelected(Cechazapisu selected) {
         this.selected = selected;
+    }
+
+    public List<Cechazapisu> getPobranecechyfiltered() {
+        return pobranecechyfiltered;
+    }
+
+    public void setPobranecechyfiltered(List<Cechazapisu> pobranecechyfiltered) {
+        this.pobranecechyfiltered = pobranecechyfiltered;
     }
    
        

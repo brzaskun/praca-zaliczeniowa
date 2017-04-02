@@ -4,11 +4,9 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-
-    <p:dialog id="dialogCechyZapisu" header="Wykaz bieżących cech zapisu/dokumentu" widgetVar="dialogCechyZapisu" resizable="false" 
-              onShow="ustawdialog('dialogCechyZapisu','menukartoteki',1100,600);" focus=":formCH" 
-              closeOnEscape="true">
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:tab title="Cechy dokumentow" id="tab_cechydokumentow">  
         <h:form id="formCH" >
             <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
                         rowKey="#{item.cechazapisuPK.nazwacechy}" style="overflow-y: scroll; height: 400px;"
@@ -45,11 +43,11 @@
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-edit"  actionListener="#{cechazapisuView.edit(item)}"
-                             update=":formCH:dataList formCH1:nowacecha"/>
+                             update="akordeon:formCH:dataList akordeon:formCH1:nowacecha"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton  icon="fa fa-trash"  actionListener="#{cechazapisuView.usun(item)}"
-                             update=":formCH:dataList"/>
+                             update="akordeon:formCH:dataList"/>
                 </p:column>
             </p:dataTable>
             </h:form>
@@ -103,7 +101,7 @@
                      <p:column>
                          <p:selectOneMenu id="podatnikWpisu" value="#{cechazapisuView.selected.podatnik}" style="width: 280px;" converter="PodatConv">
                              <f:selectItem itemLabel="wszyscy" itemValue=""/>
-                            <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
+                            <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
                          </p:selectOneMenu>
                     </p:column>
                 </p:row>
@@ -112,8 +110,9 @@
                 <h:outputText value="*przesunięcie mówi o ile miesięcy w przód lub w tył rozliczać"/>
             </p:outputPanel>
             <p:commandButton value="dodaj" style="width: 120px; margin-left: 10px;" actionListener="#{cechazapisuView.dodajnowacecha()}"
-                             update=":formCH:dataList formCH1"/>
+                             update="akordeon:formCH:dataList akordeon:formCH1"/>
             
         </h:form>
-    </p:dialog>
+    </p:tab>   
 </ui:composition> 
+
