@@ -43,11 +43,14 @@
                                     <p:growl life="3600"  id="fifi2"/>
                                     <p:commandButton id="wprowadzenieNowegoAut" action="#{DokumentView.dodajNowyWpisAutomatyczny()}" value="Amortyzacja" update=":auto:fifi2" global="false" style="width: 150px;"/>  
                                     <p:commandButton id="skopiujPoprzednia" action="#{DokumentView.skopiujdokument()}" value="Skopiuj Alt-Q" update=":auto:fifi2"  accesskey="q"  style="width: 150px; margin-left: 10px;" />  
-
+                                    <p:commandButton id="cechadokumentu" value="CechyDok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
+                                        onclick="PF('dialogCechyDokumentu').show();" accesskey="v" 
+                                     global="false"/>
 <!--                                    <p:commandButton id="dodatkowaKolumna" action="{DokumentView.wygenerujNowaKolumnePkpir()}" value="DodKolumna" update=":form:messages" global="false" accesskey="g" onclick="dodkolumnafocus();"/>  -->
                                 </h:form>
                             </p:panel>
                                 <ui:include src="sub/dokument_wpis.xhtml" />
+                                <ui:include src="sub/dialog_cecha_dokument.xhtml" />
                                 <ui:include src="sub/dokument_ostatni.xhtml" />
                                 <ui:include src="sub/add_wiad_kolumna1rozbicie.xhtml" />
                                 <ui:include src="sub/wykazklientow_dialog.xhtml"/>

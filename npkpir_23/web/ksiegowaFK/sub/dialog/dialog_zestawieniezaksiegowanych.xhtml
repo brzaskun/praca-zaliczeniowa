@@ -58,7 +58,7 @@
                     </p:column>
                     <p:column>
                         <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" id="kategoriadokumentu"
-                                         style="width: 200px; margin-left: 100px;" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}">
+                                         style="width: 200px; margin-left: 20px;" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}">
                             <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" 
                                     onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
                                     update=":zestawieniedokumentow:dataList"/>
@@ -69,7 +69,7 @@
                     <p:column>
                         <h:outputText value="dok z cechami"/>
                             <p:selectOneMenu value="#{dokfkView.wybranacechadok}" id="cechydokuk"
-                                         style="width: 200px; margin-left: 100px;" >
+                                         style="width: 200px; margin-left: 90px;" >
                             <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" 
                                     onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
                                     update=":zestawieniedokumentow:dataList"/>
@@ -79,16 +79,16 @@
                     </p:column>
                     <p:column>
                         <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist)}" styleClass="fkbutton"
-                                         action="#{sesjaView.dodajwydruk()}" style="margin-left: 20px; width: 120px;"  rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}"/>
+                                         action="#{sesjaView.dodajwydruk()}" style="margin-left: 15px; width: 120px;"  rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}"/>
                     </p:column>
                     <p:column>
                         <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
                                          actionListener="#{dokfkView.resetujDokument}"
                                          oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanych').hide();"
-                                         style="margin-left: 20px; width: 120px;" />
+                                         style="margin-left: 15px; width: 120px;" />
                     </p:column>
                     <p:column>
-                        <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 150px;" 
+                        <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 15px;" 
                                          update=":zestawieniedokumentow:dataList" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}"
                                          />
                     </p:column>
@@ -99,7 +99,7 @@
                                          />
                     </p:column>
                     <p:column>
-                        <p:outputLabel for="pokazwszystkiedokumenty" value="pokaż wszystkie" style="margin-left: 20px;"/>
+                        <p:outputLabel for="pokazwszystkiedokumenty" value="pokaż wszystkie" style="margin-left: 15px;"/>
                         <p:selectBooleanCheckbox id="pokazwszystkiedokumenty" value="#{dokfkView.pokazwszystkiedokumenty}">
                             <p:ajax event="change" global="false" partialSubmit="tue"/>
                         </p:selectBooleanCheckbox>

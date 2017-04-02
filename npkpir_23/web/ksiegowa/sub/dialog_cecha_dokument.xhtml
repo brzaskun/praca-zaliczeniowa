@@ -1,0 +1,40 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+
+    <p:dialog id="dialogCechyDokumentu" header="Wykaz bieżących cech dokumentu" widgetVar="dialogCechyDokumentu" resizable="false" 
+              onShow="ustawdialogWindow('dialogCechyDokumentu',500,400);" focus=":formCH" modal="true" appendTo="@(body)"
+              closeOnEscape="true">
+        <h:form id="formCH" >
+            <p:dataTable  value="#{DokumentView.pobranecechypodatnik}" var="item" rows="6" style="height: 170px;"
+                          emptyMessage="cechy nie zostały zdefiniowane">
+                <p:column headerText="nazwa cechy do wyboru">
+                    <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
+                </p:column>
+                <p:column headerText="rodzaj cechy do wyboru" style="text-align: center;">
+                    <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton value="+" actionListener="#{DokumentView.dodajcechedodokumentu(item)}" update="formCH"/>
+                </p:column>
+            </p:dataTable>
+            <p:separator/>
+            <p:dataTable  value="#{DokumentView.selDokument.cechadokumentuLista}" var="item" rows="6" style="height: 170px;"
+                          emptyMessage="dokument bez cech">
+                <p:column headerText="nazwa cechy przyporządkowanej">
+                    <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
+                </p:column>
+                <p:column headerText="rodzaj cechy przyporządkowanej" style="text-align: center;">
+                    <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton value="-" actionListener="#{DokumentView.usuncechedodokumentu(item)}" update="formCH"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition> 

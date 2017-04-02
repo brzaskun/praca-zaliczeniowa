@@ -1,4 +1,4 @@
-<ui:composition 
+    <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -31,8 +31,9 @@
             font-weight: 900;
             background: #e4e3e3;
         }
-
-
+        .zapisZcecha {
+            color: red;
+        }
     </style>
     <h:form>
         <p:stack icon="/resources/images/menustack/stack.png"  >  
@@ -73,11 +74,23 @@
 
             /* ]]> */
         </script>
+        <p:panelGrid columns="3" id="panelprzyciskow">
         <p:commandButton  icon="fa fa-print" style="width: 120px;" actionListener="#{DokTabView.drukujdokumentyuproszczona()}" global="false"/>
+        <h:outputText value="dok z cechami"/>
+        <p:selectOneMenu value="#{DokTabView.wybranacechadok}" id="cechydokuk"
+                     style="width: 200px; margin-left: 10px;" >
+        <p:ajax event="change" listener="#{DokTabView.init()}" 
+                onstart="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
+                update=":form:dokumentyLista"/>
+        <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
+        <f:selectItems value="#{DokTabView.cechydokzlisty}" var="item1" itemLabel="#{item1}" itemValue="#{item1}"/>
+        </p:selectOneMenu>
+        </p:panelGrid>
         <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
         <p:hotkey bind="up"   onstart="wrocwiersz();"/>
         <p:outputPanel id="kontenertabeli" deferred="true">
-            <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}" rowIndexVar="index"
+            <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}" 
+                          rowIndexVar="index"
                           style="width: 1400px; margin-top: 10px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid" 
@@ -88,8 +101,8 @@
                     <h:outputText value="Zestawienie #{DokTabView.obiektDOKmrjsfSel.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
-                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
-                    <p:columnToggler datasource="dokumentyLista" trigger="toggler"/>
+<!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
+                    <p:columnToggler datasource="dokumentyLista" trigger="toggler"/>-->
                 </f:facet>
 
                 <p:column style="width: 10px; height: 45px; text-align: center;" >
@@ -126,7 +139,7 @@
                     <h:outputText value="#{wpis.nrWlDk}" />
                 </p:column>
                 <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;">  
-                    <h:outputText value="#{wpis.opis}"/>
+                    <h:outputText value="#{wpis.opis}" styleClass="#{item.czyCecha() ? 'zapisZcecha' : null}"/>
                 </p:column>
                 <p:column id="nettoColumn" headerText="#{mgs.netto}" rendered="#{DokTabView.walutywdokum.size() gt 0 and DokTabView.walutywdokum.get(0) ne 'PLN'}"
                           filterBy="#{wpis.symbolWaluty}" filterMatchMode="contains"  sortBy="#{wpis.symbolWaluty}"  style="width: 60px;">  

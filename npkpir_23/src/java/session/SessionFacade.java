@@ -1999,8 +1999,12 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("SprawozdanieFinansowe.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", rok).getResultList();
     }
 
-    public List<Cechazapisu> findCechaZapisuByPodatnik(Podatnik podatnikObiekt) {
+    public List<Cechazapisu> findCechaZapisuByPodatnikOnly(Podatnik podatnikObiekt) {
         return em.createNamedQuery("Cechazapisu.findByPodatnikOnly").setParameter("podatnik", podatnikObiekt).getResultList();
+    }
+    
+    public List<Cechazapisu> findCechaZapisuByPodatnik(Podatnik podatnikObiekt) {
+        return em.createNamedQuery("Cechazapisu.findByPodatnik").setParameter("podatnik", podatnikObiekt).getResultList();
     }
 
     public List<Fakturywystokresowe> findOkresoweOstatnieByfaktura(Faktura p) {

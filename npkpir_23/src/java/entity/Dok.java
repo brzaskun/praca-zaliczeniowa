@@ -591,6 +591,12 @@ public class Dok implements Serializable {
         this.sprawdzony = sprawdzony;
     }
     
+    public boolean czyCecha() {
+        if (this.cechadokumentuLista != null && this.cechadokumentuLista.size() > 0) {
+            return true;
+        } 
+        return false;
+    }
 
     @Override
     public int hashCode() {

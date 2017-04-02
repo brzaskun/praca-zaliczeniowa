@@ -35,6 +35,10 @@ public class CechazapisuDAOfk extends DAO implements Serializable {
     public List<Cechazapisu> findAll() {
         return sessionFacade.findAll(Cechazapisu.class);
     }
+    
+    public List<Cechazapisu> findPodatnikOnly(Podatnik podatnikObiekt) {
+        return sessionFacade.findCechaZapisuByPodatnikOnly(podatnikObiekt);
+    }
 
     public List<Cechazapisu> findPodatnik(Podatnik podatnikObiekt) {
         return sessionFacade.findCechaZapisuByPodatnik(podatnikObiekt);

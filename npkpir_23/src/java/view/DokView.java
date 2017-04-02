@@ -25,6 +25,7 @@ import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
+import daoFK.CechazapisuDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import data.Data;
@@ -47,6 +48,7 @@ import entity.Rozrachunek1;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
+import entityfk.Cechazapisu;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
@@ -70,12 +72,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
@@ -146,6 +146,7 @@ public final class DokView implements Serializable {
     private SrodekTrw selectedSTR;
     /*Środki trwałe*/
     private boolean pokazEST;//pokazuje wykaz srodkow dla sprzedazy
+    private List<Cechazapisu> pobranecechypodatnik;
 
     @Inject
     private Srodkikst srodekkategoriawynik;
@@ -179,6 +180,8 @@ public final class DokView implements Serializable {
     private Evewidencja nazwaEwidencjiwPoprzednimDok;
     @Inject
     private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
+    @Inject
+    private CechazapisuDAOfk cechazapisuDAOfk;
     private String symbolwalutydowiersza;
     private List<Waluty> wprowadzonesymbolewalut;
     @Inject
@@ -189,6 +192,7 @@ public final class DokView implements Serializable {
     @Inject
     private Kolumna1Rozbicie sumarozbicie;
     private double stawkaVATwPoprzednimDok;
+    
 
     public DokView() {
         setWysDokument(null);
@@ -198,6 +202,25 @@ public final class DokView implements Serializable {
         this.wprowadzonesymbolewalut = new ArrayList<>();
         this.kolumna1rozbicielista = new ArrayList<>();
         this.kolumna1rozbicielista.add(new Kolumna1Rozbicie());
+        this.pobranecechypodatnik = new ArrayList<>();
+    }
+    
+    private void obsluzcechydokumentu() {
+        //usuwamy z listy dostepnych cech te, ktore sa juz przyporzadkowane do dokumentu
+        if (pobranecechypodatnik != null) {
+            List<Cechazapisu> cechyuzyte = null;
+            if (selDokument != null) {
+                if (selDokument.getCechadokumentuLista() == null) {
+                    cechyuzyte = new ArrayList<>();
+                } else {
+                    cechyuzyte = selDokument.getCechadokumentuLista();
+                }
+                for (Cechazapisu c : cechyuzyte) {
+                    pobranecechypodatnik.remove(c);
+                }
+            }
+            RequestContext.getCurrentInstance().update("formCH");
+        }
     }
 
     public void dodajwierszpkpir() {
@@ -232,6 +255,7 @@ public final class DokView implements Serializable {
         Podatnik podX = wpisView.getPodatnikObiekt();
         symbolWalutyNettoVat = " zł";
         biezacyklientdodok = klDAO.findKlientByNip(podX.getNip());
+        pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
         try {
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             rodzajedokKlienta.addAll(pobierzrodzajedok());
@@ -280,7 +304,17 @@ public final class DokView implements Serializable {
         //ukrocmiesiace();
 
     }
-
+    
+    public void dodajcechedodokumentu(Cechazapisu c) {
+        pobranecechypodatnik.remove(c);
+        selDokument.getCechadokumentuLista().add(c);
+        c.getDokLista().add(selDokument);
+    }
+    public void usuncechedodokumentu(Cechazapisu c) {
+        pobranecechypodatnik.add(c);
+        selDokument.getCechadokumentuLista().remove(c);
+        c.getDokfkLista().remove(selDokument);
+    }
     private List<Rodzajedok> pobierzrodzajedok() {
         List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
@@ -1407,6 +1441,7 @@ public final class DokView implements Serializable {
 
     public void sprawdzczywybranodokumentdoedycji() {
         skopiujdoedycjidane();
+        obsluzcechydokumentu();
         if (selDokument.getTypdokumentu().equals("OT")) {
             Msg.msg("e", "Nie można edytować dokumnetu zakupu środków trwałych!");
             RequestContext.getCurrentInstance().execute("PF('dialogEdycjaZaksiegowanychDokumentow').hide();");
@@ -1973,6 +2008,14 @@ public final class DokView implements Serializable {
 
     public void setKolumna1rozbicielista(List<Kolumna1Rozbicie> kolumna1rozbicielista) {
         this.kolumna1rozbicielista = kolumna1rozbicielista;
+    }
+
+    public List<Cechazapisu> getPobranecechypodatnik() {
+        return pobranecechypodatnik;
+    }
+
+    public void setPobranecechypodatnik(List<Cechazapisu> pobranecechypodatnik) {
+        this.pobranecechypodatnik = pobranecechypodatnik;
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

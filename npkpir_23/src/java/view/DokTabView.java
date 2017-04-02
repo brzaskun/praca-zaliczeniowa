@@ -22,6 +22,7 @@ import entity.Podatnik;
 import entity.StornoDok;
 import entity.Uz;
 import entity.Wpis;
+import entityfk.Cechazapisu;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -94,6 +95,8 @@ public class DokTabView implements Serializable {
     
      private List<Inwestycje> inwestycje;
      @Inject private InwestycjeDAO inwestycjeDAO;
+     private String wybranacechadok;
+     private List cechydokzlisty;
 
     public DokTabView() {
        inicjalizacjalist();
@@ -176,9 +179,26 @@ public class DokTabView implements Serializable {
         Collections.sort(kontrahentypodatnika, collator);
         walutywdokum.addAll(waluty);
         Collections.sort(walutywdokum);
+        cechydokzlisty = znajdzcechy(obiektDOKmrjsfSel);
     }
     
-
+       private List znajdzcechy(List<Dok> wykazZaksiegowanychDokumentow) {
+        if (wybranacechadok == null || wybranacechadok.equals("")) {
+            Set<String> lista = new HashSet<>();
+            for (Dok p : wykazZaksiegowanychDokumentow) {
+                if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
+                    for (Cechazapisu r : p.getCechadokumentuLista()) {
+                        lista.add(r.getCechazapisuPK().getNazwacechy());
+                    }
+                }
+            }
+            List<String> t = new ArrayList<>(lista);
+            Collections.sort(t);
+            return t;
+        } else {
+            return cechydokzlisty;
+        }
+    }
     
      public void sprawdzCzyNieDuplikat() {
         Msg.msg("i", "Rozpoczynam badanie bazy klienta "+wpisView.getPodatnikWpisu()+" na obecność duplikatów");
@@ -469,6 +489,14 @@ public class DokTabView implements Serializable {
             this.obiektDOKjsf = obiektDOKjsf;
         }
 
+    public String getWybranacechadok() {
+        return wybranacechadok;
+    }
+
+    public void setWybranacechadok(String wybranacechadok) {
+        this.wybranacechadok = wybranacechadok;
+    }
+
     public List<String> getDokumentypodatnika() {
         return dokumentypodatnika;
     }
@@ -594,6 +622,14 @@ public class DokTabView implements Serializable {
         public void setDokumentyokresowe(List<Dok> dokumentyokresowe) {
             this.dokumentyokresowe = dokumentyokresowe;
         }
+
+    public List getCechydokzlisty() {
+        return cechydokzlisty;
+    }
+
+    public void setCechydokzlisty(List cechydokzlisty) {
+        this.cechydokzlisty = cechydokzlisty;
+    }
 
         public List<Dok> getDokumentyFiltered() {
             return dokumentyFiltered;
