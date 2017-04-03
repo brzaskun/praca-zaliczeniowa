@@ -5,18 +5,15 @@
  */
 package beansFK;
 
-import daoFK.CechazapisuDAOfk;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 import javax.inject.Named;
-import view.WpisView;
 import viewfk.CechyzapisuPrzegladView;
 
 /**
@@ -141,5 +138,34 @@ public class CechazapisuBean {
         return lista;
     }
     
-    
+    public static void luskaniezapisowZCechami(String wybranacechadok, List<StronaWiersza> zapisyRok) {
+        if (wybranacechadok != null) {
+                for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
+                StronaWiersza p = it.next();
+                if (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0) {
+                    boolean usun = true;
+                    for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
+                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                            usun = false;
+                        }
+                    }
+                    if (usun) {
+                        it.remove();
+                    }
+                } else if (p.getCechazapisuLista() != null && p.getCechazapisuLista().size() > 0) {
+                    boolean usun = true;
+                    for (Cechazapisu cz : p.getCechazapisuLista()) {
+                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                            usun = false;
+                        }
+                    }
+                    if (usun) {
+                        it.remove();
+                    }
+                } else {
+                    it.remove();
+                }
+            }
+        }
+    }
 }

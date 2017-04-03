@@ -6,6 +6,7 @@
 package viewfk;
 
 import beansFK.BOFKBean;
+import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import dao.StronaWierszaDAO;
 import daoFK.CechazapisuDAOfk;
@@ -224,40 +225,8 @@ public class SaldoAnalitykaView implements Serializable {
 
     private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String rodzajkonta) {
         List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta);
-        if (wybranacechadok != null) {
-            for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
-                StronaWiersza p = it.next();
-                if (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0) {
-                    boolean usun = true;
-                    for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
-                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
-                            usun = false;
-                        }
-                    }
-                    if (usun) {
-                        it.remove();
-                    }
-                } else {
-                    it.remove();
-                }
-            }
-            for (Iterator<StronaWiersza> it = zapisyBO.iterator(); it.hasNext();) {
-                StronaWiersza p = it.next();
-                if (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0) {
-                    boolean usun = true;
-                    for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
-                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
-                            usun = false;
-                        }
-                    }
-                    if (usun) {
-                        it.remove();
-                    }
-                } else {
-                    it.remove();
-                }
-            }
-        }
+        CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
+        CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
         Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
         for (Konto p : kontaklienta) {

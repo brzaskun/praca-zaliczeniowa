@@ -125,24 +125,7 @@ public class SymulacjaWynikuView implements Serializable {
      private List<SaldoKonto> przygotowanalistasaldR(List<Konto> kontaklienta, int przychod0koszt1) {
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
         List<StronaWiersza> zapisyRok = pobierzzapisyR();
-        if (wybranacechadok != null) {
-            for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
-                StronaWiersza p = it.next();
-                if (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0) {
-                    boolean usun = true;
-                    for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
-                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
-                            usun = false;
-                        }
-                    }
-                    if (usun) {
-                        it.remove();
-                    }
-                } else {
-                    it.remove();
-                }
-            }
-        }
+        CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
