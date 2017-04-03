@@ -5,6 +5,7 @@
 package viewfk;
 
 import beansDok.ListaEwidencjiVat;
+import beansFK.CechazapisuBean;
 import beansFK.DialogWpisywanie;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
@@ -1611,10 +1612,20 @@ public class DokfkView implements Serializable {
                                         dousuniecia = false;
                                     }
                                 }
-                                if (dousuniecia) {
-                                    it.remove();
+                            }
+                            boolean dousuniecia2 = true;
+                            if (dousuniecia) {
+                                for (StronaWiersza sw : r.getStronyWierszy()) {
+                                    if (sw.getCechazapisuLista() != null && sw.getCechazapisuLista().size() > 0) {
+                                        for (Cechazapisu ch : sw.getCechazapisuLista()) {
+                                            if (ch.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                                                dousuniecia2 = false;
+                                            }
+                                        }
+                                    }
                                 }
-                            } else {
+                            }
+                            if (dousuniecia && dousuniecia2) {
                                 it.remove();
                             }
                         }
