@@ -78,6 +78,7 @@ public class SymulacjaWynikuView implements Serializable {
     private double pmn_mc;
     private double pmn_mc_pop;
     private List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCecha;
+    private List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCechafiltered;
     private double wynikfinansowy;
     private boolean tylkokontasyntetyczne;
     private String wybranacechadok;
@@ -301,13 +302,13 @@ public class SymulacjaWynikuView implements Serializable {
         }
         pmn_mc = -CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacWpisu());
         pmn_mc_pop = 0.0;
-            zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "PMN", wpisView.getMiesiacUprzedni());
-            pmn_mc_pop = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacUprzedni());
-            for (StronaWiersza stw : zapisycechaprzychod) {
-                for (Cechazapisu s : stw.getCechazapisuLista()) {
-                    zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw, "popmc"));
-                }
+        zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "PMN", wpisView.getMiesiacUprzedni());
+        pmn_mc_pop = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacUprzedni());
+        for (StronaWiersza stw : zapisycechaprzychod) {
+            for (Cechazapisu s : stw.getCechazapisuLista()) {
+                zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw, "popmc"));
             }
+        }
     }
     
     public void zaksiegujwynik () {
@@ -542,6 +543,14 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setPozycjeObliczeniaPodatku(List<PozycjeSymulacji> pozycjeObliczeniaPodatku) {
         this.pozycjeObliczeniaPodatku = pozycjeObliczeniaPodatku;
+    }
+
+    public List<CechyzapisuPrzegladView.CechaStronaWiersza> getZapisyZCechafiltered() {
+        return zapisyZCechafiltered;
+    }
+
+    public void setZapisyZCechafiltered(List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCechafiltered) {
+        this.zapisyZCechafiltered = zapisyZCechafiltered;
     }
 
     

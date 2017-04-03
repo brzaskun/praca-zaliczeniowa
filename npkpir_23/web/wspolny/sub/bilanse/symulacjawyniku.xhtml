@@ -219,18 +219,22 @@
             </p:dataTable>
             <p:outputPanel rendered="#{symulacjaWynikuView.wybranacechadok == null}">
             <p:dataTable id="tabelacechyzapisow" var="wpis" value="#{symulacjaWynikuView.zapisyZCecha}" editable="true" rowKey="#{wpis.id}"
+                         filteredValue="#{symulacjaWynikuView.zapisyZCechafiltered}"
                          emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" 
                          style="margin-top: 10px;width: 900px;"  scrollable="true" scrollRows="20" scrollHeight="300" 
                           widgetVar="tabelacechyzapisow" rowIndexVar="index">
+                <p:ajax event="filter" global="false"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zapisów z cechami " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('tabelacechyzapisow').filter();" style="width:150px" />  
                 </f:facet>
-                <p:column headerText="nazwa cechy" style="width:60px;" sortBy="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}">
+                <p:column headerText="nazwa cechy" style="width:60px;" sortBy="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}"
+                          filterBy="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}" filterMatchMode="contains" filterStyle="display: none;">
                     <h:outputText value="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}"/>
                 </p:column>
-                <p:column headerText="#{mgs.dokument}" style="width:60px;">
+                <p:column headerText="#{mgs.dokument}" style="width:60px;"
+                          filterBy="#{wpis.stronaWiersza.dokfkS}" filterMatchMode="contains" filterStyle="display: none;">
                     <h:outputText value="#{wpis.stronaWiersza.dokfkS}"/>
                 </p:column>
                 <p:column headerText="#{mgs.datadok}" style="width:80px;">
@@ -239,10 +243,12 @@
                 <p:column headerText="#{mgs.miesiąc}" style="width:40px;">
                     <h:outputText value="#{wpis.stronaWiersza.dokfk.miesiac}"/>
                 </p:column>
-                <p:column headerText="#{mgs.wiersz}" style="width:350px;">
+                <p:column headerText="#{mgs.wiersz}" style="width:350px;"
+                          filterBy="#{wpis.stronaWiersza.wiersz.opisWiersza}" filterMatchMode="contains" filterStyle="display: none;">
                     <h:outputText value="#{wpis.stronaWiersza.wiersz.opisWiersza}"/>
                 </p:column>
-                <p:column headerText="#{mgs.konto}" style="width:70px;">
+                <p:column headerText="#{mgs.konto}" style="width:70px;"
+                          filterBy="#{wpis.stronaWiersza.konto.pelnynumer}" filterMatchMode="startsWith" filterStyle="display: none;">
                     <h:outputText value="#{wpis.stronaWiersza.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.kwota}" style="width:70px;">
