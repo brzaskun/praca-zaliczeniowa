@@ -39,14 +39,14 @@
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
-                                update="akordeon:formsymulacja" oncomplete="pokazprzyciski();"/>
+                                update="akordeon:formsymulacja akordeon:tabelapodsumowanienowa" oncomplete="pokazprzyciski();"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" 
                                      oncomplete="pokazprzyciski();"
-                                     style="width: 120px; margin-left: 20px;" update="akordeon:formsymulacja"/>
+                                     style="width: 120px; margin-left: 20px;" update="akordeon:formsymulacja akordeon:tabelapodsumowanienowa"/>
                 </p:column>
                 <h:outputText value="#{mgs.przetwarzanie}"/>
                 <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)"/>
@@ -298,9 +298,50 @@
                 </p:column>
             </p:dataTable>-->
             <p:commandButton value="#{mgs.zaksiegujrozliczenie}" actionListener="#{symulacjaWynikuView.zaksiegujwynik}"
-                                style="margin-top: 10px; width: 150px; margin-bottom: 400px;" update="akordeon:formsymulacjanarastajaco"/>
+                                style="margin-top: 10px; width: 150px; margin-bottom: 30px;" update="akordeon:formsymulacjanarastajaco"/>
             </p:outputPanel>
         </h:form>
+        <p:outputPanel>
+            <p:dataTable id="tabelapodsumowanienowa" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item2"
+                         style="width: 80%;">
+                <p:column width="30" style="text-align: center;">
+                    <h:outputText value="#{item2.id}"/>
+                </p:column>
+                <p:column width="150" headerText="#{mgs.udziałowiec}">
+                    <h:outputText value="#{item2.udzialowiec}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.udział}">
+                    <bcf:outputplprocent value="#{item2.udzial}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.przychody}">
+                    <bcf:outputpl value="#{item2.przychody}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.koszty}">
+                    <bcf:outputpl value="#{item2.koszty}"/>
+                </p:column>
+                 <p:column  headerText="#{mgs.wynikfinansowy}">
+                     <bcf:outputpl value="#{item2.wynikfinansowy}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.nkup}">
+                    <bcf:outputpl value="#{item2.nkup}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.kupmn}">
+                    <bcf:outputpl value="#{item2.kupmn}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.kupmnpopmce}">
+                    <bcf:outputpl value="#{item2.kupmn_poprzedniemce}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.pmn}">
+                    <bcf:outputpl value="#{item2.pmn}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.pmnpopmce}">
+                    <bcf:outputpl value="#{item2.pmn_poprzedniemce}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.wynikpodatkowy}">
+                    <bcf:outputpl value="#{item2.wynikpodatkowy}"/>
+                </p:column>
+            </p:dataTable>
+        </p:outputPanel>
     </p:tab>  
 </ui:composition>   
 

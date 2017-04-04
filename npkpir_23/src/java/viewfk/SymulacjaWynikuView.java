@@ -5,9 +5,11 @@
  */
 package viewfk;
 
+import embeddablefk.PozycjeSymulacjiNowe;
 import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import beansFK.StronaWierszaBean;
+import dao.PodatnikUdzialyDAO;
 import dao.StronaWierszaDAO;
 import daoFK.CechazapisuDAOfk;
 import daoFK.KontoDAOfk;
@@ -16,6 +18,7 @@ import daoFK.WynikFKRokMcDAO;
 import em.Em;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
+import entity.PodatnikUdzialy;
 import entityfk.Cechazapisu;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -53,6 +56,7 @@ public class SymulacjaWynikuView implements Serializable {
     private List<SaldoKonto> sumaSaldoKontoPrzychody;
     private List<SaldoKonto> sumaSaldoKontoKoszty;
     private List<PozycjeSymulacji> pozycjePodsumowaniaWyniku;
+    private List<PozycjeSymulacjiNowe> pozycjePodsumowaniaWynikuNowe;
     private List<PozycjeSymulacji> pozycjeObliczeniaPodatku;
     private List<PozycjeSymulacji> pozycjeDoWyplaty;
     @ManagedProperty(value = "#{WpisView}")
@@ -67,6 +71,8 @@ public class SymulacjaWynikuView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private WynikFKRokMcDAO wynikFKRokMcDAO;
+    @Inject
+    private PodatnikUdzialyDAO podatnikUdzialyDAO;
     private List<SaldoKonto>wybraneprzychody;
     private double sumaprzychody;
     private List<SaldoKonto>wybranekoszty;
@@ -88,8 +94,8 @@ public class SymulacjaWynikuView implements Serializable {
 
 
     public SymulacjaWynikuView() {
-         E.m(this);
-        sumaSaldoKontoPrzychody = new ArrayList<>();
+        this.sumaSaldoKontoPrzychody = new ArrayList<>();
+        this.pozycjePodsumowaniaWynikuNowe = new ArrayList<>();
     }
 
     public void init() {
@@ -111,6 +117,7 @@ public class SymulacjaWynikuView implements Serializable {
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
         pobierzzapisyzcechami();
         obliczsymulacje();
+        obliczsymulacjeNowa();
 //        pozycjeDoWyplatyNarastajaco = symulacjaWynikuNarastajacoView.danedobiezacejsym();
 //        obliczkwotydowyplaty();
         System.out.println("");
@@ -221,9 +228,9 @@ public class SymulacjaWynikuView implements Serializable {
 
     private void obliczsymulacje() {
         pozycjePodsumowaniaWyniku = new ArrayList<>();
-        double przychody = Z.z(sumuj(listakontaprzychody, B.b("przychody")));
+        double przychody = Z.z(sumuj(listakontaprzychody, "przychody"));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("przychodyrazem"), przychody));
-        double koszty = Z.z(sumuj(listakontakoszty, B.b("koszty")));
+        double koszty = Z.z(sumuj(listakontakoszty, "koszty"));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("kosztyrazem"), koszty));
         wynikfinansowy = Z.z(przychody - koszty);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowy"), wynikfinansowy));
@@ -235,6 +242,44 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("pmn pop mce",Z.z(pmn_mc_pop)));
         double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc + kupmn_mc_pop - npup - pmn_mc - pmn_mc_pop);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
+    }
+    
+    private void obliczsymulacjeNowa() {
+        pozycjePodsumowaniaWynikuNowe = new ArrayList<>();
+        double przychody = Z.z(sumuj(listakontaprzychody, "przychody"));
+        double koszty = Z.z(sumuj(listakontakoszty, "koszty"));
+        double wynik = Z.z(przychody - koszty);
+        double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc + kupmn_mc_pop - npup - pmn_mc - pmn_mc_pop);
+        double udzial = 1;
+        String kto = B.b("wszyscy");
+        int id = 1;
+        pozycjePodsumowaniaWynikuNowe.add(obliczpojedyncza(id++, przychody, koszty, wynik, wynikpodatkowy, udzial, kto));
+        List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+        for (PodatnikUdzialy p : udzialy) {
+            double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
+            pozycjePodsumowaniaWynikuNowe.add(obliczpojedyncza(id++, przychody, koszty, wynik, wynikpodatkowy, udział, p.getNazwiskoimie()));
+        }
+    }
+    
+    private PozycjeSymulacjiNowe obliczpojedyncza(int id, double przychody, double koszty, double wynik, double wynikpodatkowy, double udzial, String kto) {
+        PozycjeSymulacjiNowe p = new PozycjeSymulacjiNowe();
+        p.setId(id);
+        p.setPrzychody(Z.z(przychody*udzial));
+        p.setKoszty(Z.z(koszty*udzial));
+        p.setWynikfinansowy(Z.z(wynik*udzial));
+        p.setNkup(Z.z(nkup*udzial));
+        p.setKupmn(Z.z(kupmn_mc*udzial));
+        p.setKupmn_poprzedniemce(Z.z(kupmn_mc_pop*udzial));
+        p.setNpup(Z.z(npup*udzial));
+        p.setPmn(Z.z(pmn_mc*udzial));
+        p.setPmn_poprzedniemce(Z.z(pmn_mc_pop*udzial));
+        p.setWynikpodatkowy(Z.z(wynikpodatkowy*udzial));
+        p.setPodatnik(wpisView.getPodatnikObiekt());
+        p.setRok(wpisView.getRokWpisuSt());
+        p.setMc(wpisView.getMiesiacWpisu());
+        p.setUdzialowiec(kto);
+        p.setUdzial(udzial);
+        return p;
     }
     
     
@@ -413,6 +458,14 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setWybraneprzychody(List<SaldoKonto> wybraneprzychody) {
         this.wybraneprzychody = wybraneprzychody;
+    }
+
+    public List<PozycjeSymulacjiNowe> getPozycjePodsumowaniaWynikuNowe() {
+        return pozycjePodsumowaniaWynikuNowe;
+    }
+
+    public void setPozycjePodsumowaniaWynikuNowe(List<PozycjeSymulacjiNowe> pozycjePodsumowaniaWynikuNowe) {
+        this.pozycjePodsumowaniaWynikuNowe = pozycjePodsumowaniaWynikuNowe;
     }
 
     public String getWybranacechadok() {

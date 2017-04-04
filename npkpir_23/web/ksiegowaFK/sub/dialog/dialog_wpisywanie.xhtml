@@ -487,7 +487,8 @@
                             </p:inputText>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}"  style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
-                            <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px; color: red;" 
+                            <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" 
+                                            style="text-align: right; margin-left: auto; margin-right: auto; width: 80px; color: red;" 
                                             rendered="#{loop.stronaWn != null}" onfocus="kalkulator_pobierzwiersz(this);"
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
                                             decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
@@ -511,7 +512,8 @@
                                             </p:column>-->
 
                         <p:column headerText="konto Wn" style="text-align: center; width: 100px;"> 
-                            <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaWn != null}"
+                            <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" 
+                                            rendered="#{loop.stronaWn != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
                                             minQueryLength="1" converter="KontoConv" queryDelay="1" maxResults="150"
                                             converterMessage="Nieudana konwersja Klient" scrollHeight="180" widgetVar="complWn#{loop.idporzadkowy}"
@@ -537,7 +539,7 @@
                             <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{loop.stronaMa != null}" onfocus="kalkulator_pobierzwiersz(this);"
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
-                                            readonly="#{loop.stronaMa.typStronaWiersza != 0}" 
+                                            
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                                 <p:ajax global="false" event="change" partialSubmit="true"  />
                                 <p:ajax global="false" event="blur" partialSubmit="true"  onstart="skopiujKwoteZeStronaWn(#{loop.idporzadkowy-1}, 'Wn');"/>
@@ -545,7 +547,8 @@
                             </pe:inputNumber> 
                         </p:column>
                         <p:column headerText="kwota PLN" style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
-                            <pe:inputNumber id="mapln" value="#{loop.stronaMa.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
+                            <pe:inputNumber id="mapln" value="#{loop.stronaMa.kwotaPLN}" 
+                                            style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{loop.stronaMa != null}"
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                             
