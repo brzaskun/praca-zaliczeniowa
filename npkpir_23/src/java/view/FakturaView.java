@@ -1860,6 +1860,21 @@ public class FakturaView implements Serializable {
             return property;
         }
     }
+   
+   public void skorygujnumer() {
+       String numer = selected.getFakturaPK().getNumerkolejny();
+       boolean jest = false;
+       if (numer.contains(".") || numer.contains("-") || numer.contains("\\")) {
+           jest = true;
+           numer = numer.replace(".", "/");
+           numer = numer.replace(",", "/");
+           numer = numer.replace("\\", "/");
+           selected.getFakturaPK().setNumerkolejny(numer);
+       }
+       if (jest) {
+           Msg.msg("w", "Skorygowano numer faktury. Usunięto niedozwolone znaki");
+       }
+   }
     
 //   public void zrobfakt() {
 //       List<Faktura> faktury = fakturaDAO.findAll();

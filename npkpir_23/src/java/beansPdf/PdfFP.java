@@ -1460,7 +1460,7 @@ public class PdfFP {
             nb.append(selected.getVIN());
             nb.append(", który zakupiłem w roku ");
             nb.append(selected.getDatazakupusamochodu());
-            table.addCell(ustawfrazeAlign(nb.toString(), "left",8));
+            table.addCell(ustawfrazeAlign(nb.toString(), "left",8, 30f));
             table.addCell(ustawfrazeAlign(".............................","center",9));
             nb = new StringBuilder();
             if (selected.isSamochodbeztablic()) {
@@ -1476,12 +1476,12 @@ public class PdfFP {
                 nb.append(selected.getVIN());
                 nb.append(" zostały zwrócone do organu rejestrującego państwa, z którego pojazd został sprowadzony");
             }
-            table.addCell(ustawfrazeAlign(nb.toString(), "left",8));
+            table.addCell(ustawfrazeAlign(nb.toString(), "left",8, 30f));
             table.addCell(ustawfrazeAlign(".............................","center",9));
             table.completeRow();
             table.writeSelectedRows(0, -1,
             document.left(document.leftMargin()+25f),
-            table.getTotalHeight() + document.bottom(document.bottomMargin()-15f), 
+            table.getTotalHeight() + document.bottom(document.bottomMargin()-25f), 
             writer.getDirectContent());
         } catch (DocumentException ex) {
             Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
