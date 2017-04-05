@@ -80,15 +80,12 @@ public class PlatnosciView implements Serializable {
 
     @PostConstruct
     private void init() {
-        HttpServletRequest request;
-        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Principal principal = request.getUserPrincipal();
-        String nazwapodatnika = principal.getName();
         try {
-            biezacyPodanik = podatnikDAO.find(wpisView.findNazwaPodatnika());
-        } catch (Exception e) { E.e(e); 
+            biezacyPodanik = wpisView.getPodatnikObiekt();
+            pokazzobowiazania();
+        } catch (Exception e) { 
+            E.e(e); 
         }
-        pokazzobowiazania();
     }
 
     public void pokazzobowiazania() {
@@ -127,7 +124,8 @@ public class PlatnosciView implements Serializable {
                     zusstawki = tmp;
                 }
             }
-            selectedZob.setZus51(zusstawki.getZus51ch());
+            Double zus51 = zusstawki.getZus51ch() != null ? zusstawki.getZus51ch() : zusstawki.getZus51bch();
+            selectedZob.setZus51(zus51);
             selectedZob.setZus52(zusstawki.getZus52());
             selectedZob.setZus53(zusstawki.getZus53());
             selectedZob.setPit4(zusstawki.getPit4());

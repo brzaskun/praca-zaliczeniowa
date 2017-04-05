@@ -48,7 +48,7 @@
                     <h:outputText value="ZUS51" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.zus51}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus51 ne null ? PlatnosciView.selectedZob.zus51 : PlatnosciView.selectedZob.zus}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column rowspan="3" > 
                     <h:outputText  value="zapłaciłem dnia " />

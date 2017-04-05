@@ -238,7 +238,7 @@ public class Faktura implements Serializable {
     private String markapojazdu;
     @Column(name = "VIN", nullable = true)
     private String VIN;
-    @Column(name = "datazakupusamochodu", nullable = true)
+    @Column(name = "datazakupusamochodu", nullable = true, length = 4)
     private String datazakupusamochodu;
     @Column(name = "samochodbeztablic")
     private boolean samochodbeztablic;
