@@ -256,20 +256,23 @@ public class EVatwpisFK implements Serializable {
         this.dataoperacji = dataoperacji;
     }
 //</editor-fold>
-    
-    
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + Objects.hashCode(this.ewidencja);
-        hash = 89 * hash + (int) (Double.doubleToLongBits(this.netto) ^ (Double.doubleToLongBits(this.netto) >>> 32));
-        hash = 89 * hash + (int) (Double.doubleToLongBits(this.vat) ^ (Double.doubleToLongBits(this.vat) >>> 32));
-        hash = 89 * hash + Objects.hashCode(this.estawka);
+        int hash = 3;
+        hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 97 * hash + Objects.hashCode(this.ewidencja);
+        hash = 97 * hash + Objects.hashCode(this.dokfk);
+        hash = 97 * hash + Objects.hashCode(this.wiersz);
+        hash = 97 * hash + Objects.hashCode(this.klient);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -277,6 +280,9 @@ public class EVatwpisFK implements Serializable {
             return false;
         }
         final EVatwpisFK other = (EVatwpisFK) obj;
+        if (this.id != other.id) {
+            return false;
+        }
         if (!Objects.equals(this.ewidencja, other.ewidencja)) {
             return false;
         }
@@ -291,6 +297,9 @@ public class EVatwpisFK implements Serializable {
         }
         return true;
     }
+    
+    
+  
 
     @Override
     public String toString() {

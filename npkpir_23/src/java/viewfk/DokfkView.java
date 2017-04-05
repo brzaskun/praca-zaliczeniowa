@@ -560,10 +560,10 @@ public class DokfkView implements Serializable {
     }
 
     public void usunEwidencjeDodatkowa(EVatwpisFK eVatwpisFK) {
-        if (eVatwpisFK.getLp() != 0) {
+        if (selected.getEwidencjaVAT() != null && selected.getEwidencjaVAT().size() > 1) {
             for (Iterator<EVatwpisFK> it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {
                 EVatwpisFK p = (EVatwpisFK) it.next();
-                if (p.getLp() == eVatwpisFK.getLp()) {
+                if (p.equals(eVatwpisFK)) {
                     it.remove();
                 }
             }
