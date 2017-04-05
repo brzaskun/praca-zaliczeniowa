@@ -47,6 +47,7 @@ import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import embeddablefk.PozycjeSymulacjiNowe;
 
 /**
  *
@@ -55,7 +56,7 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
 
 public class PdfSymulacjaWyniku {
     
-    public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, 
+    public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<PozycjeSymulacjiNowe> listapozycjisymulacji, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty) {
         try {
             String nazwapliku = null;
@@ -75,7 +76,7 @@ public class PdfSymulacjaWyniku {
         }
     }
 
-    private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji,
+    private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<PozycjeSymulacjiNowe> listapozycjisymulacji,
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         try {
@@ -201,27 +202,41 @@ public class PdfSymulacjaWyniku {
         return table;
     }
 
-   private static PdfPTable tablica2(List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji) throws DocumentException, IOException {
-        PdfPTable table = new PdfPTable(2);
-        table.setWidths(new int[]{4, 1});
-        table.setWidthPercentage(50);
+   private static PdfPTable tablica2(List<PozycjeSymulacjiNowe> listapozycjisymulacji) throws DocumentException, IOException {
+        PdfPTable table = new PdfPTable(12);
+        table.setWidths(new int[]{1, 5, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3});
+        table.setWidthPercentage(107);
         table.setSpacingBefore(15);
         try {
-            table.addCell(ustawfraze(B.b("obliczeniewynikufinipod"), 2, 0));
-
-            table.addCell(ustawfraze(B.b("opis"), 0, 1));
-            table.addCell(ustawfraze(B.b("kwota"), 0, 1));
-
-            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie podatku", 2, 0, 5));
-
-            table.setHeaderRows(3);
-            table.setFooterRows(1);
-        } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            table.addCell(ustawfraze("", 0, 1));
+            table.addCell(ustawfraze(B.b("udziałowiec"), 0, 1));
+            table.addCell(ustawfraze(B.b("udział"), 0, 1));
+            table.addCell(ustawfraze(B.b("przychody"), 0, 1));
+            table.addCell(ustawfraze(B.b("koszty"), 0, 1));
+            table.addCell(ustawfraze(B.b("wynikfinansowy"), 0, 1));
+            table.addCell(ustawfraze(B.b("nkup"), 0, 1));
+            table.addCell(ustawfraze(B.b("kupmn"), 0, 1));
+            table.addCell(ustawfraze(B.b("kupmnpopmce"), 0, 1));
+            table.addCell(ustawfraze(B.b("pmn"), 0, 1));
+            table.addCell(ustawfraze(B.b("pmnpopmce"), 0, 1));
+            table.addCell(ustawfraze(B.b("wynikpodatkowy"), 0, 1));
+            table.setHeaderRows(1);
+        } catch (Exception ex) {
+            E.e(ex);
         }
-        for (SymulacjaWynikuView.PozycjeSymulacji rs : listapozycjisymulacji) {
-            table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+        for (PozycjeSymulacjiNowe rs : listapozycjisymulacji) {
+            table.addCell(ustawfrazeAlign(rs.getId(), "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getUdzialowiec(), "left", 7));
+            table.addCell(ustawfrazeAlign(formatujProcent(rs.getUdzial()), "right", 6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getPrzychody()), "right", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKoszty()), "right", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWynikfinansowy()), "right", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNkup()), "right", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKupmn()), "right", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKupmn_poprzedniemce()), "right", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getPmn()), "right", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getPmn_poprzedniemce()), "right", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWynikpodatkowy()), "right", 7));
         }
         return table;
     }
