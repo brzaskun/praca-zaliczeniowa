@@ -135,7 +135,12 @@ public class UkladBRView implements Serializable {
                 lista.add(ukladBR);
                 Collections.sort(lista, new UkladBRcomparator());
                 wybranyukladwzorcowy = null;
+                init();
                 Msg.msg("i", "Skopiowano układ podatnika");
+                pozycjaBRKontaView.init();
+                pozycjaBRKontaView.kopiujwzorcoweprzyporzadkowanie("r", true);
+                pozycjaBRKontaView.kopiujwzorcoweprzyporzadkowanie("b", true);
+                Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
             }
         } catch (EJBException ejb) {
             Msg.msg("e", "Nieudana próba skopiowania układu. Układ za dany rok już istnieje " + ejb.getMessage());

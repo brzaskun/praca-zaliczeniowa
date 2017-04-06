@@ -509,12 +509,8 @@ public class KontaVatFKView implements Serializable {
                 naliczony += p.getSaldoWn() > 0.0 ? p.getSaldoWn() : 0.0;
             }
         }
-        double zaokraglenianalezny = nalezny % 1;
-        zaokraglenianalezny = Math.round(zaokraglenianalezny * 100);
-        zaokraglenianalezny /= 100;
-        double zaokraglenianaliczony = naliczony % 1;
-        zaokraglenianaliczony = Math.round(zaokraglenianaliczony * 100);
-        zaokraglenianaliczony /= 100;
+        double zaokraglenianalezny = Z.z(nalezny % 1);
+        double zaokraglenianaliczony = Z.z(naliczony % 1);
         SaldoKonto saldokontoNalezny = zrobSaldoKontoNalezny(zaokraglenianalezny);
         if (saldokontoNalezny != null) {
             kontavat.add(saldokontoNalezny);
@@ -526,33 +522,35 @@ public class KontaVatFKView implements Serializable {
     }
    
     private SaldoKonto zrobSaldoKontoNalezny(double zaokraglenia) {
+        SaldoKonto zwrot = null;
         Konto pozostaleprzychodyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe przych. operac.", wpisView);
         Konto pozostalekosztyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe koszty operac.", wpisView);
         if (zaokraglenia >= 0.5) {
-            return new SaldoKonto(pozostalekosztyoperacyjne, 0.0, 1-zaokraglenia);
-        } 
-        if (zaokraglenia > 0.0)  {
+            zwrot =  new SaldoKonto(pozostalekosztyoperacyjne, 0.0, 1-zaokraglenia);
+        } else if (zaokraglenia > 0.0)  {
             return new SaldoKonto(pozostaleprzychodyoperacyjne, zaokraglenia, 0.0);
-        } 
-        if (zaokraglenia == 0.0) {
-            return null;
+        } else if (zaokraglenia <= -0.5) {
+            zwrot =  new SaldoKonto(pozostalekosztyoperacyjne, 0.0, 1+zaokraglenia);
+        } else if (zaokraglenia < 0.0)  {
+            return new SaldoKonto(pozostaleprzychodyoperacyjne, -zaokraglenia, 0.0);
         }
-        return null;
+        return zwrot;
     }
     
     private SaldoKonto zrobSaldoKontoNaliczony(double zaokraglenia) {
+        SaldoKonto zwrot = null;
         Konto pozostaleprzychodyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe przych. operac.", wpisView);
         Konto pozostalekosztyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe koszty operac.", wpisView);
         if (zaokraglenia >= 0.5) {
-            return new SaldoKonto(pozostaleprzychodyoperacyjne, 1- zaokraglenia, 0.0);
+            zwrot =  new SaldoKonto(pozostaleprzychodyoperacyjne, 1- zaokraglenia, 0.0);
+        } else if (zaokraglenia > 0.0) {
+            zwrot =  new SaldoKonto(pozostalekosztyoperacyjne, 0.0, zaokraglenia);
+        } else if (zaokraglenia <= -0.5) {
+            zwrot =  new SaldoKonto(pozostaleprzychodyoperacyjne, 1+ zaokraglenia, 0.0);
+        } else if (zaokraglenia < 0.0)  {
+            zwrot =  new SaldoKonto(pozostalekosztyoperacyjne, 0.0, -zaokraglenia);
         }
-        if (zaokraglenia > 0.0) {
-            return new SaldoKonto(pozostalekosztyoperacyjne, 0.0, zaokraglenia);
-        }
-        if (zaokraglenia == 0.0) {
-            return null;
-        }
-        return null;
+        return zwrot;
     }
     
      public static void main(String[] args) {

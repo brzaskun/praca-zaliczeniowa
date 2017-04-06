@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UkladBR.findAll", query = "SELECT r FROM UkladBR r"),
     @NamedQuery(name = "UkladBR.findByUklad", query = "SELECT r FROM UkladBR r WHERE r.uklad = :uklad"),
     @NamedQuery(name = "UkladBR.findByPodatnik", query = "SELECT r FROM UkladBR r WHERE r.podatnik = :podatnik ORDER BY r.lp DESC"),
+    @NamedQuery(name = "UkladBR.ustawNieaktywne", query = "UPDATE UkladBR k SET k.aktualny = '0' WHERE k.podatnik = :podatnik"),
     @NamedQuery(name = "UkladBR.findByPodatnikRok", query = "SELECT r FROM UkladBR r WHERE r.podatnik = :podatnik AND r.rok = :rok ORDER BY r.lp DESC"),
     @NamedQuery(name = "UkladBR.ukladBRustawnieaktywne", query = "UPDATE UkladBR k SET k.aktualny = '0' WHERE k.podatnik = :podatnik"),
     @NamedQuery(name = "UkladBR.findByPodatnikRokPodstawowy", query = "SELECT r FROM UkladBR r WHERE r.podatnik = :podatnik AND r.rok = :rok AND r.uklad = 'Podstawowy' ORDER BY r.lp DESC"),

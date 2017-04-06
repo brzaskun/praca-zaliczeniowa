@@ -98,10 +98,14 @@ public class PozycjaBRKontaView implements Serializable {
     public void init() {
         listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
         wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, wpisView);
-        for (UkladBR p : listaukladow) {
-            if (p.getRok().equals(wpisView.getRokUprzedniSt()) && p.getUklad().equals(wybranyuklad.getUklad())) {
-                ukladzrodlowykonta = p;
+        if (listaukladow != null && wybranyuklad != null) {
+            for (UkladBR p : listaukladow) {
+                if (p.getRok().equals(wpisView.getRokUprzedniSt()) && p.getUklad().equals(wybranyuklad.getUklad())) {
+                    ukladzrodlowykonta = p;
+                }
             }
+        } else {
+            listaukladow = new ArrayList<>();
         }
     }
     
@@ -629,35 +633,41 @@ public class PozycjaBRKontaView implements Serializable {
     }
 //r, true
     public void kopiujwzorcoweprzyporzadkowanie(String rb, boolean wzorcowe0podatnik1) {
-        String podatnik = wzorcowe0podatnik1 == false ? "Wzorcowy" : wpisView.getPodatnikWpisu();
-        if (ukladdocelowykonta.equals(ukladzrodlowykonta)) {
-            Msg.msg("e", "Nie można kopiować układu w ten sam układ");
-            return;
-        }
-        if (!ukladdocelowykonta.getRok().equals(wpisView.getRokWpisuSt())) {
-            Msg.msg("e", "Układ docelowy nie jest bieżącym rokiem wpisu. Nie można skopiować");
-            return;
-        }
-        if (rb.equals("r")) {
-            Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-wynikowych");
-            skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik);
-            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladdocelowykonta, "wynikowe");
-            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowykonta, "wynikowe");
-            for (KontopozycjaBiezaca p : pozycjebiezace) {
-                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+        try {
+            String podatnik = wzorcowe0podatnik1 == false ? "Wzorcowy" : wpisView.getPodatnikWpisu();
+            if (ukladdocelowykonta.equals(ukladzrodlowykonta)) {
+                Msg.msg("e", "Nie można kopiować układu w ten sam układ");
+                return;
             }
-            wybranyuklad = ukladdocelowykonta;
-            pobierzukladkontoR();
-        } else {
-            Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-bilansowych");
-            skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik);
-            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladdocelowykonta, "bilansowe");
-            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowykonta, "bilansowe");
-            for (KontopozycjaBiezaca p : pozycjebiezace) {
-                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+            if (!ukladdocelowykonta.getRok().equals(wpisView.getRokWpisuSt())) {
+                Msg.msg("e", "Układ docelowy nie jest bieżącym rokiem wpisu. Nie można skopiować");
+                return;
             }
-            wybranyuklad = ukladdocelowykonta;
-            pobierzukladkontoB("aktywa");
+            if (rb.equals("r")) {
+                Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-wynikowych");
+                skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik);
+                List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladdocelowykonta, "wynikowe");
+                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowykonta, "wynikowe");
+                for (KontopozycjaBiezaca p : pozycjebiezace) {
+                    kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+                }
+                wybranyuklad = ukladdocelowykonta;
+                pobierzukladkontoR();
+            } else {
+                Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-bilansowych");
+                skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik);
+                List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladdocelowykonta, "bilansowe");
+                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowykonta, "bilansowe");
+                for (KontopozycjaBiezaca p : pozycjebiezace) {
+                    kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+                }
+                wybranyuklad = ukladdocelowykonta;
+                pobierzukladkontoB("aktywa");
+            }
+            Msg.msg("Zakończono kopiowanie przyporządkowania");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();;
         }
     }
     
