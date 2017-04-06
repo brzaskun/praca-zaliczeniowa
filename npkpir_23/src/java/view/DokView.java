@@ -199,6 +199,7 @@ public final class DokView implements Serializable {
         wpisView = new WpisView();
         ewidencjaAddwiad = new ArrayList<>();
         liczbawierszy = 1;
+        stawkaVATwPoprzednimDok = 0.0;
         this.wprowadzonesymbolewalut = new ArrayList<>();
         this.kolumna1rozbicielista = new ArrayList<>();
         this.kolumna1rozbicielista.add(new Kolumna1Rozbicie());
@@ -899,7 +900,6 @@ public final class DokView implements Serializable {
                 selDokument.setOpis(wysDokument.getOpis());
                 setRenderujwysz(false);
                 setPokazEST(false);
-                stawkaVATwPoprzednimDok = 0.0;
                 int i = 0;
                 try {
                     if (wysDokument.getListakwot1() != null) {
@@ -913,7 +913,6 @@ public final class DokView implements Serializable {
 
                 }
             } else {
-                stawkaVATwPoprzednimDok = 0.0;
                 selectedSTR = new SrodekTrw();
                 ewidencjaAddwiad.clear();
                 RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
@@ -1539,6 +1538,7 @@ public final class DokView implements Serializable {
     }
 
     public void pobierzdaneZpoprzedniegoDokumentu(ValueChangeEvent e1) {
+        stawkaVATwPoprzednimDok = 0.0;
         Klienci klient = (Klienci) e1.getNewValue();
         String klientnip = klient.getNip();
         if (!klientnip.equals(wpisView.getPodatnikObiekt().getNip())) {
