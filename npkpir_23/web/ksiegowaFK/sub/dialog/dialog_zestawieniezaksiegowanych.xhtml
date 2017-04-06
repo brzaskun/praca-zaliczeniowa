@@ -83,18 +83,18 @@
                     </p:column>
                     <p:column>
                         <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
-                                         actionListener="#{dokfkView.resetujDokument}"
+                                         actionListener="#{dokfkView.resetujDokument}"  rendered="#{!WpisView.rokzamkniety}"
                                          oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanych').hide();"
                                          style="margin-left: 15px; width: 120px;" />
                     </p:column>
                     <p:column>
                         <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 15px;" 
-                                         update=":zestawieniedokumentow:dataList" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}"
+                                         update=":zestawieniedokumentow:dataList" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0 and !WpisView.rokzamkniety}"
                                          />
                     </p:column>
                     <p:column>
                         <p:commandButton id="salda" value="salda" actionListener="#{dokfkView.sprawdzsalda(dokfkView.wybranakategoriadok)}" 
-                                         style="width: 120px; margin-left: 10px;" 
+                                         style="width: 120px; margin-left: 10px;"  rendered="#{!WpisView.rokzamkniety}"
                                          update=":zestawieniedokumentow:dataList"
                                          />
                     </p:column>
@@ -131,12 +131,13 @@
                 });
                 /* ]]> */
             </script>
-            <p:contextMenu for="dataList" style="width: 200px;">
+            <p:contextMenu for="dataList" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
                 <p:menuitem value="oz/odznacz jako wzorzec" icon="fa fa-star" actionListener="#{dokfkView.oznaczDokfkJakoWzorzec()}" update=":zestawieniedokumentow:dataList"/>
                 <p:menuitem value="dodaj środek trw." icon="fa fa-truck" actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyDokfk(dokfkView.selectedlist)}" oncomplete="PF('dialogwpissrodkitrwale').show();" update="dialogwpissrodkitrwale"/>
                 <p:menuitem value="dodaj rmk" icon="fa fa-clock-o" actionListener="#{rMKView.dodajNoweRMKDokfk(dokfkView.selectedlist)}" update="formrmk"
                             oncomplete="PF('dialogwpisrmk').show();"/>
-                <p:menuitem value="zaksięguj dokfk" icon="fa fa-book" actionListener="#{dokfkView.zaksiegujdokumenty()}" update=":zestawieniedokumentow:dataList"/>
+                <p:menuitem value="zaksięguj dokfk" icon="fa fa-book"
+                            actionListener="#{dokfkView.zaksiegujdokumenty()}" update=":zestawieniedokumentow:dataList"/>
                 <p:separator/>
                 <p:menuitem value="usuń zaznaczone" icon="fa fa-times" actionListener="#{dokfkView.usunzaznaczone}" update=":zestawieniedokumentow:dataList"/>
             </p:contextMenu>
@@ -221,12 +222,12 @@
                     <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o"
                                      actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
                                      accesskey="q" styleClass="fkbutton" 
-                                     rendered="#{item.dataksiegowania eq null}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
+                                     rendered="#{item.dataksiegowania eq null and !WpisView.rokzamkniety}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;">
                     <p:commandButton actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="fa fa-trash-o" 
                                      oncomplete="PF('confirm3').show();" global="false"  style="width: 30px;"
-                                     rendered="#{item.dataksiegowania eq null}"
+                                     rendered="#{item.dataksiegowania eq null and !WpisView.rokzamkniety}"
                                      update=":potwierdzeniazestawieniedok"/>
                 </p:column>
                 <p:rowExpansion>

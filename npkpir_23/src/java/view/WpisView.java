@@ -77,6 +77,7 @@ public class WpisView implements Serializable {
     private String zmianaokresuMc;
     private double stawkapodatkuospr;
     private String zrodlo;
+    private boolean rokzamkniety;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -319,6 +320,7 @@ public class WpisView implements Serializable {
         try {
             mc0kw1 = zwrocmc0kw1();
             rodzajopodatkowania = zwrocindexparametrzarok();
+            rokzamkniety = zwrocrokzamkniety();
             if (rodzajopodatkowania != null) {
                 if (this.podatnikObiekt.getFormaPrawna() != null && this.podatnikObiekt.getFormaPrawna().toString().equals("SPOLKA_Z_O_O")) {
                     stawkapodatkuospr = stawkapodatkuospr();
@@ -353,6 +355,10 @@ public class WpisView implements Serializable {
     
     private String zwrocindexparametrzarok() {
          return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(this).getFormaopodatkowania();
+    }
+    
+    private boolean zwrocrokzamkniety() {
+        return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(this).isZamkniety();
     }
     
     private boolean zwrocmc0kw1() {
@@ -630,6 +636,16 @@ public class WpisView implements Serializable {
             formaprawna = podatnikObiekt.getFormaPrawna().toString();
         }
     }
+
+    public boolean isRokzamkniety() {
+        return rokzamkniety;
+    }
+
+    public void setRokzamkniety(boolean rokzamkniety) {
+        this.rokzamkniety = rokzamkniety;
+    }
+
+    
 
   
 

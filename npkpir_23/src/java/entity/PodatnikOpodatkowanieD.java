@@ -6,6 +6,7 @@ package entity;
 
 import embeddable.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -54,6 +57,16 @@ public class PodatnikOpodatkowanieD implements Serializable{
     private Podatnik podatnikObj;
     @Column(name="stawkapodatkuospr")
     private double stawkapodatkuospr;
+    @Column(name = "dolaczonydoroku")
+    private String dolaczonydoroku;
+    @Column(name = "zamkniety")
+    private boolean zamkniety;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datawprowadzenia")
+    private Date datawprowadzenia;
+    @JoinColumn(name = "ksiegowa", referencedColumnName = "login")
+    @ManyToOne
+    private Uz ksiegowa;
 
     public PodatnikOpodatkowanieD() {
         
@@ -192,6 +205,38 @@ public class PodatnikOpodatkowanieD implements Serializable{
 
     public void setPodatnikObj(Podatnik podatnikObj) {
         this.podatnikObj = podatnikObj;
+    }
+
+    public String getDolaczonydoroku() {
+        return dolaczonydoroku;
+    }
+
+    public void setDolaczonydoroku(String dolaczonydoroku) {
+        this.dolaczonydoroku = dolaczonydoroku;
+    }
+
+    public boolean isZamkniety() {
+        return zamkniety;
+    }
+
+    public void setZamkniety(boolean zamkniety) {
+        this.zamkniety = zamkniety;
+    }
+
+    public Date getDatawprowadzenia() {
+        return datawprowadzenia;
+    }
+
+    public void setDatawprowadzenia(Date datawprowadzenia) {
+        this.datawprowadzenia = datawprowadzenia;
+    }
+
+    public Uz getKsiegowa() {
+        return ksiegowa;
+    }
+
+    public void setKsiegowa(Uz ksiegowa) {
+        this.ksiegowa = ksiegowa;
     }
 
    

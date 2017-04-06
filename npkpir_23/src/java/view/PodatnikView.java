@@ -408,6 +408,8 @@ public class PodatnikView implements Serializable {
             wybranyPodatnikOpodatkowanie.setMcDo("12");
             wybranyPodatnikOpodatkowanie.setPodatnikObj(wpisView.getPodatnikObiekt());
             wybranyPodatnikOpodatkowanie.setRokDo(wybranyPodatnikOpodatkowanie.getRokOd());
+            wybranyPodatnikOpodatkowanie.setDatawprowadzenia(new Date());
+            wybranyPodatnikOpodatkowanie.setKsiegowa(wpisView.getWprowadzil());
             podatnikOpodatkowanie.add(wybranyPodatnikOpodatkowanie);
             podatnikOpodatkowanieDDAO.dodaj(wybranyPodatnikOpodatkowanie);
             wybranyPodatnikOpodatkowanie = new PodatnikOpodatkowanieD();
@@ -1060,6 +1062,21 @@ public class PodatnikView implements Serializable {
             listaKontRozrachunkowych = kontoDAOfk.findKontaRozrachunkowe(wpisView);
         }
     }
+    
+    public void zamknijrok(PodatnikOpodatkowanieD p) {
+        if (p.isZamkniety()) {
+            p.setZamkniety(false);
+            Msg.msg("Zamknięto rok");
+        } else {
+            p.setZamkniety(true);
+            Msg.msg("Otworzono rok");
+        }
+        p.setDatawprowadzenia(new Date());
+        p.setKsiegowa(wpisView.getWprowadzil());
+        podatnikOpodatkowanieDDAO.edit(p);
+        wpisView.initpublic();
+    }
+    
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     //     public void skopiujstraty() {

@@ -12,11 +12,11 @@
             <p:focus for="parametrypodatnika"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 900px;">
-                    <p:column headerText="od">
+                <p:column headerText="od" width="50">
                         <h:outputText value="#{loop.mcOd}-" />
                         <h:outputText value="#{loop.rokOd}" />
                     </p:column>
-                    <p:column headerText="do">
+                <p:column headerText="do" width="50">
                         <h:outputText value="#{loop.mcDo}-" />
                         <h:outputText value="#{loop.rokDo}" />
                     </p:column>
@@ -30,6 +30,16 @@
                         <h:outputText value="#{loop.stawkapodatkuospr}">
                             <f:convertNumber type="percent"/>
                         </h:outputText>
+                    </p:column>
+                    <p:column headerText="dołączony do roku">
+                        <h:outputText value="#{loop.dolaczonydoroku}" />
+                    </p:column>
+                    <p:column headerText="zamkniety" width="60" style="text-align: center;">
+                        <h:outputText value="#{loop.zamkniety ? 'tak': 'nie'}" style="#{loop.zamkniety ? 'color: red;': 'color: green;'}"/>
+                    </p:column>
+                    <p:column  width="60" style="text-align: center;">
+                        <p:commandButton icon="fa fa-lock" actionListener="#{podatnikView.zamknijrok(loop)}" update="@parent:@parent"
+                                         style="#{loop.zamkniety ? 'color: green;': 'color: red;'}"/>
                     </p:column>
             </p:dataTable>
             <h:outputText value="wybierz parametry aktualne"/><br/>

@@ -30,7 +30,8 @@
         <p:tab title="dokumenty">
             <h:form id="dialog1menu2">
                 <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                    <p:menuitem value="wpisywanie" oncomplete="PF('wpisywanie').show();" actionListener="#{dokfkView.resetujDokument}" global="false"></p:menuitem>
+                    <p:menuitem value="wpisywanie" rendered="#{!WpisView.rokzamkniety}"
+                                oncomplete="PF('wpisywanie').show();" actionListener="#{dokfkView.resetujDokument}" global="false"></p:menuitem>
                     <p:menuitem value="przeglądanie zakięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" 
                                 actionListener="#{dokfkView.odswiezzaksiegowaneInit}"
                                 update=":zestawieniedokumentow:dataList zestawieniedokumentow:kategoriadokumentu zestawieniedokumentow:cechydokuk"></p:menuitem>
