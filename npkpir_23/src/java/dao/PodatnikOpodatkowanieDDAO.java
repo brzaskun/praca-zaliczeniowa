@@ -35,5 +35,8 @@ public class PodatnikOpodatkowanieDDAO extends DAO implements Serializable{
         return sessionFacade.findOpodatkowaniePodatnikRok(wpisView);
     }
     
+    public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRokPoprzedni(WpisView wpisView) {
+        return sessionFacade.findOpodatkowaniePodatnikRokPoprzedni(wpisView);
+    }
     
 }

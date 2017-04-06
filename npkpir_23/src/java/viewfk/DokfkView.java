@@ -1144,20 +1144,38 @@ public class DokfkView implements Serializable {
             String data = selected.getDataoperacji();
             if (data.length() == 10) {
                 String rok = data.split("-")[0];
-                if (!rok.equals(selected.getDokfkPK().getRok())) {
-                    selected.getDokfkPK().setRok(rok);
-                    selected.setVatR(rok);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:rok");
-                    RequestContext.getCurrentInstance().update("formwpisdokument:rokVAT");
-                }
-                String mc = data.split("-")[1];
-                if (!mc.equals(selected.getMiesiac())) {
-                    selected.setMiesiac(mc);
-                    selected.setVatM(mc);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
-                    RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
+                if (rok.equals(wpisView.getRokUprzedniSt())) {
+                    if (wpisView.isRokpoprzednizamkniety()) {
+                        Msg.msg("e", "Probujesz zaksiegować dokument do zamkniętego roku!");
+                        wlaczZapiszButon = false;
+                        RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+                    } else {
+                        generujokresy(rok, data);
+                    }
+                } else {
+                    generujokresy(rok, data);
                 }
             }
+        }
+    }
+
+    private void generujokresy(String rok, String data) {
+        if (wlaczZapiszButon == false) {
+            wlaczZapiszButon = true;
+            RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+        }
+        if (!rok.equals(selected.getDokfkPK().getRok())) {
+            selected.getDokfkPK().setRok(rok);
+            selected.setVatR(rok);
+            RequestContext.getCurrentInstance().update("formwpisdokument:rok");
+            RequestContext.getCurrentInstance().update("formwpisdokument:rokVAT");
+        }
+        String mc = data.split("-")[1];
+        if (!mc.equals(selected.getMiesiac())) {
+            selected.setMiesiac(mc);
+            selected.setVatM(mc);
+            RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
+            RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
         }
     }
 

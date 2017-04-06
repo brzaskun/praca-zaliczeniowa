@@ -624,7 +624,8 @@
                             <bcf:outputpl id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="width: 100px; margin-left: 10px;"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false)}" style="color: red;"/>
+                            <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false) and !WpisView.rokpoprzednizamkniety}" style="color: red;"/>
+                            <h:outputText value="probujesz zaksięgować dokument do zamkniętego roku" rendered="#{dokfkView.wlaczZapiszButon == false and WpisView.rokpoprzednizamkniety}" style="color: red;"/>
                         </p:column>
                         <p:column>
 <!--                        <p:commandButton  value="dodaj ewidencja" styleClass="fkbutton" style="width: 150px;" 
