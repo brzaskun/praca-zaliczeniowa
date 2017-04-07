@@ -7,6 +7,7 @@ package dao;
 
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -36,7 +37,12 @@ public class PodatnikOpodatkowanieDDAO extends DAO implements Serializable{
     }
     
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRokPoprzedni(WpisView wpisView) {
-        return sessionFacade.findOpodatkowaniePodatnikRokPoprzedni(wpisView);
+        try {
+            return sessionFacade.findOpodatkowaniePodatnikRokPoprzedni(wpisView);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return null;
     }
     
 }

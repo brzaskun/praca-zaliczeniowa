@@ -554,8 +554,8 @@ public class PodatnikView implements Serializable {
             ostatniparametr = stare.get(stare.size() - 1);
             zwrot = Data.compare(parametr.getRokOd(), parametr.getMcOd(), ostatniparametr.getRokOd(), ostatniparametr.getMcOd());
             String[] poprzedniokres = Data.poprzedniOkres(parametr.getMcOd(), parametr.getRokOd());
-            ostatniparametr.setRokDo(poprzedniokres[0]);
-            ostatniparametr.setMcDo(poprzedniokres[1]);
+            ostatniparametr.setMcDo(poprzedniokres[0]);
+            ostatniparametr.setRokDo(poprzedniokres[1]);
         }
         return zwrot;
     }
