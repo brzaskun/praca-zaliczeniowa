@@ -94,7 +94,7 @@ public class PdfMiejsceKosztow {
         table.setWidthPercentage(98);
         table.setSpacingBefore(15);
         try {
-            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 2, 0));
+            table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 2, 0));
             table.addCell(ustawfraze(l.getMiejsceKosztow().getOpismiejsca(), 1, 0));
             table.addCell(ustawfraze("", 1, 0));
             table.addCell(ustawfraze("za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 2, 0));

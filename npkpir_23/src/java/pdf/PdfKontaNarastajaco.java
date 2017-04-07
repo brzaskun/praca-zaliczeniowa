@@ -81,7 +81,7 @@ public class PdfKontaNarastajaco {
         table.setWidthPercentage(98);
         int granica = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())+1;
         try {
-            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 5, 0));
+            table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 5, 0));
             table.addCell(ustawfraze(B.b("zestawienieobrotówkontanalitycznych")+ ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 16, 0));
             table.addCell(ustawfraze(B.b("lp"), 0, 1, 40f));
             table.addCell(ustawfraze(B.b("numerkonta"), 0, 1));

@@ -1066,10 +1066,10 @@ public class PodatnikView implements Serializable {
     public void zamknijrok(PodatnikOpodatkowanieD p) {
         if (p.isZamkniety()) {
             p.setZamkniety(false);
-            Msg.msg("Zamknięto rok");
+            Msg.msg("Otworzono rok");
         } else {
             p.setZamkniety(true);
-            Msg.msg("Otworzono rok");
+            Msg.msg("Zamknięto rok");
         }
         p.setDatawprowadzenia(new Date());
         p.setKsiegowa(wpisView.getWprowadzil());

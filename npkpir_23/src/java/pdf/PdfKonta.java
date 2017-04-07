@@ -86,9 +86,9 @@ public class PdfKonta {
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
         if (analit0synt1==1) {
-                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(new Paragraph(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             } else {
-                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(new Paragraph(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             }
         document.add(Chunk.NEWLINE);
         if (rodzajdruku==1 || rodzajdruku==4) {
@@ -143,9 +143,9 @@ public class PdfKonta {
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
         if (analit0synt1==1) {
-                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(new Paragraph(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             } else {
-                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(new Paragraph(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             }
         document.add(Chunk.NEWLINE);
         document.add(tablicabezdokWal(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
@@ -301,7 +301,7 @@ public class PdfKonta {
         table.setWidths(new int[]{1, 2, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
         table.setWidthPercentage(98);
         try {
-            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 5, 0));
+            table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 5, 0));
             if (analit0synt1==1) {
                 table.addCell(ustawfraze(B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 8, 0));
             } else {
@@ -356,7 +356,7 @@ public class PdfKonta {
         table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5});
         table.setWidthPercentage(98);
         try {
-            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 5, 0));
+            table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 5, 0));
             if (analit0synt1==1) {
                 table.addCell(ustawfraze(B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
             } else {

@@ -115,7 +115,7 @@ public class PdfSymulacjaWyniku {
         table.setWidthPercentage(100);
         table.setSpacingBefore(15);
         try {
-            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 3, 0));
+            table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 3, 0));
             if (pk.equals("p")) {
                 table.addCell(ustawfraze(B.b("zapisyprzychodowe") + ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 5, 0));
             } else {

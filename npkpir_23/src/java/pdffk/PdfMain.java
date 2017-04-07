@@ -391,7 +391,7 @@ public class PdfMain {
             s.append(" ");
             s.append(podatnik.getFirmaForma());
             s.append(" ");
-            s.append(podatnik.getNazwapelna());
+            s.append(podatnik.getNazwapelnaPDF());
             s.append(" NIP ");
             s.append(podatnik.getNip());
             s.append(" ");
@@ -414,7 +414,7 @@ public class PdfMain {
             StringBuilder s = new StringBuilder();
             s.append(podatnik.getFirmaForma());
             s.append(" ");
-            s.append(podatnik.getNazwapelna());
+            s.append(podatnik.getNazwapelnaPDF());
             s.append(" NIP ");
             s.append(podatnik.getNip());
             Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
@@ -442,7 +442,7 @@ public class PdfMain {
         try {
             StringBuilder s = new StringBuilder();
             s.append("Firma ");
-            s.append(podatnik.getNazwapelna());
+            s.append(podatnik.getNazwapelnaPDF());
             s.append(" NIP ");
             s.append(podatnik.getNip());
             Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
@@ -532,7 +532,7 @@ public class PdfMain {
     public static void infooFirmie(Document document, Dokfk selected) {
         try {
             document.add(Chunk.NEWLINE);
-            Paragraph danefirmy = new Paragraph(new Phrase("Firma: " + selected.getPodatnikObj().getNazwapelna(), ft[1]));
+            Paragraph danefirmy = new Paragraph(new Phrase("Firma: " + selected.getPodatnikObj().getNazwapelnaPDF(), ft[1]));
             document.add(danefirmy);
             Podatnik pod = selected.getPodatnikObj();
             danefirmy = new Paragraph(new Phrase("adres: " + pod.getMiejscowosc() + " " + pod.getUlica() + " " + pod.getNrdomu(), ft[1]));
@@ -1356,7 +1356,7 @@ public class PdfMain {
             if (nazwaklasy.equals("entity.Statystyka")) {
                 Statystyka p = (Statystyka) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getPodatnik() != null ? p.getPodatnik().getNazwapelna() : "", "left", 8));
+                table.addCell(ustawfrazeAlign(p.getPodatnik() != null ? p.getPodatnik().getNazwapelnaPDF() : "", "left", 8));
                 table.addCell(ustawfrazeAlign(p.getPodatnik() != null ? p.getPodatnik().getNip() : "", "left", 8));
                 table.addCell(ustawfrazeAlign(p.getRok(), "left", 8));
                 table.addCell(ustawfrazeAlign(p.getIloscdokumentow(), "center", 8));

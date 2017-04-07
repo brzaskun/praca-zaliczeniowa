@@ -93,12 +93,12 @@ public class PdfKontoZapisy {
             if (duzy0maly1 == true) {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
                 table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 4, 0));
-                table.addCell(ustawfraze("firma: "+wpisView.getPodatnikWpisu(), 5, 0));
+                table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 5, 0));
                 table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
             } else {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
                 table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 3, 0));
-                table.addCell(ustawfraze("firma: "+wpisView.getPodatnikWpisu(), 3, 0));
+                table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 3, 0));
                 table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
             }
             table.addCell(ustawfraze("lp", 0, 1));

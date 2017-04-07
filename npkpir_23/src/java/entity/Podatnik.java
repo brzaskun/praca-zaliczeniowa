@@ -243,6 +243,8 @@ public class Podatnik implements Serializable {
     private List<PodatnikOpodatkowanieD> podatnikOpodatkowanieD;
     @OneToMany(mappedBy = "podatnik")
     private List<SprawozdanieFinansowe> elementysprawozdaniafin;
+    @Column(name = "jestwlikiwdacji")
+    private boolean jestwlikiwdacji;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -284,6 +286,14 @@ public class Podatnik implements Serializable {
     }
     public String getSchematnumeracji() {
         return schematnumeracji;
+    }
+
+    public boolean isJestwlikiwdacji() {
+        return jestwlikiwdacji;
+    }
+
+    public void setJestwlikiwdacji(boolean jestwlikiwdacji) {
+        this.jestwlikiwdacji = jestwlikiwdacji;
     }
 
     public List<SprawozdanieFinansowe> getElementysprawozdaniafin() {
@@ -508,6 +518,13 @@ public class Podatnik implements Serializable {
     
     public void setMiejscowosc(String miejscowosc) {
         this.miejscowosc = miejscowosc;
+    }
+    
+     public String getNazwapelnaPDF() {
+        if (this.isJestwlikiwdacji()) {
+            return nazwapelna+" W LIKWIDACJI";
+        }
+        return nazwapelna;
     }
     
     public String getNazwapelna() {

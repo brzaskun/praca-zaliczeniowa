@@ -78,7 +78,7 @@ public class PdfVATsuma {
             miziu1 = new Paragraph(new Phrase("okres rozliczeniony "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu(),fontM));
             document.add(miziu1);
             document.add(Chunk.NEWLINE);
-            miziu1 = new Paragraph(new Phrase("Firma: "+wpisView.getPodatnikWpisu(),fontM));
+            miziu1 = new Paragraph(new Phrase("Firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(),fontM));
             document.add(miziu1);
             Podatnik pod = wpisView.getPodatnikObiekt();
             miziu1 = new Paragraph(new Phrase("adres: "+pod.getMiejscowosc()+" "+pod.getUlica()+" "+pod.getNrdomu(),fontM));

@@ -82,7 +82,7 @@ public class PdfSymulacjaWynikuNarastajaco {
         table.setWidthPercentage(70);
         table.setSpacingBefore(15);
         try {
-            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 3, 0));
+            table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 3, 0));
             table.addCell(ustawfraze(B.b("zestawieniekwotwyników")+" " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 4, 0));
             
             table.addCell(ustawfraze(B.b("mc"), 0, 1));

@@ -128,7 +128,11 @@ public class PozycjaRZiSNarView  implements Serializable {
     
     public String obliczszerkosc() {
         String zwrot = "width: ";
-        List mce = Mce.getMiesiaceGranica(wpisView.getMiesiacWpisu());
+        String mcwp = wpisView.getMiesiacWpisu();
+        if (wpisView.getMiesiacWpisu().equals("CR")) {
+            mcwp = "01";
+        }
+        List mce = Mce.getMiesiaceGranica(mcwp);
         switch(mce.size()) {
             case 1:
             case 2:

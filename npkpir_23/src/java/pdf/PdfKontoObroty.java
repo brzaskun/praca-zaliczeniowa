@@ -75,7 +75,7 @@ public class PdfKontoObroty {
             table.setWidthPercentage(98);
             table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
             table.addCell(ustawfraze("wydruk obrotów na koncie "+konto.getPelnynumer(), 4, 0));
-            table.addCell(ustawfraze("firma: "+wpisView.getPodatnikWpisu(), 4, 0));
+            table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 4, 0));
             table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
             table.addCell(ustawfraze("lp", 0, 1));
             table.addCell(ustawfraze("miesiąc", 0, 1));

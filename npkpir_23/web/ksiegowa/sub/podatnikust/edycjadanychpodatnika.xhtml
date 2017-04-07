@@ -104,6 +104,8 @@
                      <f:selectItem itemLabel="firma pkpir" itemValue="0"/>
                      <f:selectItem itemLabel="firma fk/pkpir" itemValue="3"/>
                     </h:selectOneMenu>
+                    <h:outputLabel value="firma w likwidacji"/>
+                 <p:selectBooleanCheckbox value="#{podatnikView.selected.jestwlikiwdacji}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton action="#{podatnikView.edytuj()}" value="edytuj podatnika" update="@form" type="submit"/>
@@ -208,6 +210,8 @@
                      <f:selectItem itemLabel="firma pkpir" itemValue="0"/>
                      <f:selectItem itemLabel="firma fk/pkpir" itemValue="3"/>
                     </h:selectOneMenu>
+                 <h:outputLabel value="firma w likwidacji"/>
+                 <p:selectBooleanCheckbox value="#{podatnikView.selected.jestwlikiwdacji}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton action="#{podatnikView.edytujfk()}" value="edytuj podatnika" update="@form" type="submit" style="margin-top: 10px;"/>

@@ -72,7 +72,7 @@ public class PdfKontoZapisyLista {
             Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
             font = new Font(helvetica, 8);
             document.setPageSize(PageSize.A4);
-            String opis = "Biuro Rachunkowe Taxman wydruk zapisów na kontach firma: " + wpisView.getPodatnikWpisu() + "za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
+            String opis = "Biuro Rachunkowe Taxman wydruk zapisów na kontach firma: " + wpisView.getPodatnikObiekt().getNazwapelnaPDF() + "za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
             PdfMain.dodajLinieOpisu(document, opis);
             Integer il = 1;
             try {
