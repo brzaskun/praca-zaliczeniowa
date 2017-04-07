@@ -168,7 +168,7 @@ public class KontaVatFKView implements Serializable {
                 if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
                     int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
                     int wynikPrzed = Data.compare(Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()),rok, mc);
-                    if (wynikPo > 0 && wynikPrzed < 0) {
+                    if (wynikPo > 0 && wynikPrzed > -1) {
                         zwrot = p.getParametr();
                         break;
                     }
