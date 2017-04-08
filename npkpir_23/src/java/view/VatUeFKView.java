@@ -336,9 +336,9 @@ public class VatUeFKView implements Serializable {
     public void drukujewidencjeUEfk() {
       try {
           if (listawybranych != null && !listawybranych.isEmpty()) {
-              PdfVatUE.drukujewidencje(listawybranych, wpisView);
+              PdfVatUE.drukujewidencje(listawybranych, wpisView,"VAT-UE");
           } else {
-              PdfVatUE.drukujewidencje(klienciWDTWNT, wpisView);
+              PdfVatUE.drukujewidencje(klienciWDTWNT, wpisView,"VAT-UE");
           }
       }  catch (Exception e) { E.e(e); 
           
@@ -348,9 +348,9 @@ public class VatUeFKView implements Serializable {
     public void drukujewidencjeUEfkTabela() {
       try {
           if (listawybranych != null && !listawybranych.isEmpty()) {
-              PdfVatUE.drukujewidencjeTabela(listawybranych, wpisView);
+              PdfVatUE.drukujewidencjeTabela(listawybranych, wpisView,"VAT-UE");
           } else {
-              PdfVatUE.drukujewidencjeTabela(klienciWDTWNT, wpisView);
+              PdfVatUE.drukujewidencjeTabela(klienciWDTWNT, wpisView,"VAT-UE");
           }
       }  catch (Exception e) { E.e(e); 
           

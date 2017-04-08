@@ -292,9 +292,13 @@
             <from-outcome>korektavat</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaVATkorekta.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-         <navigation-case>
+        <navigation-case>
             <from-outcome>vatue</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaVATUE.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>vat27</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaVAT27.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>vatzalacznikzd</from-outcome>

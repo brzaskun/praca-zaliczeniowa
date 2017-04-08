@@ -1,0 +1,101 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    <h:form id="form">
+        
+        <p:outputPanel id="wrapper" deferred="true"> 
+            <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vat27View.drukujewidencjeUE()}"
+                             rendered="#{vat27View.niemoznadrukowac eq false}">
+            </p:commandButton>
+            <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vat27View.drukujewidencjeUETabela()}"/>
+            <h:outputText value="#{vat27View.brakustawienUE}"
+                          style="color: red;"/>
+            <h:outputText value="Kontrahenci nie mają uzupełnionych kodów kraju. Nie można wydrukować zestawienia." rendered="#{vat27View.niemoznadrukowac eq true}"
+                          style="color: red;"/>
+            <p:growl life="3600"  id="messages"/>
+            <p:dataTable  var="wpis" value="#{vat27View.klienciWDTWNT}" id="dokumentyLista" editable="true" 
+                          rowKey="#{wpis.kontrahent.nip}" selection="#{vat27View.listawybranych}"
+                          emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                          style="max-width: 55%; margin-top: 10px;" widgetVar="dokTable"
+                          > 
+                <f:facet name="header">  
+                    <h:outputText value="#{vat27View.opisvatuepkpir}" /> 
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />  
+                </f:facet>
+                <p:column style="width: 5%;">
+                    <p:rowToggler rendered="#{wpis.zawiera.size() gt 0 ? true : false}"/>
+                </p:column>
+                <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis.transakcja}" filterMatchMode="contains" sortBy="#{wpis.transakcja}" style="width: 15%;" filterStyle="display : none;" >  
+                    <h:outputText value="#{wpis.transakcja}"/>
+                </p:column>
+                <p:column id="krajkodColumn" headerText="kod kraju" filterBy="#{wpis.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.krajkod}" style="width: 15%;" filterStyle="display : none;" >  
+                    <h:outputText value="#{wpis.kontrahent.krajkod}"/>
+                </p:column>
+                <p:column id="nipColumn" headerText="nip" filterBy="#{wpis.kontrahent.nip}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.nip}" style="width: 15%;" filterStyle="display : none;" >  
+                    <h:outputText value="#{wpis.kontrahent.nip}" />
+                </p:column>
+                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" >  
+                    <h:outputText value="#{wpis.kontrahent.npelna}"  />
+                </p:column>
+                <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}" style="width: 15%;" filterStyle="display : none;" >  
+                    <h:outputText value="#{wpis.netto}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis.liczbadok}" 
+                          filterMatchMode="contains" sortBy="#{wpis.liczbadok}" style="width: 15%; text-align: center;" filterStyle="display : none;" >  
+                    <h:outputText value="#{wpis.liczbadok}" rendered="#{wpis.transakcja eq 'podsum.' ? false : true}">
+                        <f:convertNumber minFractionDigits="0" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:rowExpansion>
+                    <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >  
+                        <p:dataTable var="subwpis" value="#{wpis.zawiera}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 90%;">
+                            <p:column id="SubColumn0" headerText="#{mgs.numerkolejny}" style="text-align: center;">  
+                                <h:outputText value="#{subwpis.nrWpkpir}" />
+                            </p:column>
+                            <p:column id="SubColumn1" headerText="data wyst">  
+                                <h:outputText value="#{subwpis.dataWyst}" />
+                            </p:column>
+                            <p:column id="SubColumn1b" headerText="nr własny">  
+                                <h:outputText value="#{subwpis.nrWlDk}" />
+                            </p:column>
+                            <p:column id="SubColumn1c" headerText="#{mgs.opis}">  
+                                <h:outputText value="#{subwpis.opis}" />
+                            </p:column>
+                            <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
+                                <h:outputText value="#{subwpis.netto}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn4" headerText="okresy vat">  
+                                <h:outputText value="#{subwpis.vatM}/#{subwpis.vatR}" style="float: right;"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                </p:rowExpansion>
+            </p:dataTable>
+            <p:separator/>
+<!--            to nie dziala pola deklaracji sa inne przeciez a to jest stary model-->
+<!--            <p:dataTable value="#{vat27View.danezdeklaracji}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="max-width: 35%">
+                <p:column>
+                    <h:outputText value="#{row.nazwa}"/>
+                </p:column>
+                <p:column headerText="#{mgs.miesiąc}" style="text-align: center;">
+                    <h:outputText value="#{row.miesiac}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wartość}">
+                    <h:outputText value="#{row.netto}" style="float: right;">
+                        <f:convertNumber minFractionDigits="0" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>-->
+        </p:outputPanel>
+    </h:form>
+</ui:composition>   
+

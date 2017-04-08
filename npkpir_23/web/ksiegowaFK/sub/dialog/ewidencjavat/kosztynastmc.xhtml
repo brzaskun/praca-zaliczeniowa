@@ -1,0 +1,50 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab title="koszty nast.mc">
+        <p:dataTable value="#{ewidencjaVatView.listaprzesunietychKoszty}" var="loopik"  paginator="true" rows="20" paginatorPosition="top"
+                     rowIndexVar="index">
+            <p:ajax event="page" global="false"/>
+            <p:column width="20" style="text-align: center;">
+                <h:outputText value="#{index+1}"/>
+            </p:column>
+            <p:column headerText="#{mgs.dokument}" width="90">
+                <h:outputText value="#{loopik.dokfk.dokfkLP}"/>
+            </p:column>
+            <p:column headerText="#{mgs.data}" width="75">
+                <h:outputText value="#{loopik.dokfk.mcRok}"/>
+            </p:column>
+            <p:column headerText="#{mgs.waluta}" width="40" style="text-align: center;">
+                <h:outputText value="#{loopik.walutaWiersz}"/>
+            </p:column>
+            <p:column headerText="#{mgs.mcshort}" width="35" style="text-align: center;">
+                <h:outputText value="#{loopik.mcEw}"/>
+            </p:column>
+            <p:column headerText="#{mgs.rok}" width="40" style="text-align: center;">
+                <h:outputText value="#{loopik.rokEw}"/>
+            </p:column>
+            <p:column headerText="#{mgs.nr}" width="120">
+                <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+            </p:column>
+            <p:column headerText="#{mgs.kontrahent}">
+                <h:outputText value="#{loopik.wiersz.geteVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.geteVatwpisFK.klient.npelna}"/>
+            </p:column>
+            <p:column headerText="wiersz">
+                <h:outputText value="#{loopik.wiersz.opisWiersza eq null ? loopik.dokfk.opisdokfk : loopik.wiersz.opisWiersza}"/>
+            </p:column>
+            <p:column headerText="#{mgs.netto}" width="65">
+                <bcf:outputpl value="#{loopik.netto}"/>
+            </p:column>
+            <p:column headerText="#{mgs.vat}" width="60">
+                <bcf:outputpl value="#{loopik.vat}"/>
+            </p:column>
+
+        </p:dataTable>
+    </p:tab>
+</ui:composition>

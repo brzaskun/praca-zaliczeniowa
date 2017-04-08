@@ -48,7 +48,7 @@ import static pdffk.PdfMain.finalizacjaDokumentuQR;
 public class PdfVatUE {
 
 
-    public static void drukujewidencje(List<VatUe> lista, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujewidencje(List<VatUe> lista, WpisView wpisView, String nazwa) throws DocumentException, FileNotFoundException, IOException {
         Podatnik podatnik = wpisView.getPodatnikObiekt();
         Document document = new Document();
         String nazwapliku = "VATUE" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
@@ -57,10 +57,10 @@ public class PdfVatUE {
             //problem kwartalu
             PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
             writer.setInitialLeading(16);
-            document.addTitle("VAT-UE dokumenty");
+            document.addTitle(nazwa+" dokumenty");
             document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-            document.addSubject("Wydruk VAT-UE dokumenty");
-            document.addKeywords("VAT-UE, PDF");
+            document.addSubject("Wydruk "+nazwa+" dokumenty");
+            document.addKeywords(nazwa+", PDF");
             document.addCreator("Grzegorz Grzelczyk");
             document.open();
             //naglowek
@@ -78,7 +78,7 @@ public class PdfVatUE {
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            PdfMain.dodajOpisWstepny(document, "wydruk - zestawienie dokumentów do deklaracji VAT-UE. Firma: ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            PdfMain.dodajOpisWstepny(document, "wydruk - zestawienie dokumentów do deklaracji "+nazwa+". Firma: ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             int lp = 1;
             for (VatUe p : lista) {
                 PdfPTable table = new PdfPTable(7);
@@ -333,7 +333,7 @@ public class PdfVatUE {
     //    }
     //</editor-fold>
 
-    public static void drukujewidencjeTabela(List<VatUe> listawybranych, WpisView wpisView) {
+    public static void drukujewidencjeTabela(List<VatUe> listawybranych, WpisView wpisView, String nazwa1) {
         Document document = inicjacjaA4Portrait();
         try {
             String nazwa = wpisView.getPodatnikObiekt().getNip() + "vateutabela";
@@ -344,7 +344,7 @@ public class PdfVatUE {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Ewidencja dokumentów VAT-UE", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Ewidencja dokumentów "+nazwa1, wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             czyjestpodsumowanie(listawybranych);
             dodajTabele(document, testobjects.testobjects.getEwidencjaVATUE(listawybranych), 100, 0);
             finalizacjaDokumentuQR(document,nazwa);

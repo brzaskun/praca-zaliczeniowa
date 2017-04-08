@@ -1145,13 +1145,9 @@ public class DokfkView implements Serializable {
             if (data.length() == 10) {
                 String rok = data.split("-")[0];
                 if (rok.equals(wpisView.getRokUprzedniSt())) {
-                    if (wpisView.isRokpoprzednizamkniety()) {
-                        Msg.msg("e", "Probujesz zaksiegować dokument do zamkniętego roku!");
-                        wlaczZapiszButon = false;
-                        RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
-                    } else {
-                        generujokresy(rok, data);
-                    }
+                    Msg.msg("e", "Probujesz zaksiegować dokument do poprzedniego roku!");
+                    wlaczZapiszButon = false;
+                    RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
                 } else {
                     generujokresy(rok, data);
                 }

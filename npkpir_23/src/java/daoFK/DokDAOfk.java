@@ -5,11 +5,14 @@
 package daoFK;
 
 import dao.DAO;
+import deklaracjaVAT7_13.KwadracikiNaDole;
+import embeddable.Kwartaly;
 import entity.Klienci;
 import entity.Podatnik;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
@@ -60,6 +63,18 @@ public class DokDAOfk extends DAO implements Serializable {
        } catch (Exception e ){
            return null;
        }
+    }
+    
+    public List<Dokfk> findDokfkPodatnikRokKw(WpisView wpisView) {
+        List<Dokfk> zwrot = new ArrayList<>();
+        try {
+           String mcwpisu = wpisView.getMiesiacWpisu();
+           List<String> mcekw = Kwartaly.mctoMcewKw(mcwpisu);
+           zwrot =  dokFacade.findDokfkPodatnikRokKw(wpisView, mcekw);
+       } catch (Exception e ){
+           
+       }
+        return zwrot;
     }
     
     public List<Dokfk> findDokfkPodatnikRok(WpisView wpisView) {

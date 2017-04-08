@@ -15,11 +15,13 @@ import embeddable.VatUe;
 import entity.Deklaracjevat;
 import entity.Dok;
 import entity.Podatnik;
+import entityfk.Dokfk;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,7 +41,7 @@ import pdf.PdfVatUE;
  */
 @ManagedBean
 @ViewScoped
-public class VatUeView implements Serializable {
+public class Vat27View implements Serializable {
 
     //lista gdzie beda podsumowane wartosci
     private List<VatUe> klienciWDTWNT;
@@ -60,37 +62,25 @@ public class VatUeView implements Serializable {
     private String opisvatuepkpir;
     private String brakustawienUE;
 
-    public VatUeView() {
+    public Vat27View() {
         klienciWDTWNT = new ArrayList<>();
     }
 
     @PostConstruct
     public void init() {
-        List<Dok> obiektDOKjsfSel = new ArrayList<>();
         List<Dok> dokvatmc = new ArrayList<>();
-        Integer rok = wpisView.getRokWpisu();
+        String rok = wpisView.getRokWpisuSt();
         String podatnik = wpisView.getPodatnikWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        opisvatuepkpir = wpisView.getPodatnikWpisu() + " Zestawienie dokumentów do deklaracji VAT-27 na koniec " + rok + "/" + mc + " rozliczenie miesięczne";
         try {
-            obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString()));
-            //sortowanie dokumentów
-            Collections.sort(obiektDOKjsfSel, new Dokcomparator());
-            //
+            dokvatmc = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok, mc);
+            Collections.sort(dokvatmc, new Dokcomparator());
+            klienciWDTWNT.addAll(kontrahenciUE(dokvatmc));
             int numerkolejny = 1;
-            for (Dok p : obiektDOKjsfSel) {
+            for (Dok p : dokvatmc) {
                 p.setNrWpkpir(numerkolejny++);
             }
-        } catch (Exception e) {
-            E.e(e);
-        }
-        String m = wpisView.getMiesiacWpisu();
-        Integer m1 = Integer.parseInt(m);
-        Podatnik pod = podatnikDAO.findPodatnikByNIP(wpisView.getPodatnikObiekt().getNip());
-        String vatokres = ParametrView.zwrocParametr(pod.getVatokres(), rok, m);
-        String vatUEokres = ParamBean.zwrocParametr(pod.getParamVatUE(), rok, m);
-        String okresvat = vatUEokres != null ? vatUEokres : vatokres;
-        opisvatuepkpir = wpisView.getPodatnikWpisu() + " Zestawienie dokumentów do deklaracji VAT-UE na koniec " + rok + "/" + m + " rozliczenie " + okresvat;
-        try {
-            dokvatmc.addAll(zmodyfikujliste(obiektDOKjsfSel, okresvat));
             //a teraz podsumuj klientów
             double sumanettovatue = 0.0;
             for (Dok p : dokvatmc) {
@@ -111,14 +101,14 @@ public class VatUeView implements Serializable {
             }
             VatUe rzadpodsumowanie = new VatUe("podsum.", null, sumanettovatue, 0, null);
             klienciWDTWNT.add(rzadpodsumowanie);
-            zachowajwbazie(String.valueOf(rok), m, podatnik);
+            //zachowajwbazie(String.valueOf(rok), mc, podatnik);
             try {
                 pobierzdanezdeklaracji();
             } catch (Exception e) {
                 E.e(e);
             }
         } catch (Exception ex) {
-            brakustawienUE = "Wystąpił błąd podczas pobierania dokumentów. Prawdopodobnie nie ma ustawień parametru dla VAT-UE dla bieżącego podatnika";
+            brakustawienUE = "Wystąpił błąd podczas pobierania dokumentów. Prawdopodobnie nie ma ustawień parametru dla VAT-27 dla bieżącego podatnika";
             E.e(ex);
         }
 
@@ -149,48 +139,7 @@ public class VatUeView implements Serializable {
         }
     }
 
-    private List<Dok> zmodyfikujliste(List<Dok> listadokvat, String vatokres) throws Exception {
-        // zeby byl unikalny zestaw klientow
-        Set<VatUe> klienty = new HashSet<>();
-        switch (vatokres) {
-            case "blad":
-                throw new Exception("Nie ma ustawionego parametru vat za dany okres");
-            case "miesięczne": {
-                List<Dok> listatymczasowa = new ArrayList<>();
-                for (Dok p : listadokvat) {
-                    if (p.getVatM().equals(wpisView.getMiesiacWpisu()) && (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT") || p.getTypdokumentu().equals("UPTK100"))) {
-                        //pobieramy dokumenty z danego okresu do sumowania
-                        listatymczasowa.add(p);
-                        //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                        if (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT") || p.getTypdokumentu().equals("UPTK100")) {
-                            klienty.add(new VatUe(p.getTypdokumentu(), p.getKontr(), 0.0, 0, new ArrayList<Dok>()));
-                        }
-                    }
-
-                }
-                //potem do tych wyciagnietych klientow bedziemy przyporzadkowywac faktury i je sumowac
-                klienciWDTWNT.addAll(klienty);
-                return listatymczasowa;
-            }
-            default: {
-                List<Dok> listatymczasowa = new ArrayList<>();
-                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                for (Dok p : listadokvat) {
-                    if (p.getVatM().equals(miesiacewkwartale.get(0)) || p.getVatM().equals(miesiacewkwartale.get(1)) || p.getVatM().equals(miesiacewkwartale.get(2)) && (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT") || p.getTypdokumentu().equals("UPTK100"))) {
-                        listatymczasowa.add(p);
-                        //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                        if (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT") || p.getTypdokumentu().equals("UPTK100")) {
-                            klienty.add(new VatUe(p.getTypdokumentu(), p.getKontr(), 0.0, 0, new ArrayList<Dok>()));
-                        }
-                    }
-                }
-                klienciWDTWNT.addAll(klienty);
-                return listatymczasowa;
-            }
-        }
-    }
-
+   
     public void pobierzdanezdeklaracji() throws Exception {
         danezdeklaracji = new ArrayList<>();
         Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
@@ -231,7 +180,7 @@ public class VatUeView implements Serializable {
 
     public void drukujewidencjeUE() {
         try {
-            PdfVatUE.drukujewidencje(klienciWDTWNT, wpisView, "VAT-UE");
+            PdfVatUE.drukujewidencje(klienciWDTWNT, wpisView, "VAT-27");
         } catch (Exception e) {
             E.e(e);
 
@@ -241,71 +190,94 @@ public class VatUeView implements Serializable {
     public void drukujewidencjeUETabela() {
         try {
             if (listawybranych != null && !listawybranych.isEmpty()) {
-                PdfVatUE.drukujewidencjeTabela(listawybranych, wpisView, "VAT-UE");
+                PdfVatUE.drukujewidencjeTabela(listawybranych, wpisView, "VAT-27");
             } else {
-                PdfVatUE.drukujewidencjeTabela(klienciWDTWNT, wpisView, "VAT-UE");
+                PdfVatUE.drukujewidencjeTabela(klienciWDTWNT, wpisView, "VAT-27");
             }
         } catch (Exception e) {
             E.e(e);
 
         }
     }
+    
+     private Collection<? extends VatUe> kontrahenciUE(List<Dok> dokvatmc) {
+        Set<VatUe> klienty = new HashSet<>();
+        for (Dok p : dokvatmc) {
+            if (warunekkontrahenci(p)) {
+                //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
+                VatUe veu = new VatUe(p.getTypdokumentu(), p.getKontr(), 0.0, 0);
+                veu.setZawiera(new ArrayList<>());
+                klienty.add(veu);
+            }
+        }
+        return klienty;
+    }
 
+    private boolean warunekkontrahenci(Dok p) {
+        boolean zwrot = false;
+        zwrot = p.getRodzTrans().equals("odwrotne obciążenie sprzedawca");
+        return zwrot;
+    }
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    
     public String getOpisvatuepkpir() {
         return opisvatuepkpir;
     }
-
+    
     public void setOpisvatuepkpir(String opisvatuepkpir) {
         this.opisvatuepkpir = opisvatuepkpir;
     }
-
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public List<VatUe> getKlienciWDTWNT() {
         return klienciWDTWNT;
     }
-
+    
     public void setKlienciWDTWNT(List<VatUe> klienciWDTWNT) {
         this.klienciWDTWNT = klienciWDTWNT;
     }
-
+    
     public List<VatUe> getListawybranych() {
         return listawybranych;
     }
-
+    
     public void setListawybranych(List<VatUe> listawybranych) {
         this.listawybranych = listawybranych;
     }
-
+    
     public List<Danezdekalracji> getDanezdeklaracji() {
         return danezdeklaracji;
     }
-
+    
     public void setDanezdeklaracji(List<Danezdekalracji> danezdeklaracji) {
         this.danezdeklaracji = danezdeklaracji;
     }
-
+    
     public boolean isNiemoznadrukowac() {
         return niemoznadrukowac;
     }
-
+    
     public void setNiemoznadrukowac(boolean niemoznadrukowac) {
         this.niemoznadrukowac = niemoznadrukowac;
     }
-
+    
     public String getBrakustawienUE() {
         return brakustawienUE;
     }
-
+    
     public void setBrakustawienUE(String brakustawienUE) {
         this.brakustawienUE = brakustawienUE;
     }
+//</editor-fold>
+   
 
     public static class Danezdekalracji {
 
