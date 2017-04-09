@@ -6,14 +6,17 @@
 package pdffk;
 
 import static beansPdf.PdfFont.emptyCell;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeAlignNOBorder;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -22,8 +25,12 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
+import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
@@ -31,13 +38,17 @@ import embeddablefk.KontoKwota;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
 import entity.Faktura;
+import entity.Fakturywystokresowe;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Ryczpoz;
 import entity.SrodekTrw;
+import entity.Statystyka;
 import entity.UmorzenieN;
 import entityfk.Dokfk;
+import entityfk.EVatwpisDedra;
 import entityfk.Konto;
+import entityfk.MiejscePrzychodow;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
@@ -47,6 +58,7 @@ import entityfk.Wiersz;
 import entityfk.WierszBO;
 import error.E;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Iterator;
@@ -62,21 +74,10 @@ import testobjects.WierszDokfk;
 import testobjects.WierszKonta;
 import testobjects.WierszTabeli;
 import testobjects.WierszWNTWDT;
-import waluty.Z;
-import entityfk.EVatwpisDedra;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import embeddable.Mce;
-import entity.Fakturywystokresowe;
-import entity.Statystyka;
-import entityfk.MiejscePrzychodow;
-import java.io.FileOutputStream;
+import vies.Vies;
 import viewfk.StowRozrachCzlonkView;
 import viewfk.StowRozrachCzlonkZbiorczeView;
+import waluty.Z;
 
 /**
  *
@@ -614,7 +615,7 @@ public class PdfMain {
             List wiersze = tabela[1];
             if (wiersze != null && wiersze.size() > 0) {
                 String nazwaklasy = wiersze.get(0).getClass().getName();
-                int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
+                int[] col = obliczKolumnyVies(naglowki.size());
                 PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
                 ustawnaglowki(table, naglowki);
                 ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
@@ -677,7 +678,19 @@ public class PdfMain {
         }
         return col71;
      }                
-        
+    
+    private static int[] obliczKolumnyVies(int size) {
+        int[] col = new int[size];
+        col[0] = 1;
+        col[1] = 4;
+        col[2] = 2;
+        col[3] = 3;
+        col[4] = 4;
+        col[5] = 4;
+        col[6] = 4;
+        return col;
+    }
+     
     private static int[] obliczKolumny(int size, String classname, int modyfikator) {
         switch (classname) {
             case "testobjects.WierszTabeli":
@@ -1307,6 +1320,16 @@ public class PdfMain {
                     }
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
                 }
+            }
+            if (nazwaklasy.equals("vies.Vies")) {
+                Vies p = (Vies) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
+                table.addCell(ustawfrazeAlign(Data.data_ddMMMMyyyy(p.getData()), "center", 7, 15f));
+                table.addCell(ustawfrazeAlign(p.getKraj(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNIP(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNazwafirmy(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getAdresfirmy(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getIdentyfikatorsprawdzenia(), "center", 7));
             }
             if (nazwaklasy.equals("entity.Fakturywystokresowe")) {
                 Fakturywystokresowe p = (Fakturywystokresowe) it.next();

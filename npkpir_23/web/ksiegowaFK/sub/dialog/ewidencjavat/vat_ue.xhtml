@@ -8,12 +8,17 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab title="VAT UE">
-        <p:panelGrid id="panelue" columns="5">
+        <p:panelGrid id="panelue" columns="7">
             <h:outputText value="suma wybranych"/>
             <bcf:outputpl value="#{vatUeFKView.sumawybranych}"/>
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfk()}"/>
             <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfkTabela()}"/>
-            <p:commandButton value="rozwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
+            <p:commandButton value="rozwiń/zwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
+            <p:commandButton value="VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.sprawdzVIES}"
+                             update="form:akordeon:formVATUE:dokumentyLista" oncomplete="r('form:akordeon:drukviesbutton').show()"/>
+            <p:commandButton value="druk VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;" id="drukviesbutton"
+                             actionListener="#{vatUeFKView.drukujVIES}"
+                             />
         </p:panelGrid>
         <h:form id="formVATUE">
             <p:outputPanel id="wrapper"> 
@@ -22,7 +27,7 @@
                               rowKey="#{wpis1.hashCode()}" selection="#{vatUeFKView.listawybranych}"
                               emptyMessage="W danym miesiącu nie było żadnych zapisów"
                               sortBy="#{wpis1.kontrahent.npelna}"
-                              style="max-width: 95%;height: 570px;overflow-y: scroll;" widgetVar="dokTable" 
+                              style="height: 570px;overflow-y: scroll;" widgetVar="dokTable" 
                               > 
                     <f:facet name="header">  
                         <h:outputText value="#{vatUeFKView.opisvatuepkpir}" /> 
@@ -71,6 +76,11 @@
                             <f:convertNumber minFractionDigits="0" locale="PL"/>
                         </h:outputText>
                     </p:column>
+                    <p:column id="vies" headerText="VIES" sortBy="#{wpis1.vies}" style="width: 15%; text-align: center;">  
+                         <h:outputText value="#{wpis1.vies eq null ? 'nie sprawdzono' : wpis1.vies.identyfikatorsprawdzenia eq null ? 'podatnik nieaktywny' : 'ok'}" rendered="#{wpis1.transakcja eq 'podsum.' ? false : true}">
+                        </h:outputText>
+                    </p:column>
+                    
                     <p:rowExpansion>
                         <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >  
                             <p:dataTable var="subwpis" value="#{wpis1.zawierafk}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 98%;">

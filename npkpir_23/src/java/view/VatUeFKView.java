@@ -4,12 +4,12 @@
  */
 package view;
 
-import beansFK.ParamBean;
 import comparator.Dokfkcomparator;
 import dao.DeklaracjevatDAO;
 import dao.PodatnikDAO;
 import daoFK.DokDAOfk;
 import daoFK.VatuepodatnikDAO;
+import daoFK.ViesDAO;
 import data.Data;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
@@ -33,6 +33,9 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import pdf.PdfVatUE;
+import pdffk.PdfVIES;
+import vies.VIESCheckBean;
+import vies.Vies;
 import waluty.Z;
 
 /**
@@ -58,6 +61,8 @@ public class VatUeFKView implements Serializable {
     private double sumawybranych;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private ViesDAO viesDAO;
     private String opisvatuepkpir;
 
     public VatUeFKView() {
@@ -356,7 +361,29 @@ public class VatUeFKView implements Serializable {
           
       }
     } 
+    
+    public void sprawdzVIES() {
+       try {
+        VIESCheckBean.sprawdz(klienciWDTWNT, viesDAO, wpisView.getPodatnikObiekt(), wpisView.getWprowadzil());
+        Msg.msg("Sprawdzono VIES");
+       } catch (Exception e) {
+           E.e(e);
+       }
+    }
    
+    public void drukujVIES() {
+        try {
+            List<Vies> lista = new ArrayList<>();
+            for (VatUe p : klienciWDTWNT) {
+                if (p.getVies() != null) {
+                    lista.add(p.getVies());
+                }
+            }
+            PdfVIES.drukujVIES(lista, wpisView);
+        }  catch (Exception e) { 
+            E.e(e); 
+        }
+    }
 
     public WpisView getWpisView() {
         return wpisView;

@@ -8,7 +8,6 @@ package testobjects;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
-
 import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
@@ -39,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import msg.B;
+import vies.Vies;
 import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
 import viewfk.StowRozrachCzlonkView;
 import viewfk.StowRozrachCzlonkZbiorczeView;
@@ -297,7 +297,7 @@ public class testobjects {
        return tabela;
    }
     
-    public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
+public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        List n = new ArrayList();
        //9
        n.add("lp");
@@ -310,6 +310,22 @@ public class testobjects {
        n.add("Ma");
        n.add("wal.");
        n.add("k. przec.");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getVies(List<Vies> wiersze) {
+       List n = new ArrayList();
+       //9
+       n.add("lp");
+       n.add("data sprawdzenia");
+       n.add("kraj");
+       n.add("nip");
+       n.add("nazwa");
+       n.add("adres");
+       n.add("identyfikator");  
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

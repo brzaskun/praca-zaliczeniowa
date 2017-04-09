@@ -13,6 +13,7 @@ import java.util.Objects;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
 import javax.persistence.Lob;
+import vies.Vies;
 
 /**
  *
@@ -31,6 +32,7 @@ public class VatUe implements Serializable{
     private List<Dok> zawiera;
     @Lob
     private List<Dokfk> zawierafk;
+    private Vies vies;
 
     public VatUe() {
     }
@@ -123,6 +125,14 @@ public class VatUe implements Serializable{
 
     public void setNazwawaluty(String nazwawaluty) {
         this.nazwawaluty = nazwawaluty;
+    }
+
+    public Vies getVies() {
+        return vies;
+    }
+
+    public void setVies(Vies vies) {
+        this.vies = vies;
     }
 
     
