@@ -34,7 +34,7 @@ public class JavaApplication2 {
 //        }
 //        in.close();
         Connection.Response res = Jsoup.connect("http://ec.europa.eu/taxation_customs/vies/vatResponse.html")
-                .data("memberStateCode", "PL", "number", "851100500")
+                .data("memberStateCode", "PL", "number", "8511005008", "requesterMemberStateCode", "PL", "requesterNumber", "8511005008")
                 .method(Method.POST)
                 .execute();
 
@@ -46,9 +46,12 @@ public class JavaApplication2 {
             String linkText = link.text();
             if (linkText.contains("Yes, valid VAT number") || znalazl == true) {
                 znalazl = true;
-                System.out.println(linkText);
+                if (!linkText.equals("")) {
+                    System.out.println(linkText);
+                }
             } else {
-                so
+                System.out.println("Nie znalazl");
+                break;
             }
         }
 //        System.out.println("");
