@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import org.jsoup.Connection;
+import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -31,15 +33,35 @@ public class JavaApplication2 {
 //            System.out.println(inputLine);
 //        }
 //        in.close();
-        File input = new File("input.html");
-        Document doc = Jsoup.parse(input, "UTF-8", "http://info.cern.ch");
-        Element content = doc.getElementsContainingText(searchText)
-        Elements links = content.getElementsByTag("li");
-        for (Element link : links) {
-            String linkHref = link.attr("href");
+        Connection.Response res = Jsoup.connect("http://ec.europa.eu/taxation_customs/vies/vatResponse.html")
+                .data("memberStateCode", "PL", "number", "851100500")
+                .method(Method.POST)
+                .execute();
+
+        Document doc = res.parse();
+        Element table = doc.getElementById("vatResponseFormTable");
+        Elements tds = table.getElementsByTag("td");
+        boolean znalazl = false;
+        for (Element link : tds) {
             String linkText = link.text();
-            System.out.println(linkText);
+            if (linkText.contains("Yes, valid VAT number") || znalazl == true) {
+                znalazl = true;
+                System.out.println(linkText);
+            } else {
+                so
+            }
         }
+//        System.out.println("");
+        //Document doc = Jsoup.connect("http://ec.europa.eu/taxation_customs/vies/vieshome.do?locale=pl").post().
+////        Element content = doc.getElementsC
+//        Element link = doc.getElementById("countryCombobox");
+//        link.val("PL");
+//        System.out.println(""+link.html());
+////        for (Element link : links) {
+////            String linkHref = link.attr("href");
+////            String linkText = link.text();
+////            System.out.println(linkText);
+////        }
     }
 
 }
