@@ -10,6 +10,7 @@ import dao.DeklaracjevatDAO;
 import dao.DokDAO;
 import dao.PodatnikDAO;
 import daoFK.VatuepodatnikDAO;
+import daoFK.ViesDAO;
 import embeddable.Kwartaly;
 import embeddable.VatUe;
 import entity.Deklaracjevat;
@@ -32,6 +33,9 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import pdf.PdfVatUE;
+import pdffk.PdfVIES;
+import vies.VIESCheckBean;
+import vies.Vies;
 
 /**
  *
@@ -57,6 +61,8 @@ public class VatUeView implements Serializable {
     private DeklaracjevatDAO deklaracjevatDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private ViesDAO viesDAO;
     private String opisvatuepkpir;
     private String brakustawienUE;
 
@@ -248,6 +254,29 @@ public class VatUeView implements Serializable {
         } catch (Exception e) {
             E.e(e);
 
+        }
+    }
+    
+    public void sprawdzVIES() {
+       try {
+        VIESCheckBean.sprawdz(klienciWDTWNT, viesDAO, wpisView.getPodatnikObiekt(), wpisView.getWprowadzil());
+        Msg.msg("Sprawdzono VIES");
+       } catch (Exception e) {
+           E.e(e);
+       }
+    }
+   
+    public void drukujVIES() {
+        try {
+            List<Vies> lista = new ArrayList<>();
+            for (VatUe p : klienciWDTWNT) {
+                if (p.getVies() != null) {
+                    lista.add(p.getVies());
+                }
+            }
+            PdfVIES.drukujVIES(lista, wpisView);
+        }  catch (Exception e) { 
+            E.e(e); 
         }
     }
 

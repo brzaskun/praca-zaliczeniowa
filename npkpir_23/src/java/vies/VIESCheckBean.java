@@ -98,7 +98,7 @@ public class VIESCheckBean {
                     }
                 }
             } else {
-                zwrot = null;
+                zwrot =  new Vies();
             }
         } catch (IOException ex) {
             Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
