@@ -41,7 +41,7 @@ public class PdfVIES {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Potwierdzenia VIES ", wpisView.getPodatnikObiekt(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-            dodajTabele(document, testobjects.testobjects.getVies(wykaz),95,0);
+            PdfMain.dodajTabeleVies(document, testobjects.testobjects.getVies(wykaz),95,0);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);

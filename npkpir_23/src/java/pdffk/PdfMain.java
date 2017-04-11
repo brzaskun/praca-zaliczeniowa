@@ -615,6 +615,24 @@ public class PdfMain {
             List wiersze = tabela[1];
             if (wiersze != null && wiersze.size() > 0) {
                 String nazwaklasy = wiersze.get(0).getClass().getName();
+                int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
+                PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
+                ustawnaglowki(table, naglowki);
+                ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
+                document.add(table);
+            }
+        } catch (DocumentException ex) {
+            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
+            E.e(ex);
+        }
+    }
+    
+     public static void dodajTabeleVies(Document document, List[] tabela, int perc, int modyfikator) {
+        try {
+            List naglowki = tabela[0];
+            List wiersze = tabela[1];
+            if (wiersze != null && wiersze.size() > 0) {
+                String nazwaklasy = wiersze.get(0).getClass().getName();
                 int[] col = obliczKolumnyVies(naglowki.size());
                 PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
                 ustawnaglowki(table, naglowki);

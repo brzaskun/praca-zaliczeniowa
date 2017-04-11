@@ -35,7 +35,7 @@ import view.WpisView;
 public class PdfRZiS {
 
     public static void drukujRZiS(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
+            String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
