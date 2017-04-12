@@ -11,12 +11,12 @@
             <h:outputText value="Wybór opodatkowania podatkiem dochodowym" style="font-size: 15px"/>
             <p:focus for="parametrypodatnika"/><br/>
             <h:outputText value="dane historyczne"/><br/>
-            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 900px;">
-                <p:column headerText="od" width="50">
+            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 980px;">
+                <p:column headerText="od" width="80">
                         <h:outputText value="#{loop.mcOd}-" />
                         <h:outputText value="#{loop.rokOd}" />
                     </p:column>
-                <p:column headerText="do" width="50">
+                <p:column headerText="do" width="80">
                         <h:outputText value="#{loop.mcDo}-" />
                         <h:outputText value="#{loop.rokDo}" />
                     </p:column>
