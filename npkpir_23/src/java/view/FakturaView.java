@@ -10,7 +10,6 @@ import beansFaktura.FakturaBean;
 import beansFaktura.FakturaOkresowaGenNum;
 import beansMail.OznaczFaktBean;
 import beansMail.SMTPBean;
-import sortfunction.FakturaSortBean;
 import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
@@ -21,12 +20,14 @@ import dao.FakturywystokresoweDAO;
 import dao.KlienciDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
+import dao.SMTPSettingsDAO;
 import dao.WpisDAO;
 import daoFK.DokDAOfk;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
+import data.Data;
 import embeddable.EVatwpis;
 import embeddable.Mce;
 import embeddable.Pozycjenafakturzebazadanych;
@@ -35,6 +36,8 @@ import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaPK;
+import entity.FakturaStopkaNiemiecka;
+import entity.FakturaWalutaKonto;
 import entity.Fakturadodelementy;
 import entity.Fakturywystokresowe;
 import entity.KwotaKolumna1;
@@ -69,15 +72,11 @@ import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.context.RequestContext;
 import params.Params;
 import pdf.PdfFaktura;
+import pdf.PdfFakturyOkresowe;
 import pdf.PdfFakturySporzadzone;
 import plik.Plik;
 import serialclone.SerialClone;
-import dao.SMTPSettingsDAO;
-import data.Data;
-import entity.FakturaStopkaNiemiecka;
-import entity.FakturaWalutaKonto;
-import entity.Fakturyokresowe;
-import pdf.PdfFakturyOkresowe;
+import sortfunction.FakturaSortBean;
 import waluty.Z;
 
 /**
@@ -342,6 +341,10 @@ public class FakturaView implements Serializable {
             selected.setNazwa(null);
         }
         try {
+            if (selected.getPozycjepokorekcie() != null) {
+                selected.setRok(Data.getCzescDaty(selected.getDatawystawienia(), 0));
+                selected.setMc(Data.getCzescDaty(selected.getDatawystawienia(), 1));
+            }
             fakturaDAO.dodaj(selected);
             init();
             Msg.msg("i", "Dodano fakturę.");
