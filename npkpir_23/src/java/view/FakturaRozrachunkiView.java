@@ -9,6 +9,7 @@ import comparator.FakturaRozrachunkicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.WpisDAO;
+import embeddable.Mce;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
 import entity.Wpis;
@@ -216,6 +217,9 @@ public class FakturaRozrachunkiView  implements Serializable {
             Collections.sort(wprowadzoneplatnosci, new FakturaRozrachunkicomparator());
             String ostatninumer = wprowadzoneplatnosci.get(wprowadzoneplatnosci.size()-1).getNrdokumentu();
             selected.setNrdokumentu(zrobnowynumer(ostatninumer));
+        } else {
+            String nr = String.valueOf(Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu()))+"/1";
+            selected.setNrdokumentu(nr);
         }
     }
     
