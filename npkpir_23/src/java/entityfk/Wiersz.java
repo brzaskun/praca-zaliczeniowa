@@ -109,10 +109,10 @@ public class Wiersz implements Serializable {
     private double saldoWBRK;
     @Column(name = "zawierarozkurs")
     private boolean zawierarozkurs;
-    @JoinColumn(name = "stronanowatransakcja", referencedColumnName = "id")
+    @JoinColumn(name = "stronanowatransakcja", referencedColumnName = "id", updatable = true, nullable = true)
     @OneToOne
     private StronaWiersza stronanowatransakcja;
-    @JoinColumn(name = "stronarozliczajacy", referencedColumnName = "id")
+    @JoinColumn(name = "stronarozliczajacy", referencedColumnName = "id", updatable = true, nullable = true)
     @OneToOne
     private StronaWiersza stronarozliczajacy;
  

@@ -5,7 +5,6 @@
 package viewfk;
 
 import beansDok.ListaEwidencjiVat;
-import beansFK.CechazapisuBean;
 import beansFK.DialogWpisywanie;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
@@ -71,6 +70,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -86,7 +86,9 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
+import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
@@ -96,8 +98,6 @@ import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
-import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.finalizacjaDokumentuQR;
 
 /**
  *
@@ -1011,12 +1011,15 @@ public class DokfkView implements Serializable {
             }
             dokumentdousuniecia = null;
             Msg.msg("i", "Dokument usunięty");
+        } catch (EJBException ep) {
+            Msg.msg("e", "Nie udało się usunąć dokumentu. Czy nie jest to dokument środka trwałego lub RMK? Czy nie zostal do transakcji wygenerowany rokument roznic kursowych?");
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e", "Nie udało się usunąć dokumentu. Czy nie jest to dokument środka trwałego lub RMK?");
+            Msg.msg("e", "Nie udało się usunąć dokumentu "+E.e(e));
         }
     }
 
+    
     //usuwa wiersze z dokumentu
     public void usunWierszWDokumencie() {
         try {
@@ -2819,12 +2822,16 @@ public class DokfkView implements Serializable {
     }
 
     public void usunzaznaczone() {
-        if (selectedlist != null && selectedlist.size() > 0) {
-            for (Dokfk p : selectedlist) {
-                wykazZaksiegowanychDokumentow.remove(p);
-                dokDAOfk.destroy(p);
+        try {
+            if (selectedlist != null && selectedlist.size() > 0) {
+                for (Dokfk p : selectedlist) {
+                    wykazZaksiegowanychDokumentow.remove(p);
+                    dokDAOfk.destroy(p);
+                }
+                selectedlist = null;
             }
-            selectedlist = null;
+        } catch (Exception e) {
+            Msg.msg("e", "Wystapił błąd poczad usuwania wybranych dokumentów. Spróbuj usunąć je pojedynczo");
         }
     }
 
