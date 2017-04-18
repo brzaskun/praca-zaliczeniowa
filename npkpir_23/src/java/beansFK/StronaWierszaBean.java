@@ -106,6 +106,11 @@ public class StronaWierszaBean {
         return pobranezapisy;
     }
     
+    public static List<StronaWiersza> pobraniezapisowwynikoweMCRok(StronaWierszaDAO stronaWierszaDAO, Podatnik podatnik, String rok, String mc) {
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokMcWynik(podatnik, rok, mc);
+        return pobranezapisy;
+    }
+    
     public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, String mc, String rok, Podatnik podatnik) {
         int granicagorna = Mce.getMiesiacToNumber().get(mc);
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(podatnik, rok);

@@ -74,10 +74,18 @@ public class PozycjaRZiSPorMcyView  implements Serializable {
         }
         List<PozycjaRZiSBilans> pozycje = BilansBean.pobierzPoszerzPozycje(uklad, pozycjaRZiSDAO, wpisView.getMiesiacWpisu());
         rootProjektRZiS.getChildren().clear();
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        //mce narastajace
+        //List<StronaWiersza> zapisymc = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
         List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
-            PozycjaRZiSFKBean.ustawRootaNar(rootProjektRZiS, pozycje, zapisy, plankont, wpisView.getMiesiacWpisu());
+            List<StronaWiersza> zapisymc = StronaWierszaBean.pobraniezapisowwynikoweMCRok(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, plankont, "01");
+            zapisymc = StronaWierszaBean.pobraniezapisowwynikoweMCRok(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), wpisView.getMiesiacWpisu());
+            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, plankont, "02");
+            zapisymc = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
+            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, plankont, "03");
+            zapisymc = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokUprzedniSt(), wpisView.getPodatnikObiekt());
+            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, plankont, "04");
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e) {
             E.e(e);
@@ -117,7 +125,7 @@ public class PozycjaRZiSPorMcyView  implements Serializable {
     }
     
     public void drukujRZiSNar() {
-        PdfRZiS.drukujRZiSNar(rootProjektRZiS, wpisView);
+        PdfRZiS.drukujRZiSPorMcy(rootProjektRZiS, wpisView);
     }
     
     public WpisView getWpisView() {

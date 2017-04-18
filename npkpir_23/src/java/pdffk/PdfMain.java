@@ -663,6 +663,26 @@ public class PdfMain {
         }
     }
     
+     public static void dodajTabelePorMcy(Document document, List[] tabela, int perc, int modyfikator, List<String> mce) {
+        try {
+            List naglowki = tabela[0];
+            List wiersze = tabela[1];
+            if (wiersze != null && wiersze.size() > 0) {
+                String nazwaklasy = wiersze.get(0).getClass().getName();
+                int[] col = obliczKolumnyNar(naglowki.size(), mce.size());
+                PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
+                ustawnaglowki(table, naglowki);
+                ustawwierszeNar(table,wiersze, nazwaklasy, modyfikator, mce);
+                document.add(table);
+            }
+        } catch (DocumentException ex) {
+            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
+            E.e(ex);
+        }
+    }
+    
+    
+    
      public static PdfPTable dodajSubTabele(List[] tabela, int perc, int modyfikator, int size) {
         try {
             List naglowki = tabela[0];

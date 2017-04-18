@@ -145,6 +145,31 @@ public class PdfRZiS {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
         }
     }
+    
+    public static void drukujRZiSPorMcy(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (rootProjektRZiS != null && rootProjektRZiS.getChildren().size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = PdfMain.inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa,2);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            PdfMain.dodajOpisWstepnyKompakt(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            List<String> mce = Mce.getMiesiaceGranica("04");
+            int wielkosctabeli = obliczszerokosctabeli(mce.size());
+            dodajTabeleNar(document, testobjects.testobjects.getTabelaRZiSPorMcy(rootProjektRZiS, mce, wpisView),wielkosctabeli,4,mce);
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "wydrukRZiS('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano RZiS do wydruku");
+        }
+    }
+    
     public static void main(String[] args) {
         String nazwa = "RZiSobliczenie-";
         File file = Plik.plik(nazwa, true);

@@ -39,6 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import msg.B;
 import vies.Vies;
+import view.WpisView;
 import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
 import viewfk.StowRozrachCzlonkView;
 import viewfk.StowRozrachCzlonkZbiorczeView;
@@ -689,6 +690,25 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        tabela[1] = t;
        return tabela;
    }
+   
+   public static List[] getTabelaRZiSPorMcy(TreeNodeExtended rootProjektRZiS, List<String> mce, WpisView wpisView) {
+       int level = rootProjektRZiS.ustaldepthDT();
+       List n = new ArrayList();
+       for (int i = 0; i < level; i++) {
+        n.add("");
+       }
+       n.add(B.b("nazwapozycjiRZiS"));
+       n.add(wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
+       n.add(wpisView.getMiesiacWpisu()+"/"+wpisView.getRokUprzedniSt());
+       n.add(wpisView.getRokWpisuSt());
+       n.add(wpisView.getRokUprzedniSt());
+       List t = getWierszeRZiS(rootProjektRZiS, level);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
    
     public static List[] getTabelaRZiSBO(TreeNodeExtended rootProjektRZiS) {
        int level = rootProjektRZiS.ustaldepthDT();

@@ -250,6 +250,15 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
+    public void addNumbersSlot(List<StronaWiersza> zapisynakontach, List<Konto> plankont, String kolumna) throws Exception {
+        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        this.getFinallChildren(finallNodes);
+        for (StronaWiersza stronaWiersza : zapisynakontach) {
+            addNumbersloopNar(stronaWiersza, finallNodes, plankont, kolumna);
+        }
+    }
+    
+    
      public void addNumbersNar(List<StronaWiersza> zapisynakontach, List<Konto> plankont, String mckoncowy) throws Exception {
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
@@ -839,6 +848,33 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         } while (parents.size() > 0);
     }
     
+    public void sumNodesSlot(String kolumna) {
+        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        this.getFinallChildren(finallNodes);
+        ArrayList<TreeNodeExtended> parents = new ArrayList<>();
+        do {
+            int lowestlevel = ustaldepth(finallNodes);
+            parents.clear();
+            for (TreeNodeExtended p : finallNodes) {
+                //ta fomula wyklyczamy roota i nody z formula do dodawania i odliczania kwot
+                if ((p.getParent()) instanceof TreeNodeExtended && !(p.getParent().getData() instanceof String) && p.getFormula().isEmpty()) {
+                    if (((PozycjaRZiSBilans) p.getData()).getLevel() == lowestlevel) {
+                            double kwotaparent = ((PozycjaRZiS) p.getParent().getData()).getMce().get(kolumna);
+                            double kwotanode = ((PozycjaRZiS) p.getData()).getMce().get(kolumna);
+                            ((PozycjaRZiS) p.getParent().getData()).getMce().put(kolumna,(Z.z(kwotaparent + kwotanode)));
+                        if (!parents.contains(p.getParent())) {
+                            parents.add((TreeNodeExtended) p.getParent());
+                        }
+                    } else {
+                        parents.add(p);
+                    }
+                }
+            }
+            finallNodes.clear();
+            finallNodes.addAll(parents);
+        } while (parents.size() > 0);
+    }
+    
     public void sumNodesBO() {
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
@@ -962,6 +998,26 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         double wynik = dotheMathNar(finallNodes, formulaParse, formulalength,r);
                         ((PozycjaRZiS) p.getData()).getMce().put(r,wynik);
                     }
+                }
+            } catch (Exception e) {
+                
+            }
+        }
+    }
+    
+    public void resolveFormulasSlot(String kolumna) {
+        ArrayList<TreeNode> finallNodes = (ArrayList<TreeNode>) this.getChildren();
+        for (TreeNode p : finallNodes) {
+            try {
+                if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
+                    String formula = ((TreeNodeExtended) p).getFormula();
+                    int formulalength = formula.length();
+                    Character[] formulaParse = new Character[formulalength];
+                    for (int i = 0; i < formulalength; i++) {
+                        formulaParse[i] = formula.charAt(i);
+                    }
+                    double wynik = dotheMathNar(finallNodes, formulaParse, formulalength,kolumna);
+                    ((PozycjaRZiS) p.getData()).getMce().put(kolumna,wynik);
                 }
             } catch (Exception e) {
                 

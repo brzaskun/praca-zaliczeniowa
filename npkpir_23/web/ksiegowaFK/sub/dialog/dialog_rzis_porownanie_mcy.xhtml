@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialog_rzis_porownanie_mcy" header="Rachunek Zysków i Strat za okresy rozliczeniowe" widgetVar="dialog_rzis_porownanie_mcy" 
-              resizable="false" onShow="ustawdialog('dialog_rzis_porownanie_mcy','menubilanse', 1600, 780);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_porownanie_mcy');"  >
+              resizable="false" onShow="ustawdialog('dialog_rzis_porownanie_mcy','menubilanse', 1200, 780);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_porownanie_mcy');"  >
         <bcf:ajaxs/>
         <h:form id="form_dialog_rzis_porownanie_mcy">
             <p:panelGrid columns="7">
@@ -38,27 +38,27 @@
                             <h:outputText value=" " /> 
                             <h:outputText value="#{loop.nazwa}" /> 
                         </p:column>
-                        <p:column headerText="01">
+                        <p:column headerText="#{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt}">
                             <h:outputText value="#{loop.mce.get('01')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('01') != 0.0}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="02" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 1}">
+                        <p:column headerText="#{WpisView.miesiacWpisu}/#{WpisView.rokUprzedniSt}" >
                             <h:outputText value="#{loop.mce.get('02')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('02') != 0.0}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                         <p:column headerText="03" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 2}">
+                         <p:column headerText="#{WpisView.rokWpisuSt}" >
                             <h:outputText value="#{loop.mce.get('03')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('03') != 0.0}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                         <p:column headerText="04" rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 3}">
+                         <p:column headerText="#{WpisView.rokUprzedniSt}" >
                             <h:outputText value="#{loop.mce.get('04')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('04') != 0.0}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                         <p:column headerText="05"  rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 4}">
+<!--                         <p:column headerText="05"  rendered="#{Mce.mcToNumber.get(WpisView.miesiacWpisu) gt 4}">
                             <h:outputText value="#{loop.mce.get('05')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('05') != 0.0}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -97,7 +97,7 @@
                             <h:outputText value="#{loop.mce.get('12')}" style="float: right; padding-right: 15%" rendered="#{loop.mce.get('12') != 0.0}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
-                        </p:column>
+                        </p:column>-->
                      </p:treeTable>
                 </p:column>
                 
