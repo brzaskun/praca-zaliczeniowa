@@ -130,7 +130,7 @@ public class PdfRZiS {
         }
         if (rootProjektRZiS != null && rootProjektRZiS.getChildren().size() > 0) {
             Uz uz = wpisView.getWprowadzil();
-            Document document = PdfMain.inicjacjaA4Landscape(20,20,20,20);
+            Document document = PdfMain.inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa,2);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);

@@ -26,7 +26,6 @@ import error.E;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import view.WpisView;
@@ -107,7 +106,7 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
-    public static void ustawRootaNar(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, String mckoncowy) throws Exception {
+    public static void ustawRootaNar(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, String mckoncowy) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbersNar(zapisy, plankont, mckoncowy);
         rootL.sumNodesNar(mckoncowy);

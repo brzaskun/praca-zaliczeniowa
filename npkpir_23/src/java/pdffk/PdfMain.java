@@ -2224,7 +2224,7 @@ public class PdfMain {
             int levelPlus = p.getLevel() + 1;
             if (p.getLevel() != 0) {
                 for (int j = 0; j < p.getLevel(); j++) {
-                    table.addCell(ustawfrazeAlign("", "l", 7,20f));
+                    table.addCell(ustawfrazeAlign("", "l", 7,15f));
                 }
             }
             table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 7));

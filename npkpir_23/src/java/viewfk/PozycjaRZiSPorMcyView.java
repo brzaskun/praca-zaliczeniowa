@@ -37,7 +37,7 @@ import view.WpisView;
  */
 @ManagedBean
 @ViewScoped
-public class PozycjaRZiSNarView  implements Serializable {
+public class PozycjaRZiSPorMcyView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -57,7 +57,7 @@ public class PozycjaRZiSNarView  implements Serializable {
     private KontoDAOfk kontoDAO;
     private TreeNodeExtended rootProjektRZiS;
 
-    public PozycjaRZiSNarView() {
+    public PozycjaRZiSPorMcyView() {
         this.rootProjektRZiS = new TreeNodeExtended("root", null);
     }
     
