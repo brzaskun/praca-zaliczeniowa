@@ -18,7 +18,7 @@ public class GUS {
 
     public java.lang.String pobierzCaptcha() {
         //TODO implement this method
-        throw new UnsupportedOperationException("Not implemented yet.");
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     public java.lang.Boolean sprawdzCaptcha(java.lang.String pCaptcha) {

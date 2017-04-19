@@ -139,7 +139,7 @@ public class GUSView implements Serializable {
             start = regon.indexOf(">")+1;
             regon = regon.substring(start);
             regon = zmniejsznazwe(regon,p);
-            System.out.println(p+" "+regon);
+            System.out.println(p+" -  "+regon);
         }
     }
     
