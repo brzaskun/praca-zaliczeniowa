@@ -3652,5 +3652,17 @@ public class DokfkView implements Serializable {
         
     }
 
-    
+    public void kopiujdokument() {
+        if (selectedlist == null || selectedlist.size() == 0) {
+            Msg.msg("e", "Nie wybrano dokuemntu do kopiowania");
+        } else {
+            selected = serialclone.SerialClone.clone(selectedlist.get(0));
+            wygenerujnumerkolejny();
+            for (StronaWiersza p : selected.getStronyWierszy()) {
+                p.setKwota(0);
+                p.setKwotaPLN(0);
+                p.setTypStronaWiersza(0);
+            }
+        }
+    }
 }

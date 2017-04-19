@@ -8,7 +8,6 @@ package gus;
 import cis.bir.publ._2014._07.datacontract.ParametryWyszukiwania;
 import com.sun.xml.ws.developer.WSBindingProvider;
 import error.E;
-import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,14 +18,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.handler.MessageContext;
 import org.tempuri.IUslugaBIRzewnPubl;
 import org.tempuri.UslugaBIRzewnPubl;
-import org.w3c.dom.Document;
 
 /**
  *
@@ -37,7 +33,8 @@ import org.w3c.dom.Document;
 public class GUSView implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    private String nip;
+    private String danefirmy;
     
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/GUS/UslugaBIRzewnPubl.wsdl")
     private UslugaBIRzewnPubl service;
@@ -55,21 +52,10 @@ public class GUSView implements Serializable {
             //bp.setOutboundHeaders(Headers.create(new QName("http://tempuri.org/","sid"),login));
             String statussesji = e3.getValue("StatusSesji");
             ParametryWyszukiwania pw = new ParametryWyszukiwania();
-            JAXBElement<String> jb = new JAXBElement(new QName("http://CIS/BIR/PUBL/2014/07/DataContract","Nip"), String.class, "9552158028");
+            JAXBElement<String> jb = new JAXBElement(new QName("http://CIS/BIR/PUBL/2014/07/DataContract","Nip"), String.class, nip);
             pw.setRegon(jb);
-            Object res = e3.daneSzukaj(pw);
-            String xmlString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><a><b></b><c></c></a>";  
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
-            DocumentBuilder builder;  
-            try  
-            {  
-                builder = factory.newDocumentBuilder();  
-                Document document = builder.parse(new ByteArrayInputStream(xmlString.getBytes()));
-                System.out.println("");
-            } catch (Exception e) {  
-                e.printStackTrace();  
-            } 
+            String res = e3.daneSzukaj(pw);
+            danefirmy = drukujdanefirmy(res);
             String statuslugi = e3.getValue("StatusUslugi");
             String komunikatkod = e3.getValue("KomunikatKod");
             String komunikattresc = e3.getValue("KomunikatTresc");
@@ -121,7 +107,15 @@ public class GUSView implements Serializable {
     private static String zmniejsznazwe(String regon, String p) {
         String zwrot = regon;
         if (p.equals("Nazwa")) {
-            zwrot = regon.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ", "sp. z o.o.");
+            if (regon.contains("SPÓŁKA KOMANDYTOWA")) {
+                zwrot = regon.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA", "sp. z o.o. sp.k.");
+            } else if (regon.contains("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ")) {
+                zwrot = regon.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ", "sp. z o.o.");
+            } else if (regon.contains("SPÓŁKA AKCYJNA")) {
+                zwrot = regon.replace("SPÓŁKA AKCYJNA", "S.A.");
+            } else if (regon.contains("SPÓŁKA CYWILNA")) {
+                zwrot = regon.replace("SPÓŁKA CYWILNA", "S.C.");
+            }
         } else if (p.equals("Wojewodztwo")) {
             zwrot = regon.substring(0,1).toUpperCase()+regon.substring(1).toLowerCase();
         } else if (p.equals("Ulica")) {
@@ -130,17 +124,63 @@ public class GUSView implements Serializable {
         return zwrot;
     }
     
+    private String drukujdanefirmy(String wiersz) {
+        String zwrot = "brak danych";
+        if (nip.length()<10) {
+            zwrot = "NIP za krótki";
+        } else if (!wiersz.equals("")) {
+            StringBuilder sb = new StringBuilder();
+            for (String p : pozycje) {
+                int start = wiersz.indexOf("<"+p+">");
+                int stop = wiersz.indexOf("</"+p+">");
+                String element = wiersz.substring(start, stop);
+                start = element.indexOf(">")+1;
+                element = element.substring(start);
+                element = zmniejsznazwe(element,p);
+                sb.append(p);
+                sb.append(" ");
+                sb.append(element);
+                sb.append("\n");
+            }
+            zwrot = sb.toString();
+        }
+        return zwrot;
+    }
+    
     public static void main(String[] args) {
         String wiersz = RES;
+        StringBuilder sb = new StringBuilder();
         for (String p : pozycje) {
             int start = wiersz.indexOf("<"+p+">");
             int stop = wiersz.indexOf("</"+p+">");
-            String regon = wiersz.substring(start, stop);
-            start = regon.indexOf(">")+1;
-            regon = regon.substring(start);
-            regon = zmniejsznazwe(regon,p);
-            System.out.println(p+" -  "+regon);
+            String element = wiersz.substring(start, stop);
+            start = element.indexOf(">")+1;
+            element = element.substring(start);
+            element = zmniejsznazwe(element,p);
+            sb.append(p);
+            sb.append(" ");
+            sb.append(element);
+            sb.append("\n");
         }
+        System.out.println(sb.toString());
     }
+
+    public String getNip() {
+        return nip;
+    }
+
+    public void setNip(String nip) {
+        this.nip = nip;
+    }
+
+    public String getDanefirmy() {
+        return danefirmy;
+    }
+
+    public void setDanefirmy(String danefirmy) {
+        this.danefirmy = danefirmy;
+    }
+ 
+    
     
 }

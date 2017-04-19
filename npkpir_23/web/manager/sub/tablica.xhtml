@@ -9,8 +9,11 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
   <h:form>
-      <p:commandButton value="GUS" actionListener="#{gUSView.login()}" ajax="false"/>
-
+      <p:panelGrid columns="1">
+      <p:inputText value="#{gUSView.nip}" maxlength="10"/>
+      <p:commandButton value="GUS" actionListener="#{gUSView.login()}" ajax="false" update="@form"/>
+      <h:outputText value="#{gUSView.danefirmy}"/>
+      </p:panelGrid>
     </h:form>
     
     <h:form>
