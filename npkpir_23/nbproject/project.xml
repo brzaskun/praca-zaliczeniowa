@@ -5,6 +5,7 @@
         <buildExtensions xmlns="http://www.netbeans.org/ns/ant-build-extender/1">
             <extension file="jaxws-build.xml" id="jaxws">
                 <dependency dependsOn="wsimport-client-generate" target="-pre-pre-compile"/>
+                <dependency dependsOn="wsimport-service-generate" target="-pre-pre-compile"/>
             </extension>
         </buildExtensions>
         <data xmlns="http://www.netbeans.org/ns/web-project/3">
@@ -13,10 +14,6 @@
             <web-module-libraries>
                 <library dirs="200">
                     <file>${file.reference.all-themes-1.0.9.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
-                    <file>${file.reference.atmosphere-runtime-2.3.0.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
@@ -29,6 +26,10 @@
                 </library>
                 <library dirs="200">
                     <file>${file.reference.ck-jsf-editor-0.9.4.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.atmosphere-runtime-2.3.6.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
@@ -128,7 +129,7 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.mysql-connector-java-5.1.35.jar}</file>
+                    <file>${file.reference.jsoup-1.10.2.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

@@ -4,4 +4,17 @@
     <system systemId="file:/C:/uslugi/GateService.xsd" uri="src/conf/xml-resources/web-service-references/dokumenty/wsdl/GateService.xsd"/>
     <system systemId="file:/C:/uslugi/test/testdok.wsdl" uri="src/conf/xml-resources/web-service-references/testdok/wsdl/testdok.wsdl"/>
     <system systemId="file:/C:/uslugi/test/GateService.xsd" uri="src/conf/xml-resources/web-service-references/testdok/wsdl/GateService.xsd"/>
+    <system systemId="file:/C:/Users/Osito/Downloads/UslugaBIRzewnPubl.wsdl" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl.wsdl"/>
+    <system systemId="file:/C:/Users/Osito/Downloads/UslugaBIRzewnPubl1.wsdl" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl1.wsdl"/>
+    <system systemId="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_wsdl0.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_wsdl0.xsd.wsdl"/>
+    <system systemId="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd0.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd0.xsd"/>
+    <system systemId="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd1.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd1.xsd"/>
+    <system systemId="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd2.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd2.xsd"/>
+    <system systemId="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd3.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd3.xsd"/>
+    <system systemId="file:/C:/Regon/UslugaBIRzewnPubl1.wsdl" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl1.wsdl"/>
+    <system systemId="file:/C:/Regon/UslugaBIRzewnPubl_wsdl0.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl_wsdl0.xsd.wsdl"/>
+    <system systemId="file:/C:/Regon/UslugaBIRzewnPubl_xsd0.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl_xsd0.xsd"/>
+    <system systemId="file:/C:/Regon/UslugaBIRzewnPubl_xsd1.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl_xsd1.xsd"/>
+    <system systemId="file:/C:/Regon/UslugaBIRzewnPubl_xsd2.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl_xsd2.xsd"/>
+    <system systemId="file:/C:/Regon/UslugaBIRzewnPubl_xsd3.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl_xsd3.xsd"/>
 </catalog>
