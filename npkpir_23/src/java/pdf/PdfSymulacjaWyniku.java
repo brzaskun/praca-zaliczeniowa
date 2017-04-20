@@ -16,8 +16,11 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddablefk.PozycjeSymulacjiNowe;
 import embeddablefk.SaldoKonto;
+import entity.Klienci;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,29 +28,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import msg.B;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;
 import viewfk.SymulacjaWynikuView;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import error.E;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import embeddablefk.PozycjeSymulacjiNowe;
 
 /**
  *
@@ -188,7 +174,8 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfrazeAlign(rs.getDokfkS(), "center", 6));
             table.addCell(ustawfrazeAlign(rs.getDokfk().getDatadokumentu(), "left", 6));
             table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 6));
-            String kontr = rs.getWiersz().geteVatwpisFK() == null ? rs.getDokfk().getKontr().getNpelna() : rs.getWiersz().geteVatwpisFK().getKlient().getNpelna();
+            Klienci klient = (rs.getWiersz().geteVatwpisFK() == null && rs.getDokfk().getKontr() != null) ? rs.getDokfk().getKontr() : rs.getWiersz().geteVatwpisFK() != null && rs.getWiersz().geteVatwpisFK().getKlient() != null ? rs.getWiersz().geteVatwpisFK().getKlient() : null;
+            String kontr = klient != null ? klient.getNpelna() : "brak kontrakhenta!";
             table.addCell(ustawfrazeAlign(kontr, "left", 6));
             table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
             if (rs.getWnma().equals("Wn")) {
