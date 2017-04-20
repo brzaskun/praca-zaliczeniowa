@@ -39,6 +39,33 @@ public class GUSView implements Serializable {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/GUS/UslugaBIRzewnPubl.wsdl")
     private UslugaBIRzewnPubl service;
 
+    public Map<String, String> pobierzDane(String nip) {
+        Map<String, String>zwrot = new HashMap<>();
+        try {
+            service = new UslugaBIRzewnPubl();
+            IUslugaBIRzewnPubl e3 = service.getE3();
+            String login = e3.zaloguj("e19dbcf03de941479bad");
+            WSBindingProvider bp = (WSBindingProvider) e3;
+            Map<String, Object> req_ctx = ((BindingProvider)e3).getRequestContext();
+            Map<String, List<String>> headers = new HashMap<String, List<String>>();
+            headers.put("sid", Collections.singletonList(login));
+            req_ctx.put(MessageContext.HTTP_REQUEST_HEADERS, headers);
+            //bp.setOutboundHeaders(Headers.create(new QName("http://tempuri.org/","sid"),login));
+            String statussesji = e3.getValue("StatusSesji");
+            if (statussesji.equals("1")) {
+                ParametryWyszukiwania pw = new ParametryWyszukiwania();
+                JAXBElement<String> jb = new JAXBElement(new QName("http://CIS/BIR/PUBL/2014/07/DataContract","Nip"), String.class, nip);
+                pw.setRegon(jb);
+                String res = e3.daneSzukaj(pw);
+                zwrot = wyslijdanefirmy(res);
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
+    }
+    
+    
     public void login() {
         try {
             service = new UslugaBIRzewnPubl();
@@ -143,6 +170,22 @@ public class GUSView implements Serializable {
                 sb.append("\n");
             }
             zwrot = sb.toString();
+        }
+        return zwrot;
+    }
+    
+    private Map<String, String>  wyslijdanefirmy(String rezultat) {
+        Map<String, String> zwrot = new HashMap<>();
+        if (!rezultat.equals("")) {
+            for (String p : pozycje) {
+                int start = rezultat.indexOf("<"+p+">");
+                int stop = rezultat.indexOf("</"+p+">");
+                String element = rezultat.substring(start, stop);
+                start = element.indexOf(">")+1;
+                element = element.substring(start);
+                element = zmniejsznazwe(element,p);
+                zwrot.put(p, element);
+            }
         }
         return zwrot;
     }

@@ -6,6 +6,7 @@ import entity.Klienci;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import error.E;
+import gus.GUSView;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
@@ -15,7 +16,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -48,13 +52,15 @@ public class KlView implements Serializable {
     private boolean edycja;
     @ManagedProperty(value = "#{kliencifkView}")
     private KliencifkView kliencifkView;
+    @ManagedProperty(value = "#{gUSView}")
+    private GUSView gUSView;
 
 
-    public static void main(String[] args) {
-        String mse = "XX0000000001";
-        mse = mse.substring(2);
-        mse = String.valueOf(Integer.parseInt(mse));
-    }
+//    public static void main(String[] args) {
+//        String mse = "XX0000000001";
+//        mse = mse.substring(2);
+//        mse = String.valueOf(Integer.parseInt(mse));
+//    }
     @Inject
     private KlienciDAO klDAO;
     @Inject
@@ -444,6 +450,27 @@ public class KlView implements Serializable {
         wygenerowanynip = "XX" + wygenerowanynip;
         selected.setNip(wygenerowanynip);
     }
+    
+    public void znajdzdaneregon() {
+        String nip = selected.getNip();
+        Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
+        Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
+        if (selected.getNip() != null && !m.find() && selected.getNip().length()==10) {
+            Map<String, String> dane = gUSView.pobierzDane(selected.getNip());
+            selected.setNpelna(dane.get("Nazwa"));
+            selected.setNskrocona(dane.get("Nazwa"));
+            selected.setKodpocztowy(dane.get("KodPocztowy"));
+            selected.setMiejscowosc(dane.get("Miejscowosc"));
+            selected.setUlica(dane.get("Ulica"));
+            selected.setKrajnazwa("Polska");
+            RequestContext.getCurrentInstance().update("formXNowyKlient:nazwaPole");
+            RequestContext.getCurrentInstance().update("formXNowyKlient:symbolPole");
+            RequestContext.getCurrentInstance().update("formXNowyKlient:kodPole");
+            RequestContext.getCurrentInstance().update("formXNowyKlient:miejscowoscPole");
+            RequestContext.getCurrentInstance().update("formXNowyKlient:");
+            RequestContext.getCurrentInstance().update("formXNowyKlient:ulicaPole");
+        }
+    }
 
     public Klienci getSelected() {
         return selected;
@@ -525,5 +552,20 @@ public class KlView implements Serializable {
         this.kliencifkView = kliencifkView;
     }
 
+    public GUSView getgUSView() {
+        return gUSView;
+    }
+
+    public void setgUSView(GUSView gUSView) {
+        this.gUSView = gUSView;
+    }
+
+    public static void main(String[] args) {
+        Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
+        Matcher m = p.matcher("851100".substring(0,1));  //<-- matcher( not Matcher
+        if(!m.find()) {
+            System.out.println("s");
+        }
+    }
     
 }
