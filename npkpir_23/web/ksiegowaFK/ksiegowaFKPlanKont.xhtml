@@ -31,7 +31,7 @@
                 <h:form>
                     <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm3').hide();"
                                      actionListener="#{planKontView.porzadkowanieKontPodatnika()}"
-                                     style="float: left; width: 120px; margin-left: 2%;" update="form_dialog_plankont:dataList">
+                                     style="float: left; width: 120px; margin-left: 2%;" update="form_dialog_plankont">
                     </p:commandButton>
                     <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm3').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
                 </h:form>

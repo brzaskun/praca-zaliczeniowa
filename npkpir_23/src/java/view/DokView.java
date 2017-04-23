@@ -10,6 +10,7 @@ import beansDok.VAT;
 import beansFK.DokFKBean;
 import beansFK.TabelaNBPBean;
 import beansFaktura.FakturaBean;
+import beansRegon.SzukajDaneBean;
 import beansSrodkiTrwale.SrodkiTrwBean;
 import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
@@ -52,6 +53,7 @@ import entityfk.Cechazapisu;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
+import gus.GUSView;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
@@ -139,6 +141,8 @@ public final class DokView implements Serializable {
     private STRTabView sTRTableView;
     @ManagedProperty(value = "#{DokTabView}")
     private DokTabView dokTabView;
+    @ManagedProperty(value = "#{gUSView}")
+    private GUSView gUSView;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
     /*Środki trwałe*/
@@ -1759,6 +1763,13 @@ public final class DokView implements Serializable {
         System.out.println("f");
     }
     
+    public void znajdzdaneregon(String formularz) {
+        try {
+            SzukajDaneBean.znajdzdaneregon(formularz, selectedKlient, gUSView);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
     
 
     public Klienci getSelectedKlient() {
@@ -2016,6 +2027,14 @@ public final class DokView implements Serializable {
 
     public void setPobranecechypodatnik(List<Cechazapisu> pobranecechypodatnik) {
         this.pobranecechypodatnik = pobranecechypodatnik;
+    }
+
+    public GUSView getgUSView() {
+        return gUSView;
+    }
+
+    public void setgUSView(GUSView gUSView) {
+        this.gUSView = gUSView;
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

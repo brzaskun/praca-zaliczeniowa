@@ -1,5 +1,6 @@
 package view;
 
+import beansRegon.SzukajDaneBean;
 import dao.KlienciDAO;
 import embeddable.PanstwaMap;
 import entity.Klienci;
@@ -16,7 +17,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -451,26 +451,15 @@ public class KlView implements Serializable {
         selected.setNip(wygenerowanynip);
     }
     
-    public void znajdzdaneregon() {
-        String nip = selected.getNip();
-        Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
-        Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
-        if (selected.getNip() != null && !m.find() && selected.getNip().length()==10) {
-            Map<String, String> dane = gUSView.pobierzDane(selected.getNip());
-            selected.setNpelna(dane.get("Nazwa"));
-            selected.setNskrocona(dane.get("Nazwa"));
-            selected.setKodpocztowy(dane.get("KodPocztowy"));
-            selected.setMiejscowosc(dane.get("Miejscowosc"));
-            selected.setUlica(dane.get("Ulica"));
-            selected.setKrajnazwa("Polska");
-            RequestContext.getCurrentInstance().update("formXNowyKlient:nazwaPole");
-            RequestContext.getCurrentInstance().update("formXNowyKlient:symbolPole");
-            RequestContext.getCurrentInstance().update("formXNowyKlient:kodPole");
-            RequestContext.getCurrentInstance().update("formXNowyKlient:miejscowoscPole");
-            RequestContext.getCurrentInstance().update("formXNowyKlient:");
-            RequestContext.getCurrentInstance().update("formXNowyKlient:ulicaPole");
+    public void znajdzdaneregon(String formularz) {
+        try {
+            SzukajDaneBean.znajdzdaneregon(formularz, selected, gUSView);
+        } catch (Exception e) {
+            E.e(e);
         }
     }
+    
+    
 
     public Klienci getSelected() {
         return selected;

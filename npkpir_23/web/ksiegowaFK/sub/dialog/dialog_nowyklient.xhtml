@@ -23,7 +23,7 @@
                     <h:outputLabel value="miejscowość" style="font-weight: 700"/>
                     <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="20" style="width: 200px">
                         <p:watermark for="nipPole" value="bez -" /> 
-                        <p:ajax event="keyup" listener="#{KlView.znajdzdaneregon}" partialSubmit="true" global="false"/>
+                        <p:ajax event="keyup" listener="#{KlView.znajdzdaneregon('formXNowyKlient')}" partialSubmit="true" global="false"/>
                     </p:inputText>
                     <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="55" 
                                  style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste"

@@ -26,7 +26,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import waluty.Z;
 
@@ -79,7 +78,7 @@ public class VATDeklaracja implements Serializable {
                     if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && nettoI != 0.0) {
                         ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
                     }
-                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && vatI != 0.0) {
+                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && (nettoI != 0.0 || vatI != 0.0)) {
                         ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                     }
                     //to jest uzywane przy korektach

@@ -16,13 +16,13 @@
                     <f:facet name="header">
                         <p:row >
                             <p:column>
+                                <h:outputLabel value="nip" style="font-weight: 700"/>
+                            </p:column>
+                            <p:column>
                                 <h:outputLabel value="nazwa pełna - ALT-A" style="font-weight: 700"/>
                             </p:column>
                             <p:column>
                                 <h:outputLabel value="nazwa skrocona" style="font-weight: 700"/>
-                            </p:column>
-                            <p:column>
-                                <h:outputLabel value="nip" style="font-weight: 700"/>
                             </p:column>
                             <p:column>
                                 <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
@@ -34,6 +34,13 @@
                         </p:row>
                     </f:facet>
                     <p:row style="height: 33px;">
+                         <p:column>
+                            <p:inputText id="nipPole" value="#{DokumentView.selectedKlient.nip}" maxlength="20" style="width: 200px">
+                                <p:watermark for="nipPole" value="bez -" />
+                                <p:ajax event="keyup" listener="#{DokumentView.znajdzdaneregon('formX')}" partialSubmit="true" global="false"/>
+                                <p:ajax event="blur" listener="#{KlView.poszukajDuplikatNipWTrakcie()}"/>
+                            </p:inputText>
+                        </p:column>
                         <p:column>
                             <p:inputText id="nazwaPole" value="#{DokumentView.selectedKlient.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="55"
                                          onblur="kopiujnazwepelnakontrahenci();"
@@ -45,12 +52,6 @@
                         <p:column>      
                             <p:inputText id="symbolPole" value="#{DokumentView.selectedKlient.nskrocona}" maxlength="20" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
                                 <p:watermark for="symbolPole" value="hasłowo, np:FORTEX" /> 
-                            </p:inputText>
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="nipPole" value="#{DokumentView.selectedKlient.nip}" maxlength="20" style="width: 200px">
-                                <p:watermark for="nipPole" value="bez -" />
-                                <p:ajax event="blur" listener="#{KlView.poszukajDuplikatNipWTrakcie()}"/>
                             </p:inputText>
                         </p:column>
                         <p:column>
