@@ -40,7 +40,7 @@ public class GUSView implements Serializable {
     private UslugaBIRzewnPubl service;
 
     public Map<String, String> pobierzDane(String nip) {
-        Map<String, String>zwrot = new HashMap<>();
+        Map<String, String> zwrot = new HashMap<>();
         try {
             service = new UslugaBIRzewnPubl();
             IUslugaBIRzewnPubl e3 = service.getE3();
@@ -57,7 +57,21 @@ public class GUSView implements Serializable {
                 JAXBElement<String> jb = new JAXBElement(new QName("http://CIS/BIR/PUBL/2014/07/DataContract","Nip"), String.class, nip);
                 pw.setRegon(jb);
                 String res = e3.daneSzukaj(pw);
-                zwrot = wyslijdanefirmy(res);
+                Map<String, String> zwrottmp = wyslijdanefirmy(pozycje, res);
+                String typjedn = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportTypJednostki");
+                String rapszcz = null;
+                String prawna = "<Typ>P</Typ>";
+                zwrot = wyslijdanefirmy(pozycje, res);
+                if (typjedn.contains(prawna)) {
+                    rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportPrawna");
+                    zwrot.put("Typ", "P");
+                    zwrot.putAll(wyslijdanefirmy(pozycje2praw, rapszcz));
+                } else {
+                    zwrot.put("Typ", "F");
+                    rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportDzialalnoscFizycznejCeidg");
+                    zwrot.putAll(wyslijdanefirmy(pozycje2fiz, rapszcz));
+                }
+                System.out.println("3");
             }
         } catch (Exception e) {
             E.e(e);
@@ -87,7 +101,23 @@ public class GUSView implements Serializable {
             String komunikatkod = e3.getValue("KomunikatKod");
             String komunikattresc = e3.getValue("KomunikatTresc");
             String komunikatuslugi = e3.getValue("KomunikatUslugi");
-            Object res2 = e3.danePobierzPelnyRaport("810649340", "PublDaneRaportDzialalnoscFizycznejCeidg");
+            Map<String, String> zwrottmp = wyslijdanefirmy(pozycje, res);
+            String typjedn = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportTypJednostki");
+            String rapszcz = null;
+            String prawna = "<Typ>P</Typ>";
+            Map<String, String> zwrot = new HashMap<>();
+            zwrot = wyslijdanefirmy(pozycje, res);
+            if (typjedn.contains(prawna)) {
+                rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportPrawna");
+                zwrot.put("Typ", "P");
+                zwrot.putAll(wyslijdanefirmy(pozycje2praw, rapszcz));
+            } else {
+                zwrot.put("Typ", "F");
+                rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportDzialalnoscFizycznejCeidg");
+                zwrot.putAll(wyslijdanefirmy(pozycje2fiz, rapszcz));
+            }
+            System.out.println("3");
+//            PublDaneRaportDzialalnosciPrawnej
             //String ko1 = service.getE3().daneKomunikat();
             
             //String ko = service.getE3().getValue();
@@ -114,6 +144,23 @@ public class GUSView implements Serializable {
         pozycje.add("KodPocztowy");
         pozycje.add("Ulica");
    }
+   
+    public static List<String> pozycje2fiz;
+    static {
+        pozycje2fiz = new ArrayList();
+        pozycje2fiz.add("fiz_adSiedzUlica_Nazwa");
+        pozycje2fiz.add("fiz_adSiedzNumerNieruchomosci");
+        pozycje2fiz.add("fiz_adSiedzNumerLokalu");
+   }
+    
+    public static List<String> pozycje2praw;
+    static {
+        pozycje2praw = new ArrayList();
+        pozycje2praw.add("praw_adSiedzUlica_Nazwa");
+        pozycje2praw.add("praw_adSiedzNumerNieruchomosci");
+        pozycje2praw.add("praw_adSiedzNumerLokalu");
+   }
+    
     
     public static String RES = "\"<root>\n" +
 "  <dane>\n" +
@@ -131,22 +178,26 @@ public class GUSView implements Serializable {
 "  </dane>\n" +
 "</root>\"";
     
-    private static String zmniejsznazwe(String regon, String p) {
-        String zwrot = regon;
+    private static String zmniejsznazwe(String element, String p) {
+        String zwrot = element;
         if (p.equals("Nazwa")) {
-            if (regon.contains("SPÓŁKA KOMANDYTOWA")) {
-                zwrot = regon.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA", "sp. z o.o. sp.k.");
-            } else if (regon.contains("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ")) {
-                zwrot = regon.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ", "sp. z o.o.");
-            } else if (regon.contains("SPÓŁKA AKCYJNA")) {
-                zwrot = regon.replace("SPÓŁKA AKCYJNA", "S.A.");
-            } else if (regon.contains("SPÓŁKA CYWILNA")) {
-                zwrot = regon.replace("SPÓŁKA CYWILNA", "S.C.");
+            if (element.contains("SPÓŁKA KOMANDYTOWA")) {
+                zwrot = element.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA", "sp. z o.o. sp.k.");
+            } else if (element.contains("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ")) {
+                zwrot = element.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ", "sp. z o.o.");
+            } else if (element.contains("SPÓŁKA AKCYJNA")) {
+                zwrot = element.replace("SPÓŁKA AKCYJNA", "S.A.");
+            } else if (element.contains("SPÓŁKA CYWILNA")) {
+                zwrot = element.replace("SPÓŁKA CYWILNA", "S.C.");
+            } else if (element.contains("STOWARZYSZENIE")) {
+                zwrot = element.replace("STOWARZYSZENIE", "Stowarzyszenie");
+            } else if (element.contains("FUNDACJA")) {
+                zwrot = element.replace("FUNDACJA", "Fundacja");
             }
         } else if (p.equals("Wojewodztwo")) {
-            zwrot = regon.substring(0,1).toUpperCase()+regon.substring(1).toLowerCase();
+            zwrot = element.substring(0,1).toUpperCase()+element.substring(1).toLowerCase();
         } else if (p.equals("Ulica")) {
-            zwrot = regon.substring(3);
+            zwrot = element.substring(3);
         }
         return zwrot;
     }
@@ -160,31 +211,35 @@ public class GUSView implements Serializable {
             for (String p : pozycje) {
                 int start = wiersz.indexOf("<"+p+">");
                 int stop = wiersz.indexOf("</"+p+">");
-                String element = wiersz.substring(start, stop);
-                start = element.indexOf(">")+1;
-                element = element.substring(start);
-                element = zmniejsznazwe(element,p);
-                sb.append(p);
-                sb.append(" ");
-                sb.append(element);
-                sb.append("\n");
+                if (start > -1 && stop > -1) {
+                    String element = wiersz.substring(start, stop);
+                    start = element.indexOf(">")+1;
+                    element = element.substring(start);
+                    element = zmniejsznazwe(element,p);
+                    sb.append(p);
+                    sb.append(" ");
+                    sb.append(element);
+                    sb.append("\n");
+                }
             }
             zwrot = sb.toString();
         }
         return zwrot;
     }
     
-    private Map<String, String>  wyslijdanefirmy(String rezultat) {
+    private Map<String, String>  wyslijdanefirmy(List<String> pozycje, String rezultat) {
         Map<String, String> zwrot = new HashMap<>();
         if (!rezultat.equals("")) {
             for (String p : pozycje) {
                 int start = rezultat.indexOf("<"+p+">");
                 int stop = rezultat.indexOf("</"+p+">");
-                String element = rezultat.substring(start, stop);
-                start = element.indexOf(">")+1;
-                element = element.substring(start);
-                element = zmniejsznazwe(element,p);
-                zwrot.put(p, element);
+                if (start > -1 && stop > -1) {
+                    String element = rezultat.substring(start, stop);
+                    start = element.indexOf(">")+1;
+                    element = element.substring(start);
+                    element = zmniejsznazwe(element,p);
+                    zwrot.put(p, element);
+                }
             }
         }
         return zwrot;

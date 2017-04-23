@@ -29,12 +29,30 @@ public class SzukajDaneBean {
             selected.setKodpocztowy(dane.get("KodPocztowy"));
             selected.setMiejscowosc(dane.get("Miejscowosc"));
             selected.setUlica(dane.get("Ulica"));
+            String typ = dane.get("Typ");
+            if (typ.equals("P")) {
+                selected.setDom(dane.get("praw_adSiedzNumerNieruchomosci"));
+                if (dane.get("praw_adSiedzNumerLokalu") != null) {
+                    selected.setLokal(dane.get("praw_adSiedzNumerLokalu"));
+                } else {
+                    selected.setLokal(null);
+                }
+            } else {
+                selected.setDom(dane.get("fiz_adSiedzNumerNieruchomosci"));
+                if (dane.get("fiz_adSiedzNumerLokalu") != null) {
+                    selected.setLokal(dane.get("fiz_adSiedzNumerLokalu"));
+                } else {
+                    selected.setLokal(null);
+                }
+            }
             selected.setKrajnazwa("Polska");
             RequestContext.getCurrentInstance().update(formularz+":nazwaPole");
             RequestContext.getCurrentInstance().update(formularz+":symbolPole");
             RequestContext.getCurrentInstance().update(formularz+":kodPole");
             RequestContext.getCurrentInstance().update(formularz+":miejscowoscPole");
             RequestContext.getCurrentInstance().update(formularz+":ulicaPole");
+            RequestContext.getCurrentInstance().update(formularz+":domPole");
+            RequestContext.getCurrentInstance().update(formularz+":lokalPole");
         }
     }
 }
