@@ -27,7 +27,7 @@
         <h:form id="formsporzadzone">
             <p:contextMenu for="dokumentyLista" style="width: 250px;">
                 <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" />
-                <p:menuitem value="Faktura okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
+                <p:menuitem value="Faktura okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa(fakturaView.gosciwybral)}"/>
                 <p:menuitem value="Duplikat" actionListener="#{fakturaDuplikatView.generujduplikat(fakturaView.gosciwybral)}" icon="ui-icon-copy" update=":akordeon:formsporzadzone:dokumentyLista :form1:messages"/>
                 <p:menuitem value="Zaksięguj" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
                 <p:menuitem value="Usuń wybrane" update="confirmDialog" oncomplete="PF('confirmationFaktura').show();" icon="ui-icon-trash" />
