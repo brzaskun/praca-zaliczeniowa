@@ -248,6 +248,8 @@ public class Faktura implements Serializable {
     private boolean liczodwartoscibrutto;
     @Column(name = "gutschrift")
     private boolean gutschrift;
+    @Column(name = "zaplacona")
+    private boolean zaplacona;
 
     public Faktura() {
     }
@@ -339,6 +341,14 @@ public class Faktura implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public boolean isZaplacona() {
+        return zaplacona;
+    }
+
+    public void setZaplacona(boolean zaplacona) {
+        this.zaplacona = zaplacona;
     }
 
     public boolean isLiczodwartoscibrutto() {

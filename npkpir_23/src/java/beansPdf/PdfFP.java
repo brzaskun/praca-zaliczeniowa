@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import msg.B;
@@ -50,8 +49,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import pdf.PdfFaktura;
 import slownie.Slownie;
 import slownie.SlownieDE;
-import view.DeklaracjaVatSchemaView;
-import view.FakturaView;
 import view.WpisView;
 import waluty.Z;
 
@@ -265,6 +262,7 @@ public class PdfFP {
                         try {
                             pozycja = zwrocPolozenieElementu(skladnikifaktury, "logo");
                             Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+                            //FacesContext.getCurrentInstance().getExternalContext().getContext().getRealPath("/")
                             String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
                             File f = new File(nazwaplikuzbazy);
                             if (f.exists()) {
@@ -399,8 +397,8 @@ public class PdfFP {
     }
 
     private static float zamienStringnaFloat(String w) {
-        String obciete = w.substring(0, w.length() - 2);
-        return Float.parseFloat(obciete) / 2f;
+        w = w.replace(",", ".");
+        return Float.parseFloat(w) / 2f;
     }
 
     public static void dolaczpozycjedofakturydlugacz1(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfContentByte canvas, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {

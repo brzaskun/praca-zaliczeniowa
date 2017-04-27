@@ -145,9 +145,15 @@
                             </h:selectOneMenu>
                         </div>
                         <div class="ui-grid-col-2">
+                            <h:outputLabel value="już zapłacono: " />
+                        </div>
+                        <div class="ui-grid-col-2">
+                            <p:selectBooleanCheckbox value="#{fakturaView.selected.zaplacona}"/>
+                        </div>
+                        <div class="ui-grid-col-2">
                             <h:outputLabel value="konto bankowe: " />
                         </div>
-                        <div class="ui-grid-col-4">
+                        <div class="ui-grid-col-2">
                             <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                                 <p:inputText value="#{fakturaView.selected.nrkontabankowego}" 
                                              label="text" style="font-weight: bolder;"/>  
