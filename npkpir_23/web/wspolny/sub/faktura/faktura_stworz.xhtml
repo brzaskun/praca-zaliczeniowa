@@ -129,6 +129,15 @@
                                 <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
                             </p:inputText>
                         </div>
+                        <div class="ui-grid-col-2">
+                            <h:outputLabel value="konto bankowe: " />
+                        </div>
+                        <div class="ui-grid-col-2">
+                            <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                                <p:inputText value="#{fakturaView.selected.nrkontabankowego}" maxlength="34"
+                                             label="text" style="font-weight: bolder;"/>  
+                            </p:inplace>
+                        </div>
                     </div>
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
@@ -151,13 +160,10 @@
                             <p:selectBooleanCheckbox value="#{fakturaView.selected.zaplacona}"/>
                         </div>
                         <div class="ui-grid-col-2">
-                            <h:outputLabel value="konto bankowe: " />
+                            <h:outputLabel value="fa zaliczkowa: " />
                         </div>
                         <div class="ui-grid-col-2">
-                            <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                                <p:inputText value="#{fakturaView.selected.nrkontabankowego}" 
-                                             label="text" style="font-weight: bolder;"/>  
-                            </p:inplace>
+                            <p:selectBooleanCheckbox value="#{fakturaView.selected.zaliczkowa}"/>
                         </div>
                     </div>
                     <div class="ui-grid-row" style="height: 40px;">

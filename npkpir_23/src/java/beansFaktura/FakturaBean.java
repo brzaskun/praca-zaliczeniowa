@@ -272,6 +272,8 @@ public class FakturaBean {
             poz.setJednostka(wierszwzorcowy.getJednostka());
             poz.setIlosc(wierszwzorcowy.getIlosc());
             poz.setPodatek(wierszwzorcowy.getPodatek());
+        } else {
+            poz.setIlosc(1);
         }
         lista.add(poz);
         return lista;

@@ -181,7 +181,11 @@ public class PdfFP {
                     if (selected.isGutschrift()) {
                         text = "Gutschrift Nr "+ selected.getFakturaPK().getNumerkolejny();
                     } else {
-                        text = B.b("fakturanr")+" "+ selected.getFakturaPK().getNumerkolejny();
+                        if (selected.isZaliczkowa()) {
+                            text = B.b("fakturazaliczkowanr")+" "+ selected.getFakturaPK().getNumerkolejny();
+                        } else {
+                            text = B.b("fakturanr")+" "+ selected.getFakturaPK().getNumerkolejny();
+                        }
                     }
                     absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:fakturanumer"), 10);
                     break;
@@ -317,13 +321,25 @@ public class PdfFP {
                     //Dane do modulu platnosc
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "platnosc");
                     prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:platnosc") - 25, 250, 35);
-                    text = B.b("sposobzaplaty")+": " + B.b(selected.getSposobzaplaty());
-                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
-                    text = B.b("terminplatnosci")+": " + selected.getTerminzaplaty();
-                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik) + 100, wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
-                    text = B.b("nrkontabankowego")+": " + selected.getNrkontabankowego();
-                    if (selected.getSposobzaplaty().equals("przelew") && selected.getNrkontabankowego() != null) {
-                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 20, 8);
+                    String sposobzaplaty = selected.getSposobzaplaty();
+                    boolean zaplacono = selected.isZaplacona();
+                    if (zaplacono) {
+                        text = B.b("zapłacono")+": " + B.b(selected.getSposobzaplaty());
+                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
+                        text = B.b("datazapłaty")+": " + selected.getTerminzaplaty();
+                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik) + 100, wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
+                    } else {
+                        text = B.b("sposobzaplaty")+": " + B.b(selected.getSposobzaplaty());
+                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
+                        text = B.b("terminplatnosci")+": " + selected.getTerminzaplaty();
+                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik) + 100, wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
+                    }
+                    
+                    if (sposobzaplaty.equals("przelew") && selected.getNrkontabankowego() != null && !selected.getNrkontabankowego().equals("")) {
+                        text = B.b("nrkontabankowego")+": " + selected.getNrkontabankowego();
+                        if (selected.getSposobzaplaty().equals("przelew") && selected.getNrkontabankowego() != null) {
+                            absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 20, 8);
+                        }
                     }
                     break;
                 case "akordeon:formwzor:dozaplaty":

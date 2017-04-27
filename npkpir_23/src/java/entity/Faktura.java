@@ -123,10 +123,7 @@ public class Faktura implements Serializable {
     @Size(min = 1, max = 255)
     @Column(nullable = false, length = 255)
     private String sposobzaplaty;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 34)
-    @Column(nullable = false, length = 34)
+    @Column
     private String nrkontabankowego;
     @Basic(optional = false)
     @NotNull
@@ -250,6 +247,8 @@ public class Faktura implements Serializable {
     private boolean gutschrift;
     @Column(name = "zaplacona")
     private boolean zaplacona;
+    @Column(name = "zaliczkowa")
+    private boolean zaliczkowa;
 
     public Faktura() {
     }
@@ -578,6 +577,14 @@ public class Faktura implements Serializable {
 
     public void setLp(int lp) {
         this.lp = lp;
+    }
+
+    public boolean isZaliczkowa() {
+        return zaliczkowa;
+    }
+
+    public void setZaliczkowa(boolean zaliczkowa) {
+        this.zaliczkowa = zaliczkowa;
     }
 
     public FakturaPK getFakturaPK() {
