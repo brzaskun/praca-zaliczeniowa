@@ -59,6 +59,7 @@ public class SzukajDaneBean {
             RequestContext.getCurrentInstance().update(formularz+":ulicaPole");
             RequestContext.getCurrentInstance().update(formularz+":domPole");
             RequestContext.getCurrentInstance().update(formularz+":lokalPole");
+            RequestContext.getCurrentInstance().update(formularz+":krajPole");
         }
     }
 }
