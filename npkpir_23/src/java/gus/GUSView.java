@@ -205,7 +205,9 @@ public class GUSView implements Serializable {
                 zwrot = element.replace("STOWARZYSZENIE", "Stowarzyszenie");
             } else if (element.contains("FUNDACJA")) {
                 zwrot = element.replace("FUNDACJA", "Fundacja");
-            } else if (a.length==3) {
+            } else if (a.length>3) {
+                zwrot = zloznazwe(a,a.length);
+            }else if (a.length==3) {
                 zwrot = a[0]+" "+StringUtils.capitalize(StringUtils.lowerCase(a[1]))+" "+StringUtils.capitalize(StringUtils.lowerCase(a[2]));
             } else if (a.length==2) {
                 zwrot = StringUtils.capitalize(StringUtils.lowerCase(a[0]))+" "+StringUtils.capitalize(StringUtils.lowerCase(a[1]));
@@ -218,6 +220,17 @@ public class GUSView implements Serializable {
         return zwrot;
     }
     
+    private static String zloznazwe(String[] a, int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length-2; i++) {
+            sb.append(a[i]);
+            sb.append(" ");
+        }
+        sb.append(StringUtils.capitalize(StringUtils.lowerCase(a[length-2])));
+        sb.append(" ");
+        sb.append(StringUtils.capitalize(StringUtils.lowerCase(a[length-1])));
+        return sb.toString();
+    }
     private String drukujdanefirmy(String wiersz) {
         String zwrot = "brak danych";
         if (nip.length()<10) {
