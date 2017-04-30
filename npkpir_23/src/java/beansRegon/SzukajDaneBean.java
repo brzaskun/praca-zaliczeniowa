@@ -32,6 +32,8 @@ public class SzukajDaneBean {
                 selected.setKodpocztowy(dane.get("KodPocztowy"));
                 selected.setMiejscowosc(dane.get("Miejscowosc"));
                 selected.setUlica(dane.get("Ulica"));
+                selected.setKrajkod("PL");
+                selected.setKrajnazwa("Polska");
                 String typ = dane.get("Typ");
                 if (typ.equals("P")) {
                     selected.setDom(dane.get("praw_adSiedzNumerNieruchomosci"));
