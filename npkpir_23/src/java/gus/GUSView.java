@@ -21,6 +21,7 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.handler.MessageContext;
+import org.apache.commons.lang3.StringUtils;
 import org.tempuri.IUslugaBIRzewnPubl;
 import org.tempuri.UslugaBIRzewnPubl;
 
@@ -55,23 +56,28 @@ public class GUSView implements Serializable {
             if (statussesji.equals("1")) {
                 ParametryWyszukiwania pw = new ParametryWyszukiwania();
                 JAXBElement<String> jb = new JAXBElement(new QName("http://CIS/BIR/PUBL/2014/07/DataContract","Nip"), String.class, nip);
-                pw.setRegon(jb);
+                pw.setNip(jb);
                 String res = e3.daneSzukaj(pw);
-                Map<String, String> zwrottmp = wyslijdanefirmy(pozycje, res);
-                String typjedn = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportTypJednostki");
-                String rapszcz = null;
-                String prawna = "<Typ>P</Typ>";
-                zwrot = wyslijdanefirmy(pozycje, res);
-                if (typjedn.contains(prawna)) {
-                    rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportPrawna");
-                    zwrot.put("Typ", "P");
-                    zwrot.putAll(wyslijdanefirmy(pozycje2praw, rapszcz));
+                if (res.equals("")) {
+                    zwrot.put("Nieznaleziono", nip);
+                    System.out.println("nie znaleziono firmy");
                 } else {
-                    zwrot.put("Typ", "F");
-                    rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportDzialalnoscFizycznejCeidg");
-                    zwrot.putAll(wyslijdanefirmy(pozycje2fiz, rapszcz));
+                    Map<String, String> zwrottmp = wyslijdanefirmy(pozycje, res);
+                    String typjedn = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportTypJednostki");
+                    String rapszcz = null;
+                    String prawna = "<Typ>P</Typ>";
+                    zwrot = wyslijdanefirmy(pozycje, res);
+                    if (typjedn.contains(prawna)) {
+                        rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportPrawna");
+                        zwrot.put("Typ", "P");
+                        zwrot.putAll(wyslijdanefirmy(pozycje2praw, rapszcz));
+                    } else {
+                        zwrot.put("Typ", "F");
+                        rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportDzialalnoscFizycznejCeidg");
+                        zwrot.putAll(wyslijdanefirmy(pozycje2fiz, rapszcz));
+                    }
+                    System.out.println("znalezion firme");
                 }
-                System.out.println("3");
             }
         } catch (Exception e) {
             E.e(e);
@@ -94,39 +100,44 @@ public class GUSView implements Serializable {
             String statussesji = e3.getValue("StatusSesji");
             ParametryWyszukiwania pw = new ParametryWyszukiwania();
             JAXBElement<String> jb = new JAXBElement(new QName("http://CIS/BIR/PUBL/2014/07/DataContract","Nip"), String.class, nip);
-            pw.setRegon(jb);
+            pw.setNip(jb);
             String res = e3.daneSzukaj(pw);
-            danefirmy = drukujdanefirmy(res);
-            String statuslugi = e3.getValue("StatusUslugi");
-            String komunikatkod = e3.getValue("KomunikatKod");
-            String komunikattresc = e3.getValue("KomunikatTresc");
-            String komunikatuslugi = e3.getValue("KomunikatUslugi");
-            Map<String, String> zwrottmp = wyslijdanefirmy(pozycje, res);
-            String typjedn = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportTypJednostki");
-            String rapszcz = null;
-            String prawna = "<Typ>P</Typ>";
-            Map<String, String> zwrot = new HashMap<>();
-            zwrot = wyslijdanefirmy(pozycje, res);
-            if (typjedn.contains(prawna)) {
-                rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportPrawna");
-                zwrot.put("Typ", "P");
-                zwrot.putAll(wyslijdanefirmy(pozycje2praw, rapszcz));
+            if (!res.equals("")) {
+                danefirmy = drukujdanefirmy(res);
+                String statuslugi = e3.getValue("StatusUslugi");
+                String komunikatkod = e3.getValue("KomunikatKod");
+                String komunikattresc = e3.getValue("KomunikatTresc");
+                String komunikatuslugi = e3.getValue("KomunikatUslugi");
+                Map<String, String> zwrottmp = wyslijdanefirmy(pozycje, res);
+                String typjedn = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportTypJednostki");
+                String rapszcz = null;
+                String prawna = "<Typ>P</Typ>";
+                Map<String, String> zwrot = new HashMap<>();
+                zwrot = wyslijdanefirmy(pozycje, res);
+                if (typjedn.contains(prawna)) {
+                    rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportPrawna");
+                    zwrot.put("Typ", "P");
+                    zwrot.putAll(wyslijdanefirmy(pozycje2praw, rapszcz));
+                } else {
+                    zwrot.put("Typ", "F");
+                    rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportDzialalnoscFizycznejCeidg");
+                    zwrot.putAll(wyslijdanefirmy(pozycje2fiz, rapszcz));
+                }
+                System.out.println("3");
+    //            PublDaneRaportDzialalnosciPrawnej
+                //String ko1 = service.getE3().daneKomunikat();
+
+                //String ko = service.getE3().getValue();
+    //            QName q = new QName("Regon");
+                String s = service.getE3().pobierzCaptcha();
+    //            JAXBElement el = new JAXBElement(q, String.class, "320890902");
+
+                //ko = service.getE3().daneKomunikat();
+                System.out.println("d");
             } else {
-                zwrot.put("Typ", "F");
-                rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportDzialalnoscFizycznejCeidg");
-                zwrot.putAll(wyslijdanefirmy(pozycje2fiz, rapszcz));
+                danefirmy = "Nie znaleziono firmy";
+                System.out.println("Nie znaleziono firmy");
             }
-            System.out.println("3");
-//            PublDaneRaportDzialalnosciPrawnej
-            //String ko1 = service.getE3().daneKomunikat();
-            
-            //String ko = service.getE3().getValue();
-//            QName q = new QName("Regon");
-            String s = service.getE3().pobierzCaptcha();
-//            JAXBElement el = new JAXBElement(q, String.class, "320890902");
-            
-            //ko = service.getE3().daneKomunikat();
-            System.out.println("d");
         } catch (Exception e) {
             E.e(e);
         }
@@ -181,6 +192,7 @@ public class GUSView implements Serializable {
     private static String zmniejsznazwe(String element, String p) {
         String zwrot = element;
         if (p.equals("Nazwa")) {
+            String[] a = StringUtils.splitPreserveAllTokens(element);
             if (element.contains("SPÓŁKA KOMANDYTOWA")) {
                 zwrot = element.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA", "sp. z o.o. sp.k.");
             } else if (element.contains("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ")) {
@@ -193,6 +205,10 @@ public class GUSView implements Serializable {
                 zwrot = element.replace("STOWARZYSZENIE", "Stowarzyszenie");
             } else if (element.contains("FUNDACJA")) {
                 zwrot = element.replace("FUNDACJA", "Fundacja");
+            } else if (a.length==3) {
+                zwrot = a[0]+" "+StringUtils.capitalize(StringUtils.lowerCase(a[1]))+" "+StringUtils.capitalize(StringUtils.lowerCase(a[2]));
+            } else if (a.length==2) {
+                zwrot = StringUtils.capitalize(StringUtils.lowerCase(a[0]))+" "+StringUtils.capitalize(StringUtils.lowerCase(a[1]));
             }
         } else if (p.equals("Wojewodztwo")) {
             zwrot = element.substring(0,1).toUpperCase()+element.substring(1).toLowerCase();
@@ -255,6 +271,12 @@ public class GUSView implements Serializable {
             start = element.indexOf(">")+1;
             element = element.substring(start);
             element = zmniejsznazwe(element,p);
+            String[] a = StringUtils.splitPreserveAllTokens(element);
+            if (a.length==2) {
+                a[0] = "KOTEK";
+                String b = StringUtils.capitalize(StringUtils.lowerCase(a[0]))+" "+StringUtils.capitalize(a[1]);
+                System.out.println(b);
+            }
             sb.append(p);
             sb.append(" ");
             sb.append(element);
