@@ -6,10 +6,12 @@
 package beansRegon;
 
 import entity.Klienci;
+import entity.Podatnik;
 import gus.GUSView;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -50,7 +52,6 @@ public class SzukajDaneBean {
                         selected.setLokal(null);
                     }
                 }
-                selected.setKrajnazwa("Polska");
             }
             RequestContext.getCurrentInstance().update(formularz+":nazwaPole");
             RequestContext.getCurrentInstance().update(formularz+":symbolPole");
@@ -60,6 +61,56 @@ public class SzukajDaneBean {
             RequestContext.getCurrentInstance().update(formularz+":domPole");
             RequestContext.getCurrentInstance().update(formularz+":lokalPole");
             RequestContext.getCurrentInstance().update(formularz+":krajPole");
+        }
+    }
+     
+     public static void znajdzdaneregon(String formularz, Podatnik selected, GUSView gUSView) {
+        String nip = selected.getNip();
+        Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
+        Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
+        if (selected.getNip() != null && !m.find() && selected.getNip().length()==10) {
+            Map<String, String> dane = gUSView.pobierzDane(selected.getNip());
+            if (dane.size()==1) {
+                selected.setNazwapelna("nie znaleziono firmy w bazie Regon");
+            } else {
+                selected.setNazwapelna(dane.get("Nazwa"));
+                selected.setRegon(dane.get("Regon"));
+                selected.setKodpocztowy(dane.get("KodPocztowy"));
+                selected.setWojewodztwo(StringUtils.lowerCase(dane.get("Wojewodztwo")));
+                selected.setMiejscowosc(dane.get("Miejscowosc"));
+                selected.setPowiat(dane.get("Powiat"));
+                selected.setGmina(dane.get("Gmina"));
+                selected.setUlica(dane.get("Ulica"));
+                String typ = dane.get("Typ");
+                if (typ.equals("P")) {
+                    selected.setNrdomu(dane.get("praw_adSiedzNumerNieruchomosci"));
+                    selected.setPoczta(dane.get("praw_adSiedzMiejscowoscPoczty_Nazwa"));
+                    if (dane.get("praw_adSiedzNumerLokalu") != null) {
+                        selected.setNrlokalu(dane.get("praw_adSiedzNumerLokalu"));
+                    } else {
+                        selected.setNrlokalu(null);
+                    }
+                } else {
+                    selected.setNrdomu(dane.get("fiz_adSiedzNumerNieruchomosci"));
+                    selected.setPoczta(dane.get("fiz_adSiedzMiejscowoscPoczty_Nazwa"));
+                    if (dane.get("fiz_adSiedzNumerLokalu") != null) {
+                        selected.setNrlokalu(dane.get("fiz_adSiedzNumerLokalu"));
+                    } else {
+                        selected.setNrlokalu(null);
+                    }
+                }
+            }
+            RequestContext.getCurrentInstance().update(formularz+":nazwapelna");
+            RequestContext.getCurrentInstance().update(formularz+":regon");
+            RequestContext.getCurrentInstance().update(formularz+":powiat");
+            RequestContext.getCurrentInstance().update(formularz+":kod");
+            RequestContext.getCurrentInstance().update(formularz+":wojewodztwo");
+            RequestContext.getCurrentInstance().update(formularz+":miejscowosc");
+            RequestContext.getCurrentInstance().update(formularz+":gmina");
+            RequestContext.getCurrentInstance().update(formularz+":poczta");
+            RequestContext.getCurrentInstance().update(formularz+":ulica");
+            RequestContext.getCurrentInstance().update(formularz+":nrdomu");
+            RequestContext.getCurrentInstance().update(formularz+":nrlokalu");
         }
     }
 }

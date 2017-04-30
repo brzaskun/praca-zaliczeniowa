@@ -162,6 +162,8 @@ public class GUSView implements Serializable {
         pozycje2fiz.add("fiz_adSiedzUlica_Nazwa");
         pozycje2fiz.add("fiz_adSiedzNumerNieruchomosci");
         pozycje2fiz.add("fiz_adSiedzNumerLokalu");
+        pozycje2fiz.add("fiz_adSiedzMiejscowoscPoczty_Nazwa");
+        
    }
     
     public static List<String> pozycje2praw;
@@ -170,6 +172,7 @@ public class GUSView implements Serializable {
         pozycje2praw.add("praw_adSiedzUlica_Nazwa");
         pozycje2praw.add("praw_adSiedzNumerNieruchomosci");
         pozycje2praw.add("praw_adSiedzNumerLokalu");
+        pozycje2praw.add("praw_adSiedzMiejscowoscPoczty_Nazwa");
    }
     
     

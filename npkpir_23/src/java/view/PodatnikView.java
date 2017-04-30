@@ -5,6 +5,7 @@
 package view;
 
 import beanParametr.BeanParamSuper;
+import beansRegon.SzukajDaneBean;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
@@ -26,6 +27,7 @@ import entity.ZusstawkiPK;
 import entityfk.Konto;
 import enumy.FormaPrawna;
 import error.E;
+import gus.GUSView;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,6 +76,8 @@ public class PodatnikView implements Serializable {
     private List<Rodzajedok> rodzajeDokumentowLista;
     @ManagedProperty(value = "#{rodzajedokView}")
     private RodzajedokView rodzajedokView;
+    @ManagedProperty(value = "#{gUSView}")
+    private GUSView gUSView;
     private List<String> pojList;
     private PanelGrid grid;
     private String[] listka;
@@ -977,6 +981,13 @@ public class PodatnikView implements Serializable {
         RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
     }
 
+    public void znajdzdaneregon(String formularz) {
+        try {
+            SzukajDaneBean.znajdzdaneregon(formularz, selectedDod, gUSView);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
     
     private void zweryfikujBazeBiezacegoPodatnika() {
         // to bylo nam potrzebne do transformacji teraz jest juz zbedne bo klineci maja przeniesione dokumenty
@@ -1109,6 +1120,14 @@ public class PodatnikView implements Serializable {
 
     public ParamVatUE getParamVatUE() {
         return paramVatUE;
+    }
+
+    public GUSView getgUSView() {
+        return gUSView;
+    }
+
+    public void setgUSView(GUSView gUSView) {
+        this.gUSView = gUSView;
     }
 
     public void setParamVatUE(ParamVatUE paramVatUE) {

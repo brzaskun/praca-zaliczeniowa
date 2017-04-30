@@ -17,7 +17,7 @@
             <h:outputLabel value="nip"/>
             <h:inputText id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!">
                 <f:validateLength minimum="10"/>
-                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                <p:ajax event="blur" partialSubmit="true" global="false" listener="#{podatnikView.znajdzdaneregon('form')}"/>
             </h:inputText>
             <h:outputLabel value="nazwa pełna"/>
             <h:inputText id="nazwapelna" value="#{podatnikView.selectedDod.nazwapelna}" 
@@ -62,7 +62,7 @@
                 <p:ajax event="blur" partialSubmit="true" global="false"/>
             </p:inputMask>
             <h:outputLabel value="województwo"/>
-            <h:selectOneMenu value="#{podatnikView.selectedDod.wojewodztwo}" >
+            <h:selectOneMenu id="wojewodztwo" value="#{podatnikView.selectedDod.wojewodztwo}" >
                 <f:selectItem itemLabel="wybierz" itemValue="wybierz" noSelectionOption="true"/>
                 <f:selectItem itemLabel="Zagranica" itemValue="Zagranica"/>
                 <f:selectItems value="#{wojewodztwa.wykazS}" />
