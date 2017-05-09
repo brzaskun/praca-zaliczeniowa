@@ -38,7 +38,7 @@
                 <p:commandButton value="faktura xxl korekta" actionListener="#{fakturaView.przygotujfakturekorektexxl()}" 
                                  style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" 
                                  update="akordeon:formstworz"/>
-            </p:outputPanel>
+            </p:outputPanel> 
             <p:outputPanel style="padding: 5px;" rendered="#{!WpisView.vatowiec}">
                 <p:commandButton value="rachunek bez VAT" actionListener="#{fakturaView.przygotujrachunek()}" 
                                  oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"

@@ -79,7 +79,7 @@ public class PdfFP {
             absText(writer, pobierzelementdodatkowy("stopka", elementydod), 15, 26, 6);
             prost(writer.getDirectContent(), 12, 15, 560, 20);
         }
-    }
+    } 
 
     public static void dodajoznaczenieduplikat(PdfWriter writer, FakturaDuplikat duplikatobj) {
         //naglowek

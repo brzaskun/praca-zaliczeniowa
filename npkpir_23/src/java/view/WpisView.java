@@ -82,7 +82,7 @@ public class WpisView implements Serializable {
     public WpisView() {
         czegosbrakuje = false;
     }
-    
+     
 
     @PostConstruct
     private void init() {
