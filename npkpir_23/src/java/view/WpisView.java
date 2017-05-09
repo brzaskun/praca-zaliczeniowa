@@ -10,7 +10,6 @@ import dao.UzDAO;
 import dao.WpisDAO;
 import data.Data;
 import embeddable.Mce;
-import embeddable.Parametr;
 import embeddable.Roki;
 import entity.ParamCzworkiPiatki;
 import entity.Podatnik;
@@ -28,7 +27,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -59,6 +57,7 @@ public class WpisView implements Serializable {
     private boolean ksiegaryczalt;
     private boolean mc0kw1;
     private boolean ksiegirachunkowe;
+    private boolean vatowiec;
     private boolean paramCzworkiPiatki;
     @Inject
     private Podatnik podatnikObiekt;
@@ -327,6 +326,11 @@ public class WpisView implements Serializable {
                 if (this.podatnikObiekt.getFormaPrawna() != null && this.podatnikObiekt.getFormaPrawna().toString().equals("SPOLKA_Z_O_O")) {
                     stawkapodatkuospr = stawkapodatkuospr();
                 }
+                if (rodzajopodatkowania.contains("bez VAT")) {
+                    vatowiec = false;
+                } else {
+                    vatowiec = true;
+                }
                 if (rodzajopodatkowania.contains("ryczałt")) {
                     ksiegaryczalt = false;
                 } else {
@@ -410,6 +414,14 @@ public class WpisView implements Serializable {
 
     public void setRokNastepny(Integer rokNastepny) {
         this.rokNastepny = rokNastepny;
+    }
+
+    public boolean isVatowiec() {
+        return vatowiec;
+    }
+
+    public void setVatowiec(boolean vatowiec) {
+        this.vatowiec = vatowiec;
     }
 
     public String getZrodlo() {

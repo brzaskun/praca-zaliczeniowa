@@ -227,6 +227,20 @@ public class FakturaView implements Serializable {
         Msg.msg("i", "Przygotowano wstępnie fakturę VAT marża. Należy uzupełnić pozostałe elementy.");
     }
     
+     public void przygotujrachunek() {
+        fakturazwykla = false;
+        fakturaxxl = false;
+        fakturakorekta = false;
+        fakturaniemiecka = false;
+        fakturavatmarza = true;
+        inicjalizacjaczesciwspolne();
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
+        selected.setRodzajdokumentu("rachunek baz VAT");
+        selected.setRodzajtransakcji("sprzedaż");
+        zapis0edycja1 = false;
+        Msg.msg("i", "Przygotowano wstępnie rachunek baz VAT. Należy uzupełnić pozostałe elementy.");
+    }
+    
     public void przygotujfaktureniemiecka() {
         fakturazwykla = false;
         fakturaxxl = false;

@@ -19,7 +19,7 @@
             }
         </style>
         <h:form id="formprzygotuj">
-            <p:outputPanel style="padding: 5px;">
+            <p:outputPanel style="padding: 5px;" rendered="#{WpisView.vatowiec}">
                 <p:commandButton id="przygotuj" value="faktura stand." actionListener="#{fakturaView.przygotujfakture()}" 
                                  oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"
                                  style="margin-bottom: 5px; margin-top: 5px; width: 140px;" />
@@ -38,6 +38,11 @@
                 <p:commandButton value="faktura xxl korekta" actionListener="#{fakturaView.przygotujfakturekorektexxl()}" 
                                  style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" 
                                  update="akordeon:formstworz"/>
+            </p:outputPanel>
+            <p:outputPanel style="padding: 5px;" rendered="#{!WpisView.vatowiec}">
+                <p:commandButton value="rachunek bez VAT" actionListener="#{fakturaView.przygotujrachunek()}" 
+                                 oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"
+                                 style="margin-bottom: 5px; margin-top: 5px; width: 140px; margin-left: 5px;" />
             </p:outputPanel>
         </h:form>
         <h:form id="formstworz">
