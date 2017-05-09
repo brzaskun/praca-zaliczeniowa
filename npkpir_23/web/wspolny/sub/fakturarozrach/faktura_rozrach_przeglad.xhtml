@@ -21,6 +21,7 @@
         <h:form id="fakturarozliczenia">
             <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci()}" update="fakturarozliczenia" global="false"/>
             <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;"
+                         sortBy="#{item.nrdokumentu}" sortFunction="#{fakturaRozrachunkiRozlView.sortujfaktrozrach}" sortOrder="descending"
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
                          widgetVar="fakturarozliczenia_tablica" editable="true">
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
@@ -79,7 +80,7 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column width="40" style="text-align: center;" sortBy="#{item.nrdokumentu}">
+                <p:column width="40" style="text-align: center;" sortable="true" sortBy="#{item.nrdokumentu}" sortFunction="#{fakturaRozrachunkiRozlView.sortujfaktrozrach}">
                     <f:facet name="header">
                         <h:outputText value="dok."/>
                     </f:facet>

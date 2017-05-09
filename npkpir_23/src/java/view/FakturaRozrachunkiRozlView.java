@@ -117,6 +117,31 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
         }
     }
     
+    public int sortujfaktrozrach(Object o1, Object o2) {
+        int zwrot = 0;
+        try {
+            String[] a = ((String) o1).split("/");
+            String[] b = ((String) o2).split("/");
+            int nr1 = Integer.parseInt(a[a.length-1]);
+            int nr2 = Integer.parseInt(b[b.length-1]);
+            zwrot = porownaj(nr1, nr2);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
+    }
+    
+    private static int porownaj(int o1, int o2) {
+        if (o1 < o2) {
+            return -1;
+        } else if (o1 > o2) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Klienci> getKlienci() {
         return klienci;
