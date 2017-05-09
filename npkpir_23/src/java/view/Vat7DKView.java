@@ -1007,6 +1007,14 @@ public class Vat7DKView implements Serializable {
         this.kwotanakaserej = kwotanakaserej;
     }
 
+    public DeklaracjaVatSchema getPasujacaSchema() {
+        return pasujacaSchema;
+    }
+
+    public void setPasujacaSchema(DeklaracjaVatSchema pasujacaSchema) {
+        this.pasujacaSchema = pasujacaSchema;
+    }
+
     public boolean isPokazinfovatzz() {
         return pokazinfovatzz;
     }
