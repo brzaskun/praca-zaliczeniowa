@@ -108,7 +108,12 @@ public class Kolmn implements Serializable{
         switch (transakcjiRodzaj) {
             case "ryczałt":
             case "ryczałt bez VAT":
-        return kolumnRyczalt;
+            case "odwrotne obciążenie sprzedawca":
+            case "eksport towarów":
+            case "usługi poza ter.":
+            case "WDT":
+            case "sprzedaz":
+                return kolumnRyczalt;
             case "zakup":
             case "import usług":
             case "WNT":
@@ -119,14 +124,9 @@ public class Kolmn implements Serializable{
                 return kolumnST;
             case "srodek trw sprzedaz":
                 return kolumnSTsprz;
-            case "eksport towarów":
-            case "usługi poza ter.":
-            case "WDT":
-            case "sprzedaz":
-                return kolumnRyczalt;
             default:
-                return kolumnList;
-    }
+                return kolumnRyczalt;
+        }
     }
     
     
