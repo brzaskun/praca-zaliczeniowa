@@ -78,8 +78,10 @@ public class VATDeklaracja implements Serializable {
                     if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && nettoI != 0.0) {
                         ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
                     }
-                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && (nettoI != 0.0 || vatI != 0.0)) {
-                        ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
+                    if (!ew.getEwidencja().isTylkoNetto()) {
+                        if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && (nettoI != 0.0 || vatI != 0.0)) {
+                            ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
+                        }
                     }
                     //to jest uzywane przy korektach
                     if (nowaWartoscVatZPrzeniesienia != null) {
