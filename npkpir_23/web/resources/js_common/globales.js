@@ -83,6 +83,32 @@ var kopiujtrescpola = function(zrodlo, cel) {
   }
 };
 
+var popupBlockerChecker = {
+        popup_window: function() {
+            return window.open("http://google.com","myWindow","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=yes, width=100, height=100");
+        },
+        _is_popup_blocked: function(popup_window){
+            if ((popup_window.innerHeight > 0)===false){_displayError(); }
+        },
+        check: function(popup_window){
+            if (popup_window) {
+                if(/chrome/.test(navigator.userAgent.toLowerCase())){
+                    setTimeout(function () {
+                        this._is_popup_blocked(popup_window);
+                     },200);
+                }else{
+                    popup_window.onload = function () {
+                        this._is_popup_blocked(popup_window);
+                    };
+                }
+            }else{
+                _displayError();
+            }
+        },
+        _displayError: function(){
+            alert("Popup Blocker is enabled! Please add this site to your exception list.");
+        }
+    };
 
 // 
 //var t;

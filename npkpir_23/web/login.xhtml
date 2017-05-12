@@ -16,11 +16,14 @@
             <meta http-equiv="Expires" content="0" />
             <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
             <h:outputStylesheet id="template" name="css/style.css"/>
-            <h:outputScript library="js_common" name="language.js"/>
-            <h:outputScript library="js_common" name="globales.js"/>
+            <script src="resources/js_common/language.js" type="text/javascript"></script>
+            <script src="resources/js_common/globales.js" type="text/javascript"></script>
             <title>Biuro Rachunkowe Taxman</title>
         </h:head>
         <h:body>
+             <script>
+            $(document).ready(popupBlockerChecker.check);
+        </script>
             <bcf:ajaxs/>
             <div id="fb-root"></div>
             <script>
