@@ -53,9 +53,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
+import lazyDataModel.LazyKontoDataModel;
 import msg.Msg;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.LazyDataModel;
 import pdffk.PdfPlanKont;
 import view.WpisView;
 
@@ -71,6 +72,7 @@ public class PlanKontView implements Serializable {
 
     private int levelBiezacy = 0;
     private List<Konto> wykazkont;
+    private LazyDataModel wykazkontlazy;
     private List<Konto> wykazkontwzor;
     @Inject
     private Konto selected;
@@ -151,8 +153,9 @@ public class PlanKontView implements Serializable {
         } else {
             infozebrakslownikowych = "";
         }
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik("INTERPAPER SP. Z O.O. SP. K.", wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
+        wykazkontlazy = new LazyKontoDataModel(wykazkont);
         //root = rootInit(wykazkont);
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         styltabeliplankont = opracujstylwierszatabeli();
@@ -216,6 +219,7 @@ public class PlanKontView implements Serializable {
             }
         }
         Collections.sort(wykazkont, new Kontocomparator());
+         wykazkontlazy = new LazyKontoDataModel(wykazkont);
         styltabeliplankont = opracujstylwierszatabeli();
     }
     
@@ -257,6 +261,7 @@ public class PlanKontView implements Serializable {
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             Collections.sort(wykazkont, new Kontocomparator());
         }
+         wykazkontlazy = new LazyKontoDataModel(wykazkont);
     }
 
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
@@ -1864,6 +1869,16 @@ public class PlanKontView implements Serializable {
     }
 
     //</editor-fold>
+
+    public LazyDataModel<Konto> getWykazkontlazy() {
+        return wykazkontlazy;
+    }
+
+    public void setWykazkontlazy(LazyDataModel<Konto> wykazkontlazy) {
+        this.wykazkontlazy = wykazkontlazy;
+    }
+
+
     
     
 

@@ -21,10 +21,10 @@
                   <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form_dialog_plankont1:dataList_data')"  global="false" style="float: left;" />
                   <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form_dialog_plankont1:dataList_data')"  global="false" style="float: left;" />
                   <p:selectBooleanCheckbox id="bezslownikowych" itemLabel="bez słownikowych" value="#{planKontView.bezslownikowych}">
-                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont1:dataList"/>
+                      <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont1:dataList"/>
                   </p:selectBooleanCheckbox>
                   <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
-                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont1:dataList"/>
+                      <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont1:dataList"/>
                   </p:selectBooleanCheckbox>
                   <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.kontadowyswietlenia}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
                         <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont1:dataList"/>

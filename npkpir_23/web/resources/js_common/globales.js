@@ -85,20 +85,25 @@ var kopiujtrescpola = function(zrodlo, cel) {
 
 var popupBlockerChecker = {
         popup_window: function() {
-            return window.open("http://google.com","myWindow","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=yes, width=100, height=100");
+            return window.open("http://localhost:8080/npkpir_23/","myWindow","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, minimizable=yes, alwaysLowered=yes, resizable=no, dialog=yes, copyhistory=no, width=1, height=1");
         },
         _is_popup_blocked: function(popup_window){
-            if ((popup_window.innerHeight > 0)===false){_displayError(); }
+            if ((popup_window.innerHeight > 0)===false){
+                popupBlockerChecker._displayError();
+            } else {
+                popup_window.close();
+            }
         },
-        check: function(popup_window){
-            if (popup_window) {
+        check: function(){
+            var win = popupBlockerChecker.popup_window();
+            if (win) {
                 if(/chrome/.test(navigator.userAgent.toLowerCase())){
                     setTimeout(function () {
-                        this._is_popup_blocked(popup_window);
+                        popupBlockerChecker._is_popup_blocked(win);
                      },200);
                 }else{
                     popup_window.onload = function () {
-                        this._is_popup_blocked(popup_window);
+                        popupBlockerChecker._is_popup_blocked(win);
                     };
                 }
             }else{

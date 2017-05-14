@@ -72,10 +72,10 @@
                       <p:menuitem global="false" value="grupa 8" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa8')}" icon="fa fa-print"/>  
                   </p:splitButton>
                   <p:selectBooleanCheckbox id="bezslownikowych" itemLabel="bez słownikowych" value="#{planKontView.bezslownikowych}">
-                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont:dataList"/>
+                      <p:ajax event="change" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont:dataList"/>
                   </p:selectBooleanCheckbox>
                   <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
-                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont:dataList"/>
+                      <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont:dataList"/>
                   </p:selectBooleanCheckbox>
                   <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.kontadowyswietlenia}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
                         <p:ajax event="change" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont:dataList"/>
@@ -93,14 +93,14 @@
                 <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>
             </p:outputPanel>
             <p:panelGrid columns="2" >
-                <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
+                <p:dataTable id="dataList" value="#{planKontView.wykazkontlazy}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
                              rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
                                               (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
-                             styleClass="tablicaplankont" rowHover="true" initMode="immediate" editable="true" editMode="cell"
-                             style="width: 1280px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
-                             sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
+                             styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
+                             style="width: 1280px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             scrollRows="300" scrollable="true" virtualScroll="true" scrollHeight="550" lazy="true" rows="600" 
                              rowIndexVar="index"
                              >
                     <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" 
