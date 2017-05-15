@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateless;
 import org.primefaces.context.RequestContext;
 import plik.Plik;
 
@@ -98,6 +97,8 @@ public class PdfVAT7 extends Pdf implements Serializable {
         } catch (DocumentException | IOException e) {
         }
     }
+    
+   
 
     public static void main(String[] args) throws IOException, DocumentException {
         Document document = new Document();

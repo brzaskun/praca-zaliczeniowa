@@ -14,8 +14,12 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -133,7 +137,32 @@ public class PdfFP {
         } catch (DocumentException | IOException e) {
         }
     }
-
+ 
+    public static void absColumn(PdfContentByte cb, String text, int x, int y, int font) {
+        try {
+            BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
+            ColumnText ct = new ColumnText(cb);
+            ct.setSimpleColumn(new Rectangle(x, y, x+250, y+20));
+            ct.addElement(new Paragraph(text, new Font(bf, font)));
+            ct.setUseAscender(true);
+            int status = ct.go();
+        } catch (DocumentException | IOException e) {
+        }
+    }
+    
+    public static void absColumn(PdfWriter writer, String text, int x, int y, int font) {
+        try {
+            PdfContentByte cb = writer.getDirectContent();
+            BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
+            ColumnText ct = new ColumnText(cb);
+            ct.setSimpleColumn(new Rectangle(x, y, x+250, y+20));
+            ct.addElement(new Paragraph(text, new Font(bf, font)));
+            ct.setUseAscender(true);
+            int status = ct.go();
+        } catch (DocumentException | IOException e) {
+        }
+    }
+ 
     public static void dodajopisdok(Document document) {
         document.addTitle("Faktura");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
@@ -207,7 +236,11 @@ public class PdfFP {
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "odbiorca");
                     prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:odbiorca") - 65, 250, 80);
                     absText(writer, B.b("nabywca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca"), 10);
-                    absText(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 20, 8);
+                    if (selected.getKontrahent().getNpelna().length() < 50) {
+                         absText(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 20, 8);
+                    } else {
+                        PdfFP.absColumn(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 25, 8);
+                    }
                     if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
                         adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
                     } else {
@@ -452,7 +485,11 @@ public class PdfFP {
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "odbiorca");
                     prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:odbiorca") - 65, 250, 80);
                     absText(canvas, B.b("nabywca")+":", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca"), 10);
-                    absText(canvas, selected.getKontrahent().getNpelna(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 20, 8);
+                    if (selected.getKontrahent().getNpelna().length() < 50) {
+                        absText(canvas, selected.getKontrahent().getNpelna(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 20, 8);
+                    } else {
+                        PdfFP.absColumn(canvas, selected.getKontrahent().getNpelna(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 25, 8);
+                    }
                     adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
                     absText(canvas, adres, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 40, 8);
                     absText(canvas, B.b("NIP")+": " + selected.getKontrahent().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 60, 8);

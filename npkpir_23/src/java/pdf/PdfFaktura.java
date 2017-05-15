@@ -369,6 +369,21 @@ public class PdfFaktura extends Pdf implements Serializable {
 
     }
     
+     
+     
+     private static void dodajodbiuorca(PdfWriter writer) {
+        //Dane do modulu odbiorca
+        String adres = "";
+        String text = null;
+        float dzielnik = 2;
+        prost(writer.getDirectContent(), (int) (79 / dzielnik) - 5, 593 - 65, 250, 80);
+        absText(writer, "nabywca"+": ", (int) (79/ dzielnik), 593, 10);
+        PdfFP.absColumn(writer, "Maria Kowalska Bukowska De Mono Kikoracka Janecka Obojga Narodów i Marsa Zula", (int) (79/ dzielnik), 593 - 25, 8);
+        adres = "72-100 Szczecin ul. Kaczki Moczanowskieh 15";
+        absText(writer, adres, (int) (79/ dzielnik), 593 - 40, 8);
+        text = "NIP"+": 8511005008";
+        absText(writer, text, (int) (79/ dzielnik), 593 - 60, 8);
+     }
   
     private void silentPrintPdf(String nazwapliku) {
          try{
@@ -465,6 +480,7 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         float dzielnik = 2;
         document.add(table);
         stopkaniemiecka(writer,document);
+        dodajodbiuorca(writer);
         //table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
         document.close();
         writer.close();
