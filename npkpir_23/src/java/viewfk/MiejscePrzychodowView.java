@@ -46,6 +46,7 @@ public class MiejscePrzychodowView  implements Serializable{
     @Inject
     private MiejscePrzychodow selected;
     private List<MiejscePrzychodow> miejscaprzychodow;
+    private List<MiejscePrzychodow> miejscaprzychodowfiltered;
     private List<MiejscePrzychodow> czlonkowiestowarzyszenia;
     @Inject
     private MiejscePrzychodowDAO miejscePrzychodowDAO;
@@ -120,11 +121,10 @@ public class MiejscePrzychodowView  implements Serializable{
     }
 
     public void usun(MiejscePrzychodow miejscePrzychodow) {
-        if (miejscePrzychodow.isAktywny() == true) {
-            Msg.msg("e", "Miejsce przychodó jest w użyciu, nie można usunąć opisu");
-        } else {
-            miejscePrzychodowDAO.destroy(miejscePrzychodow);
-            miejscaprzychodow.remove(miejscePrzychodow);
+        miejscePrzychodowDAO.destroy(miejscePrzychodow);
+        miejscaprzychodow.remove(miejscePrzychodow);
+        if (miejscaprzychodowfiltered != null) {
+            miejscaprzychodowfiltered.remove(miejscePrzychodow);
         }
     }
     
@@ -306,6 +306,14 @@ public class MiejscePrzychodowView  implements Serializable{
 
     public void setCzlonkowiestowarzyszenia(List<MiejscePrzychodow> czlonkowiestowarzyszenia) {
         this.czlonkowiestowarzyszenia = czlonkowiestowarzyszenia;
+    }
+
+    public List<MiejscePrzychodow> getMiejscaprzychodowfiltered() {
+        return miejscaprzychodowfiltered;
+    }
+
+    public void setMiejscaprzychodowfiltered(List<MiejscePrzychodow> miejscaprzychodowfiltered) {
+        this.miejscaprzychodowfiltered = miejscaprzychodowfiltered;
     }
     
     public List<TabelaMiejscePrzychodow> getListawybranychprzychodow() {

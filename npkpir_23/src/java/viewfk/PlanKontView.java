@@ -153,7 +153,7 @@ public class PlanKontView implements Serializable {
         } else {
             infozebrakslownikowych = "";
         }
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik("INTERPAPER SP. Z O.O. SP. K.", wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
         wykazkontlazy = new LazyKontoDataModel(wykazkont);
         //root = rootInit(wykazkont);
@@ -475,7 +475,7 @@ public class PlanKontView implements Serializable {
                 miejscePrzychodowDAO.dodaj(mp);
                 if (kontomacierzyste != null) {
                     int wynikdodaniakonta = 0;
-                    PlanKontFKBean.aktualizujslownikMiejscaPrzychodow(wykazkont, miejscePrzychodowDAO, mp, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+                    wynikdodaniakonta = PlanKontFKBean.aktualizujslownikMiejscaPrzychodow(wykazkont, miejscePrzychodowDAO, mp, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
                     if (wynikdodaniakonta == 0) {
                         if (czyoddacdowzorca == true) {
                             wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);

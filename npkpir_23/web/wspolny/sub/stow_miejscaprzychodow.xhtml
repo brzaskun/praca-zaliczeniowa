@@ -32,7 +32,7 @@
     <h:form id="miejscaprzychodowlista">
         <p:dataTable value="#{miejscePrzychodowView.miejscaprzychodow}" var="item" style="width: 1180px;" id="lista"
                      scrollable="true" scrollHeight="400"  emptyMessage="brak zdefiniowanych miejsc przychodów"
-                     sortBy="#{item.opismiejsca}"  
+                     sortBy="#{item.opismiejsca}"  filteredValue="#{miejscePrzychodowView.miejscaprzychodowfiltered}"
                      widgetVar="listamiejscaprzychodow">
             <p:ajax event="filter" global="false"/>
             <p:column headerText="#{mgs.nr}" style="width: 40px;">
@@ -70,7 +70,7 @@
                 <h:outputText value="#{item.rok}" rendered="#{WpisView.rokWpisu ne item.rok}"/>
             </p:column>
             <p:column headerText="usuń"  style="text-align: center; width: 60px;">
-                <p:commandButton icon="ui-icon-trash" actionListener="#{miejscePrzychodowView.usun(item)}" update=":miejscaprzychodow, :miejscaprzychodowlista"  rendered="#{WpisView.rokWpisu eq item.rok and item.aktywny eq false}" style="width: 40px;"/>
+                <p:commandButton icon="ui-icon-trash" actionListener="#{miejscePrzychodowView.usun(item)}" update=":miejscaprzychodowlista"  rendered="#{WpisView.rokWpisu eq item.rok or item.aktywny eq false}" style="width: 40px;"/>
             </p:column>
         </p:dataTable>
     </h:form>
