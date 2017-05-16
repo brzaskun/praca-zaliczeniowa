@@ -2266,11 +2266,17 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
                 }
             }
+            int czcionka = 8;
+            if (mce.size() > 9) {
+                czcionka = 6;
+            } else if (mce.size() > 5) {
+                czcionka = 7;
+            }
             for (String m : mce) {
                 if (p.getMce().get(m) != 0.0) {
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getMce().get(m))), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getMce().get(m))), "right", czcionka));
                 } else {
-                    table.addCell(ustawfrazeAlign("", "right", 8));
+                    table.addCell(ustawfrazeAlign("", "right", czcionka));
                 }
             }
         }
