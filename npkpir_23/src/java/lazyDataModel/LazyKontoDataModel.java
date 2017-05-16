@@ -36,5 +36,20 @@ public class LazyKontoDataModel extends LazyDataModel<Konto>{
         return lista;
     };
     
+    @Override
+    public Konto getRowData(String rowKey) {
+        Konto zwrot = null;
+        for (Konto k : wykazkont) {
+            if (k.getId().equals(Integer.parseInt(rowKey))) {
+                zwrot = k;
+                break;
+            }
+        }
+        return zwrot;
+    }
    
+    @Override
+    public Object getRowKey(Konto konto) {
+        return konto.getId();
+    }
 }

@@ -28,7 +28,6 @@ import entityfk.UkladBR;
 import error.E;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
@@ -461,26 +460,24 @@ public class PlanKontFKBean {
     public static int aktualizujslownikMiejscaPrzychodow(List<Konto> wykazkont, MiejscePrzychodowDAO miejsceKosztowDAO, MiejscePrzychodow miejsceprzychodow, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         try {
             List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
+            List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
             for (Konto p : kontamacierzysteZeSlownikiem) {
                 Konto nowekonto = new Konto();
                 nowekonto.setNazwapelna(miejsceprzychodow.getOpismiejsca());
                 nowekonto.setNazwaskrocona(miejsceprzychodow.getOpisskrocony());
                 nowekonto.setSlownikowe(true);
-                nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, miejsceprzychodow.getNrkonta(), wpisView);
-                List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
-                try {
-                    for (UkladBR ukladBR : listaukladow) {
-                        naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                if (wynikdodania == 0) {
+                    try {
+                        for (UkladBR ukladBR : listaukladow) {
+                            naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
                     }
-                } catch (Exception e) {
-                    E.e(e);
+                    miejsceprzychodow.setAktywny(true);
+                    miejsceKosztowDAO.edit(miejsceprzychodow);
                 }
-                if (wynikdodania == 1) {
-                    return 1;
-                }
-                miejsceprzychodow.setAktywny(true);
-                miejsceKosztowDAO.edit(miejsceprzychodow);
             }
             return 0;
         } catch (Exception e) {
