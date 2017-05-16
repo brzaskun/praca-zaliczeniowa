@@ -85,10 +85,10 @@
                         <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
                                          actionListener="#{dokfkView.resetujDokument}"  rendered="#{!WpisView.rokzamkniety}"
                                          oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanych').hide();"
-                                         style="margin-left: 15px; width: 120px;" />
+                                         style="margin-left: 10px; width: 120px;" />
                     </p:column>
                     <p:column>
-                        <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 15px;" 
+                        <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 10px;" 
                                          update=":zestawieniedokumentow:dataList" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0 and !WpisView.rokzamkniety}"
                                          />
                     </p:column>
@@ -99,7 +99,7 @@
                                          />
                     </p:column>
                     <p:column>
-                        <p:outputLabel for="pokazwszystkiedokumenty" value="pokaż wszystkie" style="margin-left: 15px;"/>
+                        <p:outputLabel for="pokazwszystkiedokumenty" value="pokaż wszystkie" style="margin-left: 10px;"/>
                         <p:selectBooleanCheckbox id="pokazwszystkiedokumenty" value="#{dokfkView.pokazwszystkiedokumenty}">
                             <p:ajax event="change" global="false" partialSubmit="tue"/>
                         </p:selectBooleanCheckbox>

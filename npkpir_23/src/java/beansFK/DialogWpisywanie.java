@@ -41,9 +41,8 @@ public class DialogWpisywanie {
         wierszbiezacy.setSaldoWBRK(Z.z(sumapoprzednich + kwotawiersza));
     }
     
-    public static void naprawsaldo(Dokfk selected,Wiersz wiersz) {
+    public static void naprawsaldo(Dokfk selected,Wiersz wiersz, Konto kontorozrachunkowe) {
     if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-        Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
         double sumapoprzednich = 0.0;
         if (wiersz.getIdporzadkowy()==1) {
             sumapoprzednich = selected.getSaldopoczatkowe();

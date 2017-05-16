@@ -1554,16 +1554,21 @@ public class DokfkView implements Serializable {
             List<Dokfk> wykaz = dokDAOfk.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, wybranakategoriadok);
             for (Dokfk p : wykaz) {
                 int nrserii = p.getDokfkPK().getNrkolejnywserii();
+                Konto kontozdanegoroku = kontoDAOfk.findKonto(p.getRodzajedok().getKontorozrachunkowe().getPelnynumer(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
                 if (nrserii == 1) {
-                    double saldobo = DokFKBean.pobierzwartosczBO(p.getRodzajedok().getKontorozrachunkowe(), wpisView, wierszBODAO);
-                    p.setSaldopoczatkowe(saldobo);
+                    if (kontozdanegoroku != null) {
+                        double saldobo = DokFKBean.pobierzwartosczBO(kontozdanegoroku, wpisView, wierszBODAO);
+                        p.setSaldopoczatkowe(saldobo);
+                    } else {
+                        p.setSaldopoczatkowe(-1.0);
+                    }
                 } else {
                     Dokfk poprzedni = wykaz.get(wykaz.indexOf(p) - 1);
                     double saldopoprzednie = poprzedni.getSaldokoncowe();
                     p.setSaldopoczatkowe(saldopoprzednie);
                 }
                 for (Wiersz w : p.getListawierszy()) {
-                    DialogWpisywanie.naprawsaldo(p, w);
+                    DialogWpisywanie.naprawsaldo(p, w, kontozdanegoroku);
                 }
             }
             dokDAOfk.editList(wykaz);
