@@ -501,8 +501,11 @@ var kopiujnazwepelna = function () {
 
 var skopiujopisdokumentu = function() {
   let opisdokumentu = r('formwpisdokument:opisdokumentu').val();
+  let opiswiersza = r('formwpisdokument:dataList:0:opis').val();
   let polewiersza = r('formwpisdokument:dataList:0:opis');
-  $(polewiersza).val(opisdokumentu);
+  if (opiswiersza === "") {
+    $(polewiersza).val(opisdokumentu);
+  }
 };
 
 var obsluzewidencjavatsprzedaz = function (event) {
