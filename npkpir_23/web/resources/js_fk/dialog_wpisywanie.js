@@ -499,6 +499,12 @@ var kopiujnazwepelna = function () {
   }
 };
 
+var skopiujopisdokumentu = function() {
+  let opisdokumentu = r('formwpisdokument:opisdokumentu').val();
+  let polewiersza = r('formwpisdokument:dataList:0:opis');
+  $(polewiersza).val(opisdokumentu);
+};
+
 var obsluzewidencjavatsprzedaz = function (event) {
     var charCode = (event.which) ? event.which : event.keyCode;
     if (charCode === 107) {

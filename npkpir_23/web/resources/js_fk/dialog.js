@@ -34,6 +34,28 @@ var ustawdialog = function(nazwa,rodzic) {
 
 };
 
+var ustawdialogframe = function(rodzic) {
+    let nazwa = $($($.find('iframe')[0]).parent()[0]).parent()[0];
+    $($(nazwa)[0]).on('show', function() {
+      alert('afterShow');
+    })
+    try {
+        setTimeout(ustaw2(nazwa,rodzic),3000);
+    } catch (Exception) {
+        alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 1 "+Exception);
+    }
+
+};
+
+var ustaw2 = function(nazwa,rodzic) {
+    $(document.getElementById($(nazwa)[0].id)).position({
+        my: "left top",
+        at: "left-200px top",
+        of: $(document.getElementById(rodzic)),
+        collision: "none none"
+        });
+};
+
 var ustawdialog = function(nazwa,rodzic, szerokosc, wysokosc) {
     $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
     try {

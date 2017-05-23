@@ -5,6 +5,7 @@
  */
 package gus;
 
+import beanDialog.OD;
 import cis.bir.publ._2014._07.datacontract.ParametryWyszukiwania;
 import com.sun.xml.ws.developer.WSBindingProvider;
 import error.E;
@@ -22,7 +23,6 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.handler.MessageContext;
 import org.apache.commons.lang3.StringUtils;
-import org.primefaces.context.RequestContext;
 import org.tempuri.IUslugaBIRzewnPubl;
 import org.tempuri.UslugaBIRzewnPubl;
 
@@ -303,12 +303,7 @@ public class GUSView implements Serializable {
     }
 
     public void view() {
-        Map<String,Object> options = new HashMap<String, Object>();
-        options.put("modal", true);
-        options.put("draggable", false);
-        options.put("resizable", false);
-        options.put("contentHeight", 320);
-        RequestContext.getCurrentInstance().openDialog("viewCars", options, null);
+        OD.open("viewCars", 320);
     }
     
     public String getNip() {
