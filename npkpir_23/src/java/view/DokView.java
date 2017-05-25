@@ -159,6 +159,7 @@ public final class DokView implements Serializable {
     private List<Rodzajedok> rodzajedokKlienta;
     //przechowuje ostatni dokumnet
     private String typdokumentu;
+    private String typpoprzedniegodokumentu;
     private boolean nieVatowiec;
     //pobieram wykaz KŚT
     /**
@@ -539,7 +540,7 @@ public final class DokView implements Serializable {
                         sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                     }
                 } else {
-                    if (stawkaVATwPoprzednimDok > 0.0) {
+                    if (stawkaVATwPoprzednimDok > 0.0 && typdokumentu.equals(typpoprzedniegodokumentu)) {
                         ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * stawkaVATwPoprzednimDok));
                     } else {
                         ewidencjaAddwiad.get(0).setVat(Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23));
@@ -1553,9 +1554,9 @@ public final class DokView implements Serializable {
                 }
                 if (poprzedniDokument != null) {
                     selDokument.setTypdokumentu(poprzedniDokument.getTypdokumentu());
-                    typdokumentu = poprzedniDokument.getTypdokumentu();
+                    typpoprzedniegodokumentu = poprzedniDokument.getTypdokumentu();
                     selDokument.setOpis(poprzedniDokument.getOpis());
-                    if (typdokumentu.startsWith("S")) {
+                    if (typpoprzedniegodokumentu.startsWith("S")) {
                         List<EVatwpis1> e = poprzedniDokument.getEwidencjaVAT1();
                         for (EVatwpis1 p : e) {
                             if (p.getNetto() != 0) {

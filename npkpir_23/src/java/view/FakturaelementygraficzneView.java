@@ -6,11 +6,15 @@ package view;
 
 import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
+import dao.LogofakturaDAO;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
+import entity.Logofaktura;
 import error.E;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +42,6 @@ import org.primefaces.model.UploadedFile;
 @ViewScoped
 public class FakturaelementygraficzneView implements Serializable {
     
-    private UploadedFile uploadedFile;
     private List<Fakturaelementygraficzne> fakturaelementygraficzne;
     @Inject
     private FakturaelementygraficzneDAO fakturaelementygraficzneDAO;
@@ -48,6 +51,8 @@ public class FakturaelementygraficzneView implements Serializable {
     private FakturadodelementyView fakturadodelementyView;
     @Inject
     private FakturadodelementyDAO fakturadodelementyDAO;
+    @Inject
+    private LogofakturaDAO logofakturaDAO;
     private String logoszerokosc;
     private String logowysokosc;
 
@@ -60,14 +65,15 @@ public class FakturaelementygraficzneView implements Serializable {
         if (elementgraficzny != null) {
             logoszerokosc = elementgraficzny.getSzerokosc();
             logowysokosc = elementgraficzny.getWysokosc();
+            sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu());
         }
     }
 
     public String aktualnelogo() {
         Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
         if (elementgraficzny != null) {
-            logoszerokosc = elementgraficzny.getSzerokosc() != null ? elementgraficzny.getSzerokosc() : "100px";
-            logowysokosc = elementgraficzny.getWysokosc() != null ? elementgraficzny.getWysokosc() : "100px";
+            logoszerokosc = elementgraficzny.getSzerokosc() != null ? elementgraficzny.getSzerokosc() : "100";
+            logowysokosc = elementgraficzny.getWysokosc() != null ? elementgraficzny.getWysokosc() : "100";
             return "/resources/images/logo/"+elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu();
         } else {
             return "";
@@ -92,39 +98,26 @@ public class FakturaelementygraficzneView implements Serializable {
         }
     }
     
-    public void zachowajZaladowanyPlik(FileUploadEvent event) {
-        uploadedFile = event.getFile();
-        String filename = uploadedFile.getFileName();
-        Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
-        String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-        Date d = new Date();
-        String dt = String.valueOf(d.getTime());
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
-        String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
-        Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
-        File newfile = new File(nazwapliku);
-        if (element != null) {
-            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+element.getFakturaelementygraficznePK().getNazwaelementu();
-            File oldfile = new File(nazwaplikuzbazy);
-            if (oldfile.isFile()) {
-                oldfile.delete();
-                Fakturaelementygraficzne f = new Fakturaelementygraficzne();
-                f.getFakturaelementygraficznePK().setPodatnik(wpisView.getPodatnikWpisu());
-                f.getFakturaelementygraficznePK().setNazwaelementu(element.getFakturaelementygraficznePK().getNazwaelementu());
-                fakturaelementygraficzneDAO.destroy(f);
-            }
-        }
+   
+    public void zachowajZaladowaneLogo(FileUploadEvent event) {
         try {
-           FileUtils.copyInputStreamToFile(uploadedFile.getInputstream(), newfile);
-        } catch (Exception e) { 
-            E.e(e); 
+            UploadedFile uploadedFile = event.getFile();
+            String filename = uploadedFile.getFileName();
+            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            String dt = String.valueOf((new Date()).getTime());
+            String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
+            logofakturaDAO.usun(wpisView.getPodatnikObiekt());
+            logofakturaDAO.edit(new Logofaktura(wpisView.getPodatnikObiekt(),nazwakrotka,extension,uploadedFile.getContents()));
+            usunlogo();
+            uzycieloga(true);
+            zachowajpliknadysku(uploadedFile.getInputstream(), dt, extension);
+            fakturaelementygraficzneDAO.dodaj(new Fakturaelementygraficzne(wpisView.getPodatnikWpisu(),nazwakrotka));
+            RequestContext.getCurrentInstance().update("akordeon:formelementy");
+            RequestContext.getCurrentInstance().update("akordeon:formelementygraficzne:panellogo");
+        } catch (Exception ex) {
+            E.e(ex);
         }
-        Fakturaelementygraficzne f = new Fakturaelementygraficzne();
-        f.getFakturaelementygraficznePK().setPodatnik(wpisView.getPodatnikWpisu());
-        f.getFakturaelementygraficznePK().setNazwaelementu(nazwakrotka);
-        fakturaelementygraficzneDAO.dodaj(f);
-        RequestContext.getCurrentInstance().update("akordeon:formelementy");
-        RequestContext.getCurrentInstance().update("akordeon:formelementygraficzne:panellogo");
     }
     
     public void usunlogo() {
@@ -138,16 +131,17 @@ public class FakturaelementygraficzneView implements Serializable {
                 f.getFakturaelementygraficznePK().setPodatnik(wpisView.getPodatnikWpisu());
                 f.getFakturaelementygraficznePK().setNazwaelementu(element.getFakturaelementygraficznePK().getNazwaelementu());
                 fakturaelementygraficzneDAO.destroy(f);
-                odhaczuzycieloga();
+                uzycieloga(false);
             } else {
                 fakturaelementygraficzneDAO.destroy(element);
-                odhaczuzycieloga();
+                uzycieloga(false);
             }
+            logofakturaDAO.usun(wpisView.getPodatnikObiekt());
         }
         RequestContext.getCurrentInstance().update("akordeon:formelementygraficzne:panellogo");
     }
     
-    public void odhaczuzycieloga() {
+    public void uzycieloga(boolean zaznacz1odznacz0) {
         try {
             List<Fakturadodelementy> fakturadodelementy = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
             if (fakturadodelementy == null || fakturadodelementy.isEmpty()) {
@@ -155,18 +149,40 @@ public class FakturaelementygraficzneView implements Serializable {
             }
             for (Fakturadodelementy p : fakturadodelementy) {
                 if (p.getFakturadodelementyPK().getNazwaelementu().equals("logo")) {
-                    p.setAktywny(false);
+                    p.setAktywny(zaznacz1odznacz0);
                     fakturadodelementyDAO.edit(p);
                 }
             }
             List<Fakturadodelementy> listaelementow = fakturadodelementyView.getFakturadodelementy();
             for (Fakturadodelementy p : listaelementow) {
                 if (p.getFakturadodelementyPK().getNazwaelementu().equals("logo")) {
-                    p.setAktywny(false);
+                    p.setAktywny(zaznacz1odznacz0);
                 }
             }
             RequestContext.getCurrentInstance().update("akordeon:formelementy");
         } catch (Exception e) { E.e(e); 
+        }
+    }
+    
+    private void zachowajpliknadysku(InputStream is,String dt, String extension) {
+        try {
+           String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
+           FileUtils.copyInputStreamToFile(is, new File(nazwapliku));
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+    }
+    
+    private void sprawdzczyniezniknalplik(String nazwa) {
+        try {
+            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+nazwa;
+            File oldfile = new File(nazwapliku);
+            if (!oldfile.isFile()) {
+                Logofaktura logofaktura = logofakturaDAO.findByPodatnik(wpisView.getPodatnikObiekt());
+                FileUtils.copyInputStreamToFile(new ByteArrayInputStream(logofaktura.getPliklogo()), new File(nazwapliku));
+            }
+        } catch (Exception e) {
+            E.e(e);
         }
     }
     
@@ -208,13 +224,7 @@ public class FakturaelementygraficzneView implements Serializable {
     public void setLogowysokosc(String logowysokosc) {
         this.logowysokosc = logowysokosc;
     }
-    public UploadedFile getUploadedFile() {
-        return uploadedFile;
-    }
-
-    public void setUploadedFile(UploadedFile uploadedFile) {
-        this.uploadedFile = uploadedFile;
-    }
+  
     
     
     public List<Fakturaelementygraficzne> getFakturaelementygraficzne() {

@@ -5,7 +5,6 @@
 package session;
 
 import embeddable.Mce;
-import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -26,6 +25,7 @@ import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Inwestycje;
 import entity.Klienci;
+import entity.Logofaktura;
 import entity.MultiuserSettings;
 import entity.Pismoadmin;
 import entity.Pitpoz;
@@ -2017,6 +2017,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<Fakturywystokresowe> findOkresoweOstatnieByfaktura(Faktura p) {
         return em.createNamedQuery("Fakturywystokresowe.findByFaktura").setParameter("faktura", p).getResultList();
+    }
+
+    public void usunlogoplik(Podatnik podatnikObiekt) {
+        em.createNamedQuery("Logofaktura.usunlogo").setParameter("podatnik", podatnikObiekt).executeUpdate();
+    }
+
+    public Logofaktura findLogoByPodatnik(Podatnik podatnikObiekt) {
+        return (Logofaktura) em.createNamedQuery("Logofaktura.findByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
     }
 
     

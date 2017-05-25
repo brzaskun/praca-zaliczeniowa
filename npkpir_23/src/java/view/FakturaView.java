@@ -16,8 +16,10 @@ import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturaStopkaNiemieckaDAO;
 import dao.FakturadodelementyDAO;
+import dao.FakturaelementygraficzneDAO;
 import dao.FakturywystokresoweDAO;
 import dao.KlienciDAO;
+import dao.LogofakturaDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
@@ -39,12 +41,15 @@ import entity.FakturaPK;
 import entity.FakturaStopkaNiemiecka;
 import entity.FakturaWalutaKonto;
 import entity.Fakturadodelementy;
+import entity.Fakturaelementygraficzne;
 import entity.Fakturywystokresowe;
 import entity.KwotaKolumna1;
+import entity.Logofaktura;
 import entity.Podatnik;
 import entity.Wpis;
 import entityfk.Dokfk;
 import error.E;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -65,6 +70,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
+import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
@@ -170,6 +176,10 @@ public class FakturaView implements Serializable {
     private ListaEwidencjiVat listaEwidencjiVat;
     @Inject
     private FakturaStopkaNiemieckaDAO fakturaStopkaNiemieckaDAO;
+    @Inject
+    private FakturaelementygraficzneDAO fakturaelementygraficzneDAO;
+    @Inject
+    private LogofakturaDAO logofakturaDAO;
     
 
     public FakturaView() {
@@ -198,8 +208,24 @@ public class FakturaView implements Serializable {
                 faktury.add(fakt);
             }
         }
+        Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+        if (elementgraficzny != null) {
+            sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu());
+        }
     }
-
+    
+    private void sprawdzczyniezniknalplik(String nazwa) {
+        try {
+            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+nazwa;
+            File oldfile = new File(nazwapliku);
+            if (!oldfile.isFile()) {
+                Logofaktura logofaktura = logofakturaDAO.findByPodatnik(wpisView.getPodatnikObiekt());
+                FileUtils.copyInputStreamToFile(new ByteArrayInputStream(logofaktura.getPliklogo()), new File(nazwapliku));
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
     public void przygotujfakture() {
         fakturazwykla = true;
         fakturaxxl = false;
@@ -579,7 +605,7 @@ public class FakturaView implements Serializable {
             try {
                 List<Fakturywystokresowe> f = fakturywystokresoweDAO.findFakturaOkresowaByFaktura(p);
                 boolean mialokresowo = false;
-                if (f != null && f.size() > 1) {
+                if (f != null && f.size() > 0) {
                     for (Fakturywystokresowe fw : f) {
                         fakturywystokresoweDAO.destroy(fw);
                     }

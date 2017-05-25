@@ -1086,15 +1086,17 @@ public class DokfkView implements Serializable {
             }
         }
     }
-//zastapilem to javascriptem
-//    public void skopiujopisdopierwszegowiersza() {
-//        try {
-//            Wiersz w = selected.getListawierszy().get(0);
-//            w.setOpisWiersza(selected.getOpisdokfk());
-//        } catch (Exception e) {
-//            E.e(e);
-//        }
-//    }
+//zastapilem to javascriptem nie do konca wiec jest hybryda. znikalo jak inne rzeczy odsiwezalem
+    public void skopiujopisdopierwszegowiersza() {
+        try {
+            Wiersz w = selected.getListawierszy().get(0);
+            if (w.equals("")) {
+                w.setOpisWiersza(selected.getOpisdokfk());
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
 
     public void znajdzduplicatdokumentuKontrahent() {
         wlaczZapiszButon = true;

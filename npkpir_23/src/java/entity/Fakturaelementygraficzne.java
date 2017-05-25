@@ -13,7 +13,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -62,7 +61,10 @@ public class Fakturaelementygraficzne implements Serializable {
 
     public Fakturaelementygraficzne(String podatnik, String nazwaelementu) {
         this.fakturaelementygraficznePK = new FakturaelementygraficznePK(podatnik, nazwaelementu);
-    }
+        this.aktywny = true;
+        this.szerokosc = "100";
+        this.wysokosc = "100";
+}
 
     public FakturaelementygraficznePK getFakturaelementygraficznePK() {
         return fakturaelementygraficznePK;
