@@ -279,6 +279,11 @@ body {
      vertical-align: top;
 }
 
+.ninety-percent {
+     width: 90%;
+     vertical-align: top;
+}
+
 .ten-percent {
      width: 10%;
      vertical-align: top;

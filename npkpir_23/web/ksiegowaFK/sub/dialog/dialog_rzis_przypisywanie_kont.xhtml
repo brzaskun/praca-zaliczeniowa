@@ -32,12 +32,12 @@
             <p:panelGrid columns="3">
                 <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKontaRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
-                              emptyMessage="Brak pozycji RZiS">
+                             emptyMessage="Brak pozycji RZiS" liveResize="true">
                     <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeRZiS}"  update=":formrzisuklad:selected"/>
                     <f:facet name="header">
                         <h:outputText value="uklad #{pozycjaBRKontaView.wybranyuklad.uklad}"/>
                     </f:facet>
-                    <p:column >
+                    <p:column style="width: 400px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder;" /> 
                         <p:spacer width="20"/>
                         <h:outputText value="#{loop.nazwa}"/> 

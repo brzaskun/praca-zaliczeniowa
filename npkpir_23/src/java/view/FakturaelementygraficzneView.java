@@ -103,7 +103,6 @@ public class FakturaelementygraficzneView implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
-            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             String dt = String.valueOf((new Date()).getTime());
             String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
@@ -115,8 +114,10 @@ public class FakturaelementygraficzneView implements Serializable {
             fakturaelementygraficzneDAO.dodaj(new Fakturaelementygraficzne(wpisView.getPodatnikWpisu(),nazwakrotka));
             RequestContext.getCurrentInstance().update("akordeon:formelementy");
             RequestContext.getCurrentInstance().update("akordeon:formelementygraficzne:panellogo");
+            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
         } catch (Exception ex) {
             E.e(ex);
+            Msg.msg("Wystąppił błąd. Nie udało się załadowanać pliku");
         }
     }
     
