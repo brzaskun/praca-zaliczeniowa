@@ -1554,6 +1554,7 @@ public final class DokView implements Serializable {
                 }
                 if (poprzedniDokument != null) {
                     selDokument.setTypdokumentu(poprzedniDokument.getTypdokumentu());
+                    typdokumentu = poprzedniDokument.getTypdokumentu();
                     typpoprzedniegodokumentu = poprzedniDokument.getTypdokumentu();
                     selDokument.setOpis(poprzedniDokument.getOpis());
                     if (typpoprzedniegodokumentu.startsWith("S")) {
