@@ -13,15 +13,18 @@
         .kwotaroznice input {
             width: 57px !important;
         }
+        .firmaopis input {
+            width: 150px !important;
+        }
         .rachunekroznice input {
-            width: 190px !important;
+            width: 80px !important;
         }
         .dataroznice input {
             width: 60px !important;
         }
     </style>
     <p:dialog id="dialogroznicekursowe" header="Zestawienie różnic kursowych - #{WpisView.podatnikWpisu}" widgetVar="dialogroznicekursowe"      
-              resizable="false"  onShow="ustawdialog('dialogroznicekursowe','menurejestry',1350,700);" closeOnEscape="true" onHide="resetujdialog('dialogroznicekursowe');" >
+              resizable="false"  onShow="ustawdialog('dialogroznicekursowe','menurejestry',1380,700);" closeOnEscape="true" onHide="resetujdialog('dialogroznicekursowe');" >
         <bcf:ajaxs/>
         <h:form id="transakcje">
             <p:selectOneMenu id="miesiacWpisu" value="#{rozniceKursoweFKView.mczaksiegowane}" style="width: 60px;">
@@ -34,29 +37,35 @@
             <h:outputText value="zmień miesiąc"/>
             <p:dataTable id="tabelaroznicekursowe" var="wpis" value="#{rozniceKursoweFKView.pobranetransakcje}" editable="true" 
                          emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym" scrollable="true" scrollHeight="450"
-                          style="width: 1300px;"  widgetVar="tabelaroznicekursowe" rowIndexVar="index">
+                          style="width: 1350px;"  widgetVar="tabelaroznicekursowe" rowIndexVar="index">
                 <p:ajax event="filter" global="false"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych transakcji walutowych " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('tabelaroznicekursowe').filter();" style="width:150px" />  
                 </f:facet>
-                <p:column headerText="#{mgs.numerkolejny}" width="30"  >
+                <p:column headerText="#{mgs.numerkolejny}" width="30"  style="text-align: center;">
                     <h:outputText value="#{index+1}" />
                 </p:column>
-                <p:column headerText="data rozrach." width="80" filterBy="#{wpis.datarozrachunku}" sortBy="#{wpis.datarozrachunku}" styleClass="dataroznice">
+                <p:column headerText="data rozr." width="80" filterBy="#{wpis.datarozrachunku}" sortBy="#{wpis.datarozrachunku}" styleClass="dataroznice" style="text-align: center;">
                     <h:outputText value="#{wpis.datarozrachunku}"/>
                 </p:column>
-                <p:column headerText="rachunek" width="250" filterBy="#{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK}" filterMatchMode="contains" styleClass="rachunekroznice">
-                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.opisWiersza} / #{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                <p:column headerText="firma" width="200" filterBy="#{wpis.nowaTransakcja.kontrahent}" filterMatchMode="contains" styleClass="firmaopis">
+                    <h:outputText value="#{wpis.nowaTransakcja.kontrahent}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                </p:column>
+                <p:column headerText="rachunek" width="100" filterBy="#{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK.toString2()}" filterMatchMode="contains" styleClass="rachunekroznice" style="text-align: center;">
+                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK.toString2()}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                </p:column>
+                <p:column headerText="opis" width="200" filterBy="#{wpis.nowaTransakcja.wiersz.opisWiersza}" filterMatchMode="contains" styleClass="firmaopis">
+                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.opisWiersza}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
                 <p:column headerText="kurs rach." width="40">
                     <h:outputText value="#{wpis.nowaTransakcja.kursWalutyBOSW}" style="float: right;">
                         <f:convertNumber minFractionDigits="4" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="płatność" width="300" filterBy="#{wpis.rozliczajacy.wiersz.dokfk.dokfkPK}" filterMatchMode="contains" styleClass="rachunekroznice">
-                    <h:outputText value="#{wpis.rozliczajacy.wiersz.opisWiersza} / #{wpis.rozliczajacy.wiersz.dokfk.dokfkPK}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                <p:column headerText="płatność" width="100" filterBy="#{wpis.rozliczajacy.wiersz.dokfk.dokfkPK.toString2()}" filterMatchMode="contains" styleClass="rachunekroznice" style="text-align: center;">
+                    <h:outputText value="#{wpis.rozliczajacy.wiersz.dokfk.dokfkPK.toString2()}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
                 <p:column headerText="kurs płat." width="40">
                     <h:outputText value="#{wpis.rozliczajacy.kursWalutyBOSW}" style="float: right;">
@@ -69,11 +78,11 @@
                 <p:column headerText="wal" width="30" filterBy="#{wpis.rozliczajacy.symbolWalutBOiSW}" sortBy="#{wpis.rozliczajacy.symbolWalutBOiSW}" styleClass="symbolwalutroznice">
                     <h:outputText value="#{wpis.rozliczajacy.symbolWalutBOiSW}" />
                 </p:column>
-                <p:column headerText="data zapłaty" width="70" sortBy="#{wpis.rozliczajacy.wiersz.dokfk.datadokumentu}">
+                <p:column headerText="data zapł." width="70" sortBy="#{wpis.rozliczajacy.wiersz.dokfk.datadokumentu}" style="text-align: center;">
                     <h:outputText value="#{wpis.rozliczajacy.wiersz.dokfk.datadokumentu}"/>
                 </p:column>
                 <p:column headerText="różnica kursowa" width="70" sortBy="#{wpis.roznicekursowe}">
-                    <h:outputText value="#{wpis.roznicekursowe}" style="float: right;">
+                    <h:outputText value="#{wpis.roznicekursowe}" style="float: right; color: #{wpis.roznicekursowe gt 0.0 ? 'green' : 'red'}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>

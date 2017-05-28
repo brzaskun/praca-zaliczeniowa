@@ -472,6 +472,7 @@ public class FakturaView implements Serializable {
         fakturaxxl = faktura.isFakturaxxl();
         fakturaniemiecka = faktura.isFakturaniemiecka13b();
         fakturakorekta = faktura.getPozycjepokorekcie() != null;
+        rachunek = faktura.isRachunek();
         aktywnytab = 0;
         pokazfakture = true;
         zapis0edycja1 = true;

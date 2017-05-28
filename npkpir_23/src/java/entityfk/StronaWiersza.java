@@ -29,7 +29,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import view.EwidencjaVatCheckView;
 import view.WpisView;
 import waluty.Z;
 
@@ -491,6 +490,10 @@ public class StronaWiersza implements Serializable {
             zwrot = zwrot + "/" + this.wiersz.getDokfk().getOpisdokfk();
         }
         return zwrot;
+    }
+    
+    public String getKontrahent() {
+        return this.getDokfk().getKontr().getNpelna();
     }
 
     public void setPozostalo(double pozostalo) {

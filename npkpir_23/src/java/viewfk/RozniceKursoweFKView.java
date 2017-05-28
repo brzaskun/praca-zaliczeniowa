@@ -12,14 +12,12 @@ import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
-import daoFK.WalutyDAOfk;
 import entityfk.Dokfk;
 import entityfk.Transakcja;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -61,7 +59,7 @@ public class RozniceKursoweFKView implements Serializable {
         pobranetransakcje = new ArrayList<>();
     }
 
-    @PostConstruct
+    
     public void init() {
         mczaksiegowane = wpisView.getMiesiacWpisu();
         pobierzdane();
