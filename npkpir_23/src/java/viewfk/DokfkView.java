@@ -228,6 +228,7 @@ public class DokfkView implements Serializable {
     private int duzyidwierszedycjaodswiezenie;
     private Evewidencja ewidencjadlaRKDEL;
     private boolean pokazwszystkiedokumenty;
+    private String miesiacWpisuPokaz;
     
 
     public DokfkView() {
@@ -257,8 +258,8 @@ public class DokfkView implements Serializable {
             stworzlisteewidencjiRK();
             //RequestContext.getCurrentInstance().update("ewidencjavatRK");
             dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-            wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
-            wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
+            //wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
+            //wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             ewidencjadlaRKDEL = evewidencjaDAO.znajdzponazwie("zakup");
@@ -268,6 +269,7 @@ public class DokfkView implements Serializable {
             if (klientdlaPK == null) {
                 klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
             }
+            miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
         } catch (Exception e) {
             E.e(e);
         }
@@ -1610,16 +1612,17 @@ public class DokfkView implements Serializable {
                     wybranakategoriadok = "wszystkie";
                 }
                 if (wybranakategoriadok.equals("wszystkie")) {
-                    if (wpisView.getMiesiacWpisu().equals("CR")) {
+                    if (miesiacWpisuPokaz.equals("CR")) {
                         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
                     } else {
-                        wpisView.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+                        wpisView.setMiesiacWpisu(miesiacWpisuPokaz);
                         wpisView.wpisAktualizuj();
                         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
                     }
-                } else if (wpisView.getMiesiacWpisu().equals("CR")) {
+                } else if (miesiacWpisuPokaz.equals("CR")) {
                     wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
                 } else {
+                    wpisView.setMiesiacWpisu(miesiacWpisuPokaz);
                     wpisView.wpisAktualizuj();
                     wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
                 }
@@ -2849,6 +2852,14 @@ public class DokfkView implements Serializable {
 
     public void setWybranakategoriadok(String wybranakategoriadok) {
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public String getMiesiacWpisuPokaz() {
+        return miesiacWpisuPokaz;
+    }
+
+    public void setMiesiacWpisuPokaz(String miesiacWpisuPokaz) {
+        this.miesiacWpisuPokaz = miesiacWpisuPokaz;
     }
 
     public boolean isPokazwszystkiedokumenty() {
