@@ -296,7 +296,7 @@ public class FakturaBean {
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         List<EVatwpis> el = new ArrayList<>();
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
-        if (selected.isFakturavatmarza()) {
+        if (selected.isFakturavatmarza() || selected.isRachunek()) {
             selected.setEwidencjavat(new ArrayList<>());
             selected.setNetto(sumy.get("netto"));
             selected.setVat(0.0);
@@ -318,7 +318,7 @@ public class FakturaBean {
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         List<EVatwpis> el = new ArrayList<>();
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
-        if (selected.isFakturavatmarza()) {
+        if (selected.isFakturavatmarza() || selected.isRachunek()) {
             selected.setEwidencjavatpk(new ArrayList<>());
             selected.setNettopk(sumy.get("netto"));
             selected.setVatpk(0.0);

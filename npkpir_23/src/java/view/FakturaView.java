@@ -171,6 +171,7 @@ public class FakturaView implements Serializable {
     private boolean fakturavatmarza;
     private boolean fakturaxxl;
     private boolean fakturakorekta;
+    private boolean rachunek;
     private AutoComplete kontrahentstworz;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
@@ -227,11 +228,8 @@ public class FakturaView implements Serializable {
         }
     }
     public void przygotujfakture() {
+        resetujoznaczeniefakur();
         fakturazwykla = true;
-        fakturaxxl = false;
-        fakturakorekta = false;
-        fakturaniemiecka = false;
-        fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setRodzajdokumentu("faktura");
@@ -240,10 +238,7 @@ public class FakturaView implements Serializable {
         Msg.msg("i", "Przygotowano wstępnie fakturę. Należy uzupełnić pozostałe elementy.");
     }
     public void przygotujfakturevatmarza() {
-        fakturazwykla = false;
-        fakturaxxl = false;
-        fakturakorekta = false;
-        fakturaniemiecka = false;
+        resetujoznaczeniefakur();
         fakturavatmarza = true;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
@@ -254,11 +249,8 @@ public class FakturaView implements Serializable {
     }
     
      public void przygotujrachunek() {
-        fakturazwykla = false;
-        fakturaxxl = false;
-        fakturakorekta = false;
-        fakturaniemiecka = false;
-        fakturavatmarza = true;
+        resetujoznaczeniefakur();
+        rachunek = true;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setRodzajdokumentu("rachunek baz VAT");
@@ -268,11 +260,8 @@ public class FakturaView implements Serializable {
     }
     
     public void przygotujfaktureniemiecka() {
-        fakturazwykla = false;
-        fakturaxxl = false;
-        fakturakorekta = false;
+        resetujoznaczeniefakur();
         fakturaniemiecka = true;
-        fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setRodzajdokumentu("faktura niemiecka");
@@ -282,11 +271,8 @@ public class FakturaView implements Serializable {
     }
     
     public void przygotujfakturexxl() {
-        fakturazwykla = false;
+        resetujoznaczeniefakur();
         fakturaxxl = true;
-        fakturakorekta = false;
-        fakturaniemiecka = false;
-        fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -297,11 +283,8 @@ public class FakturaView implements Serializable {
     }
     
      public void przygotujfakturekorekte() {
-        fakturazwykla = false;
+        resetujoznaczeniefakur();
         fakturaxxl = true;
-        fakturakorekta = false;
-        fakturaniemiecka = false;
-        fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -313,11 +296,8 @@ public class FakturaView implements Serializable {
     }
      
     public void przygotujfakturekorektexxl() {
-        fakturazwykla = false;
+        resetujoznaczeniefakur();
         fakturaxxl = true;
-        fakturakorekta = false;
-        fakturaniemiecka = false;
-        fakturavatmarza = false;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -326,6 +306,15 @@ public class FakturaView implements Serializable {
         selected.setRodzajtransakcji("sprzedaż");
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę XXL korektę. Należy uzupełnić pozostałe elementy.");
+    }
+    
+    private void resetujoznaczeniefakur() {
+        fakturazwykla = false;
+        fakturaxxl = false;
+        fakturakorekta = false;
+        fakturaniemiecka = false;
+        fakturavatmarza = false;
+        rachunek = false;
     }
     
     private void inicjalizacjaczesciwspolne() {
@@ -340,6 +329,9 @@ public class FakturaView implements Serializable {
         }
         if (fakturavatmarza) {
             selected.setFakturavatmarza(true);
+        }
+        if (rachunek) {
+            selected.setRachunek(true);
         }
         String platnoscwdniach = wpisView.getPodatnikObiekt().getPlatnoscwdni() == null ? "0" : wpisView.getPodatnikObiekt().getPlatnoscwdni();
         selected.setDnizaplaty(Integer.parseInt(platnoscwdniach));
@@ -389,10 +381,7 @@ public class FakturaView implements Serializable {
             init();
             Msg.msg("i", "Dodano fakturę.");
             pokazfakture = false;
-            fakturaxxl = false;
-            fakturakorekta = false;
-            fakturaniemiecka = false;
-            fakturavatmarza = false;
+            resetujoznaczeniefakur();
             selected = new Faktura();
             
         } catch (Exception e) { E.e(e); 
@@ -434,11 +423,7 @@ public class FakturaView implements Serializable {
             init();
             Msg.msg("i", "Wyedytowano fakturę.");
             pokazfakture = false;
-            fakturaxxl = false;
-            fakturaniemiecka = false;
-            fakturazwykla = false;
-            fakturavatmarza = false;
-            fakturakorekta = false;
+            resetujoznaczeniefakur();
             selected = new Faktura();
             
         } catch (Exception e) { E.e(e); 
@@ -1627,6 +1612,14 @@ public class FakturaView implements Serializable {
   
     public boolean isFakturaxxl() {
         return fakturaxxl;
+    }
+
+    public boolean isRachunek() {
+        return rachunek;
+    }
+
+    public void setRachunek(boolean rachunek) {
+        this.rachunek = rachunek;
     }
 
     public boolean isFakturavatmarza() {

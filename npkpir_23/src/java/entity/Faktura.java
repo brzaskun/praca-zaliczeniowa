@@ -207,6 +207,8 @@ public class Faktura implements Serializable {
     private boolean fakturaniemiecka13b;
     @Column(name = "fakturavatmarza")
     private boolean fakturavatmarza;
+    @Column(name = "rachunek")
+    private boolean rachunek;
     @Column(length = 512)
     private String przyczynakorekty;
     @Column
@@ -342,6 +344,14 @@ public class Faktura implements Serializable {
         this.nazwa = nazwa;
     }
 
+    public boolean isRachunek() {
+        return rachunek;
+    }
+
+    public void setRachunek(boolean rachunek) {
+        this.rachunek = rachunek;
+    }
+
     public boolean isZaplacona() {
         return zaplacona;
     }
@@ -444,11 +454,11 @@ public class Faktura implements Serializable {
         boolean fakturaNormalna = true;
         if (this.fakturaxxl) {
             fakturaNormalna = false;
-        }
-        if (this.fakturaniemiecka13b) {
+        } else if (this.fakturaniemiecka13b) {
             fakturaNormalna = false;
-        }
-        if (this.fakturavatmarza) {
+        } else if (this.fakturavatmarza) {
+            fakturaNormalna = false;
+        } else if (this.rachunek) {
             fakturaNormalna = false;
         }
         return fakturaNormalna;

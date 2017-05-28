@@ -63,9 +63,12 @@ public class PozycjeNaFakturzeView implements Serializable {
         } else if (request.isUserInRole("GuestFaktura")) {
             west = "../wspolny/sub/layoutFakturaGuestFaktura/west.xhtml";
             westustawienia = "../wspolny/sub/layoutFakturaGuestFaktura/westustawienia.xhtml";
-        } else if (request.isUserInRole("Multiuser")) {
+        } else if (request.isUserInRole("Multiuser") && wpisView.isKsiegirachunkowe()) {
             west = "../wspolny/sub/layoutFakturaMultiuser/west.xhtml";
             westustawienia = "../wspolny/sub/layoutFakturaMultiuser/westustawienia.xhtml";
+        } else if (request.isUserInRole("Multiuser") && !wpisView.isKsiegirachunkowe()) {
+            west = "../wspolny/sub/layoutFakturaMultiuser/west.xhtml";
+            westustawienia = "sub/layoutFaktura/westustawienia.xhtml";
         }
     }
 
