@@ -700,12 +700,9 @@ public class PozycjaBRKontaView implements Serializable {
                                 System.out.println("skopiujPozycje()");
                             }
                             Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), podatnik, wpisView.getRokWpisu());
-                            kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                             boxNaKonto = kontouzytkownika;
-                            if (kontouzytkownika.getPelnynumer().equals("755")) {
-                                System.out.println("skopiujPozycje()");
-                            }
                             if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("wynikowe")) {
+                                kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                                 if (kontouzytkownika.getZwyklerozrachszczegolne().equals("szczególne")) {
                                     wybranapozycja = p.getPozycjaWn();
                                     wnmaPrzypisywanieKont = "wn";
@@ -739,9 +736,9 @@ public class PozycjaBRKontaView implements Serializable {
                 if (!p.getSyntetykaanalityka().equals("syntetyka")) {
                     try {
                         Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), podatnik, wpisView.getRokWpisu());
-                        kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                         boxNaKonto = kontouzytkownika;
                         if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("bilansowe")) {
+                            kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                             if (kontouzytkownika.getPelnynumer().equals("010-3")) {
                                System.out.println("mam");
                             }

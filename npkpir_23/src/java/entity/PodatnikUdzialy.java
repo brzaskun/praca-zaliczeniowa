@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -170,6 +169,7 @@ public class PodatnikUdzialy implements Serializable{
     }
 
     public void setUdzial(String udzial) {
+        udzial = udzial.replace(",", ".");
         this.udzial = udzial;
     }
 

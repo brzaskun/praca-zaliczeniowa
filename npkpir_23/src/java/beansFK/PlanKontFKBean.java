@@ -830,94 +830,110 @@ public class PlanKontFKBean {
     }
     
     public static void przyporzadkujBilans_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1, String rodzajkonta) {
-        KontopozycjaBiezaca kp = konto.getKontopozycjaID() != null ? konto.getKontopozycjaID() : new KontopozycjaBiezaca();
-        if (wnmaPrzypisywanieKont.equals("wn")) {
-            if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
-                kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "0", rodzajkonta);
+        try {
+            KontopozycjaBiezaca kp = konto.getKontopozycjaID() != null ? konto.getKontopozycjaID() : new KontopozycjaBiezaca();
+            if (wnmaPrzypisywanieKont.equals("wn")) {
+                if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
+                    kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "0", rodzajkonta);
+                } else {
+                    kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "1", rodzajkonta);
+                }
             } else {
-                kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "1", rodzajkonta);
+                if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
+                    kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "0", rodzajkonta);
+                } else {
+                    kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "1", rodzajkonta);
+                }
             }
-        } else {
-            if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
-                kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "0", rodzajkonta);
-            } else {
-                kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "1", rodzajkonta);
+            kp.setWynik0bilans1(true);
+            konto.setKontopozycjaID(kp);
+            kontoDAO.edit(konto);
+            //czesc nanoszaca informacje na potomku
+            if (konto.isMapotomkow() == true) {
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, uklad.getPodatnik(), wnmaPrzypisywanieKont, Integer.parseInt(uklad.getRok()));
             }
-        }
-        kp.setWynik0bilans1(true);
-        konto.setKontopozycjaID(kp);
-        kontoDAO.edit(konto);
-        //czesc nanoszaca informacje na potomku
-        if (konto.isMapotomkow() == true) {
-            PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, uklad.getPodatnik(), wnmaPrzypisywanieKont, Integer.parseInt(uklad.getRok()));
-        }
-        //czesc nanoszaca informacje na macierzyste
-        if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, uklad.getPodatnik(), Integer.parseInt(uklad.getRok()), true);
+            //czesc nanoszaca informacje na macierzyste
+            if (konto.getMacierzysty() > 0) {
+                PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, uklad.getPodatnik(), Integer.parseInt(uklad.getRok()), true);
+            }
+        } catch (Exception e) {
+            E.e(e);
         }
     }
     
     
     public static void przyporzadkujBilans_kontozwykle(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, String podatnik, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1) {
-        KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
-        if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
-            kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "0", "zwykłe");
-            kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "0", "zwykłe");
-        } else {
-            kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "1", "zwykłe");
-            kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "1", "zwykłe");
-        }
-        kp.setWynik0bilans1(true);
-        konto.setKontopozycjaID(kp);
-        kontoDAO.edit(konto);
-        //czesc nanoszaca informacje na potomku
-        if (konto.isMapotomkow() == true) {
-            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, podatnik, "bilans", Integer.parseInt(uklad.getRok()));
-        }
-        //czesc nanoszaca informacje na macierzyste
-        if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, podatnik, Integer.parseInt(uklad.getRok()), true);
+        try {
+            KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
+            if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
+                kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "0", "zwykłe");
+                kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "0", "zwykłe");
+            } else {
+                kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "1", "zwykłe");
+                kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "1", "zwykłe");
+            }
+            kp.setWynik0bilans1(true);
+            konto.setKontopozycjaID(kp);
+            kontoDAO.edit(konto);
+            //czesc nanoszaca informacje na potomku
+            if (konto.isMapotomkow() == true) {
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, podatnik, "bilans", Integer.parseInt(uklad.getRok()));
+            }
+            //czesc nanoszaca informacje na macierzyste
+            if (konto.getMacierzysty() > 0) {
+                PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, podatnik, Integer.parseInt(uklad.getRok()), true);
+            }
+        } catch (Exception e) {
+            E.e(e);
         }
     }
 
     public static void przyporzadkujRZiS_kontozwykle(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, String podatnik, String wnmaPrzypisywanieKont) {
-        KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
-        kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "99", "wynikowe");
-        kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "99", "wynikowe");
-        konto.setKontopozycjaID(kp);
-        kontoDAO.edit(konto);
-        //czesc nanoszaca informacje na potomku
-        if (konto.isMapotomkow() == true) {
-            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, podatnik, "wynik", Integer.parseInt(uklad.getRok()));
-        }
-        //czesc nanoszaca informacje na macierzyste
-        if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, podatnik, Integer.parseInt(uklad.getRok()), false);
+        try {
+            KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
+            kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "99", "wynikowe");
+            kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "99", "wynikowe");
+            konto.setKontopozycjaID(kp);
+            kontoDAO.edit(konto);
+            //czesc nanoszaca informacje na potomku
+            if (konto.isMapotomkow() == true) {
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, podatnik, "wynik", Integer.parseInt(uklad.getRok()));
+            }
+            //czesc nanoszaca informacje na macierzyste
+            if (konto.getMacierzysty() > 0) {
+                PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, podatnik, Integer.parseInt(uklad.getRok()), false);
+            }
+        } catch (Exception e) {
+            E.e(e);
         }
     }
     
     
     public static void przyporzadkujRZiS_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, String podatnik, String wnmaPrzypisywanieKont) {
-        //to jest niezbedne dla kont specjalnych
-        KontopozycjaBiezaca kp = null;
-        if (konto.getKontopozycjaID() != null) {
-            kp = konto.getKontopozycjaID();
-        } else {
-            kp = new KontopozycjaBiezaca();
-            konto.setKontopozycjaID(kp);
-        }
-        if (wnmaPrzypisywanieKont.equals("wn")) {
-            kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "88", "szczególne");
-        } else {
-            kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "88", "szczególne");
-        }
-        kontoDAO.edit(konto);
-         if (konto.isMapotomkow() == true) {
-            PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, podatnik, wnmaPrzypisywanieKont, Integer.parseInt(uklad.getRok()));
-        }
-        //czesc nanoszaca informacje na macierzyste
-        if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, podatnik, Integer.parseInt(uklad.getRok()), false);
+        try {
+            //to jest niezbedne dla kont specjalnych
+            KontopozycjaBiezaca kp = null;
+            if (konto.getKontopozycjaID() != null) {
+                kp = konto.getKontopozycjaID();
+            } else {
+                kp = new KontopozycjaBiezaca();
+                konto.setKontopozycjaID(kp);
+            }
+            if (wnmaPrzypisywanieKont.equals("wn")) {
+                kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "88", "szczególne");
+            } else {
+                kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "88", "szczególne");
+            }
+            kontoDAO.edit(konto);
+             if (konto.isMapotomkow() == true) {
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, podatnik, wnmaPrzypisywanieKont, Integer.parseInt(uklad.getRok()));
+            }
+            //czesc nanoszaca informacje na macierzyste
+            if (konto.getMacierzysty() > 0) {
+                PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, podatnik, Integer.parseInt(uklad.getRok()), false);
+            }
+        } catch (Exception e) {
+            E.e(e);
         }
     }
     
