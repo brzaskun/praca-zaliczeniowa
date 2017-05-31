@@ -374,9 +374,9 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
             n.add("rodzaj dok.");
             n.add("nr dok.");
             n.add("data");
-            n.add("zapłata");
-            n.add("faktura");
             n.add("saldo");
+            n.add("ostat. płat.");
+            n.add("kwota");
             List[] tabela = new List[2];
             tabela[0] = n;
             tabela[1] = wiersze;
@@ -388,9 +388,9 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
             n.add("rodzaj dok.");
             n.add("nr dok.");
             n.add("data");
-            n.add("zapłata");
-            n.add("faktura");
             n.add("saldo");
+            n.add("ostat. płat.");
+            n.add("kwota");
             List[] tabela = new List[2];
             tabela[0] = n;
             tabela[1] = wiersze;

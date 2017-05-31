@@ -16,8 +16,7 @@ import waluty.Z;
 /**
  *
  * @author Osito
- */
-public class FakturaPodatnikRozliczenie implements Serializable{
+ */public class FakturaPodatnikRozliczenie implements Serializable{
     private static final long serialVersionUID = 1L;
     
     private int lp;
@@ -33,6 +32,8 @@ public class FakturaPodatnikRozliczenie implements Serializable{
     private String mail;
     private Date dataupomnienia;
     private Date datatelefon;
+    private String ostatniaplatnoscdata;
+    private double ostatniaplatnosckwota;
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
         this.rozliczenie = p;
@@ -246,6 +247,22 @@ public class FakturaPodatnikRozliczenie implements Serializable{
 
     public void setDatatelefon(Date datatelefon) {
         this.datatelefon = datatelefon;
+    }
+
+    public String getOstatniaplatnoscdata() {
+        return ostatniaplatnoscdata;
+    }
+
+    public void setOstatniaplatnoscdata(String ostatniaplatnoscdata) {
+        this.ostatniaplatnoscdata = ostatniaplatnoscdata;
+    }
+
+    public double getOstatniaplatnosckwota() {
+        return ostatniaplatnosckwota;
+    }
+
+    public void setOstatniaplatnosckwota(double ostatniaplatnosckwota) {
+        this.ostatniaplatnosckwota = ostatniaplatnosckwota;
     }
     
     

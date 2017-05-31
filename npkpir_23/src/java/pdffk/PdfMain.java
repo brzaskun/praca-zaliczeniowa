@@ -1334,14 +1334,9 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
-                    if (p.isFaktura0rozliczenie1()) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
-                        table.addCell(ustawfrazeAlign("", "right", 8));
-                    } else {
-                        table.addCell(ustawfrazeAlign("", "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
-                    }
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
+                    table.addCell(ustawfrazeAlign(p.getOstatniaplatnoscdata(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOstatniaplatnosckwota())), "right", 8));
                 } else {
                     FakturaPodatnikRozliczenie p = (FakturaPodatnikRozliczenie) it.next();
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8, 22f));
@@ -1349,14 +1344,9 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
-                    if (p.isFaktura0rozliczenie1()) {
-                        table.addCell(ustawfrazeAlign("", "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
-                    } else {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
-                        table.addCell(ustawfrazeAlign("", "right", 8));
-                    }
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
+                    table.addCell(ustawfrazeAlign(p.getOstatniaplatnoscdata(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOstatniaplatnosckwota())), "right", 8));
                 }
             }
             if (nazwaklasy.equals("vies.Vies")) {

@@ -242,10 +242,12 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     private List<FakturaPodatnikRozliczenie> stworztabele(List<FakturaRozrachunki> platnosci, List<Faktura> faktury, boolean nowe0archiwum1) {
         List<FakturaPodatnikRozliczenie> l = new ArrayList<>();
+        FakturaPodatnikRozliczenie ostatniaplatnosc = null;
         if (platnosci != null) {
             for (FakturaRozrachunki p : platnosci) {
                 if (p.isNowy0archiwum1() == nowe0archiwum1) {
-                    l.add(new FakturaPodatnikRozliczenie(p));
+                    ostatniaplatnosc = new FakturaPodatnikRozliczenie(p);
+                    l.add(ostatniaplatnosc);
                 }
             }
         }
@@ -259,6 +261,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             }
         }
         Collections.sort(l, new FakturaPodatnikRozliczeniecomparator());
+        if (!l.isEmpty() && ostatniaplatnosc != null) {
+            FakturaPodatnikRozliczenie o = l.get(l.size()-1);
+            o.setOstatniaplatnoscdata(ostatniaplatnosc.getData());
+            o.setOstatniaplatnosckwota(ostatniaplatnosc.getKwota());
+        }
         return l;
     }
     
@@ -271,9 +278,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
             if (nowepozycje.size() > 0) {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
-                if (r.getSaldo() == 674.0) {
-                    System.out.println("");
-                }
                 if (r.getSaldo() != 0.0) {
                     r.setLp(i++);
                     if (pokaznadplaty == true) {

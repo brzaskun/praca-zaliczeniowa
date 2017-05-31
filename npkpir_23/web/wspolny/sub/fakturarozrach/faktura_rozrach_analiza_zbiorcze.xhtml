@@ -36,9 +36,9 @@
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>
             </p:panelGrid>
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 980px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1020px; margin-top: 20px;"
                          emptyMessage="nie znaleziono żadnych księgowań" rowKey="#{item.lp}"
-                         selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}"
+                         selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}" rowSelectMode="add"
                          >
                 <p:ajax event="toggleSelect" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
                 <p:ajax event="rowSelectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
@@ -88,6 +88,18 @@
                         <h:outputText value="saldo"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.saldo}"/>
+                </p:column>
+                <p:column width="80" sortBy="#{item.ostatniaplatnoscdata}" style="text-align: center;" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="ostat.wpłata"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ostatniaplatnoscdata}"/>
+                </p:column>
+                <p:column width="80" sortBy="#{item.ostatniaplatnosckwota}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="kwota wpł"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.ostatniaplatnosckwota}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-eye" actionListener="#{fakturaRozrachunkiAnalizaView.pobierzszczegoly(item)}" 
