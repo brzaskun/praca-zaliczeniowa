@@ -833,6 +833,15 @@ public class PlanKontView implements Serializable {
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
             }
             wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<Rodzajedok> rodzajeDokPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+            if (!rodzajeDokPodatnika.isEmpty()) {
+                for (Rodzajedok r : rodzajeDokPodatnika) {
+                    r.setKontoRZiS(null);
+                    r.setKontorozrachunkowe(null);
+                    r.setKontovat(null);
+                }
+                rodzajedokDAO.editList(rodzajeDokPodatnika);
+            }
             for (Iterator it = wykazkont.iterator(); it.hasNext();) {
                 Konto p = (Konto) it.next();
                 if (!p.getPodatnik().equals("Wzorcowy")) {
