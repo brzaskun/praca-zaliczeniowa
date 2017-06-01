@@ -11,6 +11,7 @@ import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RodzajedokDAO;
 import dao.ZUSDAO;
+import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import data.Data;
 import embeddable.Parametr;
@@ -24,6 +25,7 @@ import entity.PodatnikUdzialy;
 import entity.Rodzajedok;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
+import entityfk.Dokfk;
 import entityfk.Konto;
 import enumy.FormaPrawna;
 import error.E;
@@ -120,6 +122,8 @@ public class PodatnikView implements Serializable {
     private boolean wszystkiekonta;
     @Inject
     private ParamVatUE paramVatUE;
+    @Inject
+    private DokDAOfk dokDAOfk;
     
 
     public PodatnikView() {
@@ -1077,9 +1081,11 @@ public class PodatnikView implements Serializable {
     public void zamknijrok(PodatnikOpodatkowanieD p) {
         if (p.isZamkniety()) {
             p.setZamkniety(false);
+            odksiegujdokumenty();
             Msg.msg("Otworzono rok");
         } else {
             p.setZamkniety(true);
+            zaksiegujdokumenty();
             Msg.msg("Zamknięto rok");
         }
         p.setDatawprowadzenia(new Date());
@@ -1088,6 +1094,35 @@ public class PodatnikView implements Serializable {
         wpisView.initpublic();
     }
     
+    private void zaksiegujdokumenty() {
+        List<Dokfk> selectedlist = dokDAOfk.findDokfkPodatnikRok(wpisView);
+            try {
+                for (Dokfk p : selectedlist) {
+                    if (p.getDataksiegowania() == null) {
+                        p.setDataksiegowania(new Date());
+                    }
+                }
+                dokDAOfk.editList(selectedlist);
+                Msg.msg("Zaksięgowano dokumenty w liczbie: "+selectedlist.size());
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd podczas księgowania dokumentów.");
+            }
+        }
+    
+    private void odksiegujdokumenty() {
+        List<Dokfk> selectedlist = dokDAOfk.findDokfkPodatnikRok(wpisView);
+            try {
+                for (Dokfk p : selectedlist) {
+                    p.setDataksiegowania(null);
+                }
+                dokDAOfk.editList(selectedlist);
+                Msg.msg("Zaksięgowano dokumenty w liczbie: "+selectedlist.size());
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd podczas księgowania dokumentów.");
+            }
+        }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     //     public void skopiujstraty() {

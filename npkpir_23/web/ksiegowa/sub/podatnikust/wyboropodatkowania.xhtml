@@ -38,7 +38,7 @@
                         <h:outputText value="#{loop.zamkniety ? 'tak': 'nie'}" style="#{loop.zamkniety ? 'color: red;': 'color: green;'}"/>
                     </p:column>
                     <p:column  width="60" style="text-align: center;">
-                        <p:commandButton icon="fa fa-lock" actionListener="#{podatnikView.zamknijrok(loop)}" update="@parent:@parent"
+                        <p:commandButton icon="fa fa-lock" actionListener="#{podatnikView.zamknijrok(loop)}" global="true" update="@parent:@parent"
                                          style="#{loop.zamkniety ? 'color: green;': 'color: red;'}"/>
                     </p:column>
             </p:dataTable>
