@@ -641,13 +641,12 @@ public class BilansGenerowanieView implements Serializable {
 
     private Collection<? extends SaldoKonto> sumujdlawaluty(Waluty wal, List<StronaWiersza> zapisy) {
         List<StronaWiersza> zapisydopor = new ArrayList<>();
-        for (StronaWiersza l : zapisy) {
-            zapisydopor.add(l);
-        }
+        zapisydopor.addAll(zapisy);
         for (ListIterator<StronaWiersza> it = zapisy.listIterator(); it.hasNext();) {
             StronaWiersza w = it.next();
             double kwota = w.getKwota();
             boolean usun = false;
+            //ten loop 'rozlicza' pozycje o takich samych kwotach a przeciwnych stronach
             for (ListIterator<StronaWiersza> it1 = zapisydopor.listIterator(); it1.hasNext();) {
                 StronaWiersza w1 = it1.next();
                 double kwota1 = w1.getKwota();
