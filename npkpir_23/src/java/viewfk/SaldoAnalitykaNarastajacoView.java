@@ -10,7 +10,6 @@ import beansFK.BOFKBean;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
-import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.SaldoKontoNarastajaco;
 import entityfk.Konto;
@@ -57,24 +56,28 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
     
     public void init() {
-       List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
-        if (wybranyRodzajKonta.equals("bilansowe")) {
-            for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
-                if (it.next().getBilansowewynikowe().equals("wynikowe")) {
-                    it.remove();
-                }
-            }
-        } else if (wybranyRodzajKonta.equals("wynikowe")){
-            for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
-                if (it.next().getBilansowewynikowe().equals("bilansowe")) {
-                    it.remove();
-                }
-            }
-        }
-       listaSaldoKonto = new ArrayList<>();
-       List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
-       List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
-       przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp);
+       try {
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+         if (wybranyRodzajKonta.equals("bilansowe")) {
+             for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                 if (it.next().getBilansowewynikowe().equals("wynikowe")) {
+                     it.remove();
+                 }
+             }
+         } else if (wybranyRodzajKonta.equals("wynikowe")){
+             for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                 if (it.next().getBilansowewynikowe().equals("bilansowe")) {
+                     it.remove();
+                 }
+             }
+         }
+        listaSaldoKonto = new ArrayList<>();
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+        przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp);
+       } catch (Exception e) {
+           E.e(e);
+       }
     }
     
     public void odswiezsaldoanalityczne() {

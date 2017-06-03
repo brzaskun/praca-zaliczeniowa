@@ -4,7 +4,6 @@
  */
 package viewfk;
 
-import comparator.Kontocomparator;
 import comparator.KontocomparatorByKwota;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
@@ -13,7 +12,6 @@ import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -64,7 +62,8 @@ public class BilansPodgladView  implements Serializable{
         this.root = new TreeNodeExtended("root", null);
         List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         level = root.ustaldepthDT(listakont)-1;
-        podsumujkonta(listakont, level);
+        //podsumujkonta(listakont, level);
+        sumakont(listakont);
         usunzerowe(listakont);
         root.createTreeNodesForElement(listakont);
         
@@ -92,7 +91,11 @@ public class BilansPodgladView  implements Serializable{
                     }
                 }
             }
-            sumawn = 0.0;
+        }
+    }
+    
+    private void sumakont(List<Konto> listakont) {
+         sumawn = 0.0;
             sumama = 0.0;
             for (Konto r : listakont) {
                 if (r.getLevel()==0) {
@@ -102,7 +105,6 @@ public class BilansPodgladView  implements Serializable{
             }
             sumawn = Z.z(sumawn);
             sumama = Z.z(sumama);
-        }
     }
     
     private void usunzerowe(List<Konto> listakont) {

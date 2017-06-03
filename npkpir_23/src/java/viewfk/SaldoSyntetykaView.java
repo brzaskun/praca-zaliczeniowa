@@ -11,7 +11,6 @@ import beansFK.KontaFKBean;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
-import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
@@ -59,23 +58,27 @@ public class SaldoSyntetykaView implements Serializable {
     
     
     public void init() {
-       List<Konto> kontaklienta = kontoDAOfk.findKontazLevelu(wpisView, 0);
-       if (wybranyRodzajKonta != null) {
-        if (wybranyRodzajKonta.equals("bilansowe")) {
-            for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
-                if (it.next().getBilansowewynikowe().equals("wynikowe")) {
-                    it.remove();
-                }
+        try {
+            List<Konto> kontaklienta = kontoDAOfk.findKontazLevelu(wpisView, 0);
+            if (wybranyRodzajKonta != null) {
+             if (wybranyRodzajKonta.equals("bilansowe")) {
+                 for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                     if (it.next().getBilansowewynikowe().equals("wynikowe")) {
+                         it.remove();
+                     }
+                 }
+             } else if (wybranyRodzajKonta.equals("wynikowe")){
+                 for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                     if (it.next().getBilansowewynikowe().equals("bilansowe")) {
+                         it.remove();
+                     }
+                 }
+             }
             }
-        } else if (wybranyRodzajKonta.equals("wynikowe")){
-            for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
-                if (it.next().getBilansowewynikowe().equals("bilansowe")) {
-                    it.remove();
-                }
-            }
+            listaSaldoKonto = przygotowanalistasald(kontaklienta);
+        } catch (Exception e) {
+            E.e(e);
         }
-       }
-       listaSaldoKonto = przygotowanalistasald(kontaklienta);
     }
     
     public void odswiezsaldosyntetyczne() {
@@ -84,9 +87,9 @@ public class SaldoSyntetykaView implements Serializable {
     }
     
      private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
-        List<StronaWiersza> zapisyRok = pobierzzapisy();
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
         for (Konto p : kontaklienta) {
+            List<StronaWiersza> zapisyRok = pobierzzapisykonto(p);
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             naniesBOnaKonto(saldoKonto, p);
@@ -167,16 +170,12 @@ public class SaldoSyntetykaView implements Serializable {
     }
 
     private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
-        for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
-            StronaWiersza st = (StronaWiersza) it.next();
-            if (st.getDokfk().getDokfkPK().getSeriadokfk().equals("BO") && st.getDokfk().getDokfkPK().getNrkolejnywserii() == 1) {
-                it.remove();
-            }
-        }
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (StronaWiersza r : zapisyRok) {
             //bez lub nie dodawaloby zapisow gdt konto levelu 0 jest jednoczenie analitycznym
-            if (p.getPelnynumer().equals(r.getKonto().getSyntetycznenumer()) || p.getPelnynumer().equals(r.getKonto().getPelnynumer())) {
+            if (r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO") && r.getDokfk().getDokfkPK().getNrkolejnywserii() == 1) {
+                
+            } else if (p.getPelnynumer().equals(r.getKonto().getSyntetycznenumer()) || p.getPelnynumer().equals(r.getKonto().getPelnynumer())) {
                 if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                     if (r.getWnma().equals("Wn")) {
                         if (r.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
@@ -209,6 +208,11 @@ public class SaldoSyntetykaView implements Serializable {
 
     private List<StronaWiersza> pobierzzapisy() {
         List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        return zapisy;
+    }
+    
+    private List<StronaWiersza> pobierzzapisykonto(Konto konto) {
+        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikKontoSyntetyczneRok(wpisView.getPodatnikObiekt(), konto, wpisView.getRokWpisuSt());
         return zapisy;
     }
     public void sumujwybranekonta() {

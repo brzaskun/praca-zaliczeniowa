@@ -4,8 +4,8 @@
  */
 package entityfk;
 
-import em.Em;
 import abstractClasses.ToBeATreeNodeObject;
+import em.Em;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -60,6 +60,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByPodatnikBilansoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0 AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikBilansoweKwotaBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0 AND k.rok = :rok AND (k.boWn != 0 OR k.boMa != 0)"),
     @NamedQuery(name = "Konto.findByPodatnikWynikoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'wynikowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0  AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByPodatnikZPotomkami", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.mapotomkow = 1  AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnik490", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.nrkonta = '490' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByKonto860", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer = '860' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByNrkonta", query = "SELECT k FROM Konto k WHERE k.nrkonta = :nrkonta"),
@@ -756,6 +757,11 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         System.out.println("zachowanie");
         Em.saveList(em, konta);
         System.out.println("koniec");
+    }
+
+    public void dodajpotomkaBO(Konto k) {
+        this.setBoWn(this.getBoWn() + k.getBoWn());
+        this.setBoMa(this.getBoMa() + k.getBoMa());
     }
 
    

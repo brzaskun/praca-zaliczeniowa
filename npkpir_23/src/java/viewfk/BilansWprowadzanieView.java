@@ -484,6 +484,7 @@ public class BilansWprowadzanieView implements Serializable {
             kontoDAO.wyzerujBoWnBoMawKontach(wpisView, "bilansowe");
             kontoDAO.wyzerujBoWnBoMawKontach(wpisView, "wynikowe");
             List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            Set<Konto> kontadosumowania = new HashSet<>();
             for (WierszBO p : zachowaneWiersze) {
                 Konto k = listakont.get(listakont.indexOf(p.getKonto()));
                 if (k.getPelnynumer().equals("202-2-28")) {
@@ -493,10 +494,13 @@ public class BilansWprowadzanieView implements Serializable {
                 k.setBoMa(k.getBoMa() + p.getKwotaMaPLN());
                 if (k.getBoWn() != 0.0 || k.getBoMa() != 0.0) {
                     k.setBlokada(true);
+                    kontadosumowania.add(k);
                 }
                 kontoDAO.edit(k);
             }
-            obliczsaldoBOkonta(listakont);
+            List<Konto> listakonta2 = new ArrayList(kontadosumowania);
+            obliczsaldoBOkonta(listakonta2);
+            edytujsumujdlamacierzystych(listakonta2);
             aktualizujListaW();
             podsumujWnMa(listaW);
             podsumujWnMa(lista0, listaSumList.get(0));
@@ -513,16 +517,29 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
+    private void edytujsumujdlamacierzystych(List<Konto> przygotowanalista) {
+        Set<Konto> listadoprzekazania = new HashSet<>();
+        for (Konto k : przygotowanalista) {
+            Konto macierzyste = k.getKontomacierzyste();
+            if (macierzyste != null) {
+                macierzyste.dodajpotomkaBO(k);
+                listadoprzekazania.add(macierzyste);
+            }
+        }
+        kontoDAOfk.editList(przygotowanalista);
+        if (!listadoprzekazania.isEmpty()) {
+            List<Konto> s = new ArrayList(listadoprzekazania);
+            edytujsumujdlamacierzystych(s);
+        }
+    }
+    
     private void obliczsaldoBOkonta(List<Konto> przygotowanalista) {
         for (Konto r : przygotowanalista) {
-            if (r.getPelnynumer().equals("202-2-28")) {
-                System.out.println("");
-            }
             if (r.getBoWn() > r.getBoMa()) {
-                r.setBoWn(r.getBoWn() - r.getBoMa());
+                r.setBoWn(Z.z(r.getBoWn() - r.getBoMa()));
                 r.setBoMa(0.0);
             } else if (r.getBoWn() < r.getBoMa()) {
-                r.setBoMa(r.getBoMa() - r.getBoWn());
+                r.setBoMa(Z.z(r.getBoMa() - r.getBoWn()));
                 r.setBoWn(0.0);
             } else {
                 r.setBoWn(0.0);
