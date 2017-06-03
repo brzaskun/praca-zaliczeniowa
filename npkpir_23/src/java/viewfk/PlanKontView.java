@@ -920,11 +920,8 @@ public class PlanKontView implements Serializable {
         KontaFKBean.ustawCzyMaPotomkow(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO, wybranyuklad);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         for (Konto p : wykazkont) {
-            if (p.getPelnynumer().equals("010")) {
-                System.out.println("s");
-            }
-            PlanKontFKBean.naniesprzyporzadkowanie(p, wpisView, kontoDAOfk, kontopozycjaZapisDAO, wybranyuklad);
-            if (p.isMapotomkow() == true) {
+            KontopozycjaZapis kpo = PlanKontFKBean.naniesprzyporzadkowanie(p, wpisView, kontoDAOfk, kontopozycjaZapisDAO, wybranyuklad);
+            if (p.isMapotomkow() == true && kpo != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
                 if (p.getBilansowewynikowe().equals("wynikowe")) {
                     if (p.getZwyklerozrachszczegolne().equals("szczególne")) {
                         PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p, p.getKontopozycjaID(), kontoDAOfk, wpisView.getPodatnikWpisu(), "wnma", wpisView.getRokWpisu());
@@ -938,8 +935,8 @@ public class PlanKontView implements Serializable {
                 }
             }
         }
-        kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, "wynikowe");
-        kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, "bilansowe");
+        kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(wybranyuklad, "wynikowe");
+        kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(wybranyuklad, "bilansowe");
         List<KontopozycjaZapis> nowepozycje = new ArrayList<>();
         for (Konto p : wykazkont) {
             try {
@@ -950,7 +947,11 @@ public class PlanKontView implements Serializable {
         }
         kontopozycjaZapisDAO.editList(nowepozycje);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        init();
+        wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        Collections.sort(wykazkont, new Kontocomparator());
+        wykazkontlazy = new LazyKontoDataModel(wykazkont);
         Msg.msg("Zakończono porządkowanie kont");
     }
     

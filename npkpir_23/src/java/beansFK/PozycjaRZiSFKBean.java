@@ -542,11 +542,15 @@ public class PozycjaRZiSFKBean {
     }
     
     public static void zmianaukladu(String bilansowewynikowe, UkladBR uklad, UkladBRDAO ukladBRDAO, PozycjaRZiSDAO pozycjaRZiSDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAO, WpisView wpisView) {
-        UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
-        ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
-        PozycjaRZiSFKBean.pobierzPozycje(pozycje, pozycjaRZiSDAO, uklad);
-        PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), kontoDAO);
-        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, bilansowewynikowe);
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, bilansowewynikowe);
+        try {
+            UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
+            ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+            PozycjaRZiSFKBean.pobierzPozycje(pozycje, pozycjaRZiSDAO, uklad);
+            PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), kontoDAO);
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, bilansowewynikowe);
+            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, bilansowewynikowe);
+        } catch (Exception e) {
+            E.e(e);
+        }
     }
 }

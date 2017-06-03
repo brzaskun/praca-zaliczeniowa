@@ -13,7 +13,6 @@ import daoFK.CechazapisuDAOfk;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.WalutyDAOfk;
-import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import embeddablefk.Sprawozdanie_0;

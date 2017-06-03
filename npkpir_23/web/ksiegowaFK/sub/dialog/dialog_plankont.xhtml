@@ -92,6 +92,8 @@
             <p:outputPanel style="padding: 10px;">
                 <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>
             </p:outputPanel>
+
+            
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{planKontView.wykazkontlazy}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
                              rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
@@ -194,6 +196,9 @@
                 </p:dataTable>
             </p:panelGrid>
            
+        </h:form>
+        <h:form>
+            <p:commandButton id="nowesyntetycznejakniema" value="pierwsze syntetyczne" icon="ui-icon-circle-plus" onclick="PF('nowekontosyntetyczne').show();" global="false" rendered="#{planKontView.wykazkontlazy.rowCount eq 0}"/>
         </h:form>
 </p:dialog>
         </p:outputPanel>

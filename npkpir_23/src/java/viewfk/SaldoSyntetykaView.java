@@ -6,7 +6,6 @@
 
 package viewfk;
 
-import beansFK.BOFKBean;
 import beansFK.KontaFKBean;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
@@ -159,14 +158,8 @@ public class SaldoSyntetykaView implements Serializable {
 //</editor-fold>
 
     private void naniesBOnaKonto(SaldoKonto saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBOSyntetyka(kontoDAOfk, p, dokDAOfk, wpisView);
-        for (StronaWiersza r : zapisyBO) {
-            if (r.getWnma().equals("Wn")) {
-                saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
-            } else {
-                saldoKonto.setBoMa(Z.z(saldoKonto.getBoMa() + r.getKwotaPLN()));
-            }
-        }
+        saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + p.getBoWn()));
+        saldoKonto.setBoMa(Z.z(saldoKonto.getBoMa() + p.getBoMa()));
     }
 
     private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {

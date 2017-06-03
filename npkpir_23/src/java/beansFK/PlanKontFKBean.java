@@ -336,15 +336,12 @@ public class PlanKontFKBean {
         }
     }
      
-     public static void naniesprzyporzadkowanie(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
+     public static KontopozycjaZapis naniesprzyporzadkowanie(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
+        KontopozycjaZapis kpo = null;
         try {
-            Konto macierzyste = pobierzmacierzyste(noweKonto, kontoDAOfk, wpisView);
-            if (noweKonto.getPelnynumer().equals("010-3")){
-                System.out.println("d");
-            }
-            KontopozycjaZapis kpo = null;
-            if (macierzyste != null) {
-                kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
+            Konto macierzyste = noweKonto.getKontomacierzyste();
+            kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
+            if (macierzyste != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
                 if (kpo != null) {
                     naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBR);
                 }
@@ -357,15 +354,16 @@ public class PlanKontFKBean {
         } catch (Exception e) {
             E.e(e);
         }
+        return kpo;
     }
-     
-      private static Konto pobierzmacierzyste(Konto p, KontoDAOfk kontoDAO, WpisView wpisView) {
-        Konto macierzyste = p.getKontomacierzyste();
-        if (macierzyste == null) {
-            macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        }
-        return macierzyste;
-    }
+// nie uzywamy bo jest p.getKontomacierzyste     
+//      private static Konto pobierzmacierzyste(Konto p, KontoDAOfk kontoDAO, WpisView wpisView) {
+//        Konto macierzyste = p.getKontomacierzyste();
+//        if (macierzyste == null) {
+//            macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+//        }
+//        return macierzyste;
+//    }
      
      public static void naniesprzyporzadkowanieWzorcowy(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         try {

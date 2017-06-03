@@ -14,39 +14,43 @@ var ustalmaxlevel = function (tabela) {
 };
 
 var snapshot = function (tabela){
-    var lista = r(tabela).children();
-    var lsize = lista.length;
-    MYAPP.listaplankont = lista;
-    MYAPP.listanrkont = new Array();
-    for (var i = 0; i < lsize; i++) {
-        var nrkontaP = lista[i].children[2].innerText;
-        (MYAPP.listanrkont).push([nrkontaP,$(lista[i]).is(":visible")]);
-    }
+    try {
+        var lista = r(tabela).children();
+        var lsize = lista.length;
+        MYAPP.listaplankont = lista;
+        MYAPP.listanrkont = new Array();
+        for (var i = 0; i < lsize; i++) {
+            var nrkontaP = lista[i].children[2].innerText;
+            (MYAPP.listanrkont).push([nrkontaP,$(lista[i]).is(":visible")]);
+        }
+    } catch (e) {}
     
 };
 
 var recover = function(tabela) {
-    var lista = r(tabela).children();
-    var lsize = lista.length;
-    var doklikania = new Array();
-    for (var i = 0; i < lsize; i++) {
-        var nrkontaP = lista[i].children[2].innerText;
-        var znaleziono = $.grep(MYAPP.listanrkont, function (el) {
-            return el[0] === nrkontaP;
-        });
-        if (znaleziono.length > 0) {
-            if (znaleziono[0][1] === false) {
-                $(lista[i]).hide();
+    try {
+        var lista = r(tabela).children();
+        var lsize = lista.length;
+        var doklikania = new Array();
+        for (var i = 0; i < lsize; i++) {
+            var nrkontaP = lista[i].children[2].innerText;
+            var znaleziono = $.grep(MYAPP.listanrkont, function (el) {
+                return el[0] === nrkontaP;
+            });
+            if (znaleziono.length > 0) {
+                if (znaleziono[0][1] === false) {
+                    $(lista[i]).hide();
+                } else {
+                    $(lista[i]).show();
+                    doklikania.push(lista[i]);
+                }
             } else {
+                //tu bedzie ten nowododany
                 $(lista[i]).show();
-                doklikania.push(lista[i]);
             }
-        } else {
-            //tu bedzie ten nowododany
-            $(lista[i]).show();
         }
-    }
-    dodajczujnik(doklikania, tabela);
+        dodajczujnik(doklikania, tabela);
+    } catch (e) {}
 };
 
 var zwinwszystkie = function (tabela) {

@@ -9,7 +9,6 @@ package beansFK;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
-import daoFK.UkladBRDAO;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Konto;
@@ -42,16 +41,14 @@ public class KontaFKBean implements Serializable{
             r.setMapotomkow(false);
             r.setBlokada(false);
         }
-        kontoDAO.editList(wykazkont);
         List<Konto> sprawdzonemacierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
             if (!p.getMacierzyste().equals("0")) {
                 try {
-                    Konto macierzyste = pobierzmacierzyste(p, kontoDAO, wpisView);
+                    Konto macierzyste = p.getKontomacierzyste();
                     if (!sprawdzonemacierzyste.contains(macierzyste)) {
                         naniesBlokade(macierzyste, kontoDAO);
                         sprawdzonemacierzyste.add(macierzyste);
-                        PlanKontFKBean.naniesprzyporzadkowanie(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
                     }
                 } catch (PersistenceException e) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
@@ -61,6 +58,7 @@ public class KontaFKBean implements Serializable{
                
             }
         }
+        kontoDAO.editList(wykazkont);
     }
     
     public static void ustawCzyMaPotomkowWzorcowy(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
