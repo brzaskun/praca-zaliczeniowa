@@ -424,7 +424,7 @@ public class PozycjaBRView implements Serializable {
             E.e(e);
             rootBilansAktywa.getChildren().clear();
             rootBilansPasywa.getChildren().clear();
-            Msg.msg("e", e.getLocalizedMessage());
+            Msg.msg("e", "Bład generowanie bilansu. Czy jest konto 860?");
         }
     }
     

@@ -632,7 +632,7 @@ public class PozycjaBRKontaView implements Serializable {
         }
     }
 //r, true
-    public void kopiujwzorcoweprzyporzadkowanie(String rb, boolean wzorcowe0podatnik1) {
+    public void kopiujprzyporzadkowaniekont(String rb, boolean wzorcowe0podatnik1) {
         try {
             String podatnik = wzorcowe0podatnik1 == false ? "Wzorcowy" : wpisView.getPodatnikWpisu();
             if (ukladdocelowykonta.equals(ukladzrodlowykonta)) {

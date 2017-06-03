@@ -1092,8 +1092,9 @@ public class DokfkView implements Serializable {
     public void skopiujopisdopierwszegowiersza() {
         try {
             Wiersz w = selected.getListawierszy().get(0);
-            if (w.equals("")) {
+            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
                 w.setOpisWiersza(selected.getOpisdokfk());
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:0:opis");
             }
         } catch (Exception e) {
             E.e(e);

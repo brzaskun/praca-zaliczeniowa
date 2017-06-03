@@ -24,7 +24,7 @@
                     <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="p" itemLabel="#{p.lp} #{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
-            <p:commandButton value="kopiuj" actionListener="#{pozycjaBRKontaView.kopiujwzorcoweprzyporzadkowanie('r', false)}" type="submit" 
+            <p:commandButton value="kopiuj" actionListener="#{pozycjaBRKontaView.kopiujprzyporzadkowaniekont('r', false)}" type="submit" 
                                  style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_rzis_przypisywanie_wzorcowy_kopiuj').hide();"
                                  />
             <p:commandButton value="anuluj" type="button" 

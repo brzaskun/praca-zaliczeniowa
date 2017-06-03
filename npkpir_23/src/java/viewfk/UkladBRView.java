@@ -18,7 +18,6 @@ import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -138,8 +137,10 @@ public class UkladBRView implements Serializable {
                 init();
                 Msg.msg("i", "Skopiowano układ podatnika");
                 pozycjaBRKontaView.init();
-                pozycjaBRKontaView.kopiujwzorcoweprzyporzadkowanie("r", true);
-                pozycjaBRKontaView.kopiujwzorcoweprzyporzadkowanie("b", true);
+                pozycjaBRKontaView.setUkladdocelowykonta(ukladBR);
+                pozycjaBRKontaView.setUkladzrodlowykonta(ukladzrodlowy);
+                pozycjaBRKontaView.kopiujprzyporzadkowaniekont("r", true);
+                pozycjaBRKontaView.kopiujprzyporzadkowaniekont("b", true);
                 Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
             }
         } catch (EJBException ejb) {

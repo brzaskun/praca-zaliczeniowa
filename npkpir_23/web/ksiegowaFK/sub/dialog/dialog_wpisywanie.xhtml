@@ -292,7 +292,8 @@
                                                  style="height: 19px; width: 230px;"
                                                  autocomplete="true">
                                         <p:ajax event="blur" global="false" onstart="stworzdelegacje();" />
-                                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" onstart="skopiujopisdokumentu();"/>
+                                        <p:ajax event="blur" partialSubmit="true" global="false" 
+                                                listener="#{dokfkView.skopiujopisdopierwszegowiersza()}"/>
                                     </p:inputText>
                                 </p:column>
                                
