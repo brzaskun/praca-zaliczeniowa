@@ -35,7 +35,7 @@
     </style>
     <p:dialog id="bilanswprowadzanie2" header="Bilans otwarcia/Obroty rozpoczęcia - wprowadzanie sald - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie2"
               appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('bilanswprowadzanie2','menubilanse', 1300, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie2');"
+              resizable="false" onShow="ustawdialog('bilanswprowadzanie2','menubilanse', 1360, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie2');"
               maximizable="true">
         <h:form id="formbilanswprowadzanie2_wiersz">
             <p:focus for="formbilanswprowadzanie2_wiersz"/>
@@ -71,14 +71,14 @@
                             <p:ajax event="query" global="false"/></p:autoComplete>
                     </p:column>
                     <p:column width="210" rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}">
-                        <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 200px;"  id="opis" 
+                        <p:inputText value="#{bilansWprowadzanieView.selected.opis}" style="width: 200px;"  id="opis" 
                                           >
                             <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
                             <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
                         </p:inputText>
                     </p:column>
                      <p:column width="210" rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}">
-                        <p:selectOneMenu value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 200px;"  id="opis2"
+                        <p:selectOneMenu value="#{bilansWprowadzanieView.selected.opis}" style="width: 200px;"  id="opis2"
                                          editable="true" >
                             <f:selectItem itemLabel="obroty Wn" itemValue="obroty Wn"/>
                             <f:selectItem itemLabel="obroty Ma" itemValue="obroty Ma"/>
@@ -159,14 +159,14 @@
                             <p:ajax event="query" global="false"/></p:autoComplete>
                     </p:column>
                      <p:column width="210" rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}">
-                        <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 200px;"  id="opis3" 
+                        <p:inputText value="#{bilansWprowadzanieView.selected.opis}" style="width: 200px;"  id="opis3" 
                                           >
                             <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
                             <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
                         </p:inputText>
                     </p:column>
                      <p:column width="210" rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}">
-                        <p:selectOneMenu value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 200px;"  id="opis4"
+                        <p:selectOneMenu value="#{bilansWprowadzanieView.selected.opis}" style="width: 200px;"  id="opis4"
                                          editable="true" >
                             <f:selectItem itemLabel="obroty Wn" itemValue="obroty Wn"/>
                             <f:selectItem itemLabel="obroty Ma" itemValue="obroty Ma"/>
@@ -225,6 +225,7 @@
                                     listener="#{bilansWprowadzanieView.obliczkursN(bilansWprowadzanieView.selected.kurs, bilansWprowadzanieView.selected.kwotaMa, bilansWprowadzanieView.selected.kwotaMaPLN, 'Ma')}"/>
                         </pe:inputNumber>
                     </p:column>
+                    
                     <p:column style="text-align: center;" width="40">
                         <p:commandButton icon="fa fa-save" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz()}"
                                          update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz"
@@ -244,7 +245,7 @@
                 <p:commandButton value="6" actionListener="#{bilansWprowadzanieView.pobierzlista(6)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="7" actionListener="#{bilansWprowadzanieView.pobierzlista(7)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3" rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
                 <p:commandButton value="8" actionListener="#{bilansWprowadzanieView.pobierzlista(8)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
-                <p:commandButton value="S" actionListener="#{bilansWprowadzanieView.pobierzlistaS()}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
+                <p:commandButton value="S" actionListener="#{bilansWprowadzanieView.pobierzlistaS()}"  update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <h:outputText value="wprowadzanie i edycja kont grupy #{bilansWprowadzanieView.nraktualnejlisty}" style="margin-left: 10px;"/>
                 <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujBO()}" style="width: 120px; margin-left: 300px;"
                                   rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
@@ -263,7 +264,7 @@
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}"
                          id="tab0" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs}"
-                         filteredValue="#{bilansWprowadzanieView.listaBOFiltered}"
+                         filteredValue="#{bilansWprowadzanieView.listaBOFiltered}" 
                          >
                 <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
@@ -276,11 +277,11 @@
                     </f:facet>
                     <h:outputText value="#{item.konto.pelnynumer} #{item.konto.nazwapelna}"/>
                 </p:column>
-                <p:column styleClass="kolumnaopis" filterBy="#{item.wierszBOPK.opis}" filterMatchMode="contains" sortBy="#{item.wierszBOPK.opis}">
+                <p:column styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.opis}"/>
                     </f:facet>
-                    <h:outputText value="#{item.wierszBOPK.opis}"/>
+                    <h:outputText value="#{item.opis}"/>
                 </p:column>
                 <p:column style="text-align: center;" sortBy="#{item.kwotaWn}" width="90">
                     <f:facet name="header">
@@ -295,6 +296,24 @@
                     </f:facet>
                     <bcf:outputpl value="#{item.kwotaMa}" rendered="#{item.kwotaMa ne 0.0 and bilansWprowadzanieView.nraktualnejlisty ne 9}"/>
                     <bcf:outputpl value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kontostare.saldoWnksiegi}" width="90" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Wn rok pop"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.kontostare.saldoWnksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoWnksiegi ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kontostare.saldoMaksiegi}" width="90" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Ma rok pop"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.kontostare.saldoMaksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoMaksiegi ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.roznicaSald}" width="90" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
+                    <f:facet name="header">
+                        <h:outputText value="różnica sald"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.roznicaSald}" style="color: red;" rendered="#{item.kontostare ne null and item.roznicaSald ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
                 </p:column>
                 <p:column style="text-align: center;" width="40">
                     <f:facet name="header">
@@ -334,11 +353,11 @@
                     </f:facet>
                     <h:outputText value="#{item.konto.pelnynumer} #{item.konto.nazwapelna}"/>
                 </p:column>
-                <p:column width="150"  styleClass="kolumnaopis" filterBy="#{item.wierszBOPK.opis}" filterMatchMode="contains" sortBy="#{item.wierszBOPK.opis}">
+                <p:column width="150"  styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.opis}"/>
                     </f:facet>
-                    <h:outputText value="#{item.wierszBOPK.opis}"/>
+                    <h:outputText value="#{item.opis}"/>
                 </p:column>
                 <p:column width="40">
                     <f:facet name="header">

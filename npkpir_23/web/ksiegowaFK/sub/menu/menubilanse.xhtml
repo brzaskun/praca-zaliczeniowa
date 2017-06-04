@@ -54,7 +54,7 @@
                                         onclick="PF('bilanswprowadzanie2').show();"></p:menuitem>
                             <p:menuitem value="wprowadź Obroty rozpoczęcia" actionListener="#{bilansWprowadzanieView.rozpocznijObroty()}" update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz formbilanswprowadzanie3"
                                         onclick="PF('bilanswprowadzanie2').show();"></p:menuitem>
-                            <p:menuitem value="generuj Bilans otwarcia" onclick="PF('dialog_bilans_generowanie').show();"></p:menuitem>
+                            <p:menuitem value="generuj Bilans otwarcia" onclick="PF('dialog_bilans_generowanie').show();" actionListener="#{bilansGenerowanieView.reset()}" update="form_dialog_bilans_generowanie"></p:menuitem>
                             <p:menuitem value="usuń Bilans otwarcia" onclick="PF('dialog_bilans_usun').show();"></p:menuitem>
                         </p:menu>
                     </h:form>

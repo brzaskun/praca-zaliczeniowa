@@ -6,6 +6,7 @@
 package viewfk;
 
 import beansFK.PlanKontFKBean;
+import comparator.StronaWierszacomparatorBO;
 import daoFK.KontoDAOfk;
 import daoFK.UkladBRDAO;
 import daoFK.WalutyDAOfk;
@@ -23,6 +24,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -84,6 +86,19 @@ public class BilansGenerowanieView implements Serializable {
         this.listawalut = new HashMap<>();
     }
 
+    public void reset() {
+        this.komunikatyok = new ArrayList<>();
+        this.komunikatyok.add("Nie rozpoczęto analizy");
+        this.komunikatyerror = new ArrayList<>();
+        this.komunikatyerror2 = new ArrayList<>();
+        this.komunikatyerror3 = new ArrayList<>();
+        this.listawalut = new HashMap<>();
+         List<Waluty> waluty = walutyDAOfk.findAll();
+        for (Waluty p : waluty) {
+            listawalut.put(p.getSymbolwaluty(), p);
+        }
+    }
+    
     @PostConstruct
     private void init() {
         List<Waluty> waluty = walutyDAOfk.findAll();
@@ -254,13 +269,19 @@ public class BilansGenerowanieView implements Serializable {
     private List<RoznicaSaldBO> znajdzroznicesald(List<SaldoKonto> listaSaldoKontoRokPop, List<Konto> kontaNowyRok) {
         List<RoznicaSaldBO> listaroznic = new ArrayList<>();
         for (SaldoKonto p : listaSaldoKontoRokPop) {
-            if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
-                Konto nowe = kontaNowyRok.get(kontaNowyRok.indexOf(p.getKonto()));
-                if (Z.zAbs(p.getSaldoWn()) != Z.zAbs(nowe.getBoWn())) {
-                   listaroznic.add(new RoznicaSaldBO(nowe, Z.zAbs(nowe.getBoWn()-p.getSaldoWn())));
-                } else if (Z.zAbs(p.getSaldoMa()) != Z.zAbs(nowe.getBoMa())) {
-                   listaroznic.add(new RoznicaSaldBO(nowe, Z.zAbs(nowe.getBoMa()-p.getSaldoMa())));
+            try {
+                if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
+                    Konto nowe = kontaNowyRok.get(kontaNowyRok.indexOf(p.getKonto()));
+                    if (Z.zAbs(p.getSaldoWn()) != Z.zAbs(nowe.getBoWn())) {
+                       listaroznic.add(new RoznicaSaldBO(nowe, Z.zAbs(nowe.getBoWn()-p.getSaldoWn())));
+                    } 
+                    if (Z.zAbs(p.getSaldoMa()) != Z.zAbs(nowe.getBoMa())) {
+                       listaroznic.add(new RoznicaSaldBO(nowe, Z.zAbs(nowe.getBoMa()-p.getSaldoMa())));
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("Blad przy koncie "+p.getKonto().getPelnynumer());
+                E.e(e);
             }
         }
         return listaroznic;
@@ -524,16 +545,17 @@ public class BilansGenerowanieView implements Serializable {
             double sumasaldokont = obliczsaldoplnsaldokont(kwotywpln);
             double roznicekursowe = 0.0;
             if ((saldopln > 0 && sumasaldokont > 0) || (saldopln < 0 && sumasaldokont < 0)) {
-                roznicekursowe = Z.z(Math.abs(saldopln) - Math.abs(sumasaldokont));
+                roznicekursowe = Z.z(saldopln - sumasaldokont);
             } else {
-                roznicekursowe = Z.z(Math.abs(saldopln) + Math.abs(sumasaldokont));
+                if (saldopln < 0) {
+                    roznicekursowe = Z.z(saldopln - sumasaldokont);
+                } else {
+                    roznicekursowe = Z.z(sumasaldokont - saldopln);
+                }
+                
             }
             if (roznicekursowe != 0.0) {
-                if (p.getSaldoMa() > 0.0) {
-                    nowalista_wierszy.add(new SaldoKonto(p, -roznicekursowe, walutapln));
-                } else {
-                    nowalista_wierszy.add(new SaldoKonto(p, roznicekursowe, walutapln));
-                }
+                nowalista_wierszy.add(new SaldoKonto(p, roznicekursowe, walutapln));
             }
         }
         return nowalista_wierszy;
@@ -576,6 +598,7 @@ public class BilansGenerowanieView implements Serializable {
     private Collection<? extends SaldoKonto> tworzwierszewaluty(Waluty wal, List<StronaWiersza> zapisy, double saldowal, List<Double> kwotywpln) {
         int zapisydl = zapisy.size() - 1;
         double limit = saldowal;
+        Collections.sort(zapisy, new StronaWierszacomparatorBO());
         List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
         if (limit > 0.0) {
             for (int i = zapisydl; i >= 0; i--) {
@@ -618,7 +641,7 @@ public class BilansGenerowanieView implements Serializable {
                             kwotapomniejszonapln = Z.z(kwotapomniejszona * kurs);
                         }
                         nowalista_wierszy.add(new SaldoKonto(p, wal, kwotapomniejszona, kwotapomniejszonapln));
-                        kwotywpln.add(-kwotapomniejszonapln);
+                        kwotywpln.add(kwotapomniejszonapln);
                         break;
                     }
                 }

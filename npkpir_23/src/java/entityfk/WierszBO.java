@@ -10,14 +10,18 @@ import entity.Podatnik;
 import entity.Uz;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Basic;
 import javax.persistence.Cacheable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 import waluty.Z;
 
 /**
@@ -26,24 +30,32 @@ import waluty.Z;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "WierszBO.findByLista", query = "SELECT w FROM WierszBO w WHERE w.konto.pelnynumer LIKE :grupakonta AND  w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.wierszBOPK.mc = :mc"),
-    @NamedQuery(name = "WierszBO.findByDeletePodatnikRok", query = "DELETE FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok"),
-    @NamedQuery(name = "WierszBO.findByDeletePodatnikRokMc", query = "DELETE FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.wierszBOPK.mc = :mc"),
-    @NamedQuery(name = "WierszBO.findByPodatnikRok", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok"),
-    @NamedQuery(name = "WierszBO.findByPodatnikRokRozrachunkowe", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.konto.zwyklerozrachszczegolne = 'rozrachunkowe'"),
-    @NamedQuery(name = "WierszBO.findByPodatnikRokKonto", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.konto = :konto"),
-    @NamedQuery(name = "WierszBO.findByPodatnikRokKontoWaluta", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.konto = :konto AND w.waluta.symbolwaluty = :waluta")
+    @NamedQuery(name = "WierszBO.findByLista", query = "SELECT w FROM WierszBO w WHERE w.konto.pelnynumer LIKE :grupakonta AND  w.podatnik = :podatnik AND w.rok = :rok AND w.mc = :mc"),
+    @NamedQuery(name = "WierszBO.findByDeletePodatnikRok", query = "DELETE FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok"),
+    @NamedQuery(name = "WierszBO.findByDeletePodatnikRokMc", query = "DELETE FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.mc = :mc"),
+    @NamedQuery(name = "WierszBO.findByPodatnikRok", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok"),
+    @NamedQuery(name = "WierszBO.findByPodatnikRokRozrachunkowe", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.konto.zwyklerozrachszczegolne = 'rozrachunkowe'"),
+    @NamedQuery(name = "WierszBO.findByPodatnikRokKonto", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.konto = :konto"),
+    @NamedQuery(name = "WierszBO.findByPodatnikRokKontoWaluta", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.konto = :konto AND w.waluta.symbolwaluty = :waluta")
 })
 @Cacheable
 public class WierszBO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    private WierszBOPK wierszBOPK;
-    @MapsId("nippodatnika")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false)
+    private int id;
+    @ManyToOne
+    @JoinColumn(name = "PODATNIK_nip", referencedColumnName = "nip")
     private Podatnik podatnik;
-    @MapsId("idkonta")
+    @ManyToOne
+    @JoinColumn(name = "KONTO_id", referencedColumnName = "id")
     private Konto konto;
+    private String rok;
+    private String mc;
+    private String opis;
     private double kwotaWn;
     private double kwotaMa;
     private boolean rozrachunek;
@@ -54,15 +66,16 @@ public class WierszBO implements Serializable {
     @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
     @ManyToOne
     private Uz wprowadzil;
+    @Transient
+    private Konto kontostare;
 
     public WierszBO() {
-        this.wierszBOPK = new WierszBOPK();
+        
     }
 
     public WierszBO(Podatnik podatnik, String rok, Waluty waluta, String mc) {
-        this.wierszBOPK = new WierszBOPK();
-        this.wierszBOPK.setRok(rok);
-        this.wierszBOPK.setMc(mc);
+        this.rok = rok;
+        this.mc = mc;
         this.podatnik = podatnik;
         this.kwotaWn = 0.0;
         this.kwotaWnPLN = 0.0;
@@ -74,14 +87,13 @@ public class WierszBO implements Serializable {
     }
 
     public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, String mc, Konto konto, Waluty waluta, Uz wprowadzil) {
-        this.wierszBOPK = new WierszBOPK();
-        this.wierszBOPK.setRok(rok);
-        this.wierszBOPK.setMc(mc);
+        this.rok = rok;
+        this.mc = mc;
         if (p.getOpisdlabo() != null) {
             System.out.println("");
         }
         System.out.println("opis: "+p.getOpisdlabo());
-        this.wierszBOPK.setOpis(p.getOpisdlabo() != null ? p.getOpisdlabo() : "zapis BO " + p.hashCode());
+        this.opis = p.getOpisdlabo() != null ? p.getOpisdlabo() : "zapis BO " + p.hashCode();
         this.podatnik = podatnik;
         this.konto = konto;
         if (p.getKonto().getPelnynumer().equals("202-2-13")) {
@@ -104,18 +116,26 @@ public class WierszBO implements Serializable {
         this.wprowadzil = wprowadzil;
     }
 
+   
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 53 * hash + Objects.hashCode(this.wierszBOPK);
-        hash = 53 * hash + Objects.hashCode(this.podatnik);
-        hash = 53 * hash + Objects.hashCode(this.konto);
-        return hash;
+    public String toString() {
+        if (konto != null ) {
+            return "WierszBO{" + ", konto=" + konto.getPelnynumer() + ", opis=" + opis + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
+        } else {
+            return "WierszBO{" + ", konto null, opis=" + opis + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
+        }
     }
 
     @Override
-    public String toString() {
-        return "WierszBO{" + ", konto=" + konto.getPelnynumer() + ", opis=" + wierszBOPK.getOpis() + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
+    public int hashCode() {
+        int hash = 3;
+        hash = 29 * hash + this.id;
+        hash = 29 * hash + Objects.hashCode(this.podatnik);
+        hash = 29 * hash + Objects.hashCode(this.konto);
+        hash = 29 * hash + Objects.hashCode(this.rok);
+        hash = 29 * hash + Objects.hashCode(this.mc);
+        hash = 29 * hash + Objects.hashCode(this.opis);
+        return hash;
     }
 
     @Override
@@ -130,7 +150,16 @@ public class WierszBO implements Serializable {
             return false;
         }
         final WierszBO other = (WierszBO) obj;
-        if (!Objects.equals(this.wierszBOPK, other.wierszBOPK)) {
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.rok, other.rok)) {
+            return false;
+        }
+        if (!Objects.equals(this.mc, other.mc)) {
+            return false;
+        }
+        if (!Objects.equals(this.opis, other.opis)) {
             return false;
         }
         if (!Objects.equals(this.podatnik, other.podatnik)) {
@@ -142,6 +171,17 @@ public class WierszBO implements Serializable {
         return true;
     }
 
+    public double getRoznicaSald() {
+        double zwrot = 0.0;
+        Konto nowe = this.konto;
+        if (this.kontostare != null) {
+            double roznica1 = Z.z(nowe.getBoWn()-this.kontostare.getSaldoWnksiegi());
+            double roznica2 = Z.z(nowe.getBoMa()-this.kontostare.getSaldoMaksiegi());
+            zwrot = roznica1+roznica2;
+        }
+        return zwrot;
+    }
+   
     public Konto getKonto() {
         return konto;
     }
@@ -164,14 +204,6 @@ public class WierszBO implements Serializable {
 
     public void setKwotaMa(double kwotaMa) {
         this.kwotaMa = kwotaMa;
-    }
-
-    public WierszBOPK getWierszBOPK() {
-        return wierszBOPK;
-    }
-
-    public void setWierszBOPK(WierszBOPK wierszBOPK) {
-        this.wierszBOPK = wierszBOPK;
     }
 
     public Podatnik getPodatnik() {
@@ -221,14 +253,39 @@ public class WierszBO implements Serializable {
     public void setKwotaMaPLN(double kwotaMaPLN) {
         this.kwotaMaPLN = kwotaMaPLN;
     }
-    
-    public String getOpis() {
-        return this.getWierszBOPK().getOpis();
+
+    public int getId() {
+        return id;
     }
-    
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getRok() {
-        return this.getWierszBOPK().getRok();
+        return rok;
     }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+    
 
     public Uz getWprowadzil() {
         return wprowadzil;
@@ -238,4 +295,13 @@ public class WierszBO implements Serializable {
         this.wprowadzil = wprowadzil;
     }
 
+    public Konto getKontostare() {
+        return kontostare;
+    }
+
+    public void setKontostare(Konto kontostare) {
+        this.kontostare = kontostare;
+    }
+
+    
 }

@@ -29,6 +29,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import view.WpisView;
 import waluty.Z;
 
@@ -37,7 +38,9 @@ import waluty.Z;
  * @author Osito
  */
 @Entity
-@Table(name = "stronawiersza")
+@Table(name = "stronawiersza", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id", "wierszbo_id"})
+})
 @NamedQueries({
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wnma = :wnma AND t.typStronaWiersza = '1'"),
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKonto", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wnma = :wnma AND t.typStronaWiersza = '1'"),
@@ -129,6 +132,10 @@ public class StronaWiersza implements Serializable {
     private String symbolWalutyBO;
     private double kursBO;
     private String opisBO;
+    @JoinColumn(name = "wierszbo_id", referencedColumnName = "id")
+    @ManyToOne
+    private WierszBO wierszbo;
+    
    
 
     public StronaWiersza(Wiersz nowywiersz, String wnma) {
@@ -186,8 +193,8 @@ public class StronaWiersza implements Serializable {
         }
         this.wiersz = new Wiersz();
         this.wiersz.setIdwiersza(0);
-        this.wiersz.setOpisWiersza(w.getWierszBOPK().getOpis() != null ? w.getWierszBOPK().getOpis() : "zapis BO");
-        this.wiersz.setDokfk(new Dokfk("zapis z BO", w.getWierszBOPK().getRok()));
+        this.wiersz.setOpisWiersza(w.getOpis() != null ? w.getOpis() : "zapis BO");
+        this.wiersz.setDokfk(new Dokfk("zapis z BO", w.getRok()));
         this.cechazapisuLista = new ArrayList<>();
         this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
     }
@@ -212,7 +219,7 @@ public class StronaWiersza implements Serializable {
         }
         this.nowatransakcja = true;
         this.kursBO = w.getKurs();
-        this.opisBO = w.getWierszBOPK().getOpis();
+        this.opisBO = w.getOpis();
 
     }
 
@@ -618,6 +625,14 @@ public class StronaWiersza implements Serializable {
         this.nowetransakcje = nowetransakcje;
     }
 
+    public WierszBO getWierszbo() {
+        return wierszbo;
+    }
+
+    public void setWierszbo(WierszBO wierszbo) {
+        this.wierszbo = wierszbo;
+    }
+
     public List<Transakcja> getPlatnosci() {
         return platnosci;
     }
@@ -700,6 +715,8 @@ public class StronaWiersza implements Serializable {
     }
     
 
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -824,6 +841,14 @@ public class StronaWiersza implements Serializable {
         }
         if (this.platnosci != null && !this.platnosci.isEmpty()) {
             zwrot = true;
+        }
+        return zwrot;
+    }
+    
+    public String getDataWiersza() {
+        String zwrot = "1";
+        if (this.wiersz.getDataWalutyWiersza() != null) {
+            zwrot = this.wiersz.getDataWalutyWiersza();
         }
         return zwrot;
     }

@@ -470,13 +470,19 @@ public class Wiersz implements Serializable {
             opiswierszaBO = "kwota obrotów: " + w.getOpis();
         }
         if (this.getStronaWn() != null) {
-            if (this.getStronaWn().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(opiswierszaBO)) {
+            if (this.getStronaWn() != null && this.getStronaWn().getWierszbo() != null && this.getStronaWn().getWierszbo().equals(w)) {
+                jest0niejest1 = false;
+                System.out.println("jest takie konto z opisem w bo");
+            } else if (this.getStronaWn().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(opiswierszaBO)) {
                 jest0niejest1 = false;
                 System.out.println("jest takie konto z opisem w bo");
             }
         }
         if (this.getStronaMa() != null) {
-            if (this.getStronaMa().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(opiswierszaBO)) {
+            if (this.getStronaMa() != null && this.getStronaMa().getWierszbo() != null && this.getStronaMa().getWierszbo().equals(w)) {
+                jest0niejest1 = false;
+                System.out.println("jest takie konto z opisem w bo");
+            } else if (this.getStronaMa().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(opiswierszaBO)) {
                 jest0niejest1 = false;
                 System.out.println("jest takie konto z opisem w bo");
             }
@@ -492,6 +498,16 @@ public class Wiersz implements Serializable {
             }
         }
         return opis;
+    }
+    
+    public int getWierszBOId() {
+        int id = 0;
+        if (this.getStronaWn() != null && this.getStronaWn().getWierszbo() != null) {
+            id = this.getStronaWn().getWierszbo().getId();
+        } else if (this.getStronaMa() != null && this.getStronaMa().getWierszbo() != null) {
+            id = this.getStronaMa().getWierszbo().getId();
+        }
+        return id;
     }
 
     public double getKursWiersz() {

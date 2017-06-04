@@ -1958,7 +1958,7 @@ public class PdfMain {
                     WierszBO p = (WierszBO) it.next();
                     table.addCell(ustawfrazeAlign(i++, "left", 7, 22f));
                     table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
-                    table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 7));
                     double kwota = p.getKurs();
                     if (kwota > 0.0) {
                         number.setMinimumFractionDigits(4);
@@ -1999,7 +1999,7 @@ public class PdfMain {
                     WierszBO p = (WierszBO) it.next();
                     table.addCell(ustawfrazeAlign(i++, "left", 7, 22f));
                     table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
-                    table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 7));
                     double kwota = p.getKurs();
                     if (kwota > 0.0) {
                         number.setMinimumFractionDigits(4);
@@ -2040,7 +2040,7 @@ public class PdfMain {
                     WierszBO p = (WierszBO) it.next();
                     table.addCell(ustawfrazeAlign(i++, "left", 7, 22f));
                     table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
-                    table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 7));
                     double kwota = p.getKwotaWn(); 
                     String waluta = p.getWaluta().getSymbolwaluty();
                     number.setMinimumFractionDigits(2);
@@ -2350,5 +2350,4 @@ public class PdfMain {
 		}
 		System.out.println();
 	}
-    
 }

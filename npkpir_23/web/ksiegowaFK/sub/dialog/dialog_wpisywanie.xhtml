@@ -489,13 +489,21 @@
                                 <p:ajax global="false" event="change" partialSubmit="true" onstart="obsluzDateWiersza(#{loop.idporzadkowy-1});" listener="#{dokfkView.obsluzDataWiersza(loop)}"/>
                             </p:inputText>
                         </p:column>
+                        <p:column headerText="BO" style="text-align: center; width: 40px;"  
+                                  rendered="#{dokfkView.selected.dokfkPK.seriadokfk eq 'BO'}" >
+                            <h:outputText value="#{loop.wierszBOId}"/>
+                        </p:column>
+                        <p:column headerText="wal" style="text-align: center; width: 40px;"  
+                                  rendered="#{dokfkView.selected.dokfkPK.seriadokfk eq 'BO'}" >
+                            <h:outputText value="#{loop.walutaWiersz}"/>
+                        </p:column>
                         <p:column headerText="#{mgs.kwota}"  style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                             <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" 
                                             style="text-align: right; margin-left: auto; margin-right: auto; width: 80px; color: red;" 
                                             rendered="#{loop.stronaWn != null}" onfocus="kalkulator_pobierzwiersz(this);"
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
                                             decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
-                                            readonly="#{loop.stronaWn.typStronaWiersza != 0}"
+                                            readonly="#{loop.stronaWn.typStronaWiersza ne 0}"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
                                 <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                                 <p:ajax global="false" event="blur" onstart="skopiujKwoteZWierszaWyzej(#{loop.idporzadkowy-1}, 'Wn');"  partialSubmit="true"/>

@@ -117,6 +117,7 @@ public class BilansWprowadzanieView implements Serializable {
     private Konto ostatniekonto;
     private String miesiacWpisu;
     private boolean tojestgenerowanieobrotow;
+    private boolean pokazstarekonta;
 
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -157,6 +158,7 @@ public class BilansWprowadzanieView implements Serializable {
         listaSumList.put(6, new ArrayList());
         listaSumList.put(7, new ArrayList());
         listaSumList.put(8, new ArrayList());
+        this.pokazstarekonta = false;
         tworzListeZbiorcza();
         Podatnik p = wpisView.getPodatnikObiekt();
         String r = wpisView.getRokWpisuSt();
@@ -260,6 +262,8 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     public void pobierzlista(int nrlisty) {
+        pokazstarekonta = false;
+        listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1000px; padding: 10px; margin-top: 5px;");
         listaBO = listazbiorcza.get(nrlisty);
         if (listaBO.size() == 1 && listaBO.get(0).getKonto() == null) {
             listaBO.remove(0);
@@ -274,6 +278,8 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public void pobierzlistaS() {
+        pokazstarekonta = true;
+        listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1280px; padding: 10px; margin-top: 5px;");
         List<WierszBO> listawstepna = new ArrayList<>();
         for (List<WierszBO> l : listazbiorcza.values()) {
             listawstepna.addAll(l);
@@ -289,9 +295,14 @@ public class BilansWprowadzanieView implements Serializable {
                 wierszemac.add(nowy);
             }
         }
+        List<Konto> kontarokpop = kontoDAO.findKontaBilansowePodatnikaBezPotomkowRokPoprzedni(wpisView);
         for (WierszBO wb : wierszemac) {
             for (WierszBO wb1 : listawstepna) {
                 if (wb1.getKonto() != null && wb1.getKonto().equals(wb.getKonto())) {
+                    Konto rokpop = kontarokpop.get(kontarokpop.indexOf(wb.getKonto()));
+                    if (rokpop != null && wb != null) {
+                        wb.setKontostare(rokpop);
+                    }
                     wb.setKwotaWn(wb.getKwotaWn()+wb1.getKwotaWn());
                     wb.setKwotaMa(wb.getKwotaMa()+wb1.getKwotaMa());
                        wb.setKwotaWnPLN(wb.getKwotaWnPLN()+wb1.getKwotaWnPLN());
@@ -563,18 +574,18 @@ public class BilansWprowadzanieView implements Serializable {
 
     public int weryfikacjaopisu(WierszBO selected, List<WierszBO> l, String pole) {
         int licznik = 0;
-        String opis = selected.getWierszBOPK().getOpis().toLowerCase();
+        String opis = selected.getOpis().toLowerCase();
         Konto konto = selected.getKonto();
         if (konto != null) {
             for (WierszBO p : l) {
                 if (p.getKonto().equals(konto)) {
-                    String opislista = p.getWierszBOPK().getOpis().toLowerCase();
+                    String opislista = p.getOpis().toLowerCase();
                     if (opislista.equals(opis.toLowerCase())) {
                         licznik++;
                     }
                     if (licznik > 0) {
                         Msg.msg("e", "Taki opis już istnieje na koncie: " + konto.getPelnynumer() + " opis: " + opis);
-                        selected.getWierszBOPK().setOpis("zmień opis");
+                        selected.setOpis("zmień opis");
                         RequestContext.getCurrentInstance().update(pole);
                         return 1;
                     }
@@ -593,13 +604,13 @@ public class BilansWprowadzanieView implements Serializable {
                 System.out.println("ll");
             }
             boolean konto = wb.getKonto().getPelnynumer().equals(wiersz.getKonto().getPelnynumer());
-            boolean opis = wb.getWierszBOPK().getOpis().equals(wiersz.getWierszBOPK().getOpis());
+            boolean opis = wb.getOpis().equals(wiersz.getOpis());
             if (konto && opis) {
                 nrkonta = wb.getKonto().getPelnynumer();
                 licznik++;
             }
             if (licznik > 1) {
-                Msg.msg("e", "Duplikat opisu dla konta: " + nrkonta + " opis: " + wiersz.getWierszBOPK().getOpis());
+                Msg.msg("e", "Duplikat opisu dla konta: " + nrkonta + " opis: " + wiersz.getOpis());
                 return 1;
             }
         }
@@ -930,9 +941,9 @@ public class BilansWprowadzanieView implements Serializable {
                     if (p.getKonto().getPelnynumer().equals("202-1-5")) {
                         System.out.println("stop");
                     }
-                    String opiswiersza = "zapis BO: " + p.getWierszBOPK().getOpis();
+                    String opiswiersza = "zapis BO: " + p.getOpis();
                     if (!wpisView.getMiesiacWpisu().equals("01")) {
-                        opiswiersza = "kwota obrotów: " + p.getWierszBOPK().getOpis();
+                        opiswiersza = "kwota obrotów: " + p.getOpis();
                     }
                     w.setOpisWiersza(opiswiersza);
                     if (Z.z(p.getKwotaWn()) != 0.0) {
@@ -959,7 +970,7 @@ public class BilansWprowadzanieView implements Serializable {
         }
         st.setKursBO(p.getKurs());
         st.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
-        st.setOpisBO(p.getWierszBOPK().getOpis());
+        st.setOpisBO(p.getOpis());
         if (wnma.equals("Wn")) {
             st.setKwotaPLN(p.getKwotaWnPLN());
         } else {
@@ -987,9 +998,9 @@ public class BilansWprowadzanieView implements Serializable {
                     if (wierszwdokumencie == null) {
                         Wiersz w = new Wiersz(idporzadkowy++, 0);
                         uzupelnijwiersz(w, nd);
-                        String opiswiersza = "zapis BO: " + p.getWierszBOPK().getOpis();
+                        String opiswiersza = "zapis BO: " + p.getOpis();
                         if (!wpisView.getMiesiacWpisu().equals("01")) {
-                            opiswiersza = "kwota obrotów: " + p.getWierszBOPK().getOpis();
+                            opiswiersza = "kwota obrotów: " + p.getOpis();
                         }
                         w.setOpisWiersza(opiswiersza);
                         if (p.getKwotaWn() != 0.0) {
@@ -1021,9 +1032,9 @@ public class BilansWprowadzanieView implements Serializable {
                 boolean niema = true;
                 for (WierszBO p : wierszeBO) {
                     if (p.getKonto() != null) {
-                        String opiswiersza = "zapis BO: " + p.getWierszBOPK().getOpis();
+                        String opiswiersza = "zapis BO: " + p.getOpis();
                         if (!wpisView.getMiesiacWpisu().equals("01")) {
-                            opiswiersza = "kwota obrotów: " + p.getWierszBOPK().getOpis();
+                            opiswiersza = "kwota obrotów: " + p.getOpis();
                         }
                         if (p.getKonto().equals(w.getKontoDlaBO()) && opiswiersza.equals(w.getOpisWiersza())) {
                             niema = false;
@@ -1046,9 +1057,10 @@ public class BilansWprowadzanieView implements Serializable {
         }
         st.setKursBO(p.getKurs());
         st.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
-        st.setOpisBO(p.getWierszBOPK().getOpis());
+        st.setOpisBO(p.getOpis());
         st.setKwotaPLN(p.getKwotaWnPLN());
         st.setTypStronaWiersza(9);
+        st.setWierszbo(p);
         w.setStronaWn(st);
     }
     
@@ -1060,9 +1072,10 @@ public class BilansWprowadzanieView implements Serializable {
         }
         st.setKursBO(p.getKurs());
         st.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
-        st.setOpisBO(p.getWierszBOPK().getOpis());
+        st.setOpisBO(p.getOpis());
         st.setKwotaPLN(p.getKwotaMaPLN());
         st.setTypStronaWiersza(9);
+        st.setWierszbo(p);
         w.setStronaMa(st);
     }
     
@@ -1073,12 +1086,14 @@ public class BilansWprowadzanieView implements Serializable {
             s.setKwotaWaluta(p.getKwotaWn());
             s.setKursBO(p.getKurs());
             s.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
+            s.setWierszbo(p);
         } else {
             s.setKwota(p.getKwotaMa());
             s.setKwotaPLN(p.getKwotaMaPLN());
             s.setKwotaWaluta(p.getKwotaMa());
             s.setKursBO(p.getKurs());
             s.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
+            s.setWierszbo(p);
         }
     }
     
@@ -1211,6 +1226,14 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void setLista0(List<WierszBO> lista0) {
         this.lista0 = lista0;
+    }
+
+    public boolean isPokazstarekonta() {
+        return pokazstarekonta;
+    }
+
+    public void setPokazstarekonta(boolean pokazstarekonta) {
+        this.pokazstarekonta = pokazstarekonta;
     }
 
     public String getMiesiacWpisu() {
