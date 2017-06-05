@@ -299,9 +299,11 @@ public class BilansWprowadzanieView implements Serializable {
         for (WierszBO wb : wierszemac) {
             for (WierszBO wb1 : listawstepna) {
                 if (wb1.getKonto() != null && wb1.getKonto().equals(wb.getKonto())) {
-                    Konto rokpop = kontarokpop.get(kontarokpop.indexOf(wb.getKonto()));
-                    if (rokpop != null && wb != null) {
-                        wb.setKontostare(rokpop);
+                    if (!kontarokpop.isEmpty()) {
+                        Konto rokpop = kontarokpop.get(kontarokpop.indexOf(wb.getKonto()));
+                        if (rokpop != null && wb != null) {
+                            wb.setKontostare(rokpop);
+                        }
                     }
                     wb.setKwotaWn(wb.getKwotaWn()+wb1.getKwotaWn());
                     wb.setKwotaMa(wb.getKwotaMa()+wb1.getKwotaMa());
