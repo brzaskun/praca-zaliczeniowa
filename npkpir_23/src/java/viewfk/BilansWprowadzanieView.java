@@ -263,7 +263,7 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void pobierzlista(int nrlisty) {
         pokazstarekonta = false;
-        listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1000px; padding: 10px; margin-top: 5px;");
+        listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1100px; padding: 10px; margin-top: 5px;");
         listaBO = listazbiorcza.get(nrlisty);
         if (listaBO.size() == 1 && listaBO.get(0).getKonto() == null) {
             listaBO.remove(0);
@@ -365,6 +365,7 @@ public class BilansWprowadzanieView implements Serializable {
         } else {
             if (listaBO.contains(selected)) {
                 selected.setWprowadzil(wpisView.getWprowadzil());
+                selected.setNowy0edycja1usun2(1);
                 wierszBODAO.edit(selected);
                 if (listaBOFiltered != null) {
                     podsumujWnMa(listaBOFiltered, listaBOsumy);
@@ -377,6 +378,7 @@ public class BilansWprowadzanieView implements Serializable {
                 }
                 selected.setWprowadzil(wpisView.getWprowadzil());
                 listaBO.add(selected);
+                selected.setNowy0edycja1usun2(0);
                 wierszBODAO.dodaj(selected);
                 if (listaBOFiltered != null) {
                     listaBOFiltered.add(selected);
@@ -810,6 +812,7 @@ public class BilansWprowadzanieView implements Serializable {
         dok.przeliczKwotyWierszaDoSumyDokumentu();
         try {
             dokDAOfk.dodaj(dok);
+            
             isteniejeDokBO = true;
             dokumentBO = dok;
             wierszedousuniecia = new ArrayList<>();
@@ -927,10 +930,12 @@ public class BilansWprowadzanieView implements Serializable {
             List<WierszBO> listabiezaca = listazbiorcza.get(r);
             if (listabiezaca != null && listabiezaca.size() > 0) {
                 for (WierszBO p : listabiezaca) {
+                    p.setNowy0edycja1usun2(9);
                     pobranewiersze.add(p);
                 }
             }
         }
+        wierszBODAO.editList(pobranewiersze);
         return pobranewiersze;
     }
 

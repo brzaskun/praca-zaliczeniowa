@@ -151,7 +151,7 @@
                     <p:column width="250">
                         <p:autoComplete value="#{bilansWprowadzanieView.selected.konto}" completeMethod="#{planKontBOView.completeBO}" id="konto2"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                        minQueryLength="1" converter="KontoConv" queryDelay="1"  styleClass="kontobo" maxResults="50"
+                                        minQueryLength="1" converter="KontoConv"  styleClass="kontobo" maxResults="50"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 280px;"
                                         onfocus="usunspacje(this);"
                                         ><!--to teraz powoduje blad-->
@@ -260,7 +260,7 @@
             </p:contextMenu>
             <p:remoteCommand name="przeliczfilter" actionListener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0" global="false"/>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}" widgetVar="tab0prosta"
-                         style="overflow-y: scroll; height: 400px; width: 1000px; padding: 10px; margin-top: 5px;"
+                         style="overflow-y: scroll; height: 400px; width: 1100px; padding: 10px; margin-top: 5px;"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}"
                          id="tab0" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs}"
@@ -303,6 +303,12 @@
                     </f:facet>
                     <bcf:outputpl value="#{item.kontostare.saldoWnksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoWnksiegi ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
                 </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.nowy0edycja1usun2}" width="80">
+                    <f:facet name="header">
+                        <h:outputText value="stan"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nowy0edycja1usun2}"/>
+                </p:column>
                 <p:column style="text-align: center;" sortBy="#{item.kontostare.saldoMaksiegi}" width="90" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
                     <f:facet name="header">
                         <h:outputText value="Kwota Ma rok pop"/>
@@ -336,7 +342,7 @@
                 <p:menuitem value="Usuń" update="formbilanswprowadzanie2:tab1" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
             </p:contextMenu>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item"
-                         style="overflow-y: scroll; height: 400px; width: 1250px; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
+                         style="overflow-y: scroll; height: 400px; width: 1300px; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"
                          id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs1}"
@@ -394,6 +400,12 @@
                         <h:outputText value="Kwota Ma PLN"/>
                     </f:facet>
                     <bcf:outputwal id="waluta4" value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0}" symbolwaluty="zł"/>
+                </p:column>
+                 <p:column style="text-align: center;" sortBy="#{item.nowy0edycja1usun2}" width="80">
+                    <f:facet name="header">
+                        <h:outputText value="stan"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nowy0edycja1usun2}"/>
                 </p:column>
                 <p:column style="text-align: center;" width="40">
                     <f:facet name="header">

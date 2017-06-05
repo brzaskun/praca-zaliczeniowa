@@ -68,6 +68,9 @@ public class WierszBO implements Serializable {
     private Uz wprowadzil;
     @Transient
     private Konto kontostare;
+    //9 naniesiony
+    @Column(name="nowy0edycja1usun2")
+    private int nowy0edycja1usun2;
 
     public WierszBO() {
         
@@ -84,6 +87,7 @@ public class WierszBO implements Serializable {
         this.kurs = 0.0;
         this.waluta = waluta;
         this.rozrachunek = false;
+        this.nowy0edycja1usun2 = 0;
     }
 
     public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, String mc, Konto konto, Waluty waluta, Uz wprowadzil) {
@@ -114,6 +118,7 @@ public class WierszBO implements Serializable {
         this.waluta = waluta;
         this.rozrachunek = false;
         this.wprowadzil = wprowadzil;
+        this.nowy0edycja1usun2 = 0;
     }
 
    
@@ -188,6 +193,29 @@ public class WierszBO implements Serializable {
 
     public void setKonto(Konto konto) {
         this.konto = konto;
+    }
+
+    public String getNowy0edycja1usun2() {
+        String zwrot = "nowy";
+        switch (nowy0edycja1usun2) {
+            case 0 : 
+                zwrot = "nowy";
+                break;
+            case 1 : 
+                zwrot = "edycja";
+                break;
+            case 2 : 
+                zwrot = "usuń";
+                break;
+            case 3 : 
+                zwrot = "księgi";
+                break;
+        }
+        return zwrot;
+    }
+
+    public void setNowy0edycja1usun2(int nowy0edycja1usun2) {
+        this.nowy0edycja1usun2 = nowy0edycja1usun2;
     }
 
     public double getKwotaWn() {
