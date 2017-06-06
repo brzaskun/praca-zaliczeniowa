@@ -186,6 +186,25 @@ public class WierszBO implements Serializable {
         }
         return zwrot;
     }
+    
+    public String getStylwiersza() {
+        String zwrot = "color: black; text-align: center;";
+        switch (this.nowy0edycja1usun2) {
+             case 0 : 
+                zwrot = "color: green; text-align: center;";
+                break;
+            case 1 : 
+                zwrot = "color: orange; text-align: center;";
+                break;
+            case 2 : 
+                zwrot = "color: red; text-align: center;";
+                break;
+            case 3 : 
+                zwrot = "color: black; text-align: center;";
+                break;
+        }
+        return zwrot;
+    }
    
     public Konto getKonto() {
         return konto;
@@ -193,6 +212,10 @@ public class WierszBO implements Serializable {
 
     public void setKonto(Konto konto) {
         this.konto = konto;
+    }
+    
+    public int getNowy0edycja1usun2Int() {
+        return nowy0edycja1usun2;
     }
 
     public String getNowy0edycja1usun2() {
@@ -213,6 +236,7 @@ public class WierszBO implements Serializable {
         }
         return zwrot;
     }
+    
 
     public void setNowy0edycja1usun2(int nowy0edycja1usun2) {
         this.nowy0edycja1usun2 = nowy0edycja1usun2;

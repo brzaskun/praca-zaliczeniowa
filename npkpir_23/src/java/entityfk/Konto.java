@@ -102,6 +102,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByRozwin", query = "SELECT k FROM Konto k WHERE k.rozwin = :rozwin"),
     @NamedQuery(name = "Konto.updateMapotomkow", query = "UPDATE Konto k SET k.mapotomkow = '0' WHERE k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.NullPozycjaBilansoweWynikowe", query = "UPDATE Konto k SET k.kontopozycjaID = NULL WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.bilansowewynikowe = :bilansowewynikowe"),
+    @NamedQuery(name = "Konto.wyzerujBowKontach", query = "UPDATE Konto k SET k.boWn = 0.0, k.boMa = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.wyzerujBoWnwKontach", query = "UPDATE Konto k SET k.boWn = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.bilansowewynikowe = :bilansowewynikowe"),
     @NamedQuery(name = "Konto.wyzerujBoMawKontach", query = "UPDATE Konto k SET k.boMa = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.bilansowewynikowe = :bilansowewynikowe"),
     @NamedQuery(name = "Konto.wyzerujSaldaZaksiegowanewKontach", query = "UPDATE Konto k SET k.saldoWnksiegi = NULL, k.saldoMaksiegi = NULL, k.zaksiegowane = NULL WHERE k.podatnik = :podatnik AND k.rok = :rok"),

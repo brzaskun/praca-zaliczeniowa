@@ -256,7 +256,7 @@
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:contextMenu for="formbilanswprowadzanie2:tab0">
-                <p:menuitem value="Usuń" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs)}" icon="ui-icon-disk" />
+                <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs)}" icon="ui-icon-disk" />
             </p:contextMenu>
             <p:remoteCommand name="przeliczfilter" actionListener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0" global="false"/>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}" widgetVar="tab0prosta"
@@ -303,9 +303,9 @@
                     </f:facet>
                     <bcf:outputpl value="#{item.kontostare.saldoWnksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoWnksiegi ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
                 </p:column>
-                <p:column style="text-align: center;" sortBy="#{item.nowy0edycja1usun2}" width="80">
+                <p:column sortBy="#{item.nowy0edycja1usun2}" width="80" style="#{item.stylwiersza}">
                     <f:facet name="header">
-                        <h:outputText value="stan"/>
+                        <h:outputText value="stan"  />
                     </f:facet>
                     <h:outputText value="#{item.nowy0edycja1usun2}"/>
                 </p:column>
@@ -323,7 +323,7 @@
                 </p:column>
                 <p:column style="text-align: center;" width="40">
                     <f:facet name="header">
-                        <h:outputText value="usuń"/>
+                        <h:outputText value="usuń tym."/>
                     </f:facet>
                     <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwierszN(item)}"
                                      update="formbilanswprowadzanie2"
@@ -339,7 +339,8 @@
                 </p:column>
             </p:dataTable>
             <p:contextMenu for="formbilanswprowadzanie2:tab1">
-                <p:menuitem value="Usuń" update="formbilanswprowadzanie2:tab1" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
+                <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab1" 
+                            actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
             </p:contextMenu>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item"
                          style="overflow-y: scroll; height: 400px; width: 1300px; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
@@ -401,7 +402,7 @@
                     </f:facet>
                     <bcf:outputwal id="waluta4" value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0}" symbolwaluty="zł"/>
                 </p:column>
-                 <p:column style="text-align: center;" sortBy="#{item.nowy0edycja1usun2}" width="80">
+                 <p:column sortBy="#{item.nowy0edycja1usun2}" width="80" style="#{item.stylwiersza}">
                     <f:facet name="header">
                         <h:outputText value="stan"/>
                     </f:facet>
@@ -409,7 +410,7 @@
                 </p:column>
                 <p:column style="text-align: center;" width="40">
                     <f:facet name="header">
-                        <h:outputText value="usuń"/>
+                        <h:outputText value="usuń tym."/>
                     </f:facet>
                     <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwierszN(item)}"
                                      update="formbilanswprowadzanie2 "
