@@ -112,7 +112,7 @@
                 <p:column styleClass="filter60" headerText="#{mgs.konto}" width="50"  filterBy="#{loop.konto.pelnynumer}">
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
-                <p:column  headerText="#{mgs.opis}" width="140" >
+                <p:column  headerText="#{mgs.opis}" width="140" sortBy="#{loop.konto.nazwapelna}">
                     <h:outputText id="pol1" value="#{loop.getNazwaObcieta(60)}"/>
                     <p:tooltip for="pol1" value="#{loop.konto.nazwapelna}" />
                 </p:column>

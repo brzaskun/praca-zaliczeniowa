@@ -52,7 +52,7 @@ public class PdfKonta {
     
     public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto) {
         try {
-            Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
+            //Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
             String nazwapliku = "konta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
