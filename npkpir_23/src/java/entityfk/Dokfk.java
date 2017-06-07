@@ -837,6 +837,14 @@ public class Dokfk implements Serializable {
             }
         }
     }
+    
+    public void przenumeruj() {
+        List<Wiersz> wiersze = this.getListawierszy();
+        int lp = 1;
+        for (Wiersz p : wiersze) {
+            p.setIdporzadkowy(lp++);
+        }
+    }
 
     public boolean czyCecha() {
         if (this.cechadokumentuLista != null && this.cechadokumentuLista.size() > 0) {

@@ -1020,6 +1020,7 @@ public class BilansWprowadzanieView implements Serializable {
                 isteniejeDokBO = false;
                 dokumentBO = null;
             } else {
+                nd.przenumeruj();;
                 dokDAOfk.edit(nd);
             }
 
