@@ -163,6 +163,7 @@ public class PodatnikView implements Serializable {
         formyprawne.add(FormaPrawna.SPOLKA_KOMANDYTOWA);
         formyprawne.add(FormaPrawna.STOWARZYSZENIE);
         formyprawne.add(FormaPrawna.FEDERACJA);
+        formyprawne.add(FormaPrawna.FUNDACJA);
     }
 
     public void dodaj() {

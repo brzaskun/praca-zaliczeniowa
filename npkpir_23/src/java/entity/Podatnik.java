@@ -809,6 +809,9 @@ public class Podatnik implements Serializable {
                case "FEDERACJA":
                    zwrot = "";
                    break;
+               case "FUNDACJA":
+                   zwrot = "";
+                   break;
                default:
                    zwrot = "FIRMA";
            }

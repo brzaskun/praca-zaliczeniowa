@@ -17,7 +17,8 @@ public enum FormaPrawna {
     SPOLKA_Z_O_O,
     SPOLKA_KOMANDYTOWA,
     STOWARZYSZENIE,
-    FEDERACJA;
+    FEDERACJA,
+    FUNDACJA;
 
     public static FormaPrawna getSPOLKA_Z_O_O() {
         return SPOLKA_Z_O_O;
@@ -34,6 +35,11 @@ public enum FormaPrawna {
     public static FormaPrawna getFEDERACJA() {
         return FEDERACJA;
     }
+
+    public static FormaPrawna getFUNDACJA() {
+        return FUNDACJA;
+    }
+    
     
     
 }
