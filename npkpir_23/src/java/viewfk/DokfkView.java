@@ -1596,7 +1596,7 @@ public class DokfkView implements Serializable {
         wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
         wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
         rodzajedokumentowPodatnika = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
-        cechydokzlisty = znajdzcechy(wykazZaksiegowanychDokumentow);
+        //cechydokzlisty = znajdzcechy(wykazZaksiegowanychDokumentow);
         pobranecechy = cechazapisuDAOfk.findAll();
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
         wybranacechadok = null;
@@ -1661,7 +1661,7 @@ public class DokfkView implements Serializable {
                 }
             }
             rodzajedokumentowPodatnika = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
-            cechydokzlisty = znajdzcechy(wykazZaksiegowanychDokumentow);
+            //cechydokzlisty = znajdzcechy(wykazZaksiegowanychDokumentow);
             Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
             filteredValue = null;
         } catch (Exception e) {

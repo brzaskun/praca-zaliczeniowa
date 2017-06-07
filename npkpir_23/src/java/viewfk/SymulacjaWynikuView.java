@@ -5,7 +5,6 @@
  */
 package viewfk;
 
-import embeddablefk.PozycjeSymulacjiNowe;
 import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import beansFK.StronaWierszaBean;
@@ -16,6 +15,7 @@ import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import daoFK.WynikFKRokMcDAO;
 import em.Em;
+import embeddablefk.PozycjeSymulacjiNowe;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entity.PodatnikUdzialy;
@@ -27,10 +27,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -746,6 +743,7 @@ public class SymulacjaWynikuView implements Serializable {
         public static void main(String[] args) throws Exception  {
             EntityManager em = Em.getEm();
             Podatnik podatnik = (Podatnik) em.createNamedQuery("Podatnik.findByNip").setParameter("nip", "9552340951").getSingleResult();
+            System.out.println(podatnik.toString());
             //List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(t.wiersz.dokfk.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
             List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza  t JOIN t.wiersz.dokfk s WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(s.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
             System.out.println("");
