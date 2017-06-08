@@ -68,19 +68,32 @@ public class VATDeklaracja implements Serializable {
         for (EVatwpisSuma ew : wyciagnieteewidencje) {
             try {
                 SchemaEwidencja odnalezionyWierszSchemaEwidencja = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
+                SchemaEwidencja odnalezionyWierszSchemaEwidencjaMacierzysty = odnalezionyWierszSchemaEwidencja.getSchemamacierzysta();
                 if (odnalezionyWierszSchemaEwidencja != null) {
                     String nrpolanetto = odnalezionyWierszSchemaEwidencja.getPolenetto();
                     String nrpolavat = odnalezionyWierszSchemaEwidencja.getPolevat();
+                    String nrpolanettoM = null;
+                    String nrpolavatM = null;
+                    if (odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
+                        nrpolanettoM = odnalezionyWierszSchemaEwidencjaMacierzysty.getPolenetto();
+                        nrpolavatM = odnalezionyWierszSchemaEwidencjaMacierzysty.getPolevat();
+                    }
                     String netto = String.valueOf(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN));
                     int nettoI = Integer.parseInt(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN).toString());
                     String vat = String.valueOf(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
                     int vatI = Integer.parseInt(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
                     if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && nettoI != 0.0) {
                         ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
+                        if (odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
+                            ustawPozycjeM(pozycjeSzczegoloweVAT, nrpolanettoM, netto, nettoI);
+                        }
                     }
                     if (!ew.getEwidencja().isTylkoNetto()) {
                         if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && (nettoI != 0.0 || vatI != 0.0)) {
                             ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
+                            if (odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
+                                ustawPozycjeM(pozycjeSzczegoloweVAT, nrpolavatM, vat, vatI);
+                            }
                         }
                     }
                     //to jest uzywane przy korektach
@@ -131,6 +144,26 @@ public class VATDeklaracja implements Serializable {
             Class[] paramString = new Class[1];
             paramString[0] = String.class;
             Method met;
+            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpola, paramString);
+            met.invoke(pozycjeSzczegoloweVAT, new String(kwotaString));
+            paramString = new Class[1];
+            paramString[0] = Integer.class;
+            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpola, paramString);
+            met.invoke(pozycjeSzczegoloweVAT, new Integer(kwotaInt));
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            E.e(e);
+        }
+    }
+    
+    private static void ustawPozycjeM(PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, String nrpola, String kwotaString, int kwotaInt) {
+        try {
+            Class[] paramString = new Class[1];
+            paramString[0] = String.class;
+            Method met;
+            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("getPoleI" + nrpola);
+            Integer pobranakwota = (Integer) met.invoke(pozycjeSzczegoloweVAT);
+            kwotaInt = kwotaInt + pobranakwota;
+            kwotaString = String.valueOf(kwotaInt);
             met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpola, paramString);
             met.invoke(pozycjeSzczegoloweVAT, new String(kwotaString));
             paramString = new Class[1];
@@ -417,10 +450,9 @@ public class VATDeklaracja implements Serializable {
             } else {
                 for (EVatwpisSuma s : pobraneewidencje) {
                     if (s.getEwidencja().equals(p.getEvewidencja())) {
-                        SchemaEwidencjaSuma se = new SchemaEwidencjaSuma();
-                        se.setSchemaEwidencja(p);
-                        se.setEVatwpisSuma(s);
-                        lista.add(se);
+                        lista.add(tworznowa(p, s));
+                        if (p.getSchemamacierzysta() != null) {
+                        }
                         break;
                     }
                 }
@@ -447,5 +479,21 @@ public class VATDeklaracja implements Serializable {
        //System.out.println("j "+j);
    }
 
+//    private static SchemaEwidencjaSuma niezawiera(List<SchemaEwidencjaSuma> lista, SchemaEwidencja s) {
+//        SchemaEwidencjaSuma zwrot = tworznowa(s, s);
+//        for (SchemaEwidencjaSuma p : lista) {
+//            if (p.getSchemaEwidencja().equals(s)) {
+//
+//            }
+//        }
+//        return zwrot;
+//    }
+
+    private static SchemaEwidencjaSuma tworznowa (SchemaEwidencja p, EVatwpisSuma s) {
+        SchemaEwidencjaSuma se = new SchemaEwidencjaSuma();
+        se.setSchemaEwidencja(p);
+        se.setEVatwpisSuma(s);
+        return se;
+    }
     
 }
