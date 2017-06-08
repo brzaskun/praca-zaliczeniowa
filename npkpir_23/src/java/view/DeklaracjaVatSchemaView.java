@@ -7,7 +7,6 @@ package view;
 
 import beansDok.DeklaracjaVatSchemaBean;
 import dao.DeklaracjaVatPozycjeKoncoweDAO;
-import entity.DeklaracjaVatSchema;
 import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjaVatSchemaPozKoncoweDAO;
 import dao.DeklaracjaVatSchemaWierszSumDAO;
@@ -15,6 +14,7 @@ import dao.DeklaracjaVatWierszSumarycznyDAO;
 import dao.EvewidencjaDAO;
 import dao.SchemaEwidencjaDAO;
 import entity.DeklaracjaVatPozycjeKoncowe;
+import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaPozKoncowe;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
@@ -257,6 +257,13 @@ public class DeklaracjaVatSchemaView implements Serializable {
         deklaracjaVatSchemaPozKoncoweDAO.editList(schemapozycjekoncowe);
         Msg.msg("Zachowano scheme-pozycje końcowe");
     }
+     
+     public void sprawdzwybormacierzystej(SchemaEwidencja item) {
+         if (item.equals(item.getSchemamacierzysta())) {
+             item.setSchemamacierzysta(null);
+             Msg.msg("e", "Wskazałeś na tę samą ewidencję. Popraw to");
+         }
+     }
      
      //<editor-fold defaultstate="collapsed" desc="comment">
      public List<DeklaracjaVatSchema> getSchemyDeklaracjiVat() {
