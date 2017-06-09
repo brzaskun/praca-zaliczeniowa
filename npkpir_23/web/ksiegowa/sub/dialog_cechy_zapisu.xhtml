@@ -7,9 +7,9 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <p:dialog id="dialogCechyZapisu" header="Wykaz bieżących cech zapisu/dokumentu" widgetVar="dialogCechyZapisu" resizable="false" 
-              onShow="ustawdialog('dialogCechyZapisu','menukartoteki',1130,600);" focus=":formCH" 
+              onShow="ustawdialog('dialogCechyZapisu','dodWiad:wprowadzanie',1130,600);" focus=":formCHpkpir" 
               closeOnEscape="true">
-        <h:form id="formCH" >
+        <h:form id="formCHpkpir" >
             <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
                         rowKey="#{item.cechazapisuPK.nazwacechy}" style="overflow-y: scroll; height: 400px;"
                         filteredValue="#{cechazapisuView.pobranecechyfiltered}">
@@ -45,15 +45,15 @@
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-edit"  actionListener="#{cechazapisuView.edit(item)}"
-                             update=":formCH:dataList formCH1:nowacecha"/>
+                             update=":formCHpkpir:dataList formCHpkpir1:nowacecha"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton  icon="fa fa-trash"  actionListener="#{cechazapisuView.usun(item)}"
-                             update=":formCH:dataList"/>
+                             update=":formCHpkpir:dataList"/>
                 </p:column>
             </p:dataTable>
             </h:form>
-        <h:form id="formCH1">
+        <h:form id="formCHpkpir1">
             <p:panelGrid id="nowacecha" >
                 <f:facet name="header">
                     <p:row>
@@ -103,7 +103,7 @@
                      <p:column>
                          <p:selectOneMenu id="podatnikWpisu" value="#{cechazapisuView.selected.podatnik}" style="width: 280px;" converter="PodatConv">
                              <f:selectItem itemLabel="wszyscy" itemValue=""/>
-                            <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
+                            <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
                          </p:selectOneMenu>
                     </p:column>
                 </p:row>
@@ -112,7 +112,7 @@
                 <h:outputText value="*przesunięcie mówi o ile miesięcy w przód lub w tył rozliczać"/>
             </p:outputPanel>
             <p:commandButton value="dodaj" style="width: 120px; margin-left: 10px;" actionListener="#{cechazapisuView.dodajnowacecha()}"
-                             update=":formCH:dataList formCH1"/>
+                             update=":formCHpkpir:dataList formCHpkpir1"/>
             
         </h:form>
     </p:dialog>

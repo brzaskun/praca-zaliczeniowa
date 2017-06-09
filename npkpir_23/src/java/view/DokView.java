@@ -321,6 +321,9 @@ public final class DokView implements Serializable {
         selDokument.getCechadokumentuLista().remove(c);
         c.getDokfkLista().remove(selDokument);
     }
+    
+    
+    
     private List<Rodzajedok> pobierzrodzajedok() {
         List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());

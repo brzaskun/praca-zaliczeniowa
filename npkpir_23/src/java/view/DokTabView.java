@@ -18,7 +18,6 @@ import entity.Amodok;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Inwestycje;
-import entity.Podatnik;
 import entity.StornoDok;
 import entity.Uz;
 import entity.Wpis;
@@ -130,7 +129,6 @@ public class DokTabView implements Serializable {
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        Podatnik pod = wpisView.getPodatnikObiekt();
         uzytkownik = wpisView.getWprowadzil();
         try {
             StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
@@ -168,7 +166,16 @@ public class DokTabView implements Serializable {
                 dokumentyl.add(tmpx.getTypdokumentu());
                 kontrahenty.add(tmpx.getKontr().getNpelna());
                 waluty.add(tmpx.getWalutadokumentu() != null ? tmpx.getWalutadokumentu().getSymbolwaluty() : "PLN");
-                obiektDOKmrjsfSel.add(tmpx);
+                if (wybranacechadok == null) {
+                    obiektDOKmrjsfSel.add(tmpx);
+                } else if (!tmpx.getCechadokumentuLista().isEmpty()) {
+                    for (Cechazapisu cz : tmpx.getCechadokumentuLista()) {
+                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                            obiektDOKmrjsfSel.add(tmpx);
+                            break;
+                        }
+                    }
+                }
             }
         }
         dokumentypodatnika.addAll(dokumentyl);
@@ -477,7 +484,36 @@ public class DokTabView implements Serializable {
             PdfDok.drukujDok(obiektDOKmrjsfSel, wpisView);
         }
     }
-      
+    
+    
+    public void dodajcechedodokumenty(Cechazapisu c) {
+        if (gosciuwybral != null) {
+            for (Dok p : gosciuwybral) {
+                p .getCechadokumentuLista().add(c);
+                c.getDokLista().add(p);
+            }
+            dokDAO.editList(gosciuwybral);
+            if (cechydokzlisty == null) {
+                cechydokzlisty = new ArrayList();
+            } else if (!cechydokzlisty.contains(c.getCechazapisuPK().getNazwacechy())) {
+                cechydokzlisty.add(c.getCechazapisuPK().getNazwacechy());
+            }
+            Msg.msg("Nadano wybranym dokumentom żądaną cechę");
+        }
+    }
+    public void usuncechedodokumenty(Cechazapisu c) {
+        if (gosciuwybral != null) {
+            for (Dok p : gosciuwybral) {
+                p .getCechadokumentuLista().remove(c);
+                c.getDokLista().remove(p);
+            }
+            dokDAO.editList(gosciuwybral);
+            cechydokzlisty.remove(c.getCechazapisuPK().getNazwacechy());
+            wybranacechadok = null;
+            init();
+            Msg.msg("Usunięto wybranym dokumentom żądaną cechę");
+        }
+    }
       
     
         //<editor-fold defaultstate="collapsed" desc="comment">

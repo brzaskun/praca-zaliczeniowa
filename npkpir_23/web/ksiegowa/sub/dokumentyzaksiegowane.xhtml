@@ -74,7 +74,7 @@
 
             /* ]]> */
         </script>
-        <p:panelGrid columns="3" id="panelprzyciskow">
+        <p:panelGrid columns="4" id="panelprzyciskow">
         <p:commandButton  icon="fa fa-print" style="width: 120px;" actionListener="#{DokTabView.drukujdokumentyuproszczona()}" global="false"/>
         <h:outputText value="dok z cechami"/>
         <p:selectOneMenu value="#{DokTabView.wybranacechadok}" id="cechydokuk"
@@ -85,6 +85,9 @@
         <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
         <f:selectItems value="#{DokTabView.cechydokzlisty}" var="item1" itemLabel="#{item1}" itemValue="#{item1}"/>
         </p:selectOneMenu>
+         <p:commandButton id="cechadokumentu" value="CechyDok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px; " 
+                                        onclick="PF('dialogCechyDokumentuZbiorcze').show();" accesskey="v" 
+                                     global="false"/>
         </p:panelGrid>
         <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
         <p:hotkey bind="up"   onstart="wrocwiersz();"/>

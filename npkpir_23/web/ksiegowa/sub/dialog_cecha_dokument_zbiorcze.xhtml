@@ -1,0 +1,31 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+
+    <p:dialog id="dialogCechyDokumentu" header="Oznaczanie dokumentów" widgetVar="dialogCechyDokumentuZbiorcze" resizable="false" 
+              onShow="ustawdialogWindow('dialogCechyDokumentuZbiorcze',550,400);" focus=":formCH"  appendTo="@(body)"
+              closeOnEscape="true">
+        <h:form id="formCH" >
+            <p:dataTable  value="#{DokumentView.pobranecechypodatnik}" var="item"  rows="6" style="height: 200px; width: 500px;"
+                          emptyMessage="cechy nie zostały zdefiniowane">
+                <p:column headerText="nazwa cechy do wyboru">
+                    <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
+                </p:column>
+                <p:column headerText="rodzaj cechy do wyboru" style="text-align: center;">
+                    <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton value="+" actionListener="#{DokTabView.dodajcechedodokumenty(item)}" update=":form:dokumentyLista :form:cechydokuk"/>
+                </p:column>
+                 <p:column width="40" style="text-align: center;">
+                     <p:commandButton value="-" actionListener="#{DokTabView.usuncechedodokumenty(item)}" 
+                                      update="form:cechydokuk form:dokumentyLista" oncomplete="PF('dialogCechyDokumentuZbiorcze').hide(); PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition> 
