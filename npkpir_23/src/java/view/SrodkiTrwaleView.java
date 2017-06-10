@@ -9,7 +9,6 @@ import dao.STRDAO;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import entityfk.Dokfk;
-import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
@@ -58,10 +57,20 @@ public class SrodkiTrwaleView implements Serializable {
     
     public void dodajSrodekTrwalyDokfk(List<Dokfk> wybranydok) {
         try {
-            this.dokfk = wybranydok.get(0);
-            selectedSTR.setDatazak(dokfk.getDatawystawienia());
-            selectedSTR.setDataprzek(dokfk.getDatawystawienia());
-        } catch (Exception e) { E.e(e); 
+            if (wybranydok.size() > 0) {
+                this.dokfk = wybranydok.get(0);
+                if (this.dokfk == null) {
+                    Msg.msg("e", "Nie wybrano dokumentu źródłowego");
+                } else {
+                    selectedSTR.setDatazak(dokfk.getDatawystawienia());
+                    selectedSTR.setDataprzek(dokfk.getDatawystawienia());
+                    RequestContext.getCurrentInstance().execute("PF('dialogwpissrodkitrwale').show()");
+                }
+            } else {
+                Msg.msg("e", "Nie wybrano dokumentu źródłowego");
+            }
+        } catch (Exception e) {
+            E.e(e); 
         }
     }
     

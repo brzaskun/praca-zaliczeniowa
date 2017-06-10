@@ -44,10 +44,10 @@ var kopiujnazwepelnakontrahenci = function () {
   }
 };
 
-var wykresllokal_wykazklientow_dialog = function() {
-  var pole = rj("formX:lokalPole").value;
+var wykresllokal_wykazklientow_dialog = function(pole) {
+  var pole = rj(pole).value;
   if (pole === "") {
-      rj("formX:lokalPole").value = "-";
+      rj(pole).value = "-";
   }
 };
 

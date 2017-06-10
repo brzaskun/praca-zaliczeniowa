@@ -48,9 +48,12 @@
                     <h:outputLabel value="lokal" style="font-weight: 700"/>
                     <h:outputLabel value="kolumna w pkpir" style="font-weight: 700"/>
                     <h:outputLabel value="" style="font-weight: 700"/>
-                    <p:inputText id="ulicaPole" value="#{KlView.selected.ulica}"   style="width: 200px" required="true" requiredMessage="Pole ulica nie może byc puste"/>
+                    <p:inputText id="ulicaPole" value="#{KlView.selected.ulica}"   style="width: 200px" required="true" requiredMessage="Pole ulica nie może byc puste"
+                                 onblur="wykresllokal_wykazklientow_dialog('formnkfaktura:ulicaPole');"/>
                     <p:inputText id="domPole" value="#{KlView.selected.dom}" style="width: 200px" required="true" requiredMessage="Pole dom nie może byc puste"/>
-                    <p:inputText id="lokalPole" value="#{KlView.selected.lokal}"  style="width: 200px"/>
+                    <p:inputText id="lokalPole" value="#{KlView.selected.lokal}"  style="width: 200px"
+                                 onblur="wykresllokal_wykazklientow_dialog('formnkfaktura:lokalPole');"
+                                 />
                     <h:selectOneMenu id="pkpirPole" value="#{KlView.selected.pkpirKolumna}"   style="width: 200px" 
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                              onfocus="$(this).removeClass('ui-state-default');

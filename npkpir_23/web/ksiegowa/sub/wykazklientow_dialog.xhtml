@@ -91,14 +91,17 @@
                     </f:facet>
                     <p:row  style="height: 33px;">
                         <p:column>
-                            <p:inputText id="ulicaPole" value="#{DokumentView.selectedKlient.ulica}"   style="width: 200px" required="true" requiredMessage="Pole ulica nie może byc puste"/>
+                            <p:inputText id="ulicaPole" value="#{DokumentView.selectedKlient.ulica}"   style="width: 200px" 
+                                         required="true" requiredMessage="Pole ulica nie może byc puste"
+                                        onblur="wykresllokal_wykazklientow_dialog('formX:ulicaPole');">
+                            </p:inputText>
                         </p:column>
                         <p:column>
                             <p:inputText id="domPole" value="#{DokumentView.selectedKlient.dom}" style="width: 200px" required="true" requiredMessage="Pole dom nie może byc puste"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="lokalPole" value="#{DokumentView.selectedKlient.lokal}"  style="width: 200px"
-                                         onblur="wykresllokal_wykazklientow_dialog();"/>
+                                         onblur="wykresllokal_wykazklientow_dialog('formX:lokalPole');"/>
                         </p:column>
                         <p:column>
                             <h:selectOneMenu id="pkpirPole" value="#{KlView.selected.pkpirKolumna}"   style="width: 200px" 
