@@ -35,6 +35,7 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -596,6 +597,19 @@ public class Dok implements Serializable {
             return true;
         } 
         return false;
+    }
+    
+    public String getListaCech() {
+        StringBuilder sb = new StringBuilder();
+        if (czyCecha()) {
+            for (Cechazapisu p : this.cechadokumentuLista) {
+                sb.append(p.getNazwa());
+                sb.append(",");
+            }
+        }
+        String zwrot = sb.toString();
+        zwrot = StringUtils.removeEnd(zwrot, ",");
+        return zwrot;
     }
 
     @Override

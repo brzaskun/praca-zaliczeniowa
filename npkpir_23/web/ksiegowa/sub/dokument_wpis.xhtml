@@ -39,7 +39,7 @@
                  style="width: 900px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
             <p:growl life="3600"  id="mess_add" autoUpdate="true"/>
             <p:focus for="polawprowadzania1"/>
-            <p:panelGrid  columns="2" >
+            <p:panelGrid  columns="3" >
                 <p:panelGrid id="polawprowadzania1" style="width: 300px;">
                     <f:facet name="header">
                         <p:row >
@@ -52,6 +52,7 @@
                             <p:column>
                                 <h:outputLabel value="waluta" style="font-weight: 500"/>
                             </p:column>
+                            
                         </p:row>
                     </f:facet>
                     <p:row >
@@ -112,7 +113,22 @@
                             <h:outputText id="w13" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : DokumentView.selDokument.tabelanbp.kurssredni}" 
                                           />
                         </p:column>
+                       
                     </p:row>
+                </p:panelGrid>
+                <p:panelGrid id="panelcechy" style="width: 100px;">
+                     <f:facet name="header">
+                         <p:row>
+                               <p:column>
+                                <h:outputLabel value="" style="font-weight: 500; margin-left: 30px;"/>
+                            </p:column>
+                         </p:row>
+                     </f:facet>
+                    <p:row style="height: 30px;">
+                     <p:column>
+                         <h:outputText value="#{DokumentView.selDokument.listaCech}" style="color: green;"/>
+                        </p:column>
+                        </p:row>
                 </p:panelGrid>
             </p:panelGrid>
             <p:panelGrid id="polawprowadzania" style="width: 450px;">

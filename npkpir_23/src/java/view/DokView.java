@@ -151,7 +151,7 @@ public final class DokView implements Serializable {
     /*Środki trwałe*/
     private boolean pokazEST;//pokazuje wykaz srodkow dla sprzedazy
     private List<Cechazapisu> pobranecechypodatnik;
-
+    private Cechazapisu cechadomyslna;
     @Inject
     private Srodkikst srodekkategoriawynik;
     //automatyczne ksiegowanie Storna
@@ -262,6 +262,9 @@ public final class DokView implements Serializable {
         symbolWalutyNettoVat = " zł";
         biezacyklientdodok = klDAO.findKlientByNip(podX.getNip());
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
+        if (pobranecechypodatnik != null && pobranecechypodatnik.size() ==1) {
+            cechadomyslna = pobranecechypodatnik.get(0);
+        }
         try {
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             rodzajedokKlienta.addAll(pobierzrodzajedok());
@@ -321,7 +324,20 @@ public final class DokView implements Serializable {
         selDokument.getCechadokumentuLista().remove(c);
         c.getDokfkLista().remove(selDokument);
     }
-    
+
+    public void cechadomyslnaobsluz() {
+        if (cechadomyslna != null) {
+            if (selDokument.getCechadokumentuLista().contains(cechadomyslna)) {
+                selDokument.getCechadokumentuLista().remove(cechadomyslna);
+                cechadomyslna.getDokfkLista().remove(selDokument);
+                Msg.msg("e","Usunięto oznaczenie dokumentu cechą");
+            } else {
+                selDokument.getCechadokumentuLista().add(cechadomyslna);
+                cechadomyslna.getDokLista().add(selDokument);
+                Msg.msg("Oznaczono dokument cechą");
+            }
+        }
+    }    
     
     
     private List<Rodzajedok> pobierzrodzajedok() {
@@ -1776,6 +1792,8 @@ public final class DokView implements Serializable {
         }
     }
     
+    
+    
 
     public Klienci getSelectedKlient() {
         return selectedKlient;
@@ -2040,6 +2058,14 @@ public final class DokView implements Serializable {
 
     public void setgUSView(GUSView gUSView) {
         this.gUSView = gUSView;
+    }
+
+    public Cechazapisu getCechadomyslna() {
+        return cechadomyslna;
+    }
+
+    public void setCechadomyslna(Cechazapisu cechadomyslna) {
+        this.cechadomyslna = cechadomyslna;
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

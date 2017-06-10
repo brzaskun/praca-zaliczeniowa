@@ -84,7 +84,10 @@ public class Cechazapisu implements Serializable {
     public void setCechazapisuPK(CechazapisuPK cechazapisuPK) {
         this.cechazapisuPK = cechazapisuPK;
     }
-
+    
+    public String getNazwa() {
+        return this.cechazapisuPK.getNazwacechy();
+    }
     public List<Dok> getDokLista() {
         return dokLista;
     }

@@ -44,10 +44,13 @@
                                     <p:commandButton id="wprowadzenieNowegoAut" action="#{DokumentView.dodajNowyWpisAutomatyczny()}" value="amortyzacja" update=":auto:fifi2" global="false" style="width: 150px;"/>  
                                     <p:commandButton id="skopiujPoprzednia" action="#{DokumentView.skopiujdokument()}" value="skopiuj Alt-Q" update=":auto:fifi2"  accesskey="q"  style="width: 150px; margin-left: 10px;" />  
                                     <p:commandButton id="cechadokumentu" value="cechy dok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
-                                        onclick="PF('dialogCechyDokumentu').show();" accesskey="v" 
-                                     global="false"/>
+                                                     onclick="PF('dialogCechyDokumentu').show();" accesskey="v" update="dodWiad:panelcechy"
+                                        global="false" rendered="#{DokumentView.cechadomyslna eq null}"/>
+                                    <p:commandButton id="cechadokumentuauto" value="#{DokumentView.cechadomyslna.cechazapisuPK.nazwacechy}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
+                                                     accesskey="v" actionListener="#{DokumentView.cechadomyslnaobsluz()}" update="dodWiad:panelcechy" oncomplete="r('dodWiad:dataPole').focus();r('dodWiad:dataPole').select()"
+                                        global="false" rendered="#{DokumentView.cechadomyslna ne null}"/>
                                     <p:commandButton id="cechadefiniowanie" value="dodaj cechę" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
-                                        onclick="PF('dialogCechyZapisu').show();" update=":formCH" global="false"/>
+                                        onclick="PF('dialogCechyZapisu').show();" update=":formCH " global="false"/>
                                </h:form>
                             </p:panel>
                                 <ui:include src="sub/dialog_cechy_zapisu.xhtml" />
