@@ -772,6 +772,7 @@ public class BilansWprowadzanieView implements Serializable {
             wierszBODAO.editList(zachowaneWiersze);
             dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
             wierszedousuniecia = new ArrayList<>();
+            init();
             Msg.msg("Naniesiono zmiany w dokumencie BO");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd - nie zmieniono dokumentu BO");
@@ -924,9 +925,10 @@ public class BilansWprowadzanieView implements Serializable {
     private void edytujwiersze(Dokfk nd, List<WierszBO> zachowaneWiersze) {
         List<Wiersz> wiersze = nd.getListawierszy();
         int idporzadkowy = wiersze.size() + 1;
-        for (WierszBO p : zachowaneWiersze) {
+        for (Iterator<WierszBO> it = zachowaneWiersze.iterator(); it.hasNext();) {
+            WierszBO p = it.next();
             Wiersz wierszwdokumencie = niezawierategokonta(wiersze, p);
-            if (wierszwdokumencie == null) {
+            if (wierszwdokumencie == null && (Z.z(p.getKwotaWn()) != 0.0 || Z.z(p.getKwotaMa()) != 0.0)) {
                 Wiersz w = new Wiersz(idporzadkowy++, 0);
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "zapis BO: " + p.getOpis();
@@ -940,18 +942,22 @@ public class BilansWprowadzanieView implements Serializable {
                     generujStronaWierszaMa(p, w);
                 }
                 nd.getListawierszy().add(w);
-            } else {
-                if (wierszwdokumencie.getStronaWn() != null && p.getKwotaWn() != 0.0) {
-                    edytujKwotaWiersz(p,wierszwdokumencie.getStronaWn(), "Wn");
-                } else if (wierszwdokumencie.getStronaMa() != null && p.getKwotaMa() != 0.0) {
-                    edytujKwotaWiersz(p,wierszwdokumencie.getStronaMa(), "Ma");
-                } else if (wierszwdokumencie.getStronaWn() != null && p.getKwotaMa() != 0.0) {
-                    usunStronaWiersza(wierszwdokumencie, "Wn");
-                    generujStronaWierszaMa(p, wierszwdokumencie);
-                } else if (wierszwdokumencie.getStronaMa() != null && p.getKwotaWn() != 0.0) {
-                    usunStronaWiersza(wierszwdokumencie, "Ma");
-                    generujStronaWierszaWn(p, wierszwdokumencie);
-                }
+            } else if (wierszwdokumencie != null && (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0)) {
+                usunWiersz(wierszwdokumencie);
+            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaWn() != null && p.getKwotaWn() != 0.0) {
+                edytujKwotaWiersz(p, wierszwdokumencie.getStronaWn(), "Wn");
+            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaMa() != null && p.getKwotaMa() != 0.0) {
+                edytujKwotaWiersz(p, wierszwdokumencie.getStronaMa(), "Ma");
+            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaWn() != null && p.getKwotaMa() != 0.0) {
+                usunStronaWiersza(wierszwdokumencie, "Wn");
+                generujStronaWierszaMa(p, wierszwdokumencie);
+            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaMa() != null && p.getKwotaWn() != 0.0) {
+                usunStronaWiersza(wierszwdokumencie, "Ma");
+                generujStronaWierszaWn(p, wierszwdokumencie);
+            }
+            if (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0) {
+                wierszBODAO.destroy(p);
+                it.remove();
             }
         }
     }
@@ -993,15 +999,24 @@ public class BilansWprowadzanieView implements Serializable {
             s.setKwotaWaluta(p.getKwotaWn());
             s.setKursBO(p.getKurs());
             s.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
+            if (s.getWierszbo() == null) {
+                s.setWierszbo(p);
+            }
         } else {
             s.setKwota(p.getKwotaMa());
             s.setKwotaPLN(p.getKwotaMaPLN());
             s.setKwotaWaluta(p.getKwotaMa());
             s.setKursBO(p.getKurs());
             s.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
+            if (s.getWierszbo() == null) {
+                s.setWierszbo(p);
+            }
         }
     }
     
+    private void usunWiersz(Wiersz w) {
+        w.getDokfk().getListawierszy().remove(w);
+    }
     private void usunStronaWiersza(Wiersz w, String WnMa) {
         w.removeStrona(WnMa);
     }
@@ -1550,6 +1565,8 @@ public class BilansWprowadzanieView implements Serializable {
         boolean s = pierwszy.toLowerCase().contains(drugi.toLowerCase());
         System.out.println(s);
     }
+
+    
 
     
 }

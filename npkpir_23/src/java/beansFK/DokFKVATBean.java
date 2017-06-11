@@ -65,7 +65,7 @@ public class DokFKVATBean {
                 evatwpis.setNetto(Z.z(evatwpis.getNetto()*kurs/przelicznik));
             }
         }
-        if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("EXP") || rodzajdok.contains("sprzedaż zw")) {
+        if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("RVCS") || rodzajdok.contains("EXP") || rodzajdok.contains("sprzedaż zw")) {
             evatwpis.setVat(0.0);
         } else {
             evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
@@ -90,7 +90,7 @@ public class DokFKVATBean {
                 evatwpis.setNetto(Z.z(evatwpis.getNetto() * kurs /przelicznik));
             }
         }
-        if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
+        if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP") || opis.contains("RVCS") ) {
             evatwpis.setVat(0.0);
         } else if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
             evatwpis.setVat(Z.z((evatwpis.getNetto() * 0.23) / 2));
