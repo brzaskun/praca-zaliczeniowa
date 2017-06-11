@@ -467,6 +467,23 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public String getZwyklerozrachszczegolne() {
         return zwyklerozrachszczegolne;
     }
+    
+    public String getZwyklerozrachszczegolneS() {
+        String zwrot = null;
+        switch (zwyklerozrachszczegolne) {
+            case "zwykle":
+                zwrot = "zw";
+                break;
+            case "rozrachunkowe":
+                zwrot = "roz.";
+                break;
+            case "szczególne":
+                zwrot = "szcz.";
+                break;
+                
+        }
+        return zwrot;
+    }
 
     public void setZwyklerozrachszczegolne(String zwyklerozrachszczegolne) {
         this.zwyklerozrachszczegolne = zwyklerozrachszczegolne;

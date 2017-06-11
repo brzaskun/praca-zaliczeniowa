@@ -71,7 +71,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                             lp = ((ToBeATreeNodeObject) parent).getLp();
                             macierzysty = ((ToBeATreeNodeObject) p).getMacierzysty();
                         } catch (Exception ex) {
-                           
+                           E.e(ex);
                         }
                         if (lp == macierzysty) {
                             TreeNodeExtended tmp = new TreeNodeExtended(p, r);

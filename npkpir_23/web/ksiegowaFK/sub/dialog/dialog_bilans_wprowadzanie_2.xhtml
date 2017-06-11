@@ -303,7 +303,7 @@
                     </f:facet>
                     <bcf:outputpl value="#{item.kontostare.saldoWnksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoWnksiegi ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
                 </p:column>
-                <p:column sortBy="#{item.nowy0edycja1usun2}" width="80" style="#{item.stylwiersza}">
+                <p:column sortBy="#{item.nowy0edycja1usun2}" width="80" style="#{item.stylwiersza}" rendered="#{!bilansWprowadzanieView.pokazstarekonta}">
                     <f:facet name="header">
                         <h:outputText value="stan"  />
                     </f:facet>

@@ -1922,13 +1922,14 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(pozycjaWn, "center", 8));
                     String pozycjaMa = p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "brak przyp.Ma";
                     table.addCell(ustawfrazeAlign(pozycjaMa, "center", 8));
-                    double kwota = p.getBoWn() > 0 ? p.getBoWn(): 0;
+                    double roznica = p.getBoWn() - p.getBoMa();
+                    double kwota = roznica > 0.0 ? roznica: 0.0;
                     if (kwota != 0.0) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 8));
                     }
-                    kwota = p.getBoMa() > 0 ? p.getBoMa() : 0;
+                    kwota = roznica < 0 ? -roznica : 0.0;
                     if (kwota != 0.0) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
