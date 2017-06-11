@@ -9,6 +9,7 @@ import beansFK.DialogWpisywanie;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKVATBean;
+import static beansFK.DokFKVATBean.pobierzKontoRozrachunkowe;
 import beansFK.DokFKWalutyBean;
 import beansFK.DokumentFKBean;
 import beansFK.StronaWierszaBean;
@@ -62,9 +63,11 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -229,6 +232,9 @@ public class DokfkView implements Serializable {
     private Evewidencja ewidencjadlaRKDEL;
     private boolean pokazwszystkiedokumenty;
     private String miesiacWpisuPokaz;
+    private Map<String, Konto> kontadlaewidencji;
+    private Konto kontoRozrachunkowe;
+    private Dokfk poprzedniDokument ;
     
 
     public DokfkView() {
@@ -247,6 +253,7 @@ public class DokfkView implements Serializable {
         this.wykazZaksiegowanychDokumentowSrodkiTrw = new ArrayList<>();
         this.wykazZaksiegowanychDokumentowRMK = new ArrayList<>();
         this.cechydokzlisty = new ArrayList<>();
+        this.kontadlaewidencji = new HashMap<>();
     }
 
     //to zostaje bo tu i tak nie pobiera dokumentow
@@ -270,6 +277,10 @@ public class DokfkView implements Serializable {
                 klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
             }
             miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
+            kontadlaewidencji.put("221-3", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("490", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
         } catch (Exception e) {
             E.e(e);
         }
@@ -309,6 +320,7 @@ public class DokfkView implements Serializable {
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView, ostatniklient);
         selected.setWprowadzil(wpisView.getWprowadzil().getLogin());
         selected.setwTrakcieEdycji(false);
+        kontoRozrachunkowe = DokFKVATBean.pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
         wygenerujnumerkolejny();
         podepnijEwidencjeVat(0);
         try {
@@ -318,6 +330,7 @@ public class DokfkView implements Serializable {
             E.e(e);
         }
         obsluzcechydokumentu();
+        pobierzopiszpoprzedniegodokItemSelect();
         rodzajBiezacegoDokumentu = 1;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
@@ -590,6 +603,9 @@ public class DokfkView implements Serializable {
             Rodzajedok rodzajdok = selected.getRodzajedok();
             double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
             if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
+                if (kontoRozrachunkowe == null) {
+                    kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
+                }
                 if (rodzajdok.getKategoriadokumentu() == 1) {
                     if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
                         //oblicza polowe vat dla faktur samochody osobowe
@@ -598,9 +614,9 @@ public class DokfkView implements Serializable {
                         RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
                         RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
                     }
-                    DokFKVATBean.rozliczVatKoszt(evatwpis, wartosciVAT, selected, kliencifkDAO, kontoDAOfk, wpisView, dokDAOfk);
+                    DokFKVATBean.rozliczVatKoszt(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
                 } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
-                    DokFKVATBean.rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kliencifkDAO, kontoDAOfk, wpisView, dokDAOfk);
+                    DokFKVATBean.rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
                 }
             } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 1) {
                 DokFKVATBean.rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView);
@@ -625,9 +641,9 @@ public class DokfkView implements Serializable {
         double[] wartosciVAT = DokFKVATBean.podsumujwartosciVATRK(ewidencjaVatRK);
         List<Wiersz> dodanewiersze = null;
         if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            dodanewiersze = DokFKVATBean.rozliczVatKosztRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
+            dodanewiersze = DokFKVATBean.rozliczVatKosztRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
         } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            dodanewiersze = DokFKVATBean.rozliczVatPrzychodRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
+            dodanewiersze = DokFKVATBean.rozliczVatPrzychodRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
         }
         for (Wiersz p : dodanewiersze) {
             przepiszWaluty(p);
@@ -652,9 +668,9 @@ public class DokfkView implements Serializable {
             double[] wartosciVAT = DokFKVATBean.podsumujwartosciVATRK(ewidencjaVatRK);
             List<Wiersz> dodanewiersze = null;
             if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = DokFKVATBean.rozliczEdytujVatKosztRK(e, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
+                dodanewiersze = DokFKVATBean.rozliczEdytujVatKosztRK(e, wartosciVAT, selected, wierszRKindex, kontadlaewidencji);
             } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = DokFKVATBean.rozliczEdytujVatPrzychodRK(e, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
+                dodanewiersze = DokFKVATBean.rozliczEdytujVatPrzychodRK(e, wartosciVAT, selected, wierszRKindex);
             }
             for (Wiersz p : dodanewiersze) {
                 przepiszWaluty(p);
@@ -1127,11 +1143,12 @@ public class DokfkView implements Serializable {
                 w.setOpisWiersza(selected.getOpisdokfk());
             }
         }
+        kontoRozrachunkowe = DokFKVATBean.pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
     }
 
     public void pobierzopiszpoprzedniegodokItemSelect() {
         try {
-            Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
+            poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
             if (poprzedniDokument != null) {
                 selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
                 Wiersz w = selected.getListawierszy().get(0);
