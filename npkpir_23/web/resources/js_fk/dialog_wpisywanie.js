@@ -83,6 +83,12 @@ var odtworzwierszKontoWpis = function() {
     }
 };
 
+var nowadelegacja = function() {
+    PF('dialog_delegacje_stworz').hide();
+    $('#formwpisdokument\\:opisdokumentu').select();
+    r("parametrydel:jest1niema0").val(1);
+};
+
 var odtworzwierszKontoWpisKontrahent = function(nazwakontrahenta) {
     document.getElementById("parametrynowekonto:jest1niema0").value = "1";
     var id = parseInt(MYAPP.dodajnowekontoLP)-1;
@@ -791,7 +797,7 @@ var blokujdelegacje = function() {
 
 
 var czydodacdelegacjeShow = function (){
-    $(document.getElementById('dialog_delegacje_stworz')).width(400).height(150);
+    $(document.getElementById('dialog_delegacje_stworz')).width(450).height(150);
     try {
         $(document.getElementById('dialog_delegacje_stworz')).position({
         my: "center center",

@@ -10,14 +10,14 @@ import beansFK.DelegacjaBean;
 import beansFK.PlanKontFKBean;
 import beansFK.SlownikiBean;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
 import daoFK.DelegacjaDAO;
+import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.UkladBRDAO;
 import embeddablefk.DelegacjaZest;
-import entityfk.Konto;
 import entityfk.Delegacja;
 import entityfk.Dokfk;
+import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -116,6 +116,8 @@ public class DelegacjeView  implements Serializable{
             }
             selected = new Delegacja();
             Msg.msg("Dodaje delegację");
+            RequestContext.getCurrentInstance().update(":form_dialog_delegacje_stworz");
+            RequestContext.getCurrentInstance().update(":parametrydel");
         } else {
             Msg.msg("e", "Delegacja o takich parametrach już istnieje. Nie mogę dodać");
         }
