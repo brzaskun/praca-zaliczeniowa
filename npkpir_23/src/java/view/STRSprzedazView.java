@@ -5,15 +5,12 @@
  */
 package view;
 
-import dao.STRDAO;
 import data.Data;
 
 import entity.SrodekTrw;
 import entity.UmorzenieN;
 import error.E;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -105,6 +102,7 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             sprzedawanySrodekTrw.setStyl("color: blue; font-style:  italic;");
             sprzedawanySrodekTrw.setDatasprzedazy(data);
             sprzedawanySrodekTrw.setNrwldokumentu(nrwlasny);
+            sprzedawanySrodekTrw.setKwotaodpislikwidacja(0.0);
             Double suma = 0.0;
             Double umorzeniesprzedaz = 0.0;
             for(UmorzenieN x : sprzedawanySrodekTrw.getPlanumorzen()){

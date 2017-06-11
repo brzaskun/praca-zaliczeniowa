@@ -11,7 +11,7 @@
     <p:tab id="zestawieniestr" title="posiadane">
         <h:form id="str_posiadane">
             <p:contextMenu for="srodkiLista" style="width: 220px;">
-                <p:menuitem value="Wycofaj środek z ewidencji" update=":akordeon:str_posiadane" actionListener="#{STRTableView.wycofajsrodek()}" icon="ui-icon-trash" />
+                <p:menuitem value="Wycofaj środek z ewidencji" update=":akordeon:str_posiadane  :akordeon:str_sprzedane" actionListener="#{STRTableView.wycofajsrodek()}" icon="ui-icon-trash" />
                 <p:menuitem value="Zmień wartość środka" update=":akordeon:str_posiadane" onclick="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="fa fa-cc-visa" />
                 <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{STRTableView.drukujsrodek()}" icon="ui-icon-print" />
                 <p:menuitem value="Sprzedaż środka trwałego" update=":akordeon:str_posiadane" actionListener="#{sTRSprzedazView.sprzedazsrodkaFK()}" icon="ui-icon-cart" 

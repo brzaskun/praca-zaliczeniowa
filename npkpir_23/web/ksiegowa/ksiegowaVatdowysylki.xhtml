@@ -14,7 +14,7 @@
                   <h:form>
                     <p:growl life="3600"  id="fifi"/>
                     <p:confirmDialog id="confirmDialog" message="Usunąć deklarację?"  
-                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
+                                     header="" severity="alert" widgetVar="confirmation">  
 
                         <p:commandButton id="confirm" value="Tak, usunąć" update="paneldeklaracjadowyslania" oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{deklaracjevatView.destroy2()}" />  

@@ -13,7 +13,7 @@
             <h:form>
                 <p:growl life="3600"  id="fifi"/>
                 <p:confirmDialog id="confirmDialog" message="Usunąć wybrany dokument?"  
-                                 header="Initiating destroy process" severity="alert" widgetVar="confirmation">
+                                 header="" severity="alert" widgetVar="confirmation">
 
                     <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :form:dokumentyLista" oncomplete="PF('confirmation').hide()"  
                                      actionListener="#{DokTabView.destroy2()}" />  
@@ -24,7 +24,7 @@
             <h:form>
                 <p:growl life="3600"  id="fifi1"/>
                 <p:confirmDialog id="confirmDialog1" message="Usunąć całą grupę dokumentów?"  
-                                 header="Initiating destroy process" severity="alert" widgetVar="confirmation1">
+                                 header="" severity="alert" widgetVar="confirmation1">
 
                     <p:commandButton id="confirm" value="Tak, usunąć" update="fifi1 :form:dokumentyLista" oncomplete="PF('confirmation1').hide()"  
                                      actionListener="#{DokTabView.destroygrupa2()}" />  

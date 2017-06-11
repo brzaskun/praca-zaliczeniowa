@@ -12,7 +12,7 @@
              <h:form>
                     <p:growl life="3600"  id="fifi"/>
                     <p:confirmDialog id="confirmDialog" message="Sprzedać wybrany środek trwały?"  
-                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation" style="width: 350px;">  
+                                     header="" severity="alert" widgetVar="confirmation" style="width: 350px;">  
                         <p:commandButton id="confirm" value="Sprzedać" update="fifi" oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{sTRSprzedazView.sprzedajsrodki()}" style="float: left; width: 120px;"/>  
                         <p:commandButton id="decline" value="Cofnij" onclick="PF('confirmation').hide()" type="button" style="float: right; width: 120px;"/>   
@@ -22,7 +22,7 @@
              <h:form>
                     <p:growl life="3600"  id="fifi1"/>
                     <p:confirmDialog id="confirmDialog" message="Cofnąć sprzedaż wybranego środka trwałego?"  
-                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation1" style="width: 350px;">  
+                                     header="" severity="alert" widgetVar="confirmation1" style="width: 350px;">  
                         <p:commandButton id="confirm" value="Cofnij" update="fifi1" oncomplete="PF('confirmation1').hide()"  
                                          actionListener="#{sTRSprzedazView.kupsrodki()}" style="float: left; width: 120px;"/>  
                         <p:commandButton id="decline" value="Rezygnacja" onclick="PF('confirmation1').hide()" type="button" style="float: right; width: 120px;"/>   
