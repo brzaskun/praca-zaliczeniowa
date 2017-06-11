@@ -239,9 +239,9 @@
                                                 update=":parametrydel:jest1niema0"/>
                                     </p:inputText>
                                 </p:column>
-                                <p:column style="width: 40px; text-align: center;">
-                                    <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
-                                                  style="color: #{dokfkView.selected.rodzajedok.kontorozrachunkowe eq null ? 'red' : 'black'}"/>
+                                <p:column style="width: 40px; text-align: center;" id="przypkonto">
+                                    <h:outputText value="#{dokfkView.selected.kontoRozrachunkowe}" 
+                                                  style="color: #{dokfkView.selected.kontoRozrachunkowe eq 'b/k' ? 'red' : 'black'}"/>
                                 </p:column>
                             </p:row>
                         </p:panelGrid>

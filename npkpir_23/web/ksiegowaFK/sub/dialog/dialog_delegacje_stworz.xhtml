@@ -33,7 +33,7 @@
             </p:panelGrid>
             <p:commandButton value="dodaj" actionListener="#{delegacjeView.stworz(delegacjeView.selected.krajowa0zagraniczna1, dokfkView.selected)}" global="false"
                              style="margin-left: 45px; margin-top: 10px; width: 120px;" onclick="nowadelegacja();"
-                             update=":form_dialog_delegacje_stworz :parametrydel" rendered="#{delegacjeView.zapisz0edytuj1 == false}"/>
+                             rendered="#{delegacjeView.zapisz0edytuj1 == false}"/>
             <p:commandButton value="anuluj" style="margin-left: 80px; margin-top: 10px; width: 120px;" global="false"  onclick="blokujdelegacje();" 
                              update=":form_dialog_delegacje_stworz :parametrydel" rendered="#{delegacjeView.zapisz0edytuj1 == false}"/>
         </h:form>

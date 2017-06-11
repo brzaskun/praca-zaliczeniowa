@@ -901,4 +901,12 @@ public class Dokfk implements Serializable {
         }
         return beansPdf.PdfFont.formatujLiczba(w);
     }
+     
+     public String getKontoRozrachunkowe() {
+         String zwrot = "b/k";
+         if (this.getRodzajedok().getKontorozrachunkowe() != null) {
+             zwrot = this.getRodzajedok().getKontorozrachunkowe().getPelnynumer();
+         }
+         return zwrot;
+     }
 }
