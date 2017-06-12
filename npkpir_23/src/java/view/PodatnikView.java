@@ -1427,6 +1427,15 @@ public class PodatnikView implements Serializable {
         }
     }
     
+    public void kopiujnazweprintnazwa() {
+        List<Podatnik> l = podatnikDAO.findAllManager();
+        l.forEach((Podatnik p) -> {
+            p.setPrintnazwa(p.getNazwapelna());
+        });
+        podatnikDAO.editList(l);
+        Msg.dP();
+    }
+    
 //    public void zamienOpodatkowanieDochodowym() {
 //        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
 //        for (Podatnik p : podatnicy) {

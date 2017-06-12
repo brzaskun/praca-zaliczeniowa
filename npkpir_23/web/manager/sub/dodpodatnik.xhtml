@@ -20,7 +20,7 @@
                 <p:ajax event="blur" partialSubmit="true" global="false" listener="#{podatnikView.znajdzdaneregon('form')}"/>
             </h:inputText>
             <h:outputLabel value="nazwa pełna"/>
-            <h:inputText id="nazwapelna" value="#{podatnikView.selectedDod.nazwapelna}" 
+            <h:inputText id="nazwapelna" value="#{podatnikView.selectedDod.printnazwa}" 
                          required="true" requiredMessage="Nazwa pełna - jest wymagana, uzupełnij!" maxlength="25" title="Nie więcej niż 25 znaków" alt="Nie więcej niż 25 znaków">
                 <p:ajax event="blur" partialSubmit="true" global="false"/>
             </h:inputText>

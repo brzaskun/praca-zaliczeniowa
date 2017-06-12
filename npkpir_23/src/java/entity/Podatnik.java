@@ -244,7 +244,7 @@ public class Podatnik implements Serializable {
     private List<SprawozdanieFinansowe> elementysprawozdaniafin;
     @Column(name = "jestwlikiwdacji")
     private boolean jestwlikiwdacji;
-    @Size(max = 255)
+    @Size(max = 512)
     @Column(name = "printnazwa")
     private String printnazwa;
     
