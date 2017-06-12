@@ -171,6 +171,7 @@ public class PodatnikView implements Serializable {
             selectedDod.setPesel("00000000000");
         }
         try {
+            generujIndex(selectedDod);
             sformatuj(selectedDod);
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
@@ -186,6 +187,7 @@ public class PodatnikView implements Serializable {
         }
         try {
             selectedDod.setFirmafk(1);
+            generujIndex(selectedDod);
             sformatuj(selectedDod);
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
@@ -209,7 +211,7 @@ public class PodatnikView implements Serializable {
     
     public void kopiujnazwe() {
         if (selectedDod.getNazwapelna() != null) {
-            selectedDod.setNazwisko(selectedDod.getNazwapelna());
+            selectedDod.setNazwisko(selectedDod.getPrintnazwa());
         }
     }
     
@@ -294,7 +296,6 @@ public class PodatnikView implements Serializable {
     public void sformatuj(Podatnik s) throws Exception {
         try {
             String formatka = null;
-            s.setNazwapelna(s.getNazwapelna().toUpperCase());
             s.setWojewodztwo(s.getWojewodztwo().substring(0, 1).toUpperCase() + s.getWojewodztwo().substring(1).toLowerCase());
         } catch (Exception r) {
             Msg.msg("e", "Wystąpił błąd podczas formatowania wprowadzonych danych");
@@ -1450,6 +1451,25 @@ public class PodatnikView implements Serializable {
 //            }
 //        }
 //    }
+
+    private void generujIndex(Podatnik selectedDod) throws Exception {
+        try {
+            List<Podatnik> l = podatnikDAO.findAllManager();
+            StringBuilder sb = new StringBuilder();
+            sb.append(Data.aktualnyRokShort());
+            String fp = selectedDod.getFormaPrawna() == null ? "f":"p";
+            sb.append(fp);
+            sb.append(l.size());
+            String index = sb.toString();
+            selectedDod.setNazwapelna(index);
+            Msg.msg("Wygenerowano index dla firmy");
+        } catch (Exception e) {
+            Msg.dPe();
+            E.e(e);
+            throw new Exception();
+        }
+        
+    }
 
     
  

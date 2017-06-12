@@ -9,9 +9,7 @@ import entity.UmorzenieN;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.Year;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.inject.Named;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -157,6 +155,18 @@ public class Data implements Serializable {
         String formattedDate = formatter.print(dataRozrachunku);
         if (formattedDate.length() > 0) {
             zwrot = formattedDate.split("-")[0];
+        }
+        return zwrot;
+    }
+    
+    public static String aktualnyRokShort() {
+        String zwrot = "błąd";
+        DateTime dt = new DateTime();
+        LocalDate dataRozrachunku = dt.toLocalDate();
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+        String formattedDate = formatter.print(dataRozrachunku);
+        if (formattedDate.length() > 0) {
+            zwrot = formattedDate.split("-")[0].substring(2, 4);
         }
         return zwrot;
     }
