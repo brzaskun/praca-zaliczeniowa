@@ -449,6 +449,27 @@ public class BilansWprowadzanieView implements Serializable {
             Msg.msg("e", "Wystąpił błąd - nie oznaczono zapisu BO do usunięcia");
         }
     }
+    
+    public void usunwielebezBO(List<WierszBO> wierszBOlista) {
+        try {
+            for (WierszBO p : wierszBOlista) {
+                    usuwanielista(listaBO, p);
+            }
+            wierszBODAO.editList(wierszBOlista);
+            if (listaBOFiltered != null) {
+                for (WierszBO p : wierszBOlista) {
+                    listaBOFiltered.remove(p);
+                }
+                podsumujWnMa(listaBOFiltered, listaBOsumy);
+            } else {
+                podsumujWnMa(listaBO, listaBOsumy);
+            }
+            Msg.msg("Usunięto zapis BO");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd - nie usunięto zapisu BO");
+        }
+    }
 
     //usuwanie w filtrowanych jest tak gdzie wywolujaca
     private void usuwaniejeden(List<WierszBO> l, WierszBO wierszBO) {
