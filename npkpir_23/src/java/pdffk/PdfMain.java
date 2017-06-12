@@ -2246,9 +2246,9 @@ public class PdfMain {
             }
             if (p.getLevel() == 0) {
                 if (l.equals("pl")) {
-                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
                 } else {
-                    table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
                 }
             } else {
                 if (l.equals("pl")) {
@@ -2257,11 +2257,11 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
                 }
             }
-            int czcionka = 8;
+            int czcionka = 7;
             if (mce.size() > 9) {
-                czcionka = 6;
+                czcionka = 5;
             } else if (mce.size() > 5) {
-                czcionka = 7;
+                czcionka = 6;
             }
             for (String m : mce) {
                 if (p.getMce().get(m) != 0.0) {
