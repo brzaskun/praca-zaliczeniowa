@@ -398,8 +398,8 @@
                             </p:column>
                             <p:column headerText="brutto" width="80">
                                 <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
-                                                symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
-                                    <p:ajax global="false" event="blur" listener="#{dokfkView.dolaczWierszeZKwotami(item)}" partialSubmit="true"/>
+                                                symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" 
+                                                > 
                                 </pe:inputNumber>
                             </p:column>
                             <p:column headerText="op/zw" style="width: 45px; text-align: center;">
@@ -408,6 +408,7 @@
                                                  onblur="$(this).removeClass('ui-state-focus');" style="width: 45px; height: 20px;">
                                     <f:selectItem itemLabel="op" itemValue="sprz.op"/>
                                     <f:selectItem itemLabel="op.izw." itemValue="sprzed.op.izw."/>
+                                    <p:ajax global="false" event="focus" listener="#{dokfkView.dolaczWierszeZKwotami(item)}" partialSubmit="true"/>
                                 </h:selectOneMenu>
                             </p:column>
                             <p:column headerText="#{dokfkView.sprawdzjakiokresvat() eq 'kwartalne' ? '+kw' : '+mc'}" style="width: 25px; text-align: center;">
