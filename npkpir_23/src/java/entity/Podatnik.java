@@ -12,7 +12,6 @@ import entityfk.MiejsceKosztow;
 import entityfk.SprawozdanieFinansowe;
 import enumy.FormaPrawna;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -245,6 +244,9 @@ public class Podatnik implements Serializable {
     private List<SprawozdanieFinansowe> elementysprawozdaniafin;
     @Column(name = "jestwlikiwdacji")
     private boolean jestwlikiwdacji;
+    @Size(max = 255)
+    @Column(name = "printnazwa")
+    private String printnazwa;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -286,6 +288,14 @@ public class Podatnik implements Serializable {
     }
     public String getSchematnumeracji() {
         return schematnumeracji;
+    }
+
+    public String getPrintnazwa() {
+        return printnazwa;
+    }
+
+    public void setPrintnazwa(String printnazwa) {
+        this.printnazwa = printnazwa;
     }
 
     public boolean isJestwlikiwdacji() {

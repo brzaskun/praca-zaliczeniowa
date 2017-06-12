@@ -1024,19 +1024,23 @@ public class BilansWprowadzanieView implements Serializable {
     private void usunwiersze(Dokfk nd, List<WierszBO> zachowaneWiersze) {
         List<Wiersz> wiersze = nd.getListawierszy();
         if (!zachowaneWiersze.isEmpty()) {
+            boolean czyedytowac = false;
             for (WierszBO p : zachowaneWiersze) {
                 Wiersz w = zawieratokonto(wiersze, p);
                 if (w != null && p.getNowy0edycja1usun2Int() == 2) {
                     wiersze.remove(w);
+                    czyedytowac = true;
                 }
             }
-            if (wiersze.isEmpty()) {
-                dokDAOfk.destroy(nd);
-                isteniejeDokBO = false;
-                dokumentBO = null;
-            } else {
-                nd.przenumeruj();;
-                dokDAOfk.edit(nd);
+            if (czyedytowac) {
+                if (wiersze.isEmpty()) {
+                    dokDAOfk.destroy(nd);
+                    isteniejeDokBO = false;
+                    dokumentBO = null;
+                } else {
+                    nd.przenumeruj();;
+                    dokDAOfk.edit(nd);
+                }
             }
 
         }

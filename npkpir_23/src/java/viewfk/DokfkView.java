@@ -2858,6 +2858,7 @@ public class DokfkView implements Serializable {
                 }
                 selectedlist = null;
             }
+            Msg.msg("Usunięto zaznaczone dokumnety");
         } catch (Exception e) {
             Msg.msg("e", "Wystapił błąd poczad usuwania wybranych dokumentów. Spróbuj usunąć je pojedynczo");
         }
