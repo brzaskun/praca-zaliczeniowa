@@ -253,7 +253,7 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjePodsumowaniaWynikuNowe.add(obliczpojedyncza(id++, przychody, koszty, wynik, wynikpodatkowy, udzial, kto));
         List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
         for (PodatnikUdzialy p : udzialy) {
-            double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
+            double udział = Z.z4(Double.parseDouble(p.getUdzial())/100);
             pozycjePodsumowaniaWynikuNowe.add(obliczpojedyncza(id++, przychody, koszty, wynik, wynikpodatkowy, udział, p.getNazwiskoimie()));
         }
     }
@@ -741,12 +741,14 @@ public class SymulacjaWynikuView implements Serializable {
         
         
         public static void main(String[] args) throws Exception  {
-            EntityManager em = Em.getEm();
-            Podatnik podatnik = (Podatnik) em.createNamedQuery("Podatnik.findByNip").setParameter("nip", "9552340951").getSingleResult();
-            System.out.println(podatnik.toString());
-            //List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(t.wiersz.dokfk.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
-            List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza  t JOIN t.wiersz.dokfk s WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(s.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
-            System.out.println("");
+//            EntityManager em = Em.getEm();
+//            Podatnik podatnik = (Podatnik) em.createNamedQuery("Podatnik.findByNip").setParameter("nip", "9552340951").getSingleResult();
+//            System.out.println(podatnik.toString());
+//            //List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(t.wiersz.dokfk.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
+//            List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza  t JOIN t.wiersz.dokfk s WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(s.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
+//            System.out.println("");
+              double udział = Z.z4(Double.parseDouble("33.33")/100);
+              System.out.println(""+udział);
         }
     }
 }
