@@ -21,7 +21,7 @@
             <p:panelGrid columns="1"  >
                 <p:column >
                     <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 572px;">
-                        <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
+                        <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p.nazwapelna}"/>
                     </p:selectOneListbox>
                 </p:column>
             </p:panelGrid>

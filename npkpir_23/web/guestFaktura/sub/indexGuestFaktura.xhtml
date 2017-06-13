@@ -18,7 +18,7 @@
             <p:panelGrid columns="4">
                 <p:column >
                     <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 280px;">
-                        <f:selectItems value="#{multiuserView.listawyboru}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
+                        <f:selectItems value="#{multiuserView.listawyboru}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p.nazwapelna}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 100px;">

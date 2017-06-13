@@ -278,9 +278,9 @@ public class DokfkView implements Serializable {
             }
             miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
             kontadlaewidencji.put("221-3", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
-            kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
-            kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
-            kontadlaewidencji.put("490", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
         } catch (Exception e) {
             E.e(e);
         }
