@@ -239,8 +239,8 @@
                                                 update=":parametrydel:jest1niema0"/>
                                     </p:inputText>
                                 </p:column>
-                                <p:column style="width: 40px; text-align: center;" id="przypkonto">
-                                    <h:outputText value="#{dokfkView.selected.kontoRozrachunkowe}" 
+                                <p:column style="width: 40px; text-align: center;">
+                                    <h:outputText value="#{dokfkView.selected.kontoRozrachunkowe}"  id="przypkonto"
                                                   style="color: #{dokfkView.selected.kontoRozrachunkowe eq 'b/k' ? 'red' : 'black'}"/>
                                 </p:column>
                             </p:row>
@@ -268,7 +268,7 @@
                                                     forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" autocomplete="true"
                                                     rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
-                                        <p:ajax event="itemSelect" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:panelwalutowy"/>
+                                        <p:ajax event="focus" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:panelwalutowy"/>
                                         <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" partialSubmit="true" global="false"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();"/>
                                         <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" partialSubmit="true" update=":formwpisdokument:opisdokumentu" oncomplete="dodajnowegoklienta();" global="false"/>
                                         <f:facet name="itemtip">  
