@@ -6,7 +6,7 @@
 
 package view;
 
-import comparator.Podatnikcomparator;
+import comparator.Podatnikcomparator1;
 import comparator.Zusstawkicomparator;
 import dao.PodatnikDAO;
 import dao.ZUSDAO;
@@ -59,7 +59,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     @PostConstruct
     public void init() {
         listapodatnikow.addAll(podatnikDAO.findPodatnikZUS());
-        Collections.sort(listapodatnikow, new Podatnikcomparator());
+        Collections.sort(listapodatnikow, new Podatnikcomparator1());
         ustawRokMc();
     }
     
@@ -173,9 +173,9 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         }
     }
       
-    public void pobierzzusZbiorcze() {
+    public void pobierzzusZbiorcze(Podatnik selected) {
         List<Zusstawki> tmp = new ArrayList<>();
-        String data = wpisView.getPodatnikObiekt().getDatamalyzus();
+        String data = selected.getDatamalyzus();
         String rok = null;
         String mc = null;
         boolean czymalyzus = false;

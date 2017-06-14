@@ -1072,7 +1072,7 @@ public class ZestawienieView implements Serializable {
                 if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
                         && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                     if (p.isOdliczeniezus51() == true) {
-                        if (tmpX.getZus51ch() != null) {
+                        if (tmpX.getZus51ch() != 0.0) {
                             suma51 += tmpX.getZus51ch();
                         } else {
                             suma51 += tmpX.getZus51bch();
