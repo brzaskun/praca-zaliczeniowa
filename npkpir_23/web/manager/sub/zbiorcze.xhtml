@@ -27,7 +27,7 @@
                                  rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
                         <p:ajax event="rowSelect" listener="#{zUSStawkiZbiorczeView.wybranowiadomosc(podatnik.zusparametr)}" update=":akordeon:formwartosci, :akordeon:formbuttony"/>       
                         <f:facet name="header">
-                            <h:outputText value="Lista wprowadzonych danych za okresy rozliczeniowe"/>
+                            <h:outputText value="Lista wprowadzonych danych za okresy rozliczeniowe #{podatnik.printnazwa}"/>
                         </f:facet>
                         <p:column headerText="rok" sortBy="#{loop.zusstawkiPK.rok}" style="text-align: center">
                             <h:outputText value="#{loop.zusstawkiPK.rok}"  style="#{loop.zusstawkiPK.rok eq zUSStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}"/>
@@ -115,7 +115,7 @@
                         <p:commandButton id="edytujbutton" actionListener="#{zUSStawkiZbiorczeView.edytujzusZbiorcze(podatnik)}" value="edytuj" style="width: 100px;" update=":akordeon:formzus" rendered="#{zUSStawkiZbiorczeView.dodaj0edtuj1}"/>
                     </p:outputPanel>
                     <p:commandButton actionListener="#{zUSStawkiZbiorczeView.pobierzzusPoprzedniMiesiac(podatnik)}" value="skopiuj pop.mc" style="width: 110px;" update=":akordeon:formwartosci"/>
-                    <p:commandButton actionListener="#{zUSStawkiZbiorczeView.pobierzzusZbiorcze()}" value="pobierz z wzorca" style="width: 110px;" update=":akordeon:formwartosci"/>
+                    <p:commandButton actionListener="#{zUSStawkiZbiorczeView.pobierzzusZbiorcze(podatnik)}" value="pobierz z wzorca" style="width: 110px;" update=":akordeon:formwartosci"/>
                     <p:commandButton actionListener="#{zUSStawkiZbiorczeView.uzupełnijrok(podatnik)}" value="uzupełnij rok" style="width: 110px;" update=":akordeon:formzus"/>
                 </p:panelGrid>
             </h:form>

@@ -10,6 +10,7 @@ import dao.SMTPSettingsDAO;
 import dao.WpisDAO;
 import embeddable.Mce;
 import entity.Dok;
+import entity.Klienci;
 import entity.Wpis;
 import error.E;
 import java.io.Serializable;
@@ -64,6 +65,7 @@ public class ObrotyView implements Serializable{
     private List<String> dokumentypodatnika;
     private List<String> kontrahentypodatnika;
     private List<String> rodzajetransakcji;
+    private boolean czyduplikaty;
 
     public ObrotyView() {
         //lista porzechowujaca przefiltrowane widoki
@@ -80,9 +82,6 @@ public class ObrotyView implements Serializable{
             } else {
                 init();
             }
-            dokumentypodatnika = new ArrayList<>();
-            kontrahentypodatnika = new ArrayList<>();
-            rodzajetransakcji = new ArrayList<>();
         }
     }
     
@@ -238,6 +237,30 @@ public class ObrotyView implements Serializable{
             E.e(e); 
         }
     }
+   
+   public void usunduplikaty() {
+       if (czyduplikaty) {
+            if (dokumentyFiltered != null && dokumentyFiltered.size() > 0) {
+               porzadekduplikaty(dokumentyFiltered);
+            } else {
+                porzadekduplikaty(obiektDOKmrjsfSelX);
+            }
+       } else {
+           init();
+       }
+   }
+   
+    private void porzadekduplikaty(List<Dok> dok) {
+        Set<Klienci> kontrahenci = new HashSet<>();
+        for (Iterator<Dok> it = dok.iterator(); it.hasNext();) {
+            Klienci k = it.next().getKontr1();
+            if (kontrahenci.contains(k)) {
+                it.remove();
+            } else {
+                kontrahenci.add(k);
+            }
+        }
+    }
        
     public List<Dok> getObiektDOKmrjsfSelX() {
         return obiektDOKmrjsfSelX;
@@ -310,6 +333,14 @@ public class ObrotyView implements Serializable{
 
     public void setRodzajetransakcji(List<String> rodzajetransakcji) {
         this.rodzajetransakcji = rodzajetransakcji;
+    }
+
+    public boolean isCzyduplikaty() {
+        return czyduplikaty;
+    }
+
+    public void setCzyduplikaty(boolean czyduplikaty) {
+        this.czyduplikaty = czyduplikaty;
     }
 
    

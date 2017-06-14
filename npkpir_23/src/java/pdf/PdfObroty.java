@@ -62,14 +62,16 @@ public class PdfObroty  {
         }
         Font font = new Font(helvetica, 8);
         pdf.setPageSize(PageSize.A4);
-        PdfPTable table = new PdfPTable(11);
-        table.setWidths(new int[]{1, 2, 4, 2, 2, 2, 2, 2, 2,2,3});
+        PdfPTable table = new PdfPTable(12);
+        table.setWidthPercentage(95);
+        table.setWidths(new int[]{1, 2, 5, 4, 2, 1, 2, 2, 2, 2,2,3});
         PdfPCell cell = new PdfPCell();
         table.addCell(ustawfrazeAlign("nr kolejny", "center",8));
         table.addCell(ustawfrazeAlign("data wystawienia", "center",8));
         table.addCell(ustawfrazeAlign("kontrahent", "center",8));
+        table.addCell(ustawfrazeAlign("adres", "center",8));
         table.addCell(ustawfrazeAlign("transakcja", "center",8));
-        table.addCell(ustawfrazeAlign("symbol dok.", "center",8));
+        table.addCell(ustawfrazeAlign("symb. dok.", "center",8));
         table.addCell(ustawfrazeAlign("nr własny", "center",8));
         table.addCell(ustawfrazeAlign("opis", "center",8));
         table.addCell(ustawfrazeAlign("netto", "center",8));
@@ -86,10 +88,11 @@ public class PdfObroty  {
             } else {
                 table.addCell(ustawfrazeAlign("", "center",8));
             }
-            table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left",8,25f));
+            table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left",8));
             table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left",8));
+            table.addCell(ustawfrazeAlign(rs.getKontr().getAdres(), "left",7));
             table.addCell(ustawfrazeAlign(rs.getRodzTrans(), "left",8));
-            table.addCell(ustawfrazeAlign(rs.getTypdokumentu(), "left",8));
+            table.addCell(ustawfrazeAlign(rs.getTypdokumentu(), "center",8));
             table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left",8));
             table.addCell(ustawfrazeAlign(rs.getOpis(), "left",8));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right",8));
@@ -100,7 +103,7 @@ public class PdfObroty  {
                     table.addCell(ustawfrazeAlign("", "right",8));
                 } else if (!rs.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")){
                     table.addCell(ustawfrazeAlign(formatujLiczba(rs.getNettoWaluta()), "right",8));
-                    table.addCell(ustawfrazeAlign(rs.getTabelanbp().getNrtabeli()+"/"+rs.getTabelanbp().getWaluta().getSymbolwaluty(), "right",8));
+                    table.addCell(ustawfrazeAlign(rs.getTabelanbp().getNrtabeli()+"/"+rs.getTabelanbp().getWaluta().getSymbolwaluty(), "right",7));
                 }
             } else {
                 table.addCell(ustawfrazeAlign(formatujLiczba((Double) suma[1]), "right",8));

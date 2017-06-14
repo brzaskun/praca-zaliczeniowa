@@ -284,7 +284,7 @@ public final class DokView implements Serializable {
         try {
             //czasami dokument ostatni jest zle zapisany, w przypadku bleduy nalezy go usunac
             wysDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
-            if (!wysDokument.getEwidencjaVAT1().isEmpty()) {
+            if (wysDokument.getEwidencjaVAT1() != null && !wysDokument.getEwidencjaVAT1().isEmpty()) {
                 Iterator it = wysDokument.getEwidencjaVAT1().iterator();
                 while (it.hasNext()) {
                     EVatwpis1 p = (EVatwpis1) it.next();
@@ -292,6 +292,13 @@ public final class DokView implements Serializable {
                         it.remove();
                     }
                 }
+            }
+            if (wysDokument != null) {
+                typdokumentu = wysDokument.getTypdokumentu().toString();
+                selDokument.setTypdokumentu(wysDokument.getTypdokumentu().toString());
+                wygenerujnumerkolejny();
+            } else {
+                this.typdokumentu = "ZZ";
             }
         } catch (Exception e) {
             E.e(e);
@@ -303,10 +310,8 @@ public final class DokView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        this.typdokumentu = "ZZ";
         Klienci klient = klDAO.findKlientByNip(podX.getNip());
         selDokument.setKontr1(klient);
-        typdokumentu = "ZZ";
         podepnijEwidencjeVat();
         DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
         RequestContext.getCurrentInstance().update("dodWiad");
@@ -684,49 +689,34 @@ public final class DokView implements Serializable {
 //        RequestContext.getCurrentInstance().update("dodWiad:acForce");
 //    }
 
+    public void wygenerujnumerkolejnyonblur() {
+        if (selDokument.getNrWlDk() == null || selDokument.getNrWlDk().equals("")) {
+            wygenerujnumerkolejny();
+        }
+    }
+    
     public void wygenerujnumerkolejny() {
-        String zawartosc = "";
-        try {
-            zawartosc = selDokument.getNrWlDk();
-        } catch (Exception ex) {
-            selDokument.setNrWlDk("");
-        }
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String wprowadzonynumer = "";
-        if (params.get("dodWiad:numerwlasny") != null) {
-            wprowadzonynumer = params.get("dodWiad:numerwlasny");
-        }
-        if (!wprowadzonynumer.isEmpty()) {
-        } else {
-            String nowynumer = "";
-            List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-            Rodzajedok rodzajdok = new Rodzajedok();
-            for (Rodzajedok p : listaD) {
-                if (p.getRodzajedokPK().getSkrotNazwyDok().equals(typdokumentu)) {
-                    rodzajdok = p;
-                    break;
-                }
-            }
-            String wzorzec = rodzajdok.getWzorzec();
-            if (!wzorzec.equals("")) {
-                try {
-                    nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, typdokumentu, wpisView, dokDAO);
-                } catch (Exception e) {
-                    nowynumer = wzorzec;
-                }
-            }
-            renderujwyszukiwarke(rodzajdok);
-            renderujtabele(rodzajdok);
-            if (!nowynumer.isEmpty() && selDokument.getNrWlDk() == null) {
-                selDokument.setNrWlDk(nowynumer);
-                RequestContext.getCurrentInstance().update("dodWiad:numerwlasny");
-            }
-            if (!nowynumer.isEmpty() && selDokument.getNrWlDk().isEmpty()) {
-                selDokument.setNrWlDk(nowynumer);
-                RequestContext.getCurrentInstance().update("dodWiad:numerwlasny");
+        String nowynumer = "";
+        List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+        Rodzajedok rodzajdok = new Rodzajedok();
+        for (Rodzajedok p : listaD) {
+            if (p.getRodzajedokPK().getSkrotNazwyDok().equals(typdokumentu)) {
+                rodzajdok = p;
+                break;
             }
         }
-
+        String wzorzec = rodzajdok.getWzorzec();
+        if (wzorzec != null && !wzorzec.equals("")) {
+            try {
+                nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, typdokumentu, wpisView, dokDAO);
+            } catch (Exception e) {
+                nowynumer = wzorzec;
+            }
+        }
+        renderujwyszukiwarke(rodzajdok);
+        renderujtabele(rodzajdok);
+        selDokument.setNrWlDk(nowynumer);
+        RequestContext.getCurrentInstance().update("dodWiad:numerwlasny");
     }
 
     private void renderujwyszukiwarke(Rodzajedok rodzajdok) {
@@ -924,6 +914,8 @@ public final class DokView implements Serializable {
                 selDokument.setOpis(wysDokument.getOpis());
                 setRenderujwysz(false);
                 setPokazEST(false);
+                selDokument.setTypdokumentu(wysDokument.getTypdokumentu().toString());
+                wygenerujnumerkolejny();
                 int i = 0;
                 try {
                     if (wysDokument.getListakwot1() != null) {

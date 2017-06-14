@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
-    <f:event type="preRenderView" listener="#{obrotyView.init()}"/>
+    
     <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{obrotyView.drukujObroty()}" >
     </p:commandButton>
     <p:commandButton id="obrotywysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
@@ -15,6 +15,9 @@
     <p:commandButton value="Odhacz wybrane" actionListener="#{obrotyView.czyscwybrane()}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista" style="margin-left: 20px;"
                      onclick="PF('dokTable').clearFilters()">
     </p:commandButton>
+    <p:selectBooleanCheckbox value="#{obrotyView.czyduplikaty}" itemLabel="usuń duplikaty kontrahentów" style="margin-left: 15px;">
+        <p:ajax event="change" listener="#{obrotyView.usunduplikaty}" partialSubmit="true" update="formX:dokumentyLista"/>
+    </p:selectBooleanCheckbox>
     <p:panelGrid columns="4">
         <h:outputText value="   suma wartości netto wybranych dokumentów w zł: "/>
         <h:outputText  id="podsumowaniewybr" value="#{obrotyView.podsumowaniewybranychnetto}">
