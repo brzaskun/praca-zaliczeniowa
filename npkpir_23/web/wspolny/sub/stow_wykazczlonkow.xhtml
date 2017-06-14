@@ -14,6 +14,7 @@
             <p:dataTable value="#{miejscePrzychodowView.czlonkowiestowarzyszenia}" var="item" style="width: 1030px;" rowIndexVar="index"
                          scrollable="true" scrollHeight="450"  emptyMessage="brak zdefiniowanych członków stowarzyszenia"
                          sortBy="#{item.opismiejsca}">
+                <p:ajax event="filter" global="false"/>
                 <p:column style="width: 30px;">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
