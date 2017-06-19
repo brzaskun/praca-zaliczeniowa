@@ -57,13 +57,13 @@
 
                 })();
                 $(document).ready(function () {
-                    if ((navigator.sayswho.indexOf('Chrome') === -1) &amp;&amp; (navigator.sayswho.indexOf('Opera') === -1)) {
+                    if ((navigator.sayswho.indexOf('Firefox') === -1) &amp;&amp; (navigator.sayswho.indexOf('Chrome') === -1) &amp;&amp; (navigator.sayswho.indexOf('Opera') === -1)) {
                         if (navigator.language === 'pl' || navigator.language === 'pl-PL') {
-                            alert("Ten program działa poprawnie jedynie w przeglądarce Chrome lub Opera!");
+                            alert("Ten program działa poprawnie jedynie w przeglądarce Firefox, Chrome lub Opera!");
                         } else if (navigator.language === 'de' || navigator.language === 'de-DE') {
-                            alert("Diese Software funktioniert nur unter Chrome oder Opera Browser!");
-                        } else if (navigator.language === 'en' || navigator.language === 'en-EN') {
-                            alert("This Software works only with Chrome or Opera Browser!");
+                            alert("Diese Software funktioniert nur unter Firefox, Chrome oder Opera Browser!");
+                        } else if (navigator.language === 'en' || navigator.language === 'en-EN' || navigator.language === 'en-US') {
+                            alert("This Software works only with Firefox, Chrome or Opera Browser!");
                         }
                     }
                 })
