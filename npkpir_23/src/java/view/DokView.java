@@ -301,6 +301,7 @@ public final class DokView implements Serializable {
                 this.typdokumentu = "ZZ";
             }
         } catch (Exception e) {
+            this.typdokumentu = "ZZ";
             E.e(e);
         }
         selDokument.setKontr1(wstawKlientaDoNowegoDok());
