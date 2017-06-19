@@ -207,7 +207,7 @@
                         <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" />
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" oncomplete="odswietlrozrachunki()"/>
                         <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
-                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>
+<!--                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>-->
                         <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
                         <p:ajax event="filter" global="false" oncomplete="przeliczfilterzapisy()"/>
                         <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>

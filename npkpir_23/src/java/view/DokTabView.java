@@ -186,24 +186,31 @@ public class DokTabView implements Serializable {
         Collections.sort(kontrahentypodatnika, collator);
         walutywdokum.addAll(waluty);
         Collections.sort(walutywdokum);
-        cechydokzlisty = znajdzcechy(obiektDOKmrjsfSel);
+        if (obiektDOKmrjsfSel != null) {
+            cechydokzlisty = znajdzcechy(obiektDOKmrjsfSel);
+        }
     }
     
-       private List znajdzcechy(List<Dok> wykazZaksiegowanychDokumentow) {
-        if (wybranacechadok == null || wybranacechadok.equals("")) {
-            Set<String> lista = new HashSet<>();
-            for (Dok p : wykazZaksiegowanychDokumentow) {
-                if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
-                    for (Cechazapisu r : p.getCechadokumentuLista()) {
-                        lista.add(r.getCechazapisuPK().getNazwacechy());
+    private List znajdzcechy(List<Dok> wykazZaksiegowanychDokumentow) {
+        try {
+            if (wybranacechadok == null || wybranacechadok.equals("")) {
+                Set<String> lista = new HashSet<>();
+                for (Dok p : wykazZaksiegowanychDokumentow) {
+                    if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
+                        for (Cechazapisu r : p.getCechadokumentuLista()) {
+                            lista.add(r.getCechazapisuPK().getNazwacechy());
+                        }
                     }
                 }
+                List<String> t = new ArrayList<>(lista);
+                Collections.sort(t);
+                return t;
+            } else {
+                return cechydokzlisty;
             }
-            List<String> t = new ArrayList<>(lista);
-            Collections.sort(t);
-            return t;
-        } else {
-            return cechydokzlisty;
+        } catch (Exception e) {
+            E.e(e);
+            return new ArrayList<>();
         }
     }
     

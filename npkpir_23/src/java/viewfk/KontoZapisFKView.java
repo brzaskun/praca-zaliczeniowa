@@ -370,13 +370,13 @@ public class KontoZapisFKView implements Serializable{
         //Msg.msg("numer "+d.getSelection());
         sumazapisow();
         sumazapisowpln();
-        odszukajsparowanerozrachunki();
+        //odszukajsparowanerozrachunki();
     }
     
     public void sumazapisowtotal() {
         sumazapisow();
         sumazapisowpln();
-        odszukajsparowanerozrachunki();
+        //odszukajsparowanerozrachunki();
     }
     
     private TreeNode odnajdzNode(Konto kontoPoszukiwane) {
@@ -422,12 +422,12 @@ public class KontoZapisFKView implements Serializable{
         try {
             sumaWn = 0.0;
             sumaMa = 0.0;
-            if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
-                for(StronaWiersza p : kontozapisyfiltered){
+            if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+                for(StronaWiersza p : wybranekontadosumowania){
                     sumujstrony(p);
                 }
-            } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
-                for(StronaWiersza p : wybranekontadosumowania){
+            } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
+                for(StronaWiersza p : kontozapisyfiltered){
                     sumujstrony(p);
                 }
             } else {
@@ -514,16 +514,7 @@ public class KontoZapisFKView implements Serializable{
     public void sumazapisowpln(){
         sumaWnPLN = 0.0;
         sumaMaPLN = 0.0;
-        if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
-            for(StronaWiersza p : kontozapisyfiltered){
-                double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
-                if (p.getWnma().equals("Wn")) {
-                    Z.z(sumaWnPLN = sumaWnPLN + kwotadlasumy);
-                } else if (p.getWnma().equals("Ma")){
-                    Z.z(sumaMaPLN = sumaMaPLN + kwotadlasumy);
-                }
-            }
-        } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+        if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
             for(StronaWiersza p : wybranekontadosumowania){
                 double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
@@ -532,7 +523,16 @@ public class KontoZapisFKView implements Serializable{
                     Z.z(sumaMaPLN = sumaMaPLN + kwotadlasumy);
                 }
             }
-        } else {
+        } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
+            for(StronaWiersza p : kontozapisyfiltered){
+                double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
+                if (p.getWnma().equals("Wn")) {
+                    Z.z(sumaWnPLN = sumaWnPLN + kwotadlasumy);
+                } else if (p.getWnma().equals("Ma")){
+                    Z.z(sumaMaPLN = sumaMaPLN + kwotadlasumy);
+                }
+            }
+        }  else {
             for(StronaWiersza p : kontozapisy){
                 double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
