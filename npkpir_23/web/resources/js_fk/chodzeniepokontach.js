@@ -52,6 +52,8 @@ var zachowajobiekt = function(obiekt, event) {
         var source = event.target || event.srcElement;
         var sourceid = source.parentNode.parentNode.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
         MYAPP.sourceid = sourceid;
+        console.log('zachowalem obiekt '+source.innerText);
+        console.log('tabela '+sourceid);
         if (MYAPP.sourceid === "form:dataList_data") {
             MYAPP.tabeladata = "form:dataList_data";
             MYAPP.tabela = "form:dataList";
@@ -182,7 +184,7 @@ var wylicznumerwiersza = function(wiersze, zmienna) {
         for(var nrwiersza = 0; nrwiersza < iloscrzedow; nrwiersza++) {
             var trescwiersza = $(wiersze[nrwiersza]).text();
             if (trescwiersza.indexOf(wartosc[0])>-1) {
-                console.log("Znaleziony wiersz");
+                console.log("Znaleziony wiersz "+nrwiersza);
                 MYAPP[MYAPP.zmienna] = nrwiersza;
                 console.log(MYAPP[MYAPP.zmienna]);
                 return;

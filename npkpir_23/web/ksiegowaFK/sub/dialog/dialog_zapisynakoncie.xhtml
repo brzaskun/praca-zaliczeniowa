@@ -152,14 +152,15 @@
                         <p:dataTable id="dataList" value="#{kontoZapisFKView.wykazkont}" var="loop1" selectionMode="single" 
                                      selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
                                      styleClass="gridzap" style="width: 100%; height: 500px; overflow-y: scroll;" 
+                                     rowIndexVar="wykazkontindex"
                                      sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}"  emptyMessage="Nie ma żadnych księgowac na kontach w wybranym okresie.">
                             <p:ajax event="rowSelect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" 
                                     oncomplete="fwiersz();"/>
                             <p:ajax event="rowUnselect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
-                            <p:column width="0.1">
-                                <h:outputText value="#{loop1.level}" style="font-size: 0.1pt;"/>
+                            <p:column width="20">
+                                <h:outputText value="#{wykazkontindex+1}" />
                             </p:column>
                             <p:column  style="width: 50px; text-align: center;" width="10">
                                 <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
