@@ -1155,6 +1155,8 @@ public class DokfkView implements Serializable {
                 if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
                     w.setOpisWiersza(selected.getOpisdokfk());
                 }
+            } else {
+                kontoRozrachunkowe = null;
             }
         } catch (Exception e) {
             E.e(e);
