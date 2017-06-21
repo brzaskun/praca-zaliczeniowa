@@ -5,10 +5,36 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
-    >
+    > <script>
+                        var doczeplistnerydopol = function() {
+                            /* <![CDATA[ */
+                            //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+                            $(document).on("click", '.gridzap tr', function (e) {
+                                try {
+                                    zachowajobiekt(this, e);
+                                } catch (ex) {
+                                    alert('error dialog zapisynakoncie' + ex.toString());
+                                }
+                            });
+                            $(document).on("click", '.grid1zap tr', function (event) {
+                                var listawierszy = $("#tabelazzapisami\\:tabela_data").children("tr");
+                                var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
+                                try {
+                                    var lpwiersznast = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
+                                    var numerwiersza = lpwiersznast - lppierwszywiersz;
+                                    zachowajnumerwiersza("zmiennazapisy", numerwiersza, "tabelazzapisami:tabela_data", event);
+                                    event.stopPropagation(); // will prevent double click events from link being clicked within row
+                                } catch (e) {
+                                    console.log('error  dialog zapisynakoncie w.87' + e.toString())
+                                    alert('error  dialog zapisynakoncie w.87' + e.toString());
+                                }
+                            });
+                        };
+                        /* ]]> */
+                    </script>
 
     <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikWpisu}" widgetVar="zapisynakoncie"  dynamic="true" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1630,780);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
+              resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1630,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true"
               >
         <p:layout fullPage="false" style="height: 720px;width: 1300px;" >  
@@ -77,31 +103,7 @@
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />-->
                 </p:panelGrid>
                 <h:form id="form">
-                    <script>
-                        /* <![CDATA[ */
-                        //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                        $(document).on("click", '.gridzap tr', function (e) {
-                            try {
-                                zachowajobiekt(this, e);
-                            } catch (ex) {
-                                alert('error dialog zapisynakoncie' + ex.toString());
-                            }
-                        });
-                        $(document).on("click", '.grid1zap tr', function (event) {
-                            var listawierszy = $("#tabelazzapisami\\:tabela_data").children("tr");
-                            var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
-                            try {
-                                var lpwiersznast = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
-                                var numerwiersza = lpwiersznast - lppierwszywiersz;
-                                zachowajnumerwiersza("zmiennazapisy", numerwiersza, "tabelazzapisami:tabela_data", event);
-                                event.stopPropagation(); // will prevent double click events from link being clicked within row
-                            } catch (e) {
-                                console.log('error  dialog zapisynakoncie w.87' + e.toString())
-                                alert('error  dialog zapisynakoncie w.87' + e.toString());
-                            }
-                        });
-                        /* ]]> */
-                    </script>
+                   
                     <p:remoteCommand name="reversetoggle" actionListener="#{kontoZapisFKView.reversetoggle}" 
                                      update="tabelazzapisami:tabela tabelazsumami:sumy" oncomplete="fwiersz();" global="false"/>
                     <p:remoteCommand name="toggleall" actionListener="#{kontoZapisFKView.toggleAll}" 
@@ -159,8 +161,8 @@
                                     oncomplete="fwiersz();"/>
                             <p:ajax event="rowUnselect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
-                            <p:column width="20">
-                                <h:outputText value="#{wykazkontindex+1}" />
+                            <p:column width="10">
+                                <h:outputText value="#{wykazkontindex+1}" style="font-size: 0.1pt"/>
                             </p:column>
                             <p:column  style="width: 50px; text-align: center;" width="10">
                                 <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
@@ -290,6 +292,7 @@
                 </h:form>  
             </p:layoutUnit> 
             <p:layoutUnit position="south" style="height: 70px;">
+                
                 <p:panelGrid columns="3">
                     <h:form>
                         <p:panelGrid columns="2">

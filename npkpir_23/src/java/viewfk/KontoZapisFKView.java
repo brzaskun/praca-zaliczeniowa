@@ -7,11 +7,9 @@ package viewfk;
 import beansFK.DokumentFKBean;
 import beansFK.KontaFKBean;
 import beansFK.RozliczTransakcjeBean;
-import beansFK.RozniceKursoweBean;
 import comparator.Kontocomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import embeddablefk.ListaSum;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
@@ -19,6 +17,7 @@ import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
+import embeddablefk.ListaSum;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -225,6 +224,7 @@ public class KontoZapisFKView implements Serializable{
             sumazapisow();
             sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+            Msg.msg("Pobrano zapisy dla konta "+wybraneKontoNode.getPelnynumer());
             System.out.println("odnalazlem pobierzZapisyNaKoncieNode() KontoZapisFKView");
         } catch (Exception e) {
             E.e(e);

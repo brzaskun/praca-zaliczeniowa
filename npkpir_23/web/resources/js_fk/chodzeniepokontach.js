@@ -52,6 +52,7 @@ var zachowajobiekt = function(obiekt, event) {
         var source = event.target || event.srcElement;
         var sourceid = source.parentNode.parentNode.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
         MYAPP.sourceid = sourceid;
+        //document.getElementById("poledanych").innerHTML= 'zachowalem obiekt '+source.innerText+' ';
         console.log('zachowalem obiekt '+source.innerText);
         console.log('tabela '+sourceid);
         if (MYAPP.sourceid === "form:dataList_data") {
@@ -119,10 +120,11 @@ var przejdzwiersz = function() {
             MYAPP[MYAPP.zmienna] += 1;
         }
         var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
-        var przesun = isScrolledIntoView(komorki[1]);
+        var przesun = isScrolledIntoView(komorki[2]);
         var elem = document.getElementById(MYAPP.tabela);
         elem.scrollTop = elem.scrollTop + przesun;
-        $(komorki[1]).click();
+        $(komorki[2]).click();
+        //document.getElementById("poledanych1").innerHTML= ' klikam na '+komorki[3].innerText+' ';
         MYAPP.przetwarzajdalej = false;
 };
 
@@ -140,10 +142,10 @@ var wrocwiersz = function() {
             MYAPP[MYAPP.zmienna] -= 1;
         }
         var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
-        var przesun = isScrolledIntoView(komorki[1]);
+        var przesun = isScrolledIntoView(komorki[2]);
         var elem = document.getElementById(MYAPP.tabela);
         elem.scrollTop = elem.scrollTop + przesun;
-        $(komorki[1]).click();
+        $(komorki[2]).click();
         MYAPP.przetwarzajdalej = false;
 };
 
@@ -180,11 +182,16 @@ var wylicznumerwiersza = function(wiersze, zmienna) {
     var wartosc = MYAPP.obiekt.innerText;
     wartosc = wartosc.split("\t");
     var iloscrzedow = wiersze.size();
+    if (typeof MYAPP[MYAPP.zmienna] === 'undefined') {
+        MYAPP[MYAPP.zmienna] = 2;
+    }
+    
     try {
-        for(var nrwiersza = 0; nrwiersza < iloscrzedow; nrwiersza++) {
-            var trescwiersza = $(wiersze[nrwiersza]).text();
+        for(var nrwiersza = MYAPP[MYAPP.zmienna]; nrwiersza < iloscrzedow; nrwiersza++) {
+            var trescwiersza = $(wiersze[nrwiersza].children[0]).text();
             if (trescwiersza.indexOf(wartosc[0])>-1) {
                 console.log("Znaleziony wiersz "+nrwiersza);
+                //document.getElementById("poledanych2").innerHTML= " szukam "+wartosc[0]+" a wyliczony wiersz "+nrwiersza;
                 MYAPP[MYAPP.zmienna] = nrwiersza;
                 console.log(MYAPP[MYAPP.zmienna]);
                 return;
