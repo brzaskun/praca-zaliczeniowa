@@ -326,7 +326,8 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        n.add("nip");
        n.add("nazwa");
        n.add("adres");
-       n.add("identyfikator");  
+       n.add("identyfikator");
+       n.add("status");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

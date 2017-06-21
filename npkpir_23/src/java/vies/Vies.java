@@ -185,11 +185,11 @@ public class Vies implements Serializable {
     }
     
     public String getWynikVies() {
-        String zwrot = "podatnik nieaktywny";
+        String zwrot = "nieaktywny";
         if (this.identyfikatorsprawdzenia != null && this.uwagi != null) {
             zwrot = "awaria serw.";
         } else if (this.identyfikatorsprawdzenia != null) {
-            zwrot = "okaaaa";
+            zwrot = "ok";
         }
         return zwrot;
     }

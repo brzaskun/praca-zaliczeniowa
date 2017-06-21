@@ -726,6 +726,7 @@ public class PdfMain {
         col[4] = 4;
         col[5] = 4;
         col[6] = 4;
+        col[7] = 2;
         return col;
     }
      
@@ -1358,6 +1359,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getNazwafirmy(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getAdresfirmy(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getIdentyfikatorsprawdzenia(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getWynikVies(), "center", 7));
             }
             if (nazwaklasy.equals("entity.Fakturywystokresowe")) {
                 Fakturywystokresowe p = (Fakturywystokresowe) it.next();
