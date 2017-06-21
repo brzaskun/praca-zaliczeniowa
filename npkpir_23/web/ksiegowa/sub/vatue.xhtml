@@ -61,8 +61,8 @@
                     </h:outputText>
                 </p:column>
                  <p:column id="vies" headerText="VIES" sortBy="#{wpis1.vies}" style="width: 15%; text-align: center;">  
-                         <h:outputText value="#{wpis.vies eq null ? 'nie sprawdzono' : wpis.vies.identyfikatorsprawdzenia eq null ? 'podatnik nieaktywny' : 'ok'}" rendered="#{wpis.transakcja eq 'podsum.' ? false : true}"
-                                       style="#{wpis.vies.identyfikatorsprawdzenia eq null ? 'color: red;':null}">
+                     <h:outputText value="#{wpis.vies eq null ? 'nie sprawdzono' : wpis.vies.wynikVies}" rendered="#{wpis.transakcja eq 'podsum.' ? false : true}"
+                                   style="#{wpis.vies.identyfikatorsprawdzenia eq null or wpis.vies ne null ? 'color: red;':null}">
                         </h:outputText>
                     </p:column>
                 <p:rowExpansion>

@@ -7,8 +7,6 @@ package dao;
 import comparator.Evewidencjacomparator;
 import entity.Evewidencja;
 import entity.Evpozycja;
-import entityfk.EVatwpisDedra;
-import entityfk.EVatwpisFK;
 import error.E;
 import java.io.Serializable;
 import java.util.Collections;
@@ -18,7 +16,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
-import view.WpisView;
 
 /**
  *
@@ -65,11 +62,11 @@ public class EvewidencjaDAO extends DAO implements Serializable {
         }
     }
     
-    public List<Evewidencja> znajdzpotransakcji(String nazwa) throws Exception {
+    public List<Evewidencja> znajdzpotransakcji(String nazwa) {
         try {
             return evewidencjaFacade.findEvewidencjaByTransakcja(nazwa);
         } catch (Exception e) { E.e(e); 
-            throw new Exception();
+            return null;
         }
     }
 

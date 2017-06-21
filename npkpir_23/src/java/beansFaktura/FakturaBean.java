@@ -287,29 +287,31 @@ public class FakturaBean {
         }
     }
     
-    public static void ewidencjavat(Faktura selected, EvewidencjaDAO evewidencjaDAO) throws Exception {
+    public static void ewidencjavat(Faktura selected, EvewidencjaDAO evewidencjaDAO) {
         //tu obliczamy wartosc netto wiersza
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
-        ArrayList<Evewidencja> ew = new ArrayList<>();
-        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
-        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
-        ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
-        List<EVatwpis> el = new ArrayList<>();
-        Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
-        if (selected.isFakturavatmarza() || selected.isRachunek()) {
-            selected.setEwidencjavat(new ArrayList<>());
-            selected.setNetto(sumy.get("netto"));
-            selected.setVat(0.0);
-            selected.setBrutto(Z.z(sumy.get("netto")));
-        } else {
-            selected.setEwidencjavat(el);
-            selected.setNetto(sumy.get("netto"));
-            selected.setVat(Z.z(sumy.get("vat")));
-            selected.setBrutto(Z.z(sumy.get("brutto")));
+        if (pozycje != null && !pozycje.isEmpty()) {
+            ArrayList<Evewidencja> ew = new ArrayList<>();
+            ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+            ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
+            ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
+            List<EVatwpis> el = new ArrayList<>();
+            Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
+            if (selected.isFakturavatmarza() || selected.isRachunek()) {
+                selected.setEwidencjavat(new ArrayList<>());
+                selected.setNetto(sumy.get("netto"));
+                selected.setVat(0.0);
+                selected.setBrutto(Z.z(sumy.get("netto")));
+            } else {
+                selected.setEwidencjavat(el);
+                selected.setNetto(sumy.get("netto"));
+                selected.setVat(Z.z(sumy.get("vat")));
+                selected.setBrutto(Z.z(sumy.get("brutto")));
+            }
         }
     }
     
-    public static void ewidencjavatkorekta(Faktura selected, EvewidencjaDAO evewidencjaDAO) throws Exception {
+    public static void ewidencjavatkorekta(Faktura selected, EvewidencjaDAO evewidencjaDAO) {
         //tu obliczamy wartosc netto wiersza
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjepokorekcie();
         List<Evewidencja> ew = new ArrayList<>();

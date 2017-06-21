@@ -22,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -62,6 +63,8 @@ public class Vies implements Serializable {
     @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
     @ManyToOne
     private Uz wprowadzil;
+    @Transient
+    private String uwagi;
 
     @Override
     public int hashCode() {
@@ -172,6 +175,23 @@ public class Vies implements Serializable {
     public void setWprowadzil(Uz wprowadzil) {
         this.wprowadzil = wprowadzil;
     }
+
+    public String getUwagi() {
+        return uwagi;
+    }
+
+    public void setUwagi(String uwagi) {
+        this.uwagi = uwagi;
+    }
     
+    public String getWynikVies() {
+        String zwrot = "podatnik nieaktywny";
+        if (this.identyfikatorsprawdzenia != null && this.uwagi != null) {
+            zwrot = "awaria serw.";
+        } else if (this.identyfikatorsprawdzenia != null) {
+            zwrot = "okaaaa";
+        }
+        return zwrot;
+    }
     
 }

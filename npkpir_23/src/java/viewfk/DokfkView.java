@@ -1108,7 +1108,9 @@ public class DokfkView implements Serializable {
     public void skopiujopisdopierwszegowiersza() {
         try {
             Wiersz w = selected.getListawierszy().get(0);
-            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
+            boolean kopiowac = w.getOpisWiersza() == null || w.getOpisWiersza().equals("");
+            boolean kopiowac1 = w.getStronyWiersza().size() == 2;
+            if (kopiowac || kopiowac1) {
                 w.setOpisWiersza(selected.getOpisdokfk());
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList:0:opis");
             }
@@ -2322,6 +2324,8 @@ public class DokfkView implements Serializable {
         Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
         if (klient == null) {
             klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
+        } else if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5 ) {
+            selected.setKontr(klient);
         }
         String nowynumer = DokFKBean.wygenerujnumerkolejny(selected, wpisView, dokDAOfk, klient, wierszBODAO);
         if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk() == null) {

@@ -82,6 +82,18 @@ public class VIESCheckBean {
                         zwrot.setAdresfirmy(tds.get(12).text());
                         zwrot.setIdentyfikatorsprawdzenia(tds.get(14).text());
                         zwrot.setWprowadzil(wprowadzil);
+                        zwrot.setUwagi(null);
+                    } else if (tds.get(0).text().contains("Member State service unavailable. Please re-submit your request later.")) {
+                        zwrot.setPodatnik(podatnik);
+                        zwrot.setData(new Date(tds.get(8).text()));
+                        zwrot.setWynik(false);
+                        zwrot.setKraj(kraj);
+                        zwrot.setNIP(nip);
+                        zwrot.setNazwafirmy(tds.get(10).text());
+                        zwrot.setAdresfirmy(tds.get(12).text());
+                        zwrot.setIdentyfikatorsprawdzenia(tds.get(14).text());
+                        zwrot.setWprowadzil(wprowadzil);
+                        zwrot.setUwagi("sna");
                     }
                 } else if (tds != null) {
                     if (tds != null && tds.get(0).text().contains("Yes, valid VAT number")) {
@@ -95,6 +107,7 @@ public class VIESCheckBean {
                         zwrot.setAdresfirmy(adres);
                         zwrot.setIdentyfikatorsprawdzenia(tds.get(25).text());
                         zwrot.setWprowadzil(wprowadzil);
+                        zwrot.setUwagi(null);
                     }
                 }
             } else {

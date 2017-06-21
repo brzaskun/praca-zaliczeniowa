@@ -15,7 +15,7 @@
                 <p:menuitem value="Okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa(fakturaView.gosciwybralarchiuwm)}"/>
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formarchiwum:dokumentyArchiwum" actionListener="#{fakturaView.destroyarchiwalne()}" icon="ui-icon-trash" />
                 <p:separator/>
-                <p:menuitem value="Zaksięguj ponownie" update=":form1:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
+                <p:menuitem value="Zaksięguj ponownie" update=":form1:messages" actionListener="#{fakturaView.zaksieguj(fakturaView.gosciwybralarchiuwm)}" icon="ui-icon-locked" />
             </p:contextMenu>
              <p:panelGrid id="panelsum1">
                 <f:facet name="header">
@@ -86,11 +86,11 @@
                 </p:column>
                 <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 
                           filterMatchMode="contains" filterStyle="display : none;" width="60">
-                    <h:outputText value="#{wpis.datawystawienia}"/>
+                    <h:outputText value="#{wpis.datawystawienia.substring(2)}"/>
                 </p:column>
                 <p:column headerText="termin płatności" sortBy="#{wpis.terminzaplaty}" filterBy="#{wpis.terminzaplaty}" 
                           filterMatchMode="contains" filterStyle="display : none;" width="60">
-                    <h:outputText value="#{wpis.terminzaplaty}"/>
+                    <h:outputText value="#{wpis.terminzaplaty.substring(2)}"/>
                 </p:column>
                  <p:column headerText="netto"  sortBy="#{wpis.nettoFaktura}" filterBy="#{wpis.nettoFaktura}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
                     <bcf:outputpl value="#{wpis.nettoFaktura}"/>

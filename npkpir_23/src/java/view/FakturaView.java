@@ -771,25 +771,25 @@ public class FakturaView implements Serializable {
         }
     }
 
-    public void zaksieguj() throws Exception {
+    public void zaksieguj(List<Faktura> lista) throws Exception {
         if (wpisView.getPodatnikObiekt().getFirmafk() == 1) {
-            for (Faktura p : gosciwybral) {
+            for (Faktura p : lista) {
                 ksiegowanieFK(p);
             }
             Msg.msg("i", "Dokument zaksięgowany");
         } else if (wpisView.getPodatnikObiekt().getFirmafk() == 0) {
-            for (Faktura p : gosciwybral) {
+            for (Faktura p : lista) {
                 ksiegowaniePkpir(p);
             }
             Msg.msg("i", "Dokument zaksięgowany");
         } else {
             if (wpisView.isKsiegirachunkowe() == true) {
-                for (Faktura p : gosciwybral) {
+                for (Faktura p : lista) {
                     ksiegowanieFK(p);
                 }
                 Msg.msg("i", "Dokument zaksięgowany");
             } else {
-                for (Faktura p : gosciwybral) {
+                for (Faktura p : lista) {
                     ksiegowaniePkpir(p);
                 }
                 Msg.msg("i", "Dokument zaksięgowany");
@@ -798,6 +798,12 @@ public class FakturaView implements Serializable {
     }
     
     private void ksiegowanieFK(Faktura p) {
+        if (p.getNetto() != p.getBrutto() && (p.getEwidencjavat() == null || p.getEwidencjavat().size() == 0)) {
+            FakturaBean.ewidencjavat(p, evewidencjaDAO);
+            if (p.getPozycjepokorekcie() != null && !p.getPozycjepokorekcie().isEmpty()) {
+                FakturaBean.ewidencjavatkorekta(p, evewidencjaDAO);
+            }
+        }
         Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, wpisView),p, "SZ", wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO);
         try {
             dokument.setImportowany(true);

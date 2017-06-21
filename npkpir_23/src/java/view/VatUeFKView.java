@@ -72,6 +72,7 @@ public class VatUeFKView implements Serializable {
     @PostConstruct
     public void init() {
         List<Dokfk> listadokumentow = new ArrayList<>();
+        List<Dokfk> listadokumentowUE = new ArrayList<>();
         //List<Dokfk> dokvatmc = new ArrayList<>();
         Integer rok = wpisView.getRokWpisu();
         String m = wpisView.getMiesiacWpisu();
@@ -81,11 +82,13 @@ public class VatUeFKView implements Serializable {
             Podatnik pod = podatnikDAO.findPodatnikByNIP(wpisView.getPodatnikObiekt().getNip());
             String vatokres = ParametrView.zwrocParametr(pod.getVatokres(), rok, m);
             String okresvat = vatokres;
+            String vatUEokres = ParametrView.zwrocParametrUE(pod.getParamVatUE(), rok, m);
 //            if (pod.getParamVatUE() != null && !pod.getParamVatUE().isEmpty()) {
 //                okresvat = ParamBean.zwrocParametr(pod.getParamVatUE(), rok, m);
 //            }
-            opisvatuepkpir = wpisView.getPodatnikWpisu()+" Zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m+" rozliczenie "+okresvat;
+            opisvatuepkpir = wpisView.getPodatnikWpisu()+" Zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m+" rozliczenie "+vatUEokres;
             listadokumentow = zmodyfikujlisteMcKw(listadokumentow, okresvat);
+            listadokumentowUE = zmodyfikujlisteMcKw(listadokumentow, vatUEokres);
         } catch (Exception e) { 
             E.e(e); 
         }
@@ -93,10 +96,10 @@ public class VatUeFKView implements Serializable {
         if (listadokumentow != null) {
             Collections.sort(listadokumentow, new Dokfkcomparator());
             //a teraz podsumuj klientów
-            klienciWDTWNT.addAll(kontrahenciUE(listadokumentow));
+            klienciWDTWNT.addAll(kontrahenciUE(listadokumentowUE));
             double sumanettovatue = 0.0;
             double sumanettovatuewaluta = 0.0;
-            for (Dokfk p : listadokumentow) {
+            for (Dokfk p : listadokumentowUE) {
                 for (VatUe s : klienciWDTWNT) {
                     if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
                             double[] t = pobierzwartosci(p.getEwidencjaVAT());
