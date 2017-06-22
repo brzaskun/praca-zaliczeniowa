@@ -93,7 +93,7 @@ public class VatUeFKView implements Serializable {
             E.e(e); 
         }
         //jest miesiecznie wiec nie ma co wybierac
-        if (listadokumentow != null) {
+        if (listadokumentowUE != null) {
             Collections.sort(listadokumentow, new Dokfkcomparator());
             //a teraz podsumuj klientów
             klienciWDTWNT.addAll(kontrahenciUE(listadokumentowUE));
