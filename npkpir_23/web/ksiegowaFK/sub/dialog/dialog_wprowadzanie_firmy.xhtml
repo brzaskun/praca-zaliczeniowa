@@ -68,7 +68,7 @@
                     <h:outputLabel value="miejscowość"/>
                     <p:inputText id="miejscowosc" value="#{podatnikView.selectedDod.miejscowosc}" required="true" requiredMessage="Miejscowość - jest wymagany, uzupełnij!"/>
                     <h:outputLabel value="kod pocztowy"/>
-                    <p:inputText id="kod" value="#{podatnikView.selectedDod.kodpocztowy}" required="true" requiredMessage="Kod pocztowy - jest wymagany, uzupełnij!"/>
+                    <p:inputMask id="kod" value="#{podatnikView.selectedDod.kodpocztowy}" mask="99-999" required="true" requiredMessage="Kod pocztowy - jest wymagany, uzupełnij!"/>
                     <h:outputLabel value="poczta"/>
                     <p:inputText id="poczta" value="#{podatnikView.selectedDod.poczta}" required="true" requiredMessage="Poczta - jest wymagana, uzupełnij!"/>
                     <h:outputLabel value="ulica"/>
