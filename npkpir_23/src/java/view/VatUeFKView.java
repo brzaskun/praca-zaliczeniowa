@@ -376,13 +376,17 @@ public class VatUeFKView implements Serializable {
    
     public void drukujVIES() {
         try {
-            List<Vies> lista = new ArrayList<>();
-            for (VatUe p : klienciWDTWNT) {
-                if (p.getVies() != null) {
-                    lista.add(p.getVies());
+            if (klienciWDTWNT == null) {
+                Msg.msg("e", "Lista VIES pusta - nie ma czego drukować");
+            } else {
+                List<Vies> lista = new ArrayList<>();
+                for (VatUe p : klienciWDTWNT) {
+                    if (p.getVies() != null && p.getVies().getPodatnik() != null) {
+                        lista.add(p.getVies());
+                    }
                 }
+                PdfVIES.drukujVIES(lista, wpisView);
             }
-            PdfVIES.drukujVIES(lista, wpisView);
         }  catch (Exception e) { 
             E.e(e); 
         }
