@@ -419,16 +419,19 @@ public class PlanKontFKBean {
     }
     
     public static int aktualizujslownikKontrahenciRemove(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
+        int zwrot = 0;
         List<Konto> kontaslownikowaklientfk = kontoDAO.findSlownikoweKlienci(wpisView, kliencifk);
         for (Konto p : kontaslownikowaklientfk) {
             try {
                 kontoDAO.destroy(p);
             } catch (Exception e) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString());
+                zwrot = 1;
+                E.e(e);
                 System.out.println("blad podczas usuwania konta slownikowego aktualizujslownikKontrahenciRemove()");
+                break;
             }
         }
-        return 0;
+        return zwrot;
     }
     
     public static int aktualizujslownikMiejscaKosztow(List<Konto> wykazkont, MiejsceKosztowDAO miejsceKosztowDAO, MiejsceKosztow miejscekosztow, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
