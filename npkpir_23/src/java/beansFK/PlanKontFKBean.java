@@ -52,7 +52,7 @@ public class PlanKontFKBean {
          nowekonto.setKontomacierzyste(null);
          nowekonto.setMapotomkow(false);
          nowekonto.setPelnynumer(nowekonto.getNrkonta());
-         return zachowajkonto(wykazkont, nowekonto, kontoDAOfk, wpisView);
+         return zachowajkonto(wykazkont, nowekonto, kontoDAOfk);
      }
      
      public static int dodajsyntetyczneWzorzec(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
@@ -87,7 +87,7 @@ public class PlanKontFKBean {
          nowekonto.setKontomacierzyste(macierzyste);
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(wykazkont, nowekonto, kontoDAOfk, wpisView);
+         return zachowajkonto(wykazkont, nowekonto, kontoDAOfk);
     }
      
      public static int dodajanalityczneWzorzec(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
@@ -131,7 +131,7 @@ public class PlanKontFKBean {
          nowekonto.setKontomacierzyste(macierzyste);
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(wykazkont, nowekonto, kontoDAOfk, wpisView);
+         return zachowajkonto(wykazkont, nowekonto, kontoDAOfk);
     }
     
     public static int dodajslownikKontrahenci(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
@@ -196,7 +196,7 @@ public class PlanKontFKBean {
          nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         int wynikdodaniakonta = zachowajkonto(wykazkont,nowekonto, kontoDAOfk, wpisView);
+         int wynikdodaniakonta = zachowajkonto(wykazkont,nowekonto, kontoDAOfk);
          naniesPozycjenaKonto(wynikdodaniakonta, kontopozycjaZapisDAO, nowekonto, macierzyste, kontoDAOfk, ukladBR);
          return wynikdodaniakonta;
     }
@@ -400,16 +400,18 @@ public class PlanKontFKBean {
                     return 1;
                 }
                 List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
-                try {
+                if (listaukladow != null) {
                     for (UkladBR ukladBR : listaukladow) {
-                        naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                        try {
+                            naniesprzyporzadkowanie(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                        } catch (Exception e) {
+                            E.e(e);
+                        }
                     }
-                } catch (Exception e) {
-                    E.e(e);
                 }
                 kliencifk.setAktywny(true);
-                kliencifkDAO.edit(kliencifk);
             }
+            kliencifkDAO.edit(kliencifk);
         } catch (Exception e) {
             E.e(e);
         }
@@ -571,7 +573,7 @@ public class PlanKontFKBean {
             nowekonto.setPrzychod0koszt1(kontomacierzyste.isPrzychod0koszt1());
             int wynikdodaniakonta = 1;
             wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, String.valueOf(numerkonta), wpisView);
-            Konto konto = znajdzduplikat(wykazkont, nowekonto, kontoDAOfk, wpisView);
+            Konto konto = znajdzduplikat(wykazkont, nowekonto);
             if (konto != null && konto.getKontopozycjaID() == null) {
                 naniesPozycjenaKonto(0, kontopozycjaZapisDAO, konto, kontomacierzyste, kontoDAOfk, ukladBR);
             } else {
@@ -649,7 +651,7 @@ public class PlanKontFKBean {
          return i;
     }
      
-    private static Konto znajdzduplikat(List<Konto> wykazkont, Konto nowe, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+    private static Konto znajdzduplikat(List<Konto> wykazkont, Konto nowe) {
         if (wykazkont.contains(nowe)) {
             return wykazkont.get(wykazkont.indexOf(nowe));
         } else {
@@ -666,8 +668,8 @@ public class PlanKontFKBean {
         }
     }
 
-    private static int zachowajkonto(List<Konto> wykazkont, Konto nowekonto, KontoDAOfk kontoDAOfk, WpisView wpisView) {
-        Konto konto = znajdzduplikat(wykazkont, nowekonto, kontoDAOfk, wpisView);
+    private static int zachowajkonto(List<Konto> wykazkont, Konto nowekonto, KontoDAOfk kontoDAOfk) {
+        Konto konto = znajdzduplikat(wykazkont, nowekonto);
         if (konto == null) {
                 kontoDAOfk.dodaj(nowekonto);
             return 0;

@@ -160,15 +160,14 @@ public class KlView implements Serializable {
             }
             String formatka = selected.getNskrocona().toUpperCase();
             selected.setNskrocona(formatka);
-            try {
-                selected.getKrajnazwa();
-            } catch (Exception e) {
-                E.e(e);
+            if (selected.getKrajnazwa() == null) {
                 selected.setKrajnazwa("Polska");
+                selected.setKrajkod("PL");
+            } else {
+                String kraj = selected.getKrajnazwa();
+                String symbol = ps1.getWykazPanstwSX().get(kraj);
+                selected.setKrajkod(symbol);
             }
-            String kraj = selected.getKrajnazwa();
-            String symbol = ps1.getWykazPanstwSX().get(kraj);
-            selected.setKrajkod(symbol);
             poszukajDuplikatNip();
             poszukajDuplikatNazwa();
             klDAO.dodaj(selected);

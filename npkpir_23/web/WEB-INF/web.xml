@@ -81,14 +81,14 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/login.xhtml</welcome-file>
+        <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>jdbcRealmNew</realm-name>
         <form-login-config>
-            <form-login-page>/faces/login.xhtml</form-login-page>
-            <form-error-page>/faces/AccessDenied.xhtml</form-error-page>
+            <form-login-page>/login.xhtml</form-login-page>
+            <form-error-page>/AccessDenied.xhtml</form-error-page>
         </form-login-config>
     </login-config>
     <security-role>
@@ -124,7 +124,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Dedra Area</web-resource-name>
-            <url-pattern>/faces/dedra/*</url-pattern>
+            <url-pattern>/dedra/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Dedra</role-name>
@@ -135,7 +135,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin Area</web-resource-name>
-            <url-pattern>/faces/admin/*</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Administrator</role-name>
@@ -144,7 +144,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Manager Area</web-resource-name>
-            <url-pattern>/faces/manager/*</url-pattern>
+            <url-pattern>/manager/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Manager</role-name>
@@ -154,7 +154,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Bookkeeper Area</web-resource-name>
-            <url-pattern>/faces/ksiegowa/*</url-pattern>
+            <url-pattern>/ksiegowa/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Manager</role-name>
@@ -166,7 +166,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>BookkeeperFK Area</web-resource-name>
-            <url-pattern>/faces/ksiegowaFK/*</url-pattern>
+            <url-pattern>/ksiegowaFK/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Manager</role-name>
@@ -177,7 +177,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Guest Area</web-resource-name>
-            <url-pattern>/faces/guest/*</url-pattern>
+            <url-pattern>/guest/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Guest</role-name>
@@ -192,7 +192,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>GuestFK Area</web-resource-name>
-            <url-pattern>/faces/guestFK/*</url-pattern>
+            <url-pattern>/guestFK/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>GuestFK</role-name>
@@ -206,7 +206,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Noobie Area</web-resource-name>
-            <url-pattern>/faces/noobie/*</url-pattern>
+            <url-pattern>/noobie/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Noobie</role-name>
@@ -222,7 +222,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Wspolny</web-resource-name>
-            <url-pattern>/faces/wspolny/*</url-pattern>
+            <url-pattern>/wspolny/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Dedra</role-name>
@@ -246,28 +246,28 @@
     </error-page>
     <error-page>
         <error-code>503</error-code>
-        <location>/blad_503.xhtml?faces-redirect=true</location>
+        <location>/blad_503.xhtml</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/NMTS.xhtml?faces-redirect=true</location>
+        <location>/NMTS.xhtml</location>
     </error-page>
-<!--     <error-page>
+     <error-page>
         <error-code>500</error-code>
-        <location>/faces/PropertyNotFoundException.xhtml?faces-redirect=true</location>
-    </error-page>-->
-<!--    <error-page>
+        <location>/PropertyNotFoundException.xhtml</location>
+    </error-page>
+    <error-page>
         <exception-type>javax.faces.application.PropertyNotFoundException</exception-type>
-        <location>/faces/PropertyNotFoundException.xhtml</location>
+        <location>/PropertyNotFoundException.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.IllegalStateException</exception-type>
-        <location>/faces/PropertyNotFoundException.xhtml</location>
+        <location>/PropertyNotFoundException.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/faces/SessionExpired.xhtml?faces-redirect=true</location>
-    </error-page>-->
+        <location>/SessionExpired.xhtml</location>
+    </error-page>
     <!-- Load custom tag into JSF web application -->
     <context-param>
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
