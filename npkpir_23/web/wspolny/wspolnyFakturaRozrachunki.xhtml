@@ -20,7 +20,7 @@
 
                         <p:panel toggleable="true" closable="true" style="width: 1000px;"  rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
                             <f:facet name="header">
-                                <h:outputText value="Strona służy do księgowania zapłat za faktury dla firmy #{WpisView.podatnikWpisu} i przeglądania rozrachunków"/>
+                                <h:outputText value="Strona służy do księgowania zapłat za faktury dla firmy #{WpisView.podatnikObiekt.nazwapelnaPDF} i przeglądania rozrachunków"/>
                             </f:facet>
                         </p:panel>
                         <ui:include src="sub/menu_wiad.xhtml"/>

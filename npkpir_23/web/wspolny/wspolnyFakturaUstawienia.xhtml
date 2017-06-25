@@ -20,7 +20,7 @@
                         
                         <p:panel toggleable="true" closable="true" style="width: 1000px;"  rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
                             <f:facet name="header">
-                                <h:outputText value="Strona służy do generowania, przeglądania i księgowania faktur dla firmy #{WpisView.podatnikWpisu}"/>
+                                <h:outputText value="Strona służy do generowania, przeglądania i księgowania faktur dla firmy #{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
                             </f:facet>
                         </p:panel>
                         <ui:include src="sub/menu_wiad.xhtml"/> 

@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogrzisprojekt" header="Projekt Rachunku Zysków i Strat - #{WpisView.podatnikWpisu}" widgetVar="rzisprojekt" 
+    <p:dialog id="dialogrzisprojekt" header="Projekt Rachunku Zysków i Strat - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="rzisprojekt" 
               resizable="false" onShow="ustawdialog('dialogrzisprojekt','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojekt');"  >
         <h:form id="formprojekt">
             <p:contextMenu id="formprojectmenu" for="formprojekt:dataList" style="width: 200px;">

@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
 
-    <p:dialog id="obroty" header="Obroty na kontach - #{WpisView.podatnikWpisu}" widgetVar="obrotynakoncie"   dynamic="true"
+    <p:dialog id="obroty" header="Obroty na kontach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="obrotynakoncie"   dynamic="true"
               resizable="false" onShow="ustawdialog('obroty','menuzapisykont',1500,750);$(document.getElementById('formobrotykonta:wyborkontaobroty_input')).select();" onHide="resetujdialog('obroty');"  closeOnEscape="true"  
               >
         <p:layout fullPage="false" style="width: 1450px; height: 700px;">  

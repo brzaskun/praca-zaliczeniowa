@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogbilansuklad" header="Układ Bilansu - przypisywanie kont - #{WpisView.podatnikWpisu}" widgetVar="bilansuklad" dynamic="true"
+    <p:dialog id="dialogbilansuklad" header="Układ Bilansu - przypisywanie kont - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilansuklad" dynamic="true"
               resizable="false" onShow="ustawdialog('dialogbilansuklad','menubilanse', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansuklad');"  >
         <h:form id="formbilansuklad">
             <!--            <p:contextMenu for="dataList">

@@ -1307,14 +1307,14 @@ public class PdfMain {
 
     private static void ustawnaglowki(PdfPTable table, List naglowki) {
         for (int i = 0; i < naglowki.size(); i++) {
-            table.addCell(ustawfrazeAlign((String) naglowki.get(i), "center", 9));
+            table.addCell(ustawfrazeAlign((String) naglowki.get(i), "left", 9));
         }
         table.setHeaderRows(1);
     }
     
      private static void ustawnaglowki(PdfPTable table, List naglowki, int size) {
         for (int i = 0; i < naglowki.size(); i++) {
-            table.addCell(ustawfrazeAlign((String) naglowki.get(i), "center", size));
+            table.addCell(ustawfrazeAlign((String) naglowki.get(i), "left", size));
         }
         table.setHeaderRows(1);
     }

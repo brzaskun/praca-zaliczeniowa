@@ -5,10 +5,11 @@
  */
 package beansPdf;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
@@ -29,6 +30,22 @@ import javax.inject.Named;
 
 public class PdfFont {
 
+    public static Paragraph ustawparagraf(String fraza){
+        try {
+            String fraza2 = String.valueOf( fraza != null ? fraza : "");
+            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica, 10);
+            Paragraph par = new Paragraph(new Phrase(fraza2, font));
+            return par;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
     public static PdfPCell ustawfraze(String fraza, int colsp, int rowsp){
         try {
             String fraza2 = String.valueOf( fraza != null ? fraza : "");

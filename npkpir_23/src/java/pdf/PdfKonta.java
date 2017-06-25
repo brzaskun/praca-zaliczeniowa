@@ -14,10 +14,8 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import comparator.SaldoKontocomparator;
 import embeddablefk.SaldoKonto;
 import entityfk.StronaWiersza;
 import java.io.File;
@@ -39,6 +37,7 @@ import error.E;
 import waluty.Z;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawparagraf;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Rectangle;
 import static pdffk.PdfMain.inicjacjaA4Landscape;
@@ -86,9 +85,9 @@ public class PdfKonta {
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
         if (analit0synt1==1) {
-                document.add(new Paragraph(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(ustawparagraf(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             } else {
-                document.add(new Paragraph(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(ustawparagraf(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             }
         document.add(Chunk.NEWLINE);
         if (rodzajdruku==1 || rodzajdruku==4) {
@@ -143,9 +142,9 @@ public class PdfKonta {
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
         if (analit0synt1==1) {
-                document.add(new Paragraph(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(ustawparagraf(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             } else {
-                document.add(new Paragraph(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(ustawparagraf(wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP "+wpisView.getPodatnikObiekt().getNip()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             }
         document.add(Chunk.NEWLINE);
         document.add(tablicabezdokWal(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
@@ -476,7 +475,7 @@ public class PdfKonta {
             document.addKeywords("Wynik Finansowy, PDF");
             document.addCreator("Grzegorz Grzelczyk");
             document.open();
-            document.add(new Paragraph("LOLO zestawienie obrotów kont syntetycznych za okres: 05/2015"));
+            document.add(ustawparagraf("LOLO zestawienie obrotów kont syntetycznych za okres: 05/2015"));
             document.add(Chunk.NEWLINE);
             int limit = 2;
             for (int i = 0; i < limit; i++) {

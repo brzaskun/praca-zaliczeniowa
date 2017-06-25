@@ -10,11 +10,11 @@
         </ui:define>
         <ui:define name="body">
             <h:form>
-                <p:confirmDialog id="confirmDialog" message="Wysłać PIT-5 do podatnika: #{WpisView.podatnikWpisu}? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+                <p:confirmDialog id="confirmDialog" message="Wysłać PIT-5 do podatnika: #{WpisView.podatnikObiekt.nazwapelnaPDF}? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
                                      header="Mailowanie pit5" severity="alert" widgetVar="confirmation">
 
                         <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()"  
-                                         actionListener="#{pitView.mailPIT5()}" onsuccess="alert('Wysłano PIT5 do podatnika #{WpisView.podatnikWpisu}');" />  
+                                         actionListener="#{pitView.mailPIT5()}" onsuccess="alert('Wysłano PIT5 do podatnika #{WpisView.podatnikObiekt.nazwapelnaPDF}');" />  
                         <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" style="float: right;" />   
 
                     </p:confirmDialog>  

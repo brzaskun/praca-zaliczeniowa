@@ -8,7 +8,7 @@
         
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:dialog id="dialogbilansprzeglad" header="Bilans za okres rozliczeniowy wyliczenie - #{WpisView.podatnikWpisu}" widgetVar="bilansprzegladuklad" 
+    <p:dialog id="dialogbilansprzeglad" header="Bilans za okres rozliczeniowy wyliczenie - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilansprzegladuklad" 
               resizable="false" onShow="ustawdialog('dialogbilansprzeglad','menubilanse', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprzeglad');"  >
         <h:form id="formprzegladbilans">
 <!--            <p:contextMenu for="dataList">

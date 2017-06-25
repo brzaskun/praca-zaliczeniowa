@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:dialog id="dialogrmkdok" header="Zestawienie dla dokumentów RMK - #{WpisView.podatnikWpisu}" widgetVar="dialogrmkdok"  
+    <p:dialog id="dialogrmkdok" header="Zestawienie dla dokumentów RMK - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogrmkdok"  
               resizable="false"  onShow="ustawdialog('dialogrmkdok','menurejestry',1150,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmkdok');" >
         <bcf:ajaxs/>
         <h:form id="formrmk">

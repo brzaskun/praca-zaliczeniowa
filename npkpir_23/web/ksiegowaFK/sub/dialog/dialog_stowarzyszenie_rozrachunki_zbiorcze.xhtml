@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
-      <p:dialog id="dialog_stowarzyszenie_rozrachunki_zbiorcze" header="Zestawienie rozrachunków z członkami - #{WpisView.podatnikWpisu}" 
+      <p:dialog id="dialog_stowarzyszenie_rozrachunki_zbiorcze" header="Zestawienie rozrachunków z członkami - #{WpisView.podatnikObiekt.nazwapelnaPDF}" 
                 widgetVar="dialog_stowarzyszenie_rozrachunki_zbiorcze"  resizable="false"  
              onShow="ustawdialog('dialog_stowarzyszenie_rozrachunki_zbiorcze','menudokumenty', 1330, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_rozrachunki_zbiorcze');" >
          <ui:include src="../../../wspolny/sub/stow_rozrachunkizczlonkami_zbiorcze.xhtml"/>

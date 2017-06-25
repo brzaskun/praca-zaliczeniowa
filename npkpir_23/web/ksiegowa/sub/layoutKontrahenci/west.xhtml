@@ -9,7 +9,7 @@
 
                 <p:panelGrid columns="2">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.podatnikWpisu}"/>
+                <h:outputText value="#{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
                 <p:outputLabel for="rokWpisu" value="Rok"/>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" >
                     <f:selectItems value="#{Roki.rokiList}"/>

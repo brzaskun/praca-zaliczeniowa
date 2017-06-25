@@ -6,6 +6,7 @@ package pdf;
 
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawparagraf;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -14,7 +15,6 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -23,11 +23,9 @@ import entity.Dok;
 import entity.Inwestycje;
 import entity.Inwestycje.Sumazalata;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import plik.Plik;
@@ -69,7 +67,7 @@ public class PdfInwestycja {
         Font font = new Font(helvetica, 8);
         Font fontL = new Font(helvetica, 10);
         pdf.setPageSize(PageSize.A4);
-        Paragraph miziu = new Paragraph(new Phrase("Rozliczenie wydatków poniesionych na inwestycję w firmie: "+wpisView.getPodatnikWpisu()+" NIP: "+wpisView.getPodatnikObiekt().getNip(), fontL));
+        Paragraph miziu = ustawparagraf("Rozliczenie wydatków poniesionych na inwestycję w firmie: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF()+" NIP: "+wpisView.getPodatnikObiekt().getNip());
         miziu.setAlignment(Element.ALIGN_LEFT);
         pdf.add(miziu);
         pdf.add(Chunk.NEWLINE);
@@ -101,7 +99,7 @@ public class PdfInwestycja {
         }
         pdf.add(tableyear);
         pdf.add(Chunk.NEWLINE);
-        miziu = new Paragraph(new Phrase("zestawienie rachunków składających się na sumę inwestycji", fontL));
+        miziu = ustawparagraf("zestawienie rachunków składających się na sumę inwestycji");
         miziu.setAlignment(Element.ALIGN_LEFT);
         pdf.add(miziu);
         pdf.add(Chunk.NEWLINE);

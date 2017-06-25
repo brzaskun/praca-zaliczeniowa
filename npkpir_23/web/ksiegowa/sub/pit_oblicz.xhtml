@@ -274,7 +274,7 @@
             </h:form>
         </p:tab>
 
-        <p:tab id="tab5" title="Straty z lat ubiegłych. Podatnik: #{WpisView.podatnikWpisu}">
+        <p:tab id="tab5" title="Straty z lat ubiegłych. Podatnik: #{WpisView.podatnikObiekt.nazwapelnaPDF}">
             <h:form id="form1">
                 <p:panel header="Nanoszenie strat możliwe jest jedynie po sporządzeniu PIT-ow za 12 mcy oraz po wybraniu miesiąca stycznia roku następnego"/>
                 <p:dataTable id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"

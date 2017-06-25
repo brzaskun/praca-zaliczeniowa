@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogbilansprojekt" header="Projekt Bilansu - #{WpisView.podatnikWpisu}" widgetVar="bilansprojekt" 
+    <p:dialog id="dialogbilansprojekt" header="Projekt Bilansu - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilansprojekt" 
               resizable="false" onShow="ustawdialog('dialogbilansprojekt','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprojekt');"  >
         <h:form id="formbilansprojekt">
             <p:contextMenu for="formbilansprojekt:dataList" style="width: 200px;">

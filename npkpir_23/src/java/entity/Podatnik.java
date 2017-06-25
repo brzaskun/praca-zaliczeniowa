@@ -532,9 +532,9 @@ public class Podatnik implements Serializable {
     
      public String getNazwapelnaPDF() {
         if (this.isJestwlikiwdacji()) {
-            return nazwapelna+" W LIKWIDACJI";
+            return printnazwa +" W LIKWIDACJI";
         }
-        return nazwapelna;
+        return printnazwa;
     }
     
     public String getNazwapelna() {
