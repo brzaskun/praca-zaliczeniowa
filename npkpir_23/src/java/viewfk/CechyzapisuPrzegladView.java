@@ -54,18 +54,21 @@ public class CechyzapisuPrzegladView implements Serializable{
     
     public void init() {
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-        this.zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
+        zapisyZCecha = new ArrayList<>();
+        zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
+        wykazcech = new HashSet<>();
         int i = 1;
         for (CechaStronaWiersza p : zapisyZCecha) {
             p.setId(i++);
             wykazcech.add(p.getCechazapisu().getCechazapisuPK().getNazwacechy());
         }
         System.out.println("liczba "+zapisyZCecha.size());
-        RequestContext.getCurrentInstance().update("formcechyzapisow");
     }
     
     public void initCIT8() {
-        this.zapisyZCecha = new ArrayList<>();
+        zapisyZCecha = new ArrayList<>();
+        wykazcech = new HashSet<>();
+        zapisyZCecha = new ArrayList<>();
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
         this.zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
         for (Iterator<CechaStronaWiersza> it = zapisyZCecha.iterator(); it.hasNext();) {
@@ -88,6 +91,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     
     
     public void odswiez() {
+        this.zapisyZCechafilter = null;
         if (wpisView.getMiesiacWpisu().equals("CR")) {
             initCIT8();
         } else {
