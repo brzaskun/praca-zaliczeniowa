@@ -93,7 +93,8 @@ public class CechazapisuBean {
                    for (Cechazapisu r: p.getCechadokumentuLista()) {
                        zapisyZCecha.addAll(CechazapisuBean.pobierzStronyzDokfk(r, p.getListawierszy()));
                    }
-               } else {
+               } 
+               if (p.getListawierszy() != null) {
                    for (Wiersz r : p.getListawierszy()) {
                        zapisyZCecha.addAll(CechazapisuBean.pobierzpojedynczo(r));
                    }
@@ -106,11 +107,17 @@ public class CechazapisuBean {
         List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = new ArrayList<>();
         for (Wiersz p : listawierszy) {
             if (p.getStronaWn() != null) {
+                if (p.getStronaWn().getKwota() == 48.27) {
+                    System.out.println("");
+                }
                 if (p.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe")) {
                     lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaWn()));
                 }
             }
             if (p.getStronaMa() != null) {
+                if (p.getStronaMa().getKwota() == 48.27) {
+                    System.out.println("");
+                }
                 if (p.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe")) {
                     lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaMa()));
                 }
@@ -122,6 +129,9 @@ public class CechazapisuBean {
     public static Collection<? extends CechyzapisuPrzegladView.CechaStronaWiersza> pobierzpojedynczo(Wiersz r) {
         List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = new ArrayList<>();
         if (r.getStronaWn() != null) {
+            if (r.getStronaWn().getKwota() == 48.27) {
+                System.out.println("");
+            }
             if (r.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaWn().getCechazapisuLista() != null) {
                 for (Cechazapisu s : r.getStronaWn().getCechazapisuLista()) {
                     lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, r.getStronaWn()));
@@ -129,6 +139,9 @@ public class CechazapisuBean {
             }
         }
         if (r.getStronaMa() != null) {
+            if (r.getStronaMa().getKwota() == 48.27) {
+                System.out.println("");
+            }
             if (r.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaMa().getCechazapisuLista() != null) {
                 for (Cechazapisu s : r.getStronaMa().getCechazapisuLista()) {
                     lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, r.getStronaMa()));
