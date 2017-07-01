@@ -43,6 +43,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     private WpisView wpisView;
     @Inject
     private DokDAOfk dokDAOfk;
+    private boolean jakiecechy;
 
     public CechyzapisuPrzegladView() {
          E.m(this);
@@ -61,6 +62,14 @@ public class CechyzapisuPrzegladView implements Serializable{
         for (CechaStronaWiersza p : zapisyZCecha) {
             p.setId(i++);
             wykazcech.add(p.getCechazapisu().getCechazapisuPK().getNazwacechy());
+        }
+        if (jakiecechy) {
+            for (Iterator<CechaStronaWiersza> it = zapisyZCecha.iterator(); it.hasNext();) {
+                CechaStronaWiersza p = it.next();
+                if (p.cechazapisu.getCharaktercechy() == 1) {
+                    it.remove();
+                }
+            }
         }
         System.out.println("liczba "+zapisyZCecha.size());
     }
@@ -83,6 +92,14 @@ public class CechyzapisuPrzegladView implements Serializable{
         for (CechaStronaWiersza p : zapisyZCecha) {
             p.setId(i++);
             wykazcech.add(p.getCechazapisu().getCechazapisuPK().getNazwacechy());
+        }
+        if (jakiecechy) {
+            for (Iterator<CechaStronaWiersza> it = zapisyZCecha.iterator(); it.hasNext();) {
+                CechaStronaWiersza p = it.next();
+                if (p.cechazapisu.getCharaktercechy() == 1) {
+                    it.remove();
+                }
+            }
         }
         System.out.println("liczba "+zapisyZCecha.size());
         RequestContext.getCurrentInstance().update("formcechyzapisow");
@@ -122,6 +139,14 @@ public class CechyzapisuPrzegladView implements Serializable{
     
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public boolean isJakiecechy() {
+        return jakiecechy;
+    }
+
+    public void setJakiecechy(boolean jakiecechy) {
+        this.jakiecechy = jakiecechy;
     }
 
     public Set<String> getWykazcech() {
@@ -212,6 +237,8 @@ public class CechyzapisuPrzegladView implements Serializable{
             this.stronaWiersza = stronaWiersza;
         }
 
+        
+        
         @Override
         public String toString() {
             return "CechaStronaWiersza{" + "cechazapisu=" + cechazapisu + ", stronaWiersza=" + stronaWiersza + '}';

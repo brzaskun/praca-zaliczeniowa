@@ -43,6 +43,7 @@ public class Cechazapisu implements Serializable {
     private List<Dok> dokLista;
     @ManyToMany(mappedBy = "cechazapisuLista")
     private List<StronaWiersza> stronaWierszaLista;
+    // 1 statystyczna 2 pzychody 3 koszty
     @Column(name = "charaktercechy")
     private int charaktercechy;
     @Column(name = "przesuniecie")
