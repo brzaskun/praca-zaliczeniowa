@@ -8,7 +8,6 @@ package viewfk;
 import comparator.Podatnikcomparator;
 import dao.PodatnikDAO;
 import daoFK.SprawozdanieFinansoweDAO;
-import embeddable.Roki;
 import entity.Podatnik;
 import entityfk.SprawozdanieFinansowe;
 import enumy.ElementySprawozdaniafin;
@@ -66,7 +65,7 @@ public class SprawozdanieFinansoweView implements Serializable {
         Field[] p = c.getFields();
         for (Field r : p) {
             try {
-                elementy.add(r.getName());
+                dodajelement(r);
             } catch (Exception ex) {
             }
         }
@@ -170,14 +169,18 @@ public class SprawozdanieFinansoweView implements Serializable {
     }
     
     public void zlozone(SprawozdanieFinansowe sf) {
-        sf.setZlozyl(wpisView.getWprowadzil().getLogin());
-        sf.setZlozonedokrs(new Date());
-        Msg.msg("Oznaczono element sprawozdania");
+        for (SprawozdanieFinansowe p : pozycjesprawozdania) {
+            p.setZlozyl(wpisView.getWprowadzil().getLogin());
+            p.setZlozonedokrs(new Date());
+        }
+        Msg.msg("Oznaczono elementy sprawozdania");
     }
     
      public void zatwierdzone(SprawozdanieFinansowe sf) {
-        sf.setZatwierdzil(wpisView.getWprowadzil().getLogin());
-        sf.setZatwierdzonewkrs(new Date());
+         for (SprawozdanieFinansowe p : pozycjesprawozdania) {
+            p.setZatwierdzil(wpisView.getWprowadzil().getLogin());
+            p.setZatwierdzonewkrs(new Date());
+        }
         Msg.msg("Oznaczono element sprawozdania");
     }
      
@@ -215,7 +218,19 @@ public class SprawozdanieFinansoweView implements Serializable {
          }
      }
      
-    
+    private void dodajelement(Field r) {
+        try {
+            String formaprawna = wpisView.getFormaprawna();
+            if (formaprawna.equals("SPOLKA_KOMANDYTOWA") && r.getInt(r)!= 6 && r.getInt(r)!= 7) {
+                elementy.add(r.getName());
+            } else {
+                elementy.add(r.getName());
+            }
+        } catch (Exception ex) {
+            
+        }
+    }
+     
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -263,6 +278,8 @@ public class SprawozdanieFinansoweView implements Serializable {
     public void setListapodatnikow(List<Podatnik> listapodatnikow) {
         this.listapodatnikow = listapodatnikow;
     }
+
+    
     
     
     

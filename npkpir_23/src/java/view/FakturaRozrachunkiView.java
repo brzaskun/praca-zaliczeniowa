@@ -94,7 +94,16 @@ public class FakturaRozrachunkiView  implements Serializable {
     }
    
     private Collection<? extends Klienci> pobierzkontrahentow() {
-        return fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
+        Collection p =  fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
+        for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
+            Klienci k = it.next();
+            if (k == null) {
+                it.remove();
+            } else if (k.isAktywnydlafaktrozrachunki() == false) {
+                it.remove();
+            }
+        }
+        return p;
     }
     
     public List<Klienci> completeKL(String query) {

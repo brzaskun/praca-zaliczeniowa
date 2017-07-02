@@ -210,8 +210,12 @@ public class Data implements Serializable {
     }
     
     public static String data_yyyyMMdd(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	return sdf.format(date); 
+        String zwrot = "";
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            zwrot = sdf.format(date);
+        }
+	return zwrot;
     }
 
     public static boolean czyjestpomiedzy (String dataOd, String dataDo, String rok, String mc) {

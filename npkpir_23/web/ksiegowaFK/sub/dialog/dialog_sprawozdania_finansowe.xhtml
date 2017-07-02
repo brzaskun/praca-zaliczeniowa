@@ -51,7 +51,7 @@
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="Sporzadzajacy"/>
+                                <h:outputText value="Sporzadzający"/>
                             </f:facet>
                             <h:outputText value="#{item.sporzadzajacy}"/>
                         </p:column>
@@ -65,7 +65,7 @@
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="Zatwierdzajacy"/>
+                                <h:outputText value="Zatwierdzający"/>
                             </f:facet>
                             <h:outputText value="#{item.zatwierdzajacy}" rendered="#{item.zatwierdzajacy ne null}"/>
                             <p:commandButton value="zatwierdź" actionListener="#{sprawozdanieFinansoweView.zatwierdz(item)}" global="false" update="@this:@parent:@parent"
@@ -107,7 +107,7 @@
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
                             <p:commandButton value="oznacz" actionListener="#{sprawozdanieFinansoweView.zlozone(item)}" global="false" update="@this:@parent:@parent"
-                                              rendered="#{item.zlozonedokrs eq null}"/>
+                                              rendered="#{item.zlozonedokrs eq null and item.element ne 6 and item.element ne 7}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
@@ -117,7 +117,7 @@
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
                             <p:commandButton value="oznacz" actionListener="#{sprawozdanieFinansoweView.zatwierdzone(item)}" global="false" update="@this:@parent:@parent"
-                                              rendered="#{item.zatwierdzonewkrs eq null}"/>
+                                              rendered="#{item.zatwierdzonewkrs eq null and item.element ne 6 and item.element ne 7}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
@@ -127,12 +127,12 @@
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
                             <p:commandButton value="oznacz" actionListener="#{sprawozdanieFinansoweView.urzad(item)}" global="false" update="@this:@parent:@parent"
-                                              rendered="#{item.zlozonewurzedzie eq null}"/>
+                                             rendered="#{item.zlozonewurzedzie eq null and item.element ne 8 and item.element ne 4}"/>
                         </p:column>
                 <p:column style="text-align: center;" width="30">
                             <p:commandButton icon="fa fa-trash" actionListener="#{sprawozdanieFinansoweView.usun(item)}" 
                                              global="false" update="@this:@parent:@parent  @form:listaelementow"
-                                             rendered="#{item.zatwierdzajacy eq null}"/>
+                                             rendered="#{item.zlozonedokrs eq null}"/>
                         </p:column>
             </p:dataTable>
             <p:panelGrid columns="3">
