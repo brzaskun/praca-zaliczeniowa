@@ -7,10 +7,16 @@ package view;
 
 import deklaracje.vatue.m4.Deklaracja;
 import deklaracje.vatue.m4.VATUEM4Bean;
+import embeddable.TKodUS;
+import embeddable.VatUe;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -21,12 +27,20 @@ import javax.faces.bean.ViewScoped;
 public class VATUEDeklaracjaView implements Serializable {
     private static final long serialVersionUID = 1L;
     private deklaracje.vatue.m4.Deklaracja deklaracja;
+    @Inject
+    private TKodUS tKodUS;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     
-    public void tworzdeklarajce() {
+    public void tworzdeklarajce(List<VatUe> lista) {
         deklaracja = new Deklaracja();
-        deklaracja.setNaglowek(VATUEM4Bean.tworznaglowek("03","2017","22"));
+        String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
+        deklaracja.setNaglowek(VATUEM4Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
+        deklaracja.setPodmiot1(VATUEM4Bean.podmiot1(wpisView));
+        deklaracja.setPozycjeSzczegolowe(VATUEM4Bean.pozycjeszczegolowe(lista));
+        deklaracja.setPouczenie(BigDecimal.ONE);
+        VATUEM4Bean.marszajuldoplikuxml(deklaracja, wpisView);
+        Msg.msg("Sporządzono deklarację VAT-UE miesięczną wersja 4");
     }
 
    
