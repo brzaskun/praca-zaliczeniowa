@@ -11,7 +11,9 @@ import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,7 +23,17 @@ import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 import view.WpisView;
 import waluty.Z;
 
@@ -66,16 +78,16 @@ public class VATUEM4Bean {
         return p;
     }
 
-    public static void main(String[] args) {
-        try {
-            XMLGregorianCalendar s =  DatatypeFactory.newInstance().newXMLGregorianCalendar("2017");
-            System.out.println("s "+s);
-            TKodKrajuUE k = TKodKrajuUE.fromValue("DE");
-            System.out.println("k "+k);
-        } catch (Exception ex) {
-            Logger.getLogger(VATUEM4Bean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            XMLGregorianCalendar s =  DatatypeFactory.newInstance().newXMLGregorianCalendar("2017");
+//            System.out.println("s "+s);
+//            TKodKrajuUE k = TKodKrajuUE.fromValue("DE");
+//            System.out.println("k "+k);
+//        } catch (Exception ex) {
+//            Logger.getLogger(VATUEM4Bean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     private static TIdentyfikatorOsobyNiefizycznej pobierzidentyfikatorspolka(WpisView w) {
         TIdentyfikatorOsobyNiefizycznej idf = new TIdentyfikatorOsobyNiefizycznej();
@@ -167,6 +179,7 @@ public class VATUEM4Bean {
             marshaller.marshal(dekl, System.out);
             StringWriter sw = new StringWriter();
             marshaller.marshal(dekl, new StreamResult(sw));
+            Document dokmt = StringToDocument(sw.toString());
             String plik = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\xml\\testowa"+wpisView.getPodatnikObiekt().getNip()+".xml";
             FileOutputStream fileStream = new FileOutputStream(new File(plik));
             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
@@ -176,6 +189,96 @@ public class VATUEM4Bean {
         }
     }
     
+     public static Document StringToDocument(String strXml) throws Exception {
+
+        Document doc = null;
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            StringReader strReader = new StringReader(strXml);
+            InputSource is = new InputSource(strReader);
+            doc = (Document) builder.parse(is);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return doc;
+    }
+     
+    public static void main(String[] args) {
+        String strXml
+                = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+"<Deklaracja xmlns=\"http://crd.gov.pl/wzor/2017/01/11/3846/\" xmlns:ns2=\"http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/\">\n" +
+"    <Naglowek>\n" +
+"        <KodFormularza kodSystemowy=\"VAT-UE (4)\" wersjaSchemy=\"1-0E\">VAT-UE</KodFormularza>\n" +
+"        <WariantFormularza>4</WariantFormularza>\n" +
+"        <Rok>2017</Rok>\n" +
+"        <Miesiac>3</Miesiac>\n" +
+"        <CelZlozenia>1</CelZlozenia>\n" +
+"        <KodUrzedu>3271</KodUrzedu>\n" +
+"    </Naglowek>\n" +
+"    <Podmiot1>\n" +
+"        <ns2:OsobaNiefizyczna>\n" +
+"            <ns2:NIP>8513169524</ns2:NIP>\n" +
+"            <ns2:PelnaNazwa>GCO SP. Z O.O. SP. K.</ns2:PelnaNazwa>\n" +
+"            <ns2:REGON>321385141</ns2:REGON>\n" +
+"        </ns2:OsobaNiefizyczna>\n" +
+"    </Podmiot1>\n" +
+"    <PozycjeSzczegolowe>\n" +
+"        <Grupa2>\n" +
+"            <P_Nb>DE119831689</P_Nb>\n" +
+"            <P_Nc>441</P_Nc>\n" +
+"            <P_Nd>0</P_Nd>\n" +
+"        </Grupa2>\n" +
+"        <Grupa3>\n" +
+"            <P_Ub>ATU66218014</P_Ub>\n" +
+"            <P_Uc>14591</P_Uc>\n" +
+"        </Grupa3>\n" +
+"    </PozycjeSzczegolowe>\n" +
+"    <Pouczenie>1</Pouczenie>\n" +
+"</Deklaracja>";
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder;
+            builder = factory.newDocumentBuilder();
+            StringReader sr = new StringReader(strXml);
+            InputSource is = new InputSource(sr);
+            Document doc = builder.parse(is);
+            Element g = doc.getElementById("Grupa3");
+            System.out.println(doc.getDocumentElement().getTagName());
+            Element element = doc.getDocumentElement();
+            Node node = doc.createElement("podp:DaneAutoryzujace");
+            String aut = "<podp:DaneAutoryzujace xmlns:podp=\"http://e-deklaracje.mf.gov.pl/Repozytorium/Definicje/Podpis/\"><podp:NIP>8511005008"
+                            +"</podp:NIP><podp:ImiePierwsze>Jan</podp:ImiePierwsze><podp:Nazwisko>Grzelczyk"
+                            +"</podp:Nazwisko><podp:DataUrodzenia>25-08-1970</podp:DataUrodzenia><podp:Kwota>12552.25"
+                            +"</podp:Kwota></podp:DaneAutoryzujace></Deklaracja>";
+            //node.appendChild(doc.createTextNode("tresc"));
+            node.setTextContent("aaa");
+            Element list = doc.getElementById("Deklaracja");
+
+            list.setAttribute("type", "formula one");
+//            Attr attrType = doc.createAttribute("type");
+//            attrType.setValue("formula one");
+//            element.setAttributeNode(attrType);
+            element.appendChild(node);
+            prettyPrint(doc);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    public static final void prettyPrint(Document xml) throws Exception {
+        Transformer tf = TransformerFactory.newInstance().newTransformer();
+        tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        tf.setOutputProperty(OutputKeys.INDENT, "yes");
+        Writer out = new StringWriter();
+        tf.transform(new DOMSource(xml), new StreamResult(out));
+        System.out.println(out.toString());
+    }
+
 
     
 }

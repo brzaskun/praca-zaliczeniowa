@@ -389,7 +389,7 @@ public class Vat7DKView implements Serializable {
         String kwotaautoryzujaca = null;
         String kwotaautoryzujacarokpop = null;
         try {
-            Podatnik p = podatnikDAO.find(wpisView.getPodatnikWpisu());
+            Podatnik p = wpisView.getPodatnikObiekt();
             List<Parametr> listakwotaautoryzujaca = p.getKwotaautoryzujaca();
             if (listakwotaautoryzujaca.isEmpty()) {
                 throw new Exception();
