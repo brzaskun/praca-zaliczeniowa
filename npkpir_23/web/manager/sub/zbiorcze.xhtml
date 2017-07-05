@@ -15,7 +15,11 @@
             </p:panelGrid>
         </h:form>-->
     <p:growl life="3600"  id="msgzus" autoUpdate="true"/>
-
+<!--    <h:form>
+        <p:selectBooleanCheckbox value="#{zUSStawkiZbiorczeView.wszystkielata}" itemLabel="pokaż wszystkie lata" style="margin-left: 10px;">
+            <p:ajax event="change" partialSubmit="true" update="akordeon"/>
+        </p:selectBooleanCheckbox>
+    </h:form>-->
     <p:accordionPanel id="akordeon" value="#{zUSStawkiZbiorczeView.listapodatnikow}" var="podatnik" style="max-width: 700px;" >
 
         <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}" rendered="#{podatnik.podmiotaktywny}">

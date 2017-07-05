@@ -51,6 +51,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     private boolean pokazButtonUsun;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
+    private boolean wszystkielata;
 
     public ZUSStawkiZbiorczeView() {
         listapodatnikow = new ArrayList<>();
@@ -360,6 +361,16 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         this.wpisView = wpisView;
     }
 
+    public boolean isWszystkielata() {
+        return wszystkielata;
+    }
+
+    public void setWszystkielata(boolean wszystkielata) {
+        this.wszystkielata = wszystkielata;
+    }
+
+    
+    
     private boolean sprawdzmalyzus(String rok, String mc, String rokwprowadzany, String mcwprowadzany) {
         boolean malyzus = false;
         String[] zwiekszonemcd = Mce.zwiekszmiesiac(rok, mc, 24);

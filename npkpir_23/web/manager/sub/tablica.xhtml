@@ -8,7 +8,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
-  <h:form>
+<!--  <h:form>
       <p:panelGrid columns="1">
       <p:inputText value="#{gUSView.nip}" maxlength="10"/>
       <p:commandButton value="GUS" actionListener="#{gUSView.login()}" ajax="false" update="@form"/>
@@ -92,12 +92,12 @@
                     <p:column  style="width: 120px; text-align: center;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
                     </p:column>
-<!--                    <p:column headerText="poziom" style="width: 50px; text-align: center;">
+                    <p:column headerText="poziom" style="width: 50px; text-align: center;">
                         <h:outputText value="#{loop.level}" /> 
-                    </p:column>-->
-<!--                    <p:column headerText="macierz." style="width: 50px;">
+                    </p:column>
+                    <p:column headerText="macierz." style="width: 50px;">
                         <h:outputText value="#{loop.macierzyste}" /> 
-                    </p:column>-->
+                    </p:column>
                     <p:column  style="width: 100px; text-align: center;">
                         <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaWn : '!'}" style="#{loop.kontopozycjaID == null ? 'color: red' : null}"/> 
                     </p:column>
@@ -130,7 +130,7 @@
                 </p:dataTable>
             </p:panelGrid>
            
-        </h:form>
+        </h:form>-->
 <!--
     <h:form>
         <p:commandButton value="multi" actionListener="#{watek.pobieraj()}" style="width: 120px;"/>
