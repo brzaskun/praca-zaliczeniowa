@@ -126,10 +126,15 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     
     private boolean czywprowadzonostawkiZUS52() {
         if (obrabianeparametryzus.getZus52()!=null && obrabianeparametryzus.getZus52odl()!=null) {
-            Msg.msg("e","Nie wprowadzono dwóch stawek ZUS-52. Nie można zachować miesiąca");
             return true;
         } else if (obrabianeparametryzus.getZus52()==null && obrabianeparametryzus.getZus52odl()==null) {
             return true;
+        } else if (obrabianeparametryzus.getZus52()==null && obrabianeparametryzus.getZus52odl()!=null) {
+            Msg.msg("e","Nie wprowadzono dwóch stawek ZUS-52. Nie można zachować miesiąca");
+            return false;
+        } else if (obrabianeparametryzus.getZus52()!=null && obrabianeparametryzus.getZus52odl()==null) {
+            Msg.msg("e","Nie wprowadzono dwóch stawek ZUS-52. Nie można zachować miesiąca");
+            return false;
         }
         return false;
     }
