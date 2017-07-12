@@ -44,6 +44,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     @Inject
     private DokDAOfk dokDAOfk;
     private boolean jakiecechy;
+    private boolean cit8;
 
     public CechyzapisuPrzegladView() {
          E.m(this);
@@ -80,11 +81,13 @@ public class CechyzapisuPrzegladView implements Serializable{
         zapisyZCecha = new ArrayList<>();
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
         this.zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
-        for (Iterator<CechaStronaWiersza> it = zapisyZCecha.iterator(); it.hasNext();) {
-            CechaStronaWiersza n = it.next();
-            if (!n.getStronaWiersza().getDokfk().getMiesiac().equals("12")) {
-                if (n.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("pmn") || n.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("kupmn")) {
-                    it.remove();
+        if (cit8) {
+            for (Iterator<CechaStronaWiersza> it = zapisyZCecha.iterator(); it.hasNext();) {
+                CechaStronaWiersza n = it.next();
+                if (!n.getStronaWiersza().getDokfk().getMiesiac().equals("12")) {
+                    if (n.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("pmn") || n.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("kupmn")) {
+                        it.remove();
+                    }
                 }
             }
         }
@@ -124,6 +127,10 @@ public class CechyzapisuPrzegladView implements Serializable{
         }
     }
     
+    public void resetujsuma(){
+        razem = 0.0;
+    }
+    
     public void drukujzaksiegowanydokument() {
         if (wybraneZapisyZCecha != null && !wybraneZapisyZCecha.isEmpty()) {
             PdfCechyZapisow.drukujzaksiegowanydokument(wpisView, wybraneZapisyZCecha);
@@ -139,6 +146,14 @@ public class CechyzapisuPrzegladView implements Serializable{
     
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public boolean isCit8() {
+        return cit8;
+    }
+
+    public void setCit8(boolean cit8) {
+        this.cit8 = cit8;
     }
 
     public boolean isJakiecechy() {
