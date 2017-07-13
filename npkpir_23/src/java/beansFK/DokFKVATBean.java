@@ -280,7 +280,6 @@ public class DokFKVATBean {
     public static void rozliczVatKoszt(EVatwpisFK wierszvatdoc, double[] wartosciVAT, Dokfk selected, Map<String, Konto> kontadlaewidencji, WpisView wpisView, Dokfk poprzedniDokument, Konto kontoRozrachunkowe) {
         Wiersz wierszpierwszy = selected.getListawierszy().get(0);
         Waluty w = selected.getWalutadokumentu();
-       
         try {
             if (kontoRozrachunkowe == null) {
                 System.out.println("Brak zdefiniowanych kont przyporządkowanych do dokumentu.");

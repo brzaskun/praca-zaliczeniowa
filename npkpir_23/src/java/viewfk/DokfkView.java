@@ -1839,6 +1839,10 @@ public class DokfkView implements Serializable {
                     }
                     System.out.println(wybranastronawiersza.toString());
 
+                } else if (wybranastronawiersza.getKonto() != null && !wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                    potraktujjakoNowaTransakcje = false;
+                    biezacetransakcje = new ArrayList<>();
+                    wybranastronawiersza.setTypStronaWiersza(0);
                 }
                 if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().equals(selected.getRodzajedok().getKontorozrachunkowe())) {
                     rozliczsaldoWBRK(lpWierszaWpisywanie);

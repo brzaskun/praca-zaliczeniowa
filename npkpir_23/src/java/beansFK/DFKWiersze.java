@@ -8,7 +8,6 @@ package beansFK;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
-import javax.ejb.Stateless;
 
 /**
  *
@@ -34,7 +33,7 @@ public class DFKWiersze {
         }
         if (stw != null) {
             Konto konorozrachunkowe = stw.getKonto();
-            if (konorozrachunkowe != null && stw.getKwota() != 0.0) {
+            if (konorozrachunkowe != null && stw.getKwota() != 0.0 && konorozrachunkowe.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                 stw.setNowatransakcja(true);
                 stw.setTypStronaWiersza(1);
             }
