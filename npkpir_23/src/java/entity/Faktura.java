@@ -50,7 +50,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Faktura.findByRodzajtransakcji", query = "SELECT f FROM Faktura f WHERE f.rodzajtransakcji = :rodzajtransakcji"),
     @NamedQuery(name = "Faktura.findByKontrahent_nip", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip"),
     @NamedQuery(name = "Faktura.findByKontrahent", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.fakturaPK.wystawcanazwa = :wystawcanazwa"),
-    @NamedQuery(name = "Faktura.findByKontrahentRok", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.fakturaPK.wystawcanazwa = :wystawcanazwa AND f.rok = :rok ORDER BY f.datawystawienia"),
+    @NamedQuery(name = "Faktura.findByKontrahentRok", query = "SELECT f FROM Faktura f WHERE f.kontrahent.nip = :kontrahent_nip AND f.fakturaPK.wystawcanazwa = :wystawcanazwa AND f.rok = :rok ORDER BY f.datawystawienia"),
     @NamedQuery(name = "Faktura.findByKontrahentRokPo2015", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.fakturaPK.wystawcanazwa = :wystawcanazwa AND f.rok > 2015 ORDER BY f.datawystawienia"),
     @NamedQuery(name = "Faktura.findByRok", query = "SELECT f FROM Faktura f WHERE f.rok = :rok"),
     @NamedQuery(name = "Faktura.findByRokPodatnik", query = "SELECT f FROM Faktura f WHERE f.rok = :rok AND f.fakturaPK.wystawcanazwa = :wystawcanazwa"),
