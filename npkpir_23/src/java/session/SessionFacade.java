@@ -724,6 +724,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Faktura> findByKontrahentNipRok(String kontrahent_nip, String wystawca, String rok) {
+        if (kontrahent_nip.equals("9552379284")) {
+            System.out.println("");
+        }
         return em.createNamedQuery("Faktura.findByKontrahentRok").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).setParameter("rok", rok).getResultList();
     }
     

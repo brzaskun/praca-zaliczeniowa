@@ -5,7 +5,6 @@
  */
 package view;
 
-import entity.Statystyka;
 import beanStatystyka.StatystykaBean;
 import beanStatystyka.StatystykaBeanFK;
 import dao.DokDAO;
@@ -14,9 +13,11 @@ import dao.PodatnikDAO;
 import dao.StatystykaDAO;
 import daoFK.DokDAOfk;
 import entity.Podatnik;
+import entity.Statystyka;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -24,8 +25,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.apache.commons.math3.stat.descriptive.rank.Median;
 import pdffk.PdfKlienciKalkulacja;
-import waluty.Z;
 
 /**
  *
@@ -108,9 +109,9 @@ public class StatystykaKalkulacjaView  implements Serializable {
         int sumafak = 0;
         double sumaobroty = 0.0;
         double sumafakt = 0.0;
-        double fakturaNaObroty = 0.0;
-        double fakturaNaDokumenty = 0.0;
-        double ranking = 0.0;
+        List<Double> fakturaNaObroty = new ArrayList<>();
+        List<Double> fakturaNaDokumenty = new ArrayList<>();
+        List<Double> ranking = new ArrayList<>();
         double lp = 1;
         for (Statystyka p : zwrot) {
             if (p.getObroty() > 0) {
@@ -118,24 +119,32 @@ public class StatystykaKalkulacjaView  implements Serializable {
                 sumafak += p.getIloscfaktur();
                 sumaobroty += p.getObroty();
                 sumafakt += p.getKwotafaktur();
-                fakturaNaObroty += p.getFakturaNaObroty();
-                fakturaNaDokumenty += p.getFakturaNaDokumenty();
-                ranking += p.getRanking();
+                fakturaNaObroty.add(p.getFakturaNaObroty());
+                fakturaNaDokumenty.add(p.getFakturaNaDokumenty());
+                ranking.add(p.getRanking());
                 lp++;
             }
         }
-        fakturaNaObroty = Z.z4(fakturaNaObroty/lp);
-        fakturaNaDokumenty = Z.z4(fakturaNaDokumenty/lp);
-        ranking = Z.z4(ranking/lp);
+        double[] ld1 = fakturaNaObroty.stream().mapToDouble(Double::doubleValue).toArray();
+        double[] ld2 = fakturaNaDokumenty.stream().mapToDouble(Double::doubleValue).toArray();
+        double[] ld3 = ranking.stream().mapToDouble(Double::doubleValue).toArray();
+        Arrays.sort(ld1);
+        Arrays.sort(ld2);
         s.setIloscdokumentow(sumadok);
         s.setIloscfaktur(sumafak);
         s.setObroty(sumaobroty);
         s.setKwotafaktur(sumafakt);
-        s.setFakturaNaObroty(fakturaNaObroty);
-        s.setFakturaNaDokumenty(fakturaNaDokumenty);
-        s.setRanking(ranking);
+        s.setFakturaNaObroty(getMedian(ld1));
+        s.setFakturaNaDokumenty(getMedian(ld2));
+        s.setRanking(getMedian(ld3));
         s.setRok("podsum");
         return s;
+    }
+    
+    public double getMedian(double[] values){
+        Median median = new Median();
+        double medianValue = median.evaluate(values);
+        return medianValue;
     }
     
     public void zaksieguj() {
@@ -149,6 +158,10 @@ public class StatystykaKalkulacjaView  implements Serializable {
                 E.e(e);
             }
         }
+    }
+    
+    public void czysclista() {
+        podatnikroklista = new ArrayList<>();
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">    

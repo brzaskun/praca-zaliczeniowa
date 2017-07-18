@@ -5,13 +5,12 @@
  */
 package beanStatystyka;
 
-import entity.Statystyka;
 import dao.DokDAO;
 import dao.FakturaDAO;
 import entity.Dok;
 import entity.Faktura;
 import entity.Podatnik;
-import entityfk.Dokfk;
+import entity.Statystyka;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,7 +92,9 @@ public class StatystykaBean implements Runnable {
         zwrot.add("WDT");
         zwrot.add("UPTK");
         zwrot.add("RVC");
+        zwrot.add("RVCS");
         zwrot.add("EXP");
+        zwrot.add("UPTK100");
         return zwrot;
     }
     
