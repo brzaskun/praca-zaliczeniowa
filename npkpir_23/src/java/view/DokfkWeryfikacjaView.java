@@ -45,12 +45,14 @@ public class DokfkWeryfikacjaView implements Serializable {
         List<Dokfk> listabrakiKontaAnalityczne = new ArrayList<>();
         List<Integer> listabrakiKontaAnalityczne_nr = new ArrayList<>();
         List<Dokfk> listabraki = new ArrayList<>();
+        List<Dokfk> listabrakkontrahenta = new ArrayList<>();
         List<Dokfk> listabrakiKonto = new ArrayList<>();
         List<Dokfk> listabrakiPozycji = new ArrayList<>();
         List<Dokfk> listabrakivat = new ArrayList<>();
         List<Dokfk> listapustaewidencja = new ArrayList<>();
         List<Dokfk> listaniezgodnoscvatkonto = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
+            boolean jestbrakkontrahenta = brakkontrahenta(p, listabrakkontrahenta);
             boolean skorygowanokontrahenta = korekcjakontrahenta(p);
             boolean usunietopusteewidencje = usunpusteewidencje(p, listapustaewidencja);
             boolean ustawionookresyvat = ustawokresyvat(p);
@@ -101,6 +103,12 @@ public class DokfkWeryfikacjaView implements Serializable {
         if (listabrakiPozycji.size() > 0) {
             main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
             b = pobierzbledy(listabrakiPozycji, main);
+            czysto = false;
+            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+        }
+        if (listabrakkontrahenta.size() > 0) {
+            main = "Brakuje kontrahenta w " + listabrakkontrahenta.size() + " dokumentach: ";
+            b = pobierzbledy(listabrakkontrahenta, main);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
@@ -502,6 +510,15 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
             return zwrot;
         }
+
+    private boolean brakkontrahenta(Dokfk p, List<Dokfk> listabrakkontrahenta) {
+        boolean zwrot = true;
+        if (p.getKontr() == null) {
+            zwrot = false;
+            listabrakkontrahenta.add(p);
+        }
+        return zwrot;
+    }
 
     
 

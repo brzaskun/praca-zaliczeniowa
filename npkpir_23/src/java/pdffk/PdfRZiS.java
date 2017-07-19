@@ -160,7 +160,7 @@ public class PdfRZiS {
             otwarcieDokumentu(document, nazwa);
             PdfMain.dodajOpisWstepnyKompakt(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             List<String> mce = Mce.getMiesiaceGranica("04");
-            int wielkosctabeli = obliczszerokosctabeli(mce.size());
+            int wielkosctabeli = 85;
             dodajTabeleNar(document, testobjects.testobjects.getTabelaRZiSPorMcy(rootProjektRZiS, mce, wpisView),wielkosctabeli,4,mce);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
@@ -193,17 +193,17 @@ public class PdfRZiS {
             case 1:
             case 2:
             case 3:
-                zwrot = 55;
+                zwrot = 70;
                 break;
             case 4:
             case 5:
             case 6:
-                zwrot = 70;
+                zwrot = 83;
                 break;
             case 7:
             case 8:
             case 9:
-                zwrot = 85;
+                zwrot = 97;
                 break;
             case 10:
             case 11:

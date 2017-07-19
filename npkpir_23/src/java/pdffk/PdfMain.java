@@ -653,7 +653,7 @@ public class PdfMain {
                 String nazwaklasy = wiersze.get(0).getClass().getName();
                 int[] col = obliczKolumnyNar(naglowki.size(), mce.size());
                 PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
-                ustawnaglowki(table, naglowki);
+                ustawnaglowki(table, naglowki, "center");
                 ustawwierszeNar(table,wiersze, nazwaklasy, modyfikator, mce);
                 document.add(table);
             }
@@ -671,7 +671,7 @@ public class PdfMain {
                 String nazwaklasy = wiersze.get(0).getClass().getName();
                 int[] col = obliczKolumnyNar(naglowki.size(), mce.size());
                 PdfPTable table = przygotujtabele(naglowki.size(),col, perc, 2f, 3f);
-                ustawnaglowki(table, naglowki);
+                ustawnaglowki(table, naglowki, "center");
                 ustawwierszeNar(table,wiersze, nazwaklasy, modyfikator, mce);
                 document.add(table);
             }
@@ -1310,6 +1310,13 @@ public class PdfMain {
     private static void ustawnaglowki(PdfPTable table, List naglowki) {
         for (int i = 0; i < naglowki.size(); i++) {
             table.addCell(ustawfrazeAlign((String) naglowki.get(i), "left", 9));
+        }
+        table.setHeaderRows(1);
+    }
+    
+    private static void ustawnaglowki(PdfPTable table, List naglowki, String align) {
+        for (int i = 0; i < naglowki.size(); i++) {
+            table.addCell(ustawfrazeAlign((String) naglowki.get(i), align, 9));
         }
         table.setHeaderRows(1);
     }
