@@ -412,94 +412,98 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         document.addKeywords("Faktura, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
-        document.setMargins(0, 0, 40, 20);
-        NumberFormat formatter = NumberFormat.getNumberInstance();
-        formatter.setMaximumFractionDigits(2);
-        formatter.setMinimumFractionDigits(2);
-        formatter.setGroupingUsed(true);
-        PdfPTable table = new PdfPTable(15);
-        table.setTotalWidth(new float[]{30, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
-        // set the total width of the table
-        table.setWidthPercentage(95);
-        table.addCell(ustawfrazeAlign("lp", "center", 7));
-        table.addCell(ustawfrazeAlign("opis", "center", 7));
-        table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
-        table.addCell(ustawfrazeAlign("ilość", "center", 7));
-        table.addCell(ustawfrazeAlign("j.m.", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto1", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto2", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto3", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto4", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto5", "center", 7));
-        table.addCell(ustawfrazeAlign("wartość netto", "center", 7));
-        table.addCell(ustawfrazeAlign("vat", "center", 7));
-        table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
-        table.addCell(ustawfrazeAlign("wartość brutto", "center", 7));
-        table.setHeaderRows(1);
-        for (int i = 0; i < 9; i++) {
-            table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
-            table.addCell(ustawfrazeAlign("lolo", "left", 7));
-            table.addCell(ustawfrazeAlign("pkwiu", "center", 7));
-            table.addCell(ustawfrazeAlign("10", "center", 7));
-            table.addCell(ustawfrazeAlign("kg", "center", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11100)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11101)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11102)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11103)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11104)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11105)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(22000)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(22) + "%", "center", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(123)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(4000)), "right", 7));
-            
+        try {
+            document.setMargins(0, 0, 40, 20);
+            NumberFormat formatter = NumberFormat.getNumberInstance();
+            formatter.setMaximumFractionDigits(2);
+            formatter.setMinimumFractionDigits(2);
+            formatter.setGroupingUsed(true);
+            PdfPTable table = new PdfPTable(15);
+            table.setTotalWidth(new float[]{30, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
+            // set the total width of the table
+            table.setWidthPercentage(95);
+            table.addCell(ustawfrazeAlign("lp", "center", 7));
+            table.addCell(ustawfrazeAlign("opis", "center", 7));
+            table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
+            table.addCell(ustawfrazeAlign("ilość", "center", 7));
+            table.addCell(ustawfrazeAlign("j.m.", "center", 7));
+            table.addCell(ustawfrazeAlign("cena AAAAAAAAA", "center", 7));
+            table.addCell(ustawfrazeAlign("cena BBBBBB", "center", 7));
+            table.addCell(ustawfrazeAlign("cena CCCCCC", "center", 7));
+            table.addCell(ustawfrazeAlign("cena netto3", "center", 7));
+            table.addCell(ustawfrazeAlign("cena netto4", "center", 7));
+            table.addCell(ustawfrazeAlign("cena netto5", "center", 7));
+            table.addCell(ustawfrazeAlign("wartość netto", "center", 7));
+            table.addCell(ustawfrazeAlign("vat", "center", 7));
+            table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
+            table.addCell(ustawfrazeAlign("wartość brutto", "center", 7));
+            table.setHeaderRows(1);
+            for (int i = 0; i < 9; i++) {
+                table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
+                table.addCell(ustawfrazeAlign("lolo ŚĆĄaŁcÓrŻeŹĘ", "left", 7));
+                table.addCell(ustawfrazeAlign("pkwiu śćąóńżź", "center", 7));
+                table.addCell(ustawfrazeAlign("10", "center", 7));
+                table.addCell(ustawfrazeAlign("kg", "center", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11100)), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11101)), "right", 12));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11102)), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11103)), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11104)), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11105)), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(22000)), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(22) + "%", "center", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(123)), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(4000)), "right", 7));
+
+            }
+            table.addCell(ustawfraze("Razem", 11, 0));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(200.0)), "right", 7));
+            table.addCell(ustawfrazeAlign("*", "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(46.0)), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(246.0)), "right", 7));
+            table.completeRow();
+            table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
+    //        List<EVatwpis> ewidencja = selected.getEwidencjavat();
+    //        int ilerow = 0;
+    //        if (ewidencja != null) {
+    //            for (EVatwpis p : ewidencja) {
+    //                if (ilerow > 0) {
+    //                    table.addCell(ustawfraze(" ", 10, 0));
+    //                }
+    //                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
+    //                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
+    //                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
+    //                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 8));
+    //                table.completeRow();
+    //                ilerow++;
+    //            }
+    //        }
+            float dzielnik = 2;
+            document.add(table);
+            //stopkaniemiecka(writer,document);
+            dodajodbiuorca(writer);
+            //table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
+            document.close();
+            writer.close();
+    //        PdfReader reader = new PdfReader("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\wydruki\\testowa.pdf");
+    //        PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+    //        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("d:/tparser.pdf"));
+    //        TextMarginFinder finder;
+    //        int n = reader.getNumberOfPages();
+    //        finder = parser.processContent(n, new TextMarginFinder());
+    //        System.out.println(finder.getLlx());
+    //        System.out.println(finder.getLly());
+    //        System.out.println(finder.getWidth());
+    //        System.out.println(finder.getHeight());
+    //        //PdfContentByte canvas = stamper.getImportedPage(reader, n);
+    ////        PdfContentByte canvas = stamper.getOverContent(1);
+    ////        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), finder.getLlx()+30, finder.getLly()-20, 0);
+    //        stamper.close();
+    //        reader.close();
+            System.out.println("no ");
+        } catch (Exception e) {
+            document.close();
         }
-        table.addCell(ustawfraze("Razem", 11, 0));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(200.0)), "right", 7));
-        table.addCell(ustawfrazeAlign("*", "center", 7));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(46.0)), "right", 7));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(246.0)), "right", 7));
-        table.completeRow();
-        table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
-//        List<EVatwpis> ewidencja = selected.getEwidencjavat();
-//        int ilerow = 0;
-//        if (ewidencja != null) {
-//            for (EVatwpis p : ewidencja) {
-//                if (ilerow > 0) {
-//                    table.addCell(ustawfraze(" ", 10, 0));
-//                }
-//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
-//                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
-//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
-//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 8));
-//                table.completeRow();
-//                ilerow++;
-//            }
-//        }
-        float dzielnik = 2;
-        document.add(table);
-        stopkaniemiecka(writer,document);
-        dodajodbiuorca(writer);
-        //table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
-        document.close();
-        writer.close();
-        PdfReader reader = new PdfReader("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\wydruki\\testowa.pdf");
-        PdfReaderContentParser parser = new PdfReaderContentParser(reader);
-        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("d:/tparser.pdf"));
-        TextMarginFinder finder;
-        int n = reader.getNumberOfPages();
-        finder = parser.processContent(n, new TextMarginFinder());
-        System.out.println(finder.getLlx());
-        System.out.println(finder.getLly());
-        System.out.println(finder.getWidth());
-        System.out.println(finder.getHeight());
-        //PdfContentByte canvas = stamper.getImportedPage(reader, n);
-//        PdfContentByte canvas = stamper.getOverContent(1);
-//        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), finder.getLlx()+30, finder.getLly()-20, 0);
-        stamper.close();
-        reader.close();
-        System.out.println("no ");
     }
 
     private static void stopkaniemiecka(PdfWriter writer, Document document) {
