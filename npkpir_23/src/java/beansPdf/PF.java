@@ -24,7 +24,7 @@ public class PF {
             zwrot = FontFactory.getFont(nazwafontu, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 8); //10 is the size
          } catch (Exception ex) {
             E.e(ex);
-            zwrot = getDefault();
+            zwrot = getDefault(8);
         }
         return zwrot;
     }
@@ -36,16 +36,16 @@ public class PF {
             zwrot = FontFactory.getFont(nazwafontu, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, size); //10 is the size
          } catch (Exception ex) {
             E.e(ex);
-            zwrot = getDefault();
+            zwrot = getDefault(size);
         }
         return zwrot;
     }
     
-    private static Font getDefault() {
+    private static Font getDefault(int size) {
         Font zwrot = null;
         try {
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            zwrot = new Font(helvetica, 10);
+            zwrot = new Font(helvetica, size);
         } catch (DocumentException ex) {
             E.e(ex);
         } catch (IOException ex) {
