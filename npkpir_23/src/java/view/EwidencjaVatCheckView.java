@@ -81,10 +81,13 @@ public class EwidencjaVatCheckView implements Serializable {
 
     private boolean czyjestnakoncie(EVatViewPola p, List<StronaWiersza> zapisy) {
         boolean jest = false;
+        if (p.getVat() == 27.32) {
+            System.out.println("");
+        }
         for (Iterator it = zapisy.iterator(); it.hasNext(); ) {
             StronaWiersza r = (StronaWiersza) it.next();
             double p_vat = p.getProcentvat() != 0.0 ? Z.zAbs(p.getVat()*p.getProcentvat()/100) : Z.zAbs(p.getVat());
-            if (p.isDuplikat()) {
+            if (p.isDuplikat() || r.getDokfk().getRodzajedok().getKategoriadokumentu() == 0) {
                 p_vat = Z.zAbs(p.getVat());
             }
             if (p_vat == Z.z(r.getKwotaPLN())) {
