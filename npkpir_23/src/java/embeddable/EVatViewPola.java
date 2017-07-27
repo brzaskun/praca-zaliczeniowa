@@ -87,6 +87,7 @@ public class EVatViewPola implements Serializable{
         this.vat = old.getVat();
         this.opizw = old.getOpizw();
         this.innymc = old.getInnymc();
+        this.innyrok = old.getInnyrok();
         this.nazwaewidencji = old.getNazwaewidencji();
         this.nrpolanetto = old.getNrpolanetto();
         this.nrpolavat = old.getNrpolavat();

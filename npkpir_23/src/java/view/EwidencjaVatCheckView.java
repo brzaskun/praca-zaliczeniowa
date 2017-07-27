@@ -4,10 +4,10 @@
  */
 package view;
 
-import implement.ListExt;
 import embeddable.EVatViewPola;
 import embeddablefk.SaldoKonto;
 import entityfk.StronaWiersza;
+import implement.ListExt;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -83,7 +83,11 @@ public class EwidencjaVatCheckView implements Serializable {
         boolean jest = false;
         for (Iterator it = zapisy.iterator(); it.hasNext(); ) {
             StronaWiersza r = (StronaWiersza) it.next();
-            if (Z.zAbs(p.getVat()) == Z.z(r.getKwotaPLN())) {
+            double p_vat = p.getProcentvat() != 0.0 ? Z.zAbs(p.getVat()*p.getProcentvat()/100) : Z.zAbs(p.getVat());
+            if (p.isDuplikat()) {
+                p_vat = Z.zAbs(p.getVat());
+            }
+            if (p_vat == Z.z(r.getKwotaPLN())) {
                 if (p.getDokfkPK().equals(r.getDokfk().getDokfkPK())) {
                     if (p.getNrWlDk().equals(r.getDokfk().getNumerwlasnydokfk())) {
                         jest = true;
@@ -117,6 +121,8 @@ public class EwidencjaVatCheckView implements Serializable {
     }
 
     private List<EVatViewPola> sprawdzbrakinakoncie(List<EVatViewPola> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
+       List<StronaWiersza> zakupysz = new ArrayList<>(zakupy);
+       List<StronaWiersza> sprzedazsz  = new ArrayList<>(sprzedaz);
        List<EVatViewPola> brakinakoncie = new ArrayList<>();
        for (EVatViewPola p : ewidencjezawartosc) {
            boolean nk = false;
@@ -126,8 +132,8 @@ public class EwidencjaVatCheckView implements Serializable {
                 } else if (p.getNazwaewidencji().getTypewidencji().equals("s")) {
                          nk = czyjestnakoncie(p, sprzedaz);
                 } else if (p.getNazwaewidencji().getTypewidencji().equals("sz")) {
-                    nk = czyjestnakoncie(p, zakupy);
-                    nk = czyjestnakoncie(p, sprzedaz);
+                    nk = czyjestnakoncie(p, zakupysz);
+                    nk = czyjestnakoncie(p, sprzedazsz);
                 }
                 if (nk == false) {
                     if (!brakinakoncie.contains(p)) {

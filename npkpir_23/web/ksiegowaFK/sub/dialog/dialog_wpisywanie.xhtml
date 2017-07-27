@@ -127,14 +127,18 @@
                                         <h:outputText value="data op. gosp."/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="rok"/>
+                                        <h:outputText value="CIT"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="CIT"/>
+                                        <h:outputText value="rok"/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="VAT"/>
                                     </p:column>
+                                    <p:column>
+                                        <h:outputText value="rok"/>
+                                    </p:column>
+
                                 </p:row>
                             </f:facet>
                             <p:row>
@@ -173,6 +177,13 @@
                                         <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                                     </p:inputText>
                                 </p:column>
+                                  <p:column style="text-align: center">
+                                    <p:inputText id="miesiac" value="#{dokfkView.selected.miesiac}" style="text-align: center; width: 30px;"
+                                                 maxlength="2" size="3">
+                                        <p:ajax event="change" partialSubmit="true" global="false" />
+                                        <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanie}" update="formwpisdokument:miesiac"/>
+                                    </p:inputText>
+                                </p:column>
                                 <p:column style="text-align: center">
                                     <p:inputText id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="text-align: center; width: 40px;"
                                                  onblur="sprawdzmiesiacDialogWpisywanie('#{WpisView.miesiacWpisu}');"
@@ -181,17 +192,18 @@
                                     </p:inputText>
                                 </p:column>
                                 <p:column style="text-align: center">
-                                    <p:inputText id="miesiac" value="#{dokfkView.selected.miesiac}" style="text-align: center; width: 30px;"
-                                                 maxlength="2" size="3">
-                                        <p:ajax event="change" partialSubmit="true" global="false" />
-                                        <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanie}" update="formwpisdokument:miesiac"/>
-                                    </p:inputText>
-                                </p:column>
-                                <p:column style="text-align: center">
                                     <p:inputText id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="text-align: center; width: 30px;"
                                                  maxlength="2" size="3">
                                         <p:ajax event="change" partialSubmit="true" global="false" />
                                         <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanievat}" update="formwpisdokument:miesiacVAT"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="text-align: center">
+                                    <p:inputText id="rokVAT" value="#{dokfkView.selected.vatR}" style="text-align: center; width: 40px;"
+                                                 onblur="sprawdzmiesiacDialogWpisywanie('#{WpisView.miesiacWpisu}');"
+                                                 maxlength="4" size="5">
+                                        <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanievat}" update="formwpisdokument:rokVAT"/>
+                                        <p:ajax event="change" partialSubmit="true" global="false"/>
                                     </p:inputText>
                                 </p:column>
                             </p:row>
@@ -636,7 +648,7 @@
                         </p:column>
                         <p:column>
                             <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false) and !WpisView.rokpoprzednizamkniety}" style="color: red;"/>
-                            <h:outputText value="probujesz zaksięgować dokument do zamkniętego roku" rendered="#{dokfkView.wlaczZapiszButon == false and WpisView.rokpoprzednizamkniety}" style="color: red;"/>
+                            <h:outputText value="probujesz zaksięgować dokument do zamkniętego roku" rendered="#{dokfkView.zapisz0edytuj1 and WpisView.rokzamkniety}" style="color: red;"/>
                         </p:column>
                         <p:column>
 <!--                        <p:commandButton  value="dodaj ewidencja" styleClass="fkbutton" style="width: 150px;" 
