@@ -805,9 +805,9 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
         } else {
-            komunikatywpisdok = "Uzupełnij wiersze o kwoty/konto!";
+            komunikatywpisdok = "Uzupełnij wiersze o kwoty/konto. Sprawdź numery kont";
             RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
-            Msg.msg("w", "Uzupełnij wiersze o kwoty/konto!");
+            Msg.msg("w", "Uzupełnij wiersze o kwoty/konto. Sprawdź numery kont");
         }
 
     }

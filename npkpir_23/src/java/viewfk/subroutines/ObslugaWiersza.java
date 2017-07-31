@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -57,6 +56,10 @@ public class ObslugaWiersza {
                     return false;
                 }
                 if (!(kontoWn instanceof Konto) || !(kontoMa instanceof Konto)) {
+                    RequestContext.getCurrentInstance().execute(f);
+                    return false;
+                }
+                if (kontoWn instanceof Konto && kontoMa instanceof Konto && kontoWn.getPelnynumer().equals(kontoMa.getPelnynumer())) {
                     RequestContext.getCurrentInstance().execute(f);
                     return false;
                 }

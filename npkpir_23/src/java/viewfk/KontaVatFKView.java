@@ -222,6 +222,14 @@ public class KontaVatFKView implements Serializable {
         int granicaDolna = Mce.getMiesiacToNumber().get("01");
         int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         List<StronaWiersza> zapisyRok  = KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO);
+        String vatokres = sprawdzjakiokresvat();
+        int mcgornybo = vatokres.equals("miesięczne") ? 2 : 3;
+        for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
+            int mc = Mce.getMiesiacToNumber().get(it.next().getWiersz().getDokfk().getMiesiac());
+                if (mc < mcgornybo) {
+                    it.remove();
+                }
+        }
         double sumawn = 0.0;
         double sumama = 0.0;
         if (zapisyRok != null) {
