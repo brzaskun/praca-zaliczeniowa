@@ -761,6 +761,9 @@ public class PdfFP {
             if (pozycje.getPodatek() == -1) {
                 table.addCell(ustawfrazeAlign(B.b("niepodlega"), "center", 8));
                 table.addCell(ustawfrazeAlign("-", "right", 8));
+            } else if (pozycje.getPodatek() == -2) {
+                table.addCell(ustawfrazeAlign("zw", "center", 8));
+                table.addCell(ustawfrazeAlign("-", "right", 8));
             } else {
                 table.addCell(ustawfrazeAlign(String.valueOf((int) pozycje.getPodatek()) + "%", "center", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getPodatekkwota())), "right", 8));
@@ -799,6 +802,9 @@ public class PdfFP {
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
                 if (p.getEstawka().equals("-1.0")) {
                     table.addCell(ustawfrazeAlign(B.b("niepodlega"), "center", 8));
+                    table.addCell(ustawfrazeAlign("-", "right", 8));
+                }  else if (p.getEstawka().equals("-2.0")) {
+                    table.addCell(ustawfrazeAlign("zw", "center", 8));
                     table.addCell(ustawfrazeAlign("-", "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
@@ -1013,6 +1019,8 @@ public class PdfFP {
                     table.addCell(ustawfraze(" ", 6, 0));
                 }
                 if (p.getEstawka().equals("-1.0")) {
+                    table.addCell(ustawfraze(" ", 6, 0));
+                } else if (p.getEstawka().equals("-2.0")) {
                     table.addCell(ustawfraze(" ", 6, 0));
                 } else {
                     table.addCell(ustawfrazeAF(B.b("kwotavatwgstawek"), 4, 0, Element.ALIGN_RIGHT, 8));

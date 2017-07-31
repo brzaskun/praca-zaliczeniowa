@@ -423,6 +423,11 @@ public class FakturaBean {
                     return r;
                 }
             }
+            if (p.getPodatek() == -2) {
+                if (r.getNazwa().equals("sprzedaż zw")) {
+                    return r;
+                }
+            }
             if (r.getNazwa().contains(String.valueOf((int) p.getPodatek()))) {
                 return r;
             }
