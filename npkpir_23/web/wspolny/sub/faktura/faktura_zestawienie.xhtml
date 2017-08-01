@@ -49,6 +49,10 @@
                         <p:column  headerText="PDF" style="text-align: center;"  width="50">
                             <p:commandButton  actionListener="#{pdfFaktura.drukuj(loop.faktura, rowA, WpisView)}" icon="ui-icon-print" />
                         </p:column>
+                         <p:column  headerText="korekta" style="text-align: center;"  width="45">
+                            <p:commandButton  update=":akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(loop.faktura)}" 
+                                              icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" rendered="#{!loop.faktura.fakturaniemiecka13b}"/>
+                        </p:column>
                     </p:dataTable>
                 </p:column>
             </p:dataTable>

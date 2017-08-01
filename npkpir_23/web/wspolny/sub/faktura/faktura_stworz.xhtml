@@ -50,7 +50,7 @@
                 <div class="ui-grid ui-grid-responsive" style="height: 300px; width: 1100px;">
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
-                            <h:outputLabel value="miejsce wystawienia faktury: " />
+                            <h:outputLabel value="#{fakturaView.fakturakorekta ? 'miejsce wystawienjia korekty:' : 'miejsce wystawienia faktury: '}" />
                         </div>
                         <div class="ui-grid-col-2">
                             <p:inplace id="miejsce" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" >  
@@ -58,7 +58,7 @@
                             </p:inplace>
                         </div>
                         <div class="ui-grid-col-2">
-                            <h:outputLabel value="wystawiający fakturę: " />
+                            <h:outputLabel value="#{fakturaView.fakturakorekta ? 'wystawiający korektę: ' : 'wystawiający fakturę: '}" />
                         </div>
                         <div class="ui-grid-col-2">   
                             <p:inplace id="wystawiajacyfakt" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
@@ -66,7 +66,7 @@
                             </p:inplace>
                         </div>
                         <div class="ui-grid-col-2">
-                            <h:outputLabel value="waluta faktury: " />
+                            <h:outputLabel value="#{fakturaView.fakturakorekta ? 'waluta korekty: ' :'waluta faktury: '}" />
                         </div>
                         <div class="ui-grid-col-2">   
                             <h:selectOneMenu value="#{fakturaView.selected.walutafaktury}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -82,7 +82,7 @@
                     </div>
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
-                            <h:outputLabel value="data wystawienia faktury: " />
+                            <h:outputLabel value="#{fakturaView.fakturakorekta ? 'data wystawienia korekty: ' : 'data wystawienia faktury: '}" />
                         </div>
                         <div class="ui-grid-col-2">
                             <p:inputText id="datawystawienia" value="#{fakturaView.selected.datawystawienia}" required="true" label="text" style="font-weight: bolder;"
@@ -117,7 +117,7 @@
                     </div>
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
-                            <h:outputLabel value="nr faktury: "/>
+                            <h:outputLabel value="#{fakturaView.fakturakorekta ? 'nr korekty: '  : 'nr faktury: '}"/>
                         </div>
                         <div class="ui-grid-col-2">
                             <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
@@ -205,7 +205,7 @@
                     </div>
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
-                            <h:outputText value="fakultatywny opis faktury"/>
+                            <h:outputText value="#{fakturaView.fakturakorekta ? 'fakultatywny opis korekty' : 'fakultatywny opis faktury'}"/>
                         </div>
                         <div class="ui-grid-col-8" style="height: 40px;">
                             <p:inputText value="#{fakturaView.selected.nazwa}"  style="width: 600px;">
@@ -232,16 +232,16 @@
                 <ui:include src="faktura_stworz_xxl.xhtml" rendered="#{fakturaView.fakturaxxl}"/>
                 <p:messages id="messagesinline"/>
                 <p:outputPanel  style="margin-top: 15px;">
-                    <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" title="zapisz fakturę w bazie danych"
+                    <p:commandButton id="zachowajfakt" value="#{fakturaView.fakturakorekta ? 'zachowaj korektę' : 'zachowaj fakture'}" actionListener="#{fakturaView.dodaj()}" title="zapisz fakturę w bazie danych"
                                      update="akordeon:formprzygotuj akordeon:formstworz akordeon:formsporzadzone" style="margin-bottom: 25px; width: 140px; height: 45px;" 
                                      rendered="#{fakturaView.zapis0edycja1 eq false}"/>
-                    <p:commandButton id="edytujfakt" value="edytuj fakture" actionListener="#{fakturaView.edytuj()}" title="zapisz fakturę w bazie danych"
+                    <p:commandButton id="edytujfakt" value="#{fakturaView.fakturakorekta ? 'edytuj klorektę' : 'edytuj fakture'}" actionListener="#{fakturaView.edytuj()}" title="zapisz fakturę w bazie danych"
                                      update="akordeon:formprzygotuj akordeon:formstworz akordeon:formsporzadzone akordeon:formokresowe" style="margin-bottom: 25px; width: 120px; height: 45px;"
                                      rendered="#{fakturaView.zapis0edycja1 eq true}"/>
                     <p:commandButton style="margin-left: 25px; width: 140px; height: 45px;" id="dodajwzorcowywiersz" value="wzorcowy wiersz" 
                                      title="zachowaj pierwszy wiersz jako wzorcowy" actionListener="#{fakturaView.zachowajwierszwzorcowy()}"/>
                     <p:commandButton style="margin-left: 25px; width: 140px; height: 45px;" actionListener="#{pdfFaktura.drukujPodgladfaktury(fakturaView.selected, WpisView)}" 
-                                     value="podgląd faktury" 
+                                     value="#{fakturaView.fakturakorekta ? 'podgląd korekty' :'podgląd faktury'}" 
                                      title="podejrzyj fakturę w pdf" />
                 </p:outputPanel>
             </p:outputPanel>
