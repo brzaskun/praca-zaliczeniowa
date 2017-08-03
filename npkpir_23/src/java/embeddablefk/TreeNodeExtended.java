@@ -968,6 +968,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             try {
                 if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
                     String formula = ((TreeNodeExtended) p).getFormula();
+                    //musze zrobic formule z parserem
                     int formulalength = formula.length();
                     Character[] formulaParse = new Character[formulalength];
                     for (int i = 0; i < formulalength; i++) {
@@ -1036,6 +1037,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     for (int i = 0; i < formulalength; i++) {
                         formulaParse[i] = formula.charAt(i);
                     }
+                    ((TreeNodeExtended) p).getChildren();
                     double wynik = dotheMathBO(finallNodes, formulaParse, formulalength);
                     ((TreeNodeExtended) p).setKwotabo(wynik);
                 }
@@ -1150,7 +1152,23 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         this.listaKontKwot = listaKontKwot;
     }
 
-      
+    
+    public static void main(String[] args) {
+        String formula = "A.I+A.II-A.III";
+        formulaparser(formula);    }
+    
+    private static void formulaparser(String formula) {
+        String[] pola = formula.split("[+|-]");
+        String[] znaki = new String[pola.length-1];
+        for (int i = 0; i < pola.length-1; i++) {
+            int ileobciac = pola[i].length();
+            formula = formula.substring(ileobciac);
+            String znak = formula.substring(0,1);
+            formula = formula.substring(1);
+            System.out.println("znak "+znak);
+        }
+        System.out.println("koniec");
+    }
     
     
 }
