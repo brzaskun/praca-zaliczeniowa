@@ -21,7 +21,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formprojekt:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formprojekt:dataList" style="float: left;" />
             </p:panelGrid>
-            <p:panelGrid columns="3" style="width: 920px;">
+            <p:panelGrid columns="3" style="width: 950px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">
@@ -29,13 +29,13 @@
                         <h:outputText value="uklad #{pozycjaBRView.uklad.uklad} #{pozycjaBRView.uklad.rok}"/>
                     </f:facet>
                     <p:ajax event="select" global="false" listener="#{pozycjaBRView.wybranopozycjeRZiS}"/>
-                    <p:column headerText="symbol i nazwa pozycji">
+                    <p:column headerText="symbol i nazwa pozycji" style="width: 410px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <p:spacer width="20"/>
                         <h:outputText value="#{loop.nazwa}"/> 
                     </p:column>
                     <p:column headerText="formuła">
-                        <h:outputText value="#{loop.formula}"/>
+                        <h:outputText value="#{loop.formula}" style="width: 90px;"/>
                     </p:column>
                      <p:column headerText="rodzaj">
                         <h:outputText value="#{loop.przychod0koszt1 eq false ? 'przychód' : 'koszt'}"/>

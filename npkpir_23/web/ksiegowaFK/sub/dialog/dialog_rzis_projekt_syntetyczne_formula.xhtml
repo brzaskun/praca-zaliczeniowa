@@ -14,8 +14,8 @@
                         <p:inputText id="nazwa" value="#{pozycjaBRView.nowyelementRZiS.nazwa}" title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
                         <h:outputLabel value="Przychód koszt:*" for="nazwa" />
                         <p:selectOneMenu id="rodzaj" value="#{pozycjaBRView.nowyelementRZiS.przychod0koszt1}">
-                            <f:selectItem itemLabel="#{mgs.przychód}" itemValue="0"/>
-                            <f:selectItem itemLabel="#{mgs.koszt}" itemValue="1"/>
+                            <f:selectItem itemLabel="#{mgs.przychód}" itemValue="false"/>
+                            <f:selectItem itemLabel="#{mgs.koszt}" itemValue="true"/>
                         </p:selectOneMenu>
                        <h:outputLabel value="Formuła (np. A+B):" for="formula" />
                        <p:inputText id="formula" value="#{pozycjaBRView.nowyelementRZiS.formula}" title="Formuła pozycji" style="width: 300px;" required="false" validatorMessage="Nieprawidłowa formuła. Powinna wyglądać następująco: A+B lub A-B">

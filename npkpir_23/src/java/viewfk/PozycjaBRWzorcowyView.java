@@ -66,6 +66,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     private List<StronaWierszaKwota> podpieteStronyWiersza;
     private List<KontoKwota> sumaPodpietychKont;
     private boolean pokazaktywa;
+    private boolean dodawanieformuly;
     
     @Inject
     private KontoDAOfk kontoDAO;
@@ -311,7 +312,23 @@ public class PozycjaBRWzorcowyView implements Serializable {
         ReadXLSFile.updateBilansInter(pozycjaBilansDAO, wpisView, "c://temp//bilansinter.xlsx");
         pobierzuklad("b", rootProjektRZiS, "aktywa");
     }
-      
+    
+    public void edytujpozycje(String bilansrzis) {
+        try {
+            if (bilansrzis.equals("bilans") && nowyelementBilans != null) {
+                pozycjaBilansDAO.edit(nowyelementBilans);
+                nowyelementBilans = new PozycjaBilans();
+            } else if(nowyelementRZiS != null) {
+                pozycjaRZiSDAO.edit(nowyelementRZiS);
+                nowyelementRZiS = new PozycjaRZiS();
+            }
+            dodawanieformuly = false;
+            Msg.msg("Zachowano zmiany w pozycji");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił błąd. Niezachowano zmian w pozycji");
+        }
+    }
 
     public void dodajnowapozycje(String syntetycznaanalityczna) {
         if (syntetycznaanalityczna.equals("syntetyczna")) {
@@ -603,6 +620,15 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
     }
     
+    public void skopiujpole(String rb) {
+        if (rb.equals("b")) {
+            nowyelementBilans = (PozycjaBilans) wybranynodekonta.getData();
+        } else {
+            nowyelementRZiS = (PozycjaRZiS) wybranynodekonta.getData();
+        }
+        dodawanieformuly = true;
+    }
+    
     public void zmiennazwepozycji() {
         String classname = wybranynodekonta.getData().getClass().getName();
         if (classname.equals("entityfk.PozycjaBilans")) {
@@ -783,10 +809,18 @@ public class PozycjaBRWzorcowyView implements Serializable {
         this.rootProjektKonta = rootProjektKonta;
     }
     
+    public boolean isDodawanieformuly() {
+        return dodawanieformuly;
+    }
 
+    public void setDodawanieformuly(boolean dodawanieformuly) {
+        this.dodawanieformuly = dodawanieformuly;
+    }
    
     
     //</editor-fold>
+
+   
 
 }
 

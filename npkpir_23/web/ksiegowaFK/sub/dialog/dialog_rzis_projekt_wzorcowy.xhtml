@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogrzisprojektwzorcowy" header="Projekt Rachunku Zysków i Strat - Wzorcowy" widgetVar="dialogrzisprojektwzorcowy" 
+    <p:dialog id="dialogrzisprojektwzorcowy" header="Projekt Rachunku Zysków i Strat - definiowanie układu wzorcowego" widgetVar="dialogrzisprojektwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogrzisprojektwzorcowy','menuustawienia', 1000, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojektwzorcowy');"  >
         <h:form id="formprojektwzorcowy">
             <p:contextMenu for="formprojektwzorcowy:dataList" style="width: 250px;">
@@ -13,6 +13,7 @@
                 <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
                 <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektanalityczne').show();"/>
                 <p:separator/>
+                <p:menuitem value="Dodaj formułę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.skopiujpole('r')}" update=":formXrzisprojektformula" onsuccess="PF('rzisprojektsyntetyczneformula').show();"/>
                 <p:menuitem value="Edytuj nazwę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.skopiujnazwe('r')}" update=":formdialog_zmiananazwypozycji_wzor" onsuccess="PF('dialog_zmiananazwypozycji_wzor').show();"/>
                 <p:menuitem value="Usuń" actionListener="#{pozycjaBRWzorcowyView.usunpozycje}" global="false" icon="ui-icon-trash" update=":formprojektwzorcowy"/>
             </p:contextMenu>
@@ -22,7 +23,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" global="false" actionListener="#{pozycjaBRWzorcowyView.zwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" global="false" actionListener="#{pozycjaBRWzorcowyView.zwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
             </p:panelGrid>
-            <p:panelGrid columns="3" style="width: 920px;">
+            <p:panelGrid columns="3" style="width: 950px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRWzorcowyView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRWzorcowyView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">
@@ -30,13 +31,13 @@
                         <h:outputText value="uklad #{pozycjaBRWzorcowyView.uklad.uklad} - #{pozycjaBRWzorcowyView.uklad.rok}"/>
                     </f:facet>
                     <p:ajax event="select" global="false" listener="#{pozycjaBRWzorcowyView.wybranopozycjeRZiS}"/>
-                    <p:column headerText="symbol i nazwa pozycji">
+                    <p:column headerText="symbol i nazwa pozycji"  style="width: 410px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <p:spacer width="20"/>
                         <h:outputText value="#{loop.nazwa}"/> 
                     </p:column>
-                    <p:column headerText="formuła">
-                        <h:outputText value="#{loop.formula}"/>
+                    <p:column headerText="formuła" style="width: 90px;" >
+                        <h:outputText value="#{loop.formula}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                     </p:column>
                      <p:column headerText="rodzaj">
                         <h:outputText value="#{loop.przychod0koszt1 eq false ? 'przychód' : 'koszt'}"/>
@@ -45,7 +46,7 @@
                 <p:panel id="wyborrziswzorcowy" header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
                     <p:selectOneListbox id="selboxwzorzec" value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px; margin-top: 4px; width: 240px;" converter="UkladBRWzorcowyConv">
-                        <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.lp} #{loopik.uklad} - #{loopik.rok}"  itemValue="#{String.valueOf(loopik.lp)}"/>
+                        <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.uklad} - #{loopik.rok}"  itemValue="#{String.valueOf(loopik.lp)}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('r', pozycjaBRWzorcowyView.rootProjektRZiS, '')}" update=":formprojektwzorcowy"/>
                 </p:panel>
