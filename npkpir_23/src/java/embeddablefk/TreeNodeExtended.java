@@ -970,10 +970,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     String formula = ((TreeNodeExtended) p).getFormula();
                     //musze zrobic formule z parserem
                     int formulalength = formula.length();
-                    Character[] formulaParse = new Character[formulalength];
-                    for (int i = 0; i < formulalength; i++) {
-                        formulaParse[i] = formula.charAt(i);
-                    }
+                    String[] formulaParse = parseall(formula);
                     double wynik = dotheMath(finallNodes, formulaParse, formulalength);
                     ((TreeNodeExtended) p).setKwota(wynik);
                 }
@@ -991,10 +988,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
                     String formula = ((TreeNodeExtended) p).getFormula();
                     int formulalength = formula.length();
-                    Character[] formulaParse = new Character[formulalength];
-                    for (int i = 0; i < formulalength; i++) {
-                        formulaParse[i] = formula.charAt(i);
-                    }
+                    String[] formulaParse = parseall(formula);
                     for (String r : mce) {
                         double wynik = dotheMathNar(finallNodes, formulaParse, formulalength,r);
                         ((PozycjaRZiS) p.getData()).getMce().put(r,wynik);
@@ -1013,10 +1007,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
                     String formula = ((TreeNodeExtended) p).getFormula();
                     int formulalength = formula.length();
-                    Character[] formulaParse = new Character[formulalength];
-                    for (int i = 0; i < formulalength; i++) {
-                        formulaParse[i] = formula.charAt(i);
-                    }
+                    String[] formulaParse = parseall(formula);
                     double wynik = dotheMathNar(finallNodes, formulaParse, formulalength,kolumna);
                     ((PozycjaRZiS) p.getData()).getMce().put(kolumna,wynik);
                 }
@@ -1033,10 +1024,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
                     String formula = ((TreeNodeExtended) p).getFormula();
                     int formulalength = formula.length();
-                    Character[] formulaParse = new Character[formulalength];
-                    for (int i = 0; i < formulalength; i++) {
-                        formulaParse[i] = formula.charAt(i);
-                    }
+                    String[] formulaParse = parseall(formula);
                     ((TreeNodeExtended) p).getChildren();
                     double wynik = dotheMathBO(finallNodes, formulaParse, formulalength);
                     ((TreeNodeExtended) p).setKwotabo(wynik);
@@ -1071,12 +1059,12 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         ((PozycjaRZiSBilans) this.getData()).setKwotabo(kwotabo);
     }
 
-    private double dotheMath(ArrayList<TreeNode> finallNodes, Character[] formulaParse, int formulalength) {
+    private double dotheMath(ArrayList<TreeNode> finallNodes, String[] formulaParse, int formulalength) {
         double wynik = findBypozycjaSymbol(finallNodes, formulaParse[0]).getKwota();
         for (int i = 1; i < formulalength; i++) {
-            Character znak = formulaParse[i++];
+            String znak = formulaParse[i++];
             TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
-            if (znak == '-') {
+            if (znak.equals("-")) {
                 wynik -= drugi.getKwota();
             } else {
                 wynik += drugi.getKwota();
@@ -1085,13 +1073,13 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         return wynik;
     }
     
-    private double dotheMathNar(ArrayList<TreeNode> finallNodes, Character[] formulaParse, int formulalength, String mc) {
+    private double dotheMathNar(ArrayList<TreeNode> finallNodes, String[] formulaParse, int formulalength, String mc) {
         double wynik = ((PozycjaRZiS) findBypozycjaSymbol(finallNodes, formulaParse[0]).getData()).getMce().get(mc);
         for (int i = 1; i < formulalength; i++) {
-            Character znak = formulaParse[i++];
+            String znak = formulaParse[i++];
             TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
             double kwota = ((PozycjaRZiS) drugi.getData()).getMce().get(mc);
-            if (znak == '-') {
+            if (znak.equals("-")) {
                 wynik -= kwota;
             } else {
                 wynik += kwota;
@@ -1100,12 +1088,12 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         return wynik;
     }
     
-    private double dotheMathBO(ArrayList<TreeNode> finallNodes, Character[] formulaParse, int formulalength) {
+    private double dotheMathBO(ArrayList<TreeNode> finallNodes, String[] formulaParse, int formulalength) {
         double wynik = findBypozycjaSymbol(finallNodes, formulaParse[0]).getKwotabo();
         for (int i = 1; i < formulalength; i++) {
-            Character znak = formulaParse[i++];
+            String znak = formulaParse[i++];
             TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
-            if (znak == '-') {
+            if (znak.equals("-")) {
                 wynik -= drugi.getKwotabo();
             } else {
                 wynik += drugi.getKwotabo();
@@ -1114,9 +1102,9 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         return wynik;
     }
 
-    private TreeNodeExtended findBypozycjaSymbol(ArrayList<TreeNode> finallNodes, Character character) {
+    private TreeNodeExtended findBypozycjaSymbol(ArrayList<TreeNode> finallNodes, String pozycjastring) {
         for (TreeNode p : finallNodes) {
-            if (((TreeNodeExtended) p).getSymbol().charAt(0) == character) {
+            if (((TreeNodeExtended) p).getSymbol().equals(pozycjastring)) {
                 return (TreeNodeExtended) p;
             }
         }
@@ -1155,19 +1143,42 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     
     public static void main(String[] args) {
         String formula = "A.I+A.II-A.III";
-        formulaparser(formula);    }
+        String[] s = parseall(formula);
+        System.out.println("");
+    }
     
-    private static void formulaparser(String formula) {
-        String[] pola = formula.split("[+|-]");
+    private static String[] parseall(String f) {
+        String[] suma = null;
+        if (f != null) {
+            String[] formula = formulaparser(f);
+            String[] znak = znakparser(formula, f);
+            int len = formula.length+znak.length;
+            suma = new String[len];
+            int j = 0;
+            for (int i = 0; i < formula.length; i++) {
+                suma[j++] = formula[i];
+                if (j < znak.length+2) {
+                    suma[j++] = znak[i];
+                }
+            }
+        }
+        return suma;
+    }
+    
+    private static String[] formulaparser(String formula) {
+        return formula != null ? formula.split("[+|-]") : null;
+    }
+    
+    private static String[] znakparser(String[] pola, String formula) {
         String[] znaki = new String[pola.length-1];
         for (int i = 0; i < pola.length-1; i++) {
             int ileobciac = pola[i].length();
             formula = formula.substring(ileobciac);
             String znak = formula.substring(0,1);
+            znaki[i] = znak;
             formula = formula.substring(1);
-            System.out.println("znak "+znak);
         }
-        System.out.println("koniec");
+        return znaki;
     }
     
     

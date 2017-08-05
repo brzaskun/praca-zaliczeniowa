@@ -19,7 +19,7 @@
                         </p:selectOneMenu>
                        <h:outputLabel value="Formuła (np. A+B):" for="formula" />
                        <p:inputText id="formula" value="#{pozycjaBRWzorcowyView.nowyelementRZiS.formula}" title="Formuła pozycji" style="width: 300px;" required="false" validatorMessage="Nieprawidłowa formuła. Powinna wyglądać następująco: A+B lub A.I+B.I">
-<!--                           <f:validateRegex pattern="/[A.A-Z.Z]([+-][A.A-Z.Z])*/g" for="formula" />-->
+                           <f:validateRegex pattern="(([A-Z])(\.[A-Z]*)*(\.[0-9])*(\.[a-z])*(\.\-\([0-9]\))*(\+|\-)*)*" for="formula" />
                        </p:inputText>
                        <p:commandButton value="dodaj" actionListener="#{pozycjaBRWzorcowyView.dodajnowapozycje('syntetyczna')}" 
                                         type="submit" update=":formXrzisprojektformula, :formprojektwzorcowy" style="width: 120px;" 
