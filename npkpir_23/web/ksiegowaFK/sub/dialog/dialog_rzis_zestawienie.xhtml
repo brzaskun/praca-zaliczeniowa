@@ -8,7 +8,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:dialog id="dialogrziszestawienie" header="Rachunek Zysków i Strat za okresy rozliczeniowe zestawienie1" widgetVar="dialogrziszestawienie"
+    <p:dialog id="dialogrziszestawienie" header="Rachunek Zysków i Strat na koniec bieżącego miesiąca" widgetVar="dialogrziszestawienie"
               resizable="false" onShow="ustawdialog('dialogrziszestawienie','menubilanse', 1250, 780);" closeOnEscape="true" onHide="resetujdialog('dialogrziszestawienie');"  >
         <bcf:ajaxs/>
         <h:form id="formdialogrziszestawienie">
@@ -62,19 +62,20 @@
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRZestawienieView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieView.selectedNodes}" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"
-                                 scrollable="true" style="height: 650px; margin-top: 0px; width: 650px; overflow-y: scroll;">
+                                 scrollable="true" style="height: 650px; margin-top: 0px; width: 700px; overflow-y: scroll;">
                         <f:facet  name="header">
                                 <h:outputText value="#{mgs.rachunekzyskówistrat}"/>
                             </f:facet>
-                        <p:column style="width: 440px;">
+                        <p:column style="width: 440px;" headerText="nazwa pozycji">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                             <h:outputText value=" " /> 
                             <h:outputText value="#{loop.nazwa}" /> 
                         </p:column>
-                        <p:column>
-                            <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%" rendered="#{loop.kwota!= 0.0}">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                        <p:column style="width: 70px;" headerText="formuła">
+                            <h:outputText value="#{loop.formula}" style="float: right; padding-right: 15%"/>
+                        </p:column>
+                        <p:column headerText="kwota w pln">
+                            <bcf:outputpl value="#{loop.kwota}"/>
                         </p:column>
                     </p:treeTable>
                 </p:column>
