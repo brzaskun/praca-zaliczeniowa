@@ -10,10 +10,8 @@
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
                             <p:menuitem value="Zapisy na kontach w m-cu" onclick="PF('zapisynakontachwmcu').show();"></p:menuitem>
-                            <p:menuitem value="Salda syntetyczne" onclick="PF('saldakontsyntetycznych').show();" actionListener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}" 
-                                        update="formtablicasyntetyczne, :tabelazsumamisyntetyka:sumy"></p:menuitem>
-                            <p:menuitem value="Salda analityczne" onclick="PF('saldakontanalitycznych').show();" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" 
-                                        update=":formtablicaanalityczne, :tabelazsumamianalityka:sumy"></p:menuitem>
+                            <p:menuitem value="Salda syntetyczne" onclick="PF('saldakontsyntetycznych').show();"> </p:menuitem>
+                            <p:menuitem value="Salda analityczne" onclick="PF('saldakontanalitycznych').show();"> </p:menuitem>
                             <p:menuitem value="Salda analityczne narastajaco" onclick="PF('saldakontanalitycznychnarastajaco').show();"></p:menuitem>
                             <p:menuitem value="Salda zaksięgowane" onclick="PF('dialog_plankont_saldazaksiegowane').show();" actionListener="#{planKontSaldaView.init()}" 
                                         update=":form_dialog_plankont_saldazaksiegowane"></p:menuitem>

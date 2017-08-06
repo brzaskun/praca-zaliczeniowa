@@ -115,6 +115,35 @@ var popupBlockerChecker = {
         }
     };
 
+var znajdzdivshown = function() {
+    MYAPP.otwartedialogi = new Array();
+    $(".ui-dialog").each(function() {
+        if ($(this).attr("aria-hidden") === "false") {
+            let did = $(this).attr("id")
+            let wvar = getWidgetVarById(did);
+            MYAPP.otwartedialogi.push(wvar);
+            PF(wvar).hide();
+            };
+    });
+    console.log('');
+};
+
+var getWidgetVarById = function (id) {
+   for (var propertyName in PrimeFaces.widgets) {
+     if (PrimeFaces.widgets[propertyName].id === id) {
+       return PrimeFaces.widgets[propertyName].widgetVar;
+     }
+   }
+};
+
+var odtworzdivshown = function() {
+    MYAPP.otwartedialogi.forEach(function(item, index) {
+        try {
+            PF(item).show();
+        } catch(e){}
+    });
+};
+
 // 
 //var t;
 //var startTimer = function (){

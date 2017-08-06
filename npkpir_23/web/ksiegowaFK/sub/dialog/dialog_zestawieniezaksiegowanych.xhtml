@@ -30,6 +30,8 @@
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
         <p:ajax event="maximize" listener="#{dokfkView.powiekszliste}" update="zestawieniedokumentow"/>
+        <p:ajax event="open" listener="#{dokfkView.odswiezzaksiegowaneInit}"
+                update=":zestawieniedokumentow:dataList zestawieniedokumentow:kategoriadokumentu zestawieniedokumentow:miesiacWpisu" global="false"/>
         <h:form id="zestawieniedokumentow">
             <p:growl life="6000" autoUpdate="true" id="wiadomoscisprawdzanie" sticky="true"/>
             <p:panelGrid id="sumawybranych" columns="2" style="padding: 5px;">

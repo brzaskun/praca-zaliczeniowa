@@ -37,6 +37,7 @@
               resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1630,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true"
               >
+        <p:ajax event="open" listener="#{kontoZapisFKView.init()}" global="false"  update="formwpiskonta form tabelazzapisami tabelazsumami"/>
         <p:layout fullPage="false" style="height: 720px;width: 1300px;" >  
             <p:layoutUnit position="north">
                 <p:panelGrid columns="3" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">

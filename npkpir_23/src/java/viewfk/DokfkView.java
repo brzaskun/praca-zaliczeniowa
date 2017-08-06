@@ -1605,6 +1605,7 @@ public class DokfkView implements Serializable {
         wybranacechadok = null;
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
+        miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
     }
 
     public void odswiezzaksiegowane() {

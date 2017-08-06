@@ -33,9 +33,7 @@
                 <p:menuitem  value=" | " />
                 <p:menuitem icon="fa fa-toggle-off" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" />
                 <p:menuitem  value=" | " />
-                <p:menuitem id="menuopis" value="#{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" 
-                            oncomplete="PF('dialog_zmiana_okresu').show()" global="false"
-                            style="font-weight: 900; font-size: large;">
+                <p:menuitem id="menuopis" value="#{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" style="font-weight: 900; font-size: large;">
                 </p:menuitem>
                 <p:menuitem>
                     <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}" type="submit" update="@all"/>
@@ -43,6 +41,11 @@
                     <p:commandButton styleClass="languagebutton" value="de" actionListener="#{localeChanger.deutschAction}" type="submit" update="@all"/>
                 </p:menuitem>
             </p:menubar>
+        </h:form>
+        <h:form>
+            <p:commandButton value="zd" accesskey="y" onstart="znajdzdivshown()" style="display: none;"
+                             oncomplete="PF('dialog_zmiana_okresu').show()" global="false"
+                             />
         </h:form>
     </p:layoutUnit>
 </ui:composition>   

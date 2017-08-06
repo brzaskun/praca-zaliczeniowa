@@ -105,6 +105,7 @@
               resizable="false" onShow="wpisywanieOnShow(1160,630);kolornaglowka();zaznaczpole();" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
                focus=":formwpisdokument:data2DialogWpisywanie"
               >
+        <p:ajax event="open" listener="#{dokfkView.resetujDokument}" global="false"/>
         <p:focus for="formwpisdokument">
             <h:form id="formwpisdokument" >
 
@@ -663,9 +664,8 @@
                         </p:commandButton>
                         </p:column>
                         <p:column>
-                        <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (y)" styleClass="fkbutton" style="width: 150px;" 
+                        <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj}" styleClass="fkbutton" style="width: 150px;" 
                                          actionListener="#{dokfkView.edycja}" 
-                                         accesskey="y" 
                                          onfocus="focusNaNowoDodanymEnter();"
                                          rendered="#{dokfkView.zapisz0edytuj1}" onclick="sprawdzgrupeprzykliknieciuwzapisz();" 
                                          global="false" oncomplete="PF('wpisywanie').hide();"/>

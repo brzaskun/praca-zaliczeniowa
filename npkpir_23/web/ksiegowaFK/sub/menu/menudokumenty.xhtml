@@ -31,10 +31,9 @@
             <h:form id="dialog1menu2">
                 <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
                     <p:menuitem value="wpisywanie" rendered="#{!WpisView.rokzamkniety}"
-                                oncomplete="PF('wpisywanie').show();" actionListener="#{dokfkView.resetujDokument}" global="false"></p:menuitem>
+                                oncomplete="PF('wpisywanie').show();"  global="false"></p:menuitem>
                     <p:menuitem value="przeglądanie zakięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" 
-                                actionListener="#{dokfkView.odswiezzaksiegowaneInit}"
-                                update=":zestawieniedokumentow:dataList zestawieniedokumentow:kategoriadokumentu "></p:menuitem>
+                                ></p:menuitem>
                     <p:menuitem value="wiersze w dokumentach" onclick="PF('zapisywdokumentach').show();" 
                                 actionListener="#{wierszeView.init}" update=":zestawieniezapisownakontach, :zestawieniezapisownakontach_footer" global="false"></p:menuitem>
                     <p:menuitem value="#{mgs.zestawienia}"  outcome="guestwynikFK" icon="ui-icon-circle-arrow-e" oncomplete="$('#akordeon\\:symulacjawyniku').click();"/>

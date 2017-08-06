@@ -44,6 +44,7 @@
               resizable="true" onShow="ustawdialog('saldakontsyntetycznych','menuzestawienia',1400,750);"
               onHide="resetujdialog('saldakontsyntetycznych');"  closeOnEscape="true" 
               >
+        <p:ajax event="open" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}" global="false"  update="formtablicasyntetyczne, :tabelazsumamisyntetyka:sumy"/>
         <h:form id="formtablicasyntetyczne">
             <p:panelGrid columns="6" style="margin-left: 2%;" >
                 <!--            <p:column>

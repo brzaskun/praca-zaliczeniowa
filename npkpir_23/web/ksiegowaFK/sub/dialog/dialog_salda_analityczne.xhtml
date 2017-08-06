@@ -35,6 +35,7 @@
               resizable="true" onShow="ustawdialog('saldakontanalitycznych','menuzestawienia',1550,750);"
               onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
               >
+        <p:ajax event="open" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" global="false"  update=":formtablicaanalityczne, :tabelazsumamianalityka:sumy"/>
         <h:form id="formtablicaanalityczne">
             <p:panelGrid columns="8" style="margin-left: 2%;" >
                 <!--            <p:column>

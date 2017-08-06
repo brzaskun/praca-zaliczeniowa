@@ -33,7 +33,8 @@
                             <p:menuitem value="przegladaj RZiS porównanie m-ca w latach" onclick="PF('dialog_rzis_porownanie_mcy').show();" 
                                         actionListener="#{pozycjaRZiSPorMcyView.obliczRZiSOtwarciaRZiSData()}"
                                         update=":form_dialog_rzis_porownanie_mcy"></p:menuitem>
-                            <p:menuitem value="przeglądaj RZiS rok bieżący" onclick="PF('dialogrziszestawienie').show();" actionListener="#{pozycjaBRZestawienieView.pobierzukladprzegladRZiSWybierz()}" 
+                            <p:menuitem value="przeglądaj RZiS rok bieżący" onclick="PF('dialogrziszestawienie').show();" 
+                                        actionListener="#{pozycjaBRZestawienieView.pobierzukladprzegladRZiSWybierz()}" 
                                         update="formdialogrziszestawienie"></p:menuitem>
                             <p:menuitem value="przeglądaj RZiS zapisy" onclick="PF('rzisprzeglad').show();" actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}"
                                         update=":formprzeglad"></p:menuitem>
