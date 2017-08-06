@@ -103,6 +103,18 @@
                             <p:ajax event="change" global="false" partialSubmit="tue"/>
                         </p:selectBooleanCheckbox>
                     </p:column>
+                    <p:column>
+                        <p:outputLabel for="pokazsrodkitrwale" value="pokaż śr.trw." style="margin-left: 10px;"/>
+                        <p:selectBooleanCheckbox id="pokazsrodkitrwale" value="#{dokfkView.pokazsrodkitrwale}">
+                            <p:ajax event="change" global="false" partialSubmit="tue" listener="#{dokfkView.resetrmk}" update="zestawieniedokumentow:pokazrmk"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="pokazrmk" value="pokaż rmk" style="margin-left: 10px;"/>
+                        <p:selectBooleanCheckbox id="pokazrmk" value="#{dokfkView.pokazrmk}">
+                            <p:ajax event="change" global="false" partialSubmit="tue" listener="#{dokfkView.resetst}" update="zestawieniedokumentow:pokazsrodkitrwale"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
                 </p:row>
             </p:panelGrid>
 

@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="north" size="60" resizable="true" closable="true" collapsible="true">
+    <p:layoutUnit position="north" size="64" resizable="true" closable="true" collapsible="true">
         <h:form id="menubarnorth">
             <p:menubar autoDisplay="true">
                 <p:menuitem icon="fa fa-institution" value="firma" outcome="firmaFK"/>
@@ -33,7 +33,10 @@
                 <p:menuitem  value=" | " />
                 <p:menuitem icon="fa fa-toggle-off" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" />
                 <p:menuitem  value=" | " />
-                <p:menuitem id="menuopis" value="#{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" style="font-weight: 900; font-size: large;"/>
+                <p:menuitem id="menuopis" value="#{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" 
+                            oncomplete="PF('dialog_zmiana_okresu').show()" global="false"
+                            style="font-weight: 900; font-size: large;">
+                </p:menuitem>
                 <p:menuitem>
                     <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}" type="submit" update="@all"/>
                     <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" type="submit" update="@all"/>

@@ -9,6 +9,7 @@ var ustawdialogWindow = function(nazwa, szerokosc, wysokosc) {
         of: window,
         collision: "none none"
         });
+        $(document.getElementById(nazwa)).css()
     } catch (Exception) {
        //alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
     }

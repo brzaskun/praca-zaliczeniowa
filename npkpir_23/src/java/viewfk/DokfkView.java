@@ -144,8 +144,6 @@ public class DokfkView implements Serializable {
 //    private String wierszid;
 //    private String wnlubma;
     private List<Dokfk> wykazZaksiegowanychDokumentow;
-    private List<Dokfk> wykazZaksiegowanychDokumentowSrodkiTrw;
-    private List<Dokfk> wykazZaksiegowanychDokumentowRMK;
     private List<Dokfk> wykazZaksiegowanychDokumentowimport;
     //a to jest w dialog_zapisywdokumentach
     @Inject
@@ -231,6 +229,8 @@ public class DokfkView implements Serializable {
     private int duzyidwierszedycjaodswiezenie;
     private Evewidencja ewidencjadlaRKDEL;
     private boolean pokazwszystkiedokumenty;
+    private boolean pokazsrodkitrwale;
+    private boolean pokazrmk;
     private String miesiacWpisuPokaz;
     private Map<String, Konto> kontadlaewidencji;
     private Konto kontoRozrachunkowe;
@@ -250,8 +250,6 @@ public class DokfkView implements Serializable {
         this.pobranecechy = new ArrayList<>();
         this.pobranecechypodatnik = new ArrayList<>();
         this.dokumentypodatnika = new ArrayList<>();
-        this.wykazZaksiegowanychDokumentowSrodkiTrw = new ArrayList<>();
-        this.wykazZaksiegowanychDokumentowRMK = new ArrayList<>();
         this.cechydokzlisty = new ArrayList<>();
         this.kontadlaewidencji = new HashMap<>();
     }
@@ -786,12 +784,6 @@ public class DokfkView implements Serializable {
                 biezacetransakcje = null;
                 Dokfk dodany = dokDAOfk.findDokfkObj(selected);
                 wykazZaksiegowanychDokumentow.add(dodany);
-                if (selected.isZawierasrodkitrw()) {
-                    wykazZaksiegowanychDokumentowSrodkiTrw.add(dodany);
-                }
-                if (selected.isZawierarmk()) {
-                    wykazZaksiegowanychDokumentowRMK.add(dodany);
-                }
                 resetujDokument();
                 Msg.msg("i", "Dokument dodany");
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
@@ -943,14 +935,6 @@ public class DokfkView implements Serializable {
                 selected.oznaczVATdokument(sprawdzjakiokresvat());
                 oznaczdokumentSTRMK(selected, "0");
                 oznaczdokumentSTRMK(selected, "64");
-                if (selected.isZawierasrodkitrw()) {
-                    wykazZaksiegowanychDokumentowSrodkiTrw.remove(selected);
-                    wykazZaksiegowanychDokumentowSrodkiTrw.add(selected);
-                }
-                if (selected.isZawierarmk()) {
-                    wykazZaksiegowanychDokumentowRMK.remove(selected);
-                    wykazZaksiegowanychDokumentowRMK.add(selected);
-                }
                 selected.setDataujecia(new Date());
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.remove(selected);
@@ -1614,8 +1598,6 @@ public class DokfkView implements Serializable {
         }
         //wpisView.setMiesiacWpisu(komunikatywpisdok); nie wiem po co to bylo
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-        wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
-        wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
         rodzajedokumentowPodatnika = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
         //cechydokzlisty = znajdzcechy(wykazZaksiegowanychDokumentow);
         pobranecechy = cechazapisuDAOfk.findAll();
@@ -1635,11 +1617,31 @@ public class DokfkView implements Serializable {
                 }
                 if (wybranakategoriadok.equals("wszystkie")) {
                     if (miesiacWpisuPokaz.equals("CR")) {
-                        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
+                        if (pokazsrodkitrwale) {
+                            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
+                            pokazrmk = false;
+                        } else if (pokazrmk) {
+                            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);   
+                            pokazsrodkitrwale = false;
+                        } else {
+                            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
+                            pokazrmk = false;
+                            pokazsrodkitrwale = false;
+                        }
                     } else {
-                        wpisView.setMiesiacWpisu(miesiacWpisuPokaz);
-                        wpisView.wpisAktualizuj();
-                        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+                        if (pokazsrodkitrwale) {
+                            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
+                            pokazrmk = false;
+                        } else if (pokazrmk) {
+                            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);   
+                            pokazsrodkitrwale = false;
+                        } else {
+                            wpisView.setMiesiacWpisu(miesiacWpisuPokaz);
+                            wpisView.wpisAktualizuj();
+                            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+                            pokazrmk = false;
+                            pokazsrodkitrwale = false;
+                        }
                     }
                 } else if (miesiacWpisuPokaz.equals("CR")) {
                     wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
@@ -2907,6 +2909,22 @@ public class DokfkView implements Serializable {
         this.totylkoedycjaanalityczne = totylkoedycjaanalityczne;
     }
 
+    public boolean isPokazsrodkitrwale() {
+        return pokazsrodkitrwale;
+    }
+
+    public void setPokazsrodkitrwale(boolean pokazsrodkitrwale) {
+        this.pokazsrodkitrwale = pokazsrodkitrwale;
+    }
+
+    public boolean isPokazrmk() {
+        return pokazrmk;
+    }
+
+    public void setPokazrmk(boolean pokazrmk) {
+        this.pokazrmk = pokazrmk;
+    }
+
     
     public KontoZapisFKView getKontoZapisFKView() {
         return kontoZapisFKView;
@@ -3067,14 +3085,6 @@ public class DokfkView implements Serializable {
 
     public void setWybranyWiersz(Wiersz wybranyWiersz) {
         this.wybranyWiersz = wybranyWiersz;
-    }
-
-    public List<Dokfk> getWykazZaksiegowanychDokumentowSrodkiTrw() {
-        return wykazZaksiegowanychDokumentowSrodkiTrw;
-    }
-
-    public void setWykazZaksiegowanychDokumentowSrodkiTrw(List<Dokfk> wykazZaksiegowanychDokumentowSrodkiTrw) {
-        this.wykazZaksiegowanychDokumentowSrodkiTrw = wykazZaksiegowanychDokumentowSrodkiTrw;
     }
 
     public int getTypwiersza() {
@@ -3353,14 +3363,6 @@ public class DokfkView implements Serializable {
         this.rodzajedokumentowPodatnika = rodzajedokumentowPodatnika;
     }
 
-    public List<Dokfk> getWykazZaksiegowanychDokumentowRMK() {
-        return wykazZaksiegowanychDokumentowRMK;
-    }
-
-    public void setWykazZaksiegowanychDokumentowRMK(List<Dokfk> wykazZaksiegowanychDokumentowRMK) {
-        this.wykazZaksiegowanychDokumentowRMK = wykazZaksiegowanychDokumentowRMK;
-    }
-
     public List getCechydokzlisty() {
         return cechydokzlisty;
     }
@@ -3628,11 +3630,9 @@ public class DokfkView implements Serializable {
             if (modyfikator == 1) {
                 rozliczsrodkitrw(dokfk);
                 dokDAOfk.destroy(dokfk);
-                wykazZaksiegowanychDokumentowSrodkiTrw.remove(dokfk);
             } else {
                 rozliczrmk(dokfk);
                 dokDAOfk.destroy(dokfk);
-                wykazZaksiegowanychDokumentowRMK.remove(dokfk);
             }
             Msg.msg("Usunięto dokument specjalny " + dokfk.getDokfkPK());
         } catch (Exception e) {
@@ -3711,5 +3711,13 @@ public class DokfkView implements Serializable {
                 p.setTypStronaWiersza(0);
             }
         }
+    }
+    
+    public void resetrmk() {
+        this.pokazrmk = false;
+    }
+    
+    public void resetst() {
+        this.pokazsrodkitrwale = false;
     }
 }

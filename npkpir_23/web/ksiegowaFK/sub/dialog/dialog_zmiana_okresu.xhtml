@@ -1,0 +1,31 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialog_zmiana_okresu" header="Zmiana okresu" widgetVar="dialog_zmiana_okresu" class="dialogzmianaokresu" appendTo="@(body)" modal="true"
+              resizable="false" onShow="ustawdialogWindow('dialog_zmiana_okresu', 350, 120);" closeOnEscape="true" onHide="resetujdialog('dialog_zmiana_okresu');"  >
+        <h:form id="formdialog_zmiana_okresu">
+            <p:panelGrid  columns="2" style="padding: 10px;">
+                <p:column>
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="float: right;">
+                        <f:selectItems value="#{Roki.rokiList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="float: right;">
+                        <f:selectItems value="#{Mce.mceListOdKonca}"/>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:panelGrid>
+            <p:commandButton value="zmien" actionListener="#{WpisView.wpisAktualizuj()}" type="submit" 
+                                 style="margin-left: 30px; margin-right: auto; width: 120px;" onclick="PF('dialog_zmiana_okresu').hide();"
+                                 update="@(.ui-dialog) @(form)"/>
+            <p:commandButton value="anuluj" type="button" 
+                                 onclick="PF('dialog_zmiana_okresu').hide();" style="margin-right: auto; margin-left: 30px; width: 120px;"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>
