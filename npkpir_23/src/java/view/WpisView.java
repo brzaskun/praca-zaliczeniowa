@@ -111,7 +111,7 @@ public class WpisView implements Serializable {
     }
     public String menustrona() {
         FacesContext ctx = FacesContext.getCurrentInstance();
-        String uri = ((HttpServletRequest) ctx.getExternalContext().getRequest()).getPathInfo();
+        String uri = ctx.getExternalContext().getRequestServletPath();
         zrodlo = uri+"?faces-redirect=true";
         return "BookkeeperFK";
     }
