@@ -642,6 +642,11 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
         Msg.msg("Zmieniono nazwę pozycji bilansu");
     }
+    
+    public void wybranopozycjeRZiS() {
+        String nazwa = ((PozycjaRZiS) wybranynodekonta.getData()).getNazwa();
+        Msg.msg("Wybrano pozycję "+nazwa);
+    }
        
     //<editor-fold defaultstate="collapsed" desc="comment">
 

@@ -14,6 +14,7 @@
                         <p:inputText id="nazwa" value="#{pozycjaBRWzorcowyView.nowyelementRZiS.nazwa}" title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
                         <h:outputLabel value="Przychód koszt:*" for="nazwa" />
                         <p:selectOneMenu id="rodzaj" value="#{pozycjaBRWzorcowyView.nowyelementRZiS.przychod0koszt1}">
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                             <f:selectItem itemLabel="#{mgs.przychód}" itemValue="false"/>
                             <f:selectItem itemLabel="#{mgs.koszt}" itemValue="true"/>
                         </p:selectOneMenu>
@@ -22,11 +23,14 @@
                            <f:validateRegex pattern="(([A-Z])(\.[A-Z]*)*(\.[0-9])*(\.[a-z])*(\.\-\([0-9]\))*(\+|\-)*)*" for="formula" />
                        </p:inputText>
                        <p:commandButton value="dodaj" actionListener="#{pozycjaBRWzorcowyView.dodajnowapozycje('syntetyczna')}" 
-                                        type="submit" update=":formXrzisprojektformula, :formprojektwzorcowy" style="width: 120px;" 
+                                        type="submit" update=":formXrzisprojektformula, :formprojektwzorcowy" style="width: 120px; margin-left: 100px;;" 
                                         onclick="PF('rzisprojektsyntetyczneformula').hide()" rendered="#{!pozycjaBRWzorcowyView.dodawanieformuly}"/>
                        <p:commandButton value="edytuj" actionListener="#{pozycjaBRWzorcowyView.edytujpozycje('rzis')}" 
-                                        type="submit" update=":formXrzisprojektformula, :formprojektwzorcowy" style="width: 120px;" 
+                                        type="submit" update=":formXrzisprojektformula, :formprojektwzorcowy" style="width: 120px; margin-left: 100px;" 
                                         onclick="PF('rzisprojektsyntetyczneformula').hide()" rendered="#{pozycjaBRWzorcowyView.dodawanieformuly}"/>
+                        <p:commandButton value="rezygnuj" 
+                                        type="submit" update=":formXrzisprojektformula, :formprojektwzorcowy" style="width: 120px; margin-left: 30%;" 
+                                        onclick="PF('rzisprojektsyntetyczneformula').hide()" />
         </p:panelGrid>
             </p:focus>
             </h:form>

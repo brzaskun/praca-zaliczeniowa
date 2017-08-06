@@ -13,8 +13,8 @@
                 <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
                 <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektanalityczne').show();"/>
                 <p:separator/>
-                <p:menuitem value="Dodaj formułę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.skopiujpole('r')}" update=":formXrzisprojektformula" onsuccess="PF('rzisprojektsyntetyczneformula').show();"/>
-                <p:menuitem value="Edytuj nazwę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.skopiujnazwe('r')}" update=":formdialog_zmiananazwypozycji_wzor" onsuccess="PF('dialog_zmiananazwypozycji_wzor').show();"/>
+                <p:menuitem value="Dodaj/edytuj formułę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.skopiujpole('r')}" update=":formXrzisprojektformula" onsuccess="PF('rzisprojektsyntetyczneformula').show();"/>
+                <p:menuitem value="Zmień nazwę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.skopiujnazwe('r')}" update=":formdialog_zmiananazwypozycji_wzor" onsuccess="PF('dialog_zmiananazwypozycji_wzor').show();"/>
                 <p:menuitem value="Usuń" actionListener="#{pozycjaBRWzorcowyView.usunpozycje}" global="false" icon="ui-icon-trash" update=":formprojektwzorcowy"/>
             </p:contextMenu>
             <p:panelGrid columns="4" >
@@ -30,7 +30,7 @@
                     <f:facet name="header">
                         <h:outputText value="uklad #{pozycjaBRWzorcowyView.uklad.uklad} - #{pozycjaBRWzorcowyView.uklad.rok}"/>
                     </f:facet>
-                    <p:ajax event="select" global="false"/>
+                    <p:ajax event="select" global="false" listener="#{pozycjaBRWzorcowyView.wybranopozycjeRZiS}"/>
                     <p:column headerText="symbol i nazwa pozycji"  style="width: 460px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <p:spacer width="20"/>
