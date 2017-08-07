@@ -6,18 +6,19 @@
 
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:bcf="http://brzaskun.com/facelets">
+
     <p:dialog id="dialog_zmiana_okresu" header="Zmiana okresu" widgetVar="dialog_zmiana_okresu" class="dialogzmianaokresu" appendTo="@(body)" modal="true"
               resizable="false" onShow="ustawdialogWindow('dialog_zmiana_okresu', 350, 120);" closeOnEscape="true" onHide="resetujdialog('dialog_zmiana_okresu');"  >
-
+        <p:ajax event="open" listener="#{WpisView.kopiujmiesiac()}" global="false" update="formdialog_zmiana_okresu:miesiacWpisu"/>
         <h:form id="formdialog_zmiana_okresu">
             <p:panelGrid  columns="2" style="padding: 10px;">
                 <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="float: right;">
-                        <f:selectItems value="#{Mce.mceListOdKonca}"/>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.zmianaokresuMc}" style="float: right;"  >
+                        <f:selectItems value="#{Mce.mceListOdKonca}" var="item" itemLabel="#{item}" itemValue="#{item}"/>
                     </p:selectOneMenu>
                 </p:column>
                  <p:column>
-                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisuSt}" style="float: right;">
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.zmianaokresuRok}" style="float: right;" >
                         <f:selectItems value="#{Roki.rokiListString}" />
                     </p:selectOneMenu>
                 </p:column>
