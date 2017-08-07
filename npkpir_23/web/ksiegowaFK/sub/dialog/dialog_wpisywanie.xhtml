@@ -105,7 +105,7 @@
               resizable="false" onShow="wpisywanieOnShow(1160,630);kolornaglowka();zaznaczpole();" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
                focus=":formwpisdokument:data2DialogWpisywanie"
               >
-        <p:ajax event="open" listener="#{dokfkView.resetujDokument}" global="false"/>
+        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false"/>
         <p:focus for="formwpisdokument">
             <h:form id="formwpisdokument" >
 

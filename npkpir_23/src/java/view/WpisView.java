@@ -208,6 +208,11 @@ public class WpisView implements Serializable {
         }
     }
     
+    public void wpisAktualizujZmianadaty() {
+        rokWpisu = Integer.parseInt(rokWpisuSt);
+        naniesDaneDoWpis();
+    }
+    
     public void wpisAktualizuj() {
         naniesDaneDoWpis();
     }

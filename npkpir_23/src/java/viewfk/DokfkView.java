@@ -288,6 +288,12 @@ public class DokfkView implements Serializable {
 //
 //    //********************************************funkcje dla ksiegowania dokumentow
 //    //RESETUJ DOKUMNETFK
+    
+    public void resetujDokumentOpen() {
+        if (zapisz0edytuj1 == false) {
+            resetujDokument();
+        }
+    }
     public void resetujDokument() {
         //pobieram dane ze starego dokumentu, jeżeli jest
         String symbolPoprzedniegoDokumentu = null;
