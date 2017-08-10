@@ -11,7 +11,6 @@ import entityfk.Tabelanbp;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
-import javax.persistence.Embeddable;
 
 /**
  *
@@ -50,6 +49,7 @@ public class DokKsiega implements Serializable {
     boolean dokumentProsty;
     private Tabelanbp tabela;
     private double kwotawwalucie;
+    public Dok dokument;
 
     public DokKsiega() {
     }
@@ -73,6 +73,7 @@ public class DokKsiega implements Serializable {
         this.setDokumentProsty(tmp.isDokumentProsty());
         this.setTabela(tmp.getTabelanbp());
         this.setKwotawwalucie(tmp.getNettoWaluta());
+        this.setDokument(tmp);
     }
 
     @Override
@@ -88,6 +89,14 @@ public class DokKsiega implements Serializable {
 
     public void setIdDok(Long idDok) {
         this.idDok = idDok;
+    }
+
+    public Dok getDokument() {
+        return dokument;
+    }
+
+    public void setDokument(Dok dokument) {
+        this.dokument = dokument;
     }
 
     public String getTypdokumentu() {

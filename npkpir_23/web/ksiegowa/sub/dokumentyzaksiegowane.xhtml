@@ -40,7 +40,7 @@
             <p:menuitem global="false" value="duplikaty" icon="/resources/images/menustack/mix.png"  actionListener="#{DokTabView.sprawdzCzyNieDuplikat}"  />  
         </p:stack>
     </h:form>
-
+    <bcf:ajaxs/>
     <h:form id="form">
         <p:contextMenu id="menutablica" for="dokumentyLista">
             <p:menuitem global="false" value="prawidłowa" actionListener="#{DokTabView.fakturasprawdzanie(1)}" update=":formM:messages" icon="ui-icon-check"/>
@@ -78,12 +78,13 @@
         <p:commandButton  icon="fa fa-print" style="width: 120px;" actionListener="#{DokTabView.drukujdokumentyuproszczona()}" global="false"/>
         <h:outputText value="dok z cechami"/>
         <p:selectOneMenu value="#{DokTabView.wybranacechadok}" id="cechydokuk"
-                     style="width: 200px; margin-left: 10px;" >
-        <p:ajax event="change" listener="#{DokTabView.init()}" 
-                onstart="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
-                update=":form:dokumentyLista"/>
-        <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
-        <f:selectItems value="#{DokTabView.cechydokzlisty}" var="item1" itemLabel="#{item1}" itemValue="#{item1}"/>
+                         style="width: 200px; margin-left: 10px;" >
+            <p:ajax event="change" listener="#{DokTabView.init()}" 
+                    onstart="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
+                    update=":form:dokumentyLista"/>
+            <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
+            <f:selectItem itemLabel="dokumenty bez cechy" itemValue="bezcechy" />
+            <f:selectItems value="#{DokTabView.cechydokzlisty}" var="item1" itemLabel="#{item1}" itemValue="#{item1}"/>
         </p:selectOneMenu>
          <p:commandButton id="cechadokumentu" value="CechyDok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px; " 
                                         onclick="PF('dialogCechyDokumentuZbiorcze').show();" accesskey="v" 
@@ -92,16 +93,16 @@
         <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
         <p:hotkey bind="up"   onstart="wrocwiersz();"/>
         <p:outputPanel id="kontenertabeli" deferred="true">
-            <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}" 
-                          rowIndexVar="index"
-                          style="width: 1400px; margin-top: 10px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+            <p:dataTable  var="wpis" value="#{DokTabView.dokumentylista}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}" 
+                          rowIndexVar="index" 
+                          style="width: 1400px; margin-top: 10px; height: 700px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid" 
                           >
                 <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}"/>
 <!--                <p:ajax event="contextMenu"  listener="#{DokTabView.fakturasprawdzanieajax()}" />-->
                 <f:facet name="header">  
-                    <h:outputText value="Zestawienie #{DokTabView.obiektDOKmrjsfSel.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów " />  
+                    <h:outputText value="Zestawienie #{DokTabView.dokumentylista.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
 <!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
@@ -116,7 +117,7 @@
                     <h:outputText styleClass="lpwiersza" value="#{wpis.nrWpkpir}" />
                 </p:column>
                 <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dataWyst}"  style="width: 50px; min-width: 70px;">  
-                    <h:outputText value="#{wpis.dataWyst}"/>
+                    <h:outputText value="#{wpis.dataWyst.substring(2)}"/>
                 </p:column>
                 <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 14%;">  
                     <f:facet name="filter">

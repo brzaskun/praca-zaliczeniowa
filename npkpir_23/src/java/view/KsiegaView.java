@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansDok.CechaBean;
 import beansDok.KsiegaBean;
 import dao.DokDAO;
 import dao.SMTPSettingsDAO;
@@ -16,6 +17,7 @@ import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Sumypkpir;
 import entity.Wpis;
+import entityfk.Cechazapisu;
 import error.E;
 import interceptor.WydrukInterceptor;
 import java.io.IOException;
@@ -61,6 +63,8 @@ private static final long serialVersionUID = 1L;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
     private Map<String, List<DokKsiega>> ksiegimiesieczne;
+    private List cechydokzlisty;
+    private String wybranacechadok;
 
     public KsiegaView() {
         lista = new ArrayList<>();
@@ -68,10 +72,15 @@ private static final long serialVersionUID = 1L;
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         generujksiege(wpisView.getMiesiacWpisu());
         zachowajsumy();
-        podsumowaniepopmc();
+        if (wybranacechadok == null) {
+            podsumowaniepopmc();
+        }
+        if (lista != null) {
+            cechydokzlisty = CechaBean.znajdzcechyPKPiR(lista);
+        }
     }
     
     public void generujksiegirok() {
@@ -101,6 +110,7 @@ private static final long serialVersionUID = 1L;
     }
     
     private void generujksiege(String mc) {
+        lista = new ArrayList<>();
         Integer rok = wpisView.getRokWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Podatnik pod = wpisView.getPodatnikObiekt();
@@ -115,7 +125,18 @@ private static final long serialVersionUID = 1L;
                 KsiegaBean.rozliczkolumny(dk, tmpX, podsumowanie);
             }
             KsiegaBean.rozliczkolumnysumaryczne(dk, podsumowanie);
-            lista.add(dk);
+            if (wybranacechadok == null) {
+                    lista.add(dk);
+                } else if (!tmp.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
+                    for (Cechazapisu cz : tmp.getCechadokumentuLista()) {
+                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                            lista.add(dk);
+                            break;
+                        }
+                    }
+                } else if (wybranacechadok.equals("bezcechy") && (tmp.getCechadokumentuLista() == null || tmp.getCechadokumentuLista().isEmpty())){
+                    lista.add(dk);
+                }
         }
         lista.add(podsumowanie);
     }
@@ -218,7 +239,22 @@ private static final long serialVersionUID = 1L;
         this.wpisView = wpisView;
     }
     
+    public List getCechydokzlisty() {
+        return cechydokzlisty;
+    }
+
+    public void setCechydokzlisty(List cechydokzlisty) {
+        this.cechydokzlisty = cechydokzlisty;
+    }
+
+    public String getWybranacechadok() {
+        return wybranacechadok;
+    }
+
     //</editor-fold>
+    public void setWybranacechadok(String wybranacechadok) {
+        this.wybranacechadok = wybranacechadok;
+    }
 
     public ArrayList<DokKsiega> getListaFiltered() {
         return listaFiltered;

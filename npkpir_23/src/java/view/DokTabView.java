@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansDok.CechaBean;
 import beansDok.Rozrachunki;
 import comparator.Dokcomparator;
 import dao.AmoDokDAO;
@@ -66,9 +67,9 @@ public class DokTabView implements Serializable {
     //tablica obiektów
     private List<Dok> obiektDOKjsf;
     //tablica obiektw danego klienta
-    private List<Dok> obiektDOKjsfSel;
+    private List<Dok> dokumentypobrane;
     //tablica obiektów danego klienta z określonego roku i miesiąca
-    private List<Dok> obiektDOKmrjsfSel;
+    private List<Dok> dokumentylista;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     private List<Dok> dokumentyFiltered;
     //dokumenty o tym samym okresie vat
@@ -103,9 +104,9 @@ public class DokTabView implements Serializable {
     
     private void inicjalizacjalist() {
          //dokumenty podatnika
-        obiektDOKjsfSel = new ArrayList<>();
+        dokumentypobrane = new ArrayList<>();
         //dokumenty podatnika z miesiaca
-        obiektDOKmrjsfSel = new ArrayList<>();
+        dokumentylista = new ArrayList<>();
         //dekumenty o tym samym okresie vat
         dokvatmc = new ArrayList<>();
         //dokumenty okresowe
@@ -149,32 +150,37 @@ public class DokTabView implements Serializable {
             }
         }
         try {
-            obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc));
+            dokumentypobrane.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc));
             //sortowanie dokumentów
-            Collections.sort(obiektDOKjsfSel, new Dokcomparator());
+            Collections.sort(dokumentypobrane, new Dokcomparator());
         } catch (Exception e) {
             E.e(e);
         }
         numerkolejny = dokDAO.liczdokumenty(rok.toString(), mc, podatnik) + 1;
-        obiektDOKmrjsfSel.clear();
+        dokumentylista = new ArrayList<>();
         Set<String> dokumentyl = new HashSet<>();
         Set<String> kontrahenty = new HashSet<>();
         Set<String> waluty = new HashSet<>();
-        for (Dok tmpx : obiektDOKjsfSel) {
+        for (Dok tmpx : dokumentypobrane) {
             tmpx.setNrWpkpir(numerkolejny++);
+            if (tmpx.getNrWlDk().equals("31100068/07")) {
+                System.out.println("");
+            }
             if (tmpx.getPkpirM().equals(mc)) {
                 dokumentyl.add(tmpx.getTypdokumentu());
                 kontrahenty.add(tmpx.getKontr().getNpelna());
                 waluty.add(tmpx.getWalutadokumentu() != null ? tmpx.getWalutadokumentu().getSymbolwaluty() : "PLN");
                 if (wybranacechadok == null) {
-                    obiektDOKmrjsfSel.add(tmpx);
-                } else if (!tmpx.getCechadokumentuLista().isEmpty()) {
+                    dokumentylista.add(tmpx);
+                } else if (!tmpx.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
                     for (Cechazapisu cz : tmpx.getCechadokumentuLista()) {
                         if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
-                            obiektDOKmrjsfSel.add(tmpx);
+                            dokumentylista.add(tmpx);
                             break;
                         }
                     }
+                } else if (wybranacechadok.equals("bezcechy") && (tmpx.getCechadokumentuLista() == null || tmpx.getCechadokumentuLista().isEmpty())){
+                    dokumentylista.add(tmpx);
                 }
             }
         }
@@ -186,33 +192,12 @@ public class DokTabView implements Serializable {
         Collections.sort(kontrahentypodatnika, collator);
         walutywdokum.addAll(waluty);
         Collections.sort(walutywdokum);
-        if (obiektDOKmrjsfSel != null) {
-            cechydokzlisty = znajdzcechy(obiektDOKmrjsfSel);
+        if (dokumentylista != null) {
+            cechydokzlisty = CechaBean.znajdzcechy(dokumentylista);
         }
     }
     
-    private List znajdzcechy(List<Dok> wykazZaksiegowanychDokumentow) {
-        try {
-            if (wybranacechadok == null || wybranacechadok.equals("")) {
-                Set<String> lista = new HashSet<>();
-                for (Dok p : wykazZaksiegowanychDokumentow) {
-                    if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
-                        for (Cechazapisu r : p.getCechadokumentuLista()) {
-                            lista.add(r.getCechazapisuPK().getNazwacechy());
-                        }
-                    }
-                }
-                List<String> t = new ArrayList<>(lista);
-                Collections.sort(t);
-                return t;
-            } else {
-                return cechydokzlisty;
-            }
-        } catch (Exception e) {
-            E.e(e);
-            return new ArrayList<>();
-        }
-    }
+    
     
      public void sprawdzCzyNieDuplikat() {
         Msg.msg("i", "Rozpoczynam badanie bazy klienta "+wpisView.getPodatnikWpisu()+" na obecność duplikatów");
@@ -284,8 +269,8 @@ public class DokTabView implements Serializable {
                 dokdoUsuniecia.setInwestycja(null);
                 dokDAO.edit(dokdoUsuniecia);
                 dokDAO.destroy(dokdoUsuniecia);
-                obiektDOKjsfSel.remove(dokdoUsuniecia);
-                obiektDOKmrjsfSel.remove(dokdoUsuniecia);
+                dokumentypobrane.remove(dokdoUsuniecia);
+                dokumentylista.remove(dokdoUsuniecia);
                 dokumentyFiltered.remove(dokdoUsuniecia);
             } catch (Exception e) { E.e(e); 
             }
@@ -311,8 +296,8 @@ public class DokTabView implements Serializable {
             dokdoUsuniecia.getTypdokumentu().equals("OT");
             try {
                 dokDAO.destroy(dokdoUsuniecia);
-                obiektDOKjsfSel.remove(dokdoUsuniecia);
-                obiektDOKmrjsfSel.remove(dokdoUsuniecia);
+                dokumentypobrane.remove(dokdoUsuniecia);
+                dokumentylista.remove(dokdoUsuniecia);
                 dokumentyFiltered.remove(dokdoUsuniecia);
             } catch (Exception e) { E.e(e); 
                 throw new Exception();
@@ -339,7 +324,7 @@ public class DokTabView implements Serializable {
     
     //usun jak wciaz dziala bez nich
     public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
-        obiektDOKmrjsfSel.clear();
+        dokumentylista.clear();
         aktualizuj();
         init();
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
@@ -377,7 +362,7 @@ public class DokTabView implements Serializable {
         Dok w = gosciuwybral.get(0);
         w.setSprawdzony(l);
         int rowek = 0;
-        for (Dok s : obiektDOKmrjsfSel) {
+        for (Dok s : dokumentylista) {
             if (s!=w) {
                 rowek++;
             } else {
@@ -488,7 +473,7 @@ public class DokTabView implements Serializable {
         if (dokumentyFiltered != null && dokumentyFiltered.size()>0) {
             PdfDok.drukujDok(dokumentyFiltered, wpisView);
         } else {
-            PdfDok.drukujDok(obiektDOKmrjsfSel, wpisView);
+            PdfDok.drukujDok(dokumentylista, wpisView);
         }
     }
     
@@ -556,20 +541,20 @@ public class DokTabView implements Serializable {
         this.walutywdokum = walutywdokum;
     }
         
-        public List<Dok> getObiektDOKjsfSel() {
-            return obiektDOKjsfSel;
+        public List<Dok> getDokumentypobrane() {
+            return dokumentypobrane;
         }
         
-        public void setObiektDOKjsfSel(List<Dok> obiektDOKjsfSel) {
-            this.obiektDOKjsfSel = obiektDOKjsfSel;
+        public void setDokumentypobrane(List<Dok> dokumentypobrane) {
+            this.dokumentypobrane = dokumentypobrane;
         }
         
-        public List<Dok> getObiektDOKmrjsfSel() {
-            return obiektDOKmrjsfSel;
+        public List<Dok> getDokumentylista() {
+            return dokumentylista;
         }
         
-        public void setObiektDOKmrjsfSel(List<Dok> obiektDOKmrjsfSel) {
-            this.obiektDOKmrjsfSel = obiektDOKmrjsfSel;
+        public void setDokumentylista(List<Dok> dokumentylista) {
+            this.dokumentylista = dokumentylista;
         }
         
         public WpisView getWpisView() {

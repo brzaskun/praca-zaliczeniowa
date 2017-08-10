@@ -4,7 +4,9 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <bcf:ajaxs/>
     <h:form id="form">
         <script>
             //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
@@ -25,15 +27,25 @@
              /* ]]> */
         </script>
         <p:growl life="3600"  id="messages" autoUpdate="true"/>
+        
         <p:outputPanel id="wrapper"  >
              <p:panel id="panelpkpir">
-                <br/>
                 <p:commandButton  value="Zachowaj w pdf" actionListener="#{ksiegaView.drukujPKPIR()}" >
                 </p:commandButton>
                 <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none; margin-left: 20px;">
                 </p:commandButton>
                 <p:commandButton  value="Drukuj rok" actionListener="#{sesjaView.dodajwydruk()}" action="#{ksiegaView.drukujPKPIRrok()}" style="margin-left: 100px; width: 120px;">
                 </p:commandButton>
+                 <h:outputText value="dok z cechami"/>
+                <p:selectOneMenu value="#{ksiegaView.wybranacechadok}" id="cechydokuk"
+                                 style="width: 200px; margin-left: 10px;" >
+                    <p:ajax event="change" listener="#{ksiegaView.init()}" partialSubmit="true"
+                            onstart="PF('dokKsiega').clearFilters();PF('dokKsiega').unselectAllRows();"
+                            update=":form:dokumentyKsiega"/>
+                    <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
+                    <f:selectItem itemLabel="dokumenty bez cechy" itemValue="bezcechy" />
+                    <f:selectItems value="#{ksiegaView.cechydokzlisty}" var="item1" itemLabel="#{item1}" itemValue="#{item1}"/>
+                </p:selectOneMenu>
             </p:panel>
             
              <p:hotkey bind="down"  onstart="przejdzwierszK();"/>
@@ -41,7 +53,7 @@
             <p:dataTable  var="wpis" value="#{ksiegaView.lista}" id="dokumentyKsiega" 
                           rowKey="#{wpis.idDok}" selection="#{ksiegaView.selDokument}" selectionMode="single" filteredValue="#{ksiegaView.listaFiltered}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          style="width: 100%; height: 800px; overflow-y: scroll;" widgetVar="dokKsiega"  styleClass="grid" 
+                          style="width: 100%; height: 700px; overflow-y: scroll;" widgetVar="dokKsiega"  styleClass="grid" 
                           > 
                 <f:facet name="header">  
                     <h:outputText value="Podatkowa księga przychodów i rozchodów" />

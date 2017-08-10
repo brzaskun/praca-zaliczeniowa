@@ -77,7 +77,7 @@ public class RozrachunkiView implements Serializable {
                 System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
             }
         }
-        List<Dok> dokumenty = dokTabView.getObiektDOKmrjsfSel();
+        List<Dok> dokumenty = dokTabView.getDokumentylista();
         for (Dok tmpx : dokumenty) {
             tmpx.setNrWpkpir(numerkolejny++);
             if (tmpx.getRozliczony() == false) {
