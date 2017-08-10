@@ -14,12 +14,12 @@
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
                  <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{ksiegaView.aktualizujTabeleTabela}" update=":form:dokumentyKsiega, westKsiegowa:linki"/>
+                    <p:ajax event="change" listener="#{ksiegaView.aktualizujTabeleTabela}" update=":form:dokumentyKsiega, westKsiegowa:linki form:cechydokuk"/>
                 </p:selectOneMenu>
                 <h:outputText value="Miesiąc:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{ksiegaView.aktualizujTabeleTabela}" update=":form:dokumentyKsiega, westKsiegowa:linki"/>
+                    <p:ajax event="change" listener="#{ksiegaView.aktualizujTabeleTabela}" update=":form:dokumentyKsiega, westKsiegowa:linki form:cechydokuk"/>
                 </p:selectOneMenu>
             </p:panelGrid>
            <p:panel id="linki" header="linki">
