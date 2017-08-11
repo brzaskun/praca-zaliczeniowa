@@ -120,23 +120,29 @@ private static final long serialVersionUID = 1L;
         podsumowanie = KsiegaBean.ustawpodsumowanie();
         for (Dok tmp : dokumentyzaMc) {
             DokKsiega dk = new DokKsiega(tmp);
-            List<KwotaKolumna1> listawierszy = tmp.getListakwot1();
-            for (KwotaKolumna1 tmpX : listawierszy) {
-                KsiegaBean.rozliczkolumny(dk, tmpX, podsumowanie);
-            }
-            KsiegaBean.rozliczkolumnysumaryczne(dk, podsumowanie);
+            boolean sumowac = false;
             if (wybranacechadok == null) {
-                    lista.add(dk);
-                } else if (!tmp.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
-                    for (Cechazapisu cz : tmp.getCechadokumentuLista()) {
-                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
-                            lista.add(dk);
-                            break;
-                        }
+                lista.add(dk);
+                sumowac = true;
+            } else if (!tmp.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
+                for (Cechazapisu cz : tmp.getCechadokumentuLista()) {
+                    if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                        lista.add(dk);
+                        sumowac = true;
+                        break;
                     }
-                } else if (wybranacechadok.equals("bezcechy") && (tmp.getCechadokumentuLista() == null || tmp.getCechadokumentuLista().isEmpty())){
-                    lista.add(dk);
                 }
+            } else if (wybranacechadok.equals("bezcechy") && (tmp.getCechadokumentuLista() == null || tmp.getCechadokumentuLista().isEmpty())) {
+                sumowac = true;
+                lista.add(dk);
+            }
+            if (sumowac) {
+                List<KwotaKolumna1> listawierszy = tmp.getListakwot1();
+                for (KwotaKolumna1 tmpX : listawierszy) {
+                    KsiegaBean.rozliczkolumny(dk, tmpX, podsumowanie);
+                }
+                KsiegaBean.rozliczkolumnysumaryczne(dk, podsumowanie);
+            }
         }
         lista.add(podsumowanie);
     }

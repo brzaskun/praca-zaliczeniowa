@@ -182,7 +182,7 @@ public class WpisView implements Serializable {
                 rokUprzedni = rokWpisu - 1;
                 rokUprzedniSt = String.valueOf(rokUprzedni);
             } catch (Exception e) {
-                E.e(e);
+                E.e(e); 
             }
             try {
                 rokNastepny = rokWpisu + 1;

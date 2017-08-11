@@ -99,7 +99,7 @@
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid" 
                           >
-                <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}"/>
+                <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}" global="false"/>
 <!--                <p:ajax event="contextMenu"  listener="#{DokTabView.fakturasprawdzanieajax()}" />-->
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie #{DokTabView.dokumentylista.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów " />  
@@ -110,8 +110,8 @@
                 </f:facet>
 
                 <p:column style="width: 10px; height: 45px; text-align: center;" >
-                    <p:rowToggler rendered="#{wpis.ewidencjaVAT1.size() gt 0}"/>
-                    <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT1.size() eq null}"/>
+                    <p:rowToggler rendered="#{wpis.ewidencjaVAT1.size() gt 0 || wpis.cechadokumentuLista.size() gt 0}"/>
+                    
                 </p:column>
                 <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}"  style="width: 20px; text-align: center;">  
                     <h:outputText styleClass="lpwiersza" value="#{wpis.nrWpkpir}" />
@@ -143,7 +143,7 @@
                     <h:outputText value="#{wpis.nrWlDk}" />
                 </p:column>
                 <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;">  
-                    <h:outputText value="#{wpis.opis}" styleClass="#{item.czyCecha() ? 'zapisZcecha' : null}"/>
+                    <h:outputText value="#{wpis.opis}" styleClass="#{wpis.czyCecha() ? 'zapisZcecha' : null}"/>
                 </p:column>
                 <p:column id="nettoColumn" headerText="#{mgs.netto}" rendered="#{DokTabView.walutywdokum.size() gt 0 and DokTabView.walutywdokum.get(0) ne 'PLN'}"
                           filterBy="#{wpis.symbolWaluty}" filterMatchMode="contains"  sortBy="#{wpis.symbolWaluty}"  style="width: 60px;">  
@@ -205,6 +205,13 @@
                             </p:column>
                             <p:column id="SubColumn4" headerText="okresy vat">  
                                 <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                    <p:column id="cechy" headerText="cechy zapisu" resizable="true">  
+                        <p:dataTable var="subwpiscecha" value="#{wpis.cechadokumentuLista}" emptyMessage="dokument bez cechy"  resizableColumns="true" style="width: 50%;">
+                            <p:column id="SubColumn1" headerText="nazwa cechy">  
+                                <h:outputText value="#{subwpiscecha.cechazapisuPK.nazwacechy}" />
                             </p:column>
                         </p:dataTable>
                     </p:column>
