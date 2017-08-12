@@ -82,7 +82,7 @@ public class KontaVatFKView implements Serializable {
     
     
     @PostConstruct
-    private void init() {
+    public void init() {
        if (wpisView.getMiesiacWpisu().equals("CR")) {
            wpisView.setMiesiacWpisu(Data.aktualnyMc());
            wpisView.wpisAktualizuj();

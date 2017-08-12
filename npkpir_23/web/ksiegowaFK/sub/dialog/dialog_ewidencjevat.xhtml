@@ -10,7 +10,7 @@
     <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogewidencjevat"  
               maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1350,750);" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
               resizable="true">
-        <p:ajax event="open" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK()}" global="false"/>
+        <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty()}" global="false"/>
         <h:form id="form"> 
             <style>
                 .ui-datatable .mc .ui-column-filter {

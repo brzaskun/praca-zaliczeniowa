@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -140,7 +141,7 @@ public class EwidencjaVatView implements Serializable {
         suma3 = 0.0;
     }
 
-    
+    @PostConstruct
     private void init() {
         try {
             if (wpisView.getMiesiacWpisu().equals("CR")) {
