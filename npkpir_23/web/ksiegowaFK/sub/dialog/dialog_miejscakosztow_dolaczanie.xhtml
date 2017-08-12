@@ -54,7 +54,7 @@
                 <p:column headerText="opis skrócony" style="width: 200px;">
                     <h:outputText value="#{item.opisskrocony}"/>
                 </p:column>
-                <p:column headerText="nr konta" style="text-align: center;">
+                <p:column headerText="nr konta" style="text-align: center; width: 50px;">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
                 <p:column headerText="ukryj" style="text-align: center;">
@@ -62,12 +62,12 @@
                         <p:ajax event="change" partialSubmit="true" listener="#{miejsceKosztowView.ukryjmiejscekosztow(item)}" global="false"/>
                     </p:selectBooleanCheckbox>
                 </p:column>
-                <p:column headerText="edytuj" style="text-align: center; width: 60px;">
+                <p:column headerText="edytuj" style="text-align: center; width: 50px;">
                     <p:commandButton icon="ui-icon-comment" actionListener="#{miejsceKosztowView.edytuj(item)}" update=":miejscakosztow, :miejscakosztowlista" 
                                      rendered="#{WpisView.rokWpisu eq item.rok}" style="width: 40px;"/>
                     <h:outputText value="#{item.rok}" rendered="#{WpisView.rokWpisu ne item.rok}"/>
                 </p:column>
-                <p:column headerText="usuń"  style="text-align: center; width: 60px;">
+                <p:column headerText="usuń"  style="text-align: center; width: 50px;">
                     <p:commandButton icon="ui-icon-trash" actionListener="#{miejsceKosztowView.usun(item)}" update=":miejscakosztow, :miejscakosztowlista" rendered="#{WpisView.rokWpisu eq item.rok and item.aktywny eq false}" style="width: 40px;"/>
                 </p:column>
             </p:dataTable>

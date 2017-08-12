@@ -11,7 +11,6 @@ import entity.Podatnik;
 import entityfk.MiejsceKosztow;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -49,7 +48,7 @@ public class MiejsceKosztowDAO extends DAO implements Serializable{
         return sessionFacade.findMiejscaPodatnikWszystkie(podatnikObiekt);
     }
 
-    public int countMiejscaKosztow(Podatnik podatnikObiekt) {
-        return (int) sessionFacade.countMiejscaKosztow(podatnikObiekt);
+    public int countmaxMiejscaKosztow(Podatnik podatnikObiekt) {
+        return sessionFacade.countmaxMiejscaKosztow(podatnikObiekt);
     }
 }

@@ -78,9 +78,7 @@ private static final long serialVersionUID = 1L;
         if (wybranacechadok == null) {
             podsumowaniepopmc();
         }
-        if (lista != null) {
-            cechydokzlisty = CechaBean.znajdzcechyPKPiR(lista);
-        }
+       
     }
     
     public void generujksiegirok() {
@@ -117,6 +115,9 @@ private static final long serialVersionUID = 1L;
         int numerkolejny = KsiegaBean.pobierznumerrecznie(pod,rok,mc);
         //dlatego jest caly rok bo nadajemy numery za kazdym razem
         List<Dok> dokumentyzaMc = KsiegaBean.pobierzdokumenty(dokDAO, podatnik, rok, mc, numerkolejny);
+        if (lista != null) {
+            cechydokzlisty = CechaBean.znajdzcechy(dokumentyzaMc);
+        }
         podsumowanie = KsiegaBean.ustawpodsumowanie();
         for (Dok tmp : dokumentyzaMc) {
             DokKsiega dk = new DokKsiega(tmp);

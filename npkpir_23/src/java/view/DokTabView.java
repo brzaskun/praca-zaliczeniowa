@@ -96,7 +96,7 @@ public class DokTabView implements Serializable {
      private List<Inwestycje> inwestycje;
      @Inject private InwestycjeDAO inwestycjeDAO;
      private String wybranacechadok;
-     private List cechydokzlisty;
+     private List<String> cechydokzlisty;
 
     public DokTabView() {
        inicjalizacjalist();
@@ -115,6 +115,7 @@ public class DokTabView implements Serializable {
         dokumentypodatnika = new ArrayList<>();
         kontrahentypodatnika = new ArrayList<>();
         walutywdokum = new ArrayList<>();
+        dokumentyFiltered = null;
     }
 
    
@@ -161,6 +162,9 @@ public class DokTabView implements Serializable {
         Set<String> dokumentyl = new HashSet<>();
         Set<String> kontrahenty = new HashSet<>();
         Set<String> waluty = new HashSet<>();
+         if (dokumentypobrane != null) {
+            cechydokzlisty = CechaBean.znajdzcechy(dokumentypobrane);
+        }
         for (Dok tmpx : dokumentypobrane) {
             tmpx.setNrWpkpir(numerkolejny++);
             if (tmpx.getNrWlDk().equals("31100068/07")) {
@@ -192,9 +196,7 @@ public class DokTabView implements Serializable {
         Collections.sort(kontrahentypodatnika, collator);
         walutywdokum.addAll(waluty);
         Collections.sort(walutywdokum);
-        if (dokumentylista != null) {
-            cechydokzlisty = CechaBean.znajdzcechy(dokumentylista);
-        }
+       
     }
     
     

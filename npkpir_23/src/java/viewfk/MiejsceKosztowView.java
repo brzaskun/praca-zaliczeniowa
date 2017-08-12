@@ -17,13 +17,10 @@ import daoFK.UkladBRDAO;
 import embeddablefk.MiejsceZest;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
-import entityfk.MiejscePrzychodow;
-import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -109,7 +106,7 @@ public class MiejsceKosztowView  implements Serializable{
     }
     
      private String pobierzkolejnynumer() {
-        int liczba = miejsceKosztowDAO.countMiejscaKosztow(wpisView.getPodatnikObiekt()) + 1;
+        int liczba = miejsceKosztowDAO.countmaxMiejscaKosztow(wpisView.getPodatnikObiekt()) + 1;
         return String.valueOf(liczba);
     }
 

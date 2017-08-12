@@ -79,24 +79,26 @@
         <h:outputText value="dok z cechami"/>
         <p:selectOneMenu value="#{DokTabView.wybranacechadok}" id="cechydokuk"
                          style="width: 200px; margin-left: 10px;" >
-            <p:ajax event="change" listener="#{DokTabView.init()}" 
+            <p:ajax event="itemSelect" listener="#{DokTabView.init()}" 
                     onstart="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
                     update=":form:dokumentyLista"/>
-            <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
+            <f:selectItem itemLabel="wszystkie" itemValue="" noSelectionOption="true"/>
             <f:selectItem itemLabel="dokumenty bez cechy" itemValue="bezcechy" />
-            <f:selectItems value="#{DokTabView.cechydokzlisty}" var="item1" itemLabel="#{item1}" itemValue="#{item1}"/>
+            <f:selectItems value="#{DokTabView.cechydokzlisty}" />
         </p:selectOneMenu>
          <p:commandButton id="cechadokumentu" value="CechyDok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px; " 
                                         onclick="PF('dialogCechyDokumentuZbiorcze').show();" accesskey="v" 
                                      global="false"/>
         </p:panelGrid>
-        <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
-        <p:hotkey bind="up"   onstart="wrocwiersz();"/>
+        <p:hotkey bind="down"  onstart="przejdzwiersz();" global="false"/>
+        <p:hotkey bind="up"   onstart="wrocwiersz();" global="false"/>
         <p:outputPanel id="kontenertabeli" deferred="true">
             <p:dataTable  var="wpis" value="#{DokTabView.dokumentylista}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}" 
                           rowIndexVar="index" 
-                          style="width: 1400px; margin-top: 10px; height: 700px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
-                          rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                          style="width: 1400px; margin-top: 10px; height: 700px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" 
+                          widgetVar="dokTable"
+                          rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
+                          emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid" 
                           >
                 <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}" global="false"/>

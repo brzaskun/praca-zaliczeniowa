@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Osito
  */
-@Entity
+    @Entity
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"podatnikObj", "opismiejsca", "rok"})})
 @XmlRootElement
@@ -29,7 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MiejsceKosztow.findByOpismiejsca", query = "SELECT m FROM MiejsceKosztow m WHERE m.opismiejsca = :opismiejsca"),
     @NamedQuery(name = "MiejsceKosztow.findByPodatnik", query = "SELECT m FROM MiejsceKosztow m WHERE m.podatnikObj = :podatnik AND m.pokaz0chowaj1 = 0 ORDER BY m.opismiejsca"),
     @NamedQuery(name = "MiejsceKosztow.findByPodatnikWszystkie", query = "SELECT m FROM MiejsceKosztow m WHERE m.podatnikObj = :podatnik ORDER BY m.opismiejsca"),
-    @NamedQuery(name = "MiejsceKosztow.countByPodatnik", query = "SELECT COUNT(d) FROM MiejsceKosztow d WHERE d.podatnikObj = :podatnik AND d.pokaz0chowaj1 = 0")
+    @NamedQuery(name = "MiejsceKosztow.countByPodatnik", query = "SELECT COUNT(d) FROM MiejsceKosztow d WHERE d.podatnikObj = :podatnik AND d.pokaz0chowaj1 = 0"),
+    @NamedQuery(name = "MiejsceKosztow.countmaxByPodatnik", query = "SELECT MAX(d.nrkonta) FROM MiejsceKosztow d WHERE d.podatnikObj = :podatnik AND d.pokaz0chowaj1 = 0")
 })
 public class MiejsceKosztow extends MiejsceSuper implements Serializable {
         

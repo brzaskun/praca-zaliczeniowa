@@ -1664,8 +1664,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("MiejscePrzychodow.findByPodatnikWszystkie").setParameter("podatnik", podatnik).getResultList();
     }
 
-    public long countMiejscaKosztow(Podatnik podatnikObiekt) {
-        return (long) em.createNamedQuery("MiejsceKosztow.countByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
+    public int countmaxMiejscaKosztow(Podatnik podatnikObiekt) {
+        return  Integer.parseInt(String.valueOf(em.createNamedQuery("MiejsceKosztow.countmaxByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult()));
     }
     
     public long countMiejscaPrzychodow(Podatnik podatnikObiekt) {
