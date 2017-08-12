@@ -20,7 +20,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import view.WpisView;
 
 /**
@@ -48,6 +47,7 @@ public class PlanKontBOView implements Serializable {
     @PostConstruct
     public void init() {
         if (wpisView instanceof WpisView) {
+            this.wykazkontGrupa = new HashMap<>();
             List<Konto> wykazkont0 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
             List<Konto> wykazkont1 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "1%");
             List<Konto> wykazkont2 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "2%");
