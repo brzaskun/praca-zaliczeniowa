@@ -21,9 +21,9 @@
             <br/>
             <p:panelGrid columns="1"  >
                 <p:column >
-                    <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 572px;">
+                    <h:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 572px; height: 230px;" >
                         <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p.nazwapelna}"/>
-                    </p:selectOneListbox>
+                    </h:selectOneListbox>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="3" style="float: right;">
@@ -38,10 +38,11 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column >
-                    <p:commandButton  action="#{WpisView.wroc()}" 
+                    <p:commandButton  id="okbutton" action="#{WpisView.wroc()}" 
                                       style="width: 150px; float: right;" 
                                       actionListener="#{WpisView.wpisAktualizuj()}" value="#{mgs.wybierzmcrok}" accesskey="s" />
                 </p:column>
+                <p:defaultCommand target="okbutton" />
             </p:panelGrid>
         </p:panel>
 <!--        <p:panel header="Nie działa wprowadzanie dokumentów prostych(na razie). Modyfikuje ustawienia" style="width: 400px; margin-left: 30%"/>-->

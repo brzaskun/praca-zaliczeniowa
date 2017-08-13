@@ -79,7 +79,7 @@ var zachowajobiekt = function(obiekt, event) {
         }
         console.log(sourceid);
     } catch (ex) {
-        alert("Blad w zachowajobiekt/chodzeniepokonach.js " + ex.toString());
+        alert("Blad w zachowajobiekt/chodzeniepokonach.js zachowajobiekt" + ex.toString());
     }
 };
 
@@ -102,51 +102,57 @@ var zachowajobiektGuest = function(obiekt, event) {
         }
         console.log(sourceid);
     } catch (ex) {
-        alert("Blad w zachowajobiekt/chodzeniepokonach.js " + ex.toString());
+        alert("Blad w zachowajobiekt/chodzeniepokonach.js zachowajobiektGuest" + ex.toString());
     }
 };
 
 var przejdzwiersz = function() {
-        var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
-        var dlugoscwierszy = wiersze.length;
-        if (MYAPP.wyliczaj === true) {
-            wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
-        }
-        if (MYAPP[MYAPP.zmienna] >= dlugoscwierszy-1) {
-            MYAPP[MYAPP.zmienna] = dlugoscwierszy-1;
-        } else if (MYAPP[MYAPP.zmienna] === 0) {
-            MYAPP[MYAPP.zmienna] = 1;
-        } else {
-            MYAPP[MYAPP.zmienna] += 1;
-        }
-        var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
-        var przesun = isScrolledIntoView(komorki[2]);
         var elem = document.getElementById(MYAPP.tabela);
-        elem.scrollTop = elem.scrollTop + przesun;
-        $(komorki[2]).click();
-        //document.getElementById("poledanych1").innerHTML= ' klikam na '+komorki[3].innerText+' ';
-        MYAPP.przetwarzajdalej = false;
+        if (elem) {
+            var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
+            var dlugoscwierszy = wiersze.length;
+            if (MYAPP.wyliczaj === true) {
+                wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
+            }
+            if (MYAPP[MYAPP.zmienna] >= dlugoscwierszy-1) {
+                MYAPP[MYAPP.zmienna] = dlugoscwierszy-1;
+            } else if (MYAPP[MYAPP.zmienna] === 0) {
+                MYAPP[MYAPP.zmienna] = 1;
+            } else {
+                MYAPP[MYAPP.zmienna] += 1;
+            }
+            var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
+            var przesun = isScrolledIntoView(komorki[2]);
+
+            elem.scrollTop = elem.scrollTop + przesun;
+            $(komorki[2]).click();
+            //document.getElementById("poledanych1").innerHTML= ' klikam na '+komorki[3].innerText+' ';
+            MYAPP.przetwarzajdalej = false;
+        }
 };
 
 var wrocwiersz = function() {
-        var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
-        var dlugoscwierszy = wiersze.length;
-        if (MYAPP.wyliczaj === true) {
-            wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
-        }
-        if (MYAPP[MYAPP.zmienna] > dlugoscwierszy) {
-            MYAPP[MYAPP.zmienna] = dlugoscwierszy;
-        } else if (MYAPP[MYAPP.zmienna] === 0) {
-            MYAPP[MYAPP.zmienna] = 0;
-        } else {
-            MYAPP[MYAPP.zmienna] -= 1;
-        }
-        var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
-        var przesun = isScrolledIntoView(komorki[2]);
         var elem = document.getElementById(MYAPP.tabela);
-        elem.scrollTop = elem.scrollTop + przesun;
-        $(komorki[2]).click();
-        MYAPP.przetwarzajdalej = false;
+        if (elem) {
+            var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
+            var dlugoscwierszy = wiersze.length;
+            if (MYAPP.wyliczaj === true) {
+                wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
+            }
+            if (MYAPP[MYAPP.zmienna] > dlugoscwierszy) {
+                MYAPP[MYAPP.zmienna] = dlugoscwierszy;
+            } else if (MYAPP[MYAPP.zmienna] === 0) {
+                MYAPP[MYAPP.zmienna] = 0;
+            } else {
+                MYAPP[MYAPP.zmienna] -= 1;
+            }
+            var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
+            var przesun = isScrolledIntoView(komorki[2]);
+
+            elem.scrollTop = elem.scrollTop + przesun;
+            $(komorki[2]).click();
+            MYAPP.przetwarzajdalej = false;
+        }
 };
 
 //var stop = function () {
@@ -237,7 +243,7 @@ var zaznacznoda = function(tabela, tabela1, inputpole) {
             document.getElementById(inputpole).value = "";
         }
     } catch (ex) {
-        alert("Problem z zaznacznoda/chodzeniepokontach.js");
+        alert("Problem z zaznacznoda/chodzeniepokontach.js zaznacznoda");
     }
 };
 
@@ -252,7 +258,7 @@ var przejdzwierszNode = function(tabela, tabela1, node) {
             }
         }
     } catch (e) {
-        alert("Problem z przejdzwierszNode/chodzeniepokontach.js");
+        alert("Problem z przejdzwierszNode/chodzeniepokontach.js przejdzwierszNode");
     }
     var komorki = $(wiersze[numerwiersza]).children("td");
     var przesun = isScrolledIntoView(komorki[1]);

@@ -277,8 +277,8 @@
                                 <p:column>
                                     <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
-                                                    minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                                    forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" autocomplete="true"
+                                                    minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
+                                                    forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
                                                     rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
                                         <p:ajax event="focus" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:panelwalutowy"/>
@@ -339,7 +339,7 @@
                                 <p:column rendered="#{dokfkView.wlaczZapiszButon eq true}">
                                         <h:selectOneMenu  id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" 
                                                          valueChangeListener="#{dokfkView.pobierzkursNBP}" 
-                                                         immediate="true" disabled="#{dokfkView.selected.zablokujzmianewaluty}"
+                                                         immediate="true" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"
                                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
                                                          onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
                                                          onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');"
@@ -351,6 +351,10 @@
                                             <p:ajax global="false" event="focus" listener="#{dokfkView.znajdzduplicatdokumentu}" update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
                                             <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                                         </h:selectOneMenu>
+                                    <h:outputText  value="#{dokfkView.selected.walutadokumentu}" 
+                                                   style="height: 19px;" rendered="#{dokfkView.selected.zablokujzmianewaluty}"
+                                                         >
+                                    </h:outputText>
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
@@ -691,7 +695,8 @@
                                  actionListener="#{dokfkView.wybranoRachunekPlatnoscCD()}" oncomplete="pokazwybortransakcjidialog()" accesskey="r" 
                                  update="formcheckbox rozrachunki formcheckbox:znaczniktransakcji"/>
                 <p:commandButton id="oznaczjakotransakcje" value="nowatransakcja" styleClass="fkbutton" style="width: 130px; margin-left: 10px; display: none;"  
-                                 actionListener="#{dokfkView.oznaczjakonowatransakcja()}" accesskey="t" global="false"/>
+                                 actionListener="#{dokfkView.oznaczjakonowatransakcja()}" accesskey="t" global="false"
+                                 update="formcheckbox rozrachunki formcheckbox:znaczniktransakcji"/>
                 <p:remoteCommand name="wybranoRachunekPlatnoscCD" actionListener="#{dokfkView.wybranoRachunekPlatnoscCD()}" 
                                  update=":parametry, :formwpisdokument:dataList" 
                                  oncomplete="pokazwybortransakcji();"/>

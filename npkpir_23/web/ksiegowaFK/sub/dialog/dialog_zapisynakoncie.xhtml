@@ -57,8 +57,7 @@
                         <h:outputText id="nazwawybranegokonta" value=" #{kontoZapisFKView.wybranekonto.nazwapelna}" style="font-weight: 900;" />-->
                     </h:form>
                     <h:form id="walutazapisynakoncie">
-                        <h:outputText value="#{mgs.walutadokumentu}: " style="text-align: right;"/>
-                        <h:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px;">
+                        <h:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px;" label="#{mgs.walutadokumentu}">
                             <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelazzapisami, :tabelazsumami" />
                             <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
@@ -81,7 +80,7 @@
                                 </p:selectOneMenu>
                             </p:column>
                             <p:splitButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" icon="fa fa-print" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieKompakt}"  >
-                                <p:menuitem global="false" value="duży druk" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
+                                <p:menuitem global="false" value="druk poziomy" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                             </p:splitButton>
                             <p:commandButton value="duży druk" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"   style="width: 120px; margin-left: 30px;"/>
                             <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" 

@@ -627,7 +627,8 @@ public class DokfkView implements Serializable {
             } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 2) {
                 DokFKVATBean.rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView);
             }
-            selected.przeliczKwotyWierszaDoSumyDokumentu();
+            selected.setZablokujzmianewaluty(true);
+            RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowywybor");
             RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
         } else {
             Msg.msg("w", "Dokument w trybie edycji. Automatyczne dodawanie wierszy wyłączone");
@@ -1738,23 +1739,16 @@ public class DokfkView implements Serializable {
 
     //************************
     //zaznacza po otwaricu rozrachunkow biezaca strone wiersza jako nowa transakcje oraz usuwa po odhaczeniu ze to nowa transakcja
-    public void zaznaczOdznaczJakoNowaTransakcja(ValueChangeEvent el) {
-        boolean oldvalue = (boolean) el.getOldValue();
-        boolean newvalue = (boolean) el.getNewValue();
-        if (newvalue == true) {
+    public void zaznaczOdznaczJakoNowaTransakcja() {
+        if (aktualnyWierszDlaRozrachunkow.isNowatransakcja() == true) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
-            aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
-            //trzy poniższe wiersze umożliwiają zrobienie z rozliczajacego nowej transakcji po korekcie kwot
-            aktualnyWierszDlaRozrachunkow.setRozliczono(0.0);
-            aktualnyWierszDlaRozrachunkow.setPozostalo(0.0);
             aktualnyWierszDlaRozrachunkow.setNowetransakcje(new ArrayList<Transakcja>());
             Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
         } else if (aktualnyWierszDlaRozrachunkow.getRozliczono() > 0) {
             Msg.msg("e", "Trasakcja rozliczona - nie można usunąć oznaczenia");
         } else {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
-            aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
-            aktualnyWierszDlaRozrachunkow = null;
+            aktualnyWierszDlaRozrachunkow.setPlatnosci(new ArrayList<Transakcja>());
             Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
         }
         selected.setLiczbarozliczonych(DokFKTransakcjeBean.sprawdzrozliczoneWiersze(selected.getListawierszy()));
@@ -1763,14 +1757,15 @@ public class DokfkView implements Serializable {
         } else {
             selected.setZablokujzmianewaluty(false);
         }
-        if (oldvalue == true && newvalue == false) {
+        if (aktualnyWierszDlaRozrachunkow.isNowatransakcja()== false) {
             String f = "PF('rozrachunki').hide();";
             RequestContext.getCurrentInstance().execute(f);
         }
+        RequestContext.getCurrentInstance().update("formcheckbox");
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowywybor");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-        RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
     }
 
     public void pobranieWiersza(Wiersz wybranywiersz) {
@@ -1899,6 +1894,7 @@ public class DokfkView implements Serializable {
 
     public void oznaczjakonowatransakcja() {
         oznaczJakoRachunek();
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowywybor");
         RequestContext.getCurrentInstance().update("parametry");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
@@ -1915,10 +1911,12 @@ public class DokfkView implements Serializable {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             oznaczJakoPlatnosc();
             RequestContext.getCurrentInstance().update("parametry");
+            RequestContext.getCurrentInstance().update("formcheckbox");
         }
         //nowa transakcja
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1) {
             biezacetransakcje = tworzenieTransakcjiRachunek(wnmadoprzeniesienia, aktualnyWierszDlaRozrachunkow);
+            RequestContext.getCurrentInstance().update("formcheckbox");
             RequestContext.getCurrentInstance().update("rozrachunki");
             RequestContext.getCurrentInstance().update("dialogdrugi");
             RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");

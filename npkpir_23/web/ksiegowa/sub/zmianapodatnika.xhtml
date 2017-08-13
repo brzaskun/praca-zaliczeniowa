@@ -15,17 +15,17 @@
                 <h:outputLabel value="#{mgs.rok}"/>
                 <h:outputLabel value="#{mgs.mc}"/>
                 <h:outputLabel value=""/>
-                <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 350px;" >
+                <h:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 350px; height: 250px;" >
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p.nazwapelna}"/>
-                    <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form form:panellimity" />
-                </p:selectOneListbox>
+                    <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, form:panellimity" global="fasle"/>
+                </h:selectOneListbox>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form form:panellimity" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, form:panellimity"  global="fasle"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form form:panellimity"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa,  form:panellimity" global="fasle"/>
                 </p:selectOneMenu>
                 
             </p:panelGrid>
