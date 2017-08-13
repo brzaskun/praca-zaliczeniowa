@@ -99,6 +99,7 @@ public class KontoZapisFKView implements Serializable{
     private boolean nierenderujkolumnnywalut;
     private boolean pokaztransakcje;
     private List<Konto> ostatniaanalityka;
+    private boolean pobierzrokpoprzedni;
 
     
 
@@ -117,7 +118,7 @@ public class KontoZapisFKView implements Serializable{
         ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         wszystkiekonta = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        pobierzzapisy();
+        pobierzzapisy(wpisView.getRokWpisuSt());
         usunkontabezsald();
         wybierzgrupekont();
 //        if (wykazkont != null) {
@@ -176,15 +177,18 @@ public class KontoZapisFKView implements Serializable{
         return listamacierzyste;
     }
     
-    public void pobierzzapisy() {
+    public void pobierzzapisy(String rok) {
         List<StronaWiersza> zapisy = new ArrayList<>();
         try {
-            zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), rok);
         } catch (Exception e) {
             E.e(e);
         }
         zapisyRok = zapisy;
     }
+    
+    
+    
     
     public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
         pokaztransakcje = false;
@@ -228,6 +232,20 @@ public class KontoZapisFKView implements Serializable{
             System.out.println("odnalazlem pobierzZapisyNaKoncieNode() KontoZapisFKView");
         } catch (Exception e) {
             E.e(e);
+        }
+    }
+    
+    public void pobierzZapisyNaKoncieRokPop() {
+        if (wybranekonto instanceof Konto) {
+            if (pobierzrokpoprzedni) {
+                pobierzzapisy(wpisView.getRokUprzedniSt());
+                pobierzZapisyNaKoncieNode(wybranekonto);
+                pobierzzapisy(wpisView.getRokWpisuSt());
+                Msg.msg("Rok "+wpisView.getRokUprzedniSt());
+            } else {
+                pobierzZapisyNaKoncieNode(wybranekonto);
+                Msg.msg("Rok "+wpisView.getRokWpisuSt());
+            }
         }
     }
     
@@ -306,34 +324,38 @@ public class KontoZapisFKView implements Serializable{
         //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
         System.out.println("odnalazlem pobierzZapisyZmianaWaluty() kontoZapisFKView");
     }
+    
+    
      
     public void pobierzZapisyNaKoncieNodeUnselect() {
         kontozapisy.clear();
     }
     
     
-    public void pobierzZapisyNaKoncie() {
-        if (wybranekonto instanceof Konto) {
-            kontozapisy = new ArrayList<>();
-            List<Konto> kontapotomnetmp = new ArrayList<>();
-            List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
-            kontapotomnetmp.add(wybranekonto);
-            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
-            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
-            int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-            for (StronaWiersza r : zapisyRok) {
-                if (kontapotomneListaOstateczna.contains(r.getKonto())) {
-                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                    if (mc >= granicaDolna && mc <= granicaGorna) {
-                        kontozapisy.add(r);
-                    }
-                }
-            }
-            sumazapisow();
-            sumazapisowpln();
-            System.out.println("odnalazlem pobierzZapisyNaKoncie() kontoZapisFKView");
-        }
-    }
+//    public void pobierzZapisyNaKoncie() {
+//        if (wybranekonto instanceof Konto) {
+//            kontozapisy = new ArrayList<>();
+//            List<Konto> kontapotomnetmp = new ArrayList<>();
+//            List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+//            kontapotomnetmp.add(wybranekonto);
+//            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+//            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+//            int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+//            for (StronaWiersza r : zapisyRok) {
+//                if (kontapotomneListaOstateczna.contains(r.getKonto())) {
+//                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+//                    if (mc >= granicaDolna && mc <= granicaGorna) {
+//                        kontozapisy.add(r);
+//                    }
+//                }
+//            }
+//            sumazapisow();
+//            sumazapisowpln();
+//            System.out.println("odnalazlem pobierzZapisyNaKoncie() kontoZapisFKView");
+//        }
+//    }
+    
+    
     public void reversetoggle(ActionEvent e) {
         DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("tabelazzapisami:tabela");
         List<Object> sel = (List<Object>) d.getSelection();
@@ -991,7 +1013,7 @@ public class KontoZapisFKView implements Serializable{
             Msg.msg("w", "Nie przeksiegowano pozycji z rozrachunkami w liczbie " + rozrachunkowe);
         }
         kontodoprzeksiegowania = null;
-        pobierzzapisy();
+        pobierzzapisy(wpisView.getRokWpisuSt());
         publicinit();
         pobierzZapisyNaKoncieNode(wybranekonto);
         Msg.dP();
@@ -1018,7 +1040,7 @@ public class KontoZapisFKView implements Serializable{
             Msg.msg("w", "Nie przeksiegowano pozycji z rozrachunkami w liczbie " + rozrachunkowe);
         }
         kontodoprzeksiegowania = null;
-        pobierzzapisy();
+        pobierzzapisy(wpisView.getRokWpisuSt());
         publicinit();
         pobierzZapisyNaKoncieNode(wybranekonto);
         Msg.dP();
@@ -1044,6 +1066,14 @@ public class KontoZapisFKView implements Serializable{
     
     public void setWykazkont(List<Konto> wykazkont) {
         this.wykazkont = wykazkont;
+    }
+
+    public boolean isPobierzrokpoprzedni() {
+        return pobierzrokpoprzedni;
+    }
+
+    public void setPobierzrokpoprzedni(boolean pobierzrokpoprzedni) {
+        this.pobierzrokpoprzedni = pobierzrokpoprzedni;
     }
 
     public boolean isPokaztransakcje() {

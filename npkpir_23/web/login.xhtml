@@ -123,7 +123,8 @@
                                 width: 150px;
                             };
                         </style>
-                        <p:splitButton value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
+                        <p:defaultCommand target="zaloguj"/>
+                        <p:splitButton id="zaloguj" value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
                                        rendered="#{logowanie.liczniklogowan gt 0}" styleClass="loginbutton">
                             <p:menuitem value="#{mgs.zapamietajmnie}" action="#{logowanie.savelogin()}"/>
                             <p:menuitem value="#{mgs.zapomnijmnie}" action="#{logowanie.zapomnijmnie()}"/>

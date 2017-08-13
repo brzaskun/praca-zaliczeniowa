@@ -33,14 +33,14 @@
                         /* ]]> */
                     </script>
 
-    <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie"  dynamic="true" appendTo="@(body)"
+    <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
               resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1630,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true"
               >
         <p:ajax event="open" listener="#{kontoZapisFKView.init()}" global="false"  update="formwpiskonta form tabelazzapisami tabelazsumami"/>
         <p:layout fullPage="false" style="height: 720px;width: 1300px;" >  
             <p:layoutUnit position="north">
-                <p:panelGrid columns="3" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
+                <p:panelGrid columns="4" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
                         <h:outputText value="#{mgs.wybierzkonto}: "/>
                         <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.wybranekonto}" completeMethod="#{kontoZapisFKView.complete}" 
@@ -56,12 +56,17 @@
 <!--                        <h:outputText value=" #{mgs.wybranekonto}:"/>
                         <h:outputText id="nazwawybranegokonta" value=" #{kontoZapisFKView.wybranekonto.nazwapelna}" style="font-weight: 900;" />-->
                     </h:form>
+                    <h:form>
+                        <p:selectBooleanCheckbox value="#{kontoZapisFKView.pobierzrokpoprzedni}" itemLabel="poprzedni rok" >
+                            <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieRokPop}" update=":tabelazzapisami, :tabelazsumami" />
+                        </p:selectBooleanCheckbox>
+                    </h:form>
                     <h:form id="walutazapisynakoncie">
-                        <h:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px;" label="#{mgs.walutadokumentu}">
+                        <p:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px;" label="#{mgs.walutadokumentu}">
                             <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelazzapisami, :tabelazsumami" />
                             <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
-                        </h:selectOneMenu>
+                        </p:selectOneMenu>
                     </h:form>
                     <h:form>
                         <p:panelGrid columns="8" style="margin-left: 15px; width: 800px;">
