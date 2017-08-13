@@ -86,7 +86,7 @@ public class InterpaperImportView implements Serializable {
     }
      
       private Dokfk stworznowydokument(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok) {
-        Dokfk nd = new Dokfk(rodzajdok, numerkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         ustawdaty(nd, interpaperXLS);
         ustawkontrahenta(nd,interpaperXLS);
         ustawnumerwlasny(nd, interpaperXLS);
@@ -102,7 +102,7 @@ public class InterpaperImportView implements Serializable {
       
     private int oblicznumerkolejny(String rodzajdok) {
         Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok, wpisView.getRokWpisuSt());
-        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii() + 1;
+        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
     }
     
     private void ustawdaty(Dokfk nd, InterpaperXLS interpaperXLS) {

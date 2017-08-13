@@ -119,7 +119,7 @@ public class RMKView  implements Serializable {
         rmk.setKwotamiesieczna(kwotamiesieczna);
         rmk.setDataksiegowania(dokfk.getDataoperacji());
         rmk.setMckosztu(dokfk.getMiesiac());
-        rmk.setRokkosztu(dokfk.getDokfkPK().getRok());
+        rmk.setRokkosztu(dokfk.getRok());
         double kwotamax = rmk.getKwotacalkowita();
         Double narastajaco = 0.0;
         while (kwotamax - narastajaco > 0) {
@@ -174,7 +174,7 @@ public class RMKView  implements Serializable {
 
     private int oblicznumerkolejny() {
         Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "RMK", wpisView.getRokWpisuSt());
-        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii() + 1;
+        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
     }
 
     private void usundokumentztegosamegomiesiaca() {
@@ -185,7 +185,7 @@ public class RMKView  implements Serializable {
     }
 
     private Dokfk stworznowydokument(int nrkolejny) {
-        Dokfk nd = new Dokfk("RMK", nrkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Dokfk nd = new Dokfk(nrkolejny, wpisView.getRokWpisuSt());
         ustawdaty(nd);
         ustawkontrahenta(nd);
         ustawnumerwlasny(nd);

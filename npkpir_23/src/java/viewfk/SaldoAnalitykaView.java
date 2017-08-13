@@ -458,11 +458,11 @@ public class SaldoAnalitykaView implements Serializable {
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
             StronaWiersza r = it.next();
-            if (obroty0zapisy1 == true && !r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+            if (obroty0zapisy1 == true && !r.getDokfk().getSeriadokfk().equals("BO")) {
                 if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                     nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione);
                 }
-            } else if (obroty0zapisy1 == false && r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+            } else if (obroty0zapisy1 == false && r.getDokfk().getSeriadokfk().equals("BO")) {
                 if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                     nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione);
                 }
@@ -532,9 +532,9 @@ public class SaldoAnalitykaView implements Serializable {
 
     private boolean czynieBOnieObroty(StronaWiersza r) {
         boolean zwrot = true;
-        if (r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+        if (r.getDokfk().getSeriadokfk().equals("BO")) {
             zwrot = false;
-        } else if (r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO") && r.getDokfk().getDokfkPK().getNrkolejnywserii() != 1) {
+        } else if (r.getDokfk().getSeriadokfk().equals("BO") && r.getDokfk().getNrkolejnywserii() != 1) {
             zwrot = false;
         }
         return zwrot;

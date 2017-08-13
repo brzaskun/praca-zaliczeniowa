@@ -190,9 +190,9 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         if (zapisyRok != null && zapisyRok.size() > 0) {
             for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
                 StronaWiersza r = (StronaWiersza) it.next();
-                if (obroty0zapisy1 == true && !r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                if (obroty0zapisy1 == true && !r.getDokfk().getSeriadokfk().equals("BO")) {
                     nanieskonkretnyzapis(r, przygotowanalista, listamcy);
-                } else if (obroty0zapisy1 == false && r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                } else if (obroty0zapisy1 == false && r.getDokfk().getSeriadokfk().equals("BO")) {
                     nanieskonkretnyzapis(r, przygotowanalista, listamcy);
                 }
             }
@@ -218,9 +218,9 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
 
     private boolean czynieBO(StronaWiersza r) {
         boolean zwrot = false;
-        if (!r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+        if (!r.getDokfk().getSeriadokfk().equals("BO")) {
             zwrot = true;
-        } else if (r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO") && r.getDokfk().getDokfkPK().getNrkolejnywserii() != 1) {
+        } else if (r.getDokfk().getSeriadokfk().equals("BO") && r.getDokfk().getNrkolejnywserii() != 1) {
             zwrot = true;
         }
         return zwrot;

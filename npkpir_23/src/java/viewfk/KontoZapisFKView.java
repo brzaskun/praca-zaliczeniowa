@@ -860,8 +860,8 @@ public class KontoZapisFKView implements Serializable{
     }
     
     private int porownajseriedok(StronaWiersza o1, StronaWiersza o2) {
-        String seriao1 = o1.getWiersz().getDokfk().getDokfkPK().getSeriadokfk();
-        String seriao2 = o2.getWiersz().getDokfk().getDokfkPK().getSeriadokfk();
+        String seriao1 = o1.getWiersz().getDokfk().getSeriadokfk();
+        String seriao2 = o2.getWiersz().getDokfk().getSeriadokfk();
         if (seriao1.equals(seriao2)) {
             return porownajnrserii(o1,o2);
         } else {
@@ -870,8 +870,8 @@ public class KontoZapisFKView implements Serializable{
     }
     
     private int porownajnrserii(StronaWiersza o1, StronaWiersza o2) {
-        int seriao1 = o1.getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii();
-        int seriao2 = o2.getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii();
+        int seriao1 = o1.getWiersz().getDokfk().getNrkolejnywserii();
+        int seriao2 = o2.getWiersz().getDokfk().getNrkolejnywserii();
         if (seriao1 == seriao2) {
             return porownajnumerwiersza(o1,o2);
         } else if (seriao1 < seriao2){

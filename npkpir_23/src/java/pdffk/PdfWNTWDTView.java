@@ -10,7 +10,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import dao.UzDAO;
 import entity.Uz;
 import entityfk.Dokfk;
-import entityfk.DokfkPK;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.io.File;
@@ -89,7 +88,7 @@ public class PdfWNTWDTView implements Serializable {
         Wiersz w = new Wiersz();
         w.setIdwiersza(wiersze.get(wiersze.size()-1).getIdwiersza()+1);
         w.setIdporzadkowy(wiersze.size());
-        w.setDokfk(new Dokfk(new DokfkPK()));
+        w.setDokfk(new Dokfk());
         w.setDataksiegowania("");
         w.getDokfk().setNumerwlasnydokfk("");
         w.setStronaWn(new StronaWiersza(w, "Wn"));

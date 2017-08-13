@@ -104,8 +104,8 @@ public class DokFKBean {
     }
 
     private static int porownajseriedok(Dokfk o1, Dokfk o2) {
-        String seriao1 = o1.getDokfkPK().getSeriadokfk();
-        String seriao2 = o2.getDokfkPK().getSeriadokfk();
+        String seriao1 = o1.getSeriadokfk();
+        String seriao2 = o2.getSeriadokfk();
         if (seriao1.equals(seriao2)) {
             return porownajnrserii(o1, o2);
         } else {
@@ -114,8 +114,8 @@ public class DokFKBean {
     }
 
     private static int porownajnrserii(Dokfk o1, Dokfk o2) {
-        int seriao1 = o1.getDokfkPK().getNrkolejnywserii();
-        int seriao2 = o2.getDokfkPK().getNrkolejnywserii();
+        int seriao1 = o1.getNrkolejnywserii();
+        int seriao2 = o2.getNrkolejnywserii();
         if (seriao1 == seriao2) {
             return 0;
         } else if (seriao1 < seriao2) {
@@ -130,7 +130,7 @@ public class DokFKBean {
         Konto kontoMa;
         boolean czyWszystkoWprowadzono = false;
         int typ = wierszbiezacy.getTypWiersza();
-        if (!wierszbiezacy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+        if (!wierszbiezacy.getDokfk().getSeriadokfk().equals("BO")) {
             if ((typ == 0 || typ == 5)) {
                 kontoWn = wierszbiezacy.getStronaWn().getKonto();
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();
@@ -164,7 +164,7 @@ public class DokFKBean {
         Dokfk ostatnidokument = pobierzOstatniWMc(wpisView, dokDAOfk, skrotDokfk);
         Dokfk ostatnidokumentR = pobierzOstatniWRok(wpisView, dokDAOfk, skrotDokfk);
         int numerserii = obliczostatninumer(ostatnidokumentR);
-        selected.getDokfkPK().setNrkolejnywserii(numerserii);
+        selected.setNrkolejnywserii(numerserii);
         selected.setLp(numerserii);
         String numerwlasny = "";
         if (selected.getRodzajedok() != null) {
@@ -194,7 +194,7 @@ public class DokFKBean {
         Dokfk ostatnidokument = pobierzOstatniWMc(wpisView, dokDAOfk, skrotDokfk);
         Dokfk ostatnidokumentR = pobierzOstatniWRok(wpisView, dokDAOfk, skrotDokfk);
         int numerserii = obliczostatninumer(ostatnidokumentR);
-        selected.getDokfkPK().setNrkolejnywserii(numerserii);
+        selected.setNrkolejnywserii(numerserii);
         selected.setLp(numerserii);
         String numerwlasny = "";
         if (selected.getRodzajedok() != null) {
@@ -239,7 +239,7 @@ public class DokFKBean {
     private static int obliczostatninumer(Dokfk ostatnidokumentR) {
         int numerserii = 1;
         if (ostatnidokumentR != null) {
-            numerserii = ostatnidokumentR.getDokfkPK().getNrkolejnywserii();
+            numerserii = ostatnidokumentR.getNrkolejnywserii();
             numerserii = numerserii + 1;
         }
         return numerserii;

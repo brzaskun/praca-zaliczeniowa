@@ -166,7 +166,7 @@ public class SaldoSyntetykaView implements Serializable {
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (StronaWiersza r : zapisyRok) {
             //bez lub nie dodawaloby zapisow gdt konto levelu 0 jest jednoczenie analitycznym
-            if (r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO") && r.getDokfk().getDokfkPK().getNrkolejnywserii() == 1) {
+            if (r.getDokfk().getSeriadokfk().equals("BO") && r.getDokfk().getNrkolejnywserii() == 1) {
                 
             } else if (p.getPelnynumer().equals(r.getKonto().getSyntetycznenumer()) || p.getPelnynumer().equals(r.getKonto().getPelnynumer())) {
                 if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {

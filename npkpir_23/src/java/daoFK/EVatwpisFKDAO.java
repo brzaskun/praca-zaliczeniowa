@@ -74,7 +74,7 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
             for (EVatwpisFK p : input) {
                 try {
                     int mcdok = Integer.parseInt(p.getDokfk().getMiesiac());
-                    int rokdok = Integer.parseInt(p.getDokfk().getDokfkPK().getRok());
+                    int rokdok = Integer.parseInt(p.getDokfk().getRok());
                     if ((rokdok < rokdeklaracji) || (mcdok <= dok_dolnagranica && p.getVat() != 0.0)) {
                         int mc_ewidencji = Integer.parseInt(p.getMcEw());
                         if (mc_ewidencji > dok_dolnagranica && mc_ewidencji < dok_gornagranica) {

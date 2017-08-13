@@ -75,7 +75,7 @@ public class DialogWpisywanie {
             if (czyWszystkoWprowadzono) {
                 int nrgrupy = wierszbiezacy.getLpmacierzystego() == 0 ? wierszbiezacy.getIdporzadkowy() : wierszbiezacy.getLpmacierzystego();
                 double roznica = 0.0;
-                if (!wierszbiezacy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                if (!wierszbiezacy.getDokfk().getSeriadokfk().equals("BO")) {
                     roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
                 }
                 if (roznica == 0) {

@@ -66,7 +66,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         b.append(main);
         int i = 0;
         for (Dokfk p : listabrakiKontaAnalityczne) {
-            b.append(p.getDokfkPK().toString2());
+            b.append(p.toString2());
             b.append(" w.");
             b.append(listabrakiKontaAnalityczne_nr.get(i));
             b.append(", ");
@@ -93,7 +93,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                         sw.setKwotaPLN(sw.getKwota());
                     }
                 }
-                b.append(p.getDokfkPK().toString2());
+                b.append(p.toString2());
                 b.append(", ");
             }
             czysto = false;
@@ -145,7 +145,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         StringBuilder b = new StringBuilder();
         b.append(main);
         for (Dokfk p : l) {
-            b.append(p.getDokfkPK().toString2());
+            b.append(p.toString2());
             b.append(", ");
         }
         return b;
@@ -211,9 +211,9 @@ public class DokfkWeryfikacjaView implements Serializable {
                 if (ew.getMcEw() == null) {
                     if (ew.getInnyokres() == 0) {
                         ew.setMcEw(p.getMiesiac());
-                        ew.setRokEw(p.getDokfkPK().getRok());
+                        ew.setRokEw(p.getRok());
                     } else {
-                        String[] nowyokres = Mce.zwiekszmiesiac(p.getDokfkPK().getRok(), p.getMiesiac(), ew.getInnyokres());
+                        String[] nowyokres = Mce.zwiekszmiesiac(p.getRok(), p.getMiesiac(), ew.getInnyokres());
                         ew.setRokEw(nowyokres[0]);
                         ew.setMcEw(nowyokres[1]);
                         p.setVatR(nowyokres[0]);
@@ -221,7 +221,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                     }
                     dokDAOfk.edit(p);
                 } else if (ew.getMcEw() != null && ew.getInnyokres() != 0 && p.getMiesiac().equals(p.getVatM())) {
-                    String[] nowyokres = Mce.zwiekszmiesiac(p.getDokfkPK().getRok(), p.getMiesiac(), ew.getInnyokres());
+                    String[] nowyokres = Mce.zwiekszmiesiac(p.getRok(), p.getMiesiac(), ew.getInnyokres());
                     ew.setRokEw(nowyokres[0]);
                     ew.setMcEw(nowyokres[1]);
                     p.setVatR(nowyokres[0]);
@@ -297,7 +297,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             boolean brakwpln = false;
             boolean brakPozycji = false;
             int liczbawierszy = p.getListawierszy().size();
-            if (!p.getDokfkPK().getSeriadokfk().equals("BO")) {
+            if (!p.getSeriadokfk().equals("BO")) {
                 for (Wiersz r : p.getListawierszy()) {
                     StronaWiersza wn = r.getStronaWn();
                     StronaWiersza ma = r.getStronaMa();

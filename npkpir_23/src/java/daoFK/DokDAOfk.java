@@ -5,12 +5,10 @@
 package daoFK;
 
 import dao.DAO;
-import deklaracjaVAT7_13.KwadracikiNaDole;
 import embeddable.Kwartaly;
 import entity.Klienci;
 import entity.Podatnik;
 import entityfk.Dokfk;
-import entityfk.DokfkPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -158,14 +156,7 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
     
-    public Dokfk findDokfkPK(DokfkPK selected) {
-       try {
-           return dokFacade.findDokfkPK(selected);
-       } catch (Exception e ){
-           return null;
-       }
-    }
-    
+       
     public Dokfk findDokfkObjKontrahent(Dokfk selected) {
        try {
            return dokFacade.findDokfkKontrahent(selected);
@@ -190,7 +181,7 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
     
-    public Dokfk findDokfkLastofaTypeKontrahent(String podatnik, String seriadokfk, Klienci kontr, String rok) {
+    public Dokfk findDokfkLastofaTypeKontrahent(Podatnik podatnik, String seriadokfk, Klienci kontr, String rok) {
        try {
            return dokFacade.findDokfkLastofaTypeKontrahent(podatnik,seriadokfk, kontr,rok);
        } catch (Exception e ){

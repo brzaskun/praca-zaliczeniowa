@@ -6,7 +6,7 @@ package embeddable;
 
 import entity.Evewidencja;
 import entity.Klienci;
-import entityfk.DokfkPK;
+import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,8 @@ public class EVatViewPola implements Serializable{
     private String dataWyst;
     private String dataSprz;
     private String nrWlDk;
-    private DokfkPK dokfkPK;
+    @JoinColumn(name = "dokid", referencedColumnName = "id")
+    private Dokfk dokfk;
     private String nrKolejny;
     private Klienci kontr;
     private String opis;
@@ -92,7 +93,7 @@ public class EVatViewPola implements Serializable{
         this.nrpolanetto = old.getNrpolanetto();
         this.nrpolavat = old.getNrpolavat();
         this.procentvat = old.getProcentvat();
-        this.dokfkPK = old.getDokfkPK();
+        this.dokfk = old.getDokfk();
     }
 
     @Override
@@ -178,12 +179,12 @@ public class EVatViewPola implements Serializable{
         this.innyrok = innyrok;
     }
 
-    public DokfkPK getDokfkPK() {
-        return dokfkPK;
+    public Dokfk getDokfk() {
+        return dokfk;
     }
 
-    public void setDokfkPK(DokfkPK dokfkPK) {
-        this.dokfkPK = dokfkPK;
+    public void setDokfk(Dokfk dokfk) {
+        this.dokfk = dokfk;
     }
 
   

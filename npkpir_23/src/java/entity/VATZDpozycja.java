@@ -16,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -40,15 +39,9 @@ public class VATZDpozycja implements Serializable {
     @JoinColumn(name = "dok", referencedColumnName = "id_dok")
     @OneToOne(cascade = {CascadeType.ALL})
     private Dok dok;
-    @JoinColumns({
-        @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
-        @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
-        @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
-        @JoinColumn(name = "rok", referencedColumnName = "rok")
-    })
     @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
-    private int dokid;
     @JoinColumn(name = "deklaracjevat", referencedColumnName = "id")
     @OneToOne(cascade = {CascadeType.ALL})
     private Deklaracjevat deklaracjavat;
@@ -120,14 +113,6 @@ public class VATZDpozycja implements Serializable {
 
     public Dok getDok() {
         return dok;
-    }
-
-    public int getDokid() {
-        return dokid;
-    }
-
-    public void setDokid(int dokid) {
-        this.dokid = dokid;
     }
 
     public void setDok(Dok dok) {

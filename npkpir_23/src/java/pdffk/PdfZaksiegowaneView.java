@@ -50,7 +50,7 @@ public class PdfZaksiegowaneView implements Serializable {
         }
         if (selecteddokfk != null && selecteddokfk.size() > 0) {
             for (Dokfk p : selecteddokfk) {
-                String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane"+p.getDokfkPK().getNrkolejnywserii();
+                String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane"+p.getNrkolejnywserii();
                 File file = Plik.plik(nazwa, true);
                 if (file.isFile()) {
                     file.delete();

@@ -246,7 +246,7 @@ public class RozrachunkiPrzegladView implements Serializable{
             int mc = Mce.getMiesiacToNumber().get(pr.getWiersz().getDokfk().getMiesiac());
             if (mc < granicaDolna || mc > granicaGorna) {
                 it.remove();
-            } else if (pr.getDokfk().getDokfkPK().getSeriadokfk().equals("RRK")) {
+            } else if (pr.getDokfk().getSeriadokfk().equals("RRK")) {
                 it.remove();
             }
         }

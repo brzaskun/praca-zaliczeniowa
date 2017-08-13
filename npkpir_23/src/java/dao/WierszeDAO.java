@@ -5,8 +5,6 @@
 package dao;
 
 import entity.Podatnik;
-import entityfk.DokfkPK;
-import entityfk.Konto;
 import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
@@ -35,13 +33,6 @@ public class WierszeDAO extends DAO implements Serializable{
         }
    }
 
-    public List<Wiersz> findDokfkRozrachunki(String podatnik, Konto konto, DokfkPK dokfkPK) {
-         try {
-           return wierszeFacade.findWierszefkRozrachunki(podatnik, konto, dokfkPK);
-       } catch (Exception e ){
-           return null;
-       }
-    }
     
     public List<Wiersz> findWierszeZapisy(String podatnik, String konto) {
          try {

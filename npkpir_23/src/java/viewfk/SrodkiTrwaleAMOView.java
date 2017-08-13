@@ -17,7 +17,6 @@ import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import data.Data;
 import embeddable.Mce;
-
 import embeddablefk.SaldoKonto;
 import entity.Amodok;
 import entity.Klienci;
@@ -180,7 +179,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
 
     private int oblicznumerkolejny() {
         Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "AMO", wpisView.getRokWpisuSt());
-        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii() + 1;
+        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
     }
 
     private void usundokumentztegosamegomiesiaca() {
@@ -195,7 +194,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
     }
 
     private Dokfk stworznowydokument(int nrkolejny) {
-        Dokfk nd = new Dokfk("AMO", nrkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Dokfk nd = new Dokfk(nrkolejny, wpisView.getRokWpisuSt());
         ustawdaty(nd);
         ustawkontrahenta(nd);
         ustawnumerwlasny(nd);

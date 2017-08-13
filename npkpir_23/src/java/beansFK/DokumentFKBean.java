@@ -12,7 +12,6 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import data.Data;
 import embeddablefk.ListaSum;
-
 import entity.Klienci;
 import entity.Rodzajedok;
 import entity.UmorzenieN;
@@ -27,7 +26,6 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -35,7 +33,6 @@ import java.util.Map;
 import javax.inject.Named;
 import msg.Msg;
 import view.WpisView;
-import waluty.Z;
 
 /**
  *
@@ -92,7 +89,10 @@ public class DokumentFKBean implements Serializable {
 
     private static Dokfk stworznowydokument(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, DokDAOfk dokDAOfk) {
         int numerkolejny = oblicznumerkolejny(dokDAOfk, wpisView, symbokdok);
-        Dokfk nd = new Dokfk(symbokdok, numerkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Dokfk nd = new Dokfk();
+        nd.setSeriadokfk(symbokdok);
+        nd.setNrkolejnywserii(numerkolejny);
+        nd.setRok(wpisView.getRokWpisuSt());
         ustawdaty(nd, wpisView);
         ustawkontrahenta(nd, klienciDAO, wpisView);
         ustawnumerwlasny(nd, wpisView, symbokdok);
@@ -106,7 +106,10 @@ public class DokumentFKBean implements Serializable {
     
     private static Dokfk stworznowydokumentPK(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, DokDAOfk dokDAOfk) {
         int numerkolejny = oblicznumerkolejny(dokDAOfk, wpisView, symbokdok);
-        Dokfk nd = new Dokfk(symbokdok, numerkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Dokfk nd = new Dokfk();
+        nd.setSeriadokfk(symbokdok);
+        nd.setNrkolejnywserii(numerkolejny);
+        nd.setRok(wpisView.getRokWpisuSt());
         ustawdaty(nd, wpisView);
         ustawkontrahenta(nd, klienciDAO, wpisView);
         nd.setNumerwlasnydokfk(oblicznumerwlasnykolejny(dokDAOfk, wpisView, symbokdok));
@@ -120,7 +123,7 @@ public class DokumentFKBean implements Serializable {
 
     private static int oblicznumerkolejny(DokDAOfk dokDAOfk, WpisView wpisView, String symbokdok) {
         Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), symbokdok, wpisView.getRokWpisuSt());
-        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii() + 1;
+        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
     }
     
     private static String oblicznumerwlasnykolejny(DokDAOfk dokDAOfk, WpisView wpisView, String symbokdok) {
@@ -204,8 +207,8 @@ public class DokumentFKBean implements Serializable {
         Wiersz w = new Wiersz(idporzadkowy++, 0);
         uzupelnijwiersz(w, nd, tabelanbpDAO);
         w.setDataWalutyWiersza(p.getDatarozrachunku().split("-")[2]);
-        String rozliczajacy = p.getRozliczajacy().getWiersz().getDokfk().getDokfkPK().getSeriadokfk() + "/" + p.getRozliczajacy().getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii();
-        String dok = p.getNowaTransakcja().getWiersz() == null ? "BO: " + p.getNowaTransakcja().getOpisBO() : p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getSeriadokfk() + "/" + p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii();
+        String rozliczajacy = p.getRozliczajacy().getWiersz().getDokfk().getSeriadokfk() + "/" + p.getRozliczajacy().getWiersz().getDokfk().getNrkolejnywserii();
+        String dok = p.getNowaTransakcja().getWiersz() == null ? "BO: " + p.getNowaTransakcja().getOpisBO() : p.getNowaTransakcja().getWiersz().getDokfk().getSeriadokfk() + "/" + p.getNowaTransakcja().getWiersz().getDokfk().getNrkolejnywserii();
         String opiswiersza = "księg. różnic kurs: " + dok + " & " + rozliczajacy + " w." + p.getNowaTransakcja().getWiersz().getIdporzadkowy() + "/w." + p.getRozliczajacy().getWiersz().getIdporzadkowy();
         w.setOpisWiersza(opiswiersza);
         String walutarachunku = p.getNowaTransakcja().getSymbolWalutBOiSW();

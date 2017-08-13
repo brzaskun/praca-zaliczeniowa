@@ -377,7 +377,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase("okres rozliczeniony " + selected.getMiesiac() + "/" + selected.getDokfkPK().getRok(), ft[1]));
+            opiswstepny = new Paragraph(new Phrase("okres rozliczeniony " + selected.getMiesiac() + "/" + selected.getRok(), ft[1]));
             document.add(opiswstepny);
         } catch (DocumentException ex) {
             System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny");

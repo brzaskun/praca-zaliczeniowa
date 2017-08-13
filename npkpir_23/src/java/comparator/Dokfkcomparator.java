@@ -45,8 +45,8 @@ public class Dokfkcomparator implements Comparator<Dokfk> {
     }
     
     private static int porownajseriedok(Dokfk o1, Dokfk o2) {
-        String seriao1 = o1.getDokfkPK().getSeriadokfk();
-        String seriao2 = o2.getDokfkPK().getSeriadokfk();
+        String seriao1 = o1.getSeriadokfk();
+        String seriao2 = o2.getSeriadokfk();
         if (seriao1.equals(seriao2)) {
             return porownajnrserii(o1,o2);
         } else {

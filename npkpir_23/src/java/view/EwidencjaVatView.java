@@ -578,7 +578,7 @@ public class EwidencjaVatView implements Serializable {
                     eVatViewPole.setDataSprz(ewidwiersz.getDataoperacji());
                     eVatViewPole.setDataWyst(ewidwiersz.getDatadokumentu());
                     eVatViewPole.setKontr(ewidwiersz.getKlient());
-                    String nrdok = ewidwiersz.getDokfk().getDokfkPK().toString2() + ", poz: " + ewidwiersz.getWiersz().getIdporzadkowy();
+                    String nrdok = ewidwiersz.getDokfk().toString2() + ", poz: " + ewidwiersz.getWiersz().getIdporzadkowy();
                     eVatViewPole.setNrKolejny(nrdok);
                     eVatViewPole.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
                     eVatViewPole.setOpis(ewidwiersz.getWiersz().getOpisWiersza());
@@ -586,13 +586,13 @@ public class EwidencjaVatView implements Serializable {
                     eVatViewPole.setDataSprz(ewidwiersz.getDokfk().getDataoperacji());
                     eVatViewPole.setDataWyst(ewidwiersz.getDokfk().getDatadokumentu());
                     eVatViewPole.setKontr(ewidwiersz.getDokfk().getKontr());
-                    String nrdok = ewidwiersz.getDokfk().getDokfkPK().toString2();
+                    String nrdok = ewidwiersz.getDokfk().toString2();
                     eVatViewPole.setNrKolejny(nrdok);
                     eVatViewPole.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
                     eVatViewPole.setOpis(ewidwiersz.getDokfk().getOpisdokfk());
                     
                 }
-                eVatViewPole.setDokfkPK(ewidwiersz.getDokfk().getDokfkPK());
+                eVatViewPole.setDokfk(ewidwiersz.getDokfk());
                 eVatViewPole.setProcentvat(ewidwiersz.getDokfk().getRodzajedok().getProcentvat());
                 if (ewidwiersz.isPaliwo()) {
                     eVatViewPole.setProcentvat(50.0);
@@ -746,7 +746,7 @@ public class EwidencjaVatView implements Serializable {
 //                            if (p.getRokEw().equals(wpisView.getRokWpisuSt()) && p.getMcEw().equals(wpisView.getMiesiacWpisu())) {
 //                                listatymczasowa.add(p);
 //                            }
-//                            if (wpisView.getMiesiacWpisu().equals(p.getMcEw()) && !p.getDokfk().getDokfkPK().getSeriadokfk().equals("VAT")) {
+//                            if (wpisView.getMiesiacWpisu().equals(p.getMcEw()) && !p.getDokfk().getSeriadokfk().equals("VAT")) {
 //                                if (!p.getDokfk().getMiesiac().equals(p.getMcEw()) && p.getDokfk().getRodzajedok().getKategoriadokumentu() == 1) {
 //                                    listaprzesunietychKoszty.add(p);
 //                                }
@@ -768,7 +768,7 @@ public class EwidencjaVatView implements Serializable {
 //                                    listatymczasowa.add(p);
 //                                }
 //                            }
-//                            if (!miesiacewkwartale.contains(p.getMcEw()) && !p.getDokfk().getDokfkPK().getSeriadokfk().equals("VAT")) {
+//                            if (!miesiacewkwartale.contains(p.getMcEw()) && !p.getDokfk().getSeriadokfk().equals("VAT")) {
 //                                if (!p.getDokfk().getMiesiac().equals(p.getMcEw()) && p.getDokfk().getRodzajedok().getKategoriadokumentu() == 1) {
 //                                    listaprzesunietychKoszty.add(p);
 //                                }
@@ -802,7 +802,7 @@ public class EwidencjaVatView implements Serializable {
 //                        try {
 //                            if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
 //                                int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
-//                                if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
+//                                if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getRok()) > wpisView.getRokWpisu()) {
 //                                    listatymczasowa.add(p);
 //                                }
 //                            }
@@ -824,7 +824,7 @@ public class EwidencjaVatView implements Serializable {
 //                        try {
 //                            if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
 //                                int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
-//                                if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
+//                                if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getRok()) > wpisView.getRokWpisu()) {
 //                                    listatymczasowa.add(p);
 //                                }
 //                            }

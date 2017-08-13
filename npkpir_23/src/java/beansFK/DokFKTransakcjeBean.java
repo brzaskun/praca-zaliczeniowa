@@ -48,7 +48,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String datarozrachunku = null;
                 if (stronaWiersza.getWiersz().getDataWalutyWiersza() != null) {
-                    datarozrachunku = stronaWiersza.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+stronaWiersza.getWiersz().getDokfk().getMiesiac()+"-"+stronaWiersza.getWiersz().getDataWalutyWiersza();
+                    datarozrachunku = stronaWiersza.getWiersz().getDokfk().getRok()+"-"+stronaWiersza.getWiersz().getDokfk().getMiesiac()+"-"+stronaWiersza.getWiersz().getDataWalutyWiersza();
                     } else {
                     datarozrachunku = stronaWiersza.getWiersz().getDokfk().getDatadokumentu();
                 }
@@ -75,7 +75,7 @@ public class DokFKTransakcjeBean implements Serializable{
                     } else {
                         String dataplatnosci;
                         if (wierszZbazy.getWiersz().getDataWalutyWiersza() != null) {
-                            dataplatnosci = wierszZbazy.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+wierszZbazy.getWiersz().getDokfk().getMiesiac()+"-"+wierszZbazy.getWiersz().getDataWalutyWiersza();
+                            dataplatnosci = wierszZbazy.getWiersz().getDokfk().getRok()+"-"+wierszZbazy.getWiersz().getDokfk().getMiesiac()+"-"+wierszZbazy.getWiersz().getDataWalutyWiersza();
                         } else {
                             dataplatnosci = wierszZbazy.getWiersz().getDokfk().getDatadokumentu();
                         }

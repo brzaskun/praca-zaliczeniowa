@@ -25,7 +25,6 @@ import entity.SrodekTrw;
 import entity.Statystyka;
 import entity.UmorzenieN;
 import entityfk.Dokfk;
-import entityfk.DokfkPK;
 import entityfk.EVatwpisDedra;
 import entityfk.Konto;
 import entityfk.MiejscePrzychodow;
@@ -52,20 +51,20 @@ public class testobjects {
     
     
     
-    public static Dokfk getDokfk(String rodzaj) {
-        DokfkPK dp = new DokfkPK(rodzaj, 12, "WZORCOWY", "2015");
-        Dokfk d = new Dokfk(dp);
-        d.setDatadokumentu("2015-03-01");
-        d.setDataoperacji("2015-03-02");
-        d.setDatawplywu("2015-03-05");
-        d.setDatawystawienia("2015-03-06");
-        d.setRodzajedok(getRodzajedok(rodzaj));
-        d.setPodatnikObj(getPodatnik());
-        d.setKontr(getKlienci());
-        d.setNumerwlasnydokfk("1/23/345/z");
-        d.setMiesiac("02");
-        return d;
-    }
+//    public static Dokfk getDokfk(String rodzaj) {
+//        DokfkPK dp = new DokfkPK(rodzaj, 12, "WZORCOWY", "2015");
+//        Dokfk d = new Dokfk();
+//        d.setDatadokumentu("2015-03-01");
+//        d.setDataoperacji("2015-03-02");
+//        d.setDatawplywu("2015-03-05");
+//        d.setDatawystawienia("2015-03-06");
+//        d.setRodzajedok(getRodzajedok(rodzaj));
+//        d.setPodatnikObj(getPodatnik());
+//        d.setKontr(getKlienci());
+//        d.setNumerwlasnydokfk("1/23/345/z");
+//        d.setMiesiac("02");
+//        return d;
+//    }
     
     public static Rodzajedok getRodzajedok(String rodzaj) {
         RodzajedokPK rp = new RodzajedokPK(rodzaj, "WZORCOWY");
@@ -970,7 +969,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        List<WierszDokfk> w = new ArrayList<WierszDokfk>();
        for (Dokfk p : wiersze) {
            String kontrahent = p.getKontr().getNpelna()+" "+p.getKontr().getNip();
-           WierszDokfk r = new WierszDokfk(p.getLp(), p.getDatadokumentu(), p.getDataoperacji(), p.getDokfkPK().toString2(), kontrahent, p.getNumerwlasnydokfk(), p.getOpisdokfk(), p.getWartoscdokumentu(), p.getWalutadokumentu().getSymbolwaluty());
+           WierszDokfk r = new WierszDokfk(p.getLp(), p.getDatadokumentu(), p.getDataoperacji(), p.toString2(), kontrahent, p.getNumerwlasnydokfk(), p.getOpisdokfk(), p.getWartoscdokumentu(), p.getWalutadokumentu().getSymbolwaluty());
            w.add(r);
        }
        return w;
@@ -983,12 +982,12 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
    }
    
   
-   public static void main(String[] args) {
-       Dokfk p = getDokfk("PK");
-       List[] t = getTabela();
-       List r = getWiersze();
-       System.out.println(p.toString());
-   }
+//   public static void main(String[] args) {
+//       Dokfk p = getDokfk("PK");
+//       List[] t = getTabela();
+//       List r = getWiersze();
+//       System.out.println(p.toString());
+//   }
    
     
 }

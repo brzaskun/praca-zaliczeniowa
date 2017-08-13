@@ -104,7 +104,7 @@ public class RozliczTransakcjeBean {
             } else {
                 datawiersza = platnosc.getWiersz().getDataWalutyWiersza();
             }
-            zwrot = platnosc.getDokfk().getDokfkPK().getRok() + "-" + platnosc.getDokfk().getMiesiac() + "-" + datawiersza;
+            zwrot = platnosc.getDokfk().getRok() + "-" + platnosc.getDokfk().getMiesiac() + "-" + datawiersza;
         } else {
             zwrot = platnosc.getDokfk().getDataoperacji();
         }

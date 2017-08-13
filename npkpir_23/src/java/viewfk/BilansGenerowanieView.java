@@ -14,7 +14,6 @@ import daoFK.WierszBODAO;
 import embeddablefk.RoznicaSaldBO;
 import embeddablefk.SaldoKonto;
 import entityfk.Dokfk;
-import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.UkladBR;
@@ -163,8 +162,7 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     public static Dokfk getDokfk(String rodzaj, String podatnik) {
-        DokfkPK dp = new DokfkPK(rodzaj, 12, podatnik, "2015");
-        Dokfk d = new Dokfk(dp);
+        Dokfk d = new Dokfk(12, "2015");
         d.setDatadokumentu("2015-03-01");
         d.setDataoperacji("2015-03-02");
         d.setDatawplywu("2015-03-05");

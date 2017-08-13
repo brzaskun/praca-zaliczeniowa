@@ -8,7 +8,7 @@ import embeddable.Kwartaly;
 import embeddable.Mce;
 import entity.Dok;
 import entity.Klienci;
-import entityfk.Dokfk;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
@@ -134,7 +134,7 @@ public class DokDAO extends DAO implements Serializable {
         return iloscdok;
     }
    
-     public Dok findDokLastofaKontrahent(String podatnik, Klienci kontr, String rok) {
+     public Dok findDokLastofaKontrahent(Podatnik podatnik, Klienci kontr, String rok) {
        try {
            return dokFacade.findDokLastofaTypeKontrahent(podatnik, kontr,rok);
        } catch (Exception e ){

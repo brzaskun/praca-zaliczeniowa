@@ -60,7 +60,6 @@ import entity.Zusstawki;
 import entityfk.Cechazapisu;
 import entityfk.Delegacja;
 import entityfk.Dokfk;
-import entityfk.DokfkPK;
 import entityfk.EVatwpisFK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -790,8 +789,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (Dok) em.createNamedQuery("Dok.findByFakturaWystawiona").setParameter("podatnik", nazwapelna).setParameter("kontr", kontrahent).setParameter("nrWlDk", numerkolejny).setParameter("brutto", brutto).getSingleResult();
     }
 
-    public List<Wiersz> findWierszefkRozrachunki(String podatnik, Konto konto, DokfkPK dokfkPK) {
-        return em.createNamedQuery("Wiersz.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfkPK", dokfkPK).getResultList();
+    public List<Wiersz> findWierszefkRozrachunki(String podatnik, Konto konto, Dokfk dokfk) {
+        return em.createNamedQuery("Wiersz.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfk", dokfk).getResultList();
     }
 
     public List<Wiersz> findWierszeZapisy(String podatnik, String konto) {
@@ -817,8 +816,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public Dokfk findDokfk(Dokfk selected) {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByDokEdycjaFK")
-                    .setParameter("seriadokfk", selected.getDokfkPK().getSeriadokfk())
-                    .setParameter("rok", selected.getDokfkPK().getRok())
+                    .setParameter("seriadokfk", selected.getSeriadokfk())
+                    .setParameter("rok", selected.getRok())
                     .setParameter("podatnikObj", selected.getPodatnikObj())
                     .setParameter("numerwlasnydokfk", selected.getNumerwlasnydokfk())
                     .setParameter("kontrahent", selected.getKontr())
@@ -829,24 +828,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
     
-    public Dokfk findDokfkPK(DokfkPK selected) {
-        try {
-            return (Dokfk) em.createNamedQuery("Dokfk.findByDokfkPK")
-                    .setParameter("dokfkPK", selected)
-                    .getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
+  
     public Dokfk findDokfkObject(Dokfk selected) {
-        return em.find(Dokfk.class, selected.getDokfkPK());
+        return em.find(Dokfk.class, selected);
     }
 
     public Dokfk findDokfkKontrahent(Dokfk selected) {
         try {
-            return (Dokfk) em.createNamedQuery("Dokfk.findByDuplikatKontrahent").setParameter("seriadokfk", selected.getDokfkPK().getSeriadokfk()).setParameter("rok", selected.getDokfkPK().getRok()).setParameter("podatnikObj", selected.getPodatnikObj()).setParameter("numerwlasnydokfk", selected.getNumerwlasnydokfk()).setParameter("kontrahent", selected.getKontr()).getSingleResult();
+            return (Dokfk) em.createNamedQuery("Dokfk.findByDuplikatKontrahent").setParameter("seriadokfk", selected.getSeriadokfk()).setParameter("rok", selected.getRok()).setParameter("podatnikObj", selected.getPodatnikObj()).setParameter("numerwlasnydokfk", selected.getNumerwlasnydokfk()).setParameter("kontrahent", selected.getKontr()).getSingleResult();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -973,7 +962,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
-    public Dokfk findDokfkLastofaTypeKontrahent(String podatnik, String seriadokfk, Klienci kontr, String rok) {
+    public Dokfk findDokfkLastofaTypeKontrahent(Podatnik podatnik, String seriadokfk, Klienci kontr, String rok) {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setParameter("kontr", kontr).setParameter("rok", rok).setMaxResults(1).getSingleResult();
         } catch (Exception e) {
@@ -982,7 +971,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
-    public Dok findDokLastofaTypeKontrahent(String podatnik, Klienci kontr, String pkpirR) {
+    public Dok findDokLastofaTypeKontrahent(Podatnik podatnik, Klienci kontr, String pkpirR) {
         try {
             return (Dok) em.createNamedQuery("Dok.findByfindByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("kontr", kontr).setParameter("pkpirR", pkpirR).setMaxResults(1).getSingleResult();
         } catch (Exception e) {

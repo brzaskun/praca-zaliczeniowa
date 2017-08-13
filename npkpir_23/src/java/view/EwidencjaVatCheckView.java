@@ -91,7 +91,7 @@ public class EwidencjaVatCheckView implements Serializable {
                 p_vat = Z.zAbs(p.getVat());
             }
             if (p_vat == Z.z(r.getKwotaPLN())) {
-                if (p.getDokfkPK().equals(r.getDokfk().getDokfkPK())) {
+                if (p.equals(r.getDokfk())) {
                     if (p.getNrWlDk().equals(r.getDokfk().getNumerwlasnydokfk())) {
                         jest = true;
                         it.remove();
@@ -175,7 +175,7 @@ public class EwidencjaVatCheckView implements Serializable {
         boolean jest = false;
         for (EVatViewPola p : ewidencjezawartosc) {
              if (Z.z(p.getVat()) == Z.z(r.getKwotaPLN())) {
-                if (p.getDokfkPK().equals(r.getDokfk().getDokfkPK())) {
+                if (p.equals(r.getDokfk())) {
                     if (p.getNrWlDk().equals(r.getDokfk().getNumerwlasnydokfk())) {
                         jest = true;
                         break;

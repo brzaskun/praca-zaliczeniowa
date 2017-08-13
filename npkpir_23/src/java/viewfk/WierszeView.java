@@ -6,11 +6,9 @@ package viewfk;
 
 import dao.WierszeDAO;
 import entityfk.Dokfk;
-import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -121,7 +119,7 @@ public class WierszeView implements Serializable {
         Wiersz w = new Wiersz();
         w.setIdwiersza(wierszeWNT.get(wierszeWNT.size()-1).getIdwiersza()+1);
         w.setIdporzadkowy(wierszeWNT.size());
-        w.setDokfk(new Dokfk(new DokfkPK()));
+        w.setDokfk(new Dokfk());
         w.setDataksiegowania("");
         w.getDokfk().setNumerwlasnydokfk("");
         w.setStronaWn(new StronaWiersza(w, "Wn"));
@@ -155,7 +153,7 @@ public class WierszeView implements Serializable {
         Wiersz w = new Wiersz();
         w.setIdwiersza(wierszeWDT.get(wierszeWDT.size()-1).getIdwiersza()+1);
         w.setIdporzadkowy(wierszeWDT.size());
-        w.setDokfk(new Dokfk(new DokfkPK()));
+        w.setDokfk(new Dokfk());
         w.setDataksiegowania("");
         w.getDokfk().setNumerwlasnydokfk("");
         w.setStronaWn(new StronaWiersza(w, "Wn"));

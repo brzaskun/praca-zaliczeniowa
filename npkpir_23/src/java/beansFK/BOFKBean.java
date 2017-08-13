@@ -90,7 +90,7 @@ public class BOFKBean {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
         for (Dokfk p : dokfk) {
-            if (p.getDokfkPK().getNrkolejnywserii()==1) {
+            if (p.getNrkolejnywserii()==1) {
                 for (StronaWiersza r : p.getStronyWierszy()) {
                     if (r.getKonto().equals(konto)) {
                         zapisy.add(r);

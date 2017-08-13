@@ -53,8 +53,8 @@
                 <p:column headerText="firma" width="200" filterBy="#{wpis.nowaTransakcja.kontrahent}" filterMatchMode="contains" styleClass="firmaopis">
                     <h:outputText value="#{wpis.nowaTransakcja.kontrahent}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
-                <p:column headerText="rachunek" width="100" filterBy="#{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK.toString2()}" filterMatchMode="contains" styleClass="rachunekroznice" style="text-align: center;">
-                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK.toString2()}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                <p:column headerText="rachunek" width="100" filterBy="#{wpis.nowaTransakcja.wiersz.dokfk.toString2()}" filterMatchMode="contains" styleClass="rachunekroznice" style="text-align: center;">
+                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.dokfk.toString2()}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
                 <p:column headerText="opis" width="200" filterBy="#{wpis.nowaTransakcja.wiersz.opisWiersza}" filterMatchMode="contains" styleClass="firmaopis">
                     <h:outputText value="#{wpis.nowaTransakcja.wiersz.opisWiersza}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
@@ -64,8 +64,8 @@
                         <f:convertNumber minFractionDigits="4" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="płatność" width="100" filterBy="#{wpis.rozliczajacy.wiersz.dokfk.dokfkPK.toString2()}" filterMatchMode="contains" styleClass="rachunekroznice" style="text-align: center;">
-                    <h:outputText value="#{wpis.rozliczajacy.wiersz.dokfk.dokfkPK.toString2()}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                <p:column headerText="płatność" width="100" filterBy="#{wpis.rozliczajacy.wiersz.dokfk.toString2()}" filterMatchMode="contains" styleClass="rachunekroznice" style="text-align: center;">
+                    <h:outputText value="#{wpis.rozliczajacy.wiersz.dokfk.toString2()}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
                 <p:column headerText="kurs płat." width="40">
                     <h:outputText value="#{wpis.rozliczajacy.kursWalutyBOSW}" style="float: right;">

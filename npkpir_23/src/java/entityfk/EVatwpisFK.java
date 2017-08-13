@@ -16,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -64,15 +63,9 @@ public class EVatwpisFK implements Serializable {
     private double brutto;
     @Column(name = "estawka")
     private String estawka;
-    @JoinColumns({
-          @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
-          @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
-          @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
-          @JoinColumn(name = "rok", referencedColumnName = "rok")
-     })
     @ManyToOne
+    @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
-    private int dokid;
     @OneToOne
     private Wiersz wiersz;
     private Klienci klient;
@@ -116,14 +109,6 @@ public class EVatwpisFK implements Serializable {
 
     public double getNettowwalucie() {
         return nettowwalucie;
-    }
-
-    public int getDokid() {
-        return dokid;
-    }
-
-    public void setDokid(int dokid) {
-        this.dokid = dokid;
     }
 
     public void setNettowwalucie(double nettowwalucie) {    

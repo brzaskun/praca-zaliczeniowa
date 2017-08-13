@@ -47,7 +47,6 @@ import entity.SrodekTrw;
 import entity.Uz;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
-import entityfk.DokfkPK;
 import entityfk.EVatwpisFK;
 import entityfk.Konto;
 import entityfk.RMK;
@@ -560,14 +559,14 @@ public class DokfkView implements Serializable {
     private List<Evewidencja> pobierzewidencje() {
         List<Evewidencja> l = new ArrayList<>();
         l.addAll(listaEwidencjiVat.pobierzEvewidencje(selected.getRodzajedok().getRodzajtransakcji()));
-        if (selected.getDokfkPK().getSeriadokfk().equals("UPTK")) {
+        if (selected.getSeriadokfk().equals("UPTK")) {
             for (Iterator<Evewidencja> it = l.iterator();it.hasNext();) {
                 Evewidencja p = it.next();
                 if (p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
                     it.remove();
                 }
             }
-        } else if (selected.getDokfkPK().getSeriadokfk().equals("UPTK100")) {
+        } else if (selected.getSeriadokfk().equals("UPTK100")) {
             for (Iterator<Evewidencja> it = l.iterator();it.hasNext();) {
                 Evewidencja p = it.next();
                 if (p.getNazwa().equals("usługi świad. poza ter.kraju")) {
@@ -765,8 +764,8 @@ public class DokfkView implements Serializable {
 
             }
             try {
-                selected.setLp(selected.getDokfkPK().getNrkolejnywserii());
-                selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
+                selected.setLp(selected.getNrkolejnywserii());
+                selected.setPodatnikObj(wpisView.getPodatnikObiekt());
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 //nanosimy zapisy na kontach
                 if (selected.sprawdzczynaniesionorozrachunki() == 1) {
@@ -929,7 +928,7 @@ public class DokfkView implements Serializable {
             selected.setwTrakcieEdycji(false);
             try {
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
-                if (selected.getDokfkPK().getSeriadokfk().equals("BO")) {
+                if (selected.getSeriadokfk().equals("BO")) {
                     selected.przepiszWierszeBO();
                 }
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
@@ -1128,7 +1127,7 @@ public class DokfkView implements Serializable {
     }
 
     public void pobierzopiszpoprzedniegodok() {
-        Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
+        Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
         if (poprzedniDokument != null && selected.getOpisdokfk() == null) {
             selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
             Wiersz w = selected.getListawierszy().get(0);
@@ -1141,7 +1140,7 @@ public class DokfkView implements Serializable {
 
     public void pobierzopiszpoprzedniegodokItemSelect() {
         try {
-            poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
+            poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
             if (poprzedniDokument != null) {
                 selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
                 Wiersz w = selected.getListawierszy().get(0);
@@ -1180,8 +1179,8 @@ public class DokfkView implements Serializable {
             wlaczZapiszButon = true;
             RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
         }
-        if (!rok.equals(selected.getDokfkPK().getRok())) {
-            selected.getDokfkPK().setRok(rok);
+        if (!rok.equals(selected.getRok())) {
+            selected.setRok(rok);
             selected.setVatR(rok);
             RequestContext.getCurrentInstance().update("formwpisdokument:rok");
             RequestContext.getCurrentInstance().update("formwpisdokument:rokVAT");
@@ -1202,7 +1201,7 @@ public class DokfkView implements Serializable {
                 String data = selected.getDatawplywu();
                 if (data.length() == 10) {
                     String rok = data.split("-")[0];
-                    selected.getDokfkPK().setRok(rok);
+                    selected.setRok(rok);
                     String mc = data.split("-")[1];
                     selected.setVatM(mc);
                 }
@@ -1212,7 +1211,7 @@ public class DokfkView implements Serializable {
 
     public void przygotujDokumentWpisywanie() {
         String skrotnazwydokumentu = selected.getRodzajedok().getRodzajedokPK().getSkrotNazwyDok();
-        selected.getDokfkPK().setSeriadokfk(skrotnazwydokumentu);
+        selected.setSeriadokfk(skrotnazwydokumentu);
         //pokazuje daty w wierszach
         if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
             pokazPanelWalutowy = true;
@@ -1240,7 +1239,7 @@ public class DokfkView implements Serializable {
             obsluzcechydokumentu();
             RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             RequestContext.getCurrentInstance().update("wpisywaniefooter");
-            Msg.msg("i", "Wybrano dokument do edycji " + selected.getDokfkPK().toString());
+            Msg.msg("i", "Wybrano dokument do edycji " + selected.toString());
             setZapisz0edytuj1(true);
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 pokazPanelWalutowy = true;
@@ -1413,7 +1412,7 @@ public class DokfkView implements Serializable {
                 tabelenbp = new ArrayList<>();
                 tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
-                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
+                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.toString());
                 zapisz0edytuj1 = true;
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
                 if (rodzajBiezacegoDokumentu == 0) {
@@ -1455,7 +1454,7 @@ public class DokfkView implements Serializable {
                 tabelenbp = new ArrayList<>();
                 tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
-                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
+                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.toString());
                 zapisz0edytuj1 = true;
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
                 if (rodzajBiezacegoDokumentu == 0) {
@@ -1496,7 +1495,7 @@ public class DokfkView implements Serializable {
             tabelenbp.add(wybranaTabelanbp);
             obsluzcechydokumentu();
             RequestContext.getCurrentInstance().update(wierszedytowany);
-            Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
+            Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.toString());
             zapisz0edytuj1 = true;
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 pokazPanelWalutowy = true;
@@ -1539,8 +1538,7 @@ public class DokfkView implements Serializable {
 
     public void znajdzDokumentOznaczDoPodswietlenia(List<EVatViewPola> stronawiersza) {
         if (stronawiersza != null) {
-            DokfkPK d = stronawiersza.get(0).getDokfkPK();
-            Dokfk odnalezionywbazie = dokDAOfk.findDokfkPK(d);
+            Dokfk odnalezionywbazie = stronawiersza.get(0).getDokfk();
             selected = odnalezionywbazie;
             wierszDoPodswietlenia = 0;
             setZapisz0edytuj1(true);
@@ -1570,7 +1568,7 @@ public class DokfkView implements Serializable {
         if (wybranakategoriadok.startsWith("RK") || wybranakategoriadok.startsWith("WB")) {
             List<Dokfk> wykaz = dokDAOfk.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, wybranakategoriadok);
             for (Dokfk p : wykaz) {
-                int nrserii = p.getDokfkPK().getNrkolejnywserii();
+                int nrserii = p.getNrkolejnywserii();
                 Konto kontozdanegoroku = kontoDAOfk.findKonto(p.getRodzajedok().getKontorozrachunkowe().getPelnynumer(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
                 if (nrserii == 1) {
                     if (kontozdanegoroku != null) {
@@ -2106,7 +2104,7 @@ public class DokfkView implements Serializable {
         } else {
             datawiersza = aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza();
         }
-        return selected.getDokfkPK().getRok() + "-" + selected.getMiesiac() + "-" + datawiersza;
+        return selected.getRok() + "-" + selected.getMiesiac() + "-" + datawiersza;
     }
 //
 //    //********************
@@ -2546,9 +2544,9 @@ public class DokfkView implements Serializable {
             double sumaMa = 0.0;
             for (Iterator<StronaWiersza> it = kontozapisy.iterator(); it.hasNext();) {
                 StronaWiersza p = it.next();
-                if (p.getWiersz().getDokfk().getDokfkPK().equals(selected.getDokfkPK())) {
+                if (p.getWiersz().getDokfk().equals(selected)) {
                     it.remove();
-                } else if (p.getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii() > selected.getDokfkPK().getNrkolejnywserii()) {
+                } else if (p.getWiersz().getDokfk().getNrkolejnywserii() > selected.getNrkolejnywserii()) {
                     it.remove();
                 } else {
                     switch (p.getWnma()) {
@@ -2608,7 +2606,7 @@ public class DokfkView implements Serializable {
         try {
             System.out.println("sprawdzwartoscigrupy() grupa nr: " + nrgrupywierszy);
             Wiersz wierszpodstawowy = selected.getListawierszy().get(nrgrupywierszy - 1);
-            if (wierszpodstawowy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+            if (wierszpodstawowy.getDokfk().getSeriadokfk().equals("BO")) {
                 return;
             }
             double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
@@ -2687,7 +2685,7 @@ public class DokfkView implements Serializable {
         for (String r : serie) {
             nowadosortowania = new ArrayList<>();
             for (Dokfk t : dokumenty) {
-                if (t.getDokfkPK().getSeriadokfk().equals(r)) {
+                if (t.getSeriadokfk().equals(r)) {
                     nowadosortowania.add(t);
                 }
             }
@@ -2842,7 +2840,7 @@ public class DokfkView implements Serializable {
         }
         if (filteredValue != null && filteredValue.size() > 0) {
             for (Dokfk p : filteredValue) {
-                String nazwa = wpisView.getPodatnikObiekt().getNip() + "dokumentzaksiegowane" + p.getDokfkPK().getNrkolejnywserii();
+                String nazwa = wpisView.getPodatnikObiekt().getNip() + "dokumentzaksiegowane" + p.getNrkolejnywserii();
                 File file = Plik.plik(nazwa, true);
                 if (file.isFile()) {
                     file.delete();
@@ -3527,7 +3525,7 @@ public class DokfkView implements Serializable {
                 for (Wiersz w : p.getListawierszy()) {
                     if (w.getStronaWn() != null && w.getStronaWn().getKonto() != null && w.getStronaWn().getKonto().getPelnynumer().startsWith("0")) {
                         zawierasrodki = true;
-                        System.out.println("sa srodki " + p.getDokfkPK());
+                        System.out.println("sa srodki " + p);
                         break;
                     }
                 }
@@ -3552,7 +3550,7 @@ public class DokfkView implements Serializable {
                 for (Wiersz w : p.getListawierszy()) {
                     if (w.getStronaWn() != null && w.getStronaWn().getKonto() != null && w.getStronaWn().getKonto().getPelnynumer().startsWith("64")) {
                         zawierarmk = true;
-                        System.out.println("sa srodki " + p.getDokfkPK());
+                        System.out.println("sa srodki " + p);
                         break;
                     }
                 }
@@ -3643,7 +3641,7 @@ public class DokfkView implements Serializable {
                 rozliczrmk(dokfk);
                 dokDAOfk.destroy(dokfk);
             }
-            Msg.msg("Usunięto dokument specjalny " + dokfk.getDokfkPK());
+            Msg.msg("Usunięto dokument specjalny " + dokfk);
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie usnięto dokumentu");
             E.e(e);

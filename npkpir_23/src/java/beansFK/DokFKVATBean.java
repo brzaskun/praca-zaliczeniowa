@@ -76,7 +76,7 @@ public class DokFKVATBean {
         }
     }
     public static void ustawvat(EVatwpisFK evatwpis, Dokfk selected, double stawkavat) {
-        String skrotRT = selected.getDokfkPK().getSeriadokfk();
+        String skrotRT = selected.getSeriadokfk();
         int lp = evatwpis.getLp();
         Waluty w = selected.getWalutadokumentu();
         double kurs = selected.getTabelanbp().getKurssredni();

@@ -201,10 +201,10 @@
                                               style="font-size: x-small; width: 130px;" rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
                             </p:column>
                             <p:column headerText="symbol" width="40" style="text-align: left;"  styleClass="symbolrozrachunku"
-                                      filterBy="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk}">
-                                <h:outputText id="symboldokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii}"
+                                      filterBy="#{loop.nowaTransakcja.wiersz.dokfk.seriadokfk}">
+                                <h:outputText id="symboldokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.seriadokfk}/#{loop.nowaTransakcja.wiersz.dokfk.nrkolejnywserii}"
                                               style="width: 60px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                                <h:outputText id="symboldokMa" value="#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"  style="width: 60px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                                <h:outputText id="symboldokMa" value="#{loop.rozliczajacy.wiersz.dokfk.seriadokfk}/#{loop.rozliczajacy.wiersz.dokfk.nrkolejnywserii}"  style="width: 60px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                             </p:column>
                             <!--                        <p:column headerText="kwota rozliczenia w walucie rach." width="50">
                                                         <h:outputText id="kwotawwalucierachunku" value="#{loop.kwotawwalucierachunku}" style="float: right;" 
@@ -274,9 +274,9 @@
                                 </h:outputText>
                             </p:column>
                             <!--                        <p:column headerText="poch. zapisu" width="50">
-                                                        <h:outputText value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
+                                                        <h:outputText value="#{loop.nowaTransakcja.wiersz.dokfk.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.seriadokfk ? (loop.nowaTransakcja.wiersz.dokfk.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
                                                                       rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
-                                                        <h:outputText value="#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
+                                                        <h:outputText value="#{loop.rozliczajacy.wiersz.dokfk.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.seriadokfk ? (loop.rozliczajacy.wiersz.dokfk.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
                                                                       rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
                                                         <h:outputText value="zapis z BO"
                                                                       rendered="#{loop.nowaTransakcja.wiersz eq null}"/>

@@ -26,7 +26,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -151,15 +150,8 @@ public class SrodekTrw implements Serializable {
     @ManyToOne
     @JoinColumn(name = "kontoumorzenie", referencedColumnName = "id")
     private Konto kontoumorzenie;
-    @JoinColumns({
-          @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
-          @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
-          @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
-          @JoinColumn(name = "rok", referencedColumnName = "rok")
-     })
-    @ManyToOne(optional = true)
+    @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
-    private int dokid;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SrodekTrw_NowaWartosc> zmianawartosci;
     @Column(name = "symbolinwentarzowy", nullable = true)
@@ -210,14 +202,6 @@ public class SrodekTrw implements Serializable {
     
     public void setDatawy(Double datawy) {
         this.datawy = datawy;
-    }
-
-    public int getDokid() {
-        return dokid;
-    }
-
-    public void setDokid(int dokid) {
-        this.dokid = dokid;
     }
 
     public String getSymbolinwentarzowy() {

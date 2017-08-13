@@ -186,7 +186,7 @@
                                     </p:inputText>
                                 </p:column>
                                 <p:column style="text-align: center">
-                                    <p:inputText id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="text-align: center; width: 40px;"
+                                    <p:inputText id="rok" value="#{dokfkView.selected.rok}" style="text-align: center; width: 40px;"
                                                  onblur="sprawdzmiesiacDialogWpisywanie('#{WpisView.miesiacWpisu}');"
                                                  maxlength="4" size="5">
                                         <p:ajax event="change" partialSubmit="true" global="false"/>
@@ -241,7 +241,7 @@
                                     </h:selectOneMenu>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" 
+                                    <p:inputText id="numer" value="#{dokfkView.selected.nrkolejnywserii}" 
                                                  style="width: 40px; font-weight: 900; margin-left: 15%;" disabled="true">
                                     </p:inputText>
                                 </p:column>
@@ -507,11 +507,11 @@
                             </p:inputText>
                         </p:column>
                         <p:column headerText="BO" style="text-align: center; width: 40px;"  
-                                  rendered="#{dokfkView.selected.dokfkPK.seriadokfk eq 'BO'}" >
+                                  rendered="#{dokfkView.selected.seriadokfk eq 'BO'}" >
                             <h:outputText value="#{loop.wierszBOId}"/>
                         </p:column>
                         <p:column headerText="wal" style="text-align: center; width: 40px;"  
-                                  rendered="#{dokfkView.selected.dokfkPK.seriadokfk eq 'BO'}" >
+                                  rendered="#{dokfkView.selected.seriadokfk eq 'BO'}" >
                             <h:outputText value="#{loop.walutaWiersz}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}"  style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">

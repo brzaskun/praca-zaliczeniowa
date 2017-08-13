@@ -15,19 +15,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -56,48 +58,63 @@ import waluty.Z;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Dokfk.findAll", query = "SELECT d FROM Dokfk d"),
-    @NamedQuery(name = "Dokfk.findBySeriadokfk", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk"),
-    @NamedQuery(name = "Dokfk.findBySeriaRokdokfk", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok"),
-    @NamedQuery(name = "Dokfk.findBySeriaNumerRokdokfk", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnik AND d.miesiac = :mc"),
-    @NamedQuery(name = "Dokfk.findByNrkolejny", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.nrkolejnywserii = :nrkolejnywserii"),
-    @NamedQuery(name = "Dokfk.findByPodatnikRokMc", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.miesiac = :mc"),
-    @NamedQuery(name = "Dokfk.findByPodatnikRokKw", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND (d.miesiac = :mc1 OR d.miesiac = :mc2 OR d.miesiac = :mc3)"),
-    @NamedQuery(name = "Dokfk.findByPodatnikRok", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok ORDER BY d.datadokumentu"),
+    @NamedQuery(name = "Dokfk.findBySeriadokfk", query = "SELECT d FROM Dokfk d WHERE d.seriadokfk = :seriadokfk"),
+    @NamedQuery(name = "Dokfk.findBySeriaRokdokfk", query = "SELECT d FROM Dokfk d WHERE d.seriadokfk = :seriadokfk AND d.rok = :rok"),
+    @NamedQuery(name = "Dokfk.findBySeriaNumerRokdokfk", query = "SELECT d FROM Dokfk d WHERE d.seriadokfk = :seriadokfk AND d.rok = :rok AND d.podatnikObj = :podatnik AND d.miesiac = :mc"),
+    @NamedQuery(name = "Dokfk.findByNrkolejny", query = "SELECT d FROM Dokfk d WHERE d.nrkolejnywserii = :nrkolejnywserii"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRokMc", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND d.miesiac = :mc"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRokKw", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND (d.miesiac = :mc1 OR d.miesiac = :mc2 OR d.miesiac = :mc3)"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRok", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok ORDER BY d.datadokumentu"),
     @NamedQuery(name = "Dokfk.findByPodatnik", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik ORDER BY d.datadokumentu"),
-    @NamedQuery(name = "Dokfk.findByPodatnikRokSrodkiTrwale", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.zawierasrodkitrw = 1 ORDER BY d.datadokumentu"),
-    @NamedQuery(name = "Dokfk.findByPodatnikRokRMK", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.zawierarmk = 1 ORDER BY d.datadokumentu"),
-    @NamedQuery(name = "Dokfk.findByPodatnikRokMcKategoria", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.miesiac = :mc AND d.rodzajedok.skrot = :kategoria"),
-    @NamedQuery(name = "Dokfk.findByPodatnikRokKategoria", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.rodzajedok.skrot = :kategoria"),
-    @NamedQuery(name = "Dokfk.findByPodatnikRokKategoriaOrderByNo", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.rodzajedok.skrot = :kategoria ORDER BY d.dokfkPK.nrkolejnywserii"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRokSrodkiTrwale", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND d.zawierasrodkitrw = 1 ORDER BY d.datadokumentu"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRokRMK", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND d.zawierarmk = 1 ORDER BY d.datadokumentu"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRokMcKategoria", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND d.miesiac = :mc AND d.rodzajedok.skrot = :kategoria"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRokKategoria", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND d.rodzajedok.skrot = :kategoria"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRokKategoriaOrderByNo", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND d.rodzajedok.skrot = :kategoria ORDER BY d.nrkolejnywserii"),
     @NamedQuery(name = "Dokfk.findByBKVAT", query = "SELECT d FROM Dokfk d WHERE d.vatR = :vatR AND d.podatnikObj = :podatnik"),
-    @NamedQuery(name = "Dokfk.findByDokfkPK", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK = :dokfkPK"),
-    @NamedQuery(name = "Dokfk.findByPK", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnikObj AND d.dokfkPK.nrkolejnywserii = :nrkolejnywserii"),
-    @NamedQuery(name = "Dokfk.findByDuplikat", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnikObj AND d.numerwlasnydokfk = :numerwlasnydokfk"),
-    @NamedQuery(name = "Dokfk.findByDokEdycjaFK", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnikObj AND d.numerwlasnydokfk = :numerwlasnydokfk AND d.kontr = :kontrahent"),
-    @NamedQuery(name = "Dokfk.findByDuplikatKontrahent", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnikObj AND d.numerwlasnydokfk = :numerwlasnydokfk AND d.kontr = :kontrahent"),
+    @NamedQuery(name = "Dokfk.findByDokfkPK", query = "SELECT d FROM Dokfk d WHERE d = :dokfkPK"),
+    @NamedQuery(name = "Dokfk.findByPK", query = "SELECT d FROM Dokfk d WHERE d.seriadokfk = :seriadokfk AND d.rok = :rok AND d.podatnikObj = :podatnikObj AND d.nrkolejnywserii = :nrkolejnywserii"),
+    @NamedQuery(name = "Dokfk.findByDuplikat", query = "SELECT d FROM Dokfk d WHERE d.seriadokfk = :seriadokfk AND d.rok = :rok AND d.podatnikObj = :podatnikObj AND d.numerwlasnydokfk = :numerwlasnydokfk"),
+    @NamedQuery(name = "Dokfk.findByDokEdycjaFK", query = "SELECT d FROM Dokfk d WHERE d.seriadokfk = :seriadokfk AND d.rok = :rok AND d.podatnikObj = :podatnikObj AND d.numerwlasnydokfk = :numerwlasnydokfk AND d.kontr = :kontrahent"),
+    @NamedQuery(name = "Dokfk.findByDuplikatKontrahent", query = "SELECT d FROM Dokfk d WHERE d.seriadokfk = :seriadokfk AND d.rok = :rok AND d.podatnikObj = :podatnikObj AND d.numerwlasnydokfk = :numerwlasnydokfk AND d.kontr = :kontrahent"),
     @NamedQuery(name = "Dokfk.findByDatawystawienia", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia"),
     @NamedQuery(name = "Dokfk.findByDatawystawieniaNumer", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia AND d.numerwlasnydokfk = :numer"),
-    @NamedQuery(name = "Dokfk.findByLastofaType", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok ORDER BY d.dokfkPK.nrkolejnywserii DESC"),
-    @NamedQuery(name = "Dokfk.findByLastofaTypeMc", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.miesiac = :mc ORDER BY d.dokfkPK.nrkolejnywserii DESC"),
-    @NamedQuery(name = "Dokfk.findByLastofaTypeKontrahent", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik AND d.dokfkPK.seriadokfk = :seriadokfk AND d.kontr = :kontr AND d.dokfkPK.rok = :rok ORDER BY d.dokfkPK.nrkolejnywserii DESC"),
+    @NamedQuery(name = "Dokfk.findByLastofaType", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.seriadokfk = :seriadokfk AND d.rok = :rok ORDER BY d.nrkolejnywserii DESC"),
+    @NamedQuery(name = "Dokfk.findByLastofaTypeMc", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.seriadokfk = :seriadokfk AND d.rok = :rok AND d.miesiac = :mc ORDER BY d.nrkolejnywserii DESC"),
+    @NamedQuery(name = "Dokfk.findByLastofaTypeKontrahent", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.seriadokfk = :seriadokfk AND d.kontr = :kontr AND d.rok = :rok ORDER BY d.nrkolejnywserii DESC"),
     @NamedQuery(name = "Dokfk.findByNumer", query = "SELECT d FROM Dokfk d WHERE d.numerwlasnydokfk = :numer"),
-    @NamedQuery(name = "Dokfk.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.dokfkPK.podatnik FROM Dokfk d WHERE d.wprowadzil = :wprowadzil"),
-    @NamedQuery(name = "Dokfk.znajdzSeriePodatnik", query = "SELECT DISTINCT d.dokfkPK.seriadokfk FROM Dokfk d WHERE d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnik")
+    @NamedQuery(name = "Dokfk.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.podatnikObj.nazwapelna FROM Dokfk d WHERE d.wprowadzil = :wprowadzil"),
+    @NamedQuery(name = "Dokfk.znajdzSeriePodatnik", query = "SELECT DISTINCT d.seriadokfk FROM Dokfk d WHERE d.rok = :rok AND d.podatnikObj = :podatnik")
 })
 @Cacheable
 public class Dokfk implements Serializable {
 
     private static final long serialVersionUID = 1L; //dd
-    @EmbeddedId
-    protected DokfkPK dokfkPK = new DokfkPK();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false)
     private int id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 15)
+    @Column(name = "seriadokfk", nullable = false, length = 15)
+    private String seriadokfk;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "nrkolejnywserii", nullable = false)
+    private int nrkolejnywserii;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 4, max = 4)
+    @Column(name = "rok", nullable = false, length = 4)
+    private String rok;
     @ManyToOne
     @JoinColumns({
         @JoinColumn(name = "rodzajdokSkrot", referencedColumnName = "skrot"),
         @JoinColumn(name = "rodzajdokPodatnik", referencedColumnName = "podatnikObj")
     })
     private Rodzajedok rodzajedok;
-    @MapsId("podatnik")
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     private Podatnik podatnikObj;
@@ -157,10 +174,7 @@ public class Dokfk implements Serializable {
     @JoinTable(
             name = "Dokfk_Cechazapisu",
             joinColumns = {
-                @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
-                @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
-                @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
-                @JoinColumn(name = "rok", referencedColumnName = "rok")
+                @JoinColumn(name = "dokid", referencedColumnName = "id")
             },
             inverseJoinColumns = {
                 @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
@@ -211,9 +225,9 @@ public class Dokfk implements Serializable {
     public Dokfk(String opis, String rok) {
         this.saldopoczatkowe = 0.0;
         this.saldokoncowe = 0.0;
-        this.dokfkPK.setSeriadokfk("BO");
-        this.dokfkPK.setRok(rok);
-        this.dokfkPK.setNrkolejnywserii(1);
+        this.seriadokfk = "BO";
+        this.rok = rok;
+        this.nrkolejnywserii = 1;
         this.datadokumentu = rok + "-01-31";
         this.dataoperacji = rok + "-01-31";
         this.datawplywu = rok + "-01-31";
@@ -228,31 +242,6 @@ public class Dokfk implements Serializable {
         this.cechadokumentuLista = new ArrayList<>();
     }
 
-    public Dokfk(DokfkPK dokfkPK) {
-        this.saldopoczatkowe = 0.0;
-        this.saldokoncowe = 0.0;
-        this.dokfkPK = dokfkPK;
-        this.liczbarozliczonych = 0;
-        this.wartoscdokumentu = 0.0;
-        this.wTrakcieEdycji = false;
-        this.listawierszy = new ArrayList<>();
-        this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentuLista = new ArrayList<>();
-    }
-
-    public Dokfk(DokfkPK dokfkPK, String datawystawienia, String numer) {
-        this.saldopoczatkowe = 0.0;
-        this.saldokoncowe = 0.0;
-        this.dokfkPK = dokfkPK;
-        this.datawystawienia = datawystawienia;
-        this.numerwlasnydokfk = numer;
-        this.liczbarozliczonych = 0;
-        this.wartoscdokumentu = 0.0;
-        this.listawierszy = new ArrayList<>();
-        this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentuLista = new ArrayList<>();
-        this.wTrakcieEdycji = false;
-    }
 
     public Dokfk(String symbolPoprzedniegoDokumentu, Rodzajedok rodzajedok, WpisView wpisView) {
         this.saldopoczatkowe = 0.0;
@@ -283,6 +272,14 @@ public class Dokfk implements Serializable {
         ustawNoweSelected(symbolPoprzedniegoDokumentu, rodzajedok, wpisView);
     }
 
+
+    public Dokfk(int nrkolejny, String rokWpisuSt) {
+        this.nrkolejnywserii = nrkolejny;
+        this.rok = rokWpisuSt;
+    }
+
+    
+  
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getNrdziennika() {
         return nrdziennika;
@@ -460,13 +457,6 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = wTrakcieEdycji;
     }
 
-    public Dokfk(String seriadokfk, int nrkolejny, String podatnik, String rok) {
-        this.dokfkPK = new DokfkPK(seriadokfk, nrkolejny, podatnik, rok);
-    }
-
-    public DokfkPK getDokfkPK() {
-        return dokfkPK;
-    }
 
     public String getOpisdokfk() {
         return opisdokfk;
@@ -480,6 +470,22 @@ public class Dokfk implements Serializable {
         this.walutadokumentu = walutadokumentu;
     }
 
+    public String getSeriadokfk() {
+        return seriadokfk;
+    }
+
+    public void setSeriadokfk(String seriadokfk) {
+        this.seriadokfk = seriadokfk;
+    }
+
+    public int getNrkolejnywserii() {
+        return nrkolejnywserii;
+    }
+
+    public void setNrkolejnywserii(int nrkolejnywserii) {
+        this.nrkolejnywserii = nrkolejnywserii;
+    }
+
     public void setOpisdokfk(String opisdokfk) {
         this.opisdokfk = opisdokfk;
     }
@@ -490,10 +496,6 @@ public class Dokfk implements Serializable {
 
     public void setMiesiac(String miesiac) {
         this.miesiac = miesiac;
-    }
-
-    public void setDokfkPK(DokfkPK dokfkPK) {
-        this.dokfkPK = dokfkPK;
     }
 
     public String getDatawystawienia() {
@@ -510,6 +512,14 @@ public class Dokfk implements Serializable {
 
     public void setNumerwlasnydokfk(String numerwlasnydokfk) {
         this.numerwlasnydokfk = numerwlasnydokfk;
+    }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
     }
 
     public boolean isZablokujzmianewaluty() {
@@ -579,21 +589,43 @@ public class Dokfk implements Serializable {
 //    }
 //
     //</editor-fold>
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (dokfkPK != null ? dokfkPK.hashCode() : 0);
+        int hash = 7;
+        hash = 97 * hash + this.id;
+        hash = 97 * hash + Objects.hashCode(this.seriadokfk);
+        hash = 97 * hash + this.nrkolejnywserii;
+        hash = 97 * hash + Objects.hashCode(this.rok);
+        hash = 97 * hash + Objects.hashCode(this.podatnikObj);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Dokfk)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Dokfk other = (Dokfk) object;
-        if ((this.dokfkPK == null && other.dokfkPK != null) || (this.dokfkPK != null && !this.dokfkPK.equals(other.dokfkPK))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Dokfk other = (Dokfk) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (this.nrkolejnywserii != other.nrkolejnywserii) {
+            return false;
+        }
+        if (!Objects.equals(this.seriadokfk, other.seriadokfk)) {
+            return false;
+        }
+        if (!Objects.equals(this.rok, other.rok)) {
+            return false;
+        }
+        if (!Objects.equals(this.podatnikObj, other.podatnikObj)) {
             return false;
         }
         return true;
@@ -601,26 +633,29 @@ public class Dokfk implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Dokfk[ dokfkPK=" + dokfkPK + " mc " + this.miesiac + " ]";
+        return "Dokfk{" + "seriadokfk=" + seriadokfk + ", nrkolejnywserii=" + nrkolejnywserii + ", rok=" + rok + ", podatnikObj=" + podatnikObj + ", datawystawienia=" + datawystawienia + '}';
     }
+    
+
+    
 
     public String getDokfkLP() {
         StringBuilder s = new StringBuilder();
-        s.append(this.dokfkPK.getSeriadokfk());
+        s.append(this.getSeriadokfk());
         s.append("/");
         s.append(this.lp);
         s.append("/");
-        s.append(this.dokfkPK.getRok());
+        s.append(this.getRok());
         return s.toString();
     }
 
     public String getDokfkSN() {
         StringBuilder s = new StringBuilder();
-        s.append(this.dokfkPK.getSeriadokfk());
+        s.append(this.getSeriadokfk());
         s.append("/");
-        s.append(this.dokfkPK.getNrkolejnywserii());
+        s.append(this.getNrkolejnywserii());
         s.append("/");
-        s.append(this.dokfkPK.getRok());
+        s.append(this.getRok());
         return s.toString();
     }
 
@@ -636,16 +671,22 @@ public class Dokfk implements Serializable {
     }
     
     public String getOpisDokfkUsun() {
-        return this.dokfkPK.toString2()+" "+this.numerwlasnydokfk+" "+this.kontr.getNpelna();
+        return this.toString2()+" "+this.numerwlasnydokfk+" "+this.kontr.getNpelna();
+    }
+    
+    public String toString2() {
+        return seriadokfk + "/" + nrkolejnywserii + "/" + rok + ", firma: " + podatnikObj.getNazwapelna();
+    }
+
+    public String toString3() {
+        return seriadokfk + "/" + nrkolejnywserii + "/" + rok;
     }
 
     public String getMcRok() {
-        return this.miesiac + "/" + this.dokfkPK.getRok();
+        return this.miesiac + "/" + this.getRok();
     }
     
-    public String getRok() {
-        return this.dokfkPK.getRok();
-    }
+   
 
     public void dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {
         try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad
@@ -701,17 +742,15 @@ public class Dokfk implements Serializable {
 //        }
 //    }
     public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu, Rodzajedok rodzajedok, WpisView wpisView) {
-        this.dokfkPK = new DokfkPK();
         //chodzi o FVS, FVZ a nie o numerwlasnydokfk :)
-        this.dokfkPK.setPodatnik(wpisView.getPodatnikObiekt().getNip());
         this.setPodatnikObj(wpisView.getPodatnikObiekt());
         if (symbolPoprzedniegoDokumentu != null) {
-            this.dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
+            this.setSeriadokfk(symbolPoprzedniegoDokumentu);
             this.setRodzajedok(rodzajedok);
         } else {
-            this.dokfkPK.setSeriadokfk("ZZ");
+            this.setSeriadokfk("ZZ");
         }
-        this.dokfkPK.setRok(wpisView.getRokWpisuSt());
+        this.setRok(wpisView.getRokWpisuSt());
         String mc = wpisView.getMiesiacWpisu().equals("CR") ? wpisView.getMiesiacWpisuArchiwum() : wpisView.getMiesiacWpisu();
         this.setMiesiac(mc);
         this.setVatR(wpisView.getRokWpisuSt());
@@ -759,7 +798,7 @@ public class Dokfk implements Serializable {
     public String pobierzSymbolPoprzedniegoDokfk() {
         String symbolPoprzedniegoDokumentu = "";
         try {
-            symbolPoprzedniegoDokumentu = new String(this.getDokfkPK().getSeriadokfk());
+            symbolPoprzedniegoDokumentu = new String(this.getSeriadokfk());
         } catch (Exception e) {
         }
         return symbolPoprzedniegoDokumentu;
@@ -799,17 +838,17 @@ public class Dokfk implements Serializable {
                 if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
                     if (p.getInnyokres() == 0) {
                         p.setMcEw(this.getMiesiac());
-                        p.setRokEw(this.getDokfkPK().getRok());
-                        this.setVatR(this.getDokfkPK().getRok());
+                        p.setRokEw(this.getRok());
+                        this.setVatR(this.getRok());
                         this.setVatM(this.getMiesiac());
                     } else if (sprawdzjakiokresvat.equals("kwartalne")) {
-                        String[] nowyokres = Kwartaly.zwiekszkwartal(this.getDokfkPK().getRok(), this.getMiesiac(), p.getInnyokres());
+                        String[] nowyokres = Kwartaly.zwiekszkwartal(this.getRok(), this.getMiesiac(), p.getInnyokres());
                         p.setRokEw(nowyokres[0]);
                         p.setMcEw(nowyokres[1]);
                         this.setVatR(nowyokres[0]);
                         this.setVatM(nowyokres[1]);
                     } else {
-                        String[] nowyokres = Mce.zwiekszmiesiac(this.getDokfkPK().getRok(), this.getMiesiac(), p.getInnyokres());
+                        String[] nowyokres = Mce.zwiekszmiesiac(this.getRok(), this.getMiesiac(), p.getInnyokres());
                         p.setRokEw(nowyokres[0]);
                         p.setMcEw(nowyokres[1]);
                         this.setVatR(nowyokres[0]);

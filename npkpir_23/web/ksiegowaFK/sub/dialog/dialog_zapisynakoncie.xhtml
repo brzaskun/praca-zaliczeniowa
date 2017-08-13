@@ -228,7 +228,7 @@
                         <p:column headerText="dt" width="20" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
                             <h:outputText value="#{loop.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
                         </p:column>
-                        <p:column headerText="dok." width="40" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
+                        <p:column headerText="dok." width="40" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.seriadokfk}">
                             <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}"/>
                         </p:column>
                         <p:column headerText="nr wl" width="70" styleClass="filter60"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"

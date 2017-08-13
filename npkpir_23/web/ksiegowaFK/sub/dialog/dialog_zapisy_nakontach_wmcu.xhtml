@@ -126,8 +126,8 @@
                             <p:column headerText="#{mgs.konto}" width="50" sortBy="#{loopik.konto.pelnynumer}">
                                 <h:outputText value="#{loopik.konto.pelnynumer}"/>
                             </p:column>
-                            <p:column headerText="dok.seria" width="50" sortBy="#{loopik.wiersz.dokfk.dokfkPK.seriadokfk}">
-                                <h:outputText value="#{loopik.wiersz.dokfk.dokfkPK.seriadokfk}/#{loopik.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                            <p:column headerText="dok.seria" width="50" sortBy="#{loopik.wiersz.dokfk.seriadokfk}">
+                                <h:outputText value="#{loopik.wiersz.dokfk.seriadokfk}/#{loopik.wiersz.dokfk.nrkolejnywserii}"/>
                             </p:column>
                             <p:column headerText="dok.nr" width="50" sortBy="#{loopik.wiersz.dokfk.numerwlasnydokfk}">
                                 <h:outputText value="#{loopik.wiersz.dokfk.numerwlasnydokfk}"/>

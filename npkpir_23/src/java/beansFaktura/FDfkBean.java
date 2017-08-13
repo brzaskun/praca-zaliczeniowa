@@ -13,7 +13,6 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import embeddable.EVatwpis;
-import embeddable.Mce;
 import entity.Faktura;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -27,7 +26,6 @@ import entityfk.Wiersz;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Stateless;
 import msg.Msg;
 import view.WpisView;
 import waluty.Z;
@@ -41,12 +39,14 @@ public class FDfkBean {
     
     public static int oblicznumerkolejny(String rodzajdok, DokDAOfk dokDAOfk, WpisView wpisView) {
         Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok, wpisView.getRokWpisuSt());
-        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii() + 1;
+        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
     }
     
     public static Dokfk stworznowydokument(int numerkolejny, Faktura faktura, String rodzajdok, WpisView wpisView, RodzajedokDAO rodzajedokDAO,
         TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk, KontoDAOfk kontoDAOfk, KliencifkDAO kliencifkDAO) {
-        Dokfk nd = new Dokfk(rodzajdok, numerkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Dokfk nd = new Dokfk();
+        nd.setNrkolejnywserii(numerkolejny);
+        nd.setRok(wpisView.getRokWpisuSt());
         ustawdaty(nd, faktura, wpisView);
         ustawkontrahenta(nd,faktura);
         ustawnumerwlasny(nd, faktura);

@@ -817,7 +817,7 @@ public class BilansWprowadzanieView implements Serializable {
     
     private int oblicznumerkolejny() {
         Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
-        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii() + 1;
+        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
     }
 
     private void usundokumentztegosamegomiesiaca(int numerkolejny) {
@@ -828,7 +828,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     private Dokfk stworznowydokument(int nrkolejny, List<WierszBO> zachowaneWiersze) {
-        Dokfk nd = new Dokfk("BO", nrkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Dokfk nd = new Dokfk(nrkolejny, wpisView.getRokWpisuSt());
         ustawdaty(nd);
         ustawkontrahenta(nd);
         ustawnumerwlasny(nd, nrkolejny);

@@ -122,7 +122,7 @@
                         <h:outputText value="#{loop.wiersz.dataksiegowania.substring(0,10)}"/>
                     </p:column>
                     <p:column headerText="#{mgs.dokument}." width="60" >
-                        <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                        <h:outputText value="#{loop.wiersz.dokfk.seriadokfk}/#{loop.wiersz.dokfk.nrkolejnywserii}"/>
                     </p:column>
                     <p:column headerText="#{mgs.numerwlasny}" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="110">
                         <h:outputText value="#{loop.wiersz.dokfk.numerwlasnydokfk}"/>
@@ -178,7 +178,7 @@
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="#{mgs.nrdokrozl}" style="text-align: center;">
-                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.seriadokfk}/#{subwpis.rozliczajacy.wiersz.dokfk.nrkolejnywserii}"/>
                                 </p:column>
                                 <p:column headerText="#{mgs.lpwiersza}" style="text-align: center;">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.idporzadkowy}"/>

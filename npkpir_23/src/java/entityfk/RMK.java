@@ -16,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -49,15 +48,8 @@ public class RMK  implements Serializable{
     private Integer id;
     @Column(name = "opiskosztu")
     private String opiskosztu;
-    @JoinColumns({
-          @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
-          @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
-          @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
-          @JoinColumn(name = "rok", referencedColumnName = "rok")
-     })
-    @ManyToOne
+    @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
-    private int dokid;
     @Column(name = "kwotacalkowita")
     private double kwotacalkowita;
     @Column(name = "liczbamiesiecy")
@@ -106,15 +98,7 @@ public class RMK  implements Serializable{
         this.opiskosztu = opiskosztu;
     }
 
-    public Dokfk getDokfk() {
-        return dokfk;
-    }
-
-    public void setDokfk(Dokfk dokfk) {
-        this.dokfk = dokfk;
-    }
-
-    public double getKwotacalkowita() {
+     public double getKwotacalkowita() {
         return kwotacalkowita;
     }
 
@@ -126,13 +110,15 @@ public class RMK  implements Serializable{
         return liczbamiesiecy;
     }
 
-    public int getDokid() {
-        return dokid;
+    public Dokfk getDokfk() {
+        return dokfk;
     }
 
-    public void setDokid(int dokid) {
-        this.dokid = dokid;
+    public void setDokfk(Dokfk dokfk) {
+        this.dokfk = dokfk;
     }
+
+    
 
     public void setLiczbamiesiecy(int liczbamiesiecy) {
         this.liczbamiesiecy = liczbamiesiecy;

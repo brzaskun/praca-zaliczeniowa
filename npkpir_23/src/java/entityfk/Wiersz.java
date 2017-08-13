@@ -19,7 +19,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQueries;
@@ -46,10 +45,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Wiersz.findByIdwiersza", query = "SELECT w FROM Wiersz w WHERE w.idwiersza = :idwiersza"),
     @NamedQuery(name = "Wiersz.findByOpisWiersza", query = "SELECT w FROM Wiersz w WHERE w.opisWiersza = :opisWiersza"),
     @NamedQuery(name = "Wiersz.findByPodatnik", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik"),
-    @NamedQuery(name = "Wiersz.findByPodatnikMcRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.dokfkPK.rok = :rok AND w.dokfk.miesiac = :mc"),
-    @NamedQuery(name = "Wiersz.findByPodatnikMcRokWNTWDT", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.dokfkPK.rok = :rok AND w.dokfk.miesiac = :mc AND w.dokfk.dokfkPK.seriadokfk = :wntwdt"),
-    @NamedQuery(name = "Wiersz.findByPodatnikRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.dokfkPK.rok = :rok"),
-    @NamedQuery(name = "Wiersz.findByPodatnikRokTabela", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.dokfkPK.rok = :rok AND w.tabelanbp = :tabelanbp")
+    @NamedQuery(name = "Wiersz.findByPodatnikMcRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.dokfk.miesiac = :mc"),
+    @NamedQuery(name = "Wiersz.findByPodatnikMcRokWNTWDT", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.dokfk.miesiac = :mc AND w.dokfk.seriadokfk = :wntwdt"),
+    @NamedQuery(name = "Wiersz.findByPodatnikRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok"),
+    @NamedQuery(name = "Wiersz.findByPodatnikRokTabela", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.tabelanbp = :tabelanbp")
 })
 @Cacheable
 public class Wiersz implements Serializable {
@@ -78,16 +77,9 @@ public class Wiersz implements Serializable {
     private double ilosc_szt;
     @Column(name = "typWiersza")
     private Integer typWiersza;
-    @JoinColumns({
-        @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
-        @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
-        @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
-        @JoinColumn(name = "rok", referencedColumnName = "rok")
-    })
-//    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
-    private int dokid;
     //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
     @Column(name = "dataWalutyWiersza")
     private String dataWalutyWiersza;
@@ -141,15 +133,7 @@ public class Wiersz implements Serializable {
         this.eVatwpisFK = eVatwpisFK;
     }
 
-    public int getDokid() {
-        return dokid;
-    }
-
-    public void setDokid(int dokid) {
-        this.dokid = dokid;
-    }
-
-    
+   
     public StronaWiersza getStronanowatransakcja() {
         return stronanowatransakcja;
     }
@@ -469,7 +453,7 @@ public class Wiersz implements Serializable {
     }
 
     public String getDokfkS() {
-        return this.getDokfk().getDokfkPK().toString2();
+        return this.getDokfk().toString3();
     }
 
     public boolean jest0niejest1(WierszBO w, String mc) {

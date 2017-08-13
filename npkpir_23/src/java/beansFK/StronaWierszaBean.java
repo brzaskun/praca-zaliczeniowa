@@ -144,7 +144,7 @@ public class StronaWierszaBean {
 //        for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
 //            StronaWiersza p = it.next();
 //            int mc = Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac());
-//            int rok = Integer.parseInt(p.getDokfk().getDokfkPK().getRok());
+//            int rok = Integer.parseInt(p.getDokfk().getRok());
 //            if (rok == wpisView.getRokWpisu() && mc > granicagorna) {
 //                it.remove();
 //            }
