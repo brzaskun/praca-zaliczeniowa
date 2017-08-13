@@ -90,6 +90,7 @@ public class Dokfk implements Serializable {
     private static final long serialVersionUID = 1L; //dd
     @EmbeddedId
     protected DokfkPK dokfkPK = new DokfkPK();
+    private int id;
     @ManyToOne
     @JoinColumns({
         @JoinColumn(name = "rodzajdokSkrot", referencedColumnName = "skrot"),
@@ -289,6 +290,14 @@ public class Dokfk implements Serializable {
 
     public void setNrdziennika(String nrdziennika) {
         this.nrdziennika = nrdziennika;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getDataksiegowania() {

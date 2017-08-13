@@ -72,6 +72,7 @@ public class EVatwpisFK implements Serializable {
      })
     @ManyToOne
     private Dokfk dokfk;
+    private int dokid;
     @OneToOne
     private Wiersz wiersz;
     private Klienci klient;
@@ -115,6 +116,14 @@ public class EVatwpisFK implements Serializable {
 
     public double getNettowwalucie() {
         return nettowwalucie;
+    }
+
+    public int getDokid() {
+        return dokid;
+    }
+
+    public void setDokid(int dokid) {
+        this.dokid = dokid;
     }
 
     public void setNettowwalucie(double nettowwalucie) {    

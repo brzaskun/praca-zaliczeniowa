@@ -87,6 +87,7 @@ public class Wiersz implements Serializable {
 //    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
     @ManyToOne(fetch = FetchType.EAGER)
     private Dokfk dokfk;
+    private int dokid;
     //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
     @Column(name = "dataWalutyWiersza")
     private String dataWalutyWiersza;
@@ -138,6 +139,14 @@ public class Wiersz implements Serializable {
 
     public void seteVatwpisFK(EVatwpisFK eVatwpisFK) {
         this.eVatwpisFK = eVatwpisFK;
+    }
+
+    public int getDokid() {
+        return dokid;
+    }
+
+    public void setDokid(int dokid) {
+        this.dokid = dokid;
     }
 
     

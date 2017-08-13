@@ -25,6 +25,10 @@ public class WierszDAO extends DAO implements Serializable {
     @Inject
     private SessionFacade sessionFacade;
     
+    public List<Wiersz> findAll(){
+        return sessionFacade.findAll(Wiersz.class);
+    }
+    
     public final List<Wiersz> pobierzWiersze(Tabelanbp tabelanbp, Podatnik podatnik, String rok) {
         List<Wiersz> zwrot = null;
         try {

@@ -12,12 +12,10 @@ import entityfk.Dokfk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.inject.spi.Bean;
 import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -29,7 +27,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -162,6 +159,7 @@ public class SrodekTrw implements Serializable {
      })
     @ManyToOne(optional = true)
     private Dokfk dokfk;
+    private int dokid;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SrodekTrw_NowaWartosc> zmianawartosci;
     @Column(name = "symbolinwentarzowy", nullable = true)
@@ -212,6 +210,14 @@ public class SrodekTrw implements Serializable {
     
     public void setDatawy(Double datawy) {
         this.datawy = datawy;
+    }
+
+    public int getDokid() {
+        return dokid;
+    }
+
+    public void setDokid(int dokid) {
+        this.dokid = dokid;
     }
 
     public String getSymbolinwentarzowy() {

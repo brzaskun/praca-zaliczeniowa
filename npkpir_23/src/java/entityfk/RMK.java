@@ -57,6 +57,7 @@ public class RMK  implements Serializable{
      })
     @ManyToOne
     private Dokfk dokfk;
+    private int dokid;
     @Column(name = "kwotacalkowita")
     private double kwotacalkowita;
     @Column(name = "liczbamiesiecy")
@@ -123,6 +124,14 @@ public class RMK  implements Serializable{
 
     public int getLiczbamiesiecy() {
         return liczbamiesiecy;
+    }
+
+    public int getDokid() {
+        return dokid;
+    }
+
+    public void setDokid(int dokid) {
+        this.dokid = dokid;
     }
 
     public void setLiczbamiesiecy(int liczbamiesiecy) {

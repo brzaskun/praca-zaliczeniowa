@@ -6,8 +6,11 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <h:form>
+        <p:commandButton value="numeruj dokumenty" actionListener="#{rewolucjaDKView.przenumeruj()}"/>
+    </h:form>
 <!--  <h:form>
       <p:panelGrid columns="1">
       <p:inputText value="#{gUSView.nip}" maxlength="10"/>
@@ -143,7 +146,7 @@
             <p:commandButton value="importuj z pliku" actionListener="#{KlView.pobierzklientazPliku()}" update="@all" />
         </h:form>-->
 
-
+    
 <!--        <p:commandButton value="aktualizuj konta" actionListener="#{kontoSortView.przepiszkonta()}"/>-->
 <!--    <p:commandButton value="przepisz transakcje" actionListener="#{rozniceKursoweFKView.przepiszTransakcjeNowePole()}"/>-->
 <!--    <p:commandButton value="przepisz ewidencje" actionListener="#{dokfkView.oznaczewidencjevat()}"/>-->

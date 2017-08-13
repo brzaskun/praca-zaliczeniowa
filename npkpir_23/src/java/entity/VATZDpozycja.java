@@ -48,6 +48,7 @@ public class VATZDpozycja implements Serializable {
     })
     @OneToOne(cascade = {CascadeType.ALL})
     private Dokfk dokfk;
+    private int dokid;
     @JoinColumn(name = "deklaracjevat", referencedColumnName = "id")
     @OneToOne(cascade = {CascadeType.ALL})
     private Deklaracjevat deklaracjavat;
@@ -119,6 +120,14 @@ public class VATZDpozycja implements Serializable {
 
     public Dok getDok() {
         return dok;
+    }
+
+    public int getDokid() {
+        return dokid;
+    }
+
+    public void setDokid(int dokid) {
+        this.dokid = dokid;
     }
 
     public void setDok(Dok dok) {
