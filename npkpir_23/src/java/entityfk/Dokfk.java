@@ -87,7 +87,7 @@ import waluty.Z;
 @Cacheable
 public class Dokfk implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; //dd
     @EmbeddedId
     protected DokfkPK dokfkPK = new DokfkPK();
     @ManyToOne
