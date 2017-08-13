@@ -601,11 +601,11 @@
                                     <h:outputText value="#{p.kontomacierzyste.pelnynumer} #{p.kontomacierzyste.nazwapelna}"/>
                                 </f:facet>
                                 <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}"
-                                        update=":parametry, :wpisywaniefooter, formwpisdokument:contextmenudok"/>
+                                        update=":parametry :wpisywaniefooter formwpisdokument:contextmenudok"/>
                                 <p:ajax event="query" global="false"/>
                                 <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" 
                                         oncomplete="dodajnowekontoWpis(#{loop.idporzadkowy}, 'Ma');"
-                                        update=":parametry, :wpisywaniefooter, :parametrynowekonto" />
+                                        update=":parametry :wpisywaniefooter :parametrynowekonto" />
                             </p:autoComplete>
                         </p:column>
                         <p:column  headerText="kurs" style="width: 20px; text-align: right;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
