@@ -35,7 +35,7 @@
 
     <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
               resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1630,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
-              onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true"
+              onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true"
               >
         <p:ajax event="open" listener="#{kontoZapisFKView.init()}" global="false"  update="formwpiskonta form tabelazzapisami tabelazsumami"/>
         <p:layout fullPage="false" style="height: 720px;width: 1300px;" >  
