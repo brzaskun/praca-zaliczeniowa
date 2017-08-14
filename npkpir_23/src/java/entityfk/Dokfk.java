@@ -674,11 +674,11 @@ public class Dokfk implements Serializable {
         return this.toString2()+" "+this.numerwlasnydokfk+" "+this.kontr.getNpelna();
     }
     
-    public String toString2() {
+    public String toString3() {
         return seriadokfk + "/" + nrkolejnywserii + "/" + rok + ", firma: " + podatnikObj.getNazwapelna();
     }
 
-    public String toString3() {
+    public String toString2() {
         return seriadokfk + "/" + nrkolejnywserii + "/" + rok;
     }
 

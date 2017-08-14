@@ -453,7 +453,7 @@ public class Wiersz implements Serializable {
     }
 
     public String getDokfkS() {
-        return this.getDokfk().toString3();
+        return this.getDokfk().toString2();
     }
 
     public boolean jest0niejest1(WierszBO w, String mc) {
