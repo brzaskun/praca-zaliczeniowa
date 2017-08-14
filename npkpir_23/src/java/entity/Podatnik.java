@@ -74,6 +74,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Podatnik.findByWojewodztwo", query = "SELECT p FROM Podatnik p WHERE p.wojewodztwo = :wojewodztwo")})
 public class Podatnik implements Serializable {
     private static final long serialVersionUID = 1L;
+    private int id;
     @Id
     @Basic(optional = false)
     @NotNull
@@ -768,6 +769,15 @@ public class Podatnik implements Serializable {
     public void setStratyzlatub1(List<Straty1> stratyzlatub1) {
         this.stratyzlatub1 = stratyzlatub1;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     @XmlTransient
     public List<MiejsceKosztow> getMiejsceKosztowList() {
         return miejsceKosztowList;

@@ -6,7 +6,6 @@ package entityfk;
 
 import entity.*;
 import java.io.Serializable;
-import java.util.Objects;
 import javax.inject.Named;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -65,6 +64,15 @@ public class EVatDeklaracjaPlik implements Serializable {
     @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
     @ManyToOne
     private Uz wprowadzil;
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public EVatDeklaracjaPlik() {
     }

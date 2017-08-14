@@ -28,5 +28,7 @@ public class EVatwpisDedraDAO   extends DAO implements Serializable{
     public List<EVatwpisDedra> findWierszePodatnikMc(WpisView wpisView) {
         return sessionFacade.getEntityManager().createNamedQuery("EVatwpisDedra.findByPodatnikRokMc").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
     }
-    
+    public List<EVatwpisDedra> findAll() {
+        return sessionFacade.findAll(EVatwpisDedra.class);
+    }
 }

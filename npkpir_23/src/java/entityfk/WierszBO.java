@@ -71,6 +71,15 @@ public class WierszBO implements Serializable {
     //9 naniesiony
     @Column(name="nowy0edycja1usun2")
     private int nowy0edycja1usun2;
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public WierszBO() {
         

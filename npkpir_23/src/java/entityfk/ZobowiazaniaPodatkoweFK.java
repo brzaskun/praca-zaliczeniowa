@@ -43,6 +43,15 @@ public class ZobowiazaniaPodatkoweFK implements Serializable {
     private String mc;
     @Column(name = "kwota")
     private double kwota;
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     
     public Long getId() {

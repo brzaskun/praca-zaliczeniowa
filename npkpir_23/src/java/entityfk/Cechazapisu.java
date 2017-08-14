@@ -51,6 +51,17 @@ public class Cechazapisu implements Serializable {
     @JoinColumn(name = "podatnik", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnik;
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
+    
+    
             
     
     public Cechazapisu() {

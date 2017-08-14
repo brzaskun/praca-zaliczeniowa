@@ -82,6 +82,15 @@ public class EVatwpisDedra implements Serializable {
     @Size(max = 4)
     @Column(name = "rokEw")
     private String rokEw;
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public EVatwpisDedra(double netto, double vat) {
         this.ulica = "podsumowanie";

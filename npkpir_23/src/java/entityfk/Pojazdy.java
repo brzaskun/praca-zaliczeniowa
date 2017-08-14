@@ -11,7 +11,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -75,6 +74,15 @@ public class Pojazdy implements Serializable {
     @Basic(optional = true)
     @Column(name = "pokaz0chowaj1", nullable = true)
     protected boolean pokaz0chowaj1;
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public Pojazdy() {
     }

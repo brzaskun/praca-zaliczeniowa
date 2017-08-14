@@ -29,6 +29,8 @@ public class EVatDeklaracjaPlikDAO   extends DAO implements Serializable{
     public List<EVatDeklaracjaPlik> findDeklaracjePodatnikMc(WpisView wpisView) {
         return sessionFacade.getEntityManager().createNamedQuery("EVatDeklaracjaPlik.findByPodatnikRok").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
-    
+     public List<EVatDeklaracjaPlik> findAll() {
+        return sessionFacade.findAll(EVatDeklaracjaPlik.class);
+    }
     
 }

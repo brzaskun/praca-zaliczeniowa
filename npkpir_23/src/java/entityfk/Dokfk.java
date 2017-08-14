@@ -209,6 +209,15 @@ public class Dokfk implements Serializable {
     @Column(name = "dataujecia")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataujecia;
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     
     public Dokfk() {

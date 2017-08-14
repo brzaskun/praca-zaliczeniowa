@@ -57,6 +57,15 @@ public class MiejsceSuper implements Serializable {
     @Basic(optional = true)
     @Column(name = "pokaz0chowaj1", nullable = true)
     protected boolean pokaz0chowaj1;
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public Integer getId() {
         return id;

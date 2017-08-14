@@ -74,6 +74,15 @@ public class Delegacja implements Serializable {
     private int rok;
     @Column
     private boolean krajowa0zagraniczna1;
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public Delegacja() {
     }

@@ -103,6 +103,15 @@ public class WynikFKRokMc implements Serializable {
     private double dywidendawyplacono;
     @Column(name = "dywidendadowyplaty")
     private double dywidendadowyplaty;
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 //    @Lob()
 //    @Column(name = "listaprzychody")
 //    private List<SaldoKonto> listaprzychody;

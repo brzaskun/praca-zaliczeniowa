@@ -83,7 +83,15 @@ public class SprawozdanieFinansowe implements Serializable{
     private Date zlozonewurzedzie;
     @Column(name = "zlozylurzad")
     private String zlozylurzad;
+private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
     @Override
     public int hashCode() {
         int hash = 5;
