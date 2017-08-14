@@ -41,7 +41,7 @@ public class Logofaktura  implements Serializable{
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
-    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
     @Lob
@@ -50,15 +50,7 @@ public class Logofaktura  implements Serializable{
     private String nazwapliku;
     @Column(name = "rozszerzenie")
     private String rozszerzenie;
- private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
     public Logofaktura() {
     }
 

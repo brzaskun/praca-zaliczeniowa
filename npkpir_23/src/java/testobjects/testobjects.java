@@ -18,8 +18,6 @@ import entity.Faktura;
 import entity.Fakturywystokresowe;
 import entity.Klienci;
 import entity.Podatnik;
-import entity.Rodzajedok;
-import entity.RodzajedokPK;
 import entity.Ryczpoz;
 import entity.SrodekTrw;
 import entity.Statystyka;
@@ -66,13 +64,13 @@ public class testobjects {
 //        return d;
 //    }
     
-    public static Rodzajedok getRodzajedok(String rodzaj) {
-        RodzajedokPK rp = new RodzajedokPK(rodzaj, "WZORCOWY");
-        Rodzajedok r = new Rodzajedok(rp);
-        r.setKategoriadokumentu(0);
-        r.setSkrot(rodzaj);
-        return r;
-    }
+//    public static Rodzajedok getRodzajedok(String rodzaj) {
+//        RodzajedokPK rp = new RodzajedokPK(rodzaj, "WZORCOWY");
+//        Rodzajedok r = new Rodzajedok(rp);
+//        r.setKategoriadokumentu(0);
+//        r.setSkrot(rodzaj);
+//        return r;
+//    }
     
     public static Podatnik getPodatnik() {
         Podatnik p = new Podatnik();

@@ -952,7 +952,7 @@ public class PodatnikView implements Serializable {
                 if (odnaleziono == false) {
                     Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
                     nowy.setPodatnikObj(selected);
-                    nowy.getRodzajedokPK().setPodatnik(selected.getNip());
+                    nowy.getRodzajedokPK().setPodatnik(selected.getId());
                     nowy.setKontoRZiS(null);
                     nowy.setKontorozrachunkowe(null);
                     nowy.setKontovat(null);

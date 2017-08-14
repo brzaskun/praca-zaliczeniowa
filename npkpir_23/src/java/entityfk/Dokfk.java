@@ -112,11 +112,11 @@ public class Dokfk implements Serializable {
     @ManyToOne
     @JoinColumns({
         @JoinColumn(name = "rodzajdokSkrot", referencedColumnName = "skrot"),
-        @JoinColumn(name = "rodzajdokPodatnik", referencedColumnName = "podatnikObj")
+        @JoinColumn(name = "rodzajdokPodatnik", referencedColumnName = "podid")
     })
     private Rodzajedok rodzajedok;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
+    @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnikObj;
     @Basic(optional = false)
     @NotNull
@@ -209,15 +209,7 @@ public class Dokfk implements Serializable {
     @Column(name = "dataujecia")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataujecia;
-    private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
 
     
     public Dokfk() {

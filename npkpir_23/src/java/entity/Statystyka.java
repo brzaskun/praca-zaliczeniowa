@@ -44,7 +44,7 @@ public class Statystyka  implements Serializable {
     @Basic(optional = false)
     @Column(name = "lp")
     private int lp;
-    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @JoinColumn(name = "podatnik", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
     @Column(name = "rok")

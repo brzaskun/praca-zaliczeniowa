@@ -77,7 +77,7 @@ public class Faktura implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected FakturaPK fakturaPK;
-    @JoinColumn(name = "wystawca", referencedColumnName = "nip")
+    @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik wystawca;
     @Basic(optional = false)
@@ -251,15 +251,7 @@ public class Faktura implements Serializable {
     private boolean zaplacona;
     @Column(name = "zaliczkowa")
     private boolean zaliczkowa;
-     private int podid;
-
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
+  
 
     public Faktura() {
     }

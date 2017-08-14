@@ -65,7 +65,7 @@ public class Rodzajedok implements Serializable {
     private int kategoriadokumentu;
     @MapsId("podatnik")
     @ManyToOne
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
+    @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnikObj;
     @ManyToOne
     @JoinColumn(name = "kontorozrachunkowe", referencedColumnName = "id")
@@ -91,15 +91,7 @@ public class Rodzajedok implements Serializable {
     private double procentvat;
     @Column(name = "stawkavat")
     private double stawkavat;
-    private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
     
 
 
@@ -112,7 +104,7 @@ public class Rodzajedok implements Serializable {
     }
     
     public Rodzajedok(Rodzajedok rodzajedok, Podatnik podatnik) {
-        this.rodzajedokPK = new RodzajedokPK(rodzajedok.getSkrot(), podatnik.getNazwapelna());
+        this.rodzajedokPK = new RodzajedokPK(rodzajedok.getSkrot(), podatnik.getId());
         this.de = rodzajedok.getDe();
         this.kategoriadokumentu = rodzajedok.getKategoriadokumentu();
         this.nazwa = rodzajedok.getNazwa();
@@ -133,7 +125,7 @@ public class Rodzajedok implements Serializable {
     }
     
     public Rodzajedok(String skrot, Podatnik podatnik) {
-        this.rodzajedokPK = new RodzajedokPK("VAT", podatnik.getNazwapelna());
+        this.rodzajedokPK = new RodzajedokPK("VAT", podatnik.getId());
     }
     
      public Rodzajedok(String skrot, String skrot2) {

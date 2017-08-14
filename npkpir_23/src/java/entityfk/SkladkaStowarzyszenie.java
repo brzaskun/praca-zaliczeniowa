@@ -43,22 +43,14 @@ public class SkladkaStowarzyszenie implements Serializable{
     private String rok;
     @JoinColumn(name = "rodzajCzlonkostwa", referencedColumnName = "id")
     private RodzajCzlonkostwa rodzajCzlonkostwa;
-    @JoinColumn(name = "podatnik")
+    @JoinColumn(name = "podid")
     private Podatnik podatnik;
     @Column(name = "kwota")
     private double kwota;
     //mc, kw, polrok, rok
     @Column(name = "okres")
     private String okres;
- private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
     
     public int getId() {
         return id;

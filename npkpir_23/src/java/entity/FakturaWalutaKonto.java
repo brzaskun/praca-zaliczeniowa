@@ -36,7 +36,7 @@ public class FakturaWalutaKonto  implements Serializable{
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
-    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
     @JoinColumn(name = "waluta", referencedColumnName = "idwaluty")
@@ -54,15 +54,7 @@ public class FakturaWalutaKonto  implements Serializable{
     private  String iban;
     @Column(name="nieaktywny")
     private  boolean nieaktywny;
- private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
     
     @Override
     public int hashCode() {

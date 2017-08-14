@@ -39,7 +39,7 @@ public class FakturaStopkaNiemiecka  implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
     @Column(name = "nazwafirmy")
@@ -74,15 +74,7 @@ public class FakturaStopkaNiemiecka  implements Serializable {
     private String blz;
     @Column(name = "ktonr")
     private String ktonr;
-     private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
 
     @Override
     public int hashCode() {

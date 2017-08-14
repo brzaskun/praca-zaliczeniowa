@@ -59,7 +59,7 @@ public class Sprawa  implements Serializable {
     @ManyToOne
     private Uz odbiorca;
     @ManyToOne
-    @JoinColumn(name = "klient", referencedColumnName = "nip", nullable = true)
+    @JoinColumn(name = "podid", referencedColumnName = "nip", nullable = true)
     private Podatnik klient;
     @Size(min = 1, max = 100)
     @Column(name = "organ", nullable = true, length = 100)
@@ -80,15 +80,7 @@ public class Sprawa  implements Serializable {
     private Date datastatusu;
     @Column(name = "usunieta")
     private boolean usunieta;
- private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
     @Override
     public int hashCode() {
         int hash = 5;

@@ -83,7 +83,7 @@ public class WynikFKRokMc implements Serializable {
     private Double podatek;
      @Column(precision = 22)
     private Double wynikfinansowynetto;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
+    @JoinColumn(name = "podatnikObj", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnikObj;
     @Column(name = "udzialowiec")

@@ -21,6 +21,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -74,8 +76,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Podatnik.findByWojewodztwo", query = "SELECT p FROM Podatnik p WHERE p.wojewodztwo = :wojewodztwo")})
 public class Podatnik implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int id;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private int id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)

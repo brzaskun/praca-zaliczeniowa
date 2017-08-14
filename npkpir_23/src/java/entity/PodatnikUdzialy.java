@@ -50,18 +50,10 @@ public class PodatnikUdzialy implements Serializable{
     private String nip;
     @Column(name = "udzial")
     private String udzial;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
+    @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnikObj;
-     private int podid;
-
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
+   
 
     public PodatnikUdzialy() {
         

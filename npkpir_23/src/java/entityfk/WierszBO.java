@@ -48,7 +48,7 @@ public class WierszBO implements Serializable {
     @Column(name = "id", nullable = false)
     private int id;
     @ManyToOne
-    @JoinColumn(name = "PODATNIK_nip", referencedColumnName = "nip")
+    @JoinColumn(name = "PODATNIK_nip", referencedColumnName = "id")
     private Podatnik podatnik;
     @ManyToOne
     @JoinColumn(name = "KONTO_id", referencedColumnName = "id")
