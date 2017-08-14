@@ -48,7 +48,7 @@ public class WierszBO implements Serializable {
     @Column(name = "id", nullable = false)
     private int id;
     @ManyToOne
-    @JoinColumn(name = "PODATNIK_nip", referencedColumnName = "id")
+    @JoinColumn(name = "PODATNIK_nip", referencedColumnName = "nip")
     private Podatnik podatnik;
     @ManyToOne
     @JoinColumn(name = "KONTO_id", referencedColumnName = "id")
@@ -71,7 +71,15 @@ public class WierszBO implements Serializable {
     //9 naniesiony
     @Column(name="nowy0edycja1usun2")
     private int nowy0edycja1usun2;
+    private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public WierszBO() {
         

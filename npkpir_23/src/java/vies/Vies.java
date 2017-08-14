@@ -42,7 +42,7 @@ public class Vies implements Serializable {
     @Basic(optional = false)
     @Column(name = "lp", nullable = false)
     private int id;
-    @JoinColumn(name = "podatnik", referencedColumnName = "id")
+    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnik;
     @Temporal(TemporalType.TIMESTAMP)
@@ -65,8 +65,15 @@ public class Vies implements Serializable {
     private Uz wprowadzil;
     @Transient
     private String uwagi;
- 
+ private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
     @Override
     public int hashCode() {
         int hash = 7;

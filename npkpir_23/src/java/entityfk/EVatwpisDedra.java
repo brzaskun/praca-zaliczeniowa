@@ -48,7 +48,7 @@ public class EVatwpisDedra implements Serializable {
     @JoinColumn(name = "ewidencja", referencedColumnName = "nazwa")
     @ManyToOne
     private Evewidencja ewidencja;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "id")
+    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     private Podatnik podatnikObj;
     @Column(name = "netto")
     private double netto;
@@ -82,7 +82,15 @@ public class EVatwpisDedra implements Serializable {
     @Size(max = 4)
     @Column(name = "rokEw")
     private String rokEw;
+    private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public EVatwpisDedra(double netto, double vat) {
         this.ulica = "podsumowanie";

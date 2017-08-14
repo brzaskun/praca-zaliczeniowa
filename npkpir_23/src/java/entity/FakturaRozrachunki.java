@@ -46,7 +46,7 @@ public class FakturaRozrachunki implements Serializable {
     @Basic(optional = false)
     @Column(name = "lp")
     private Integer lp;
-    @JoinColumn(name = "wystawca", referencedColumnName = "id")
+    @JoinColumn(name = "wystawca", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik wystawca;
     @JoinColumn(name = "kontrahent", referencedColumnName = "id")
@@ -82,7 +82,15 @@ public class FakturaRozrachunki implements Serializable {
     @Column(name = "datatelefon", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datatelefon;
-    
+     private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
     
     @PrePersist
     private void prepresist() {

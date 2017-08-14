@@ -45,7 +45,7 @@ public class EVatDeklaracjaPlik implements Serializable {
     private long id;
     @Column(name = "lp")
     private int lp;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "id")
+    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     private Podatnik podatnikObj;
     @Column(name = "dataoperacji")
     private String dataoperacji;
@@ -64,7 +64,15 @@ public class EVatDeklaracjaPlik implements Serializable {
     @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
     @ManyToOne
     private Uz wprowadzil;
+    private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public EVatDeklaracjaPlik() {
     }

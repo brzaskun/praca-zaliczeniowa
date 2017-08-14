@@ -46,7 +46,7 @@ public class ZamkniecieRokuRozliczenie implements Serializable {
     @Column(name = "id")
     private Integer id;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "id")
+    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     private Podatnik podatnikObj;
     @JoinColumn(name = "zamkniecieRokuEtap", referencedColumnName = "id")
     private ZamkniecieRokuEtap zamkniecieRokuEtap;
@@ -58,7 +58,15 @@ public class ZamkniecieRokuRozliczenie implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "zatwierdzono")
     private Date zatwierdzono;
+     private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public ZamkniecieRokuRozliczenie() {
     }

@@ -62,7 +62,7 @@ public class Delegacja implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "opiskrotki", nullable = false, length = 255)
     private String opiskrotki;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "id")
+    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnikObj;
     @Basic(optional = false)
@@ -74,7 +74,15 @@ public class Delegacja implements Serializable {
     private int rok;
     @Column
     private boolean krajowa0zagraniczna1;
+    private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public Delegacja() {
     }

@@ -61,7 +61,7 @@ public class Pojazdy implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "nazwapojazdu", nullable = false, length = 255)
     private String nazwapojazdu;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "id")
+    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnikObj;
     @Basic(optional = false)
@@ -74,7 +74,15 @@ public class Pojazdy implements Serializable {
     @Basic(optional = true)
     @Column(name = "pokaz0chowaj1", nullable = true)
     protected boolean pokaz0chowaj1;
- 
+    private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public Pojazdy() {
     }

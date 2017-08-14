@@ -34,7 +34,7 @@ public class ZobowiazaniaPodatkoweFK implements Serializable {
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "id")
+    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnikObj;
     @Column(name = "rok")
@@ -43,7 +43,15 @@ public class ZobowiazaniaPodatkoweFK implements Serializable {
     private String mc;
     @Column(name = "kwota")
     private double kwota;
+    private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     
     public Long getId() {
