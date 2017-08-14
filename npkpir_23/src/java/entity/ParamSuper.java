@@ -41,7 +41,16 @@ public class ParamSuper  implements Serializable {
     protected String parametr;
     @JoinColumn(name = "podatnik", referencedColumnName = "nip")
     @ManyToOne
-    private Podatnik podatnik;
+    protected Podatnik podatnik;
+    protected int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
     
     public ParamSuper() {
     }

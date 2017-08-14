@@ -65,7 +65,15 @@ public class Vies implements Serializable {
     private Uz wprowadzil;
     @Transient
     private String uwagi;
+ private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
     @Override
     public int hashCode() {
         int hash = 7;

@@ -8,7 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -81,7 +80,15 @@ public class Sprawa  implements Serializable {
     private Date datastatusu;
     @Column(name = "usunieta")
     private boolean usunieta;
+ private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
     @Override
     public int hashCode() {
         int hash = 5;
