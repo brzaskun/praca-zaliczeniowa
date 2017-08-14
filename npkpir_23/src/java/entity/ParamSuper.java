@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -38,6 +39,9 @@ public class ParamSuper  implements Serializable {
     protected String rokDo;
     @Column(name = "parametr")
     protected String parametr;
+    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @ManyToOne
+    private Podatnik podatnik;
     
     public ParamSuper() {
     }
@@ -137,6 +141,14 @@ public class ParamSuper  implements Serializable {
 
     public void setParametr(String parametr) {
         this.parametr = parametr;
+    }
+
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
     }
 
     
