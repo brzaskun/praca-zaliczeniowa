@@ -23,7 +23,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -59,6 +58,15 @@ public class ZamkniecieRokuRozliczenie implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "zatwierdzono")
     private Date zatwierdzono;
+     private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public ZamkniecieRokuRozliczenie() {
     }

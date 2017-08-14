@@ -54,7 +54,16 @@ public class FakturaWalutaKonto  implements Serializable{
     private  String iban;
     @Column(name="nieaktywny")
     private  boolean nieaktywny;
+ private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;

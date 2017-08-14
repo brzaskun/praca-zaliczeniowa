@@ -82,6 +82,15 @@ public class FakturaRozrachunki implements Serializable {
     @Column(name = "datatelefon", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datatelefon;
+     private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
     
     @PrePersist
     private void prepresist() {

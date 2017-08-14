@@ -59,7 +59,16 @@ public class FakturaXXLKolumna implements Serializable {
     private String nettoopis4;
     @Column(name = "nettoopis5")
     private String nettoopis5;
+ private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
+    
     public boolean isPkwiu() {
         return pkwiu;
     }

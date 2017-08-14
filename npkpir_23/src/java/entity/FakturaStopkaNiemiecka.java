@@ -74,6 +74,15 @@ public class FakturaStopkaNiemiecka  implements Serializable {
     private String blz;
     @Column(name = "ktonr")
     private String ktonr;
+     private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     @Override
     public int hashCode() {

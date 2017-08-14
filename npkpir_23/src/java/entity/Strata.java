@@ -70,6 +70,15 @@ public class Strata  implements Serializable {
     private double zostalo;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "strata", fetch = FetchType.EAGER)
     private List<StrataWykorzystanie> nowewykorzystanie;
+     private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public Strata() {
         this.nowewykorzystanie = new ArrayList<>();

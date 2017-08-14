@@ -5,7 +5,6 @@
  */
 package entity;
 
-import entity.Podatnik;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -66,6 +65,15 @@ public class Statystyka  implements Serializable {
     private double ranking;
     @Column(name = "liczbapracownikow")
     private int liczbapracownikow;
+     private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public Statystyka() {
     }

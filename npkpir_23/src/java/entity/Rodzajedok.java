@@ -91,6 +91,15 @@ public class Rodzajedok implements Serializable {
     private double procentvat;
     @Column(name = "stawkavat")
     private double stawkavat;
+     private int podid;
+
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
 
     public Rodzajedok() {
         this.rodzajedokPK = new RodzajedokPK();

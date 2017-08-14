@@ -49,7 +49,15 @@ public class MultiuserSettings  implements Serializable {
     @ManyToOne
     private Podatnik podatnik;
     private int level;
+ private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
     public Integer getId() {
         return id;
     }

@@ -67,7 +67,15 @@ public class PodatnikOpodatkowanieD implements Serializable{
     @JoinColumn(name = "ksiegowa", referencedColumnName = "login")
     @ManyToOne
     private Uz ksiegowa;
+ private int podid;
 
+    public int getPodid() {
+        return podid;
+    }
+
+    public void setPodid(int podid) {
+        this.podid = podid;
+    }
     public PodatnikOpodatkowanieD() {
         
     }
