@@ -48,20 +48,10 @@ public class Cechazapisu implements Serializable {
     private int charaktercechy;
     @Column(name = "przesuniecie")
     private int przesuniecie;
-    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @JoinColumn(name = "podatnik", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
-    private int podid;
-
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
-    
-    
+  
             
     
     public Cechazapisu() {

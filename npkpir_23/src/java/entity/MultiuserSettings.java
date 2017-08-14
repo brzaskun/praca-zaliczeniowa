@@ -45,19 +45,11 @@ public class MultiuserSettings  implements Serializable {
     @JoinColumn(name = "USER_login", referencedColumnName = "login")
     @ManyToOne
     private Uz user;
-    @JoinColumn(name = "PODATNIK_nip", referencedColumnName = "nip")
+    @JoinColumn(name = "PODATNIK_nip", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
     private int level;
- private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
     public Integer getId() {
         return id;
     }

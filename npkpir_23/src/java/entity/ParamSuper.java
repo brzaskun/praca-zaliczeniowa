@@ -39,7 +39,7 @@ public class ParamSuper  implements Serializable {
     protected String rokDo;
     @Column(name = "parametr")
     protected String parametr;
-    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @JoinColumn(name = "podatnik", referencedColumnName = "id")
     @ManyToOne
     protected Podatnik podatnik;
     protected int podid;

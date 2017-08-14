@@ -44,7 +44,7 @@ public class SprawozdanieFinansowe implements Serializable{
     private int id;
     @Column(name = "rok")
     private String rok;
-    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @JoinColumn(name = "podatnik", referencedColumnName = "id")
     private Podatnik podatnik;
     @Column(name = "element")
     private int element;
@@ -83,15 +83,7 @@ public class SprawozdanieFinansowe implements Serializable{
     private Date zlozonewurzedzie;
     @Column(name = "zlozylurzad")
     private String zlozylurzad;
-private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
     @Override
     public int hashCode() {
         int hash = 5;

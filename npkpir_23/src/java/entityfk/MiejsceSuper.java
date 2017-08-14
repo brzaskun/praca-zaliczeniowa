@@ -44,7 +44,7 @@ public class MiejsceSuper implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "opisskrocony", nullable = false, length = 255)
     protected String opisskrocony;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
+    @JoinColumn(name = "podatnikObj", referencedColumnName = "id")
     @ManyToOne
     protected Podatnik podatnikObj;
     @Basic(optional = false)
@@ -57,15 +57,7 @@ public class MiejsceSuper implements Serializable {
     @Basic(optional = true)
     @Column(name = "pokaz0chowaj1", nullable = true)
     protected boolean pokaz0chowaj1;
-    private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
 
     public Integer getId() {
         return id;

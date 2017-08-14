@@ -37,7 +37,7 @@ public class FakturaXXLKolumna implements Serializable {
     @Column(name = "id")
     private int id;
     private static final long serialVersionUID = 1L;
-    @JoinColumn(name = "podatnik", referencedColumnName = "nip")
+    @JoinColumn(name = "podatnik", referencedColumnName = "id")
     private Podatnik podatnik;
     @Column(name = "pkwiu")
     private boolean pkwiu;
@@ -59,15 +59,7 @@ public class FakturaXXLKolumna implements Serializable {
     private String nettoopis4;
     @Column(name = "nettoopis5")
     private String nettoopis5;
- private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
     
     public boolean isPkwiu() {
         return pkwiu;

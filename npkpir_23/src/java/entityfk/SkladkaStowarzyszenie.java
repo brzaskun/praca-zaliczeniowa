@@ -50,15 +50,7 @@ public class SkladkaStowarzyszenie implements Serializable{
     //mc, kw, polrok, rok
     @Column(name = "okres")
     private String okres;
- private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
     
     public int getId() {
         return id;

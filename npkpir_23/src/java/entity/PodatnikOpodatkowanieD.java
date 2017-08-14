@@ -52,7 +52,7 @@ public class PodatnikOpodatkowanieD implements Serializable{
     private String formaopodatkowania;
     @Column(name = "mc0kw1")
     private boolean mc0kw1;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
+    @JoinColumn(name = "podatnikObj", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnikObj;
     @Column(name="stawkapodatkuospr")
@@ -67,15 +67,7 @@ public class PodatnikOpodatkowanieD implements Serializable{
     @JoinColumn(name = "ksiegowa", referencedColumnName = "login")
     @ManyToOne
     private Uz ksiegowa;
- private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
     public PodatnikOpodatkowanieD() {
         
     }
