@@ -12,12 +12,12 @@
             <p:growl life="3600"  id="messages" />
             <p:panelGrid columns="1" style="width: 1150px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
-                             scrollable="true" scrollHeight="330" selectionMode="single" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}"
-                             sortBy="#{loop.rodzajedokPK.skrotNazwyDok}"
+                             scrollable="true" scrollHeight="330" selectionMode="single" rowKey="#{loop.skrotNazwyDok}"
+                             sortBy="#{loop.skrotNazwyDok}"
                              >
                     <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
                     <p:column headerText="skrót" style="text-align: center;" width="40">
-                        <h:outputText value="#{loop.rodzajedokPK.skrotNazwyDok}" />
+                        <h:outputText value="#{loop.skrotNazwyDok}" />
                     </p:column>
                     <p:column headerText="nazwa pelna" width="180">
                         <h:outputText value="#{loop.nazwa}" />
@@ -70,7 +70,7 @@
             
                 <p:panelGrid id="parametryDokKsi" columns="8" >
                     <h:outputText value="skrót: " />
-                    <p:inputText value="#{podatnikView.selectedDokKsi.rodzajedokPK.skrotNazwyDok}" />
+                    <p:inputText value="#{podatnikView.selectedDokKsi.skrotNazwyDok}" />
                     <h:outputText value=" nazwa pelna: " />
                     <p:inputText value="#{podatnikView.selectedDokKsi.nazwa}" />
                     <h:outputText value=" rodzaj transakcji: " />

@@ -897,11 +897,11 @@ public class PodatnikView implements Serializable {
     }
 
     public void dodajDokKsi() {
-        if (selectedDokKsi.getNazwa() != null && selectedDokKsi.getRodzajedokPK().getSkrotNazwyDok() != null) {
+        if (selectedDokKsi.getNazwa() != null && selectedDokKsi.getSkrotNazwyDok() != null) {
             try {
                 selectedDokKsi.setPodatnikObj(wpisView.getPodatnikObiekt());
-                selectedDokKsi.setSkrot(selectedDokKsi.getRodzajedokPK().getSkrotNazwyDok().toUpperCase(new Locale("pl")));
-                selectedDokKsi.getRodzajedokPK().setSkrotNazwyDok(selectedDokKsi.getSkrot().toUpperCase(new Locale("pl")));
+                selectedDokKsi.setSkrot(selectedDokKsi.getSkrotNazwyDok().toUpperCase(new Locale("pl")));
+                selectedDokKsi.setSkrotNazwyDok(selectedDokKsi.getSkrot().toUpperCase(new Locale("pl")));
                 selectedDokKsi.setNazwa(selectedDokKsi.getNazwa().toLowerCase(new Locale("pl")));
                 rodzajedokDAO.dodaj(selectedDokKsi);
                 rodzajeDokumentowLista.add(selectedDokKsi);
@@ -952,7 +952,6 @@ public class PodatnikView implements Serializable {
                 if (odnaleziono == false) {
                     Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
                     nowy.setPodatnikObj(selected);
-                    nowy.getRodzajedokPK().setPodatnik(selected.getId());
                     nowy.setKontoRZiS(null);
                     nowy.setKontorozrachunkowe(null);
                     nowy.setKontovat(null);
@@ -1023,7 +1022,7 @@ public class PodatnikView implements Serializable {
     }
     
     public void naniesKontaNaDokumentRozrachunki(ValueChangeEvent e) {
-        if (selectedDokKsi.getRodzajedokPK() != null) {
+        if (selectedDokKsi != null) {
             Konto wybraneKonto = (Konto) e.getNewValue();
             selectedDokKsi.setKontorozrachunkowe(wybraneKonto);
             rodzajedokDAO.edit(selectedDokKsi);
@@ -1034,7 +1033,7 @@ public class PodatnikView implements Serializable {
     
     public void naniesKontaNaDokumentVat(ValueChangeEvent e) {
         try {
-            if (selectedDokKsi.getRodzajedokPK() != null) {
+            if (selectedDokKsi != null) {
                 Konto wybraneKonto = (Konto) e.getNewValue();
                 selectedDokKsi.setKontovat(wybraneKonto);
                 rodzajedokDAO.edit(selectedDokKsi);
@@ -1047,7 +1046,7 @@ public class PodatnikView implements Serializable {
     }
     
     public void naniesKontaNaDokumentRZiS(ValueChangeEvent e) {
-        if (selectedDokKsi.getRodzajedokPK() != null) {
+        if (selectedDokKsi != null) {
             Konto wybraneKonto = (Konto) e.getNewValue();
             selectedDokKsi.setKontoRZiS(wybraneKonto);
             rodzajedokDAO.edit(selectedDokKsi);

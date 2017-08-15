@@ -26,7 +26,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -110,10 +109,7 @@ public class Dokfk implements Serializable {
     @Column(name = "rok", nullable = false, length = 4)
     private String rok;
     @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "rodzajdokSkrot", referencedColumnName = "skrot"),
-        @JoinColumn(name = "rodzajdokPodatnik", referencedColumnName = "podid")
-    })
+    @JoinColumn(name = "rodzajdok", referencedColumnName = "id")
     private Rodzajedok rodzajedok;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "podid", referencedColumnName = "id")
@@ -211,7 +207,7 @@ public class Dokfk implements Serializable {
     private Date dataujecia;
 
 
-    
+
     public Dokfk() {
         this.saldopoczatkowe = 0.0;
         this.saldokoncowe = 0.0;

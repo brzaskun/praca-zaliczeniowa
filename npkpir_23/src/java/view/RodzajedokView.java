@@ -76,7 +76,7 @@ public class RodzajedokView implements Serializable {
     public void dodaj() {
         try {
             wprowadzany.setPodatnikObj(podatnikDAO.findPodatnikByNIP("0001005008"));
-            wprowadzany.setSkrot(wprowadzany.getRodzajedokPK().getSkrotNazwyDok());
+            wprowadzany.setSkrot(wprowadzany.getSkrotNazwyDok());
             rodzajedokDAO.dodaj(wprowadzany);
             listaWspolnych.add(wprowadzany);
             wprowadzany = new Rodzajedok();

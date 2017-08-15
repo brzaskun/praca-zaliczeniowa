@@ -82,7 +82,7 @@
                             <h:outputLabel value="opis transakcji" style="font-weight: 700"/>
                             <h:selectOneMenu id="rodzajTrans" value="#{vatKorektaView.vatKorektaDok.symbolDokumentu}" required="true" title="wybierz rodzaj księgowanego dokumentu" valueChangeListener="#{DokumentView.wybranydokument}"
                                              style="width: 250px; word-break: break-all;">
-                                <f:selectItems value="#{vatKorektaView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop.rodzajedokPK.skrotNazwyDok}"/>
+                                <f:selectItems value="#{vatKorektaView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop.skrotNazwyDok}"/>
                                 <p:ajax event="blur" partialSubmit="true" listener="#{vatKorektaView.podepnijEwidencjeVat()}" global="false" update="@form:tablicavat"/>
                             </h:selectOneMenu> 
                             <p:inputText id="nipkontrahenta" value="#{vatKorektaView.vatKorektaDok.nipKontrahenta}" title="wpisz nip kontrahenta" style="width: 200px;">

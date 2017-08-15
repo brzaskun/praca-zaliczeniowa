@@ -83,7 +83,7 @@ public class WynikFKRokMc implements Serializable {
     private Double podatek;
      @Column(precision = 22)
     private Double wynikfinansowynetto;
-    @JoinColumn(name = "podatnikObj", referencedColumnName = "id")
+    @JoinColumn(name = "podid", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnikObj;
     @Column(name = "udzialowiec")
@@ -103,15 +103,7 @@ public class WynikFKRokMc implements Serializable {
     private double dywidendawyplacono;
     @Column(name = "dywidendadowyplaty")
     private double dywidendadowyplaty;
-    private int podid;
-
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
+   
 //    @Lob()
 //    @Column(name = "listaprzychody")
 //    private List<SaldoKonto> listaprzychody;

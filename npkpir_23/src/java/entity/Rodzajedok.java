@@ -7,13 +7,15 @@ package entity;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -29,20 +31,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rodzajedok.findAll", query = "SELECT r FROM Rodzajedok r"),
-    @NamedQuery(name = "Rodzajedok.findBySkrot", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajedokPK.skrotNazwyDok = :skrot"),
-    @NamedQuery(name = "Rodzajedok.findBySkrotPodatnik", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajedokPK.skrotNazwyDok = :skrot AND r.podatnikObj = :podatnik"),
+    @NamedQuery(name = "Rodzajedok.findBySkrot", query = "SELECT r FROM Rodzajedok r WHERE r.skrotNazwyDok = :skrot"),
+    @NamedQuery(name = "Rodzajedok.findBySkrotPodatnik", query = "SELECT r FROM Rodzajedok r WHERE r.skrotNazwyDok = :skrot AND r.podatnikObj = :podatnik"),
     @NamedQuery(name = "Rodzajedok.findByNazwa", query = "SELECT r FROM Rodzajedok r WHERE r.nazwa = :nazwa"),
     @NamedQuery(name = "Rodzajedok.findByRodzajtransakcji", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajtransakcji = :rodzajtransakcji"),
     @NamedQuery(name = "Rodzajedok.findByWzorzec", query = "SELECT r FROM Rodzajedok r WHERE r.wzorzec = :wzorzec"),
     @NamedQuery(name = "Rodzajedok.findByPodatnik", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik"),
-    @NamedQuery(name = "Rodzajedok.findByListaWspolna", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajedokPK.podatnik = '0001005008'"),
+//    @NamedQuery(name = "Rodzajedok.findByListaWspolna", query = "SELECT r FROM Rodzajedok r WHERE rpodatnik = '0001005008'"),!!!!!!!!!!!!!!!!!!!!!!!!! trzeba jakos rozwiazac
     @NamedQuery(name = "Rodzajedok.findByKategoriaDokumentu", query = "SELECT r FROM Rodzajedok r WHERE r.kategoriadokumentu = :kategoriadokumentu")
 })
 @Cacheable
 public class Rodzajedok implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    private RodzajedokPK rodzajedokPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false)
+    private int id;
+    @Column(name="SKROTNAZWYDOK")
+    private String skrotNazwyDok;
     @Size(max = 255)
     @Column(name = "nazwa")
     private String nazwa;
@@ -63,7 +70,6 @@ public class Rodzajedok implements Serializable {
 //    <f:selectItem itemLabel="płatności" itemValue="0"/>
     @Column(name = "kategoriadokumentu")
     private int kategoriadokumentu;
-    @MapsId("podatnik")
     @ManyToOne
     @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnikObj;
@@ -91,20 +97,17 @@ public class Rodzajedok implements Serializable {
     private double procentvat;
     @Column(name = "stawkavat")
     private double stawkavat;
-
-    
+   
 
 
     public Rodzajedok() {
-        this.rodzajedokPK = new RodzajedokPK();
+        
     }
 
-    public Rodzajedok(RodzajedokPK rodzajedokPK) {
-        this.rodzajedokPK = rodzajedokPK;
-    }
     
     public Rodzajedok(Rodzajedok rodzajedok, Podatnik podatnik) {
-        this.rodzajedokPK = new RodzajedokPK(rodzajedok.getSkrot(), podatnik.getId());
+        this.skrotNazwyDok = rodzajedok.getSkrotNazwyDok();
+        this.podatnikObj = podatnik;
         this.de = rodzajedok.getDe();
         this.kategoriadokumentu = rodzajedok.getKategoriadokumentu();
         this.nazwa = rodzajedok.getNazwa();
@@ -121,11 +124,11 @@ public class Rodzajedok implements Serializable {
     
     public Rodzajedok(String skrot) {
         RodzajedokPK rodzajedokPK = new RodzajedokPK(skrot);
-        this.setRodzajedokPK(rodzajedokPK);
     }
     
     public Rodzajedok(String skrot, Podatnik podatnik) {
-        this.rodzajedokPK = new RodzajedokPK("VAT", podatnik.getId());
+        this.skrotNazwyDok = "VAT";
+        this.podatnikObj = podatnikObj;
     }
     
      public Rodzajedok(String skrot, String skrot2) {
@@ -139,6 +142,7 @@ public class Rodzajedok implements Serializable {
     public void setSkrot(String skrot) {
         this.skrot = skrot;
     }
+    
 //    @XmlTransient
 //    public List<Dokfk> getDokumentyfk() {
 //        return dokumentyfk;
@@ -148,15 +152,24 @@ public class Rodzajedok implements Serializable {
 //    public void setDokumentyfk(List<Dokfk> dokumentyfk) {
 //        this.dokumentyfk = dokumentyfk;
 //    }
+
+    public String getSkrotNazwyDok() {
+        return skrotNazwyDok;
+    }
+
+    public void setSkrotNazwyDok(String skrotNazwyDok) {
+        this.skrotNazwyDok = skrotNazwyDok;
+    }
+
     
-
-    public RodzajedokPK getRodzajedokPK() {
-        return rodzajedokPK;
+    public int getId() {
+        return id;
     }
 
-    public void setRodzajedokPK(RodzajedokPK rodzajedokPK) {
-        this.rodzajedokPK = rodzajedokPK;
+    public void setId(int id) {
+        this.id = id;
     }
+    
 
     public String getNazwa() {
         return nazwa;
@@ -269,19 +282,21 @@ public class Rodzajedok implements Serializable {
     public void setStawkavat(double stawkavat) {
         this.stawkavat = stawkavat;
     }
-    
-    
-    
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + Objects.hashCode(this.rodzajedokPK);
+        hash = 97 * hash + this.id;
+        hash = 97 * hash + Objects.hashCode(this.skrotNazwyDok);
+        hash = 97 * hash + Objects.hashCode(this.podatnikObj);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -289,7 +304,13 @@ public class Rodzajedok implements Serializable {
             return false;
         }
         final Rodzajedok other = (Rodzajedok) obj;
-        if (!Objects.equals(this.rodzajedokPK, other.rodzajedokPK)) {
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.skrotNazwyDok, other.skrotNazwyDok)) {
+            return false;
+        }
+        if (!Objects.equals(this.podatnikObj, other.podatnikObj)) {
             return false;
         }
         return true;
@@ -297,8 +318,13 @@ public class Rodzajedok implements Serializable {
 
     @Override
     public String toString() {
-        return "Rodzajedok{" + "rodzajedokPK=" + rodzajedokPK + ", nazwa=" + nazwa + '}';
+        return "Rodzajedok{" + "skrotNazwyDok=" + skrotNazwyDok + ", kategoriadokumentu=" + kategoriadokumentu + ", podatnikObj=" + podatnikObj + '}';
     }
+    
+    
+    
+
+   
     
 
     

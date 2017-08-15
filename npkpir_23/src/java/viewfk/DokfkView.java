@@ -1210,7 +1210,7 @@ public class DokfkView implements Serializable {
     }
 
     public void przygotujDokumentWpisywanie() {
-        String skrotnazwydokumentu = selected.getRodzajedok().getRodzajedokPK().getSkrotNazwyDok();
+        String skrotnazwydokumentu = selected.getRodzajedok().getSkrotNazwyDok();
         selected.setSeriadokfk(skrotnazwydokumentu);
         //pokazuje daty w wierszach
         if (selected.getRodzajedok().getKategoriadokumentu() == 0) {

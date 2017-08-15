@@ -23,7 +23,7 @@
                 <p:dataTable id="dataList" value="#{dokfkInterView.rodzajedoklista}" var="loop"  selectionMode="single" 
                              styleClass="tablicaplankont"
                              style="max-width: 1200px; height: 600px;" emptyMessage="Brak zdefiniowanych dokumentów" rowKey="#{loop.hashCode()}"
-                             sortBy="#{loop.rodzajedokPK.skrotNazwyDok}">
+                             sortBy="#{loop.skrotNazwyDok}">
                     <p:columnGroup type="header">
                         <p:row>
                             <p:column colspan="1" headerText="skrót dok" width="80" />

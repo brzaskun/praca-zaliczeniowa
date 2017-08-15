@@ -7,7 +7,9 @@ package viewfk;
 
 import dao.DAO;
 import java.io.Serializable;
+import javax.inject.Inject;
 import javax.inject.Named;
+import session.SessionFacade;
 
 /**
  *
@@ -15,11 +17,26 @@ import javax.inject.Named;
  */
 @Named
 public class RewolucjaPodatnikView extends DAO implements Serializable {
-//    private static final long serialVersionUID = 1L;
-//    
-//    @Inject private SessionFacade dokFacade;
-//    
-//    
+    private static final long serialVersionUID = 1L;
+    
+    @Inject private SessionFacade dokFacade;
+    
+//    public void przenumeruj()  {
+//        List<Dokfk> wiersze= sessionFacade.findAll(Dokfk.class);
+//        System.out.println("Pobralem");
+//        int i = 1;
+//        for (Iterator<Dokfk> it = wiersze.iterator(); it.hasNext();) {
+//            Dokfk w = it.next();
+//            if (w.getRodzajedok()!= null) {
+//                w.setRodzajdok(w.getRodzajedok().getId());
+//            }
+//        }
+//        System.out.println("Zachowuje");
+//        sessionFacade.edit(wiersze);
+//        System.out.println("Skonczylem");
+//        Msg.msg("Przenumerowane "+wiersze.size());
+//    }
+    
 //    public void przenumeruj() {
 //       proc1();
 //       System.out.println("Proc 1");

@@ -601,7 +601,7 @@ public class DokFKVATBean {
         double vatEwidVat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();
         Konto kontoRozrachunkowe = null;
-        if (selected.getRodzajedok().getRodzajedokPK().getSkrotNazwyDok().equals("DEL")) {
+        if (selected.getRodzajedok().getSkrotNazwyDok().equals("DEL")) {
             try {
                 kontoRozrachunkowe = kontoDAOfk.findKontoNazwaPelnaPodatnik(selected.getNumerwlasnydokfk(), wpisView);
             } catch (Exception e) {

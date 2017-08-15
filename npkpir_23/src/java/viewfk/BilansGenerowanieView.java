@@ -40,6 +40,7 @@ import pdffk.PdfBilansGen;
 import testobjects.WierszBO_T;
 import static testobjects.testobjects.getKlienci;
 import static testobjects.testobjects.getPodatnik;
+import static testobjects.testobjects.getRodzajedok;
 import view.WpisView;
 import waluty.Z;
 
@@ -166,7 +167,7 @@ public class BilansGenerowanieView implements Serializable {
         d.setDataoperacji("2015-03-02");
         d.setDatawplywu("2015-03-05");
         d.setDatawystawienia("2015-03-06");
-        //d.setRodzajedok(getRodzajedok(rodzaj));
+        d.setRodzajedok(getRodzajedok(rodzaj));
         d.setPodatnikObj(getPodatnik());
         d.setKontr(getKlienci());
         d.setNumerwlasnydokfk("1/23/345/z");

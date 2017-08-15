@@ -14,13 +14,13 @@
 
         <p:panelGrid columns="1" style="max-width: 900px">
             <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
-                         selection="#{rodzajedokView.selected}" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}" selectionMode="single" >
+                         selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" >
                 <p:ajax event="rowSelect" listener="#{rodzajedokView.skopiujwierszdoedycji}"/>
                 <f:facet name="header">
                     <h:outputText value="Lista utworzonych dokumentów"/>
                 </f:facet>
-                <p:column headerText="skrót" sortBy="#{loop.rodzajedokPK.skrotNazwyDok}"  style="text-align: center;">
-                    <h:outputText value="#{loop.rodzajedokPK.skrotNazwyDok}" />
+                <p:column headerText="skrót" sortBy="#{loop.skrotNazwyDok}"  style="text-align: center;">
+                    <h:outputText value="#{loop.skrotNazwyDok}" />
                 </p:column>
                 <p:column headerText="nazwa pełna" sortBy="#{loop.nazwa}">
                     <h:outputText value="#{loop.nazwa}" />
@@ -55,7 +55,7 @@
         <p:focus for="parametrydokument"/><br/>
         <p:panelGrid id="parametrydokument" columns="2" >
             <h:outputText value="skrót: " />
-            <h:inputText value="#{rodzajedokView.wprowadzany.rodzajedokPK.skrotNazwyDok}" />
+            <h:inputText value="#{rodzajedokView.wprowadzany.skrotNazwyDok}" />
             <h:outputText value=" nazwa pelna: " />
             <h:inputText value="#{rodzajedokView.wprowadzany.nazwa}" style="width: 400px;"/>
             <h:outputText value=" rodzaj transakcji: " />

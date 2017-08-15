@@ -399,7 +399,7 @@ public final class DokView implements Serializable {
         String transakcjiRodzaj = null;
         while (itd.hasNext()) {
             Rodzajedok temp = (Rodzajedok) itd.next();
-            if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
+            if (temp.getSkrotNazwyDok().equals(skrot)) {
                 transakcjiRodzaj = temp.getRodzajtransakcji();
                 break;
             }
@@ -421,7 +421,7 @@ public final class DokView implements Serializable {
 //        String transakcjiRodzaj = "";
 //        while (itd.hasNext()) {
 //            Rodzajedok temp = (Rodzajedok) itd.next();
-//            if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
+//            if (temp.getSkrotNazwyDok().equals(skrot)) {
 //                transakcjiRodzaj = temp.getRodzajtransakcji();
 //                break;
 //            }
@@ -469,7 +469,7 @@ public final class DokView implements Serializable {
             ukryjEwiencjeVAT = false;
             String transakcjiRodzaj = "";
             for (Rodzajedok temp : rodzajedokKlienta) {
-                if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(typdokumentu)) {
+                if (temp.getSkrotNazwyDok().equals(typdokumentu)) {
                     transakcjiRodzaj = temp.getRodzajtransakcji();
                     break;
                 }
@@ -701,7 +701,7 @@ public final class DokView implements Serializable {
         List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         Rodzajedok rodzajdok = new Rodzajedok();
         for (Rodzajedok p : listaD) {
-            if (p.getRodzajedokPK().getSkrotNazwyDok().equals(typdokumentu)) {
+            if (p.getSkrotNazwyDok().equals(typdokumentu)) {
                 rodzajdok = p;
                 break;
             }
@@ -721,7 +721,7 @@ public final class DokView implements Serializable {
     }
 
     private void renderujwyszukiwarke(Rodzajedok rodzajdok) {
-        if (rodzajdok.getRodzajedokPK().getSkrotNazwyDok().equals("OT")) {
+        if (rodzajdok.getSkrotNazwyDok().equals("OT")) {
             setRenderujwysz(true);
         } else {
             setRenderujwysz(false);
@@ -731,7 +731,7 @@ public final class DokView implements Serializable {
     }
 
     private void renderujtabele(Rodzajedok rodzajdok) {
-        if (rodzajdok.getRodzajedokPK().getSkrotNazwyDok().equals("OTS")) {
+        if (rodzajdok.getSkrotNazwyDok().equals("OTS")) {
             sTRTableView.init();
             setPokazEST(true);
         } else {
@@ -810,7 +810,7 @@ public final class DokView implements Serializable {
             String transakcjiRodzaj = "";
             while (itd.hasNext()) {
                 Rodzajedok temp = (Rodzajedok) itd.next();
-                if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(typdokumentu)) {
+                if (temp.getSkrotNazwyDok().equals(typdokumentu)) {
                     transakcjiRodzaj = temp.getRodzajtransakcji();
                     break;
                 }
@@ -1384,7 +1384,7 @@ public final class DokView implements Serializable {
             List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Rodzajedok rodzajdok = new Rodzajedok();
             for (Rodzajedok p : listaD) {
-                if (p.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
+                if (p.getSkrotNazwyDok().equals(skrot)) {
                     rodzajdok = p;
                     break;
                 }
@@ -1412,7 +1412,7 @@ public final class DokView implements Serializable {
         List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         Rodzajedok rodzajdok = new Rodzajedok();
         for (Rodzajedok p : listaD) {
-            if (p.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
+            if (p.getSkrotNazwyDok().equals(skrot)) {
                 rodzajdok = p;
                 break;
             }

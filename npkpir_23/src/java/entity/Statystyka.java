@@ -44,7 +44,7 @@ public class Statystyka  implements Serializable {
     @Basic(optional = false)
     @Column(name = "lp")
     private int lp;
-    @JoinColumn(name = "podatnik", referencedColumnName = "id")
+    @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
     @Column(name = "rok")
@@ -65,15 +65,7 @@ public class Statystyka  implements Serializable {
     private double ranking;
     @Column(name = "liczbapracownikow")
     private int liczbapracownikow;
-     private int podid;
 
-    public int getPodid() {
-        return podid;
-    }
-
-    public void setPodid(int podid) {
-        this.podid = podid;
-    }
 
     public Statystyka() {
     }

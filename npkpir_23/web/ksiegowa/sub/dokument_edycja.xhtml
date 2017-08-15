@@ -168,8 +168,8 @@
                                                  $(this).addClass('ui-state-focus');"
                                          onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');">
-                            <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" 
-                                           itemValue="#{loop.rodzajedokPK.skrotNazwyDok}"/>
+                            <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrotNazwyDok} - #{loop.nazwa}" 
+                                           itemValue="#{loop.skrotNazwyDok}"/>
 <!--                            <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>-->
                             <p:ajax event="change" partialSubmit="true" global="false"/>
                             <f:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny}" />

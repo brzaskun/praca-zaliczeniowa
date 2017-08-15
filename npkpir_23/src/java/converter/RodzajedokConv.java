@@ -27,7 +27,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
             try {  
                 String skrot = submittedValue;  
                   for (Rodzajedok p : kl) {  
-                    if (p.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {  
+                    if (p.getSkrotNazwyDok().equals(skrot)) {  
                         return p;  
                     }  
                 }  
@@ -43,7 +43,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Rodzajedok) value).getRodzajedokPK().getSkrotNazwyDok());  
+            return String.valueOf(((Rodzajedok) value).getSkrotNazwyDok());  
         }  
     }  
     
