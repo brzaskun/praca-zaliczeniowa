@@ -144,6 +144,15 @@ var odtworzdivshown = function() {
     });
 };
 
+var con = function() {
+    $("body").css("cursor", "wait");
+};
+
+var coff = function() {
+    $("body").css("cursor", "default");
+};
+
+
 // 
 //var t;
 //var startTimer = function (){

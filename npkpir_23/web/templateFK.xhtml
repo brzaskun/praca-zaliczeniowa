@@ -64,47 +64,20 @@
                  </ul>
          </div>
     <![endif]-->
-        <!--    <script type="text/javascript" language="JavaScript">
-            //<![CDATA[
-            document.ready = function () {
-                bigscreen();
-            }();
-            // ]]> 
-            </script>-->
         <h:body>
             <p:growl  id="messageslogout" showDetail="true" sticky="true" widgetVar="messageslogout"/>
             <p:socket onMessage="handleMessage" channel="/notify" />
             <p:socket onMessage="handleMessage" channel="/ksiegowa" rendered="#{request.isUserInRole('Bookkeeper') or request.isUserInRole('BookkeeperFK')}"/>
             <p:idleMonitor timeout="600000">  
                 <p:ajax event="idle" listener="#{logowanie.logout()}" update="messageslogout" />  
-                <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
             </p:idleMonitor>
-            <ui:include src="/wspolny/dialogZmianaOkresu.xhtml"/>
-            <h:form>
-                <p:commandButton value="data" oncomplete="PF('dialogZmianaOkresu').show()" actionListener="#{zmianaOkresuView.kopiujmiesiac}" global="false" 
-                                 onsuccess="zamknijdialogi();"
-                              update=":form_dialogZmianaOkresu" accesskey="o" style="display: none;"/>
-            </h:form>
             <p:outputPanel style="margin-left: auto; margin-right: auto; margin-top: 300px; text-align: center;">
                 <h:outputText value="trwa ładowanie strony" style="color: blue; font-size: larger;  font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;"/>
                 <br/>
                 <p:graphicImage value="../resources/images/template-loader.gif" style="margin-top: 30px;"/>
             </p:outputPanel>
-            <!--        <p:idleMonitor timeout="600000"  onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
-                    <p:dialog header="Upłynął czas sesji" resizable="false"  
-                            +  widgetVar="idleDialog" modal="true" width="400" onHide="wyloguj()">  
-                        <h:outputText value="Zostałeś wylogowany" />  
-                    </p:dialog>-->
-            <!--        ten button jest bardzo wazny. wylogowuje sejse. nie wolno go usuwac-->
-
-            <!--        <h:form id="templateform">
-                        <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="{Logowanie.logout()}" style="display: none;"/>
-                    </h:form>-->
-            
             <ui:insert name="body" > 
-                
             </ui:insert>
-           
         </h:body>
     </f:view>
 </html>
