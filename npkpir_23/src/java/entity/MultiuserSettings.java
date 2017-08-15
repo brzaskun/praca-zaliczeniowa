@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -25,8 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "mutliusersettings", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"PODATNIK_nip", "USER_login"})})
+@Table(name = "mutliusersettings")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MultiuserSettings.findAll", query = "SELECT m FROM MultiuserSettings m"),

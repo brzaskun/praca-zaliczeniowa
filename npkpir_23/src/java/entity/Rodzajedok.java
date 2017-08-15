@@ -122,9 +122,6 @@ public class Rodzajedok implements Serializable {
     }
 
     
-    public Rodzajedok(String skrot) {
-        RodzajedokPK rodzajedokPK = new RodzajedokPK(skrot);
-    }
     
     public Rodzajedok(String skrot, Podatnik podatnik) {
         this.skrotNazwyDok = "VAT";

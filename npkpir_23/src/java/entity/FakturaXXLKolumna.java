@@ -24,7 +24,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "fakturaxxlkolumna",uniqueConstraints = {@UniqueConstraint(columnNames={"podatnik"})})
+@Table(name = "fakturaxxlkolumna",uniqueConstraints = {
+    @UniqueConstraint(columnNames={"podid"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "FakturaXXLKolumna.findAll", query = "SELECT e FROM FakturaXXLKolumna e"),

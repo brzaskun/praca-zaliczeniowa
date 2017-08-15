@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"podatnikObj", "opismiejsca", "rok"})})
+    @UniqueConstraint(columnNames = {"podid", "opismiejsca", "rok"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MiejscePrzychodow.findAll", query = "SELECT m FROM MiejscePrzychodow m"),

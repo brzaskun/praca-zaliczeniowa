@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
 @Named
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"ewidencja", "podatnikObj", "rok","nrkolejnywserii","seriadokfk", "WIERSZ_idwiersza", "KLIENT_id"})
+    @UniqueConstraint(columnNames = {"ewidencja", "podid", "rok","nrkolejnywserii","seriadokfk", "WIERSZ_idwiersza", "KLIENT_id"})
 })
 @NamedQueries({
     @NamedQuery(name = "EVatwpisDedra.findByPodatnik", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik"),

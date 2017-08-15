@@ -7,7 +7,6 @@ package entity;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.persistence.Basic;
@@ -31,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "ewidencjevat", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"podatnik", "rok", "miesiac"})})
+    @UniqueConstraint(columnNames = {"podid", "rok", "miesiac"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Ewidencjevat.findAll", query = "SELECT e FROM Ewidencjevat e"),

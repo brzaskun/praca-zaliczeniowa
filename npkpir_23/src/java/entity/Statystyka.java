@@ -28,7 +28,7 @@ import waluty.Z;
  */
 @Entity
 @Table(name = "statystyka", uniqueConstraints = {
-    @UniqueConstraint(columnNames={"podatnik", "rok"})
+    @UniqueConstraint(columnNames={"podid", "rok"})
 })
 @XmlRootElement
 @NamedQueries({

@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"podatnikObj", "rok", "mc","udzialowiec"})})
+    @UniqueConstraint(columnNames = {"podid", "rok", "mc","udzialowiec"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "WynikFKRokMc.findAll", query = "SELECT w FROM WynikFKRokMc w"),

@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"podatnikObj", "rok", "mc"})})
+    @UniqueConstraint(columnNames = {"podid", "rok", "mc"})})
 public class ZobowiazaniaPodatkoweFK implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
