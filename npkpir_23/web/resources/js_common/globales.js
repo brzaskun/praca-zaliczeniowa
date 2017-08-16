@@ -6,6 +6,27 @@ Number.prototype.round = function(places) {
   return +(Math.round(this + "e+" + places)  + "e-" + places);
 };
 
+var oznacz = function (wyw) {
+    var tr = r(wyw.source).find("tr");
+    $.each(tr, function () {
+        let td = $(this).find("td");
+        let check = $(this).find(".ui-chkbox-box").find("span");
+        $.each(td, function () {
+            $(this).mouseenter(function () {
+                $(this).parent().addClass("ui-state-highlight");
+                $(check).addClass("ui-icon-check");
+                $(check).removeClass("ui-icon-blank");
+            });
+            $(this).mouseleave(function () {
+                $(this).parent().removeClass("ui-state-highlight");
+                $(check).removeClass("ui-icon-check");
+                $(check).addClass("ui-icon-blank");
+            });
+        });
+    });
+    //alert("oiznaczono");
+};
+
 var zrobFloat = function (kwota){
     try {
         var strX = kwota.replace(",",".");
