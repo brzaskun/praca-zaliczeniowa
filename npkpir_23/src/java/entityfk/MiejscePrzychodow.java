@@ -33,7 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MiejscePrzychodow.findByPodatnik", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik AND m.pokaz0chowaj1 = 0 ORDER BY m.opismiejsca"),
     @NamedQuery(name = "MiejscePrzychodow.findByPodatnikWszystkie", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik ORDER BY m.opismiejsca"),
     @NamedQuery(name = "MiejscePrzychodow.findByPodatnikRok", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik AND m.rok = :rok ORDER BY m.opismiejsca"),
-    @NamedQuery(name = "MiejscePrzychodow.countByPodatnik", query = "SELECT COUNT(d) FROM MiejscePrzychodow d WHERE d.podatnikObj = :podatnik AND d.pokaz0chowaj1 = 0")
 })
 public class MiejscePrzychodow extends MiejsceSuper implements Serializable {
     protected static final long serialVersionUID = 1L;

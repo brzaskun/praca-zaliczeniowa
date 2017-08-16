@@ -469,8 +469,7 @@ public class PlanKontView implements Serializable {
                 mp.setOpismiejsca(elementslownika_nazwapelna);
                 mp.setOpisskrocony(elementslownika_nazwaskrocona);
                 mp.setAktywny(true);
-                int liczba = miejscePrzychodowDAO.countMiejscaPrzychodow(wpisView.getPodatnikObiekt()) + 1;
-                mp.uzupelnij(wpisView.getPodatnikObiekt(), String.valueOf(liczba));
+                mp.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumerMP());
                 mp.setRok(wpisView.getRokWpisu());
                 miejscePrzychodowDAO.dodaj(mp);
                 if (kontomacierzyste != null) {
@@ -498,6 +497,20 @@ public class PlanKontView implements Serializable {
                 }
             }
         }
+    }
+    
+     private String pobierzkolejnynumerMP() {
+        List miejsca = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+        int max = 0;
+        for (Iterator<MiejscePrzychodow> it = miejsca.iterator(); it.hasNext();) {
+            MiejscePrzychodow m = it.next();
+            int nr = Integer.parseInt(m.getNrkonta());
+            if (max < nr) {
+                max = nr;
+            }
+        }
+        String zwrot = String.valueOf(max+1);
+        return zwrot;
     }
     /*
     KONTR = 1

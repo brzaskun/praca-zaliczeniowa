@@ -104,20 +104,34 @@ public class MiejscePrzychodowView  implements Serializable{
     
 
     public void dodaj() {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());
-        selected.setRok(wpisView.getRokWpisu());
-        miejscePrzychodowDAO.dodaj(selected);
-        PlanKontFKBean.aktualizujslownikMiejscaPrzychodow(wykazkont, miejscePrzychodowDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-        miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
-        selected.setOpismiejsca(null);
-        selected.setOpisskrocony(null);
-        Msg.msg("Dodaje miejsce");
+        try {
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());
+            selected.setRok(wpisView.getRokWpisu());
+            miejscePrzychodowDAO.dodaj(selected);
+            PlanKontFKBean.aktualizujslownikMiejscaPrzychodow(wykazkont, miejscePrzychodowDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+            miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+            selected.setOpismiejsca(null);
+            selected.setOpisskrocony(null);
+            Msg.msg("Dodaje miejsce");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd. Nie dodano miejsca");
+        }
     }
     
-     private String pobierzkolejnynumer() {
-        int liczba = miejscePrzychodowDAO.countMiejscaPrzychodow(wpisView.getPodatnikObiekt()) + 1;
-        return String.valueOf(liczba);
+    private String pobierzkolejnynumer() {
+        List miejsca = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+        int max = 0;
+        for (Iterator<MiejscePrzychodow> it = miejsca.iterator(); it.hasNext();) {
+            MiejscePrzychodow m = it.next();
+            int nr = Integer.parseInt(m.getNrkonta());
+            if (max < nr) {
+                max = nr;
+            }
+        }
+        String zwrot = String.valueOf(max+1);
+        return zwrot;
     }
 
     public void usun(MiejscePrzychodow miejscePrzychodow) {

@@ -95,19 +95,33 @@ public class MiejsceKosztowView  implements Serializable{
     
 
     public void dodaj() {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(), wpisView.getRokWpisu());
-        miejsceKosztowDAO.dodaj(selected);
-        PlanKontFKBean.aktualizujslownikMiejscaKosztow(wykazkont, miejsceKosztowDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-        miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
-        selected.setOpismiejsca(null);
-        selected.setOpisskrocony(null);
-        Msg.msg("Dodaje miejsce");
+        try {
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(), wpisView.getRokWpisu());
+            miejsceKosztowDAO.dodaj(selected);
+            PlanKontFKBean.aktualizujslownikMiejscaKosztow(wykazkont, miejsceKosztowDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+            miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+            selected.setOpismiejsca(null);
+            selected.setOpisskrocony(null);
+            Msg.msg("Dodaje miejsce");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd. Nie dodano miejsca");
+        }
     }
     
      private String pobierzkolejnynumer() {
-        int liczba = miejsceKosztowDAO.countmaxMiejscaKosztow(wpisView.getPodatnikObiekt()) + 1;
-        return String.valueOf(liczba);
+        List miejsca = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+        int max = 0;
+        for (Iterator<MiejsceKosztow> it = miejsca.iterator(); it.hasNext();) {
+            MiejsceKosztow m = it.next();
+            int nr = Integer.parseInt(m.getNrkonta());
+            if (max < nr) {
+                max = nr;
+            }
+        }
+        String zwrot = String.valueOf(max+1);
+        return zwrot;
     }
 
     public void usun(MiejsceKosztow miejsceKosztow) {

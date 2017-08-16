@@ -48,7 +48,4 @@ public class MiejsceKosztowDAO extends DAO implements Serializable{
         return sessionFacade.findMiejscaPodatnikWszystkie(podatnikObiekt);
     }
 
-    public int countmaxMiejscaKosztow(Podatnik podatnikObiekt) {
-        return sessionFacade.countmaxMiejscaKosztow(podatnikObiekt);
-    }
 }

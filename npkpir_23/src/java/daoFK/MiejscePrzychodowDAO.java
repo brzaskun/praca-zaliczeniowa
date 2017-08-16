@@ -50,7 +50,4 @@ public class MiejscePrzychodowDAO extends DAO implements Serializable{
         return sessionFacade.getEntityManager().createNamedQuery("MiejscePrzychodow.findCzlonekStowarzyszenia").setParameter("podatnik", podatnikObiekt).getResultList();
     }
 
-    public int countMiejscaPrzychodow(Podatnik podatnikObiekt) {
-        return (int) sessionFacade.countMiejscaPrzychodow(podatnikObiekt);
-    }
 }
