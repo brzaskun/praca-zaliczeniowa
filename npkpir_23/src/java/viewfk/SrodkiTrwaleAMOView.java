@@ -235,6 +235,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
     private void ustawrodzajedok(Dokfk nd) {
         Rodzajedok rodzajedok = rodzajedokDAO.find("AMO", wpisView.getPodatnikObiekt());
         if (rodzajedok != null) {
+            nd.setSeriadokfk(rodzajedok.getSkrot());
             nd.setRodzajedok(rodzajedok);
         } else {
             Msg.msg("e", "Brak zdefiniowanego dokumentu AMO");

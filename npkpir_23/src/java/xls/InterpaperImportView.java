@@ -143,6 +143,7 @@ public class InterpaperImportView implements Serializable {
     private void ustawrodzajedok(Dokfk nd, String rodzajdok) {
         Rodzajedok rodzajedok = rodzajedokDAO.find(rodzajdok, wpisView.getPodatnikObiekt());
         if (rodzajedok != null) {
+            nd.setSeriadokfk(rodzajedok.getSkrot());
             nd.setRodzajedok(rodzajedok);
         } else {
             Msg.msg("e", "Brak zdefiniowanego dokumentu "+rodzajdok);
