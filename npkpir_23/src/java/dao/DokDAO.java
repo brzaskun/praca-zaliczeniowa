@@ -134,7 +134,7 @@ public class DokDAO extends DAO implements Serializable {
         return iloscdok;
     }
    
-     public Dok findDokLastofaKontrahent(Podatnik podatnik, Klienci kontr, String rok) {
+     public Dok findDokLastofaKontrahent(String podatnik, Klienci kontr, String rok) {
        try {
            return dokFacade.findDokLastofaTypeKontrahent(podatnik, kontr,rok);
        } catch (Exception e ){

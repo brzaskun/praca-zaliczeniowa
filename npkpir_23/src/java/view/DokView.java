@@ -761,7 +761,7 @@ public final class DokView implements Serializable {
      */
     public void dodaj(int rodzajdodawania) {
         try {
-            if (selDokument.getSymbolinwestycji().equals("wybierz") && typdokumentu.equals("IN")) {
+            if (selDokument.getSymbolinwestycji() != null && selDokument.getSymbolinwestycji().equals("wybierz") && typdokumentu.equals("IN")) {
                 Msg.msg("e", "Błąd. Nie wybrano nazwy inwestycji podczas wprowadzania dokumentu inwestycyjnego. Dokument niewprowadzony");
                 return;
             }
@@ -1560,9 +1560,9 @@ public final class DokView implements Serializable {
         String klientnip = klient.getNip();
         if (!klientnip.equals(wpisView.getPodatnikObiekt().getNip())) {
             try {
-                Dok poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt(), klient, wpisView.getRokWpisuSt());
+                Dok poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt().getNazwapelna(), klient, wpisView.getRokWpisuSt());
                 if (poprzedniDokument == null) {
-                    poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt(), klient, wpisView.getRokUprzedniSt());
+                    poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt().getNazwapelna(), klient, wpisView.getRokUprzedniSt());
                 }
                 if (poprzedniDokument != null) {
                     selDokument.setTypdokumentu(poprzedniDokument.getTypdokumentu());

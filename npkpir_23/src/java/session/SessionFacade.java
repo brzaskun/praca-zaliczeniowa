@@ -972,7 +972,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
-    public Dok findDokLastofaTypeKontrahent(Podatnik podatnik, Klienci kontr, String pkpirR) {
+    public Dok findDokLastofaTypeKontrahent(String podatnik, Klienci kontr, String pkpirR) {
         try {
             return (Dok) em.createNamedQuery("Dok.findByfindByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("kontr", kontr).setParameter("pkpirR", pkpirR).setMaxResults(1).getSingleResult();
         } catch (Exception e) {
