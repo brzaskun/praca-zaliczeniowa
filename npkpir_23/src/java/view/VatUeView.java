@@ -90,7 +90,7 @@ public class VatUeView implements Serializable {
         }
         String m = wpisView.getMiesiacWpisu();
         Integer m1 = Integer.parseInt(m);
-        Podatnik pod = podatnikDAO.findPodatnikByNIP(wpisView.getPodatnikObiekt().getNip());
+        Podatnik pod = wpisView.getPodatnikObiekt();
         String vatokres = ParametrView.zwrocParametr(pod.getVatokres(), rok, m);
         String vatUEokres = ParamBean.zwrocParametr(pod.getParamVatUE(), rok, m);
         String okresvat = vatUEokres != null ? vatUEokres : vatokres;

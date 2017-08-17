@@ -238,7 +238,7 @@ public class Podatnik implements Serializable {
     @ManyToOne
     private Uz ksiegowa;
     //wzorcowe one to many unidirectional/ nazwa kolumny to nazwa tworzona w tabeli ParamVatUE, nie trzeba zmiennej w ParamVatUE
-    @JoinColumn(name = "podatnik")
+    @JoinColumn(name = "podid")
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
     private List<ParamVatUE> paramVatUE;
     @Column(name = "datarozpoczecia")
