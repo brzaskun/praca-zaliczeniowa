@@ -45,7 +45,6 @@ import entity.KwotaKolumna1;
 import entity.Ostatnidokument;
 import entity.Podatnik;
 import entity.Rodzajedok;
-import entity.Rozrachunek1;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
@@ -777,7 +776,6 @@ public final class DokView implements Serializable {
         } else {
             selDokument.setSymbolinwestycji(null);
         }
-        Podatnik podatnikWDokumencie = wpisView.getPodatnikObiekt();
         VAT.zweryfikujokresvat(selDokument);
         Double kwotavat = 0.0;
         try {
@@ -802,66 +800,55 @@ public final class DokView implements Serializable {
                 } else {
                     selDokument.setEwidencjaVAT1(ewidencjeDokumentu);
                 }
+            } else {
+                selDokument.setEwidencjaVAT1(null);
             }
             selDokument.setStatus("bufor");
             selDokument.setTypdokumentu(typdokumentu);
-            Iterator itd;
-            itd = rodzajedokKlienta.iterator();
             String transakcjiRodzaj = "";
-            while (itd.hasNext()) {
-                Rodzajedok temp = (Rodzajedok) itd.next();
+            Rodzajedok r = null;
+            for (Iterator<Rodzajedok> itd = rodzajedokKlienta.iterator();itd.hasNext();) {
+                Rodzajedok temp = itd.next();
                 if (temp.getSkrotNazwyDok().equals(typdokumentu)) {
                     transakcjiRodzaj = temp.getRodzajtransakcji();
+                    r = temp;
                     break;
                 }
             }
             //Usuwa puste kolumy w przypadku bycia takiej po skopiowaniu poprzednio zaksiegowanego dokumentu
-            Iterator it = selDokument.getListakwot1().iterator();
-            double kwotapkpir = 0.0;
-            while (it.hasNext()) {
-                KwotaKolumna1 p = (KwotaKolumna1) it.next();
+            double kwotanetto = 0.0;
+            for (Iterator<KwotaKolumna1> it = selDokument.getListakwot1().iterator();it.hasNext();) {
+                KwotaKolumna1 p = it.next();
                 if (p.getNetto() == 0.0) {
                     it.remove();
                 } else {
-                    kwotapkpir += p.getNetto();
+                    p.setDok(selDokument);
+                    kwotanetto += p.getNetto();
                 }
             }
+            selDokument.setNetto(Z.z(kwotanetto));
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
-            Rodzajedok r = rodzajedokDAO.find(selDokument.getTypdokumentu(), podatnikWDokumencie);
-            if (r.getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotapkpir != 0.0) {
+            if (r.getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotanetto != 0.0) {
                 KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(Z.z(kwotavat), "poz. koszty");
+                kwotanetto = Z.z(kwotanetto + kwotaKolumna.getNetto());
                 selDokument.getListakwot1().add(kwotaKolumna);
             }
-            selDokument.setNetto(0.0);
-            for (KwotaKolumna1 p : selDokument.getListakwot1()) {
-                selDokument.setNetto(selDokument.getNetto() + p.getNetto());
-            }
-            for (KwotaKolumna1 xy : selDokument.getListakwot1()) {
-                xy.setDok(selDokument);
-            }
-            //koniec obliczania netto
-            dodajdatydlaStorno();
-
+            //koniec obliczania netto to bylo potrzebne do 2016
+            //dodajdatydlaStorno();
+//            if (selDokument.getRozliczony() == true) {
+//                Rozrachunek1 rozrachunekx = new Rozrachunek1(selDokument.getTerminPlatnosci(), kwotanetto, 0.0, selDokument.getWprowadzil(), new Date());
+//                rozrachunekx.setDok(selDokument);
+//                ArrayList<Rozrachunek1> lista = new ArrayList<>();
+//                lista.add(rozrachunekx);
+//                selDokument.setRozrachunki1(lista);
+//            }
             //dodaje zaplate faktury gdy faktura jest uregulowana
-            Double kwota = 0.0;
             double kwotabrutto = 0.0;
-            for (KwotaKolumna1 p : selDokument.getListakwot1()) {
-                kwota = kwota + p.getNetto();
-            }
-            selDokument.setNetto(kwota);
-            kwotabrutto = Z.z(kwota + kwotavat);
+            kwotabrutto = Z.z(kwotanetto + kwotavat);
             selDokument.setBrutto(kwotabrutto);
-            if (selDokument.getRozliczony() == true) {
-                Rozrachunek1 rozrachunekx = new Rozrachunek1(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(), new Date());
-                rozrachunekx.setDok(selDokument);
-                ArrayList<Rozrachunek1> lista = new ArrayList<>();
-                lista.add(rozrachunekx);
-                selDokument.setRozrachunki1(lista);
-            }
             selDokument.setUsunpozornie(false);
-
             //jezeli jest edytowany dokument to nie dodaje a edytuje go w bazie danych
             if (rodzajdodawania == 1) {
                 sprawdzCzyNieDuplikat(selDokument);
@@ -873,7 +860,7 @@ public final class DokView implements Serializable {
                 ostatnidokumentDAO.edit(temp);
                 try {
                     String probsymbolu = selDokument.getSymbolinwestycji();
-                    if (!probsymbolu.equals("wybierz")) {
+                    if (probsymbolu != null && !probsymbolu.equals("wybierz")) {
                         aktualizujInwestycje(selDokument);
                     }
                 } catch (Exception e) {
@@ -882,7 +869,7 @@ public final class DokView implements Serializable {
                 wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
                 liczbawierszy = 1;
                 RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
-                Msg.msg("i", "Nowy dokument zachowany" + selDokument);
+                Msg.msg("i", "Nowy dokument zachowany" + selDokument.toString2());
                 /**
                  * resetowanie pola do wpisywania kwoty netto
                  */
