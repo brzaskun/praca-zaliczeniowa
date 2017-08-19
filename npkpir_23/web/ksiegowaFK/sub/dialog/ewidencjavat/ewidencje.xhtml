@@ -32,15 +32,16 @@
                 </p:contextMenu>
                 <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1230px; margin-bottom: 30px; height: 500px;"
                              rowKey="#{itemik.hashCode()}" selection="#{ewidencjaVatView.wybranewierszeewidencji}" rowSelectMode="add"
-                             filteredValue="#{ewidencjaVatView.filteredwierszeewidencji}" rowStatePreserved="true" nullSortOrder="-1"
-                             scrollable="true" scrollRows="20" scrollHeight="450" rowIndexVar="index2" >
+                             filteredValue="#{ewidencjaVatView.filteredwierszeewidencji}"  nullSortOrder="-1" 
+                             scrollable="true" scrollRows="20" scrollHeight="450" rowIndexVar="index2"  >
                     <f:facet name="header">  
                         <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
                     </f:facet>
-                    <p:ajax event="rowSelectCheckbox"  global="false" oncomplete="pokazmes();" onsuccess="oznacz(this)"/>
+                    <p:ajax event="rowSelectCheckbox"  global="false" oncomplete="pokazmes();"/>
                     <p:ajax event="rowUnselectCheckbox" global="false"/>
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="filter" global="false"/>
+                    <p:ajax event="rowDblselect" global="false" oncomplete="oznacz(this);"/>
                     <p:ajax event="sort" global="false"/>
                     <p:column selectionMode="multiple"  
                               style="text-align: center;width: 30px;" rendered="#{itemik.id eq '9999' ? false : true}"></p:column>

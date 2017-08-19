@@ -1,176 +1,150 @@
 "use strict";
     
-var zachowajnumerwiersza = function(zmienna ,numer, tabela, event) {
-        MYAPP.zmienna = zmienna;
-        MYAPP[MYAPP.zmienna] = numer;
-        var parent = event.target || event.srcElement;
-        if (tabela !== "") {
-            MYAPP.sourceid = tabela;
-        } else {
-            do {
-                parent = parent.parentNode;
-            } while (parent.className !== "ui-datatable-data ui-widget-content");
-            MYAPP.sourceid = parent.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
-        }
-        
-        if (MYAPP.sourceid === "tabelanowerozrachunki:tabela_data") {
-            MYAPP.tabeladata = "tabelanowerozrachunki:tabela_data";
-            MYAPP.tabela = "tabelanowerozrachunki:tabela";
-            MYAPP.zmienna = "zmiennadata";
-            MYAPP.wyliczaj = false;
-        } else if (MYAPP.sourceid === "tabelazzapisami:tabela_data") {
-            MYAPP.tabeladata = "tabelazzapisami:tabela_data";
-            MYAPP.tabela = "tabelazzapisami:tabela";
-            MYAPP.zmienna = "zmiennazapisy";
-            MYAPP.wyliczaj = false;
-        } else if (MYAPP.sourceid === "zestawieniedokumentow:dataList_data") {
-            MYAPP.tabeladata = "zestawieniedokumentow:dataList_data";
-            MYAPP.tabela = "zestawieniedokumentow:dataList";
-            MYAPP.zmienna = "zmiennazaksiegowane";
-            MYAPP.wyliczaj = false;
-        } else if (MYAPP.sourceid === "formwpisdokument:tablicavat_data") {
-            MYAPP.tabeladata = "formwpisdokument:tablicavat_data";
-            MYAPP.tabela = "formwpisdokument:tablicavat";
-            MYAPP.zmienna = "zmiennavat";
-            MYAPP.wyliczaj = false;
-        } else if (MYAPP.sourceid === "formtablicaanalityczne:tablicasaldaanalityczne_data") {
-            MYAPP.tabeladata = "formtablicaanalityczne:tablicasaldaanalityczne_data";
-            MYAPP.tabela = "formtablicaanalityczne:tablicasaldaanalityczne";
-            MYAPP.zmienna = "zmiennatablicaanalityczne";
-            MYAPP.wyliczaj = false;
-        } else if (MYAPP.sourceid === "form1:dataList_data") {
-            MYAPP.tabeladata = "form1:dataList_data";
-            MYAPP.tabela = "form1:dataList";
-            MYAPP.zmienna = "zmiennarozrachunki";
-            MYAPP.wyliczaj = false;
-        }
-};
+//var zachowajnumerwiersza = function(zmienna ,numer, tabela, event) {
+//        MYAPP.zmienna = zmienna;
+//        MYAPP[MYAPP.zmienna] = numer;
+//        var parent = event.target || event.srcElement;
+//        if (tabela !== "") {
+//            MYAPP.sourceid = tabela;
+//        } else {
+//            do {
+//                parent = parent.parentNode;
+//            } while (parent.className !== "ui-datatable-data ui-widget-content");
+//            MYAPP.sourceid = parent.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
+//        }
+//        
+//        if (MYAPP.sourceid === "tabelanowerozrachunki:tabela_data") {
+//            MYAPP.tabeladata = "tabelanowerozrachunki:tabela_data";
+//            MYAPP.tabela = "tabelanowerozrachunki:tabela";
+//            MYAPP.zmienna = "zmiennadata";
+//            MYAPP.wyliczaj = false;
+//        } else if (MYAPP.sourceid === "tabelazzapisami:tabela_data") {
+//            MYAPP.tabeladata = "tabelazzapisami:tabela_data";
+//            MYAPP.tabela = "tabelazzapisami:tabela";
+//            MYAPP.zmienna = "zmiennazapisy";
+//            MYAPP.wyliczaj = false;
+//        } else if (MYAPP.sourceid === "zestawieniedokumentow:dataList_data") {
+//            MYAPP.tabeladata = "zestawieniedokumentow:dataList_data";
+//            MYAPP.tabela = "zestawieniedokumentow:dataList";
+//            MYAPP.zmienna = "zmiennazaksiegowane";
+//            MYAPP.wyliczaj = false;
+//        } else if (MYAPP.sourceid === "formwpisdokument:tablicavat_data") {
+//            MYAPP.tabeladata = "formwpisdokument:tablicavat_data";
+//            MYAPP.tabela = "formwpisdokument:tablicavat";
+//            MYAPP.zmienna = "zmiennavat";
+//            MYAPP.wyliczaj = false;
+//        } else if (MYAPP.sourceid === "formtablicaanalityczne:tablicasaldaanalityczne_data") {
+//            MYAPP.tabeladata = "formtablicaanalityczne:tablicasaldaanalityczne_data";
+//            MYAPP.tabela = "formtablicaanalityczne:tablicasaldaanalityczne";
+//            MYAPP.zmienna = "zmiennatablicaanalityczne";
+//            MYAPP.wyliczaj = false;
+//        } else if (MYAPP.sourceid === "form1:dataList_data") {
+//            MYAPP.tabeladata = "form1:dataList_data";
+//            MYAPP.tabela = "form1:dataList";
+//            MYAPP.zmienna = "zmiennarozrachunki";
+//            MYAPP.wyliczaj = false;
+//        }
+//};
 
 var zachowajobiekt = function(obiekt, event) {
     try {
-        MYAPP.obiekt = obiekt;
-        var source = event.target || event.srcElement;
-        var sourceid = source.parentNode.parentNode.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
-        MYAPP.sourceid = sourceid;
-        //document.getElementById("poledanych").innerHTML= 'zachowalem obiekt '+source.innerText+' ';
-        console.log('zachowalem obiekt '+source.innerText);
-        console.log('tabela '+sourceid);
-        if (MYAPP.sourceid === "form:dataList_data") {
-            MYAPP.tabeladata = "form:dataList_data";
-            MYAPP.tabela = "form:dataList";
-            MYAPP.zmienna = "zmiennazapisy";
-            MYAPP.top = 240;
-            MYAPP.bottom = 650;
-            MYAPP.wyliczaj = true;
-        } else if (MYAPP.sourceid === "formobroty:dataListObroty_data"){
-            MYAPP.tabeladata = "formobroty:dataListObroty_data";
-            MYAPP.tabela = "formobroty:dataListObroty";
-            MYAPP.zmienna = "zmiennaobroty";
-            MYAPP.top = 240;
-            MYAPP.bottom = 650;
-            MYAPP.wyliczaj = true;
-        } else if (MYAPP.sourceid === "zestawieniedokumentow:dataList_data"){
-            MYAPP.tabeladata = "zestawieniedokumentow:dataList_data";
-            MYAPP.tabela = "zestawieniedokumentow:dataList";
-            MYAPP.zmienna = "zmiennadokumenty";
-            MYAPP.top = 140;
-            MYAPP.bottom = 500;
-            MYAPP.wyliczaj = false;
+        if (event !== null) {
+            var source = event.target || event.srcElement;
+        } else {
+            var source = obiekt;
         }
-        console.log(sourceid);
+        var sourceid = $(source).closest(".grid1zap")[0].id;
+        MYAPP.sourceid = sourceid;
+        var tabeladata = sourceid+"_data";
+        var listawierszy = r(tabeladata).children("tr");
+        var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
+        var lpwiersznast = $.trim($(obiekt).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
+        var numerwiersza = lpwiersznast - lppierwszywiersz;
+        MYAPP.tabeladata = tabeladata;
+        MYAPP.tabela = sourceid;
+        MYAPP.zmienna = "zmiennazapisy";
+        MYAPP[MYAPP.zmienna] = numerwiersza;
+        obliczwysokosc(sourceid);
+        MYAPP.obiekt = obiekt;
+        stop();
     } catch (ex) {
         alert("Blad w zachowajobiekt/chodzeniepokonach.js zachowajobiekt" + ex.toString());
     }
 };
 
-var zachowajobiektGuest = function(obiekt, event) {
-    try {
-        MYAPP.obiekt = obiekt;
-        var source = event.target || event.srcElement;
-        var sourceid = source.parentNode.parentNode.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
-        MYAPP.sourceid = sourceid;
-        if (MYAPP.sourceid === "form1:dataList_data") {
-            MYAPP.tabeladata = "form1:dataList_data";
-            MYAPP.tabela = "form1:dataList";
-            MYAPP.zmienna = "zmiennazapisy";
-            MYAPP.wyliczaj = true;
-        } else if (MYAPP.sourceid === "formobroty:dataListObroty_data"){
-            MYAPP.tabeladata = "formobroty:dataListObroty_data";
-            MYAPP.tabela = "formobroty:dataListObroty";
-            MYAPP.zmienna = "zmiennaobroty";
-            MYAPP.wyliczaj = true;
-        }
-        console.log(sourceid);
-    } catch (ex) {
-        alert("Blad w zachowajobiekt/chodzeniepokonach.js zachowajobiektGuest" + ex.toString());
-    }
-};
 
-var przejdzwiersz = function() {
+var idz = function(DolGora) {
         var elem = document.getElementById(MYAPP.tabela);
         if (elem) {
             var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
             var dlugoscwierszy = wiersze.length;
+            var staretd = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
             if (MYAPP.wyliczaj === true) {
-                wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
+             wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
             }
-            if (MYAPP[MYAPP.zmienna] >= dlugoscwierszy-1) {
-                MYAPP[MYAPP.zmienna] = dlugoscwierszy-1;
-            } else if (MYAPP[MYAPP.zmienna] === 0) {
-                MYAPP[MYAPP.zmienna] = 1;
+            if (DolGora === "D") {
+                zmiennadol(dlugoscwierszy);
             } else {
-                MYAPP[MYAPP.zmienna] += 1;
+                zmiennagora(dlugoscwierszy);
             }
-            var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
-            var przesun = isScrolledIntoView(komorki[2]);
-
+            var nowetd = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
+            var przesun = isScrolledIntoView(nowetd[2]);
             elem.scrollTop = elem.scrollTop + przesun;
-            $(komorki[2]).click();
+            if (DolGora === "D") {
+                $(nowetd[0]).find("span").click();
+                stop();
+            } else {
+                $(staretd[0]).find("span").click();
+                zachowajobiekt($(nowetd[0]).find("span"), null);
+                stop();
+            }
             //document.getElementById("poledanych1").innerHTML= ' klikam na '+komorki[3].innerText+' ';
             MYAPP.przetwarzajdalej = false;
         }
 };
 
-var wrocwiersz = function() {
-        var elem = document.getElementById(MYAPP.tabela);
-        if (elem) {
-            var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
-            var dlugoscwierszy = wiersze.length;
-            if (MYAPP.wyliczaj === true) {
-                wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
-            }
-            if (MYAPP[MYAPP.zmienna] > dlugoscwierszy) {
-                MYAPP[MYAPP.zmienna] = dlugoscwierszy;
-            } else if (MYAPP[MYAPP.zmienna] === 0) {
-                MYAPP[MYAPP.zmienna] = 0;
-            } else {
-                MYAPP[MYAPP.zmienna] -= 1;
-            }
-            var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
-            var przesun = isScrolledIntoView(komorki[2]);
-
-            elem.scrollTop = elem.scrollTop + przesun;
-            $(komorki[2]).click();
-            MYAPP.przetwarzajdalej = false;
-        }
+var zmiennagora = function (dlugoscwierszy) {
+    if (MYAPP[MYAPP.zmienna] > dlugoscwierszy) {
+        MYAPP[MYAPP.zmienna] = dlugoscwierszy;
+    } else if (MYAPP[MYAPP.zmienna] === 0) {
+        MYAPP[MYAPP.zmienna] = 0;
+    } else {
+        MYAPP[MYAPP.zmienna] -= 1;
+    }
 };
 
-//var stop = function () {
-//    event.preventDefault();
-//    event.stopPropagation();
-//    event.stopImmediatePropagation();
-//};
+var zmiennadol = function(dlugoscwierszy) {
+    if (MYAPP[MYAPP.zmienna] >= dlugoscwierszy - 1) {
+        MYAPP[MYAPP.zmienna] = dlugoscwierszy - 1;
+    } else if (MYAPP[MYAPP.zmienna] === 0) {
+        MYAPP[MYAPP.zmienna] = 1;
+    } else {
+        MYAPP[MYAPP.zmienna] += 1;
+    }
+};
+
+var obliczwysokosc = function(sourceid) {
+        MYAPP.top = r(sourceid).offset().top;
+        MYAPP.height = r(sourceid).height();
+        MYAPP.bottom = MYAPP.top+MYAPP.height;  
+};
+
+var stop = function () {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+};
 
 var isScrolledIntoView = function(elem) {
     try {
         //tak daleko zeby dotrzec do kontenera
-        var docViewTop = MYAPP.top;
-        var docViewBottom = MYAPP.bottom;
+        var docViewTop = MYAPP.top+30;
+        var docViewBottom = MYAPP.bottom-100;
         var viewableheight = elem.scrollHeight;
         var elemTop = $(elem).offset().top;
         var elemBottom = elemTop + $(elem).height();
         var przesuniecie = 0;
-        var zadanepolozenie = docViewTop + viewableheight
+        var zadanepolozenie = docViewTop + viewableheight;
         if (elemTop < (zadanepolozenie)) {
             var obliczonaroznica = elemTop - zadanepolozenie;
             przesuniecie += obliczonaroznica;
@@ -184,30 +158,8 @@ var isScrolledIntoView = function(elem) {
     }
     return 0;
 };
-var wylicznumerwiersza = function(wiersze, zmienna) {
-    var wartosc = MYAPP.obiekt.innerText;
-    wartosc = wartosc.split("\t");
-    var iloscrzedow = wiersze.size();
-    if (typeof MYAPP[MYAPP.zmienna] === 'undefined') {
-        MYAPP[MYAPP.zmienna] = 2;
-    }
-    
-    try {
-        for(var nrwiersza = MYAPP[MYAPP.zmienna]; nrwiersza < iloscrzedow; nrwiersza++) {
-            var trescwiersza = $(wiersze[nrwiersza].children[0]).text();
-            if (trescwiersza.indexOf(wartosc[0])>-1) {
-                console.log("Znaleziony wiersz "+nrwiersza);
-                //document.getElementById("poledanych2").innerHTML= " szukam "+wartosc[0]+" a wyliczony wiersz "+nrwiersza;
-                MYAPP[MYAPP.zmienna] = nrwiersza;
-                console.log(MYAPP[MYAPP.zmienna]);
-                return;
-            }
-        }
-    } catch (e) {
-        console.log('error wylicznumerwiersza'+e);
-    }
-};
 
+    
 var znajdzwierszzkontonumer = function(wiersze, wartosc) {
     var iloscrzedow = wiersze.size();
     try {
@@ -223,11 +175,12 @@ var znajdzwierszzkontonumer = function(wiersze, wartosc) {
     } catch (e) {
         alert('error');
     }
-}
+};
 
 var zaznacznoda = function(tabela, tabela1, inputpole) {
     try {
         var wartosc = document.getElementById(inputpole).value;
+        obliczwysokosc(tabela1);
         if (wartosc !== " ") {
             wartosc = wartosc.trim().split(" ");
             var wiersze = $(document.getElementById(tabela)).children("tr");

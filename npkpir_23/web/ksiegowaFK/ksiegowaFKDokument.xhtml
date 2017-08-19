@@ -42,10 +42,13 @@
             </p:outputPanel>
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <p:layoutUnit id="centralna" position="center" >
+                    <script>
+                        $(document).on("keydown", TabKeyDown);
+                    </script>
                     <div id="ramki">
                     </div>
-                    <p:hotkey bind="down" global="false"  handler="przejdzwiersz();" ignoreAutoUpdate="true"/>
-                    <p:hotkey bind="up" global="false" handler="wrocwiersz();" ignoreAutoUpdate="true"/>
+                    <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
+                    <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
                     <ui:include src="sub/menu/menudokumenty.xhtml"/>
                     
                     <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>

@@ -6,26 +6,27 @@ Number.prototype.round = function(places) {
   return +(Math.round(this + "e+" + places)  + "e-" + places);
 };
 
-var oznacz = function (wyw) {
-    var tr = r(wyw.source).find("tr");
-    $.each(tr, function () {
-        let td = $(this).find("td");
-        let check = $(this).find(".ui-chkbox-box").find("span");
-        $.each(td, function () {
-            $(this).mouseenter(function () {
-                $(this).parent().addClass("ui-state-highlight");
-                $(check).addClass("ui-icon-check");
-                $(check).removeClass("ui-icon-blank");
-            });
-            $(this).mouseleave(function () {
-                $(this).parent().removeClass("ui-state-highlight");
-                $(check).removeClass("ui-icon-check");
-                $(check).addClass("ui-icon-blank");
-            });
-        });
-    });
-    //alert("oiznaczono");
-};
+//var oznacz = function (wyw) {
+//    var tr = r(wyw.source).find("tr");
+//    $.each(tr, function () {
+//        let td = $(this).find("td");
+//        let check = $(this).find(".ui-chkbox-box").find("span");
+//        $.each(td, function () {
+//            zaklikaj(this, check);
+////            $(this).mouseleave(function () {
+////                $(this).parent().removeClass("ui-state-highlight");
+////                $(check).click();
+////            });
+//        });
+//    });
+//    //alert("oiznaczono");
+//};
+//
+//var zaklikaj = function(td, check) {
+//    $(td).mouseenter(function () {
+//        $(check).click()
+//    });
+//};
 
 var zrobFloat = function (kwota){
     try {

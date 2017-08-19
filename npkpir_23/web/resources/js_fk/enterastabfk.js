@@ -106,10 +106,7 @@ var TabKeyDown;
     };
 
 
-    function LoadKeyDown() {
-        //on adds a handler to the object.  In this case it is the document itself
-        $(document).on("keydown", TabKeyDown);
-    }
+    
     
     function goDown(wiersze,wierszlp) {
         var nowywiersz = wiersze[wierszlp];
@@ -187,6 +184,5 @@ var TabKeyDown;
         return $next;
     }
 
-    $(LoadKeyDown);
 })(jQuery);
 
