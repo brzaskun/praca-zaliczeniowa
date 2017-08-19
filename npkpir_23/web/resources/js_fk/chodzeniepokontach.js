@@ -53,7 +53,7 @@ var zachowajobiekt = function(obiekt, event) {
         } else {
             var source = obiekt;
         }
-        var sourceid = $(source).closest(".grid1zap")[0].id;
+        var sourceid = $(source).closest(".walkingtable")[0].id;
         MYAPP.sourceid = sourceid;
         var tabeladata = sourceid+"_data";
         var listawierszy = r(tabeladata).children("tr");

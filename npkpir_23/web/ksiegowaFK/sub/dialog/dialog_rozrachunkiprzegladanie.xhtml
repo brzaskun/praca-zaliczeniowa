@@ -10,9 +10,23 @@
     <style>
 
     </style>
-
+<script>
+        var doczeplistnerydopol = function() {
+                /* <![CDATA[ */
+                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.walkingtable tr', function (e) {
+            try {
+                    zachowajobiekt(this, e);
+                } catch (ex) {
+                    alert('error dialog zapisynakoncie' + ex.toString());
+                }
+            });
+        };
+        /* ]]> */
+    </script>
     <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki na kontach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="rozrachunkiPrzeglad" 
-              resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menuzapisykont',1470,750);$(document.getElementById('formwpisrozrachunki:wyborkonta_input')).select();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
+              resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menuzapisykont',1470,750);$(document.getElementById('formwpisrozrachunki:wyborkonta_input')).select();
+doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               minimizable="true"
               >
         <p:layout fullPage="false" style="width: 1000px; height: 700px;" >  
@@ -23,7 +37,7 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" 
                                         minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv" queryDelay="10" 
                                         converterMessage="Nieudana konwersja Klient"
-                                        styleClass="kontoinput, autoCompleteBig" 
+                                        styleClass="kontoinput, autoCompleteBig walkingtable"
                                         >
                             <p:ajax event="query" global="false"/>
                             <p:ajax event="itemSelect"  update=":form:dataList, :tabelanowerozrachunki:tabela, :formwpisrozrachunki:nazwawybranegokonta, sumy" 
@@ -73,30 +87,7 @@
             <p:layoutUnit id="westtree1" position="west" size="350" >
                 <h:form id="form1">
 
-                    <script>
-                        /* <![CDATA[ */
-                        //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-//                        $(document).on("click", '.grid tr', function (e) {
-//                            try {
-//                                zachowajobiekt(this, e);
-//                            } catch (ex) {
-//                                alert('error dialog zapisynakoncie' + ex.toString());
-//                            }
-//                        });
-//                        $(document).on("click", '.grid1 tr', function (e) {
-//                            var lolo = $("#form1\\:dataList_data").children("tr");
-//                            var pierwszy = $(lolo[0]).find(".lpwiersza").text();
-//                            try {
-//                                e.stopPropagation(); // will prevent double click events from link being clicked within row
-//                                var unitNo = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
-//                                var numerwiersza = unitNo - pierwszy;
-//                                zachowajnumerwiersza("zmiennarozrachunki", numerwiersza);
-//                            } catch (e) {
-//                                alert('error');
-//                            }
-//                        });
-                        /* ]]> */
-                    </script>
+                    
                     <p:outputPanel id="kontenertabeli">
                         <style>
                                 .grid .ui-widget-content .ui-datatable-odd td{
@@ -118,7 +109,7 @@
                           </style>
                           <p:dataTable id="dataList" value="#{rozrachunkiPrzegladView.wykazkont}" var="loop1" selectionMode="single" 
                                      selection="#{rozrachunkiPrzegladView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
-                                     styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" 
+                                     styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" rowIndexVar="index"
                                      sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" >
                             <p:ajax event="rowSelect"  update=":tabelanowerozrachunki:tabela, :sumy, :formwpisrozrachunki:nazwawybranegokonta, :tabelazzapisami:tabela, :tabelazsumami:sumy, sumy"
                                     listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode(rozrachunkiPrzegladView.wybranekonto)}" 
@@ -127,7 +118,7 @@
                             <p:ajax event="rowUnselect" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpisrozrachunki:nazwawybranegokonta, :tabelazzapisami:tabela, :tabelazsumami:sumy, sumy" 
                                     listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNodeUnselect}" />
                             <p:column width="0.1">
-                                <h:outputText value="#{loop1.level}" style="font-size: 0.1pt;"/>
+                                <h:outputText value="#{index+1}" styleClass="lpwiersza" style="font-size: 0.1pt;"/>
                             </p:column>
                             <p:column  style="width: 50px; text-align: center;" width="10">
                                 <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
@@ -173,7 +164,8 @@
                      </p:contextMenu>
                     <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" 
                                  emptyMessage="Nie ma rozrachunków na koncie" sortBy="#{loop.id}" selection="#{rozrachunkiPrzegladView.stronyWierszawybrane}"
-                                 rowIndexVar="rowindex" styleClass="grid1" style="width: 1050px;" expandedRow="true" rowSelectMode="add"
+                                 rowIndexVar="rowindex"  style="width: 1050px;" expandedRow="true" rowSelectMode="add"
+                                  styleClass="walkingtable"
                                  >
                         <p:ajax event="rowSelectCheckbox" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
                         <p:ajax event="rowUnselectCheckbox" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>

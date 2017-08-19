@@ -7,8 +7,22 @@
 
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
+      <script>
+        var doczeplistnerydopol = function() {
+                /* <![CDATA[ */
+                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.walkingtable tr', function (e) {
+            try {
+                    zachowajobiekt(this, e);
+                } catch (ex) {
+                    alert('error dialog zapisynakoncie' + ex.toString());
+                }
+            });
+        };
+        /* ]]> */
+    </script>
     <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogewidencjevat"  
-              maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1350,750);" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
+              maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1350,750);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
               resizable="true">
         <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty()}" global="false"/>
         <h:form id="form"> 

@@ -12,27 +12,24 @@
             height: 15px !important;
         }
     </style>
-    <script>
-        /* <![CDATA[ */
-        //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-        $(document).on("click", '.gridtablicaanalityczne tr', function(e) {
-            var pierwszywiersz = $("#formtablicaanalityczne\\:tablicasaldaanalityczne_data").children("tr");
-            var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaanalityka").text());
+  <script>
+        var doczeplistnerydopol = function() {
+                /* <![CDATA[ */
+                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.walkingtable tr', function (e) {
             try {
-                e.stopPropagation(); // will prevent double click events from link being clicked within row
-                var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaanalityka").text()); // trim to remove end space, closest gets closest parent of selected type
-                var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
-                zachowajnumerwiersza("zmiennatablicaanalityczne", liczbadokalkulacji);
-            } catch (e) {
-                //alert('error');
-            }
-        });
+                    zachowajobiekt(this, e);
+                } catch (ex) {
+                    alert('error dialog zapisynakoncie' + ex.toString());
+                }
+            });
+        };
         /* ]]> */
     </script>
   
     <bcf:ajaxs/>
     <p:dialog id="saldakontanalitycznych" header="Obroty i salda na kontach analitycznych na koniec miesiąca" widgetVar="saldakontanalitycznych"  maximizable="true"  dynamic="true"
-              resizable="true" onShow="ustawdialog('saldakontanalitycznych','menuzestawienia',1550,750);"
+              resizable="true" onShow="ustawdialog('saldakontanalitycznych','menuzestawienia',1550,750);doczeplistnerydopol();"
               onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
               >
         <p:ajax event="open" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" update=":formtablicaanalityczne, :tabelazsumamianalityka:sumy"/>
@@ -96,7 +93,7 @@
                          rowStyleClass="saldaanalitycznewiersz" rowIndexVar="duzyrow"
                           filteredValue="#{saldoAnalitykaView.listaSaldoKontofilter}" selection="#{saldoAnalitykaView.listaSaldoKontowybrane}"
                           sortBy="#{loop.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" rowSelectMode="add"
-                         styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 595px;" widgetVar="tablicasaldaanalityczne"
+                         styleClass="walkingtable"  style="overflow-y: scroll; height: 595px;" widgetVar="tablicasaldaanalityczne"
                          >
                 <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
                 <p:ajax event="rowSelectCheckbox" global="false" update=":tabelazsumamianalityka:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
@@ -107,6 +104,9 @@
 <!--                <p:column headerText="id" width="20" sortBy="#{loop.id}" >
                     <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>-->
+               <p:column  width="1" style="text-align: center;">
+                   <h:outputText styleClass="lpwiersza"  value="#{duzyrow+1}" style="font-size: 0.1pt"/>
+                </p:column>
                 <p:column width="20">
                     <p:rowToggler rendered="#{saldoAnalitykaView.zzapisami}"/>
                 </p:column>

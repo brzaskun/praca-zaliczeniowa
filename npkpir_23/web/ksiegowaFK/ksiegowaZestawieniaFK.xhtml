@@ -18,6 +18,8 @@
                     <h:form>
                         <p:growl life="3600"  autoUpdate="true"/>
                     </h:form>
+                     <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
+                    <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
                     <ui:include src="sub/menu/menuzestawienia.xhtml"/>
                     
                     <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>

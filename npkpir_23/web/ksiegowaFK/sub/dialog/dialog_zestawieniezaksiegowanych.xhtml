@@ -23,9 +23,23 @@
             color: red;
         }
     </style>
+    <script>
+        var doczeplistnerydopol = function() {
+                /* <![CDATA[ */
+                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.walkingtable tr', function (e) {
+            try {
+                    zachowajobiekt(this, e);
+                } catch (ex) {
+                    alert('error dialog zapisynakoncie' + ex.toString());
+                }
+            });
+        };
+        /* ]]> */
+    </script>
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zestawieniezaksiegowanych" 
               maximizable="true"  dynamic="true"
-              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1500, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1500, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
@@ -119,31 +133,7 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-
-            <script>
-                /* <![CDATA[ */
-                //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                $(document).on("click", '.gridZaksiegowane tr', function (e) {
-                    try {
-                        zachowajobiekt(this, e);
-                    } catch (ex) {
-                        alert('error dialog zapisynakoncie' + ex.toString());
-                    }
-                });
-                $(document).on("click", '.gridZaksiegowane tr', function (e) {
-                    var pierwszywiersz = $("#zestawieniedokumentow\\:dataList_data").children("tr");
-                    var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
-                    try {
-                        e.stopPropagation(); // will prevent double click events from link being clicked within row
-                        var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
-                        var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
-                        zachowajnumerwiersza("zmiennazaksiegowane", liczbadokalkulacji);
-                    } catch (e) {
-                        //alert('error');
-                    }
-                });
-                /* ]]> */
-            </script>
+          
             <p:contextMenu for="dataList" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
                 <p:menuitem value="oz/odznacz jako wzorzec" icon="fa fa-star" actionListener="#{dokfkView.oznaczDokfkJakoWzorzec()}" update=":zestawieniedokumentow:dataList"/>
                 <p:menuitem value="kopiuj dokument" icon="fa fa-plus-square" actionListener="#{dokfkView.kopiujdokument()}" update="formwpisdokument"
@@ -161,9 +151,9 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
-                         style="width: 1460px; height: 450px; " filteredValue="#{dokfkView.filteredValue}" 
+                         style="width: 1460px; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
                          rowsPerPageTemplate="50,100,300,500" paginatorPosition="top"
-                         emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane" rowSelectMode="add"
+                         emptyMessage="Brak zaksięgowanych dokumentów" styleClass="walkingtable" rowSelectMode="add"
                          rows="200" paginator="true"
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
@@ -177,7 +167,7 @@
                     <p:rowToggler rendered="#{item.ewidencjaVAT.size() gt 0}" id="roe"/>
                 </p:column>
                 <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
-                    <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
+                    <h:outputText styleClass="lpwierszaZaksiegowane lpwiersza" value="#{row+1}"/>
                 </p:column>
                 <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.datadokumentu}"  style="#{item.datadokumentu.split('-')[1] ne WpisView.miesiacWpisu ? 'color: red;': null}"/>

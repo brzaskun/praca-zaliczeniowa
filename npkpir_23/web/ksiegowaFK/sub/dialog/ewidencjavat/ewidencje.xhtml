@@ -30,10 +30,10 @@
                     <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
                                 onsuccess="zapisywierszywybordok();"/>
                 </p:contextMenu>
-                <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1230px; margin-bottom: 30px; height: 500px;"
+                <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1230px; margin-bottom: 30px; height: 500px; overflow-y: scroll;"
                              rowKey="#{itemik.hashCode()}" selection="#{ewidencjaVatView.wybranewierszeewidencji}" rowSelectMode="add"
-                             filteredValue="#{ewidencjaVatView.filteredwierszeewidencji}"  nullSortOrder="-1" 
-                             scrollable="true" scrollRows="20" scrollHeight="450" rowIndexVar="index2"  >
+                             filteredValue="#{ewidencjaVatView.filteredwierszeewidencji}"  nullSortOrder="-1"  
+                             rowIndexVar="index2"  styleClass="walkingtable" >
                     <f:facet name="header">  
                         <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
                     </f:facet>
@@ -41,10 +41,11 @@
                     <p:ajax event="rowUnselectCheckbox" global="false"/>
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="filter" global="false"/>
-                    <p:ajax event="rowDblselect" global="false" oncomplete="oznacz(this);"/>
                     <p:ajax event="sort" global="false"/>
-                    <p:column selectionMode="multiple"  
-                              style="text-align: center;width: 30px;" rendered="#{itemik.id eq '9999' ? false : true}"></p:column>
+                    <p:column selectionMode="multiple"  style="text-align: center;width: 30px;" rendered="#{itemik.id eq '9999' ? false : true}"></p:column>
+                    <p:column width="10" style="text-align: center;">
+                        <h:outputText styleClass="lpwiersza"  value="#{index2+1}" style="font-size: 0.1pt;"/>
+                    </p:column>
                     <p:column width="30" style="text-align: center;" rendered="#{itemik.id eq '9999' ? true : false}"></p:column>
                     <p:column headerText="id" style="width: 25px;" sortBy="#{itemik.id}">
                         <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
