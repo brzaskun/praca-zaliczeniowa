@@ -42,6 +42,7 @@ public class Vies implements Serializable {
     @Basic(optional = false)
     @Column(name = "lp", nullable = false)
     private int id;
+    //nie wiem
     @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
