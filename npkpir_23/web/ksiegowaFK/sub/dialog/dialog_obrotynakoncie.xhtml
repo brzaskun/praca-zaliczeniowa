@@ -111,7 +111,7 @@
                         <p:ajax event="rowSelectCheckbox" update=":tabelazsumamiobrotow:sumy" listener="#{kontoObrotyFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumamiobrotow:sumy" listener="#{kontoObrotyFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="toggleSelect" update=":tabelazsumamiobrotow:sumy" listener="#{kontoObrotyFKView.sumazapisowtotal}" global="false"/>
-                        <p:column selectionMode="multiple" width="35"></p:column>
+                        <p:column selectionMode="multiple" styleClass="checkwiersza" width="35"></p:column>
                         <p:column headerText="#{mgs.miesiąc}" width="70" sortBy="#{loop.miesiac}">
                             <h:outputText value="#{loop.miesiac}"/>
                         </p:column>

@@ -95,8 +95,8 @@
                 <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                 <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                 <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->-->
-                <!--            <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>-->
-                <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
+                <!--            <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>-->
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
                 <p:column styleClass="kontosyntetyczne" headerText="#{mgs.konto}" width="40" filterBy="#{loop.konto.pelnynumer}">
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>

@@ -33,7 +33,7 @@
                     <p:ajax event="rowUnselectCheckbox" global="false" listener="#{vat27FKView.podsumuj()}" update="form:akordeon:panelvat27"/>
                     <p:ajax event="toggleSelect" global="false"  listener="#{vat27FKView.podsumuj()}" update="form:akordeon:panelvat27"/>
                     <p:ajax event="rowToggle" global="false"/>
-                    <p:column selectionMode="multiple" width="30" style="text-align: center;" rendered="#{wpis1.transakcja ne 'podsumowanie'}"/>
+                    <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;" rendered="#{wpis1.transakcja ne 'podsumowanie'}"/>
                     <p:column width="30" style="text-align: center;" rendered="#{wpis1.transakcja eq 'podsumowanie'}"/>
                     <p:column style="width: 5%;">
                         <p:rowToggler rendered="#{wpis1.zawierafk.size() gt 0 ? true : false}"/>

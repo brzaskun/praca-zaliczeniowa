@@ -46,7 +46,7 @@
             <p:dataTable value="#{stowNaliczenieView.lista}" var="wpisstow" scrollable="true" scrollHeight="500" style="width: 600px;"
                          sortBy="#{wpisstow.miejsce.opismiejsca}" rowKey="#{wpisstow.hashCode()}" rowSelectMode="add"
                          selection="#{stowNaliczenieView.listaselected}" rowIndexVar="index" id="tabela">
-                <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
                 <p:column width="30" style="text-align: center;">
                     <h:outputText value="#{index+1}"/>
                 </p:column>

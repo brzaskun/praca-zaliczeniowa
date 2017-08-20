@@ -273,7 +273,7 @@
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
-                <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
                 <p:column width="250" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.konto}"/>
@@ -356,7 +356,7 @@
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="filter" global="false" />
-                <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
                 <p:column width="250" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}" sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.konto}"/>

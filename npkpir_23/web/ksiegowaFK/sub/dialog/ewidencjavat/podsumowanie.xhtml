@@ -33,7 +33,7 @@
                     <f:facet name="header">
                         <h:outputText value="zestawienie ewidencji vat - sprzedaż"/>
                     </f:facet>
-                    <p:column selectionMode="multiple" style="width: 50px;text-align: center;" rendered="#{!(itemik.ewidencja.nazwa.contains('sum'))}"></p:column>
+                    <p:column selectionMode="multiple" styleClass="checkwiersza" style="width: 50px;text-align: center;" rendered="#{!(itemik.ewidencja.nazwa.contains('sum'))}"></p:column>
                     <p:column style="width: 50px;text-align: center;" rendered="#{(itemik.ewidencja.nazwa.contains('sum'))}"></p:column>
                     <p:column headerText="nazwa ewidencji" width="250">
                         <h:outputText value="#{itemik.ewidencja.nazwa}"/>
@@ -56,7 +56,7 @@
                     <f:facet name="header">
                         <h:outputText value="zestawienie ewidencji vat - koszty"/>
                     </f:facet>
-                    <p:column selectionMode="multiple" style="width: 50px;text-align: center;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                    <p:column selectionMode="multiple" styleClass="checkwiersza" style="width: 50px;text-align: center;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
                     <p:column style="width: 50px;text-align: center;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
 
                     <p:column headerText="nazwa ewidencji" width="250">

@@ -100,7 +100,7 @@
                 <p:ajax event="rowUnselectCheckbox" global="false" update=":tabelazsumamianalityka:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
                 <p:ajax event="toggleSelect" global="false" update=":tabelazsumamianalityka:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
                 <p:ajax event="rowToggle" global="false"/>
-                <p:column selectionMode="multiple" width="25" style="text-align: center;"></p:column>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="25" style="text-align: center;"></p:column>
 <!--                <p:column headerText="id" width="20" sortBy="#{loop.id}" >
                     <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>-->
@@ -179,7 +179,7 @@
                             update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
                         <p:ajax event="rowSelect" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(saldoAnalitykaView.wybranezpisykonta)}" 
                             update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
-                        <p:column selectionMode="multiple" width="30" style="text-align: center;">
+                        <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;">
                         </p:column>
                         <p:column  headerText="#{mgs.dokument}" style="width:90px;" sortBy="#{loopik.dokfkS}">
                             <h:outputText value="#{loopik.dokfkS}" style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>

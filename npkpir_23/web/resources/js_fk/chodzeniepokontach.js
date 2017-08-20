@@ -78,25 +78,32 @@ var idz = function(DolGora) {
         if (elem) {
             var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
             var dlugoscwierszy = wiersze.length;
-            var staretd = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
-            if (MYAPP.wyliczaj === true) {
-             wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
-            }
+            var staretd = $(wiersze[MYAPP[MYAPP.zmienna]]).find(".checkwiersza");
             if (DolGora === "D") {
                 zmiennadol(dlugoscwierszy);
             } else {
                 zmiennagora(dlugoscwierszy);
             }
-            var nowetd = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
-            var przesun = isScrolledIntoView(nowetd[2]);
-            elem.scrollTop = elem.scrollTop + przesun;
-            if (DolGora === "D") {
-                $(nowetd[0]).find("span").click();
-                stop();
+            var nowetd = $(wiersze[MYAPP[MYAPP.zmienna]]).find(".checkwiersza");
+            if (nowetd.length > 0) {
+                var przesun = isScrolledIntoView(nowetd);
+                elem.scrollTop = elem.scrollTop + przesun;
+                try {
+                    if (DolGora === "D") {
+                        $(nowetd).find("span")[0].click();
+                        stop();
+                    } else {
+                        $(staretd).find("span")[0].click();
+                        zachowajobiekt($(nowetd).find("span")[0], null);
+                        stop();
+                    }
+                } catch (e){}
             } else {
-                $(staretd[0]).find("span").click();
-                zachowajobiekt($(nowetd[0]).find("span"), null);
-                stop();
+                if (DolGora === "D") {
+                    MYAPP[MYAPP.zmienna] = MYAPP["magazyn"];
+                } else {
+                    MYAPP[MYAPP.zmienna] = MYAPP["magazyn"];
+                }
             }
             //document.getElementById("poledanych1").innerHTML= ' klikam na '+komorki[3].innerText+' ';
             MYAPP.przetwarzajdalej = false;
@@ -104,6 +111,7 @@ var idz = function(DolGora) {
 };
 
 var zmiennagora = function (dlugoscwierszy) {
+    MYAPP["magazyn"] = MYAPP[MYAPP.zmienna];
     if (MYAPP[MYAPP.zmienna] > dlugoscwierszy) {
         MYAPP[MYAPP.zmienna] = dlugoscwierszy;
     } else if (MYAPP[MYAPP.zmienna] === 0) {
@@ -114,6 +122,7 @@ var zmiennagora = function (dlugoscwierszy) {
 };
 
 var zmiennadol = function(dlugoscwierszy) {
+    MYAPP["magazyn"] = MYAPP[MYAPP.zmienna];
     if (MYAPP[MYAPP.zmienna] >= dlugoscwierszy - 1) {
         MYAPP[MYAPP.zmienna] = dlugoscwierszy - 1;
     } else if (MYAPP[MYAPP.zmienna] === 0) {
@@ -154,7 +163,6 @@ var isScrolledIntoView = function(elem) {
         }
         return przesuniecie;
     } catch (ex) {
-         alert("Blad w chodzeniepokontach.js isScrolledIntoView " + ex.toString());
     }
     return 0;
 };
