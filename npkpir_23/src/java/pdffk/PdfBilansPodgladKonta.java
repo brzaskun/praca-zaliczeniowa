@@ -7,8 +7,8 @@ package pdffk;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddablefk.KontoBO;
 import entity.Uz;
-import entityfk.Konto;
 import java.io.File;
 import java.util.List;
 import msg.Msg;
@@ -30,7 +30,7 @@ import view.WpisView;
 
 public class PdfBilansPodgladKonta {
     
-    public static void drukujBilansPodgladKonta(List<Konto> wykazkont, WpisView wpisView) {
+    public static void drukujBilansPodgladKonta(List<KontoBO> wykazkont, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"bokonta";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {

@@ -10,6 +10,7 @@ import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
+import embeddablefk.KontoBO;
 import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -174,7 +175,7 @@ public class testobjects {
        return tabela;
    }
    
-   public static List[] getTabelaBOKonta(List<Konto> wiersze) {
+   public static List[] getTabelaBOKonta(List<KontoBO> wiersze) {
        List n = new ArrayList();
        n.add("lp");
        n.add("nr konta");

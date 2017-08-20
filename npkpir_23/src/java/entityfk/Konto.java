@@ -260,8 +260,47 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public Konto(Integer id) {
         this.id = id;
-        
     }
+
+    public Konto(Konto old) {
+        this.id = old.id;
+        this.podatnik = old.podatnik;
+        this.nrkonta = old.nrkonta;
+        this.syntetyczne = old.syntetyczne;
+        this.level = old.level;
+        this.nazwapelna = old.nazwapelna;
+        this.nazwaskrocona = old.nazwaskrocona;
+        this.bilansowewynikowe = old.bilansowewynikowe;
+        this.zwyklerozrachszczegolne = old.zwyklerozrachszczegolne;
+        this.kontopozycjaID = old.kontopozycjaID;
+        this.macierzyste = old.macierzyste;
+        this.macierzysty = old.macierzysty;
+        this.kontomacierzyste = old.kontomacierzyste;
+        this.pelnynumer = old.pelnynumer;
+        this.mapotomkow = old.mapotomkow;
+        this.rozwin = old.rozwin;
+        this.rok = old.rok;
+        this.boWn = old.boWn;
+        this.boMa = old.boMa;
+        this.obrotyWn = old.obrotyWn;
+        this.obrotyMa = old.obrotyMa;
+        this.saldoWn = old.saldoWn;
+        this.saldoMa = old.saldoMa;
+        this.blokada = old.blokada;
+        this.slownikowe = old.slownikowe;
+        this.idslownika = old.idslownika;
+        this.przychod0koszt1 = old.przychod0koszt1;
+        this.syntetycznenumer = old.syntetycznenumer;
+        this.de = old.de;
+        this.kontokategoria = old.kontokategoria;
+        this.wnma0wm1ma2 = old.wnma0wm1ma2;
+        this.saldoWnksiegi = old.saldoWnksiegi;
+        this.saldoMaksiegi = old.saldoMaksiegi;
+        this.zaksiegowane = old.zaksiegowane;
+        this.niewidoczne = old.niewidoczne;
+    }
+    
+    
 
     public Konto(Integer id, String podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, 
             String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok,

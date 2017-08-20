@@ -34,6 +34,7 @@ import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
+import embeddablefk.KontoBO;
 import embeddablefk.KontoKwota;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
@@ -1927,6 +1928,32 @@ public class PdfMain {
                     }
                     table.addCell(ustawfrazeAlign(p.getSymbolWalutPrint(), "center", 7));
                     table.addCell(ustawfrazeAlign(p.getKontoPrzeciwstawneNumer(), "left", 7));
+                }
+            }
+            if (nazwaklasy.equals("entityfk.KontoBO")) {
+                if (modyfikator == 1) {
+                    KontoBO p = (KontoBO) it.next();
+                    table.addCell(ustawfrazeAlign(i++, "left", 8, 22f));
+                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 8));
+                    String pozycjaWn = p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "brak przyp.Wn";
+                    table.addCell(ustawfrazeAlign(pozycjaWn, "center", 8));
+                    String pozycjaMa = p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "brak przyp.Ma";
+                    table.addCell(ustawfrazeAlign(pozycjaMa, "center", 8));
+                    double roznica = p.getBoWn() - p.getBoMa();
+                    double kwota = roznica > 0.0 ? roznica: 0.0;
+                    if (kwota != 0.0) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                    }
+                    kwota = roznica < 0 ? -roznica : 0.0;
+                    if (kwota != 0.0) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                    }
                 }
             }
             if (nazwaklasy.equals("entityfk.Konto")) {

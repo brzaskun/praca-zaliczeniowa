@@ -25,11 +25,6 @@
                     }
             </script>
               <p:panelGrid columns="10">
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{bilansPodgladView.rozwinwszystkie()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{bilansPodgladView.rozwin()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{bilansPodgladView.zwinwszystkie()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{bilansPodgladView.zwin()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
-                <p:spacer width="60"/>
                 <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukuj}" style="width: 120px;"/>
                 <p:commandButton value="#{mgs.drukuj} synt" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(false)}" style="width: 120px; margin-left: 10px;"/>
                 <p:commandButton value="#{mgs.drukuj} analit" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(true)}" style="width: 120px; margin-left: 10px;"/>
@@ -50,9 +45,6 @@
                         <h:outputText value="#{loop.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                                 <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                     </p:column>
-                    <p:column headerText="typ konta" style="width: 100px; text-align: center;">
-                        <h:outputText value="#{loop.zwyklerozrachszczegolne}" /> 
-                    </p:column>
                     <p:column headerText="Strona Wn" style="width: 70px; text-align: center;">
                         <h:outputText value="#{loop.kontopozycjaID.stronaWn != null ? loop.kontopozycjaID.pozycjaWn : ''}" /> 
                     </p:column>
@@ -72,6 +64,14 @@
                     </p:column>
                     <p:column style="width: 100px;">
                         <f:facet name="header">
+                            <h:outputText value="Wn rok pop: "/>
+                        </f:facet>
+                        <h:outputText value="#{loop.saldorokpopWn ne 0 ? loop.saldorokpopWn : ''}" style="float: right;">
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                    <p:column style="width: 100px;">
+                        <f:facet name="header">
                             <h:outputText value="Ma: "/>
                             <h:outputText value="#{bilansPodgladView.sumama}">
                                 <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
@@ -81,8 +81,21 @@
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText> 
                     </p:column>
-                    <p:column headerText="różnica" style="width: 70px; text-align: right;">
-                        <h:outputText value="#{loop.boWn-loop.boMa}">
+                    <p:column style="width: 100px;">
+                        <f:facet name="header">
+                            <h:outputText value="Ma rok pop: "/>
+                        </f:facet>
+                        <h:outputText value="#{loop.saldorokpopMa ne 0 ? loop.saldorokpopMa : ''}" style="float: right;">
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                    <p:column headerText="różnica Wn" style="width: 70px; text-align: right;">
+                        <h:outputText value="#{loop.boWn-loop.saldorokpopWn}" rendered="#{loop.boWn-loop.saldorokpopWn ne 0}">
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="różnica Ma" style="width: 70px; text-align: right;">
+                        <h:outputText value="#{loop.boMa-loop.saldorokpopMa}" rendered="#{loop.boMa-loop.saldorokpopMa ne 0}">
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
                         </h:outputText>
                     </p:column>
