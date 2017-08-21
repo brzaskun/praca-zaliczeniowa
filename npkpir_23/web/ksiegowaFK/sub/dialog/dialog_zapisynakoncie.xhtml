@@ -147,7 +147,7 @@
                             <p:ajax event="rowUnselect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
                             <p:column width="10">
-                                <h:outputText  styleClass="lpwiersza" value="#{wykazkontindex+1}" style="font-size: 0.1pt"/>
+                                <h:outputText  styleClass="lpwiersza niecheckwiersza" value="#{wykazkontindex+1}" style="font-size: 0.1pt"/>
                             </p:column>
                             <p:column  style="width: 50px; text-align: center;" width="10">
                                 <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 

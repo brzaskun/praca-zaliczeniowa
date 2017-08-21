@@ -78,23 +78,24 @@ var idz = function(DolGora) {
         if (elem) {
             var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
             var dlugoscwierszy = wiersze.length;
-            var staretd = $(wiersze[MYAPP[MYAPP.zmienna]]).find(".checkwiersza");
+            var staretd = pobierzelementklinalny(wiersze);
             if (DolGora === "D") {
                 zmiennadol(dlugoscwierszy);
             } else {
                 zmiennagora(dlugoscwierszy);
             }
-            var nowetd = $(wiersze[MYAPP[MYAPP.zmienna]]).find(".checkwiersza");
+            var nowetd = pobierzelementklinalny(wiersze);
             if (nowetd.length > 0) {
                 var przesun = isScrolledIntoView(nowetd);
                 elem.scrollTop = elem.scrollTop + przesun;
                 try {
                     if (DolGora === "D") {
-                        $(nowetd).find("span")[0].click();
+                        znajdzklikmiejsce(nowetd).click();
                         stop();
                     } else {
-                        $(staretd).find("span")[0].click();
-                        zachowajobiekt($(nowetd).find("span")[0], null);
+                        znajdzklikmiejsce(staretd).click();
+                        var przenies = znajdzklikmiejsce(nowetd);
+                        zachowajobiekt(przenies, null);
                         stop();
                     }
                 } catch (e){}
@@ -108,6 +109,23 @@ var idz = function(DolGora) {
             //document.getElementById("poledanych1").innerHTML= ' klikam na '+komorki[3].innerText+' ';
             MYAPP.przetwarzajdalej = false;
         }
+};
+
+var pobierzelementklinalny = function(wiersze) {
+    if ($(wiersze[MYAPP[MYAPP.zmienna]]).find(".checkwiersza").length > 0) {
+        return  $(wiersze[MYAPP[MYAPP.zmienna]]).find(".checkwiersza");
+    } else {
+        return  $(wiersze[MYAPP[MYAPP.zmienna]]).find(".niecheckwiersza");
+    }
+};
+
+var znajdzklikmiejsce = function(td) {
+    if ($(td).find("span").length > 0) {
+        return $(td).find("span")[0];
+    } else {
+        $(td).closest("td").click();
+        return $(td);
+    }
 };
 
 var zmiennagora = function (dlugoscwierszy) {
