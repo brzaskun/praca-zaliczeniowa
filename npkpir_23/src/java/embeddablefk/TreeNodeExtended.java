@@ -1157,7 +1157,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             int j = 0;
             for (int i = 0; i < formula.length; i++) {
                 suma[j++] = formula[i];
-                if (j < znak.length+2) {
+                if (j < suma.length) {
                     suma[j++] = znak[i];
                 }
             }

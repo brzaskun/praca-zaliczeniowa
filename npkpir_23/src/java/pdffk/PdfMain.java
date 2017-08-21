@@ -2283,30 +2283,30 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign("", "l", 7,15f));
                 }
             }
-            table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 7));
+            table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 8));
             if (p.getLevel() < maxlevel) {
                 for (int k = levelPlus; k <= maxlevel; k++) {
-                    table.addCell(ustawfrazeAlign("", "l", 7));
+                    table.addCell(ustawfrazeAlign("", "l", 8));
                 }
             }
             if (p.getLevel() == 0) {
                 if (l.equals("pl")) {
-                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
                 } else {
-                    table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
                 }
             } else {
                 if (l.equals("pl")) {
-                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
                 } else {
-                    table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
                 }
             }
-            int czcionka = 7;
+            int czcionka = 9;
             if (mce.size() > 9) {
-                czcionka = 5;
+                czcionka = 7;
             } else if (mce.size() > 5) {
-                czcionka = 6;
+                czcionka = 8;
             }
             for (String m : mce) {
                 if (p.getMce().get(m) != 0.0) {

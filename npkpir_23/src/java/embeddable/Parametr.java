@@ -23,6 +23,19 @@ public class Parametr implements Serializable {
     private String rokDo;
     private String parametr;
 
+    public Parametr() {
+    }
+
+    public Parametr(String mcOd, String rokOd, String mcDo, String rokDo, String parametr) {
+        this.mcOd = mcOd;
+        this.rokOd = rokOd;
+        this.mcDo = mcDo;
+        this.rokDo = rokDo;
+        this.parametr = parametr;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "Parametr{" + "mcOd=" + mcOd + ", rokOd=" + rokOd + ", mcDo=" + mcDo + ", rokDo=" + rokDo + ", parametr=" + parametr + '}';

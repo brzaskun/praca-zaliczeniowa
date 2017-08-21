@@ -10,6 +10,7 @@ import data.Data;
 import embeddable.Parametr;
 import entity.ParamVatUE;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Named;
 
@@ -81,5 +82,19 @@ public class ParametrView implements Serializable {
             }
         }
         return "blad";
+    }
+     
+    public static void main(String[] args) {
+        List<Parametr> lista = new ArrayList<>();
+        lista.add(new Parametr("01","2017","12","2017","miesiecznie"));
+        lista.add(new Parametr("01","2016","12","2016","kwartalnie"));
+        String param = zwrocParametr(lista, 2016, "12");
+        System.out.println("param "+param);
+        param = zwrocParametr(lista, 2017, "01");
+        System.out.println("param "+param);
+        param = zwrocParametr(lista, 2016, 12);
+        System.out.println("param2 "+param);
+        param = zwrocParametr(lista, 2017, 1);
+        System.out.println("param2 "+param);
     }
 }
