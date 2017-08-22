@@ -1,0 +1,850 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: B3 v1.2.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2014-03-08 00:59:13+0000\n"
+"Last-Translator: Andrey K. <andrey271@bigmir.net>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%100/10==1 ? 2 : n%10==1 ? 0 : (n+9)%10>3 ? 2 : 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../../../../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: b3/404.php:17
+#@ b3theme
+msgid "Oops! That page can&rsquo;t be found."
+msgstr "Упс! Не удалось найти такую страницу."
+
+#: b3/404.php:30
+#@ b3theme
+msgid "Most Used Categories"
+msgstr "Самые большие рубрики"
+
+#. translators: %1$s: smiley
+#. translators: %1$s: smiley
+#: b3/404.php:47
+#, php-format
+#@ b3theme
+msgid "Try looking in the monthly archives. %1$s"
+msgstr "Попробуйте поискать в ежемесячных архивах. %1$s"
+
+#: b3/archive.php:32
+#, php-format
+#@ b3theme
+msgid "Author: %s"
+msgstr "Автор: %s"
+
+#: b3/archive.php:37
+#, php-format
+#@ b3theme
+msgid "Day: %s"
+msgstr "День: %s"
+
+#: b3/archive.php:40
+#, php-format
+#@ b3theme
+msgid "Month: %s"
+msgstr "Месяц: %s"
+
+#: b3/archive.php:43
+#, php-format
+#@ b3theme
+msgid "Year: %s"
+msgstr "Год: %s"
+
+#: b3/archive.php:46
+#@ b3theme
+msgid "Asides"
+msgstr "Замечание"
+
+#: b3/archive.php:49
+#@ b3theme
+msgid "Images"
+msgstr "Изображения"
+
+#: b3/archive.php:52
+#@ b3theme
+msgid "Videos"
+msgstr "Видео"
+
+#: b3/archive.php:55
+#@ b3theme
+msgid "Quotes"
+msgstr "Цитаты"
+
+#: b3/archive.php:58
+#@ b3theme
+msgid "Links"
+msgstr "Ссылки"
+
+#: b3/archive.php:67
+#@ b3theme
+msgid "Archives"
+msgstr "Архивы"
+
+#: b3/comments.php:36
+#: b3/comments.php:56
+#@ b3theme
+msgid "Comment navigation"
+msgstr "Навигация комментариев"
+
+#: b3/comments.php:37
+#: b3/comments.php:57
+#@ b3theme
+msgid "&larr; Older Comments"
+msgstr "&larr; Старые комментарии"
+
+#: b3/comments.php:38
+#: b3/comments.php:58
+#@ b3theme
+msgid "Newer Comments &rarr;"
+msgstr "Новые комментарии &rarr;"
+
+#: b3/comments.php:68
+#@ b3theme
+msgid "Comments are closed."
+msgstr "Комментирование закрыто."
+
+#: b3/comments.php:79
+#@ b3theme
+msgid "Name"
+msgstr "Имя"
+
+#: b3/comments.php:86
+#@ b3theme
+msgid "Email"
+msgstr "Email"
+
+#: b3/comments.php:93
+#@ b3theme
+msgid "Website"
+msgstr "Сайт"
+
+#: b3/comments.php:101
+#@ b3theme
+msgctxt "noun"
+msgid "Comment"
+msgstr "Комментарий"
+
+#: b3/comments.php:104
+#, php-format
+#@ default
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr "Пожалуйста, <a href=\"%s\">авторизуйтесь</a> для комментирования."
+
+#: b3/comments.php:108
+#, php-format
+#@ default
+msgid "Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\" title=\"Log out of this account\">Log out?</a>"
+msgstr "Вы вошли как <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\" title=\"Log out of this account\">Выйти?</a>"
+
+#: b3/comments.php:111
+#@ b3theme
+msgid "Your email address will not be published."
+msgstr "Ваш email не публикуется."
+
+#: b3/comments.php:113
+#, php-format
+#@ b3theme
+msgid "You may use these <abbr title=\"HyperText Markup Language\">HTML</abbr> tags and attributes: %s"
+msgstr "Можно использовать эти <abbr title=\"HyperText Markup Language\">HTML</abbr>тэги и атрибуты: %s"
+
+#: b3/content-none.php:14
+#@ b3theme
+msgid "Nothing Found"
+msgstr "Ничего не найдено"
+
+#: b3/content-none.php:20
+#, php-format
+#@ b3theme
+msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr "Готовы опубликовать первую запись? <a href=\"%1$s\">Начать</a>."
+
+#: b3/content-none.php:24
+#@ b3theme
+msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
+msgstr "Не нашлось ничего соответствующего вашему запросу. Попробуйте поискать по другим словам."
+
+#: b3/content-none.php:29
+#@ b3theme
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
+msgstr "Похоже, по данной ссылке нет ничего подходящего. Возможно, поможет поиск."
+
+#: b3/functions.php:478
+#@ b3theme
+msgid "Pages:"
+msgstr "Страницы:"
+
+#. translators: used between list items, there is a space after the comma
+#. translators: used between list items, there is a space after the comma
+#: b3/content-page.php:19
+#: b3/content-single.php:59
+#: b3/content.php:66
+#: b3/image.php:62
+#: b3/inc/template-tags.php:118
+#: b3/inc/template-tags.php:137
+#@ b3theme
+msgid "Edit"
+msgstr "Редактировать"
+
+#. translators: used between list items, there is a space after the comma
+#. translators: used between list items, there is a space after the comma
+#: b3/content-single.php:25
+#: b3/content.php:45
+#@ b3theme
+msgid ", "
+msgstr ", "
+
+#: b3/content.php:34
+#@ b3theme
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Продолжить чтение <span class=\"meta-nav\">&rarr;</span>"
+
+#: b3/content.php:63
+#@ b3theme
+msgid "Leave a comment"
+msgstr "Оставить комментарий"
+
+#: b3/content.php:63
+#@ b3theme
+msgid "1 Comment"
+msgstr "1 комментарий"
+
+#: b3/content.php:63
+#@ b3theme
+msgid "% Comments"
+msgstr "% комментариев"
+
+#: b3/footer.php:25
+#, php-format
+#@ b3theme
+msgid "Proudly powered by %s"
+msgstr "Работает на %s"
+
+#: b3/functions.php:34
+#@ b3theme
+msgid "Primary Menu"
+msgstr "Главное меню"
+
+#: b3/functions.php:88
+#@ b3theme
+msgid "Home"
+msgstr "Главная"
+
+#: b3/functions.php:188
+#@ b3theme
+msgid "Top Sidebar"
+msgstr "Верхний сайдбар"
+
+#: b3/functions.php:196
+#@ b3theme
+msgid "Bottom Sidebar"
+msgstr "Нижний сайдбар"
+
+#: b3/image.php:38
+#@ b3theme
+msgid "<span class=\"meta-nav\">&larr;</span> Previous"
+msgstr "<span class=\"meta-nav\">&larr;</span> Предыдущее"
+
+#: b3/image.php:39
+#@ b3theme
+msgid "Next <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Следующее <span class=\"meta-nav\">&rarr;</span>"
+
+#: b3/inc/extras.php:57
+#, php-format
+#@ b3theme
+msgid "Page %s"
+msgstr "Страница %s"
+
+#: b3/inc/options.php:208
+#: b3/inc/options.php:351
+#@ b3theme
+msgid "Yes"
+msgstr "Да"
+
+#: b3/inc/options.php:208
+#: b3/inc/options.php:351
+#@ b3theme
+msgid "No"
+msgstr "Нет"
+
+#: b3/inc/options.php:270
+#@ b3theme
+msgid "B3 Custom Settings"
+msgstr "Собственные настройки темы B3"
+
+#: b3/inc/options.php:276
+#: b3/inc/options.php:287
+#@ b3theme
+msgid "Site Branding"
+msgstr "Брендинг сайта"
+
+#: b3/inc/options.php:288
+#@ b3theme
+msgid "Display logo"
+msgstr "Показывать лого"
+
+#: b3/inc/options.php:289
+#@ b3theme
+msgid "Display site title?"
+msgstr "Название сайта"
+
+#: b3/inc/options.php:290
+#@ b3theme
+msgid "Display site description?"
+msgstr "Показывать описание сайта"
+
+#: b3/inc/options.php:297
+#@ b3theme
+msgid "Copyright text"
+msgstr "Текст копирайта"
+
+#: b3/inc/options.php:350
+#@ b3theme
+msgid "Homepage carousel"
+msgstr "Карусель на главной"
+
+#: b3/inc/options.php:351
+#@ b3theme
+msgid "Demo"
+msgstr "Демо"
+
+#: b3/inc/options.php:277
+#: b3/inc/options.php:302
+#@ b3theme
+msgid "Custom Colors"
+msgstr "Собственные цвета"
+
+#: b3/inc/options.php:303
+#@ b3theme
+msgid "Text color"
+msgstr "Цвет текста"
+
+#: b3/inc/options.php:304
+#@ b3theme
+msgid "Headers H1...H6 Color"
+msgstr "Цвет заголовков H1...H6"
+
+#: b3/inc/options.php:305
+#@ b3theme
+msgid "Link color"
+msgstr "Цвет ссылок"
+
+#: b3/inc/options.php:309
+#@ b3theme
+msgid "Navigation link color"
+msgstr "Цвет ссылок навигации"
+
+#: b3/inc/options.php:318
+#@ b3theme
+msgid "Main sidebar"
+msgstr "Боковая колонка"
+
+#: b3/inc/options.php:319
+#@ b3theme
+msgid "Left"
+msgstr "Слева"
+
+#: b3/inc/options.php:319
+#@ b3theme
+msgid "Right"
+msgstr "Справа"
+
+#: b3/inc/options.php:320
+#@ b3theme
+msgid "Top sidebar"
+msgstr "Верхний сайдбар"
+
+#: b3/inc/options.php:321
+#@ b3theme
+msgid "Bottom sidebar"
+msgstr "Нижний сайдбар"
+
+#: b3/inc/options.php:322
+#@ b3theme
+msgid "Disable comments on pages"
+msgstr "Откл. комменты для страниц"
+
+#: b3/inc/options.php:323
+#@ b3theme
+msgid "Widget as panel"
+msgstr "Виджеты в стиле панели"
+
+#: b3/inc/options.php:324
+#@ b3theme
+msgid "Post as panel"
+msgstr "Записи в стиле панели"
+
+#: b3/inc/options.php:325
+#@ b3theme
+msgid "Home link (in pages menu)"
+msgstr "Home ссылка в меню страниц"
+
+#: b3/inc/options.php:332
+#@ b3theme
+msgid "Excerpts in archives"
+msgstr "Цитаты в архивах"
+
+#: b3/inc/options.php:333
+#@ b3theme
+msgid "Featured images in excerpts"
+msgstr "Featured images в цитатах"
+
+#: b3/inc/options.php:334
+#@ b3theme
+msgid "Display post date"
+msgstr "Показывать дату записи"
+
+#: b3/inc/options.php:335
+#@ b3theme
+msgid "Display post author"
+msgstr "Показывать автора записи"
+
+#: b3/inc/options.php:341
+#@ b3theme
+msgid "Rounded images"
+msgstr "Скругленные изображения"
+
+#: b3/inc/options.php:298
+#@ b3theme
+msgid "Display credits"
+msgstr "Ссылки разработчиков"
+
+#: b3/inc/options.php:402
+#@ b3theme
+msgid "Backup/Restore Settings"
+msgstr "Сохранение и восстановление настроек"
+
+#: b3/inc/options.php:403
+#@ b3theme
+msgid "Export Settings"
+msgstr "Экспортировать настройки"
+
+#: b3/inc/options.php:403
+#@ b3theme
+msgid "Save as File"
+msgstr "Сохранить как файл"
+
+#: b3/inc/options.php:406
+#@ b3theme
+msgid "Upload and Apply"
+msgstr "Закачать и применить"
+
+#: b3/inc/options.php:410
+#@ b3theme
+msgid "Reset Options"
+msgstr "Сбросить настройки"
+
+#: b3/inc/template-tags.php:37
+#@ b3theme
+msgctxt "Previous post link"
+msgid "&larr;"
+msgstr "&larr;"
+
+#: b3/inc/template-tags.php:47
+#@ b3theme
+msgctxt "Next post link"
+msgid "&rarr;"
+msgstr "&rarr;"
+
+#: b3/inc/template-tags.php:63
+#@ b3theme
+msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+msgstr "<span class=\"meta-nav\">&larr;</span> Старые записи"
+
+#: b3/inc/template-tags.php:66
+#@ b3theme
+msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Новые записи <span class=\"meta-nav\">&rarr;</span>"
+
+#: b3/inc/template-tags.php:118
+#@ b3theme
+msgid "Pingback:"
+msgstr ""
+
+#: b3/inc/template-tags.php:128
+#, php-format
+#@ b3theme
+msgid "%s <span class=\"says\">says:</span>"
+msgstr "%s <span class=\"says\">сказал(а):</span>"
+
+#: b3/inc/template-tags.php:134
+#, php-format
+#@ b3theme
+msgctxt "1: date, 2: time"
+msgid "%1$s at %2$s"
+msgstr "%1$s в %2$s"
+
+#: b3/inc/template-tags.php:141
+#@ b3theme
+msgid "Your comment is awaiting moderation."
+msgstr "Ваш комментарий ожидает модерации."
+
+#: b3/search.php:16
+#, php-format
+#@ b3theme
+msgid "Search Results for: %s"
+msgstr "Результаты поиска: %s"
+
+#: b3/searchform.php:10
+#@ b3theme
+msgctxt "placeholder"
+msgid "Search &hellip;"
+msgstr "Поискать &hellip;"
+
+#: b3/functions.php:13
+#@ b3theme
+msgid "B3 Theme settings"
+msgstr "Настройки темы B3"
+
+#: b3/functions.php:183
+#@ b3theme
+msgid "Sidebar 1"
+msgstr "Боковая колонка"
+
+#: b3/functions.php:417
+#, php-format
+#@ b3theme
+msgid "You have no slides yet. You can <a href=\"%1$s\">add your slides</a> or activate demo slides. The optimum image width/height ratio is %2$s, the best image size: %3$s."
+msgstr "У вас еще нет слайдов. Вы можете <a href=\"%1$s\">добавить слайды</a> или активировать демо-слайды. Оптимальная соотношение ширины к высоте %2$s, оптимальный размер: %3$s."
+
+#: b3/image.php:27
+#, php-format
+#@ b3theme
+msgid "size <a href=\"%2$s\"> %3$s &times; %4$s</a>"
+msgstr "размер  <a href=\"%2$s\"> %3$s &times; %4$s</a>"
+
+#: b3/inc/options.php:280
+#: b3/inc/options.php:347
+#@ b3theme
+msgid "Slides"
+msgstr "Слайды"
+
+#: b3/functions.php:444
+#: b3/inc/options.php:370
+#@ b3theme
+msgid "Slide"
+msgstr "Слайд"
+
+#: b3/inc/options.php:248
+#@ b3theme
+msgid "Theme settings have been updated."
+msgstr "Настройки темы сохранены."
+
+#: b3/inc/options.php:251
+#@ b3theme
+msgid "Theme settings have been reset."
+msgstr "Настройки темы сброшены."
+
+#: b3/inc/options.php:254
+#@ b3theme
+msgid "Theme settings have been imported from the uploded file."
+msgstr "Настройки темы импортированы из файла."
+
+#: b3/inc/options.php:258
+#@ b3theme
+msgid "Error: theme settings import failed."
+msgstr "Ошибка: не удалось импортировать настройки темы."
+
+#: b3/functions.php:441
+#@ b3theme
+msgid "All theme settings will be replaced by default dettings. Continue?"
+msgstr "Настройки темы будут заменены на настройки по умолчанию. Продолжаем?"
+
+#: b3/functions.php:442
+#@ b3theme
+msgid "Theme settings will be replaced by settings from the uploaded file. Continue?"
+msgstr "Текущие настройки будут заменены на набор настроек из закачиваемого файла. Продолжаем?"
+
+#: b3/inc/options.php:428
+#, php-format
+#@ b3theme
+msgid "Any questions? Look %1$s."
+msgstr "Есть вопросы? Посмотрите %1$s."
+
+#: b3/footer.php:26
+#, php-format
+#@ b3theme
+msgid "Theme %1$s by %2$s."
+msgstr "Тема %1$s от %2$s."
+
+#: b3/functions.php:443
+#@ b3theme
+msgid "This slide will be removed. Continue?"
+msgstr "Этот слайд будет уделен. Продолжаем?"
+
+#: b3/functions.php:445
+#: b3/inc/options.php:389
+#@ b3theme
+msgid "Link"
+msgstr "Ссылка"
+
+#: b3/functions.php:447
+#: b3/inc/options.php:384
+#@ b3theme
+msgid "Description"
+msgstr "Описание"
+
+#: b3/functions.php:448
+#: b3/inc/options.php:373
+#@ b3theme
+msgid "Title"
+msgstr "Заголовок"
+
+#: b3/functions.php:449
+#: b3/inc/options.php:392
+#@ b3theme
+msgid "Alt text"
+msgstr "Альт. текст"
+
+#: b3/functions.php:450
+#: b3/inc/options.php:381
+#@ b3theme
+msgid "Choose"
+msgstr "Выбрать"
+
+#: b3/inc/options.php:278
+#: b3/inc/options.php:317
+#@ b3theme
+msgid "Page Structure"
+msgstr "Структура страницы"
+
+#: b3/inc/options.php:279
+#: b3/inc/options.php:331
+#@ b3theme
+msgid "Posts Look"
+msgstr "Вид записей"
+
+#: b3/inc/options.php:282
+#@ b3theme
+msgid "Display All"
+msgstr "Показать все"
+
+#: b3/inc/options.php:398
+#@ b3theme
+msgid "Add new slide"
+msgstr "Добавить новый слайд"
+
+#: b3/functions.php:446
+#: b3/inc/options.php:377
+#@ b3theme
+msgid "Image URL"
+msgstr "URL изображения"
+
+#: b3/functions.php:451
+#@ b3theme
+msgid "Choose Image"
+msgstr "Выбрать изображение"
+
+#: b3/functions.php:452
+#@ b3theme
+msgid "Please specify image URL for each slide or remove unnecessary slides."
+msgstr "Пожалуйста, укажите URL изображения для каждого из слайдов или удалите ненужные слайды."
+
+#: b3/inc/options.php:281
+#@ b3theme
+msgid "Backup/Restore"
+msgstr "Восстановление"
+
+#: b3/inc/options.php:420
+#@ b3theme
+msgid "Save Settings"
+msgstr "Сохранить настройки"
+
+#: b3/inc/options.php:291
+#@ b3theme
+msgid "Menu Bar title"
+msgstr "Заголовок меню"
+
+#: dev/l18n/pomo/sample/app.php:56
+#, php-format
+#@ default
+msgid "Welcome %s!"
+msgstr ""
+
+#: dev/l18n/pomo/sample/app.php:58
+#, php-format
+#@ b3theme
+msgid "You have one new message."
+msgid_plural "You have %s new messages."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: dev/l18n/pomo/sample/app.php:60
+#@ side
+msgid "A string with low priority!"
+msgstr ""
+
+#: dev/l18n/pomo/sample/app.php:62
+#@ default
+msgid "Bye\n"
+msgstr ""
+
+#. Not gettexted string WP_I18N_CONFIG
+#: dev/l18n/t/data/not-gettexted-0-result.php:11
+#: dev/l18n/t/data/not-gettexted-0-work.php:11
+#@ {php-code}
+msgid "Translation: There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://codex.wordpress.org/Editing_wp-config.php'>We got it</a>. You can create a <code>wp-config.php</code> file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file.</p><p><a href='%s' class='button'>Create a Configuration File</a>"
+msgstr ""
+
+#. Not gettexted string WP_I18N_ERROR
+#: dev/l18n/t/data/not-gettexted-0-result.php:11
+#: dev/l18n/t/data/not-gettexted-0-work.php:11
+#@ {php-code}
+msgid "Translation: WordPress &rsaquo; Error"
+msgstr ""
+
+#. Not gettexted string WP_I18N_CONFIG
+#: dev/l18n/t/data/not-gettexted-0.php:11
+#@ {php-code}
+msgid " There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://codex.wordpress.org/Editing_wp-config.php'>We got it</a>. You can create a <code>wp-config.php</code> file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file.</p><p><a href='%s' class='button'>Create a Configuration File</a>"
+msgstr ""
+
+#. Not gettexted string WP_I18N_ERROR
+#: dev/l18n/t/data/not-gettexted-0.php:11
+#@ {php-code}
+msgid "WordPress &rsaquo; Error"
+msgstr ""
+
+#: b3/inc/options.php:405
+#@ b3theme
+msgid "Import"
+msgstr "Импорт"
+
+#: b3/comments.php:29
+#, php-format
+#@ b3theme
+msgctxt "comments title"
+msgid "One comment on &laquo;%2$s&raquo;"
+msgid_plural "%1$s comments on &laquo;%2$s&raquo;"
+msgstr[0] "%1$s комментарий на &laquo;%2$s&raquo;"
+msgstr[1] "%1$s комментария на &laquo;%2$s&raquo;"
+msgstr[2] "%1$s комментариев на &laquo;%2$s&raquo;"
+
+#: b3/inc/options.php:326
+#@ b3theme
+msgid "Reduce &quot;Not Found&quot; page"
+msgstr "Краткая страница &quot;Не найдено&quot;"
+
+#: b3/inc/options.php:343
+#@ b3theme
+msgid "Older/Newer"
+msgstr "Старые-новые"
+
+#: b3/inc/options.php:343
+#@ b3theme
+msgid "Numbers"
+msgstr "Числа"
+
+#: b3/inc/options.php:342
+#@ b3theme
+msgid "Blog pagination"
+msgstr "Навигация блога"
+
+#: b3/404.php:21
+#@ b3theme
+msgid "It looks like nothing was found at this location. Maybe try one of available links or a search?"
+msgstr "Похоже, ничего не нашлось. Попробуйте одну из доступных ссылок или поиск."
+
+#: b3/inc/options.php:293
+#@ b3theme
+msgid "default"
+msgstr "по умолчанию"
+
+#: b3/inc/options.php:293
+#@ b3theme
+msgid "disable"
+msgstr "откл."
+
+#: b3/inc/options.php:294
+#@ b3theme
+msgid "top"
+msgstr "вверху"
+
+#: b3/inc/options.php:294
+#@ b3theme
+msgid "fixed top"
+msgstr "прилеплено вверху"
+
+#: b3/inc/options.php:295
+#@ b3theme
+msgid "fixed bottom"
+msgstr "прилеплено внизу"
+
+#: b3/inc/options.php:295
+#@ b3theme
+msgid "full width"
+msgstr "на всю ширину"
+
+#: b3/inc/options.php:296
+#@ b3theme
+msgid "Menu Location"
+msgstr "Положение меню"
+
+#: b3/inc/options.php:306
+#@ b3theme
+msgid "Menu bar color"
+msgstr "Цвет панели меню"
+
+#: b3/inc/options.php:307
+#@ b3theme
+msgid "Menu bar gradient"
+msgstr "Градиент панели меню"
+
+#: b3/inc/options.php:311
+#@ b3theme
+msgid "Page background color"
+msgstr "Цвет фона страницы"
+
+#: b3/inc/options.php:355
+#@ b3theme
+msgid "Disable &#39;the_content&#39; filter"
+msgstr "Откл. фильтр &#39;the_content&#39;"
+
+#: b3/inc/options.php:358
+#@ b3theme
+msgid "Edit Slides"
+msgstr "Редактировать слайды"
+
+#: b3/inc/options.php:337
+#@ b3theme
+msgid "Adjacent post links"
+msgstr "Ссылки соседних записей"
+
+#: b3/inc/options.php:338
+#@ b3theme
+msgid "Titles"
+msgstr "Заголовки"
+
+#: b3/inc/options.php:338
+#@ b3theme
+msgid "Next/Previous"
+msgstr "След./Предыд."
+
+#: b3/inc/options.php:338
+#@ b3theme
+msgid "Disable"
+msgstr "Отключить"
+
+#: b3/inc/template-tags.php:39
+#@ b3theme
+msgid "Previous post"
+msgstr "Предыдущая запись"
+
+#: b3/inc/template-tags.php:46
+#@ b3theme
+msgid "Next post"
+msgstr "Следующая запись"
+

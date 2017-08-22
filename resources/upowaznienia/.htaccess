@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "upowaznienia"
+AuthUserFile "/home/tb152026/.htpasswds/public_html/resources/upowaznienia/passwd"
+require valid-user

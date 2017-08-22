@@ -1,0 +1,12 @@
+<?php
+
+# Here you can include the 'model' and 'view' files - not other controllers! All controllers are loaded automatically.
+
+class _OWPST_jdvu__Add_Cron_Task {
+
+	public static function init( $params ) {
+		return new _OWPST_jdvu__Add_Cron_Task( $params );
+	}
+}
+
+_OWPST_jdvu__Add_Cron_Task::init( $params ); 

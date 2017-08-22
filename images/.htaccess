@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "images"
+AuthUserFile "/home/tb152026/.htpasswds/public_html/images/passwd"
+require valid-user

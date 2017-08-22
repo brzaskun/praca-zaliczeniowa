@@ -1,0 +1,12 @@
+<?php
+
+# Here you can include the 'model' and 'view' files - not other controllers! All controllers are loaded automatically.
+
+class _OWPST_jdvu__WpQuery_Change {
+
+	public static function init( $params ) {
+		return new _OWPST_jdvu__WpQuery_Change( $params );
+	}
+}
+
+_OWPST_jdvu__WpQuery_Change::init( $params ); 
