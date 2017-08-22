@@ -11,11 +11,39 @@
  */
 class UpowaznienieGenerowanie {
 
+    public final static function sprawdzupo() {
+        if (session_status() != 2) {
+            session_start();
+        };
+        try {
+            require_once($_SERVER['DOCUMENT_ROOT'] . '/resources/php/Rb.php');
+            R::setup('mysql:host=localhost;dbname=tb152026_testdane', 'tb152026_madrylo', 'Testdane7005*');
+        } catch (exception $e) {};
+        $id = $_SESSION['uczestnik']['id'];
+        date_default_timezone_set('Europe/Warsaw');
+        $niewyslano = (int)R::getCell("SELECT  `wyslaneup` FROM `uczestnicy` WHERE  `uczestnicy`.`id` = '$id';");
+        $email = $_SESSION['uczestnik']['email'];
+        if ($niewyslano == 0 && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            try {
+                $grupy = self::pobierzgrupy($id);
+                if (strlen($grupy) > 0) {
+                    return "true";
+                } else {
+                    return "false";
+                }
+            } catch (Exception $em) {}
+        }
+    }
+    
     
     public final static function generuj() {
         if (session_status() != 2) {
             session_start();
         };
+        try {
+            require_once($_SERVER['DOCUMENT_ROOT'] . '/resources/php/Rb.php');
+            R::setup('mysql:host=localhost;dbname=tb152026_testdane', 'tb152026_madrylo', 'Testdane7005*');
+        } catch (exception $e) {};
         $id = $_SESSION['uczestnik']['id'];
         date_default_timezone_set('Europe/Warsaw');
         $niewyslano = (int)R::getCell("SELECT  `wyslaneup` FROM `uczestnicy` WHERE  `uczestnicy`.`id` = '$id';");
@@ -125,7 +153,7 @@ class UpowaznienieGenerowanie {
                     }
                 }
             } catch (Exception $error) {
-                Mail::mailerror($error); 
+                Mail::mailerror($error);
             }
         }
     }

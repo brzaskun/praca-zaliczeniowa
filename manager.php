@@ -24,24 +24,24 @@
     ?>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="/resources/dataTable/start/jquery-ui-1.10.3.custom.css?v180817c" />
-        <link rel="stylesheet" href="/resources/dataTableNew/media/css/jquery.dataTables.css?v180817c"/>
-        <link rel="stylesheet" href="/resources/css/tablecss.css?v180817c"/>
-        <link rel="stylesheet" href="/resources/css/main.css?v180817c"/>
-        <link rel="stylesheet" href="/resources/contextmenu/jquery.contextMenu.css?v180817c"/>
-        <script src="/resources/js/jquery-1.12.3.js?v180817c"></script>
-        <script src="/resources/dataTable/jquery-ui-1.10.3.custom.js?v180817c"></script>
-        <script src="/resources/jquery-cookie/jquery.cookie.js?v180817c"></script>
-        <script src="/resources/js/jquery.form.js?v180817c"></script>
-        <script src="/resources/dataTableNew/media/js/jquery.dataTables.js?v180817c"></script>
-        <script src="/resources/contextmenu/jquery.contextMenu.js?v180817c"></script>
-        <script src="/resources/contextmenu/jquery.ui.position.js?v180817c"></script>
-        <script src="/resources/js/main.js?v180817c"></script>
-        <script src="/resources/js/ciasteczka.js?v180817c"></script>
-        <script src="/resources/js/potwierdzenia.js?v180817c"></script>
-        <script src="/resources/ckeditor/ckeditor.js?v180817c"></script>
+        <link rel="stylesheet" href="/resources/dataTable/start/jquery-ui-1.10.3.custom.css?v220817a" />
+        <link rel="stylesheet" href="/resources/dataTableNew/media/css/jquery.dataTables.css?v220817a"/>
+        <link rel="stylesheet" href="/resources/css/tablecss.css?v220817a"/>
+        <link rel="stylesheet" href="/resources/css/main.css?v220817a"/>
+        <link rel="stylesheet" href="/resources/contextmenu/jquery.contextMenu.css?v220817a"/>
+        <script src="/resources/js/jquery-1.12.3.js?v220817a"></script>
+        <script src="/resources/dataTable/jquery-ui-1.10.3.custom.js?v220817a"></script>
+        <script src="/resources/jquery-cookie/jquery.cookie.js?v220817a"></script>
+        <script src="/resources/js/jquery.form.js?v220817a"></script>
+        <script src="/resources/dataTableNew/media/js/jquery.dataTables.js?v220817a"></script>
+        <script src="/resources/contextmenu/jquery.contextMenu.js?v220817a"></script>
+        <script src="/resources/contextmenu/jquery.ui.position.js?v220817a"></script>
+        <script src="/resources/js/main.js?v220817a"></script>
+        <script src="/resources/js/ciasteczka.js?v220817a"></script>
+        <script src="/resources/js/potwierdzenia.js?v220817a"></script>
+        <script src="/resources/ckeditor/ckeditor.js?v220817a"></script>
 
-        <script src="/resources/js/managerscript.js?v180817c"></script>
+        <script src="/resources/js/managerscript.js?v220817a"></script>
 
         <title>Szkolenie Dane Osobowe - Panel Menadżera</title>
         <script>

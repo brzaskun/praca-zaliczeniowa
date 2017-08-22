@@ -10,22 +10,22 @@
     ?>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="/resources/dataTable/start/jquery-ui-1.10.3.custom.css?v180817c" />
-        <link rel="stylesheet" href="/resources/dataTableNew/media/css/jquery.dataTables.css?v180817c"/>
-        <link rel="stylesheet" href="/resources/css/tablecss.css?v180817c"/>
-        <link rel="stylesheet" href="/resources/css/main.css?v180817c"/>
-        <link rel="stylesheet" href="/resources/css/details.css?v180817c"/>
-        <link rel="stylesheet" href="/resources/contextmenu/jquery.contextMenu.css?v180817c"/>
+        <link rel="stylesheet" href="/resources/dataTable/start/jquery-ui-1.10.3.custom.css?v220817a" />
+        <link rel="stylesheet" href="/resources/dataTableNew/media/css/jquery.dataTables.css?v220817a"/>
+        <link rel="stylesheet" href="/resources/css/tablecss.css?v220817a"/>
+        <link rel="stylesheet" href="/resources/css/main.css?v220817a"/>
+        <link rel="stylesheet" href="/resources/css/details.css?v220817a"/>
+        <link rel="stylesheet" href="/resources/contextmenu/jquery.contextMenu.css?v220817a"/>
         <link rel="icon" type="image/png" sizes="32x32" href="/resources/css/images/ODOLogoVector.png"/>
-        <script src="/resources/js/jquery-1.12.3.js?v180817c"></script>
-        <script src="/resources/dataTable/jquery-ui-1.10.3.custom.js?v180817c"></script>
-        <script src="/resources/js/jquery.form.js?v180817c"></script>
-        <script src="/resources/dataTableNew/media/js/jquery.dataTables.js?v180817c"></script>
-        <script src="/resources/contextmenu/jquery.contextMenu.js?v180817c"></script>
-        <script src="/resources/contextmenu/jquery.ui.position.js?v180817c"></script>
-        <script src="/resources/primeui-4.1.12/primeui.min.js?v180817c"></script>
-        <script src="/resources/js/main.js?v180817c"></script>
-        <script src="/resources/js/ciasteczka.js?v180817c"></script>
+        <script src="/resources/js/jquery-1.12.3.js?v220817a"></script>
+        <script src="/resources/dataTable/jquery-ui-1.10.3.custom.js?v220817a"></script>
+        <script src="/resources/js/jquery.form.js?v220817a"></script>
+        <script src="/resources/dataTableNew/media/js/jquery.dataTables.js?v220817a"></script>
+        <script src="/resources/contextmenu/jquery.contextMenu.js?v220817a"></script>
+        <script src="/resources/contextmenu/jquery.ui.position.js?v220817a"></script>
+        <script src="/resources/primeui-4.1.12/primeui.min.js?v220817a"></script>
+        <script src="/resources/js/main.js?v220817a"></script>
+        <script src="/resources/js/ciasteczka.js?v220817a"></script>
         <title>Testy Dane Wrażliwe</title>
     </head>
     <body> 
@@ -62,10 +62,15 @@
         echo Sprawdzwyniki::$progzdawalnosci ?>%</p><div id="zdawalnoscbar"><div></div></div>
                         </div>
                         <div class="dolneprzyciski" >
-                            <button id="zaswiadczenie" name="zaswiadczenie" class="buttonszkolenie" type="button" onclick="generujtesty()" style="float: right;" title="Pobranie zaświadczenia o ukończeniu szkolenia">
+<!--                            <button id="zaswiadczenie" name="zaswiadczenie" class="buttonszkolenie" type="button" onclick="generujtesty()" style="float: right;" title="Pobranie zaświadczenia o ukończeniu szkolenia">
+                                <span class="spanszkolenie">zaświadczenie</span>
+                            </button>-->
+                            <button id="zaswiadczenie" name="zaswiadczenie" class="buttonszkolenie" formaction="drukzaswiadczenie.php" formmethod="post"
+                                    type="submit"  style="float: right;" title="Pobranie zaświadczenia o ukończeniu szkolenia" onclick="generujtesty()">
                                 <span class="spanszkolenie">zaświadczenie</span>
                             </button>
-                            <button id="powtorztest" name="powtorztest" type="submit" class="buttonszkolenie" formaction="nowylogin.php" formmethod="post" style="float: right;"><span class="spanszkolenie" title="Możliwość powtórzenia szkolenia i testu">powtórz</span></button>
+                            <button id="powtorztest" name="powtorztest" type="submit" class="buttonszkolenie" formaction="nowylogin.php" formmethod="post"
+                                    style="float: right;"><span class="spanszkolenie" title="Możliwość powtórzenia szkolenia i testu">powtórz</span></button>
                         </div>
                     </div>
                 </form>
@@ -104,11 +109,17 @@
 
                     }());
                 </script>
-
+        <?php error_reporting(0);
+        require_once($_SERVER['DOCUMENT_ROOT'] . '/resources/php/KoniecTestu.php');
+        if (Sprawdzwyniki::$zdane ==1) {
+            KoniecTestu::odnotuj();
+            KoniecTestu::archiwizuj();
+        }
+        ?>;
             </div>
         </div>
-        <div id="ajax_sun" title="generowanie zaświadczenia" style="display: none; text-align: center; z-index: -1; position: absolute;">
-            <img src="/images/ajax_loaderc.gif" alt="ajax" height="70" width="70">;
+        <div id="ajax_sun" title="generowanie " style="display: none; text-align: center; z-index: -1; position: absolute; width: 100px; height: 120px;">
+            <img src="/images/ajax_loaderc.gif" alt="ajax" height="90" width="95">;
         </div>
     </body>
 </html>

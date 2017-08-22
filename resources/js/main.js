@@ -234,7 +234,7 @@ var usunwieleuserow = function () {
   }
 };
 
-var generujtesty = function() { 
+var generujtesty = function() {
      $("#ajax_sun").puidialog({
         height: 100,
         width: 150,
@@ -242,24 +242,7 @@ var generujtesty = function() {
         closable: false,
         modal: true,
     });
-    $.ajax({
-           type: 'POST',
-           url: 'wcisnietyklawisz.php',
-           async: false
-    });
     $("#ajax_sun").puidialog('show');
-    $.ajax({
-        type: 'POST',
-        url: 'generujdoc.php',
-        success: function() {
-            $("#ajax_sun").puidialog('hide');
-            window.location.href = 'pobierzcertyfikat2.php'; 
-        },
-        error: function(xhr, ajaxOptions, thrownerror) { 
-            $("#ajax_sun").puidialog('hide'); 
-            window.location.href = 'exit_niewygenerowanozaswiadczenia.php'; 
-        } 
-    });
 };
  
 

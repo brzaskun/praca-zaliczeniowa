@@ -9,24 +9,24 @@
     ?>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="/resources/dataTable/start/jquery-ui-1.10.3.custom.css?v180817c" />
-        <link rel="stylesheet" href="/resources/css/tablecss.css?v180817c"/>
-        <link rel="stylesheet" href="/resources/css/main.css?v180817c"/>
-        <link rel="stylesheet" href="/resources/contextmenu/jquery.contextMenu.css?v180817c"/>
-        <link rel="stylesheet" href="/resources/primeui-4.1.12/primeui.min.css?v180817c"/>
-        <link href="resources/font-awesome/css/font-awesome.min.css?v180817c" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" href="/resources/primeui-4.1.12/themes/bootstrap/theme.css?v180817c"/>
+        <link rel="stylesheet" href="/resources/dataTable/start/jquery-ui-1.10.3.custom.css?v220817a" />
+        <link rel="stylesheet" href="/resources/css/tablecss.css?v220817a"/>
+        <link rel="stylesheet" href="/resources/css/main.css?v220817a"/>
+        <link rel="stylesheet" href="/resources/contextmenu/jquery.contextMenu.css?v220817a"/>
+        <link rel="stylesheet" href="/resources/primeui-4.1.12/primeui.min.css?v220817a"/>
+        <link href="resources/font-awesome/css/font-awesome.min.css?v220817a" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="/resources/primeui-4.1.12/themes/bootstrap/theme.css?v220817a"/>
         <link rel="icon" type="image/png" sizes="32x32" href="/resources/css/images/ODOLogoVector.png"/>
-        <script src="/resources/js/jquery-1.12.3.js?v180817c"></script>
-        <script src="/resources/dataTable/jquery-ui-1.10.3.custom.js?v180817c"></script>
-        <script src="/resources/js/jquery.form.js?v180817c"></script>
-        <script src="/resources/js/globales.js?v180817c"></script>
-        <script src="/resources/contextmenu/jquery.contextMenu.js?v180817c"></script>
-        <script src="/resources/contextmenu/jquery.ui.position.js?v180817c"></script>
-        <script src="/resources/js/main.js?v180817c"></script>
-        <script src="/resources/js/potwierdzenia.js?v180817c"></script>
-        <script src="/resources/primeui-4.1.12/primeui.min.js?v180817c"></script>
-        <script src="/resources/js/admin_072017_backup.js?v180817c"></script>
+        <script src="/resources/js/jquery-1.12.3.js?v220817a"></script>
+        <script src="/resources/dataTable/jquery-ui-1.10.3.custom.js?v220817a"></script>
+        <script src="/resources/js/jquery.form.js?v220817a"></script>
+        <script src="/resources/js/globales.js?v220817a"></script>
+        <script src="/resources/contextmenu/jquery.contextMenu.js?v220817a"></script>
+        <script src="/resources/contextmenu/jquery.ui.position.js?v220817a"></script>
+        <script src="/resources/js/main.js?v220817a"></script>
+        <script src="/resources/js/potwierdzenia.js?v220817a"></script>
+        <script src="/resources/primeui-4.1.12/primeui.min.js?v220817a"></script>
+        <script src="/resources/js/admin_072017_backup.js?v220817a"></script>
         <title>Testy Dane Wrażliwe</title>
         <style>
             .center {
