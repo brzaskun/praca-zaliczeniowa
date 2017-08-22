@@ -21,7 +21,7 @@
             <title>Biuro Rachunkowe Taxman</title>
         </h:head>
         <h:body>
-      <script>
+<!--      <script>
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '254637954973943',
@@ -38,7 +38,7 @@
      js.src = "//connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
-</script>
+</script>-->
              <script>
                 navigator.sayswho = (function () {
                     var ua = navigator.userAgent, tem,
@@ -77,12 +77,12 @@
                                 <p style="text-align: center;"><h:outputText value="#{mgs.witamy}" style="color: activecaption; font-size:24px; " /></p>  
                             </p:notificationBar> -->
             <p:panel style="text-align: center; min-height: 150px;">
-               <div
+<!--               <div
   class="fb-like" 
   data-share="true"
   data-width="450"
   data-show-faces="true">
-</div>
+</div>-->
                 
             </p:panel>
             <p:panel style="margin-left: auto; margin-right: auto; width: 600px; border: none" >
@@ -131,8 +131,8 @@
                         </style>
                         <p:defaultCommand target="zaloguj"/>
                         <p:commandButton id="zaloguj" value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
-                                       rendered="#{logowanie.liczniklogowan gt 0}" styleClass="loginbutton">
-                        </p:commandButton>>
+                                       rendered="#{logowanie.liczniklogowan gt 0}" styleClass="loginbutton" style="width: 120px; text-align: center;">
+                        </p:commandButton>
 <!--                        <p:splitButton id="zaloguj" value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
                                        rendered="#{logowanie.liczniklogowan gt 0}" styleClass="loginbutton">
                             <p:menuitem value="#{mgs.zapamietajmnie}" action="#{logowanie.savelogin()}"/>
