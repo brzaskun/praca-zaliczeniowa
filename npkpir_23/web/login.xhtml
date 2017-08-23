@@ -113,14 +113,14 @@
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;"  rendered="#{logowanie.liczniklogowan gt 0}">
                         <h:outputText id="loginnazwa" value="#{mgs.login}"/>
-                        <h:inputText value="#{logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
+                        <h:inputText value="#{logowanie.uzytkownik}"  required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
                                       >
                             <p:ajax event="change" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false"  
-                                    oncomplete="r('formlog1:haslo').focus();" 
                                     update="formlog1:loginnazwa formlog1:loginhaslo formlog1:logowaniebutton infologowanie logowanieprzyciskigorne"/>
                         </h:inputText>
                         <h:outputText id="loginhaslo" value="#{mgs.haslo}"/>
-                        <h:inputSecret id="haslo" value="#{logowanie.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" redisplay="true"/>
+                        <h:inputSecret id="haslo" value="#{logowanie.haslo}" required="true" style="width: 150px;" 
+                                       requiredMessage="Wpisz hasło!" />
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid id="logowaniebutton" columns="2" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
