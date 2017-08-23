@@ -1,0 +1,77 @@
+#b3theme_options_form label {
+	display : inline-block;
+	width : 180px;
+	height : 30px;
+	line-height : 24px;
+	margin-right : 10px;
+}
+#b3theme_options_form .b3theme-custom-colors label {
+	height : 40px;
+	line-height : auto;
+}
+#b3theme_options_form label.slide-textarea-label {
+	height : auto;
+}
+.slide-url-choose {
+	display : inline-block;
+}
+.space {
+	display : inline-block;
+	width : 190px;
+}
+#b3theme_options_form h3 {
+	margin-top : 0;
+}
+.b3theme-settings-tabs li {
+	display : inline-block;
+	margin-right : 5px;
+	padding : 4px 6px;
+}
+.b3theme-settings-section {
+	display : none;
+	margin-bottom : 30px;
+	clear : both;
+}
+.b3theme-site-branding {
+	display : block;
+}
+.b3theme-slides > div {
+	border : #dfdfdf solid 1px;
+	border-radius : 4px;
+	background : #f5f5f5;
+	max-width : 530px;
+	margin : 0 0 16px 0;
+	padding : 0 10px;
+}
+.b3theme-slides .slide-textarea-wrap {
+	max-width : 520px;
+}
+.b3theme-slides textarea {
+	width : 100%;
+}
+.b3theme-slides input[type="text"], .b3theme-slides input[type="url"] {
+	width : 320px;
+	max-width : 320px;
+}
+li.tab-active {
+	background : #f9f9f9;
+	border : #cce solid 1px;
+	border-radius : 3px;
+}
+a.slide-remove {
+	color : #f00;
+	font-size : 18px;
+	text-decoration : none;
+}
+.slide-preview {
+	margin-left : 8px;
+	display : inline-block;
+	width : 247px;
+	height : 65px;
+	vertical-align : top;
+	overflow : hidden;
+}
+.slide-preview img {
+	width : 100%;
+	height : auto;
+}

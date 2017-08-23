@@ -1,0 +1,27 @@
+.opes-wp-social-tab,
+.opes-wp-social-tab * {
+	z-index: 99999;
+}
+
+.opes-wp-social-tab .hover-tab img {
+	border-left: 0px solid transparent;
+	border-top: 0px solid transparent;
+	border-bottom: 0px solid transparent;
+
+	background-color: #fff;
+	
+	-webkit-border-top-left-radius: 8px;
+	-webkit-border-bottom-left-radius: 8px;
+	-moz-border-radius-topleft: 8px;
+	-moz-border-radius-bottomleft: 8px;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+
+.opes-wp-social-tab #content-tab-yt #iframe-content-yt {
+	background: #fff;
+}
+
+.opes-wp-social-tab iframe {
+	margin: 0px !important;
+}

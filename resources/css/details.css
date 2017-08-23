@@ -1,0 +1,467 @@
+@media all and (max-width: 2300px) {
+.box{
+	position: relative;
+	width: 900px;		/* desired width */
+        margin: auto;
+        margin-top: 3%;
+}
+
+#szkolenienaglowek, #loginnaglowek, #testnaglowek {
+    font-size: 140%;
+}
+.pytanietest, .odpowiedzitest {
+    font-size: 135%;
+}
+.odpowiedzitest {
+    height: 210px;
+}
+.trescszkolenia {
+    font-size: 135%;
+    height: 380px;
+}
+.buttonszkolenie {
+    width: 160px;
+    height: 30px;
+    font-size: 130%;
+}
+.zakonczylesszkolenie {
+    font-weight: normal; 
+    font-size: larger;
+    height: 30px; 
+}
+#logininfo {
+    display: block;
+    margin-left: 31%;
+    font-size: 130%;
+}
+.margin1, #email, #buttonlogowanie {
+    margin-left: 30%;
+}
+.margin2 {
+    margin-left: 31%;
+}
+
+}
+
+@media all and (max-width: 1800px) {
+.box{
+	position: relative;
+	width: 850px;		/* desired width */
+        margin: auto;
+        margin-top: 3%;
+}
+
+#szkolenienaglowek, #loginnaglowek, #testnaglowek {
+    font-size: 127%;
+}
+.pytanietest, .odpowiedzitest {
+    font-size: 125%;
+}
+.odpowiedzitest {
+    height: 210px;
+}
+.trescszkolenia {
+    font-size: 120%;
+    height: 360px;
+}
+.buttonszkolenie {
+    width: 160px;
+    height: 30px;
+    font-size: 120%;
+}
+.zakonczylesszkolenie {
+    font-weight: normal; 
+    font-size: larger;
+    height: 30px; 
+}
+#logininfo {
+    display: block;
+    margin-left: 26%;
+    font-size: 120%;
+}
+.margin1, #email, #pin, #buttonlogowanie {
+    margin-left: 25%;
+}
+.margin2 {
+    margin-left: 26%;
+}
+
+}
+
+@media all and (max-width: 1500px) {
+.box{
+	position: relative;
+	width: 800px;		/* desired width */
+        margin: auto;
+        margin-top: 3%;
+}
+
+#szkolenienaglowek, #loginnaglowek, #testnaglowek {
+    font-size: 120%;
+}
+.pytanietest, .odpowiedzitest {
+    font-size: 115%;
+}
+.odpowiedzitest {
+    height: 210px;
+}
+.trescszkolenia {
+    font-size: 110%;
+    height: 340px;
+}
+.buttonszkolenie {
+    width: 160px;
+    height: 30px;
+    font-size: 110%;
+}
+.zakonczylesszkolenie {
+    font-weight: normal; 
+    font-size: 120%;
+    height: 25px; 
+}
+#logininfo {
+    display: block;
+    margin-left: 21%;
+    font-size: 110%;
+}
+.margin1, #email, #buttonlogowanie {
+    margin-left: 20%;
+}
+.margin2 {
+    margin-left: 21%;
+}
+
+}
+
+@media all and (max-width: 1000px) {
+.box{
+	position: relative;
+	width: 650px;		/* desired width */
+        margin: auto;
+        margin-top: 3%;
+}
+
+#szkolenienaglowek, #loginnaglowek, #testnaglowek {
+    font-size: 100%;
+}
+.pytanietest, .odpowiedzitest {
+    font-size: 105%;
+}
+.odpowiedzitest {
+    height: 150px;
+}
+.trescszkolenia {
+    font-size: 100%;
+    line-height: 150%; 
+    height: 260px;
+}
+.buttonszkolenie {
+    width: 140px;
+    height: 28px;
+    font-size: 100%;
+}
+.zakonczylesszkolenie {
+    font-weight: normal;
+    font-size: 100%;
+    height: 25px; 
+}
+#logininfo {
+    display: block;
+    margin-left: 21%;
+    font-size: 100%;
+}
+.margin1, #email, #buttonlogowanie {
+    margin-left: 20%;
+}
+.margin2 {
+    margin-left: 21%;
+}
+
+}
+
+@media all and (max-width: 700px) {
+.box{
+	position: relative;
+	width: 550px;		/* desired width */
+        margin: auto;
+        margin-top: 3%;
+}
+
+#szkolenienaglowek, #loginnaglowek, #testnaglowek {
+    font-size: 90%;
+}
+.pytanietest, .odpowiedzitest {
+    font-size: 95%;
+}
+.odpowiedzitest {
+    height: 100px;
+}
+.trescszkolenia {
+    font-size: 90%;
+    line-height: 130%; 
+    height: 200px;
+}
+.buttonszkolenie {
+    width: 120px;
+    height: 25px;
+    font-size: 90%;
+}
+.zakonczylesszkolenie {
+    font-weight: normal; 
+    font-size: smaller;
+    height: 25px; 
+}
+#logininfo {
+    display: block;
+    margin-left: 21%;
+    font-size: 85%;
+}
+.margin1, #email {
+    margin-left: 20%;
+}
+.margin1, #email, #buttonlogowanie {
+    margin-left: 21%;
+}
+
+}
+
+
+.box:before{
+	content: "";
+	display: block;
+	padding-top: 77.6839%; 	/* initial ratio of 1:0.776839*/
+}
+
+
+.slajd  {
+    background: url("pics/e-kurs_screen_pp0.png");
+    background-size: cover;
+    position:  absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    box-shadow: 10px 10px 5px #888;
+}
+
+.trescszkolenia {
+    width: 80%;
+    padding: 1%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dolneprzyciski {
+    width: 80%; 
+    height: 40px;
+    padding: 10px; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.zakonczylesszkolenie {
+    width: 90%; 
+    text-align: right; 
+    color: rgb(243,112,33);
+}
+
+.pytanietest {
+    width: 90%;
+    height: 50px;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.odpowiedzitest {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+#gornawklejka {
+    width: 90%;
+    text-align: right;
+    padding-top: 1%;
+    
+}
+
+#szkolenienaglowek {
+    color: rgb(74,26,15);
+    padding-top: 1%;
+    width: 79%;
+    height: 14%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: right;
+}
+
+#loginnaglowek {
+    padding-top: 5.7%;
+    height: 15%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+
+
+#loginform {
+    margin-top: 5%;
+}
+
+#testnaglowek {
+    color: rgb(74,26,15);
+    padding-top: 5.7%;
+    width: 79%;
+    height: 14%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: right;
+}
+
+#email {
+    background-image: url("pics/pole_adersu_e-kurs_screen_pp.png");
+    width: 260px;
+    height: 30px;
+    padding-left: 5px;
+    font-size: large;
+    vertical-align: middle;
+}
+
+#pin {
+    background-image: url("pics/pole_adersu_e-kurs_screen_pp.png");
+    width: 260px;
+    height: 30px;
+    padding-left: 5px;
+    margin-top: 2px;
+    font-size: large;
+    vertical-align: middle;
+}
+
+#knowhowpic {
+    display: block ;
+    margin-left: 30%;
+}
+
+#buttonlogowanie {
+    background-image: url("pics/buton_e-kurs_screen_pp.png");
+    background-size: cover;
+    color: rgb(74,26,15);
+    border: none;
+    outline: none;
+    width: 160px;
+    height: 30px;
+    margin-top: 5px;
+}
+
+#buttonlogowanie:hover {
+    background-image: url("pics/buton_najechany_e-kurs_screen_pp.png");
+    border: none;
+    color: rgb(74,26,15);
+    outline: none;
+    width: 160px;
+    height: 30px;
+    margin-top: 5px;
+}
+
+#buttonlogowanie:active {
+    background-image: url("pics/buton_najechany_180_e-kurs_screen_pp.png");
+    border: none;
+    color: rgb(74,26,15);
+    outline: none;
+    width: 160px;
+    height: 30px;
+    margin-top: 5px;
+/*    -webkit-transform: rotate(180deg);      Chrome and other webkit browsers 
+    -moz-transform: rotate(180deg);         FF 
+    -o-transform: rotate(180deg);           Opera 
+    -ms-transform: rotate(180deg);          IE9 
+    transform: rotate(180deg);              W3C complaint browsers */
+
+}
+
+.buttonszkolenie {
+    background-image: url("pics/buton_e-kurs_screen_pp.png");
+    background-size: cover;
+    border: none;
+    color: rgb(74,26,15);
+    outline: none;
+    float: left;
+    margin-top: 5px;
+}
+
+.buttonszkolenie:hover {
+    background-image: url("pics/buton_najechany_e-kurs_screen_pp.png");
+    border: none;
+    color: rgb(74,26,15);
+    outline: none;
+    float: left;
+    margin-top: 5px;
+}
+
+
+.buttonszkolenie:active {
+    background-image: url("pics/buton_najechany_180_e-kurs_screen_pp.png");
+    border: none;
+    color: rgb(74,26,15);
+    outline: none;
+    float: left;
+    margin-top: 5px;
+}
+
+.spanszkolenie {
+    color: rgb(74,26,15);
+    font-weight: bolder;
+}
+
+.buttontestwynik {
+    background-image: url("pics/buton_egzamin_e-kurs_screen_pp.png");
+    padding: 5px;
+    display: none;
+    color: rgb(74,26,15);
+    float: right;
+    padding: 10px;
+    width: 130px;
+    height: 60px;
+    margin-top: 0px;
+    margin-left: 30%;
+}
+/*modyfikuje pasek progresa*/
+#zdawalnoscbar div {
+    background: brown;
+}
+
+#zaliczeniebar div {
+    background: orange;
+}
+.ui-widget-header {
+    border: 0px solid #4297d7;
+}
+
+.ui-progressbar {
+    height: 0.5em;
+    text-align: left;
+    overflow: hidden;
+}
+
+input[type=checkbox]:checked + span::before{
+    background: url("pics/check_pomaranczowy_e-kurs_screen_pp.png");
+}
+
+input[type=checkbox]  + span::before{
+    content: "";
+    display: inline-block;
+    margin-right: 10px;
+    width: 12px;
+    height: 12px;
+    background: url("pics/check_bialy_e-kurs_screen_pp.png");
+}
+
+input[type=checkbox] {
+    position: absolute; 
+    -moz-opacity: 0;
+    -webkit-opacity: 0;
+    opacity: 0;
+}
+​

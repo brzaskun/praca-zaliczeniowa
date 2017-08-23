@@ -1,0 +1,153 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2015-06-28, 11:04:25
+    Author     : Osito
+*/
+
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Mangal;
+	panose-1:2 4 5 3 5 2 3 3 2 2;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Microsoft YaHei";
+	panose-1:2 11 5 3 2 2 4 2 2 4;}
+@font-face
+	{font-family:"\@Microsoft YaHei";
+	panose-1:2 11 5 3 2 2 4 2 2 4;}
+@font-face
+	{font-family:"\@SimSun";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-autospace:ideograph-other;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+h2
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	line-height:150%;
+	page-break-after:avoid;
+	text-autospace:ideograph-other;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:normal;}
+p.MsoCaption, li.MsoCaption, div.MsoCaption
+	{margin-top:6.0pt;
+	margin-right:0cm;
+	margin-bottom:6.0pt;
+	margin-left:0cm;
+	text-autospace:ideograph-other;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	font-style:italic;}
+p.MsoList, li.MsoList, div.MsoList
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:6.0pt;
+	margin-left:0cm;
+	text-autospace:ideograph-other;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:2.0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	text-indent:-2.0cm;
+	text-autospace:ideograph-other;
+	font-size:16.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:bold;}
+p.MsoSubtitle, li.MsoSubtitle, div.MsoSubtitle
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:6.0pt;
+	margin-left:0cm;
+	text-align:center;
+	page-break-after:avoid;
+	text-autospace:ideograph-other;
+	font-size:14.0pt;
+	font-family:"Arial",sans-serif;
+	font-style:italic;}
+p.Standard, li.Standard, div.Standard
+	{mso-style-name:Standard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-autospace:ideograph-other;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+p.Heading, li.Heading, div.Heading
+	{mso-style-name:Heading;
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:6.0pt;
+	margin-left:0cm;
+	page-break-after:avoid;
+	text-autospace:ideograph-other;
+	font-size:14.0pt;
+	font-family:"Arial",sans-serif;}
+p.Textbody, li.Textbody, div.Textbody
+	{mso-style-name:"Text body";
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:6.0pt;
+	margin-left:0cm;
+	text-autospace:ideograph-other;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+p.Index, li.Index, div.Index
+	{mso-style-name:Index;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-autospace:ideograph-other;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+span.WW8Num1z0
+	{mso-style-name:WW8Num1z0;
+	font-family:Symbol;}
+span.WW8Num1z1
+	{mso-style-name:WW8Num1z1;
+	font-family:"Courier New";}
+span.WW8Num1z2
+	{mso-style-name:WW8Num1z2;
+	font-family:Wingdings;}
+.MsoChpDefault
+	{font-size:12.0pt;}
+.MsoPapDefault
+	{text-autospace:ideograph-other;}
+ /* Page Definitions */
+ @page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:2.0cm 2.0cm 2.0cm 2.0cm;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+
+
+        

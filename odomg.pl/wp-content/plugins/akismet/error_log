@@ -1,0 +1,2 @@
+[04-Nov-2015 09:34:23 Europe/Berlin] PHP Fatal error:  Call to undefined function add_action() in /home/tb152026/public_html/odomg.pl/wp-content/plugins/akismet/legacy.php on line 356
+[29-Nov-2015 15:21:35 Europe/Berlin] PHP Fatal error:  Call to undefined function add_action() in /home/tb152026/public_html/odomg.pl/wp-content/plugins/akismet/legacy.php on line 356

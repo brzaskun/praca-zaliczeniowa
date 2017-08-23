@@ -1,0 +1,20 @@
+<?php error_reporting(0);
+  if(session_status()!=2){     session_start(); };
+  require_once($_SERVER['DOCUMENT_ROOT'].'/resources/php/Rb.php');
+  R::setup('mysql:host=localhost;dbname=tb152026_testdane', 'tb152026_madrylo','Testdane7005*');
+  $id = $_POST['idtest'];
+  $nazwatestu = $_POST['nazwatest'];
+  $tresc = $_POST['ttresc'];
+  $rodzaj = $_POST['trodzaj'];
+  $pytanie = $_POST['tpytanie'];
+  $odp1 = $_POST['todp1'];
+  $odp2 = $_POST['todp2'];
+  $odp3 = $_POST['todp3'];
+  $odp4 = $_POST['todp4'];
+  $odp1w = $_POST['todp1w'] === "on" ? 'true' : 'false';
+  $odp2w = $_POST['todp2w'] === "on" ? 'true' : 'false';
+  $odp3w = $_POST['todp3w'] === "on" ? 'true' : 'false';
+  $odp4w = $_POST['todp4w'] === "on" ? 'true' : 'false';
+  $sql = "DELETE FROM `test` WHERE `id`=$id";
+  R::exec($sql);
+?>
