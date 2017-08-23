@@ -224,7 +224,7 @@ var zaznacznoda = function(tabela, tabela1, inputpole) {
             document.getElementById(inputpole).value = "";
         }
     } catch (ex) {
-        alert("Problem z zaznacznoda/chodzeniepokontach.js zaznacznoda");
+        alert("Problem z zaznacznoda/chodzeniepokontach.js zaznacznoda "+ex);
     }
 };
 
