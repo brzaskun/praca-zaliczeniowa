@@ -179,9 +179,9 @@
                         <p:menuitem value="rozlicz saldo" icon="fa minus-square" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                         <p:menuitem value="rozlicz konto bankowe" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczkontobankowe()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                         <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
-                        <p:menuitem value="wybierz dok" global="false" icon="fa fa-google-wallet" update="formwpisdokument zestawieniezapisownakontachpola"
-                                    actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania.get(0))}"/>
                         <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
+                                    update="formwpisdokument zestawieniezapisownakontachpola"
+                                    actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania.get(0))}"
                                     onsuccess="zapisywierszywybordok();"/>
                     </p:contextMenu>
                     <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>

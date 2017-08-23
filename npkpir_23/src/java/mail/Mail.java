@@ -59,7 +59,7 @@ public class Mail {
     public static void nadajMailRejestracjaNowegoUzera(String adres, String login, SMTPSettings settings, SMTPSettings ogolne) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
-            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -81,7 +81,7 @@ public class Mail {
     public static void udanazmianaHasla(String adres, String login, SMTPSettings settings, SMTPSettings ogolne) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
-            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -102,7 +102,7 @@ public class Mail {
     public static void nadanoUprawniednia(String adres, String login, String uprawnienia, SMTPSettings settings, SMTPSettings ogolne) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
-            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -128,7 +128,7 @@ public class Mail {
        public static void resetowaniehasla(String adres, String login, SMTPSettings settings, SMTPSettings ogolne) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
-            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -153,7 +153,7 @@ public class Mail {
     public static void nadajMailWystapilBlad(String blad, SMTPSettings settings, SMTPSettings ogolne) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
-            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse("info@taxman.pl"));
             message.setRecipients(Message.RecipientType.BCC,

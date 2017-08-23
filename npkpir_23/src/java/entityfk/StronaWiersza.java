@@ -111,7 +111,7 @@ public class StronaWiersza implements Serializable {
     @Column(name = "nowatransakcja")
     private boolean nowatransakcja;
     @JoinColumn(name = "idkonto", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Konto konto;
     @Column(name = "wnma")
     private String wnma;
@@ -119,7 +119,7 @@ public class StronaWiersza implements Serializable {
     private List<Transakcja> nowetransakcje;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja", fetch = FetchType.EAGER)
     private List<Transakcja> platnosci;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "StronaWiersza_Cechazapisu",
             joinColumns = {

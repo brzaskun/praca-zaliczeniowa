@@ -10,15 +10,11 @@ import error.E;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
@@ -38,7 +34,7 @@ public class MaiManager implements Serializable {
         try {
             message.setSentDate(new Date());
             message.addHeader("X-Priority", "1");
-            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
             message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));
         } catch (MessagingException ex) {

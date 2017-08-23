@@ -53,20 +53,22 @@ var zachowajobiekt = function(obiekt, event) {
         } else {
             var source = obiekt;
         }
-        var sourceid = $(source).closest(".walkingtable")[0].id;
-        MYAPP.sourceid = sourceid;
-        var tabeladata = sourceid+"_data";
-        var listawierszy = r(tabeladata).children("tr");
-        var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
-        var lpwiersznast = $.trim($(obiekt).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
-        var numerwiersza = lpwiersznast - lppierwszywiersz;
-        MYAPP.tabeladata = tabeladata;
-        MYAPP.tabela = sourceid;
-        MYAPP.zmienna = "zmiennazapisy";
-        MYAPP[MYAPP.zmienna] = numerwiersza;
-        obliczwysokosc(sourceid);
-        MYAPP.obiekt = obiekt;
-        stop();
+        if (source != null) {
+            var sourceid = $(source).closest(".walkingtable")[0].id;
+            MYAPP.sourceid = sourceid;
+            var tabeladata = sourceid+"_data";
+            var listawierszy = r(tabeladata).children("tr");
+            var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
+            var lpwiersznast = $.trim($(obiekt).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
+            var numerwiersza = lpwiersznast - lppierwszywiersz;
+            MYAPP.tabeladata = tabeladata;
+            MYAPP.tabela = sourceid;
+            MYAPP.zmienna = "zmiennazapisy";
+            MYAPP[MYAPP.zmienna] = numerwiersza;
+            obliczwysokosc(sourceid);
+            MYAPP.obiekt = obiekt;
+            stop();
+        }
     } catch (ex) {
         alert("Blad w zachowajobiekt/chodzeniepokonach.js zachowajobiekt" + ex.toString());
     }

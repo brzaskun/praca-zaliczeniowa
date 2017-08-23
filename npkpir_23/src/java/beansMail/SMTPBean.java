@@ -36,16 +36,16 @@ public class SMTPBean {
         return zwrot;
     }
     
-    public static String adresFrom(SMTPSettings settings) {
-        String zwrot = "info@taxman.pl";
+    public static String adresFrom(SMTPSettings settings, SMTPSettings ogolne) {
+        String zwrot = ogolne.getUseremail();
         if (settings != null) {
             zwrot = settings.getUseremail();
         }
         return zwrot;
     }
     
-    public static String nazwaFirmyFrom(SMTPSettings settings) {
-        String zwrot = "Biuro Rachunkowe Taxman Grzegorz Grzelczyk";
+    public static String nazwaFirmyFrom(SMTPSettings settings, SMTPSettings ogolne) {
+        String zwrot = ogolne.getNazwafirmy();
         if (settings != null) {
             zwrot = settings.getNazwafirmy();
         }
