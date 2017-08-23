@@ -1,0 +1,12 @@
+#################################################################
+# Modyfikacja zmiennych PHP                                     #
+# Przykładowe włączenie zmiennej register_global                #
+# W celu aktywacji należy usunąć znak komentarza '#' z początku #
+# Zmienna zostanie aktywowana w ciągu kilku minut od zmiany     #
+#################################################################
+<IfModule Mod_php.c>
+#php_value register_global 1
+zlib.output_compression_level=9
+php_flag  xdebug.remote_enable on
+php_flag  xdebug.remote_autostart on
+</IfModule>

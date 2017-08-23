@@ -1,0 +1,12 @@
+<?php
+
+# Here you can include the 'model' and 'view' files - not other controllers! All controllers are loaded automatically.
+
+class Menu_Pages {
+
+	public static function init( $params ) {
+		return new Menu_Pages( $params );
+	}
+}
+
+Menu_Pages::init( $params ); 

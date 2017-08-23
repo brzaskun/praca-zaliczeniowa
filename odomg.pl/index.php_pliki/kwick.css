@@ -1,0 +1,176 @@
+@charset utf-8;
+
+.container {
+	width: 1000px;
+	margin: 0 auto;
+	position:relative;
+	
+}
+/* Slider
+---------------------------------------- */
+#slider-wrapper {
+	overflow:hidden;
+	position:relative;
+	top:-4px;
+	margin-bottom:-4px;
+	}
+	#slider-wrapper .container {
+		height:370px;
+		background:none no-repeat left top;
+		padding:4px 0 0 0;
+		width:1000px;
+	}
+
+.kwicks {
+	/* recommended styles for kwicks ul container */
+	list-style: none;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+	width:1000px;
+	height:374px;
+	z-index:1;
+	position:relative;
+	left:0px;
+}
+.kwicks li{
+	/* these are required, but the values are up to you (must be pixel) */
+	width: 199px;
+	height: 374px;
+	/*do not change these */
+	display: block;
+	overflow: hidden;
+	padding: 0;  /* if you need padding, do so with an inner div (or implement your own box-model hack) */
+	background:none;
+}
+.kwicks.horizontal li {
+	/* This is optional and will be disregarded by the script.  However, it should be provided for non-JS enabled browsers. */
+	margin-right: 0; /*Set to same as spacing option. */
+	float: left;
+	position:relative;
+	font-weight:normal;
+}
+	.kwicks.horizontal li a {
+		display:block;
+		float:left;
+		text-decoration:none;
+	}
+
+.kwicks.horizontal li .shadow {
+	width:25px;
+	height:366px;
+	position:absolute;
+	right:0;
+	top:0;
+	background:url(../kwick/kwick-item-shadow.png) no-repeat left top;
+	z-index:9999;
+} 
+.kwicks.horizontal li .thumb {
+	height:305px;
+	background:url(../kwick/loading.gif) no-repeat 50% 50%;
+}
+	.kwicks.horizontal li .thumb .bg {
+		height:305px;
+		background-repeat:no-repeat;
+		background-position:center top;
+	}
+.kwicks.horizontal li .colorImage {
+	position:absolute;
+	left:0;
+	top:0;
+	display:none;
+	width:100%;
+	height:305px;
+	background-position:center top;
+	background-repeat:no-repeat;
+}
+.kwicks.horizontal li .desc {
+	background-repeat:repeat-x;
+	background-position:left 0px;
+	width:100%;
+	overflow:hidden;
+	margin-top:-6px;
+	margin-bottom:4px;
+	position:relative;
+	z-index:999;
+}
+	.kwicks.horizontal li .desc .left-bg {
+		background-repeat:no-repeat;
+		background-position:left top;
+		height:67px;
+	}
+	.kwicks.horizontal li .desc h2 {
+		color:#4a1a0f;
+		font-size:18px;
+		padding:15px 90px 0 17px;
+		margin:0;
+		width:700px;
+		
+	}
+	
+	/*	.kwicks.horizontal li .desc h2:hover {
+	
+		color:white;
+		font-size:18px;
+		padding:15px 90px 0 17px;
+		margin:0;
+		width:342px;
+		
+	}*/	
+	
+	.kwicks.horizontal li .desc .excerpt {
+		width:220px;
+		font-size:12px;
+		color:white;
+		position:absolute;
+		right:-280px;
+		top:14px;
+		margin:0;
+	} 
+	.kwicks.horizontal li .kwick-button {
+		position:absolute;
+		right:5px;
+		bottom:-24px;
+		font-size:11px;
+		color:white;
+		text-transform:uppercase;
+		height:24px;
+		line-height:24px;
+		padding:0 8px;
+	}
+	.kwicks.horizontal li .kwick-button:hover {
+		background:black !important;
+	}
+
+/* color 1 */	
+.kwicks.horizontal li .desc.color-1 { background-image:url(../kwick/desc-tail01.gif);}
+.kwicks.horizontal li .desc.color-1 a {margin-left:-12px;}
+.kwicks.horizontal li .desc.color-1 .left-bg {background-image:url(../kwick/desc-bg01.gif); }
+.kwicks.horizontal li .desc.color-1 .kwick-button {background:#5671aa;}
+/* color 2 */	
+.kwicks.horizontal li .desc.color-2 { background-image:url(../kwick/desc-tail02.gif);}
+.kwicks.horizontal li .desc.color-2 a {margin-left:-12px;}
+.kwicks.horizontal li .desc.color-2 .left-bg {background-image:url(../kwick/desc-bg02.gif);}
+.kwicks.horizontal li .desc.color-2 .kwick-button {background:#5695d5;}
+/* color 3 */	
+.kwicks.horizontal li .desc.color-3 { background-image:url(../kwick/desc-tail03.gif);}
+.kwicks.horizontal li .desc.color-3 a {margin-left:-12px;}
+.kwicks.horizontal li .desc.color-3 .left-bg {background-image:url(../kwick/desc-bg03.gif);}
+.kwicks.horizontal li .desc.color-3 .kwick-button {background:#69c1e9;}
+/* color 4 */	
+.kwicks.horizontal li .desc.color-4 { background-image:url(../kwick/desc-tail04.gif);}
+.kwicks.horizontal li .desc.color-4 a {margin-left:-12px;}
+.kwicks.horizontal li .desc.color-4 .left-bg {background-image:url(../kwick/desc-bg04.gif);}
+.kwicks.horizontal li .desc.color-4 .kwick-button {background:#8cc14d;}
+/* color 5 */	
+.kwicks.horizontal li .desc.color-5 { background-image:url(../kwick/desc-tail05.gif);}
+.kwicks.horizontal li .desc.color-5 a {margin-left:-12px;}
+.kwicks.horizontal li .desc.color-5 .left-bg {background-image:url(../kwick/desc-bg05.gif);}
+.kwicks.horizontal li .desc.color-5 .kwick-button {background:#f4c53d;}
+
+.kwicks.horizontal li a {background:none;}
+
+
+
+
+

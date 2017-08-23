@@ -1,0 +1,196 @@
+/*
+Theme Name: B3
+Theme URI: http://andrey.ws/b3-theme
+Author: Andrey K.
+Author URI: http://andrey.ws/
+Description: Responsive customizable multi-purpose theme based on Bootstrap 3 framework. Three widget areas, changeable colors and page look, export/import settings, translation ready.
+Version: 1.2.8
+License: GNU General Public License v3.0
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Text Domain: b3theme
+Domain Path: /languages/
+Tags: theme-options, two-columns, white, light, custom-colors, two-columns, one-column, left-sidebar, right-sidebar, fluid-layout, responsive-layout, custom-background, featured-images, rtl-language-support, sticky-post, translation-ready
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+*/
+
+/*
+
+B3 Theme, including demo images (C) 2013 andreyk http://profiles.wordpress.org/andreyk
+B3 is distributed under the terms of the GNU General Public License v3.0
+
+B3 theme is based on Underscores theme quick start pack http://underscores.me/ (C) 2012-2013 Automattic, Inc.
+and Bootstrap 3 framework http://getbootstrap.com/ (Apache License v2.0, (C) 2013 Twitter, Inc.)
+
+IE8 compatibility is achieved by using of Respond.js https://github.com/scottjehl/respond (MIT/BSD license)
+and HTML5 Shiv http://code.google.com/p/html5shiv/ (MIT/GPL2 Licensed)
+
+*/
+
+img.site-logo {
+	margin: 20px 15px 10px 0;
+	float: left;
+	clear: left;
+}
+h2.site-description {
+	font-size: 24px;
+}
+.wp-caption {
+	max-width: 100%;
+	text-align: center;
+}
+.wp-caption p {
+	margin: 0;
+}
+div.aligncenter, img.aligncenter {
+	margin: 8px auto;
+	max-width: 100%;
+	height: auto;
+	clear: both;
+}
+div.alignleft, img.alignleft {
+	float: left;
+	clear: left;
+	margin-right: 8px;
+	max-width: 100%;
+	height: auto;
+}
+div.alignright, img.alignright {
+	float: right;
+	clear: right;
+	margin-left: 8px;
+	max-width: 100%;
+	height: auto;
+}
+.entry-content img, .widget img {
+	max-width: 100%;
+	height: auto;
+}
+.wp-caption-text, .gallery-caption {
+	font-size: 85%;
+}
+.sticky {
+	box-shadow: inset 3px 3px 8px #eee, inset -3px -3px 8px #eee;
+}
+.bypostauthor {}
+
+.spacer-top {
+	margin-top: 15px;
+}
+.spacer-bottom {
+	margin-bottom: 15px;
+}
+.spacer-all {
+	margin: 15px;
+}
+.padding-all {
+	padding: 15px;
+}
+.spacer-lr {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+.minus-15 {
+	margin-left: -15px;
+	margin-right: -15px;
+}
+.widget_calendar table {
+	max-width: 88%;
+	text-align: center;
+}
+.comment-list ul {
+	list-style-type: none;
+}
+.dropdown-submenu {
+	position: relative;
+}
+.dropdown-submenu > .dropdown-menu {
+	top: 0;
+	left: 100%;
+	margin-top: -6px;
+	margin-left: -1px;
+	border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover > .dropdown-menu {
+	display: block;
+}
+.dropdown-submenu > a:after {
+	display: block;
+	content: " ";
+	float: right;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	border-width: 5px 0 5px 5px;
+	border-left-color: #cccccc;
+	margin-top: 5px;
+	margin-right: -10px;
+}
+.dropdown-submenu:hover > a:after {
+	border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+	float: none;
+}
+.dropdown-submenu.pull-left > .dropdown-menu {
+	left: -100%;
+	margin-left: 10px;
+	border-radius: 6px 0 6px 6px;
+}
+.carousel-inner {
+	height: 300px;
+}
+.carousel-caption {
+	top: 10%;
+	position: absolute;
+	color: #333;
+	text-shadow: 1px 1px 2px #FFF, -1px -1px 2px #FFF;
+}
+.carousel-caption p * {
+	text-shadow: none;
+}
+.carousel-caption h1 a {
+	opacity: 0.8;
+	text-shadow: 1px 1px 3px #FFF, -1px -1px 3px #FFF;
+	letter-spacing: 3px;
+}
+.navbar {
+	z-index: 100;
+}
+.entry-meta {
+	padding: 6px 0;
+	color: #707070;
+}
+.tag-links, .cat-links, .permalink, .entry-date, .comments-link {
+	display: inline-block;
+	margin-right: 8px;
+}
+
+.glyphicon-folder-open {
+	margin-right: 4px;
+	display: inline-block;
+}
+
+article, .widget {
+	-ms-word-wrap: break-word;
+	word-wrap: break-word;
+}
+
+.widget ul {padding-left: 20px;}
+.widget ul ul ul ul ul {
+	padding-left: 4px;
+}
+.widget ul ul ul ul ul ul ul ul ul ul {
+	padding-left: 0;
+}
+
+.comment-metadata {
+	font-size: 85%;
+}
+
+.mejs-audio {margin-bottom: 20px;}
+
+.pagination li {display: inline-block; margin: 0;}

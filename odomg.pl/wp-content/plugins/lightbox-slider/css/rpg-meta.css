@@ -1,0 +1,151 @@
+.rpg-image-entry {
+    background: #fff;
+    
+    margin: 0 15px 15px 0;
+    padding: 10px;
+	width:21%;
+	
+	float:left;
+	box-shadow: 0 0 6px rgba(0,0,0,.7);
+	
+}
+.rpg-image-entry img{
+	width:100%;
+	max-height:240px;
+	display:block;
+	margin-bottom:10px;
+}
+.rpg-meta-image{
+	width:100%;
+	height:155px;
+	display:block;
+	margin-bottom:10px;
+}
+.rpg-image-entry .button-primary{
+width:100%;
+margin-bottom:10px;
+}
+.rpg_label_text{
+width:100%;
+padding: 9px;
+
+}
+
+.rpg-image-entry .gallery_remove {
+   
+    display: block;
+    float: right;
+    height: 20px;
+    margin-right: -21px;
+    margin-top: -21px;
+    outline: 0 none;
+    text-indent: -9999px;
+    width: 20px;
+}
+.add_rpg_new_image{
+	text-align:center;
+	padding-top:3.8%;
+	padding-bottom:3.8%;
+	border: 5px dashed rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+	box-shadow: 0 0 0px rgba(0,0,0,.7);
+
+}
+.add_rpg_new_image:hover{
+	border: 5px dashed #0074a2;
+	background:#0074a2;
+}
+.add_rpg_new_image:hover p{
+	color:#ffffff;
+}
+.add_rpg_new_image:hover .dashicons{
+	 background: none repeat scroll 0 0 #ffffff;
+	 color:#0074a2;
+}
+.add_rpg_new_image .dashicons{
+	 background: none repeat scroll 0 0 rgba(153, 153, 153, 0.1);
+    border-radius: 50%;
+    color: #999;
+    content: "?";
+    display: inline-block;
+    font: 400 74px/115px ;
+    height: 100px;
+   
+    font-size:80px;
+    padding: 0;
+   line-height:110px;
+    text-align: center;
+    text-indent: -4px;
+    text-shadow: none;
+    top: 30%;
+    vertical-align: middle;
+    width: 100px;
+    z-index: 4;
+	
+}
+.rpg-meta-container{
+	width:100%;
+	background:#fff;
+	display:block;
+	float:left;
+	padding:10px;
+}
+#append_rpg_img{
+display:block;
+}
+.upgrade-to-pro .button-primary {
+background: #F8504B;
+border-color: #C4322E;
+-webkit-box-shadow: inset 0 1px 0 rgba(248,80,75,.5),0 1px 0 rgba(0,0,0,.15);
+box-shadow: inset 0 1px 0 rgba(248,80,75,.5),0 1px 0 rgba(0,0,0,.15);
+}
+.upgrade-to-pro .button-primary:hover {
+background: rgba(248,80,75,.91);
+border-color: #C4322E;
+-webkit-box-shadow: inset 0 1px 0 rgba(248,80,75,.5),0 1px 0 rgba(0,0,0,.15);
+box-shadow: inset 0 1px 0 rgba(248,80,75,.5),0 1px 0 rgba(0,0,0,.15);
+}
+
+.upgrade-to-pro-admin-demo .button-primary {
+background: #1ABC9C;
+border-color: #199079;
+-webkit-box-shadow: inset 0 1px 0 rgba(26,188,156,.5),0 1px 0 rgba(0,0,0,.15);
+box-shadow: inset 0 1px 0 rgba(26,188,156,.5),0 1px 0 rgba(0,0,0,.15);
+}
+.upgrade-to-pro-admin-demo .button-primary:hover {
+background: rgba(26,188,156,.91);
+border-color: #199079;
+-webkit-box-shadow: inset 0 1px 0 rgba(248,80,75,.5),0 1px 0 rgba(0,0,0,.15);
+box-shadow: inset 0 1px 0 rgba(26,188,156,.5),0 1px 0 rgba(0,0,0,.15);
+}
+
+.upgrade-to-pro-demo .button.button-hero {
+font-size: 14px;
+height: 37px;
+line-height: 34px;
+padding: 0 36px;
+}
+.upgrade-to-pro-admin-demo .button.button-hero {
+font-size: 14px;
+height: 37px;
+line-height: 34px;
+padding: 0 36px;
+}
+.upgrade-to-pro .button.button-hero {
+font-size: 14px;
+height: 37px;
+line-height: 34px;
+padding: 0 36px;
+}
+.upgrade-to-pro-demo .button-primary {
+background: #31a3dd;
+border-color: #248CC2;
+-webkit-box-shadow: inset 0 1px 0 rgba(49,163,221,.5),0 1px 0 rgba(0,0,0,.15);
+box-shadow: inset 0 1px 0 rgba(49,163,221,.5),0 1px 0 rgba(0,0,0,.15);
+}
+.upgrade-to-pro-demo .button-primary:hover {
+background: rgba(49,163,221,.91);
+border-color: #248CC2;
+-webkit-box-shadow: inset 0 1px 0 rgba(49,163,221,.5),0 1px 0 rgba(0,0,0,.15);
+box-shadow: inset 0 1px 0 rgba(49,163,221,.5),0 1px 0 rgba(0,0,0,.15);
+}

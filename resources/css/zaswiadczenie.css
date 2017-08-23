@@ -1,0 +1,25 @@
+@font-face {
+    font-family: bienvenuetp;
+    src: url("fonts/bienvenuetp.ttf") format("truetype");
+}
+@font-face {
+    font-family: bienvenuetp;
+    src: url("fonts/bienvenuetp.eot");
+}
+
+html { 
+/*    background: url("pics/e-kursscreen.jpg");
+    background-repeat: repeat-y;*/
+    background-color: #363030;
+    font-family: "bienvenuetp","Trebuchet MS", "Arial", "Helvetica", "Verdana", "sans-serif";
+    font-size: 0.75em;
+    line-height: 2em;
+
+}
+
+body {
+    color: rgb(74,26,15) !important;
+    font-family: "bienvenuetp","Trebuchet MS", "Arial", "Helvetica", "Verdana", "sans-serif";
+    font-size: 0.75em;
+    line-height: 2em;
+}
