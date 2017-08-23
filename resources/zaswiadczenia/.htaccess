@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "zaswiadczenia"
-AuthUserFile "/home/tb152026/.htpasswds/public_html/resources/zaswiadczenia/passwd"
-require valid-user

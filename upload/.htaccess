@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "upload"
-AuthUserFile "/home/tb152026/.htpasswds/public_html/upload/passwd"
-require valid-user
