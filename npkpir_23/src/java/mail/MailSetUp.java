@@ -5,10 +5,8 @@
 package mail;
 
 import beansMail.SMTPBean;
-import dao.SMTPSettingsDAO;
 import entity.Klienci;
 import entity.SMTPSettings;
-import entity.Uz;
 import error.E;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -16,7 +14,6 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -37,7 +34,7 @@ public class MailSetUp implements Serializable{
     public static MimeMessage logintoMail(WpisView wpisView, SMTPSettings settings, SMTPSettings ogolne) {
        MimeMessage message = new MimeMessage(otworzsesje(settings, ogolne));
         try {
-            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
         } catch (MessagingException ex) {
             E.e(ex);
         } catch (UnsupportedEncodingException ex) {
@@ -67,7 +64,7 @@ public class MailSetUp implements Serializable{
         try {
             message.setSentDate(new Date());
             message.addHeader("X-Priority", "1");
-            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
         } catch (MessagingException ex) {
             Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
@@ -94,7 +91,7 @@ public class MailSetUp implements Serializable{
         try {
             message.setSentDate(new Date());
             message.addHeader("X-Priority", "1");
-            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
         } catch (MessagingException ex) {
             Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
@@ -113,7 +110,7 @@ public class MailSetUp implements Serializable{
         try {
             message.setSentDate(new Date());
             message.addHeader("X-Priority", "1");
-            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings), SMTPBean.nazwaFirmyFrom(settings)));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
             message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));
         } catch (MessagingException ex) {

@@ -345,7 +345,7 @@ public class KontaVatFKView implements Serializable {
             }
         }
         if (Z.z(saldo2214) < Z.z(przesuniete) || roznica < 0) {
-            Msg.msg("e", "Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-4");
+            Msg.msg("e", "Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-4. Sprawdz BO");
             return;
         } else {
             for (SaldoKonto p : kontavat) {
