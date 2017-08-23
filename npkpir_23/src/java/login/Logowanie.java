@@ -13,6 +13,7 @@ import dao.SesjaDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
 import entity.Podatnik;
+import entity.SMTPSettings;
 import entity.Sesja;
 import entity.Uz;
 import entity.Wpis;
@@ -149,8 +150,10 @@ public class Logowanie implements Serializable {
             ustawLocale(uzytkownik);
             return navto;
         } catch (ServletException e) {
+            E.e(e);
             Msg.msg("e", "Podałeś nieprawidłowy login lub hasło. Nie możesz rozpocząć pracy z programem");
-            Liczniklogowan.odejmijLogowanie(ipusera, rejestrlogowanDAO, sMTPSettingsDAO.findSprawaByDef());
+            SMTPSettings settings = sMTPSettingsDAO.findSprawaByDef();
+            Liczniklogowan.odejmijLogowanie(ipusera, rejestrlogowanDAO, settings);
             return "failure";
         }
     }
