@@ -101,7 +101,7 @@ public class VatUeFKView implements Serializable {
             double sumanettovatuewaluta = 0.0;
             for (Dokfk p : listadokumentowUE) {
                 for (VatUe s : klienciWDTWNT) {
-                    if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
+                    if (p.getKontr()!= null && p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
                             double[] t = pobierzwartosci(p.getEwidencjaVAT());
                             double netto = t[0];
                             double nettowaluta = t[1];

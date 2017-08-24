@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import language.LocaleChanger;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -238,23 +239,23 @@ public class Logowanie implements Serializable {
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml?faces-redirect=true");
     }
     
-//    public void sprawdzciasteczka() {
-//        try {
-//            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//            Cookie[] cookies = request.getCookies();
-//            for (Cookie p : cookies) {
-//                if (p.getName().equals("gabiurms")) {
-//                    String[] o = p.getValue().split("_");
-//                    uzytkownik = o[0];
-//                    haslo = o[1];
-//                }
-//            }
-//            RequestContext.getCurrentInstance().update("formlog1:logowaniepanel");
-//            invalidatesession();
-//        } catch (Exception e){
-//            E.e(e);
-//        }
-//    }
+    public void sprawdzciasteczka() {
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Cookie[] cookies = request.getCookies();
+            for (Cookie p : cookies) {
+                if (p.getName().equals("gabiurms")) {
+                    String[] o = p.getValue().split("_");
+                    uzytkownik = o[0];
+                    haslo = o[1];
+                }
+            }
+            RequestContext.getCurrentInstance().update("formlog1:logowaniepanel");
+            invalidatesession();
+        } catch (Exception e){
+            E.e(e);
+        }
+    }
 
     
     public String savelogin() {
