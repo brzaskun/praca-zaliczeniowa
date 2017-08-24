@@ -7,7 +7,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:bcf="http://brzaskun.com/facelets">
     <f:view locale="#{localeChanger.locale}">
-        <f:event type="postAddToView" listener="#{logowanie.sprawdzciasteczka}"/>
+<!--        <f:event type="postAddToView" listener="#{logowanie.sprawdzciasteczka}"/>-->
         <h:head>
             <meta http-equiv="Accept-Encoding" content="gzip"/>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -25,7 +25,7 @@
             $(document).ready(popupBlockerChecker.check);
         </script>-->
             <bcf:ajaxs/>
-            <div id="fb-root"></div>
+<!--            <div id="fb-root"></div>
             <script>
                 (function (d, s, id) {
                     var js, fjs = d.getElementsByTagName(s)[0];
@@ -36,7 +36,7 @@
                     js.src = '//connect.facebook.net/pl_PL/sdk.js#xfbml=1&amp;version=v2.5';
                     fjs.parentNode.insertBefore(js, fjs);
                 }(document, 'script', 'facebook-jssdk'));
-            </script>
+            </script>-->
             <script>
                 navigator.sayswho = (function () {
                     var ua = navigator.userAgent, tem,
@@ -75,9 +75,9 @@
                                 <p style="text-align: center;"><h:outputText value="#{mgs.witamy}" style="color: activecaption; font-size:24px; " /></p>  
                             </p:notificationBar> -->
             <p:panel style="text-align: center; min-height: 150px;">
-                <div class="fb-page" data-href="https://www.facebook.com/BiuroRachunkowe.Szczecin/?ref=hl" data-width="500" data-height="70" 
+<!--                <div class="fb-page" data-href="https://www.facebook.com/BiuroRachunkowe.Szczecin/?ref=hl" data-width="500" data-height="70" 
                      data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="true"
-                     style="text-align: center;"></div>
+                     style="text-align: center;"></div>-->
             </p:panel>
             <p:panel style="margin-left: auto; margin-right: auto; width: 600px; border: none" >
                 <p:growl life="3600"  id="logowanie"  autoUpdate="true"/>
@@ -118,19 +118,11 @@
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid id="logowaniebutton" columns="2" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
-                        <style>
-                            .loginbutton  button:first-child {
-                                width: 150px;
-                            };
-                        </style>
-                        <p:splitButton value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
-                                       rendered="#{logowanie.liczniklogowan gt 0}" styleClass="loginbutton">
-                            <p:menuitem value="#{mgs.zapamietajmnie}" action="#{logowanie.savelogin()}"/>
-                            <p:menuitem value="#{mgs.zapomnijmnie}" action="#{logowanie.zapomnijmnie()}"/>
-                        </p:splitButton>
-                        <h:outputText value="Logowanie do systemu z tego numeru IP zostalo zablokowane na 24 godziny ze względów bezpieczeństwa. Podczas ostatniego loginu wielokrotnie podano złe dane logujące. Skontaktuj się z adminem lub odczekaj 24h." rendered="#{logowanie.liczniklogowan eq 0}"/>
+                        <p:defaultCommand target="zaloguj"/>
+                        <p:commandButton id="zaloguj" value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
+                                       rendered="#{logowanie.liczniklogowan gt 0}" styleClass="loginbutton" style="width: 150px; text-align: center;">
+                        </p:commandButton>
                     </p:panelGrid>
-                    <!--                        <p:commandButton value="#{mgs.wyloguj}" action="{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>-->
                 </p:panel>
             </h:form>
                    <p:panel style="margin-left: auto; margin-right: auto; width: 400px; border: none; text-align: right;" >
