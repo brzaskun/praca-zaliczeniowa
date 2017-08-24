@@ -5,7 +5,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:bcf="http://brzaskun.com/facelets">
     <f:view>
-    <ui:composition template="/templateFK.xhtml">
+    <ui:composition template="/templateFK.xhtml" >
         
         <ui:define name="title">
             <h:outputText value="Księgi rachunkowe"></h:outputText>
@@ -14,7 +14,6 @@
             <p:growl life="6000" autoUpdate="true" globalOnly="true"/>
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <p:outputPanel id="potwierdzeniazestawieniedok">
-            
             <p:confirmDialog id="confirmDialog1" message="Dodać środek trwały?"  
                              header="dodawanie środka trwałego z dokumentu" severity="alert" widgetVar="confirm1" width="500" appendTo="@(body)"
                              >

@@ -372,7 +372,6 @@ public class WpisView implements Serializable {
         try {
             zwrot = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRokPoprzedni(this).isZamkniety();
         } catch (Exception e) {
-            E.e(e);
         }
         return zwrot;
     }

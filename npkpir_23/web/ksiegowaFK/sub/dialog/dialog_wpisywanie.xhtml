@@ -96,7 +96,7 @@
         } catch (e) {}
         };
     </script>
-    <p:dialog id="dialogpierwszy" 
+    <p:dialog id="dialogpierwszy" dynamic="true"
               header="#{dokfkView.naglowekWpisDokumentu[0]}" 
               widgetVar="wpisywanie" modal="true" appendTo="@(body)" 
               resizable="false" onShow="wpisywanieOnShow(1160,630);kolornaglowka();zaznaczpole();doczeplistnerydopol();" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
