@@ -239,6 +239,10 @@ public class Logowanie implements Serializable {
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml?faces-redirect=true");
     }
     
+    public void uniewaznijsesje() {
+        invalidatesession();
+    }
+    
     public void sprawdzciasteczka() {
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
