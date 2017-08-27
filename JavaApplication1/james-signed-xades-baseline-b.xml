@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><JPK xmlns="http://jpk.mf.gov.pl/wzor/2016/10/26/10261/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_VAT (2)" wersjaSchemy="1-0">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <CelZlozenia>1</CelZlozenia>
+        <DataWytworzeniaJPK>2017-02-19T10:05:08.940Z</DataWytworzeniaJPK>
+        <DataOd>2016-09-01</DataOd>
+        <DataDo>2016-09-30</DataDo>
+        <DomyslnyKodWaluty>PLN</DomyslnyKodWaluty>
+        <KodUrzedu>0202</KodUrzedu>
+    </Naglowek>
+    <Podmiot1>
+        <IdentyfikatorPodmiotu>
+            <ns2:NIP>1111111111</ns2:NIP>
+            <ns2:PelnaNazwa>Pełna Nazwa</ns2:PelnaNazwa>
+            <ns2:REGON>123456789</ns2:REGON>
+        </IdentyfikatorPodmiotu>
+        <AdresPodmiotu>
+            <KodKraju>PL</KodKraju>
+            <Wojewodztwo>Zachodniopomorskie</Wojewodztwo>
+            <Powiat>powiat</Powiat>
+            <Gmina>gmina</Gmina>
+            <Ulica>ulica</Ulica>
+            <NrDomu>nrdomu</NrDomu>
+            <NrLokalu>nrlokalu</NrLokalu>
+            <Miejscowosc>miejscowosc</Miejscowosc>
+            <KodPocztowy>70-100</KodPocztowy>
+            <Poczta>poczta</Poczta>
+        </AdresPodmiotu>
+    </Podmiot1>
+    <SprzedazWiersz typ="G">
+        <LpSprzedazy>1</LpSprzedazy>
+        <NrKontrahenta>nrkonrahenta</NrKontrahenta>
+        <NazwaKontrahenta>nazwakontrahenta</NazwaKontrahenta>
+        <AdresKontrahenta>adreskontrahenta</AdresKontrahenta>
+        <DowodSprzedazy>dowodsprzedazy</DowodSprzedazy>
+        <DataWystawienia>2016-01-02</DataWystawienia>
+        <DataSprzedazy>2016-01-01</DataSprzedazy>
+        <K_19>100</K_19>
+        <K_20>23</K_20>
+    </SprzedazWiersz>
+    <SprzedazCtrl>
+        <LiczbaWierszySprzedazy>1</LiczbaWierszySprzedazy>
+        <PodatekNalezny>23</PodatekNalezny>
+    </SprzedazCtrl>
+    <ZakupWiersz typ="G">
+        <LpZakupu>1</LpZakupu>
+        <NrDostawcy>nrdostawcy</NrDostawcy>
+        <NazwaDostawcy>nazwadostawcy</NazwaDostawcy>
+        <AdresDostawcy>adresdostawcy</AdresDostawcy>
+        <DowodZakupu>dowodzakupu</DowodZakupu>
+        <DataZakupu>2016-01-01</DataZakupu>
+        <DataWplywu>2016-01-02</DataWplywu>
+        <K_45>1000</K_45>
+        <K_46>230</K_46>
+    </ZakupWiersz>
+    <ZakupCtrl>
+        <LiczbaWierszyZakupow>1</LiczbaWierszyZakupow>
+        <PodatekNaliczony>230</PodatekNaliczony>
+    </ZakupCtrl>
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="id-cc43d14c7beb0e7b72f2a4f33397fad0"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference Id="r-id-1" Type="" URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116"><ds:XPath>not(ancestor-or-self::ds:Signature)</ds:XPath></ds:Transform><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>tHtiDtlQwu/tVSHCVvrXZtG8XUpp+z3jt3I+ubWNl+Y=</ds:DigestValue></ds:Reference><ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#xades-id-cc43d14c7beb0e7b72f2a4f33397fad0"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>Tf+4JySDcPQ+Vt+zfpb7hXvDbXjYAJB9GwUVu00tKHo=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue Id="value-id-cc43d14c7beb0e7b72f2a4f33397fad0">NqQPTakzSaMk4He/kv/0uL4tH08pZdaRlMwbXOh1GRdT2I04pQyuxVFRbeI37Y1NiXHsGq3l0IuiAf4f6Xtg1NfzhxSgc9Kb//44IEIzhe5D19qltxtp8lA+dbEzU4hDPzEVTw4pYszqAnPM31uhqHkr16fNB1MXEjiGA1+ZZ6c=</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIEpDCCA4ygAwIBAgIQJHH2hzuecTIL2+UhvX/RBjANBgkqhkiG9w0BAQUFADBcMRQwEgYDVQQFEwtOciB3cGlzdTogMTELMAkGA1UEBhMCUEwxIjAgBgNVBAoMGVVuaXpldG8gVGVjaG5vbG9naWVzIFMuQS4xEzARBgNVBAMMCkNFUlRVTSBRQ0EwHhcNMTUwOTI0MTkwMTM2WhcNMTcwOTIzMTkwMTM2WjBtMRswGQYDVQQDDBJHcnplZ29yeiBHcnplbGN6eWsxETAPBgNVBCoMCEdyemVnb3J6MRIwEAYDVQQEDAlHcnplbGN6eWsxGjAYBgNVBAUTEVBFU0VMOjcwMDUyODA5ODEwMQswCQYDVQQGEwJQTDCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAwlt8Et+p1C60ZLZPgFNek7X8loC9fLMGOpZTp7Zw3I3VGr61dcEcoBD0jPkW/kB1i/UHpNEFx9zPOXlY5XFMaORBY+1Seu1tl7MFAT+7P6kcaaybzZrdDUhavpX81ODNbM98pkABeKLcsQ18GuavR/jdag4i3bWZHLHxgKPfjgUCAwEAAaOCAdMwggHPMAwGA1UdEwEB/wQCMAAwLwYDVR0fBCgwJjAkoCKgIIYeaHR0cDovL2NybC5jZXJ0dW0ucGwvcWNhMTQuY3JsMB8GA1UdIwQYMBaAFI252fPhc31AA0py/o0OneBNd8kWMB0GA1UdDgQWBBQFCbmUOTECKkxJJxi1E8odFSavNDAOBgNVHQ8BAf8EBAMCBkAwggESBgNVHSAEggEJMIIBBTCCAQEGCyqEaAGG9ncCBAEBMIHxMC0GCCsGAQUFBwIBFiFodHRwOi8vd3d3LmNlcnR1bS5wbC9yZXBvenl0b3JpdW0wgb8GCCsGAQUFBwICMIGyMCAWGVVuaXpldG8gVGVjaG5vbG9naWVzIFMuQS4wAwIBARqBjUNlcnR1bSBRQ0EgT3NvYmlzdHkgLSBrd2FsaWZpa293YW55IGNlcnR5ZmlrYXQgd3lkYW55IHByemV6IFVuaXpldG8gVGVjaG5vbG9naWVzIFMuQS4gemdvZG5pZSB6IHd5bWFnYW5pYW1pIFVzdGF3eSBvIHBvZHBpc2llIGVsZWt0cm9uaWN6bnltLjAoBggrBgEFBQcBAwQcMBowCAYGBACORgEBMA4GCSqEaAFlAwEBAgoBATANBgkqhkiG9w0BAQUFAAOCAQEAp/CIb1cPyzzQ3wjgR75Qu7EPgeABC+uiIDIT6ARS41Ye/er20mbQmpt74JSrWR4sKG5sA3P4VhHxfAs7olDKWjsAVFda34lKThI0cZVYCKyQzC1vod0YEzNuYEwI32oL/9PPFfl8IpL3L4FnAF7j97Pojgi9KAoaylEPfafMHnqOQEhaJnpXdXzIreTPPFj+gkMYC0JSG5UzaiiF7uqSqNQbUcoFWVf902duSchQ6hC6YeAEuWeq6NB+YAbWlS7fEMZeq+wXXwQIxm6SsCPaJR5IN1gaEvWvRBSa5dzNN8baoeVK2HEKEqSkGE5qubPRb2tqzVO4I4cE+kCuj64DTQ==</ds:X509Certificate></ds:X509Data></ds:KeyInfo><ds:Object><xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Target="#id-cc43d14c7beb0e7b72f2a4f33397fad0"><xades:SignedProperties Id="xades-id-cc43d14c7beb0e7b72f2a4f33397fad0"><xades:SignedSignatureProperties><xades:SigningTime>2017-08-27T20:59:15Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>n9IDHhRaCaCgHDtLq3pqGOdxyCE=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=CERTUM QCA,O=Unizeto Technologies S.A.,C=PL,2.5.4.5=#130b4e722077706973753a2031</ds:X509IssuerName><ds:X509SerialNumber>48443937580287005092733633314689110278</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties><xades:SignedDataObjectProperties><xades:DataObjectFormat ObjectReference="#r-id-1"><xades:MimeType>text/xml</xades:MimeType></xades:DataObjectFormat></xades:SignedDataObjectProperties></xades:SignedProperties></xades:QualifyingProperties></ds:Object></ds:Signature></JPK>

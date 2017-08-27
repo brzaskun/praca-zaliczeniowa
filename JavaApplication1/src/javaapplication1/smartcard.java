@@ -120,7 +120,8 @@ public class smartcard {
             // We invoke the service to sign the document with the signature value obtained in
             // the previous step.
             DSSDocument signedDocument = service.signDocument(toSignDocument, parameters, signatureValue);
-            System.out.println("");
+            signedDocument.save(signedDocument.getName());
+            System.out.println("Koniec ok");
         } catch (Exception ex) {
             Logger.getLogger(smartcard.class.getName()).log(Level.SEVERE, null, ex);
         }
