@@ -21,14 +21,15 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import pl.gov.crd.xml.schematy.dziedzinowe.mf._2013._05._23.ed.kodycechkrajow.CurrCodeType;
-import pl.gov.crd.xml.schematy.dziedzinowe.mf._2016._01._25.ed.definicjetypy.TIdentyfikatorOsobyNiefizycznej;
-import pl.gov.crd.xml.schematy.dziedzinowe.mf._2016._01._25.ed.definicjetypy.TKodKraju;
-import pl.gov.mf.jpk.wzor._2016._10._26._10261.JPK;
-import pl.gov.mf.jpk.wzor._2016._10._26._10261.JPK.Podmiot1;
-import pl.gov.mf.jpk.wzor._2016._10._26._10261.TAdresJPK;
-import pl.gov.mf.jpk.wzor._2016._10._26._10261.TKodFormularza;
-import pl.gov.mf.jpk.wzor._2016._10._26._10261.TNaglowek;
+import jpk201701.CurrCodeType;
+import jpk201701.JPK;
+import jpk201701.JPK.Podmiot1;
+import jpk201701.TAdresJPK;
+import jpk201701.TIdentyfikatorOsobyNiefizycznej;
+import jpk201701.TKodFormularza;
+import jpk201701.TKodKraju;
+import jpk201701.TNaglowek;
+
 
 /**
  *
