@@ -14,7 +14,8 @@
             document.getElementById('link').click()
         }
     </script>
-    <p:commandButton value="sporządź" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}" update="formVatZestKsiegowa" style="width: 120px; padding: 5px;"/>
+    <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}" rendered="#{!WpisView.ksiegirachunkowe}"/>
+<!--    <p:commandButton value="sporządź" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}" update="formVatZestKsiegowa" style="width: 120px; padding: 5px;"/>-->
     <p:tabView id="akordeon">
         <p:tab id="ewid1" title="ewidencje">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
@@ -29,11 +30,13 @@
                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji.nazwa))}"/>
                 </p:commandButton>
                 <p:separator/>
-                    <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1100px; margin-bottom: 30px;">
+                    <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1200px; overflow-y: scroll; height: 500px;" 
+                                 
+                                 >
                         <f:facet name="header">  
                             <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
                         </f:facet>
-                        <p:column headerText="id" style="width: 40px;" sortBy="#{itemik.id}">
+                        <p:column headerText="id" style="width: 40px; text-align: center;" sortBy="#{itemik.id}">
                             <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                         </p:column>
                         <p:column headerText="data wyst." style="width: 100px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
@@ -85,13 +88,13 @@
              <p:panelGrid id="panelposumowaniavat" columns="2" columnClasses="fifty-percent fifty-percent">
                         <p:panelGrid columns="1">
             <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
-                         selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
+                         selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
                          >
                 <f:facet name="header">
                     <h:outputText value="zestawienie ewidencji vat - sprzedaż"/>
                 </f:facet>
-                <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
-                <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie') and !(itemik.ewidencja.nazwa eq 'suma upkt')}"></p:column>
+                <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie') or (itemik.ewidencja.nazwa eq 'suma upkt')}"></p:column>
                 <p:column headerText="nazwa ewidencji">
                     <h:outputText value="#{itemik.ewidencja.nazwa}"/>
                 </p:column>
@@ -108,7 +111,7 @@
 
             </p:dataTable>
             <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemik" 
-                         selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
+                         selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
                          >
                 <f:facet name="header">
                     <h:outputText value="zestawienie ewidencji vat - koszty"/>

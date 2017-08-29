@@ -105,6 +105,8 @@
                     </h:selectOneMenu>
                     <h:outputLabel value="firma w likwidacji"/>
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.jestwlikiwdacji}"/>
+                 <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym"/>
+                 <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton action="#{podatnikView.edytuj()}" value="edytuj podatnika" update="@form" type="submit"/>
@@ -211,6 +213,8 @@
                     </h:selectOneMenu>
                  <h:outputLabel value="firma w likwidacji"/>
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.jestwlikiwdacji}"/>
+                 <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym"/>
+                 <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton action="#{podatnikView.edytujfk()}" value="edytuj podatnika" update="@form" type="submit" style="margin-top: 10px;"/>

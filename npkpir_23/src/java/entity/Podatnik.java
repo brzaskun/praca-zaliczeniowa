@@ -253,6 +253,8 @@ public class Podatnik implements Serializable {
     @Size(max = 512)
     @Column(name = "printnazwa")
     private String printnazwa;
+    @Column(name = "podpiscertyfikowany")
+    private boolean podpiscertyfikowany;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -294,6 +296,14 @@ public class Podatnik implements Serializable {
     }
     public String getSchematnumeracji() {
         return schematnumeracji;
+    }
+
+    public boolean isPodpiscertyfikowany() {
+        return podpiscertyfikowany;
+    }
+
+    public void setPodpiscertyfikowany(boolean podpiscertyfikowany) {
+        this.podpiscertyfikowany = podpiscertyfikowany;
     }
 
     public String getPrintnazwa() {

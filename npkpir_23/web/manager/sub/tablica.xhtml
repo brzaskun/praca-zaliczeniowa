@@ -8,9 +8,9 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <h:form>
+<!--    <h:form>
         <p:commandButton value="numeruj dokumenty" actionListener="#{rewolucjaPodatnikView.przenumeruj()}"/>
-    </h:form>
+    </h:form>-->
 <!--  <h:form>
       <p:panelGrid columns="1">
       <p:inputText value="#{gUSView.nip}" maxlength="10"/>
@@ -180,5 +180,60 @@
         </p:column>
     </p:dataTable>
 </h:form>-->
+<h:form id="formwysylka">
+    <h:inputTextarea cols="100" rows="30" value="#{beanektest.wysylanaDeklaracja}">
+        <p:ajax event="change" partialSubmit="true"/>
+    </h:inputTextarea>
+     <p:accordionPanel id="akordeon"   style="max-width: 1400px;"> 
+<!--        <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
+        <p:panelGrid columns="2" style="width: 100%;">
+            <p:column>
+                <h:form>
+                    <p:commandButton value="wyślij" actionListener="#{beanektest.rob()}" update=":formwysylka" style="width: 150px;"/>
+                    <p:commandButton value="upo" actionListener="#{beanektest.pobierz()}" update="formwysylka" style="margin-left: 3%; width: 150px;"/>
+                </h:form>
+            </p:column>
+            <p:column>
+                <h:form id="form">
+                    <p:panelGrid columns="2" id="upoform" style="width: 100%;">
+                        <h:outputText value="id przesyłki" />
+                        <h:inputText value="#{beanektest.idpobierz}" style="width: 90%;"/>
+                        <h:outputText value="UPO" />
+                        <h:inputTextarea id="upo" value="#{beanektest.upoMB}" readonly="true" style="width: 90%; height: 60px;"/>
+                        <h:outputText value="status przesyłki - symbol"/>
+                        <h:outputText id="stat" value="#{beanektest.statMB}"  style="#{beanektest.statMB eq '200' ? 'color: green; font-weight: 900;' : null}"/>
+                        <h:outputText value="opis statusu przesyłki" />
+                        <h:inputTextarea id="opis" value="#{beanektest.opisMB}" readonly="true" style="width: 600px; height: 70px;"/>
+                    </p:panelGrid>
+                </h:form>
+                </p:column>
+            </p:panelGrid>
+        </p:tab>-->
+    <p:tab title="Można też przetestować wysyłke deklaracji. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk sprawdz">
+        <p:panelGrid columns="2" style="width: 100%;">
+            <p:column>
+                <h:form>
+                    <p:commandButton value="test" actionListener="#{beanektest.robtest()}" update="formwysylka" style="width: 150px;"/>
+                    <p:commandButton value="sprawdź" actionListener="#{beanektest.pobierztest()}" update=":formwysylka" style="margin-left: 3%; width: 150px;"/>
+                </h:form>
+            </p:column>
+            <p:column>
+                <h:form id="formtest">
+                    <p:panelGrid columns="2" id="upoformtest" style="width: 100%;">
+                        <h:outputText value="id przesyłki"/>
+                        <h:inputText value="#{beanektest.idpobierzT}" style="width: 90%;"/>
+                        <h:outputText value="UPO"/>
+                        <h:inputTextarea id="upotest" value="#{beanektest.upoMBT}" readonly="true" style="width: 90%; height: 60px;"/>
+                        <h:outputText value="status przesyłki - symbol"/>
+                        <h:outputText id="stattest" value="#{beanektest.statMBT}" style="#{beanektest.statMBT eq '200' ? 'color: green; font-weight: 900;' : null}"/>
+                        <h:outputText value="opis statusu przesyłki"/>
+                        <h:inputTextarea id="opistest" value="#{beanektest.opisMBT}" readonly="true" style="width: 600px; height: 70px;"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:column>
+            </p:panelGrid>
+    </p:tab>
+        </p:accordionPanel>
+</h:form>
 </ui:composition>
 
