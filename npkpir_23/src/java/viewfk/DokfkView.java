@@ -96,6 +96,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
+import view.ParametrView;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
@@ -2478,34 +2479,14 @@ public class DokfkView implements Serializable {
             }
         }
     }
-
-    public String sprawdzjakiokresvat() {
-        String zwrot = "blad";
+    
+    private String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
-        String mcint = wpisView.getMiesiacWpisu().equals("CR") ? Data.aktualnyMc() : wpisView.getMiesiacWpisu();
-        Integer mc = Integer.parseInt(mcint);
+        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
-        //odszukaj date w parametrze - kandydat na metode statyczna
-        try {
-            for (Parametr p : parametry) {
-                if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
-                    int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-                    int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
-                    if (wynikPo > 0 && wynikPrzed < 0) {
-                        zwrot = p.getParametr();
-                    }
-                } else {
-                    int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-                    if (wynik >= 0) {
-                        zwrot = p.getParametr();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            E.e(e);
-        }
-        return zwrot;
+        return ParametrView.zwrocParametr(parametry, rok, mc);
     }
+    
 
     public void dodajcechedodokumentu(Cechazapisu c) {
         pobranecechy.remove(c);

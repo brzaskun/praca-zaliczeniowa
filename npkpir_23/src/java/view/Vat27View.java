@@ -4,7 +4,6 @@
  */
 package view;
 
-import beansFK.ParamBean;
 import comparator.Dokcomparator;
 import dao.DeklaracjevatDAO;
 import dao.DokDAO;
@@ -14,8 +13,6 @@ import embeddable.Kwartaly;
 import embeddable.VatUe;
 import entity.Deklaracjevat;
 import entity.Dok;
-import entity.Podatnik;
-import entityfk.Dokfk;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
 import error.E;
