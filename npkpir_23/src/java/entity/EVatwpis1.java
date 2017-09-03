@@ -7,14 +7,9 @@ package entity;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.inject.Named;
-import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -25,22 +20,9 @@ import javax.persistence.ManyToOne;
 @Named
 @Entity
 @Cacheable
-public class EVatwpis1 implements Serializable {
+public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     private static final long serialVersionUID = -3274961058594456484L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private long id;
-    @JoinColumn(name = "ewidencja", referencedColumnName = "nazwa")
-    @ManyToOne
-    private Evewidencja ewidencja;
-    @Column(name = "netto")
-    private double netto;
-    @Column(name = "vat")
-    private double vat;
-    @Column(name = "estawka")
-    private String estawka;
+    
     @JoinColumn(name = "dok", referencedColumnName = "id_dok")
     @ManyToOne(cascade = CascadeType.ALL)
     private Dok dok;
@@ -113,6 +95,24 @@ public class EVatwpis1 implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
+
+    public String getMcEw() {
+        return mcEw;
+    }
+
+    public void setMcEw(String mcEw) {
+        this.mcEw = mcEw;
+    }
+
+    public String getRokEw() {
+        return rokEw;
+    }
+
+    public void setRokEw(String rokEw) {
+        this.rokEw = rokEw;
+    }
+    
+    
 
     @Override
     public int hashCode() {

@@ -180,12 +180,12 @@
         </p:column>
     </p:dataTable>
 </h:form>-->
-<h:form id="formwysylka">
+<!--<h:form id="formwysylka">
     <h:inputTextarea cols="100" rows="30" value="#{beanektest.wysylanaDeklaracja}">
         <p:ajax event="change" partialSubmit="true"/>
     </h:inputTextarea>
      <p:accordionPanel id="akordeon"   style="max-width: 1400px;"> 
-<!--        <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
+        <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
         <p:panelGrid columns="2" style="width: 100%;">
             <p:column>
                 <h:form>
@@ -208,7 +208,7 @@
                 </h:form>
                 </p:column>
             </p:panelGrid>
-        </p:tab>-->
+        </p:tab>
     <p:tab title="Można też przetestować wysyłke deklaracji. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk sprawdz">
         <p:panelGrid columns="2" style="width: 100%;">
             <p:column>
@@ -234,6 +234,9 @@
             </p:panelGrid>
     </p:tab>
         </p:accordionPanel>
+</h:form>-->
+<h:form>
+    <p:commandButton value="aktualizuj Evatwpis1" actionListener="#{ewidencjaVatView.edycjaewidencji}" />
 </h:form>
 </ui:composition>
 

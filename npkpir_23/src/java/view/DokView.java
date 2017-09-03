@@ -790,6 +790,8 @@ public final class DokView implements Serializable {
                         eVatwpis.setVat(p.getVat());
                         eVatwpis.setEstawka(p.getOpzw());
                         eVatwpis.setDok(selDokument);
+                        eVatwpis.setMcEw(selDokument.getVatM());
+                        eVatwpis.setRokEw(selDokument.getVatR());
                         ewidencjeDokumentu.add(eVatwpis);
                         //to musi być bo inaczej nie obliczy kwoty vat;
                         kwotavat += Z.z(p.getVat());

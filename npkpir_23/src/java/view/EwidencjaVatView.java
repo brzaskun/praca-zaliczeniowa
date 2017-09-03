@@ -7,6 +7,7 @@ package view;
 import comparator.Dokcomparator;
 import comparator.EVatwpisFKcomparator;
 import dao.DokDAO;
+import dao.EVatwpis1DAO;
 import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
 import dao.RodzajedokDAO;
@@ -203,6 +204,7 @@ public class EwidencjaVatView implements Serializable {
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
             zerujListy();
             pobierzdokumentyzaOkres();
+            String vatokres = sprawdzjakiokresvat();
             String vatokres = sprawdzjakiokresvat();
             if (pobierzmiesiacdlajpk) {
                 vatokres = "miesięczne";
@@ -958,6 +960,27 @@ public class EwidencjaVatView implements Serializable {
      
      public void wybierzewidencje() {
          wybranaewidencja = listaewidencji.get(ewidencjadosprawdzania);
+     }
+     @Inject
+     private EVatwpis1DAO eVatwpis1DAO;
+             
+     public void edycjaewidencji() {
+         List<EVatwpis1> lista = eVatwpis1DAO.findAll();
+         int i = 1;
+         for (EVatwpis1 p  : lista) {
+            if (p.getDok() != null) {
+                if (p.getDok().getVatR() != null) {
+                    p.setRokEw(p.getDok().getVatR());
+                }
+                if (p.getDok().getVatM() != null) {
+                    p.setMcEw(p.getDok().getVatM());
+                }
+                System.out.println(" "+i++);
+            }
+             
+         }
+         eVatwpis1DAO.editList(lista);
+         System.out.println("Skonczylem");
      }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

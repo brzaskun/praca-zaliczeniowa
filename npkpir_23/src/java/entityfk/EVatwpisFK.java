@@ -8,13 +8,9 @@ import entity.*;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.inject.Named;
-import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -22,7 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -40,29 +35,15 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRokInnyOkres", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND k.innyokres != 0")
 })
 @Cacheable
-public class EVatwpisFK implements Serializable {
+public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private long id;
     private int lp;
-    @JoinColumn(name = "ewidencja", referencedColumnName = "nazwa")
-    @ManyToOne
-    private Evewidencja ewidencja;
-    @Column(name = "netto")
-    private double netto;
     @Column(name = "nettowwalucie")
     private double nettowwalucie;
-    @Column(name = "vat")
-    private double vat;
     @Column(name = "vatwwalucie")
     private double vatwwalucie;
     @Column(name = "brutto")
     private double brutto;
-    @Column(name = "estawka")
-    private String estawka;
     @ManyToOne
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
@@ -77,12 +58,7 @@ public class EVatwpisFK implements Serializable {
     private boolean paliwo;
     @Column(name = "innyokres")
     private int innyokres;
-    @Size(max = 2)
-    @Column(name = "mcEw")
-    private String mcEw;
-    @Size(max = 4)
-    @Column(name = "rokEw")
-    private String rokEw;
+    
     
 
     public EVatwpisFK(Evewidencja ewidencja, double netto, double vat, String estawka) {
