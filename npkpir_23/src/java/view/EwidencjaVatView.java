@@ -205,7 +205,6 @@ public class EwidencjaVatView implements Serializable {
             zerujListy();
             pobierzdokumentyzaOkres();
             String vatokres = sprawdzjakiokresvat();
-            String vatokres = sprawdzjakiokresvat();
             if (pobierzmiesiacdlajpk) {
                 vatokres = "miesięczne";
             }
