@@ -9,6 +9,7 @@ import error.E;
 import eu.europa.esig.dss.DSSDocument;
 import eu.europa.esig.dss.DigestAlgorithm;
 import eu.europa.esig.dss.FileDocument;
+import eu.europa.esig.dss.InMemoryDocument;
 import eu.europa.esig.dss.SignatureLevel;
 import eu.europa.esig.dss.SignaturePackaging;
 import eu.europa.esig.dss.SignatureValue;
@@ -22,6 +23,7 @@ import eu.europa.esig.dss.xades.signature.XAdESService;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -32,18 +34,19 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.Enumeration;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author Osito
  */
-public class SprawdzKarteBean {
+public class ObslugaPodpisuBean {
     
     static String HASLO = "marlena1";
     static String PLIK = "james.xml";
     static String DRIVER = "c:\\windows\\System32\\cryptoCertum3PKCS.dll";
     
-    public static Boolean jestDriver() {
+    private static Boolean jestDriver() {
         Boolean zwrot = null;
         try {
             String pkcs11config = "name=SmartCardn"+"\r"
@@ -59,7 +62,7 @@ public class SprawdzKarteBean {
         return zwrot;
     }
     
-    public static KeyStore jestKarta(String haslo) {
+    private static KeyStore jestKarta(String haslo) {
         KeyStore keyStore = null;
         try {
             boolean zwrot = false;
@@ -74,7 +77,7 @@ public class SprawdzKarteBean {
         return keyStore;
     }
     
-    public static String aktualnyAlias(KeyStore keyStore) {
+    private static String aktualnyAlias(KeyStore keyStore) {
         String aliasfinal = null;
         try {
             Enumeration aliasesEnum = keyStore.aliases();
@@ -95,7 +98,7 @@ public class SprawdzKarteBean {
         return aliasfinal;
     }
     
-    public static Certificate certyfikat(String aliasfinal, KeyStore keyStore) {
+    private static Certificate certyfikat(String aliasfinal, KeyStore keyStore) {
         Certificate cert = null;
         try {
             cert = keyStore.getCertificate(aliasfinal);
@@ -105,7 +108,7 @@ public class SprawdzKarteBean {
         return cert;
     }
     
-    public static DSSDocument dokument(String nazwapliku) {
+    private static DSSDocument dokument(String nazwapliku) {
         DSSDocument toSignDocument = null;
         File f = new File(nazwapliku);
         if(f.exists() && !f.isDirectory()) { 
@@ -114,7 +117,13 @@ public class SprawdzKarteBean {
         return toSignDocument;
     }
     
-    public static XAdESSignatureParameters ustawparametry(Certificate cert) {
+    private static DSSDocument dokumentzXML(String xml) {
+        InputStream str = pobierzXML(xml);
+        DSSDocument toSignDocument = new InMemoryDocument(str);
+        return toSignDocument;
+    }
+    
+    private static XAdESSignatureParameters ustawparametry(Certificate cert) {
         XAdESSignatureParameters parameters = new XAdESSignatureParameters();
         // We choose the level of the signature (-B, -T, -LT, -LTA).
         parameters.setSignatureLevel(SignatureLevel.XAdES_BASELINE_B);
@@ -128,13 +137,13 @@ public class SprawdzKarteBean {
         return parameters;
     }
     
-    public static XAdESService podpisywacz() {
+    private static XAdESService podpisywacz() {
         CommonCertificateVerifier commonCertificateVerifier = new CommonCertificateVerifier();
         XAdESService service = new XAdESService(commonCertificateVerifier);
         return service;
     }
     
-    public static ToBeSigned danedoPodpisu(DSSDocument toSignDocument, XAdESSignatureParameters parameters) {
+    private static ToBeSigned danedoPodpisu(DSSDocument toSignDocument, XAdESSignatureParameters parameters) {
         // Create XAdES service for signature
         XAdESService service = podpisywacz();
         // Get the SignedInfo XML segment that need to be signed.
@@ -142,7 +151,7 @@ public class SprawdzKarteBean {
         return dataToSign;
     }
     
-    public static SignatureValue generujpodpis(ToBeSigned dataToSign,XAdESSignatureParameters parameters) {
+    private static SignatureValue generujpodpis(ToBeSigned dataToSign,XAdESSignatureParameters parameters) {
         // This function obtains the signature value for signed information using the
         // private key and specified algorithm
         char [] password = "marlena1".toCharArray();
@@ -152,7 +161,7 @@ public class SprawdzKarteBean {
         return signatureValue;
     }
     
-    public static String podpisz(XAdESService service, DSSDocument toSignDocument, XAdESSignatureParameters parameters, SignatureValue signatureValue) {
+    private static String podpisz(XAdESService service, DSSDocument toSignDocument, XAdESSignatureParameters parameters, SignatureValue signatureValue) {
         String nazwa = null;
         try {
             DSSDocument signedDocument = service.signDocument(toSignDocument, parameters, signatureValue);
@@ -164,7 +173,7 @@ public class SprawdzKarteBean {
         return nazwa;
     }
     
-    public static void drukuj(Object o, String opis) {
+    private static void drukuj(Object o, String opis) {
         if (o != null) {
             System.out.println("jest "+opis);
         } else {
@@ -172,26 +181,76 @@ public class SprawdzKarteBean {
         }
     }
     
+    public static boolean moznaPodpisac() {
+        boolean zwrot = false;
+        Boolean driver = jestDriver();
+        KeyStore keyStore = jestKarta("marlena1");
+        if (driver != null && keyStore != null) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
     
+    private static InputStream pobierzXML(String xml) {
+        InputStream in = null;
+        try {
+            in = IOUtils.toInputStream(xml, "UTF-8");
+        } catch (IOException ex) {
+            E.e(ex);
+        } finally {
+            return in;
+        }
+    }
+    
+    public static void podpiszDeklaracje(String xml) {
+        boolean mozna = moznaPodpisac();
+        if (mozna) {
+            KeyStore keyStore = jestKarta(HASLO);
+            String alias = aktualnyAlias(keyStore);
+            System.out.println("symbol aktualnego certyfikatu "+alias);
+            Certificate cert = certyfikat(alias, keyStore);
+            drukuj(cert,"certyfikat");
+            DSSDocument dok = dokumentzXML(xml);
+            drukuj(dok,"dokument");
+            XAdESSignatureParameters parameters = ustawparametry(cert);
+            drukuj(parameters,"parametry");
+            ToBeSigned toBeSigned = danedoPodpisu(dok, parameters);
+            drukuj(toBeSigned,"dane do podpisu");
+            SignatureValue signatureValue = generujpodpis(toBeSigned, parameters);
+            drukuj(signatureValue,"podpis");
+            String nazwapodpisana = podpisz(podpisywacz(), dok, parameters, signatureValue);
+            drukuj(nazwapodpisana,"podpisano");
+        } else {
+            System.out.println("brak karty");
+        }
+    }
     
     public static void main(String[] args) {
-        Boolean driver = jestDriver();
-        drukuj(driver,"driver");
-        KeyStore keyStore = jestKarta(HASLO);
-        drukuj(keyStore,"karta");
-        String alias = aktualnyAlias(keyStore);
-        System.out.println("symbol aktualnego certyfikatu "+alias);
-        Certificate cert = certyfikat(alias, keyStore);
-        drukuj(cert,"certyfikat");
-        DSSDocument dok = dokument(PLIK);
-        drukuj(dok,"dokument");
-        XAdESSignatureParameters parameters = ustawparametry(cert);
-        drukuj(parameters,"parametry");
-        ToBeSigned toBeSigned = danedoPodpisu(dok, parameters);
-        drukuj(toBeSigned,"dane do podpisu");
-        SignatureValue signatureValue = generujpodpis(toBeSigned, parameters);
-        drukuj(signatureValue,"podpis");
-        String nazwapodpisana = podpisz(podpisywacz(), dok, parameters, signatureValue);
-        drukuj(nazwapodpisana,"podpisano");
+//        Boolean driver = jestDriver();
+//        drukuj(driver,"driver");
+//        KeyStore keyStore = jestKarta(HASLO);
+//        drukuj(keyStore,"karta");
+//        boolean mozna = moznaPodpisac();
+//        if (mozna) {
+//            KeyStore keyStore = jestKarta(HASLO);
+//            String alias = aktualnyAlias(keyStore);
+//            System.out.println("symbol aktualnego certyfikatu "+alias);
+//            Certificate cert = certyfikat(alias, keyStore);
+//            drukuj(cert,"certyfikat");
+//            DSSDocument dok = dokument(PLIK);
+//            drukuj(dok,"dokument");
+//            XAdESSignatureParameters parameters = ustawparametry(cert);
+//            drukuj(parameters,"parametry");
+//            ToBeSigned toBeSigned = danedoPodpisu(dok, parameters);
+//            drukuj(toBeSigned,"dane do podpisu");
+//            SignatureValue signatureValue = generujpodpis(toBeSigned, parameters);
+//            drukuj(signatureValue,"podpis");
+//            String nazwapodpisana = podpisz(podpisywacz(), dok, parameters, signatureValue);
+//            drukuj(nazwapodpisana,"podpisano");
+//        } else {
+//            System.out.println("brak karty");
+//        }
+            DSSDocument dok = dokumentzXML("lolo");
+            drukuj(dok,"dokument");
     }
 }

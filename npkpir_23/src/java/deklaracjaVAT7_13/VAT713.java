@@ -4,16 +4,11 @@
  */
 package deklaracjaVAT7_13;
 
-import embeddable.Parametr;
 import embeddable.Vatpoz;
 import entity.DeklaracjaVatSchema;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import javax.inject.Inject;
 import javax.inject.Named;
-import view.ParametrView;
-import view.WpisView;
 
 /**
  *
@@ -24,18 +19,21 @@ public class VAT713 implements Serializable{
     private final String wiersz;
 
    
-    public VAT713(Vatpoz vatpoz, DeklaracjaVatSchema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public VAT713(Vatpoz vatpoz, DeklaracjaVatSchema schema, boolean cert) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         String wstep = schema.getWstep();
         Naglowek naglowek = new Naglowek(vatpoz, schema);
         Podmiot podmiot = new Podmiot(vatpoz);
         PozycjeSzczegolowe pozycjeSzczegolowe = new PozycjeSzczegolowe(vatpoz, schema);
         KwadracikiNaDole kwadracikiNaDole = new KwadracikiNaDole(vatpoz, schema);
         String oswiadczenie = schema.getOswiadczenie();
-        DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace(vatpoz);
         String pouczenie = schema.getPouczenie();
-        wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
+        if (cert) {
+            wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+"</Deklaracja>";
+        } else {
+            DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace(vatpoz);
+            wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
+        }
     }
-
    
     
     public String getWiersz() {

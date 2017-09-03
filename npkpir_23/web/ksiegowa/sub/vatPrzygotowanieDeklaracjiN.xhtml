@@ -12,7 +12,9 @@
             <h:form id="form">
             <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
                 <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowa()}" update=":form deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
-                <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje()}" update=":form deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
+                <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje()}" update=":form deklaracjauwagavatzz deklaracjauwagavatzt"
+                                 rendered="#{podpisView.jestkarta}"
+                                 style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
                 <h:outputText value="do zapisu wymagana jest obecność karty z podpisem certyfikowanym!" rendered="#{!WpisView.podatnikObiekt.podpiscertyfikowany}" style="color: red;"/>
             <h:outputText value="Wymuś zapis jako deklarację pierwotną." rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:selectBooleanCheckbox value="#{vat7DKView.pierwotnazamiastkorekty}" style="width: 120px" immediate="true" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>

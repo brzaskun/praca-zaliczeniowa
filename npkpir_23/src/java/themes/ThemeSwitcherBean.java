@@ -19,6 +19,11 @@ public class ThemeSwitcherBean implements Serializable {
     private List<Theme> advancedThemes;
     
     private String theme;
+
+    public ThemeSwitcherBean() {
+        this.theme = "redmond";
+    }
+    
     
     @Inject private GuestPreferences gp;
 

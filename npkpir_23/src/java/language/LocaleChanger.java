@@ -28,9 +28,15 @@ public class LocaleChanger implements Serializable{
     @Inject
     private UzDAO uzDAO;
 
+    public LocaleChanger() {
+        this.locale = new Locale("pl_PL");
+    }
+
+    
+    
+    
     @PostConstruct
     private void init() {
-        //locale = new Locale("pl");
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String uzytkownik = request.getRemoteUser();
         if (uzytkownik == null) {
@@ -38,7 +44,9 @@ public class LocaleChanger implements Serializable{
         } else {
             ustawLocale(uzytkownik);
         }
-        
+        if (locale == null) {
+            locale = new Locale("pl");
+        }
     }
     
     private void ustawLocale(String uzytk) {

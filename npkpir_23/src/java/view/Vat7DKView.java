@@ -5,6 +5,7 @@
 package view;
 
 
+import beansPodpis.ObslugaPodpisuBean;
 import beansVAT.VATDeklaracja;
 import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjaVatSchemaPozKoncoweDAO;
@@ -783,7 +784,11 @@ public class Vat7DKView implements Serializable {
         Deklaracjevat nowadekl = new Deklaracjevat();
         VAT713 vat713 = null;
         try {
-            vat713 = new VAT713(pozycje, schema);
+            if (ObslugaPodpisuBean.moznaPodpisac()) {
+                vat713 = new VAT713(pozycje, schema, true);
+            } else {
+                vat713 = new VAT713(pozycje, schema, false);
+            }
         } catch (Exception ex) {
             Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);

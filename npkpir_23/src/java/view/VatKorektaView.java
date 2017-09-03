@@ -6,6 +6,7 @@
 package view;
 
 import beansDok.ListaEwidencjiVat;
+import beansPodpis.ObslugaPodpisuBean;
 import beansVAT.EwidencjaVATSporzadzanie;
 import beansVAT.VATDeklaracja;
 import comparator.Rodzajedokcomparator;
@@ -301,10 +302,14 @@ public class VatKorektaView implements Serializable {
         return 0;
     }
     
-    private void stworzdeklaracje(Vatpoz pozycjeDeklaracjiVAT, Deklaracjevat nowadeklaracja, DeklaracjaVatSchema schema) {
+    private void stworzdeklaracje(Vatpoz pozycje, Deklaracjevat nowadeklaracja, DeklaracjaVatSchema schema) {
         VAT713 vat713 = null;
         try {
-            vat713 = new VAT713(pozycjeDeklaracjiVAT,schema);
+            if (ObslugaPodpisuBean.moznaPodpisac()) {
+                vat713 = new VAT713(pozycje, schema, true);
+            } else {
+                vat713 = new VAT713(pozycje, schema, false);
+            }
             String wiersz = vat713.getWiersz();
             nowadeklaracja.setDeklaracja(wiersz);
             Msg.msg("Stworzono deklaracje korekte");

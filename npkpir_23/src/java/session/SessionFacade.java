@@ -106,6 +106,7 @@ public class SessionFacade<T> implements Serializable {
     private EntityManager em;
 
     public SessionFacade() {
+       // System.out.println("SessionFacade init");
     }
 
     public EntityManager getEntityManager() {
