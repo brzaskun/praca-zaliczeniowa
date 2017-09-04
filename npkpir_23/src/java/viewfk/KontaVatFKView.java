@@ -41,6 +41,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import view.EwidencjaVatView;
+import view.ParametrView;
 import view.WpisView;
 import waluty.Z;
 
@@ -155,34 +156,13 @@ public class KontaVatFKView implements Serializable {
         saldoKonto.setObrotyWn(sumawn);
         saldoKonto.setObrotyMa(sumama);
     }
-    
     private String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
-        Integer sumaszukana = rok + mc;
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
-        String zwrot = "blad";
-        //odszukaj date w parametrze - kandydat na metode statyczna
-        if (parametry != null && !parametry.isEmpty()) {
-            for (Parametr p : parametry) {
-                if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
-                    int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-                    int wynikPrzed = Data.compare(Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()),rok, mc);
-                    if (wynikPo > 0 && wynikPrzed > -1) {
-                        zwrot = p.getParametr();
-                        break;
-                    }
-                } else {
-                    int wynik = Data.compare(rok, mc,Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-                    if (wynik >= 0) {
-                        zwrot = p.getParametr();
-                        break;
-                    }
-                }
-            }
-        }
-        return zwrot;
+        return ParametrView.zwrocParametr(parametry, rok, mc);
     }
+    
     
     private List<StronaWiersza> zmodyfikujlisteMcKw(List<StronaWiersza> listadokvat, String vatokres){
         try {

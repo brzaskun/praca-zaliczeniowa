@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import entity.ParamSuper;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +15,7 @@ import javax.persistence.Embeddable;
  * @author Osito
  */
 @Embeddable
-public class Parametr implements Serializable {
+public class Parametr extends ParamSuper implements Serializable {
     private static final long serialVersionUID = -3861404301478825762L;
     
     private String mcOd;

@@ -238,28 +238,14 @@ public class VatUeFKView implements Serializable {
         }
     }
     
-    public String sprawdzjakiokresvat() {
+    private String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
-        //odszukaj date w parametrze - kandydat na metode statyczna
-        for (Parametr p : parametry) {
-            if (p.getRokDo() != null && !p.getRokDo().equals("")) {
-                int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-                int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
-                if (wynikPo >= 0 && wynikPrzed <= 0) {
-                    return p.getParametr();
-                }
-            } else {
-                int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-                if (wynik >= 0) {
-                    return p.getParametr();
-                }
-            }
-        }
-        Msg.msg("e", "Problem z funkcja sprawdzajaca okres rozliczeniowy VAT VatView-269");
-        return "blad";
+        return ParametrView.zwrocParametr(parametry, rok, mc);
     }
+    
+   
 
 //    private List<Dok> zmodyfikujliste(List<Dok> listadokvat, String vatokres) throws Exception {
 //        // zeby byl unikalny zestaw klientow

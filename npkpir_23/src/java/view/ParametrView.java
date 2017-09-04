@@ -8,6 +8,7 @@ package view;
 
 import data.Data;
 import embeddable.Parametr;
+import entity.ParamSuper;
 import entity.ParamVatUE;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,8 +29,9 @@ public class ParametrView implements Serializable {
      * @param mc miesiąc luskane
      * @return String dany parameter
      */
-     public static String zwrocParametr(List<Parametr> parametry, Integer rok, Integer mc) {
-        for (Parametr p : parametry) {
+     public static String zwrocParametr(List parametry, Integer rok, Integer mc) {
+        for (Object x : parametry) {
+            ParamSuper p = (ParamSuper) x;
             if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
                 int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
                 int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
@@ -46,18 +48,19 @@ public class ParametrView implements Serializable {
         return "blad";
     }
      
-     public static String zwrocParametr(List<Parametr> parametry, Integer rok, String mcS) {
+     public static String zwrocParametr(List parametry, Integer rok, String mcS) {
         int mc = Integer.parseInt(mcS);
-        for (Parametr p : parametry) {
+        for (Object x : parametry) {
+            ParamSuper p = (ParamSuper) x;
             if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
                 int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-                int wynikPrzed = Data.compare(Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()), rok, mc);
-                if (wynikPo > 0 && wynikPrzed > -1) {
+                int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
+                if (wynikPo > -1 && wynikPrzed < 1) {
                     return p.getParametr();
                 }
             } else {
                 int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-                if (wynik > 0) {
+                if (wynik >= 0) {
                     return p.getParametr();
                 }
             }
@@ -93,6 +96,8 @@ public class ParametrView implements Serializable {
         param = zwrocParametr(lista, 2017, "01");
         System.out.println("param "+param);
         param = zwrocParametr(lista, 2016, 12);
+        System.out.println("param2 "+param);
+        param = zwrocParametr(lista, 2016, 1);
         System.out.println("param2 "+param);
         param = zwrocParametr(lista, 2017, 1);
         System.out.println("param2 "+param);

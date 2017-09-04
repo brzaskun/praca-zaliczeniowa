@@ -4,7 +4,6 @@
  */
 package view;
 
-import beansFK.ParamBean;
 import comparator.Dokcomparator;
 import dao.DeklaracjevatDAO;
 import dao.DokDAO;
@@ -92,7 +91,7 @@ public class VatUeView implements Serializable {
         Integer m1 = Integer.parseInt(m);
         Podatnik pod = wpisView.getPodatnikObiekt();
         String vatokres = ParametrView.zwrocParametr(pod.getVatokres(), rok, m);
-        String vatUEokres = ParamBean.zwrocParametr(pod.getParamVatUE(), rok, m);
+        String vatUEokres = ParametrView.zwrocParametr(pod.getParamVatUE(), rok, m);
         String okresvat = vatUEokres != null ? vatUEokres : vatokres;
         opisvatuepkpir = wpisView.getPodatnikWpisu() + " Zestawienie dokumentów do deklaracji VAT-UE na koniec " + rok + "/" + m + " rozliczenie " + okresvat;
         try {
