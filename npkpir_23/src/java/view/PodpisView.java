@@ -22,8 +22,12 @@ public class PodpisView  implements Serializable {
     
     private boolean jestkarta;
 
-    public void sprawdzczymozna() {
-        jestkarta  = ObslugaPodpisuBean.moznaPodpisac();
+    public void sprawdzczymozna(WpisView wpisView) {
+        if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+            jestkarta  = ObslugaPodpisuBean.moznaPodpisac();
+        } else {
+            jestkarta = false;
+        }
     }
     
     public String podpiszDeklaracje(String xml) {
