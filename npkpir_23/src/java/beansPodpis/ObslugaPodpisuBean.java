@@ -46,20 +46,19 @@ public class ObslugaPodpisuBean {
     static String PLIK = "james.xml";
     static String DRIVER = "c:\\windows\\System32\\cryptoCertum3PKCS.dll";
     
-    private static Boolean jestDriver() {
-        Boolean zwrot = null;
+    private static Provider jestDriver() {
+        Provider pkcs11Provider = null;
         try {
             String pkcs11config = "name=SmartCardn"+"\r"
                     + "library="+DRIVER;
             byte[] pkcs11configBytes = pkcs11config.getBytes();
             ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            Provider pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
             Security.addProvider(pkcs11Provider);
-            zwrot = true;
         } catch (Exception e) {
             E.e(e);
         }
-        return zwrot;
+        return pkcs11Provider;
     }
     
     private static KeyStore jestKarta(String haslo) {
@@ -71,7 +70,7 @@ public class ObslugaPodpisuBean {
             keyStore.load(null, pin);
         }   catch (KeyStoreException | NoSuchAlgorithmException | CertificateException ex) {
             E.e(ex);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             E.e(ex);
         }
         return keyStore;
@@ -183,11 +182,12 @@ public class ObslugaPodpisuBean {
     
     public static boolean moznaPodpisac() {
         boolean zwrot = false;
-        Boolean driver = jestDriver();
+        Provider provider = jestDriver();
         KeyStore keyStore = jestKarta("marlena1");
-        if (driver != null && keyStore != null) {
+        if (provider != null && keyStore != null) {
             zwrot = true;
         }
+        Security.removeProvider("SmartCardn");
         return zwrot;
     }
     

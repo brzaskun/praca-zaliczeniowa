@@ -24,12 +24,14 @@ public class PodpisView  implements Serializable {
     
     @PostConstruct
     private void init() {
-        if (ObslugaPodpisuBean.moznaPodpisac()) {
-            jestkarta = true;
-        }
-        
+        sprawdzczymozna();
     }
 
+    public void sprawdzczymozna() {
+        jestkarta  = ObslugaPodpisuBean.moznaPodpisac();
+    }
+    
+    
     public boolean isJestkarta() {
         return jestkarta;
     }
