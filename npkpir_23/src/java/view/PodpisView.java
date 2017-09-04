@@ -6,8 +6,8 @@
 package view;
 
 import beansPodpis.ObslugaPodpisuBean;
+import error.E;
 import java.io.Serializable;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -21,14 +21,19 @@ public class PodpisView  implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private boolean jestkarta;
-    
-    @PostConstruct
-    private void init() {
-        sprawdzczymozna();
-    }
 
     public void sprawdzczymozna() {
         jestkarta  = ObslugaPodpisuBean.moznaPodpisac();
+    }
+    
+    public String podpiszDeklaracje(String xml) {
+        String deklaracjapodpisana = xml;
+        try {
+            deklaracjapodpisana = ObslugaPodpisuBean.podpiszDeklaracje(xml);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return deklaracjapodpisana;
     }
     
     

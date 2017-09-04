@@ -21,9 +21,11 @@ import eu.europa.esig.dss.x509.CertificateToken;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.signature.XAdESService;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -64,7 +66,6 @@ public class ObslugaPodpisuBean {
     private static KeyStore jestKarta(String haslo) {
         KeyStore keyStore = null;
         try {
-            boolean zwrot = false;
             char [] pin = haslo.toCharArray();
             keyStore = KeyStore.getInstance("PKCS11");
             keyStore.load(null, pin);
@@ -131,7 +132,7 @@ public class ObslugaPodpisuBean {
         // We set the digest algorithm to use with the signature algorithm. You must use the
         // same parameter when you invoke the method sign on the token. The default value is SHA256
         parameters.setDigestAlgorithm(DigestAlgorithm.SHA256);
-        // We set the signing certificate
+           // We set the signing certificate
         parameters.setSigningCertificate(new CertificateToken((X509Certificate) cert));
         return parameters;
     }
@@ -172,6 +173,19 @@ public class ObslugaPodpisuBean {
         return nazwa;
     }
     
+    private static String podpiszIS(XAdESService service, DSSDocument toSignDocument, XAdESSignatureParameters parameters, SignatureValue signatureValue) {
+        String xml = null;
+        try {
+            DSSDocument signedDocument = service.signDocument(toSignDocument, parameters, signatureValue);
+            OutputStream out = new ByteArrayOutputStream();  
+            signedDocument.writeTo(out);
+            xml = out.toString();
+        } catch (IOException ex) {
+            E.e(ex);
+        }
+        return xml;
+    }
+    
     private static void drukuj(Object o, String opis) {
         if (o != null) {
             System.out.println("jest "+opis);
@@ -202,27 +216,18 @@ public class ObslugaPodpisuBean {
         }
     }
     
-    public static void podpiszDeklaracje(String xml) {
-        boolean mozna = moznaPodpisac();
-        if (mozna) {
-            KeyStore keyStore = jestKarta(HASLO);
-            String alias = aktualnyAlias(keyStore);
-            System.out.println("symbol aktualnego certyfikatu "+alias);
-            Certificate cert = certyfikat(alias, keyStore);
-            drukuj(cert,"certyfikat");
-            DSSDocument dok = dokumentzXML(xml);
-            drukuj(dok,"dokument");
-            XAdESSignatureParameters parameters = ustawparametry(cert);
-            drukuj(parameters,"parametry");
-            ToBeSigned toBeSigned = danedoPodpisu(dok, parameters);
-            drukuj(toBeSigned,"dane do podpisu");
-            SignatureValue signatureValue = generujpodpis(toBeSigned, parameters);
-            drukuj(signatureValue,"podpis");
-            String nazwapodpisana = podpisz(podpisywacz(), dok, parameters, signatureValue);
-            drukuj(nazwapodpisana,"podpisano");
-        } else {
-            System.out.println("brak karty");
-        }
+    public static String podpiszDeklaracje(String xml) {
+        Provider provider = jestDriver();
+        KeyStore keyStore = jestKarta(HASLO);
+        String alias = aktualnyAlias(keyStore);
+        System.out.println("symbol aktualnego certyfikatu "+alias);
+        Certificate cert = certyfikat(alias, keyStore);
+        DSSDocument dok = dokumentzXML(xml);
+        XAdESSignatureParameters parameters = ustawparametry(cert);
+        ToBeSigned toBeSigned = danedoPodpisu(dok, parameters);
+        SignatureValue signatureValue = generujpodpis(toBeSigned, parameters);
+        String xmlpod = podpiszIS(podpisywacz(), dok, parameters, signatureValue);
+        return xmlpod;
     }
     
     public static void main(String[] args) {
@@ -250,7 +255,10 @@ public class ObslugaPodpisuBean {
 //        } else {
 //            System.out.println("brak karty");
 //        }
-            DSSDocument dok = dokumentzXML("lolo");
-            drukuj(dok,"dokument");
+//            DSSDocument dok = dokumentzXML("lolo");
+//            drukuj(dok,"dokument");
+            String d = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Deklaracja xmlns=\"http://crd.gov.pl/wzor/2016/08/05/3412/\" xmlns:etd=\"http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/\"><Naglowek><KodFormularza kodSystemowy=\"VAT-7 (17)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7</KodFormularza><WariantFormularza>17</WariantFormularza><CelZlozenia poz=\"P_7\">1</CelZlozenia><Rok>2017</Rok><Miesiac>07</Miesiac><KodUrzedu>3215</KodUrzedu></Naglowek><Podmiot1 rola=\"Podatnik\"> <etd:OsobaFizyczna><etd:NIP>8521011364</etd:NIP><etd:ImiePierwsze>WOJCIECH</etd:ImiePierwsze><etd:Nazwisko>KADRZYŃSKI</etd:Nazwisko><etd:DataUrodzenia>1965-06-04</etd:DataUrodzenia></etd:OsobaFizyczna></Podmiot1><PozycjeSzczegolowe><P_10>8745</P_10><P_17>22117</P_17><P_18>1769</P_18><P_19>489517</P_19><P_20>112589</P_20><P_23>38661</P_23><P_24>8892</P_24><P_40>559040</P_40><P_41>123250</P_41><P_42>0</P_42><P_43>0</P_43><P_44>0</P_44><P_45>167494</P_45><P_46>38398</P_46><P_51>38398</P_51><P_52>0</P_52><P_54>84852</P_54><P_55>0</P_55><P_56>0</P_56><P_57>0</P_57><P_58>0</P_58><P_59>0</P_59><P_60>0</P_60><P_61>0</P_61><P_74>2017-09-04</P_74></PozycjeSzczegolowe><Pouczenia>1</Pouczenia></Deklaracja>";
+            String xml = podpiszDeklaracje(d);
+            System.out.println("info "+xml);
     }
 }

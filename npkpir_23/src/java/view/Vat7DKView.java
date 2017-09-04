@@ -45,6 +45,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -782,19 +783,22 @@ public class Vat7DKView implements Serializable {
     
     private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema) {
         Deklaracjevat nowadekl = new Deklaracjevat();
-        VAT713 vat713 = null;
+        String wiersz = null;
         try {
             if (ObslugaPodpisuBean.moznaPodpisac()) {
-                vat713 = new VAT713(pozycje, schema, true);
+                VAT713 vat713 = new VAT713(pozycje, schema, true);
+                FacesContext context = FacesContext.getCurrentInstance();
+                PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
+                wiersz = podpisView.podpiszDeklaracje(vat713.getWiersz());
             } else {
-                vat713 = new VAT713(pozycje, schema, false);
+                VAT713 vat713 = new VAT713(pozycje, schema, false);
+                //to jest wygenerowana dekalracjia w xml
+                wiersz = vat713.getWiersz();
             }
         } catch (Exception ex) {
             Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //to jest wygenerowana dekalracjia w xml
-        String wiersz = vat713.getWiersz();
         nowadekl.setDeklaracja(wiersz);
         nowadekl.setRok(rok);
         if (!vatokres.equals("miesięczne")) {
