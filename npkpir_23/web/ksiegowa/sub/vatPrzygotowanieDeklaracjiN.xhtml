@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
-     <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna()}"/>
+     <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>
             <h:form id="form">
             <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
                 <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowa()}" update=":form deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
