@@ -102,7 +102,7 @@
               resizable="false" onShow="wpisywanieOnShow(1160,630);kolornaglowka();zaznaczpole();doczeplistnerydopol();" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
                focus=":formwpisdokument:data2DialogWpisywanie"
               >
-        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false"/>
+        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false" oncomplete="pokazwierszoznaczony();"/>
         <p:focus for="formwpisdokument">
             <h:form id="formwpisdokument" >
 
@@ -456,16 +456,16 @@
                     </p:contextMenu>
 
                     <!--                POSZCZEGÓLNE WIERSZE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-                    <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="width: 1100px;" 
+                    <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="width: 1100px; height: 280px; overflow-y: scroll;" 
                                  rowIndexVar="index" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.hashCode()}" 
                                  widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
-                                 scrollable="true" scrollHeight="280"  styleClass="walkingtable">
-                        <style>
+                                 styleClass="walkingtable">
+<!--                        <style>
                             .ui-datatable-scrollable-theadclone {
                                 display: none !important;
                                 height: 0px !important;
                             }
-                        </style>
+                        </style>-->
 <!--                        <p:ajax event="rowToggle" global="false" />-->
                         <p:column headerText="#{mgs.numerkolejny}" style="width: 15px; text-align: center" >
                             <h:outputText value="#{loop.idporzadkowy}" styleClass="lpwiersza" style="width: 10px;"/>

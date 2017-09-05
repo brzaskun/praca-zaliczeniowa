@@ -42,3 +42,20 @@ var zapisywierszywybordok = function() {
     $(document.getElementById(nazwa)).select();
 };
 
+var pokazwierszoznaczony = function() {
+    try {
+        var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
+        if (lp !== -1) {
+            var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
+            r(nazwa).closest("td").click();
+            var bliskietd = r(nazwa).closest("td")[0];
+            var tablicaid = $(bliskietd).closest(".walkingtable")[0].id;
+            obliczwysokosc(tablicaid);
+            var przesun = isScrolledIntoView(bliskietd);
+            r(nazwa).select();
+            document.getElementById(tablicaid).scrollTop = document.getElementById(tablicaid).scrollTop + przesun;
+            document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value = -1;
+        }
+    } catch (e){}
+};
+
