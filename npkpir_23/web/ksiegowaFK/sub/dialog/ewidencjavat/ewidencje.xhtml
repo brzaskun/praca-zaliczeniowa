@@ -29,7 +29,7 @@
                                 />-->
                     <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
                                 update=":formwpisdokument"
-                                actionListener="#{dokfkView.znajdzDokumentOznaczDoPodswietlenia(ewidencjaVatView.zachowanewybranewierszeewidencji)}"
+                                actionListener="#{dokfkView.znajdzDokumentOznaczDoPodswietlenia(ewidencjaVatView.zachowanewybranewierszeewidencji.get(0))}"
                                 onsuccess="zapisywierszywybordok();"/>
                 </p:contextMenu>
                 <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1230px; margin-bottom: 30px; height: 500px; overflow-y: scroll;"
