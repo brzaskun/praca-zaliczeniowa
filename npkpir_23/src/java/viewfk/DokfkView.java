@@ -2480,7 +2480,7 @@ public class DokfkView implements Serializable {
         }
     }
     
-    private String sprawdzjakiokresvat() {
+    public String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
