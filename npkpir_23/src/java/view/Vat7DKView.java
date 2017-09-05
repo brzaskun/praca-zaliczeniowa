@@ -790,10 +790,12 @@ public class Vat7DKView implements Serializable {
                 FacesContext context = FacesContext.getCurrentInstance();
                 PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
                 wiersz = podpisView.podpiszDeklaracje(vat713.getWiersz());
+                nowadekl.setJestcertyfikat(true);
             } else {
                 VAT713 vat713 = new VAT713(pozycje, schema, false);
                 //to jest wygenerowana dekalracjia w xml
                 wiersz = vat713.getWiersz();
+                nowadekl.setJestcertyfikat(false);
             }
         } catch (Exception ex) {
             Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");

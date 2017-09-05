@@ -18,7 +18,11 @@
             </p:column>
             <p:ajax event="rowEdit" update=":formX:msg" listener="#{deklaracjevatView.edit}" />
             <p:column headerText="wersja" width="60">
+                <p:panelGrid columns="1">
                 <h:outputText value="#{item.wzorschemy}"/>
+                <h:outputText value="deklar. z podp. kwalif." style="color: blue" rendered="#{item.jestcertyfikat}"/>
+                <h:outputText value="deklar. z kwotą autor. " rendered="#{!item.jestcertyfikat}"/>
+                </p:panelGrid>
             </p:column>
             <p:column headerText="dane">
                 <p:dataGrid columns="1" value="#{item.selected}" var="loop">
@@ -30,7 +34,9 @@
                         <h:outputText value="pierw./kor."/><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}" style="font-weight: 900;"/>
                         <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
                     </h:panelGrid>
-                    <p:dataTable value="#{item.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;">
+                </p:dataGrid>
+                <p:dataGrid columns="1" value="#{item}" var="item2">
+                    <p:dataTable value="#{item2.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;">
                         <p:column width="500" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                         </p:column>
@@ -41,6 +47,8 @@
                             <bcf:outputpl0 value="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat}"/>
                         </p:column>
                     </p:dataTable>
+                    
+                </p:dataGrid>
 <!--                    <h:panelGrid columns="4" columnClasses="twofive-percent, twofive-percent, twofive-percent, twofive-percent" >
                         <h:outputText value="razem należny"/><h:outputText value="#{item.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumavat}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
@@ -62,7 +70,6 @@
                         <h:outputText value="korekta ręczna" rendered="#{item.vatDeklaracjaKorektaDokWykaz != null}"/><h:outputText value="#{item.vatDeklaracjaKorektaDokWykaz}" style="float: right;">
                             </h:outputText>
                     </h:panelGrid>-->
-                </p:dataGrid>
             </p:column>
             <p:column id="previewColumn" headerText="operacje" width="110" style="text-align: center;">
                 <p:panelGrid columns="1">

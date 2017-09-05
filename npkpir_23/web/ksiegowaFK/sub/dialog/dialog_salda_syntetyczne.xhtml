@@ -40,11 +40,12 @@
     </script>
   
     <bcf:ajaxs/>
-    <p:dialog id="saldakontsyntetycznych" header="Obroty i salda na kontach syntetycznych na koniec miesiąca" widgetVar="saldakontsyntetycznych"  maximizable="true"  dynamic="true"
+    <p:dialog id="saldakontsyntetycznych" header="Obroty i salda na kontach syntetycznych na koniec miesiąca" widgetVar="saldakontsyntetycznych" 
+              maximizable="true"  
               resizable="true" onShow="ustawdialog('saldakontsyntetycznych','menuzestawienia',1400,750);"
               onHide="resetujdialog('saldakontsyntetycznych');"  closeOnEscape="true" 
               >
-        <p:ajax event="open" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}" global="false"  update="formtablicasyntetyczne, :tabelazsumamisyntetyka:sumy"/>
+        <p:ajax event="open" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}"   update="formtablicasyntetyczne, :tabelazsumamisyntetyka:sumy"/>
         <h:form id="formtablicasyntetyczne">
             <p:panelGrid columns="6" style="margin-left: 2%;" >
                 <!--            <p:column>

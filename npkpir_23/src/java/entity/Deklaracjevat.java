@@ -140,6 +140,8 @@ public class Deklaracjevat implements Serializable {
     @Lob
     @Column(name = "schemawierszsumarycznylista")
     private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
+    @Column(name="jestcertyfikat")
+    private boolean jestcertyfikat;
     
    public Deklaracjevat() {
     }
@@ -370,6 +372,14 @@ public class Deklaracjevat implements Serializable {
 
     public void setSchemaobj(DeklaracjaVatSchema schemaobj) {
         this.schemaobj = schemaobj;
+    }
+
+    public boolean isJestcertyfikat() {
+        return jestcertyfikat;
+    }
+
+    public void setJestcertyfikat(boolean jestcertyfikat) {
+        this.jestcertyfikat = jestcertyfikat;
     }
 
     

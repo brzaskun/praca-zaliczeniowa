@@ -173,9 +173,14 @@ public class beanek  implements Serializable {
 
     }
 
-    private void sendUnsignDocument(byte[] document, java.lang.String language, java.lang.String signatureType, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
+    private void sendUnsignDocument(byte[] document, java.lang.String language, java.lang.String signT, javax.xml.ws.Holder<java.lang.String> id, javax.xml.ws.Holder<Integer> stat, javax.xml.ws.Holder<java.lang.String> opis) {
         service.GateServicePortType port = service.getGateServiceSOAP12Port();
-        port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
+        port.sendUnsignDocument(document, language, signT, id, stat, opis);
+    }
+    
+    private void sendSignDocument(byte[] dok, javax.xml.ws.Holder<java.lang.String> id, javax.xml.ws.Holder<Integer> stat, javax.xml.ws.Holder<java.lang.String> opis) {
+        service.GateServicePortType port2 = service.getGateServiceSOAP12Port();
+        port2.sendDocument(dok, id, stat, opis);
     }
 
     public void rob(List<Deklaracjevat> deklaracje) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
@@ -195,7 +200,11 @@ public class beanek  implements Serializable {
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
         try {
-            sendUnsignDocument(dok, lang, signT, id, stat, opis);
+            if (wysylanaDeklaracja.isJestcertyfikat()) {
+                sendSignDocument(dok, id, stat, opis);
+            } else {
+                sendUnsignDocument(dok, lang, signT, id, stat, opis);
+            }
             idMB = id.value;
             idpobierz = id.value;
             statMB = stat.value;
@@ -293,6 +302,10 @@ public class beanek  implements Serializable {
         port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
     }
 
+    private void sendSignDocument_Test(byte[] document, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
+        testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
+        port.sendDocument(document, refId, status, statusOpis);
+    }
     public void robtest(List<Deklaracjevat> deklaracje) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
@@ -310,7 +323,11 @@ public class beanek  implements Serializable {
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
         try {
-            sendUnsignDocument_Test(dok, lang, signT, id, stat, opis);
+            if (temp.isJestcertyfikat()) {
+                sendSignDocument_Test(dok, id, stat, opis);
+            } else {
+                sendUnsignDocument_Test(dok, lang, signT, id, stat, opis);
+            }
             idMBT = id.value;
             idpobierzT = id.value;
             List<String> komunikat = null;
