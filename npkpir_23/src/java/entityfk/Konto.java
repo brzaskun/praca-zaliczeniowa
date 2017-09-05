@@ -75,7 +75,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByRozrachunkowePodatnikZpotomkami", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne AND k.podatnik = :podatnik  AND k.nrkonta != 0 AND k.rok = :rok AND k.mapotomkow = true"),
     @NamedQuery(name = "Konto.findByRozrachunkiPodatnikWszystkie", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = 'rozrachunkowe' AND k.podatnik = :podatnik  AND k.nrkonta != 0 AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByVATPodatnik", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne AND k.podatnik = :podatnik AND k.mapotomkow = false AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findBySrodkiTrwPodatn ik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.rok = :rok AND  k.mapotomkow = false AND k.pelnynumer LIKE '010%'"),
+    @NamedQuery(name = "Konto.findBySrodkiTrwPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.rok = :rok AND  k.mapotomkow = false AND k.pelnynumer LIKE '010%'"),
     @NamedQuery(name = "Konto.findByRMKPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.rok = :rok AND  k.mapotomkow = false AND k.pelnynumer LIKE '64%'"),
     @NamedQuery(name = "Konto.findByMacierzyste", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findByMacierzysteBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
