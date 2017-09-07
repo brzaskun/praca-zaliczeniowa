@@ -294,6 +294,11 @@ body {
      vertical-align: top;
 }
 
+.thirtytree-percent {
+     width: 33%;
+     vertical-align: top;
+}
+
 .twofive-percent {
      width: 25%;
      vertical-align: top;

@@ -36,6 +36,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang3.StringUtils;
+import waluty.Z;
 
 /**
  *
@@ -502,7 +503,7 @@ public class Dok implements Serializable {
     }
 
     public Double getBrutto() {
-        return brutto;
+        return this.brutto != null ? this.brutto : 0.0;
     }
 
     public void setBrutto(Double brutto) {
@@ -590,6 +591,12 @@ public class Dok implements Serializable {
 
     public void setSprawdzony(int sprawdzony) {
         this.sprawdzony = sprawdzony;
+    }
+    
+    public double getVat() {
+        double br = this.brutto == null ? 0.0 : this.brutto;
+        double nt = this.netto == null ? 0.0 : this.netto;
+        return this.dokumentProsty ? 0.0 : Z.z(br-nt);
     }
     
     public boolean czyCecha() {

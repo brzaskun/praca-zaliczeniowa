@@ -97,6 +97,10 @@ public class DokTabView implements Serializable {
      @Inject private InwestycjeDAO inwestycjeDAO;
      private String wybranacechadok;
      private List<String> cechydokzlisty;
+     private boolean sumuj;
+     private double sumanetto;
+     private double sumavat;
+     private double sumabrutto;
 
     public DokTabView() {
        inicjalizacjalist();
@@ -116,6 +120,9 @@ public class DokTabView implements Serializable {
         kontrahentypodatnika = new ArrayList<>();
         walutywdokum = new ArrayList<>();
         dokumentyFiltered = null;
+        sumanetto = 0.0;
+        sumavat = 0.0;
+        sumabrutto = 0.0;
     }
 
    
@@ -166,6 +173,7 @@ public class DokTabView implements Serializable {
             cechydokzlisty = CechaBean.znajdzcechy(dokumentypobrane);
         }
         for (Dok tmpx : dokumentypobrane) {
+            boolean dodaj = false;
             tmpx.setNrWpkpir(numerkolejny++);
             if (tmpx.getNrWlDk().equals("31100068/07")) {
                 System.out.println("");
@@ -175,16 +183,20 @@ public class DokTabView implements Serializable {
                 kontrahenty.add(tmpx.getKontr().getNpelna());
                 waluty.add(tmpx.getWalutadokumentu() != null ? tmpx.getWalutadokumentu().getSymbolwaluty() : "PLN");
                 if (wybranacechadok == null) {
-                    dokumentylista.add(tmpx);
+                    dodaj = true;
                 } else if (!tmpx.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
                     for (Cechazapisu cz : tmpx.getCechadokumentuLista()) {
                         if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
-                            dokumentylista.add(tmpx);
+                            dodaj = true;
                             break;
                         }
                     }
                 } else if (wybranacechadok.equals("bezcechy") && (tmpx.getCechadokumentuLista() == null || tmpx.getCechadokumentuLista().isEmpty())){
+                    dodaj = true;
+                }
+                if (dodaj) {
                     dokumentylista.add(tmpx);
+                    sumujdokumentydodane(tmpx);
                 }
             }
         }
@@ -661,6 +673,37 @@ public class DokTabView implements Serializable {
         this.cechydokzlisty = cechydokzlisty;
     }
 
+    public double getSumanetto() {
+        return sumanetto;
+    }
+
+    public void setSumanetto(double sumanetto) {
+        this.sumanetto = sumanetto;
+    }
+
+    public double getSumavat() {
+        return sumavat;
+    }
+
+    public void setSumavat(double sumavat) {
+        this.sumavat = sumavat;
+    }
+
+    public double getSumabrutto() {
+        return sumabrutto;
+    }
+
+    public void setSumabrutto(double sumabrutto) {
+        this.sumabrutto = sumabrutto;
+    }
+    public boolean isSumuj() {
+        return sumuj;
+    }
+
+    public void setSumuj(boolean sumuj) {
+        this.sumuj = sumuj;
+    }
+
         public List<Dok> getDokumentyFiltered() {
             return dokumentyFiltered;
         }
@@ -671,6 +714,29 @@ public class DokTabView implements Serializable {
     
         
     //</editor-fold>
+
+    private void sumujdokumentydodane(Dok tmpx) {
+        sumanetto = sumanetto + tmpx.getNetto();
+        sumabrutto = sumabrutto + tmpx.getBrutto();
+        if (tmpx.getBrutto() != 0.0) {
+            sumavat = sumavat + (tmpx.getBrutto()-tmpx.getNetto());
+        }
+    }
+
+    public void sumujwybrane() {
+        sumanetto = 0.0;
+        sumavat = 0.0;
+        sumabrutto = 0.0;
+        if (dokumentyFiltered != null) {
+            for (Dok p : dokumentyFiltered) {
+                sumujdokumentydodane(p);
+            }
+        } else {
+            for (Dok p : dokumentylista) {
+                sumujdokumentydodane(p);
+            }
+        }
+    }
 
    
         
