@@ -105,7 +105,7 @@
                     <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
                 </p:column>         
                 <p:column width="80" style="text-align: center;" >
-                    <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycjaImport(item, row)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document"
+                    <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycjaImport(item, row)}"  styleClass="fkbutton" icon="ui-icon-document"
                                      update=":formwpisdokument, :zestawieniedokumentowimport"  onsuccess="PF('wpisywanie').show();"
                                      rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
                 </p:column>
