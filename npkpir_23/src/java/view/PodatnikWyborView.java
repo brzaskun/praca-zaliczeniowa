@@ -9,10 +9,10 @@ import comparator.Podatnikcomparator;
 import dao.PodatnikDAO;
 import entity.Podatnik;
 import java.io.Serializable;
-import java.text.Collator;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -28,6 +28,7 @@ public class PodatnikWyborView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private PodatnikDAO podatnikDAO;
+    private List<Podatnik> listaPodatnikowNoFKmanager;
     private List<Podatnik> listaPodatnikowNoFK;
     private List<Podatnik> listaPodatnikowFK;
     private List<Podatnik> listaPodatnikow;
@@ -36,11 +37,20 @@ public class PodatnikWyborView implements Serializable {
     private void init() {
         List<Podatnik> lista = podatnikDAO.findPodatnikFKPkpir();
         listaPodatnikowNoFK = podatnikDAO.findPodatnikNieFK();
+        listaPodatnikowNoFKmanager = new ArrayList<>(listaPodatnikowNoFK);
         for (Podatnik p : lista) {
             if (!listaPodatnikowNoFK.contains(p)) {
                 listaPodatnikowNoFK.add(p);
+                listaPodatnikowNoFKmanager.add(p);
             }
         }
+        for(Iterator<Podatnik> it = listaPodatnikowNoFK.iterator(); it.hasNext();) {
+            Podatnik p = it.next();
+            if (p.isTylkodlaZUS()) {
+                it.remove();
+            }
+        }
+        Collections.sort(listaPodatnikowNoFKmanager, new Podatnikcomparator());
         Collections.sort(listaPodatnikowNoFK, new Podatnikcomparator());
         listaPodatnikowFK = podatnikDAO.findPodatnikFK();
         for (Podatnik p : lista) {
@@ -64,6 +74,15 @@ public class PodatnikWyborView implements Serializable {
     public void setListaPodatnikowNoFK(List<Podatnik> listaPodatnikowNoFK) {
         this.listaPodatnikowNoFK = listaPodatnikowNoFK;
     }
+
+    public List<Podatnik> getListaPodatnikowNoFKmanager() {
+        return listaPodatnikowNoFKmanager;
+    }
+
+    public void setListaPodatnikowNoFKmanager(List<Podatnik> listaPodatnikowNoFKmanager) {
+        this.listaPodatnikowNoFKmanager = listaPodatnikowNoFKmanager;
+    }
+    
 
     public List<Podatnik> getListaPodatnikow() {
         return listaPodatnikow;
