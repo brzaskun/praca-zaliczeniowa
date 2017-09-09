@@ -255,6 +255,14 @@ public class Podatnik implements Serializable {
     private String printnazwa;
     @Column(name = "podpiscertyfikowany")
     private boolean podpiscertyfikowany;
+    @Size(max = 6)
+    @Column(name = "kodubezpieczeniaZUS")
+    private String kodubezpieczeniaZUS;
+    @Column(name = "tylkodlaZUS")
+    private boolean tylkodlaZUS;
+    @Column(name = "zatrudniapracownikow")
+    private boolean zatrudniapracownikow;
+
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -791,6 +799,30 @@ public class Podatnik implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getKodubezpieczeniaZUS() {
+        return kodubezpieczeniaZUS;
+    }
+
+    public void setKodubezpieczeniaZUS(String kodubezpieczeniaZUS) {
+        this.kodubezpieczeniaZUS = kodubezpieczeniaZUS;
+    }
+
+    public boolean isTylkodlaZUS() {
+        return tylkodlaZUS;
+    }
+
+    public void setTylkodlaZUS(boolean tylkodlaZUS) {
+        this.tylkodlaZUS = tylkodlaZUS;
+    }
+
+    public boolean isZatrudniapracownikow() {
+        return zatrudniapracownikow;
+    }
+
+    public void setZatrudniapracownikow(boolean zatrudniapracownikow) {
+        this.zatrudniapracownikow = zatrudniapracownikow;
     }
     
     @XmlTransient

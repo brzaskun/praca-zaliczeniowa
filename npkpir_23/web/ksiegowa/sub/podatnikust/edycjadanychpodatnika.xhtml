@@ -107,6 +107,21 @@
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.jestwlikiwdacji}"/>
                  <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym"/>
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}"/>
+                 <h:outputLabel value="kod ubezpieczenia ZUS"/>
+            <p:selectOneMenu value="#{podatnikView.selectedDod.kodubezpieczeniaZUS}">
+                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                <f:selectItem itemLabel="05 10" itemValue="051000"/>
+                <f:selectItem itemLabel="05 11" itemValue="051100"/>
+                <f:selectItem itemLabel="05 12" itemValue="051200"/>
+                <f:selectItem itemLabel="05 13" itemValue="051300"/>
+                <f:selectItem itemLabel="05 43" itemValue="054300"/>
+                <f:selectItem itemLabel="05 70" itemValue="054300"/>
+                <f:selectItem itemLabel="05 72" itemValue="054300"/>
+            </p:selectOneMenu>
+            <h:outputLabel value="podatnik tylko dla ZUS"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selectedDod.tylkodlaZUS}"/>
+            <h:outputLabel value="zatrudnia pracowikow"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selectedDod.zatrudniapracownikow}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton action="#{podatnikView.edytuj()}" value="edytuj podatnika" update="@form" type="submit"/>

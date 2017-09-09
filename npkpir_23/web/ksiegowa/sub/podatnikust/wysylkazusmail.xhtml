@@ -24,6 +24,19 @@
                     <h:outputText value="odliczać ZUS-52 w dekalracji PIT5"/>
                     <p:inputMask value="#{podatnikView.selected.datamalyzus}" mask="9999-99-99" valueChangeListener="#{podatnikView.zmianaDatamalyzus}"/>
                     <h:outputText value="dzień pierwszego miesiąca, za który podatnik płaci 'mały' ZUS"/>
+                    <p:selectOneMenu value="#{podatnikView.selectedDod.kodubezpieczeniaZUS}">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="05 10 00" itemValue="051000"/>
+                        <f:selectItem itemLabel="05 11 00" itemValue="051100"/>
+                        <f:selectItem itemLabel="05 12 00" itemValue="051200"/>
+                        <f:selectItem itemLabel="05 13 00" itemValue="051300"/>
+                        <f:selectItem itemLabel="05 43 00" itemValue="054300"/>
+                        <f:selectItem itemLabel="05 70 00" itemValue="054300"/>
+                        <f:selectItem itemLabel="05 72 00" itemValue="054300"/>
+                    </p:selectOneMenu>
+                    <h:outputLabel value="kod ubezpieczenia ZUS"/>
+                    <p:selectBooleanCheckbox value="#{podatnikView.selectedDod.tylkodlaZUS}"/>
+                    <h:outputLabel value="podatnik tylko dla ZUS"/>
                 </p:panelGrid>
             </h:form>
         </f:ajax>

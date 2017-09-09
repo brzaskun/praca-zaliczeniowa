@@ -173,11 +173,22 @@ public class PodatnikView implements Serializable {
         try {
             generujIndex(selectedDod);
             sformatuj(selectedDod);
-            podatnikDAO.dodaj(selectedDod);
-            Msg.msg("i", "Dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
+            podatnikDAO.edit(selectedDod);
+            Msg.msg("i", "Dodano/wyedytowano podatnika: " + selectedDod.getPrintnazwa());
             selectedDod = new Podatnik();
-        } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e", "Wystąpił błąd. Niedodanoniewyedytowano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
+        }
+    }
+    
+    public void resetuj() {
+        try {
+            Msg.msg("i", "Zresetowano formularz");
+            selectedDod = new Podatnik();
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e", "Wystąpił błąd");
         }
     }
 
@@ -191,7 +202,7 @@ public class PodatnikView implements Serializable {
             sformatuj(selectedDod);
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
-            selectedDod = null;
+            selectedDod =  new Podatnik();
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
         }
@@ -268,17 +279,20 @@ public class PodatnikView implements Serializable {
      
     public void zmianaDatamalyzus(ValueChangeEvent el) {
         try {
-            String regex = "^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
-            Pattern p = Pattern.compile(regex);
-            Matcher m = p.matcher((String) el.getNewValue());
-            if (m.matches()) {
-                selected.setDatamalyzus((String) el.getNewValue());
-                zachowajZmiany(selected);
-                Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
-            } else {
-                Msg.msg("e", "Niprawidłowa data!", "akordeon:form:msg");
+            if (el.getNewValue()!=null && !el.getNewValue().equals("")) {
+                String regex = "^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
+                Pattern p = Pattern.compile(regex);
+                Matcher m = p.matcher((String) el.getNewValue());
+                if (m.matches()) {
+                    selected.setDatamalyzus((String) el.getNewValue());
+                    zachowajZmiany(selected);
+                    Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
+                } else {
+                    Msg.msg("e", "Nieprawidłowa data!", "akordeon:form:msg");
+                }
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
             Msg.msg("e", "Wystąpił błąd nie zmieniono parametrów rozliczania ZUS", "akordeon:form:msg");
         }
     }
@@ -1453,15 +1467,17 @@ public class PodatnikView implements Serializable {
 
     private void generujIndex(Podatnik selectedDod) throws Exception {
         try {
-            List<Podatnik> l = podatnikDAO.findAllManager();
-            StringBuilder sb = new StringBuilder();
-            sb.append(Data.aktualnyRokShort());
-            String fp = selectedDod.getFormaPrawna() == null ? "f":"p";
-            sb.append(fp);
-            sb.append(l.size());
-            String index = sb.toString();
-            selectedDod.setNazwapelna(index);
-            Msg.msg("Wygenerowano index dla firmy");
+            if (selectedDod.getNazwapelna() == null) {
+                List<Podatnik> l = podatnikDAO.findAllManager();
+                StringBuilder sb = new StringBuilder();
+                sb.append(Data.aktualnyRokShort());
+                String fp = selectedDod.getFormaPrawna() == null ? "f":"p";
+                sb.append(fp);
+                sb.append(l.size());
+                String index = sb.toString();
+                selectedDod.setNazwapelna(index);
+                Msg.msg("Wygenerowano index dla firmy");
+            }
         } catch (Exception e) {
             Msg.dPe();
             E.e(e);

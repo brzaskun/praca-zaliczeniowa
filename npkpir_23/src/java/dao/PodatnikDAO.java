@@ -48,7 +48,7 @@ public class PodatnikDAO extends DAO implements Serializable{
         }
     }
     
-     public  List<Podatnik> findPodatnikNieFK(){
+    public  List<Podatnik> findPodatnikNieFK(){
         try {
             return podatnikFacade.findPodatnikNieFK();
         } catch (Exception e) { E.e(e); 
