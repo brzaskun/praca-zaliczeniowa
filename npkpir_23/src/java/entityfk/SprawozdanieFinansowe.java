@@ -32,8 +32,9 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames = {"podatnik","rok","element"})
 })
 @NamedQueries({
-    @NamedQuery(name = "SprawozdanieFinansowe.findByPodatnikRok", query = "SELECT m FROM SprawozdanieFinansowe m WHERE m.podatnik = :podatnik AND m.rok = :rok ORDER BY m.element"),
-    @NamedQuery(name = "SprawozdanieFinansowe.findByPodatnik", query = "SELECT m FROM SprawozdanieFinansowe m WHERE m.podatnik = :podatnik ORDER BY m.element")
+    @NamedQuery(name = "SprawozdanieFinansowe.findByPodatnikRok", query = "SELECT m FROM SprawozdanieFinansowe m WHERE m.podatnik = :podatnik AND m.rok = :rok"),
+    @NamedQuery(name = "SprawozdanieFinansowe.findByRok", query = "SELECT m FROM SprawozdanieFinansowe m WHERE m.rok = :rok"),
+    @NamedQuery(name = "SprawozdanieFinansowe.findByPodatnik", query = "SELECT m FROM SprawozdanieFinansowe m WHERE m.podatnik = :podatnik")
 })
 public class SprawozdanieFinansowe implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -46,13 +47,16 @@ public class SprawozdanieFinansowe implements Serializable{
     private String rok;
     @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnik;
-    @Column(name = "element")
-    private int element;
-    @Column(name = "sporzadzajacy")
-    private String sporzadzajacy;
+    @Column(name = "zaksiegowano")
+    private String zaksiegowano;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "datasporzadzenia")
-    private Date datasporzadzenia;
+    @Column(name = "datazaksiegowania")
+    private Date datazaksiegowania;
+    @Column(name = "cit8")
+    private String cit8;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datacit8")
+    private Date datacit8;
     @Column(name = "zatwierdzajacy")
     private String zatwierdzajacy;
     @Temporal(TemporalType.TIMESTAMP)
@@ -90,7 +94,6 @@ public class SprawozdanieFinansowe implements Serializable{
         hash = 67 * hash + this.id;
         hash = 67 * hash + Objects.hashCode(this.rok);
         hash = 67 * hash + Objects.hashCode(this.podatnik);
-        hash = 67 * hash + this.element;
         return hash;
     }
 
@@ -109,9 +112,6 @@ public class SprawozdanieFinansowe implements Serializable{
         if (this.id != other.id) {
             return false;
         }
-        if (this.element != other.element) {
-            return false;
-        }
         if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
@@ -121,10 +121,7 @@ public class SprawozdanieFinansowe implements Serializable{
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "SprawozdanieFinansowe{" + "rok=" + rok + ", podatnik=" + podatnik.getNazwapelna() + ", element=" + element + ", sporzadzajacy=" + sporzadzajacy + '}';
-    }
+   
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public int getId() {
@@ -150,14 +147,24 @@ public class SprawozdanieFinansowe implements Serializable{
     public void setPodatnik(Podatnik podatnik) {
         this.podatnik = podatnik;
     }
-    
-    public int getElement() {
-        return element;
+
+    public String getCit8() {
+        return cit8;
+    }
+
+    public void setCit8(String cit8) {
+        this.cit8 = cit8;
+    }
+
+    public Date getDatacit8() {
+        return datacit8;
+    }
+
+    public void setDatacit8(Date datacit8) {
+        this.datacit8 = datacit8;
     }
     
-    public void setElement(int element) {
-        this.element = element;
-    }
+  
 
     public String getWyslal() {
         return wyslal;
@@ -201,20 +208,20 @@ public class SprawozdanieFinansowe implements Serializable{
     
   
     
-    public Date getDatasporzadzenia() {
-        return datasporzadzenia;
+    public Date getDatazaksiegowania() {
+        return datazaksiegowania;
     }
     
-    public void setDatasporzadzenia(Date datasporzadzenia) {
-        this.datasporzadzenia = datasporzadzenia;
+    public void setDatazaksiegowania(Date datazaksiegowania) {
+        this.datazaksiegowania = datazaksiegowania;
     }
 
-    public String getSporzadzajacy() {
-        return sporzadzajacy;
+    public String getZaksiegowano() {
+        return zaksiegowano;
     }
 
-    public void setSporzadzajacy(String sporzadzajacy) {
-        this.sporzadzajacy = sporzadzajacy;
+    public void setZaksiegowano(String zaksiegowano) {
+        this.zaksiegowano = zaksiegowano;
     }
 
     public String getZatwierdzajacy() {

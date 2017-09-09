@@ -2003,6 +2003,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<SprawozdanieFinansowe> findSprawozdanieRokPodatnik(WpisView wpisView, String rok) {
         return em.createNamedQuery("SprawozdanieFinansowe.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", rok).getResultList();
     }
+    
+    public List<SprawozdanieFinansowe> findSprawozdanieRok(String rok) {
+        return em.createNamedQuery("SprawozdanieFinansowe.findByRok").setParameter("rok", rok).getResultList();
+    }
 
     public List<Cechazapisu> findCechaZapisuByPodatnikOnly(Podatnik podatnikObiekt) {
         return em.createNamedQuery("Cechazapisu.findByPodatnikOnly").setParameter("podatnik", podatnikObiekt).getResultList();

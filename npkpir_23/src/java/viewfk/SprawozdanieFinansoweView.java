@@ -10,7 +10,6 @@ import dao.PodatnikDAO;
 import daoFK.SprawozdanieFinansoweDAO;
 import entity.Podatnik;
 import entityfk.SprawozdanieFinansowe;
-import enumy.ElementySprawozdaniafin;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class SprawozdanieFinansoweView implements Serializable {
     @Inject
     private SprawozdanieFinansowe sprawozdanieFinansowe;
     private List elementy;
-    private List<SprawozdanieFinansowe> pozycjesprawozdania;
+    private List<SprawozdanieFinansowe> sprawozdaniapodatnicy;
     @Inject
     private SprawozdanieFinansoweDAO sprawozdanieFinansoweDAO;
     @Inject
@@ -55,28 +54,17 @@ public class SprawozdanieFinansoweView implements Serializable {
     private void init() {
         listapodatnikow = podatnikDAO.findPodatnikFK();
         Collections.sort(listapodatnikow, new Podatnikcomparator());
-        pozycjesprawozdania = new ArrayList<>();
+        sprawozdaniapodatnicy = new ArrayList<>();
         if (wybranyrok == null) {
             wybranyrok = wpisView.getRokWpisuSt();
         }
-        pozycjesprawozdania = sprawozdanieFinansoweDAO.findSprawozdanieRokPodatnik(wpisView, wybranyrok);
-        elementy = new ArrayList<>();
-        Class c = ElementySprawozdaniafin.class;
-        Field[] p = c.getFields();
-        for (Field r : p) {
-            try {
-                dodajelement(r);
-            } catch (Exception ex) {
-            }
-        }
-        if (pozycjesprawozdania != null) {
-            for (Iterator<String> it = elementy.iterator(); it.hasNext();) {
-                String n = it.next();
-                for (SprawozdanieFinansowe sf : pozycjesprawozdania) {
-                    if (sf.getElement() == strtoint(n)) {
-                        it.remove();
-                        break;
-                    }
+        sprawozdaniapodatnicy = sprawozdanieFinansoweDAO.findSprawozdanieRok(wybranyrok);
+        for (Iterator<Podatnik> it = listapodatnikow.iterator(); it.hasNext();) {
+            Podatnik p = it.next();
+            for (SprawozdanieFinansowe f : sprawozdaniapodatnicy) {
+                if (f.getPodatnik().equals(p)) {
+                    it.remove();
+                    break;
                 }
             }
         }
@@ -87,112 +75,70 @@ public class SprawozdanieFinansoweView implements Serializable {
         Msg.dP();
     }
     
-    public int strtoint(String el) {
-        int zwrot = 0;
-        Class c = ElementySprawozdaniafin.class;
-        Field[] p = c.getFields();
-        for (Field r : p) {
-            try {
-                if (r.getName().equals(el)) {
-                    zwrot = r.getInt(r);
-                    break;
-                }
-            } catch (Exception ex) {
-            }
-        }
-        return zwrot;
-    }
-    
-    public String inttostr(int el) {
-        String zwrot = null;
-        Class c = ElementySprawozdaniafin.class;
-        Field[] p = c.getFields();
-        for (Field r : p) {
-            try {
-                if (r.getInt(r) == el) {
-                    zwrot = r.getName();
-                    break;
-                }
-            } catch (Exception ex) {
-            }
-        }
-        return zwrot;
-    }
-    
     public void dodaj() {
-        sprawozdanieFinansowe.setPodatnik(wpisView.getPodatnikObiekt());
-        sprawozdanieFinansowe.setRok(wybranyrok);
-        sprawozdanieFinansowe.setSporzadzajacy(wpisView.getWprowadzil().getLogin());
-        sprawozdanieFinansowe.setDatasporzadzenia(new Date());
-        pozycjesprawozdania.add(sprawozdanieFinansowe);
-        usunopis();
-        sprawozdanieFinansowe = new SprawozdanieFinansowe();
-        Msg.dP();
+        if (sprawozdanieFinansowe.getPodatnik()!=null) {
+            sprawozdanieFinansowe.setRok(wybranyrok);
+            sprawozdanieFinansowe.setZaksiegowano(wpisView.getWprowadzil().getLogin());
+            sprawozdanieFinansowe.setDatazaksiegowania(new Date());
+            sprawozdaniapodatnicy.add(sprawozdanieFinansowe);
+            listapodatnikow.remove(sprawozdanieFinansowe.getPodatnik());
+            sprawozdanieFinansowe = new SprawozdanieFinansowe();
+            Msg.msg("Dodano nową firmę do odhaczania");
+        }
     }
     
     public void usun(SprawozdanieFinansowe sf) {
-        pozycjesprawozdania.remove(sf);
-        dodajopis(sf);
-        Msg.dP();;
+        sprawozdaniapodatnicy.remove(sf);
+        listapodatnikow.add(sf.getPodatnik());
+        Msg.msg("Usunieto firmę");
     }
     
-    public void dodajopis(SprawozdanieFinansowe sf) {
-        elementy.add(inttostr(sf.getElement()));
+    public void cit8dodaj(SprawozdanieFinansowe sf) {
+        sf.setCit8(wpisView.getWprowadzil().getLogin());
+        sf.setDatacit8(new Date());
+        Msg.msg("Naniesiono wysłanie CIT-8");
     }
     
-    public void usunopis() {
-        for (Iterator<String> it = elementy.iterator(); it.hasNext();) {
-            String n = it.next();
-            if (sprawozdanieFinansowe.getElement() == strtoint(n)) {
-                it.remove();
-                break;
-            }
-        }
-    }
     
     public void zatwierdz(SprawozdanieFinansowe sf) {
         sf.setZatwierdzajacy(wpisView.getWprowadzil().getLogin());
         sf.setDatazatwierdzenia(new Date());
-        Msg.msg("Zatwierdzono element sprawozdania");
+        Msg.msg("Zatwierdzono sprawozdanie");
     }
     
     public void wyslij(SprawozdanieFinansowe sf) {
         sf.setWyslal(wpisView.getWprowadzil().getLogin());
         sf.setWyslanedopodatnika(new Date());
-        Msg.msg("Oznaczono element sprawozdania");
+        Msg.msg("Wysłano do podatnika");
     }
     
     public void wroc(SprawozdanieFinansowe sf) {
         sf.setWrocil(wpisView.getWprowadzil().getLogin());
         sf.setWrociloodpodatnika(new Date());
-        Msg.msg("Oznaczono element sprawozdania");
+        Msg.msg("Sprawozdanie wsróciło od podatnika");
     }
     
     public void zlozone(SprawozdanieFinansowe sf) {
-        for (SprawozdanieFinansowe p : pozycjesprawozdania) {
-            p.setZlozyl(wpisView.getWprowadzil().getLogin());
-            p.setZlozonedokrs(new Date());
-        }
-        Msg.msg("Oznaczono elementy sprawozdania");
+        sf.setZlozyl(wpisView.getWprowadzil().getLogin());
+        sf.setZlozonedokrs(new Date());
+        Msg.msg("Złożone w KRS");
     }
     
      public void zatwierdzone(SprawozdanieFinansowe sf) {
-         for (SprawozdanieFinansowe p : pozycjesprawozdania) {
-            p.setZatwierdzil(wpisView.getWprowadzil().getLogin());
-            p.setZatwierdzonewkrs(new Date());
-        }
-        Msg.msg("Oznaczono element sprawozdania");
+        sf.setZatwierdzil(wpisView.getWprowadzil().getLogin());
+        sf.setZatwierdzonewkrs(new Date());
+        Msg.msg("Postanowienie z KRS");
     }
      
      public void urzad(SprawozdanieFinansowe sf) {
         sf.setZlozylurzad(wpisView.getWprowadzil().getLogin());
         sf.setZlozonewurzedzie(new Date());
-        Msg.msg("Oznaczono element sprawozdania");
+        Msg.msg("Złożono w urzędzie");
     }
      
      public void zapiszzmiany() {
          try {
-            sprawozdanieFinansoweDAO.editList(pozycjesprawozdania);
+            sprawozdanieFinansoweDAO.editList(sprawozdaniapodatnicy);
             Msg.dP();
          } catch(Exception e) {
              Msg.dPe();
@@ -210,7 +156,7 @@ public class SprawozdanieFinansoweView implements Serializable {
      
      public void usunwszystko() {
          try {
-            sprawozdanieFinansoweDAO.destroy(pozycjesprawozdania);
+            sprawozdanieFinansoweDAO.destroy(sprawozdaniapodatnicy);
             init();
             Msg.dP();
          } catch(Exception e) {
@@ -263,12 +209,12 @@ public class SprawozdanieFinansoweView implements Serializable {
         this.elementy = elementy;
     }
 
-    public List<SprawozdanieFinansowe> getPozycjesprawozdania() {
-        return pozycjesprawozdania;
+    public List<SprawozdanieFinansowe> getSprawozdaniapodatnicy() {
+        return sprawozdaniapodatnicy;
     }
 
-    public void setPozycjesprawozdania(List<SprawozdanieFinansowe> pozycjesprawozdania) {
-        this.pozycjesprawozdania = pozycjesprawozdania;
+    public void setSprawozdaniapodatnicy(List<SprawozdanieFinansowe> sprawozdaniapodatnicy) {
+        this.sprawozdaniapodatnicy = sprawozdaniapodatnicy;
     }
 
     public List<Podatnik> getListapodatnikow() {

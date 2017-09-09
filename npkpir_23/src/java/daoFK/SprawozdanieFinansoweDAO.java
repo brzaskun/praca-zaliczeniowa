@@ -29,6 +29,10 @@ public class SprawozdanieFinansoweDAO  extends DAO implements Serializable{
         return sessionFacade.findSprawozdanieRokPodatnik(wpisView, rok);
     }
     
+    public List<SprawozdanieFinansowe> findSprawozdanieRok(String rok) {
+        return sessionFacade.findSprawozdanieRok(rok);
+    }
+    
     public List<SprawozdanieFinansowe> findAll() {
         return sessionFacade.findAll(SprawozdanieFinansowe.class);
     }
