@@ -66,7 +66,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     
     private void ustawRokMc() {
         biezacyRok = String.valueOf(new DateTime().getYear());
-        String biezacyMc = Mce.getNumberToMiesiac().get((new DateTime().getMonthOfYear())+1 > 12 ? 12 : (new DateTime().getMonthOfYear()));
+        String biezacyMc = Mce.getNumberToMiesiac().get((new DateTime().getMonthOfYear())+1 > 12 ? 12 : (new DateTime().getMonthOfYear())-1);
         if (obrabianeparametryzus == null) {
             obrabianeparametryzus = new Zusstawki();
         }
