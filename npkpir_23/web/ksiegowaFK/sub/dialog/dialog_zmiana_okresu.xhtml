@@ -6,28 +6,28 @@
     xmlns:f="http://java.sun.com/jsf/core"
     >
 
-    <p:dialog id="dialog_zmiana_okresu" header="Zmiana okresu" widgetVar="dialog_zmiana_okresu" class="dialogzmianaokresu" appendTo="@(body)" modal="true"
+    <p:dialog id="dialog_zmiana_okresu" header="Zmiana okresu" widgetVar="dialog_zmiana_okresu"  appendTo="@(body)" modal="true"
               resizable="false" onShow="ustawdialogWindow('dialog_zmiana_okresu', 350, 120);" closeOnEscape="true" onHide="resetujdialog('dialog_zmiana_okresu');"  >
         <p:ajax event="open" listener="#{WpisView.kopiujmiesiac()}" global="false" update="formdialog_zmiana_okresu:miesiacWpisu"/>
         <h:form id="formdialog_zmiana_okresu">
             <p:panelGrid  columns="2" style="padding: 10px;">
                 <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.zmianaokresuMc}" style="float: right;"  >
+                    <h:selectOneMenu id="miesiacWpisu" value="#{WpisView.zmianaokresuMc}" style="float: right;"  >
                         <f:selectItems value="#{Mce.mceListOdKonca}" var="item" itemLabel="#{item}" itemValue="#{item}"/>
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                 </p:column>
                  <p:column>
-                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.zmianaokresuRok}" style="float: right;" >
+                    <h:selectOneMenu id="rokWpisu" value="#{WpisView.zmianaokresuRok}" style="float: right;" >
                         <f:selectItems value="#{Roki.rokiListString}" />
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                 </p:column>
             </p:panelGrid>
-            <p:commandButton value="zmien" actionListener="#{WpisView.wpisAktualizujZmianadaty()}" type="submit" id="zmiendate"
+            <p:defaultCommand target="zmiendataok"/>
+            <p:commandButton value="zmien" actionListener="#{WpisView.wpisAktualizujZmianadaty()}" type="submit" id="zmiendataok"
                              style="margin-left: 30px; margin-right: auto; width: 120px;" onclick="PF('dialog_zmiana_okresu').hide();" oncomplete="odtworzdivshown();"
                                  update="@(form)" />
             <p:commandButton value="anuluj" type="button" 
                                  onclick="PF('dialog_zmiana_okresu').hide();" style="margin-right: auto; margin-left: 30px; width: 120px;"/>
-            <p:defaultCommand target="zmiendate"/>
         </h:form>
     </p:dialog>
 </ui:composition>

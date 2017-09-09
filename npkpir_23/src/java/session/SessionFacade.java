@@ -81,7 +81,6 @@ import entityfk.WierszBO;
 import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -1366,9 +1365,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
-    public List<Rodzajedok> findListaWspolne() {
-//        return em.createNamedQuery("Rodzajedok.findByListaWspolna").getResultList();
-            return new ArrayList<Rodzajedok>();
+    public List<Rodzajedok> findListaWspolne(Podatnik podatnik) {
+        return em.createNamedQuery("Rodzajedok.findByListaWspolna").setParameter("podatnik", podatnik).getResultList();
     }
 
     public List<Rodzajedok> findListaPodatnik(Podatnik podatnik) {

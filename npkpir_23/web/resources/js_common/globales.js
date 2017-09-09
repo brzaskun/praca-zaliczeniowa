@@ -138,11 +138,13 @@ var getWidgetVarById = function (id) {
 };
 
 var odtworzdivshown = function() {
-    MYAPP.otwartedialogi.forEach(function(item, index) {
-        try {
-            PF(item).show();
-        } catch(e){}
-    });
+    if (typeof MYAPP.otwartedialogi !== 'undefined') {
+        MYAPP.otwartedialogi.forEach(function(item, index) {
+            try {
+                PF(item).show();
+            } catch(e){}
+        });
+    }
 };
 
 var con = function() {

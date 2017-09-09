@@ -43,9 +43,9 @@ public class RodzajedokDAO extends DAO implements Serializable{
         }
    }
     
-    public  List<Rodzajedok> findListaWspolne(){
+    public  List<Rodzajedok> findListaWspolne(Podatnik podatnik){
         try {
-            return rodzajedokFacade.findListaWspolne();
+            return rodzajedokFacade.findListaWspolne(podatnik);
         } catch (Exception e) { E.e(e); 
             return null;
         }

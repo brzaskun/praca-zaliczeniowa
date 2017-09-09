@@ -6,6 +6,7 @@ package view;
 
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
+import entity.Podatnik;
 import entity.Rodzajedok;
 import error.E;
 import java.io.Serializable;
@@ -52,7 +53,8 @@ public class RodzajedokView implements Serializable {
     @PostConstruct
     private void init() {
         try {
-            listaWspolnych = rodzajedokDAO.findListaWspolne();
+            Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
+            listaWspolnych = rodzajedokDAO.findListaWspolne(podatnikwspolny);
             listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             //automatycznie uzupelnia liste podatnika o nowo dodane do wzorcow
             if (!wpisView.getPodatnikObiekt().getNip().equals("0001005008")) {
@@ -61,6 +63,7 @@ public class RodzajedokView implements Serializable {
                     for (Rodzajedok docelowy : listaPodatnika) {
                         if ( zrodlo.getSkrot().equals(docelowy.getSkrot())) {
                             znaleziono = true;
+                            break;
                         }
                     }
                     if (znaleziono == false) {
@@ -68,7 +71,8 @@ public class RodzajedokView implements Serializable {
                     }
                 }
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
         }
 
     }

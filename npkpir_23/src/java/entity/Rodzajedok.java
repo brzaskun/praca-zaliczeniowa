@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rodzajedok.findByRodzajtransakcji", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajtransakcji = :rodzajtransakcji"),
     @NamedQuery(name = "Rodzajedok.findByWzorzec", query = "SELECT r FROM Rodzajedok r WHERE r.wzorzec = :wzorzec"),
     @NamedQuery(name = "Rodzajedok.findByPodatnik", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik"),
-//    @NamedQuery(name = "Rodzajedok.findByListaWspolna", query = "SELECT r FROM Rodzajedok r WHERE rpodatnik = '0001005008'"),!!!!!!!!!!!!!!!!!!!!!!!!! trzeba jakos rozwiazac
+    @NamedQuery(name = "Rodzajedok.findByListaWspolna", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik"),
     @NamedQuery(name = "Rodzajedok.findByKategoriaDokumentu", query = "SELECT r FROM Rodzajedok r WHERE r.kategoriadokumentu = :kategoriadokumentu")
 })
 @Cacheable
@@ -112,7 +112,6 @@ public class Rodzajedok implements Serializable {
         this.kategoriadokumentu = rodzajedok.getKategoriadokumentu();
         this.nazwa = rodzajedok.getNazwa();
         this.niepokazuj = rodzajedok.isNiepokazuj();
-        this.podatnikObj = podatnik;
         this.pokazkg = rodzajedok.isPokazkg();
         this.pokazszt = rodzajedok.isPokazszt();
         this.procentvat = rodzajedok.getProcentvat();
