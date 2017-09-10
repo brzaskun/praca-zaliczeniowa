@@ -717,25 +717,25 @@ public class PlanKontView implements Serializable {
             try {
                 List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
                 for (Podatnik p : listapodatnikowfk) {
-                    Konto konto = selectednodekontowzorcowy;
+                    Konto kontowzorcowe = selectednodekontowzorcowy;
                     try {
-                        konto.setPodatnik(p.getNazwapelna());
-                        Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-                        if (!konto.getMacierzyste().equals("0")) {
-                            konto.setMacierzysty(macierzyste.getId());
-                            konto.setKontomacierzyste(macierzyste);
+                        kontowzorcowe.setPodatnik(p.getNazwapelna());
+                        Konto macierzyste = kontoDAOfk.findKonto(kontowzorcowe.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                        if (!kontowzorcowe.getMacierzyste().equals("0")) {
+                            kontowzorcowe.setMacierzysty(macierzyste.getId());
+                            kontowzorcowe.setKontomacierzyste(macierzyste);
                             macierzyste.setMapotomkow(true);
                             macierzyste.setBlokada(true);
                             kontoDAOfk.edit(macierzyste);
                         } else {
-                            konto.setMapotomkow(false);
-                            konto.setBlokada(false);
+                            kontowzorcowe.setMapotomkow(false);
+                            kontowzorcowe.setBlokada(false);
                         }
-                        kontoDAOfk.dodaj(konto);
+                        kontoDAOfk.dodaj(kontowzorcowe);
                     } catch (RollbackException e) {
 
                     } catch (PersistenceException x) {
-                        Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + konto.getPelnynumer());
+                        Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + kontowzorcowe.getPelnynumer());
                     } catch (Exception ef) {
                     }
                 }

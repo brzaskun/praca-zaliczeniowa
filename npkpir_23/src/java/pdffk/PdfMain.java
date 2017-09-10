@@ -493,7 +493,22 @@ public class PdfMain {
         }
     }
     
-    
+    public static void dodajpodpis(Document document) {
+        try {
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+            Paragraph opiswstepny = new Paragraph(new Phrase(".....................................                                            .......................................", ft[1]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            opiswstepny = new Paragraph(new Phrase("sporządzający                                                           za spółkę", ft[1]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+        } catch (DocumentException ex) {
+            System.out.println("Problem z dodaniem linii podpisu PDFMain dodajpodpis(Document document)");
+            E.e(ex);
+        }
+    }
     
     public static void dodajLinieOpisu(Document document, String opis) {
         try {

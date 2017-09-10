@@ -48,6 +48,7 @@ public class PdfRZiS {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiS(rootProjektRZiS),75,0);
+            PdfMain.dodajpodpis(document);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
@@ -70,6 +71,7 @@ public class PdfRZiS {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSBO(rootProjektRZiS),75,3);
+            PdfMain.dodajpodpis(document);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
