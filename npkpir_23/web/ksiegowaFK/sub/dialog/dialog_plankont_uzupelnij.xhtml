@@ -6,23 +6,18 @@
 
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <style>
-        .paneldialog_plankont_uzupelnij .ui-panelgrid-cell {
-            width: 200px;
-        }
-    </style>
     <p:dialog id="dialog_plankont_uzupelnij" header="Uzupełnienie planu kont z firmy do firmy o brakujące konta" widgetVar="dialog_plankont_uzupelnij" dynamic="true"
               resizable="false" onShow="ustawdialog('dialog_plankont_uzupelnij','menuustawienia', 730, 180);" closeOnEscape="true" onHide="resetujdialog('dialog_plankont_uzupelnij');"  >
         <h:form id="formdialog_plankont_uzupelnij">
             <p:panelGrid styleClass="paneldialog_plankont_uzupelnij" columns="4">
                 <h:outputText value="Źródłowy plan kont z firmy" style="width: 250px;"/>
-                <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikzrodlowy}" style="width: 280px;" converter="PodatConv">
+                <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikzrodlowy}" style="width: 280px;" converter="PodatConv" autoWidth="false">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
                 </p:selectOneMenu>
                 <h:outputText value="rok" style="margin-left: 70px;"/>
                 <p:inputText value="#{planKontUzupelnijView.rokzrodlowy}"/>
                 <h:outputText value="Docelowy plan kont do uzupełnienia" style="width: 250px; margin-top: 10px;"/>
-                <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikdocelowy}" style="width: 280px; margin-top: 10px;" converter="PodatConv">
+                <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikdocelowy}" style="width: 280px; margin-top: 10px;" converter="PodatConv" autoWidth="false">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
                 </p:selectOneMenu>
                 <h:outputText value="rok" style="margin-left: 70px;"/>
