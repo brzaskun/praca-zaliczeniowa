@@ -167,6 +167,19 @@ public class PdfFont {
         return cell;
     }
     
+    public static PdfPCell ustawfrazeAlignColor(String fraza, String orient, int fontsize, String kolor) {
+        PdfPCell cell = null;
+        try {
+            String fraza2 = fraza != null ? fraza : "";
+            cell = new PdfPCell(new Phrase(fraza2,PF.getFontColor(Fonty.CALIBRI, fontsize, kolor)));
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            getOrient(cell, orient);
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return cell;
+    }
+    
     public static PdfPCell ustawfrazeAlignNoBorder(String fraza, String orient, int fontsize) {
         PdfPCell cell = null;
         try {

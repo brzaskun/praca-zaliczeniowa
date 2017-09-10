@@ -8,16 +8,25 @@ package pdf;
 
 
 import static beansPdf.PdfFont.formatujLiczba;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlignColor;
 import static beansPdf.PdfFont.ustawfrazeSpanFont;
+import static beansPdf.PdfFont.ustawparagraf;
+import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import comparator.StronaWierszacomparator;
 import embeddablefk.SaldoKonto;
+import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,17 +39,10 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import msg.B;
 import msg.Msg;
+import static pdffk.PdfMain.inicjacjaA4Landscape;
 import plik.Plik;
 import view.WpisView;
-import comparator.StronaWierszacomparator;
-import error.E;
 import waluty.Z;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawparagraf;
-import beansPdf.PdfHeaderFooter;
-import com.itextpdf.text.Rectangle;
-import static pdffk.PdfMain.inicjacjaA4Landscape;
 
 /**
  *
@@ -404,25 +406,26 @@ public class PdfKonta {
     }
     
      private static void dodajwiersztabeli(SaldoKonto rs, PdfPTable table, Integer i, String l) {
-         table.addCell(ustawfrazeAlign(i, "center", 8));
-         table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 8, 20f));
+         table.addCell(ustawfrazeAlign(i, "center", 9));
+         table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 9, 20f));
          if (l.equals("pl")) {
-             table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 8));
+             table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 9));
          } else if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
-             table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 8));
+             table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 9));
          } else {
-             table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 8));
+             table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 9));
          }
-         table.addCell(ustawfrazeAlign(rs.getBoWn() != 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 8));
-         table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 8));
-         table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWnMc()) : "", "right", 8));
-         table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujLiczba(rs.getObrotyMaMc()) : "", "right", 8));
-         table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyWn()) : "", "right", 8));
-         table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyMa()) : "", "right", 8));
-         table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 8));
-         table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 8));
-         table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 8));
-         table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 8));
+         table.addCell(ustawfrazeAlign(rs.getBoWn() != 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 9));
+         table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 9));
+         table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWnMc()) : "", "right", 9));
+         table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujLiczba(rs.getObrotyMaMc()) : "", "right", 9));
+         table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyWn()) : "", "right", 9));
+         table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyMa()) : "", "right", 9));
+         table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 9));
+         table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 9));
+         String kolor = pobierzkolor(rs.getKonto(), rs.getSaldoWn(), rs.getSaldoMa());
+         table.addCell(ustawfrazeAlignColor(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 9, kolor));
+         table.addCell(ustawfrazeAlignColor(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 9, kolor));
     }
     
     private static void dodajwiersztabeliWal(SaldoKonto rs, PdfPTable table, Integer i, String l) {
@@ -582,5 +585,17 @@ public class PdfKonta {
            }
        }
        return zmodyfikowana;
+    }
+
+    private static String pobierzkolor(Konto konto, double saldoWn, double saldoMa) {
+        String color = "black";
+        int stronawlasciwe = konto.getWnma0wm1ma2();
+        if (stronawlasciwe == 1 && saldoMa != 0.0) {
+           color = "red"; 
+        }
+        if (stronawlasciwe == 2 && saldoWn != 0.0) {
+           color = "red"; 
+        }
+        return color;
     }
   }
