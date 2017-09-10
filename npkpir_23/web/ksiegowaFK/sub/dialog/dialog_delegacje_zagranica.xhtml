@@ -26,7 +26,7 @@
                              update=":delegacje, :delegacjezagranicalista" rendered="#{delegacjeView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="delegacjezagranicalista">
-            <p:dataTable value="#{delegacjeView.delegacjezagraniczne}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="500" 
+            <p:dataTable value="#{delegacjeView.delegacjezagraniczne}" var="item" style="width: 850px;height: 500px;overflow-y: scroll;"
                          emptyMessage="brak zdefiniowanych delegacji zagranicznych" rowIndexVar="index"
                          sortBy="#{item}" sortOrder="descending"  sortFunction="#{delegacjeView.sortDelegacje}">
                  <p:column headerText="#{mgs.nr}" width="30">

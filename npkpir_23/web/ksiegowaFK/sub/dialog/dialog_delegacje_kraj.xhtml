@@ -26,8 +26,8 @@
                              update=":delegacje, :delegacjelista" rendered="#{delegacjeView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="delegacjelista">
-            <p:dataTable value="#{delegacjeView.delegacjekrajowe}" var="item" style="width: 850px;"  scrollable="true"
-                         scrollHeight="500" emptyMessage="brak zdefiniowanych delegacji krajowych" rowIndexVar="index"
+            <p:dataTable value="#{delegacjeView.delegacjekrajowe}" var="item" style="width: 850px;height: 500px;overflow-y: scroll;"
+                         emptyMessage="brak zdefiniowanych delegacji krajowych" rowIndexVar="index"
                          rowKey="#{item.id}"  sortOrder="descending"
                          sortBy="#{item}"  sortFunction="#{delegacjeView.sortDelegacje}">
                 <p:column headerText="#{mgs.nr}" width="30">
