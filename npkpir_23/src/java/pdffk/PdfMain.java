@@ -1114,6 +1114,19 @@ public class PdfMain {
                     col101[3] = 12;
                     return col101;
                 }
+            case "embeddablefk.KontoBO":
+                int[] col102 = new int[size];
+                    col102[0] = 1;
+                    col102[1] = 2;
+                    col102[2] = 4;
+                    col102[3] = 3;
+                    col102[4] = 3;
+                    col102[5] = 3;
+                    col102[6] = 3;
+                    col102[7] = 3;
+                    col102[8] = 3;
+                    col102[9] = 3;
+                    return col102;
             case "entityfk.Konto":
                 if (modyfikator==1) {
                     int[] col10 = new int[size];
@@ -1945,8 +1958,7 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getKontoPrzeciwstawneNumer(), "left", 7));
                 }
             }
-            if (nazwaklasy.equals("entityfk.KontoBO")) {
-                if (modyfikator == 1) {
+            if (nazwaklasy.equals("embeddablefk.KontoBO")) {
                     KontoBO p = (KontoBO) it.next();
                     table.addCell(ustawfrazeAlign(i++, "left", 8, 22f));
                     table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
@@ -1969,7 +1981,8 @@ public class PdfMain {
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 8));
                     }
-                }
+                    table.addCell(ustawfrazeAlign(number.format(p.getRoznicaWn()), "right", 8));
+                    table.addCell(ustawfrazeAlign(number.format(p.getRoznicaMa()), "right", 8));
             }
             if (nazwaklasy.equals("entityfk.Konto")) {
                 if (modyfikator == 1) {
@@ -2178,7 +2191,10 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 7));
                         if (p.getWaluta() != null && !p.getWaluta().equals("PLN") && !p.getOpis().equals("podsumowanie")) {
                             table.addCell(ustawfrazeAlign("", "center", 8, 25f));
-                            String opis = "wartość w pln "+p.getTabela().getNrtabeli()+" z "+p.getTabela().getDatatabeli()+" k.w. "+p.getKurs();
+                            String opis = "brak wprowadzoej tabeli NBP";
+                            if (p.getTabela() != null) {
+                                opis = "wartość w pln "+p.getTabela().getNrtabeli()+" z "+p.getTabela().getDatatabeli()+" k.w. "+p.getKurs();
+                            }
                             table.addCell(ustawfrazeAlign(opis, "left", 8));
                             if (p.getKwotaWn() != 0.0) {
                                 table.addCell(ustawfrazeAlign(number.format(p.getKwotaWnPLN()), "right", 8));

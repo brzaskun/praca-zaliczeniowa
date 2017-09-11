@@ -6,6 +6,7 @@
 package embeddablefk;
 
 import entityfk.Konto;
+import waluty.Z;
 
 /**
  *
@@ -14,6 +15,8 @@ import entityfk.Konto;
 public class KontoBO extends Konto{
     private double saldorokpopWn;
     private double saldorokpopMa;
+    private double roznicaWn;
+    private double roznicaMa;
 
     public KontoBO(Konto konto) {
         super(konto);
@@ -34,6 +37,15 @@ public class KontoBO extends Konto{
     public void setSaldorokpopMa(double saldorokpopMa) {
         this.saldorokpopMa = saldorokpopMa;
     }
+
+    public double getRoznicaWn() {
+        return Z.z(this.getBoWn()-this.saldorokpopWn);
+    }
+
+    public double getRoznicaMa() {
+        return Z.z(this.getBoMa()-this.saldorokpopMa);
+    }
+
     
     
 }

@@ -185,6 +185,8 @@ public class testobjects {
        n.add("strona ma");
        n.add("saldo wn");
        n.add("saldo ma");
+       n.add("różnica wn");
+       n.add("różnica ma");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

@@ -190,6 +190,23 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
+    public void getRemoveZeroBOChildrenTree(List<TreeNodeExtended> oldnodes, List<TreeNodeExtended> newnodes) {
+        List<TreeNode> children = this.getChildren();
+        boolean madzieci = this.getChildCount() > 0;
+        if (madzieci == true) {
+            for (TreeNode o : children) {
+                oldnodes.add((TreeNodeExtended) o);
+                Object ob = ((TreeNodeExtended) o).getData();
+                KontoBO konto = (KontoBO) ob;
+                if (konto.getRoznicaWn() != 0.0 || konto.getRoznicaMa() != 0.0) {
+                    newnodes.add((TreeNodeExtended) o);
+                }
+                ((TreeNodeExtended) o).getRemoveZeroBOChildrenTree(oldnodes, newnodes);
+            }
+            oldnodes.remove(this);
+        }
+    }
+    
     public void getChildrenTree(List<TreeNodeExtended> nodes, List<T> pozycje) {
         List<TreeNode> children = this.getChildren();
         boolean madzieci = this.getChildCount() > 0;
@@ -1180,6 +1197,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
         return znaki;
     }
-    
+
+        
     
 }

@@ -12,6 +12,9 @@
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <p:layoutUnit id="centralna" position="center" >
+                    <script>
+                        $(document).on("keydown", TabKeyDown);
+                    </script>
                     <p:growl life="3600"  autoUpdate="true"/>
                     <div id="ramki">
                     </div>

@@ -258,20 +258,20 @@
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:contextMenu for="formbilanswprowadzanie2:tab0">
-                <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs)}" icon="ui-icon-disk" />
-                <p:menuitem value="Usuń z pominięciem dok. BO" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwielebezBO(bilansWprowadzanieView.listaBOs)}" icon="ui-icon-disk" />
+                <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
+                <p:menuitem value="Usuń z pominięciem dok. BO" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwielebezBO(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
             </p:contextMenu>
-            <p:remoteCommand name="przeliczfilter" actionListener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0" global="false"/>
+            <p:remoteCommand name="przeliczfilter" actionListener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0" global="false"/>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}" widgetVar="tab0prosta"
                          style="overflow-y: scroll; height: 400px; width: 1100px; padding: 10px; margin-top: 5px;"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}"
-                         id="tab0" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs}"
+                         id="tab0" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOselected}"
                          filteredValue="#{bilansWprowadzanieView.listaBOFiltered}" 
                          >
-                <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
+                <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
-                <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
+                <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
                 <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
                 <p:column width="250" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">

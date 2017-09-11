@@ -86,11 +86,50 @@ public class BilansPodgladView  implements Serializable{
         root.createTreeNodesForElement(listakontbo);
         
     }
+    
+    private void getNodesNoZeroBO(){
+        this.root = new TreeNodeExtended("root", null);
+        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<Konto> listakontRokPop = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokUprzedniSt());
+        List<KontoBO> listakontbo = new ArrayList<>();
+        for (Iterator<Konto> it = listakont.iterator(); it.hasNext(); ) {
+            Konto k = it.next();
+            KontoBO kontopo = new KontoBO(k);
+            if (listakontRokPop != null) {
+                for (Iterator<Konto> ita = listakontRokPop.iterator(); ita.hasNext();) {
+                    Konto kontoRokPop = ita.next();
+                    if (kontoRokPop.getPelnynumer().equals(k.getPelnynumer())) {
+                        kontopo.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
+                        kontopo.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
+                        break;
+                    }
+                }
+            }
+            listakontbo.add(kontopo);
+        }
+        level = root.ustaldepthDT(listakontbo)-1;
+        //podsumujkonta(listakont, level);
+        sumakont(listakontbo);
+        usunzeroweroznicaBO(listakontbo);
+        root.createTreeNodesForElement(listakontbo);
+        
+    }
        
         
     public void rozwinwszystkie(){
         try {
             getNodes();
+            root.expandAll();
+            Msg.msg("Rozwinięto maksymalnie");
+        } catch (Exception e) { 
+            E.e(e);
+            Msg.msg("e", "Brak kont bilansowych u podatnika");
+        }
+    }
+    
+    public void usunzeroweRoznicaBO() {
+         try {
+            getNodesNoZeroBO();
             root.expandAll();
             Msg.msg("Rozwinięto maksymalnie");
         } catch (Exception e) { 
@@ -131,6 +170,17 @@ public class BilansPodgladView  implements Serializable{
             KontoBO p = (KontoBO) it.next();
             if (p.getBoWn() == 0 && p.getBoMa() == 0) {
                 it.remove();
+            }
+        }
+    }
+    
+    private void usunzeroweroznicaBO(List<KontoBO> listakont) {
+        for (Iterator<KontoBO> it = listakont.iterator(); it.hasNext();) {
+            KontoBO p = (KontoBO) it.next();
+            if (p.getBoWn() == 0 && p.getBoMa() == 0) {
+                it.remove();
+            } else if (p.getRoznicaWn() == 0.0 && p.getRoznicaMa() == 0.0) {
+                it.remove();   
             }
         }
     }
@@ -242,7 +292,8 @@ public class BilansPodgladView  implements Serializable{
                 }
             }
     }
-   
+    
+    
     private void sortujliste(List<KontoBO> w) {
         Collections.sort(w, new KontoBOcomparatorByKwota());
     }
@@ -303,7 +354,7 @@ public class BilansPodgladView  implements Serializable{
         this.sortujwgwartosci = sortujwgwartosci;
     }
 
-  
+   
 
     
     

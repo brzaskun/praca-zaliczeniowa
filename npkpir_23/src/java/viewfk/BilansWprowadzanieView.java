@@ -78,7 +78,7 @@ public class BilansWprowadzanieView implements Serializable {
     private WierszBO selected;
     private List<WierszBO> listaBO;
     private List<WierszBO> listaBOFiltered;
-    private List<WierszBO> listaBOs;
+    private List<WierszBO> listaBOselected;
     private List<WierszBO> listaBOs1;
     private Integer nraktualnejlisty;
     private List<WierszBO> listaBOsumy;
@@ -391,19 +391,7 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-   
 
-  
-    public void usunwiersz(WierszBO wierszBO) {
-        try {
-            usuwanielista(listaBO, wierszBO);
-            podsumujWnMa(listaBO, listaBOsumy);
-            Msg.msg("Usunięto zapis BO");
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("e", "Wystąpił błąd - nie usunięto zapis BO");
-        }
-    }
 
     public void usunwierszN(WierszBO wierszBO) {
         try {
@@ -427,14 +415,13 @@ public class BilansWprowadzanieView implements Serializable {
         try {
             for (WierszBO p : wierszBOlista) {
                 if (p.getNowy0edycja1usun2Int() == 0) {
-                    usuwanielista(listaBO, p);
+                    wierszBODAO.destroy(p);
+                    listaBO.remove(p);
                 } else {
                     p.setNowy0edycja1usun2(2);
+                    wierszBODAO.edit(p);
                 }
-                
-                //usuwanielista(listaBO, p);
             }
-            wierszBODAO.editList(wierszBOlista);
             if (listaBOFiltered != null) {
                 for (WierszBO p : wierszBOlista) {
                     listaBOFiltered.remove(p);
@@ -453,9 +440,9 @@ public class BilansWprowadzanieView implements Serializable {
     public void usunwielebezBO(List<WierszBO> wierszBOlista) {
         try {
             for (WierszBO p : wierszBOlista) {
-                    usuwanielista(listaBO, p);
+                 wierszBODAO.destroy(p);
+                 listaBO.remove(p);
             }
-            wierszBODAO.editList(wierszBOlista);
             if (listaBOFiltered != null) {
                 for (WierszBO p : wierszBOlista) {
                     listaBOFiltered.remove(p);
@@ -480,25 +467,7 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    private void usuwanielista(List<WierszBO> l, WierszBO wierszBO) {
-        try {
-            Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-            Podatnik p = wpisView.getPodatnikObiekt();
-            String r = wpisView.getRokWpisuSt();
-            String mc = wpisView.getMiesiacWpisu();
-            if (l.size() > 1) {
-                wierszBODAO.destroy(wierszBO);
-                l.remove(wierszBO);
-            } else {
-                wierszBODAO.destroy(wierszBO);
-                l.remove(wierszBO);
-                l.add(new WierszBO(p, r, w, mc));
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
+    
     public List<WierszBO> zapiszBilansBOdoBazy() {
         List<WierszBO> zachowaneWiersze = new ArrayList<>();
         Set<Integer> numerylist = listazbiorcza.keySet();
@@ -1378,12 +1347,12 @@ public class BilansWprowadzanieView implements Serializable {
         this.stronaWn = stronaWn;
     }
 
-    public List<WierszBO> getListaBOs() {
-        return listaBOs;
+    public List<WierszBO> getListaBOselected() {
+        return listaBOselected;
     }
 
-    public void setListaBOs(List<WierszBO> listaBOs) {
-        this.listaBOs = listaBOs;
+    public void setListaBOselected(List<WierszBO> listaBOselected) {
+        this.listaBOselected = listaBOselected;
     }
 
     public Map<Integer, List> getListaSumList() {
@@ -1510,8 +1479,8 @@ public class BilansWprowadzanieView implements Serializable {
     public void drukujBO() {
         System.out.println("");
         List<WierszBO> w = new ArrayList<>();
-        if (listaBOs != null && listaBOs.size() > 0) {
-            w = listaBOs;
+        if (listaBOselected != null && listaBOselected.size() > 0) {
+            w = listaBOselected;
         } else if (listaBOs1 != null && listaBOs1.size() > 0) {
             w = listaBOs1;
         } else if (listaBOFiltered != null && listaBOFiltered.size() >0) {
@@ -1529,8 +1498,8 @@ public class BilansWprowadzanieView implements Serializable {
     public void drukujObroty() {
         System.out.println("");
         List<WierszBO> w = new ArrayList<>();
-        if (listaBOs != null && listaBOs.size() > 0) {
-            w = listaBOs;
+        if (listaBOselected != null && listaBOselected.size() > 0) {
+            w = listaBOselected;
         } else if (listaBOs1 != null && listaBOs1.size() > 0) {
             w = listaBOs1;
         } else if (listaBOFiltered != null && listaBOFiltered.size() >0) {

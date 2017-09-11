@@ -28,6 +28,7 @@
                 <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukuj}" style="width: 120px;"/>
                 <p:commandButton value="#{mgs.drukuj} synt" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(false)}" style="width: 120px; margin-left: 10px;"/>
                 <p:commandButton value="#{mgs.drukuj} analit" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(true)}" style="width: 120px; margin-left: 10px;"/>
+                <p:commandButton value="usuń niezerowe" actionListener="#{bilansPodgladView.usunzeroweRoznicaBO}" style="width: 120px; margin-left: 10px;" update="formbilans:dataList"/>
                 <p:selectBooleanCheckbox value="#{bilansPodgladView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:selectBooleanCheckbox>
@@ -90,12 +91,12 @@
                     </h:outputText>
                     </p:column>
                     <p:column headerText="różnica Wn" style="width: 70px; text-align: right;">
-                        <h:outputText value="#{loop.boWn-loop.saldorokpopWn}" rendered="#{loop.boWn-loop.saldorokpopWn ne 0}">
+                        <h:outputText value="#{loop.roznicaWn}" rendered="#{loop.boWn-loop.saldorokpopWn ne 0}">
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="różnica Ma" style="width: 70px; text-align: right;">
-                        <h:outputText value="#{loop.boMa-loop.saldorokpopMa}" rendered="#{loop.boMa-loop.saldorokpopMa ne 0}">
+                        <h:outputText value="#{loop.roznicaMa}" rendered="#{loop.boMa-loop.saldorokpopMa ne 0}">
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
                         </h:outputText>
                     </p:column>
