@@ -22,6 +22,14 @@ public class KontoBO extends Konto{
         super(konto);
     }
 
+    public KontoBO(Konto konto, double z, double z0, double z1, double z2) {
+        super(konto);
+        this.saldorokpopWn = z;
+        this.saldorokpopMa = z0;
+        this.roznicaWn = z1;
+        this.roznicaMa = z2;
+    }
+
     public double getSaldorokpopWn() {
         return saldorokpopWn;
     }

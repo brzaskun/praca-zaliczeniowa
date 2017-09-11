@@ -7,7 +7,6 @@ package format;
 
 import java.text.NumberFormat;
 import java.util.Currency;
-import static pdffk.PdfMain.dodajLinieOpisu;
 
 /**
  *
@@ -20,6 +19,18 @@ public class F {
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
         return formatter.format(n);
+    }
+    
+    public static String numberS(double n) {
+        String zwrot = "";
+        if (n != 0.0) {
+            NumberFormat formatter = NumberFormat.getNumberInstance();
+            formatter.setMaximumFractionDigits(2);
+            formatter.setMinimumFractionDigits(2);
+            formatter.setGroupingUsed(true);
+            zwrot =  formatter.format(n);
+        }
+        return zwrot;
     }
     
     public static String curr(double n) {

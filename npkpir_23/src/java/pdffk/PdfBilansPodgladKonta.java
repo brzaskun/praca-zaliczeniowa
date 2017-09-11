@@ -16,7 +16,7 @@ import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
-import static pdffk.PdfMain.inicjacjaA4Portrait;
+import static pdffk.PdfMain.inicjacjaA4Landscape;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
@@ -38,7 +38,7 @@ public class PdfBilansPodgladKonta {
         }
         if (wykazkont != null && wykazkont.size() > 0) {
             Uz uz = wpisView.getWprowadzil();
-            Document document = inicjacjaA4Portrait();
+            Document document = inicjacjaA4Landscape();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);

@@ -109,8 +109,8 @@ public class BilansPodgladView  implements Serializable{
         }
         level = root.ustaldepthDT(listakontbo)-1;
         //podsumujkonta(listakont, level);
-        sumakont(listakontbo);
         usunzeroweroznicaBO(listakontbo);
+        sumakont(listakontbo);
         root.createTreeNodesForElement(listakontbo);
         
     }
@@ -258,13 +258,21 @@ public class BilansPodgladView  implements Serializable{
     private void dodajwierszsumyAll(List<KontoBO> w) {
         double wn = 0.0;
         double ma = 0.0;
+        double wnrokpop = 0.0;
+        double marokpop = 0.0;
+        double roznicawn = 0.0;
+        double roznicama = 0.0;
         for (KontoBO p : w) {
             if (p.getMacierzysty()==0) {
                 wn += p.getBoWn();
                 ma += p.getBoMa();
+                wnrokpop += p.getSaldorokpopWn();
+                marokpop += p.getSaldorokpopMa();
+                roznicawn += p.getRoznicaWn();
+                roznicama += p.getRoznicaMa();
             }
         }
-        w.add(new KontoBO(new Konto("podsumowanie", Z.z(wn), Z.z(ma))));
+        w.add(new KontoBO(new Konto("podsumowanie", Z.z(wn), Z.z(ma)), Z.z(wnrokpop), Z.z(marokpop), Z.z(roznicawn), Z.z(roznicama)));
     }
      
     private void dodajwierszsumy(List<KontoBO> w) {

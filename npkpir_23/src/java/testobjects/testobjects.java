@@ -184,7 +184,9 @@ public class testobjects {
        n.add("strona wn");
        n.add("strona ma");
        n.add("saldo wn");
+       n.add("saldo wn rok pop.");
        n.add("saldo ma");
+       n.add("saldo ma rok pop.");
        n.add("różnica wn");
        n.add("różnica ma");
        List[] tabela = new List[2];
