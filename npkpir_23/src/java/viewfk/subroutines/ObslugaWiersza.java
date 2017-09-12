@@ -145,6 +145,19 @@ public class ObslugaWiersza {
         return Z.z(stronalewa) == Z.z(stronaprawa);
     }
     
+    public static double[] sumujwierszeBO(Dokfk dokfk) {
+        double[] sumy = new double[2];
+        for (Wiersz p : dokfk.getListawierszy()) {
+            if (p.getStronaWn() != null) {
+                sumy[0] += p.getKwotaWnPLN();
+            }
+            if (p.getStronaMa() != null) {
+                sumy[1] += p.getKwotaMaPLN();
+            }
+        }
+        return sumy;
+    }
+    
     public static Wiersz utworzNowyWiersz(Dokfk selected, int liczbawierszyWDokumencie)  {
         Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
         nowywiersz.setLpmacierzystego(0);

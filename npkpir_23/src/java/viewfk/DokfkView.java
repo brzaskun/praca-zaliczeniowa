@@ -235,6 +235,7 @@ public class DokfkView implements Serializable {
     private Map<String, Konto> kontadlaewidencji;
     private Konto kontoRozrachunkowe;
     private Dokfk poprzedniDokument ;
+    private double[] sumadokbo;
     
 
     public DokfkView() {
@@ -292,6 +293,8 @@ public class DokfkView implements Serializable {
     public void resetujDokumentOpen() {
         if (zapisz0edytuj1 == false) {
             resetujDokument();
+        } else if (selected.getRodzajedok().getSkrotNazwyDok().equals("BO")) {
+            sumadokbo = ObslugaWiersza.sumujwierszeBO(selected);
         }
     }
     public void resetujDokument() {
@@ -3708,4 +3711,13 @@ public class DokfkView implements Serializable {
     public void resetst() {
         this.pokazsrodkitrwale = false;
     }
+
+    public double[] getSumadokbo() {
+        return sumadokbo;
+    }
+
+    public void setSumadokbo(double[] sumadokbo) {
+        this.sumadokbo = sumadokbo;
+    }
+    
 }

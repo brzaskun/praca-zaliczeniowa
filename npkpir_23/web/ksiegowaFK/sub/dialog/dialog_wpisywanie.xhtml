@@ -640,6 +640,14 @@
                     </p:panelGrid> 
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
+                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO'}">
+                            <h:outputText value="SaldoWn: "/>
+                            <bcf:outputpl id="saldostronywn"  value="#{dokfkView.sumadokbo[0]}" style="width: 100px; margin-left: 10px;"/>
+                        </p:column>
+                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO'}">
+                            <h:outputText value="SaldoMa: "/>
+                            <bcf:outputpl id="saldostronyma"  value="#{dokfkView.sumadokbo[1]}" style="width: 100px; margin-left: 10px;"/>
+                        </p:column>
                         <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne ''}">
                             <h:outputText value="saldo wybranego konta: "/>
                             <bcf:outputpl id="saldowybranegokonta"  value="#{dokfkView.obliczsaldowybranegokonta()}" style="width: 100px; margin-left: 10px;"/>

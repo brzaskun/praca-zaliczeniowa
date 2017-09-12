@@ -359,8 +359,6 @@ public class BilansWprowadzanieView implements Serializable {
             Msg.msg("e", "Wprowadzane konto nie należy do bieżącej grupy. Nie można zapisać");
         } else if (selected.getKwotaWn() != 0.0 && selected.getKwotaMa() != 0.0) {
             Msg.msg("e", "Występują salda po dwóch stronach konta. Nie można zapisać");
-        } else if (selected.getOpis().equals("zmień opis")) {
-            Msg.msg("e", "Nie wprowadzono prawidłowego opisu. Nie można zapisać");
         } else {
             if (listaBO.contains(selected)) {
                 selected.setWprowadzil(wpisView.getWprowadzil());
@@ -658,8 +656,12 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void obliczkursN(double kurs, double kwotaWwalucie, double kwotaWPLN, String WnMa) {
         String w = null;
-        if (kurs == 0.0 && !selected.getWaluta().getSymbolwaluty().equals("PLN")) {
-            selected.setKurs(Z.z4(kwotaWPLN / kwotaWwalucie));
+         if (kurs == 0.0 && !selected.getWaluta().getSymbolwaluty().equals("PLN")) {
+            if (kwotaWwalucie != 0.0) {
+                selected.setKurs(Z.z4(kwotaWPLN / kwotaWwalucie));
+            } else {
+                selected.setKurs(0.0);
+            }
             w = "formbilanswprowadzanie2_wiersz:polekurs";
             RequestContext.getCurrentInstance().update(w);
         } else if (kurs != 0.0 && !selected.getWaluta().getSymbolwaluty().equals("PLN") && kwotaWwalucie == 0.0) {
