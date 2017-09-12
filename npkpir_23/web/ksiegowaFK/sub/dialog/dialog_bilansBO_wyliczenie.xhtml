@@ -8,7 +8,7 @@
         
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:dialog id="dialog_bilansBO_wyliczenie" header="Bilans otwarcia roku #{WpisView.rokWpisuSt} - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialog_bilansBO_wyliczenie" 
+    <p:dialog id="dialog_bilansBO_wyliczenie" header="Bilans otwarcia roku z kontami #{WpisView.rokWpisuSt} - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialog_bilansBO_wyliczenie" 
               resizable="false" onShow="ustawdialog('dialog_bilansBO_wyliczenie','menubilanse', 1450, 750);" closeOnEscape="true" 
               onHide="resetujdialog('dialog_bilansBO_wyliczenie');"  >
         <h:form id="formdialog_bilansBO_wyliczenie">
@@ -74,12 +74,12 @@
                         <h:outputText value=" " /> 
                         <h:outputText value="#{loop.nazwa}" /> 
                     </p:column>
-                    <p:column style="width: 150px;">
+                    <p:column style="width: 100px;">
                          <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%" rendered="#{loop.kwota!= 0.0}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column style="width: 150px;">
+                    <p:column style="width: 200px;">
                         <h:outputText value="#{loop.przyporzadkowanekonta}" rendered="#{loop.przyporzadkowanekonta.size() gt 0}"/>
                     </p:column>
                 </p:treeTable>
@@ -99,12 +99,12 @@
                         <h:outputText value=" " /> 
                         <h:outputText value="#{loop.nazwa}" /> 
                     </p:column>
-                    <p:column style="width: 150px;">
+                    <p:column style="width: 100px;">
                          <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%" rendered="#{loop.kwota!= 0.0}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column style="width: 150px;">
+                    <p:column style="width: 200px;">
                         <h:outputText value="#{loop.przyporzadkowanekonta}" rendered="#{loop.przyporzadkowanekonta.size() gt 0}"/>
                     </p:column>
                 </p:treeTable>
