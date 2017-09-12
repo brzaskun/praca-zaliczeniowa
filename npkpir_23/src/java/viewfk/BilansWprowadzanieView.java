@@ -568,28 +568,28 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    public int weryfikacjaopisu(WierszBO selected, List<WierszBO> l, String pole) {
-        int licznik = 0;
-        String opis = selected.getOpis().toLowerCase();
-        Konto konto = selected.getKonto();
-        if (konto != null) {
-            for (WierszBO p : l) {
-                if (p.getKonto().equals(konto)) {
-                    String opislista = p.getOpis().toLowerCase();
-                    if (opislista.equals(opis.toLowerCase())) {
-                        licznik++;
-                    }
-                    if (licznik > 0) {
-                        Msg.msg("e", "Taki opis już istnieje na koncie: " + konto.getPelnynumer() + " opis: " + opis);
-                        selected.setOpis("zmień opis");
-                        RequestContext.getCurrentInstance().update(pole);
-                        return 1;
-                    }
-                }
-            }
-        }
-        return 0;
-    }
+//    public int weryfikacjaopisu(WierszBO selected, List<WierszBO> l, String pole) {
+//        int licznik = 0;
+//        String opis = selected.getOpis().toLowerCase();
+//        Konto konto = selected.getKonto();
+//        if (konto != null) {
+//            for (WierszBO p : l) {
+//                if (p.getKonto().equals(konto)) {
+//                    String opislista = p.getOpis().toLowerCase();
+//                    if (opislista.equals(opis.toLowerCase())) {
+//                        licznik++;
+//                    }
+//                    if (licznik > 0) {
+//                        Msg.msg("e", "Taki opis już istnieje na koncie: " + konto.getPelnynumer() + " opis: " + opis);
+//                        selected.setOpis("zmień opis");
+//                        RequestContext.getCurrentInstance().update(pole);
+//                        return 1;
+//                    }
+//                }
+//            }
+//        }
+//        return 0;
+//    }
 
 
     

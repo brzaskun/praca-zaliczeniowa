@@ -62,21 +62,23 @@
                 <p:row>
                     <p:column width="250">
                         <p:autoComplete value="#{bilansWprowadzanieView.selected.konto}" completeMethod="#{planKontBOView.completeBO}" id="konto"
-                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
+                                        var="pka" itemLabel="#{pka.pelnynumer} #{pka.nazwapelna}" itemValue="#{pka}" autocomplete="true" scrollHeight="250"
                                         minQueryLength="1" converter="KontoConv" styleClass="kontobo" maxResults="50"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 280px;"
                                         ><!--to teraz powoduje blad-->
                             <f:facet name="itemtip">
-                                    <h:outputText value="#{p.kontomacierzyste.pelnynumer} #{p.kontomacierzyste.nazwapelna}"/>
+                                <!--                            działa tylko na pierwszej zakładce :(-->
+                                    <h:outputText value="#{pka.kontomacierzyste.pelnynumer} #{pka.kontomacierzyste.nazwapelna}"/>
                             </f:facet>
                             <p:ajax event="itemSelect" global="false" partialSubmit="true"/>
-                            <p:ajax event="query" global="false"/></p:autoComplete>
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
                     </p:column>
                     <p:column width="210" rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}">
                         <p:inputText value="#{bilansWprowadzanieView.selected.opis}" style="width: 200px;"  id="opis" 
                                           >
                             <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
-                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" />
                         </p:inputText>
                     </p:column>
                      <p:column width="210" rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}">
@@ -85,7 +87,7 @@
                             <f:selectItem itemLabel="obroty Wn" itemValue="obroty Wn"/>
                             <f:selectItem itemLabel="obroty Ma" itemValue="obroty Ma"/>
                             <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
-                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" />
                         </p:selectOneMenu>
                     </p:column>
                     <p:column style="text-align: center;">
@@ -164,7 +166,7 @@
                         <p:inputText value="#{bilansWprowadzanieView.selected.opis}" style="width: 200px;"  id="opis3" 
                                           >
                             <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
-                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" />
                         </p:inputText>
                     </p:column>
                      <p:column width="210" rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}">
@@ -173,7 +175,7 @@
                             <f:selectItem itemLabel="obroty Wn" itemValue="obroty Wn"/>
                             <f:selectItem itemLabel="obroty Ma" itemValue="obroty Ma"/>
                             <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
-                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" />
                         </p:selectOneMenu>
                     </p:column>
                     <p:column>
