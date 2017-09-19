@@ -1,0 +1,286 @@
+    <ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .saldaanalitycznewiersz {
+            height: 15px !important;
+        }
+    </style>
+  <script>
+        var doczeplistnerydopol = function() {
+                /* <![CDATA[ */
+                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.walkingtable tr', function (e) {
+            try {
+                    zachowajobiekt(this, e);
+                } catch (ex) {
+                    alert('error dialog zapisynakoncie' + ex.toString());
+                }
+            });
+        };
+        /* ]]> */
+    </script>
+  
+    <bcf:ajaxs/>
+    <p:dialog id="dialog_salda_analityczne_bo" header="Obroty i salda na kontach analitycznych na koniec miesiąca" widgetVar="dialog_salda_analityczne_bo"  maximizable="true"  dynamic="true"
+              resizable="true" onShow="ustawdialog('dialog_salda_analityczne_bo','menuzestawienia',1550,750);doczeplistnerydopol();"
+              onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
+              >
+        <p:ajax event="open" listener="#{saldoAnalitykaView.odswiezsaldoanalitycznebo()}" update=":form_dialog_salda_analityczne_bo, :tabelazsumamianalitykabo:sumy"/>
+        <h:form id="form_dialog_salda_analityczne_bo">
+            <p:panelGrid columns="8" style="margin-left: 2%;" >
+                <!--            <p:column>
+                                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+                                    <f:selectItems value="#{Roki.rokiList}"/>
+                                    <f:param name="rokWpisu" value="2012" />
+                                </p:selectOneMenu>
+                            </p:column>-->
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalitycznebo}" update="form_dialog_salda_analityczne_bo tablicasaldaanalitycznebo tabelazsumamianalitykabo:sumy"/>
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaView.odswiezsaldoanalitycznebo()}" style="width: 120px; margin-left: 20px;" update="form_dialog_salda_analityczne_bo tabelazsumamianalitykabo:sumy"/>
+                </p:column>
+                
+                    <h:outputText value="#{mgs.przetwarzanie}"/>
+                    <p:commandButton value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
+                    <p:commandButton value="druk bez 0" action="#{sesjaView.dodajwydruk()}" actionListener="#{saldoAnalitykaView.drukuj(4)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
+<!--                    <p:commandButton value="druk Euro" actionListener="#{saldoAnalitykaView.drukuj(5)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>-->
+                    <p:commandButton value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
+                 <p:column >
+                     <p:selectOneMenu id="rodzajkont" value="#{saldoAnalitykaView.wybranyRodzajKonta}"  style="margin-left: 20px;">
+                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalitycznebo}" 
+                                update="form_dialog_salda_analityczne_bo:tablicasaldaanalitycznebo tabelazsumamianalitykabo:sumy form_dialog_salda_analityczne_bo:tylkoniezerowe"/>
+                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                    </p:selectOneMenu>
+                </p:column>
+                    <p:commandButton value="zaksięguj" actionListener="#{saldoAnalitykaView.zaksiegujsaldakont()}" style="width: 120px; margin-left: 20px;"/>
+                    <p:selectBooleanCheckbox id="tylkoniezerowe" itemLabel="tylko niezerowe" value="#{saldoAnalitykaView.tylkosaldaniezerowe}" style="margin-left: 5px;">
+                        <p:ajax event="change" partialSubmit="true" global="false" listener="#{saldoAnalitykaView.zmienkryteriawyswietlania}" update="form_dialog_salda_analityczne_bo:tablicasaldaanalitycznebo"/>
+                    </p:selectBooleanCheckbox>
+                    <p:selectBooleanCheckbox id="zzapisami" itemLabel="z zapisami" value="#{saldoAnalitykaView.zzapisami}" style="margin-left: 5px;">
+                        <p:ajax event="change" partialSubmit="true" global="false" update="form_dialog_salda_analityczne_bo:tablicasaldaanalitycznebo"/>
+                    </p:selectBooleanCheckbox>
+                    <p:selectBooleanCheckbox id="bezslownika" itemLabel="bez słownikowych" value="#{saldoAnalitykaView.bezslownikowych}" style="margin-left: 5px;">
+                        <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.zmienkryteriabezslownikowych}" update="form_dialog_salda_analityczne_bo:tablicasaldaanalitycznebo"/>
+                    </p:selectBooleanCheckbox>
+                    <p:selectBooleanCheckbox id="zwaluta" itemLabel="zapisy w walucie" value="#{saldoAnalitykaView.tylkozapisywalutowe}" style="margin-left: 5px;">
+                        <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}"
+                                update="form_dialog_salda_analityczne_bo:tablicasaldaanalitycznebo"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="księgowania z cechami"/>
+                            <p:selectOneMenu value="#{saldoAnalitykaView.wybranacechadok}" id="cechydokuk"
+                                         style="width: 200px;" >
+                            <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" 
+                                    update="form_dialog_salda_analityczne_bo:tablicasaldaanalitycznebo"/>
+                            <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
+                            <f:selectItems value="#{saldoAnalitykaView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.cechazapisuPK.nazwacechy}" itemValue="#{item1.cechazapisuPK.nazwacechy}"/>
+                    </p:selectOneMenu>
+            </p:panelGrid>
+            <p:remoteCommand actionListener="#{saldoAnalitykaView.sumujwybranekonta}" name="przeliczfilter" update=":tabelazsumamianalitykabo:sumy" global="false"/>
+            <p:dataTable id="tablicasaldaanalitycznebo" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.hashCode()}" 
+                         rowStyleClass="saldaanalitycznewiersz" rowIndexVar="duzyrow"
+                          filteredValue="#{saldoAnalitykaView.listaSaldoKontofilter}" selection="#{saldoAnalitykaView.listaSaldoKontowybrane}"
+                          sortBy="#{loop.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" rowSelectMode="add"
+                         styleClass="walkingtable"  style="overflow-y: scroll; height: 595px;" widgetVar="tablicasaldaanalitycznebo"
+                         >
+                <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
+                <p:ajax event="rowSelectCheckbox" global="false" update=":tabelazsumamianalitykabo:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" update=":tabelazsumamianalitykabo:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
+                <p:ajax event="toggleSelect" global="false" update=":tabelazsumamianalitykabo:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
+                <p:ajax event="rowToggle" global="false"/>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="25" style="text-align: center;"></p:column>
+<!--                <p:column headerText="id" width="20" sortBy="#{loop.id}" >
+                    <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
+                </p:column>-->
+               <p:column  width="1" style="text-align: center;">
+                   <h:outputText styleClass="lpwiersza"  value="#{duzyrow+1}" style="font-size: 0.1pt"/>
+                </p:column>
+                <p:column width="20">
+                    <p:rowToggler rendered="#{saldoAnalitykaView.zzapisami}"/>
+                </p:column>
+                <p:column styleClass="filter60" headerText="#{mgs.konto}" width="50"  filterBy="#{loop.konto.pelnynumer}">
+                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.opis}" width="140" sortBy="#{loop.konto.nazwapelna}">
+                    <h:outputText id="pol1" value="#{loop.getNazwaObcieta(60)}"/>
+                    <p:tooltip for="pol1" value="#{loop.konto.nazwapelna}" />
+                </p:column>
+                <p:column headerText="#{mgs.boWn}" width="60">
+                    <h:outputText id="pol2" value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.boMa}" width="60" >
+                    <h:outputText id="pol3" value="#{loop.boMa != 0.0 ? loop.boMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWn}" width="60"  style="background-color: #e6f2ff;">
+                    <h:outputText id="pol4" value="#{loop.obrotyWnMc != 0.0 ? loop.obrotyWnMc : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMa}" width="60"  style="background-color: #e6f2ff;">
+                    <h:outputText id="pol5" value="#{loop.obrotyMaMc != 0.0 ? loop.obrotyMaMc : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWnNar}" width="60" >
+                    <h:outputText  id="pol6" value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMaNar}" width="60" >
+                    <h:outputText  id="pol7" value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyBOWn}" width="60" >
+                    <h:outputText  id="pol8" value="#{loop.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyBOMa}" width="60" >
+                    <h:outputText id="pol9" value="#{loop.obrotyBoMa != 0.0 ? loop.obrotyBoMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.saldoWn}" width="60" sortBy="#{loop.saldoWn}">
+                    <h:outputText  id="pol10" value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="#{loop.styleWn}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.saldoMa}" width="60" sortBy="#{loop.saldoMa}">
+                    <h:outputText id="pol11" value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="#{loop.styleMa}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="syntetyka" width="140" >
+                    <h:outputText id="pol12" value="#{loop.konto.kontomacierzyste.getNazwaObcieta(40)}"/>
+                    <p:tooltip for="pol12" value="#{loop.konto.kontomacierzyste.pelnynumer} #{loop.konto.kontomacierzyste.nazwapelna}" />
+                </p:column>
+                <p:rowExpansion rendered="#{saldoAnalitykaView.zzapisami}">
+                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" rowKey="#{loopik.hashCode()}"
+                                 rowSelectMode="add" selection="#{saldoAnalitykaView.wybranezpisykonta}"  rowIndexVar="row" id="zapisynasaldokonto"
+                                 sortBy="#{loopik.dokfk.datadokumentu}"  style="overflow-y: scroll; height: 400px;width: 1400px;">
+                        <p:ajax event="rowSelectCheckbox" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(saldoAnalitykaView.wybranezpisykonta)}" 
+                            update=":formwpisdokument, :zestawieniezapisownakontachpolabo"/>
+                        <p:ajax event="rowSelect" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(saldoAnalitykaView.wybranezpisykonta)}" 
+                            update=":formwpisdokument, :zestawieniezapisownakontachpolabo"/>
+                        <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;">
+                        </p:column>
+                        <p:column  headerText="#{mgs.dokument}" style="width:90px;" sortBy="#{loopik.dokfkS}">
+                            <h:outputText value="#{loopik.dokfkS}" style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.data}" style="width:70px;" sortBy="#{loopik.dokfk.datadokumentu}">
+                            <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.nr}" style="width:90px;">
+                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}" style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                        </p:column>
+                       
+                        <p:column headerText="#{mgs.opis}" style="width:450px;" styleClass="filter180" sortBy="#{loopik.wiersz.opisWiersza}" filterBy="#{loopik.wiersz.opisWiersza}">
+                            <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.waluta}" style="width:35px;text-align: center;">
+                            <h:outputText value="#{loopik.symbolWalutBOiSW}" rendered="#{loopik.getSymbolWalutBOiSW() ne 'PLN'}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kwotaWn}" style="width:70px;" sortBy="#{loopik.kwota}">
+                            <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Wn' }"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kwotaMa}" style="width:70px;" sortBy="#{loopik.kwota}">
+                            <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Ma' }"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.konto}" style="width:50px;" sortBy="#{loopik.getKontoPrzeciwstawne().pelnynumer}">
+                            <h:outputText  id="kolumnakonta" value="#{loopik.getKontoPrzeciwstawne().pelnynumer}" style="color: green; font-weight: 700;"/>
+                            <p:tooltip for="kolumnakonta" value="#{loopik.getKontoPrzeciwstawne().nazwapelna}" />
+                        </p:column>
+                        <p:column headerText="#{mgs.kwotaWnPLN}" style="width:70px;">
+                            <bcf:outputpl value="#{loopik.kwotaPLN}"  rendered="#{loopik.wnma eq 'Wn' and loopik.getSymbolWalutBOiSW() ne 'PLN'}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kwotaMaPLN}" style="width:70px;">
+                            <bcf:outputpl value="#{loopik.kwotaPLN}"  rendered="#{loopik.wnma eq 'Ma' and loopik.getSymbolWalutBOiSW() ne 'PLN'}"/>
+                        </p:column>
+                       <p:column width="25" style="text-align: center;" >
+                        <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o"
+                                         actionListener="#{dokfkView.przygotujDokumentEdycjaAnalityka(loopik, duzyrow, row)}" 
+                                         styleClass="fkbutton" onclick="zapisywierszywybordok();" 
+                                         rendered="#{item.dataksiegowania eq null}" style="width: 30px;"  />
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
+            </p:dataTable>
+        </h:form>
+        <h:form id="tabelazsumamianalitykabo">
+            <p:dataTable id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loop"
+                         style="float: right; margin-right: 210px; width: 950px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
+                <p:column headerText="#{mgs.boWn}" width="60" >
+                    <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.boMa}" width="60" >
+                    <h:outputText value="#{loop.boMa != 0.0 ? loop.boMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWn}" width="60"  style="background-color: #e6f2ff;">
+                    <h:outputText value="#{loop.obrotyWnMc != 0.0 ? loop.obrotyWnMc : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMa}" width="60"  style="background-color: #e6f2ff;">
+                    <h:outputText value="#{loop.obrotyMaMc != 0.0 ? loop.obrotyMaMc : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWnNar}" width="60" >
+                    <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMaNar}" width="60" >
+                    <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyBOWn}" width="60" >
+                    <h:outputText value="#{loop.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyBOMa}" width="60" >
+                    <h:outputText value="#{loop.obrotyBoMa != 0.0 ? loop.obrotyBoMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.saldoWn}" width="60" >
+                    <h:outputText value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.saldoMa}" width="60" >
+                    <h:outputText value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <h:form id="zestawieniezapisownakontachpolabo">
+            <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

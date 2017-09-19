@@ -71,6 +71,8 @@ public class PodatnikView implements Serializable {
     @Inject
     private Podatnik selectedDod;
     @Inject
+    private Podatnik selectedDodedycja;
+    @Inject
     private Rodzajedok selectedDokKsi;
     @Inject
     private Rodzajedok wybranyRodzajDokumentu;
@@ -166,6 +168,11 @@ public class PodatnikView implements Serializable {
         formyprawne.add(FormaPrawna.FUNDACJA);
     }
 
+    public void skopiujdoedycji() {
+        selectedDod = selectedDodedycja;
+        Msg.msg("Wybrano firmę "+selectedDod.getNazwapelnaPDF()+"do edycji");
+    }
+    
     public void dodaj() {
         if (selectedDod.getPesel() == null) {
             selectedDod.setPesel("00000000000");
@@ -184,11 +191,11 @@ public class PodatnikView implements Serializable {
     
     public void resetuj() {
         try {
-            Msg.msg("i", "Zresetowano formularz");
             selectedDod = new Podatnik();
+            Msg.msg("i", "Zresetowano formularz");
         } catch (Exception e) { 
             E.e(e); 
-            Msg.msg("e", "Wystąpił błąd");
+            Msg.msg("e", "Wystąpił błąd podczas resetowania formularza");
         }
     }
 
@@ -1378,6 +1385,14 @@ public class PodatnikView implements Serializable {
 
     public List<PodatnikUdzialy> getPodatnikUdzialy() {
         return podatnikUdzialy;
+    }
+
+    public Podatnik getSelectedDodedycja() {
+        return selectedDodedycja;
+    }
+
+    public void setSelectedDodedycja(Podatnik selectedDodedycja) {
+        this.selectedDodedycja = selectedDodedycja;
     }
 
     public PodatnikUdzialy getWybranyPodatnikUdzialy() {

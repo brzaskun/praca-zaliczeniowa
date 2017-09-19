@@ -102,6 +102,31 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
         przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta);
     }
+    
+     public void initbo() {
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+        if (wybranyRodzajKonta != null) {
+            if (wybranyRodzajKonta.equals("bilansowe")) {
+                for (Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                    if (it.next().getBilansowewynikowe().equals("wynikowe")) {
+                        it.remove();
+                    }
+                }
+            } else if (wybranyRodzajKonta.equals("wynikowe")) {
+                for (Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                    if (it.next().getBilansowewynikowe().equals("bilansowe")) {
+                        it.remove();
+                    }
+                }
+            }
+        }
+        pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
+        listaSaldoKonto = new ArrayList<>();
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
+        przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta);
+    }
 
     public void zmienkryteriawyswietlania() {
         if (tylkosaldaniezerowe) {
@@ -164,6 +189,12 @@ public class SaldoAnalitykaView implements Serializable {
         tylkosaldaniezerowe = false;
         wpisView.wpisAktualizuj();
         init();
+    }
+    
+    public void odswiezsaldoanalitycznebo() {
+        tylkosaldaniezerowe = false;
+        wpisView.wpisAktualizuj();
+        initbo();
     }
 
     public void przeliczSaldoKonto(int numerwiersza) {
@@ -686,6 +717,44 @@ public class SaldoAnalitykaView implements Serializable {
 //
 //    }
 //
+
+    private void przygotowanalistasaldbo(List<Konto> kontaklienta, List<Konto> kontaklientarokpop, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String wybranyRodzajKonta) {
+        List<StronaWiersza> zapisyRok = pobierzzapisy(wybranyRodzajKonta);
+        CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
+        CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
+        Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
+        List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
+        for (Konto p : kontaklienta) {
+            if (p.getPelnynumer().equals("202-1-5")) {
+                System.out.println("stop");
+            }
+            SaldoKonto saldoKonto = new SaldoKonto();
+            saldoKonto.setKonto(p);
+            przygotowanalista.put(p.getPelnynumer(), saldoKonto);
+        }
+        naniesBOnaKonto(przygotowanalista, zapisyBO);
+        naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
+        naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
+        for (SaldoKonto s : przygotowanalista.values()) {
+            s.sumujBOZapisy();
+            s.wyliczSaldo();
+        }
+//        for (int i = 1; i < przygotowanalista.size()+1; i++) {
+//            przygotowanalista.get(i-1).setId(i);
+//        }
+        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
+        for (StronaWiersza t : wierszenieuzupelnione) {
+            Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
+        }
+        listaSaldoKonto.addAll(przygotowanalista.values());
+        for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
+            SaldoKonto skn = it.next();
+            if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0) {
+                it.remove();
+            }
+        }
+    }
 
     
 }

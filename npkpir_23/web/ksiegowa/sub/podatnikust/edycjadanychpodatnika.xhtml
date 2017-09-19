@@ -108,7 +108,7 @@
                  <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym"/>
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}"/>
                  <h:outputLabel value="kod ubezpieczenia ZUS"/>
-            <p:selectOneMenu value="#{podatnikView.selectedDod.kodubezpieczeniaZUS}">
+            <p:selectOneMenu value="#{podatnikView.selected.kodubezpieczeniaZUS}">
                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                 <f:selectItem itemLabel="05 10" itemValue="051000"/>
                 <f:selectItem itemLabel="05 11" itemValue="051100"/>
@@ -119,9 +119,9 @@
                 <f:selectItem itemLabel="05 72" itemValue="054300"/>
             </p:selectOneMenu>
             <h:outputLabel value="podatnik tylko dla ZUS"/>
-            <p:selectBooleanCheckbox value="#{podatnikView.selectedDod.tylkodlaZUS}"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selected.tylkodlaZUS}"/>
             <h:outputLabel value="zatrudnia pracowikow"/>
-            <p:selectBooleanCheckbox value="#{podatnikView.selectedDod.zatrudniapracownikow}"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selected.zatrudniapracownikow}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton action="#{podatnikView.edytuj()}" value="edytuj podatnika" update="@form" type="submit"/>
@@ -230,6 +230,8 @@
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.jestwlikiwdacji}"/>
                  <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym"/>
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}"/>
+                 <h:outputLabel value="id firmy"/>
+                 <h:outputText value="#{podatnikView.selected.nazwapelna}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton action="#{podatnikView.edytujfk()}" value="edytuj podatnika" update="@form" type="submit" style="margin-top: 10px;"/>
