@@ -865,7 +865,7 @@ public class BilansWprowadzanieView implements Serializable {
         int idporzadkowy = 1;
         if (listabiezaca != null && listabiezaca.size() > 0) {
             for (WierszBO p : listabiezaca) {
-                if (p != null && (p.getKwotaWn() != 0 || p.getKwotaMa() != 0)) {
+                if (p != null && (p.getKwotaWn() != 0 || p.getKwotaMa() != 0 || p.getKwotaWnPLN() != 0 || p.getKwotaMaPLN() != 0)) {
                     Wiersz w = new Wiersz(idporzadkowy++, 0);
                     uzupelnijwiersz(w, nd);
                     if (p.getKonto().getPelnynumer().equals("202-1-5")) {
@@ -876,9 +876,9 @@ public class BilansWprowadzanieView implements Serializable {
                         opiswiersza = "kwota obrotów: " + p.getOpis();
                     }
                     w.setOpisWiersza(opiswiersza);
-                    if (Z.z(p.getKwotaWn()) != 0.0) {
+                    if (Z.z(p.getKwotaWn()) != 0.0 || Z.z(p.getKwotaWnPLN()) != 0.0) {
                         uzupelnijTworzonyWiersz(w, p, "Wn", 1);
-                    } else if (Z.z(p.getKwotaMa()) != 0.0) {
+                    } else if (Z.z(p.getKwotaMa()) != 0.0 || Z.z(p.getKwotaMaPLN()) != 0.0) {
                         uzupelnijTworzonyWiersz(w, p, "Ma", 2);
                     }
                     nd.getListawierszy().add(w);
