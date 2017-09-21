@@ -123,7 +123,7 @@
                     <h:outputLabel value="zatrudnia pracowikow"/>
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.zatrudniapracownikow}"/>
                     <h:outputLabel value="id firmy"/>
-                    <h:outputText value="#{podatnikView.selected.nazwapelna}"/>
+                    <h:outputText value="#{podatnikView.selectedDod.nazwapelna}"/>
                    </p:panelGrid>
                 <p:commandButton action="#{podatnikView.dodaj()}" value="dodaj/edytuj" update="form:wprowadzaniepodatnika" type="submit" style="margin-top: 10px; width: 120px;"/>
                 <p:commandButton action="#{podatnikView.resetuj()}" value="resetuj" update="form:wprowadzaniepodatnika" type="submit" style="margin-top: 10px; margin-left: 20px; width: 120px;"/>
