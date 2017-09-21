@@ -46,7 +46,7 @@ public class ObslugaPodpisuBean {
     
     static String HASLO = "marlena1";
     static String PLIK = "james.xml";
-    static String DRIVER = "c:\\windows\\System32\\cryptoCertum3PKCS.dll";
+    static String DRIVER = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\podpis\\cryptoCertum3PKCS.dll";
     
     private static Provider jestDriver() {
         Provider pkcs11Provider = null;
@@ -154,7 +154,7 @@ public class ObslugaPodpisuBean {
     private static SignatureValue generujpodpis(ToBeSigned dataToSign,XAdESSignatureParameters parameters) {
         // This function obtains the signature value for signed information using the
         // private key and specified algorithm
-        char [] password = "marlena1".toCharArray();
+        char [] password = HASLO.toCharArray();
         Pkcs11SignatureToken signingToken = new Pkcs11SignatureToken(DRIVER, password);
         DSSPrivateKeyEntry pkey = signingToken.getKeys().get(1);
         SignatureValue signatureValue = signingToken.sign(dataToSign, parameters.getDigestAlgorithm(), pkey);
@@ -189,7 +189,7 @@ public class ObslugaPodpisuBean {
     private static void drukuj(Object o, String opis) {
         if (o != null) {
             System.out.println("jest "+opis);
-        } else {
+            } else {
             System.out.println("nie ma "+opis);
         }
     }
@@ -197,7 +197,7 @@ public class ObslugaPodpisuBean {
     public static boolean moznaPodpisac() {
         boolean zwrot = false;
         Provider provider = jestDriver();
-        KeyStore keyStore = jestKarta("marlena1");
+        KeyStore keyStore = jestKarta(HASLO);
         if (provider != null && keyStore != null) {
             zwrot = true;
         }
