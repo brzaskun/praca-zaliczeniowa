@@ -108,7 +108,7 @@ public class Dokfk implements Serializable {
     @Size(min = 4, max = 4)
     @Column(name = "rok", nullable = false, length = 4)
     private String rok;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rodzajdok", referencedColumnName = "id")
     private Rodzajedok rodzajedok;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
