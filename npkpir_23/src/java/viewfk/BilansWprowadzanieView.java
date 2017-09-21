@@ -362,7 +362,9 @@ public class BilansWprowadzanieView implements Serializable {
         } else {
             if (listaBO.contains(selected)) {
                 selected.setWprowadzil(wpisView.getWprowadzil());
-                selected.setNowy0edycja1usun2(1);
+                if (selected.getNowy0edycja1usun2Int()!= 0) {
+                    selected.setNowy0edycja1usun2(1);
+                }
                 wierszBODAO.edit(selected);
                 if (listaBOFiltered != null) {
                     podsumujWnMa(listaBOFiltered, listaBOsumy);

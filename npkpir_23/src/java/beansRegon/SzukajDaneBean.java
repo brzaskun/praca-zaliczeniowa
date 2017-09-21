@@ -33,7 +33,8 @@ public class SzukajDaneBean {
                 selected.setNskrocona(dane.get("Nazwa"));
                 selected.setKodpocztowy(dane.get("KodPocztowy"));
                 selected.setMiejscowosc(dane.get("Miejscowosc"));
-                selected.setUlica(dane.get("Ulica"));
+                String ulica = dane.get("Ulica") != null ? dane.get("Ulica") : "-";
+                selected.setUlica(ulica);
                 selected.setKrajkod("PL");
                 selected.setKrajnazwa("Polska");
                 String typ = dane.get("Typ");
