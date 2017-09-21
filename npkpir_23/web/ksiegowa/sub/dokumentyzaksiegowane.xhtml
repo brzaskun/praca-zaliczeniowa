@@ -112,12 +112,15 @@
              <p:column width="70">
                  <bcf:outputpl value="#{DokTabView.sumabrutto}"/>
              </p:column>
+                 <p:column>
+                     <p:commandButton  global="false" value="sumuj" actionListener="#{DokTabView.sumujwybrane}" update=":form:dokumentyLista :form:sumawybranychpanel" style="width: 120px;"/>
+                 </p:column>
                  </p:row>
          </p:panelGrid>
         </p:panelGrid>
         <p:hotkey bind="down"  onstart="przejdzwiersz();" global="false"/>
         <p:hotkey bind="up"   onstart="wrocwiersz();" global="false"/>
-        <p:remoteCommand name="przeliczfilter" actionListener="#{DokTabView.sumujwybrane}" update=":form:dokumentyLista :form:sumawybranychpanel"/>
+        
         <p:outputPanel id="kontenertabeli" deferred="true">
             <p:dataTable  var="wpis" value="#{DokTabView.dokumentylista}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}" 
                           rowIndexVar="index" 
@@ -127,7 +130,8 @@
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid" 
                           >
-                <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
+ <p:ajax event="filter" global="false" />
+                <!--                <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>-->
                 <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}" global="false"/>
 <!--                <p:ajax event="contextMenu"  listener="#{DokTabView.fakturasprawdzanieajax()}" />-->
                 <f:facet name="header">  
