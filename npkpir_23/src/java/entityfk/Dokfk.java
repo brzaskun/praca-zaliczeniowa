@@ -156,7 +156,7 @@ public class Dokfk implements Serializable {
     @Column(name = "wtrakcieedycji")
     private boolean wTrakcieEdycji;
     @JoinColumn(name = "kontr", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Klienci kontr;
     @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<EVatwpisFK> ewidencjaVAT;
