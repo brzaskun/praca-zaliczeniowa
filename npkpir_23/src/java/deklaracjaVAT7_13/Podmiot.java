@@ -74,6 +74,8 @@ class Podmiot {
                 +"</etd:DataUrodzenia></etd:OsobaFizyczna></Podmiot1>"; 
         }
     }
+    
+    
 
     public String getNIP() {
         return NIP;

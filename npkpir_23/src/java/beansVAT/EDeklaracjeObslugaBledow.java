@@ -7,7 +7,6 @@ package beansVAT;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 
 /**
@@ -69,6 +68,13 @@ public class EDeklaracjeObslugaBledow {
                 komunikaty.add("Weryfikacja negatywna - dokument niezgodny ze schematem xsd\n" +
                          "Przesłany dokument nie jest zgodny z opisującym go schematem xsd, \n"
                         + "np. brak wypełnienia pozycji obowiązkowych, niewłaściwy format daty lub inny błąd wypełnienia deklaracji. ");
+                break;
+            case 403:
+                komunikaty.add("e");
+                komunikaty.add("Weryfikacja podpisu elektronicznego zakończyła się negatywnie wskutek np:\n" +
+                         "niezgodności standardu użytego podpisu, \n"
+                        + "użycia podpisu z nieobsługiwanym przez system e-Deklaracje rozszerzeniem krytycznym"
+                        + "błędów w strukturze dokumentu uniemożliwiających wyodrębnienie podpisu elektronicznego");
                 break;
             case 408:
                 komunikaty.add("e");

@@ -29,6 +29,7 @@ public class Vatpoz implements Serializable {
     private PozycjeSzczegoloweVAT pozycjeszczegolowe;
     private List<DeklaracjaVatPozycjeKoncowe> pozycjekoncowe;
     private String rok;
+    private String regon;
 
     public Vatpoz() {
         this.pozycjekoncowe = new ArrayList<>();
@@ -134,6 +135,14 @@ public class Vatpoz implements Serializable {
 
     public void setPozycjekoncowe(List<DeklaracjaVatPozycjeKoncowe> pozycjekoncowe) {
         this.pozycjekoncowe = pozycjekoncowe;
+    }
+
+    public String getRegon() {
+        return regon;
+    }
+
+    public void setRegon(String regon) {
+        this.regon = regon;
     }
     
     

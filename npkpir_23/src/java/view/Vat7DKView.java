@@ -340,9 +340,9 @@ public class Vat7DKView implements Serializable {
     
     public void zapiszdeklaracje() {
         String kwotaautoryzujaca = "0.0";
-//        if (!wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-//            kwotaautoryzujaca = kwotaautoryzujcaPobierz();
-//        }
+        if (!wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+            kwotaautoryzujaca = kwotaautoryzujcaPobierz();
+        }
         String vatokres = sprawdzjakiokresvat();
         if (flaga != 1) {
             //podsumujszczegolowe();
@@ -756,6 +756,7 @@ public class Vat7DKView implements Serializable {
         pozycje.setPozycjekoncowe(pobierzpozycjekoncowe(pasujacaSchema));
         pozycje.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         pozycje.setPodatnik(podatnik);
+        pozycje.setRegon(wpisView.getPodatnikObiekt().getRegon());
         pozycje.setRok(rok);
         if (vatokres.equals("miesięczne")) {
             pozycje.setRodzajdeklaracji("VAT-7");

@@ -23,17 +23,22 @@ public class VAT713 implements Serializable{
         String wstep = schema.getWstep();
         Naglowek naglowek = new Naglowek(vatpoz, schema);
         Podmiot podmiot = new Podmiot(vatpoz);
+        PodmiotFirma podmiotfirma = new PodmiotFirma(vatpoz);
         PozycjeSzczegolowe pozycjeSzczegolowe = new PozycjeSzczegolowe(vatpoz, schema);
         KwadracikiNaDole kwadracikiNaDole = new KwadracikiNaDole(vatpoz, schema);
         String oswiadczenie = schema.getOswiadczenie();
         String pouczenie = schema.getPouczenie();
         if (cert) {
-            wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+"</Deklaracja>";
+            wiersz = wstep+naglowek.getNaglowek()+podmiotfirma.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+"</Deklaracja>";
         } else {
             DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace(vatpoz);
             wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
         }
     }
+    
+   
+    
+    
    
     
     public String getWiersz() {

@@ -15,14 +15,14 @@
                 <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowa()}" update=":form deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:commandButton id="przycisk2a" value="sprawdź kartę"  update="form:przyciskivat" style="width: 150px"
                                  rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}"/>
-                <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje()}"
-                                 update=":form deklaracjauwagavatzz deklaracjauwagavatzt"
+                <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
+                                 update=":form deklaracjauwagavatzz deklaracjauwagavatzt" 
                                  rendered="#{(WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta) or !WpisView.podatnikObiekt.podpiscertyfikowany}"
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <h:outputText value="do zapisu wymagana jest obecność karty z podpisem certyfikowanym!" 
                               rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}" style="color: red;"/>
-            <h:outputText value="Wymuś zapis jako deklarację pierwotną." rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
-            <p:selectBooleanCheckbox value="#{vat7DKView.pierwotnazamiastkorekty}" style="width: 120px" immediate="true" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
+<!--            <h:outputText value="Wymuś zapis jako deklarację pierwotną."/>
+            <p:selectBooleanCheckbox value="#{vat7DKView.pierwotnazamiastkorekty}" style="width: 120px" immediate="true"/>-->
               </p:panelGrid>
             <p:messages autoUpdate="true" id="messages"/>
             <p:panel header="Dane do bieżącej deklaracji VAT-7 miesięcznej. Schema: #{vat7DKView.pasujacaSchema.nazwaschemy}"/>
