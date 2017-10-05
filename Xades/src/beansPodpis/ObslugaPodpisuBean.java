@@ -76,9 +76,7 @@ public class ObslugaPodpisuBean {
                 // System.out.println("Certificate: " + cert);
                 if (today.after(cert.getNotBefore()) && today.before(cert.getNotAfter())) {
                     aliasfinal = alias;
-                    System.out.println(cert.toString());
-                    System.out.println("Data od: " + cert.getNotBefore());
-                    System.out.println("Data do: " + cert.getNotAfter());
+                    System.out.println("cert "+alias);
                     //break;
                 }
             }
