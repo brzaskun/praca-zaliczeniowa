@@ -7,6 +7,7 @@ package xad;
 
 import beansPodpis.ObslugaPodpisuBean;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -20,7 +21,9 @@ import java.security.PublicKey;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
@@ -44,6 +47,7 @@ import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
 import javax.xml.crypto.dsig.keyinfo.X509Data;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import javax.xml.crypto.dsig.spec.XPathFilterParameterSpec;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -95,12 +99,20 @@ public class Xad {
             PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, HASLO.toCharArray());
             PublicKey pubKey = signingCertificate.getPublicKey();
             XMLSignatureFactory xmlSigFactory = XMLSignatureFactory.getInstance("DOM");
+            Document doc = loadXML(FILE);
+            //zapakujdeklaracjejakoobiet(doc, xmlSigFactory);
+            XMLObject xades = dodajSignProp(doc, xmlSigFactory, hasz, X509IssuerName, X509SerialNumber);
             List<Reference> ref = new ArrayList<>();
             SignedInfo signedInfo = null;
+            CanonicalizationMethod canonicalizationMethod = xmlSigFactory.newCanonicalizationMethod(
+		CanonicalizationMethod.INCLUSIVE, (C14NMethodParameterSpec) null);
             try {
-                ref.add(xmlSigFactory.newReference("", xmlSigFactory.newDigestMethod(DigestMethod.SHA1, null),
-                        Collections.singletonList(xmlSigFactory.newTransform(Transform.ENVELOPED,
-                                (TransformParameterSpec) null)), null, "SignedProperties-Reference"));
+                Reference refdok = xmlSigFactory.newReference("", xmlSigFactory.newDigestMethod(DigestMethod.SHA1, null),
+                transforms(xmlSigFactory), "#Dokument-0", null);
+                ref.add(refdok);
+//                ref.add(xmlSigFactory.newReference("", xmlSigFactory.newDigestMethod(DigestMethod.SHA1, null),
+//                        Collections.singletonList(xmlSigFactory.newTransform(Transform.ENVELOPED,
+//                                (TransformParameterSpec) null)), null, "Dokument-Reference"));
                 signedInfo = xmlSigFactory.newSignedInfo(
                         xmlSigFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE,
                                 (C14NMethodParameterSpec) null),
@@ -120,12 +132,10 @@ public class Xad {
 
             //Object list[];
             KeyInfo keyInfo = kif.newKeyInfo(Collections.singletonList(x509data));
-            Document doc = loadXML(FILE);
-            //zapakujdeklaracjejakoobiet(doc, xmlSigFactory);
-            XMLObject xades = dodajSignProp(doc, xmlSigFactory, hasz, X509IssuerName, X509SerialNumber);
+            
             //Create a new XML Signature
             XMLSignature xmlSignature = xmlSigFactory.newXMLSignature(signedInfo, keyInfo, Collections.singletonList(xades), "Signature", "SignatureValueId");
-            DOMSignContext domSignCtx = new DOMSignContext((Key) privkey, doc.getDocumentElement());
+            DOMSignContext domSignCtx = new DOMSignContext((Key) privkey, doc.getFirstChild());
             try {
                 //Sign the document
                 xmlSignature.sign(domSignCtx);
@@ -134,18 +144,54 @@ public class Xad {
             }
        
             saveXML(doc);
-            //validate(doc, xmlSigFactory);
+            validate(doc, xmlSigFactory);
             //dodajDS();
 
         } catch (Exception ex) {
             Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+      private static XMLObject dodajSignProp(Document doc, XMLSignatureFactory xmlSigFactory, String digestValue, String X509IssuerName, String X509SerialNumber) {
+        Element elQualifProp = doc.createElementNS("http://uri.etsi.org/01903/v1.3.2#", "ds:QualifyingProperties");
+        elQualifProp.setAttribute("Target", "Signature");
+        elQualifProp.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns", "http://www.w3.org/2000/09/xmldsig#");
+        // Propriedades elSignedProperties assinadas
+        Element elSignedProperties = doc.createElement("ds:SignedProperties");
+        elSignedProperties.setAttribute("Id", "SignedProperties");
+        Element elSignedSignatureProperties = doc.createElement("ds:SignedSignatureProperties");
+        Element elSigningCertificate = doc.createElement("ds:SigningCertificate");
+        Element elCert = doc.createElement("ds:Cert");
+        Element elCertDigest = doc.createElement("ds:CertDigest");
+        Element elDigestMethod = doc.createElement("ds:DigestMethod");
+        elDigestMethod.setAttribute("Algoritm", "http://www.w3.org/2000/09/xmldsig#sha1");
+        Element elDigestValue = doc.createElement("ds:DigestValue");
+        elDigestValue.setTextContent(digestValue);
+        Element elIssuerSerial = doc.createElement("ds:IssuerSerial");
+        Element elX509IssuerName = doc.createElement("ds:X509IssuerName");
+        elX509IssuerName.setTextContent(X509IssuerName);
+        Element elX509SerialNumber = doc.createElement("ds:X509SerialNumber");
+        elX509SerialNumber.setTextContent(X509SerialNumber);
+        elIssuerSerial.appendChild(elX509IssuerName);
+        elIssuerSerial.appendChild(elX509SerialNumber);
+        elCert.appendChild(elIssuerSerial);
+        elCertDigest.appendChild(elDigestMethod);
+        elCertDigest.appendChild(elDigestValue);
+        elCert.appendChild(elCertDigest);
+        elSigningCertificate.appendChild(elCert);
+        elSignedSignatureProperties.appendChild(elSigningCertificate);
+        elSignedProperties.appendChild(elSignedSignatureProperties);
+        elQualifProp.appendChild(elSignedProperties);
+        XMLObject xades = xmlSigFactory.newXMLObject(Collections.singletonList(new DOMStructure(elQualifProp)), "idObject", null, "UTF-8");
+        return xades;
+    }
 
     public static Document loadXML(String filename) {
         try {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            return builder.parse(new File(filename));
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
+            dbf.setNamespaceAware(true); 
+            DocumentBuilder builder = dbf.newDocumentBuilder();
+            return builder.parse(new FileInputStream(filename));
         } catch (Exception ex) {
             Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -157,7 +203,7 @@ public class Xad {
             // creating and writing to xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.ENCODING, "string");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 //            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             DOMSource domSource = new DOMSource(document);
             String filename = OUTPUTFILE;
@@ -222,44 +268,31 @@ public class Xad {
         }
         }
 
+     //chyba tyo jest zbedne funkcja podpisujaca sama dodaje ds:Object
     private static void zapakujdeklaracjejakoobiet(Document doc, XMLSignatureFactory xmlSigFactory) {
         Node deklaracja = doc.getFirstChild();
         doc.removeChild(deklaracja);
-        XMLObject xades = xmlSigFactory.newXMLObject(Collections.singletonList(new DOMStructure(deklaracja)), "Dokument", null, null);
+        Element elDeklaracja = doc.createElementNS("http://www.w3.org/2000/09/xmldsig#", "ds:Object");
+        elDeklaracja.setAttribute("Id", "Dokument-0");
+        elDeklaracja.appendChild(deklaracja);
+        doc.appendChild(elDeklaracja);
+        
         
     }
 
-    private static XMLObject dodajSignProp(Document doc, XMLSignatureFactory xmlSigFactory, String digestValue, String X509IssuerName, String X509SerialNumber) {
-        Element elQualifProp = doc.createElementNS("http://uri.etsi.org/01903/v1.3.2#", "xades:QualifyingProperties");
-        elQualifProp.setAttribute("Target", "Signature");
-        elQualifProp.setAttributeNS("http://uri.etsi.org/01903/v1.3.2#", "ds", "http://www.w3.org/2000/09/xmldsig#");
-        // Propriedades qualificantes assinadas
-        Element elSignedSignatureProperties = doc.createElementNS("http://www.w3.org/2000/09/xmldsig#","xades:SignedProperties");
-        elSignedSignatureProperties.setAttribute("Id", "SignedProperties");
-        Element elSignedProperties = doc.createElement("xades:SignedSignatureProperties");
-        Element elSigningCertificate = doc.createElement("xades:SigningCertificate");
-        Element elCert = doc.createElement("xades:Cert");
-        Element elCertDigest = doc.createElement("xades:CertDigest");
-        Element elDigestMethod = doc.createElement("ds:DigestMethod");
-        elDigestMethod.setAttribute("Algoritm", "http://www.w3.org/2000/09/xmldsig#sha1");
-        Element elDigestValue = doc.createElement("ds:DigestValue");
-        elDigestValue.setTextContent(digestValue);
-        Element elIssuerSerial = doc.createElement("xades:IssuerSerial");
-        Element elX509IssuerName = doc.createElement("ds:X509IssuerName");
-        elX509IssuerName.setTextContent(X509IssuerName);
-        Element elX509SerialNumber = doc.createElement("ds:X509SerialNumber");
-        elX509SerialNumber.setTextContent(X509SerialNumber);
-        elIssuerSerial.appendChild(elX509IssuerName);
-        elIssuerSerial.appendChild(elX509SerialNumber);
-        elCert.appendChild(elIssuerSerial);
-        elCertDigest.appendChild(elDigestMethod);
-        elCertDigest.appendChild(elDigestValue);
-        elCert.appendChild(elCertDigest);
-        elSigningCertificate.appendChild(elCert);
-        elSignedProperties.appendChild(elSigningCertificate);
-        elSignedSignatureProperties.appendChild(elSignedProperties);
-        elQualifProp.appendChild(elSignedSignatureProperties);
-        return xmlSigFactory.newXMLObject(Collections.singletonList(new DOMStructure(elQualifProp)), "idObject", null, null);
+    private static List transforms(XMLSignatureFactory xmlSigFactory) {
+        List<Transform> transforms = new ArrayList<Transform>();
+        try {
+            Map<String, String> namespaces = new HashMap<String, String>(1);
+            namespaces.put("ds", "http://www.w3.org/2000/09/xmldsig#");
+            XPathFilterParameterSpec paramsXpath = new XPathFilterParameterSpec("/Deklaracja", namespaces);
+            transforms.add(xmlSigFactory.newTransform(Transform.XPATH, (TransformParameterSpec) paramsXpath));
+        } catch (Exception ex) {
+            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return transforms;
     }
+
+  
 
 }
