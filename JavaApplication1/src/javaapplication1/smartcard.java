@@ -24,7 +24,6 @@ import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Provider;
-import java.security.PublicKey;
 import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -79,11 +78,8 @@ public class smartcard {
                     System.out.println("  Has private key");
                }
             }
-            Certificate[] chain = keyStore.getCertificateChain(aliasfinal);
+           
             Certificate cert = keyStore.getCertificate(aliasfinal);
-            String typ = keyStore.getType();
-            PublicKey pubkey = cert.getPublicKey();
-            String type = cert.getType();
             // Choose the document to be signed.
             DSSDocument toSignDocument = new FileDocument("james.xml");
           // Preparing parameters for the XAdES signature
