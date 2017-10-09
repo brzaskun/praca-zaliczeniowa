@@ -76,6 +76,12 @@ public class EDeklaracjeObslugaBledow {
                         + "użycia podpisu z nieobsługiwanym przez system e-Deklaracje rozszerzeniem krytycznym"
                         + "błędów w strukturze dokumentu uniemożliwiających wyodrębnienie podpisu elektronicznego");
                 break;
+            case 404 :
+                komunikaty.add("e");
+                komunikaty.add("Dokument z nieważnym certyfikatem\n" +
+                        "Certyfikat związany z kluczem prywatnym użytym do złożenia podpisu elektronicznego jest nieważny – minął okres jego ważności.\n" +
+                        "Konieczne jest ponowne wysłanie Deklaracji z użyciem ważnego certyfikatu.\n");
+                break;
             case 408:
                 komunikaty.add("e");
                 komunikaty.add("Dokument zawiera błędy uniemożliwiające jego przetworzenie\n" +
@@ -111,6 +117,18 @@ public class EDeklaracjeObslugaBledow {
             case 418:
                 komunikaty.add("e");
                 komunikaty.add("Dla złożonej deklaracji wymagane jest użycie podpisu kwalifikowanego");
+                break;
+            case 422:
+                komunikaty.add("e");
+                komunikaty.add("Weryfikacja negatywna – dokument złożony z użyciem danych autoryzujących może złożyć wyłącznie podatnik, będący osobą fizyczną");
+                break;
+            case 423:
+                komunikaty.add("e");
+                komunikaty.add("Dokument może złożyć wyłącznie podmiot będący osobą fizyczną, niebędący pełnomocnikiem");
+                break;
+            case 440:
+                komunikaty.add("e");
+                komunikaty.add("Paczka/Dokument zbiorczy zawiera deklarację, która została już przesłana");
                 break;
             default:
                 komunikaty.add("e");
