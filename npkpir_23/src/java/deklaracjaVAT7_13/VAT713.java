@@ -32,7 +32,7 @@ public class VAT713 implements Serializable{
             wiersz = wstep+naglowek.getNaglowek()+podmiotfirma.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+"</Deklaracja>";
         } else {
             DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace(vatpoz);
-            wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
+            wiersz = wstep+naglowek.getNaglowek()+podmiotfirma.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
         }
     }
     

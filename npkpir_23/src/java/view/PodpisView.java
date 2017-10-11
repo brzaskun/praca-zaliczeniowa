@@ -6,6 +6,7 @@
 package view;
 
 import beansPodpis.ObslugaPodpisuBean;
+import beansPodpis.Xad;
 import error.E;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -30,10 +31,10 @@ public class PodpisView  implements Serializable {
         }
     }
     
-    public String podpiszDeklaracje(String xml) {
-        String deklaracjapodpisana = xml;
+    public byte[] podpiszDeklaracje(String xml) {
+        byte[] deklaracjapodpisana = null;
         try {
-            deklaracjapodpisana = ObslugaPodpisuBean.podpiszDeklaracje(xml);
+            deklaracjapodpisana = Xad.podpisz(xml);
         } catch (Exception e) {
             E.e(e);
         }

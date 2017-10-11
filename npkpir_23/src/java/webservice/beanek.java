@@ -315,19 +315,25 @@ public class beanek  implements Serializable {
             Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
             return;
         }
-//        if (temp.getSelected().getCelzlozenia().equals("2") && !temp.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
-//            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
-//            return;
-//        }
+        if (temp.getSelected().getCelzlozenia().equals("2") && !temp.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
+            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
+            return;
+        }
         String strFileContent = temp.getDeklaracja();
-        String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
-        dok = DatatypeConverter.parseBase64Binary(tmp);
+        if (strFileContent != null) {
+            String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
+            dok = DatatypeConverter.parseBase64Binary(tmp);
+        } else {
+            
+        }
         try {
-            if (temp.isJestcertyfikat()) {
+//            if (temp.isJestcertyfikat()) {
+                dok = temp.getDeklaracjapodpisana();
                 sendSignDocument_Test(dok, id, stat, opis);
-            } else {
-                sendUnsignDocument_Test(dok, lang, signT, id, stat, opis);
-            }
+//            } else {
+//                dok = targetFileStr.getBytes("UTF-8");
+//                sendUnsignDocument_Test(dok, lang, signT, id, stat, opis);
+//            }
             idMBT = id.value;
             idpobierzT = id.value;
             List<String> komunikat = null;
@@ -397,14 +403,14 @@ public class beanek  implements Serializable {
         }
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMBT, wpisView);
         List<String> komunikat = null;
-        if (temp.getStatus().equals(stat.value)) {
-            Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
-        } else {
+//        if (temp.getStatus().equals(stat.value)) {
+//            Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+//        } else {
             komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
             if (komunikat.size() > 1) {
                 Msg.msg(komunikat.get(0), komunikat.get(1));
             }
-        }
+//        }
         upoMBT = upo.value;
         statMBT = stat.value+ " ";
         opisMBT = komunikat.get(1);

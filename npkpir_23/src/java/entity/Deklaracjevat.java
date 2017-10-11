@@ -28,6 +28,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -142,6 +143,8 @@ public class Deklaracjevat implements Serializable {
     private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
     @Column(name="jestcertyfikat")
     private boolean jestcertyfikat;
+    @Transient
+    private byte[] deklaracjapodpisana;
     
    public Deklaracjevat() {
     }
@@ -204,6 +207,14 @@ public class Deklaracjevat implements Serializable {
 
     public void setMiesiac(String miesiac) {
         this.miesiac = miesiac;
+    }
+
+    public byte[] getDeklaracjapodpisana() {
+        return deklaracjapodpisana;
+    }
+
+    public void setDeklaracjapodpisana(byte[] deklaracjapodpisana) {
+        this.deklaracjapodpisana = deklaracjapodpisana;
     }
 
     public int getNrkolejny() {

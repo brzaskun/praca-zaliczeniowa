@@ -12,7 +12,11 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.Security;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Date;
+import java.util.Enumeration;
 
 /**
  *
@@ -24,7 +28,7 @@ public class ObslugaPodpisuBean {
 //    static String PLIK = "james.xml";
     static String DRIVER = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\podpis\\cryptoCertum3PKCS.dll";
 //    
-    private static Provider jestDriver() {
+    public static Provider jestDriver() {
         Provider pkcs11Provider = null;
         try {
             String pkcs11config = "name=SmartCardn"+"\r"
@@ -39,7 +43,7 @@ public class ObslugaPodpisuBean {
         return pkcs11Provider;
     }
     
-    private static KeyStore jestKarta(String haslo) {
+    public static KeyStore jestKarta(String haslo) {
         KeyStore keyStore = null;
         try {
             char [] pin = haslo.toCharArray();
@@ -51,6 +55,41 @@ public class ObslugaPodpisuBean {
             E.e(ex);
         }
         return keyStore;
+    }
+    
+    public static String aktualnyAlias(KeyStore keyStore) {
+        String aliasfinal = null;
+        try {
+            Enumeration aliasesEnum = keyStore.aliases();
+            Date today = new Date();
+            while (aliasesEnum.hasMoreElements()) {
+                String alias = (String)aliasesEnum.nextElement();
+                X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
+                //FileUtils.writeStringToFile(new File("D:\\cert"+alias+".xml"), cert.toString());
+                // System.out.println("Certificate: " + cert);
+                if (today.after(cert.getNotBefore()) && today.before(cert.getNotAfter())) {
+                    aliasfinal = alias;
+                    System.out.println("cert "+alias);
+                    //break;
+                }
+            }
+        } catch (KeyStoreException ex) {
+            E.e(ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(ObslugaPodpisuBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return aliasfinal;
+    }
+    
+    public static Certificate certyfikat(String aliasfinal, KeyStore keyStore) {
+        Certificate cert = null;
+        try {
+            cert = keyStore.getCertificate(aliasfinal);
+            keyStore.getCertificateChain(aliasfinal);
+        } catch (KeyStoreException ex) {
+            E.e(ex);
+        }
+        return cert;
     }
     
 //    private static String aktualnyAlias(KeyStore keyStore) {

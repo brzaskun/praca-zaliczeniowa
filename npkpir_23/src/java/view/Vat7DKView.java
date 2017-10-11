@@ -788,12 +788,13 @@ public class Vat7DKView implements Serializable {
     private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema) {
         Deklaracjevat nowadekl = new Deklaracjevat();
         String wiersz = null;
+        byte[] deklaracjapodpisana = null;
         try {
             if (ObslugaPodpisuBean.moznaPodpisac()) {
                 VAT713 vat713 = new VAT713(pozycje, schema, true);
                 FacesContext context = FacesContext.getCurrentInstance();
                 PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
-                wiersz = podpisView.podpiszDeklaracje(vat713.getWiersz());
+                deklaracjapodpisana = podpisView.podpiszDeklaracje(vat713.getWiersz());
                 nowadekl.setJestcertyfikat(true);
             } else {
                 VAT713 vat713 = new VAT713(pozycje, schema, false);
@@ -814,6 +815,7 @@ public class Vat7DKView implements Serializable {
             nowadekl.setMiesiac(mc);
             nowadekl.setMiesiackwartal(false);
         }
+        nowadekl.setDeklaracjapodpisana(deklaracjapodpisana);
         nowadekl.setNrkwartalu(Kwartaly.getMapamckw().get(wpisView.getMiesiacWpisu()));
         nowadekl.setMiesiac(mc);
         nowadekl.setKodurzedu(pozycjeDeklaracjiVAT.getKodurzedu());
