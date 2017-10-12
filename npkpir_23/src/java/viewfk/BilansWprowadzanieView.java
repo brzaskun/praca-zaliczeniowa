@@ -1499,6 +1499,21 @@ public class BilansWprowadzanieView implements Serializable {
         PdfWierszBO.drukujWierszeBO(w, wpisView);
     }
     
+     public void drukujdrukujObrotyWszystkieBO() {
+        System.out.println("");
+        List<WierszBO> w = new ArrayList<>();
+        for (List<WierszBO> l : listaGrupa.values()) {
+            if (l.size() > 0 && l.get(0) != null && l.get(0).getKonto() != null) {
+                w.addAll(l);
+            }
+        }
+        if (sortujwgwartosci) {
+            sortujliste(w);
+        }
+        dodajwierszsumy(w);
+        PdfWierszBO.drukujWierszeBO(w, wpisView);
+    }
+    
     public void drukujObroty() {
         System.out.println("");
         List<WierszBO> w = new ArrayList<>();
@@ -1510,6 +1525,21 @@ public class BilansWprowadzanieView implements Serializable {
             w = listaBOFiltered;
         } else if (listaBO != null && listaBO.size() > 0) {
             w = listaBO;
+        }
+        if (sortujwgwartosci) {
+            sortujliste(w);
+        }
+        dodajwierszsumy(w);
+        PdfWierszBO.drukujWierszeObroty(w, wpisView);
+    }
+    
+    public void drukujObrotyWszystkie() {
+        System.out.println("");
+        List<WierszBO> w = new ArrayList<>();
+        for (List<WierszBO> l : listaGrupa.values()) {
+            if (l.get(0) != null && l.get(0).getKonto() != null) {
+                w.addAll(l);
+            }
         }
         if (sortujwgwartosci) {
             sortujliste(w);

@@ -240,7 +240,7 @@
             <p:commandButton value="dołącz kontr." global="false" onclick="PF('dialog_kliencifk_dolaczanie_BO').show();" style="width: 120px; float: right;"/>
         </h:form>
         <h:form id="formbilanswprowadzanie2">
-            <p:panelGrid columns="12" style="margin-top: 5px;">
+            <p:panelGrid columns="13" style="margin-top: 5px;">
                 <p:commandButton value="0" actionListener="#{bilansWprowadzanieView.pobierzlista(0)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="1" actionListener="#{bilansWprowadzanieView.pobierzlista(1)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="2" actionListener="#{bilansWprowadzanieView.pobierzlista(2)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
@@ -253,7 +253,11 @@
                 <h:outputText value="wprowadzanie i edycja kont grupy #{bilansWprowadzanieView.nraktualnejlisty}" style="margin-left: 10px;"/>
                 <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujBO()}" style="width: 120px; margin-left: 300px;"
                                   rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
-                <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujObroty()}" style="width: 120px; margin-left: 300px;"
+                <p:commandButton value="druk.wszystko" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujdrukujObrotyWszystkieBO()}" style="width: 120px; margin-left: 20px;"
+                                  rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
+                <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujObroty()}" style="width: 120px; margin-left: 200px;"
+                                  rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
+                <p:commandButton value="druk.wszystko" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujObrotyWszystkie()}" style="width: 120px; margin-left: 20px;"
                                   rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
                 <p:selectBooleanCheckbox value="#{bilansWprowadzanieView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
                     <p:ajax event="change" partialSubmit="true" global="false"/>

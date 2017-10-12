@@ -457,6 +457,9 @@ public class Wiersz implements Serializable {
     }
 
     public boolean jest0niejest1(WierszBO w, String mc) {
+        if (w.getKonto().getPelnynumer().equals("407-2")) {
+            System.out.println("");
+        }
         boolean jest0niejest1 = true;
         String opiswierszaBO = "zapis BO: " + w.getOpis();
         if (!mc.equals("01")) {
@@ -466,7 +469,7 @@ public class Wiersz implements Serializable {
             if (this.getStronaWn() != null && this.getStronaWn().getWierszbo() != null && this.getStronaWn().getWierszbo().equals(w)) {
                 jest0niejest1 = false;
                 System.out.println("jest takie konto z opisem w bo");
-            } else if (this.getStronaWn().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(opiswierszaBO)) {
+            } else if (this.getStronaWn().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(opiswierszaBO) && this.getStronaWn().getWierszbo() == null) {
                 jest0niejest1 = false;
                 System.out.println("jest takie konto z opisem w bo");
             }
@@ -475,7 +478,7 @@ public class Wiersz implements Serializable {
             if (this.getStronaMa() != null && this.getStronaMa().getWierszbo() != null && this.getStronaMa().getWierszbo().equals(w)) {
                 jest0niejest1 = false;
                 System.out.println("jest takie konto z opisem w bo");
-            } else if (this.getStronaMa().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(opiswierszaBO)) {
+            } else if (this.getStronaMa().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(opiswierszaBO) && this.getStronaMa().getWierszbo() == null) {
                 jest0niejest1 = false;
                 System.out.println("jest takie konto z opisem w bo");
             }
