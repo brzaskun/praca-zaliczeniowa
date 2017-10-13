@@ -201,13 +201,14 @@ public class beanek  implements Serializable {
             String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
             dok = DatatypeConverter.parseBase64Binary(tmp);
         } else {
-            dok = wysylanaDeklaracja.getDeklaracjapodpisana();
+            
         }
         try {
             if (wysylanaDeklaracja.isJestcertyfikat()) {
-                sendSignDocument_Test(dok, id, stat, opis);
+                dok = wysylanaDeklaracja.getDeklaracjapodpisana();
+                sendSignDocument(dok, id, stat, opis);
             } else {
-                sendUnsignDocument_Test(dok, lang, signT, id, stat, opis);
+                sendUnsignDocument(dok, lang, signT, id, stat, opis);
             }
             idMB = id.value;
             idpobierz = id.value;
@@ -328,10 +329,11 @@ public class beanek  implements Serializable {
             String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
             dok = DatatypeConverter.parseBase64Binary(tmp);
         } else {
-            dok = temp.getDeklaracjapodpisana();
+            
         }
         try {
             if (temp.isJestcertyfikat()) {
+                dok = temp.getDeklaracjapodpisana();
                 sendSignDocument_Test(dok, id, stat, opis);
             } else {
                 sendUnsignDocument_Test(dok, lang, signT, id, stat, opis);
