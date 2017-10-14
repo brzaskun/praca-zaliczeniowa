@@ -17,7 +17,11 @@
                                  rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}"/>
                 <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
                                  update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" 
-                                 rendered="#{(WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta) or !WpisView.podatnikObiekt.podpiscertyfikowany}"
+                                 rendered="#{vat7DKView.pokazuproszczona}"
+                                 style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
+                <p:commandButton  value="zapiszFK"  actionListener="#{vat7DKView.zapiszdeklaracje}"
+                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX" 
+                                 rendered="#{vat7DKView.pokazpelna}"
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <h:outputText value="do zapisu wymagana jest obecność karty z podpisem certyfikowanym!" 
                               rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}" style="color: red;"/>

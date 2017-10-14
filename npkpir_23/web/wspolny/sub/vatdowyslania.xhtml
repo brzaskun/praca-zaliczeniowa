@@ -79,7 +79,7 @@
                 </p:panelGrid>
             </p:column>
             <p:column id="deleteColumn" headerText="usuń" width="110" style="text-align: center;">
-                <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="PF('confirmation').show()" 
+                <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" update="@form"
                                  id="delete" icon="ui-icon ui-icon-trash" type="submit" style="width: 80px;"/>
             </p:column>
             <p:rowExpansion>
@@ -136,7 +136,7 @@
             </p:panelGrid>
         </p:panel>
     </h:form>-->
-    <p:accordionPanel id="akordeon" rendered="#{deklaracjevatView.oczekujace.size() gt 0}"  style="max-width: 1400px;"> 
+    <p:accordionPanel id="akordeon" style="max-width: 1400px;"> 
         <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
         <p:panelGrid columns="2" style="width: 100%;">
             <p:column>

@@ -7,6 +7,7 @@ package beansPodpis;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.StringWriter;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.MessageDigest;
@@ -77,8 +78,8 @@ public class Xad {
         //podpisz();
     }
     
-    public static byte[] podpisz(String deklaracja) {
-        byte[] podpisana = null;
+    public static Object[] podpisz(String deklaracja) {
+        Object[] podpisana = null;
         try {
             deklaracja = deklaracja.substring(38);
             Provider provider = ObslugaPodpisuBean.jestDriver();
@@ -253,8 +254,9 @@ public class Xad {
         return transforms;
     }
 
-    private static byte[] saveInput(Document document) {
-        byte[] zwrot = null;
+    private static Object[] saveInput(Document document) {
+        Object[] zwrot = new Object[2];
+        byte[] bajty = null;
         try {
             // creating and writing to xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -265,7 +267,12 @@ public class Xad {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             StreamResult streamResult = new StreamResult(baos);
             transformer.transform(domSource, streamResult);
-            zwrot = baos.toByteArray();
+            bajty = baos.toByteArray();
+            StringWriter writer = new StringWriter();
+            transformer.transform(domSource, new StreamResult(writer));
+            String output = writer.getBuffer().toString().replaceAll("\n|\r", "");
+            zwrot[0] = bajty;
+            zwrot[1] = output;
         } catch (TransformerConfigurationException ex) {
             Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {

@@ -79,7 +79,7 @@ public class DeklaracjevatView implements Serializable {
     
     
     @PostConstruct
-    private void init() {
+    public void init() {
         pokazZT = false;
         pokazZZ = false;
         wyslane = new ArrayList<>();
@@ -159,6 +159,13 @@ public class DeklaracjevatView implements Serializable {
      
    public void destroy(Deklaracjevat selDok) {
         selected = selDok;
+        try {
+               oczekujace.remove(selected);
+               deklaracjevatDAO.destroy(selected);
+                Msg.msg("i","Deklaracja usunięta","formX:msg");
+            } catch (Exception e) { E.e(e); 
+                Msg.msg("e","Deklaracja nie usunięta","formX:msg");
+            }
     }
    
     public void destroy2() {

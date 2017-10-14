@@ -31,8 +31,8 @@ public class PodpisView  implements Serializable {
         }
     }
     
-    public byte[] podpiszDeklaracje(String xml) {
-        byte[] deklaracjapodpisana = null;
+    public Object[] podpiszDeklaracje(String xml) {
+        Object[] deklaracjapodpisana = null;
         try {
             deklaracjapodpisana = Xad.podpisz(xml);
         } catch (Exception e) {

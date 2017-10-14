@@ -113,6 +113,8 @@ public class Vat7DKView implements Serializable {
     private HashMap<String, EVatwpisSuma> mapaewidencji;
     private boolean pokazinfovatzz;
     private boolean flagazt;
+    private boolean pokazuproszczona;
+    private boolean pokazpelna;
    
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -124,6 +126,8 @@ public class Vat7DKView implements Serializable {
         rok = wpisView.getRokWpisu().toString();
         mc = wpisView.getMiesiacWpisu();
         podatnik = wpisView.getPodatnikWpisu();
+        pokazuproszczona = czypokazurproszczona();
+        pokazpelna = czypokazpelna();
     }
 
     public void oblicz() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -794,7 +798,9 @@ public class Vat7DKView implements Serializable {
                 VAT713 vat713 = new VAT713(pozycje, schema, true);
                 FacesContext context = FacesContext.getCurrentInstance();
                 PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
-                deklaracjapodpisana = podpisView.podpiszDeklaracje(vat713.getWiersz());
+                Object[] deklaracje = podpisView.podpiszDeklaracje(vat713.getWiersz());
+                deklaracjapodpisana = (byte[]) deklaracje[0];
+                wiersz = (String) deklaracje[1];
                 nowadekl.setJestcertyfikat(true);
             } else {
                 VAT713 vat713 = new VAT713(pozycje, schema, false);
@@ -830,6 +836,35 @@ public class Vat7DKView implements Serializable {
         nowadekl.setSchemaobj(schema);
         return nowadekl;
     }
+    
+    private boolean czypokazurproszczona() {
+        boolean zwrot = true;
+        if (wpisView.isKsiegirachunkowe()) {
+            zwrot = false;
+        } else if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany() && !sprawdzczymozna()) {
+            zwrot = false;
+        }
+        return zwrot;
+    }
+    
+
+    private boolean czypokazpelna() {
+        boolean zwrot = false;
+        if (wpisView.isKsiegirachunkowe() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany() && sprawdzczymozna()) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+
+     public boolean sprawdzczymozna() {
+        if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+            return ObslugaPodpisuBean.moznaPodpisac();
+        } else {
+            return false;
+        }
+    }
+
+    
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public WpisView getWpisView() {
@@ -1040,6 +1075,22 @@ public class Vat7DKView implements Serializable {
         this.pokazinfovatzz = pokazinfovatzz;
     }
 
+    public boolean isPokazuproszczona() {
+        return pokazuproszczona;
+    }
+
+    public void setPokazuproszczona(boolean pokazuproszczona) {
+        this.pokazuproszczona = pokazuproszczona;
+    }
+
+    public boolean isPokazpelna() {
+        return pokazpelna;
+    }
+
+    public void setPokazpelna(boolean pokazpelna) {
+        this.pokazpelna = pokazpelna;
+    }
+
     public boolean isFlagazt() {
         return flagazt;
     }
@@ -1048,6 +1099,7 @@ public class Vat7DKView implements Serializable {
         this.flagazt = flagazt;
     }
 
+    
     
 
    

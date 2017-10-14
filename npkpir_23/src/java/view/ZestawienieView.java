@@ -840,7 +840,7 @@ public class ZestawienieView implements Serializable {
         lista.add(pazdziernik.get(9));
         lista.add(listopad.get(9));
         lista.add(grudzien.get(9));
-        for (Double p : lista) {
+        for (double p : lista) {
             if (minliczbadowykresu > p) {
                 minliczbadowykresu = p;
             }

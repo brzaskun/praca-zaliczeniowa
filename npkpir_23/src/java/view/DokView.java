@@ -834,6 +834,7 @@ public final class DokView implements Serializable {
             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
             if (r.getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotanetto != 0.0) {
                 KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(Z.z(kwotavat), "poz. koszty");
+                kwotaKolumna.setDok(selDokument);
                 kwotanetto = Z.z(kwotanetto + kwotaKolumna.getNetto());
                 selDokument.getListakwot1().add(kwotaKolumna);
             }
