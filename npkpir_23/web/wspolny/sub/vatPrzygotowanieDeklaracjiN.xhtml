@@ -10,13 +10,13 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
      <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>
-            <h:form id="form">
+            <h:form id="formdekl">
             <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
-                <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowa()}" update=":form deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
-                <p:commandButton id="przycisk2a" value="sprawdź kartę"  update="form:przyciskivat" style="width: 150px"
+                <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowa()}" update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
+                <p:commandButton id="przycisk2a" value="sprawdź kartę"  update="formdekl:przyciskivat" style="width: 150px"
                                  rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}"/>
                 <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
-                                 update=":form deklaracjauwagavatzz deklaracjauwagavatzt" 
+                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" 
                                  rendered="#{(WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta) or !WpisView.podatnikObiekt.podpiscertyfikowany}"
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <h:outputText value="do zapisu wymagana jest obecność karty z podpisem certyfikowanym!" 
