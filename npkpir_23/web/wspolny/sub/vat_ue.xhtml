@@ -6,30 +6,43 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:bcf="http://brzaskun.com/facelets">
+    <script>
+        var pokazbutony = function() {
+            try {
+                r('formVATUE:deklbutton').show();
+                r('formVATUE:deklbutton2').show();
+            } catch(e){}
+            try {
+                r('form:akordeon:deklbutton').show();
+                r('form:akordeon:deklbutton2').show();
+            } catch(e){}
+            
+        }
+    </script>
     <p:panelGrid id="panelue" columns="8" styleClass="upd">
             <h:outputText value="suma wybranych"/>
             <bcf:outputpl value="#{vatUeFKView.sumawybranych}"/>
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfk()}"/>
             <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfkTabela()}"/>
             <p:commandButton value="rozwiń/zwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
-            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;" id="deklbutton"
+            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display: none;" id="deklbutton"
                              actionListener="#{vATUEDeklaracjaView.tworzdeklaracje(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
-            <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;"  id="deklbutton2"
+            <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display: none;"  id="deklbutton2"
                              actionListener="#{vATUEDeklaracjaView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.sprawdzVIES}"
-                             update="@(.upd1)" oncomplete="r('form:akordeon:drukviesbutton').show();r('deklbutton').show();r('deklbutton2').show()"/>
+                             update="@(.upd1)" oncomplete="r('form:akordeon:drukviesbutton').show();pokazbutony();"/>
             <p:commandButton value="druk VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;" id="drukviesbutton"
                              actionListener="#{vatUeFKView.drukujVIES}"
                              />
         </p:panelGrid>
-        <h:form id="formVATUE">
+        
             <p:outputPanel id="wrapper"> 
 
                 <p:dataTable  var="wpis1" value="#{vatUeFKView.klienciWDTWNT}" id="dokumentyLista" 
                               rowKey="#{wpis1.hashCode()}" selection="#{vatUeFKView.listawybranych}"
                               emptyMessage="W danym miesiącu nie było żadnych zapisów"
                               sortBy="#{wpis1.kontrahent.npelna}" styleClass="upd1"
-                              style="height: 540px;overflow-y: scroll;width: 1300px;" widgetVar="dokTable" 
+                              style="height: 500px;overflow-y: scroll;width: 1300px;" widgetVar="dokTable" 
                               > 
                     <f:facet name="header">  
                         <h:outputText value="#{vatUeFKView.opisvatuepkpir}" /> 
@@ -125,7 +138,7 @@
                     </p:rowExpansion>
                 </p:dataTable>
                 <p:separator/>
-                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1300px;" styleClass="upd3">
+                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1280px;" styleClass="upd3">
                     <p:column style="width: 3%;">
                         <p:rowToggler/>
                     </p:column>
@@ -147,10 +160,10 @@
                         <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
                         <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                     </p:column>
-                    <p:column >
+                    <p:column style="text-align: center;">
                         <p:commandButton value="test" actionListener="#{beanek.robtestUE(row)}" update="@form" style="width: 120px;" rendered="#{row.status eq null}"/>
                     </p:column>
-                    <p:column>
+                    <p:column style="text-align: center;">
                         <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslanetestUE(row)}" update="@form" style="margin-left: 3%; width: 120px;"/>
                     </p:column>
                     <p:rowExpansion>
@@ -160,7 +173,7 @@
                     </p:rowExpansion>
                 </p:dataTable>
             </p:outputPanel>
-        </h:form>
+
         <h:outputText value="Uwaga! Sumowane są zapisy księgowe w danym dokumnecie, jeżeli oprócz kwot bezposrednio z dokumentu dokonano księgowań równoległych sumy w tabeli nie będa prawidłowe"
                       style="color: red;"/>
 </ui:composition>
