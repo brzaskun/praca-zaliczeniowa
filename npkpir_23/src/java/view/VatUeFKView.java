@@ -4,8 +4,8 @@
  */
 package view;
 
-import comparator.Dokfkcomparator;
 import dao.DeklaracjevatDAO;
+import dao.DokDAO;
 import dao.PodatnikDAO;
 import daoFK.DokDAOfk;
 import daoFK.VatuepodatnikDAO;
@@ -14,16 +14,17 @@ import data.Data;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
 import embeddable.VatUe;
-import entity.Podatnik;
+import entity.Deklaracjevat;
+import entity.Dok;
+import entity.DokSuper;
 import entityfk.Dokfk;
-import entityfk.EVatwpisFK;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -55,6 +56,8 @@ public class VatUeFKView implements Serializable {
     @Inject
     private DokDAOfk dokDAOfk;
     @Inject
+    private DokDAO dokDAO;
+    @Inject
     private VatuepodatnikDAO vatuepodatnikDAO;
     @Inject
     private DeklaracjevatDAO deklaracjevatDAO;
@@ -71,44 +74,50 @@ public class VatUeFKView implements Serializable {
 
     @PostConstruct
     public void init() {
-        List<Dokfk> listadokumentow = new ArrayList<>();
-        List<Dokfk> listadokumentowUE = new ArrayList<>();
+        List<DokSuper> listadokumentowUE = new ArrayList<>();
         //List<Dokfk> dokvatmc = new ArrayList<>();
         Integer rok = wpisView.getRokWpisu();
         String m = wpisView.getMiesiacWpisu();
-        String podatnik = wpisView.getPodatnikWpisu();
         try {
-            listadokumentow.addAll(dokDAOfk.findDokfkPodatnikRok(wpisView));
-            Podatnik pod = podatnikDAO.findPodatnikByNIP(wpisView.getPodatnikObiekt().getNip());
-            String vatokres = ParametrView.zwrocParametr(pod.getVatokres(), rok, m);
-            String okresvat = vatokres;
-            String vatUEokres = ParametrView.zwrocParametrUE(pod.getParamVatUE(), rok, m);
-//            if (pod.getParamVatUE() != null && !pod.getParamVatUE().isEmpty()) {
-//                okresvat = ParamBean.zwrocParametr(pod.getParamVatUE(), rok, m);
-//            }
-            opisvatuepkpir = wpisView.getPodatnikWpisu()+" Zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m+" rozliczenie "+vatUEokres;
-            listadokumentow = zmodyfikujlisteMcKw(listadokumentow, okresvat);
-            listadokumentowUE = zmodyfikujlisteMcKw(listadokumentow, vatUEokres);
+            String vatUEokres = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getParamVatUE(), rok, m);
+            if (vatUEokres.equals("miesięczne")) {
+                if (wpisView.isKsiegirachunkowe()) {
+                    listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+                } else {
+                    listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokMC(wpisView);
+                }
+                opisvatuepkpir = wpisView.getPodatnikWpisu()+" Miesięczne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
+            } else {
+                if (wpisView.isKsiegirachunkowe()) {
+                    listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+                } else {
+                    listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokKW(wpisView);
+                }
+                opisvatuepkpir = wpisView.getPodatnikWpisu()+" Kwartalne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
+            }            
         } catch (Exception e) { 
             E.e(e); 
         }
         //jest miesiecznie wiec nie ma co wybierac
         if (listadokumentowUE != null) {
-            Collections.sort(listadokumentow, new Dokfkcomparator());
             //a teraz podsumuj klientów
             klienciWDTWNT.addAll(kontrahenciUE(listadokumentowUE));
             double sumanettovatue = 0.0;
             double sumanettovatuewaluta = 0.0;
-            for (Dokfk p : listadokumentowUE) {
+            for (DokSuper p : listadokumentowUE) {
                 for (VatUe s : klienciWDTWNT) {
-                    if (p.getKontr()!= null && p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
-                            double[] t = pobierzwartosci(p.getEwidencjaVAT());
+                    if (p.getKontr()!= null && p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getTypdokumentu().equals(s.getTransakcja())) {
+                            double[] t = p.pobierzwartosci();
                             double netto = t[0];
                             double nettowaluta = t[1];
                             s.setNetto(netto + s.getNetto());
                             s.setNettowaluta(nettowaluta + s.getNettowaluta());
                             s.setLiczbadok(s.getLiczbadok() + 1);
-                            s.getZawierafk().add(p);
+                            if (p.getClass().getSimpleName().equals("Dokfk")) {
+                                s.getZawierafk().add((Dokfk)p);
+                            } else {
+                                s.getZawiera().add((Dok) p);
+                            }
                             String nazwawal = p.getWalutadokumentu() != null ? p.getWalutadokumentu().getSymbolwaluty() : "";
                             s.setNazwawaluty(nazwawal);
                             sumanettovatue += netto;
@@ -117,26 +126,19 @@ public class VatUeFKView implements Serializable {
                         }
                 }
             }
-             VatUe rzadpodsumowanie = new VatUe("podsum.", null, Z.z(sumanettovatue), Z.z(sumanettovatuewaluta));
-            klienciWDTWNT.add(rzadpodsumowanie);
-            zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), podatnik);
+            if (klienciWDTWNT.size() > 0) {
+                VatUe rzadpodsumowanie = new VatUe("podsum.", null, Z.z(sumanettovatue), Z.z(sumanettovatuewaluta));
+                klienciWDTWNT.add(rzadpodsumowanie);
+                zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
+            }
         }
-       
-//        try {
-//            pobierzdanezdeklaracji();
-//        } catch (Exception e) { E.e(e); 
-//        }
+        try {
+            pobierzdanezdeklaracji();
+        } catch (Exception e) { E.e(e); 
+        }
     }
     
-    private double[] pobierzwartosci(List<EVatwpisFK> lista) {
-        double netto = 0.0;
-        double nettowaluta = 0.0;
-        for (EVatwpisFK p : lista) {
-            netto += p.getNetto();
-            nettowaluta += p.getNettowwalucie();
-        }
-        return new double[]{Z.z(netto),Z.z(nettowaluta)};
-    }
+    
 
     private void zachowajwbazie(String rok, String symbolokresu, String klient) {
         Vatuepodatnik vatuepodatnik = new Vatuepodatnik();
@@ -160,12 +162,12 @@ public class VatUeFKView implements Serializable {
         }
     }
     
-    private Set<VatUe> kontrahenciUE(List<Dokfk> listadokumentow) {
+    private Set<VatUe> kontrahenciUE(List<DokSuper> listadokumentow) {
         Set<VatUe> klienty = new HashSet<>();
-        for (Dokfk p : listadokumentow) {
+        for (DokSuper p : listadokumentow) {
             if (warunekkontrahenci(p)) {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                VatUe veu = new VatUe(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
+                VatUe veu = new VatUe(p.getTypdokumentu(), p.getKontr(), 0.0, 0);
                 veu.setZawierafk(new ArrayList<>());
                 klienty.add(veu);
             }
@@ -173,51 +175,18 @@ public class VatUeFKView implements Serializable {
         return klienty;
     }
     
-    private boolean warunekkontrahenci(Dokfk p) {
+    private boolean warunekkontrahenci(DokSuper p) {
         System.out.println("dok "+p.toString());
         boolean zwrot = false;
         if (Data.czyjestpo("2016-11-30", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
-            zwrot = p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK100");
+            zwrot = p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT")  || p.getTypdokumentu().equals("UPTK100");
         } else {
-            zwrot = p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK");
+            zwrot = p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT")  || p.getTypdokumentu().equals("UPTK");
         }
         return zwrot;
     }
     
-    private List<Dokfk> zmodyfikujlisteMcKw(List<Dokfk> listadokvat, String vatokres) throws Exception {
-        try {
-            switch (vatokres) {
-                case "blad":
-                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
-                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
-                case "miesięczne": {
-                    List<Dokfk> listatymczasowa = new ArrayList<>();
-                    for (Dokfk p : listadokvat) {
-                        if (p.getVatM().equals(wpisView.getMiesiacWpisu())) {
-                            listatymczasowa.add(p);
-                        }
-                    }
-                    return listatymczasowa;
-                }
-                default: {
-                    List<Dokfk> listatymczasowa = new ArrayList<>();
-                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                    for (Dokfk p : listadokvat) {
-                        if (p.getVatM() != null && (p.getVatM().equals(miesiacewkwartale.get(0)) || p.getVatM().equals(miesiacewkwartale.get(1)) || p.getVatM().equals(miesiacewkwartale.get(2)))) {
-                            listatymczasowa.add(p);
-                        }
-                    }
-                    return listatymczasowa;
-                }
-            }
-        } catch (Exception e) {
-            E.e(e); 
-            Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
-            return null;
-        }
-    }
-    
+   
 //    private boolean dobrymiesiac(Dokfk p) {
 //        boolean dobry = false;
 //        if (p.getEwidencjaVAT() != null && !p.getEwidencjaVAT().isEmpty()) {
@@ -290,43 +259,43 @@ public class VatUeFKView implements Serializable {
 //        }
 //    }
 
-//    public void pobierzdanezdeklaracji() throws Exception {
-//        danezdeklaracji = new ArrayList<>();
-//        Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-//        List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-//        List<Deklaracjevat> deklaracjevat = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-//        if (deklaracjevat != null){
-//            //czesc niezbedna do usuwania pierwotnych deklaracji w przypadku istnienia korekt
-//            List<Deklaracjevat> deklaracjevat2 = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-//            Iterator it = deklaracjevat.iterator();
-//            while (it.hasNext()) {
-//                Deklaracjevat p  = (Deklaracjevat) it.next();
-//                    for(Deklaracjevat r : deklaracjevat2) {
-//                        if (p.getMiesiac().equals(r.getMiesiac())) {
-//                            if (p.getNrkolejny()<r.getNrkolejny()) {
-//                                it.remove();
-//                            }
-//                        }
-//                    }
-//            }
-//            int suma = 0;
-//            for (Deklaracjevat p : deklaracjevat) {
-//                if (miesiacewkwartale.contains(p.getMiesiac())) {
-//                    Danezdekalracji dane = new Danezdekalracji();
-//                    dane.setNazwa("deklaracja");
-//                    dane.setMiesiac(p.getMiesiac());
-//                    dane.setNetto(p.getPozycjeszczegolowe().getPoleI33());
-//                    suma += dane.getNetto();
-//                    danezdeklaracji.add(dane);
-//                }
-//            }
-//            Danezdekalracji dane = new Danezdekalracji();
-//            dane.setNazwa("podsumowanie");
-//            dane.setMiesiac("wysłanych");
-//            dane.setNetto(suma);
-//            danezdeklaracji.add(dane);
-//        }
-//    }
+    public void pobierzdanezdeklaracji() throws Exception {
+        danezdeklaracji = new ArrayList<>();
+        Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+        List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+        List<Deklaracjevat> deklaracjevat = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        if (deklaracjevat != null){
+            //czesc niezbedna do usuwania pierwotnych deklaracji w przypadku istnienia korekt
+            List<Deklaracjevat> deklaracjevat2 = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            Iterator it = deklaracjevat.iterator();
+            while (it.hasNext()) {
+                Deklaracjevat p  = (Deklaracjevat) it.next();
+                    for(Deklaracjevat r : deklaracjevat2) {
+                        if (p.getMiesiac().equals(r.getMiesiac())) {
+                            if (p.getNrkolejny()<r.getNrkolejny()) {
+                                it.remove();
+                            }
+                        }
+                    }
+            }
+            int suma = 0;
+            for (Deklaracjevat p : deklaracjevat) {
+                if (miesiacewkwartale.contains(p.getMiesiac())) {
+                    Danezdekalracji dane = new Danezdekalracji();
+                    dane.setNazwa("deklaracja");
+                    dane.setMiesiac(p.getMiesiac());
+                    dane.setNetto(p.getPozycjeszczegolowe().getPoleI33());
+                    suma += dane.getNetto();
+                    danezdeklaracji.add(dane);
+                }
+            }
+            Danezdekalracji dane = new Danezdekalracji();
+            dane.setNazwa("podsumowanie");
+            dane.setMiesiac("wysłanych");
+            dane.setNetto(suma);
+            danezdeklaracji.add(dane);
+        }
+    }
 
     public void drukujewidencjeUEfk() {
       try {

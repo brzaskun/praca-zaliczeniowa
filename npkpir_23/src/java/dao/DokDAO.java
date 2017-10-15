@@ -8,7 +8,6 @@ import embeddable.Kwartaly;
 import embeddable.Mce;
 import entity.Dok;
 import entity.Klienci;
-import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
@@ -90,6 +89,10 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.findDokBK(pod, rok, mc);
     }
     
+    public List zwrocBiezacegoKlientaRokMC(WpisView wpisView) {
+        return dokFacade.findDokBK(wpisView.getPodatnikWpisu(), wpisView.getRokUprzedniSt(), wpisView.getMiesiacWpisu());
+    }
+    
     public List<Dok> zwrocBiezacegoKlientaRokMCWaluta(String pod, String rok, String mc) {
         return dokFacade.findDokBKWaluta(pod, rok, mc);
     }
@@ -97,6 +100,11 @@ public class DokDAO extends DAO implements Serializable {
     public List<Dok> zwrocBiezacegoKlientaRokKW(String pod, String rok, String mc) {
         List<String> mce = Kwartaly.mctoMcewKw(mc);
         return dokFacade.findDokRokKW(pod, rok, mce);
+    }
+    
+    public List zwrocBiezacegoKlientaRokKW(WpisView wpisView) {
+        List<String> mce = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
+        return dokFacade.findDokRokKW(wpisView.getPodatnikWpisu(), wpisView.getRokUprzedniSt(), mce);
     }
     
     public Object iledokumentowklienta(String pod, String rok, String mc) {

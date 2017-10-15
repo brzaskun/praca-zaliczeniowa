@@ -8,6 +8,7 @@ import entity.Dok;
 import entity.Klienci;
 import entityfk.Dokfk;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Named;
@@ -35,6 +36,8 @@ public class VatUe implements Serializable{
     private Vies vies;
 
     public VatUe() {
+        this.zawiera = new ArrayList<>();
+        this.zawierafk = new ArrayList<>();
     }
 
 
@@ -44,6 +47,8 @@ public class VatUe implements Serializable{
         this.netto = netto;
         this.liczbadok = liczbadok;
         this.zawiera = zawiera;
+        this.zawiera = new ArrayList<>();
+        this.zawierafk = new ArrayList<>();
     }
     
     public VatUe(String transakcja, Klienci kontrahent, double netto, double nettowal) {
@@ -51,6 +56,8 @@ public class VatUe implements Serializable{
         this.kontrahent = kontrahent;
         this.netto = netto;
         this.nettowaluta = nettowal;
+        this.zawiera = new ArrayList<>();
+        this.zawierafk = new ArrayList<>();
     }
     
     public VatUe(String transakcja, Klienci kontrahent, Double netto, int liczbadok) {
@@ -58,7 +65,8 @@ public class VatUe implements Serializable{
         this.kontrahent = kontrahent;
         this.netto = netto;
         this.liczbadok = liczbadok;
-        this.zawierafk = zawierafk;
+        this.zawiera = new ArrayList<>();
+        this.zawierafk = new ArrayList<>();
     }
 
 

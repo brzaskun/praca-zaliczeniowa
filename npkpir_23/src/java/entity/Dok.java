@@ -89,7 +89,7 @@ import waluty.Z;
     @NamedQuery(name = "Dok.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.podatnik FROM Dok d WHERE d.wprowadzil = :wprowadzil")
 })
 @Cacheable 
-public class Dok implements Serializable {
+public class Dok extends DokSuper implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -241,6 +241,15 @@ public class Dok implements Serializable {
         this.idDok = idDok;
     }
 
+     public double[] pobierzwartosci() {
+        double netto = 0.0;
+        double nettowaluta = 0.0;
+        for (EVatwpis1 p : ewidencjaVAT1) {
+            netto += p.getNetto();
+            nettowaluta += p.getNetto();
+        }
+        return new double[]{Z.z(netto),Z.z(nettowaluta)};
+    }
     
     public Long getIdDok() {
         return idDok;

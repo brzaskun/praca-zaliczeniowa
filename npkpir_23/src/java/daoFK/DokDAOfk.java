@@ -55,7 +55,7 @@ public class DokDAOfk extends DAO implements Serializable {
         dokFacade.remove(selected);
     }
 
-    public List<Dokfk> findDokfkPodatnikRokMc(WpisView wpisView) {
+    public List findDokfkPodatnikRokMc(WpisView wpisView) {
         try {
            return dokFacade.findDokfkPodatnikRokMc(wpisView);
        } catch (Exception e ){
@@ -63,10 +63,21 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
     
-    public List<Dokfk> findDokfkPodatnikRokKw(WpisView wpisView) {
+    public List findDokfkPodatnikRokKw(WpisView wpisView) {
         List<Dokfk> zwrot = new ArrayList<>();
         try {
            String mcwpisu = wpisView.getMiesiacWpisu();
+           List<String> mcekw = Kwartaly.mctoMcewKw(mcwpisu);
+           zwrot =  dokFacade.findDokfkPodatnikRokKw(wpisView, mcekw);
+       } catch (Exception e ){
+           
+       }
+        return zwrot;
+    }
+    
+    public List<Dokfk> findDokfkPodatnikRokKw(WpisView wpisView, String mcwpisu) {
+        List<Dokfk> zwrot = new ArrayList<>();
+        try {
            List<String> mcekw = Kwartaly.mctoMcewKw(mcwpisu);
            zwrot =  dokFacade.findDokfkPodatnikRokKw(wpisView, mcekw);
        } catch (Exception e ){

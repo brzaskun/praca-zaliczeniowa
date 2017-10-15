@@ -7,6 +7,7 @@ package entityfk;
 import data.Data;
 import embeddable.Kwartaly;
 import embeddable.Mce;
+import entity.DokSuper;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -86,7 +87,7 @@ import waluty.Z;
     @NamedQuery(name = "Dokfk.znajdzSeriePodatnik", query = "SELECT DISTINCT d.seriadokfk FROM Dokfk d WHERE d.rok = :rok AND d.podatnikObj = :podatnik")
 })
 @Cacheable
-public class Dokfk implements Serializable {
+public class Dokfk extends DokSuper implements Serializable {
 
     private static final long serialVersionUID = 1L; //dd
     @Id
@@ -575,6 +576,12 @@ public class Dokfk implements Serializable {
     public void setTabelanbp(Tabelanbp tabelanbp) {
         this.tabelanbp = tabelanbp;
     }
+    
+    @Override
+        public String getTypdokumentu() {
+        return rodzajedok.getSkrot();
+    }
+
 
 //    @XmlTransient
 //    public List<Kontozapisy> getZapisynakoncie() {
@@ -954,4 +961,14 @@ public class Dokfk implements Serializable {
          }
          return zwrot;
      }
+     
+    public double[] pobierzwartosci() {
+        double netto = 0.0;
+        double nettowaluta = 0.0;
+        for (EVatwpisFK p : ewidencjaVAT) {
+            netto += p.getNetto();
+            nettowaluta += p.getNettowwalucie();
+        }
+        return new double[]{Z.z(netto),Z.z(nettowaluta)};
+    }
 }
