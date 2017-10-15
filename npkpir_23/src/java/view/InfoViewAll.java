@@ -53,8 +53,10 @@ private static final long serialVersionUID = 1L;
             rokdzisiejszy = String.valueOf(c.get(c.YEAR));
             mcdzisiejszy = Mce.getNumberToMiesiac().get(c.get(c.MONTH));
         }
-        deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy, mcdzisiejszy, wpisView);
-        deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy, mcdzisiejszy, wpisView);
+        try {
+            deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy, mcdzisiejszy, wpisView);
+            deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy, mcdzisiejszy, wpisView);
+        } catch (Exception e) {}
         /**
          * Klienci nie ruszeni zajmuja duzo czasu
          *

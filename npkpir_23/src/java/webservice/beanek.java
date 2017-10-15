@@ -6,7 +6,9 @@ package webservice;
 
 import beansVAT.EDeklaracjeObslugaBledow;
 import com.sun.xml.ws.client.ClientTransportException;
+import dao.DeklaracjavatUEDAO;
 import dao.DeklaracjevatDAO;
+import entity.DeklaracjavatUE;
 import entity.Deklaracjevat;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -105,6 +107,8 @@ public class beanek  implements Serializable {
     private String upoMBT;
     @Inject
     DeklaracjevatDAO deklaracjevatDAO;
+    @Inject
+    private DeklaracjavatUEDAO deklaracjavatUEDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @ManagedProperty(value="#{deklaracjevatView}")
@@ -311,6 +315,7 @@ public class beanek  implements Serializable {
         testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
         port.sendDocument(document, refId, status, statusOpis);
     }
+    
     public void robtest(List<Deklaracjevat> deklaracje) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
@@ -359,6 +364,35 @@ public class beanek  implements Serializable {
             Msg.msg("i", "Wypuszczono testowego gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+        }
+
+    }
+    
+    public void robtestUE(DeklaracjavatUE deklaracja) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+        try {
+            dok = deklaracja.getDeklaracjapodpisana();
+            sendSignDocument_Test(dok, id, stat, opis);
+            idMBT = id.value;
+            idpobierzT = id.value;
+            List<String> komunikat = null;
+            opisMBT = opis.value;
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                    Msg.msg(komunikat.get(0), komunikat.get(1));
+                    opisMBT = komunikat.get(1);
+            }
+            upoMBT = upo.value;
+            statMBT = stat.value + " "+opis.value;
+            deklaracja.setIdentyfikator(idMBT);
+            deklaracja.setStatus(String.valueOf(stat.value));
+            deklaracja.setOpis(opisMBT);
+            deklaracja.setDatazlozenia(new Date());
+            deklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            deklaracja.setTestowa(true);
+            deklaracjavatUEDAO.edit(deklaracja);
+            Msg.msg("i", "Wypuszczono testowego gołębia z deklaracja podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
         }
 
     }
@@ -423,8 +457,9 @@ public class beanek  implements Serializable {
         temp.setOpis(opisMBT);
         temp.setDataupo(new Date());
         deklaracjevatDAO.edit(temp);
-
     }
+    
+    
 
     public void pobierzwyslanetest(String identyfikator) {
         String rok = wpisView.getRokWpisu().toString();
@@ -436,6 +471,34 @@ public class beanek  implements Serializable {
             Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
         Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator, wpisView);
+        List<String> komunikat = null;
+        if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
+            Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ");
+        } else {
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                Msg.msg(komunikat.get(0), komunikat.get(1));
+            }
+        }
+        upoMBT = upo.value;
+        statMBT = stat.value + " "+opis.value;
+        opisMBT = komunikat.get(1);
+        sprawdzanadeklaracja.setUpo(upoMBT);
+        sprawdzanadeklaracja.setStatus(statMBT.toString());
+        sprawdzanadeklaracja.setOpis(opisMBT);
+        deklaracjevatDAO.edit(sprawdzanadeklaracja);
+        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
+    }
+    
+    public void pobierzwyslanetestUE(DeklaracjavatUE sprawdzanadeklaracja) {
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        try {
+            requestUPO_Test(sprawdzanadeklaracja.getIdentyfikator(), lang, upo, stat, opis);
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
+        }
         List<String> komunikat = null;
         if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
@@ -451,10 +514,7 @@ public class beanek  implements Serializable {
         sprawdzanadeklaracja.setUpo(upoMBT);
         sprawdzanadeklaracja.setStatus(statMBT.toString());
         sprawdzanadeklaracja.setOpis(opisMBT);
-        deklaracjevatView.getWyslanetestowe().remove(sprawdzanadeklaracja);
-        deklaracjevatView.getWyslanetestowe().add(sprawdzanadeklaracja);
-        deklaracjevatDAO.edit(sprawdzanadeklaracja);
-        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
+        deklaracjavatUEDAO.edit(sprawdzanadeklaracja);
     }
 
     public void przerzucdowysylki(String identyfikator) {

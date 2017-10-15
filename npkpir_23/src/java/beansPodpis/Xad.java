@@ -270,9 +270,9 @@ public class Xad {
             bajty = baos.toByteArray();
             StringWriter writer = new StringWriter();
             transformer.transform(domSource, new StreamResult(writer));
-            String output = writer.getBuffer().toString().replaceAll("\n|\r", "");
+            String stryng = writer.getBuffer().toString().replaceAll("\n|\r", "");
             zwrot[0] = bajty;
-            zwrot[1] = output;
+            zwrot[1] = stryng;
         } catch (TransformerConfigurationException ex) {
             Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {

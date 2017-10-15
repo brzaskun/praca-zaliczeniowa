@@ -71,8 +71,10 @@ public class VATUEM4Bean {
     public static Podmiot1 podmiot1(WpisView wv) {
         Podmiot1 p = new Podmiot1();
         if (wv.getFormaprawna() != null) {
+            p.setRola("Podatnik");
             p.setOsobaNiefizyczna(pobierzidentyfikatorspolka(wv));
         } else {
+            p.setRola("Podatnik");
             p.setOsobaFizyczna(pobierzindetyfikator(wv));
         }
         return p;
@@ -137,7 +139,7 @@ public class VATUEM4Bean {
         g.setPDa(kodkraju(p));
         g.setPDb(p.getKontrahent().getNip());
         g.setPDc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
-        g.setPDd((byte)0);
+        g.setPDd((byte)1);
         return g;
     }
 
@@ -146,7 +148,7 @@ public class VATUEM4Bean {
         g.setPNa(kodkraju(p));
         g.setPNb(p.getKontrahent().getNip());
         g.setPNc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
-        g.setPNd((byte)0);
+        g.setPNd((byte)1);
         return g;
     }
 
@@ -163,7 +165,7 @@ public class VATUEM4Bean {
         if (p.getKontrahent().getKrajkod() != null) {
             try {
                 String k = p.getKontrahent().getKrajkod();
-                TKodKrajuUE.fromValue(k);
+                zwrot = TKodKrajuUE.fromValue(k);
             } catch (Exception e) {
             }
         }
@@ -187,6 +189,21 @@ public class VATUEM4Bean {
         } catch (Exception ex) {
             E.e(ex);
         }
+    }
+     
+     public static String marszajuldoStringu(Deklaracja dekl, WpisView wpisView) {
+        StringWriter sw = new StringWriter();
+        try {
+            JAXBContext context = JAXBContext.newInstance(Deklaracja.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, false);
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            marshaller.marshal(dekl, System.out);
+            marshaller.marshal(dekl, new StreamResult(sw));
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return sw.toString().replaceAll("\n|\r", "");
     }
     
      public static Document StringToDocument(String strXml) throws Exception {

@@ -12,13 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -26,10 +22,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -60,77 +52,24 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRok", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.rok = :rok"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRok200", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.status = 200 AND d.rok = :rok AND d.testowa = 0")
 })
-public class Deklaracjevat implements Serializable {
+public class Deklaracjevat extends DeklSuper implements Serializable {
    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Lob
-    @Size(max = 2147483647)
-    @Column(name = "deklaracja")
-    private String deklaracja;
-    @Column(name="miesiackwartal")
-    private boolean miesiackwartal;
-    @Size(max = 4)
-    @Column(name = "nrkwartalu")
-    private String nrkwartalu;
-    @Size(max = 255)
-    @Column(name = "identyfikator")
-    private String identyfikator;
-    @Size(max = 255)
-    @Column(name = "kodurzedu")
-    private String kodurzedu;
-    @Size(max = 255)
-    @Column(name = "miesiac")
-    private String miesiac;
-    @Column(name = "nrkolejny")
-    private int nrkolejny;
-    @Size(max = 255)
-    @Column(name = "podatnik")
-    private String podatnik;
+   
     @Lob
     @Column(name = "podsumowanieewidencji")
     private HashMap<String, EVatwpisSuma>  podsumowanieewidencji;
     @Lob
     @Column(name = "pozycjeszczegolowe")
     private PozycjeSzczegoloweVAT pozycjeszczegolowe;
-    @Size(max = 255)
-    @Column(name = "rok")
-    private String rok;
     @Lob
     @Column(name = "selected")
     private Vatpoz selected;
-    @Lob
-    @Size(max = 2147483647)
-    @Column(name = "upo")
-    private String upo;
-    @Size(max = 255)
-    @Column(name = "status")
-    private String status;
-    @Size(max = 255)
-    @Column(name = "opis")
-    private String opis;
-    @Column(name = "datazlozenia")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date datazlozenia;
-    @Column(name = "dataupo")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataupo;
-    @Size(max = 100)
-    @Column(name = "sporzadzil")
-    private String sporzadzil;
     @Column(name = "ordzu")
     private String ordzu;
     @Column(name = "vatzt")
     private String vatzt;
     @Column(name = "vatzz")
     private String vatzz;
-    @Column(name="testowa")
-    private boolean testowa;
-    @Column(name = "wzorschemy")
-    private String wzorschemy;
     @JoinColumn(name = "schemaobj", referencedColumnName = "id")
     @ManyToOne
     private DeklaracjaVatSchema schemaobj;
@@ -141,10 +80,7 @@ public class Deklaracjevat implements Serializable {
     @Lob
     @Column(name = "schemawierszsumarycznylista")
     private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
-    @Column(name="jestcertyfikat")
-    private boolean jestcertyfikat;
-    @Transient
-    private byte[] deklaracjapodpisana;
+    
     
    public Deklaracjevat() {
     }

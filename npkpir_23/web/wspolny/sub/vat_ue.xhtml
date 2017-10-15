@@ -12,9 +12,12 @@
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfk()}"/>
             <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfkTabela()}"/>
             <p:commandButton value="rozwiń/zwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
-            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vATUEDeklaracjaView.tworzdeklarajce(vatUeFKView.klienciWDTWNT)}"/>
+            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;" id="deklbutton"
+                             actionListener="#{vATUEDeklaracjaView.tworzdeklaracje(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
+            <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;"  id="deklbutton2"
+                             actionListener="#{vATUEDeklaracjaView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.sprawdzVIES}"
-                             update="@(.upd1)" oncomplete="r('form:akordeon:drukviesbutton').show()"/>
+                             update="@(.upd1)" oncomplete="r('form:akordeon:drukviesbutton').show();r('deklbutton').show();r('deklbutton2').show()"/>
             <p:commandButton value="druk VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;" id="drukviesbutton"
                              actionListener="#{vatUeFKView.drukujVIES}"
                              />
@@ -122,18 +125,39 @@
                     </p:rowExpansion>
                 </p:dataTable>
                 <p:separator/>
-                <p:dataTable value="#{vatUeFKView.danezdeklaracji}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="max-width: 35%">
-                    <p:column>
-                        <h:outputText value="#{row.nazwa}"/>
+                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1300px;" styleClass="upd3">
+                    <p:column style="width: 3%;">
+                        <p:rowToggler/>
                     </p:column>
-                    <p:column headerText="#{mgs.miesiąc}" style="text-align: center;">
-                        <h:outputText value="#{row.miesiac}"/>
-                    </p:column>
-                    <p:column headerText="#{mgs.wartość}">
-                        <h:outputText value="#{row.netto}" style="float: right;">
-                            <f:convertNumber minFractionDigits="0" locale="PL"/>
+                    <p:column headerText="data złożenia" style="text-align: center;" width="80">
+                        <h:outputText value="#{row.datazlozenia ne null ? row.datazlozenia : 'nie złożono'}">
+                            <f:convertDateTime type="date" parent="dd/MM/yy"/>
                         </h:outputText>
                     </p:column>
+                    <p:column headerText="mc" style="text-align: center;" width="60">
+                        <h:outputText value="#{row.miesiac}"/>
+                    </p:column>
+                    <p:column headerText="sporządził" style="text-align: center;">
+                        <h:outputText value="#{row.sporzadzil}"/>
+                    </p:column>
+                    <p:column headerText="status" width="250">
+                        <h:outputText value="#{row.status}" />
+                    </p:column>
+                    <p:column headerText="opis/id" width="300">
+                        <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
+                        <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
+                    </p:column>
+                    <p:column >
+                        <p:commandButton value="test" actionListener="#{beanek.robtestUE(row)}" update="@form" style="width: 120px;" rendered="#{row.status eq null}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslanetestUE(row)}" update="@form" style="margin-left: 3%; width: 120px;"/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >
+                            <h:outputText value="#{row.deklaracja}"/>
+                        </p:column>
+                    </p:rowExpansion>
                 </p:dataTable>
             </p:outputPanel>
         </h:form>
