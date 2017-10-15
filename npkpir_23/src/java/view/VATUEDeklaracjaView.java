@@ -57,10 +57,14 @@ public class VATUEDeklaracjaView implements Serializable {
         try {
             String deklaracja = sporzadz(lista);
             Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
-            DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
-            deklaracjavatUEDAO.dodaj(deklaracjavatUE);
-            vatUeFKView.getDeklaracjeUE().add(deklaracjavatUE);
-            Msg.msg("Sporządzono deklarację VAT-UE miesięczną wersja 4");
+            if (podpisanadeklaracja != null) {
+                DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
+                deklaracjavatUEDAO.dodaj(deklaracjavatUE);
+                vatUeFKView.getDeklaracjeUE().add(deklaracjavatUE);
+                Msg.msg("Sporządzono deklarację VAT-UE miesięczną wersja 4");
+            } else {
+                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+            }
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE miesięczną wersja 4");

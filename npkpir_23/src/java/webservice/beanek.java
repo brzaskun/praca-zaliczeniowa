@@ -96,7 +96,7 @@ public class beanek  implements Serializable {
     //wartosci wysylka
     private String idMB;
     private String idpobierz;
-    private Integer statMB;
+    private String statMB;
     private String opisMB;
     private String upoMB;
     //wartosci test
@@ -187,6 +187,35 @@ public class beanek  implements Serializable {
         port2.sendDocument(dok, id, stat, opis);
     }
 
+    public void robUE(DeklaracjavatUE wysylanaDeklaracja) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+        try {
+            dok = wysylanaDeklaracja.getDeklaracjapodpisana();
+            sendSignDocument(dok, id, stat, opis);
+            idMB = id.value;
+            idpobierz = id.value;
+            List<String> komunikat = null;
+            opisMB = opis.value;
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                    Msg.msg(komunikat.get(0), komunikat.get(1));
+                    opisMB = komunikat.get(1);
+            }
+            upoMB = upo.value;
+            statMB = stat.value + " "+opis.value;
+            wysylanaDeklaracja.setIdentyfikator(idMB);
+            wysylanaDeklaracja.setStatus(statMB.toString());
+            wysylanaDeklaracja.setOpis(opisMB);
+            wysylanaDeklaracja.setDatazlozenia(new Date());
+            wysylanaDeklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            wysylanaDeklaracja.setTestowa(false);
+            deklaracjavatUEDAO.edit(wysylanaDeklaracja);
+            Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
+        }
+
+    }
+    
     public void rob(List<Deklaracjevat> deklaracje) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
@@ -216,8 +245,15 @@ public class beanek  implements Serializable {
             }
             idMB = id.value;
             idpobierz = id.value;
-            statMB = stat.value;
+            List<String> komunikat = null;
             opisMB = opis.value;
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                    Msg.msg(komunikat.get(0), komunikat.get(1));
+                    opisMB = komunikat.get(1);
+            }
+            upoMB = upo.value;
+            statMB = stat.value + " "+opis.value;
             wysylanaDeklaracja.setIdentyfikator(idMB);
             wysylanaDeklaracja.setStatus(statMB.toString());
             wysylanaDeklaracja.setOpis(opisMB);
@@ -295,6 +331,34 @@ public class beanek  implements Serializable {
         RequestContext.getCurrentInstance().update("formX:akordeon:dataList");
         RequestContext.getCurrentInstance().update("formX:akordeon:dataLista");
         RequestContext.getCurrentInstance().update("formX:akordeon:dataList1");
+    }
+    
+     public void pobierzwyslaneUE(DeklaracjavatUE sprawdzanadeklaracja) {
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        try {
+            requestUPO(sprawdzanadeklaracja.getIdentyfikator(), lang, upo, stat, opis);
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
+        }
+        List<String> komunikat = null;
+        if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
+            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ");
+        } else {
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                Msg.msg(komunikat.get(0), komunikat.get(1));
+            }
+        }
+        upoMBT = upo.value;
+        statMBT = stat.value + " "+opis.value;
+        opisMBT = komunikat.get(1);
+        sprawdzanadeklaracja.setUpo(upoMBT);
+        sprawdzanadeklaracja.setStatus(String.valueOf(stat.value));
+        sprawdzanadeklaracja.setOpis(opisMBT);
+        sprawdzanadeklaracja.setDataupo(new Date());
+        deklaracjavatUEDAO.edit(sprawdzanadeklaracja);
     }
 
     private void requestUPO_Test(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
@@ -501,7 +565,7 @@ public class beanek  implements Serializable {
         }
         List<String> komunikat = null;
         if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
-            Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+            Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ");
         } else {
             komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
             if (komunikat.size() > 1) {
@@ -541,11 +605,11 @@ public class beanek  implements Serializable {
         this.idMB = idMB;
     }
 
-    public Integer getStatMB() {
+    public String getStatMB() {
         return statMB;
     }
 
-    public void setStatMB(Integer statMB) {
+    public void setStatMB(String statMB) {
         this.statMB = statMB;
     }
 
