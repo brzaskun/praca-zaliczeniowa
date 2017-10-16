@@ -59,6 +59,7 @@ public class VATUEDeklaracjaView implements Serializable {
             Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
             if (podpisanadeklaracja != null) {
                 DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
+                deklaracjavatUE.setPozycje(lista);
                 deklaracjavatUEDAO.dodaj(deklaracjavatUE);
                 vatUeFKView.getDeklaracjeUE().add(deklaracjavatUE);
                 Msg.msg("Sporządzono deklarację VAT-UE miesięczną wersja 4");

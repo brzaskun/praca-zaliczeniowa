@@ -35,6 +35,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdf.PdfVATUEdekl;
 import pdf.PdfVatUE;
 import pdffk.PdfVIES;
 import vies.VIESCheckBean;
@@ -53,6 +54,8 @@ public class VatUeFKView implements Serializable {
     private List<VatUe> klienciWDTWNT;
     private List<VatUe> listawybranych;
     private List<DeklaracjavatUE> deklaracjeUE;
+    @Inject
+    private DeklaracjavatUE deklUEselected;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -313,6 +316,18 @@ public class VatUeFKView implements Serializable {
         return !isnumber;
     }
 
+    public void drukuj(DeklaracjavatUE d) {
+        try {
+            if (d == null) {
+                Msg.msg("e", "Nie wybrano deklaracji");
+            } else {
+                PdfVATUEdekl.drukujVATUE(podatnikDAO, d, wpisView);
+                Msg.msg("Wydrukowano deklaracje");
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie wydrukowano ewidencji");
+        }
+    }
 
     public WpisView getWpisView() {
         return wpisView;
@@ -332,6 +347,14 @@ public class VatUeFKView implements Serializable {
 
     public void setOpisvatuepkpir(String opisvatuepkpir) {
         this.opisvatuepkpir = opisvatuepkpir;
+    }
+
+    public DeklaracjavatUE getDeklUEselected() {
+        return deklUEselected;
+    }
+
+    public void setDeklUEselected(DeklaracjavatUE deklUEselected) {
+        this.deklUEselected = deklUEselected;
     }
 
     public void setKlienciWDTWNT(List<VatUe> klienciWDTWNT) {

@@ -5,10 +5,13 @@
  */
 package entity;
 
+import embeddable.VatUe;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -30,6 +33,8 @@ import javax.persistence.UniqueConstraint;
 })
 public class DeklaracjavatUE  extends DeklSuper implements Serializable {
    private static final long serialVersionUID = 1L;
+   @Lob
+   private List<VatUe> pozycje;
 
     public Integer getId() {
         return id;
@@ -190,6 +195,16 @@ public class DeklaracjavatUE  extends DeklSuper implements Serializable {
     public void setWzorschemy(String wzorschemy) {
         this.wzorschemy = wzorschemy;
     }
+
+    public List<VatUe> getPozycje() {
+        return pozycje;
+    }
+
+    public void setPozycje(List<VatUe> pozycje) {
+        this.pozycje = pozycje;
+    }
+    
+    
    
     @Override
     public int hashCode() {

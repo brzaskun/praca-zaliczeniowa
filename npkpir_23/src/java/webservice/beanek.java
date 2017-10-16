@@ -578,6 +578,7 @@ public class beanek  implements Serializable {
         sprawdzanadeklaracja.setUpo(upoMBT);
         sprawdzanadeklaracja.setStatus(statMBT.toString());
         sprawdzanadeklaracja.setOpis(opisMBT);
+        sprawdzanadeklaracja.setDataupo(new Date());
         deklaracjavatUEDAO.edit(sprawdzanadeklaracja);
     }
 
