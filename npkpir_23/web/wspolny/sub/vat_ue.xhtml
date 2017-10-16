@@ -56,7 +56,7 @@
                     <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;" rendered="#{wpis1.transakcja ne 'podsumowanie'}"/>
                     <p:column width="30" style="text-align: center;" rendered="#{wpis1.transakcja eq 'podsumowanie'}"/>
                     <p:column style="width: 5%;">
-                        <p:rowToggler rendered="#{wpis1.zawierafk.size() gt 0 ? true : false}"/>
+                        <p:rowToggler rendered="#{wpis1.zawierafk.size() gt 0 or wpis1.zawiera.size() gt 0? true : false}"/>
                     </p:column>
                     <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis1.transakcja}" filterMatchMode="contains" sortBy="#{wpis1.transakcja}" style="width: 15%;" filterStyle="display : none;" >  
                         <h:outputText value="#{wpis1.transakcja}"/>
