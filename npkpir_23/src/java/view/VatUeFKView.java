@@ -152,24 +152,26 @@ public class VatUeFKView implements Serializable {
     
 
     private void zachowajwbazie(String rok, String symbolokresu, String klient) {
-        Vatuepodatnik vatuepodatnik = new Vatuepodatnik();
-        VatuepodatnikPK vatuepodatnikPK = new VatuepodatnikPK();
-        vatuepodatnikPK.setRok(rok);
-        vatuepodatnikPK.setSymbolokresu(symbolokresu);
-        vatuepodatnikPK.setKlient(klient);
-        vatuepodatnik.setVatuepodatnikPK(vatuepodatnikPK);
-        vatuepodatnik.setKlienciwdtwnt(klienciWDTWNT);
-        vatuepodatnik.setMc0kw1(Boolean.TRUE);
-        vatuepodatnik.setRozliczone(Boolean.FALSE);
-        //bo czasami nie edytowalo nie wiem dlaczego
-        try {
-            vatuepodatnikDAO.destroy(vatuepodatnik);
-        } catch (Exception e) { E.e(e); };
-        try {
-            vatuepodatnikDAO.dodaj(vatuepodatnik);
-            Msg.msg("i", "Zachowano dane do VAT-EU");
-        } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Błąd podczas zachowywania danych do VAT-UE");
+        if (klienciWDTWNT != null) {
+            Vatuepodatnik vatuepodatnik = new Vatuepodatnik();
+            VatuepodatnikPK vatuepodatnikPK = new VatuepodatnikPK();
+            vatuepodatnikPK.setRok(rok);
+            vatuepodatnikPK.setSymbolokresu(symbolokresu);
+            vatuepodatnikPK.setKlient(klient);
+            vatuepodatnik.setVatuepodatnikPK(vatuepodatnikPK);
+            vatuepodatnik.setKlienciwdtwnt(klienciWDTWNT);
+            vatuepodatnik.setMc0kw1(Boolean.TRUE);
+            vatuepodatnik.setRozliczone(Boolean.FALSE);
+            //bo czasami nie edytowalo nie wiem dlaczego
+            try {
+                vatuepodatnikDAO.destroy(vatuepodatnik);
+            } catch (Exception e) { E.e(e); };
+            try {
+                vatuepodatnikDAO.dodaj(vatuepodatnik);
+                Msg.msg("i", "Zachowano dane do VAT-EU");
+            } catch (Exception e) { E.e(e); 
+                Msg.msg("e", "Błąd podczas zachowywania danych do VAT-UE");
+            }
         }
     }
     
@@ -296,10 +298,10 @@ public class VatUeFKView implements Serializable {
                     klienciDAO.edit(kontr);
                 }
             }
-            if (kontr.getKrajkod()!=null && !sprawdznip(kontr.getNip())) {
-                kontr.setNip(kontr.getKrajkod()+kontr.getNip());
-                klienciDAO.edit(kontr);
-            }
+//            if (kontr.getKrajkod()!=null && !sprawdznip(kontr.getNip())) {
+//                kontr.setNip(kontr.getKrajkod()+kontr.getNip());
+//                klienciDAO.edit(kontr);
+//            }
         }
     }
 

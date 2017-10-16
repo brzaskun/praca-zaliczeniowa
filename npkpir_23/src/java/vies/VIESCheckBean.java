@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
@@ -34,8 +35,12 @@ public class VIESCheckBean {
             List<Vies> viesy = new ArrayList<>();
             for (VatUe p : klienciWDTWNT) {
                 if (p.getKontrahent() != null && p.getVies() == null) {
-                    String kraj = p.getKontrahent().getNip().substring(0,2);
-                    String nip = p.getKontrahent().getNip().substring(2);
+                    String kraj = p.getKontrahent().getKrajkod();
+                    String nip = p.getKontrahent().getNip();
+                    boolean jestprefix = sprawdznip(p.getKontrahent().getNip());
+                    if (jestprefix) {
+                        nip = p.getKontrahent().getNip().substring(2);
+                    }
                     Vies v = VIESCheckBean.pobierz(kraj, nip, p.getKontrahent(), podatnik, wprowadzil);
                     p.setVies(v);
                     if (v != null) {
@@ -47,6 +52,14 @@ public class VIESCheckBean {
                 viesDAO.editList(viesy);
             }
         }
+    }
+    
+    private static boolean sprawdznip(String nip) {
+        //jezeli false to dobrze
+        String prefix = nip.substring(0, 2);
+        Pattern p = Pattern.compile("[0-9]");
+        boolean isnumber = p.matcher(prefix).find();
+        return !isnumber;
     }
     
     private static Vies pobierz(String kraj, String nip, Klienci k, Podatnik podatnik, Uz wprowadzil) {

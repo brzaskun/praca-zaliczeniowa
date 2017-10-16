@@ -49,7 +49,6 @@ public class DeklaracjavatUEDAO extends DAO implements Serializable{
         try {
             return sessionFacade.findDeklUEbyPodatnikRokMc(wpisView);
         } catch (Exception e) { 
-            E.e(e); 
             return null;
         }
     }
