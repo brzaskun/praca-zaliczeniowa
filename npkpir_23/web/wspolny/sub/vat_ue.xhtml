@@ -162,10 +162,10 @@
                         <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                     </p:column>
                     <p:column style="text-align: center;">
-                        <p:commandButton value="test" actionListener="#{beanek.robtestUE(row)}" update="@form" style="width: 120px;" rendered="#{row.status eq null}"/>
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row)}" update="@form" style="width: 120px;" rendered="#{row.status eq null}"/>
                     </p:column>
                     <p:column style="text-align: center;">
-                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslanetestUE(row)}" update="@form" style="margin-left: 3%; width: 120px;"/>
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="margin-left: 3%; width: 120px;"/>
                     </p:column>
                     <p:rowExpansion>
                         <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >
