@@ -22,7 +22,7 @@ public class VAT713 implements Serializable{
     public VAT713(Vatpoz vatpoz, DeklaracjaVatSchema schema, boolean cert) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         String wstep = schema.getWstep();
         Naglowek naglowek = new Naglowek(vatpoz, schema);
-        Podmiot podmiot = new Podmiot(vatpoz);
+        //Podmiot podmiot = new Podmiot(vatpoz);
         PodmiotFirma podmiotfirma = new PodmiotFirma(vatpoz);
         PozycjeSzczegolowe pozycjeSzczegolowe = new PozycjeSzczegolowe(vatpoz, schema);
         KwadracikiNaDole kwadracikiNaDole = new KwadracikiNaDole(vatpoz, schema);

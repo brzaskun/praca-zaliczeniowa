@@ -363,12 +363,12 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
             deklaracjevatDAO.edit(nowadeklaracja);
             deklaracjakorygowana = new Deklaracjevat();
-            Msg.msg("i", podatnik + " - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc,"form:messages");
+            Msg.msg("i", wpisView.getPodatnikWpisu() + " - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc,"form:messages");
         } else if (flaga == 1) {
-            Msg.msg("e", podatnik + " Deklaracja nie zachowana","form:messages");
+            Msg.msg("e", wpisView.getPodatnikWpisu() + " Deklaracja nie zachowana","form:messages");
         } else {
             deklaracjevatDAO.dodaj(nowadeklaracja);
-            Msg.msg("i", podatnik + " - zachowano nową deklaracje VAT za " + rok + "-" + mc,"form:messages");
+            Msg.msg("i", wpisView.getPodatnikWpisu() + " - zachowano nową deklaracje VAT za " + rok + "-" + mc,"form:messages");
         }
         //pobieranie potwierdzenia
         RequestContext.getCurrentInstance().update("vat7:");
@@ -759,7 +759,7 @@ public class Vat7DKView implements Serializable {
     private Vatpoz uzupelnijPozycjeDeklaracji(Vatpoz pozycje, String vatokres, String kwotaautoryzujaca) {
         pozycje.setPozycjekoncowe(pobierzpozycjekoncowe(pasujacaSchema));
         pozycje.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
-        pozycje.setPodatnik(podatnik);
+        pozycje.setPodatnik(wpisView.getPodatnikObiekt().getNazwapelnaPDF());
         pozycje.setRegon(wpisView.getPodatnikObiekt().getRegon());
         pozycje.setRok(rok);
         if (vatokres.equals("miesięczne")) {

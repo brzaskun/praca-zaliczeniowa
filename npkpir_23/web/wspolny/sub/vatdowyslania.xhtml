@@ -28,7 +28,7 @@
                 <p:dataGrid columns="1" value="#{item.selected}" var="loop">
                     <h:panelGrid columns="4" columnClasses="twofive-percent, twofive-percent, twofive-percent, twofive-percent">
                         <h:outputText value="rodzaj deklaracji"/><h:outputText value="#{loop.rodzajdeklaracji}" style="font-weight: 900;"/>
-                        <h:outputText value="podatnik"/><h:outputText value="#{item.podatnik}" style="font-weight: 900;"/>
+                        <h:outputText value="podatnik"/><h:outputText value="#{WpisView.podatnikObiekt.nazwapelnaPDF}" style="font-weight: 900;"/>
                         <h:outputText value="miesięczna/kwartalna"/><h:outputText value="#{item.miesiackwartal eq false ? 'miesięczna' : 'kwartalna'}" style="font-weight: 900;"/>
                         <h:outputText value="okres rozliczeniowy"/><h:outputText value="#{item.rok}#{item.rok != null ? '/' : null}#{item.miesiac}" style="font-weight: 900;"/>
                         <h:outputText value="pierw./kor."/><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}" style="font-weight: 900;"/>
