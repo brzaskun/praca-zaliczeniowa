@@ -70,9 +70,9 @@
                 </p:dataTable>
             </p:column>
             <p:column width="80" headerText="opcje" style="text-align: center;">
-                <p:commandButton value="upo" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update=":formwyslane, :formwyslane:msg"  style="width: 80px;"
+                <p:commandButton value="upo" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update="formwyslane:akordeon"  style="width: 80px;"
                                  rendered="#{item.status eq '300' ? false : true}"/>
-                <p:commandButton value="re-wysyłka" actionListener="#{beanek.przerzucdowysylki(item.identyfikator)}" update=":formwyslane, :formwyslane:msg"  style="width: 80px;"
+                <p:commandButton value="re-wysyłka" actionListener="#{beanek.przerzucdowysylki(item.identyfikator)}" update="formwyslane:akordeon"  style="width: 80px;"
                                  rendered="#{item.status eq '300' ? true : false}" />
             </p:column>
              <p:column id="deleteColumn" headerText="usuń" width="80" style="text-align: center;">

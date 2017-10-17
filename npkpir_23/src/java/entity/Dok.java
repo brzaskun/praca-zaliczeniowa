@@ -244,7 +244,7 @@ public class Dok extends DokSuper implements Serializable {
      public double[] pobierzwartosci() {
         double netto = 0.0;
         double nettowaluta = 0.0;
-        for (EVatwpis1 p : ewidencjaVAT1) {
+        for (EVatwpis1 p : this.ewidencjaVAT1) {
             netto += p.getNetto();
             nettowaluta += p.getNetto();
         }

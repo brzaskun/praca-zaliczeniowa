@@ -307,7 +307,7 @@ public class beanek  implements Serializable {
         Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator, wpisView);
         List<String> komunikat = null;
         if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
-            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ");
         } else {
             komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
             if (komunikat.size() > 1) {
@@ -321,16 +321,14 @@ public class beanek  implements Serializable {
         sprawdzanadeklaracja.setStatus(String.valueOf(stat.value));
         sprawdzanadeklaracja.setOpis(opisMBT);
         sprawdzanadeklaracja.setDataupo(new Date());
-        deklaracjevatView.getWyslaneniepotwierdzone().remove(sprawdzanadeklaracja);
         if (stat.value == 200) {
+            deklaracjevatView.getWyslaneniepotwierdzone().remove(sprawdzanadeklaracja);
             deklaracjevatView.getWyslanenormalne().add(sprawdzanadeklaracja);
         } else if (String.valueOf(stat.value).startsWith("4")) {
+            deklaracjevatView.getWyslaneniepotwierdzone().remove(sprawdzanadeklaracja);
             deklaracjevatView.getWyslanezbledem().add(sprawdzanadeklaracja);
         }
         deklaracjevatDAO.edit(sprawdzanadeklaracja);
-        RequestContext.getCurrentInstance().update("formX:akordeon:dataList");
-        RequestContext.getCurrentInstance().update("formX:akordeon:dataLista");
-        RequestContext.getCurrentInstance().update("formX:akordeon:dataList1");
     }
     
      public void pobierzwyslaneUE(DeklaracjavatUE sprawdzanadeklaracja) {

@@ -157,7 +157,9 @@ public class KontoZapisFKView implements Serializable{
     private void usunkontabezsald() {
         Set<Konto> listakont = new HashSet<>();
         for (StronaWiersza p : zapisyRok) {
-            listakont.add(p.getKonto());
+            if (p.getKonto() != null) {
+                listakont.add(p.getKonto());
+            }
         }
         Set<Konto> listamacierzyste = wyluskajmacierzyste(listakont);
         wykazkont = new ArrayList<>();
