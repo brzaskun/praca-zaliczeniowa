@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
     <p:tab title="bez UPO">
-        <p:dataTable id="dataLista" value="#{deklaracjevatView.wyslaneniepotwierdzone}" var="item" sortBy="#{item.miesiac}" >
+        <p:dataTable id="dataLista" value="#{deklaracjevatView.wyslaneniepotwierdzone}" var="item" sortBy="#{item.miesiac}"  emptyMessage="brak wysłanych deklaracji">
             <p:column width="10">
                 <p:rowToggler />
             </p:column>
@@ -51,7 +51,7 @@
                 <f:facet name="header">
                     <h:outputText value="Dane"/>
                 </f:facet>
-                <p:dataTable value="#{item.selected}" var="loop">
+                <p:dataTable value="#{item.selected}" var="loop" emptyMessage="brak wysłanych deklaracji">
                     <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
                     <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
                     <p:column headerText="nazwa urzędu" width="100"><h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/></p:column>

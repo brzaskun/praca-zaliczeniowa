@@ -8,7 +8,7 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab title="testowo   ">
-        <p:dataTable id="dataList2" value="#{deklaracjevatView.wyslanetestowe}" var="item" sortBy="#{item.miesiac}" rowIndexVar="row">
+        <p:dataTable id="dataList2" value="#{deklaracjevatView.wyslanetestowe}" var="item" sortBy="#{item.miesiac}" rowIndexVar="row"  emptyMessage="brak wysłanych deklaracji">
             <p:column style="width: 2%;">
                 <p:rowToggler />
             </p:column>
