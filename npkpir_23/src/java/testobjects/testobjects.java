@@ -839,7 +839,20 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
    }
     
     public static List[] getPozycje(List<VatUe> pozycje) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       List n = new ArrayList();
+       n.add("");
+       n.add("typ");
+       n.add("kod kraju");
+       n.add("NIP");
+       n.add("nazwa");
+       n.add("kwota");
+       n.add("l.dok.");
+       n.add("trójstr.");
+       List t = pozycje;
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
     }
     
     public static List[] getTabelaFakturyPlatnosci(List<Faktura> wiersze, String zn) {

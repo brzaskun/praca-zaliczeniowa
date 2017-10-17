@@ -1211,15 +1211,28 @@ public class PdfMain {
                     return col14;
                 }
             case "embeddable.VatUe":
-                int[] col14 = new int[size];
-                col14[0] = 1;
-                col14[1] = 3;
-                col14[2] = 2;
-                col14[3] = 4;
-                col14[4] = 5;
-                col14[5] = 3;
-                col14[6] = 2;
-                return col14;
+                if (modyfikator==1) {
+                    int[] col14 = new int[size];
+                    col14[0] = 1;
+                    col14[1] = 2;
+                    col14[2] = 2;
+                    col14[3] = 3;
+                    col14[4] = 4;
+                    col14[5] = 3;
+                    col14[6] = 2;
+                    col14[7] = 1;
+                    return col14;
+                } else {
+                    int[] col14 = new int[size];
+                    col14[0] = 1;
+                    col14[1] = 3;
+                    col14[2] = 2;
+                    col14[3] = 4;
+                    col14[4] = 5;
+                    col14[5] = 3;
+                    col14[6] = 2;
+                    return col14;
+                }
         }
         return null;
     }
@@ -1786,26 +1799,48 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("embeddable.VatUe")) {
                 VatUe p = (VatUe) it.next();
-                if (p.getTransakcja().equals("podsum.")) {
-                    table.addCell(ustawfrazeAlign("", "center", 8));
-                    table.addCell(ustawfrazeAlign("", "center", 8));
-                    table.addCell(ustawfrazeAlign("", "center", 8));
-                    table.addCell(ustawfrazeAlign("", "center", 8));
-                    table.addCell(ustawfrazeAlign("podsumowanie", "center", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
-                    table.addCell(ustawfrazeAlign("", "center", 8));
-                } else {
-                    table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
-                    if (p.getKontrahent().getKrajkod() != null) {
-                        table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajkod(), "center", 8));
+                if (modyfikator == 1) {
+                    if (p.getTransakcja().equals("podsum.")) {
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("podsumowanie", "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     } else {
+                        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajkod(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "left", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
                         table.addCell(ustawfrazeAlign("", "center", 8));
                     }
-                    table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "left", 8));
-                    table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "left", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
+                } else {
+                    if (p.getTransakcja().equals("podsum.")) {
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("podsumowanie", "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
+                        if (p.getKontrahent().getKrajkod() != null) {
+                            table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajkod(), "center", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "center", 8));
+                        }
+                        table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "left", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
+                    }
                 }
             }
             if (nazwaklasy.equals("viewfk.StowRozrachCzlonkZbiorczeView$Zapisy")) {

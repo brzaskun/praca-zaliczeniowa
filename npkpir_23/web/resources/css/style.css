@@ -168,6 +168,15 @@ body {
      vertical-align: top;
 }
 
+.twenty-percent {
+     width: 20%;
+     vertical-align: top;
+}
+.thirty-percent {
+     width: 30%;
+     vertical-align: top;
+}
+
 .twofive-percent {
      width: 25%;
      vertical-align: top;
