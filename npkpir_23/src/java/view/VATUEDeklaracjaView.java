@@ -102,7 +102,8 @@ public class VATUEDeklaracjaView implements Serializable {
         deklaracjavatUE.setNrkwartalu(Kwartaly.getMapamckw().get(wpisView.getMiesiacWpisu()));
         deklaracjavatUE.setJestcertyfikat(true);
         deklaracjavatUE.setKodurzedu(tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy()));
-        deklaracjavatUE.setSporzadzil(wpisView.getWprowadzil().getLogin());
+        String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
+        deklaracjavatUE.setSporzadzil(sporzadzil);
         deklaracjavatUE.setWzorschemy("http://crd.gov.pl/wzor/2017/01/11/3846/");
         return deklaracjavatUE;
     }
