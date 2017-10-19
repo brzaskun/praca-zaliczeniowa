@@ -22,7 +22,7 @@ public class VAT713 implements Serializable{
     public VAT713(Vatpoz vatpoz, DeklaracjaVatSchema schema, boolean cert) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         String wstep = schema.getWstep();
         Naglowek naglowek = new Naglowek(vatpoz, schema);
-        //Podmiot podmiot = new Podmiot(vatpoz);
+        Podmiot podmiot = new Podmiot(vatpoz);
         PodmiotFirma podmiotfirma = new PodmiotFirma(vatpoz);
         PozycjeSzczegolowe pozycjeSzczegolowe = new PozycjeSzczegolowe(vatpoz, schema);
         KwadracikiNaDole kwadracikiNaDole = new KwadracikiNaDole(vatpoz, schema);
@@ -32,7 +32,7 @@ public class VAT713 implements Serializable{
             wiersz = wstep+naglowek.getNaglowek()+podmiotfirma.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+"</Deklaracja>";
         } else {
             DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace(vatpoz);
-            wiersz = wstep+naglowek.getNaglowek()+podmiotfirma.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
+            wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
         }
     }
     
