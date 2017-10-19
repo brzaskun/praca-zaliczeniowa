@@ -13,7 +13,7 @@
             <p:column style="width: 3%;">
                 <p:rowToggler/>
             </p:column>
-            <p:ajax event="rowEdit" update=":formX:msg" listener="#{deklaracjevatView.edit}" />
+            <p:ajax event="rowEdit" listener="#{deklaracjevatView.edit}" />
             <p:column headerText="wersja" width="60">
                 <p:panelGrid columns="1">
                 <h:outputText value="#{item.wzorschemy}"/>
