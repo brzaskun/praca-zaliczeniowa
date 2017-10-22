@@ -275,7 +275,7 @@ public class Podatnik implements Serializable {
     
     public String podatnikDaneWydruk() {
         StringBuilder s = new StringBuilder();
-        s.append(this.nazwapelna);
+        s.append(this.printnazwa);
         s.append(" ");
         if (adresdlafaktury != null && adresdlafaktury.length() > 1)  {
             s.append(this.adresdlafaktury);
