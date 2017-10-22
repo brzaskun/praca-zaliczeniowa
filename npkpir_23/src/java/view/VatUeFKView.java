@@ -190,7 +190,10 @@ public class VatUeFKView implements Serializable {
     }
     
     private boolean warunekkontrahenci(DokSuper p) {
-        System.out.println("dok "+p.toString());
+        Dok dok = (Dok) p;
+        if (dok.getNrWlDk().equals("6/2017/VAŠE")) {
+            System.out.println("dok "+p.toString());
+        }
         boolean zwrot = false;
         if (Data.czyjestpo("2016-11-30", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
             zwrot = p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT")  || p.getTypdokumentu().equals("UPTK100");

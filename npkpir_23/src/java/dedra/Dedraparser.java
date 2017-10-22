@@ -7,7 +7,6 @@ package dedra;
 
 import embeddable.EVatViewPola;
 import entity.Evewidencja;
-import entity.Ewidencjevat;
 import entity.Podatnik;
 import entityfk.EVatwpisDedra;
 import java.io.File;
@@ -19,6 +18,7 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import msg.Msg;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

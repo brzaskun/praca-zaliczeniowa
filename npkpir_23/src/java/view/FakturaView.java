@@ -857,6 +857,9 @@ public class FakturaView implements Serializable {
                 EVatwpis1 eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
                 eVatwpis1.setDok(selDokument);
                 ewidencjaTransformowana.add(eVatwpis1);
+                if (r.getEwidencja().getNazwa().equals("usługi świad. poza ter.kraju")) {
+                    selDokument.setTypdokumentu("UPTK100");
+                }
             }
             selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
             try {
