@@ -5,13 +5,11 @@
 package view;
 
 import comparator.Dokcomparator;
-import dao.DeklaracjevatDAO;
+import dao.Deklaracjavat27DAO;
 import dao.DokDAO;
 import dao.PodatnikDAO;
-import daoFK.VatuepodatnikDAO;
-import embeddable.Kwartaly;
 import embeddable.VatUe;
-import entity.Deklaracjevat;
+import entity.Deklaracjavat27;
 import entity.Dok;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
@@ -21,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -29,7 +26,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
 import pdf.PdfVatUE;
 
 /**
@@ -43,21 +39,21 @@ public class Vat27View implements Serializable {
     //lista gdzie beda podsumowane wartosci
     private List<VatUe> klienciWDTWNT;
     private List<VatUe> listawybranych;
-    private List<Danezdekalracji> danezdeklaracji;
+    private List<Deklaracjavat27> deklaracjevat27;
+    @Inject
+    private Deklaracjavat27 dekl27selected;
     private boolean niemoznadrukowac;
-
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
     private DokDAO dokDAO;
     @Inject
-    private VatuepodatnikDAO vatuepodatnikDAO;
-    @Inject
-    private DeklaracjevatDAO deklaracjevatDAO;
+    private Deklaracjavat27DAO deklaracjavat27DAO;
     @Inject
     private PodatnikDAO podatnikDAO;
     private String opisvatuepkpir;
     private String brakustawienUE;
+     boolean deklaracja0korekta1;
 
     public Vat27View() {
         klienciWDTWNT = new ArrayList<>();
@@ -99,10 +95,13 @@ public class Vat27View implements Serializable {
             VatUe rzadpodsumowanie = new VatUe("podsum.", null, sumanettovatue, 0, null);
             klienciWDTWNT.add(rzadpodsumowanie);
             //zachowajwbazie(String.valueOf(rok), mc, podatnik);
-            try {
-                pobierzdanezdeklaracji();
-            } catch (Exception e) {
-                E.e(e);
+           try {
+            pobierzdeklaracje27();
+            Deklaracjavat27 d = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
+            if (d != null) {
+                deklaracja0korekta1 = true;
+            }
+            } catch (Exception e) { E.e(e); 
             }
         } catch (Exception ex) {
             brakustawienUE = "Wystąpił błąd podczas pobierania dokumentów. Prawdopodobnie nie ma ustawień parametru dla VAT-27 dla bieżącego podatnika";
@@ -121,58 +120,14 @@ public class Vat27View implements Serializable {
         vatuepodatnik.setKlienciwdtwnt(klienciWDTWNT);
         vatuepodatnik.setMc0kw1(Boolean.TRUE);
         vatuepodatnik.setRozliczone(Boolean.FALSE);
-        //bo czasami nie edytowalo nie wiem dlaczego
-        try {
-            vatuepodatnikDAO.destroy(vatuepodatnik);
-        } catch (Exception e) {
-            E.e(e);
-        };
-        try {
-            vatuepodatnikDAO.dodaj(vatuepodatnik);
-            Msg.msg("i", "Zachowano dane do VAT-EU");
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("e", "Błąd podczas zachowywania danych do VAT-UE");
-        }
     }
 
    
-    public void pobierzdanezdeklaracji() throws Exception {
-        danezdeklaracji = new ArrayList<>();
-        Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-        List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-        List<Deklaracjevat> deklaracjevat = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        if (deklaracjevat != null) {
-            //czesc niezbedna do usuwania pierwotnych deklaracji w przypadku istnienia korekt
-            List<Deklaracjevat> deklaracjevat2 = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            Iterator it = deklaracjevat.iterator();
-            while (it.hasNext()) {
-                Deklaracjevat p = (Deklaracjevat) it.next();
-                for (Deklaracjevat r : deklaracjevat2) {
-                    if (p.getMiesiac().equals(r.getMiesiac())) {
-                        if (p.getNrkolejny() < r.getNrkolejny()) {
-                            it.remove();
-                        }
-                    }
-                }
-            }
-            int suma = 0;
-            for (Deklaracjevat p : deklaracjevat) {
-                if (miesiacewkwartale.contains(p.getMiesiac())) {
-                    Danezdekalracji dane = new Danezdekalracji();
-                    dane.setNazwa("deklaracja");
-                    dane.setMiesiac(p.getMiesiac());
-                    dane.setNetto(p.getPozycjeszczegolowe().getPoleI33());
-                    suma += dane.getNetto();
-                    danezdeklaracji.add(dane);
-                }
-            }
-            Danezdekalracji dane = new Danezdekalracji();
-            dane.setNazwa("podsumowanie");
-            dane.setMiesiac("wysłanych");
-            dane.setNetto(suma);
-            danezdeklaracji.add(dane);
-        }
+   public void pobierzdeklaracje27()  {
+       deklaracjevat27 = deklaracjavat27DAO.findbyPodatnikRok(wpisView);
+       if (deklaracjevat27 == null) {
+           deklaracjevat27 = new ArrayList<>();
+       }
     }
 
     public void drukujewidencjeUE() {
@@ -225,6 +180,14 @@ public class Vat27View implements Serializable {
     public void setOpisvatuepkpir(String opisvatuepkpir) {
         this.opisvatuepkpir = opisvatuepkpir;
     }
+
+    public List<Deklaracjavat27> getDeklaracjevat27() {
+        return deklaracjevat27;
+    }
+
+    public void setDeklaracjevat27(List<Deklaracjavat27> deklaracjevat27) {
+        this.deklaracjevat27 = deklaracjevat27;
+    }
     
     public WpisView getWpisView() {
         return wpisView;
@@ -249,14 +212,23 @@ public class Vat27View implements Serializable {
     public void setListawybranych(List<VatUe> listawybranych) {
         this.listawybranych = listawybranych;
     }
-    
-    public List<Danezdekalracji> getDanezdeklaracji() {
-        return danezdeklaracji;
+
+    public Deklaracjavat27 getDekl27selected() {
+        return dekl27selected;
+    }
+
+    public void setDekl27selected(Deklaracjavat27 dekl27selected) {
+        this.dekl27selected = dekl27selected;
+    }
+
+    public boolean isDeklaracja0korekta1() {
+        return deklaracja0korekta1;
+    }
+
+    public void setDeklaracja0korekta1(boolean deklaracja0korekta1) {
+        this.deklaracja0korekta1 = deklaracja0korekta1;
     }
     
-    public void setDanezdeklaracji(List<Danezdekalracji> danezdeklaracji) {
-        this.danezdeklaracji = danezdeklaracji;
-    }
     
     public boolean isNiemoznadrukowac() {
         return niemoznadrukowac;
@@ -276,41 +248,5 @@ public class Vat27View implements Serializable {
 //</editor-fold>
    
 
-    public static class Danezdekalracji {
-
-        private String nazwa;
-        private String miesiac;
-        private int netto;
-
-        public Danezdekalracji() {
-        }
-
-//<editor-fold defaultstate="collapsed" desc="comment">
-        public String getNazwa() {
-            return nazwa;
-        }
-
-        public void setNazwa(String nazwa) {
-            this.nazwa = nazwa;
-        }
-
-        public String getMiesiac() {
-            return miesiac;
-        }
-
-        public void setMiesiac(String miesiac) {
-            this.miesiac = miesiac;
-        }
-
-        public int getNetto() {
-            return netto;
-        }
-
-        public void setNetto(int netto) {
-            this.netto = netto;
-        }
-//</editor-fold>
-
-    }
-
+  
 }

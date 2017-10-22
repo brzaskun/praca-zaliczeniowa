@@ -162,9 +162,9 @@ public class DeklaracjevatView implements Serializable {
         try {
                oczekujace.remove(selected);
                deklaracjevatDAO.destroy(selected);
-                Msg.msg("i","Deklaracja usunięta","formX:msg");
+                Msg.msg("i","Deklaracja usunięta");
             } catch (Exception e) { E.e(e); 
-                Msg.msg("e","Deklaracja nie usunięta","formX:msg");
+                Msg.msg("e","Deklaracja nie usunięta");
             }
     }
    
@@ -172,9 +172,9 @@ public class DeklaracjevatView implements Serializable {
          try {
                oczekujace.remove(selected);
                deklaracjevatDAO.destroy(selected);
-                Msg.msg("i","Deklaracja usunięta","formX:msg");
+                Msg.msg("i","Deklaracja usunięta");
             } catch (Exception e) { E.e(e); 
-                Msg.msg("e","Deklaracja nie usunięta","formX:msg");
+                Msg.msg("e","Deklaracja nie usunięta");
             }
            
         }
@@ -184,9 +184,9 @@ public class DeklaracjevatView implements Serializable {
                wyslanezbledem.remove(selected);
                wyslanetestowe.remove(selected);
                deklaracjevatDAO.destroy(selected);
-                Msg.msg("i","Deklaracja usunięta","formX:msg");
+                Msg.msg("i","Deklaracja usunięta");
             } catch (Exception e) { E.e(e); 
-                Msg.msg("e","Deklaracja nie usunięta","formX:msg");
+                Msg.msg("e","Deklaracja nie usunięta");
             }
            
         }

@@ -144,6 +144,10 @@ public class VATDeklaracja implements Serializable {
             Class[] paramString = new Class[1];
             paramString[0] = String.class;
             Method met;
+            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("getPoleI" + nrpola);
+            Integer pobranakwota = (Integer) met.invoke(pozycjeSzczegoloweVAT);
+            kwotaInt = kwotaInt + pobranakwota;
+            kwotaString = String.valueOf(kwotaInt);
             met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpola, paramString);
             met.invoke(pozycjeSzczegoloweVAT, new String(kwotaString));
             paramString = new Class[1];

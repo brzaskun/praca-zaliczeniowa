@@ -9,19 +9,22 @@
         
         <p:outputPanel id="wrapper" deferred="true"> 
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vat27View.drukujewidencjeUE()}"
-                             rendered="#{vat27View.niemoznadrukowac eq false}">
+                             >
             </p:commandButton>
             <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vat27View.drukujewidencjeUETabela()}"/>
+            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" id="deklbutton"
+                             actionListener="#{vAT27DeklaracjaView.tworzdeklaracje(vat27View.klienciWDTWNT)}" update="@(.upd3)" rendered="#{!vat27View.deklaracja0korekta1}"/>
+            <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px;"  id="deklbutton2"
+                             actionListener="#{vAT27DeklaracjaView.tworzdeklaracjekorekta(vat27View.klienciWDTWNT)}" update="@(.upd3)" rendered="#{vat27View.deklaracja0korekta1}"/>
             <h:outputText value="#{vat27View.brakustawienUE}"
-                          style="color: red;"/>
-            <h:outputText value="Kontrahenci nie mają uzupełnionych kodów kraju. Nie można wydrukować zestawienia." rendered="#{vat27View.niemoznadrukowac eq true}"
                           style="color: red;"/>
             <p:growl life="3600"  id="messages"/>
             <p:dataTable  var="wpis" value="#{vat27View.klienciWDTWNT}" id="dokumentyLista" editable="true" 
                           rowKey="#{wpis.kontrahent.nip}" selection="#{vat27View.listawybranych}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          style="max-width: 55%; margin-top: 10px;" widgetVar="dokTable"
-                          > 
+                          style="height: 500px;overflow-y: scroll;width: 1000px;"  widgetVar="dokTable"
+                          >
+                <p:ajax event="rowToggle" global="false"/>
                 <f:facet name="header">  
                     <h:outputText value="#{vat27View.opisvatuepkpir}" /> 
                     <h:outputText value="- wyszukiwanie: " />  
@@ -80,21 +83,46 @@
                     </p:column>
                 </p:rowExpansion>
             </p:dataTable>
-            <p:separator/>
-<!--            to nie dziala pola deklaracji sa inne przeciez a to jest stary model-->
-<!--            <p:dataTable value="#{vat27View.danezdeklaracji}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="max-width: 35%">
-                <p:column>
-                    <h:outputText value="#{row.nazwa}"/>
-                </p:column>
-                <p:column headerText="#{mgs.miesiąc}" style="text-align: center;">
-                    <h:outputText value="#{row.miesiac}"/>
-                </p:column>
-                <p:column headerText="#{mgs.wartość}">
-                    <h:outputText value="#{row.netto}" style="float: right;">
-                        <f:convertNumber minFractionDigits="0" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-            </p:dataTable>-->
+    <p:messages id="mesydzue" autoUpdate="true"/>
+                <p:separator/>
+                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1280px;" styleClass="upd3"
+                             selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.id}">
+                    <p:column style="width: 3%;">
+                        <p:rowToggler/>
+                    </p:column>
+                    <p:column headerText="data złożenia" style="text-align: center;" width="80">
+                        <h:outputText value="#{row.datazlozenia ne null ? row.datazlozenia : 'nie złożono'}">
+                            <f:convertDateTime type="date" parent="dd/MM/yy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="mc" style="text-align: center;" width="60">
+                        <h:outputText value="#{row.miesiac}"/>
+                    </p:column>
+                    <p:column headerText="sporządził" style="text-align: center;">
+                        <h:outputText value="#{row.sporzadzil}"/>
+                    </p:column>
+                    <p:column headerText="status" width="250">
+                        <h:outputText value="#{row.status}" />
+                    </p:column>
+                    <p:column headerText="opis/id" width="300">
+                        <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
+                        <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row)}" update="@form" style="width: 90px;" rendered="#{row.status eq null}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 90px;"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 90px;"/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >
+                            <h:outputText value="#{row.deklaracja}"/>
+                        </p:column>
+                    </p:rowExpansion>
+                </p:dataTable>
         </p:outputPanel>
     </h:form>
 </ui:composition>   

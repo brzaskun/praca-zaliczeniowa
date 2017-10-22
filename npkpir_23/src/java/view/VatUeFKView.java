@@ -5,7 +5,6 @@
 package view;
 
 import dao.DeklaracjavatUEDAO;
-import dao.DeklaracjevatDAO;
 import dao.DokDAO;
 import dao.KlienciDAO;
 import dao.PodatnikDAO;
@@ -66,8 +65,6 @@ public class VatUeFKView implements Serializable {
     private DeklaracjavatUEDAO deklaracjavatUEDAO;
     @Inject
     private VatuepodatnikDAO vatuepodatnikDAO;
-    @Inject
-    private DeklaracjevatDAO deklaracjevatDAO;
     private double sumawybranych;
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -396,42 +393,5 @@ public class VatUeFKView implements Serializable {
    
  
 
-    public static class Danezdekalracji {
-        private String  nazwa;
-        private String miesiac;
-        private int netto;
-        
-        public Danezdekalracji() {
-        }
-
-//<editor-fold defaultstate="collapsed" desc="comment">
-        
-        public String getNazwa() {
-            return nazwa;
-        }
-
-        public void setNazwa(String nazwa) {
-            this.nazwa = nazwa;
-        }
-
-        public String getMiesiac() {
-            return miesiac;
-        }
-        
-        public void setMiesiac(String miesiac) {
-            this.miesiac = miesiac;
-        }
-        
-        public int getNetto() {
-            return netto;
-        }
-        
-        public void setNetto(int netto) {
-            this.netto = netto;
-        }
-//</editor-fold>
-        
-        
-    }
-
+   
 }
