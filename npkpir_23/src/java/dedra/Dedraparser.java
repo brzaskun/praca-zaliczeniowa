@@ -47,6 +47,7 @@ public class Dedraparser {
             pobierzkorekty(doc, wierszeewidencji, wpisView, podatnik, ewidencja);
             System.out.println("");
         } catch (Exception ex) {
+            Msg.msg("e", "Wystąpił błąd przy importowaniu pliku xml. Sprawdź, czy plik nie zawiera błędów.");
             Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
         return wierszeewidencji;

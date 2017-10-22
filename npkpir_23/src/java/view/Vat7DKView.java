@@ -794,7 +794,7 @@ public class Vat7DKView implements Serializable {
         String wiersz = null;
         byte[] deklaracjapodpisana = null;
         try {
-            if (ObslugaPodpisuBean.moznaPodpisac()) {
+            if (ObslugaPodpisuBean.moznaPodpisac() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
                 VAT713 vat713 = new VAT713(pozycje, schema, true);
                 FacesContext context = FacesContext.getCurrentInstance();
                 PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");

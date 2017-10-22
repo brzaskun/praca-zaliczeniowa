@@ -16,7 +16,7 @@
                     <p:confirmDialog id="confirmDialog" message="Usunąć dekalrację?"  
                                      header="" severity="alert" widgetVar="confirmation">  
 
-                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi, formwyslane formwyslane:akordeon:dataLista" oncomplete="PF('confirmation').hide()"  
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi, formwyslane" oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{deklaracjevatView.destroy2a()}" />  
                         <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
 
@@ -24,7 +24,6 @@
                 </h:form>
                 <f:view contentType="text/html">
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
-                        
                         <ui:include src="sub/layoutVat/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutVat/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutVat/west.xhtml"/>   <!-- panel zachodni-->

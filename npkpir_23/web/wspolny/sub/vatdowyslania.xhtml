@@ -28,7 +28,7 @@
                 <p:dataGrid columns="1" value="#{item.selected}" var="loop">
                     <h:panelGrid columns="4" columnClasses="onefive-percent, threefive-percent, onefive-percent, threefive-percent">
                         <h:outputText value="rodzaj deklaracji"/><h:outputText value="#{loop.rodzajdeklaracji}" style="font-weight: 900;"/>
-                        <h:outputText value="podatnik"/> <h:outputText value="data wysłania"/><h:outputText value="#{item.datazlozenia}" style="font-weight: 900;">
+                        <h:outputText value="data złożenia"/><h:outputText value="#{item.datazlozenia}" style="font-weight: 900;">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                         </h:outputText>
                         <h:outputText value="miesięczna/kwartalna"/><h:outputText value="#{item.miesiackwartal eq false ? 'miesięczna' : 'kwartalna'}" style="font-weight: 900;"/>
