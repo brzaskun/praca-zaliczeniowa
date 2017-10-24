@@ -77,16 +77,16 @@ public class Wiersz implements Serializable {
     private double ilosc_szt;
     @Column(name = "typWiersza")
     private Integer typWiersza;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
     //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
     @Column(name = "dataWalutyWiersza")
     private String dataWalutyWiersza;
     @JoinColumn(name = "TABELANBP_idtabelanbp", referencedColumnName = "idtabelanbp")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Tabelanbp tabelanbp;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.LAZY)
     @MapKeyColumn(name = "strona_key")
     private Map<String, StronaWiersza> strona;
     @Column(name = "lpmacierzystego")
@@ -96,7 +96,7 @@ public class Wiersz implements Serializable {
     private Wiersz czworka;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "czworka", orphanRemoval = true)
     private Set<Wiersz> piatki;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.LAZY)
     private EVatwpisFK eVatwpisFK;
     @Column(name = "saldoWBRK")
     private double saldoWBRK;

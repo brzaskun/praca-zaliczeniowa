@@ -61,7 +61,7 @@ public class Kontokategoria implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "opisskrocony")
     private String opisskrocony;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Konto> listakont;
 
     public Kontokategoria() {

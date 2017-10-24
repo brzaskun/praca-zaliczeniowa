@@ -221,7 +221,7 @@ public class Podatnik implements Serializable {
     @Column(name = "datamalyzus")
     private String datamalyzus;
     @JoinColumn(name = "podatnik")
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
     private List<ParamCzworkiPiatki> paramCzworkiPiatki;
     @OneToMany(mappedBy = "podatnikObj")
     private List<MiejsceKosztow> miejsceKosztowList;
@@ -239,7 +239,7 @@ public class Podatnik implements Serializable {
     private Uz ksiegowa;
     //wzorcowe one to many unidirectional/ nazwa kolumny to nazwa tworzona w tabeli ParamVatUE, nie trzeba zmiennej w ParamVatUE
     @JoinColumn(name = "podid")
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
     private List<ParamVatUE> paramVatUE;
     @Column(name = "datarozpoczecia")
     @Size(max = 10)

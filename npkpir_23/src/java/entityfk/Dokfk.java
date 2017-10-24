@@ -109,7 +109,7 @@ public class Dokfk extends DokSuper implements Serializable {
     @Size(min = 4, max = 4)
     @Column(name = "rok", nullable = false, length = 4)
     private String rok;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rodzajdok", referencedColumnName = "id")
     private Rodzajedok rodzajedok;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
@@ -135,7 +135,7 @@ public class Dokfk extends DokSuper implements Serializable {
     @NotNull
     @Column(name = "numerwlasnydokfk", nullable = false, length = 255)
     private String numerwlasnydokfk;
-    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("idporzadkowy")
     private List<Wiersz> listawierszy;
     @Column(name = "miesiac")
@@ -157,9 +157,9 @@ public class Dokfk extends DokSuper implements Serializable {
     @Column(name = "wtrakcieedycji")
     private boolean wTrakcieEdycji;
     @JoinColumn(name = "kontr", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Klienci kontr;
-    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<EVatwpisFK> ewidencjaVAT;
     @Size(max = 2)
     @Column(name = "vat_m")
@@ -167,7 +167,7 @@ public class Dokfk extends DokSuper implements Serializable {
     @Size(max = 4)
     @Column(name = "vat_r")
     private String vatR;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "Dokfk_Cechazapisu",
             joinColumns = {

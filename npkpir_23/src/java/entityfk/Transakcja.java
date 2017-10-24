@@ -48,11 +48,11 @@ public class Transakcja  implements Serializable {
     private TransakcjaPK transakcjaPK;
     @MapsId("rozliczajacyPK")
     @JoinColumn(name="rozliczajacy_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private StronaWiersza rozliczajacy;
     @MapsId("nowaTransakcjaPK")
     @JoinColumn(name="nowaTransakcja_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private StronaWiersza nowaTransakcja;
     @Basic(optional = false)
     @NotNull
