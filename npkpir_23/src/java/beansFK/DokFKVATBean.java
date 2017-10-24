@@ -260,12 +260,12 @@ public class DokFKVATBean {
                     if (wierszDokumentuPoprzedniego != null && wierszDokumentuBiezacego != null) {
                         StronaWiersza wnDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
                         StronaWiersza wnDokumenuBiezacego = wierszDokumentuBiezacego.getStronaWn();
-                        if (wnDokumenuBiezacego != null) {
+                        if (wnDokumenuBiezacego != null && !wnDokumenuBiezacego.getKonto().getZwyklerozrachszczegolne().equals("vat")) {
                             wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
                         }
                         StronaWiersza maDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaMa();
                         StronaWiersza maDokumenuBiezacego = wierszDokumentuBiezacego.getStronaMa();
-                        if (maDokumenuBiezacego != null) {
+                        if (maDokumenuBiezacego != null && !maDokumenuBiezacego.getKonto().getZwyklerozrachszczegolne().equals("vat")) {
                             maDokumenuBiezacego.setKonto(maDokumentuPoprzedniego.getKonto());
                         }
                     }

@@ -34,7 +34,7 @@ public class PodatnikWyborView implements Serializable {
     private List<Podatnik> listaPodatnikow;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         List<Podatnik> lista = podatnikDAO.findPodatnikFKPkpir();
         listaPodatnikowNoFK = podatnikDAO.findPodatnikNieFK();
         listaPodatnikowNoFKmanager = new ArrayList<>(listaPodatnikowNoFK);

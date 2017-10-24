@@ -11,7 +11,7 @@
          <p:panel header="Wybierz firmę do edycji" style="width: 500px;"/>
          <h:selectOneListbox id="podatnikWpisu" value="#{podatnikView.selectedDodedycja}" style="width: 350px; height: 250px;" converter="PodatConv">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFKmanager}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
-                    <p:ajax event="change"  update="form:wprowadzaniepodatnika" global="false" listener="#{podatnikView.skopiujdoedycji}"/>
+                    <p:ajax event="change"  update="@form" global="false" listener="#{podatnikView.skopiujdoedycji}"/>
                 </h:selectOneListbox>
                 <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/> 
                 <p:panel header="dodawanie/edycja podatnika - osoby fizycznej" style="width: 500px;"/>
@@ -125,8 +125,14 @@
                     <h:outputLabel value="id firmy"/>
                     <h:outputText value="#{podatnikView.selectedDod.nazwapelna}"/>
                    </p:panelGrid>
-                <p:commandButton action="#{podatnikView.dodaj()}" value="dodaj/edytuj" update="form:wprowadzaniepodatnika" type="submit" style="margin-top: 10px; width: 120px;"/>
-                <p:commandButton action="#{podatnikView.resetuj()}" value="resetuj" update="form:wprowadzaniepodatnika" type="submit" style="margin-top: 10px; margin-left: 20px; width: 120px;"/>
+                <p:commandButton action="#{podatnikView.dodaj()}" value="dodaj" update="@form" 
+                                 rendered="#{podatnikView.selectedDodedycja eq null}"
+                                 type="submit" style="margin-top: 10px; width: 120px;"/>
+                <p:commandButton action="#{podatnikView.edytujfiz()}" value="edytuj" update="@form" 
+                                 rendered="#{podatnikView.selectedDodedycja ne null}"
+                                 type="submit" style="margin-top: 10px; width: 120px;"/>
+                <p:commandButton action="#{podatnikView.resetuj()}" 
+                                 value="resetuj" update="@form" type="submit" style="margin-top: 10px; margin-left: 20px; width: 120px;"/>
     </h:form>
 </ui:composition>   
 

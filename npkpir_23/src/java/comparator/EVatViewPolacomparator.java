@@ -6,7 +6,6 @@
 package comparator;
 
 import embeddable.EVatViewPola;
-import error.E;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,14 +31,12 @@ public class EVatViewPolacomparator implements Comparator<EVatViewPola> {
         try {
             datao1date = formatter.parse(datao1);
         } catch (ParseException ex) {
-            E.e(ex);
             return 1;
         }
         try {
             datao2date = formatter.parse(datao2);
         } catch (ParseException ex) {
-            E.e(ex);
-            return 1;
+            return -1;
         }
         return (datao1date.before(datao2date) ? -1 : (datao1date.equals(datao2date) ? 0 : 1));
     }

@@ -145,7 +145,8 @@ public class VatUeFKView implements Serializable {
             if (d != null) {
                 deklaracja0korekta1 = true;
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
         }
     }
     

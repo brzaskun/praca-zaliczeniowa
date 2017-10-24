@@ -70,7 +70,6 @@ public class PodatnikView implements Serializable {
     private Podatnik selectedStrata;
     @Inject
     private Podatnik selectedDod;
-    @Inject
     private Podatnik selectedDodedycja;
     @Inject
     private Rodzajedok selectedDokKsi;
@@ -82,6 +81,8 @@ public class PodatnikView implements Serializable {
     private RodzajedokView rodzajedokView;
     @ManagedProperty(value = "#{gUSView}")
     private GUSView gUSView;
+    @ManagedProperty(value = "#{podatnikWyborView}")
+    private PodatnikWyborView podatnikWyborView;
     private List<String> pojList;
     private PanelGrid grid;
     private String[] listka;
@@ -180,17 +181,36 @@ public class PodatnikView implements Serializable {
         try {
             generujIndex(selectedDod);
             sformatuj(selectedDod);
-            podatnikDAO.edit(selectedDod);
-            Msg.msg("i", "Dodano/wyedytowano podatnika: " + selectedDod.getPrintnazwa());
+            podatnikDAO.dodaj(selectedDod);
+            podatnikWyborView.init();
+            Msg.msg("i", "Dodano nowego podatnika: " + selectedDod.getPrintnazwa());
             selectedDod = new Podatnik();
         } catch (Exception e) { 
             E.e(e); 
-            Msg.msg("e", "Wystąpił błąd. Niedodanoniewyedytowano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
+            Msg.msg("e", "Wystąpił błąd. Nie dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
+        }
+    }
+    
+    public void edytujfiz() {
+        if (selectedDod.getPesel() == null) {
+            selectedDod.setPesel("00000000000");
+        }
+        try {
+            generujIndex(selectedDod);
+            sformatuj(selectedDod);
+            podatnikDAO.edit(selectedDod);
+            Msg.msg("i", "Wyedytowano podatnika: " + selectedDod.getPrintnazwa());
+            podatnikWyborView.init();
+            selectedDod = new Podatnik();
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e", "Wystąpił błąd. Nie wyedytowano podatnika-firmę: " + selectedDod.getNazwapelna());
         }
     }
     
     public void resetuj() {
         try {
+            selectedDodedycja = null;
             selectedDod = new Podatnik();
             Msg.msg("i", "Zresetowano formularz");
         } catch (Exception e) { 
@@ -1173,6 +1193,14 @@ public class PodatnikView implements Serializable {
 
     public List<Konto> getListaKontKasaBank() {
         return listaKontKasaBank;
+    }
+
+    public PodatnikWyborView getPodatnikWyborView() {
+        return podatnikWyborView;
+    }
+
+    public void setPodatnikWyborView(PodatnikWyborView podatnikWyborView) {
+        this.podatnikWyborView = podatnikWyborView;
     }
 
     public ParamVatUE getParamVatUE() {
