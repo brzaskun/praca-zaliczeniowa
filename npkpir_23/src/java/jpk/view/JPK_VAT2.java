@@ -81,7 +81,7 @@ public class JPK_VAT2 implements Serializable {
     public void generujXML(List<JPK.SprzedazWiersz> listas, List<JPK.ZakupWiersz> listaz, JPK.SprzedazCtrl sprzedazCtrl, JPK.ZakupCtrl zakupCtrl) {
         try {
             jpk = new JPK();
-            jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.dzienostatni(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
+            jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
             jpk.setPodmiot1(podmiot1(wpisView));
             jpk.getSprzedazWiersz().addAll(listas);
             if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
