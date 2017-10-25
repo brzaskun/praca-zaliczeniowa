@@ -286,12 +286,12 @@ public class beanek  implements Serializable {
                 Msg.msg(komunikat.get(0), komunikat.get(1));
             }
         }
-        upoMBT = upo.value;
-        statMBT = stat.value + " "+opis.value;
-        opisMBT = komunikat.get(1);
-        temp.setUpo(upoMBT);
+        upoMB = upo.value;
+        statMB = stat.value + " "+opis.value;
+        opisMB = komunikat.get(1);
+        temp.setUpo(upoMB);
         temp.setStatus(String.valueOf(stat.value));
-        temp.setOpis(opisMBT);
+        temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
     }
 

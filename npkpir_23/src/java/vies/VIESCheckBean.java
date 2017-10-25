@@ -10,7 +10,9 @@ import embeddable.VatUe;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Uz;
+import error.E;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +32,7 @@ import org.jsoup.select.Elements;
  */
 public class VIESCheckBean {
     
-    public static void sprawdz(List<VatUe> klienciWDTWNT, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil) {
+    public static void sprawdz(List<VatUe> klienciWDTWNT, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil)  {
          if (klienciWDTWNT != null) {
             List<Vies> viesy = new ArrayList<>();
             for (VatUe p : klienciWDTWNT) {
@@ -41,8 +43,13 @@ public class VIESCheckBean {
                     if (jestprefix) {
                         nip = p.getKontrahent().getNip().substring(2);
                     }
-                    Vies v = VIESCheckBean.pobierz(kraj, nip, p.getKontrahent(), podatnik, wprowadzil);
-                    p.setVies(v);
+                    Vies v = null;
+                    try {
+                        v = VIESCheckBean.pobierz(kraj, nip, p.getKontrahent(), podatnik, wprowadzil);
+                        p.setVies(v);
+                    } catch (SocketTimeoutException se) {
+                        E.e(se);
+                    }
                     if (v != null) {
                         viesy.add(v);
                     }
@@ -62,7 +69,7 @@ public class VIESCheckBean {
         return !isnumber;
     }
     
-    private static Vies pobierz(String kraj, String nip, Klienci k, Podatnik podatnik, Uz wprowadzil) {
+    private static Vies pobierz(String kraj, String nip, Klienci k, Podatnik podatnik, Uz wprowadzil) throws SocketTimeoutException {
         Vies zwrot = new Vies();
         if (kraj.equals("ES")) {
             System.out.println("");
