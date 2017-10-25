@@ -4,7 +4,6 @@
  */
 package view;
 
-import beanParametr.BeanParamSuper;
 import beansRegon.SzukajDaneBean;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
@@ -838,7 +837,7 @@ public class PodatnikView implements Serializable {
         if (selected.getParamCzworkiPiatki() == null) {
             selected.setParamCzworkiPiatki(new ArrayList<ParamCzworkiPiatki>());
         }
-        if (BeanParamSuper.sprawdzrok(paramCzworkiPiatki, lista) == 0) {
+        if (ParametrView.sprawdzrok(paramCzworkiPiatki, lista) == 0) {
             selected.getParamCzworkiPiatki().add((ParamCzworkiPiatki) paramCzworkiPiatki);
             zachowajZmiany(selected);
             paramCzworkiPiatki = new ParamCzworkiPiatki();

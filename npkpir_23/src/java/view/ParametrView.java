@@ -67,6 +67,26 @@ public class ParametrView implements Serializable {
         return "blad";
     }
      
+    public static int sprawdzrok(ParamSuper parametr, List stare) {
+        if (stare.isEmpty()) {
+            parametr.setMcOd("01");
+            parametr.setMcDo("12");
+            parametr.setRokDo(parametr.getRokOd());
+            return 0;
+        } else {
+            ParamSuper ostatniparametr = (ParamSuper) stare.get(stare.size() - 1);
+            Integer old_rokDo = Integer.parseInt(ostatniparametr.getRokDo());
+            Integer new_rokOd = Integer.parseInt(parametr.getRokOd());
+            if (old_rokDo == new_rokOd - 1) {
+                parametr.setMcOd("01");
+                parametr.setMcDo("12");
+                parametr.setRokDo(parametr.getRokOd());
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+    }
     public static void main(String[] args) {
         List<Parametr> lista = new ArrayList<>();
         lista.add(new Parametr("01","2017","12","2017","miesiecznie"));
