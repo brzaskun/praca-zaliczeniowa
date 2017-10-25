@@ -18,6 +18,7 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -137,7 +138,7 @@ public class VATUEM4Bean {
     private static Grupa1 grupa1(VatUe p) {
         Grupa1 g = new Grupa1();
         g.setPDa(kodkraju(p));
-        g.setPDb(p.getKontrahent().getNip());
+        g.setPDb(przetworznip(p.getKontrahent().getNip()));
         g.setPDc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         g.setPDd((byte)1);
         return g;
@@ -146,7 +147,7 @@ public class VATUEM4Bean {
     private static Grupa2 grupa2(VatUe p) {
         Grupa2 g = new Grupa2();
         g.setPNa(kodkraju(p));
-        g.setPNb(p.getKontrahent().getNip());
+        g.setPNb(przetworznip(p.getKontrahent().getNip()));
         g.setPNc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         g.setPNd((byte)1);
         return g;
@@ -155,9 +156,26 @@ public class VATUEM4Bean {
     private static Grupa3 grupa3(VatUe p) {
         Grupa3 g = new Grupa3();
         g.setPUa(kodkraju(p));
-        g.setPUb(p.getKontrahent().getNip());
+        g.setPUb(przetworznip(p.getKontrahent().getNip()));
         g.setPUc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         return g;
+    }
+    
+    private static String przetworznip(String nip) {
+        String dobrynip = null;
+        boolean jestprefix = sprawdznip(nip);
+            if (jestprefix) {
+                dobrynip = nip.substring(2);
+        }
+        return dobrynip;
+    }
+    
+    private static boolean sprawdznip(String nip) {
+        //jezeli false to dobrze
+        String prefix = nip.substring(0, 2);
+        Pattern p = Pattern.compile("[0-9]");
+        boolean isnumber = p.matcher(prefix).find();
+        return !isnumber;
     }
 
     private static TKodKrajuUE kodkraju(VatUe p) {
