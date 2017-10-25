@@ -122,10 +122,10 @@ public class VATDeklaracja implements Serializable {
                 String vat = String.valueOf(ws.getSumavat());
                 int vatI = (int) Z.z0(ws.getSumavat());
                 if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2() != 2) {
-                    ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
+                    ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
                 }
                 if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2() != 1) {
-                    ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
+                    ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                 }
                 //to jest uzywane przy korektach
                 if (nowaWartoscVatZPrzeniesienia != null) {
@@ -147,6 +147,23 @@ public class VATDeklaracja implements Serializable {
             met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("getPoleI" + nrpola);
             Integer pobranakwota = (Integer) met.invoke(pozycjeSzczegoloweVAT);
             kwotaInt = kwotaInt + pobranakwota;
+            kwotaString = String.valueOf(kwotaInt);
+            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpola, paramString);
+            met.invoke(pozycjeSzczegoloweVAT, new String(kwotaString));
+            paramString = new Class[1];
+            paramString[0] = Integer.class;
+            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpola, paramString);
+            met.invoke(pozycjeSzczegoloweVAT, new Integer(kwotaInt));
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            E.e(e);
+        }
+    }
+    
+    private static void ustawPozycjeSumaryczne(PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, String nrpola, String kwotaString, int kwotaInt) {
+        try {
+            Class[] paramString = new Class[1];
+            paramString[0] = String.class;
+            Method met;
             kwotaString = String.valueOf(kwotaInt);
             met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpola, paramString);
             met.invoke(pozycjeSzczegoloweVAT, new String(kwotaString));
