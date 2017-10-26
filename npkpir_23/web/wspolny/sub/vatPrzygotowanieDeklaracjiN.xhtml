@@ -21,8 +21,12 @@
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:commandButton  value="zapiszFK"  actionListener="#{vat7DKView.zapiszdeklaracje}"
                                  update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX" 
-                                 rendered="#{vat7DKView.pokazpelna}"
+                                 
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
+<!--                <p:commandButton  value="zapiszFK"  actionListener="#{vat7DKView.zapiszdeklaracje}"
+                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX" 
+                                 rendered="#{vat7DKView.pokazpelna}"
+                                 style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>-->
                 <h:outputText value="do zapisu wymagana jest obecność karty z podpisem certyfikowanym!" 
                               rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}" style="color: red;"/>
 <!--            <h:outputText value="Wymuś zapis jako deklarację pierwotną."/>
@@ -30,7 +34,7 @@
               </p:panelGrid>
             <p:messages autoUpdate="true" id="messages"/>
             <p:panel header="Dane do bieżącej deklaracji VAT-7 miesięcznej. Schema: #{vat7DKView.pasujacaSchema.nazwaschemy}"/>
-            <p:panelGrid columns="1"  style="width: 90%;" rendered="#{vat7DKView.flaga eq 0}">
+            <p:panelGrid columns="1"  style="width: 90%;" rendered="#{vat7DKView.flaga ne 1}">
                 <p:dataTable value="#{vat7DKView.sumaschemewidencjilista}" var="loop" sortBy="#{loop.schemaEwidencja.polenetto}" style="width: 800px;"
                              emptyMessage="nie pobrano danych" >
                     <f:facet name="header">

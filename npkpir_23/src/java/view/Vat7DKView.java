@@ -43,7 +43,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -61,8 +60,6 @@ public class Vat7DKView implements Serializable {
     private PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
     @Inject
     private Deklaracjevat deklaracjakorygowana;
-    @Inject
-    private Deklaracjevat deklaracjawyslana;
     @Inject
     private Deklaracjevat nowadeklaracja;
     @ManagedProperty(value = "#{WpisView}")
@@ -215,11 +212,10 @@ public class Vat7DKView implements Serializable {
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null);
         sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);
         System.out.println("Koniec");
-        Deklaracjevat czekadowyslania = czynieczekajuzcosdowyslania();
-        flaga = zbadajpobranadeklarajce(czekadowyslania);
-        if (flaga == 2) {
-            Msg.msg("w","Uwaga, jest już przygotowana do wysyłki deklaracja za ten sam okres!");
-        }
+        deklaracjakorygowana = czynieczekajuzcosdowyslania();
+        flaga = zbadajpobranadeklarajce(deklaracjakorygowana);
+        Deklaracjevat ostatniawyslana = cozostalowyslane();
+        zbadajpobranadeklarajce(ostatniawyslana);
         if (flaga != 1) {
             DeklaracjaVatSchemaWierszSum przeniesienie = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota nadwyżki z poprzedniej deklaracji");
             DeklaracjaVatSchemaWierszSum należny = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem (suma przychodów)");    
@@ -229,11 +225,11 @@ public class Vat7DKView implements Serializable {
             try {
                 //niepotrzebne bo jest wyzej
                 //deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
-                deklaracjawyslana = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
-                if (flaga != 3) {
+                Deklaracjevat deklaracjaPopMc = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
+                if (deklaracjaPopMc == null) {
                     //pobiera tylko wtedy jak nie ma z reki
                     if (przeniesieniezpoprzedniejdeklaracji == null) {
-                        Integer kwotazprzeniesienia = pobierz47zpoprzedniejN(deklaracjawyslana);
+                        Integer kwotazprzeniesienia = pobierz47zpoprzedniejN(deklaracjaPopMc);
                         przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
                         naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
                     } else {
@@ -253,7 +249,6 @@ public class Vat7DKView implements Serializable {
                         RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
                         Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
                     }
-                    flaga = 0;
                 }
             } catch (Exception ex) {
                E.e(ex);
@@ -348,8 +343,12 @@ public class Vat7DKView implements Serializable {
             kwotaautoryzujaca = kwotaautoryzujcaPobierz();
         }
         String vatokres = sprawdzjakiokresvat();
+        if (flaga == 2) {
+            deklaracjevatDAO.destroy(deklaracjakorygowana);
+            deklaracjakorygowana = null;
+            Msg.msg("i", wpisView.getPodatnikWpisu() + "Usunięto poprzednią niewysłaną deklarację VAT za " + rok + "-" + mc,"form:messages");
+        }
         if (flaga != 1) {
-            //podsumujszczegolowe();
             uzupelnijPozycjeDeklaracji(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
             nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema);
             nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
@@ -358,20 +357,15 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja.setKwotadoprzeniesienia(doprzeniesienia.getDeklaracjaVatWierszSumaryczny().getSumavat());
         }
         //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
-        if (flaga == 2) {
-            deklaracjevatDAO.destroy(deklaracjakorygowana);
-            nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
-            deklaracjevatDAO.edit(nowadeklaracja);
-            deklaracjakorygowana = new Deklaracjevat();
-            Msg.msg("i", wpisView.getPodatnikWpisu() + " - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc,"form:messages");
-        } else if (flaga == 1) {
+        if (flaga == 1) {
             Msg.msg("e", wpisView.getPodatnikWpisu() + " Deklaracja nie zachowana","form:messages");
         } else {
             deklaracjevatDAO.dodaj(nowadeklaracja);
             Msg.msg("i", wpisView.getPodatnikWpisu() + " - zachowano nową deklaracje VAT za " + rok + "-" + mc,"form:messages");
         }
         //pobieranie potwierdzenia
-        RequestContext.getCurrentInstance().update("vat7:");
+        nowadeklaracja = null;
+        flaga = 1;
         zachowaj = false;
     }
     
@@ -481,8 +475,6 @@ public class Vat7DKView implements Serializable {
                 pozycjeSzczegoloweVAT.setPole47(Pole47);
                 pozycjeSzczegoloweVAT.setPoleI47(PoleI47);
             }
-            deklaracjawyslana.setIdentyfikator("lolo");
-            deklaracjawyslana.setPodatnik("manolo");
         } catch (Exception e) {
             E.e(e);
             flaga = 1;
@@ -550,11 +542,22 @@ public class Vat7DKView implements Serializable {
                 }
             }
         } else {
-            //jak nie ma w poprzednim miesiacu to jest luka i trzeba zrobic inaczej
-            flaga = 3;
-            Msg.msg("w", "Nie mogę odnaleźć deklaracji z poprzedniego okresu rozliczeniowego. Kwotę z przeniesienia trzeba wprowadzić ręcznie.");
+             Msg.msg("w", "Nie mogę odnaleźć deklaracji z poprzedniego okresu rozliczeniowego. Kwotę z przeniesienia trzeba wprowadzić ręcznie.");
         }
         return pobrana;
+    }
+    
+    private Deklaracjevat cozostalowyslane() {
+        Deklaracjevat badana = null;
+        try {
+            List<Deklaracjevat> wyslane = deklaracjevatDAO.findDeklaracjeWyslaneMc(wpisView);
+            if (wyslane != null) {
+                badana = wyslane.get(wyslane.size()-1);
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return badana;
     }
 
     private Deklaracjevat czynieczekajuzcosdowyslania() {
@@ -562,7 +565,6 @@ public class Vat7DKView implements Serializable {
         try {
             badana = deklaracjevatDAO.findDeklaracjeDowyslania(wpisView.getPodatnikWpisu());
             if (badana != null) {
-                deklaracjakorygowana = badana;
                 flaga = 2;
             }
         } catch (Exception e) {
@@ -595,6 +597,7 @@ public class Vat7DKView implements Serializable {
         return kwotazprzeniesienia;
     }
 
+    
     private int zbadajpobranadeklarajce(Deklaracjevat badana) {
         int f = 0;
         try {
@@ -772,20 +775,20 @@ public class Vat7DKView implements Serializable {
         String wiersz = null;
         byte[] deklaracjapodpisana = null;
         try {
-            if (ObslugaPodpisuBean.moznaPodpisac() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-                VAT713 vat713 = new VAT713(pozycje, schema, true);
-                FacesContext context = FacesContext.getCurrentInstance();
-                PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
-                Object[] deklaracje = podpisView.podpiszDeklaracje(vat713.getWiersz());
-                deklaracjapodpisana = (byte[]) deklaracje[0];
-                wiersz = (String) deklaracje[1];
-                nowadekl.setJestcertyfikat(true);
-            } else {
+//            if (ObslugaPodpisuBean.moznaPodpisac() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+//                VAT713 vat713 = new VAT713(pozycje, schema, true);
+//                FacesContext context = FacesContext.getCurrentInstance();
+//                PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
+//                Object[] deklaracje = podpisView.podpiszDeklaracje(vat713.getWiersz());
+//                deklaracjapodpisana = (byte[]) deklaracje[0];
+//                wiersz = (String) deklaracje[1];
+//                nowadekl.setJestcertyfikat(true);
+//            } else {
                 VAT713 vat713 = new VAT713(pozycje, schema, false);
                 //to jest wygenerowana dekalracjia w xml
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(false);
-            }
+//            }
         } catch (Exception ex) {
             Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);

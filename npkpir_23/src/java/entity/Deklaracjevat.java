@@ -50,6 +50,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWysylka", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND d.identyfikator = :identyfikator"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslane", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRok", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.rok = :rok"),
+    @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRokMc", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.rok = :rok AND d.miesiac = :mc ORDER BY d.datazlozenia ASC"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRok200", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.status = 200 AND d.rok = :rok AND d.testowa = 0")
 })
 public class Deklaracjevat extends DeklSuper implements Serializable {
@@ -82,12 +83,34 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
     private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
     
     
-   public Deklaracjevat() {
+    public Deklaracjevat() {
     }
 
     public Deklaracjevat(Integer id) {
         this.id = id;
     }
+    
+//    public String getDeklaracjaxml() {
+//       String xmlString = "";
+//       try {
+//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//            factory.setNamespaceAware(true);
+//            DocumentBuilder builder = factory.newDocumentBuilder();
+//            Document doc = builder.parse(new ByteArrayInputStream(this.deklaracja.getBytes()));
+//            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+//            //initialize StreamResult with File object to save to file
+//            StreamResult result = new StreamResult(new StringWriter());
+//            DOMSource source = new DOMSource(doc);
+//            transformer.transform(source, result);
+//            xmlString = result.getWriter().toString();
+//            System.out.println(xmlString);
+//       } catch (Exception ex) {
+//           Logger.getLogger(Deklaracjevat.class.getName()).log(Level.SEVERE, null, ex);
+//       }
+//       return xmlString;
+//    }
 
     public Integer getId() {
         return id;

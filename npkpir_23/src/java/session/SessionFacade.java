@@ -482,6 +482,10 @@ public class SessionFacade<T> implements Serializable {
     public List<Deklaracjevat> findDeklaracjewyslane(String pod, String rok) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
     }
+    
+    public List<Deklaracjevat> findDeklaracjewyslaneMc(String pod, String rok, String mc) {
+        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRokMc").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).setParameter("mc", mc).getResultList();
+    }
 
     public List<Deklaracjevat> findDeklaracjewyslane200(String pod, String rok) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok200").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();

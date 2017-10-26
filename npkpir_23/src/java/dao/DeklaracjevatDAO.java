@@ -79,6 +79,17 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         return deklaracjevatFacade.findDeklaracjewyslane(pod);
     }
     
+    public List<Deklaracjevat> findDeklaracjeWyslaneMc(WpisView wpisView) {
+       List<Deklaracjevat> znalezionedeklaracje = new ArrayList<>();
+        try {
+            znalezionedeklaracje = deklaracjevatFacade.findDeklaracjewyslaneMc(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        } catch (Exception e) { 
+            E.e(e);
+        }
+        return znalezionedeklaracje;
+    }
+    
+    
     public List<Deklaracjevat> findDeklaracjeWyslane(String pod, String rok) {
        List<Deklaracjevat> znalezionedeklaracje = new ArrayList<>();
        try {
