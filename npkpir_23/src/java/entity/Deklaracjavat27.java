@@ -29,7 +29,7 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "Deklaracjavat27.findAll", query = "SELECT d FROM Deklaracjavat27 d"),
     @NamedQuery(name = "Deklaracjavat27.findByPodatnikRok", query = "SELECT d FROM Deklaracjavat27 d WHERE d.podatnik = :podatnik AND d.rok =:rok"),
     @NamedQuery(name = "Deklaracjavat27.findByPodatnikRokMc", query = "SELECT d FROM Deklaracjavat27 d WHERE d.podatnik = :podatnik AND d.rok =:rok AND d.miesiac= :miesiac"),
-    @NamedQuery(name = "Deklaracjavat27.usundeklaracjeUE", query = "DELETE FROM Deklaracjavat27 d WHERE d.podatnik = :podatnik AND d.rok =:rok AND d.miesiac= :miesiac"),
+    @NamedQuery(name = "Deklaracjavat27.usundeklaracje27", query = "DELETE FROM Deklaracjavat27 d WHERE d.podatnik = :podatnik AND d.rok =:rok AND d.miesiac= :miesiac"),
 })
 public class Deklaracjavat27  extends DeklSuper implements Serializable {
    private static final long serialVersionUID = 1L;

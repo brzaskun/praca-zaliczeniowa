@@ -6,8 +6,10 @@ package webservice;
 
 import beansVAT.EDeklaracjeObslugaBledow;
 import com.sun.xml.ws.client.ClientTransportException;
+import dao.Deklaracjavat27DAO;
 import dao.DeklaracjavatUEDAO;
 import dao.DeklaracjevatDAO;
+import entity.Deklaracjavat27;
 import entity.DeklaracjavatUE;
 import entity.Deklaracjevat;
 import java.io.BufferedReader;
@@ -109,6 +111,8 @@ public class beanek  implements Serializable {
     DeklaracjevatDAO deklaracjevatDAO;
     @Inject
     private DeklaracjavatUEDAO deklaracjavatUEDAO;
+    @Inject
+    private Deklaracjavat27DAO deklaracjavat27DAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @ManagedProperty(value="#{deklaracjevatView}")
@@ -459,6 +463,35 @@ public class beanek  implements Serializable {
 
     }
     
+    public void robtest27(Deklaracjavat27 deklaracja) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+        try {
+            dok = deklaracja.getDeklaracjapodpisana();
+            sendSignDocument_Test(dok, id, stat, opis);
+            idMBT = id.value;
+            idpobierzT = id.value;
+            List<String> komunikat = null;
+            opisMBT = opis.value;
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                    Msg.msg(komunikat.get(0), komunikat.get(1));
+                    opisMBT = komunikat.get(1);
+            }
+            upoMBT = upo.value;
+            statMBT = stat.value + " "+opis.value;
+            deklaracja.setIdentyfikator(idMBT);
+            deklaracja.setStatus(String.valueOf(stat.value));
+            deklaracja.setOpis(opisMBT);
+            deklaracja.setDatazlozenia(new Date());
+            deklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            deklaracja.setTestowa(true);
+            deklaracjavat27DAO.edit(deklaracja);
+            Msg.msg("i", "Wypuszczono testowego gołębia z deklaracja podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
+        }
+
+    }
+    
     public void wysylkaReczna(List<Deklaracjevat> deklaracje)  {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
@@ -578,6 +611,34 @@ public class beanek  implements Serializable {
         sprawdzanadeklaracja.setOpis(opisMBT);
         sprawdzanadeklaracja.setDataupo(new Date());
         deklaracjavatUEDAO.edit(sprawdzanadeklaracja);
+    }
+    
+    public void pobierzwyslanetest27(Deklaracjavat27 sprawdzanadeklaracja) {
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        try {
+            requestUPO_Test(sprawdzanadeklaracja.getIdentyfikator(), lang, upo, stat, opis);
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
+        }
+        List<String> komunikat = null;
+        if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
+            Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ");
+        } else {
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                Msg.msg(komunikat.get(0), komunikat.get(1));
+            }
+        }
+        upoMBT = upo.value;
+        statMBT = stat.value + " "+opis.value;
+        opisMBT = komunikat.get(1);
+        sprawdzanadeklaracja.setUpo(upoMBT);
+        sprawdzanadeklaracja.setStatus(statMBT.toString());
+        sprawdzanadeklaracja.setOpis(opisMBT);
+        sprawdzanadeklaracja.setDataupo(new Date());
+        deklaracjavat27DAO.edit(sprawdzanadeklaracja);
     }
 
     public void przerzucdowysylki(String identyfikator) {

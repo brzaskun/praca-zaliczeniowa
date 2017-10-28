@@ -38,7 +38,7 @@ public class Deklaracjavat27DAO extends DAO implements Serializable{
 
     public List<Deklaracjavat27> findbyPodatnikRok(WpisView wpisView) {
         try {
-            return sessionFacade.findDeklUEbyPodatnikRok(wpisView);
+            return sessionFacade.findDekl27byPodatnikRok(wpisView);
         } catch (Exception e) { 
             E.e(e); 
             return null;
@@ -47,14 +47,14 @@ public class Deklaracjavat27DAO extends DAO implements Serializable{
     
     public Deklaracjavat27 findbyPodatnikRokMc(WpisView wpisView) {
         try {
-            return null;//sessionFacade.findDeklUEbyPodatnikRokMc(wpisView);
+            return sessionFacade.findDekl27byPodatnikRokMc(wpisView);
         } catch (Exception e) { 
             return null;
         }
     }
 
-    public void usundeklaracjeUE(WpisView wpisView) {
-        sessionFacade.usundeklaracjeUE(wpisView);
+    public void usundeklaracje27(WpisView wpisView) {
+        sessionFacade.usundeklaracje27(wpisView);
     }
     
     

@@ -87,11 +87,6 @@ public class Vat27View implements Serializable {
                     }
                 }
             }
-            for (VatUe r : klienciWDTWNT) {
-                if (r.getKontrahent().getKrajkod() == null) {
-                    niemoznadrukowac = true;
-                }
-            }
             VatUe rzadpodsumowanie = new VatUe("podsum.", null, sumanettovatue, 0, null);
             klienciWDTWNT.add(rzadpodsumowanie);
             //zachowajwbazie(String.valueOf(rok), mc, podatnik);

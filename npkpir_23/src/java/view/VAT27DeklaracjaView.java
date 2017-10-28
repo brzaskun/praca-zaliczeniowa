@@ -7,8 +7,8 @@ package view;
 
 import beansPodpis.Xad;
 import dao.Deklaracjavat27DAO;
-import deklaracje.vatue.m4.Deklaracja;
-import deklaracje.vatue.m4.VATUEM4Bean;
+import deklaracje.vat272.Deklaracja;
+import deklaracje.vat272.VAT27Bean;
 import embeddable.Kwartaly;
 import embeddable.TKodUS;
 import embeddable.VatUe;
@@ -42,7 +42,7 @@ public class VAT27DeklaracjaView implements Serializable {
     private Deklaracjavat27DAO deklaracjavat27DAO;
     
     public void tworzdeklaracjekorekta(List<VatUe> lista) {
-        deklaracjavat27DAO.usundeklaracjeUE(wpisView);
+        deklaracjavat27DAO.usundeklaracje27(wpisView);
         for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
             Deklaracjavat27 d = it.next();
             if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
@@ -62,24 +62,25 @@ public class VAT27DeklaracjaView implements Serializable {
                 deklaracjavat27.setPozycje(lista);
                 deklaracjavat27DAO.dodaj(deklaracjavat27);
                 vat27View.getDeklaracjevat27().add(deklaracjavat27);
-                Msg.msg("Sporządzono deklarację VAT-UE miesięczną wersja 4");
+                Msg.msg("Sporządzono deklarację VAT-27");
             } else {
-                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-27. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
             }
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE miesięczną wersja 4");
+            Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-27");
         }
     }
     
     private String sporzadz(List<VatUe> lista) {
-        deklaracje.vatue.m4.Deklaracja deklaracja = new Deklaracja();
+        deklaracje.vat272.Deklaracja deklaracja = new Deklaracja();
         String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
-        deklaracja.setNaglowek(VATUEM4Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
-        deklaracja.setPodmiot1(VATUEM4Bean.podmiot1(wpisView));
-        deklaracja.setPozycjeSzczegolowe(VATUEM4Bean.pozycjeszczegolowe(lista));
+        deklaracja.setNaglowek(VAT27Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
+        deklaracja.setPodmiot1(VAT27Bean.podmiot1(wpisView));
+        deklaracja.setPozycjeSzczegolowe(VAT27Bean.pozycjeszczegolowe(lista));
         deklaracja.setPouczenie(BigDecimal.ONE);
-        return VATUEM4Bean.marszajuldoStringu(deklaracja, wpisView).substring(17);
+        //VAT27Bean.marszajuldoplikuxml(deklaracja, wpisView);
+        return VAT27Bean.marszajuldoStringu(deklaracja, wpisView).substring(17);
     }
 
     private Object[] podpiszDeklaracje(String xml) {
@@ -103,7 +104,7 @@ public class VAT27DeklaracjaView implements Serializable {
         deklaracjavat27.setJestcertyfikat(true);
         deklaracjavat27.setKodurzedu(tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy()));
         deklaracjavat27.setSporzadzil(wpisView.getWprowadzil().getLogin());
-        deklaracjavat27.setWzorschemy("http://crd.gov.pl/wzor/2017/01/11/3846/");
+        deklaracjavat27.setWzorschemy("http://crd.gov.pl/wzor/2017/01/11/3844/");
         return deklaracjavat27;
     }
     

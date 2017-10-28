@@ -6,7 +6,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <h:form id="form">
-        
         <p:outputPanel id="wrapper" deferred="true"> 
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vat27View.drukujewidencjeUE()}"
                              >
@@ -85,8 +84,8 @@
             </p:dataTable>
     <p:messages id="mesydzue" autoUpdate="true"/>
                 <p:separator/>
-                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1280px;" styleClass="upd3"
-                             selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.id}">
+                <p:dataTable value="#{vat27View.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1280px;" styleClass="upd3"
+                             selection="#{vat27View.dekl27selected}" selectionMode="single" rowKey="#{row.id}">
                     <p:column style="width: 3%;">
                         <p:rowToggler/>
                     </p:column>
@@ -109,13 +108,13 @@
                         <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                     </p:column>
                     <p:column style="text-align: center;">
-                        <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row)}" update="@form" style="width: 90px;" rendered="#{row.status eq null}"/>
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.robtest27(row)}" update="@form" style="width: 90px;" rendered="#{row.status eq null}"/>
                     </p:column>
                     <p:column style="text-align: center;">
-                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 90px;"/>
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslanetest27(row)}" update="@form" style="width: 90px;"/>
                     </p:column>
                     <p:column style="text-align: center;">
-                        <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 90px;"/>
+                        <p:commandButton value="drukuj" actionListener="#{vat27View.drukuj(row)}" update="@form" style="width: 90px;"/>
                     </p:column>
                     <p:rowExpansion>
                         <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >

@@ -9,6 +9,7 @@ import entity.Amodok;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
+import entity.Deklaracjavat27;
 import entity.DeklaracjavatUE;
 import entity.Deklaracjevat;
 import entity.Dok;
@@ -2043,6 +2044,18 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public void usundeklaracjeUE(WpisView wpisView) {
         em.createNamedQuery("DeklaracjavatUE.usundeklaracjeUE").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).executeUpdate();
+        em.flush();
+    }
+    public List<Deklaracjavat27> findDekl27byPodatnikRok(WpisView wpisView) {
+        return em.createNamedQuery("Deklaracjavat27.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+    }
+
+    public Deklaracjavat27 findDekl27byPodatnikRokMc(WpisView wpisView) {
+        return (Deklaracjavat27) em.createNamedQuery("Deklaracjavat27.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getSingleResult();
+    }
+
+    public void usundeklaracje27(WpisView wpisView) {
+        em.createNamedQuery("Deklaracjavat27.usundeklaracje27").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).executeUpdate();
         em.flush();
     }
 
