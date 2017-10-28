@@ -71,6 +71,32 @@ public class VAT27Bean {
         return n;
     }
     
+    public static TNaglowek tworznaglowekkorekta(String mc, String r, String kodurzedu) {
+        TNaglowek n = new TNaglowek();
+        try {
+            //NORMALNA
+            byte p = 2;
+            byte p1 = 2;
+            TNaglowek.CelZlozenia cz = new TNaglowek.CelZlozenia();
+            cz.setValue(p);
+            cz.setPoz(cz.getPoz());
+            n.setCelZlozenia(cz);
+            n.setWariantFormularza(p1);
+            TNaglowek.KodFormularza k = new TNaglowek.KodFormularza();
+            k.setValue(TKodFormularza.VAT_27);
+            k.setKodSystemowy(k.getKodSystemowy());
+            k.setKodPodatku(k.getKodPodatku());
+            k.setRodzajZobowiazania(k.getRodzajZobowiazania());
+            k.setWersjaSchemy(k.getWersjaSchemy());
+            n.setKodFormularza(k);
+            n.setMiesiac((byte) Integer.parseInt(mc));
+            n.setRok(rok(r));
+            n.setKodUrzedu(kodurzedu);
+        } catch (Exception ex) {
+
+        }
+        return n;
+    }
     public static XMLGregorianCalendar rok(String rok) throws DatatypeConfigurationException {
         return DatatypeFactory.newInstance().newXMLGregorianCalendar(String.format(rok));
     }
@@ -151,6 +177,9 @@ public class VAT27Bean {
     private static GrupaC grupaC(VatUe p, Double sumaC) {
         GrupaC g = new GrupaC();
         g.setTyp(g.getTyp());
+        if (p.isKorekta()) {
+            g.setPC1(1);
+        }
         g.setPC2("DOSTAWA1");
         g.setPC3(przetworznip(p.getKontrahent().getNip()));
         g.setPC4(new BigDecimal(Z.zUDI(p.getNetto()).toString()));
@@ -160,6 +189,9 @@ public class VAT27Bean {
 
     private static GrupaD grupaD(VatUe p, Double sumaD) {
         GrupaD g = new GrupaD();
+        if (p.isKorekta()) {
+            g.setPD1(1);
+        }
         g.setTyp(g.getTyp());
         g.setPD2("USŁUGA");
         g.setPD3(przetworznip(p.getKontrahent().getNip()));

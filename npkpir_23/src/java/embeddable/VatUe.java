@@ -23,6 +23,7 @@ import vies.Vies;
 @Named
 @Embeddable
 public class VatUe implements Serializable{
+    private static final long serialVersionUID = -8660608026514979599L;
     private String transakcja;
     private Klienci kontrahent;
     private Double netto;
@@ -34,6 +35,7 @@ public class VatUe implements Serializable{
     @Lob
     private List<Dokfk> zawierafk;
     private Vies vies;
+    private boolean korekta;
 
     public VatUe() {
         this.zawiera = new ArrayList<>();
@@ -125,6 +127,14 @@ public class VatUe implements Serializable{
 
     public void setNettowaluta(double nettowaluta) {
         this.nettowaluta = nettowaluta;
+    }
+
+    public boolean isKorekta() {
+        return korekta;
+    }
+
+    public void setKorekta(boolean korekta) {
+        this.korekta = korekta;
     }
 
     public String getNazwawaluty() {

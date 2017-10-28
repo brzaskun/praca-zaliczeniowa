@@ -23,6 +23,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import waluty.Z;
 
 /**
  *
@@ -42,20 +43,38 @@ public class VAT27DeklaracjaView implements Serializable {
     private Deklaracjavat27DAO deklaracjavat27DAO;
     
     public void tworzdeklaracjekorekta(List<VatUe> lista) {
-        deklaracjavat27DAO.usundeklaracje27(wpisView);
-        for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
-            Deklaracjavat27 d = it.next();
-            if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
-                vat27View.getDeklaracjevat27().remove(d);
-                break;
+        Deklaracjavat27 stara = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
+        List<VatUe> staralista = stara.getPozycje();
+        boolean robickorekte = false;
+        for (VatUe s : staralista) {
+            for (VatUe t : lista) {
+                if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
+                    if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
+                        t.setKorekta(true);
+                        robickorekte = true;
+                        break;
+                    }
+                }
             }
         }
-        tworzdeklaracje(lista);
+        if (robickorekte) {
+            deklaracjavat27DAO.usundeklaracje27(wpisView);
+            for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
+                Deklaracjavat27 d = it.next();
+                if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
+                    vat27View.getDeklaracjevat27().remove(d);
+                    break;
+                }
+            }
+            tworzdeklaracje(lista, true);
+        } else {
+            Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
+        }
     }
     
-    public void tworzdeklaracje(List<VatUe> lista) {
+    public void tworzdeklaracje(List<VatUe> lista, boolean korekta) {
         try {
-            String deklaracja = sporzadz(lista);
+            String deklaracja = sporzadz(lista, korekta);
             Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
             if (podpisanadeklaracja != null) {
                 Deklaracjavat27 deklaracjavat27 = generujdeklaracje(podpisanadeklaracja);
@@ -72,10 +91,14 @@ public class VAT27DeklaracjaView implements Serializable {
         }
     }
     
-    private String sporzadz(List<VatUe> lista) {
+    private String sporzadz(List<VatUe> lista, boolean korekta) {
         deklaracje.vat272.Deklaracja deklaracja = new Deklaracja();
         String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
-        deklaracja.setNaglowek(VAT27Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
+        if (korekta) {
+            deklaracja.setNaglowek(VAT27Bean.tworznaglowekkorekta(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
+        } else {
+            deklaracja.setNaglowek(VAT27Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
+        }
         deklaracja.setPodmiot1(VAT27Bean.podmiot1(wpisView));
         deklaracja.setPozycjeSzczegolowe(VAT27Bean.pozycjeszczegolowe(lista));
         deklaracja.setPouczenie(BigDecimal.ONE);
