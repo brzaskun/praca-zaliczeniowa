@@ -84,7 +84,7 @@
             </p:dataTable>
     <p:messages id="mesydzue" autoUpdate="true"/>
                 <p:separator/>
-                <p:dataTable value="#{vat27View.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1280px;" styleClass="upd3"
+                <p:dataTable value="#{vat27View.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1410px;" styleClass="upd3"
                              selection="#{vat27View.dekl27selected}" selectionMode="single" rowKey="#{row.id}">
                     <p:column style="width: 3%;">
                         <p:rowToggler/>
@@ -94,14 +94,17 @@
                             <f:convertDateTime type="date" parent="dd/MM/yy"/>
                         </h:outputText>
                     </p:column>
+                    <p:column headerText="korekta" style="text-align: center;" width="50">
+                        <h:outputText value="#{row.nrkolejny eq 0 ? '': 'tak'}" />
+                    </p:column>
+                    <p:column headerText="nr" style="text-align: center;" width="40">
+                        <h:outputText value="#{row.nrkolejny}" />
+                    </p:column>
                     <p:column headerText="mc" style="text-align: center;" width="60">
                         <h:outputText value="#{row.miesiac}"/>
                     </p:column>
-                    <p:column headerText="sporządził" style="text-align: center;">
+                    <p:column headerText="sporządził" style="text-align: center;" width="90">
                         <h:outputText value="#{row.sporzadzil}"/>
-                    </p:column>
-                    <p:column headerText="korekta" width="50">
-                        <h:outputText value="#{row.nrkolejny eq 0 ? '': 'tak'}" />
                     </p:column>
                     <p:column headerText="status" width="250">
                         <h:outputText value="#{row.status}" />
@@ -110,14 +113,14 @@
                         <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
                         <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                     </p:column>
-                    <p:column style="text-align: center;">
+                    <p:column style="text-align: center;" width="85">
                         <p:commandButton value="wysyłka" actionListener="#{beanek.robtest27(row)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
                         <p:commandButton value="usuń" actionListener="#{vat27View.usundekl(row)}" update="@form" style="width: 80px;" rendered="#{row.status ne null and row.status.substring(0,3) ne '200'}"/>
                     </p:column>
-                    <p:column style="text-align: center;">
+                    <p:column style="text-align: center;" width="85">
                         <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslanetest27(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
-                    <p:column style="text-align: center;">
+                    <p:column style="text-align: center;" width="85">
                         <p:commandButton value="drukuj" actionListener="#{vat27View.drukuj(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
                     <p:rowExpansion>

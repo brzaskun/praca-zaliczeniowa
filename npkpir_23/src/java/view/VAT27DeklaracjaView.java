@@ -44,33 +44,37 @@ public class VAT27DeklaracjaView implements Serializable {
     
     public void tworzdeklaracjekorekta(List<VatUe> lista) {
         Deklaracjavat27 stara = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
-        List<VatUe> staralista = stara.getPozycje();
-        boolean robickorekte = false;
-        int nrkolejny = 0;
-        for (VatUe s : staralista) {
-            for (VatUe t : lista) {
-                if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
-                    if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
-                        t.setKorekta(true);
-                        robickorekte = true;
-                        nrkolejny = stara.getNrkolejny()+1;
-                        break;
+        if (stara.getDatazlozenia() == null) {
+            Msg.msg("e", "Pierwotna deklaracja nie została wysłana, nie można zrobić korekty");
+        } else {
+            List<VatUe> staralista = stara.getPozycje();
+            boolean robickorekte = false;
+            int nrkolejny = 0;
+            for (VatUe s : staralista) {
+                for (VatUe t : lista) {
+                    if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
+                        if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
+                            t.setKorekta(true);
+                            robickorekte = true;
+                            nrkolejny = stara.getNrkolejny()+1;
+                            break;
+                        }
                     }
                 }
             }
-        }
-        if (robickorekte) {
-            deklaracjavat27DAO.usundeklaracje27(wpisView);
-            for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
-                Deklaracjavat27 d = it.next();
-                if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
-                    vat27View.getDeklaracjevat27().remove(d);
-                    break;
+            if (robickorekte) {
+                deklaracjavat27DAO.usundeklaracje27(wpisView);
+                for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
+                    Deklaracjavat27 d = it.next();
+                    if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
+                        vat27View.getDeklaracjevat27().remove(d);
+                        break;
+                    }
                 }
+                robdeklaracje(lista, true, nrkolejny);
+            } else {
+                Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
             }
-            robdeklaracje(lista, true, nrkolejny);
-        } else {
-            Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
         }
     }
     

@@ -329,6 +329,16 @@ public class VatUeFKView implements Serializable {
             Msg.msg("e", "Wystąpił błąd, nie wydrukowano ewidencji");
         }
     }
+    
+    public void usundekl(DeklaracjavatUE d) {
+        try {
+            deklaracjavatUEDAO.destroy(d);
+            deklaracjeUE.remove(d);
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
 
     public WpisView getWpisView() {
         return wpisView;

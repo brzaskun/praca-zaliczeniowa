@@ -44,25 +44,29 @@ public class VATUEDeklaracjaView implements Serializable {
     
     public void tworzdeklaracjekorekta(List<VatUe> lista) {
         DeklaracjavatUE stara = deklaracjavatUEDAO.findbyPodatnikRokMc(wpisView);
-        List<VatUe> staralista = stara.getPozycje();
-        boolean robickorekte = false;
-        int nrkolejny = 0;
-        for (VatUe s : staralista) {
-            for (VatUe t : lista) {
-                if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
-                    if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
-                        t.setKorekta(true);
-                        robickorekte = true;
-                        nrkolejny = stara.getNrkolejny()+1;
-                        break;
+        if (stara.getDatazlozenia() == null) {
+            Msg.msg("e", "Pierwotna deklaracja nie została wysłana, nie można zrobić korekty");
+        } else {
+            List<VatUe> staralista = stara.getPozycje();
+            boolean robickorekte = false;
+            int nrkolejny = 0;
+            for (VatUe s : staralista) {
+                for (VatUe t : lista) {
+                    if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
+                        if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
+                            t.setKorekta(true);
+                            robickorekte = true;
+                            nrkolejny = stara.getNrkolejny()+1;
+                            break;
+                        }
                     }
                 }
             }
-        }
-        if (robickorekte) {
-            robdeklaracjekorekta(lista, staralista, true, nrkolejny);
-        } else {
-            Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
+            if (robickorekte) {
+                robdeklaracjekorekta(lista, staralista, true, nrkolejny);
+            } else {
+                Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
+            }
         }
     }
     

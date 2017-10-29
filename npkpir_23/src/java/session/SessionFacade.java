@@ -2038,8 +2038,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("DeklaracjavatUE.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
 
-    public DeklaracjavatUE findDeklUEbyPodatnikRokMc(WpisView wpisView) {
-        return (DeklaracjavatUE) em.createNamedQuery("DeklaracjavatUE.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getSingleResult();
+    public List<DeklaracjavatUE> findDeklUEbyPodatnikRokMc(WpisView wpisView) {
+        return em.createNamedQuery("DeklaracjavatUE.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList();
     }
 
     public void usundeklaracjeUE(WpisView wpisView) {
@@ -2050,8 +2050,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("Deklaracjavat27.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
 
-    public Deklaracjavat27 findDekl27byPodatnikRokMc(WpisView wpisView) {
-        return (Deklaracjavat27) em.createNamedQuery("Deklaracjavat27.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getSingleResult();
+    public List<Deklaracjavat27> findDekl27byPodatnikRokMc(WpisView wpisView) {
+        return em.createNamedQuery("Deklaracjavat27.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList();
     }
 
     public void usundeklaracje27(WpisView wpisView) {

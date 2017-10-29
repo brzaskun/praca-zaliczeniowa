@@ -162,7 +162,7 @@
                 </p:dataTable>
                 <p:messages id="mesydzue" autoUpdate="true"/>
                 <p:separator/>
-                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1280px;" styleClass="upd3"
+                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1410px;" styleClass="upd3"
                              selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.id}">
                     <p:column style="width: 3%;">
                         <p:rowToggler/>
@@ -172,13 +172,16 @@
                             <f:convertDateTime type="date" parent="dd/MM/yy"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="korekta" width="50">
+                    <p:column headerText="korekta" style="text-align: center;" width="50">
                         <h:outputText value="#{row.nrkolejny eq 0 ? '': 'tak'}" />
+                    </p:column>
+                    <p:column headerText="nr" style="text-align: center;" width="40">
+                        <h:outputText value="#{row.nrkolejny}" />
                     </p:column>
                     <p:column headerText="mc" style="text-align: center;" width="60">
                         <h:outputText value="#{row.miesiac}"/>
                     </p:column>
-                    <p:column headerText="sporządził" style="text-align: center;">
+                    <p:column headerText="sporządził" style="text-align: center;" width="90">
                         <h:outputText value="#{row.sporzadzil}"/>
                     </p:column>
                     <p:column headerText="status" width="250">
@@ -188,14 +191,15 @@
                         <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
                         <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                     </p:column>
-                    <p:column style="text-align: center;">
-                        <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row)}" update="@form" style="width: 90px;" rendered="#{row.status eq null}"/>
+                    <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
+                        <p:commandButton value="usuń" actionListener="#{vatUeFKView.usundekl(row)}" update="@form" style="width: 80px;" rendered="#{row.status ne null and row.status.substring(0,3) ne '200'}"/>
                     </p:column>
-                    <p:column style="text-align: center;">
-                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 90px;"/>
+                    <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
-                    <p:column style="text-align: center;">
-                        <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 90px;"/>
+                    <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
                     <p:rowExpansion>
                         <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >

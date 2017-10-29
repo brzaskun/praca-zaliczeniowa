@@ -46,11 +46,19 @@ public class Deklaracjavat27DAO extends DAO implements Serializable{
     }
     
     public Deklaracjavat27 findbyPodatnikRokMc(WpisView wpisView) {
+        Deklaracjavat27 zwrot = null;
         try {
-            return sessionFacade.findDekl27byPodatnikRokMc(wpisView);
-        } catch (Exception e) { 
-            return null;
+            List<Deklaracjavat27> lista = sessionFacade.findDekl27byPodatnikRokMc(wpisView);
+            int max = -1;
+            for (Deklaracjavat27 p : lista) {
+                if (p.getNrkolejny() > max) {
+                    max = p.getNrkolejny();
+                    zwrot = p;
+                }
+            }
+        } catch (Exception e) {
         }
+        return zwrot;
     }
 
     public void usundeklaracje27(WpisView wpisView) {

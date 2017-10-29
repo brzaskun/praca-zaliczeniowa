@@ -46,11 +46,18 @@ public class DeklaracjavatUEDAO extends DAO implements Serializable{
     }
     
     public DeklaracjavatUE findbyPodatnikRokMc(WpisView wpisView) {
+        DeklaracjavatUE zwrot = null;
         try {
-            return sessionFacade.findDeklUEbyPodatnikRokMc(wpisView);
-        } catch (Exception e) { 
-            return null;
-        }
+            List<DeklaracjavatUE> lista = sessionFacade.findDeklUEbyPodatnikRokMc(wpisView);
+            int max = -1;
+            for (DeklaracjavatUE p : lista) {
+                if (p.getNrkolejny() > max) {
+                    max = p.getNrkolejny();
+                    zwrot = p;
+                }
+            }
+        } catch (Exception e) {}
+        return zwrot;
     }
 
     public void usundeklaracjeUE(WpisView wpisView) {
