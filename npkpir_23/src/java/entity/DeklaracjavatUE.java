@@ -23,7 +23,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames={"podatnik,miesiac,rok"})
+    @UniqueConstraint(columnNames={"podatnik,miesiac,rok,nrkolejny"})
 })
 @NamedQueries({
     @NamedQuery(name = "DeklaracjavatUE.findAll", query = "SELECT d FROM DeklaracjavatUE d"),

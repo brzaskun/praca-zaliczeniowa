@@ -172,6 +172,9 @@
                             <f:convertDateTime type="date" parent="dd/MM/yy"/>
                         </h:outputText>
                     </p:column>
+                    <p:column headerText="korekta" width="50">
+                        <h:outputText value="#{row.nrkolejny eq 0 ? '': 'tak'}" />
+                    </p:column>
                     <p:column headerText="mc" style="text-align: center;" width="60">
                         <h:outputText value="#{row.miesiac}"/>
                     </p:column>

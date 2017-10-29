@@ -101,7 +101,7 @@
                         <h:outputText value="#{row.sporzadzil}"/>
                     </p:column>
                     <p:column headerText="korekta" width="50">
-                        <h:outputText value="#{row.nrkolejny eq 0 ? 'nie': 'tak'}" />
+                        <h:outputText value="#{row.nrkolejny eq 0 ? '': 'tak'}" />
                     </p:column>
                     <p:column headerText="status" width="250">
                         <h:outputText value="#{row.status}" />

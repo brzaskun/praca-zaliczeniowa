@@ -27,6 +27,7 @@ public class VatUe implements Serializable{
     private String transakcja;
     private Klienci kontrahent;
     private Double netto;
+    private Double nettoprzedkorekta;
     private double nettowaluta;
     private int liczbadok;
     private String nazwawaluty;
@@ -86,6 +87,14 @@ public class VatUe implements Serializable{
 
     public void setKontrahent(Klienci kontrahent) {
         this.kontrahent = kontrahent;
+    }
+
+    public Double getNettoprzedkorekta() {
+        return nettoprzedkorekta;
+    }
+
+    public void setNettoprzedkorekta(Double nettoprzedkorekta) {
+        this.nettoprzedkorekta = nettoprzedkorekta;
     }
 
     public Double getNetto() {

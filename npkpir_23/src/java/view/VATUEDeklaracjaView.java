@@ -7,8 +7,8 @@ package view;
 
 import beansPodpis.Xad;
 import dao.DeklaracjavatUEDAO;
-import deklaracje.vatue.m4.Deklaracja;
 import deklaracje.vatue.m4.VATUEM4Bean;
+import deklaracje.vatuek.m4.VATUEKM4Bean;
 import embeddable.Kwartaly;
 import embeddable.TKodUS;
 import embeddable.VatUe;
@@ -16,13 +16,14 @@ import entity.DeklaracjavatUE;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import waluty.Z;
 
 /**
  *
@@ -42,23 +43,40 @@ public class VATUEDeklaracjaView implements Serializable {
     private DeklaracjavatUEDAO deklaracjavatUEDAO;
     
     public void tworzdeklaracjekorekta(List<VatUe> lista) {
-        deklaracjavatUEDAO.usundeklaracjeUE(wpisView);
-        for (Iterator<DeklaracjavatUE> it = vatUeFKView.getDeklaracjeUE().iterator(); it.hasNext();) {
-            DeklaracjavatUE d = it.next();
-            if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
-                vatUeFKView.getDeklaracjeUE().remove(d);
-                break;
+        DeklaracjavatUE stara = deklaracjavatUEDAO.findbyPodatnikRokMc(wpisView);
+        List<VatUe> staralista = stara.getPozycje();
+        boolean robickorekte = false;
+        int nrkolejny = 0;
+        for (VatUe s : staralista) {
+            for (VatUe t : lista) {
+                if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
+                    if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
+                        t.setKorekta(true);
+                        robickorekte = true;
+                        nrkolejny = stara.getNrkolejny()+1;
+                        break;
+                    }
+                }
             }
         }
-        tworzdeklaracje(lista);
+        if (robickorekte) {
+            robdeklaracjekorekta(lista, staralista, true, nrkolejny);
+        } else {
+            Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
+        }
     }
     
     public void tworzdeklaracje(List<VatUe> lista) {
+        robdeklaracje(lista, false, 0);
+    }
+    
+    public void robdeklaracje(List<VatUe> lista, boolean korekta, int nrkolejny) {
         try {
-            String deklaracja = sporzadz(lista);
+            String deklaracja = sporzadz(lista, korekta);
             Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
             if (podpisanadeklaracja != null) {
                 DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
+                deklaracjavatUE.setNrkolejny(nrkolejny);
                 deklaracjavatUE.setPozycje(lista);
                 deklaracjavatUEDAO.dodaj(deklaracjavatUE);
                 vatUeFKView.getDeklaracjeUE().add(deklaracjavatUE);
@@ -72,14 +90,45 @@ public class VATUEDeklaracjaView implements Serializable {
         }
     }
     
-    private String sporzadz(List<VatUe> lista) {
-        deklaracje.vatue.m4.Deklaracja deklaracja = new Deklaracja();
+     public void robdeklaracjekorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta, int nrkolejny) {
+        try {
+            String deklaracja = sporzadzkorekta(lista, staralista, korekta);
+            Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
+            if (podpisanadeklaracja != null) {
+                DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
+                deklaracjavatUE.setNrkolejny(nrkolejny);
+                deklaracjavatUE.setPozycje(lista);
+                deklaracjavatUEDAO.dodaj(deklaracjavatUE);
+                vatUeFKView.getDeklaracjeUE().add(deklaracjavatUE);
+                Msg.msg("Sporządzono deklarację VAT-UEK miesięczną wersja 4");
+            } else {
+                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UEK. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UEK miesięczną wersja 4");
+        }
+    }
+    
+    private String sporzadz(List<VatUe> lista, boolean korekta) {
+        deklaracje.vatue.m4.Deklaracja deklaracja = new deklaracje.vatue.m4.Deklaracja();
         String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
         deklaracja.setNaglowek(VATUEM4Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
         deklaracja.setPodmiot1(VATUEM4Bean.podmiot1(wpisView));
         deklaracja.setPozycjeSzczegolowe(VATUEM4Bean.pozycjeszczegolowe(lista));
         deklaracja.setPouczenie(BigDecimal.ONE);
         return VATUEM4Bean.marszajuldoStringu(deklaracja, wpisView).substring(17);
+    }
+    
+    private String sporzadzkorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta) {
+        List<VatUe> listaroznic = sporzadzroznice(lista, staralista);
+        deklaracje.vatuek.m4.Deklaracja deklaracja = new deklaracje.vatuek.m4.Deklaracja();
+        String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
+        deklaracja.setNaglowek(VATUEKM4Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
+        deklaracja.setPodmiot1(VATUEKM4Bean.podmiot1(wpisView));
+        deklaracja.setPozycjeSzczegolowe(VATUEKM4Bean.pozycjeszczegolowe(listaroznic));
+        deklaracja.setPouczenie(BigDecimal.ONE);
+        return VATUEKM4Bean.marszajuldoStringu(deklaracja, wpisView).substring(17);
     }
 
     private Object[] podpiszDeklaracje(String xml) {
@@ -122,6 +171,50 @@ public class VATUEDeklaracjaView implements Serializable {
 
     public void setVatUeFKView(VatUeFKView vatUeFKView) {
         this.vatUeFKView = vatUeFKView;
+    }
+
+    private List<VatUe> sporzadzroznice(List<VatUe> nowalista, List<VatUe> staralista) {
+        List<VatUe> lista = new ArrayList<>();
+        for (VatUe p : nowalista) {
+            if (p.getKontrahent()!=null) {
+                boolean niebylojeszcze = true;
+                for (VatUe s : staralista) {
+                    if (s.getKontrahent()!=null) {
+                        if (p.getKontrahent().equals(s.getKontrahent())) {
+                            if (Z.z(p.getNetto()) != Z.z(s.getNetto())) {
+                                p.setNettoprzedkorekta(s.getNetto());
+                                lista.add(p);
+                            }
+                            niebylojeszcze = false;
+                            break;
+                        }
+                    }
+                }
+                if (niebylojeszcze) {
+                    lista.add(p);
+                }
+            }
+        }
+        for (VatUe s : staralista) {
+            if (s.getKontrahent()!=null) {
+                boolean bylojuzaleniema = true;
+                for (VatUe p : nowalista) {
+                    if (p.getKontrahent()!=null) {
+                        if (p.getKontrahent().equals(s.getKontrahent())) {
+                            bylojuzaleniema = false;
+                            break;
+                        }
+                    }
+                }
+                if (bylojuzaleniema) {
+                    double wartoscprzedkorekta = s.getNetto();
+                    s.setNettoprzedkorekta(wartoscprzedkorekta);
+                    s.setNetto(0.0);
+                    lista.add(s);
+                }
+            }
+        }
+        return lista;
     }
 
    
