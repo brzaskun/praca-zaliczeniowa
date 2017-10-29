@@ -26,6 +26,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
+import pdf.PdfVAT27dekl;
 import pdf.PdfVatUE;
 
 /**
@@ -125,7 +127,7 @@ public class Vat27View implements Serializable {
        }
     }
 
-    public void drukujewidencjeUE() {
+    public void drukujewidencje() {
         try {
             PdfVatUE.drukujewidencje(klienciWDTWNT, wpisView, "VAT-27");
         } catch (Exception e) {
@@ -134,7 +136,7 @@ public class Vat27View implements Serializable {
         }
     }
 
-    public void drukujewidencjeUETabela() {
+    public void drukujewidencjeTabela() {
         try {
             if (listawybranych != null && !listawybranych.isEmpty()) {
                 PdfVatUE.drukujewidencjeTabela(listawybranych, wpisView, "VAT-27");
@@ -164,6 +166,29 @@ public class Vat27View implements Serializable {
         boolean zwrot = false;
         zwrot = p.getRodzTrans().equals("odwrotne obciążenie sprzedawca");
         return zwrot;
+    }
+    
+    public void usundekl(Deklaracjavat27 d) {
+        try {
+            deklaracjavat27DAO.destroy(d);
+            deklaracjevat27.remove(d);
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+    
+    public void drukuj(Deklaracjavat27 d) {
+        try {
+            if (d == null) {
+                Msg.msg("e", "Nie wybrano deklaracji");
+            } else {
+                PdfVAT27dekl.drukujVAT(podatnikDAO, d, wpisView);
+                Msg.msg("Wydrukowano deklaracje");
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie wydrukowano ewidencji");
+        }
     }
     //<editor-fold defaultstate="collapsed" desc="comment">
     
