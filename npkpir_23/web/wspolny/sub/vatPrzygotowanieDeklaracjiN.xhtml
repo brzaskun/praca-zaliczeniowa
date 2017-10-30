@@ -20,13 +20,9 @@
                                  rendered="#{vat7DKView.pokazuproszczona}"
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:commandButton  value="zapiszFK"  actionListener="#{vat7DKView.zapiszdeklaracje}"
-                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt @form" 
-                                 
-                                 style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
-<!--                <p:commandButton  value="zapiszFK"  actionListener="#{vat7DKView.zapiszdeklaracje}"
                                  update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX" 
                                  rendered="#{vat7DKView.pokazpelna}"
-                                 style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>-->
+                                 style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <h:outputText value="do zapisu wymagana jest obecność karty z podpisem certyfikowanym!" 
                               rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}" style="color: red;"/>
 <!--            <h:outputText value="Wymuś zapis jako deklarację pierwotną."/>
