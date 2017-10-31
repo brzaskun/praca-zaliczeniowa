@@ -8,16 +8,23 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,15 +34,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "")
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"podatnik", "rok", "mc"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Zusmail.findAll", query = "SELECT z FROM Zusmail z"),
-    @NamedQuery(name = "Zusmail.findByPK", query = "SELECT z FROM Zusmail z WHERE z.zusmailPK.podatnik = :podatnik AND z.zusmailPK.rok = :rok AND z.zusmailPK.mc = :mc"),
-    @NamedQuery(name = "Zusmail.findByPodatnik", query = "SELECT z FROM Zusmail z WHERE z.zusmailPK.podatnik = :podatnik"),
-    @NamedQuery(name = "Zusmail.findByRok", query = "SELECT z FROM Zusmail z WHERE z.zusmailPK.rok = :rok"),
-    @NamedQuery(name = "Zusmail.findByMc", query = "SELECT z FROM Zusmail z WHERE z.zusmailPK.mc = :mc"),
-    @NamedQuery(name = "Zusmail.findByRokMc", query = "SELECT z FROM Zusmail z WHERE z.zusmailPK.rok = :rok AND z.zusmailPK.mc = :mc"),
+    @NamedQuery(name = "Zusmail.findByPK", query = "SELECT z FROM Zusmail z WHERE z.podatnik = :podatnik AND z.rok = :rok AND z.mc = :mc"),
+    @NamedQuery(name = "Zusmail.findByPodatnik", query = "SELECT z FROM Zusmail z WHERE z.podatnik = :podatnik"),
+    @NamedQuery(name = "Zusmail.findByRok", query = "SELECT z FROM Zusmail z WHERE z.rok = :rok"),
+    @NamedQuery(name = "Zusmail.findByMc", query = "SELECT z FROM Zusmail z WHERE z.mc = :mc"),
+    @NamedQuery(name = "Zusmail.findByRokMc", query = "SELECT z FROM Zusmail z WHERE z.rok = :rok AND z.mc = :mc"),
     @NamedQuery(name = "Zusmail.findByZus51ch", query = "SELECT z FROM Zusmail z WHERE z.zus51ch = :zus51ch"),
     @NamedQuery(name = "Zusmail.findByZus51bch", query = "SELECT z FROM Zusmail z WHERE z.zus51bch = :zus51bch"),
     @NamedQuery(name = "Zusmail.findByZus52", query = "SELECT z FROM Zusmail z WHERE z.zus52 = :zus52"),
@@ -49,8 +58,24 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Zusmail.findByWysylajacy", query = "SELECT z FROM Zusmail z WHERE z.wysylajacy = :wysylajacy")})
 public class Zusmail implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ZusmailPK zusmailPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private int id;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "podatnik", referencedColumnName = "id")
+    private Podatnik podatnik;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 4)
+    @Column(nullable = false, length = 4)
+    private String rok;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2)
+    @Column(nullable = false, length = 2)
+    private String mc;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(precision = 22)
     private Double zus51ch;
@@ -98,32 +123,47 @@ public class Zusmail implements Serializable {
     public Zusmail() {
     }
 
-    public Zusmail(ZusmailPK zusmailPK) {
-        this.zusmailPK = zusmailPK;
+    public Zusmail(Podatnik p, String rok, String mc) {
+        this.podatnik = p;
+        this.rok = rok;
+        this.mc = mc;
     }
 
-    public Zusmail(ZusmailPK zusmailPK, Date datawysylki, int nrwysylki, String adresmail, String tytul, String tresc, String wysylajacy) {
-        this.zusmailPK = zusmailPK;
-        this.datawysylki = datawysylki;
-        this.nrwysylki = nrwysylki;
-        this.adresmail = adresmail;
-        this.tytul = tytul;
-        this.tresc = tresc;
-        this.wysylajacy = wysylajacy;
+    public int getId() {
+        return id;
     }
 
-    public Zusmail(String podatnik, String rok, String mc) {
-        this.zusmailPK = new ZusmailPK(podatnik, rok, mc);
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public ZusmailPK getZusmailPK() {
-        return zusmailPK;
+    public Podatnik getPodatnik() {
+        return podatnik;
     }
 
-    public void setZusmailPK(ZusmailPK zusmailPK) {
-        this.zusmailPK = zusmailPK;
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
     }
 
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
+    }
+
+  
+  
+  
     public Double getZus51ch() {
         return zus51ch;
     }
@@ -222,19 +262,36 @@ public class Zusmail implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (zusmailPK != null ? zusmailPK.hashCode() : 0);
+        int hash = 7;
+        hash = 17 * hash + this.id;
+        hash = 17 * hash + Objects.hashCode(this.podatnik);
+        hash = 17 * hash + Objects.hashCode(this.rok);
+        hash = 17 * hash + Objects.hashCode(this.mc);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Zusmail)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Zusmail other = (Zusmail) object;
-        if ((this.zusmailPK == null && other.zusmailPK != null) || (this.zusmailPK != null && !this.zusmailPK.equals(other.zusmailPK))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Zusmail other = (Zusmail) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.rok, other.rok)) {
+            return false;
+        }
+        if (!Objects.equals(this.mc, other.mc)) {
+            return false;
+        }
+        if (!Objects.equals(this.podatnik, other.podatnik)) {
             return false;
         }
         return true;
@@ -242,7 +299,11 @@ public class Zusmail implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Zusmail[ zusmailPK=" + zusmailPK + " ]";
+        return "Zusmail{" + "podatnik=" + podatnik + ", rok=" + rok + ", mc=" + mc + ", zus51ch=" + zus51ch + ", zus52=" + zus52 + ", zus53=" + zus53 + ", pit4=" + pit4 + '}';
     }
+
+    
+
+ 
     
 }

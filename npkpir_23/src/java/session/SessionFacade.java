@@ -1197,7 +1197,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public Zusmail findZusmail(Zusmail zusmail) {
-        return (Zusmail) em.createNamedQuery("Zusmail.findByPK").setParameter("podatnik", zusmail.getZusmailPK().getPodatnik()).setParameter("rok", zusmail.getZusmailPK().getRok()).setParameter("mc", zusmail.getZusmailPK().getMc()).getSingleResult();
+        return (Zusmail) em.createNamedQuery("Zusmail.findByPK").setParameter("podatnik", zusmail.getPodatnik()).setParameter("rok", zusmail.getRok()).setParameter("mc", zusmail.getMc()).getSingleResult();
     }
 
     public List<Zusmail> findZusRokMc(String rok, String mc) {

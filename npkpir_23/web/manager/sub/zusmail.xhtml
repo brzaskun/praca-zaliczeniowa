@@ -11,16 +11,16 @@
     <h:form>
         <p:panel header="Wybierz rok i miesiąc wysyłki" style="max-width: 1350px;">
             <p:panelGrid id="parametryzus" columns="8">
-                <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{zUSMailView.rok}">
-                    <p:ajax event="change" listener="#{zUSMailView.dokonajZmianyElementu('roku.')}" update=":wykazmaili"/>
+                <h:outputText value="rok: "/><p:selectOneMenu value="#{zUSMailView.rok}">
+                    <p:ajax event="change" partialSubmit="true" listener="#{zUSMailView.dokonajZmianyElementu('roku.')}" update=":wykazmaili"/>
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </p:selectOneMenu>
-                <h:outputText value="miesiac : "/><p:selectOneMenu value="#{zUSMailView.mc}" >
-                    <p:ajax event="change"  listener="#{zUSMailView.dokonajZmianyElementu('miesiąca.')}" update=":wykazmaili"/>
+                <h:outputText value="miesiac płatności: "/><p:selectOneMenu value="#{zUSMailView.mc}" >
+                    <p:ajax event="change" partialSubmit="true"  listener="#{zUSMailView.dokonajZmianyElementu('miesiąca.')}" update=":wykazmaili"/>
                     <f:selectItems value="#{Mce.mceList}"/>
                 </p:selectOneMenu>
                 <h:outputText value="nr wysyłki : "/><p:selectOneMenu value="#{zUSMailView.nrwysylki}" >
-                    <p:ajax event="change"  listener="#{zUSMailView.dokonajZmianyElementu('statusu wysyłki.')}" update=":wykazmaili"/>
+                    <p:ajax event="change" partialSubmit="true"  listener="#{zUSMailView.dokonajZmianyElementu('statusu wysyłki.')}" update=":wykazmaili"/>
                     <f:selectItems value="#{zUSMailView.numery}"/>
                 </p:selectOneMenu>
                 <h:outputText value="Kopie maili przyjdą na adres:"/><h:outputText value="#{WpisView.wprowadzil.email}"/>
@@ -38,10 +38,10 @@
         <h:form id="wykazmaili">
             <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="max-width: 1350px;"
                          rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" 
-                         rowKey="#{item.zusmailPK.podatnik}" selection="#{zUSMailView.wybranemaile}">
+                         rowKey="#{item.podatnik.printnazwa}" selection="#{zUSMailView.wybranemaile}">
                 <p:ajax event="rowSelectCheckbox" listener="#{zUSMailView.wybranoWiersz}" update=":wykazmailibuttons:parametryzus"/>
                 <f:facet name="header">
-                    <h:outputText value="Lista przygotowanych maili"/>
+                    <h:outputText value="Kwoty z deklaracji podatników aktywnych za #{zUSMailView.mcuprzedni} płatne w miesiącu #{zUSMailView.mc}"/>
                 </f:facet>
                 <p:column width="20" style="text-align: center;">
                     <p:rowToggler />
@@ -52,7 +52,7 @@
                     <f:facet name="header">
                         <h:outputText value="Podatnik"/>
                     </f:facet>
-                    <h:outputText value="#{item.zusmailPK.podatnik}" />
+                    <h:outputText value="#{item.podatnik.printnazwaShort}" />
                 </p:column>
                 <p:column width="45">
                     <f:facet name="header">
@@ -151,7 +151,7 @@
                     <f:facet name="header">
                         <h:outputText value="Podatnik"/>
                     </f:facet>
-                    <h:outputText value="#{item.zusmailPK.podatnik}" />
+                    <h:outputText value="#{item.podatnik.printnazwaShort}" />
                 </p:column>s
             </p:dataTable>
         </h:form>

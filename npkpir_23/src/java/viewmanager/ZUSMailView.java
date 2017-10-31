@@ -13,9 +13,7 @@ import dao.ZusmailDAO;
 import embeddable.Mce;
 import entity.Podatnik;
 import entity.Zusmail;
-import entity.ZusmailPK;
 import entity.Zusstawki;
-import entity.ZusstawkiPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,11 +45,12 @@ public class ZUSMailView implements Serializable {
     
     private String rok;
     private String mc;
+    private String mcuprzedni;
     private int nrwysylki;
     private List<Integer> numery;
     private List<Zusmail> wykazprzygotowanychmaili;
     private List<Zusmail> wybranemaile;
-    private Map<String, Zusstawki> stawkipodatnicy;
+    private Map<Podatnik, Zusstawki> stawkipodatnicy;
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
@@ -72,6 +71,7 @@ public class ZUSMailView implements Serializable {
     private void init() {
         rok = String.valueOf((new DateTime()).getYear());
         mc = Mce.getNumberToMiesiac().get((new DateTime()).getMonthOfYear());
+        mcuprzedni = Mce.zmniejszmiesiac(rok, mc)[1];
         pobierzstawki();
         przygotujmaile();
         for (int i = 0 ; i < 12 ; i++) {
@@ -83,14 +83,13 @@ public class ZUSMailView implements Serializable {
         stawkipodatnicy.clear();
         List<Podatnik> podatnicy = podatnikDAO.findAll();
         Collections.sort(podatnicy, new Podatnikcomparator());
-        ZusstawkiPK zusstawkiPK = new ZusstawkiPK(rok, mc);
         for (Podatnik p : podatnicy) {
             if (p.isWysylkazusmail() == true) {
                 List<Zusstawki> zusstawki = p.getZusparametr();
                 if (zusstawki != null) {
                     for (Zusstawki r : zusstawki) {
-                        if (r.getZusstawkiPK().equals(zusstawkiPK)) {
-                            stawkipodatnicy.put(p.getNazwapelna(), r);
+                        if (r.getZusstawkiPK().getRok().equals(rok) && r.getZusstawkiPK().getMiesiac().equals(mc)){
+                            stawkipodatnicy.put(p, r);
                         }
                     }
                 }
@@ -115,13 +114,12 @@ public class ZUSMailView implements Serializable {
     public void przygotujmaile() {
         wykazprzygotowanychmaili.clear();
         if (!stawkipodatnicy.isEmpty()) {
-            List<String> pobranipodatnicy = new ArrayList<>();
+            List<Podatnik> pobranipodatnicy = new ArrayList<>();
             pobranipodatnicy.addAll(stawkipodatnicy.keySet());
-            Collections.sort(pobranipodatnicy);
-            for (String p : pobranipodatnicy) {
+            Collections.sort(pobranipodatnicy, new Podatnikcomparator());
+            for (Podatnik p : pobranipodatnicy) {
                 Zusstawki zusstawki = stawkipodatnicy.get(p);
-                ZusmailPK zusmailPK = new ZusmailPK(p, rok, mc);
-                Zusmail zusmail = new Zusmail(zusmailPK);
+                Zusmail zusmail = new Zusmail(p, rok, mc);
                 zusmail.setZus51ch(zusstawki.getZus51ch());
                 zusmail.setZus51bch(zusstawki.getZus51bch());
                 zusmail.setZus52(zusstawki.getZus52());
@@ -134,7 +132,7 @@ public class ZUSMailView implements Serializable {
                 } catch (Exception e) {}
                 zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
                 zusmail.setTresc(String.format(new Locale("pl"),trescmaila, rok, mc, zus51, zusmail.getZus52(), zusmail.getZus53(), zusmail.getPit4()));
-                zusmail.setAdresmail((podatnikDAO.find(p)).getEmail());
+                zusmail.setAdresmail(p.getEmail());
                 zusmail.setWysylajacy(wpisView.getWprowadzil().getLogin());
                 if (!wykazprzygotowanychmaili.contains(zusmail)) {
                     wykazprzygotowanychmaili.add(zusmail);
@@ -161,7 +159,7 @@ public class ZUSMailView implements Serializable {
             if (listazusmailwbazie != null) {
                 for (Zusmail p : listazusmailwbazie) {
                     for (Zusmail r : wykazprzygotowanychmaili) {
-                        if (r.getZusmailPK().equals(p.getZusmailPK())) {
+                        if (r.getPodatnik().equals(p.getPodatnik()) && r.getRok().equals(p.getRok()) && r.getMc().equals(p.getMc())) {
                             r.setDatawysylki(p.getDatawysylki());
                             r.setNrwysylki(p.getNrwysylki());
                             break;
@@ -177,6 +175,7 @@ public class ZUSMailView implements Serializable {
     
     public void dokonajZmianyElementu(String cozmieniono) {
         Msg.msg(String.format("Dokonano zmiany: %s", cozmieniono));
+        mcuprzedni = Mce.zmniejszmiesiac(rok, mc)[1];
         pobierzstawki();
         przygotujmaile();
     }
@@ -237,7 +236,7 @@ public class ZUSMailView implements Serializable {
     }
     
     public void wybranoWiersz(SelectEvent e) {
-        Msg.msg("Wybrano wiersz "+((Zusmail) e.getObject()).getZusmailPK().getPodatnik());
+        Msg.msg("Wybrano wiersz "+((Zusmail) e.getObject()).getPodatnik().getPrintnazwa());
     }
 
     public String getRok() {
@@ -295,6 +294,14 @@ public class ZUSMailView implements Serializable {
 
     public void setWybranemaile(List<Zusmail> wybranemaile) {
         this.wybranemaile = wybranemaile;
+    }
+
+    public String getMcuprzedni() {
+        return mcuprzedni;
+    }
+
+    public void setMcuprzedni(String mcuprzedni) {
+        this.mcuprzedni = mcuprzedni;
     }
 
     

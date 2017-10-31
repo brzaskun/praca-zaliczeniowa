@@ -317,6 +317,14 @@ public class Podatnik implements Serializable {
     public String getPrintnazwa() {
         return printnazwa;
     }
+    
+    public String getPrintnazwaShort() {
+        String zwrot = printnazwa;
+        if (printnazwa != null && printnazwa.length() > 15) {
+            zwrot = printnazwa.substring(0, 15);
+        }
+        return zwrot;
+    }
 
     public void setPrintnazwa(String printnazwa) {
         this.printnazwa = printnazwa;
