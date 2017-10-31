@@ -1028,7 +1028,9 @@ public class PodatnikView implements Serializable {
 
     public void znajdzdaneregon(String formularz) {
         try {
-            SzukajDaneBean.znajdzdaneregon(formularz, selectedDod, gUSView);
+            if (selectedDod.getId() == 0) {
+                SzukajDaneBean.znajdzdaneregon(formularz, selectedDod, gUSView);
+            }
         } catch (Exception e) {
             E.e(e);
         }

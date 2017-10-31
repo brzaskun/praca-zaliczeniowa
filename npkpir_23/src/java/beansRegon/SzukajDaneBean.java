@@ -72,9 +72,9 @@ public class SzukajDaneBean {
         if (selected.getNip() != null && !m.find() && selected.getNip().length()==10) {
             Map<String, String> dane = gUSView.pobierzDane(selected.getNip());
             if (dane.size()==1) {
-                selected.setNazwapelna("nie znaleziono firmy w bazie Regon");
+                selected.setPrintnazwa("nie znaleziono firmy w bazie Regon");
             } else {
-                selected.setNazwapelna(dane.get("Nazwa"));
+                selected.setPrintnazwa(dane.get("Nazwa"));
                 selected.setRegon(dane.get("Regon"));
                 selected.setKodpocztowy(dane.get("KodPocztowy"));
                 selected.setWojewodztwo(StringUtils.lowerCase(dane.get("Wojewodztwo")));

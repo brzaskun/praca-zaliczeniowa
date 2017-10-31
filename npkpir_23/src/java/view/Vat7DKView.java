@@ -43,6 +43,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -775,20 +776,20 @@ public class Vat7DKView implements Serializable {
         String wiersz = null;
         byte[] deklaracjapodpisana = null;
         try {
-//            if (ObslugaPodpisuBean.moznaPodpisac() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-//                VAT713 vat713 = new VAT713(pozycje, schema, true);
-//                FacesContext context = FacesContext.getCurrentInstance();
-//                PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
-//                Object[] deklaracje = podpisView.podpiszDeklaracje(vat713.getWiersz());
-//                deklaracjapodpisana = (byte[]) deklaracje[0];
-//                wiersz = (String) deklaracje[1];
-//                nowadekl.setJestcertyfikat(true);
-//            } else {
+            if (ObslugaPodpisuBean.moznaPodpisac() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+                VAT713 vat713 = new VAT713(pozycje, schema, true);
+                FacesContext context = FacesContext.getCurrentInstance();
+                PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
+                Object[] deklaracje = podpisView.podpiszDeklaracje(vat713.getWiersz());
+                deklaracjapodpisana = (byte[]) deklaracje[0];
+                wiersz = (String) deklaracje[1];
+                nowadekl.setJestcertyfikat(true);
+            } else {
                 VAT713 vat713 = new VAT713(pozycje, schema, false);
                 //to jest wygenerowana dekalracjia w xml
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(false);
-//            }
+            }
         } catch (Exception ex) {
             Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);

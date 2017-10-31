@@ -20,7 +20,7 @@
 
        <h:form>
            <h1><h:outputText value="List"/></h1>
-           <p:dataTable value="#{aktywacjaPodatnikow.listapodatnikow}" var="item" style="max-width: 800px;" sortBy="#{item.nazwapelna}">
+           <p:dataTable value="#{aktywacjaPodatnikow.listapodatnikow}" var="item" style="max-width: 1100px;" sortBy="#{item.nazwapelna}">
                <p:column>
                    <f:facet name="header">
                        <h:outputText value="Nip"/>
@@ -33,9 +33,15 @@
                    </f:facet>
                    <h:outputText value="#{item.pesel}"/>
                </p:column>
-               <p:column>
+               <p:column width="200px;">
                    <f:facet name="header">
                        <h:outputText value="Nazwapelna"/>
+                   </f:facet>
+                   <h:outputText value="#{item.printnazwa}"/>
+               </p:column>
+               <p:column>
+                   <f:facet name="header">
+                       <h:outputText value="ID"/>
                    </f:facet>
                    <h:outputText value="#{item.nazwapelna}"/>
                </p:column>
