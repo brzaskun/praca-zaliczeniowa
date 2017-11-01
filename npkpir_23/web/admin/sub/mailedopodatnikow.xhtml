@@ -22,20 +22,32 @@
             </h:form>
         </p:tab>
         <p:tab title="adresaci">
-            <p:dataTable value="#{adminMailView.klientList}" var="loop" rowIndexVar="index" style="width: 1000px;">
-                <f:facet name="header">
-                    <h:outputText value="Wykaz adresatów"/>
-                </f:facet>
-                <p:column headerText="#{mgs.numerkolejny}">
-                    <h:outputText value="#{index}"/>
-                </p:column>
-                <p:column headerText="nazwa">
-                    <h:outputText value="#{loop.npelna}"/>
-                </p:column>
-                <p:column headerText="adres">
-                    <h:outputText value="#{loop.email}"/>
-                </p:column>
-            </p:dataTable>
+            <h:form>
+                <p:panelGrid columns="4">
+                    <h:outputText value="tylko pracodawcy"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkozus}">
+                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="osoby prawne"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkospolki}">
+                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                </p:panelGrid>
+                <p:dataTable value="#{adminMailView.klientList}" var="loop" rowIndexVar="index" style="width: 800px;" id="adresy"  sortBy="#{loop.npelna}" rowKey="#{loop.id}">
+                    <f:facet name="header">
+                        <h:outputText value="Wykaz adresatów"/>
+                    </f:facet>
+                    <p:column headerText="#{mgs.numerkolejny}" width="30">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="nazwa" width="400">
+                        <h:outputText value="#{loop.npelna}"/>
+                    </p:column>
+                    <p:column headerText="adres">
+                        <h:outputText value="#{loop.email}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
         </p:tab>
         <p:tab title="wyslij maila">
             <bcf:ajaxs/>

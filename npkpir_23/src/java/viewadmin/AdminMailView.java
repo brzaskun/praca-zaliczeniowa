@@ -6,15 +6,18 @@ package viewadmin;
 
 import dao.AdminmailDAO;
 import dao.FakturywystokresoweDAO;
+import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import embeddable.Mce;
 import entity.Adminmail;
 import entity.Fakturywystokresowe;
 import entity.Klienci;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -25,7 +28,6 @@ import mail.MailAdmin;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
-import view.WpisView;
 
 /**
  *
@@ -42,18 +44,22 @@ public class AdminMailView implements Serializable {
     @Inject
     private AdminmailDAO adminmailDAO;
     @Inject
+    private PodatnikDAO podatnikDAO;
+    @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
-    private Set<Klienci> klientList;
+    private List<Klienci> klientList;
     private List<Adminmail> wyslanemaile;
+    private boolean tylkozus;
+    private boolean tylkospolki;
 
     public AdminMailView() {
-        klientList = new HashSet<>();
-        wyslanemaile = new ArrayList<>();
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         try {
+            klientList = new ArrayList<>();
+            wyslanemaile = new ArrayList<>();
             DateTime dt = new DateTime();  // current time
             int month = dt.getMonthOfYear();
             String mc = Mce.getNumberToMiesiac().get(month);
@@ -64,15 +70,35 @@ public class AdminMailView implements Serializable {
                 rok = String.valueOf(dt.getYear()-1);
                 wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc, rok);
             }
-            if (wykazfaktur == null) {
-                mc = Mce.getNumberToMiesiac().get(month-1);
-                wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc, rok);
+            if (wykazfaktur == null || wykazfaktur.size() == 0) {
+                String[] nowyrokmc = Mce.zmniejszmiesiac(rok,mc);
+                wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", nowyrokmc[1], nowyrokmc[0]);
             }
+            Set<Klienci> klientListtemp = new HashSet<>();
             for (Fakturywystokresowe p : wykazfaktur) {
-                if (p.getDokument().getKontrahent().getEmail() != null && !p.getDokument().getKontrahent().getEmail().contains("brak")) {
-                    klientList.add(p.getDokument().getKontrahent());
+                if (p.getDokument().getKontrahent().getEmail() != null && !p.getDokument().getKontrahent().getEmail().contains("brak") && !p.getDokument().getKontrahent().getEmail().equals("")) {
+                    klientListtemp.add(p.getDokument().getKontrahent());
                 }
             }
+            if (tylkozus) {
+                for (Iterator<Klienci> it = klientListtemp.iterator();it.hasNext();) {
+                    Klienci p = it.next();
+                    Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getNip());
+                    if (pod == null || !pod.isZatrudniapracownikow()) {
+                        it.remove();
+                    }
+                }
+            }
+            if (tylkospolki) {
+                for (Iterator<Klienci> it = klientListtemp.iterator();it.hasNext();) {
+                    Klienci p = it.next();
+                    Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getNip());
+                    if (pod == null || pod.getFirmafk() != 1) {
+                        it.remove();
+                    }
+                }
+            }
+            klientList.addAll(klientListtemp);
             wyslanemaile = adminmailDAO.findAll();
         } catch (Exception e) {
             Msg.msg("e", "Brak wystawionych faktur okresowych w bieżącym miesiącu");
@@ -143,11 +169,11 @@ public class AdminMailView implements Serializable {
         this.zawartoscmaila = zawartoscmaila;
     }
 
-    public Set<Klienci> getKlientList() {
+    public List<Klienci> getKlientList() {
         return klientList;
     }
 
-    public void setKlientList(Set<Klienci> klientList) {
+    public void setKlientList(List<Klienci> klientList) {
         this.klientList = klientList;
     }
 
@@ -158,6 +184,22 @@ public class AdminMailView implements Serializable {
 
     public void setWyslanemaile(List<Adminmail> wyslanemaile) {
         this.wyslanemaile = wyslanemaile;
+    }
+
+    public boolean isTylkozus() {
+        return tylkozus;
+    }
+
+    public void setTylkozus(boolean tylkozus) {
+        this.tylkozus = tylkozus;
+    }
+
+    public boolean isTylkospolki() {
+        return tylkospolki;
+    }
+
+    public void setTylkospolki(boolean tylkospolki) {
+        this.tylkospolki = tylkospolki;
     }
 
     public String getTematwiadomosci() {
