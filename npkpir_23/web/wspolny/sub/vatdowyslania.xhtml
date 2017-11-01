@@ -11,9 +11,9 @@
     <p:outputPanel id="paneldeklaracjadowyslania">
     <h:form id="formX">
         <p:growl life="3600"  id="msg" autoUpdate="true"/>
-        <p:panel header="Wykaz oczekujacych wysyłki deklaracji" style="max-width: 1400px;"/>
+        <p:panel header="Wykaz oczekujacych wysyłki deklaracji" style="width: 1250px;"/>
         <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" emptyMessage="brak oczekujących deklaracji do wyslania" style="max-width: 1400px;">
-            <p:column style="width: 3%;">
+            <p:column style="width: 10px; text-align: center; float: inside;">
                 <p:rowToggler/>
             </p:column>
             <p:ajax event="rowEdit" update=":formX:msg" listener="#{deklaracjevatView.edit}" />
@@ -37,8 +37,8 @@
                         <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
                     </h:panelGrid>
                 </p:dataGrid>
-                <p:dataGrid columns="1" value="#{item}" var="item2">
-                    <p:dataTable value="#{item2.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;">
+                <p:dataGrid columns="1" value="#{item}" var="item2" style="height: 100px;">
+                    <p:dataTable value="#{item2.schemawierszsumarycznylista}" var="wiersz" style="width: 600px;height: 95px;">
                         <p:column width="500" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                         </p:column>
