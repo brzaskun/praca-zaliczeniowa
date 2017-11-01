@@ -1870,6 +1870,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (PodatnikOpodatkowanieD) em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getSingleResult();
     }
     
+    public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRok(Podatnik p, String rok) {
+        return (PodatnikOpodatkowanieD) em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", p).setParameter("rok", rok).getSingleResult();
+    }
+    
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRokPoprzedni(WpisView wpisView) {
         return (PodatnikOpodatkowanieD) em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokUprzedniSt()).getSingleResult();
     }

@@ -23,13 +23,17 @@
         </p:tab>
         <p:tab title="adresaci">
             <h:form>
-                <p:panelGrid columns="4">
+                <p:panelGrid columns="6">
                     <h:outputText value="tylko pracodawcy"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkozus}">
                         <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                     <h:outputText value="osoby prawne"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkospolki}">
+                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="vat-owcy"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkovat}">
                         <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>

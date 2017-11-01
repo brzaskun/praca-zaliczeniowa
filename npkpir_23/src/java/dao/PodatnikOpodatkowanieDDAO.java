@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
 import java.io.Serializable;
 import java.util.List;
@@ -32,6 +33,10 @@ public class PodatnikOpodatkowanieDDAO extends DAO implements Serializable{
     
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRok(WpisView wpisView) {
         return sessionFacade.findOpodatkowaniePodatnikRok(wpisView);
+    }
+    
+    public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRok(Podatnik p, String rok) {
+        return sessionFacade.findOpodatkowaniePodatnikRok(p, rok);
     }
     
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRokPoprzedni(WpisView wpisView) {

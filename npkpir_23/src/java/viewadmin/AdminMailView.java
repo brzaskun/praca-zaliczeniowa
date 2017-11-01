@@ -7,6 +7,7 @@ package viewadmin;
 import dao.AdminmailDAO;
 import dao.FakturywystokresoweDAO;
 import dao.PodatnikDAO;
+import dao.PodatnikOpodatkowanieDDAO;
 import dao.SMTPSettingsDAO;
 import embeddable.Mce;
 import entity.Adminmail;
@@ -42,6 +43,8 @@ public class AdminMailView implements Serializable {
     @Inject
     private FakturywystokresoweDAO fakturywystokresoweDAO;
     @Inject
+    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
+    @Inject
     private AdminmailDAO adminmailDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -51,6 +54,7 @@ public class AdminMailView implements Serializable {
     private List<Adminmail> wyslanemaile;
     private boolean tylkozus;
     private boolean tylkospolki;
+    private boolean tylkovat;
 
     public AdminMailView() {
     }
@@ -98,13 +102,33 @@ public class AdminMailView implements Serializable {
                     }
                 }
             }
+            if (tylkovat) {
+                for (Iterator<Klienci> it = klientListtemp.iterator();it.hasNext();) {
+                    Klienci p = it.next();
+                    Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getNip());
+                    if (pod == null || pod.isTylkodlaZUS() || !vatowiec(pod, rok)) {
+                        it.remove();
+                    }
+                }
+            }
             klientList.addAll(klientListtemp);
             wyslanemaile = adminmailDAO.findAll();
         } catch (Exception e) {
             Msg.msg("e", "Brak wystawionych faktur okresowych w bieżącym miesiącu");
         }
     }
-
+    
+    private boolean vatowiec(Podatnik p, String rok) {
+        boolean vatowiec = false;
+        String rodzajopodatkowania = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(p, rok).getFormaopodatkowania();
+        if (rodzajopodatkowania.contains("bez VAT")) {
+            vatowiec = false;
+        } else {
+            vatowiec = true;
+        }
+        return vatowiec;
+    }
+    
     public void zachowajMaila() {
         Msg.msg("i", "Zachowano treść wiadomości mailowej");
     }
@@ -200,6 +224,14 @@ public class AdminMailView implements Serializable {
 
     public void setTylkospolki(boolean tylkospolki) {
         this.tylkospolki = tylkospolki;
+    }
+
+    public boolean isTylkovat() {
+        return tylkovat;
+    }
+
+    public void setTylkovat(boolean tylkovat) {
+        this.tylkovat = tylkovat;
     }
 
     public String getTematwiadomosci() {
