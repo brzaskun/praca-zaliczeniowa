@@ -44,6 +44,7 @@
                     <p:ajax event="filter" global="false"/>
                     <p:ajax event="sort" global="false"/>
                     <p:column selectionMode="multiple" styleClass="checkwiersza"   style="text-align: center;width: 30px;" rendered="#{itemik.id eq '9999' ? false : true}"></p:column>
+                    <p:column style="text-align: center;width: 30px;" rendered="#{itemik.id ne '9999' ? false : true}"></p:column>
                     <p:column width="10" style="text-align: center;">
                         <h:outputText styleClass="lpwiersza"  value="#{index2+1}" style="font-size: 0.1pt;"/>
                     </p:column>
