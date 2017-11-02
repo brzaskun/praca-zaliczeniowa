@@ -32,7 +32,6 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -204,12 +203,13 @@ public class KontaVatFKView implements Serializable {
         List<StronaWiersza> zapisyRok  = KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO);
         String vatokres = sprawdzjakiokresvat();
         int mcgornybo = vatokres.equals("miesięczne") ? 2 : 3;
-        for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
-            int mc = Mce.getMiesiacToNumber().get(it.next().getWiersz().getDokfk().getMiesiac());
-                if (mc < mcgornybo) {
-                    it.remove();
-                }
-        }
+        //nie rozumiem dlaczego usuwalem na dodatek dwie petle w jednej funkcji!
+//        for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
+//            int mc = Mce.getMiesiacToNumber().get(it.next().getWiersz().getDokfk().getMiesiac());
+//                if (mc < mcgornybo) {
+//                    it.remove();
+//                }
+//        }
         double sumawn = 0.0;
         double sumama = 0.0;
         if (zapisyRok != null) {
