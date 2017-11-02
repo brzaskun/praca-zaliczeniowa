@@ -90,7 +90,7 @@ public class EwidencjaVatCheckView implements Serializable {
             if (p.isDuplikat() || r.getDokfk().getRodzajedok().getKategoriadokumentu() == 0) {
                 p_vat = Z.zAbs(p.getVat());
             }
-            if (p_vat == Z.z(r.getKwotaPLN())) {
+            if (Z.z(p_vat) == Z.z(r.getKwotaPLN())) {
                 if (p.equals(r.getDokfk())) {
                     if (p.getNrWlDk().equals(r.getDokfk().getNumerwlasnydokfk())) {
                         jest = true;
