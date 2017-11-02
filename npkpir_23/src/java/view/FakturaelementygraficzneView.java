@@ -117,7 +117,7 @@ public class FakturaelementygraficzneView implements Serializable {
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
         } catch (Exception ex) {
             E.e(ex);
-            Msg.msg("Wystąppił błąd. Nie udało się załadowanać pliku");
+            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
         }
     }
     

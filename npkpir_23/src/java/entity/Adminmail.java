@@ -58,6 +58,10 @@ public class Adminmail implements Serializable {
     @Size(max = 255)
     @Column(length = 255)
     private String tytul;
+    @Lob
+    private byte[] plik;
+    @Column(name = "nazwazalacznika")
+    private String nazwazalacznika;
 
     public Adminmail() {
     }
@@ -82,6 +86,14 @@ public class Adminmail implements Serializable {
         this.datawysylki = datawysylki;
     }
 
+    public byte[] getPlik() {
+        return plik;
+    }
+
+    public void setPlik(byte[] plik) {
+        this.plik = plik;
+    }
+
     public List<String> getMaile() {
         return maile;
     }
@@ -96,6 +108,14 @@ public class Adminmail implements Serializable {
 
     public void setPodatnicy(List<String> podatnicy) {
         this.podatnicy = podatnicy;
+    }
+
+    public String getNazwazalacznika() {
+        return nazwazalacznika;
+    }
+
+    public void setNazwazalacznika(String nazwazalacznika) {
+        this.nazwazalacznika = nazwazalacznika;
     }
 
 

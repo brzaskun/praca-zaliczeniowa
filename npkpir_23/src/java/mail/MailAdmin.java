@@ -8,11 +8,13 @@ import data.Data;
 import entity.Pismoadmin;
 import entity.SMTPSettings;
 import entity.Uz;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.activation.DataHandler;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
@@ -20,6 +22,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
+import javax.mail.util.ByteArrayDataSource;
 import view.WpisView;
 
 /**
@@ -29,7 +32,7 @@ import view.WpisView;
 
 public class MailAdmin implements Serializable {
 
-    public static void mailAdmin(String adres, String temat, String tresc, SMTPSettings ogolne)  {
+    public static void mailAdmin(String adres, String temat, String tresc, SMTPSettings ogolne, InputStream zalacznik, String nazwapliku)  {
         try {
             MailSetUp mailSetUp = new MailSetUp();
             MimeMessage message = mailSetUp.logintoMailAdmin(adres, null, ogolne);
@@ -41,12 +44,28 @@ public class MailAdmin implements Serializable {
             Multipart mp = new MimeMultipart();
             mp.addBodyPart(mbp1);
             message.setContent(mp);
+            dolaczplik(zalacznik, mp, nazwapliku);
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private static void dolaczplik(InputStream is, Multipart mimeMultipart, String nazwapliku) {
+        if (is != null && is instanceof InputStream) {
+            try {
+                // create the second message part with the attachment from a OutputStrean
+                MimeBodyPart attachment= new MimeBodyPart();
+                ByteArrayDataSource ds = new ByteArrayDataSource(is, "application/pdf");
+                attachment.setDataHandler(new DataHandler(ds));
+                attachment.setFileName(nazwapliku);
+                mimeMultipart.addBodyPart(attachment);
+            } catch (Exception ex) {
+                Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
     }
     
     public static void usterkausunieta(Pismoadmin p, Uz uz, WpisView wpisView, SMTPSettings ogolne) {
@@ -110,6 +129,6 @@ public class MailAdmin implements Serializable {
     
     
     public static void main (String[] args) throws MessagingException {
-        MailAdmin.mailAdmin("brzaskun@o2.pl", "Test", "test \n test", null);
+        MailAdmin.mailAdmin("brzaskun@o2.pl", "Test", "test \n test", null, null, null);
     }
 }

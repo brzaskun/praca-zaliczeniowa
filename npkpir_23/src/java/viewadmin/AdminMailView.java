@@ -14,6 +14,8 @@ import entity.Adminmail;
 import entity.Fakturywystokresowe;
 import entity.Klienci;
 import entity.Podatnik;
+import error.E;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,8 +30,12 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import mail.MailAdmin;
 import msg.Msg;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import view.WpisView;
 
 /**
@@ -59,6 +65,8 @@ public class AdminMailView implements Serializable {
     private boolean tylkozus;
     private boolean tylkospolki;
     private boolean tylkovat;
+    private InputStream zalacznik;
+    private String nazwazalacznik;
 
     public AdminMailView() {
     }
@@ -131,7 +139,7 @@ public class AdminMailView implements Serializable {
         for (Klienci p : klientList) {
         try {
             if (p.getEmail() != null) {
-                MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef());
+                MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
             } else {
                 Msg.msg("w", "Brak maila dla " + p.getNpelna());
             }
@@ -145,10 +153,11 @@ public class AdminMailView implements Serializable {
     
     public void wyslijAdminMailTest() {
         try {
-            MailAdmin.mailAdmin("info@taxman.biz.pl", tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef());
+            MailAdmin.mailAdmin("info@taxman.biz.pl", tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
         }
+        zachowajmail();
         Msg.msg("i", "Wyslano wiadomości testowa na adres info@taxman.biz.pl");
     }
     
@@ -159,6 +168,8 @@ public class AdminMailView implements Serializable {
             adminmail.setDatawysylki(new Date());
             adminmail.setTytul(tematwiadomosci);
             adminmail.setTresc(zawartoscmaila);
+            adminmail.setPlik(IOUtils.toByteArray(zalacznik));
+            adminmail.setNazwazalacznika(nazwazalacznik);
             List<String> email = new ArrayList<>();
             List<String> nazwy = new ArrayList<>();
             for (Klienci p : klientList) {
@@ -177,6 +188,24 @@ public class AdminMailView implements Serializable {
             Msg.msg("e", "Blad nie zachowano maila! " + e.toString());
         }
     }
+    
+    public void zachowajZalacznik(FileUploadEvent event) {
+        try {
+            UploadedFile uploadedFile = event.getFile();
+            String filename = uploadedFile.getFileName();
+            String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            if (extension.equals("pdf")) {
+                zalacznik = uploadedFile.getInputstream();
+                nazwazalacznik = uploadedFile.getFileName();
+                Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            } else {
+                Msg.msg("e","Wystąppił błąd. Akceptuję tylko pliki pdf");
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getZawartoscmaila() {
@@ -185,6 +214,14 @@ public class AdminMailView implements Serializable {
 
     public void setZawartoscmaila(String zawartoscmaila) {
         this.zawartoscmaila = zawartoscmaila;
+    }
+
+    public String getNazwazalacznik() {
+        return nazwazalacznik;
+    }
+
+    public void setNazwazalacznik(String nazwazalacznik) {
+        this.nazwazalacznik = nazwazalacznik;
     }
 
     public WpisView getWpisView() {

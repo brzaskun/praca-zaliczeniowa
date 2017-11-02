@@ -15,8 +15,8 @@
                     <p:column>
                         <p:growl life="3600"  id="messages" autoUpdate="true"/>
                        <p:editor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" width="1200" height="600"/>
-                       <p:commandButton value="Save" actionListener="#{adminMailView.zachowajMaila}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"  update=":akordeon:wysylanie:wprowadzonymail"/>
-                       <p:commandButton value="Reset" type="button" onclick="PF('editorWidget').clear();" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-close"  update=":akordeon:wysylanie:wprowadzonymail"/>
+                       <p:commandButton value="Save" actionListener="#{adminMailView.zachowajMaila}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"  update=":akordeon:wysylanie"/>
+                       <p:commandButton value="Reset" type="button" onclick="PF('editorWidget').clear();" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-close"  update=":akordeon:wysylanie"/>
                     </p:column>
                 </p:panelGrid>
             </h:form>
@@ -51,6 +51,22 @@
                         <h:outputText value="#{loop.email}"/>
                     </p:column>
                 </p:dataTable>
+            </h:form>
+        </p:tab>
+        <p:tab title="załącznik">
+            <h:form>
+                <p:panel header="Wczytaj plik, który będzie umieszczony jako załącznik do maila"/>
+                <p:fileUpload fileUploadListener="#{adminMailView.zachowajZalacznik}" 
+                              update="@form" mode="advanced" dragDropSupport="true" fileLimit="3"
+                                sizeLimit="2000000"  allowTypes="/(\.|\/)(pdf)$/" 
+                                validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                style="height: 200px;">
+                </p:fileUpload>
+                <p:outputPanel>
+                    <h:outputText value="Wczytano plik #{adminMailView.nazwazalacznik}"/>
+                </p:outputPanel>
             </h:form>
         </p:tab>
         <p:tab title="wyslij maila">
