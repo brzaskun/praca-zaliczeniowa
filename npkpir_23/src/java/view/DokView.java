@@ -267,9 +267,7 @@ public final class DokView implements Serializable {
         try {
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             rodzajedokKlienta.addAll(pobierzrodzajedok());
-            String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
-            nieVatowiec = opodatkowanie.contains("bez VAT");
-            if (nieVatowiec) {
+            if (!wpisView.isVatowiec()) {
                 selDokument.setDokumentProsty(true);
                 ukryjEwiencjeVAT = true;
             }
@@ -779,8 +777,7 @@ public final class DokView implements Serializable {
         VAT.zweryfikujokresvat(selDokument);
         Double kwotavat = 0.0;
         try {
-            String rodzajOpodatkowania = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
-            if ((!rodzajOpodatkowania.contains("bez VAT")) || (selDokument.isDokumentProsty() == false)) {
+            if (wpisView.isVatowiec() || (selDokument.isDokumentProsty() == false)) {
                 List<EVatwpis1> ewidencjeDokumentu = new ArrayList<>();
                 for (EwidencjaAddwiad p : ewidencjaAddwiad) {
                     if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
@@ -894,7 +891,7 @@ public final class DokView implements Serializable {
                 selDokument.setKontr1(wstawKlientaDoNowegoDok());
                 DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
                 selectedSTR = new SrodekTrw();
-                if (wpisView.getRodzajopodatkowania().contains("bez VAT") && !selDokument.getTypdokumentu().equals("IU")) {
+                if (!wpisView.isVatowiec() && !selDokument.getTypdokumentu().equals("IU")) {
                     selDokument.setDokumentProsty(true);
                     ewidencjaAddwiad.clear();
                     ukryjEwiencjeVAT = true;

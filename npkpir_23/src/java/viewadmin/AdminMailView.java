@@ -23,12 +23,14 @@ import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import mail.MailAdmin;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
+import view.WpisView;
 
 /**
  *
@@ -52,6 +54,8 @@ public class AdminMailView implements Serializable {
     private SMTPSettingsDAO sMTPSettingsDAO;
     private List<Klienci> klientList;
     private List<Adminmail> wyslanemaile;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     private boolean tylkozus;
     private boolean tylkospolki;
     private boolean tylkovat;
@@ -106,7 +110,7 @@ public class AdminMailView implements Serializable {
                 for (Iterator<Klienci> it = klientListtemp.iterator();it.hasNext();) {
                     Klienci p = it.next();
                     Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getNip());
-                    if (pod == null || pod.isTylkodlaZUS() || !vatowiec(pod, rok)) {
+                    if (pod == null || pod.isTylkodlaZUS() || !wpisView.isVatowiec()) {
                         it.remove();
                     }
                 }
@@ -118,17 +122,7 @@ public class AdminMailView implements Serializable {
         }
     }
     
-    private boolean vatowiec(Podatnik p, String rok) {
-        boolean vatowiec = false;
-        String rodzajopodatkowania = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(p, rok).getFormaopodatkowania();
-        if (rodzajopodatkowania.contains("bez VAT")) {
-            vatowiec = false;
-        } else {
-            vatowiec = true;
-        }
-        return vatowiec;
-    }
-    
+        
     public void zachowajMaila() {
         Msg.msg("i", "Zachowano treść wiadomości mailowej");
     }
@@ -191,6 +185,14 @@ public class AdminMailView implements Serializable {
 
     public void setZawartoscmaila(String zawartoscmaila) {
         this.zawartoscmaila = zawartoscmaila;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
 
     public List<Klienci> getKlientList() {

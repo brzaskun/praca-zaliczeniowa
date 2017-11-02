@@ -221,8 +221,8 @@ public class InterpaperImportView implements Serializable {
         if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
             if (nd.iswTrakcieEdycji() == false) {
                 nd.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
-                    boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
-                    if (!nievatowiec && nd.getRodzajedok().getKategoriadokumentu() != 0) {
+                    boolean vatowiec = wpisView.isVatowiec();
+                    if (vatowiec && nd.getRodzajedok().getKategoriadokumentu() != 0) {
                         /*wyswietlamy ewidencje VAT*/
                         List<Evewidencja> opisewidencji = new ArrayList<>();
                         opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(nd.getRodzajedok().getRodzajtransakcji()));

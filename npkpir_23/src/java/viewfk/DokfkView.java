@@ -524,8 +524,8 @@ public class DokfkView implements Serializable {
     }
     
     public void podepnijEwidencjeVat(int rodzaj) {
-            boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
-            if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5 && !nievatowiec) {
+            boolean vatowiec = wpisView.isVatowiec();
+            if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5 && vatowiec) {
                     if (rodzaj == 0) {
                         this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
                     }

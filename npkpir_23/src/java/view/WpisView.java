@@ -10,6 +10,7 @@ import dao.UzDAO;
 import dao.WpisDAO;
 import data.Data;
 import embeddable.Mce;
+import embeddable.Parametr;
 import embeddable.Roki;
 import entity.ParamCzworkiPiatki;
 import entity.Podatnik;
@@ -317,6 +318,13 @@ public class WpisView implements Serializable {
         }
     }
     
+    private String sprawdzjakiokresvat() {
+        Integer rok = this.getRokWpisu();
+        Integer mc = Integer.parseInt(this.getMiesiacWpisu());
+        List<Parametr> parametry = this.getPodatnikObiekt().getVatokres();
+        return ParametrView.zwrocParametr(parametry, rok, mc);
+    }
+    
     private void pobierzOpodatkowanie() {
         try {
             mc0kw1 = zwrocmc0kw1();
@@ -327,7 +335,8 @@ public class WpisView implements Serializable {
                 if (this.podatnikObiekt.getFormaPrawna() != null && this.podatnikObiekt.getFormaPrawna().toString().equals("SPOLKA_Z_O_O")) {
                     stawkapodatkuospr = stawkapodatkuospr();
                 }
-                if (rodzajopodatkowania.contains("bez VAT")) {
+                String czyjestvat = sprawdzjakiokresvat();
+                if (czyjestvat.equals("blad")) {
                     vatowiec = false;
                 } else {
                     vatowiec = true;
