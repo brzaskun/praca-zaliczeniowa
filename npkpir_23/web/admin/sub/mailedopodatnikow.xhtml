@@ -110,6 +110,7 @@
                 </p:column>
                     <p:column headerText="tytuł" width="250">
                     <h:outputText value="#{loop.tytul}"/>
+                    <h:outputText value=" załącznik #{loop.nazwazalacznika}" rendered="#{loop.nazwazalacznika ne null}"/>
                 </p:column>
                 <p:column headerText="treść">
                     <h:outputText value="#{loop.tresc}" escape="false"/>
