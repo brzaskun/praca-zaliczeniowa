@@ -137,22 +137,22 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyWnNar}" width="60" >
+                <p:column headerText="#{mgs.obrotyWnNar}" width="60">
                     <h:outputText  id="pol6" value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyMaNar}" width="60" >
+                <p:column headerText="#{mgs.obrotyMaNar}" width="60">
                     <h:outputText  id="pol7" value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyBOWn}" width="60" >
+                <p:column headerText="#{mgs.obrotyBOWn}" width="60" sortBy="#{loop.obrotyBoWn}">
                     <h:outputText  id="pol8" value="#{loop.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyBOMa}" width="60" >
+                <p:column headerText="#{mgs.obrotyBOMa}" width="60" sortBy="#{loop.obrotyBoMa}" >
                     <h:outputText id="pol9" value="#{loop.obrotyBoMa != 0.0 ? loop.obrotyBoMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>

@@ -119,25 +119,25 @@ public class ZUSMailView implements Serializable {
             Collections.sort(pobranipodatnicy, new Podatnikcomparator());
             for (Podatnik p : pobranipodatnicy) {
                 Zusstawki zusstawki = stawkipodatnicy.get(p);
-                Zusmail zusmail = new Zusmail(p, rok, mc);
-                zusmail.setZus51ch(zusstawki.getZus51ch());
-                zusmail.setZus51bch(zusstawki.getZus51bch());
-                zusmail.setZus52(zusstawki.getZus52());
-                zusmail.setZus52odl(zusstawki.getZus52odl());
-                zusmail.setZus53(zusstawki.getZus53());
-                zusmail.setPit4(zusstawki.getPit4());
-                double zus51 = 0;
-                try {
-                    zus51 = zusmail.getZus51ch() != null ? zusmail.getZus51ch() : zusmail.getZus51bch();
-                } catch (Exception e) {}
-                zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
-                zusmail.setTresc(String.format(new Locale("pl"),trescmaila, rok, mc, zus51, zusmail.getZus52(), zusmail.getZus53(), zusmail.getPit4()));
-                zusmail.setAdresmail(p.getEmail());
-                zusmail.setWysylajacy(wpisView.getWprowadzil().getLogin());
-                if (!wykazprzygotowanychmaili.contains(zusmail)) {
-                    wykazprzygotowanychmaili.add(zusmail);
-                } else {
-                    Msg.msg("dupliat");
+                if (zusstawki.getZus51ch() != 0.0 || zusstawki.getZus51bch() != 0.0 || zusstawki.getZus52() != 0.0 || zusstawki.getZus53() != 0.0 || zusstawki.getPit4() != 0.0) {
+                    Zusmail zusmail = new Zusmail(p, rok, mc);
+                    zusmail.setZus51ch(zusstawki.getZus51ch());
+                    zusmail.setZus51bch(zusstawki.getZus51bch());
+                    zusmail.setZus52(zusstawki.getZus52());
+                    zusmail.setZus52odl(zusstawki.getZus52odl());
+                    zusmail.setZus53(zusstawki.getZus53());
+                    zusmail.setPit4(zusstawki.getPit4());
+                    double zus51 = 0;
+                    try {
+                        zus51 = zusmail.getZus51ch() != null ? zusmail.getZus51ch() : zusmail.getZus51bch();
+                    } catch (Exception e) {}
+                    zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
+                    zusmail.setTresc(String.format(new Locale("pl"),trescmaila, rok, mc, zus51, zusmail.getZus52(), zusmail.getZus53(), zusmail.getPit4()));
+                    zusmail.setAdresmail(p.getEmail());
+                    zusmail.setWysylajacy(wpisView.getWprowadzil().getLogin());
+                    if (!wykazprzygotowanychmaili.contains(zusmail)) {
+                        wykazprzygotowanychmaili.add(zusmail);
+                    }
                 }
             }
             naniesistniejacezapisy();
