@@ -37,9 +37,10 @@
     </h:form>
         <h:form id="wykazmaili">
             <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="max-width: 1350px;"
-                         rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" 
-                         rowKey="#{item.podatnik.printnazwa}" selection="#{zUSMailView.wybranemaile}">
-                <p:ajax event="rowSelectCheckbox" listener="#{zUSMailView.wybranoWiersz}" update=":wykazmailibuttons:parametryzus"/>
+                         rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" rowSelectMode="add"
+                         rowKey="#{item.podatnik.id}" selection="#{zUSMailView.wybranemaile}">
+                <p:ajax event="rowSelectCheckbox" listener="#{zUSMailView.wybranoWiersz}" update="wykazmailibuttons"/>
+                <p:ajax event="toggleSelect"  update="wykazmailibuttons"/>
                 <f:facet name="header">
                     <h:outputText value="Kwoty z deklaracji podatników aktywnych za #{zUSMailView.mcuprzedni} płatne w miesiącu #{zUSMailView.mc}"/>
                 </f:facet>
