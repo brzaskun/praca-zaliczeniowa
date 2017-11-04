@@ -6,6 +6,7 @@
 package viewfk;
 
 import dao.DAO;
+import dao.PodatnikDAO;
 import java.io.Serializable;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,6 +21,8 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Inject private SessionFacade dokFacade;
+    @Inject
+    private PodatnikDAO podatnikDAO;
     
 //    public void przenumeruj()  {
 //        List<Dokfk> wiersze= sessionFacade.findAll(Dokfk.class);
@@ -631,11 +634,11 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
 //        Msg.msg("Przenumerowane "+wiersze.size());
 //    }
 //    
-//    private void printprogres(int val) {
-//        if ( (val % 10000) == 0) {
-//            System.out.println("zrobiono "+val);
-//        }
-//    }
+    private void printprogres(int val) {
+        if ( (val % 5000) == 0) {
+            System.out.println("zrobiono "+val);
+        }
+    }
 //    
 //    public static void main(String[] args) {
 //        if ( (10002 % 10000) == 0) {
@@ -644,4 +647,33 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
 //            System.out.println("not even");
 //        }
 //    }
+    
+//        public void procKonto() {
+//            List<Podatnik> podatnicy = podatnikDAO.findAllManager();
+//            List<Konto> wiersze= sessionFacade.findAll(Konto.class);
+//            System.out.println("Pobralem");
+//            int i = 1;
+//            for (Iterator<Konto> it = wiersze.iterator(); it.hasNext();) {
+//                Konto w = it.next();
+//                if (w.getPodatnik()!= null) {
+//                    w.setPoddid(zwrocpodatnika(podatnicy,w.getPodatnik()));
+//                    printprogres(i++);
+//                }
+//            }
+//            System.out.println("Zachowuje");
+//            sessionFacade.edit(wiersze);
+//            System.out.println("Skonczylem");
+//            Msg.msg("Przenumerowane "+wiersze.size());
+//        }
+//        
+//        private Podatnik zwrocpodatnika(List<Podatnik> podatnicy, String podatnik) {
+//            Podatnik zwrot = null;
+//            for (Podatnik p : podatnicy) {
+//                if (p.getNazwapelna().equals(podatnik)) {
+//                    zwrot = p;
+//                }
+//            }
+//            return zwrot;
+//        }
+   
 }   
