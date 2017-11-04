@@ -276,10 +276,10 @@ public class DokfkView implements Serializable {
                 klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
             }
             miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
-            kontadlaewidencji.put("221-3", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
-            kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
-            kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
-            kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("221-3", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
         } catch (Exception e) {
             E.e(e);
         }
@@ -1573,7 +1573,7 @@ public class DokfkView implements Serializable {
             List<Dokfk> wykaz = dokDAOfk.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, wybranakategoriadok);
             for (Dokfk p : wykaz) {
                 int nrserii = p.getNrkolejnywserii();
-                Konto kontozdanegoroku = kontoDAOfk.findKonto(p.getRodzajedok().getKontorozrachunkowe().getPelnynumer(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                Konto kontozdanegoroku = kontoDAOfk.findKonto(p.getRodzajedok().getKontorozrachunkowe().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 if (nrserii == 1) {
                     if (kontozdanegoroku != null) {
                         double saldobo = DokFKBean.pobierzwartosczBO(kontozdanegoroku, wpisView, wierszBODAO);
@@ -2451,10 +2451,10 @@ public class DokfkView implements Serializable {
 
     public void zmienmiesiac(int innyokres) {
         StronaWiersza p = null;
-        Konto k221_3 = kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        Konto k221_4 = kontoDAOfk.findKonto("221-4", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        Konto k221_1 = kontoDAOfk.findKonto("221-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        Konto k221_2 = kontoDAOfk.findKonto("221-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto k221_3 = kontoDAOfk.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto k221_4 = kontoDAOfk.findKonto("221-4", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto k221_1 = kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto k221_2 = kontoDAOfk.findKonto("221-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         selected.oznaczVATdokument(sprawdzjakiokresvat());
         for (Wiersz r : selected.getListawierszy()) {
             if (innyokres != 0) {
@@ -3590,9 +3590,9 @@ public class DokfkView implements Serializable {
     private void nanieswierszeRRK(Dokfk dokfk) {
         if (dokfk.isZawierarozkurs()) {
             Integer idporzadkowy = dokfk.getListawierszy().size()+1;
-            Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-            Konto przychodyfinansowe = kontoDAOfk.findKonto("756", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-            Konto kosztyfinansowe = kontoDAOfk.findKonto("759", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+            Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            Konto przychodyfinansowe = kontoDAOfk.findKonto("756", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            Konto kosztyfinansowe = kontoDAOfk.findKonto("759", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             List<Transakcja> pobrane = new ArrayList<>();
             for (Wiersz p : dokfk.getListawierszy()) {
                 if (p.isZawierarozkurs()) {

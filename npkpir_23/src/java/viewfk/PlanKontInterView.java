@@ -42,7 +42,7 @@ public class PlanKontInterView implements Serializable {
     
     @PostConstruct
     public void init() {
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
     }
     
@@ -72,7 +72,7 @@ public class PlanKontInterView implements Serializable {
          numery.add("202");
          numery.add("203");
          numery.add("204");
-         List<Konto> slowniki = kontoDAOfk.findWszystkieKontaPodatnikaTylkoSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+         List<Konto> slowniki = kontoDAOfk.findWszystkieKontaPodatnikaTylkoSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
          for (Konto r : slowniki) {
             if (numery.contains(r.getSyntetycznenumer())) {
                 r.setDe(r.getNazwapelna());
@@ -87,16 +87,16 @@ public class PlanKontInterView implements Serializable {
                  } 
              }
          }
-         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
      }
      
     public void pobierzdanezpliku() {
         ReadXLSFile.updateKonta(kontoDAOfk, wpisView, "c://temp//plankont.xlsx");
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
     }
     public void pobierzdanezplikuwzorcowy() {
         ReadXLSFile.updateKontaWzorcowy(kontoDAOfk, wpisView, "c://temp//plankont.xlsx");
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
     }
 
     public List<Konto> getWykazkont() {

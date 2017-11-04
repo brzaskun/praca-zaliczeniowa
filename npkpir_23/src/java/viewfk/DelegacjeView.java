@@ -78,7 +78,7 @@ public class DelegacjeView  implements Serializable{
     }
     
     public void obliczsumymiejsc() {
-        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 2);
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 2);
         for (Delegacja p : delegacjekrajowe) {
             DelegacjaBean.zsumujkwotyzkont(p, kontaslownikowe, wpisView, stronaWierszaDAO, listadelegacja);
         }
@@ -101,7 +101,7 @@ public class DelegacjeView  implements Serializable{
     public void dodaj(boolean krajowa0zagraniczna1) {
         Delegacja duplikat = delegacjaDAO.findDelegacja(selected);
         if (duplikat == null) {
-            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(krajowa0zagraniczna1));
             selected.setKrajowa0zagraniczna1(krajowa0zagraniczna1);
             selected.setRok(wpisView.getRokWpisu());
@@ -151,10 +151,10 @@ public class DelegacjeView  implements Serializable{
         delegacjaDAO.edit(selected);
         if (krajowa0zagraniczna1) {
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView,krajowa0zagraniczna1);
-            SlownikiBean.aktualizujkontapoedycji(selected, 6, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
+            SlownikiBean.aktualizujkontapoedycji(selected, 6, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDAOfk);
         } else {
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView,krajowa0zagraniczna1);
-            SlownikiBean.aktualizujkontapoedycji(selected, 5, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
+            SlownikiBean.aktualizujkontapoedycji(selected, 5, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDAOfk);
         }
         zapisz0edytuj1 = false;
         selected = new Delegacja();

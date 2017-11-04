@@ -7,14 +7,8 @@
 package viewfk;
 
 import beansFK.KontaFKBean;
-import dao.AmoDokDAO;
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
@@ -23,7 +17,6 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -51,7 +44,7 @@ public class RMKDokView implements Serializable {
     
     public void init() {
          E.m(this);
-       List<Konto> kontaklienta = kontoDAOfk.findKontaRMK(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+       List<Konto> kontaklienta = kontoDAOfk.findKontaRMK(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
        kontarmk = przygotowanalistasald(kontaklienta);
        RequestContext.getCurrentInstance().update("formrmk");
     }

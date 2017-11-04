@@ -163,7 +163,7 @@ public class KliencifkView implements Serializable {
             return;
         }
         try {
-            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             kliencifkDAO.dodaj(klientBezKonta);
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientBezKonta, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
@@ -240,7 +240,7 @@ public class KliencifkView implements Serializable {
     
     public void zapiszedycje() {
         kliencifkDAO.edit(selected);
-        SlownikiBean.aktualizujkontapoedycji(selected, 1, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
+        SlownikiBean.aktualizujkontapoedycji(selected, 1, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDAOfk);
         selected = new Kliencifk();
         listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         zapisz0edytuj1 = false;

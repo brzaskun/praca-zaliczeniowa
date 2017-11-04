@@ -195,9 +195,9 @@ public class DokumentFKBean implements Serializable {
 
     private static void ustawwierszeRKK(int idporzadkowy, Dokfk nd, List pobranetransakcje, WpisView wpisView, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO) {
         nd.setListawierszy(new ArrayList<Wiersz>());
-        Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        Konto przychodyfinansowe = kontoDAOfk.findKonto("756", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        Konto kosztyfinansowe = kontoDAOfk.findKonto("759", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto przychodyfinansowe = kontoDAOfk.findKonto("756", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto kosztyfinansowe = kontoDAOfk.findKonto("759", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         for (Iterator<Transakcja> it = pobranetransakcje.iterator(); it.hasNext();) {
             Transakcja p = it.next();
             naniesPojedynczaTransakcje(idporzadkowy, nd, p, tabelanbpDAO, kontoRozniceKursowe, przychodyfinansowe, kosztyfinansowe);
@@ -262,8 +262,8 @@ public class DokumentFKBean implements Serializable {
             uzupelnijwiersz(w, nd, tabelanbpDAO);
             String opiswiersza = "umorzenie: " + p.getSrodekTrw().getNazwa() + " " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
             w.setOpisWiersza(opiswiersza);
-            Konto umorzeniesrodkitrwale = kontoDAOfk.findKonto("401-1-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-            Konto kontosrodka = kontoDAOfk.findKonto(p.getKontoumorzenie(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+            Konto umorzeniesrodkitrwale = kontoDAOfk.findKonto("401-1-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            Konto kontosrodka = kontoDAOfk.findKonto(p.getKontoumorzenie(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             double kwota = p.getKwota();
             StronaWiersza stronaumorzenie = new StronaWiersza(w, "Wn", kwota, umorzeniesrodkitrwale);
             StronaWiersza stronasrodka = new StronaWiersza(w, "Ma", kwota, kontosrodka);
@@ -315,8 +315,8 @@ public class DokumentFKBean implements Serializable {
         nowydok.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
         StronaWiersza sw = (StronaWiersza) stronywiersza.get(0);
-        Konto pko = kontoDAOfk.findKonto("764", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        Konto ppo = kontoDAOfk.findKonto("763", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto pko = kontoDAOfk.findKonto("764", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto ppo = kontoDAOfk.findKonto("763", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         Konto kontodorozliczenia = sw.getKonto();
         for (Object z : sumy) {
             ListaSum wierszsum = (ListaSum) z;
@@ -347,8 +347,8 @@ public class DokumentFKBean implements Serializable {
         nowydok.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
         StronaWiersza sw = (StronaWiersza) stronywiersza.get(0);
-        Konto pko = kontoDAOfk.findKonto("764", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        Konto ppo = kontoDAOfk.findKonto("763", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto pko = kontoDAOfk.findKonto("764", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto ppo = kontoDAOfk.findKonto("763", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         Konto kontodorozliczenia = sw.getKonto();
         double roznicawn = roznicawnroznicama[0];
         double roznicama = roznicawnroznicama[1];

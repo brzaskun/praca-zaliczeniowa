@@ -15,6 +15,7 @@ import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
 import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
+import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.KontopozycjaBiezaca;
 import entityfk.KontopozycjaZapis;
@@ -39,7 +40,7 @@ import waluty.Z;
 
 public class PozycjaRZiSFKBean {
     
-    public static void wyluskajNieprzyporzadkowaneAnalitykiRZiS(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, String podatnik, Integer rok) {
+    public static void wyluskajNieprzyporzadkowaneAnalitykiRZiS(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok) {
         for (Konto p : pobraneKontaSyntetyczne) {
             if (p.getKontopozycjaID() != null) {
                 if (p.getKontopozycjaID().getPozycjaWn() == null || p.getKontopozycjaID().getPozycjaMa() == null) {
@@ -57,7 +58,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-     public static void wyluskajNieprzyporzadkowaneAnalitykiBilans(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, String podatnik, boolean aktywa0pasywa1, Integer rok) {
+     public static void wyluskajNieprzyporzadkowaneAnalitykiBilans(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, Podatnik podatnik, boolean aktywa0pasywa1, Integer rok) {
         for (Konto p : pobraneKontaSyntetyczne) {
             if (p.getPelnynumer().equals("201")) {
                 System.out.println("");
@@ -334,7 +335,7 @@ public class PozycjaRZiSFKBean {
         return null;
     }
 
-    public static void odznaczmacierzyste(String macierzyste, String kontoanalizowane, KontoDAOfk kontoDAO, String podatnik, Integer rok) {
+    public static void odznaczmacierzyste(String macierzyste, String kontoanalizowane, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok) {
         List<Konto> siostry = null;
         siostry = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, macierzyste);
         if (siostry.size() > 1) {
@@ -356,7 +357,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void oznaczmacierzyste(Konto dziecko, UkladBR uklad, KontoDAOfk kontoDAO, String podatnik, Integer rok, boolean wynik0bilans1) {
+    public static void oznaczmacierzyste(Konto dziecko, UkladBR uklad, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok, boolean wynik0bilans1) {
         Konto kontomacierzyste = null;
         kontomacierzyste = kontoDAO.findKonto(dziecko.getMacierzyste(), podatnik, rok);
         KontopozycjaBiezaca kp = kontomacierzyste.getKontopozycjaID() != null ? kontomacierzyste.getKontopozycjaID() : new KontopozycjaBiezaca();
@@ -387,7 +388,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void przyporzadkujpotkomkowZwykle(String macierzyste, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, String podatnik, String bilanswynik, Integer rok) {
+    public static void przyporzadkujpotkomkowZwykle(String macierzyste, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, Podatnik podatnik, String bilanswynik, Integer rok) {
         List<Konto> potomki = null;
         potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, macierzyste);
         if (potomki != null) {
@@ -420,7 +421,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO,  String podatnik, String wnma, Integer rok) {
+    public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO,  Podatnik podatnik, String wnma, Integer rok) {
         List<Konto> potomki = null;
         potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, konto.getPelnynumer());
         if (potomki != null) {
@@ -531,7 +532,7 @@ public class PozycjaRZiSFKBean {
         }
     }
 
-    public static void wyczyscKonta(String rb, String podatnik, String rok, KontoDAOfk kontoDAOfk) {
+    public static void wyczyscKonta(String rb, Podatnik podatnik, String rok, KontoDAOfk kontoDAOfk) {
         if (rb.equals("wynikowe")) {
             List<Konto> listakont = kontoDAOfk.findWszystkieKontaWynikowePodatnika(podatnik, rok);
             UkladBRBean.czyscPozycjeKont(kontoDAOfk, listakont);
@@ -546,7 +547,7 @@ public class PozycjaRZiSFKBean {
             UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
             ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
             PozycjaRZiSFKBean.pobierzPozycje(pozycje, pozycjaRZiSDAO, uklad);
-            PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), kontoDAO);
+            PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontoDAO);
             kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, bilansowewynikowe);
             PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, bilansowewynikowe);
         } catch (Exception e) {

@@ -6,7 +6,6 @@
 package viewfk;
 
 import comparator.Kontocomparator;
-import comparator.MiejscePrzychodowcomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.MiejscePrzychodowDAO;
@@ -57,7 +56,7 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
     //nie ruszac bo nie dziala u geusta
     @PostConstruct
     public void pobierzzbiorcze() {
-        konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
+        konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 7);
         miejscaprzychodow = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         //Collections.sort(czlonkowiestowarzyszenia, new MiejscePrzychodowcomparator());
     }

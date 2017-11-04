@@ -11,6 +11,7 @@ import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
 import embeddable.Mce;
+import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
@@ -32,7 +33,7 @@ public class BilansBean {
     
     public static void zmianaukladprzegladRZiSBO(UkladBR uklad, UkladBRDAO ukladBRDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, PozycjaRZiSDAO pozycjaRZiSDAO) {
         UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
-        wyczyscKonta("wynikowe", wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), kontoDAO);
+        wyczyscKonta("wynikowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontoDAO);
         kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
         PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
     }
@@ -59,7 +60,7 @@ public class BilansBean {
         return pozycje;
     }
     
-    private static void wyczyscKonta(String rb, String podatnik, String rok, KontoDAOfk kontoDAO) {
+    private static void wyczyscKonta(String rb, Podatnik podatnik, String rok, KontoDAOfk kontoDAO) {
         if (rb.equals("wynikowe")) {
             List<Konto> listakont = kontoDAO.findWszystkieKontaWynikowePodatnika(podatnik, rok);
             UkladBRBean.czyscPozycjeKont(kontoDAO, listakont);

@@ -81,8 +81,8 @@ public class StowNaliczenieView  implements Serializable {
         try {
             if (wpisView.getFormaprawna().equals("STOWARZYSZENIE")) {
                 //przychody
-                konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
-                Konto kontoprzychodypo = kontoDAOfk.findKonto("251", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 7);
+                Konto kontoprzychodypo = kontoDAOfk.findKonto("251", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 if (kontoprzychodypo != null) {
                     konta.add(kontoprzychodypo);
                 }

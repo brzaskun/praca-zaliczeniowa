@@ -11,7 +11,6 @@ import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import embeddablefk.InterpaperXLS;
 import entity.Rodzajedok;
-import entity.Wpis;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
@@ -21,7 +20,6 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateless;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -98,7 +96,7 @@ public class ReadXLSFile {
                     String nazwapelna = row.getCell(2).getStringCellValue();
                     String tlumaczenie = row.getCell(3).getStringCellValue();
                     if (!tlumaczenie.equals("")) {
-                        Konto k = kontoDAOfk.findKonto(pelnynumer, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                        Konto k = kontoDAOfk.findKonto(pelnynumer, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                         if (k != null && k.getNazwapelna().equals(nazwapelna)) {
                             k.setDe(tlumaczenie);
                             kontoDAOfk.edit(k);
@@ -227,7 +225,7 @@ public class ReadXLSFile {
                     String nazwapelna = row.getCell(2).getStringCellValue();
                     String tlumaczenie = row.getCell(3).getStringCellValue();
                     if (!tlumaczenie.equals("")) {
-                        Konto k = kontoDAOfk.findKonto(pelnynumer, "Wzorcowy", wpisView.getRokWpisu());
+                        Konto k = kontoDAOfk.findKonto(pelnynumer, null, wpisView.getRokWpisu());
                         if (k != null && k.getNazwapelna().equals(nazwapelna)) {
                             k.setDe(tlumaczenie);
                             kontoDAOfk.edit(k);

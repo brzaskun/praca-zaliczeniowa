@@ -88,7 +88,7 @@ public class KontaFKBean implements Serializable{
     private static Konto pobierzmacierzyste(Konto p, KontoDAOfk kontoDAO, WpisView wpisView) {
         Konto macierzyste = p.getKontomacierzyste();
         if (macierzyste == null) {
-            macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+            macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         }
         return macierzyste;
     }
@@ -96,7 +96,7 @@ public class KontaFKBean implements Serializable{
     private static Konto pobierzmacierzysteWzorcowy(Konto p, KontoDAOfk kontoDAO, WpisView wpisView) {
         Konto macierzyste = p.getKontomacierzyste();
         if (macierzyste == null) {
-            macierzyste = kontoDAO.findKonto(p.getMacierzyste(), "Wzorcowy", wpisView.getRokWpisu());
+            macierzyste = kontoDAO.findKonto(p.getMacierzyste(), null, wpisView.getRokWpisu());
         }
         return macierzyste;
     }
@@ -120,7 +120,7 @@ public class KontaFKBean implements Serializable{
     public static List<StronaWiersza> pobierzZapisyRokSyntetyka(KontoDAOfk kontoDAOfk, WpisView wpisView, Konto konto, Podatnik podatnik, String rok, StronaWierszaDAO stronaWierszaDAO) {
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(podatnik, konto, rok);
         if (konto.isMapotomkow()) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), rok, konto.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), rok, konto.getPelnynumer());
             for (Konto p : kontapotomne) {
                 pobranezapisy.addAll(pobierzZapisyRokSyntetyka(kontoDAOfk, wpisView, p, podatnik, rok, stronaWierszaDAO));
             }
@@ -194,7 +194,7 @@ public class KontaFKBean implements Serializable{
         konto.setPrzychod0koszt1(przychod0koszt1);
         kontoDAOfk.edit(konto);
         if (konto.isMapotomkow()) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), konto.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto.getPelnynumer());
             for (Konto p : kontapotomne) {
                 oznaczkontoPrzychod0Koszt1(p, kontoDAOfk, przychod0koszt1, wpisView);
             }

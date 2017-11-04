@@ -12,7 +12,6 @@ import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -59,8 +58,8 @@ public class PlanKontUzupelnijView implements Serializable {
         if (podatnikzrodlowy.equals(podatnikdocelowy) && rokzrodlowy.equals(rokdocelowy)) {
             Msg.msg("e", "Podatnik oraz rok źródłowy i docelowy jest ten sam");
         } else {
-            List<Konto> kontazrodlowe = kontoDAOfk.findWszystkieKontaPodatnika(podatnikzrodlowy.getNazwapelna(), rokzrodlowy);
-            List<Konto> kontadocelowe = kontoDAOfk.findWszystkieKontaPodatnika(podatnikdocelowy.getNazwapelna(), rokdocelowy);
+            List<Konto> kontazrodlowe = kontoDAOfk.findWszystkieKontaPodatnika(podatnikzrodlowy, rokzrodlowy);
+            List<Konto> kontadocelowe = kontoDAOfk.findWszystkieKontaPodatnika(podatnikdocelowy, rokdocelowy);
             List<Konto> level0 = new ArrayList<>();
             List<Konto> levelinne = new ArrayList<>();
             for (Konto p : kontazrodlowe) {
@@ -77,8 +76,8 @@ public class PlanKontUzupelnijView implements Serializable {
                     }
                 }
             }
-            skopiujlevel0(wpisView.getPodatnikWpisu(), level0, rokdocelowy);
-            skopiujlevel(wpisView.getPodatnikWpisu(), levelinne, kontadocelowe, rokdocelowy);
+            skopiujlevel0(wpisView.getPodatnikObiekt(), level0, rokdocelowy);
+            skopiujlevel(wpisView.getPodatnikObiekt(), levelinne, kontadocelowe, rokdocelowy);
             System.out.println("Wydrukowałem brakujące konta");
             //planKontView.init();
             //planKontView.porzadkowanieKontPodatnika();
@@ -87,7 +86,7 @@ public class PlanKontUzupelnijView implements Serializable {
 
    
 
-    private List<Konto> skopiujlevel0(String podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {
+    private List<Konto> skopiujlevel0(Podatnik podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {
         List<Konto> macierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
             if (p.getLevel() == 0) {
@@ -102,7 +101,7 @@ public class PlanKontUzupelnijView implements Serializable {
         return macierzyste;
     }
 
-    private List<Konto> skopiujlevel(String podatnikDocelowy, List<Konto> wykazkont, List<Konto> macierzystelista, String rokdocelowy) {
+    private List<Konto> skopiujlevel(Podatnik podatnikDocelowy, List<Konto> wykazkont, List<Konto> macierzystelista, String rokdocelowy) {
         List<Konto> nowemacierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
             try {
@@ -126,7 +125,7 @@ public class PlanKontUzupelnijView implements Serializable {
         p.setKontopozycjaID(null);
     }
 
-    private Konto kopiujKonto(Konto p, List<Konto> macierzystelista, String podatnikDocelowy, boolean slownikowe) {
+    private Konto kopiujKonto(Konto p, List<Konto> macierzystelista, Podatnik podatnikDocelowy, boolean slownikowe) {
         Konto r = serialclone.SerialClone.clone(p);
         zeruDanekontaBO(r);
         r.setPodatnik(podatnikDocelowy);

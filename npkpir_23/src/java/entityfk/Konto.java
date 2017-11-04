@@ -6,6 +6,7 @@ package entityfk;
 
 import abstractClasses.ToBeATreeNodeObject;
 import em.Em;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -44,7 +45,7 @@ import view.WpisView;
 @NamedQueries({
     @NamedQuery(name = "Konto.findAll", query = "SELECT k FROM Konto k"),
     @NamedQuery(name = "Konto.findById", query = "SELECT k FROM Konto k WHERE k.id = :id"),
-    @NamedQuery(name = "Konto.findWzorcowe", query = "SELECT k FROM Konto k WHERE k.podatnik = 'Wzorcowy' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findWzorcowe", query = "SELECT k FROM Konto k WHERE k.podatnik IS  NULL AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikKsiegi", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.zaksiegowane = '1'"),
     @NamedQuery(name = "Konto.findByPodatnikBezSlownik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe = '0'"),
@@ -88,7 +89,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
     @NamedQuery(name = "Konto.findByPelnynumerPodatnik", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByLevelPodatnik", query = "SELECT k FROM Konto k WHERE k.level = :level AND k.podatnik = :podatnik AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findByLevelWzorcowy", query = "SELECT k FROM Konto k WHERE k.level = :level AND k.podatnik = 'Wzorcowy' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByLevelWzorcowy", query = "SELECT k FROM Konto k WHERE k.level = :level AND k.podatnik IS  NULL AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByLevelRok", query = "SELECT k FROM Konto k WHERE k.level != :level AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByNazwaPodatnik", query = "SELECT k FROM Konto k WHERE k.nazwaskrocona = :nazwaskrocona AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByNazwaPelnaPodatnik", query = "SELECT k FROM Konto k WHERE k.nazwapelna = :nazwapelna AND k.podatnik = :podatnik AND k.rok = :rok"),
@@ -132,11 +133,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "podatnik")
-    private String podatnik;
+    @JoinColumn(name = "podid", referencedColumnName = "id")
+    @ManyToOne
+    private Podatnik podatnik;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 5)
@@ -302,7 +301,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     
     
 
-    public Konto(Integer id, String podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, 
+    public Konto(Integer id, Podatnik podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, 
             String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok,
             String syntetycznenumer) {
         this.id = id;
@@ -332,7 +331,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     }
     
     public void getAllChildren(List<Konto> listakontwszystkie, WpisView wpisView, SessionFacade kontoFacade) {
-        List<Konto> children = kontoFacade.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), this.pelnynumer);
+        List<Konto> children = kontoFacade.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), this.pelnynumer);
         if (!children.isEmpty()) {
             for (Konto o : children) {
                 listakontwszystkie.add(o);
@@ -344,7 +343,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     
     public List<Konto> getAllChildrenRok(List<Konto> listakontwszystkie, WpisView wpisView, SessionFacade kontoFacade) {
-        List<Konto> children = kontoFacade.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), this.pelnynumer);
+        List<Konto> children = kontoFacade.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), this.pelnynumer);
         if (!children.isEmpty()) {
             for (Konto o : children) {
                 listakontwszystkie.add(o);
@@ -406,15 +405,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.niewidoczne = niewidoczne;
     }
 
-    
-    public String getPodatnik() {
+    public Podatnik getPodatnik() {
         return podatnik;
     }
 
-    public void setPodatnik(String podatnik) {
+    public void setPodatnik(Podatnik podatnik) {
         this.podatnik = podatnik;
     }
 
+   
     public String getNrkonta() {
         return nrkonta;
     }
@@ -699,7 +698,6 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setKontomacierzyste(Konto kontomacierzyste) {
         this.kontomacierzyste = kontomacierzyste;
     }
-
    
     
     

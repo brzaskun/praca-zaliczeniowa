@@ -72,7 +72,7 @@ public class StowRozrachCzlonkView implements Serializable {
     public void pobierzdane() {
         this.lista = new ArrayList<>();
         this.listazapisy = new ArrayList<>();
-        konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
+        konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 7);
         for (Iterator<Konto> it = konta.iterator(); it.hasNext();) {
             Konto p = it.next();
             if (!p.getPelnynumer().startsWith("2")) {
@@ -80,7 +80,7 @@ public class StowRozrachCzlonkView implements Serializable {
             }
         }
         for (Konto r : konta) {
-            Konto kontowlasciwe = kontoDAOfk.findKontoMacierzystyNrkonta(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), r, wybranyczlonek.getNrkonta());
+            Konto kontowlasciwe = kontoDAOfk.findKontoMacierzystyNrkonta(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), r, wybranyczlonek.getNrkonta());
             List<StronaWiersza> li = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(wpisView.getPodatnikObiekt(), kontowlasciwe, wpisView.getRokWpisuSt());
             Pozycja pozycjaWn = new Pozycja(kontowlasciwe, false);//przypisy
             Pozycja pozycjaMa = new Pozycja(kontowlasciwe, true);//wplaty

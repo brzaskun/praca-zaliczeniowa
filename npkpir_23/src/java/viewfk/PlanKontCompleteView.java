@@ -44,7 +44,7 @@ public class PlanKontCompleteView implements Serializable {
   @PostConstruct
   public void init() {
       listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
-      listakont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+      listakont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
       System.out.println("Wywołanie PlanKontCompleteView init()");
   }
     

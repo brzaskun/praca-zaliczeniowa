@@ -184,7 +184,7 @@ public class BilansGenerowanieView implements Serializable {
             this.sabledy = false;
             this.sabledy2 = false;
             boolean stop = false;
-            List<Konto> konta = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<Konto> konta = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             if (konta.isEmpty()) {
                 stop = true;
                 String error = "Brak kont w roku " + wpisView.getRokWpisuSt() + " nie można generować BO";
@@ -209,7 +209,7 @@ public class BilansGenerowanieView implements Serializable {
                 Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
                 saldoAnalitykaView.initGenerowanieBO();
                 List<SaldoKonto> listaSaldoKontoRokPop = saldoAnalitykaView.getListaSaldoKonto();
-                List<Konto> kontaNowyRok = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                List<Konto> kontaNowyRok = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 resetujBOnaKonto(kontaNowyRok);
                 Konto kontowyniku = PlanKontFKBean.findKonto860(kontaNowyRok);
                 obliczkontawynikowe(kontowyniku, listaSaldoKontoRokPop, walpln);

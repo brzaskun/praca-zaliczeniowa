@@ -8,6 +8,10 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
+    
+    <h:form>
+        <p:commandButton value="numeruj dokumenty" actionListener="#{rewolucjaPodatnikView.procKonto()}"/>
+    </h:form>
 <!--    <h:form>
         <p:commandButton value="numeruj dokumenty" actionListener="#{rewolucjaPodatnikView.przenumeruj()}"/>
     </h:form>-->
@@ -238,8 +242,8 @@
 <!--<h:form>
     <p:commandButton value="aktualizuj Evatwpis1" actionListener="#{ewidencjaVatView.edycjaewidencji}" />
 </h:form>-->
-<h:form>
+<!--<h:form>
     <p:commandButton value="zmien konta" actionListener="#{planKontCompleteView.zmienkonta}" />
-</h:form>
+</h:form>-->
 </ui:composition>
 

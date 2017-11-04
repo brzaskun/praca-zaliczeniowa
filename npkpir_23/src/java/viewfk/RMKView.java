@@ -249,7 +249,7 @@ public class RMKView  implements Serializable {
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "odpis amortyzacyjny dla: "+p.getOpiskosztu(); 
                 w.setOpisWiersza(opiswiersza);
-                Konto kontoRMK = kontoDAO.findKonto("641", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                Konto kontoRMK = kontoDAO.findKonto("641", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 double kwota = wyliczkwotedopobrania(p);
                 StronaWiersza kosztrmk = new StronaWiersza(w, "Wn", kwota, p.getKontokosztowe());
                 StronaWiersza emk = new StronaWiersza(w, "Ma", kwota, kontoRMK);

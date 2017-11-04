@@ -87,7 +87,7 @@ public class KontaVatFKView implements Serializable {
            wpisView.setMiesiacWpisu(Data.aktualnyMc());
            wpisView.wpisAktualizuj();
        }
-       List<Konto> kontaklienta = kontoDAOfk.findKontaVAT(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+       List<Konto> kontaklienta = kontoDAOfk.findKontaVAT(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
        kontavat = przygotowanalistasald(kontaklienta);
     }
     
@@ -303,11 +303,11 @@ public class KontaVatFKView implements Serializable {
         }
         double przesuniete = Z.z(ewidencjaVatView.getSumaprzesunietych());
         double przesunieteBardziej = Z.z(ewidencjaVatView.getSumaprzesunietychBardziej());
-        SaldoKonto saldodlaprzesunietychBardziej = saldo2214Rok(kontoDAOfk.findKonto("221-4", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
+        SaldoKonto saldodlaprzesunietychBardziej = saldo2214Rok(kontoDAOfk.findKonto("221-4", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
         double roznica = Z.z(saldodlaprzesunietychBardziej.getSaldoWn() - (przesuniete+przesunieteBardziej));
         double przesunieteprzychodu = Z.z(ewidencjaVatView.getSumaprzesunietychprzychody());
         double przesunieteBardziejprzychody = Z.z(ewidencjaVatView.getSumaprzesunietychBardziejPrzychody());
-        SaldoKonto saldodlaprzesunietychBardziejPrzychody = saldo2212Rok(kontoDAOfk.findKonto("221-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
+        SaldoKonto saldodlaprzesunietychBardziejPrzychody = saldo2212Rok(kontoDAOfk.findKonto("221-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
         double roznicaprzychody = Z.z(saldodlaprzesunietychBardziejPrzychody.getSaldoMa() - (przesunieteprzychodu+przesunieteBardziejprzychody));
         if (Z.z(saldo2212) < Z.z(przesunieteprzychodu) || roznicaprzychody < 0) {
             Msg.msg("e", "Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-2");
@@ -456,7 +456,7 @@ public class KontaVatFKView implements Serializable {
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "przeksięg. konto: "+p.getKonto().getPelnynumer();
                 w.setOpisWiersza(opiswiersza);
-                Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 if (p.getSaldoWn() != 0.0) {
                     StronaWiersza wn = new StronaWiersza(w, "Wn", p.getSaldoWn(), kontoRozrachunkizUS);
                     wn.setKwotaPLN(p.getSaldoWn());

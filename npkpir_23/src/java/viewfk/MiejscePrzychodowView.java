@@ -92,7 +92,7 @@ public class MiejscePrzychodowView  implements Serializable{
     }
     
     public void obliczsumymiejsc() {
-        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 7);
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 7);
         if (!wpisView.getMiesiacWpisu().equals("CR")) {
             List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             MiejscePrzychodowBean.zsumujkwotyzkont(miejscaprzychodow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejscprzychodow, stronywiersza);
@@ -105,7 +105,7 @@ public class MiejscePrzychodowView  implements Serializable{
 
     public void dodaj() {
         try {
-            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());
             selected.setRok(wpisView.getRokWpisu());
             miejscePrzychodowDAO.dodaj(selected);
@@ -149,7 +149,7 @@ public class MiejscePrzychodowView  implements Serializable{
     
     public void zapiszedycje() {
         miejscePrzychodowDAO.edit(selected);
-        SlownikiBean.aktualizujkontapoedycji(selected, 7, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
+        SlownikiBean.aktualizujkontapoedycji(selected, 7, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDAOfk);
         selected.setOpismiejsca(null);
         selected.setOpisskrocony(null);
         miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());

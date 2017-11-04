@@ -172,11 +172,11 @@ public class FDfkBean {
         }
         StronaWiersza strwn = new StronaWiersza(w, "Wn", Z.z(netto+vat), null);
         StronaWiersza strma = new StronaWiersza(w, "Ma", Z.z(netto), null);
-        Konto kontonetto = kontoDAOfk.findKonto("702-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto kontonetto = kontoDAOfk.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         try {
             Kliencifk kliencifk = kliencifkDAO.znajdzkontofk(nd.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
             String numerkonta = "201-2-"+kliencifk.getNrkonta();
-            Konto kontorozrach = kontoDAOfk.findKonto(numerkonta, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+            Konto kontorozrach = kontoDAOfk.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             strwn.setKonto(kontorozrach);
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString());
@@ -204,7 +204,7 @@ public class FDfkBean {
         }
         StronaWiersza strma = new StronaWiersza(w, "Ma", Z.z(vat), null);
         strma.setKwotaPLN(Z.z(vat));
-        Konto kontovat = kontoDAOfk.findKonto("221-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto kontovat = kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         strma.setKonto(kontovat);
         w.setStronaMa(strma);
         return w;

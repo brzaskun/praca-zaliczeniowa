@@ -88,7 +88,7 @@ public class MiejsceKosztowView  implements Serializable{
     }
     
     public void obliczsumymiejsc() {
-        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 2);
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 2);
         List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         MiejsceKosztowBean.zsumujkwotyzkont(miejscakosztow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejsckosztow, stronywiersza);
     }
@@ -96,7 +96,7 @@ public class MiejsceKosztowView  implements Serializable{
 
     public void dodaj() {
         try {
-            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(), wpisView.getRokWpisu());
             miejsceKosztowDAO.dodaj(selected);
             PlanKontFKBean.aktualizujslownikMiejscaKosztow(wykazkont, miejsceKosztowDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
@@ -140,7 +140,7 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void zapiszedycje() {
         miejsceKosztowDAO.edit(selected);
-        SlownikiBean.aktualizujkontapoedycji(selected, 2, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
+        SlownikiBean.aktualizujkontapoedycji(selected, 2, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDAOfk);
         selected.setOpismiejsca(null);
         selected.setOpisskrocony(null);
         miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
@@ -150,7 +150,7 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void ukryjmiejscekosztow(MiejsceKosztow miejsceKosztow) {
         miejsceKosztowDAO.edit(miejsceKosztow);
-        SlownikiBean.ukryjkontapodeycji(miejsceKosztow, 2, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk, miejsceKosztow.isPokaz0chowaj1());
+        SlownikiBean.ukryjkontapodeycji(miejsceKosztow, 2, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDAOfk, miejsceKosztow.isPokaz0chowaj1());
         zapisz0edytuj1 = false;
         Msg.msg("Naniesiono zmiany");
     }

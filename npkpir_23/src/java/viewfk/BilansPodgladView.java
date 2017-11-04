@@ -61,8 +61,8 @@ public class BilansPodgladView  implements Serializable{
     //tworzy nody z bazy danych dla tablicy nodow plan kont
     private void getNodes(){
         this.root = new TreeNodeExtended("root", null);
-        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        List<Konto> listakontRokPop = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokUprzedniSt());
+        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<Konto> listakontRokPop = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
         List<KontoBO> listakontbo = new ArrayList<>();
         for (Iterator<Konto> it = listakont.iterator(); it.hasNext(); ) {
             Konto k = it.next();
@@ -89,8 +89,8 @@ public class BilansPodgladView  implements Serializable{
     
     private void getNodesNoZeroBO(){
         this.root = new TreeNodeExtended("root", null);
-        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        List<Konto> listakontRokPop = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokUprzedniSt());
+        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<Konto> listakontRokPop = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
         List<KontoBO> listakontbo = new ArrayList<>();
         for (Iterator<Konto> it = listakont.iterator(); it.hasNext(); ) {
             Konto k = it.next();

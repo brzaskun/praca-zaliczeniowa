@@ -60,17 +60,17 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     public void kopiujplankont() {
-        List<Konto> plankont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<Konto> plankont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (plankont != null && !plankont.isEmpty()) {
             Msg.msg("e", "W bieżącym roku istnieje już plan kont firmy. Usuń go najpierw, aby skopiować plan kont z innego roku/firmy");
         } else if (podatnikzrodlowy.equals(podatnikdocelowy) && rokzrodlowy.equals(rokdocelowy)) {
             Msg.msg("e", "Podatnik oraz rok źródłowy i docelowy jest ten sam");
         } else {
-            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(podatnikzrodlowy.getNazwapelna(), rokzrodlowy);
-            List<Konto> macierzyste = skopiujlevel0(podatnikdocelowy.getNazwapelna(), wykazkont, rokdocelowy);
-            int maxlevel = kontoDAOfk.findMaxLevelPodatnik(podatnikzrodlowy.getNazwapelna(), Integer.parseInt(rokzrodlowy));
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(podatnikzrodlowy, rokzrodlowy);
+            List<Konto> macierzyste = skopiujlevel0(podatnikdocelowy, wykazkont, rokdocelowy);
+            int maxlevel = kontoDAOfk.findMaxLevelPodatnik(podatnikzrodlowy, Integer.parseInt(rokzrodlowy));
             for (int biezacylevel = 1; biezacylevel <= maxlevel; biezacylevel++) {
-                macierzyste = skopiujlevel(podatnikzrodlowy.getNazwapelna(), podatnikdocelowy.getNazwapelna(), wykazkont, macierzyste, biezacylevel, rokdocelowy);
+                macierzyste = skopiujlevel(podatnikzrodlowy, podatnikdocelowy, wykazkont, macierzyste, biezacylevel, rokdocelowy);
             }
             System.out.println("Kopiuje");
             planKontView.init();
@@ -83,11 +83,11 @@ public class PlanKontKopiujView implements Serializable {
         if (rokzrodlowy.equals(rokdocelowy)) {
             Msg.msg("e", "Rok źródłowy i docelowy jest ten sam");
         } else {
-            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", rokzrodlowy);
-            List<Konto> macierzyste = skopiujlevel0("Wzorcowy", wykazkont, rokdocelowy);
-            int maxlevel = kontoDAOfk.findMaxLevelPodatnik("Wzorcowy", Integer.parseInt(rokzrodlowy));
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(null, rokzrodlowy);
+            List<Konto> macierzyste = skopiujlevel0(null, wykazkont, rokdocelowy);
+            int maxlevel = kontoDAOfk.findMaxLevelPodatnik(null, Integer.parseInt(rokzrodlowy));
             for (int i = 1; i <= maxlevel; i++) {
-                macierzyste = skopiujlevelWzorcowy("Wzorcowy", wykazkont, macierzyste, i, rokdocelowy);
+                macierzyste = skopiujlevelWzorcowy(null, wykazkont, macierzyste, i, rokdocelowy);
             }
             kopiujSlownikowe = false;
             System.out.println("Kopiuje");
@@ -95,7 +95,7 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     public void implementujplankontWzorcowy() {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", rokzrodlowy_wzorzec);
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(null, rokzrodlowy_wzorzec);
         if (wpisView.isParamCzworkiPiatki() == false) {
             for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
                 Konto p = it.next();
@@ -104,15 +104,15 @@ public class PlanKontKopiujView implements Serializable {
                 }
             }
         }
-        List<Konto> macierzyste = skopiujlevel0(wpisView.getPodatnikWpisu(), wykazkont, rokdocelowy);
-        int maxlevel = kontoDAOfk.findMaxLevelPodatnik("Wzorcowy", Integer.parseInt(rokzrodlowy_wzorzec));
+        List<Konto> macierzyste = skopiujlevel0(wpisView.getPodatnikObiekt(), wykazkont, rokdocelowy);
+        int maxlevel = kontoDAOfk.findMaxLevelPodatnik(null, Integer.parseInt(rokzrodlowy_wzorzec));
         for (int i = 1; i <= maxlevel; i++) {
-            macierzyste = skopiujlevel("Wzorcowy", wpisView.getPodatnikWpisu(), wykazkont, macierzyste, i, rokdocelowy);
+            macierzyste = skopiujlevel(null, wpisView.getPodatnikObiekt(), wykazkont, macierzyste, i, rokdocelowy);
         }
         planKontView.init();
     }
 
-    private List<Konto> skopiujlevel0(String podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {
+    private List<Konto> skopiujlevel0(Podatnik podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {
         List<Konto> macierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
             if (p.getLevel() == 0) {
@@ -127,7 +127,7 @@ public class PlanKontKopiujView implements Serializable {
         return macierzyste;
     }
 
-    private List<Konto> skopiujlevel(String podatnikzrodlowy, String podatnikDocelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int biezacylevel, String rokdocelowy) {
+    private List<Konto> skopiujlevel(Podatnik podatnikzrodlowy, Podatnik podatnikDocelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int biezacylevel, String rokdocelowy) {
         List<Konto> nowemacierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
             if (p.getLevel() == biezacylevel) {
@@ -159,7 +159,7 @@ public class PlanKontKopiujView implements Serializable {
         p.setKontopozycjaID(null);
     }
 
-    private Konto kopiujKonto(Konto p, List<Konto> macierzystelista, String podatnikDocelowy, boolean slownikowe) {
+    private Konto kopiujKonto(Konto p, List<Konto> macierzystelista, Podatnik podatnikDocelowy, boolean slownikowe) {
         if (p.getPelnynumer().equals("010-5")) {
             System.out.println("");
         }
@@ -176,7 +176,7 @@ public class PlanKontKopiujView implements Serializable {
         return r;
     }
 
-    private List<Konto> skopiujlevelWzorcowy(String docelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int i, String rokdocelowy) {
+    private List<Konto> skopiujlevelWzorcowy(Podatnik docelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int i, String rokdocelowy) {
         List<Konto> nowemacierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
             if (p.getLevel() == i) {

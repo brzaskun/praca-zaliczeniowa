@@ -16,7 +16,6 @@ import daoFK.PojazdyDAO;
 import daoFK.UkladBRDAO;
 import embeddablefk.PojazdyZest;
 import entityfk.Konto;
-import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
 import error.E;
@@ -87,13 +86,13 @@ public class PojazdyView  implements Serializable{
     
     
     public void obliczsumy() {
-        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 3);
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 3);
         List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         PojazdyBean.zsumujkwotyzkont(pojazdy, kontaslownikowe, wpisView, stronaWierszaDAO, listasumpojazdy, stronywiersza);
     }
 
     public void dodaj() {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(), wpisView.getRokWpisu());
         pojazdyDAO.dodaj(selected);
         PlanKontFKBean.aktualizujslownikPojazdy(wykazkont, pojazdyDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
@@ -119,7 +118,7 @@ public class PojazdyView  implements Serializable{
     
      public void ukryjpojazd(Pojazdy pojazd) {
         pojazdyDAO.edit(pojazd);
-        SlownikiBean.ukryjkontapodeycji(pojazd, 3, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk, pojazd.isPokaz0chowaj1());
+        SlownikiBean.ukryjkontapodeycji(pojazd, 3, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDAOfk, pojazd.isPokaz0chowaj1());
         zapisz0edytuj1 = false;
         Msg.msg("Naniesiono zmiany");
     }
@@ -131,7 +130,7 @@ public class PojazdyView  implements Serializable{
     
     public void zapiszedycje() {
         pojazdyDAO.edit(selected);
-        SlownikiBean.aktualizujkontapoedycji(selected, 3,wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
+        SlownikiBean.aktualizujkontapoedycji(selected, 3,wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDAOfk);
         selected.setNrrejestracyjny(null);
         selected.setNazwapojazdu(null);
         pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());

@@ -116,8 +116,8 @@ public class KontoZapisFKView implements Serializable{
 
     public void init() {
         ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        wszystkiekonta = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        wszystkiekonta = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         pobierzzapisy(wpisView.getRokWpisuSt());
         usunkontabezsald();
         wybierzgrupekont();
@@ -128,7 +128,7 @@ public class KontoZapisFKView implements Serializable{
     
     public void publicinit() {
        ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
-       wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+       wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (wykazkont != null) {
             wybranekonto = wykazkont.get(0);
             usunkontabezsald();
@@ -418,7 +418,7 @@ public class KontoZapisFKView implements Serializable{
       
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
-              return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(),macierzyste.getPelnynumer());
+              return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(),macierzyste.getPelnynumer());
           } catch (Exception e) {  E.e(e);
               Msg.msg("e", "nie udane pobierzpotomkow");
           }
@@ -1023,7 +1023,7 @@ public class KontoZapisFKView implements Serializable{
     
     private void przeksiegujslownikowe() {
         int rozrachunkowe = 0;
-        List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), kontodoprzeksiegowania.getPelnynumer());
+        List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontodoprzeksiegowania.getPelnynumer());
         if (potomne == null || potomne.size() == 0) {
             Msg.msg("e", "Konto docelowe nie zawiera podłączonego słownika. Nie można przeksięgować");
             return;

@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -41,7 +40,7 @@ public class PlanKontSaldaView implements Serializable {
     private String kontadowyswietlenia;
 
     public void init() {
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         int czysaslownikowe = sprawdzkonta();
         if (czysaslownikowe == 0) {
             infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
@@ -50,7 +49,7 @@ public class PlanKontSaldaView implements Serializable {
         } else {
             infozebrakslownikowych = "";
         }
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownikKsiegi(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownikKsiegi(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
         bezslownikowych = true;
         kontadowyswietlenia = "wszystkie";
@@ -75,11 +74,11 @@ public class PlanKontSaldaView implements Serializable {
         if (bezslownikowych == true && tylkosyntetyka == true) {
             wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
         } else if (bezslownikowych == true) {
-            wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownikKsiegi(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownikKsiegi(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         } else if (tylkosyntetyka == true) {
             wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
         } else {
-            wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaKsiegi(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaKsiegi(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         if (kontadowyswietlenia.equals("bilansowe")) {
             for (Iterator it = wykazkont.iterator(); it.hasNext();) {
@@ -106,12 +105,12 @@ public class PlanKontSaldaView implements Serializable {
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "wynikowe":
-                wykazkont = kontoDAOfk.findWszystkieKontaWynikowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                wykazkont = kontoDAOfk.findWszystkieKontaWynikowePodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "bilansowe":
-                wykazkont = kontoDAOfk.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                wykazkont = kontoDAOfk.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
@@ -165,7 +164,7 @@ public class PlanKontSaldaView implements Serializable {
                 PdfPlanKont.drukujPlanKontTłumaczenie(wykazkont, wpisView);
                 break;
         }
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
     }
     public List<Konto> getWykazkont() {

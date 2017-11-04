@@ -6,6 +6,7 @@
 package beansFK;
 
 import daoFK.KontoDAOfk;
+import entity.Podatnik;
 import entityfk.Delegacja;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -13,9 +14,7 @@ import entityfk.MiejsceKosztow;
 import entityfk.MiejscePrzychodow;
 import entityfk.Pojazdy;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
-import view.WpisView;
 
 /**
  *
@@ -25,7 +24,7 @@ import view.WpisView;
 
 public class SlownikiBean {
     
-     public static void aktualizujkontapoedycji(Object obiekt, int nrslownika, String podatnik, Integer rok, KontoDAOfk kontoDAOfk) {
+     public static void aktualizujkontapoedycji(Object obiekt, int nrslownika, Podatnik podatnik, Integer rok, KontoDAOfk kontoDAOfk) {
         String[] pola = pobierzpola(obiekt);
         List<Konto> kontaslownik = null;
         kontaslownik = kontoDAOfk.findKontaMaSlownik(podatnik, rok, nrslownika);
@@ -73,7 +72,7 @@ public class SlownikiBean {
         return pola;
      }
      
-      public static void ukryjkontapodeycji(Object obiekt, int nrslownika, String podatnik, Integer rok, KontoDAOfk kontoDAOfk, boolean niewidoczne) {
+      public static void ukryjkontapodeycji(Object obiekt, int nrslownika, Podatnik podatnik, Integer rok, KontoDAOfk kontoDAOfk, boolean niewidoczne) {
         String[] pola = pobierzpola(obiekt);
         List<Konto> kontaslownik = null;
         kontaslownik = kontoDAOfk.findKontaMaSlownik(podatnik, rok, nrslownika);

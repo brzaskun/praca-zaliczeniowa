@@ -904,8 +904,8 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
 //            String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok,
 //            String syntetycznenumer);
        w.setOpisWiersza("wiersz pierwszy testowy");
-       w.setStronaWn(new StronaWiersza(w, "Wn", 1023.0, new Konto(1, "Wzorcowy", "100", "syntetyczne", 0, "kasa", "kasa", "bilansowe", "zwykle", "0", "100", true, 2015, "0")));
-       w.setStronaMa(new StronaWiersza(w, "Ma", 23.0, new Konto(2, "Wzorcowy", "130", "syntetyczne", 0, "bank", "bank", "bilansowe", "zwykle", "0", "130", true, 2015, "0")));
+       w.setStronaWn(new StronaWiersza(w, "Wn", 1023.0, new Konto(1, null, "100", "syntetyczne", 0, "kasa", "kasa", "bilansowe", "zwykle", "0", "100", true, 2015, "0")));
+       w.setStronaMa(new StronaWiersza(w, "Ma", 23.0, new Konto(2, null, "130", "syntetyczne", 0, "bank", "bank", "bilansowe", "zwykle", "0", "130", true, 2015, "0")));
        l.add(w);
        return l;
    }

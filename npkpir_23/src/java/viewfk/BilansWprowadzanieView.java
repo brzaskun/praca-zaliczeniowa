@@ -491,7 +491,7 @@ public class BilansWprowadzanieView implements Serializable {
             }
         }
         kontoDAO.wyzerujBoWnBoMawKontach(wpisView);
-        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Set<Konto> kontadosumowania = new HashSet<>();
         for (WierszBO p : zachowaneWiersze) {
             if (p.getNowy0edycja1usun2Int()!=2) {

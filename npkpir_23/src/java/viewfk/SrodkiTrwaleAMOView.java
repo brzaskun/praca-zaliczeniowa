@@ -81,7 +81,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
     
     @PostConstruct
     public void init() {
-       List<Konto> kontaklienta = kontoDAOfk.findKontaSrodkiTrw(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+       List<Konto> kontaklienta = kontoDAOfk.findKontaSrodkiTrw(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
        kontasrodkitrw = przygotowanalistasald(kontaklienta);
         RequestContext.getCurrentInstance().update("srodkiamo");
     }
@@ -266,9 +266,9 @@ public class SrodkiTrwaleAMOView implements Serializable {
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "odpis amortyzacyjny dla: "+p.getSrodekTrw().getNazwa(); 
                 w.setOpisWiersza(opiswiersza);
-                Konto kontoAmortyzacjaST = kontoDAOfk.findKonto("401-1-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-                Konto kontoAmortyzacjaWNiP = kontoDAOfk.findKonto("401-2-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-                Konto kontoumorzenie = kontoDAOfk.findKonto(p.getKontoumorzenie(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                Konto kontoAmortyzacjaST = kontoDAOfk.findKonto("401-1-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                Konto kontoAmortyzacjaWNiP = kontoDAOfk.findKonto("401-2-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                Konto kontoumorzenie = kontoDAOfk.findKonto(p.getKontoumorzenie(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 if (p.getRodzaj().equals("wnip")) {
                     StronaWiersza kosztamortyzacji = new StronaWiersza(w, "Wn", Z.z(p.getKwota()), kontoAmortyzacjaWNiP);
                     StronaWiersza kwotaumorzenia = new StronaWiersza(w, "Ma", Z.z(p.getKwota()),kontoumorzenie);
