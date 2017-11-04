@@ -1416,7 +1416,11 @@ public class FakturaView implements Serializable {
     
     public void pdffaktura() {
         try {
-            pdfFaktura.drukuj(gosciwybral, wpisView);
+            if (gosciwybral != null && gosciwybral.size() >0) {
+                pdfFaktura.drukuj(gosciwybral, wpisView);
+            } else {
+                pdfFaktura.drukuj(faktury, wpisView);
+            }
         } catch (Exception e) { E.e(e); 
         }
     }
@@ -1449,8 +1453,12 @@ public class FakturaView implements Serializable {
     }
     
     public void drukujokresowa() {
-        try {
-            pdfFaktura.drukujokresowa(gosciwybralokres);
+         try {
+            if (gosciwybral != null && gosciwybral.size() >0) {
+                pdfFaktura.drukujokresowa(gosciwybralokres);
+            } else {
+                pdfFaktura.drukujokresowa(fakturyokresowe);
+            }
         } catch (Exception e) { E.e(e); 
         }
     }
@@ -1487,14 +1495,18 @@ public class FakturaView implements Serializable {
         return FakturaSortBean.sortZaksiegowaneDok(o1, o2, wpisView);
     }
     
-    public void drukujfakturysporzadzone(List<Faktura> gosciwybral) {
+    public void drukujfakturysporzadzone() {
         try {
             String nazwapliku = "fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }
-            PdfFakturySporzadzone.drukujzapisy(wpisView, gosciwybral);
+            if (gosciwybralarchiuwm != null && gosciwybralarchiuwm.size() > 0) {
+                PdfFakturySporzadzone.drukujzapisy(wpisView, gosciwybralarchiuwm);
+            } else {
+                PdfFakturySporzadzone.drukujzapisy(wpisView, fakturyarchiwum);
+            }
         } catch (Exception e) { E.e(e); 
             
         }

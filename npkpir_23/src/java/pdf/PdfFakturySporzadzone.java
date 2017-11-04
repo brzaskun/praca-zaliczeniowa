@@ -40,7 +40,7 @@ public class PdfFakturySporzadzone {
 
     public static void drukujzapisy(WpisView wpisView, List<Faktura> wybranefaktury) throws DocumentException, FileNotFoundException, IOException {
         try {
-            Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
+            Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 25);
             PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf"));
             int liczydlo = 1;
             PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
@@ -130,7 +130,7 @@ public class PdfFakturySporzadzone {
                 for (Faktura rs : wybranefaktury) {
                     table.addCell(ustawfrazeAlign(i.toString(), "center", 7));
                     table.addCell(ustawfrazeAlign(rs.getFakturaPK().getNumerkolejny(), "center", 7));
-                    table.addCell(ustawfrazeAlign(rs.getKontrahent().getNpelna(), "center", 7));
+                    table.addCell(ustawfrazeAlign(rs.getKontrahent().getNpelna(), "left", 7));
                     table.addCell(ustawfrazeAlign(rs.getKontrahent().getAdres(), "left", 7));
                     table.addCell(ustawfrazeAlign(rs.getKontrahent_nip(), "center", 7));
                     String opis = rs.getNazwa() != null ? rs.getNazwa() : rs.getPozycjenafakturze().get(0).getNazwa();
