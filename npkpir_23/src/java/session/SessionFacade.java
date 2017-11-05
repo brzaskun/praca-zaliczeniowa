@@ -896,7 +896,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontaPotomneWzorcowy(Integer rok, String macierzyste) {
-        return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", null).setParameter("rok", rok).getResultList();
+        return em.createNamedQuery("Konto.findByMacierzysteBOPodatnikWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList();
     }
 
     public List<Konto> findKontaSiostrzanePodatnik(WpisView wpisView, String macierzyste) {
@@ -904,7 +904,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontaSiostrzaneWzorcowy(WpisView wpisView, String macierzyste) {
-        return em.createNamedQuery("Konto.findBySiostrzaneBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", null).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return em.createNamedQuery("Konto.findBySiostrzaneBOPodatnikWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
 
     public Object findKontaPotomnePodatnikCount(WpisView wpisView, String macierzyste) {
@@ -912,7 +912,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public Object findKontaPotomneWzorcowyCount(WpisView wpisView, String macierzyste) {
-        return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("podatnik", null).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
+        return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
 
     public List<Konto> findKontaMaSlownik(Podatnik podatnik, Integer rok, int idslownika) {
@@ -929,9 +929,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<Konto> findKontaPotomneWzorcowy(Integer rok, String macierzyste, String bilansowewynikowe) {
         if (bilansowewynikowe.equals("bilansowe")) {
-            return em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", null).setParameter("rok", rok).getResultList();
+            return em.createNamedQuery("Konto.findByMacierzysteBilansoweWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList();
         } else {
-            return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", null).setParameter("rok", rok).getResultList();
+            return em.createNamedQuery("Konto.findByMacierzysteWynikoweWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList();
         }
     }
 
@@ -945,9 +945,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<Konto> findKontaPrzyporzadkowaneWzorcowy(String pozycja, String bilansowewynikowe, int rok, String aktywa0pasywa1) {
         if (bilansowewynikowe.equals("bilansowe")) {
-            return em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", null).setParameter("rok", rok).getResultList();
+            return em.createNamedQuery("Konto.findByPozycjaBilansoweWZOR").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("rok", rok).getResultList();
         } else {
-            return em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", null).setParameter("rok", rok).getResultList();
+            return em.createNamedQuery("Konto.findByPozycjaWynikoweWZOR").setParameter("pozycja", pozycja).setParameter("rok", rok).getResultList();
         }
     }
 
