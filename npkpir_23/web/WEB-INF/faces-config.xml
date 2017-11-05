@@ -502,6 +502,18 @@
             <to-view-id>/ksiegowaFK/ksiegowaFKFirma.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>ksiegowaFKFirma</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKFirma.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>ksiegowaFKFirma_1</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKFirma_1.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>ksiegowaFKFirma_2</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKFirma_2.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>rejestryFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKRejestry.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

@@ -6,9 +6,9 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="north" size="64" resizable="true" closable="true" collapsible="true">
+    <p:layoutUnit position="north" size="63" resizable="false" >
         <h:form id="menubarnorth">
-            <p:menubar autoDisplay="true">
+            <p:menubar autoDisplay="true" style="border: none;">
                 <p:menuitem icon="fa fa-institution" value="firma" outcome="firmaFK"/>
                 <p:menuitem icon="fa fa-stack-overflow" value="#{mgs.dokumenty}" outcome="menudokumentyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-pencil" value="zapisy kont" outcome="raportyFK" rendered="#{WpisView.czegosbrakuje == false}"/>

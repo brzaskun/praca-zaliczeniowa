@@ -1,0 +1,22 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="west" size="255"  collapsible="true" style="box-shadow: 10px 10px 5px #888888;">
+        <h:form>
+            <p:menu style="width: 238px; border: none;">
+                <p:menuitem value="dodaj firmę" outcome="ksiegowaFKFirma" icon="ui-icon-circle-arrow-e" />  
+                <p:menuitem value="edytuj firmę"  outcome="ksiegowaFKFirma_1" icon="ui-icon-circle-arrow-e" />  
+                <p:menuitem value="sprawozdanie finansowe"  outcome="ksiegowaFKFirma_2" icon="ui-icon-circle-arrow-e" />  
+            </p:menu>
+        </h:form>
+        <p:panel>
+            <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;" /> 
+        </p:panel>
+    </p:layoutUnit>
+</ui:composition>   
+
