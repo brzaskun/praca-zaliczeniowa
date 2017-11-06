@@ -134,7 +134,7 @@
                 <p:growl life="3600"  id="msg" autoUpdate="true"/>
             <!--        wpisywanie firmy-->
                 <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
-                <p:panel id="panelwpisywanianowejfirmy" header="Edycja danych firmy w programie" style="width: 850px;">
+                <p:panel id="panelwpisywanianowejfirmy" header="Edycja danych firmy w programie" style="width: 1150px;">
                 <p:focus for="wprowadzaniepodatnika"/>
                 <p:panelGrid id="wprowadzaniepodatnika" columns="4" >
 
@@ -232,7 +232,15 @@
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.jestwlikiwdacji}"/>
                  <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym"/>
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}"/>
-                 <h:outputLabel value="id firmy"/>
+                 
+                 <h:outputLabel value="podatnik tylko dla ZUS"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selected.tylkodlaZUS}"/>
+            <h:outputLabel value="zatrudnia pracowikow"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selected.zatrudniapracownikow}"/>
+            <h:outputText value="wysyłać dane o składkach ZUS i PIT4 na mail: #{podatnikView.selected.email ne null ? podatnikView.selected.email : 'brak mail'}"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selected.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
+            </p:selectBooleanCheckbox>
+                    <h:outputLabel value="id firmy"/>
                  <h:outputText value="#{podatnikView.selected.nazwapelna}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">

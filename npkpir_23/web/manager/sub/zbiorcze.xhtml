@@ -33,7 +33,7 @@
                     <p:dataTable value="#{podatnik.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginator="true" paginatorPosition="top" pageLinks="12" rows="12"
                                  sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" 
                                  selection="#{zUSStawkiZbiorczeView.zusstawki}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
-                                 rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
+                                 rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" emptyMessage="Nie wprowadzono kwot" >
                         <p:ajax event="rowSelect" listener="#{zUSStawkiZbiorczeView.wybranowiadomosc(podatnik.zusparametr)}" update=":akordeon:formwartosci, :akordeon:formbuttony"/>       
                         <f:facet name="header">
                             <h:outputText value="Lista wprowadzonych danych za okresy rozliczeniowe #{podatnik.printnazwa}"/>
