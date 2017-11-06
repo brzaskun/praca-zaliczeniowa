@@ -141,17 +141,12 @@ public class InfoView implements Serializable{
     
     private void sprawdzvat(){
         try{
-        String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
-        if(opodatkowanie == null){
-            vatnievat = "Nie wprowadzono rodzaju opodatkowania! Program nie będzie funkcjonował poprawnie";
+        if(!wpisView.isVatowiec()){
+            vatnievat = "Firma aktuanie nie jest płatnikiem VAT";
         } else {
-            if(opodatkowanie.contains("vat")){
-                vatnievat = "Firma aktuanie nie jest płatnikiem VAT";
-            } else {
-                vatnievat = "Firma aktuanie jest płatnikiem VAT";
-            }
+            vatnievat = "Firma aktuanie jest płatnikiem VAT";
         }
-        } catch (Exception e) { E.e(e); 
+          } catch (Exception e) { E.e(e); 
             vatnievat = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
         }
     }

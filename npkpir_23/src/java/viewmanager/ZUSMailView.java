@@ -119,7 +119,7 @@ public class ZUSMailView implements Serializable {
             Collections.sort(pobranipodatnicy, new Podatnikcomparator());
             for (Podatnik p : pobranipodatnicy) {
                 Zusstawki zusstawki = stawkipodatnicy.get(p);
-                if (zusstawki.getZus51ch() != 0.0 || zusstawki.getZus51bch() != 0.0 || zusstawki.getZus52() != 0.0 || zusstawki.getZus53() != 0.0 || zusstawki.getPit4() != 0.0) {
+                if (sprawdzczyniepuste(zusstawki)) {
                     Zusmail zusmail = new Zusmail(p, rok, mc);
                     zusmail.setZus51ch(zusstawki.getZus51ch());
                     zusmail.setZus51bch(zusstawki.getZus51bch());
@@ -143,6 +143,20 @@ public class ZUSMailView implements Serializable {
             naniesistniejacezapisy();
             usunniezgodne();
         }
+    }
+     private boolean sprawdzczyniepuste(Zusstawki zusstawki) {
+        if (zusstawki.getZus51ch() != null && zusstawki.getZus51ch() != 0.0 ) {
+            return true;
+        } else if (zusstawki.getZus51bch() != null && zusstawki.getZus51bch() != 0.0) {
+            return true;
+        } else if (zusstawki.getZus52() != null && zusstawki.getZus52() != 0.0) {
+            return true;
+        } else if (zusstawki.getZus53() != null && zusstawki.getZus53() != 0.0) {
+            return true;
+        } else if (zusstawki.getPit4() != null && zusstawki.getPit4() != 0.0) {
+            return true;
+        }
+        return false;
     }
     private void usunniezgodne() {
         Iterator it = wykazprzygotowanychmaili.iterator();
@@ -303,6 +317,8 @@ public class ZUSMailView implements Serializable {
     public void setMcuprzedni(String mcuprzedni) {
         this.mcuprzedni = mcuprzedni;
     }
+
+   
 
     
     

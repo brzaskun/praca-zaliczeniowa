@@ -471,7 +471,7 @@ public final class DokView implements Serializable {
                     break;
                 }
             }
-            if (nieVatowiec == false || typdok.equals("IU")) {
+            if (wpisView.isVatowiec() == true || typdok.equals("IU")) {
                 /*wyswietlamy ewidencje VAT*/
                 List<Evewidencja> opisewidencji = new ArrayList<>();
                 selDokument.setDokumentProsty(false);
