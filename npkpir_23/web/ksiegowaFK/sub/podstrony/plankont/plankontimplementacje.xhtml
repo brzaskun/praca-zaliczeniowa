@@ -11,6 +11,7 @@
             width: 200px;
         }
     </style>
+    <bcf:ajaxs/>
     <p:panel header="Kopiowanie kompletnego planu kont z firmy do firmy" />
         <h:form id="formdialog_plankont_kopiuj">
             <p:panelGrid styleClass="paneldialog_plankont_kopiuj" columns="4">
@@ -32,10 +33,8 @@
                 <p:selectBooleanCheckbox value="#{planKontKopiujView.kopiujSlownikowe}" style="margin-left: 20px;"/>
             </p:panelGrid>
             <p:commandButton value="kopiuj" actionListener="#{planKontKopiujView.kopiujplankont}" type="submit" 
-                                 style="margin-left: 180px; margin-right: auto; margin-top: 5px; width: 120px;" onclick="PF('dialog_plankont_kopiuj').hide();"
-                                 update=":form_dialog_plankont, formdialog_plankont_kopiuj"/>
-            <p:commandButton value="anuluj" type="button" 
-                                 onclick="PF('dialog_plankont_kopiuj').hide();" style="margin-right: auto; margin-left: 80px; margin-top: 10px; width: 120px;"/>
+                                 style="margin-left: 180px; margin-right: auto; margin-top: 5px; width: 120px;" 
+                                 />
         </h:form>
     <p:panel header="Uzupełnienie planu kont z firmy do firmy o brakujące konta" style="margin-top: 10px;"/>
         <h:form id="formdialog_plankont_uzupelnij">
@@ -54,10 +53,8 @@
                 <p:inputText value="#{planKontUzupelnijView.rokdocelowy}"/>
             </p:panelGrid>
             <p:commandButton value="uzupełnij" actionListener="#{planKontUzupelnijView.uzupelnijplankont}" type="submit" 
-                                 style="margin-left: 180px; margin-right: auto; margin-top: 5px; width: 120px;" onclick="PF('dialog_plankont_uzupelnij').hide();"
-                                 update=":form_dialog_plankont, formdialog_plankont_uzupelnij"/>
-            <p:commandButton value="anuluj" type="button" 
-                                 onclick="PF('dialog_plankont_uzupelnij').hide();" style="margin-right: auto; margin-left: 80px; margin-top: 10px; width: 120px;"/>
+                                 style="margin-left: 180px; margin-right: auto; margin-top: 5px; width: 120px;"
+                                 />
         </h:form>
     <style>
         .paneldialog_plankont_implementuj_wzorcowy .ui-panelgrid-cell {
@@ -73,10 +70,8 @@
                 <p:inputText value="#{planKontKopiujView.rokdocelowy}"/>
             </p:panelGrid>
             <p:commandButton value="implementuj" actionListener="#{planKontKopiujView.implementujplankontWzorcowy}" type="submit" 
-                                 style="margin-left: 140px;; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_plankont_implementuj_wzorcowy').hide();"
-                                 update=":form_dialog_plankont"/>
-            <p:commandButton value="anuluj" type="button" 
-                                 onclick="PF('dialog_plankont_implementuj_wzorcowy').hide();" style="margin-right: auto; margin-left: 50px; margin-top: 20px; width: 120px;"/>
+                                 style="margin-left: 180px;; margin-right: auto; margin-top: 20px; width: 120px;" 
+                                 />
         </h:form>
     
 </ui:composition>
