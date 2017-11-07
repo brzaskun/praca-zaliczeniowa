@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -136,7 +137,7 @@ public class PlanKontView implements Serializable {
          E.m(this);
     }
 
-    
+    @PostConstruct
     public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         listaukladow = ukladBRDAO.findPodatnikRok(wpisView);

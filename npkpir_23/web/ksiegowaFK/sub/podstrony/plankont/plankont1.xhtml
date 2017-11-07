@@ -1,0 +1,84 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+        <h:form id="form_dialog_plankont1">
+           
+              <p:panelGrid columns="8">
+                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form_dialog_plankont1:dataList_data')" global="false" style="float: left;" />
+                  <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form_dialog_plankont1:dataList_data')" global="false" style="float: left;" />
+                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form_dialog_plankont1:dataList_data')"  global="false" style="float: left;" />
+                  <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form_dialog_plankont1:dataList_data')"  global="false" style="float: left;" />
+                  <p:selectBooleanCheckbox id="bezslownikowych" itemLabel="bez słownikowych" value="#{planKontView.bezslownikowych}">
+                      <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont1:dataList"/>
+                  </p:selectBooleanCheckbox>
+                  <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
+                      <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont1:dataList"/>
+                  </p:selectBooleanCheckbox>
+                  <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.kontadowyswietlenia}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
+                        <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont1:dataList"/>
+                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                  </p:selectOneMenu>
+                  <p:commandButton value="implementuj ust."  actionListener="#{planKontView.implementujwmma0mn1ma0Podatnik}" 
+                                   style="float: left; width: 130px; margin-left: 20px;" update="form_dialog_plankont1:dataList"/>
+            </p:panelGrid>
+            <p:outputPanel style="padding: 10px;">
+                <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>
+            </p:outputPanel>
+            <p:panelGrid columns="2" >
+                <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
+                             rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
+                                              (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :
+                                              (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
+                                              (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
+                             styleClass="tablicaplankont" rowHover="true" initMode="immediate" editable="true" editMode="cell"
+                             style="width: 750px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             scrollRows="300" scrollable="true" scrollHeight="600" rows="600" 
+                             sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
+                             >
+                    <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column colspan="1" headerText="" width="1" />
+                            <p:column colspan="1" headerText="" width="10"/>
+                            <p:column colspan="1" headerText="#{mgs.numerkonta}" width="80" />
+                            <p:column colspan="1" headerText="nazwa pełna" width="300"/>
+                            <p:column colspan="1" headerText="saldo" width="40"/>
+                        </p:row>
+                    </p:columnGroup>
+                    <p:column>
+                        <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
+                    </p:column>
+                    <p:column  style="width: 50px; text-align: center;">
+                        <h:outputText value="#{loop.mapotomkow == true ? '+' : null}" /> 
+                    </p:column>
+                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}">
+                        <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
+                    </p:column>
+                    <p:column  style="width: 200px;">
+                        <h:outputText value="#{loop.nazwapelna}" /> 
+                        <h:outputText value=" id " rendered="#{loop.idslownika gt 0}"/> 
+                        <h:outputText value="#{loop.idslownika}" rendered="#{loop.idslownika gt 0}"/> 
+                    </p:column>
+                    <p:column style="width: 40px; text-align: center;">
+                        <p:selectOneMenu value="#{loop.wnma0wm1ma2}">
+                            <f:selectItem itemLabel="wnma" itemValue="0"/>
+                            <f:selectItem itemLabel="wn" itemValue="1"/>
+                            <f:selectItem itemLabel="ma" itemValue="2"/>
+                            <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.nanieswnma(loop)}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+           
+        </h:form>
+</ui:composition>
