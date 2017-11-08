@@ -1,0 +1,38 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+        <h:form id="formdialog_przenumerujDokumentyFK">
+            <p:panelGrid style="width: 400px; height: 60px;">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="rodzaj dokumentu do zmiany"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column style="text-align: center;">
+                        <h:selectOneMenu value="#{dokfkView.wybranakategoriadok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                         onfocus="$(this).removeClass('ui-state-default');
+                                                 $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');" 
+                                         style="width: 200px; height: 25px;">
+                            <p:ajax event="change" global="false" partialSubmit="true"/>
+                            <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
+                            <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:panelGrid style="width: 400px; height: 60px;">
+                <p:commandButton value="ok" actionListener="#{dokfkView.przenumerujDokumentyFK()}" type="submit" 
+                                 style="margin-left: 40px; margin-right: auto; width: 120px;"
+                                 />
+            </p:panelGrid>
+        </h:form>
+</ui:composition>

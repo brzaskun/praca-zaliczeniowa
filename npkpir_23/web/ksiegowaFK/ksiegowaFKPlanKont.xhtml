@@ -10,46 +10,6 @@
         </ui:define>
         <ui:define name="body">
             <bcf:ajaxs />
-<!--            <bcf:confirm lp="1" wiadomosc="Zaimplementować wzorcowy plan kont dla bieżącego klienta?" listener="#{planKontView.implementacjaKontWzorcowych()}" 
-                         update=":form_dialog_plankont" listenerPresent="true"/>-->
-<!--            <p:confirmDialog id="confirmDialog2" message="Usunąć wszystkie konta? Operacja jest nieodwracalna!"  
-                             header="Usuwanie kont" severity="alert" widgetVar="confirm2" width="500" appendTo="@(body)"
-                             >
-                <h:form>
-                    <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm2').hide();"
-                                     actionListener="#{planKontView.usunieciewszystkichKontPodatnika()}"
-                                     style="float: left; width: 120px; margin-left: 2%;" update=":form_dialog_plankont">
-                    </p:commandButton>
-                    <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm2').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
-                </h:form>
-            </p:confirmDialog> -->
-<!--             <bcf:confirm lp="2" wiadomosc="Usunąć wszystkie konta? Operacja jest nieodwracalna!" listener="#{planKontView.usunieciewszystkichKontPodatnika()}" 
-                         update="form_dialog_plankont" listenerPresent="true"/>-->
-<!--            <p:confirmDialog id="confirmDialog3" message="Rozpoczynam porządkowanie kont. Usuwanie niewłaściwych oznaczeń."  
-                             header="Porządkowanie kont" severity="alert" widgetVar="confirm3" width="500" appendTo="@(body)"
-                             >
-                <h:form>
-                    <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm3').hide();"
-                                     actionListener="#{planKontView.porzadkowanieKontPodatnika()}"
-                                     style="float: left; width: 120px; margin-left: 2%;" update="form_dialog_plankont:dataList">
-                    </p:commandButton>
-                    <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm3').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
-                </h:form>
-            </p:confirmDialog> -->
-<!--            <bcf:confirm lp="3" wiadomosc="Rozpoczynam porządkowanie kont. Usuwanie niewłaściwych oznaczeń." listener="#{planKontView.porzadkowanieKontPodatnika()}" 
-                         update="form_dialog_plankont:dataList" listenerPresent="true"/>-->
-<!--            <p:confirmDialog id="confirmDialog4" message="Rozpoczynam porządkowanie słowników"  
-                             header="Porządkowanie kont" severity="alert" widgetVar="confirm4" width="500" appendTo="@(body)"
-                             >
-                <h:form>
-                    <p:commandButton  value="Akceptuj"  oncomplete="PF('confirm4').hide();"
-                                     actionListener="#{planKontView.porzadkujSlowniki()}"
-                                     style="float: left; width: 120px; margin-left: 2%;" update=":form_dialog_plankont">
-                    </p:commandButton>
-                    <p:commandButton value="Odwołaj" onclick="PF('confirm4').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
-                </h:form>
-            </p:confirmDialog> -->
-
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <ui:include src="sub/layout/west_plankont.xhtml"/> 
@@ -60,6 +20,39 @@
                         <p:growl life="3600"  autoUpdate="true"/>
                     </h:form>
                     <p:outputPanel rendered="#{menu_plankont.file1}">
+                        <p:confirmDialog id="confirmDialog2" message="Usunąć wszystkie konta? Operacja jest nieodwracalna!"  
+                                         header="Usuwanie kont" severity="alert" widgetVar="confirm2" width="500" appendTo="@(body)"
+                                         >
+                            <h:form>
+                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm2').hide();"
+                                                 actionListener="#{planKontView.usunieciewszystkichKontPodatnika()}"
+                                                 style="float: left; width: 120px; margin-left: 2%;" update=":form_dialog_plankont">
+                                </p:commandButton>
+                                <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm2').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                            </h:form>
+                        </p:confirmDialog> 
+                        <p:confirmDialog id="confirmDialog3" message="Rozpoczynam porządkowanie kont. Usuwanie niewłaściwych oznaczeń."  
+                                         header="Porządkowanie kont" severity="alert" widgetVar="confirm3" width="500" appendTo="@(body)"
+                                         >
+                            <h:form>
+                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm3').hide();"
+                                                 actionListener="#{planKontView.porzadkowanieKontPodatnika()}"
+                                                 style="float: left; width: 120px; margin-left: 2%;" update="form_dialog_plankont:dataList">
+                                </p:commandButton>
+                                <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm3').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                            </h:form>
+                        </p:confirmDialog> 
+                        <p:confirmDialog id="confirmDialog4" message="Rozpoczynam porządkowanie słowników"  
+                                         header="Porządkowanie kont" severity="alert" widgetVar="confirm4" width="500" appendTo="@(body)"
+                                         >
+                            <h:form>
+                                <p:commandButton  value="Akceptuj"  oncomplete="PF('confirm4').hide();"
+                                                  actionListener="#{planKontView.porzadkujSlowniki()}"
+                                                  style="float: left; width: 120px; margin-left: 2%;" update=":form_dialog_plankont">
+                                </p:commandButton>
+                                <p:commandButton value="Odwołaj" onclick="PF('confirm4').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                            </h:form>
+                        </p:confirmDialog> 
                         <ui:include src="sub/podstrony/plankont/plankont.xhtml"/>
                         <ui:include src="sub/dialog/dialog_plankont_analityczne.xhtml"/>
                         <ui:include src="sub/dialog/dialog_plankont_syntetyczne.xhtml"/>
@@ -80,6 +73,9 @@
                         <ui:include src="sub/podstrony/plankont/plankontklasyfikacje.xhtml"/>
                     </p:outputPanel>
                     <p:outputPanel rendered="#{menu_plankont.file6}">
+                        <bcf:confirm lp="1" wiadomosc="Zaimplementować wzorcowy plan kont dla bieżącego klienta?" listener="#{planKontView.implementacjaKontWzorcowych()}" 
+                                     update=":form_dialog_plankont" listenerPresent="true"/>
+                        
                         <ui:include src="sub/podstrony/plankont/plankontimplementacje.xhtml"/>
                     </p:outputPanel>
                     <ui:include src="sub/dialog/dialog_zmiana_okresu.xhtml"/>

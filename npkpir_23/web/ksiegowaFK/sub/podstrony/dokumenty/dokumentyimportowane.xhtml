@@ -1,0 +1,93 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+        
+        .zaksiegowanewaski input {
+            width: 75px !important;
+        }
+    </style>
+
+        <h:form id="zestawieniedokumentowimport">
+            <p:panelGrid columns="5" style="margin-left: 2%;" >
+                <p:column>
+                    <h:outputText value="miesiąc: "/>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneimport}"/>
+                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" style="width: 120px;"/>
+                </p:column>
+                <p:selectOneMenu value="#{dokfkView.wybranakategoriadokimport}" style="margin-left: 120px;" >
+                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneimport}"/>
+                    <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
+                    <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
+             </p:selectOneMenu>
+            </p:panelGrid>
+            
+            <p:contextMenu for="dataListImport" style="width: 200px;">
+                <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{dokfkView.usunwszytskieimportowane()}" update=":zestawieniedokumentowimport"/>
+            </p:contextMenu>
+
+            <p:dataTable id="dataListImport" value="#{dokfkView.wykazZaksiegowanychDokumentowimport}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
+                         selection="#{dokfkView.selectedimport}" rowKey="#{item}" selectionMode="single" 
+                         style="width: 1250px; height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValueimport}"
+                         emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"
+                         sortBy="#{item}" sortFunction="#{dokfkSortView.sortZaksiegowaneDok}" >
+                <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
+                <p:ajax event="filter" global="false"/>
+                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
+                    <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
+                </p:column>
+                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.datadokumentu}"/>
+                </p:column>
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.seriadokfk}" filterBy="#{item.seriadokfk}">
+                    <h:outputText value="#{item.seriadokfk}/#{item.nrkolejnywserii}/#{item.rok}"/>
+                </p:column>
+                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
+                    <h:outputText value="#{item.kontr.npelna}"/>
+                </p:column>
+                <p:column headerText="#{mgs.numer}" styleClass="zaksiegowanewaski" width="110" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.numerwlasnydokfk}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.opisdokfk}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="waluta" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                    <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
+                </p:column>
+                <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="50" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                    <h:outputText value="#{item.vatM}"/>
+                </p:column>
+                <p:column headerText="b/k" width="30" sortBy="#{item.nrdziennika}" style="text-align: center;">
+                    <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
+                </p:column>         
+                <p:column width="80" style="text-align: center;" >
+                    <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycjaImport(item, row)}"  styleClass="fkbutton" icon="ui-icon-document"
+                                     update=":formwpisdokument, :zestawieniedokumentowimport"  onsuccess="PF('wpisywanie').show();"
+                                     rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
+                </p:column>
+                <p:column width="80" style="text-align: center;">
+                    <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+</ui:composition>

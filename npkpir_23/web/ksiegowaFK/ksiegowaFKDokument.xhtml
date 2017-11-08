@@ -12,6 +12,10 @@
         </ui:define>
         <ui:define name="body">
             <p:growl life="6000" autoUpdate="true" globalOnly="true"/>
+            
+            <p:outputPanel rendered="#{menu_dokumenty.file1}">
+                
+            </p:outputPanel>
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <p:outputPanel id="potwierdzeniazestawieniedok">
             <p:confirmDialog id="confirmDialog1" message="Dodać środek trwały?"  
@@ -40,46 +44,60 @@
             </p:confirmDialog> 
             </p:outputPanel>
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                <ui:include src="sub/layout/west_dokumenty.xhtml"/> 
                 <p:layoutUnit id="centralna" position="center" >
-                    <script>
-                        $(document).on("keydown", TabKeyDown);
-                    </script>
-                    <div id="ramki">
-                    </div>
-                    <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
-                    <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
-                    <ui:include src="sub/menu/menudokumenty.xhtml"/>
-                    
-                    <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_delegacje_stworz.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_wpisywanie.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_wpisywanie_dodajkonto.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_wpisywanie_dodajslownik.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_dokfkrozrachunki.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_wiersze.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_przenumerujDokumentyFK.xhtml"/>
-<!--                    <ui:include src="sub/dialog/dialog_wyborrodzajustronawiersza.xhtml"/>-->
-                    <ui:include src="sub/dialog/dialog_niemarachunkow.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_nowyklient.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_rk_ewidencjaVAT.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_cecha_dokument.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_cecha_stronawiersza.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_wpisywanie_znajdzkontrahenta.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_wpis_srodkitrwale.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_wpis_rmk.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_kurs_recznie_wpis.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_zestawieniezaksiegowanych.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_zestawieniezaksiegowanychimport.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_zapisywdokumentach.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_zapisywdokumentachWNT.xhtml"/>
+                    <p:outputPanel rendered="#{menu_dokumenty.file1}">
+                        <script>
+                            $(document).on("keydown", TabKeyDown);
+                        </script>
+                        <div id="ramki">
+                        </div>
+                        <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
+                        <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
+<!--                    <ui:include src="sub/menu/menudokumenty.xhtml"/>-->
+                        <ui:include src="sub/podstrony/dokumenty/wpisywanie.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_delegacje_stworz.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_wpisywanie_dodajkonto.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_wpisywanie_dodajslownik.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_dokfkrozrachunki.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_niemarachunkow.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_nowyklient.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_rk_ewidencjaVAT.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_cecha_dokument.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_cecha_stronawiersza.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_wpisywanie_znajdzkontrahenta.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_kalkulator.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_kurs_recznie_wpis.xhtml"/>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{menu_dokumenty.file2}">
+                        <ui:include src="sub/dialog/dialog_zestawieniezaksiegowanych.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_wpis_srodkitrwale.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_wpis_rmk.xhtml"/>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{menu_dokumenty.file3}">
+                        <ui:include src="sub/dialog/dialog_zapisywdokumentach.xhtml"/>
+<!--                        <ui:include src="sub/dialog/dialog_wiersze.xhtml"/>-->
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{menu_dokumenty.file4}">
+                        <ui:include src="sub/dialog/dialog_zapisywdokumentachWNT.xhtml"/>
                     <ui:include src="sub/dialog/dialog_zapisywdokumentachWDT.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_kalkulator.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_stowarzyszenie_generujskladki.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_stowarzyszenie_zestawienienaliczen.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_stowarzyszenie_rozrachunki.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_stowarzyszenie_rozrachunki_zbiorcze.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_zmiana_okresu.xhtml"/> 
-
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{menu_dokumenty.file5}">
+                        <ui:include src="sub/podstrony/dokumenty/dokumentyimportowane.xhtml"/>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{menu_dokumenty.file6}">
+                        <ui:include src="sub/podstrony/dokumenty/przenumerujdok.xhtml"/>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{menu_dokumenty.file7}">
+                        
+    <!--                    <ui:include src="sub/dialog/dialog_wyborrodzajustronawiersza.xhtml"/>-->
+                        <ui:include src="sub/dialog/dialog_stowarzyszenie_generujskladki.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_stowarzyszenie_zestawienienaliczen.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_stowarzyszenie_rozrachunki.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_stowarzyszenie_rozrachunki_zbiorcze.xhtml"/>
+                    </p:outputPanel>
+                <ui:include src="sub/dialog/dialog_zmiana_okresu.xhtml"/> 
                 </p:layoutUnit><ui:include src="sub/layout/south.xhtml"/> 
             </p:layout>
             

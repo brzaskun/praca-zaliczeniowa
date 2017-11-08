@@ -280,6 +280,7 @@ public class DokfkView implements Serializable {
             kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
             kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
             kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+            resetujDokumentOpen();
         } catch (Exception e) {
             E.e(e);
         }
@@ -314,6 +315,7 @@ public class DokfkView implements Serializable {
             symbolPoprzedniegoDokumentu = "ZZ";
         }
         try {
+            //?????????????????????????????????co to jest to po-winno byc gdzie indziej
             if (ostatniklient == null) {
                 ostatniklient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
                 if (ostatniklient == null) {
@@ -327,7 +329,8 @@ public class DokfkView implements Serializable {
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView, ostatniklient);
         selected.setWprowadzil(wpisView.getWprowadzil().getLogin());
         selected.setwTrakcieEdycji(false);
-        kontoRozrachunkowe = DokFKVATBean.pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
+        //po co to na dziendobry?
+        //kontoRozrachunkowe = DokFKVATBean.pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
         wygenerujnumerkolejny();
         podepnijEwidencjeVat(0);
         try {
@@ -1714,6 +1717,7 @@ public class DokfkView implements Serializable {
     }
 
     public void odswiezzaksiegowaneimport() {
+        wykazZaksiegowanychDokumentowimport = new ArrayList<>();
         if (wybranakategoriadokimport == null) {
             wybranakategoriadokimport = "wszystkie";
         }
@@ -2650,18 +2654,22 @@ public class DokfkView implements Serializable {
     }
 
     public void przenumerujDokumentyFK() {
-        List<Dokfk> dokumenty = null;
-        List<String> serie = null;
-        if (wybranakategoriadok.equals("wszystkie")) {
-            serie = dokDAOfk.findZnajdzSeriePodatnik(wpisView);
-            dokumenty = dokDAOfk.findDokfkPodatnikRok(wpisView);
-        } else {
-            serie = new ArrayList<>();
-            serie.add(wybranakategoriadok);
-            dokumenty = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+        try {
+            List<Dokfk> dokumenty = null;
+            List<String> serie = null;
+            if (wybranakategoriadok.equals("wszystkie")) {
+                serie = dokDAOfk.findZnajdzSeriePodatnik(wpisView);
+                dokumenty = dokDAOfk.findDokfkPodatnikRok(wpisView);
+            } else {
+                serie = new ArrayList<>();
+                serie.add(wybranakategoriadok);
+                dokumenty = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+            }
+            nadajnowenumery(serie, dokumenty);
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
         }
-        nadajnowenumery(serie, dokumenty);
-        System.out.println("df");
     }
 
     private void nadajnowenumery(List<String> serie, List<Dokfk> dokumenty) {
