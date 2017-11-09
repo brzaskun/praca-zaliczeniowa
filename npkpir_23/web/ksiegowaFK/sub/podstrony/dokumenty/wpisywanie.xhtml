@@ -712,8 +712,8 @@
                 <p:commandButton id="przenumeruj" value="przenumeruj" actionListener="#{dokfkView.przenumeruj()}" global="false"
                                  rendered="#{facesContext.externalContext.remoteUser eq '4'}"
                                  style="margin-left: 10px; width: 130px; display: none;"  update=":formwpisdokument:dataList"/>
-                <p:commandButton id="dodajwalute" value="dodajwalute" actionListener="#{dokfkView.pobierzpoledlawaluty}" accesskey="l" onclick="PF('dialogkursrecznie').show();" 
-                                 global="false" style="margin-left: 10px; display: none;" update="formkursrecznie:dataKursReczny"/>
+                <p:commandButton id="dodajwalute" value="Dodaj wa(l)utę" actionListener="#{dokfkView.pobierzpoledlawaluty}" accesskey="l" onclick="PF('dialogkursrecznie').show();" 
+                                 global="false" style="width: 130px; margin-top: 10px;" update="formkursrecznie:dataKursReczny"/>
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="lpwierszaRK" value="#{dokfkView.lpwierszaRK}" style="display: none;"/>
                 <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>

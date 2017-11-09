@@ -9,6 +9,7 @@
     <p:dialog id="dialogkursrecznie" header="Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  appendTo="@(body)"
               resizable="false"  onShow="ustawdialog('dialogkursrecznie','dialogpierwszy',800,550);" closeOnEscape="true" modal="true"
               onHide="resetujdialog('dialogkursrecznie');" >
+        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false"/>
         <h:form id="formkursrecznie">
             <p:focus for="formkursrecznie:dataKursReczny"/>
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 760px;">
@@ -59,6 +60,7 @@
             <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
                          scrollable="true" style="width: 600px; padding: 10px;" scrollHeight="330" widgetVar="dataTablekursy" rowKey="#{wpis.nrtabeli}" selection="#{dokfkView.tabelanbprecznie}"
                          sortBy="#{wpis.datatabeli}" sortOrder="descending">
+                
                 <p:ajax event="filter" global="false"/>
                 <p:ajax event="rowEdit" listener="#{walutyViewFK.onRowEdit}" update="formwpisdokument:dataList"/>
                  <f:facet name="header">  
