@@ -38,11 +38,11 @@
                     </h:panelGrid>
                 </p:dataGrid>
                 <p:dataGrid columns="1" value="#{item}" var="item2" style="height: 100px;">
-                    <p:dataTable value="#{item2.schemawierszsumarycznylista}" var="wiersz" style="width: 600px;height: 95px;">
+                    <p:dataTable value="#{item2.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;height: 95px;">
                         <p:column width="500" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                         </p:column>
-                        <p:column width="50" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
+                        <p:column width="50" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}" style="text-align: center;">
                             <h:outputText value="#{wiersz.polevat}"/>
                         </p:column>
                         <p:column rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">

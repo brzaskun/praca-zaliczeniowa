@@ -227,7 +227,7 @@ public class Vat7DKView implements Serializable {
                 //niepotrzebne bo jest wyzej
                 //deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
                 Deklaracjevat deklaracjaPopMc = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
-                if (deklaracjaPopMc == null) {
+                if (deklaracjaPopMc != null) {
                     //pobiera tylko wtedy jak nie ma z reki
                     if (przeniesieniezpoprzedniejdeklaracji == null) {
                         Integer kwotazprzeniesienia = pobierz47zpoprzedniejN(deklaracjaPopMc);
@@ -552,7 +552,7 @@ public class Vat7DKView implements Serializable {
         Deklaracjevat badana = null;
         try {
             List<Deklaracjevat> wyslane = deklaracjevatDAO.findDeklaracjeWyslaneMc(wpisView);
-            if (wyslane != null) {
+            if (!wyslane.isEmpty()) {
                 badana = wyslane.get(wyslane.size()-1);
             }
         } catch (Exception e) {

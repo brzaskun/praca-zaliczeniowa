@@ -196,7 +196,8 @@
                         <p:commandButton value="usuń" actionListener="#{vatUeFKView.usundekl(row)}" update="@form" style="width: 80px;" rendered="#{row.status ne null and row.status.substring(0,3) ne '200'}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
-                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 80px;"/>
+                        <p:commandButton value="usuń" actionListener="#{vatUeFKView.usundekl(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator eq null}"/>
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator ne null}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
                         <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
