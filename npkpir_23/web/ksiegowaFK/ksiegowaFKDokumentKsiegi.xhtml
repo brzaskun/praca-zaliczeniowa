@@ -12,11 +12,40 @@
         </ui:define>
         <ui:define name="body">
             <p:growl life="6000" autoUpdate="true" globalOnly="true"/>
+            
+            <p:outputPanel rendered="#{menu_dokumenty.file1}">
+                
+            </p:outputPanel>
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                <p:outputPanel id="potwierdzeniazestawieniedok">
+            <p:confirmDialog id="confirmDialog1" message="Dodać środek trwały?"  
+                             header="dodawanie środka trwałego z dokumentu" severity="alert" widgetVar="confirm1" width="500" appendTo="@(body)"
+                             >
+                <h:form>
+                    <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm1').hide();r('srodkiwpis:acForce1_input').select();" global="false"
+                                             actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyFK()}"
+                                             style="float: left; width: 120px; margin-left: 2%;" update=":srodkiwpis">
+                            </p:commandButton>
+                    <p:commandButton id="decline" global="false" value="Odwołaj" onclick="PF('confirm1').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                </h:form>
+            </p:confirmDialog> 
+            <bcf:confirm lp="2" wiadomosc="Dodać rozliczenie rmk?" listenerPresent="true" listener="#{rMKView.dodajRMK()}" closeDialog="dialogwpisrmk"/>
+            <p:confirmDialog id="confirmDialog3" 
+                             message="Usunąć dokument #{dokfkView.dokumentdousuniecia.opisDokfkUsun}"  
+                             header="Usuwanie dok" severity="alert" widgetVar="confirm3" width="500" appendTo="@(zestawieniezaksiegowanych)" 
+                             >
+                <h:form id="formconfirmDialog3">
+                            <p:commandButton id="confirm" value="Usuń"  oncomplete="PF('confirm3').hide();"
+                                             actionListener="#{dokfkView.usundokument()}"
+                                             style="float: left; width: 120px; margin-left: 30px;" update="zestawieniedokumentow:dataList">
+                            </p:commandButton>
+                    <p:commandButton id="decline" value="Anuluj" onclick="PF('confirm3').hide()" type="button" style="float: right; width: 120px; margin-right: 30px;"/>   
+                </h:form>
+            </p:confirmDialog> 
+            </p:outputPanel>
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <ui:include src="sub/layout/west_dokumenty.xhtml"/> 
                 <p:layoutUnit id="centralna" position="center" >
-                    <p:outputPanel rendered="#{menu_dokumenty.file1}">
                         <script>
                             $(document).on("keydown", TabKeyDown);
                         </script>
@@ -24,8 +53,9 @@
                         </div>
                         <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
                         <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
+                        <ui:include src="sub/podstrony/dokumenty/zaksiegowane.xhtml"/>
 <!--                    <ui:include src="sub/menu/menudokumenty.xhtml"/>-->
-                        <ui:include src="sub/podstrony/dokumenty/wpisywanie.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_wpisywanie.xhtml"/>
                         <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>
                         <ui:include src="sub/dialog/dialog_delegacje_stworz.xhtml"/>
                         <ui:include src="sub/dialog/dialog_wpisywanie_dodajkonto.xhtml"/>
@@ -39,33 +69,12 @@
                         <ui:include src="sub/dialog/dialog_wpisywanie_znajdzkontrahenta.xhtml"/>
                         <ui:include src="sub/dialog/dialog_kalkulator.xhtml"/>
                         <ui:include src="sub/dialog/dialog_kurs_recznie_wpis.xhtml"/>
-                    </p:outputPanel>
-                    <p:outputPanel rendered="#{menu_dokumenty.file3}">
-                        <ui:include src="sub/dialog/dialog_zapisywdokumentach.xhtml"/>
-<!--                        <ui:include src="sub/dialog/dialog_wiersze.xhtml"/>-->
-                    </p:outputPanel>
-                    <p:outputPanel rendered="#{menu_dokumenty.file4}">
-                        <ui:include src="sub/dialog/dialog_zapisywdokumentachWNT.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_zapisywdokumentachWDT.xhtml"/>
-                    </p:outputPanel>
-                    <p:outputPanel rendered="#{menu_dokumenty.file5}">
-                        <ui:include src="sub/podstrony/dokumenty/dokumentyimportowane.xhtml"/>
-                    </p:outputPanel>
-                    <p:outputPanel rendered="#{menu_dokumenty.file6}">
-                        <ui:include src="sub/podstrony/dokumenty/przenumerujdok.xhtml"/>
-                    </p:outputPanel>
-                    <p:outputPanel rendered="#{menu_dokumenty.file7}">
-                        
-    <!--                    <ui:include src="sub/dialog/dialog_wyborrodzajustronawiersza.xhtml"/>-->
-                        <ui:include src="sub/dialog/dialog_stowarzyszenie_generujskladki.xhtml"/>
-                        <ui:include src="sub/dialog/dialog_stowarzyszenie_zestawienienaliczen.xhtml"/>
-                        <ui:include src="sub/dialog/dialog_stowarzyszenie_rozrachunki.xhtml"/>
-                        <ui:include src="sub/dialog/dialog_stowarzyszenie_rozrachunki_zbiorcze.xhtml"/>
-                    </p:outputPanel>
+                        <ui:include src="sub/dialog/dialog_wpis_srodkitrwale.xhtml"/>
+                        <ui:include src="sub/dialog/dialog_wpis_rmk.xhtml"/>
                 <ui:include src="sub/dialog/dialog_zmiana_okresu.xhtml"/> 
                 </p:layoutUnit><ui:include src="sub/layout/south.xhtml"/> 
             </p:layout>
         </ui:define>
     </ui:composition>
-   </f:view>
+        </f:view>
 </html>

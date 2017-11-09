@@ -462,6 +462,10 @@
             <to-view-id>/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>dokumentksiegi</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKDokumentKsiegi.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>wykazfk</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKWykaz.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

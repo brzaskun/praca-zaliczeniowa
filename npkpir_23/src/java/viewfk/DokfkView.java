@@ -1419,7 +1419,6 @@ public class DokfkView implements Serializable {
                 tabelenbp = new ArrayList<>();
                 tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
-                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.toString());
                 zapisz0edytuj1 = true;
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
                 if (rodzajBiezacegoDokumentu == 0) {

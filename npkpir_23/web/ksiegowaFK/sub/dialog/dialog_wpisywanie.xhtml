@@ -99,7 +99,7 @@
     <p:dialog id="dialogpierwszy" dynamic="true"
               header="#{dokfkView.naglowekWpisDokumentu[0]}" 
               widgetVar="wpisywanie" modal="true" appendTo="@(body)" 
-              resizable="false" onShow="wpisywanieOnShow(1160,630);kolornaglowka();zaznaczpole();doczeplistnerydopol();" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
+              resizable="false" onShow="ustawdialog('dialogpierwszy','zestawieniedokumentow:dataList',1160,650);kolornaglowka();zaznaczpole();doczeplistnerydopol();" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
                focus=":formwpisdokument:data2DialogWpisywanie"
               >
         <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false" oncomplete="pokazwierszoznaczony();"/>
