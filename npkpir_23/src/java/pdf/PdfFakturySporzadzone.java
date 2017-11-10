@@ -19,6 +19,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Faktura;
+import error.E;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -161,6 +162,7 @@ public class PdfFakturySporzadzone {
             RequestContext.getCurrentInstance().execute(funkcja);
             Msg.msg("i", "Wydrukowano zestawienie wybranych faktur");
         } catch (Exception e) {
+            E.e(e);
         }
     }
 

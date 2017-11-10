@@ -76,7 +76,7 @@
             </p:panelGrid>
             <p:panel header="dołącz krótką wiadomość do wysyłanego maila">
                 <h:inputText value="#{fakturaView.wiadomoscdodatkowa}" style="width: 800px;"/>
-                <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone(fakturaView.gosciwybral)}" style="width: 150px; margin-left: 30px;"/>
+                <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
             </p:panel>
             <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFiltered}" 
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1400px;"

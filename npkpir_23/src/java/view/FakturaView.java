@@ -1495,7 +1495,24 @@ public class FakturaView implements Serializable {
         return FakturaSortBean.sortZaksiegowaneDok(o1, o2, wpisView);
     }
     
-    public void drukujfakturysporzadzone() {
+     public void drukujfakturysporzadzone() {
+        try {
+            String nazwapliku = "fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = Plik.plik(nazwapliku, true);
+            if (file.isFile()) {
+                file.delete();
+            }
+            if (gosciwybral != null && gosciwybral.size() > 0) {
+                PdfFakturySporzadzone.drukujzapisy(wpisView, gosciwybral);
+            } else {
+                PdfFakturySporzadzone.drukujzapisy(wpisView, faktury);
+            }
+        } catch (Exception e) { E.e(e); 
+            
+        }
+    }
+    
+    public void drukujfakturyarchiwum() {
         try {
             String nazwapliku = "fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
