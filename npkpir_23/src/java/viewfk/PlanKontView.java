@@ -9,6 +9,7 @@ import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.UkladBRBean;
 import comparator.Kontocomparator;
+import converter.KontoConv;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
@@ -118,6 +119,8 @@ public class PlanKontView implements Serializable {
     private String infozebrakslownikowych;
     @ManagedProperty(value = "#{planKontCompleteView}")
     private PlanKontCompleteView planKontCompleteView;
+    @ManagedProperty(value = "#{kontoConv}")
+    private KontoConv kontoConv;
     private boolean bezslownikowych;
     private boolean tylkosyntetyka;
     private String kontadowyswietlenia;
@@ -440,11 +443,12 @@ public class PlanKontView implements Serializable {
             }
             if (wynikdodaniakonta == 0) {
                 PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAOfk);
-                if (czyoddacdowzorca == true) {
-                    wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
-                } else {
-                    wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-                }
+//                if (czyoddacdowzorca == true) {
+//                    wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
+//                } else {
+//                    //  MEGAZOR
+//                    wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+//                }
                 noweKonto = new Konto();
                 //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
                 Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
@@ -453,6 +457,7 @@ public class PlanKontView implements Serializable {
                 Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
             }
             planKontCompleteView.init();
+            kontoConv.init();
         } else {
             Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
         }
@@ -1736,6 +1741,16 @@ public class PlanKontView implements Serializable {
     public void setSelectednodekonto(Konto selectednodekonto) {
         this.selectednodekonto = selectednodekonto;
     }
+
+    public KontoConv getKontoConv() {
+        return kontoConv;
+    }
+
+    public void setKontoConv(KontoConv kontoConv) {
+        this.kontoConv = kontoConv;
+    }
+
+   
 
     public List<Konto> getWykazkont() {
         return wykazkont;

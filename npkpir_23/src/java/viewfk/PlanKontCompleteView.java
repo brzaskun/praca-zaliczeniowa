@@ -73,6 +73,10 @@ public class PlanKontCompleteView implements Serializable {
                         //wstawia - do ciagu konta
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
+                    if (query.length() == 5 && !query.contains("-")) {
+                        //wstawia - do ciagu konta
+                        query = query.substring(0, 3) + "-" + query.substring(3, 5);
+                    }
                     for (Konto p : listakontOstatniaAnalitykaklienta) {
                         if (p.getPelnynumer().startsWith(query) && !p.isNiewidoczne()) {
                             results.add(p);

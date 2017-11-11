@@ -761,6 +761,11 @@ var dodajnowekontoWpis = function(lp,wnma) {
             nrkonta = document.getElementById(pole).value;
         }
         nrkonta = nrkonta.split(" ")[0];
+        try {
+            if (nrkonta.length > 3) {
+                nrkonta = nrkonta.substring(0,3)+"-"+nrkonta.substring(3);
+            }
+        } catch(e1){}
     }
     if (jest1niema0 === "0") {
         document.getElementById("form_dialog_wpisywanie_dodajkonto:numerkonta").value = nrkonta;
