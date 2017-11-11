@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -73,8 +74,8 @@ public class WalutyViewFK implements Serializable {
         symboleTabelRecznie = new ArrayList<>();
     }
 
-    
-    public void init() {
+    @PostConstruct
+    private void init() {
         pobraneRodzajeWalut = walutyDAOfk.findAll();
         pobranekursyRok = tabelanbpDAO.findKursyRokNBP(wpisView.getRokWpisuSt());
         wprowadzonekursyRok = tabelanbpDAO.findKursyRokNieNBP(wpisView.getRokWpisuSt());
@@ -99,8 +100,7 @@ public class WalutyViewFK implements Serializable {
         if (!symboleTabelRecznie.isEmpty()) {
             kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(symbolRecznie, wprowadzonekursyRok));
         }
-        RequestContext.getCurrentInstance().update("formkursrecznie");
-        RequestContext.getCurrentInstance().update("wprowadzonekursyrecznie");
+        System.out.println("");
     }
     
     public void generujNumerTabeli() {

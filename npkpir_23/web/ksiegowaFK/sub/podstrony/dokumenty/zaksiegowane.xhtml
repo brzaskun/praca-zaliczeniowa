@@ -74,7 +74,7 @@
                                     onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
                                     update=":zestawieniedokumentow:dataList"/>
                             <f:selectItem itemLabel="wybierz rodz.dok." itemValue="wszystkie"/>
-                            <f:selectItems value="#{dokfkView.rodzajedokumentowPodatnika}" var="item" itemLabel="#{itemdk.skrot} - #{itemdk.nazwa}" itemValue="#{itemdk.skrot}"/>
+                            <f:selectItems value="#{dokfkView.rodzajedokumentowPodatnika}" var="itemfk" itemLabel="#{itemfk.skrot} - #{itemfk.nazwa}" itemValue="#{itemfk.skrot}"/>
                         </p:selectOneMenu>
                     </p:column>
                     <p:column>
@@ -84,7 +84,7 @@
                     <p:column>
                         <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
                                          actionListener="#{dokfkView.resetujDokument}"  rendered="#{!WpisView.rokzamkniety}"
-                                         oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanych').hide();"
+                                         oncomplete="PF('wpisywanie').show()"
                                          style="margin-left: 10px; width: 120px;" />
                     </p:column>
                     <p:column>

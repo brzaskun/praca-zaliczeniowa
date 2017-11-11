@@ -33,12 +33,12 @@
             </p:panelGrid>
             <p:panelGrid columns="4">
             <h:outputText value="konto Wn"/>
-            <p:selectOneMenu value="#{stowNaliczenieView.kontoWn}" converter="KontoConv">
+            <p:selectOneMenu value="#{stowNaliczenieView.kontoWn}" converter="#{kontoConv}">
                 <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                 <f:selectItems value="#{stowNaliczenieView.konta}" var="loop" itemLabel="#{loop.pelnynumer } - #{loop.nazwapelna}" itemValue="#{loop}"/>
             </p:selectOneMenu>
             <h:outputText value="konto Ma"/>
-            <p:selectOneMenu value="#{stowNaliczenieView.kontoMa}" converter="KontoConv">
+            <p:selectOneMenu value="#{stowNaliczenieView.kontoMa}" converter="#{kontoConv}">
                 <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                 <f:selectItems value="#{stowNaliczenieView.konta}" var="loop" itemLabel="#{loop.pelnynumer } - #{loop.nazwapelna}" itemValue="#{loop}"/>
             </p:selectOneMenu>

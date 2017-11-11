@@ -292,7 +292,7 @@ var czydodackontoShow = function (){
 
 
 var dialog_wpisywanie_dodajkontoShow = function (){
-    $(document.getElementById('dialog_wpisywanie_dodajkonto')).width(420).height(200);
+    $(document.getElementById('dialog_wpisywanie_dodajkonto')).width(550).height(230);
     try {
         $(document.getElementById('dialog_wpisywanie_dodajkonto')).position({
         my: "center center",

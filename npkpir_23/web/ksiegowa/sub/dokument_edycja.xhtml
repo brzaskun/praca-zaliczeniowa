@@ -75,7 +75,7 @@
                             <h:selectOneMenu  id="wybranawaluta" value="#{DokumentView.selDokument.walutadokumentu}" 
                                               valueChangeListener="#{DokumentView.pobierzkursNBP}" 
                                               immediate="true" 
-                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
+                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="#{walutyConv}"
                                               onfocus="$(this).removeClass('ui-state-default');
                                                       $(this).addClass('ui-state-focus');"
                                               onblur="$(this).removeClass('ui-state-focus');

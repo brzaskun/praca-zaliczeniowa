@@ -6,30 +6,34 @@ package converter;
 
 import dao.UzDAO;
 import entity.Uz;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
-import javax.inject.Named;
-import view.UzView;
 
 /**
  *
  * @author Osito
  */
+@ManagedBean
+@ViewScoped
 public class UzConv implements javax.faces.convert.Converter{
+    @Inject
+    private UzDAO uzDAO;
+    private List<Uz> uzytkownicy;
     
-   
+    @PostConstruct
+    public void init() {
+        uzytkownicy = uzDAO.findAll();
+    }
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        UzView ukladBRView = (UzView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"UzView");
-        List<Uz> uzytkownicy = ukladBRView.getListaUzytkownikow();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  

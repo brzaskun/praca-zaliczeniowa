@@ -30,9 +30,7 @@ import javax.inject.Inject;
 import mail.Mail;
 import msg.B;
 import msg.Msg;
-import org.primefaces.component.panel.Panel;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.RowEditEvent;
 import params.Params;
 
 /**

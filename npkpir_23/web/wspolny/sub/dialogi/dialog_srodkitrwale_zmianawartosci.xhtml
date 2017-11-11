@@ -95,12 +95,12 @@
                     </p:row>
                 </f:facet>
                 <p:column>
-                    <p:selectOneListbox value="#{STRTableView.wybranysrodektrwalyPosiadane.kontonetto}" style="width: 350px;" scrollHeight="95" converter="KontoConv">
+                    <p:selectOneListbox value="#{STRTableView.wybranysrodektrwalyPosiadane.kontonetto}" style="width: 350px;" scrollHeight="95" converter="#{kontoConv}">
                         <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
                     </p:selectOneListbox>
                 </p:column>
                 <p:column>
-                    <p:selectOneListbox value="#{STRTableView.wybranysrodektrwalyPosiadane.kontoumorzenie}" style="width: 350px;" scrollHeight="95" converter="KontoConv">
+                    <p:selectOneListbox value="#{STRTableView.wybranysrodektrwalyPosiadane.kontoumorzenie}" style="width: 350px;" scrollHeight="95" converter="#{kontoConv}">
                         <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
                     </p:selectOneListbox>
                 </p:column>

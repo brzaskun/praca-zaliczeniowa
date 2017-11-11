@@ -6,28 +6,37 @@
 
 package converter;
 
+import daoFK.WalutyDAOfk;
 import entityfk.Waluty;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.faces.convert.FacesConverter;
-import viewfk.WalutyViewFK;
+import javax.inject.Inject;
 
 /**
  *
  * @author Osito
  */
-@FacesConverter(value = "WalutyConv", forClass = Waluty.class)
+
+@ManagedBean
+@ViewScoped
 public class WalutyConv implements javax.faces.convert.Converter{
-  
+    @Inject
+    private WalutyDAOfk walutyDAOfk;
+    private List<Waluty> listaWalut;
+    
+    @PostConstruct
+    public void init() {
+        listaWalut = walutyDAOfk.findAll();
+    }
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        WalutyViewFK walutyViewFK = (WalutyViewFK) context.getELContext().getELResolver().getValue(context.getELContext(), null,"walutyViewFK");
-        List<Waluty> listaWalut = walutyViewFK.getPobraneRodzajeWalut();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  

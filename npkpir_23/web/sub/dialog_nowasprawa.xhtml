@@ -36,7 +36,7 @@
                       </f:facet>
                       <p:row>
                           <p:column width="100">
-                              <p:selectOneMenu value="#{sprawaView.nowa.odbiorca}" converter="UzConv">
+                              <p:selectOneMenu value="#{sprawaView.nowa.odbiorca}" converter="#{uzConv}">
                                   <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                                   <f:selectItems value="#{sprawaView.odbiorcy}" var="item1" itemLabel="#{item1.login}" itemValue="#{item1}"/>
                               </p:selectOneMenu>

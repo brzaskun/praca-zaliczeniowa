@@ -33,7 +33,7 @@
                         <p:inputText value="#{loop.liczbamiesiecy}" style="text-align: center;" size="3"/>
                     </p:column>
                     <p:column headerText="konto rmk" width="300" style="text-align: center;">
-                        <h:selectOneMenu value="#{loop.kontokosztowe}" converter="KontoConv"
+                        <h:selectOneMenu value="#{loop.kontokosztowe}" converter="#{kontoConv}"
                                          onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"

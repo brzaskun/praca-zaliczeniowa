@@ -31,7 +31,7 @@
                 </f:facet>
                 <p:row>
                     <p:column>
-                        <p:selectOneMenu value="#{fakturaWalutaKontoView.selected.waluta}" converter="WalutyConv"  required="true" requiredMessage="wybierz walutę">
+                        <p:selectOneMenu value="#{fakturaWalutaKontoView.selected.waluta}" converter="#{walutyConv}"  required="true" requiredMessage="wybierz walutę">
                             <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{walutyViewFK.pobraneRodzajeWalut}" var="item" itemLabel="#{item.symbolwaluty}"/>
                         </p:selectOneMenu>

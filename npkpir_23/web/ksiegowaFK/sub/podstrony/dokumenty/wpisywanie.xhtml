@@ -325,7 +325,7 @@
                                         <h:selectOneMenu  id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" 
                                                          valueChangeListener="#{dokfkView.pobierzkursNBP}" 
                                                          immediate="true" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"
-                                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
+                                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="#{walutyConv}"
                                                          onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
                                                          onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');"
                                                          style="height: 19px;"
@@ -528,7 +528,7 @@
                             <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" 
                                             rendered="#{loop.stronaWn != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
-                                            minQueryLength="1" converter="KontoConv" queryDelay="200"  maxResults="150"
+                                            minQueryLength="1" converter="#{kontoConv}" queryDelay="200"  maxResults="150"
                                             converterMessage="Nieudana konwersja Klient" scrollHeight="180" widgetVar="complWn#{loop.idporzadkowy}"
                                             styleClass="kontoinput #{loop.stronaWn.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{loop.stronaWn.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{loop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza}, event);
@@ -573,7 +573,7 @@
                             <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" 
                                             rendered="#{loop.stronaMa != null}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" widgetVar="complMa#{loop.idporzadkowy}"
-                                            minQueryLength="1" converter="KontoConv" queryDelay="200" maxResults="150"
+                                            minQueryLength="1" converter="#{kontoConv}" queryDelay="200" maxResults="150"
                                             converterMessage="Nieudana konwersja Klient"   scrollHeight="180" forceSelection="true"
                                             styleClass="kontoinput #{loop.stronaMa.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{loop.stronaMa.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{loop.stronaMa.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : ''}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza}, event);

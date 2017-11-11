@@ -31,7 +31,7 @@
                     <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny('#{WpisView.rokWpisuSt}')" placeholder="rrrr-mm-dd" maxlength="10"/>
                 </p:column>
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;">
-                    <h:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv"
+                    <h:selectOneMenu value="#{wpis.waluta}" converter="#{walutyConv}"
                                      onfocus="$(this).removeClass('ui-state-default');
                                                                  $(this).addClass('ui-state-focus');"
                                   onblur="$(this).removeClass('ui-state-focus');

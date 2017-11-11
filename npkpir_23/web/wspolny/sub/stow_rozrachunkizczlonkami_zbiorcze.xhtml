@@ -6,7 +6,7 @@
       xmlns:bcf="http://brzaskun.com/facelets">
     <h:form id="form_dialog_stowarzyszenie_rozrachunki_zbiorcze">
         <p:panelGrid columns="2">
-            <p:selectOneMenu value="#{stowRozrachCzlonkZbiorczeView.wybranekonto}" style="width: 250px;" converter="KontoConv"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu == 0}">
+            <p:selectOneMenu value="#{stowRozrachCzlonkZbiorczeView.wybranekonto}" style="width: 250px;" converter="#{kontoConv}"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu == 0}">
                 <f:selectItem itemLabel="wybierz konto" itemValue="" />
                 <f:selectItems value="#{stowRozrachCzlonkZbiorczeView.konta}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{stowRozrachCzlonkZbiorczeView.pobierz}" update="form_dialog_stowarzyszenie_rozrachunki_zbiorcze"/>

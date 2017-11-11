@@ -17,7 +17,7 @@
                     <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()" placeholder="rrrr-mm-dd" maxlength="10"/>
                 </p:column>
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;">
-                    <p:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv">
+                    <p:selectOneMenu value="#{wpis.waluta}" converter="#{walutyConv}">
                         <f:selectItems value="#{walutyViewFK.walutywuzyciu}" var="item" itemLabel="#{item.symbolwaluty}"/>
                         <p:ajax event="change" partialSubmit="true" update="formkursrecznie:uwagaoprzeliczniku"/>
                     </p:selectOneMenu>

@@ -73,8 +73,7 @@
                         <p:column>
                             <h:selectOneMenu  id="wybranawaluta" value="#{DokumentView.selDokument.walutadokumentu}" 
                                               valueChangeListener="#{DokumentView.pobierzkursNBP}" 
-                                              immediate="true" 
-                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
+                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="#{walutyConv}"
                                               onfocus="$(this).removeClass('ui-state-default');
                                                       $(this).addClass('ui-state-focus');"
                                               onblur="$(this).removeClass('ui-state-focus');
@@ -82,7 +81,7 @@
                                               style="height: 26px;"
                                               >
                                 <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty"/>
-                                <f:selectItems value="#{DokumentView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
+                                <f:selectItems value="#{DokumentView.wprowadzonesymbolewalut}" var="wal" itemLabel="#{wal.symbolwaluty}" itemValue="#{wal}"/>
                             </h:selectOneMenu>
                         </p:column>
                     </p:row>

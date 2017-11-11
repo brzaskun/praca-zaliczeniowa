@@ -63,7 +63,7 @@
                     <p:column width="250">
                         <p:autoComplete value="#{bilansWprowadzanieView.selected.konto}" completeMethod="#{planKontBOView.completeBO}" id="konto"
                                         var="pka" itemLabel="#{pka.pelnynumer} #{pka.nazwapelna}" itemValue="#{pka}" autocomplete="true" scrollHeight="250"
-                                        minQueryLength="1" converter="KontoConv" styleClass="kontobo" maxResults="50"
+                                        minQueryLength="1" converter="#{kontoConv}" styleClass="kontobo" maxResults="50"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 280px;"
                                         ><!--to teraz powoduje blad-->
                             <f:facet name="itemtip">
@@ -155,7 +155,7 @@
                     <p:column width="250">
                         <p:autoComplete value="#{bilansWprowadzanieView.selected.konto}" completeMethod="#{planKontBOView.completeBO}" id="konto2"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                        minQueryLength="1" converter="KontoConv"  styleClass="kontobo" maxResults="50"
+                                        minQueryLength="1" converter="#{kontoConv}"  styleClass="kontobo" maxResults="50"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 280px;"
                                         onfocus="usunspacje(this);"
                                         ><!--to teraz powoduje blad-->
@@ -189,7 +189,7 @@
                     </p:column>
                     <p:column>
                         <h:selectOneMenu id="wybranawaluta" value="#{bilansWprowadzanieView.selected.waluta}"
-                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="#{walutyConv}"
                                          onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
                                          onblur="$(this).removeClass('ui-state-focus');

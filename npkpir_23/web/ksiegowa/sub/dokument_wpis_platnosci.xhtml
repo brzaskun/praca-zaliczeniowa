@@ -172,7 +172,7 @@
                         </p:column>
                         <p:column headerText="waluta"  style="width: 60px;">
                             <h:selectOneMenu  id="wybranawaluta" value="#{platnosciWalutyView.nowa.walutadokumentu}" 
-                                              valueChangeListener="#{platnosciWalutyView.pobierzkursNBP}" converter="WalutyConv"
+                                              valueChangeListener="#{platnosciWalutyView.pobierzkursNBP}" converter="#{walutyConv}"
                                               immediate="true" 
                                               styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                               onfocus="$(this).removeClass('ui-state-default');

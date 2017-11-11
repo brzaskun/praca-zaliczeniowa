@@ -15,7 +15,7 @@
                         <h:outputText value="#{mgs.wybierzkonto}: "/>
                         <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.wybranekonto}" completeMethod="#{planKontCompleteView.complete}" 
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
-                                        minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv"
+                                        minQueryLength="1" maxResults="15" maxlength="10" converter="#{kontoConv}"
                                         converterMessage="Nieudana konwersja Klient" queryDelay="1" 
                                         styleClass="kontoinput, autoCompleteBig" onfocus="usunspacje(this)"
                                         >
