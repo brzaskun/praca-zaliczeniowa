@@ -32,7 +32,7 @@
                 <p:row>
                     <p:column style="width: 200px;">
                         <p:selectOneMenu  value="#{sprawozdanieFinansoweView.sprawozdanieFinansowe.podatnik}" id="wykazpodatnikow"  
-                                          style="width: 400px;" converter="PodatConv" autoWidth="false">
+                                          style="width: 400px;" converter="#{podatConv}" autoWidth="false">
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{sprawozdanieFinansoweView.listapodatnikow}" var="itemp" itemLabel="#{itemp.nazwapelnaPDF}" itemValue="#{itemp}"/>
                         </p:selectOneMenu>

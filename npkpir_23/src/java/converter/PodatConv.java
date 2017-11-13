@@ -4,27 +4,37 @@
  */
 package converter;
 
+import dao.PodatnikDAO;
 import entity.Podatnik;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import view.PodatnikWyborView;
+import javax.inject.Inject;
 
 /**
  *
  * @author Osito
  */
+@ManagedBean
+@ViewScoped
 public class PodatConv implements javax.faces.convert.Converter {
 
-
+    @Inject
+    private PodatnikDAO podatnikDAO;
+    private List<Podatnik> lista;
+    
+    @PostConstruct
+    public void init() {
+        lista = podatnikDAO.findAll();
+    }
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        PodatnikWyborView podatnikWyborView = (PodatnikWyborView) context.getELContext().getELResolver().getValue(context.getELContext(), null, "podatnikWyborView");
-        List<Podatnik> lista = podatnikWyborView.getListaPodatnikow();
         if (submittedValue.trim().isEmpty()) {
             return null;
         } else {

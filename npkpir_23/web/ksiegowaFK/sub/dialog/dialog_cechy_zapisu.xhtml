@@ -101,7 +101,7 @@
                         <p:inputText value="#{cechazapisuView.selected.przesuniecie}" style="width: 100px;"/>
                     </p:column>
                      <p:column>
-                         <p:selectOneMenu id="podatnikWpisu" value="#{cechazapisuView.selected.podatnik}" style="width: 280px;" converter="PodatConv">
+                         <p:selectOneMenu id="podatnikWpisu" value="#{cechazapisuView.selected.podatnik}" style="width: 280px;" converter="#{podatConv}">
                              <f:selectItem itemLabel="wszyscy" itemValue=""/>
                             <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
                          </p:selectOneMenu>

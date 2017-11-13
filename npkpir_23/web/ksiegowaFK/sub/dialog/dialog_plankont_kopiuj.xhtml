@@ -16,13 +16,13 @@
         <h:form id="formdialog_plankont_kopiuj">
             <p:panelGrid styleClass="paneldialog_plankont_kopiuj" columns="4">
                 <h:outputText value="Pobierz plan kont z firmy" style="width: 250px;"/>
-                <p:selectOneMenu  value="#{planKontKopiujView.podatnikzrodlowy}" style="width: 280px;" converter="PodatConv">
+                <p:selectOneMenu  value="#{planKontKopiujView.podatnikzrodlowy}" style="width: 280px;" converter="#{podatConv}">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
                 </p:selectOneMenu>
                 <h:outputText value="rok" style="margin-left: 70px;"/>
                 <p:inputText value="#{planKontKopiujView.rokzrodlowy}"/>
                 <h:outputText value="Skopiuj pobrany plan kont do firmy" style="width: 250px; margin-top: 10px;"/>
-                <p:selectOneMenu  value="#{planKontKopiujView.podatnikdocelowy}" style="width: 280px; margin-top: 10px;" converter="PodatConv">
+                <p:selectOneMenu  value="#{planKontKopiujView.podatnikdocelowy}" style="width: 280px; margin-top: 10px;" converter="#{podatConv}">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
                 </p:selectOneMenu>
                 <h:outputText value="rok" style="margin-left: 70px;"/>

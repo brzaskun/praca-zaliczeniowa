@@ -9,7 +9,7 @@
     <h:form id="form">
         <!--    panel wpisywania osoby fizycznej-->
          <p:panel header="Wybierz firmę do edycji" style="width: 500px;"/>
-        <h:selectOneListbox id="podatnikWpisu" value="#{podatnikView.selectedDodedycja}" style="width: 350px; height: 250px;" converter="PodatConv">
+        <h:selectOneListbox id="podatnikWpisu" value="#{podatnikView.selectedDodedycja}" style="width: 350px; height: 250px;" converter="#{podatConv}">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFKmanager}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
                     <p:ajax event="change"  update=":formdod2" global="false" listener="#{podatnikView.skopiujdoedycji}"/>
         </h:selectOneListbox>

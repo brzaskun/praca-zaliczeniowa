@@ -45,7 +45,7 @@
                               <p:inputTextarea value="#{sprawaView.nowa.tresc}" rows="3" cols="65"/>
                           </p:column>
                           <p:column>
-                              <p:selectOneMenu value="#{sprawaView.nowa.klient}" style="width: 150px;" converter="PodatConv">
+                              <p:selectOneMenu value="#{sprawaView.nowa.klient}" style="width: 150px;" converter="#{podatConv}">
                                   <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                                   <f:selectItems value="#{sprawaView.klienci}" var="item2" itemLabel="#{item2.nazwapelna}" itemValue="#{item2}"/>
                               </p:selectOneMenu>

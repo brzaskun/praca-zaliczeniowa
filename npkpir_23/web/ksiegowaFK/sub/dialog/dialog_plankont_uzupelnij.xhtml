@@ -11,13 +11,13 @@
         <h:form id="formdialog_plankont_uzupelnij">
             <p:panelGrid styleClass="paneldialog_plankont_uzupelnij" columns="4">
                 <h:outputText value="Źródłowy plan kont z firmy" style="width: 250px;"/>
-                <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikzrodlowy}" style="width: 280px;" converter="PodatConv" autoWidth="false">
+                <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikzrodlowy}" style="width: 280px;" converter="#{podatConv}" autoWidth="false">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
                 </p:selectOneMenu>
                 <h:outputText value="rok" style="margin-left: 70px;"/>
                 <p:inputText value="#{planKontUzupelnijView.rokzrodlowy}"/>
                 <h:outputText value="Docelowy plan kont do uzupełnienia" style="width: 250px; margin-top: 10px;"/>
-                <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikdocelowy}" style="width: 280px; margin-top: 10px;" converter="PodatConv" autoWidth="false">
+                <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikdocelowy}" style="width: 280px; margin-top: 10px;" converter="#{podatConv}" autoWidth="false">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
                 </p:selectOneMenu>
                 <h:outputText value="rok" style="margin-left: 70px;"/>

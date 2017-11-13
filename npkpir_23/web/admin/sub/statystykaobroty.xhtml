@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:panelGrid columns="2">
-        <p:selectOneListbox id="podatnikWpisu" value="#{statystykaObrotyView.wybranypodatnik}" style="width: 572px;" converter="PodatConv">
+        <p:selectOneListbox id="podatnikWpisu" value="#{statystykaObrotyView.wybranypodatnik}" style="width: 572px;" converter="#{podatConv}">
             <p:ajax event="change" partialSubmit="true" global="false" listener="#{statystykaObrotyView.pobierz}" update="form:datatable"/>
             <f:selectItems value="#{statystykaObrotyView.podatnicy}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
         </p:selectOneListbox>
