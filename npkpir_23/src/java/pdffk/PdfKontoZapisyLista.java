@@ -158,51 +158,51 @@ public class PdfKontoZapisyLista {
 
         Integer i = 1;
         for (StronaWiersza rs : kontozapisy) {
-            table.addCell(ustawfrazeAlign(i++, "center", 7));
-            table.addCell(ustawfrazeAlign(rs.getDokfk().getDatawystawienia(), "center", 7, 20f));
-            table.addCell(ustawfrazeAlign(rs.getDokfk().getDataoperacji(), "center", 7));
-            table.addCell(ustawfrazeAlign(rs.getDokfkS(), "left", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(rs.getWiersz().getIdporzadkowy()), "center", 7));
-            table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 6));
-            table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(60), "left", 6));
+            table.addCell(ustawfrazeAlign(i++, "center", 8));
+            table.addCell(ustawfrazeAlign(rs.getDokfk().getDatawystawienia(), "center", 8, 20f));
+            table.addCell(ustawfrazeAlign(rs.getDokfk().getDataoperacji(), "center", 8));
+            table.addCell(ustawfrazeAlign(rs.getDokfkS(), "left", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(rs.getWiersz().getIdporzadkowy()), "center", 8));
+            table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 8));
+            table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(60), "left", 8));
             if (rs.getWiersz().getTabelanbp() == null) {
                 if (rs.getKursBO() > 0.0) {
-                    table.addCell(ustawfrazeAlign(formatujKurs(rs.getKursBO()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujKurs(rs.getKursBO()), "right", 8));
                 } else {
-                    table.addCell(ustawfrazeAlign("", "right", 7));
+                    table.addCell(ustawfrazeAlign("", "right", 8));
                 }
-                table.addCell(ustawfrazeAlign("zap. BO", "right", 7));
+                table.addCell(ustawfrazeAlign("zap. BO", "right", 8));
             } else {
                 if (rs.getWiersz().getTabelanbp().getKurssredni() > 0.0) {
-                    table.addCell(ustawfrazeAlign(formatujKurs(rs.getWiersz().getTabelanbp().getKurssredniPrzelicznik()), "right", 7));
-                    table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getNrtabeli(), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujKurs(rs.getWiersz().getTabelanbp().getKurssredniPrzelicznik()), "right", 8));
+                    table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getNrtabeli(), "right", 8));
                 } else {
-                    table.addCell(ustawfrazeAlign("", "right", 7));
-                    table.addCell(ustawfrazeAlign("", "right", 7));
+                    table.addCell(ustawfrazeAlign("", "right", 8));
+                    table.addCell(ustawfrazeAlign("", "right", 8));
                 }
             }
             if (rs.getWnma().equals("Wn")) {
-                table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 7));
-                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
-                table.addCell(ustawfrazeAlign("", "right", 7));
-                table.addCell(ustawfrazeAlign("", "right", 7));
+                table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 8));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 8));
+                table.addCell(ustawfrazeAlign("", "right", 8));
+                table.addCell(ustawfrazeAlign("", "right", 8));
             } else {
-                table.addCell(ustawfrazeAlign("", "right", 7));
-                table.addCell(ustawfrazeAlign("", "right", 7));
-                table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 7));
-                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
+                table.addCell(ustawfrazeAlign("", "right", 8));
+                table.addCell(ustawfrazeAlign("", "right", 8));
+                table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 8));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 8));
             }
             if (!rs.getSymbolWalutBOiSW().equals("PLN")) {
-                table.addCell(ustawfrazeAlign(rs.getSymbolWalutBOiSW(), "center", 7));
+                table.addCell(ustawfrazeAlign(rs.getSymbolWalutBOiSW(), "center", 8));
             } else {
-                table.addCell(ustawfrazeAlign("", "right", 7));
+                table.addCell(ustawfrazeAlign("", "right", 8));
             }
             if (rs.getWnma().equals("Wn") && rs.getWiersz().getStronaMa() != null) {
-                table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaMa().getKonto().getPelnynumer(), "left", 7));
+                table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaMa().getKonto().getPelnynumer(), "left", 8));
             } else if (rs.getWnma().equals("Ma") && rs.getWiersz().getStronaWn() != null) {
-                table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaWn().getKonto().getPelnynumer(), "left", 7));
+                table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaWn().getKonto().getPelnynumer(), "left", 8));
             } else {
-                table.addCell(ustawfrazeAlign("", "right", 7));
+                table.addCell(ustawfrazeAlign("", "right", 8));
             }
             i++;
         }
@@ -213,48 +213,48 @@ public class PdfKontoZapisyLista {
 
     private static void dodajpodsumowanie(List<ListaSum> listasum, PdfPTable table) {
         try {
-            table.addCell(ustawfrazeAlign("", "center", 7));
-            table.addCell(ustawfrazeAlign("", "center", 7));
-            table.addCell(ustawfrazeAlign("", "center", 7));
-            table.addCell(ustawfrazeAlign("", "left", 7));
-            table.addCell(ustawfrazeAlign("", "center", 7));
+            table.addCell(ustawfrazeAlign("", "center", 8));
+            table.addCell(ustawfrazeAlign("", "center", 8));
+            table.addCell(ustawfrazeAlign("", "center", 8));
+            table.addCell(ustawfrazeAlign("", "left", 8));
+            table.addCell(ustawfrazeAlign("", "center", 8));
             table.addCell(ustawfrazeAlign("", "center", 6));
             table.addCell(ustawfrazeAlign("podsumowanie", "left", 6));
-            table.addCell(ustawfrazeAlign("", "right", 7));
-            table.addCell(ustawfrazeAlign("", "right", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaWn()), "right", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaWnPLN()), "right", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaMa()), "right", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaMaPLN()), "right", 7));
-            table.addCell(ustawfrazeAlign("", "right", 7));
-            table.addCell(ustawfrazeAlign("", "right", 7));
+            table.addCell(ustawfrazeAlign("", "right", 8));
+            table.addCell(ustawfrazeAlign("", "right", 8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaWn()), "right", 8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaWnPLN()), "right", 8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaMa()), "right", 8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaMaPLN()), "right", 8));
+            table.addCell(ustawfrazeAlign("", "right", 8));
+            table.addCell(ustawfrazeAlign("", "right", 8));
             //************
-            table.addCell(ustawfrazeAlign("", "center", 7));
-            table.addCell(ustawfrazeAlign("", "center", 7));
-            table.addCell(ustawfrazeAlign("", "center", 7));
-            table.addCell(ustawfrazeAlign("", "left", 7));
-            table.addCell(ustawfrazeAlign("", "center", 7));
+            table.addCell(ustawfrazeAlign("", "center", 8));
+            table.addCell(ustawfrazeAlign("", "center", 8));
+            table.addCell(ustawfrazeAlign("", "center", 8));
+            table.addCell(ustawfrazeAlign("", "left", 8));
+            table.addCell(ustawfrazeAlign("", "center", 8));
             table.addCell(ustawfrazeAlign("", "center", 6));
             table.addCell(ustawfrazeAlign("saldo", "left", 6));
-            table.addCell(ustawfrazeAlign("", "right", 7));
-            table.addCell(ustawfrazeAlign("", "right", 7));
+            table.addCell(ustawfrazeAlign("", "right", 8));
+            table.addCell(ustawfrazeAlign("", "right", 8));
             double saldo = listasum.get(0).getSaldoWn() > 0.0 ? listasum.get(0).getSaldoWn() : listasum.get(0).getSaldoMa();
             if (listasum.get(0).getSaldoWn() > 0) {
-                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoWn()), "right", 7));
-                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoWnPLN()), "right", 7));
+                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoWn()), "right", 8));
+                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoWnPLN()), "right", 8));
             } else {
-                table.addCell(ustawfrazeAlign("", "right", 7));
-                table.addCell(ustawfrazeAlign("", "right", 7));
+                table.addCell(ustawfrazeAlign("", "right", 8));
+                table.addCell(ustawfrazeAlign("", "right", 8));
             }
             if (listasum.get(0).getSaldoMa() > 0) {
-                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoMa()), "right", 7));
-                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoMaPLN()), "right", 7));
+                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoMa()), "right", 8));
+                table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoMaPLN()), "right", 8));
             } else {
-                table.addCell(ustawfrazeAlign("", "right", 7));
-                table.addCell(ustawfrazeAlign("", "right", 7));
+                table.addCell(ustawfrazeAlign("", "right", 8));
+                table.addCell(ustawfrazeAlign("", "right", 8));
             }
-            table.addCell(ustawfrazeAlign("", "right", 7));
-            table.addCell(ustawfrazeAlign("", "right", 7));
+            table.addCell(ustawfrazeAlign("", "right", 8));
+            table.addCell(ustawfrazeAlign("", "right", 8));
         } catch (Exception e) {
             E.e(e);
         }
