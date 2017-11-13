@@ -500,6 +500,7 @@ public class PlanKontView implements Serializable {
                     elementslownika_nazwaskrocona = null;
                     elementslownika_numerkonta = null;
                     planKontCompleteView.init();
+                    kontoConv.init();
                 } else {
                     Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
                 }

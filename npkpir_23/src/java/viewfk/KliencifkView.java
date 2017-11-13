@@ -8,6 +8,7 @@ package viewfk;
 import beansFK.PlanKontFKBean;
 import beansFK.SlownikiBean;
 import comparator.Kliencifkcomparator;
+import converter.KontoConv;
 import dao.KlienciDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -69,6 +70,8 @@ public class KliencifkView implements Serializable {
     private PlanKontBOView planKontBOView;
     @ManagedProperty(value = "#{planKontSrTrw}")
     private PlanKontSrTrw planKontSrTrw;
+    @ManagedProperty(value = "#{kontoConv}")
+    private KontoConv kontoConv;
     private boolean makonto0niemakonta1;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
@@ -128,6 +131,7 @@ public class KliencifkView implements Serializable {
         przyporzadkujdokonta();
         resetujmakontoniemakonta();
         planKontCompleteView.init();
+        kontoConv.init();
     }
 
     public int pobieraniekontaFK() {
@@ -254,6 +258,14 @@ public class KliencifkView implements Serializable {
 
     public List<Klienci> getListawszystkichklientow() {
         return listawszystkichklientow;
+    }
+
+    public KontoConv getKontoConv() {
+        return kontoConv;
+    }
+
+    public void setKontoConv(KontoConv kontoConv) {
+        this.kontoConv = kontoConv;
     }
 
     public PlanKontBOView getPlanKontBOView() {
