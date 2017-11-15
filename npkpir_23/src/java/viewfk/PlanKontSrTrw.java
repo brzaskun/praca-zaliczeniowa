@@ -4,23 +4,17 @@
  */
 package viewfk;
 
-import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import view.WpisView;
 
 /**
@@ -48,7 +42,9 @@ public class PlanKontSrTrw implements Serializable {
     public void init() {
         if (wpisView instanceof WpisView) {
             listakontSrodkiTrwale = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
-            usunzbednekonta(listakontSrodkiTrwale);
+            if (listakontSrodkiTrwale != null) {
+                usunzbednekonta(listakontSrodkiTrwale);
+            }
             listakontSrodkiTrwaleUmorzenia  = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "07%");
         }
     }

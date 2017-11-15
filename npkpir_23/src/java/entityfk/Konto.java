@@ -47,6 +47,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findById", query = "SELECT k FROM Konto k WHERE k.id = :id"),
     @NamedQuery(name = "Konto.findWzorcowe", query = "SELECT k FROM Konto k WHERE k.podatnik IS NULL AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByPodatnikWzorcowy", query = "SELECT k FROM Konto k WHERE k.podatnik IS NULL  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikKsiegi", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.zaksiegowane = '1'"),
     @NamedQuery(name = "Konto.findByPodatnikBezSlownik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe = '0'"),
     @NamedQuery(name = "Konto.findByPodatnikBezSlownikKsiegi", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe = '0' AND k.zaksiegowane = '1'"),
@@ -177,7 +178,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "zwyklerozrachszczegolne")
     private String zwyklerozrachszczegolne;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "kontoID", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "kontoID", fetch = FetchType.EAGER)
     @JoinColumn(name = "kontopozycjaID",referencedColumnName = "idKP")
     private KontopozycjaBiezaca kontopozycjaID;
     @Basic(optional = false)
@@ -241,7 +242,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private String syntetycznenumer;
     @Column(name = "de")
     private String de;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "kontokategoria",referencedColumnName = "id")
     private Kontokategoria kontokategoria;
     @Column(name = "wnma0wm1ma2")

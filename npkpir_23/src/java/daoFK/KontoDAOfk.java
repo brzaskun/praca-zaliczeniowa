@@ -205,7 +205,6 @@ public class KontoDAOfk extends DAO implements Serializable {
         try {
             zwrot = kontoFacade.findKonto(numer, podatnik, rok);
         } catch (Exception e) {
-            E.e(e);
         }
         return zwrot;
     }

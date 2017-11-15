@@ -1,4 +1,4 @@
-package json.JSON.java.master;
+package org.json;
 
 /*
 Copyright (c) 2015 JSON.org

@@ -1115,7 +1115,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontoPodatnik(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        if (podatnik == null) {
+            return em.createNamedQuery("Konto.findByPodatnikWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList();
+        } else {
+            return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        }
     }
     
     public List<Konto> findKontoPodatnikKsiegi(Podatnik podatnik, String rok) {

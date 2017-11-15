@@ -110,6 +110,7 @@ public class PlanKontKopiujView implements Serializable {
             macierzyste = skopiujlevel(null, wpisView.getPodatnikObiekt(), wykazkont, macierzyste, i, rokdocelowy);
         }
         planKontView.init();
+        System.out.println("koniec implementacji");
     }
 
     private List<Konto> skopiujlevel0(Podatnik podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {

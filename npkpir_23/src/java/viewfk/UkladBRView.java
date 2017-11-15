@@ -161,7 +161,6 @@ public class UkladBRView implements Serializable {
             implementujRZiS(wybranyukladwzorcowy, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wybranyukladwzorcowy.getUklad());
             implementujBilans(wybranyukladwzorcowy, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wybranyukladwzorcowy.getUklad());
             lista.add(ukladBR);
-            wybranyukladwzorcowy = null;
             init();
             Msg.msg("i", "Zaimplementowano układ wzorcowy jako nowy układ podatnika");
             pozycjaBRKontaView.init();
