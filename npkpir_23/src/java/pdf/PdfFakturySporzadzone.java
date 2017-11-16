@@ -66,7 +66,7 @@ public class PdfFakturySporzadzone {
             table.setWidthPercentage(98);
             table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
             table.addCell(ustawfraze("wydruk zestawienie sporządzonych faktur sprzedaży", 3, 0));
-            table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 5, 0));
+            table.addCell(ustawfraze("firma: " + wpisView.getPrintNazwa(), 5, 0));
             table.addCell(ustawfraze("za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 2, 0));
             table.addCell(ustawfraze("lp", 0, 1));
             table.addCell(ustawfraze("nr własny", 0, 1));

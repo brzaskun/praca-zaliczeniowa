@@ -109,7 +109,7 @@ public class PdfEwidencjaPrzychodow {
             PdfPCell cell = new PdfPCell();
             table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
             table.addCell(ustawfraze("wydruk ewidencji przychodów", 3, 0));
-            table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
+            table.addCell(ustawfraze("firma: " + wpisView.getPrintNazwa(), 4, 0));
             table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + mc, 2, 0));
             table.addCell(ustawfraze("lp", 0, 2));
             table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));

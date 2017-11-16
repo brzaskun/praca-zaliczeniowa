@@ -686,7 +686,9 @@ public class WpisView implements Serializable {
         this.rokpoprzednizamkniety = rokpoprzednizamkniety;
     }
 
-    
+    public String getPrintNazwa() {
+        return this.podatnikObiekt.getPrintnazwa();
+    }
 
   
 

@@ -27,11 +27,9 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import javax.ejb.Stateless;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *
@@ -75,9 +73,9 @@ public class PdfPIT5 {
             miziu1 = new Paragraph(new Phrase("okres rozliczeniony "+selected.getPkpirM()+"/"+selected.getPkpirR(),fontM));
             document.add(miziu1);
             document.add(Chunk.NEWLINE);
-            miziu1 = new Paragraph(new Phrase("Firma: "+selected.getPodatnik(),fontM));
+            miziu1 = new Paragraph(new Phrase("Firma: "+wpisView.getPrintNazwa(),fontM));
             document.add(miziu1);
-            Podatnik pod = podatnikDAO.find(selected.getPodatnik());
+            Podatnik pod = wpisView.getPodatnikObiekt();
             miziu1 = new Paragraph(new Phrase("adres: "+pod.getMiejscowosc()+" "+pod.getUlica()+" "+pod.getNrdomu(),fontM));
             document.add(miziu1);
             miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));
