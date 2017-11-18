@@ -481,33 +481,15 @@ public class BilansWprowadzanieView implements Serializable {
                                 p.setKwotaWnPLN(p.getKwotaWn());
                                 p.setKwotaMaPLN(p.getKwotaMa());
                             }
-                            wierszBODAO.edit(p);
                             zachowaneWiersze.add(p);
                         } catch (Exception e) {
                             E.e(e);
                         }
                     }
                 }
+                wierszBODAO.editList(biezacalista);
             }
         }
-        kontoDAO.wyzerujBoWnBoMawKontach(wpisView);
-        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        Set<Konto> kontadosumowania = new HashSet<>();
-        for (WierszBO p : zachowaneWiersze) {
-            if (p.getNowy0edycja1usun2Int()!=2) {
-                Konto k = listakont.get(listakont.indexOf(p.getKonto()));
-                k.setBoWn(k.getBoWn() + p.getKwotaWnPLN());
-                k.setBoMa(k.getBoMa() + p.getKwotaMaPLN());
-                if (k.getBoWn() != 0.0 || k.getBoMa() != 0.0) {
-                    k.setBlokada(true);
-                    kontadosumowania.add(k);
-                }
-                kontoDAO.edit(k);
-            }
-        }
-        List<Konto> listakonta2 = new ArrayList(kontadosumowania);
-        obliczsaldoBOkonta(listakonta2);
-        edytujsumujdlamacierzystych(listakonta2);
         aktualizujListaW();
         podsumujWnMa(listaW);
         podsumujWnMa(lista0, listaSumList.get(0));
@@ -520,6 +502,39 @@ public class BilansWprowadzanieView implements Serializable {
         podsumujWnMa(lista8, listaSumList.get(8));
         Msg.msg("Naniesiono zapisy BO na konta i zapisano do bazy");
         return zachowaneWiersze;
+    }
+    
+    public void zapiszWierszeBOnaKonta() {
+        try {
+            List<WierszBO> zachowaneWiersze = new ArrayList<>();
+            Set<Integer> numerylist = listazbiorcza.keySet();
+            for (Integer r : numerylist) {
+                zachowaneWiersze.addAll(listazbiorcza.get(r));
+            }
+            if (zachowaneWiersze != null) {
+                kontoDAO.wyzerujBoWnBoMawKontach(wpisView);
+                List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                Set<Konto> kontadosumowania = new HashSet<>();
+                for (WierszBO p : zachowaneWiersze) {
+                    if (p.getNowy0edycja1usun2Int()!=2 && p.getKonto() != null) {
+                        Konto k = listakont.get(listakont.indexOf(p.getKonto()));
+                        k.setBoWn(k.getBoWn() + p.getKwotaWnPLN());
+                        k.setBoMa(k.getBoMa() + p.getKwotaMaPLN());
+                        if (k.getBoWn() != 0.0 || k.getBoMa() != 0.0) {
+                            k.setBlokada(true);
+                            kontadosumowania.add(k);
+                        }
+                        kontoDAO.edit(k);
+                    }
+                }
+                List<Konto> listakonta2 = new ArrayList(kontadosumowania);
+                obliczsaldoBOkonta(listakonta2);
+                edytujsumujdlamacierzystych(listakonta2);
+            }
+            Msg.msg("Naniesiono BO i obroty rozpoczęcia na konta");
+        } catch (Exception e) {
+            Msg.msg("e", "Błąd! Nie naniesiono BO i obroty rozpoczęcia na konta");
+        }
     }
     
     

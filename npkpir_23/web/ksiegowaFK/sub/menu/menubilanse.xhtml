@@ -51,6 +51,7 @@
                             <p:menuitem value="przegladaj Bilans otwarcia" onclick="PF('dialog_bilansBO_wyliczenie').show();" actionListener="#{pozycjaBRView.obliczBilansOtwarcia()}" 
                                         update=":formdialog_bilansBO_wyliczenie"></p:menuitem>
                             <p:menuitem value="przegladaj konta Bilansu otwarcia" actionListener="#{bilansPodgladView.init()}" onclick="PF('bilansprzeglad').show();" update=":formbilans"></p:menuitem>
+                            <p:menuitem value="różnice wierszeBO dokumentBO" onclick="PF('dialog_bilans_roznice').show();" update=":form_dialog_bilans_roznice"></p:menuitem>
                             <p:menuitem value="wprowadź Bilans otwarcia" actionListener="#{bilansWprowadzanieView.rozpocznijBO()}" update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz formbilanswprowadzanie3"
                                         onclick="PF('bilanswprowadzanie2').show();"></p:menuitem>
                             <p:menuitem value="wprowadź Obroty rozpoczęcia" actionListener="#{bilansWprowadzanieView.rozpocznijObroty()}" update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz formbilanswprowadzanie3"

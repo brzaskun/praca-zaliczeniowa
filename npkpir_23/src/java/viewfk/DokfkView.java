@@ -296,6 +296,7 @@ public class DokfkView implements Serializable {
             resetujDokument();
         } else if (selected.getRodzajedok().getSkrotNazwyDok().equals("BO")) {
             sumadokbo = ObslugaWiersza.sumujwierszeBO(selected);
+            RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
         }
     }
     public void resetujDokument() {

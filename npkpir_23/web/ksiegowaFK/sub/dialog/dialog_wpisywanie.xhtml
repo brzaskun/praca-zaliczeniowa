@@ -657,6 +657,10 @@
                             <h:outputText value="SaldoMa: "/>
                             <bcf:outputpl id="saldostronyma"  value="#{dokfkView.sumadokbo[1]}" style="width: 100px; margin-left: 10px;"/>
                         </p:column>
+                            <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO'}">
+                            <h:outputText value="roznica "/>
+                            <bcf:outputpl id="saldostronyma"  value="#{dokfkView.sumadokbo[1]-dokfkView.sumadokbo[0]}" style="width: 100px; margin-left: 10px;"/>
+                        </p:column>
                         <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne ''}">
                             <h:outputText value="saldo wybranego konta: "/>
                             <bcf:outputpl id="saldowybranegokonta"  value="#{dokfkView.obliczsaldowybranegokonta()}" style="width: 100px; margin-left: 10px;"/>

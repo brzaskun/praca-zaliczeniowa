@@ -39,6 +39,14 @@ public class WierszBODAO extends DAO implements Serializable {
         }
     }
     
+    public List<WierszBO> listaRokMc(WpisView wpisView) {
+        try {
+            return wierszBOFacade.findBOListaRokMc(wpisView);
+        } catch (Exception e) { E.e(e); 
+            return new ArrayList<>();
+        }
+    }
+    
     public List<WierszBO> findAll() {
         return wierszBOFacade.findAll(WierszBO.class);
     }

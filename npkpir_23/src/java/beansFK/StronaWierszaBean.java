@@ -162,7 +162,7 @@ public class StronaWierszaBean {
         try {
             for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
                 p = it.next();
-                if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna || p.getDokfk().getRodzajedok().getSkrot().equals("BO")) {
+                if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna || (p.getDokfk().getRodzajedok().getSkrot().equals("BO") && p.getDokfk().getNrkolejnywserii()==1)) {
                     it.remove();
                 }
             }

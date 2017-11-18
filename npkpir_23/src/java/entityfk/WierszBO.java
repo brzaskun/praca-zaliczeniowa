@@ -31,6 +31,7 @@ import waluty.Z;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "WierszBO.findByLista", query = "SELECT w FROM WierszBO w WHERE w.konto.pelnynumer LIKE :grupakonta AND  w.podatnik = :podatnik AND w.rok = :rok AND w.mc = :mc"),
+    @NamedQuery(name = "WierszBO.findByListaRokMc", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.mc = :mc"),
     @NamedQuery(name = "WierszBO.findByDeletePodatnikRok", query = "DELETE FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok"),
     @NamedQuery(name = "WierszBO.findByDeletePodatnikRokMc", query = "DELETE FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.mc = :mc"),
     @NamedQuery(name = "WierszBO.findByPodatnikRok", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok"),
@@ -353,6 +354,16 @@ public class WierszBO implements Serializable {
 
     public void setKontostare(Konto kontostare) {
         this.kontostare = kontostare;
+    }
+
+    public double getKwota() {
+        double zwrot = 0.0;
+        if (this.kwotaWn != 0.0) {
+            zwrot = this.kwotaWn;
+        } else {
+            zwrot = this.kwotaMa;
+        }
+        return Z.z(zwrot);
     }
 
     

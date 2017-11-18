@@ -1,0 +1,132 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .ui-autocomplete-input {
+            width: 240px;
+        }
+
+        .ui-column-filter {
+            width: 240px !important;
+        }
+
+        .kolumnaopis .ui-column-filter {
+            width: 150px !important;
+        }
+
+        .kurswaluta input {
+            width: 50px !important;
+        }
+        .gridtablicasyntetyczne .ui-datatable-odd td{
+            height : 30px !important;
+            
+        }
+        .gridtablicasyntetyczne .ui-datatable-even td{
+            height : 30px !important;
+            
+        }
+
+    </style>
+    <p:dialog id="dialog_bilans_roznice" header="Różnice bilans otwarcia/Obroty rozpoczęcia - dokument BO" widgetVar="dialog_bilans_roznice"
+              appendTo="@(body)"
+              resizable="false" onShow="ustawdialog('dialog_bilans_roznice','menubilanse', 1360, 680);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_roznice');"
+              >
+            <p:ajax event="open" listener="#{bilansRozniceView.init()}" update="form_dialog_bilans_roznice"/>
+        <h:form id="form_dialog_bilans_roznice">
+            <p:panelGrid columns="1">
+            <h:outputText value="wszystkie wiersze BO są w dokumencie BO" rendered="#{bilansRozniceView.wierszeBOroznice.size() eq 0}"/>
+            <h:outputText value="wszystkie wiersze z dokumentu BO są wierszach BO" rendered="#{bilansRozniceView.wierszeDokroznice.size() eq 0}"/>
+        </p:panelGrid>
+<!--                <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansRozniceView.drukujBO()}" style="width: 120px; margin-left: 300px;"
+                                  />
+                <p:commandButton value="druk.wszystko" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansRozniceView.drukujdrukujObrotyWszystkieBO()}" style="width: 120px; margin-left: 20px;"
+                                  />
+                <p:selectBooleanCheckbox value="#{bilansRozniceView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
+                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                </p:selectBooleanCheckbox>-->
+<!--            <p:dataTable value="#{bilansRozniceView.wierszeDokroznice}" var="item"  widgetVar="tab0prosta"
+                         style="overflow-y: scroll; height: 400px; width: 1100px; padding: 10px; margin-top: 5px;"
+                         styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
+                         id="tab0" rowKey="#{item.hashCode()}"
+                         >-->
+<!--                <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansRozniceView.podsumujWnMa(bilansRozniceView.listaBOselected, bilansRozniceView.listaBOsumy, bilansRozniceView.listaBO)}" update=":form_dialog_bilans_roznice"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansRozniceView.podsumujWnMa(bilansRozniceView.lista0s, bilansRozniceView.listaBOsumy, bilansRozniceView.listaBO)}" update=":form_dialog_bilans_roznice"/>
+                <p:ajax event="toggleSelect" global="false"  listener="#{bilansRozniceView.podsumujWnMa(bilansRozniceView.listaBOselected, bilansRozniceView.listaBOsumy, bilansRozniceView.listaBO)}" update=":form_dialog_bilans_roznice"/>
+                <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>-->
+<!--                <p:column width="250" filterBy="#{item.konto}" sortBy="#{item.konto}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.konto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.konto.pelnynumer} #{item.konto.nazwapelna}"/>
+                </p:column>
+                <p:column styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.opis}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.opis}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kwotaWn}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Wn"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.kwotaWn}" rendered="#{item.kwotaWn ne 0.0 and bilansRozniceView.nraktualnejlisty ne 9}"/>
+                    <bcf:outputpl value="#{item.kwotaWnPLN}" rendered="#{item.kwotaWnPLN ne 0.0 and bilansRozniceView.nraktualnejlisty eq 9}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kwotaMa}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Ma"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.kwotaMa}" rendered="#{item.kwotaMa ne 0.0 and bilansRozniceView.nraktualnejlisty ne 9}"/>
+                    <bcf:outputpl value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0 and bilansRozniceView.nraktualnejlisty eq 9}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kontostare.saldoWnksiegi}" width="90" rendered="#{bilansRozniceView.pokazstarekonta}">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Wn rok pop"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.kontostare.saldoWnksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoWnksiegi ne 0.0 and bilansRozniceView.nraktualnejlisty eq 9}"/>
+                </p:column>
+                <p:column sortBy="#{item.nowy0edycja1usun2}" width="80" style="#{item.stylwiersza}" rendered="#{!bilansRozniceView.pokazstarekonta}">
+                    <f:facet name="header">
+                        <h:outputText value="stan"  />
+                    </f:facet>
+                    <h:outputText value="#{item.nowy0edycja1usun2}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kontostare.saldoMaksiegi}" width="90" rendered="#{bilansRozniceView.pokazstarekonta}">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Ma rok pop"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.kontostare.saldoMaksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoMaksiegi ne 0.0 and bilansRozniceView.nraktualnejlisty eq 9}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.roznicaSald}" width="90" rendered="#{bilansRozniceView.pokazstarekonta}">
+                    <f:facet name="header">
+                        <h:outputText value="różnica sald"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.roznicaSald}" style="color: red;" rendered="#{item.kontostare ne null and item.roznicaSald ne 0.0 and bilansRozniceView.nraktualnejlisty eq 9}"/>
+                </p:column>
+                <p:column style="text-align: center;" width="40">
+                    <f:facet name="header">
+                        <h:outputText value="usuń tym."/>
+                    </f:facet>
+                    <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansRozniceView.usunwierszN(item)}"
+                                     update="form_dialog_bilans_roznice"
+                                     />
+                </p:column>
+                <p:column style="text-align: center;" width="40">
+                    <f:facet name="header">
+                        <h:outputText value="edycja"/>
+                    </f:facet>
+                    <p:commandButton icon="ui-icon-circle-plus" style="width: 30px;" global="false"  actionListener="#{bilansRozniceView.edycjawiersza(item)}"
+                                     update="form_dialog_bilans_roznice_wiersz"
+                                     />
+                </p:column>-->
+<!--            </p:dataTable>-->
+        </h:form>
+    </p:dialog>
+</ui:composition>
