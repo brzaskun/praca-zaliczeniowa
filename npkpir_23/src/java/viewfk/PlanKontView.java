@@ -142,23 +142,23 @@ public class PlanKontView implements Serializable {
 
     @PostConstruct
     public void init() {
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+//        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
         wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, wpisView);
         if (wybranyuklad != null) {
             PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
             PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         }
-        int czysaslownikowe = sprawdzkonta();
-        if (czysaslownikowe == 0) {
-            infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
-            //RequestContext.getCurrentInstance().update("dialogpierwszy");
-        } else if (czysaslownikowe == 1) {
-            infozebrakslownikowych = " Brak planu kont na dany rok";
-            //RequestContext.getCurrentInstance().update("dialogpierwszy");
-        } else {
-            infozebrakslownikowych = "";
-        }
+//        int czysaslownikowe = sprawdzkonta();
+//        if (czysaslownikowe == 0) {
+//            infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
+//            //RequestContext.getCurrentInstance().update("dialogpierwszy");
+//        } else if (czysaslownikowe == 1) {
+//            infozebrakslownikowych = " Brak planu kont na dany rok";
+//            //RequestContext.getCurrentInstance().update("dialogpierwszy");
+//        } else {
+//            infozebrakslownikowych = "";
+//        }
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
         wykazkontlazy = new LazyKontoDataModel(wykazkont);

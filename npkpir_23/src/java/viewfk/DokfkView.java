@@ -377,10 +377,10 @@ public class DokfkView implements Serializable {
         String[] zwrot = new String[2];
         String text = "Wprowadzanie dokumentu. Podatnik: "+wpisView.getPodatnikWpisu();
         String css = "";
-        FacesContext context = FacesContext.getCurrentInstance();
-        PlanKontView bean = context.getApplication().evaluateExpressionGet(context, "#{planKontView}", PlanKontView.class);
-        bean.init();
-        text += bean.getInfozebrakslownikowych();
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        PlanKontView bean = context.getApplication().evaluateExpressionGet(context, "#{kontoConv}", PlanKontView.class);
+//        bean.init();
+//        text += bean.getInfozebrakslownikowych();
         String rokbiezacy = Data.aktualnyRok();
         if (!wpisView.getRokWpisuSt().equals(rokbiezacy)) {
             text += " UWAGA: rok odmienny od bieżącego!";

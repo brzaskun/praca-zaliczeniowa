@@ -30,7 +30,6 @@ import view.WpisView;
 public class PlanKontCompleteView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Konto> listakontOstatniaAnalitykaklienta;
-    private List<Konto> listakont;
     @Inject
     private KontoDAOfk kontoDAOfk;
     @ManagedProperty(value = "#{WpisView}")
@@ -44,7 +43,6 @@ public class PlanKontCompleteView implements Serializable {
   @PostConstruct
   public void init() {
       listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
-      listakont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
       System.out.println("Wywołanie PlanKontCompleteView init()");
   }
     
@@ -138,14 +136,7 @@ public class PlanKontCompleteView implements Serializable {
         this.listakontOstatniaAnalitykaklienta = listakontOstatniaAnalitykaklienta;
     }
 
-    public List<Konto> getListakont() {
-        return listakont;
-    }
-
-    public void setListakont(List<Konto> listakont) {
-        this.listakont = listakont;
-    }
-    
+      
     public static void main(String[] args) {
         String s = "201-2-4";
         System.out.println(s.matches("^(.*\\s+.*)+$"));

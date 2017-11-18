@@ -78,6 +78,14 @@ public class KontoConv implements javax.faces.convert.Converter{
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+
+    public List<Konto> getKonta() {
+        return konta;
+    }
+
+    public void setKonta(List<Konto> konta) {
+        this.konta = konta;
+    }
     
     
     

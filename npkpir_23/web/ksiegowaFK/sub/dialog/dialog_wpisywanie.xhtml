@@ -264,7 +264,7 @@
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
-                        <p:panelGrid id="panelzkwotamidok" rendered="#{planKontView.infozebrakslownikowych eq ''}">
+                        <p:panelGrid id="panelzkwotamidok">
                             <f:facet name="header">
                                 <p:row>
                                     <p:column>
@@ -322,10 +322,10 @@
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
-                        <p:panelGrid id="panelzkwotamidoka" rendered="#{planKontView.infozebrakslownikowych ne ''}"
+<!--                        <p:panelGrid id="panelzkwotamidoka" rendered="#{planKontView.infozebrakslownikowych ne ''}"
                                      columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
                             <h:outputText value="#{planKontView.infozebrakslownikowych}" style="color: red; font-weight: 900;"/>
-                        </p:panelGrid>
+                        </p:panelGrid>-->
                         <p:panelGrid columns="2" id="panelwalutowy" style="min-width: 100%;"  styleClass="uipanelGrid0" >
                             <p:panelGrid id="panelwalutowywybor" style="min-width: 20%;">
                                 <f:facet name="header">
