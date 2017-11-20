@@ -666,6 +666,8 @@ public class PozycjaBRKontaView implements Serializable {
                 pobierzukladkontoB("aktywa");
             }
             Msg.msg("Zakończono kopiowanie przyporządkowania");
+            System.out.println("Zakończono kopiowanie przyporządkowania 669");
+                    
         } catch (Exception e) {
             E.e(e);
             Msg.dPe();;

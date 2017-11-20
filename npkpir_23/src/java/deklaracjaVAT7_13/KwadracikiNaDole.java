@@ -7,7 +7,6 @@
 package deklaracjaVAT7_13;
 
 import embeddable.PozycjeSzczegoloweVAT;
-import embeddable.Schema;
 import embeddable.Vatpoz;
 import entity.DeklaracjaVatSchema;
 import java.text.DateFormat;
@@ -109,6 +108,7 @@ public class KwadracikiNaDole {
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_66>1</P_66>");
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_67>1</P_67>");
         }
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_73>918120976</P_73>");
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_74>"+today+"</P_74>");
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
