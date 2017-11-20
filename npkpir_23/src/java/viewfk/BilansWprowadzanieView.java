@@ -487,7 +487,7 @@ public class BilansWprowadzanieView implements Serializable {
                         }
                     }
                 }
-                wierszBODAO.editList(biezacalista);
+                wierszBODAO.editList(zachowaneWiersze);
             }
         }
         aktualizujListaW();
