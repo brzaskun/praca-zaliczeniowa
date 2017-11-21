@@ -77,6 +77,7 @@
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');" 
                                  onblur="$(this).removeClass('ui-state-focus');" >
+                        <f:selectItem itemValue="wybierz" noSelectionOption="true"/>
                         <f:selectItem itemValue="nie"/>
                         <f:selectItem itemValue="tak"/>
                     </h:selectOneMenu>
@@ -193,6 +194,7 @@
                     <h:selectOneMenu value="#{podatnikView.selected.metodakasowa}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                      onfocus="$(this).addClass('ui-state-focus');" 
                                      onblur="$(this).removeClass('ui-state-focus');">
+                        <f:selectItem itemValue="wybierz" noSelectionOption="true"/>
                         <f:selectItem itemValue="nie"/>
                         <f:selectItem itemValue="tak"/>
                     </h:selectOneMenu>
@@ -230,6 +232,9 @@
                     </h:selectOneMenu>
                  <h:outputLabel value="firma w likwidacji"/>
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.jestwlikiwdacji}"/>
+                 <h:outputLabel value="data otwarcia likwidacji"/>
+                 <p:inputMask value="#{podatnikView.selected.dataotwarcialikwidacji}" mask="9999-99-99" 
+                    onblur="weryfikujsporzadzfakture(this);"/>
                  <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym"/>
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}"/>
                  

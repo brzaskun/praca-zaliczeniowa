@@ -30,6 +30,9 @@
               resizable="false" onShow="ustawdialog('dialog_bilans_generowanie','menubilanse', 700, 740);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_generowanie');" 
               maximizable="true">
         <h:form id="form_dialog_bilans_generowanie" style="padding: 10px;">
+            <p:outputPanel rendered="#{bilansGenerowanieView.tojestbilanslikwidacyjny}" id="uwaga">
+                <h:outputText value="Generowanie bilansu likwidacyjnego na dzień #{WpisView.podatnikObiekt.dataotwarcialikwidacji}" style="color: red;"/>
+            </p:outputPanel>
             <p:panelGrid columns="1">
                 <p:column>
                     <h:outputText value="Firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}"/>

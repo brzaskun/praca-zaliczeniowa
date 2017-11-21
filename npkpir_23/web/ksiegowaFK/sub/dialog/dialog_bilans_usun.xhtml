@@ -12,10 +12,11 @@
         }
     </style>
     <p:dialog id="dialog_bilans_usun" header="Usuwanie bilansu otwarcia" widgetVar="dialog_bilans_usun" dynamic="true"
-              resizable="false" onShow="ustawdialogWindow('dialog_bilans_usun', 630, 100);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_usun');"  >
+              resizable="false" onShow="ustawdialogWindow('dialog_bilans_usun', 630, 130);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_usun');"  >
         <h:form id="formdialog_dialog_bilans_usun">
-             <p:outputPanel>
-                <h:outputText value="Czy na pewno usunąć cały bilans otwarcia wraz z dokumentemm BO. Jest to operacja nieodwracalna!" style="margin-left: auto; margin-right: auto;"/>
+            <p:outputPanel style="text-align: center;">
+                <h:outputText value="Czy na pewno usunąć cały bilans otwarcia wraz z dokumentemm BO? Jest to operacja nieodwracalna!" style="margin-left: auto; margin-right: auto;" rendered="#{!bilansBoUsunView.tojestbilanslikwidacyjny}"/>
+                <h:outputText value="Czy na pewno usunąć cały bilans likwidacyjny  wraz z dokumentemm BO? Jest to operacja nieodwracalna!" style="margin-left: auto; margin-right: auto;" rendered="#{bilansBoUsunView.tojestbilanslikwidacyjny}"/>
             </p:outputPanel>
             <p:commandButton value="usuń" type="submit" actionListener="#{bilansBoUsunView.usunBO(WpisView)}" update=":formbilanswprowadzanie2"
                                  style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_bilans_usun').hide();"

@@ -38,6 +38,9 @@
               resizable="false" onShow="ustawdialog('bilanswprowadzanie2','menubilanse', 1360, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie2');"
               maximizable="true">
         <h:form id="formbilanswprowadzanie2_wiersz">
+            <p:outputPanel rendered="#{bilansWprowadzanieView.tojestbilanslikwidacyjny}" id="uwaga">
+                <h:outputText value="Generowanie bilansu likwidacyjnego na dzień #{WpisView.podatnikObiekt.dataotwarcialikwidacji}" style="color: red;"/>
+            </p:outputPanel>
             <p:focus for="formbilanswprowadzanie2_wiersz"/>
             <p:panelGrid rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}" style="height: 50px;">
                 <f:facet name="header">
@@ -108,10 +111,12 @@
                                          />
                     </p:column>
                     <p:column>
-                        <h:outputText value="miesiąc wprowadzania"/>
+                        <h:outputText value="miesiąc wprowadzania" style="color:red;" rendered="#{bilansWprowadzanieView.tojestbilanslikwidacyjny}"/>
+                        <h:outputText value="miesiąc wprowadzania" rendered="#{!bilansWprowadzanieView.tojestbilanslikwidacyjny}"/>
                     </p:column>
                     <p:column>
-                        <p:selectOneMenu value="#{bilansWprowadzanieView.miesiacWpisu}">
+                        <h:outputText value="#{bilansWprowadzanieView.miesiacWpisu}" style="color:red;" rendered="#{bilansWprowadzanieView.tojestbilanslikwidacyjny}"/>
+                        <p:selectOneMenu value="#{bilansWprowadzanieView.miesiacWpisu}"  rendered="#{!bilansWprowadzanieView.tojestbilanslikwidacyjny}">
                             <p:ajax event="change" listener="#{bilansWprowadzanieView.init2()}" 
                                     update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz formbilanswprowadzanie3" />
                             <f:selectItems value="#{Mce.mceList}"/>

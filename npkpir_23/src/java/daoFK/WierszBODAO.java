@@ -31,13 +31,19 @@ public class WierszBODAO extends DAO implements Serializable {
     @Inject
     private SessionFacade wierszBOFacade;
     
-    public List<WierszBO> lista(String grupa, WpisView wpisView) {
+    public List<WierszBO> lista(String grupa, WpisView wpisView, boolean likwidacja) {
         try {
-            return wierszBOFacade.findBOLista0(grupa, wpisView);
+            if (likwidacja) {
+                return wierszBOFacade.findBOLista0likwidacja(grupa, wpisView);
+            } else {
+                return wierszBOFacade.findBOLista0(grupa, wpisView);
+            }
         } catch (Exception e) { E.e(e); 
             return new ArrayList<>();
         }
     }
+    
+    
     
     public List<WierszBO> listaRokMc(WpisView wpisView) {
         try {

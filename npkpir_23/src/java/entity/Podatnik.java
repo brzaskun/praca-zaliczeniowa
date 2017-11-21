@@ -262,6 +262,9 @@ public class Podatnik implements Serializable {
     private boolean tylkodlaZUS;
     @Column(name = "zatrudniapracownikow")
     private boolean zatrudniapracownikow;
+    @Size(max = 10)
+    @Column(name = "dataotwarcialikwidacji")
+    private String dataotwarcialikwidacji;
 
     
     public Podatnik() {
@@ -304,6 +307,14 @@ public class Podatnik implements Serializable {
     }
     public String getSchematnumeracji() {
         return schematnumeracji;
+    }
+
+    public String getDataotwarcialikwidacji() {
+        return dataotwarcialikwidacji;
+    }
+
+    public void setDataotwarcialikwidacji(String dataotwarcialikwidacji) {
+        this.dataotwarcialikwidacji = dataotwarcialikwidacji;
     }
 
     public boolean isPodpiscertyfikowany() {

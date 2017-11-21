@@ -8,7 +8,6 @@ package viewfk;
 import daoFK.DokDAOfk;
 import daoFK.WierszBODAO;
 import entityfk.Dokfk;
-import entityfk.WierszBO;
 import error.E;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -16,6 +15,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -30,6 +30,17 @@ public class BilansBoUsunView  implements Serializable {
     private WierszBODAO wierszBODAO;
     @Inject
     private DokDAOfk dokDAOfk;
+    private boolean tojestbilanslikwidacyjny;
+    
+    public void ustawbilanslikwidacja() {
+        tojestbilanslikwidacyjny = true;
+        RequestContext.getCurrentInstance().update("formdialog_dialog_bilans_usun");
+    }
+    
+    public void zestawbilanslikwidacja() {
+        tojestbilanslikwidacyjny = false;
+        RequestContext.getCurrentInstance().update("formdialog_dialog_bilans_usun");
+    }
     
     public void usunBO(WpisView wpisView) {
         try {
@@ -47,4 +58,14 @@ public class BilansBoUsunView  implements Serializable {
             Msg.msg("Wystąpił błąd, nie usunięto bilansu otwarcia/obrotów rozpoczęcia");
         }
     }
+
+    public boolean isTojestbilanslikwidacyjny() {
+        return tojestbilanslikwidacyjny;
+    }
+
+    public void setTojestbilanslikwidacyjny(boolean tojestbilanslikwidacyjny) {
+        this.tojestbilanslikwidacyjny = tojestbilanslikwidacyjny;
+    }
+    
+    
 }

@@ -74,6 +74,7 @@ public class BilansGenerowanieView implements Serializable {
     private boolean sabledy;
     private boolean sabledy2;
     private boolean przeniestylkosalda;
+    private boolean tojestbilanslikwidacyjny;
 
     public BilansGenerowanieView() {
         E.m(this);
@@ -83,6 +84,11 @@ public class BilansGenerowanieView implements Serializable {
         this.komunikatyerror2 = new ArrayList<>();
         this.komunikatyerror3 = new ArrayList<>();
         this.listawalut = new HashMap<>();
+    }
+    
+    public void resetlikiwdacja() {
+        this.tojestbilanslikwidacyjny = true;
+        reset();
     }
 
     public void reset() {
@@ -699,6 +705,14 @@ public class BilansGenerowanieView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public boolean isTojestbilanslikwidacyjny() {
+        return tojestbilanslikwidacyjny;
+    }
+
+    public void setTojestbilanslikwidacyjny(boolean tojestbilanslikwidacyjny) {
+        this.tojestbilanslikwidacyjny = tojestbilanslikwidacyjny;
     }
 
     public boolean isPrzeniestylkosalda() {
