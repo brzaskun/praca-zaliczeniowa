@@ -2113,76 +2113,76 @@ public class PdfMain {
                     }
                 } else if (modyfikator == 2) {
                     WierszBO p = (WierszBO) it.next();
-                    table.addCell(ustawfrazeAlign(i++, "left", 7, 22f));
-                    table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
-                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 7));
+                    table.addCell(ustawfrazeAlign(i++, "left", 8, 22f));
+                    table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
                     double kwota = p.getKurs();
                     if (kwota > 0.0) {
                         number.setMinimumFractionDigits(4);
                         number.setMaximumFractionDigits(4);
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 7));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                     String waluta = p.getWaluta().getSymbolwaluty();
-                    table.addCell(ustawfrazeAlign(waluta, "center", 7));
+                    table.addCell(ustawfrazeAlign(waluta, "center", 8));
                     kwota = p.getKwotaWn(); 
                     number.setMinimumFractionDigits(2);
                     number.setMaximumFractionDigits(2);
                     if (kwota != 0.0) {
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 7));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                     kwota = p.getKwotaWnPLN();
                     if (kwota != 0.0 && !waluta.equals("PLN")) {
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 7));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                     kwota = p.getKwotaMa();
                     if (kwota != 0.0) {
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 7));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                     kwota = p.getKwotaMaPLN();
                     if (kwota != 0.0 && !waluta.equals("PLN")) {
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 7));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                 } else {
                     WierszBO p = (WierszBO) it.next();
                     table.addCell(ustawfrazeAlign(i++, "left", 7, 22f));
-                    table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
-                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
                     double kwota = p.getKwotaWn(); 
                     String waluta = p.getWaluta().getSymbolwaluty();
                     number.setMinimumFractionDigits(2);
                     number.setMaximumFractionDigits(2);
                     if (kwota != 0) {
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 7));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                     kwota = p.getKwotaWnPLN();
                     if (kwota != 0 && !waluta.equals("PLN")) {
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 7));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                     kwota = p.getKwotaMa();
                     if (kwota != 0.0) {
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 7));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                     kwota = p.getKwotaMaPLN();
                     if (kwota != 0.0 && !waluta.equals("PLN")) {
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 7));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                 }
             }
