@@ -79,7 +79,11 @@ public class VAT27DeklaracjaView implements Serializable {
     }
     
     public void tworzdeklaracje(List<VatUe> lista) {
-        robdeklaracje(lista, false, 0);
+        if (!lista.isEmpty() && lista.get(0).getKontrahent() != null) {
+            robdeklaracje(lista, false, 0);
+        } else {
+            Msg.msg("w", "Lista dokumentów jest pusta");
+        }
     }
     
     public void robdeklaracje(List<VatUe> lista, boolean korekta, int nrkolejny) {
