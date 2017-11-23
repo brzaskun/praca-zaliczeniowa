@@ -50,8 +50,10 @@ public class ObslugaPodpisuBean {
             keyStore = KeyStore.getInstance("PKCS11");
             keyStore.load(null, pin);
         }   catch (KeyStoreException | NoSuchAlgorithmException | CertificateException ex) {
+            keyStore = null;
             E.e(ex);
         } catch (Exception ex) {
+            keyStore = null;
             E.e(ex);
         }
         return keyStore;
