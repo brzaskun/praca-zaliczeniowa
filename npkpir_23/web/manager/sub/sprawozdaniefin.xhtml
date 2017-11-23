@@ -14,92 +14,32 @@
     </style>
     <p:growl life="3600"  id="msgzus" autoUpdate="true"/>
 
-    <p:accordionPanel id="akordeon" value="#{sprawozdanieFinansoweView.listapodatnikow}" var="podatnik" style="max-width: 1300px;"
-                      >
-
-        <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}" rendered="#{podatnik.podmiotaktywny}" titleStyle="#{podatnik.elementysprawozdaniafin ne null and podatnik.elementysprawozdaniafin.size() gt 1? 'color:red;' : null}">
-            <h:form>
-                <p:dataTable id="tabelasprawozdania" value="#{podatnik.elementysprawozdaniafin}" var="item" rowIndexVar="index"
-                               sortBy="#{item.element}">
-                    <p:column width="150">
-                            <f:facet name="header">
-                                <h:outputText value="Element"/>
-                            </f:facet>
-                            <h:outputText value="#{sprawozdanieFinansoweView.inttostr(item.element)}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="Sporzadzajacy"/>
-                            </f:facet>
-                            <h:outputText value="#{item.sporzadzajacy}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Data sporzadzenia"/>
-                            </f:facet>
-                            <h:outputText value="#{item.datasporzadzenia}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="Zatwierdzajacy"/>
-                            </f:facet>
-                            <h:outputText value="#{item.zatwierdzajacy}" rendered="#{item.zatwierdzajacy ne null}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Data zatwierdzenia"/>
-                            </f:facet>
-                            <h:outputText value="#{item.datazatwierdzenia}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="Wyslane do podatnika"/>
-                            </f:facet>
-                            <h:outputText value="#{item.wyslanedopodatnika}"  rendered="#{item.wyslanedopodatnika ne null}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="Wrocilo od podatnika"/>
-                            </f:facet>
-                            <h:outputText value="#{item.wrociloodpodatnika}"  rendered="#{item.wrociloodpodatnika ne null}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="Zlozone do krs"/>
-                            </f:facet>
-                            <h:outputText value="#{item.zlozonedokrs}"  rendered="#{item.zlozonedokrs ne null}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="Zatwierdzone w krs"/>
-                            </f:facet>
-                            <h:outputText value="#{item.zatwierdzonewkrs}"  rendered="#{item.zatwierdzonewkrs ne null}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="Zlozone w urzedzie"/>
-                            </f:facet>
-                             <h:outputText value="#{item.zlozonewurzedzie}"  rendered="#{item.zlozonewurzedzie ne null}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-               
-            </p:dataTable>
-        </h:form>
-        </p:tab>
-    </p:accordionPanel>
+    <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 700px;">
+        <f:facet name="header">
+            <h:outputText value="podatnicy"/>
+        </f:facet>
+        <p:column width="30">
+            <h:outputText value="#{index+1}"/>
+        </p:column>
+        <p:column width="250" headerText="nazwa podatnika">
+            <h:outputText value="#{podatnik.printnazwa}"/>
+        </p:column>
+        <p:column width="30" headerText="podmiot aktywny" style="text-align: center;">
+            <p:selectBooleanCheckbox value="#{podatnik.podmiotaktywny}">
+                <p:ajax event="change" listener="#{podatnicyView.edytuj(podatnik)}" update="@this"/>
+            </p:selectBooleanCheckbox>
+        </p:column>
+        <p:column width="30" headerText="tylko dla ZUS" style="text-align: center;">
+            <p:selectBooleanCheckbox value="#{podatnik.tylkodlaZUS}">
+                <p:ajax event="change" listener="#{podatnicyView.edytuj(podatnik)}" update="@this"/>
+            </p:selectBooleanCheckbox>
+        </p:column>
+        <p:column width="30" headerText="pracownicy" style="text-align: center;">
+            <p:selectBooleanCheckbox value="#{podatnik.zatrudniapracownikow}">
+                <p:ajax event="change" listener="#{podatnicyView.edytuj(podatnik)}" update="@this"/>
+            </p:selectBooleanCheckbox>
+        </p:column>
+    </p:dataTable>
 
 </ui:composition>   
 

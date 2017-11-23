@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -29,6 +30,15 @@ public class PodatnicyView  implements Serializable {
     @PostConstruct
     private void init() {
         podatnicy = podatnikDAO.findAll();
+    }
+    
+    public void edytuj(Podatnik p) {
+        try {
+            podatnikDAO.edit(p);
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
     }
 
     public List<Podatnik> getPodatnicy() {
