@@ -95,10 +95,14 @@ public class VIESCheckBean {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             if (table != null) {
                 Elements tds = table.getElementsByTag("td");
+                String data = tds.get(8).text() != null ? tds.get(8).text().substring(0,10) : "";
+                if (data.contains("/")) {
+                    formatter = new SimpleDateFormat("yyyy/MM/dd");
+                }
                 if (tds != null && tds.size() < 26) {
                     if (tds.get(0).text().contains("Yes, valid VAT number")) {
                         zwrot.setPodatnik(podatnik);
-                        Date datawystawienia = formatter.parse(tds.get(8).text());
+                        Date datawystawienia = formatter.parse(data);
                         zwrot.setData(datawystawienia);
                         zwrot.setWynik(true);
                         zwrot.setKraj(kraj);
