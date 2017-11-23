@@ -6,16 +6,11 @@ package view;
 
 import comparator.Dokfkcomparator;
 import dao.Deklaracjavat27DAO;
-import dao.DeklaracjevatDAO;
 import dao.PodatnikDAO;
 import daoFK.DokDAOfk;
 import daoFK.VatuepodatnikDAO;
-import data.Data;
-import embeddable.Kwartaly;
-import embeddable.Parametr;
 import embeddable.VatUe;
 import entity.Deklaracjavat27;
-import entity.Podatnik;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import entityfk.Vatuepodatnik;
@@ -115,6 +110,8 @@ public class Vat27FKView implements Serializable {
                 Deklaracjavat27 d = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
                 if (d != null) {
                     deklaracja0korekta1 = true;
+                } else {
+                    deklaracja0korekta1 = false;
                 }
             } catch (Exception e) {
                 E.e(e);
@@ -224,6 +221,17 @@ public class Vat27FKView implements Serializable {
         try {
             deklaracjavat27DAO.destroy(d);
             deklaracjevat27.remove(d);
+            try {
+                pobierzdeklaracje27();
+                Deklaracjavat27 d2 = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
+                if (d2 != null) {
+                    deklaracja0korekta1 = true;
+                } else {
+                    deklaracja0korekta1 = false;
+                }
+            } catch (Exception e) {
+                E.e(e);
+            }
             Msg.dP();
         } catch (Exception e) {
             Msg.dPe();
