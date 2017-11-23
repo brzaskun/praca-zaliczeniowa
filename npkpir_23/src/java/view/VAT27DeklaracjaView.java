@@ -39,6 +39,8 @@ public class VAT27DeklaracjaView implements Serializable {
     private WpisView wpisView;
     @ManagedProperty(value="#{vat27View}")
     private Vat27View vat27View;
+    @ManagedProperty(value="#{vat27FKView}")
+    private Vat27FKView vat27FKView;
     @Inject
     private Deklaracjavat27DAO deklaracjavat27DAO;
     
@@ -78,9 +80,53 @@ public class VAT27DeklaracjaView implements Serializable {
         }
     }
     
+     public void tworzdeklaracjekorektaFK(List<VatUe> lista) {
+        Deklaracjavat27 stara = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
+        if (stara.getDatazlozenia() == null) {
+            Msg.msg("e", "Pierwotna deklaracja nie została wysłana, nie można zrobić korekty");
+        } else {
+            List<VatUe> staralista = stara.getPozycje();
+            boolean robickorekte = false;
+            int nrkolejny = 0;
+            for (VatUe s : staralista) {
+                for (VatUe t : lista) {
+                    if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
+                        if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
+                            t.setKorekta(true);
+                            robickorekte = true;
+                            nrkolejny = stara.getNrkolejny()+1;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (robickorekte) {
+                deklaracjavat27DAO.usundeklaracje27(wpisView);
+                for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
+                    Deklaracjavat27 d = it.next();
+                    if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
+                        vat27View.getDeklaracjevat27().remove(d);
+                        break;
+                    }
+                }
+                robdeklaracjeFK(lista, true, nrkolejny);
+            } else {
+                Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
+            }
+        }
+    }
+    
     public void tworzdeklaracje(List<VatUe> lista) {
         if (!lista.isEmpty() && lista.get(0).getKontrahent() != null) {
             robdeklaracje(lista, false, 0);
+        } else {
+            Msg.msg("w", "Lista dokumentów jest pusta");
+        }
+    }
+    
+    public void tworzdeklaracjeFK(List<VatUe> lista) {
+        if (!lista.isEmpty() && lista.get(0).getKontrahent() != null) {
+            robdeklaracjeFK(lista, false, 0);
         } else {
             Msg.msg("w", "Lista dokumentów jest pusta");
         }
@@ -96,6 +142,26 @@ public class VAT27DeklaracjaView implements Serializable {
                 deklaracjavat27.setPozycje(lista);
                 deklaracjavat27DAO.dodaj(deklaracjavat27);
                 vat27View.getDeklaracjevat27().add(deklaracjavat27);
+                Msg.msg("Sporządzono deklarację VAT-27");
+            } else {
+                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-27. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-27");
+        }
+    }
+    
+    public void robdeklaracjeFK(List<VatUe> lista, boolean korekta, int nrkolejny) {
+        try {
+            String deklaracja = sporzadz(lista, korekta);
+            Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
+            if (podpisanadeklaracja != null) {
+                Deklaracjavat27 deklaracjavat27 = generujdeklaracje(podpisanadeklaracja);
+                deklaracjavat27.setNrkolejny(nrkolejny);
+                deklaracjavat27.setPozycje(lista);
+                deklaracjavat27DAO.dodaj(deklaracjavat27);
+                vat27FKView.getDeklaracjevat27().add(deklaracjavat27);
                 Msg.msg("Sporządzono deklarację VAT-27");
             } else {
                 Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-27. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
@@ -160,6 +226,14 @@ public class VAT27DeklaracjaView implements Serializable {
 
     public void setVat27View(Vat27View vat27View) {
         this.vat27View = vat27View;
+    }
+
+    public Vat27FKView getVat27FKView() {
+        return vat27FKView;
+    }
+
+    public void setVat27FKView(Vat27FKView vat27FKView) {
+        this.vat27FKView = vat27FKView;
     }
 
    

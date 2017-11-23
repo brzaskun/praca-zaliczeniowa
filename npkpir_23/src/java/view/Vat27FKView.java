@@ -5,6 +5,7 @@
 package view;
 
 import comparator.Dokfkcomparator;
+import dao.Deklaracjavat27DAO;
 import dao.DeklaracjevatDAO;
 import dao.PodatnikDAO;
 import daoFK.DokDAOfk;
@@ -13,6 +14,7 @@ import data.Data;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
 import embeddable.VatUe;
+import entity.Deklaracjavat27;
 import entity.Podatnik;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
@@ -31,6 +33,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdf.PdfVAT27dekl;
 import pdf.PdfVatUE;
 import waluty.Z;
 
@@ -53,6 +56,14 @@ public class Vat27FKView implements Serializable {
     private VatuepodatnikDAO vatuepodatnikDAO;
     private double sumawybranych;
     private String opisvatuepkpir;
+    private boolean deklaracja0korekta1;
+    private List<Deklaracjavat27> deklaracjevat27;
+    @Inject
+    private Deklaracjavat27DAO deklaracjavat27DAO;
+    @Inject
+    private Deklaracjavat27 dekl27selected;
+    @Inject
+    private PodatnikDAO podatnikDAO;
 
 
     public Vat27FKView() {
@@ -99,14 +110,30 @@ public class Vat27FKView implements Serializable {
             }
              VatUe rzadpodsumowanie = new VatUe("podsum.", null, Z.z(sumanettovatue), Z.z(sumanettovatuewaluta));
             klienciWDTWNT.add(rzadpodsumowanie);
+            try {
+                pobierzdeklaracje27();
+                Deklaracjavat27 d = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
+                if (d != null) {
+                    deklaracja0korekta1 = true;
+                }
+            } catch (Exception e) {
+                E.e(e);
+            }
             //zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), podatnik);
         }
+    }
+        
+    public void pobierzdeklaracje27()  {
+       deklaracjevat27 = deklaracjavat27DAO.findbyPodatnikRok(wpisView);
+       if (deklaracjevat27 == null) {
+           deklaracjevat27 = new ArrayList<>();
+       }
+    }
        
 //        try {
 //            pobierzdanezdeklaracji();
 //        } catch (Exception e) { E.e(e); 
 //        }
-    }
     
     private double[] pobierzwartosci(List<EVatwpisFK> lista) {
         double netto = 0.0;
@@ -192,6 +219,29 @@ public class Vat27FKView implements Serializable {
           
       }
     } 
+    
+    public void usundekl(Deklaracjavat27 d) {
+        try {
+            deklaracjavat27DAO.destroy(d);
+            deklaracjevat27.remove(d);
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+    
+    public void drukuj(Deklaracjavat27 d) {
+        try {
+            if (d == null) {
+                Msg.msg("e", "Nie wybrano deklaracji");
+            } else {
+                PdfVAT27dekl.drukujVAT(podatnikDAO, d, wpisView);
+                Msg.msg("Wydrukowano deklaracje");
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie wydrukowano ewidencji");
+        }
+    }
    
 //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -225,6 +275,30 @@ public class Vat27FKView implements Serializable {
     
     public void setListawybranych(List<VatUe> listawybranych) {
         this.listawybranych = listawybranych;
+    }
+
+    public boolean isDeklaracja0korekta1() {
+        return deklaracja0korekta1;
+    }
+
+    public void setDeklaracja0korekta1(boolean deklaracja0korekta1) {
+        this.deklaracja0korekta1 = deklaracja0korekta1;
+    }
+
+    public List<Deklaracjavat27> getDeklaracjevat27() {
+        return deklaracjevat27;
+    }
+
+    public void setDeklaracjevat27(List<Deklaracjavat27> deklaracjevat27) {
+        this.deklaracjevat27 = deklaracjevat27;
+    }
+
+    public Deklaracjavat27 getDekl27selected() {
+        return dekl27selected;
+    }
+
+    public void setDekl27selected(Deklaracjavat27 dekl27selected) {
+        this.dekl27selected = dekl27selected;
     }
     
     

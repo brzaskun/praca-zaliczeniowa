@@ -55,7 +55,7 @@ public class Vat27View implements Serializable {
     private PodatnikDAO podatnikDAO;
     private String opisvatuepkpir;
     private String brakustawienUE;
-     boolean deklaracja0korekta1;
+    private boolean deklaracja0korekta1;
 
     public Vat27View() {
         klienciWDTWNT = new ArrayList<>();
