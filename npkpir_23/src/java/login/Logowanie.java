@@ -25,7 +25,7 @@ import java.util.Calendar;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -39,7 +39,7 @@ import msg.Msg;
  * @author Osito
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class Logowanie implements Serializable {
 
     private String uzytkownik;
@@ -72,6 +72,7 @@ public class Logowanie implements Serializable {
         try {
             ipusera = IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
             liczniklogowan = Liczniklogowan.pobierzIloscLogowan(ipusera, rejestrlogowanDAO);
+            invalidatesession();
         } catch (Exception e) {
             E.e(e);
         }
