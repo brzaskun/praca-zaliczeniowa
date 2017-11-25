@@ -211,7 +211,7 @@ public class beanek  implements Serializable {
             deklaracja.setOpis(opisMB);
             deklaracja.setDatazlozenia(new Date());
             deklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
-            deklaracja.setTestowa(true);
+            deklaracja.setTestowa(false);
             deklaracjavat27DAO.edit(deklaracja);
             Msg.msg("i", "Wypuszczono testowego gołębia z deklaracja podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
         } catch (ClientTransportException ex1) {
