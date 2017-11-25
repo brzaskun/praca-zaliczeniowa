@@ -35,6 +35,7 @@ import error.E;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -360,6 +361,7 @@ public class Vat7DKView implements Serializable {
         if (flaga == 1) {
             Msg.msg("e", wpisView.getPodatnikWpisu() + " Deklaracja nie zachowana","form:messages");
         } else {
+            nowadeklaracja.setDatasporzadzenia(new Date());
             deklaracjevatDAO.dodaj(nowadeklaracja);
             Msg.msg("i", wpisView.getPodatnikWpisu() + " - zachowano nową deklaracje VAT za " + rok + "-" + mc,"form:messages");
         }

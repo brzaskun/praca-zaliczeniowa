@@ -352,6 +352,14 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
         this.jestcertyfikat = jestcertyfikat;
     }
 
+    public Date getDatasporzadzenia() {
+        return datasporzadzenia;
+    }
+
+    public void setDatasporzadzenia(Date datasporzadzenia) {
+        this.datasporzadzenia = datasporzadzenia;
+    }
+
     
 
     

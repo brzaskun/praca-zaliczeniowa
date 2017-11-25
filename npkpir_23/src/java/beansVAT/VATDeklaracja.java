@@ -65,35 +65,35 @@ public class VATDeklaracja implements Serializable {
     }
     
     public static void przyporzadkujPozycjeSzczegoloweNowe(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia) {
+        List<EwidPoz> pozycje = new ArrayList<>();
         for (EVatwpisSuma ew : wyciagnieteewidencje) {
+            SchemaEwidencja se = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
+            SchemaEwidencja sm = se.getSchemamacierzysta();
+            pozycje.add(new EwidPoz(se, sm, ew.getNetto(), ew.getVat(), ew.getEwidencja().isTylkoNetto()));
+        }
+        for (EwidPoz s : pozycje) {
+            if (s.odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
+                for (EwidPoz st : pozycje) {
+                    if (st.equals(s.odnalezionyWierszSchemaEwidencjaMacierzysty)) {
+                        st.setNetto(s.getNetto()+s.getNetto());
+                        st.setVat(s.getVat()+s.getVat());
+                    }
+                }
+            }
+        }
+        for (EwidPoz ew : pozycje) {
             try {
-                SchemaEwidencja odnalezionyWierszSchemaEwidencja = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
-                SchemaEwidencja odnalezionyWierszSchemaEwidencjaMacierzysty = odnalezionyWierszSchemaEwidencja.getSchemamacierzysta();
-                if (odnalezionyWierszSchemaEwidencja != null) {
-                    String nrpolanetto = odnalezionyWierszSchemaEwidencja.getPolenetto();
-                    String nrpolavat = odnalezionyWierszSchemaEwidencja.getPolevat();
-                    String nrpolanettoM = null;
-                    String nrpolavatM = null;
-                    if (odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
-                        nrpolanettoM = odnalezionyWierszSchemaEwidencjaMacierzysty.getPolenetto();
-                        nrpolavatM = odnalezionyWierszSchemaEwidencjaMacierzysty.getPolevat();
+                if (ew.odnalezionyWierszSchemaEwidencja != null) {
+                    String netto = String.valueOf(ew.getNetto());
+                    int nettoI = Z.zUD(ew.getNetto());
+                    String vat = String.valueOf(ew.getVat());
+                    int vatI = Z.zUD(ew.getVat());
+                    if ((ew.polenetto != null) && (!ew.polenetto.isEmpty()) && nettoI != 0.0) {
+                        ustawPozycje(pozycjeSzczegoloweVAT, ew.polenetto, netto, nettoI);
                     }
-                    String netto = String.valueOf(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN));
-                    int nettoI = Integer.parseInt(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN).toString());
-                    String vat = String.valueOf(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
-                    int vatI = Integer.parseInt(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
-                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && nettoI != 0.0) {
-                        ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
-                        if (odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
-                            ustawPozycjeM(pozycjeSzczegoloweVAT, nrpolanettoM, netto, nettoI);
-                        }
-                    }
-                    if (!ew.getEwidencja().isTylkoNetto()) {
-                        if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && (nettoI != 0.0 || vatI != 0.0)) {
-                            ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
-                            if (odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
-                                ustawPozycjeM(pozycjeSzczegoloweVAT, nrpolavatM, vat, vatI);
-                            }
+                    if (!ew.isTylkonetto()) {
+                        if ((ew.polevat != null) && (!ew.polevat.isEmpty()) && (nettoI != 0.0 || vatI != 0.0)) {
+                            ustawPozycje(pozycjeSzczegoloweVAT, ew.polevat, vat, vatI);
                         }
                     }
                     //to jest uzywane przy korektach
@@ -176,25 +176,6 @@ public class VATDeklaracja implements Serializable {
         }
     }
     
-    private static void ustawPozycjeM(PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, String nrpola, String kwotaString, int kwotaInt) {
-        try {
-            Class[] paramString = new Class[1];
-            paramString[0] = String.class;
-            Method met;
-            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("getPoleI" + nrpola);
-            Integer pobranakwota = (Integer) met.invoke(pozycjeSzczegoloweVAT);
-            kwotaInt = kwotaInt + pobranakwota;
-            kwotaString = String.valueOf(kwotaInt);
-            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpola, paramString);
-            met.invoke(pozycjeSzczegoloweVAT, new String(kwotaString));
-            paramString = new Class[1];
-            paramString[0] = Integer.class;
-            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpola, paramString);
-            met.invoke(pozycjeSzczegoloweVAT, new Integer(kwotaInt));
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            E.e(e);
-        }
-    }
     
         
     private static SchemaEwidencja szukaniewieszaSchemy(List<SchemaEwidencja> schemaewidencjalista, Evewidencja evewidencja) {

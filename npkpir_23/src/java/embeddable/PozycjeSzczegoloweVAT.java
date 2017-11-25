@@ -5,6 +5,11 @@
 package embeddable;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Embeddable;
 
     
@@ -204,6 +209,25 @@ public class PozycjeSzczegoloweVAT implements Serializable {
         poleI69=0;
         poleI70=0;
     }
+    
+    public List<PP> getPozycje() {
+        List<PP> lista = new ArrayList<>();
+        for(int i = 10;i<42;i++){
+            try {
+                Class[] noparams = {};
+                Method met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("getPoleI"+i, noparams);
+                Integer wynik = (Integer) met.invoke(this, (Object[]) null);
+                if (wynik != 0.0) {
+                    lista.add(new PP("pole "+i,wynik));
+                }
+                
+            } catch (Exception ex) {
+                Logger.getLogger(PozycjeSzczegoloweVAT.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return lista;
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="comment">    
     public String getPole10() {
         return pole10;
@@ -1182,6 +1206,35 @@ public class PozycjeSzczegoloweVAT implements Serializable {
         this.poleI70 = poleI70;
     }
 //</editor-fold>
+
+    public static class PP {
+        String nazwapola;
+        int kwota;
+        public PP() {
+        }
+
+        private PP(String s, Integer wynik) {
+            this.nazwapola = s;
+            this.kwota = wynik;
+        }
+
+        public String getNazwapola() {
+            return nazwapola;
+        }
+
+        public void setNazwapola(String nazwapola) {
+            this.nazwapola = nazwapola;
+        }
+
+        public int getKwota() {
+            return kwota;
+        }
+
+        public void setKwota(int kwota) {
+            this.kwota = kwota;
+        }
+        
+    }
     
    
     

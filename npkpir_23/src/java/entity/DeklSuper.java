@@ -83,6 +83,9 @@ public class DeklSuper implements Serializable {
     protected byte[] deklaracjapodpisana;
     @Column(name = "wzorschemy")
     protected String wzorschemy;
+    @Column(name = "datasporzadzenia")
+    @Temporal(TemporalType.DATE)
+    protected Date datasporzadzenia;
 
     @Override
     public String toString() {
