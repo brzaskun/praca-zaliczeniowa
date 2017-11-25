@@ -29,13 +29,10 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import language.LocaleChanger;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -243,64 +240,64 @@ public class Logowanie implements Serializable {
         invalidatesession();
     }
     
-    public void sprawdzciasteczka() {
-        try {
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            Cookie[] cookies = request.getCookies();
-            for (Cookie p : cookies) {
-                if (p.getName().equals("gabiurms")) {
-                    String[] o = p.getValue().split("_");
-                    uzytkownik = o[0];
-                    haslo = o[1];
-                }
-            }
-            RequestContext.getCurrentInstance().update("formlog1:logowaniepanel");
-            invalidatesession();
-        } catch (Exception e){
-            E.e(e);
-        }
-    }
+//    public void sprawdzciasteczka() {
+//        try {
+//            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//            Cookie[] cookies = request.getCookies();
+//            for (Cookie p : cookies) {
+//                if (p.getName().equals("gabiurms")) {
+//                    String[] o = p.getValue().split("_");
+//                    uzytkownik = o[0];
+//                    haslo = o[1];
+//                }
+//            }
+//            RequestContext.getCurrentInstance().update("formlog1:logowaniepanel");
+//            invalidatesession();
+//        } catch (Exception e){
+//            E.e(e);
+//        }
+//    }
 
     
-    public String savelogin() {
-        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        StringBuilder p = new StringBuilder();
-        p.append(uzytkownik);
-        p.append("_");
-        p.append(haslo);
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Cookie[] cookies = request.getCookies();
-        for (Cookie r : cookies) {
-            if (r.getName().equals("gabiurms")) {
-                r.setValue(null);
-                r.setMaxAge(0);
-                r.setPath("/");
-                response.addCookie(r);
-            }
-        }
-        Cookie cookie = new Cookie("gabiurms",p.toString());
-        cookie.setPath("/");
-        cookie.setMaxAge(60*60*8); //1 hour
-        response.addCookie(cookie);
-        return login();
-    }
-    
-    
-    public String zapomnijmnie() {
-        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Cookie[] cookies = request.getCookies();
-        for (Cookie r : cookies) {
-            if (r.getName().equals("gabiurms")) {
-                r.setValue(null);
-                r.setMaxAge(0);
-                r.setPath("/");
-                response.addCookie(r);
-                System.out.println("Skasowano ciasteczko gabiurms");
-            }
-        }
-        return login();
-    }
+//    public String savelogin() {
+//        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+//        StringBuilder p = new StringBuilder();
+//        p.append(uzytkownik);
+//        p.append("_");
+//        p.append(haslo);
+//        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//        Cookie[] cookies = request.getCookies();
+//        for (Cookie r : cookies) {
+//            if (r.getName().equals("gabiurms")) {
+//                r.setValue(null);
+//                r.setMaxAge(0);
+//                r.setPath("/");
+//                response.addCookie(r);
+//            }
+//        }
+//        Cookie cookie = new Cookie("gabiurms",p.toString());
+//        cookie.setPath("/");
+//        cookie.setMaxAge(60*60*8); //1 hour
+//        response.addCookie(cookie);
+//        return login();
+//    }
+//    
+//    
+//    public String zapomnijmnie() {
+//        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+//        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//        Cookie[] cookies = request.getCookies();
+//        for (Cookie r : cookies) {
+//            if (r.getName().equals("gabiurms")) {
+//                r.setValue(null);
+//                r.setMaxAge(0);
+//                r.setPath("/");
+//                response.addCookie(r);
+//                System.out.println("Skasowano ciasteczko gabiurms");
+//            }
+//        }
+//        return login();
+//    }
     //<editor-fold defaultstate="collapsed" desc="comment">
     public int getLiczniklogowan() {
         return liczniklogowan;
