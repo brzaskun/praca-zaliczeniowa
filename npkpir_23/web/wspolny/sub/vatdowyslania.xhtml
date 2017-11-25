@@ -8,6 +8,7 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
         
     xmlns:bcf="http://brzaskun.com/facelets">
+    <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>
     <p:outputPanel id="paneldeklaracjadowyslania">
     <h:form id="formX">
         <p:growl life="3600"  id="msg" autoUpdate="true"/>
@@ -94,9 +95,9 @@
             </p:rowExpansion>
         </p:dataTable>
     </h:form><br/>
-    <h:outputText value="Aby wysłać należy najpierw wypełnić załącznik VAT-ZZ" style="color: red;"
-                  rendered="#{deklaracjevatView.pokazZZ and !deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}"/>
     <h:form id="zalacznikZZ">
+        <h:outputText value="Aby wysłać należy najpierw wypełnić załącznik VAT-ZZ" style="color: red;"
+                  rendered="#{deklaracjevatView.pokazZZ and !deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}"/>
         <h:outputText value="Załącznik VAT-ZZ podpięty." rendered="#{deklaracjevatView.oczekujace.size() gt 0 and deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}" style="color: green;"/>
         <p:panel header="Załącznik VAT-ZZ załączany do deklaracji w przypadku wystąpienia o zwrot i braku sprzedaży opodatkowanej"
                  rendered="#{deklaracjevatView.pokazZZ}"  style="max-width: 1400px;">
@@ -111,7 +112,7 @@
                                 />
                 </p:selectOneMenu>
                 <h:outputText value="wpisz uzasadnienie wniosku: "/><p:inputTextarea rows="5" style="width: 900px;" value="#{vat7VATZZView.informacja}"/>
-                <p:commandButton value="Załącz" actionListener="#{vat7VATZZView.dodajzalacznikVATZZ()}" update="@all"/>
+                <p:commandButton value="Załącz" actionListener="#{vat7VATZZView.dodajzalacznikVATZZ(deklaracjevatView.oczekujace)}" update="formX zalacznikZZ"/>
             </p:panelGrid>
         </p:panel>
     </h:form>
@@ -123,7 +124,7 @@
                 <h:outputText value="Przygotowana korekta deklaracji nie zawiera wniosku o zwrot VAT i nie może być wysłana!"/>
                 <h:outputText value="wpisz wnioskowaną kwotę "/><p:inputText style="width: 200px;" value="#{vat7VATZTView.kwota}"/>
                 <h:outputText value="wpisz uzasadnienie wniosku: "/><p:inputTextarea rows="5" style="width: 900px;" value="#{vat7VATZTView.informacja}"/>
-                <p:commandButton value="Załącz" actionListener="#{vat7VATZTView.dodajzalacznikVATZT()}" update="@all"/>
+                <p:commandButton value="Załącz" actionListener="#{vat7VATZTView.dodajzalacznikVATZT()}" update="formX zalacznikZT"/>
             </p:panelGrid>
         </p:panel>
     </h:form>
@@ -140,11 +141,19 @@
     </h:form>-->
     <p:accordionPanel id="akordeon" style="max-width: 1400px;"> 
         <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
-        <p:panelGrid columns="2" style="width: 100%;">
+        <p:panelGrid columns="3" style="width: 100%;">
             <p:column>
                 <h:form>
-                    <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" update=":akordeon:form" style="width: 150px;"/>
-                    <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":akordeon:form" style="margin-left: 3%; width: 150px;"/>
+                    <p:commandButton value="podpisz" actionListener="#{deklaracjevatView.podpiszdeklaracje(deklaracjevatView.oczekujace)}" 
+                                     rendered="#{vat7DKView.pokazpelna and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta}"
+                                     update=":akordeon:form" style="width: 120px;"/>
+                    <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" 
+                                     rendered="#{vat7DKView.pokazuproszczona}"
+                                     update=":akordeon:form" style="width: 120px;"/>
+                    <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" 
+                                     rendered="#{vat7DKView.pokazpelna and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta}"
+                                     update=":akordeon:form" style="margin-left: 3%; width: 120px;"/>
+                    <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":akordeon:form" style="margin-left: 3%; width: 120px;"/>
                 </h:form>
             </p:column>
             <p:column>

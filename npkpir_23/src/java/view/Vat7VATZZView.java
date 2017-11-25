@@ -4,18 +4,16 @@
  */
 package view;
 
-import deklaracjaVAT7_13.VATZT;
 import deklaracjaVAT7_13.VATZZ;
-import entity.DeklaracjaVatZT;
 import entity.DeklaracjaVatZZ;
 import entity.DeklaracjaVatZZPowod;
 import entity.Deklaracjevat;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import msg.Msg;
 
 /**
@@ -49,36 +47,40 @@ public class Vat7VATZZView extends Vat7DKView implements Serializable{
     private String informacja;
     private DeklaracjaVatZZPowod powod;
     
-    public void dodajzalacznikVATZZ() throws IOException{
-        String podatnik = wpisView.getPodatnikWpisu();
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
-        DeklaracjaVatZZ zal = temp.getSchemaobj().getDeklaracjaVatZZ();
-        Msg.msg("i","Wprowadzono tresc informacji "+informacja,"formX:msg");
-        String zalacznik;
-        String trescdeklaracji = temp.getDeklaracja();
-        //pozbywamy sie koncowki </ns:Deklaracja> ale szukamy wpierw czy isteje juz inny zalacznik
-        int lastIndexOf = trescdeklaracji.lastIndexOf("</Zalaczniki>");
-        if (lastIndexOf == -1) {
-            zalacznik = new VATZZ(zal,powod,kwota,informacja,0).getVatzz();
-            lastIndexOf = trescdeklaracji.lastIndexOf("<podp:DaneAutoryzujace");
-        } else {
-            zalacznik = new VATZZ(zal,powod,kwota,informacja,1).getVatzz();
+    public void dodajzalacznikVATZZ(List<Deklaracjevat> lista) throws IOException{
+        if (!lista.isEmpty()) {
+            Deklaracjevat temp = lista.get(0);
+            DeklaracjaVatZZ zal = temp.getSchemaobj().getDeklaracjaVatZZ();
+            Msg.msg("Wprowadzono tresc informacji "+informacja);
+            String zalacznik;
+            String trescdeklaracji = temp.getDeklaracja();
+            //pozbywamy sie koncowki </ns:Deklaracja> ale szukamy wpierw czy isteje juz inny zalacznik
+            int lastIndexOf = trescdeklaracji.lastIndexOf("</Zalaczniki>");
+            if (lastIndexOf == -1) {
+                zalacznik = new VATZZ(zal,powod,kwota,informacja,0).getVatzz();
+                lastIndexOf = trescdeklaracji.lastIndexOf("<podp:DaneAutoryzujace");
+                if (lastIndexOf==-1) {
+                    lastIndexOf = trescdeklaracji.lastIndexOf("</Deklaracja>");
+                }
+            } else {
+                zalacznik = new VATZZ(zal,powod,kwota,informacja,1).getVatzz();
+            }
+            String koncowka = trescdeklaracji.substring(lastIndexOf);
+            trescdeklaracji = trescdeklaracji.substring(0, lastIndexOf);
+            //zalaczamy zalacznik
+            trescdeklaracji = trescdeklaracji+zalacznik;
+            //dodajemy usuniete zakonczenie
+            trescdeklaracji = trescdeklaracji+koncowka;
+            temp.setDeklaracja(trescdeklaracji);
+            temp.setVatzz(informacja);
+            try{
+                deklaracjevatDAO.edit(temp);
+                Msg.msg("Sukces, załączono VAT-ZZ.");
+            } catch (Exception e) { 
+                E.e(e); 
+                Msg.msg("e","Wystapil błąd. Nie udało się załączyć VAT-ZZ.");
+            }
         }
-        String koncowka = trescdeklaracji.substring(lastIndexOf);
-        trescdeklaracji = trescdeklaracji.substring(0, lastIndexOf);
-        //zalaczamy zalacznik
-        trescdeklaracji = trescdeklaracji+zalacznik;
-        //dodajemy usuniete zakonczenie
-        trescdeklaracji = trescdeklaracji+koncowka;
-        temp.setDeklaracja(trescdeklaracji);
-        temp.setVatzz(informacja);
-        try{
-            deklaracjevatDAO.edit(temp);
-            Msg.msg("i","Sukces, załączono VAT-ZZ.","formX:msg");
-        } catch (Exception e) { E.e(e); 
-            Msg.msg("e","Wystapil błąd. Nie udało się załączyć VAT-ZZ.","formX:msg");
-        }
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml?faces-redirect=true");
     }
    
 

@@ -106,7 +106,8 @@ public class DeklaracjevatView implements Serializable {
                 int kwota180 = narachunek180dni.getDeklaracjaVatWierszSumaryczny().getSumavat();
                 DeklaracjaVatSchemaWierszSum sumasprzedazy = VATDeklaracja.pobierzschemawiersz(p.getSchemawierszsumarycznylista(),"Razem (suma przychodów)");
                 int vatkwota = sumasprzedazy.getDeklaracjaVatWierszSumaryczny().getSumavat();
-                if ((kwota60 > 0 || kwota180 > 0) && vatkwota == 0) {
+//                if ((kwota60 > 0 || kwota180 > 0) && vatkwota == 0) {
+                if ((kwota60 > 0 || kwota180 > 0)) {
                     pokazZZ = true;
                 }
                 if (kwota25 > 0 && p.getVatzt() == null) {
@@ -143,6 +144,23 @@ public class DeklaracjevatView implements Serializable {
             E.e(e);
         }
         Collections.sort(wyslanenormalne, new Vatcomparator());
+    }
+    
+    public void podpiszdeklaracje(List<Deklaracjevat> oczekujace) {
+        if (!oczekujace.isEmpty()) {
+            try {
+                Deklaracjevat biezaca = oczekujace.get(0);
+                FacesContext context = FacesContext.getCurrentInstance();
+                PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
+                Object[] deklaracje = podpisView.podpiszDeklaracje(biezaca.getDeklaracja());
+                biezaca.setDeklaracjapodpisana((byte[]) deklaracje[0]);
+                biezaca.setDeklaracja((String) deklaracje[1]);
+                deklaracjevatDAO.edit(biezaca);
+                Msg.msg("Udało się podpisać deklarację podpisem certyfikowanym");
+            } catch (Exception e) {
+                Msg.msg("e", "Nie udało się podpisać deklaracji");
+            }
+        }
     }
 
      public void edit(RowEditEvent ex) {

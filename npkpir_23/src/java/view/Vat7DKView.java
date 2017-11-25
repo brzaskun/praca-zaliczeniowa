@@ -43,7 +43,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -776,13 +775,16 @@ public class Vat7DKView implements Serializable {
         String wiersz = null;
         byte[] deklaracjapodpisana = null;
         try {
-            if (ObslugaPodpisuBean.moznaPodpisac() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+//            if (ObslugaPodpisuBean.moznaPodpisac() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+            if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
                 VAT713 vat713 = new VAT713(pozycje, schema, true);
-                FacesContext context = FacesContext.getCurrentInstance();
-                PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
-                Object[] deklaracje = podpisView.podpiszDeklaracje(vat713.getWiersz());
-                deklaracjapodpisana = (byte[]) deklaracje[0];
-                wiersz = (String) deklaracje[1];
+//                stary modul do podpisywania w momencie zapisu
+//                FacesContext context = FacesContext.getCurrentInstance();
+//                PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
+//                Object[] deklaracje = podpisView.podpiszDeklaracje(vat713.getWiersz());
+//                deklaracjapodpisana = (byte[]) deklaracje[0];
+//                wiersz = (String) deklaracje[1];
+                wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(true);
             } else {
                 VAT713 vat713 = new VAT713(pozycje, schema, false);
@@ -819,6 +821,8 @@ public class Vat7DKView implements Serializable {
         return nowadekl;
     }
     
+  
+    
     private boolean czypokazurproszczona() {
         boolean zwrot = true;
         if (wpisView.isKsiegirachunkowe()) {
@@ -832,7 +836,8 @@ public class Vat7DKView implements Serializable {
 
     private boolean czypokazpelna() {
         boolean zwrot = false;
-        if (wpisView.isKsiegirachunkowe() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany() && sprawdzczymozna()) {
+        if (wpisView.isKsiegirachunkowe()) {
+//        if (wpisView.isKsiegirachunkowe() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany() && sprawdzczymozna()) {
             zwrot = true;
         }
         return zwrot;
