@@ -1639,6 +1639,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public Dokfk findDokfofaTypeKontrahent(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
         return (Dokfk) em.createNamedQuery("Dokfk.findBySeriaNumerRokdokfk").setParameter("seriadokfk", vat).setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikWpisu).setParameter("mc", mc).getSingleResult();
     }
+    
+    public List<Dokfk> findDokfofaTypeKontrahentKilka(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
+        return em.createNamedQuery("Dokfk.findBySeriaNumerRokdokfk").setParameter("seriadokfk", vat).setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikWpisu).setParameter("mc", mc).getResultList();
+    }
 
     public List<Konto> findKontaWzorcowy(WpisView wpisView) {
         return em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", wpisView.getRokWpisu()).getResultList();

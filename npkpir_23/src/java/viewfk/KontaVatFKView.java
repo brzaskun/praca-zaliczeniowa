@@ -278,7 +278,7 @@ public class KontaVatFKView implements Serializable {
         }
     }
 
-    public void generowanieDokumentuVAT() {
+    public void generowanieDokumentuVAT(boolean zachowajstarynie0tak1) {
         double saldo2214 = 0.0;
         for (SaldoKonto p : kontavat) {
             if (p.getKonto().getPelnynumer().equals("221-4")) {
@@ -339,11 +339,17 @@ public class KontaVatFKView implements Serializable {
                 }
             }
         }
+        Dokfk dokumentvat = null;
         int nrkolejny = oblicznumerkolejny();
-        if (nrkolejny > 1) {
+        if (nrkolejny > 1 && !zachowajstarynie0tak1) {
             usundokumentztegosamegomiesiaca(nrkolejny);
+            dokumentvat = stworznowydokument(nrkolejny);
+        } else {
+            Dokfk popDokfk = dokDAOfk.findDokfofaTypeKilka(wpisView.getPodatnikObiekt(), "VAT", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            if (popDokfk != null) {
+                dokumentvat = stworznowydokumentdoksieguj(nrkolejny, popDokfk.getNumerwlasnydokfk().split("/")[0]);
+            }
         }
-        Dokfk dokumentvat = stworznowydokument(nrkolejny);
         try {
             dokDAOfk.dodaj(dokumentvat);
             Msg.msg("Zaksięgowano dokument VAT");
@@ -383,9 +389,11 @@ public class KontaVatFKView implements Serializable {
     }
 
     private void usundokumentztegosamegomiesiaca(int numerkolejny) {
-        Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), "VAT", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        List<Dokfk> popDokfk = dokDAOfk.findDokfofaTypeKilkaLista(wpisView.getPodatnikObiekt(), "VAT", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (popDokfk != null) {
-            dokDAOfk.destroy(popDokfk);
+            for (Dokfk dok : popDokfk) {
+                dokDAOfk.destroy(dok);
+            }
         }
     }
     
@@ -394,6 +402,20 @@ public class KontaVatFKView implements Serializable {
         ustawdaty(nd);
         ustawkontrahenta(nd);
         ustawnumerwlasny(nd);
+        nd.setOpisdokfk("przeksięgowanie VAT za: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
+        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+        ustawrodzajedok(nd);
+        ustawtabelenbp(nd);
+        ustawwiersze(nd);
+        nd.przeliczKwotyWierszaDoSumyDokumentu();
+        return nd;
+    }
+    
+    private Dokfk stworznowydokumentdoksieguj(int nrkolejny, String numerwlasny) {
+        Dokfk nd = new Dokfk(nrkolejny, wpisView.getRokWpisuSt());
+        ustawdaty(nd);
+        ustawkontrahenta(nd);
+        ustawnumerwlasny(nd, numerwlasny);
         nd.setOpisdokfk("przeksięgowanie VAT za: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawrodzajedok(nd);
@@ -426,6 +448,12 @@ public class KontaVatFKView implements Serializable {
 
     private void ustawnumerwlasny(Dokfk nd) {
         String numer = "1/"+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt()+"/VAT";
+        nd.setNumerwlasnydokfk(numer);
+    }
+    
+    private void ustawnumerwlasny(Dokfk nd, String numerwlasny) {
+        int nowynumer = Integer.parseInt(numerwlasny)+1;
+        String numer = nowynumer+"/"+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt()+"/VAT";
         nd.setNumerwlasnydokfk(numer);
     }
 

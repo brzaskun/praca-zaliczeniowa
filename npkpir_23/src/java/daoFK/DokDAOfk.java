@@ -219,6 +219,35 @@ public class DokDAOfk extends DAO implements Serializable {
            return null;
        }
     }
+    
+    public List<Dokfk> findDokfofaTypeKilkaLista(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
+        try {
+           List<Dokfk> lista = dokFacade.findDokfofaTypeKontrahentKilka(podatnikWpisu,vat, rokWpisuSt, mc);
+           return lista;
+           } catch (Exception e ){
+           return null;
+       }
+    }
+    
+    public Dokfk findDokfofaTypeKilka(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
+        try {
+           List<Dokfk> lista = dokFacade.findDokfofaTypeKontrahentKilka(podatnikWpisu,vat, rokWpisuSt, mc);
+           Dokfk d = null;
+           int max = 0;
+           if (lista != null && lista.size() > 0) {
+               for (Dokfk l: lista) {
+                   int nr = Integer.parseInt(l.getNumerwlasnydokfk().split("/")[0]);
+                   if (nr > max) {
+                       max = nr;
+                       d = l;
+                   }
+               }
+           }
+           return d;
+       } catch (Exception e ){
+           return null;
+       }
+    }
 
     public Dokfk findDokfkObjUsun(Dokfk dousuniecia) {
         try {

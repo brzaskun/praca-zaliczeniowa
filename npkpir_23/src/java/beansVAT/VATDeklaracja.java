@@ -74,9 +74,9 @@ public class VATDeklaracja implements Serializable {
         for (EwidPoz s : pozycje) {
             if (s.odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
                 for (EwidPoz st : pozycje) {
-                    if (st.equals(s.odnalezionyWierszSchemaEwidencjaMacierzysty)) {
-                        st.setNetto(s.getNetto()+s.getNetto());
-                        st.setVat(s.getVat()+s.getVat());
+                    if (st.odnalezionyWierszSchemaEwidencja.equals(s.odnalezionyWierszSchemaEwidencjaMacierzysty)) {
+                        st.setNetto(st.getNetto()+s.getNetto());
+                        st.setVat(st.getVat()+s.getVat());
                     }
                 }
             }

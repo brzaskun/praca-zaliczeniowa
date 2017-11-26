@@ -88,6 +88,12 @@ public class EwidPoz {
     public void setTylkonetto(boolean tylkonetto) {
         this.tylkonetto = tylkonetto;
     }
+
+    @Override
+    public String toString() {
+        return "EwidPoz{" + "polenetto=" + polenetto + ", polevat=" + polevat + ", odnalezionyWierszSchemaEwidencja=" + odnalezionyWierszSchemaEwidencja.getEvewidencja().getNazwa() + ", odnalezionyWierszSchemaEwidencjaMacierzysty=" + odnalezionyWierszSchemaEwidencjaMacierzysty.getEvewidencja().getNazwa() + ", netto=" + netto + ", vat=" + vat + ", tylkonetto=" + tylkonetto + '}';
+    }
+    
     
     
     
