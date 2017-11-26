@@ -342,7 +342,8 @@ public class KontaVatFKView implements Serializable {
         Dokfk dokumentvat = null;
         int nrkolejny = oblicznumerkolejny();
         if (nrkolejny > 1 && !zachowajstarynie0tak1) {
-            usundokumentztegosamegomiesiaca(nrkolejny);
+            usundokumentztegosamegomiesiaca();
+            nrkolejny = oblicznumerkolejny();
             dokumentvat = stworznowydokument(nrkolejny);
         } else {
             Dokfk popDokfk = dokDAOfk.findDokfofaTypeKilka(wpisView.getPodatnikObiekt(), "VAT", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
@@ -388,7 +389,7 @@ public class KontaVatFKView implements Serializable {
         return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii()+1;
     }
 
-    private void usundokumentztegosamegomiesiaca(int numerkolejny) {
+    private void usundokumentztegosamegomiesiaca() {
         List<Dokfk> popDokfk = dokDAOfk.findDokfofaTypeKilkaLista(wpisView.getPodatnikObiekt(), "VAT", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (popDokfk != null) {
             for (Dokfk dok : popDokfk) {
