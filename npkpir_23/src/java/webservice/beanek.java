@@ -328,16 +328,15 @@ public class beanek  implements Serializable {
         deklaracjevatDAO.edit(temp);
     }
 
-    public void pobierzwyslane(String identyfikator) {
+    public void pobierzwyslane(Deklaracjevat sprawdzanadeklaracja) {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         try {
-            requestUPO(identyfikator, lang, upo, stat, opis);
+            requestUPO(sprawdzanadeklaracja.getIdentyfikator(), lang, upo, stat, opis);
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
-        Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator, wpisView);
         List<String> komunikat = null;
         if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ");
@@ -414,7 +413,7 @@ public class beanek  implements Serializable {
         statMBT = stat.value + " "+opis.value;
         opisMBT = komunikat.get(1);
         sprawdzanadeklaracja.setUpo(upoMBT);
-        sprawdzanadeklaracja.setStatus(statMBT.toString());
+        sprawdzanadeklaracja.setStatus(String.valueOf(stat.value));
         sprawdzanadeklaracja.setOpis(opisMBT);
         sprawdzanadeklaracja.setDataupo(new Date());
         deklaracjavat27DAO.edit(sprawdzanadeklaracja);
@@ -605,7 +604,7 @@ public class beanek  implements Serializable {
         statMBT = stat.value+ " ";
         opisMBT = komunikat.get(1);
         temp.setUpo(upoMBT);
-        temp.setStatus(statMBT.toString());
+        temp.setStatus(String.valueOf(stat.value));
         temp.setOpis(opisMBT);
         temp.setDataupo(new Date());
         deklaracjevatDAO.edit(temp);
@@ -636,7 +635,7 @@ public class beanek  implements Serializable {
         statMBT = stat.value + " "+opis.value;
         opisMBT = komunikat.get(1);
         sprawdzanadeklaracja.setUpo(upoMBT);
-        sprawdzanadeklaracja.setStatus(statMBT.toString());
+        sprawdzanadeklaracja.setStatus(String.valueOf(stat.value));
         sprawdzanadeklaracja.setOpis(opisMBT);
         deklaracjevatDAO.edit(sprawdzanadeklaracja);
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
@@ -664,7 +663,7 @@ public class beanek  implements Serializable {
         statMBT = stat.value + " "+opis.value;
         opisMBT = komunikat.get(1);
         sprawdzanadeklaracja.setUpo(upoMBT);
-        sprawdzanadeklaracja.setStatus(statMBT.toString());
+        sprawdzanadeklaracja.setStatus(String.valueOf(stat.value));
         sprawdzanadeklaracja.setOpis(opisMBT);
         sprawdzanadeklaracja.setDataupo(new Date());
         deklaracjavatUEDAO.edit(sprawdzanadeklaracja);
@@ -692,7 +691,7 @@ public class beanek  implements Serializable {
         statMBT = stat.value + " "+opis.value;
         opisMBT = komunikat.get(1);
         sprawdzanadeklaracja.setUpo(upoMBT);
-        sprawdzanadeklaracja.setStatus(statMBT.toString());
+        sprawdzanadeklaracja.setStatus(stat.value.toString());
         sprawdzanadeklaracja.setOpis(opisMBT);
         sprawdzanadeklaracja.setDataupo(new Date());
         deklaracjavat27DAO.edit(sprawdzanadeklaracja);

@@ -92,6 +92,14 @@ public class DeklSuper implements Serializable {
         return "DeklSuper{" + "identyfikator=" + identyfikator + ", miesiac=" + miesiac + ", rok=" + rok + ", podatnik=" + podatnik + ", status=" + status + '}';
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     
     
     

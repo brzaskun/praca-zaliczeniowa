@@ -128,7 +128,12 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         }
         return wynik;
     }
-
+ 
+    public List<Deklaracjevat> findDeklaracjewysylka(WpisView wpisView) {
+         return deklaracjevatFacade.findDeklaracjewysylka(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+    }
+    
+    
     public List<String> findDeklaracjeBezupo(String rok, String mc, WpisView wpisView) {
          List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
          List<String> wynik = new ArrayList<>();

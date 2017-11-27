@@ -2079,5 +2079,13 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         em.flush();
     }
 
+    public List<DeklaracjavatUE> findDeklaracjeUEwysylka(String rokWpisuSt, String miesiacWpisu) {
+        return em.createNamedQuery("DeklaracjavatUE.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("miesiac", miesiacWpisu).getResultList();
+    }
+
+    public List<Deklaracjavat27> findDeklaracje27wysylka(String rokWpisuSt, String miesiacWpisu) {
+        return em.createNamedQuery("Deklaracjavat27.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("miesiac", miesiacWpisu).getResultList();
+    }
+
     
 }

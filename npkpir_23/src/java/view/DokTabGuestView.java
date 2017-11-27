@@ -34,6 +34,7 @@ import pdf.PdfPK;
 @ManagedBean(name = "DokTabGuestView")
 @ViewScoped
 public class DokTabGuestView implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<Dok> selected;
     private List<Dok> pobranedokumenty;
     private List<Dok> pobranedokumentyFiltered;

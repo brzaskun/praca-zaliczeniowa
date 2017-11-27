@@ -64,6 +64,8 @@ public class DeklaracjavatUEDAO extends DAO implements Serializable{
         sessionFacade.usundeklaracjeUE(wpisView);
     }
     
-    
+    public List<DeklaracjavatUE> findDeklaracjewysylka(WpisView wpisView) {
+         return sessionFacade.findDeklaracjeUEwysylka(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+    }
     
 }

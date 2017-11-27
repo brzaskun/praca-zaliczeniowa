@@ -137,16 +137,16 @@ public class AdminMailView implements Serializable {
 
     public void wyslijAdminMail() {
         for (Klienci p : klientList) {
-        try {
-            if (p.getEmail() != null) {
-                MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
-            } else {
-                Msg.msg("w", "Brak maila dla " + p.getNpelna());
+            try {
+                if (p.getEmail() != null) {
+                    MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
+                } else {
+                    Msg.msg("w", "Brak maila dla " + p.getNpelna());
+                }
+                Msg.msg("i", "Wyslano wiadomości");
+            } catch (Exception e) {
+                Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
             }
-            Msg.msg("i", "Wyslano wiadomości");
-        } catch (Exception e) {
-            Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
-        }
         }
         zachowajmail();
     }
@@ -154,11 +154,11 @@ public class AdminMailView implements Serializable {
     public void wyslijAdminMailTest() {
         try {
             MailAdmin.mailAdmin("info@taxman.biz.pl", tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
+            Msg.msg("i", "Wyslano wiadomości testowa na adres info@taxman.biz.pl");
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
         }
-        zachowajmail();
-        Msg.msg("i", "Wyslano wiadomości testowa na adres info@taxman.biz.pl");
+        
     }
     
     
@@ -168,7 +168,9 @@ public class AdminMailView implements Serializable {
             adminmail.setDatawysylki(new Date());
             adminmail.setTytul(tematwiadomosci);
             adminmail.setTresc(zawartoscmaila);
-            adminmail.setPlik(IOUtils.toByteArray(zalacznik));
+            if (zalacznik != null) {
+                adminmail.setPlik(IOUtils.toByteArray(zalacznik));
+            }
             adminmail.setNazwazalacznika(nazwazalacznik);
             List<String> email = new ArrayList<>();
             List<String> nazwy = new ArrayList<>();

@@ -518,6 +518,10 @@
             <to-view-id>/ksiegowaFK/ksiegowaFKFirma_2.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>ksiegowaFKVATniewyslane</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKVATniewyslane.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>rejestryFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKRejestry.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

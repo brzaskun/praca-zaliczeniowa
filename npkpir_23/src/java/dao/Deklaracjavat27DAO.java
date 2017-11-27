@@ -64,6 +64,10 @@ public class Deklaracjavat27DAO extends DAO implements Serializable{
     public void usundeklaracje27(WpisView wpisView) {
         sessionFacade.usundeklaracje27(wpisView);
     }
+
+    public List<Deklaracjavat27> findDeklaracjewysylka(WpisView wpisView) {
+         return sessionFacade.findDeklaracje27wysylka(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+    }
     
     
     

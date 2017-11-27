@@ -57,6 +57,7 @@ import pdf.PdfPK;
 @ManagedBean(name = "DokTabView")
 @ViewScoped
 public class DokTabView implements Serializable {
+    private static final long serialVersionUID = 1L;
     //wybranedokumentyDoDruku
     private List<Dok> gosciuwybral;
     //wybranedokumenty do usuniecia

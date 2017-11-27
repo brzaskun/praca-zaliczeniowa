@@ -53,7 +53,7 @@
             </p:column>
             <p:column id="previewColumn" headerText="operacje" width="110" style="text-align: center;">
                 <p:panelGrid columns="1">
-                    <p:commandButton value="upo" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update="formwyslane:akordeon"  style="width: 80px;"
+                    <p:commandButton value="upo" actionListener="#{beanek.pobierzwyslane(item)}" update="formwyslane:akordeon"  style="width: 80px;"
                                  rendered="#{item.status eq '300' ? false : true}"/>
                 <p:commandButton value="re-wysyłka" actionListener="#{beanek.przerzucdowysylki(item.identyfikator)}" update="formwyslane:akordeon"  style="width: 80px;"
                                  rendered="#{item.status eq '300' ? true : false}" />

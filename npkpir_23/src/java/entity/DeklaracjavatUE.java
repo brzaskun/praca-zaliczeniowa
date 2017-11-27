@@ -27,6 +27,7 @@ import javax.persistence.UniqueConstraint;
 })
 @NamedQueries({
     @NamedQuery(name = "DeklaracjavatUE.findAll", query = "SELECT d FROM DeklaracjavatUE d"),
+    @NamedQuery(name = "DeklaracjavatUE.findByRokMc", query = "SELECT d FROM DeklaracjavatUE d WHERE d.rok =:rok AND d.miesiac= :miesiac"),
     @NamedQuery(name = "DeklaracjavatUE.findByPodatnikRok", query = "SELECT d FROM DeklaracjavatUE d WHERE d.podatnik = :podatnik AND d.rok =:rok"),
     @NamedQuery(name = "DeklaracjavatUE.findByPodatnikRokMc", query = "SELECT d FROM DeklaracjavatUE d WHERE d.podatnik = :podatnik AND d.rok =:rok AND d.miesiac= :miesiac"),
     @NamedQuery(name = "DeklaracjavatUE.findByPodatnikRokMcOstatnia", query = "SELECT d  FROM DeklaracjavatUE d WHERE d.podatnik = :podatnik AND d.rok =:rok AND d.miesiac= :miesiac"),
