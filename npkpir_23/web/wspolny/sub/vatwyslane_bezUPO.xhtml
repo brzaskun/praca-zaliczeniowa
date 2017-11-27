@@ -33,6 +33,7 @@
                         <h:outputText value="pierw./kor."/><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}" style="font-weight: 900;"/>
                         <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
                         <h:outputText value="status"/><h:outputText value="#{item.status}"/>
+                        <h:outputText value="id dekl"/><h:outputText value="#{item.identyfikator}"/>
                     </h:panelGrid>
                 </p:dataGrid>
                 <p:dataGrid columns="1" value="#{item}" var="item2">

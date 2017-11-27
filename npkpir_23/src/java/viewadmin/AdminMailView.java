@@ -185,6 +185,7 @@ public class AdminMailView implements Serializable {
             RequestContext.getCurrentInstance().update("akordeon:formmaile:wyslenemaile");
             Msg.msg("i", "Zachowano maila");
         } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Blad nie zachowano maila! " + e.toString());
         }
     }

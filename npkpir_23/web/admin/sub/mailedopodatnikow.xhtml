@@ -14,7 +14,8 @@
                 <p:panelGrid columns="2">
                     <p:column>
                         <p:growl life="3600"  id="messages" autoUpdate="true"/>
-                       <p:editor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" width="1200" height="600"/>
+                       <p:editor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" width="1200" height="600">
+                       </p:editor>
                        <p:commandButton value="Save" actionListener="#{adminMailView.zachowajMaila}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"  update=":akordeon:wysylanie"/>
                        <p:commandButton value="Reset" type="button" onclick="PF('editorWidget').clear();" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-close"  update=":akordeon:wysylanie"/>
                     </p:column>
@@ -74,8 +75,8 @@
             <h:form id="wysylanie">
                 <p:panelGrid columns="1">
                      <p:column>
-                        <h:outputLabel value="wprowadz temat wiadomości: " for=":akordeon:wprowadzonymail"/>
-                        <h:inputText value="#{adminMailView.tematwiadomosci}" label="temat wiadomości" style="width: 500px;"/>
+                        <h:outputLabel value="wprowadz temat wiadomości: " for="akordeon:wysylanie:tytul"/>
+                        <h:inputText value="#{adminMailView.tematwiadomosci}" label="temat wiadomości" style="width: 500px;" id="tytul"/>
                     </p:column>
                     <p:column>
                         <p:commandButton value="wyslij" actionListener="#{adminMailView.wyslijAdminMail()}" label="temat wiadomości" style="width: 300px;" update=":akordeon:formmaile:wyslenemaile"/>

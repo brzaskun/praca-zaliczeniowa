@@ -95,8 +95,9 @@
                             <f:convertDateTime type="date" parent="dd/MM/yy"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="korekta" style="text-align: center;" width="50">
-                        <h:outputText value="#{row.nrkolejny eq 0 ? '': 'tak'}" />
+                   <p:column headerText="korekta / testowa" style="text-align: center;" width="50">
+                        <h:outputText value="#{row.nrkolejny eq 0 ? '': 'korekta'}" />
+                        <h:outputText value=" testowa" rendered="#{row.testowa}"/>
                     </p:column>
                     <p:column headerText="nr" style="text-align: center;" width="40">
                         <h:outputText value="#{row.nrkolejny}" />
@@ -115,12 +116,12 @@
                         <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
-                        <p:commandButton value="wysyłka" actionListener="#{beanek.robtest27(row)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.rob27(row)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
                       
                     </p:column>
                     <p:column style="text-align: center;" width="85">
                           <p:commandButton value="usuń" actionListener="#{vat27View.usundekl(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator eq null}"/>
-                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslanetest27(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator ne null}"/>
+                          <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslane27(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator ne null}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
                         <p:commandButton value="drukuj" actionListener="#{vat27View.drukuj(row)}" update="@form" style="width: 80px;"/>

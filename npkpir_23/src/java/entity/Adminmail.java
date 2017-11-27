@@ -59,6 +59,7 @@ public class Adminmail implements Serializable {
     @Column(length = 255)
     private String tytul;
     @Lob
+    @Column(nullable = true )
     private byte[] plik;
     @Column(name = "nazwazalacznika")
     private String nazwazalacznika;

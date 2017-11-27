@@ -66,7 +66,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjeByPodatnik(wpisView.getPodatnikWpisu());
         Deklaracjevat wynik = new Deklaracjevat();
         for(Deklaracjevat p :temp){
-            if(p.getIdentyfikator().equals(identyfikator)){
+            if(p.getIdentyfikator() != null && p.getIdentyfikator().equals(identyfikator)){
                 wynik = p;
                 break;
             }
