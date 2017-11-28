@@ -164,7 +164,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                      </p:contextMenu>
                     <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" 
                                  emptyMessage="Nie ma rozrachunków na koncie" sortBy="#{loop.id}" selection="#{rozrachunkiPrzegladView.stronyWierszawybrane}"
-                                 rowIndexVar="rowindex"  style="width: 1050px;" expandedRow="true" rowSelectMode="add"
+                                 rowIndexVar="rowindex"  style="width: 1050px;"  rowSelectMode="add"
                                   styleClass="walkingtable"
                                  >
                         <p:ajax event="rowSelectCheckbox" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
@@ -190,7 +190,8 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                         <p:column headerText="dok." width="50" >
                             <h:outputText value="#{loop.wiersz.dokfkS}"/>
                         </p:column>
-                        <p:column headerText="nr własny dok" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="90">
+                        <p:column headerText="nr własny dok" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" filterBy="#{loop.wiersz.dokfk.numerwlasnydokfk}"
+                                  filterMatchMode="contains" width="90">
                             <h:outputText value="#{loop.wiersz.dokfk.numerwlasnydokfk}"/>
                         </p:column>
                         <p:column headerText="#{mgs.opis}" width="210" sortBy="#{loop.opisSW}">
