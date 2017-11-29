@@ -150,8 +150,14 @@ private static final long serialVersionUID = 1L;
     
         
     private void zachowajsumy() {
-        Sumypkpir sumyzachowac = KsiegaBean.zachowajsumypkpir(wpisView, podsumowanie);
-        sumypkpirDAO.edit(sumyzachowac);
+        Sumypkpir sumyzachowac = new Sumypkpir();
+        try {
+            sumyzachowac = KsiegaBean.zachowajsumypkpir(wpisView, podsumowanie);
+            sumypkpirDAO.usun(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            sumypkpirDAO.dodaj(sumyzachowac);
+        } catch (Exception e) {
+            sumypkpirDAO.dodaj(sumyzachowac);
+        }
     }
 
     private void podsumowaniepopmc() {

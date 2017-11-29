@@ -41,4 +41,8 @@ public class SumypkpirDAO extends DAO implements Serializable {
             return null;
         }
    }
+   
+   public void usun(String podatnik, String rok, String mc) {
+       sumypkpirFacade.usunSumyPKPiR(podatnik, rok, mc);
+   }
 }

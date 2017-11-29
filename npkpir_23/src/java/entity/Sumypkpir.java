@@ -29,7 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Sumypkpir.findByPodatnik", query = "SELECT s FROM Sumypkpir s WHERE s.sumypkpirPK.podatnik = :podatnik"),
     @NamedQuery(name = "Sumypkpir.findByRok", query = "SELECT s FROM Sumypkpir s WHERE s.sumypkpirPK.rok = :rok"),
     @NamedQuery(name = "Sumypkpir.findByMc", query = "SELECT s FROM Sumypkpir s WHERE s.sumypkpirPK.mc = :mc"),
-    @NamedQuery(name = "Sumypkpir.findByPodatnikRok", query = "SELECT s FROM Sumypkpir s WHERE s.sumypkpirPK.podatnik = :podatnik AND s.sumypkpirPK.rok = :rok")})
+    @NamedQuery(name = "Sumypkpir.findByPodatnikRok", query = "SELECT s FROM Sumypkpir s WHERE s.sumypkpirPK.podatnik = :podatnik AND s.sumypkpirPK.rok = :rok"),
+    @NamedQuery(name = "Sumypkpir.deleteByPodatnikRokMc", query = "DELETE FROM Sumypkpir s WHERE s.sumypkpirPK.podatnik = :podatnik AND s.sumypkpirPK.rok = :rok AND s.sumypkpirPK.mc = :mc")
+})
 public class Sumypkpir implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId

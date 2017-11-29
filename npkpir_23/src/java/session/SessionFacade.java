@@ -2087,5 +2087,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("Deklaracjavat27.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("miesiac", miesiacWpisu).getResultList();
     }
 
+    public void usunSumyPKPiR(String podatnik, String rok, String mc) {
+        em.createNamedQuery("Sumypkpir.deleteByPodatnikRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
+    }
+
     
 }

@@ -43,8 +43,8 @@ public class MailAdmin implements Serializable {
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
             Multipart mp = new MimeMultipart();
             mp.addBodyPart(mbp1);
-            message.setContent(mp);
             dolaczplik(zalacznik, mp, nazwapliku);
+            message.setContent(mp);
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
