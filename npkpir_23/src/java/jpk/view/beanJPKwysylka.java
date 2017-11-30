@@ -82,7 +82,7 @@ public class beanJPKwysylka {
             Object[] in = autoryzacja(plikxml, URL_STEP1);
             int responseCode = (int) in[1];
             if (responseCode == 200) {
-                System.out.println("Kod 200 udany przesyl");
+                System.out.println("Kod 200 udany etap1");
             }
             JSONTokener js = new JSONTokener((Reader) in[0]);
             JSONObject jo = new JSONObject(js);
@@ -99,7 +99,7 @@ public class beanJPKwysylka {
             jo = new JSONObject(js);
             responseCode = (int) in1[1];
             if (responseCode == 200) {
-                System.out.println("Kod 200 udany przesyl");
+                System.out.println("Kod 200 udany etap2");
             } else {
                 String message = jo.getString("Message");
                 String errors = ((JSONArray) jo.get("Errors")).getString(0);
@@ -109,7 +109,7 @@ public class beanJPKwysylka {
             Object[] ink = upo(URL_STEP3, referenceNumber);
             responseCode = (int) ink[1];
             if (responseCode == 200) {
-                System.out.println("Kod 200 udany przesyl");
+                System.out.println("Kod 200 udany etap 3");
             }
             js = new JSONTokener((Reader) ink[0]);
             jo = new JSONObject(js);
