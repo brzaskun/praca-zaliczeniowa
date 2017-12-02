@@ -22,11 +22,11 @@ import java.security.PermissionCollection;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +36,6 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -53,10 +52,14 @@ public class Wysylka {
      public static void zipfile(String filename) {
         byte[] buffer = new byte[1024];
         try {
-            FileOutputStream fos = new FileOutputStream("james.xml.zip");
+            FileOutputStream fos = new FileOutputStream("james2.xml.zip");
             ZipOutputStream zos = new ZipOutputStream(fos);
             ZipEntry ze = new ZipEntry(filename);
             zos.putNextEntry(ze);
+            //deflated
+            zos.setMethod(8);
+            //best compresion
+            zos.setLevel(9);
             FileInputStream in = new FileInputStream(filename);
             int len;
             while ((len = in.read(buffer)) > 0) {
@@ -73,6 +76,7 @@ public class Wysylka {
     }
 
     public static String encryptAES(String filename) throws Exception {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         int iterations = 65536;
         int keySize = 256;
         removeCryptographyRestrictions();
@@ -83,7 +87,7 @@ public class Wysylka {
         SecretKey secretKey = skf.generateSecret(spec);
         saveprivatekey(secretKey);
         SecretKeySpec secretSpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secretSpec);
         AlgorithmParameters params = cipher.getParameters();
         byte[] ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
@@ -94,8 +98,9 @@ public class Wysylka {
 
     private static void saveprivatekey(SecretKey secretKey) throws Exception {
         PublicKey pk = readPublicKey("pubkey.pem");
-        Cipher pkCipher = Cipher.getInstance("RSA");
+        Cipher pkCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         pkCipher.init(Cipher.ENCRYPT_MODE, pk);
+        System.out.println("blok pk "+pkCipher.getBlockSize());
         String file = "privatekey.key";
         CipherOutputStream os = new CipherOutputStream(new FileOutputStream(file), pkCipher);
         os.write(secretKey.getEncoded());
@@ -179,92 +184,106 @@ public class Wysylka {
     
 
 
-    public static void main(String[] args) {
-        try {
-            removeCryptographyRestrictions();
-            byte[] input = "Wiadomosc do zakodowania!".getBytes();
-            KeyGenerator kGen = KeyGenerator.getInstance("AES");
-            kGen.init(256);
-            SecretKey sKey = kGen.generateKey();
-            byte[] rawKey = sKey.getEncoded();
-            SecretKeySpec sKeySpec = new SecretKeySpec(rawKey, "AES");
-            // algorytm AES, tryb ECB, dope??nianie w PCKS#5
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-            cipher.init(Cipher.ENCRYPT_MODE, sKeySpec);
-            byte[] encrypted = cipher.doFinal(input);
-            cipher.init(Cipher.DECRYPT_MODE, sKeySpec);
-            byte[] decrypted = cipher.doFinal(encrypted);
-            print(input);
-            print(encrypted);
-            print(decrypted);
-//  	System.out.println(MessageDigest.isEqual(input, decrypted));
-            System.out.println(Arrays.equals(input, decrypted));
-        } catch (Exception e) {
-            System.out.println("Error "+e.getMessage());
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            removeCryptographyRestrictions();
+//            byte[] input = "Wiadomosc do zakodowania!".getBytes();
+//            KeyGenerator kGen = KeyGenerator.getInstance("AES");
+//            kGen.init(256);
+//            SecretKey sKey = kGen.generateKey();
+//            byte[] rawKey = sKey.getEncoded();
+//            SecretKeySpec sKeySpec = new SecretKeySpec(rawKey, "AES");
+//            // algorytm AES, tryb ECB, dope??nianie w PCKS#5
+//            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+//            cipher.init(Cipher.ENCRYPT_MODE, sKeySpec);
+//            byte[] encrypted = cipher.doFinal(input);
+//            cipher.init(Cipher.DECRYPT_MODE, sKeySpec);
+//            byte[] decrypted = cipher.doFinal(encrypted);
+//            print(input);
+//            print(encrypted);
+//            print(decrypted);
+////  	System.out.println(MessageDigest.isEqual(input, decrypted));
+//            System.out.println(Arrays.equals(input, decrypted));
+//        } catch (Exception e) {
+//            System.out.println("Error "+e.getMessage());
+//        }
+//    }
     public static void print(byte[] b){
         System.out.println(new String(b));
         System.out.println("Length: " + b.length * 8);
         System.out.println("---------------");
     }
-//    private static String salt;
-//    private static int iterations = 65536  ;
-//    private static int keySize = 256;
-//    private static byte[] ivBytes;
-//
-//    private static SecretKey secretKey;
-//
-//    public static void main(String []args) throws Exception  {
-//            salt = getSalt();
-//            removeCryptographyRestrictions();
-//            char[] message = "PasswordToEncrypt".toCharArray();
-//            System.out.println("Message: " + String.valueOf(message));
-//            System.out.println("Encrypted: " + encryptAES(message));
-//            System.out.println("Decrypted: " + decrypt(encryptAES(message).toCharArray()));
-//    }
-//
-//    public static String encryptAES(char[] plaintext) throws Exception {
-//        byte[] saltBytes = salt.getBytes();
-//
-//        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-//        PBEKeySpec spec = new PBEKeySpec(plaintext, saltBytes, iterations, keySize);
-//        secretKey = skf.generateSecret(spec);
-//        SecretKeySpec secretSpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
-//
-//        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-//        cipher.init(Cipher.ENCRYPT_MODE, secretSpec);
-//        AlgorithmParameters params = cipher.getParameters();
-//        ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
-//        byte[] encryptedTextBytes = cipher.doFinal(String.valueOf(plaintext).getBytes("UTF-8"));
-//
-//        return DatatypeConverter.printBase64Binary(encryptedTextBytes);
-//    }
-//
-//    public static String decrypt(char[] encryptedText) throws Exception {
-//
-//        System.out.println(encryptedText);
-//
-//        byte[] encryptedTextBytes = DatatypeConverter.parseBase64Binary(new String(encryptedText));
-//        SecretKeySpec secretSpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
-//
-//        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-//        cipher.init(Cipher.DECRYPT_MODE, secretSpec, new IvParameterSpec(ivBytes));
-//
-//        byte[] decryptedTextBytes = null;
-//
-//        try {
-//            decryptedTextBytes = cipher.doFinal(encryptedTextBytes);
-//        }   catch (IllegalBlockSizeException e) {
-//            e.printStackTrace();
-//        }   catch (BadPaddingException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return new String(decryptedTextBytes);
-//
-//    }
-//
+    private static String salt;
+    private static int iterations = 65536  ;
+    private static int keySize = 256;
+    private static byte[] ivBytes;
+
+    private static SecretKey secretKey;
+
+    public static void main(String []args) throws Exception  {
+            salt = getSalt();
+            removeCryptographyRestrictions();
+            char[] message = "PasswordToEncrypt".toCharArray();
+            System.out.println("Message: " + String.valueOf(message));
+            System.out.println("Encrypted: " + encryptAES(message));
+            System.out.println("Decrypted: " + decrypt(encryptAES(message).toCharArray()));
+    }
+
+    public static String encryptAES(char[] plaintext) throws Exception {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        byte[] saltBytes = salt.getBytes();
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        PBEKeySpec spec = new PBEKeySpec(plaintext, saltBytes, iterations, keySize);
+        secretKey = skf.generateSecret(spec);
+        SecretKeySpec secretSpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
+
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, secretSpec);
+        AlgorithmParameters params = cipher.getParameters();
+        ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
+        System.out.println("iv "+ivBytes+" size "+ivBytes.length);
+        System.out.println("blok  "+cipher.getBlockSize());
+        byte[] encryptedTextBytes = cipher.doFinal(String.valueOf(plaintext).getBytes("UTF-8"));
+
+        return DatatypeConverter.printBase64Binary(encryptedTextBytes);
+    }
+    
+    public static byte[] wrapKey(PublicKey pubKey, SecretKey symKey) throws InvalidKeyException, IllegalBlockSizeException {
+        try {
+            final Cipher cipher = Cipher
+                    .getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
+            cipher.init(Cipher.WRAP_MODE, pubKey);
+            final byte[] wrapped = cipher.wrap(symKey);
+            return wrapped;
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            throw new IllegalStateException("Java runtime does not support RSA/ECB/OAEPWithSHA1AndMGF1Padding",e);
+        }
+    }
+
+    public static String decrypt(char[] encryptedText) throws Exception {
+
+        System.out.println(encryptedText);
+
+        byte[] encryptedTextBytes = DatatypeConverter.parseBase64Binary(new String(encryptedText));
+        SecretKeySpec secretSpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
+
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, secretSpec, new IvParameterSpec(ivBytes));
+
+        byte[] decryptedTextBytes = null;
+
+        try {
+            decryptedTextBytes = cipher.doFinal(encryptedTextBytes);
+        }   catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        }   catch (BadPaddingException e) {
+            e.printStackTrace();
+        }
+
+        return new String(decryptedTextBytes);
+
+    }
+
     private static String getSalt() throws Exception {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[20];

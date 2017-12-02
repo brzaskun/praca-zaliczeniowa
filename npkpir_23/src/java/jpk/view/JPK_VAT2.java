@@ -12,7 +12,6 @@ import entityfk.EVatwpisFK;
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,8 +25,8 @@ import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import jpk201701.JPK;
 import static jpk.view.JPK_VAT2_Bean.*;
+import jpk201701.JPK;
 import msg.Msg;
 import view.EwidencjaVatView;
 import view.WpisView;
@@ -135,13 +134,14 @@ public class JPK_VAT2 implements Serializable {
             Wysylka.zipfile("james2.xml");
             Wysylka.encryptAES("james2.xml.zip");
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            JPK person2 = (JPK) unmarshaller.unmarshal(new File("james.xml"));
-            //System.out.println(person2);
+            JPK person2 = (JPK) unmarshaller.unmarshal(new File("james2.xml"));
+            System.out.println(person2);
 //            System.out.println(person2.getNazwisko());
 //            System.out.println(person2.getAdres());
 
 //          marshaller.marshal(person, new FileWriter("edyta.xml"));
 //          marshaller.marshal(person, System.out);
+            System.out.println("Zakonczono generowanie plikow");
         } catch (Exception ex) {
             E.e(ex);
         }
