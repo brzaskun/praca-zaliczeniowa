@@ -102,7 +102,7 @@ public class PdfKontaNarastajaco {
             }
             table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
             table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
-            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie obrotów sald analitycznych narastająco", 21, 0, 5));
+            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie obrotów sald analitycznych narastająco", 21, 0, 8));
             table.setHeaderRows(3);
             table.setFooterRows(1);
         int i = 1;
@@ -112,6 +112,7 @@ public class PdfKontaNarastajaco {
             } else if (Z.z(rs.getSaldoWn()) != 0.0 || Z.z(rs.getSaldoMa()) != 0.0) {
                 tabelawiersze(table, rs, ppr0dpr1, drukujkategorie, granica, i);
             }
+            i++;
         }
         } catch (IOException ex) {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
@@ -120,11 +121,11 @@ public class PdfKontaNarastajaco {
     }
     
     private static void tabelawiersze(PdfPTable table, SaldoKontoNarastajaco rs, boolean ppr0dpr1, boolean drukujkategorie,int granica, int i) {
-        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 28f));
-        table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 8));
-        table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
-        table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 8));
-        table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 8));
+        table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 9, 28f));
+        table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 9));
+        table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 9));
+        table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 9));
+        table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 9));
         if (ppr0dpr1 == false) {
             wiersze1_6(table, granica, rs);
         } else {
@@ -135,11 +136,11 @@ public class PdfKontaNarastajaco {
             PdfPCell c = ustawfrazeAF(opis, 2, 0, Element.ALIGN_LEFT, 6);
             table.addCell(c);
         } else {
-            table.addCell(ustawfrazeAlign(Z.z(rs.getObrotyBoWn()) != 0.0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 8));
-            table.addCell(ustawfrazeAlign(Z.z(rs.getObrotyBoMa()) != 0.0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 8));
+            table.addCell(ustawfrazeAlign(Z.z(rs.getObrotyBoWn()) != 0.0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 9));
+            table.addCell(ustawfrazeAlign(Z.z(rs.getObrotyBoMa()) != 0.0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 9));
         }
-        table.addCell(ustawfrazeAlign(Z.z(rs.getSaldoWn()) != 0.0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 8));
-        table.addCell(ustawfrazeAlign(Z.z(rs.getSaldoMa()) != 0.0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 8));
+        table.addCell(ustawfrazeAlign(Z.z(rs.getSaldoWn()) != 0.0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 9));
+        table.addCell(ustawfrazeAlign(Z.z(rs.getSaldoMa()) != 0.0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 9));
     }
        
     private static void naglowki1_6(PdfPTable table) {
@@ -176,8 +177,8 @@ public class PdfKontaNarastajaco {
          for (int j = 1 ; j < 7 ; j ++ ) {
                 if (j < granica) {
                     SaldoKontoNarastajaco.Obrotymca numerlisty = rs.getObrotymiesiecy().get(Mce.getNumberToMiesiac().get(j));
-                    table.addCell(ustawfrazeAlign(numerlisty.getObrotyWn() != 0 ? formatujLiczba(numerlisty.getObrotyWn()) : "", "right", 8));
-                    table.addCell(ustawfrazeAlign(numerlisty.getObrotyMa() != 0 ? formatujLiczba(numerlisty.getObrotyMa()) : "", "right", 8));
+                    table.addCell(ustawfrazeAlign(numerlisty.getObrotyWn() != 0 ? formatujLiczba(numerlisty.getObrotyWn()) : "", "right", 9));
+                    table.addCell(ustawfrazeAlign(numerlisty.getObrotyMa() != 0 ? formatujLiczba(numerlisty.getObrotyMa()) : "", "right", 9));
                 } else {
                     table.addCell(ustawfrazeAlign("", "right", 7));
                     table.addCell(ustawfrazeAlign("", "right", 7));
