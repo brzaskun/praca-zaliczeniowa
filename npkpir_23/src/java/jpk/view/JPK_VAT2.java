@@ -24,7 +24,6 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import static jpk.view.JPK_VAT2_Bean.*;
 import jpk201701.JPK;
 import msg.Msg;
@@ -114,38 +113,7 @@ public class JPK_VAT2 implements Serializable {
         }
     }
     
-    public static void main(String[] args) {
-        try {
-            JPK jpk = new JPK();
-            jpk.setNaglowek(naglowek("2016-09-01", "2016-09-30","2002"));
-            jpk.setPodmiot1(podmiot1());
-            dodajWierszeSprzedazy(jpk);
-            jpk.setSprzedazCtrl(obliczsprzedazCtrl(jpk));
-            dodajWierszeZakupy(jpk);
-            jpk.setZakupCtrl(obliczzakupCtrl(jpk));
-            JAXBContext context = JAXBContext.newInstance(JPK.class);
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(jpk, System.out);
-            FileOutputStream fileStream = new FileOutputStream(new File("james2.xml"));
-            OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
-            marshaller.marshal(jpk, writer);
-            //marshaller.marshal(jpk, new FileWriter("james2.xml"));
-            Wysylka.zipfile("james2.xml");
-            Wysylka.encryptAES("james2.xml.zip");
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            JPK person2 = (JPK) unmarshaller.unmarshal(new File("james2.xml"));
-            System.out.println(person2);
-//            System.out.println(person2.getNazwisko());
-//            System.out.println(person2.getAdres());
-
-//          marshaller.marshal(person, new FileWriter("edyta.xml"));
-//          marshaller.marshal(person, System.out);
-            System.out.println("Zakonczono generowanie plikow");
-        } catch (Exception ex) {
-            E.e(ex);
-        }
-    }
+    
 
 
     private Object[] utworzWierszeJpkSprzedaz(List wiersze, Class c) {

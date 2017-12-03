@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InitUploadType xmlns="http://e-dokumenty.mf.gov.pl">
+    <DocumentType>JPK</DocumentType>
+    <Version>01.02.01.20160617</Version>
+    <EncryptionKey algorithm="RSA" mode="ECB" padding="PKCS#1" encoding="Base64">[B@4d4d8fcf</EncryptionKey>
+    <DocumentList>
+        <Document>
+            <FormCode systemCode="JPK_VAT (2)" schemaVersion="1-0">JPK_VAT</FormCode>
+            <FileName>james2.xml.zip.aes</FileName>
+            <ContentLength>1824</ContentLength>
+            <HashValue algorithm="SHA-256" encoding="Base64">cbq23g6MTcfEqyW9BBJQ7AAqvqh24rLhjaKIkiEJ/gc=</HashValue>
+            <FileSignatureList filesNumber="1">
+                <Packaging>
+                    <SplitZip type="split" mode="zip"/>
+                </Packaging>
+                <Encryption>
+                    <AES size="256" block="16" mode="CBC" padding="PKCS#7">
+                        <IV bytes="16" encoding="Base64">[B@610db97e</IV>
+                    </AES>
+                </Encryption>
+                <FileSignature>
+                    <OrdinalNumber>1</OrdinalNumber>
+                    <FileName>james2.xml.zip.aes</FileName>
+                    <ContentLength>1824</ContentLength>
+                    <HashValue algorithm="MD5" encoding="Base64">BFTpeq5s9/dPc5Ko7yAzvw==</HashValue>
+                </FileSignature>
+            </FileSignatureList>
+        </Document>
+    </DocumentList>
+</InitUploadType>

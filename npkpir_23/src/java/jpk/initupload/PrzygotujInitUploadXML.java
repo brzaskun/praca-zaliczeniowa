@@ -6,6 +6,9 @@
 package jpk.initupload;
 
 import error.E;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
@@ -15,13 +18,9 @@ import javax.xml.bind.Marshaller;
  */
 public class PrzygotujInitUploadXML {
     
-    public static InitUploadType robDokument(String enkrypszynkey, String mainfilename, long mainfilelength, String mainfilehash, String ivvalue, String partfilename, int partfilelength, String partfilehash) {
+    public static InitUploadType robDokument(String enkrypszynkey, String mainfilename, long mainfilelength, String mainfilehash, String ivvalue, String partfilename, int partfilelength, String partfilehash, String plikxmlnazwa) {
         InitUploadType doc = new InitUploadType();
-        ObjectFactory of = new ObjectFactory();
         try {
-//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder builder = factory.newDocumentBuilder();
-//            Document doc = builder.newDocument();
             doc.setDocumentType("JPK");
             doc.setVersion("01.02.01.20160617");
             InitUploadType.EncryptionKey ek = new InitUploadType.EncryptionKey();
@@ -82,6 +81,9 @@ public class PrzygotujInitUploadXML {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(doc, System.out);
+            FileOutputStream fileStream = new FileOutputStream(new File(plikxmlnazwa));
+            OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
+            marshaller.marshal(doc, writer);
             System.out.println("Wygenerowalem doc");
         } catch (Exception e) {
             System.out.println("Blad, nie wygenerowano doc");
@@ -91,6 +93,6 @@ public class PrzygotujInitUploadXML {
     }
     
     public static void main(String[] args) {
-        robDokument("enkrypszyn", "FILE1", 1024, "MAINHASH", "ivvalue", "partfilename", 800, "partfilehash");
+        robDokument("enkrypszyn", "FILE1", 1024, "MAINHASH", "ivvalue", "partfilename", 800, "partfilehash", "plikxml.xml");
     }
 }

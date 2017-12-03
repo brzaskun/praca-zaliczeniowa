@@ -31,13 +31,19 @@ import org.json.JSONTokener;
  */
 public class beanJPKwysylka {
     private static String plikxml2 = "enveloped.xades";
-    private static String plikxml = "enveloping.xades";
+//    private static String plikxml = "enveloping.xades";
     private static final String URL_STEP1 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/InitUploadSigned";
     private static final String URL_STEP2 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/FinishUpload";
     private static final String URL_STEP3 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/Status/";
-    private static final String nazwapliku = "G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes";
+//    private static final String nazwapliku = "G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes";
+    
     
      public static void main(String[] args) {
+         wysylka("G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes", "enveloped.xades");
+         System.out.println("zakonczylem wysylke");
+     }
+    
+     public static void wysylka(String nazwapliku, String plikxml) {
         try {
             Object[] in = autoryzacja(plikxml2, URL_STEP1);
             int responseCode = (int) in[1];

@@ -5,9 +5,12 @@
  */
 package jpk.view;
 
+import error.E;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
@@ -16,6 +19,7 @@ import java.nio.file.Paths;
 import java.security.AlgorithmParameters;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Permission;
 import java.security.PermissionCollection;
@@ -27,6 +31,8 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,24 +49,33 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import static jpk.view.JPK_VAT2_Bean.dodajWierszeSprzedazy;
+import static jpk.view.JPK_VAT2_Bean.dodajWierszeZakupy;
+import static jpk.view.JPK_VAT2_Bean.naglowek;
+import static jpk.view.JPK_VAT2_Bean.obliczsprzedazCtrl;
+import static jpk.view.JPK_VAT2_Bean.obliczzakupCtrl;
+import static jpk.view.JPK_VAT2_Bean.podmiot1;
+import jpk201701.JPK;
 
 /**
  *
  * @author Osito
  */
 public class Wysylka {
-     public static void zipfile(String filename) {
+     public static void zipfile(String inputfilename, String outputfilename) {
         byte[] buffer = new byte[1024];
         try {
-            FileOutputStream fos = new FileOutputStream("james2.xml.zip");
+            FileOutputStream fos = new FileOutputStream(outputfilename);
             ZipOutputStream zos = new ZipOutputStream(fos);
-            ZipEntry ze = new ZipEntry(filename);
+            ZipEntry ze = new ZipEntry(inputfilename);
             zos.putNextEntry(ze);
             //deflated
             zos.setMethod(8);
             //best compresion
             zos.setLevel(9);
-            FileInputStream in = new FileInputStream(filename);
+            FileInputStream in = new FileInputStream(inputfilename);
             int len;
             while ((len = in.read(buffer)) > 0) {
                 zos.write(buffer, 0, len);
@@ -75,34 +90,45 @@ public class Wysylka {
         }
     }
 
-    public static String encryptAES(String filename) throws Exception {
-        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-        int iterations = 65536;
-        int keySize = 256;
-        removeCryptographyRestrictions();
-        char[] plaintext = czytajplik(filename);
-        byte[] saltBytes = getSalt().getBytes();
-        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        PBEKeySpec spec = new PBEKeySpec(plaintext, saltBytes, iterations, keySize);
-        SecretKey secretKey = skf.generateSecret(spec);
-        saveprivatekey(secretKey);
-        SecretKeySpec secretSpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
+    public static void encryptAES(String inputfilename, String outputfilename) throws Exception {
+        SecretKey secretKey = encryptAESStart(inputfilename, outputfilename);
+        saveprivatekey(secretKey, "privatekey.key", "pubkey.pem");
+        byte[] ivBytes = encryptKoniec(inputfilename, outputfilename, secretKey);
+    }
+    
+    public static byte[] encryptKoniec(String inputfilename, String outputfilename, SecretKey seckey) throws Exception {
+        char[] plaintext = czytajplik(inputfilename);
+        SecretKeySpec secretSpec = new SecretKeySpec(seckey.getEncoded(), "AES");
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secretSpec);
         AlgorithmParameters params = cipher.getParameters();
         byte[] ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
         byte[] encryptedTextBytes = cipher.doFinal(String.valueOf(plaintext).getBytes("UTF-8"));
-        Files.write(Paths.get(filename + ".aes"), encryptedTextBytes);
-        return DatatypeConverter.printBase64Binary(encryptedTextBytes);
+        Files.write(Paths.get(outputfilename), encryptedTextBytes);
+        String zwrot = DatatypeConverter.printBase64Binary(encryptedTextBytes);
+        return cipher.getIV();
     }
+    
+    public static SecretKey encryptAESStart(String inputfilename, String outputfilename) throws Exception {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        int iterations = 65536;
+        int keySize = 256;
+        removeCryptographyRestrictions();
+        char[] plaintext = czytajplik(inputfilename);
+        byte[] saltBytes = getSalt().getBytes();
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        PBEKeySpec spec = new PBEKeySpec(plaintext, saltBytes, iterations, keySize);
+        SecretKey secretKey = skf.generateSecret(spec);
+        return secretKey;
+    }
+    
 
-    private static void saveprivatekey(SecretKey secretKey) throws Exception {
-        PublicKey pk = readPublicKey("pubkey.pem");
+    public static void saveprivatekey(SecretKey secretKey, String privkey, String pubkey) throws Exception {
+        PublicKey pk = readPublicKey(pubkey);
         Cipher pkCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         pkCipher.init(Cipher.ENCRYPT_MODE, pk);
         System.out.println("blok pk "+pkCipher.getBlockSize());
-        String file = "privatekey.key";
-        CipherOutputStream os = new CipherOutputStream(new FileOutputStream(file), pkCipher);
+        CipherOutputStream os = new CipherOutputStream(new FileOutputStream(privkey), pkCipher);
         os.write(secretKey.getEncoded());
         os.close();
     }
@@ -139,6 +165,11 @@ public class Wysylka {
         Path path = Paths.get(filename);
         return Files.readAllBytes(path);
     }
+    
+     public static int readFilesize(String filename) throws IOException {
+        Path path = Paths.get(filename);
+        return Files.readAllBytes(path).length;
+    }
 
     public static PrivateKey readPrivateKey(String filename) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(readFileBytes(filename));
@@ -166,6 +197,22 @@ public class Wysylka {
         Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.DECRYPT_MODE, key);
         return cipher.doFinal(ciphertext);
+    }
+    
+    public static String fileSha256ToBase64(String filename) throws NoSuchAlgorithmException, IOException {
+        Path path = Paths.get(filename);
+        byte[] data = Files.readAllBytes(path);
+        MessageDigest digester = MessageDigest.getInstance("SHA-256");
+        digester.update(data);
+        return Base64.getEncoder().encodeToString(digester.digest());
+    }
+    
+    public static String fileMD5ToBase64(String filename) throws NoSuchAlgorithmException, IOException {
+        Path path = Paths.get(filename);
+        byte[] data = Files.readAllBytes(path);
+        MessageDigest digester = MessageDigest.getInstance("MD5");
+        digester.update(data);
+        return Base64.getEncoder().encodeToString(digester.digest());
     }
 
 //    public static void main(String[] args) {
@@ -220,14 +267,14 @@ public class Wysylka {
 
     private static SecretKey secretKey;
 
-    public static void main(String []args) throws Exception  {
-            salt = getSalt();
-            removeCryptographyRestrictions();
-            char[] message = "PasswordToEncrypt".toCharArray();
-            System.out.println("Message: " + String.valueOf(message));
-            System.out.println("Encrypted: " + encryptAES(message));
-            System.out.println("Decrypted: " + decrypt(encryptAES(message).toCharArray()));
-    }
+//    public static void main(String []args) throws Exception  {
+//            salt = getSalt();
+//            removeCryptographyRestrictions();
+//            char[] message = "PasswordToEncrypt".toCharArray();
+//            System.out.println("Message: " + String.valueOf(message));
+//            System.out.println("Encrypted: " + encryptAES(message));
+//            System.out.println("Decrypted: " + decrypt(encryptAES(message).toCharArray()));
+//    }
 
     public static String encryptAES(char[] plaintext) throws Exception {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
@@ -337,5 +384,62 @@ public class Wysylka {
     private static boolean isRestrictedCryptography() {
         // This simply matches the Oracle JRE, but not OpenJDK.
         return "Java(TM) SE Runtime Environment".equals(System.getProperty("java.runtime.name"));
+    }
+    
+    public static void main(String[] args) {
+        try {
+            JPK jpk = makedummyJPK();
+            //marshaller.marshal(jpk, new FileWriter("james2.xml"));
+            zipfile("james2.xml","james2.xml.zip");
+            encryptAES("james2.xml.zip", "james2.xml.zip.aes");
+//            Unmarshaller unmarshaller = context.createUnmarshaller();
+//            JPK person2 = (JPK) unmarshaller.unmarshal(new File("james2.xml"));
+//            System.out.println(person2);
+//            System.out.println(person2.getNazwisko());
+//            System.out.println(person2.getAdres());
+
+//          marshaller.marshal(person, new FileWriter("edyta.xml"));
+//          marshaller.marshal(person, System.out);
+            System.out.println("Zakonczono generowanie plikow");
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+    }
+    
+    public static PublicKey getPublicKey(String filename) throws Exception {
+        byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
+        String pemfile = new String(keyBytes);
+        String privKeyPEM = pemfile.replace("-----BEGIN CERTIFICATE-----\n", "");
+        privKeyPEM = privKeyPEM.replace("-----END CERTIFICATE-----", "");
+        System.out.println(privKeyPEM);
+
+        // Base64 decode the data
+//        byte[] decodedBytes = Base64.getDecoder().decode(privKeyPEM);
+        // PKCS8 decode the encoded RSA private key
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(privKeyPEM.getBytes());
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        return kf.generatePublic(keySpec);
+  }
+
+    public static JPK makedummyJPK() {
+        JPK jpk = new JPK();
+         try {
+             jpk.setNaglowek(naglowek("2016-09-01", "2016-09-30","2002"));
+             jpk.setPodmiot1(podmiot1());
+             dodajWierszeSprzedazy(jpk);
+             jpk.setSprzedazCtrl(obliczsprzedazCtrl(jpk));
+             dodajWierszeZakupy(jpk);
+             jpk.setZakupCtrl(obliczzakupCtrl(jpk));
+             JAXBContext context = JAXBContext.newInstance(JPK.class);
+             Marshaller marshaller = context.createMarshaller();
+             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+             marshaller.marshal(jpk, System.out);
+             FileOutputStream fileStream = new FileOutputStream(new File("james2.xml"));
+             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
+             marshaller.marshal(jpk, writer);
+         } catch (Exception ex) {
+             Logger.getLogger(Wysylka.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         return jpk;
     }
 }
