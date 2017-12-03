@@ -2,27 +2,27 @@
 <InitUploadType xmlns="http://e-dokumenty.mf.gov.pl">
     <DocumentType>JPK</DocumentType>
     <Version>01.02.01.20160617</Version>
-    <EncryptionKey algorithm="RSA" mode="ECB" padding="PKCS#1" encoding="Base64">[B@4d4d8fcf</EncryptionKey>
+    <EncryptionKey algorithm="RSA" mode="ECB" padding="PKCS#1" encoding="Base64">HrQ1qPyt/B/6FjJOeWDpYfiyVqCV1yB/M1qfouFuJcoTbLWgiRTRmwYPuiMaSa32YEY1OmGwtRXtpdT8FQfFmrLO5RrhevmYplPQFoiGR8APoN7PwXyM0yYDU6LQkP3xlqmrSeX1fCMTCBnOhFPlJM9NQa0jE8vsdHqKdSH+TLg8rSR4ktpQ4Zssz3ADz8bvtaxOTJEVVZpT0Mj/LeDtSegR11QHmIe7xhVq+PHRmIuEN6LioodnrLTt4rwPV5yR18m7s4R7+Gaw5F+mDU8HI+lKJd9akFpEVJpz7E0lm/AeiIqMcef3GOiywUAcaC5iNuhuh9f8NBftP0JL+9n9Mw==</EncryptionKey>
     <DocumentList>
         <Document>
             <FormCode systemCode="JPK_VAT (2)" schemaVersion="1-0">JPK_VAT</FormCode>
             <FileName>james2.xml.zip.aes</FileName>
-            <ContentLength>1824</ContentLength>
-            <HashValue algorithm="SHA-256" encoding="Base64">cbq23g6MTcfEqyW9BBJQ7AAqvqh24rLhjaKIkiEJ/gc=</HashValue>
+            <ContentLength>1776</ContentLength>
+            <HashValue algorithm="SHA-256" encoding="Base64">x0sj8d8pSB6d9ygxPTwEZtKbbhpiJD8CLIJaPQdtE3M=</HashValue>
             <FileSignatureList filesNumber="1">
                 <Packaging>
                     <SplitZip type="split" mode="zip"/>
                 </Packaging>
                 <Encryption>
                     <AES size="256" block="16" mode="CBC" padding="PKCS#7">
-                        <IV bytes="16" encoding="Base64">[B@610db97e</IV>
+                        <IV bytes="16" encoding="Base64">[B@24e08d59</IV>
                     </AES>
                 </Encryption>
                 <FileSignature>
                     <OrdinalNumber>1</OrdinalNumber>
                     <FileName>james2.xml.zip.aes</FileName>
-                    <ContentLength>1824</ContentLength>
-                    <HashValue algorithm="MD5" encoding="Base64">BFTpeq5s9/dPc5Ko7yAzvw==</HashValue>
+                    <ContentLength>1776</ContentLength>
+                    <HashValue algorithm="MD5" encoding="Base64">Ga0VVaBXJM5ohLe9JtXjGg==</HashValue>
                 </FileSignature>
             </FileSignatureList>
         </Document>

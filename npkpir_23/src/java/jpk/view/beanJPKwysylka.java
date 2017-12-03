@@ -45,7 +45,7 @@ public class beanJPKwysylka {
     
      public static void wysylka(String nazwapliku, String plikxml) {
         try {
-            Object[] in = autoryzacja(plikxml2, URL_STEP1);
+            Object[] in = autoryzacja(plikxml, URL_STEP1);
             int responseCode = (int) in[1];
             if (responseCode == 200) {
                 System.out.println("Kod 200 udany etap1");

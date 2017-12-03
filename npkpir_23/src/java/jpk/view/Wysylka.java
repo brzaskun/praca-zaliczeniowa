@@ -31,7 +31,6 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Map;
 import java.util.logging.Level;
@@ -295,13 +294,13 @@ public class Wysylka {
         return DatatypeConverter.printBase64Binary(encryptedTextBytes);
     }
     
-    public static byte[] wrapKey(PublicKey pubKey, SecretKey symKey) throws InvalidKeyException, IllegalBlockSizeException {
+    public static String wrapKey(PublicKey pubKey, SecretKey symKey) throws InvalidKeyException, IllegalBlockSizeException {
         try {
-            final Cipher cipher = Cipher
-                    .getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
+            final Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
             cipher.init(Cipher.WRAP_MODE, pubKey);
             final byte[] wrapped = cipher.wrap(symKey);
-            return wrapped;
+            String encoded = Base64.getEncoder().encodeToString(wrapped);
+            return encoded;
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             throw new IllegalStateException("Java runtime does not support RSA/ECB/OAEPWithSHA1AndMGF1Padding",e);
         }
@@ -407,18 +406,11 @@ public class Wysylka {
     }
     
     public static PublicKey getPublicKey(String filename) throws Exception {
-        byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
-        String pemfile = new String(keyBytes);
-        String privKeyPEM = pemfile.replace("-----BEGIN CERTIFICATE-----\n", "");
-        privKeyPEM = privKeyPEM.replace("-----END CERTIFICATE-----", "");
-        System.out.println(privKeyPEM);
-
-        // Base64 decode the data
-//        byte[] decodedBytes = Base64.getDecoder().decode(privKeyPEM);
-        // PKCS8 decode the encoded RSA private key
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(privKeyPEM.getBytes());
-        KeyFactory kf = KeyFactory.getInstance("RSA");
-        return kf.generatePublic(keySpec);
+        CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+        FileInputStream fileInputStream = new FileInputStream(new File(filename));
+        X509Certificate cert = (X509Certificate) certFactory.generateCertificate(fileInputStream);
+        PublicKey  publicKey = cert.getPublicKey();
+        return publicKey;
   }
 
     public static JPK makedummyJPK() {
