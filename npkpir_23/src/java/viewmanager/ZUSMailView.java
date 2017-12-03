@@ -103,7 +103,8 @@ public class ZUSMailView implements Serializable {
             + "<td> ZUS 51</td> <td style=\"text-align: right;\"> %.2f</td> </tr> <tr> <td style=\"text-align: center;\"> 2</td>"
             + " <td> ZUS 52</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <tr> <td style=\"text-align: center;\"> 3</td>"
             + " <td> ZUS 53</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <tr> <td style=\"text-align: center;\"> 4</td> <td>"
-            + " PIT-4</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> </tbody> </table>"
+            + " PIT-4</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <td style=\"text-align: center;\"> 5</td> <td>"
+            + " PIT-8</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> </tbody> </table>"
             + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> "
             + "<p> Przypominamy o terminach płatności ZUS:</p>"
             + " <p> do <span style=\"color:#008000;\">10-go</span> &nbsp;- dla os&oacute;b niezatrudniających pracownik&oacute;w</p>"
@@ -127,12 +128,22 @@ public class ZUSMailView implements Serializable {
                     zusmail.setZus52odl(zusstawki.getZus52odl());
                     zusmail.setZus53(zusstawki.getZus53());
                     zusmail.setPit4(zusstawki.getPit4());
+                    zusmail.setPit8(zusstawki.getPit8());
                     double zus51 = 0;
+                    double zus52 = 0;
+                    double zus53 = 0;
+                    double pit4 = 0;
+                    double pit8 = 0;
                     try {
                         zus51 = zusmail.getZus51ch() != null ? zusmail.getZus51ch() : zusmail.getZus51bch();
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
+                    zus52 = zusmail.getZus52() != null ? zusmail.getZus52() : 0;
+                    zus53 = zusmail.getZus53() != null ? zusmail.getZus53() : 0;
+                    pit4 = zusmail.getPit4()!= null ? zusmail.getPit4(): 0;
+                    pit8 = zusmail.getPit8()!= null ? zusmail.getPit8(): 0;
                     zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
-                    zusmail.setTresc(String.format(new Locale("pl"),trescmaila, rok, mc, zus51, zusmail.getZus52(), zusmail.getZus53(), zusmail.getPit4()));
+                    zusmail.setTresc(String.format(new Locale("pl"),trescmaila, rok, mc, zus51, zus52, zus53, pit4, pit8));
                     zusmail.setAdresmail(p.getEmail());
                     zusmail.setWysylajacy(wpisView.getWprowadzil().getLogin());
                     if (!wykazprzygotowanychmaili.contains(zusmail)) {
@@ -154,6 +165,8 @@ public class ZUSMailView implements Serializable {
         } else if (zusstawki.getZus53() != null && zusstawki.getZus53() != 0.0) {
             return true;
         } else if (zusstawki.getPit4() != null && zusstawki.getPit4() != 0.0) {
+            return true;
+        } else if (zusstawki.getPit8() != null && zusstawki.getPit8() != 0.0) {
             return true;
         }
         return false;
@@ -234,9 +247,9 @@ public class ZUSMailView implements Serializable {
         try {
             Zusmail zusmaielwyslany = zusmailDAO.findZusmail(zusmail);
             if (zusmaielwyslany != null) {
-               zusmail.setNrwysylki(zusmaielwyslany.getNrwysylki()+1);
-               zusmail.setDatawysylki(new Date());
-               zusmailDAO.edit(zusmail);
+               zusmaielwyslany.setNrwysylki(zusmaielwyslany.getNrwysylki()+1);
+               zusmaielwyslany.setDatawysylki(new Date());
+               zusmailDAO.edit(zusmaielwyslany);
                Msg.msg("Edytowano istniejący zusmail");
             } else {
                zusmail.setNrwysylki(1);

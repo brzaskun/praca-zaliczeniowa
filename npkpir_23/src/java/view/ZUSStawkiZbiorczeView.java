@@ -121,6 +121,9 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         if (obrabianeparametryzus.getPit4()!=null) {
             return true;
         }
+        if (obrabianeparametryzus.getPit8()!=null) {
+            return true;
+        }
         return false;
     }
     

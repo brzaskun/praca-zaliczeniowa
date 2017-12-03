@@ -47,6 +47,8 @@ public class Zusstawki implements Serializable {
     private Double zus53;
     @Column(name = "pit4")
     private Double pit4;
+    @Column(name = "pit8")
+    private Double pit8;
    
 
     public Zusstawki() {
@@ -135,6 +137,15 @@ public class Zusstawki implements Serializable {
         this.pit4 = pit4;
     }
 
+    public Double getPit8() {
+        return pit8;
+    }
+
+    public void setPit8(Double pit8) {
+        this.pit8 = pit8;
+    }
+
+    
        
     
     @Override

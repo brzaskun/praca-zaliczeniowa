@@ -169,6 +169,7 @@ public class VAT27Bean {
                     }
                 }
             }
+            poz.setP10(new BigDecimal(sumaD));
             poz.setP11(new BigDecimal(sumaD));
         }
         return poz;

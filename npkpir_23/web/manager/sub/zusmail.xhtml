@@ -9,7 +9,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:growl life="3600"  autoUpdate="true"/>
     <h:form>
-        <p:panel header="Wybierz rok i miesiąc wysyłki" style="max-width: 1350px;">
+        <p:panel header="Wybierz rok i miesiąc wysyłki" style="max-width: 1400px;">
             <p:panelGrid id="parametryzus" columns="8">
                 <h:outputText value="rok: "/><p:selectOneMenu value="#{zUSMailView.rok}">
                     <p:ajax event="change" partialSubmit="true" listener="#{zUSMailView.dokonajZmianyElementu('roku.')}" update=":wykazmaili"/>
@@ -28,7 +28,7 @@
         </p:panel>
     </h:form>
     <h:form id="wykazmailibuttons">
-        <p:panel header="Menu podręczne" style="max-width: 1350px;">
+        <p:panel header="Menu podręczne" style="max-width: 1400px;">
             <p:panelGrid id="parametryzus" columns="2">
                 <p:commandButton value="Wyślij wszystkie" actionListener="#{zUSMailView.wyslijwszystkie()}"  update=":wykazmaili" style="width: 150px;" rendered="#{zUSMailView.wybranemaile.size() eq 0}"/>
                 <p:commandButton value="Wyślij wybrane" actionListener="#{zUSMailView.wyslijwybrane()}"  update=":wykazmaili" style="width: 150px;" rendered="#{zUSMailView.wybranemaile.size()  ne 0}"/>
@@ -36,7 +36,7 @@
         </p:panel>
     </h:form>
         <h:form id="wykazmaili">
-            <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="max-width: 1350px;"
+            <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="max-width: 1400px;"
                          rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" rowSelectMode="add"
                          rowKey="#{item.podatnik.id}" selection="#{zUSMailView.wybranemaile}">
                 <p:ajax event="rowSelectCheckbox" listener="#{zUSMailView.wybranoWiersz}" update="wykazmailibuttons"/>
@@ -100,6 +100,14 @@
                         <h:outputText value="Pit4"/>
                     </f:facet>
                     <h:outputText value="#{item.pit4}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                 <p:column width="50">
+                    <f:facet name="header">
+                        <h:outputText value="Pit8"/>
+                    </f:facet>
+                    <h:outputText value="#{item.pit8}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>

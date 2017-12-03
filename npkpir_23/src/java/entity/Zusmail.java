@@ -89,6 +89,8 @@ public class Zusmail implements Serializable {
     private Double zus53;
     @Column(precision = 22)
     private Double pit4;
+    @Column(precision = 22)
+    private Double pit8;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
@@ -206,6 +208,14 @@ public class Zusmail implements Serializable {
 
     public Double getPit4() {
         return pit4;
+    }
+
+    public Double getPit8() {
+        return pit8;
+    }
+
+    public void setPit8(Double pit8) {
+        this.pit8 = pit8;
     }
 
     public void setPit4(Double pit4) {
