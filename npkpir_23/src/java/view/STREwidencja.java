@@ -9,13 +9,10 @@ import dao.SMTPSettingsDAO;
 import dao.STRDAO;
 import embeddable.Mce;
 import embeddable.STRtabela;
-
 import entity.SrodekTrw;
 import entity.UmorzenieN;
 import error.E;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,7 +20,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -127,33 +123,37 @@ public class STREwidencja implements Serializable {
 
     
     private void stworzpozycjeSrodka(List<SrodekTrw> lista, int rokdzisiejszyI, List<STRtabela> tabela) {
-        int i = 1;
-        for (SrodekTrw str : lista) {
-            STRtabela strdocelowy = new STRtabela(i, str);
-            try {
-                Iterator<UmorzenieN> itX = str.getPlanumorzen().iterator();
-                double umorzenianarastajaco = 0.0;
-                while (itX.hasNext()) {
-                    UmorzenieN um = itX.next();
-                    if (um.getRokUmorzenia() == rokdzisiejszyI) {
-                        String mc = Mce.getNumberToMiesiac().get(um.getMcUmorzenia());
-                        strdocelowy.getM().put(mc, um.getKwota());
-                        strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getM().get(mc));
-                    } else if (um.getRokUmorzenia() < wpisView.getRokWpisu()) {
-                        umorzenianarastajaco += um.getKwota();
+        try {
+            int i = 1;
+            for (SrodekTrw str : lista) {
+                STRtabela strdocelowy = new STRtabela(i, str);
+                try {
+                    Iterator<UmorzenieN> itX = str.getPlanumorzen().iterator();
+                    double umorzenianarastajaco = 0.0;
+                    while (itX.hasNext()) {
+                        UmorzenieN um = itX.next();
+                        if (um.getRokUmorzenia() == rokdzisiejszyI) {
+                            String mc = Mce.getNumberToMiesiac().get(um.getMcUmorzenia());
+                            strdocelowy.getM().put(mc, um.getKwota());
+                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getM().get(mc));
+                        } else if (um.getRokUmorzenia() < wpisView.getRokWpisu()) {
+                            umorzenianarastajaco += um.getKwota();
+                        }
                     }
+                    umorzenianarastajaco += str.getUmorzeniepoczatkowe();
+                    strdocelowy.setUmorzeniaDo(umorzenianarastajaco);
+                } catch (Exception e) { 
+                    E.e(e); 
+                    strdocelowy.setUmorzeniaDo(0.0);
                 }
-                umorzenianarastajaco += str.getUmorzeniepoczatkowe();
-                strdocelowy.setUmorzeniaDo(umorzenianarastajaco);
-            } catch (Exception e) { 
-                E.e(e); 
-                strdocelowy.setUmorzeniaDo(0.0);
+                strdocelowy.setPozostaloDoUmorzenia(strdocelowy.getNetto() - strdocelowy.getUmorzeniaDo() + strdocelowy.getOdpisrok());
+                tabela.add(strdocelowy);
+                i++;
             }
-            strdocelowy.setPozostaloDoUmorzenia(strdocelowy.getNetto() - strdocelowy.getUmorzeniaDo() + strdocelowy.getOdpisrok());
-            tabela.add(strdocelowy);
-            i++;
+            Collections.sort(tabela, new SrodekTrwcomparatorData());
+        } catch(Exception e) {
+            E.e(e);
         }
-        Collections.sort(tabela, new SrodekTrwcomparatorData());
     }
     
     private void podsumowanieewidencji(List<STRtabela> tabela) {

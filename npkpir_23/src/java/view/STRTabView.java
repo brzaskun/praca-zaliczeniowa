@@ -84,6 +84,10 @@ public class STRTabView implements Serializable {
     @Inject
     private SrodekTrw wybranysrodektrwalyPosiadane;
     @Inject
+    private SrodekTrw wybranysrodektrwalyPosiadane2;
+    @Inject
+    private SrodekTrw edytowanysrodek;
+    @Inject
     private SrodekTrw wybranysrodektrwalySprzedane;
     private List<SrodekTrw> listaWyposazenia;
     /**
@@ -97,6 +101,9 @@ public class STRTabView implements Serializable {
     private String datazmiany;
     private double kwotazmiany;
     private boolean bezcalkowicieumorzonych;
+    private boolean zmienilasiedataumorzenia;
+    private boolean zmienilasiekwotaumorzenia;
+    
 
     public STRTabView() {
         ustawTabele();
@@ -542,13 +549,33 @@ public class STRTabView implements Serializable {
         this.sprzedane = sprzedane;
     }
 
+    public SrodekTrw getEdytowanysrodek() {
+        return edytowanysrodek;
+    }
+
+    public void setEdytowanysrodek(SrodekTrw edytowanysrodek) {
+        this.edytowanysrodek = edytowanysrodek;
+    }
+
     public SrodekTrw getWybranysrodektrwalyPosiadane() {
         return wybranysrodektrwalyPosiadane;
     }
 
     public void setWybranysrodektrwalyPosiadane(SrodekTrw wybranysrodektrwalyPosiadane) {
+        this.wybranysrodektrwalyPosiadane2 = null;
         this.wybranysrodektrwalyPosiadane = wybranysrodektrwalyPosiadane;
     }
+
+    public SrodekTrw getWybranysrodektrwalyPosiadane2() {
+        return wybranysrodektrwalyPosiadane2;
+    }
+
+    public void setWybranysrodektrwalyPosiadane2(SrodekTrw wybranysrodektrwalyPosiadane2) {
+        this.wybranysrodektrwalyPosiadane = null;
+        this.wybranysrodektrwalyPosiadane2 = wybranysrodektrwalyPosiadane2;
+    }
+    
+    
     public Srodkikst getSrodekkategoria() {
         return srodekkategoria;
     }
@@ -636,20 +663,29 @@ public class STRTabView implements Serializable {
     public void edytujSrodekTrwaly() {
         try {
             if (datazmiany != null && kwotazmiany != 0.0) {
-                SrodekTrw_NowaWartosc s = new SrodekTrw_NowaWartosc(wybranysrodektrwalyPosiadane, wpisView, datazmiany, kwotazmiany);
-                if (wybranysrodektrwalyPosiadane.getZmianawartosci() == null) {
-                    wybranysrodektrwalyPosiadane.setZmianawartosci(new ArrayList<SrodekTrw_NowaWartosc>());
+                SrodekTrw_NowaWartosc s = new SrodekTrw_NowaWartosc(edytowanysrodek, wpisView, datazmiany, kwotazmiany);
+                if (edytowanysrodek.getZmianawartosci() == null) {
+                    edytowanysrodek.setZmianawartosci(new ArrayList<SrodekTrw_NowaWartosc>());
                 }
-                wybranysrodektrwalyPosiadane.getZmianawartosci().add(s);
-                SrodkiTrwBean.naliczodpisymczneUlepszenie(wybranysrodektrwalyPosiadane);
-                wybranysrodektrwalyPosiadane.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+                edytowanysrodek.getZmianawartosci().add(s);
+                SrodkiTrwBean.naliczodpisymczneUlepszenie(edytowanysrodek);
+                edytowanysrodek.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(edytowanysrodek, wpisView));
+                Collections.sort(edytowanysrodek.getZmianawartosci(), new SrodekTrwNowaWartoscComparator());
+                sTRDAO.edit(edytowanysrodek);
+            } else if (zmienilasiedataumorzenia || zmienilasiekwotaumorzenia) {
+                przeliczumorzeniapozmainach(edytowanysrodek);
+            } else {
+                sTRDAO.edit(edytowanysrodek);
             }
-            Collections.sort(wybranysrodektrwalyPosiadane.getZmianawartosci(), new SrodekTrwNowaWartoscComparator());
-            sTRDAO.edit(wybranysrodektrwalyPosiadane);
+            zmienilasiedataumorzenia = false;
+            zmienilasiekwotaumorzenia = false;
             wybranysrodektrwalyPosiadane = null;
+            wybranysrodektrwalyPosiadane2 = null;
+            edytowanysrodek = null;
             datazmiany = null;
             kwotazmiany = 0.0;
             sTREwidencja.init();
+            init();
         } catch (Exception e) {
             E.e(e);
         }
@@ -763,36 +799,73 @@ public class STRTabView implements Serializable {
     }
     
     public void zmianaumorzeniapocz(ValueChangeEvent e) {
-        Double nowa = (Double) e.getNewValue();
-        wybranysrodektrwalyPosiadane.setUmorzeniepoczatkowe(nowa);
-        SrodkiTrwBean.odpisroczny(wybranysrodektrwalyPosiadane);
-        SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
-        //oblicza planowane umorzenia
-        wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
-        wybranysrodektrwalyPosiadane.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
-        try {
-            sTRDAO.edit(wybranysrodektrwalyPosiadane);
-        } catch (Exception ex) {
-            E.e(ex);
-        }
-        
+        zmienilasiekwotaumorzenia = true;
     }
     
+    private boolean umorzeniaporownaj(UmorzenieN stareumorzenie, UmorzenieN noweumorzenie) {
+        boolean zwrot = false;
+        int staryrok = stareumorzenie.getRokUmorzenia();
+        int starymc = stareumorzenie.getMcUmorzenia();
+        int nowyrok = noweumorzenie.getRokUmorzenia();
+        int nowymc = noweumorzenie.getMcUmorzenia();
+        if (staryrok == nowyrok && starymc == nowymc) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+    
+        
      public void zmianadatyprzyjecia(ValueChangeEvent e) {
-        String nowa = (String) e.getNewValue();
-        wybranysrodektrwalyPosiadane.setDataprzek(nowa);
-        SrodkiTrwBean.odpisroczny(wybranysrodektrwalyPosiadane);
-        SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
+        zmienilasiedataumorzenia = true;
+    }
+     
+     private void przeliczumorzeniapozmainach(SrodekTrw wybrany) {
+        double odpisroczny = SrodkiTrwBean.odpisroczny(wybrany);
+        double odpismiesieczny = SrodkiTrwBean.odpismiesieczny(wybrany);
         //oblicza planowane umorzenia
-        wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
-        wybranysrodektrwalyPosiadane.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+        wybrany.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybrany));
+        List<UmorzenieN> noweumorzenia = SrodkiTrwBean.generujumorzeniadlasrodka(wybrany, wpisView);
+        List<UmorzenieN> umorzeniadododania = new ArrayList<>();
+        for (Iterator<UmorzenieN> it = wybrany.getPlanumorzen().iterator(); it.hasNext();) {
+            UmorzenieN stareumorzenie = it.next();
+            boolean byljuztakiokres = false;
+            for (Iterator<UmorzenieN> itx = noweumorzenia.iterator(); itx.hasNext();) {
+                UmorzenieN noweumorzenie = itx.next();
+                if (umorzeniaporownaj(stareumorzenie, noweumorzenie)) {
+                    //odnalazlem daty w nowych umorzeniach tylko koryguje warotsc
+                    byljuztakiokres = true;
+                    stareumorzenie.setKwota(noweumorzenie.getKwota());
+                    itx.remove();
+                    break;
+                }
+            }
+            if (byljuztakiokres == false) {
+                //usuwamy te ktorych nie ma w nowych umorzeniach
+                it.remove();
+            }
+        }
+        if (noweumorzenia.size() > 0) {
+            for (UmorzenieN um : noweumorzenia) {
+                umorzeniadododania.add(um);
+            }
+        }
+        if (umorzeniadododania.size() > 0) {
+            wybrany.getPlanumorzen().addAll(umorzeniadododania);
+        }
         try {
-            sTRDAO.edit(wybranysrodektrwalyPosiadane);
+            sTRDAO.edit(wybrany);
+            Msg.msg("Przeliczono ponownie umorzenia, po zmianie kwota umorzenia początkowego lub daty przyjęcia");
         } catch (Exception ex) {
+            Msg.msg("Nieudane przeliczenie umorzeń");
             E.e(ex);
         }
-        
+     }
+
+    public void kopiujwybrany(SrodekTrw wybrany) {
+        edytowanysrodek = wybrany;   
     }
+
+    
 
     
 }

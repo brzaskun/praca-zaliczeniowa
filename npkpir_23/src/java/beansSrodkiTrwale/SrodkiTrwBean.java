@@ -9,18 +9,15 @@ import comparator.SrodekTrwNowaWartoscComparator;
 import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
-
 import entity.Podatnik;
 import entity.SrodekTrw;
 import entity.SrodekTrw_NowaWartosc;
 import entity.UmorzenieN;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import view.WpisView;
@@ -124,14 +121,15 @@ public class SrodkiTrwBean implements Serializable {
         return listaplanum;
     }
     
-    public static void odpisroczny(SrodekTrw dodawanysrodektrwaly) {
+    public static double odpisroczny(SrodekTrw dodawanysrodektrwaly) {
         double odpisrok = 0.0;
         double netto = dodawanysrodektrwaly.getNetto() - dodawanysrodektrwaly.getNiepodlegaamortyzacji();
         odpisrok = Z.z(netto*dodawanysrodektrwaly.getStawka()/100.0);
         dodawanysrodektrwaly.setOdpisrok(odpisrok);
+        return odpisrok;
     }
     
-    public static void odpismiesieczny(SrodekTrw dodawanysrodektrwaly) {
+    public static double odpismiesieczny(SrodekTrw dodawanysrodektrwaly) {
         double odpismiesiac = 0.0;
         odpismiesiac = Z.z(dodawanysrodektrwaly.getOdpisrok()/12.0);
         if (dodawanysrodektrwaly.getStawka() == 100.0) {
@@ -139,6 +137,7 @@ public class SrodkiTrwBean implements Serializable {
         } else {
             dodawanysrodektrwaly.setOdpismc(odpismiesiac);
         }
+        return odpismiesiac;
     }
 
     public static double sumujumorzenia(List<UmorzenieN> umorzenia) {
