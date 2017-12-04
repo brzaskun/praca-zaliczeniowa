@@ -24,18 +24,18 @@
             </p:panelGrid>
             <p:panelGrid columns="3" style="width: 1020px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRWzorcowyView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRWzorcowyView.wybranynodekonta}" 
-                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
+                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 850px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym Bilansie">
                     <f:facet name="header">
                          <h:outputText value="uklad #{pozycjaBRWzorcowyView.uklad.uklad} - #{pozycjaBRWzorcowyView.uklad.rok}"/>
                     </f:facet>
                     <p:ajax event="select" global="false" listener="#{pozycjaBRWzorcowyView.wybranopozycjeBilans()}"/>
-                    <p:column headerText="symbol i nazwa pozycji">
+                    <p:column headerText="symbol i nazwa pozycji"  style="width: 460px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <p:spacer width="20"/>
                         <h:outputText value="#{loop.nazwa}"/> 
                     </p:column>
-                    <p:column headerText="formuła">
+                    <p:column headerText="formuła" style="width: 240px;">
                         <h:outputText value="#{loop.formula}"/>
                     </p:column>
                      <p:column headerText="rodzaj">

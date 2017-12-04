@@ -54,8 +54,12 @@ public class UkladBRWzorcowyView implements Serializable{
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private UkladBR ukladzrodlowy;
+    @Inject
+    private UkladBR ukladdocelowy;
     private String ukladdocelowynazwa;
     private String ukladdocelowyrok;
+    private boolean kopiujbilans;
+    private boolean kopiujrzis;
     
     
 
@@ -133,6 +137,27 @@ public class UkladBRWzorcowyView implements Serializable{
                 implementujRZiS(ukladzrodlowy,ukladdocelowy);
                 implementujBilans(ukladzrodlowy,ukladdocelowy);
                 Msg.msg("Skopiowano ukłąd wzorcowy z pozycjami");
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd. Nie skopiowano nowego układu.");
+            }
+        }
+    }
+    
+    public void kopiujukladwzorcowywybiorczo() {
+        if (ukladzrodlowy != null && ukladdocelowy != null) {
+            try {
+                if (kopiujrzis == false && kopiujbilans == false) {
+                    Msg.msg("e", "Nie wybrano części układu do skopiowanai");
+                } else {
+                    if (kopiujrzis) {
+                        implementujRZiS(ukladzrodlowy,ukladdocelowy);
+                    }
+                    if (kopiujbilans) {
+                        implementujBilans(ukladzrodlowy,ukladdocelowy);
+                    }
+                    Msg.msg("Skopiowano ukłąd wzorcowy z pozycjami");
+                }
             } catch (Exception e) {
                 E.e(e);
                 Msg.msg("e", "Wystąpił błąd. Nie skopiowano nowego układu.");
@@ -301,6 +326,30 @@ public class UkladBRWzorcowyView implements Serializable{
     
     public void setSelected(UkladBR selected) {
         this.selected = selected;
+    }
+
+    public boolean isKopiujbilans() {
+        return kopiujbilans;
+    }
+
+    public UkladBR getUkladdocelowy() {
+        return ukladdocelowy;
+    }
+
+    public void setUkladdocelowy(UkladBR ukladdocelowy) {
+        this.ukladdocelowy = ukladdocelowy;
+    }
+
+    public void setKopiujbilans(boolean kopiujbilans) {
+        this.kopiujbilans = kopiujbilans;
+    }
+
+    public boolean isKopiujrzis() {
+        return kopiujrzis;
+    }
+
+    public void setKopiujrzis(boolean kopiujrzis) {
+        this.kopiujrzis = kopiujrzis;
     }
 
     public UkladBRView getUkladBRView() {
