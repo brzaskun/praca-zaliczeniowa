@@ -89,6 +89,7 @@ public class testobjects {
         return p;
     }
     
+      
     public static Klienci getKlienci() {
         Klienci p = new Klienci();
         p.setNip("8511005008");
@@ -331,6 +332,22 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        n.add("adres");
        n.add("identyfikator");
        n.add("status");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getPodatnicy(List<Podatnik> wiersze) {
+       List n = new ArrayList();
+       //9
+       n.add("lp");
+       n.add("nazwa");
+       n.add("ulica");
+       n.add("nr domu");
+       n.add("nr lokalu");
+       n.add("kod pocztowy");
+       n.add("miejscowość");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

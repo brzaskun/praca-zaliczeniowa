@@ -794,6 +794,16 @@ public class PdfMain {
                 col[9] = 3;
                 col[10] = 3;
                 return col;
+            case "entity.Podatnik":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 6;
+                col[2] = 3;
+                col[3] = 2;
+                col[4] = 2;
+                col[5] = 3;
+                col[6] = 4;
+                return col;
             case "viewfk.StowRozrachCzlonkView$Pozycja":
                 col = new int[size];
                 col[0] = 1;
@@ -1421,6 +1431,16 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getAdresfirmy(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getIdentyfikatorsprawdzenia(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getWynikVies(), "center", 7));
+            }
+            if (nazwaklasy.equals("entity.Podatnik")) {
+                Podatnik p = (Podatnik) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 8));
+                table.addCell(ustawfrazeAlign(p.getPrintnazwa(), "left", 8, 15f));
+                table.addCell(ustawfrazeAlign(p.getUlica(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getNrdomu(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getNrlokalu(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getKodpocztowy(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getMiejscowosc(), "left", 8));
             }
             if (nazwaklasy.equals("entity.Fakturywystokresowe")) {
                 Fakturywystokresowe p = (Fakturywystokresowe) it.next();

@@ -14,15 +14,26 @@
     </style>
     <p:growl life="3600"  id="msgzus" autoUpdate="true"/>
     <h:form>
-    <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 700px;">
+        <p:commandButton value="drukuj" actionListener="#{podatnicyView.drukujwszystkich}" style="width: 120px; margin: 10px;"/>
+    <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 1000px;"
+                 rowKey="#{podatnik.id}"
+                 selection="#{podatnicyView.wybranipodatnicy}">
         <f:facet name="header">
             <h:outputText value="podatnicy"/>
         </f:facet>
+        <p:column selectionMode="multiple" width="20"/>
         <p:column width="30">
             <h:outputText value="#{index+1}"/>
         </p:column>
         <p:column width="250" headerText="nazwa podatnika">
             <h:outputText value="#{podatnik.printnazwa}"/>
+        </p:column>
+         <p:column width="250" headerText="adres">
+             <p:panelGrid columns="2">
+                 <h:outputText value="#{podatnik.kodpocztowy}"/>
+                 <h:outputText value="#{podatnik.miejscowosc}"/>
+                 <h:outputText value="#{podatnik.ulica} #{podatnik.nrdomu}/#{podatnik.nrlokalu}"/>
+             </p:panelGrid>
         </p:column>
         <p:column width="35" headerText="podmiot aktywny" style="text-align: center;">
             <p:selectBooleanCheckbox value="#{podatnik.podmiotaktywny}">
