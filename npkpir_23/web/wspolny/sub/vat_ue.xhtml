@@ -28,7 +28,9 @@
             <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" id="deklbutton"
                              actionListener="#{vATUEDeklaracjaView.tworzdeklaracje(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px;"  id="deklbutton2"
-                             actionListener="#{vATUEDeklaracjaView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
+                             actionListener="#{vATUEDeklaracjaView.tworzdeklaracje(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
+            <p:commandButton value="jako kor" style="margin-left: 10px; margin-bottom: 1%; width: 120px;"  id="deklbutton3"
+                             actionListener="#{vATUEDeklaracjaView.tworzdeklaracjejakokorekta(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" />
             <p:commandButton value="VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.sprawdzVIES}"
                              update="@(.upd1)" oncomplete="r('form:akordeon:drukviesbutton').show();pokazbutony();"/>
             <p:commandButton value="druk VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;" id="drukviesbutton"

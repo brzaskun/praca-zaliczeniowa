@@ -7,10 +7,10 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <p:dialog id="dialogCechyDokumentu" header="Wykaz bieżących cech dokumentu" widgetVar="dialogCechyDokumentu" resizable="false" 
-              onShow="ustawdialog('dialogCechyDokumentu','dialogpierwszy',500,400);" focus=":formCH" modal="true" appendTo="@(body)"
+              onShow="ustawdialog('dialogCechyDokumentu','dialogpierwszy',500,500);" focus=":formCH" modal="true" appendTo="@(body)"
               closeOnEscape="true">
         <h:form id="formCH" >
-            <p:dataTable  value="#{dokfkView.pobranecechypodatnik}" var="item" rows="6" style="height: 170px;"
+            <p:dataTable  value="#{dokfkView.pobranecechypodatnik}" var="item" rows="6" style="height: 270px;"
                           emptyMessage="cechy nie zostały zdefiniowane">
                 <p:column headerText="nazwa cechy do wyboru">
                     <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>

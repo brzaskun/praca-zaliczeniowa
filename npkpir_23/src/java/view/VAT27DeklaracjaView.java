@@ -115,6 +115,26 @@ public class VAT27DeklaracjaView implements Serializable {
             }
         }
     }
+     
+    public void tworzdeklaracjejakokorekta(List<VatUe> lista) {
+       try {
+            String deklaracja = sporzadz(lista, true);
+            Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
+            if (podpisanadeklaracja != null) {
+                Deklaracjavat27 deklaracjavat27 = generujdeklaracje(podpisanadeklaracja);
+                deklaracjavat27.setNrkolejny(1);
+                deklaracjavat27.setPozycje(lista);
+                deklaracjavat27DAO.dodaj(deklaracjavat27);
+                vat27View.getDeklaracjevat27().add(deklaracjavat27);
+                Msg.msg("Sporządzono deklarację VAT-27");
+            } else {
+                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-27. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-27");
+        }
+    }
     
     public void tworzdeklaracje(List<VatUe> lista) {
         if (!lista.isEmpty() && lista.get(0).getKontrahent() != null) {

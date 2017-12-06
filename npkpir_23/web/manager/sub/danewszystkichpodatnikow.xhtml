@@ -16,7 +16,7 @@
     <h:form>
         <p:commandButton value="drukuj" actionListener="#{podatnicyView.drukujwszystkich}" style="width: 120px; margin: 10px;"/>
     <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 1000px;"
-                 rowKey="#{podatnik.id}"
+                 rowKey="#{podatnik.id}" rowSelectMode="add"
                  selection="#{podatnicyView.wybranipodatnicy}">
         <f:facet name="header">
             <h:outputText value="podatnicy"/>

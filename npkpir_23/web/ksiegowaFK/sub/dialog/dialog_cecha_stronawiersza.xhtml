@@ -7,10 +7,10 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <p:dialog id="dialogCechyStronaWiersza" header="Wykaz przyporządkowanych cech dla bieżącego zapisu" widgetVar="dialogCechyStronaWiersza" resizable="false" 
-              onShow="ustawdialog('dialogCechyStronaWiersza','dialogpierwszy',500,400);" onHide="focusNaStronieCechaWiersza()" focus=":formCHW"  modal="true" appendTo="@(body)"
+              onShow="ustawdialog('dialogCechyStronaWiersza','dialogpierwszy',500,500);" onHide="focusNaStronieCechaWiersza()" focus=":formCHW"  modal="true" appendTo="@(body)"
               closeOnEscape="true">
         <h:form id="formCHW" >
-            <p:dataTable  value="#{dokfkView.pobranecechy}" var="item" rows="6" style="height: 170px;"
+            <p:dataTable  value="#{dokfkView.pobranecechypodatnik}" var="item" rows="6" style="height: 270px;"
                           emptyMessage="cechy nie zostały zdefiniowane">
                 <p:column headerText="nazwa cechy do wyboru">
                     <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
