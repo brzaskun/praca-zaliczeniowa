@@ -126,23 +126,23 @@ var aktywujopis = function(czyjestvat) {
 };
 
 var lisnerdodanienowegowiersza = function () {
-    r('dodWiad:opis_input').on('keyup', function (e) {
+    r('dodWiad:opis_input').on('keyup', function (event) {
         var kodklawisza = e.which;
         if (kodklawisza === 107) {
             r('dodWiad:dodkol').click();
             var wartoscpola = r('dodWiad:opis_input').val();
             r('dodWiad:opis_input').val(wartoscpola.slice(0, -1));
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
         }
         if (kodklawisza === 109) {
             r('dodWiad:usunkol').click();
             var wartoscpola = r('dodWiad:opis_input').val();
             r('dodWiad:opis_input').val(wartoscpola.slice(0, -1));
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
         }
         //zapisuje opis w bazie
         if (kodklawisza === 120) {
@@ -152,9 +152,9 @@ var lisnerdodanienowegowiersza = function () {
                 "font-weight": 900
             });
             r('dodWiad:opis').focus();
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
         }
     });
 }

@@ -11,9 +11,9 @@
         var doczeplistnerydopol = function() {
                 /* <![CDATA[ */
                 //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-            $(document).on("click", '.walkingtable tr', function (e) {
+            $(document).on("click", '.walkingtable tr', function (event) {
             try {
-                    zachowajobiekt(this, e);
+                    zachowajobiekt(this, event);
                 } catch (ex) {
                     alert('error dialog zapisynakoncie' + ex.toString());
                 }

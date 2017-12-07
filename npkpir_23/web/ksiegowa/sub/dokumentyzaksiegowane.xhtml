@@ -58,11 +58,11 @@
         <script>
             //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
             /* <![CDATA[ */
-            $(document).on("click", '.grid tr', function (e) {
+            $(document).on("click", '.grid tr', function (event) {
                 var listawierszy = $("#form\\:dokumentyLista_data").children("tr");
                 var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
                 try {
-                    e.stopPropagation(); // will prevent double click events from link being clicked within row
+                    event.stopPropagation(); // will prevent double click events from link being clicked within row
                     var lpwiersznast = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
                     var numerwiersza = lpwiersznast - lppierwszywiersz;
                     zachowajnumerwiersza(numerwiersza);

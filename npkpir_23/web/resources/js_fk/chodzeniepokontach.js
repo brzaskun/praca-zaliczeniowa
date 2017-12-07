@@ -67,7 +67,7 @@ var zachowajobiekt = function(obiekt, event) {
             MYAPP[MYAPP.zmienna] = numerwiersza;
             obliczwysokosc(sourceid);
             MYAPP.obiekt = obiekt;
-            stop();
+            stop(event);
         }
     } catch (ex) {
         alert("Blad w zachowajobiekt/chodzeniepokonach.js zachowajobiekt" + ex.toString());
@@ -158,7 +158,7 @@ var obliczwysokosc = function(sourceid) {
         MYAPP.bottom = MYAPP.top+MYAPP.height;  
 };
 
-var stop = function () {
+var stop = function (event) {
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
