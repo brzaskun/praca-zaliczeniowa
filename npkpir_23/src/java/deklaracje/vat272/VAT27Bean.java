@@ -154,7 +154,8 @@ public class VAT27Bean {
                 if (p.getKontrahent() != null) {
                     switch (p.getTransakcja()) {
                         case "RVC":
-                            poz.getGrupaC().add(grupaC(p, sumaC));
+                            sumaC += p.getNetto();
+                            poz.getGrupaC().add(grupaC(p));
                             break;
                     }
                 }
@@ -164,18 +165,19 @@ public class VAT27Bean {
                 if (p.getKontrahent() != null) {
                     switch (p.getTransakcja()) {
                         case "RVCS":
-                            poz.getGrupaD().add(grupaD(p, sumaD));
+                            sumaD += p.getNetto();
+                            poz.getGrupaD().add(grupaD(p));
                             break;
                     }
                 }
             }
-            poz.setP10(new BigDecimal(sumaD));
+            poz.setP10(new BigDecimal(sumaC));
             poz.setP11(new BigDecimal(sumaD));
         }
         return poz;
     }
 
-    private static GrupaC grupaC(VatUe p, Double sumaC) {
+    private static GrupaC grupaC(VatUe p) {
         GrupaC g = new GrupaC();
         g.setTyp(g.getTyp());
         if (p.isKorekta()) {
@@ -184,11 +186,10 @@ public class VAT27Bean {
         g.setPC2("DOSTAWA1");
         g.setPC3(przetworznip(p.getKontrahent().getNip()));
         g.setPC4(new BigDecimal(Z.zUDI(p.getNetto()).toString()));
-        sumaC += p.getNetto();
         return g;
     }
 
-    private static GrupaD grupaD(VatUe p, Double sumaD) {
+    private static GrupaD grupaD(VatUe p) {
         GrupaD g = new GrupaD();
         if (p.isKorekta()) {
             g.setPD1(1);
@@ -197,7 +198,6 @@ public class VAT27Bean {
         g.setPD2("USŁUGA");
         g.setPD3(przetworznip(p.getKontrahent().getNip()));
         g.setPD4(new BigDecimal(Z.zUDI(p.getNetto()).toString()));
-        sumaD += p.getNetto();
         return g;
     }
     

@@ -74,29 +74,9 @@ public class VATUEDeklaracjaView implements Serializable {
         robdeklaracje(lista, false, 0);
     }
     
-    public void tworzdeklaracjejakokorekta(List<VatUe> lista) {
-        try {
-            String deklaracja = sporzadz(lista);
-            Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
-            if (podpisanadeklaracja != null) {
-                DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
-                deklaracjavatUE.setNrkolejny(1);
-                deklaracjavatUE.setPozycje(lista);
-                deklaracjavatUEDAO.dodaj(deklaracjavatUE);
-                vatUeFKView.getDeklaracjeUE().add(deklaracjavatUE);
-                Msg.msg("Sporządzono deklarację VAT-UE miesięczną wersja 4 oznaczona jako korekta");
-            } else {
-                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
-            }
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE miesięczną wersja 4");
-        }
-    }
-    
     public void robdeklaracje(List<VatUe> lista, boolean korekta, int nrkolejny) {
         try {
-            String deklaracja = sporzadz(lista);
+            String deklaracja = sporzadz(lista, korekta);
             Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
             if (podpisanadeklaracja != null) {
                 DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
@@ -116,7 +96,7 @@ public class VATUEDeklaracjaView implements Serializable {
     
      public void robdeklaracjekorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta, int nrkolejny) {
         try {
-            String deklaracja = sporzadzkorekta(lista, staralista);
+            String deklaracja = sporzadzkorekta(lista, staralista, korekta);
             Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
             if (podpisanadeklaracja != null) {
                 DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
@@ -133,8 +113,8 @@ public class VATUEDeklaracjaView implements Serializable {
             Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UEK miesięczną wersja 4");
         }
     }
-     
-    private String sporzadzjakokorekta(List<VatUe> lista) {
+    
+    private String sporzadz(List<VatUe> lista, boolean korekta) {
         deklaracje.vatue.m4.Deklaracja deklaracja = new deklaracje.vatue.m4.Deklaracja();
         String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
         deklaracja.setNaglowek(VATUEM4Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
@@ -144,17 +124,7 @@ public class VATUEDeklaracjaView implements Serializable {
         return VATUEM4Bean.marszajuldoStringu(deklaracja, wpisView).substring(17);
     }
     
-    private String sporzadz(List<VatUe> lista) {
-        deklaracje.vatue.m4.Deklaracja deklaracja = new deklaracje.vatue.m4.Deklaracja();
-        String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
-        deklaracja.setNaglowek(VATUEM4Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
-        deklaracja.setPodmiot1(VATUEM4Bean.podmiot1(wpisView));
-        deklaracja.setPozycjeSzczegolowe(VATUEM4Bean.pozycjeszczegolowe(lista));
-        deklaracja.setPouczenie(BigDecimal.ONE);
-        return VATUEM4Bean.marszajuldoStringu(deklaracja, wpisView).substring(17);
-    }
-    
-    private String sporzadzkorekta(List<VatUe> lista, List<VatUe> staralista) {
+    private String sporzadzkorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta) {
         List<VatUe> listaroznic = sporzadzroznice(lista, staralista);
         deklaracje.vatuek.m4.Deklaracja deklaracja = new deklaracje.vatuek.m4.Deklaracja();
         String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
