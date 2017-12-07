@@ -152,7 +152,7 @@
                 <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dataWyst}"  style="width: 50px; min-width: 70px;">  
                     <h:outputText value="#{wpis.dataWyst.substring(2)}"/>
                 </p:column>
-                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" 
+                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" width="220"
                           filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 200px;" autoWidth="false">
