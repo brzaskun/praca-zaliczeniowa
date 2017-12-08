@@ -334,6 +334,20 @@ public class PozycjaRZiSFKBean {
         }
         return null;
     }
+    
+    public static String zwrocPierwszySymbol(int level) {
+        switch (level) {
+            case 1:
+                return "I";
+            case 2:
+                return "1";
+            case 3:
+                return "a";
+            case 4:
+                return "-(1)";
+        }
+        return null;
+    }
 
     public static void odznaczmacierzyste(String macierzyste, String kontoanalizowane, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok) {
         List<Konto> siostry = null;

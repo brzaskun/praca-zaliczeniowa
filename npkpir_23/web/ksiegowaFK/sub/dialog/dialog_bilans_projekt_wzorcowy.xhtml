@@ -15,6 +15,8 @@
                 <p:separator/>
                 <p:menuitem value="Edytuj nazwę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.skopiujnazwe('b')}" update=":formdialog_zmiananazwypozycji_wzor" onsuccess="PF('dialog_zmiananazwypozycji_wzor').show();"/>
                 <p:menuitem value="Usuń" actionListener="#{pozycjaBRWzorcowyView.usunpozycje}" icon="ui-icon-trash" update=":formbilansprojekt"/>
+                <p:menuitem value="Usuń i przenumeruj" actionListener="#{pozycjaBRWzorcowyView.usunpozycjeprzenumeruj}" icon="ui-icon-trash" update=":formbilansprojekt"/>
+                <p:menuitem value="Usuń wszystkie" actionListener="#{pozycjaBRWzorcowyView.usunwszystkie}" icon="ui-icon-trash" update=":formbilansprojekt"/>
             </p:contextMenu>
             <p:panelGrid columns="4" >
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRWzorcowyView.rozwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />

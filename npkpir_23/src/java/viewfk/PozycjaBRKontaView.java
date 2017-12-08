@@ -628,6 +628,7 @@ public class PozycjaBRKontaView implements Serializable {
                     pobierzukladkontoB("aktywa");
                 }
             }
+            System.out.println("Zakonczono kopiowanie przyporzadkowania kont do ukladu");
         } else {
             Msg.msg("e", "Podatnik nie posiada zdefiniowanych układów Bilansu i RZiS. Nie można zaimplementować przyporządkowania.");
         }

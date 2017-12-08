@@ -529,6 +529,63 @@ public class PozycjaBRWzorcowyView implements Serializable {
             Msg.msg("e", "Nie udało się usunąć pozycji w RZiS");
         }
     }
+    
+    public void usunwszystkie() {
+        try {
+            for (PozycjaRZiSBilans p : pozycje) {
+                pozycjaRZiSDAO.destroy(p);
+            }
+            pozycje = new ArrayList<>();
+            if (pozycje.isEmpty()) {
+                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
+            }
+            rootProjektRZiS = new TreeNodeExtended("root", null);
+            PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
+            level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
+            Msg.msg("i", "Usunąłem wyszstkie pozycje w bilansie wzorcowym");
+        } catch (Exception e) {  E.e(e);
+            Msg.msg("e", "Nie udało się usunąć wszystkich pozycji w bilansie wzorcowym");
+        }
+    }
+    
+    public void usunpozycjeprzenumeruj() {
+        try {
+            if (wybranynodekonta.getChildCount() > 0) {
+                Msg.msg("w", "Wybrana pozycja RZiS zawiera podpunkty!");
+                throw new Exception();
+            }
+            int level = ((PozycjaRZiSBilans) wybranynodekonta.getData()).getLevel();
+            pozycje.remove(wybranynodekonta.getData());
+            pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
+            if (pozycje.isEmpty()) {
+                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
+            } else {
+                String pierwszysymbol = PozycjaRZiSFKBean.zwrocPierwszySymbol(level);
+                TreeNode parent = wybranynodekonta.getParent();
+                if (parent != null) {
+                    for (TreeNode child : parent.getChildren()) {
+                        if (!child.equals(wybranynodekonta)) {
+                            PozycjaRZiSBilans chd = (PozycjaRZiSBilans) child.getData();
+                            chd.setPozycjaSymbol(pierwszysymbol);
+                            chd.setPozycjaString(((PozycjaRZiSBilans) parent.getData()).getPozycjaString() + "." + pierwszysymbol);
+                            pierwszysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level, pierwszysymbol);
+                            pozycjaBilansDAO.edit(chd);
+                        }
+                    }
+                }
+            }
+            rootProjektRZiS = new TreeNodeExtended("root", null);
+            PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
+            level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
+            Msg.msg("i", "Usuwam w RZiS");
+        } catch (Exception e) {  
+                E.e(e);
+        }
+            Msg.msg("e", "Nie udało się usunąć pozycji w RZiS");
+    }
+
 
 //    public void zmien() {
 //        List<Konto> lista = kontoDAO.findAll();
@@ -645,6 +702,11 @@ public class PozycjaBRWzorcowyView implements Serializable {
     
     public void wybranopozycjeRZiS() {
         String nazwa = ((PozycjaRZiS) wybranynodekonta.getData()).getNazwa();
+        Msg.msg("Wybrano pozycję "+nazwa);
+    }
+    
+    public void wybranopozycjeBilans() {
+        String nazwa = ((PozycjaBilans) wybranynodekonta.getData()).getNazwa();
         Msg.msg("Wybrano pozycję "+nazwa);
     }
        
