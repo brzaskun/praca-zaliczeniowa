@@ -246,6 +246,9 @@ public class PozycjaBRKontaView implements Serializable {
                         onKontoDropKontaSpecjalne(wzorcowy, wybranyuklad);
                     }
                 }
+                if (konto.getKontopozycjaID().getPozycjaWn() != null && konto.getKontopozycjaID().getPozycjaMa() != null ) {
+                    kontabezprzydzialu.remove(konto);
+                }
             } else if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
                 PlanKontFKBean.przyporzadkujBilans_kontozwykle(wybranapozycja, konto, wybranyuklad, kontoDAO, wpisView.getPodatnikObiekt(), null, aktywa0pasywa1);
                 przyporzadkowanekonta.add(konto);

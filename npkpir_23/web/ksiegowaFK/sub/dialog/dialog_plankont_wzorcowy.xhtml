@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
    
     <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" dynamic="true"
-              resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1350, 750);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
+              resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1370, 750);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy" style="width: 200px;">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="PF('nowekontosyntetyczne').show();" />
@@ -37,7 +37,7 @@
                                     }
                                 }
                         </script>-->
-            <p:panelGrid columns="9">
+            <p:panelGrid columns="10">
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie"  onclick="rozwinwszystkie('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
@@ -52,7 +52,8 @@
                         <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                   </p:selectOneMenu>
-                <p:selectOneMenu value="#{planKontView.wybranyukladwzorcowy}" converter="UkladBRWzorcowyConv">
+                <p:outputLabel for="wybierzuklad" value="wybierz układ"/>
+                <p:selectOneMenu value="#{planKontView.wybranyukladwzorcowy}" converter="UkladBRWzorcowyConv" id="wybierzuklad">
                        <f:selectItem itemLabel="brak układu" itemValue="" noSelectionOption="true"/>
                        <f:selectItems value="#{planKontView.listaukladowwzorcowy}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                        <p:ajax event="change" update="formwzorcowy:dataListwzorcowy" partialSubmit="true" listener="#{planKontView.zmienukladwzorcowy()}"/>
@@ -66,7 +67,7 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont"
-                             style="width: 1290px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1330px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkontawzorcowy, :formedycjanazwwzorcowy" global="false" listener="#{planKontView.selrowwzorcowy()}"/>

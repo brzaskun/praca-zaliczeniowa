@@ -233,6 +233,9 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                     }
                     uzupelnijpozycjeOKonta(pozycje);
                 }
+                if (konto.getKontopozycjaID().getPozycjaWn() != null && konto.getKontopozycjaID().getPozycjaMa() != null ) {
+                    kontabezprzydzialu.remove(konto);
+                }
             } else if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
                 PlanKontFKBean.przyporzadkujBilans_kontozwykle(wybranapozycja, konto, uklad, kontoDAO, wpisView.getPodatnikObiekt(), null, aktywa0pasywa1);
                 przyporzadkowanekonta.add(konto);
@@ -274,6 +277,9 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
             Konto konto = boxNaKonto;
+            if (przyporzadkowanekonta.contains(konto)) {
+                    przyporzadkowanekonta.remove(konto);
+                }
             //to duperele porzadkujace sytuacje w okienkach
             if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("vat")) {
                 PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, ukladpodatnika, kontoDAO, wpisView, wzorcowy, wnmaPrzypisywanieKont, aktywa0pasywa1,"rozrachunkowe/vat", wpisView.getPodatnikObiekt());
@@ -281,14 +287,10 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 kontabezprzydzialu.remove(konto);
             } else if (konto.getZwyklerozrachszczegolne().equals("szczególne")) {
-                if (przyporzadkowanekonta.contains(konto)) {
-                    przyporzadkowanekonta.remove(konto);
-                }
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
                 PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, ukladpodatnika, kontoDAO, wpisView, wzorcowy, wnmaPrzypisywanieKont, aktywa0pasywa1,"szczególne", wpisView.getPodatnikObiekt());
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
-                kontabezprzydzialu.remove(konto);
                 //czesc nanoszaca informacje na potomku
             }
             uzupelnijpozycjeOKonta(pozycje);
