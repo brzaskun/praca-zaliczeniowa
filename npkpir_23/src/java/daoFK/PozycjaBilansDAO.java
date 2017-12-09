@@ -10,7 +10,6 @@ import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -57,9 +56,17 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
         }
    }
      
-     public  List<PozycjaBilans> findBilansukladPasywa(UkladBR bilansuklad){
+    public  List<PozycjaBilans> findBilansukladPasywa(UkladBR bilansuklad){
         try {
             return sessionFacade.findBilansukladPasywa(bilansuklad);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+   }
+     
+    public  List<PozycjaBilans> findBilansukladAktywaPasywa(UkladBR bilansuklad){
+        try {
+            return sessionFacade.findBilansukladAktywaPasywa(bilansuklad);
         } catch (Exception e) { E.e(e); 
             return null;
         }

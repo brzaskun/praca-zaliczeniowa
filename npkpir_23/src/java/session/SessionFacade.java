@@ -1060,6 +1060,13 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         String rok = u.getRok();
         return em.createNamedQuery("PozycjaBilans.findByUkladPodRokPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
+    
+    public List<PozycjaRZiS> findBilansukladAktywaPasywa(UkladBR u) {
+        String uklad = u.getUklad();
+        String podatnik = u.getPodatnik();
+        String rok = u.getRok();
+        return em.createNamedQuery("PozycjaBilans.findByUkladPodRokAtywaPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    }
 
     public List<KontopozycjaBiezaca> findKontaBiezacePodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {

@@ -734,10 +734,10 @@ public class PozycjaBRKontaView implements Serializable {
             przyporzadkowanekonta = new ArrayList<>();
             //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
-            List<PozycjaRZiS> pozycjedoprzejrzenia = pozycjaRZiSDAO.findRzisuklad(ukladpodatnika);
+            List<PozycjaBilans> pozycjedoprzejrzenia = pozycjaBilansDAO.findBilansukladAktywaPasywa(ukladpodatnika);
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladwzorcowy, "bilansowe");
             for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
-                if (czypozycjazawiera(pozycjedoprzejrzenia, p)) {
+                if (czypozycjazawieraBilans(pozycjedoprzejrzenia, p)) {
 //                if (!p.getSyntetykaanalityka().equals("syntetyka")) {
                     try {
                         Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), podatnik, wpisView.getRokWpisu());
@@ -789,6 +789,17 @@ public class PozycjaBRKontaView implements Serializable {
     private boolean czypozycjazawiera(List<PozycjaRZiS> pozycjedoprzejrzenia, KontopozycjaZapis p) {
         boolean zwrot = false;
         for (PozycjaRZiS r : pozycjedoprzejrzenia) {
+            if (r.getPozycjaString().equals(p.getPozycjaWn()) || r.getPozycjaString().equals(p.getPozycjaMa())) {
+                zwrot = true;
+                break;
+            }
+        }
+        return zwrot;
+    }
+    
+    private boolean czypozycjazawieraBilans(List<PozycjaBilans> pozycjedoprzejrzenia, KontopozycjaZapis p) {
+        boolean zwrot = false;
+        for (PozycjaBilans r : pozycjedoprzejrzenia) {
             if (r.getPozycjaString().equals(p.getPozycjaWn()) || r.getPozycjaString().equals(p.getPozycjaMa())) {
                 zwrot = true;
                 break;
