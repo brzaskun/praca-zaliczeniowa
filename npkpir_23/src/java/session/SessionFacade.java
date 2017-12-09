@@ -630,7 +630,11 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public Konto findKonto(String numer, Podatnik podatnik, Integer rok) {
-        return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+        if (podatnik == null) {
+            return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnikWzorcowy").setParameter("pelnynumer", numer).setParameter("rok", rok).getSingleResult();
+        } else {
+            return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+        }
     }
 
     public Konto findKontoNazwaPelnaPodatnik(String nazwapelna, WpisView wpisView) {
@@ -1127,7 +1131,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontoPodatnikBezSlownik(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        if (podatnik == null) {
+            return em.createNamedQuery("Konto.findByPodatnikBezSlownikWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList();
+        } else {
+            return em.createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        }
     }
     public List<Konto> findKontoPodatnikBezSlownikKsiegi(Podatnik podatnik, String rok) {
         return em.createNamedQuery("Konto.findByPodatnikBezSlownikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
@@ -1146,11 +1154,19 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findWszystkieKontaBilansowePodatnika(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        if (podatnik == null) {
+            return em.createNamedQuery("Konto.findByPodatnikBilansoweWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList();
+        } else {
+            return em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        }
     }
 
     public List<Konto> findWszystkieKontaWynikowePodatnika(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("Konto.findByPodatnikWynikowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        if (podatnik == null) {
+            return em.createNamedQuery("Konto.findByPodatnikWynikoweWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList();
+        } else {
+            return em.createNamedQuery("Konto.findByPodatnikWynikowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        }
     }
 
     public List<Konto> findKontaWynikowePodatnikaBezPotomkow(WpisView wpisView) {

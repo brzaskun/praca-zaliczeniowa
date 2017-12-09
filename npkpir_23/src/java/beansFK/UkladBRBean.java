@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import msg.Msg;
-import view.WpisView;
 
 /**
  *
@@ -85,10 +84,9 @@ public class UkladBRBean {
         }
     }
     
-    public static UkladBR pobierzukladaktywny(UkladBRDAO ukladBRDAO, WpisView wpisView) {
+    public static UkladBR pobierzukladaktywny(UkladBRDAO ukladBRDAO, List<UkladBR> listaukladow) {
         UkladBR wybrany = null;
         boolean mamaktualny = false;
-        List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
         if (listaukladow != null) {
             for (UkladBR p : listaukladow) {
                 if (p.isAktualny() && mamaktualny == false) {

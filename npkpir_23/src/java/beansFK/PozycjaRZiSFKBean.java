@@ -568,4 +568,17 @@ public class PozycjaRZiSFKBean {
             E.e(e);
         }
     }
+    
+     public static void zmianaukladuwzorcowy(String bilansowewynikowe, UkladBR uklad, UkladBRDAO ukladBRDAO, PozycjaRZiSDAO pozycjaRZiSDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAO, WpisView wpisView) {
+        try {
+            UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
+            ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+            PozycjaRZiSFKBean.pobierzPozycje(pozycje, pozycjaRZiSDAO, uklad);
+            PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, null, wpisView.getRokWpisuSt(), kontoDAO);
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, bilansowewynikowe);
+            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, bilansowewynikowe);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
 }

@@ -131,6 +131,8 @@ public class PlanKontView implements Serializable {
     private boolean usunprzyporzadkowanie;
     private List<UkladBR> listaukladow;
     private UkladBR wybranyuklad;
+    private List<UkladBR> listaukladowwzorcowy;
+    private UkladBR wybranyukladwzorcowy;
     private String wybranapozycja_wiersz;
     
 
@@ -144,11 +146,12 @@ public class PlanKontView implements Serializable {
     public void init() {
 //        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
-        wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, wpisView);
+        wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
         if (wybranyuklad != null) {
             PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
             PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         }
+//<editor-fold defaultstate="collapsed" desc="comment">
 //        int czysaslownikowe = sprawdzkonta();
 //        if (czysaslownikowe == 0) {
 //            infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
@@ -159,10 +162,17 @@ public class PlanKontView implements Serializable {
 //        } else {
 //            infozebrakslownikowych = "";
 //        }
+//</editor-fold>
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
         wykazkontlazy = new LazyKontoDataModel(wykazkont);
         //root = rootInit(wykazkont);
+        listaukladowwzorcowy = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
+        wybranyukladwzorcowy = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladowwzorcowy);
+        if (wybranyukladwzorcowy != null) {
+            PozycjaRZiSFKBean.zmianaukladuwzorcowy("bilansowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+            PozycjaRZiSFKBean.zmianaukladuwzorcowy("wynikowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        }
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         styltabeliplankont = opracujstylwierszatabeli();
         //rootwzorcowy = rootInit(wykazkontwzor);
@@ -180,6 +190,20 @@ public class PlanKontView implements Serializable {
         PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
+    }
+    
+    public void zmienukladwzorcowy() {
+        listaukladowwzorcowy = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
+        for (UkladBR p : listaukladowwzorcowy) {
+            p.setAktualny(false);
+        }
+        ukladBRDAO.editList(listaukladowwzorcowy);
+        wybranyukladwzorcowy.setAktualny(true);
+        ukladBRDAO.edit(wybranyukladwzorcowy);
+        PozycjaRZiSFKBean.zmianaukladuwzorcowy("bilansowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladuwzorcowy("wynikowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
+        Collections.sort(wykazkontwzor, new Kontocomparator());
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
@@ -969,7 +993,8 @@ public class PlanKontView implements Serializable {
         }
         kontopozycjaZapisDAO.editList(nowepozycje);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, wpisView);
+        listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
+        wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
         PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         Collections.sort(wykazkont, new Kontocomparator());
@@ -1282,7 +1307,7 @@ public class PlanKontView implements Serializable {
                         E.e(e);
                     }
                     if (usunprzyporzadkowanie) {
-                        KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyuklad);
+                        KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyukladwzorcowy);
                         if (kp != null) {
                             kontopozycjaZapisDAO.destroy(kp);
                         }
@@ -1292,7 +1317,7 @@ public class PlanKontView implements Serializable {
                 }
             }
             if (usunprzyporzadkowanie) {
-                KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(selectednodekontowzorcowy, wybranyuklad);
+                KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(selectednodekontowzorcowy, wybranyukladwzorcowy);
                 if (kp != null) {
                     kontopozycjaZapisDAO.destroy(kp);
                 }
@@ -1900,6 +1925,22 @@ public class PlanKontView implements Serializable {
 
     public void setWybranyuklad(UkladBR wybranyuklad) {
         this.wybranyuklad = wybranyuklad;
+    }
+
+    public List<UkladBR> getListaukladowwzorcowy() {
+        return listaukladowwzorcowy;
+    }
+
+    public void setListaukladowwzorcowy(List<UkladBR> listaukladowwzorcowy) {
+        this.listaukladowwzorcowy = listaukladowwzorcowy;
+    }
+
+    public UkladBR getWybranyukladwzorcowy() {
+        return wybranyukladwzorcowy;
+    }
+
+    public void setWybranyukladwzorcowy(UkladBR wybranyukladwzorcowy) {
+        this.wybranyukladwzorcowy = wybranyukladwzorcowy;
     }
 
     public boolean isUsunprzyporzadkowanie() {

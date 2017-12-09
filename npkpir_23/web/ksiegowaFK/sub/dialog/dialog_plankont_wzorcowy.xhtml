@@ -37,7 +37,7 @@
                                     }
                                 }
                         </script>-->
-            <p:panelGrid columns="8">
+            <p:panelGrid columns="9">
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie"  onclick="rozwinwszystkie('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
@@ -52,6 +52,11 @@
                         <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                   </p:selectOneMenu>
+                <p:selectOneMenu value="#{planKontView.wybranyukladwzorcowy}" converter="UkladBRWzorcowyConv">
+                       <f:selectItem itemLabel="brak układu" itemValue="" noSelectionOption="true"/>
+                       <f:selectItems value="#{planKontView.listaukladowwzorcowy}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                       <p:ajax event="change" update="formwzorcowy:dataListwzorcowy" partialSubmit="true" listener="#{planKontView.zmienukladwzorcowy()}"/>
+                    </p:selectOneMenu>
             </p:panelGrid>
             <p:panelGrid columns="2">
                 <p:dataTable id="dataListwzorcowy" value="#{planKontView.wykazkontwzor}" var="loop"  selectionMode="single"
