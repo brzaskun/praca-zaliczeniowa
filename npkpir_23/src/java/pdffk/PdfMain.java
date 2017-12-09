@@ -797,7 +797,8 @@ public class PdfMain {
             case "entity.Podatnik":
                 col = new int[size];
                 col[0] = 2;
-                col[1] = 6;
+                col[1] = 5;
+                col[1] = 4;
                 col[2] = 3;
                 col[3] = 2;
                 col[4] = 2;
@@ -1436,6 +1437,7 @@ public class PdfMain {
                 Podatnik p = (Podatnik) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 8));
                 table.addCell(ustawfrazeAlign(p.getPrintnazwa(), "left", 8, 15f));
+                table.addCell(ustawfrazeAlign(p.getImie()+" "+p.getNazwisko(), "left", 8, 15f));
                 table.addCell(ustawfrazeAlign(p.getUlica(), "left", 8));
                 table.addCell(ustawfrazeAlign(p.getNrdomu(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getNrlokalu(), "center", 8));

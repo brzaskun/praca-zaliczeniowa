@@ -343,6 +343,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        //9
        n.add("lp");
        n.add("nazwa");
+       n.add("imię nazw.");
        n.add("ulica");
        n.add("nr domu");
        n.add("nr lokalu");
