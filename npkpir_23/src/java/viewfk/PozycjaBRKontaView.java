@@ -689,39 +689,42 @@ public class PozycjaBRKontaView implements Serializable {
             przyporzadkowanekonta = new ArrayList<>();
             //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");
+            List<PozycjaRZiS> pozycjedoprzejrzenia = pozycjaRZiSDAO.findRzisuklad(ukladpodatnika);
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladwzorcowy, "wynikowe");
             for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
-                if (!p.getSyntetykaanalityka().equals("analityka") && !p.getSyntetykaanalityka().equals("syntetyka")) {
-                    if (p.getSyntetykaanalityka().equals("wynikowe") || p.getSyntetykaanalityka().equals("szczególne")) {
-                        try {
-                            Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), podatnik, wpisView.getRokWpisu());
-                            if (kontouzytkownika != null) {
-                                System.out.println("Konto "+kontouzytkownika.getPelnynumer());
-                            } else {
-                                System.out.println("Nie ma takeigo konta "+p.getKontoID().getPelnynumer());
-                            }
-                            boxNaKonto = kontouzytkownika;
-                            if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("wynikowe")) {
-                                kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
-                                if (kontouzytkownika.getZwyklerozrachszczegolne().equals("szczególne")) {
-                                    wybranapozycja = p.getPozycjaWn();
-                                    wnmaPrzypisywanieKont = "wn";
-                                    onKontoDropRAutoSzczegolne(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, false);
-                                    wybranapozycja = p.getPozycjaMa();
-                                    Konto kontouzytkownika1 = kontoDAO.findKonto(kontouzytkownika.getId());
-                                    boxNaKonto = kontouzytkownika1;
-                                    onKontoDropRAutoSzczegolne(kontouzytkownika1, p.getPozycjaMa(), ukladpodatnika, false);
+                if (czypozycjazawiera(pozycjedoprzejrzenia, p)) {
+                    if (!p.getSyntetykaanalityka().equals("analityka") && !p.getSyntetykaanalityka().equals("syntetyka")) {
+                        if (p.getSyntetykaanalityka().equals("wynikowe") || p.getSyntetykaanalityka().equals("szczególne")) {
+                            try {
+                                Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), podatnik, wpisView.getRokWpisu());
+                                if (kontouzytkownika != null) {
+                                    System.out.println("Konto " + kontouzytkownika.getPelnynumer());
                                 } else {
-                                    onKontoDropRAutoZwykle(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, false, wpisView.getPodatnikObiekt());
+                                    System.out.println("Nie ma takeigo konta " + p.getKontoID().getPelnynumer());
                                 }
+                                boxNaKonto = kontouzytkownika;
+                                if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("wynikowe")) {
+                                    kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
+                                    if (kontouzytkownika.getZwyklerozrachszczegolne().equals("szczególne")) {
+                                        wybranapozycja = p.getPozycjaWn();
+                                        wnmaPrzypisywanieKont = "wn";
+                                        onKontoDropRAutoSzczegolne(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, false);
+                                        wybranapozycja = p.getPozycjaMa();
+                                        Konto kontouzytkownika1 = kontoDAO.findKonto(kontouzytkownika.getId());
+                                        boxNaKonto = kontouzytkownika1;
+                                        onKontoDropRAutoSzczegolne(kontouzytkownika1, p.getPozycjaMa(), ukladpodatnika, false);
+                                    } else {
+                                        onKontoDropRAutoZwykle(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, false, wpisView.getPodatnikObiekt());
+                                    }
+                                }
+                            } catch (Exception e) {
+                                E.e(e);
                             }
-                        } catch (Exception e) {
-                            E.e(e);
                         }
+                    } else {
+                        //nie przejmuje sie tym bo wyzej jest funkcja oznaczajaca takie macierzyste
+                        System.out.println("konto przyporzadkowane analityka RZIS");
                     }
-                } else {
-                    //nie przejmuje sie tym bo wyzej jest funkcja oznaczajaca takie macierzyste
-                    System.out.println("konto przyporzadkowane analityka RZIS");
                 }
             }
         }
@@ -731,24 +734,23 @@ public class PozycjaBRKontaView implements Serializable {
             przyporzadkowanekonta = new ArrayList<>();
             //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
+            List<PozycjaRZiS> pozycjedoprzejrzenia = pozycjaRZiSDAO.findRzisuklad(ukladpodatnika);
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladwzorcowy, "bilansowe");
             for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
-                if (p.getKontoID().getPelnynumer().contains("-")) {
-                    System.out.println("");
-                }
+                if (czypozycjazawiera(pozycjedoprzejrzenia, p)) {
 //                if (!p.getSyntetykaanalityka().equals("syntetyka")) {
                     try {
                         Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), podatnik, wpisView.getRokWpisu());
                         if (kontouzytkownika != null) {
-                            System.out.println("Konto "+kontouzytkownika.getPelnynumer());
+                            System.out.println("Konto " + kontouzytkownika.getPelnynumer());
                         } else {
-                            System.out.println("Nie ma takeigo konta "+p.getKontoID().getPelnynumer());
+                            System.out.println("Nie ma takeigo konta " + p.getKontoID().getPelnynumer());
                         }
                         boxNaKonto = kontouzytkownika;
                         if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("bilansowe")) {
                             kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                             if (kontouzytkownika.getPelnynumer().equals("010-3")) {
-                               System.out.println("mam");
+                                System.out.println("mam");
                             }
                             if (!kontouzytkownika.getZwyklerozrachszczegolne().equals("zwykłe")) {
                                 if (p.getStronaWn() != null) {
@@ -777,11 +779,22 @@ public class PozycjaBRKontaView implements Serializable {
 //                    //nie przejmuje sie tym bo wyzej jest funkcja oznaczajaca takie macierzyste
 //                    System.out.println("konto przyporzadkowane analityka Bilans");
 //                }
-                
+
+                }
+            }
+            System.out.println("zakonczenie przyporzadkowanie pozycji Koniec konca");
+            Msg.msg("Zapamiętano przyporządkowane pozycje");
+        }
+    }
+    private boolean czypozycjazawiera(List<PozycjaRZiS> pozycjedoprzejrzenia, KontopozycjaZapis p) {
+        boolean zwrot = false;
+        for (PozycjaRZiS r : pozycjedoprzejrzenia) {
+            if (r.getPozycjaString().equals(p.getPozycjaWn()) || r.getPozycjaString().equals(p.getPozycjaMa())) {
+                zwrot = true;
+                break;
             }
         }
-        System.out.println("zakonczenie przyporzadkowanie pozycji Koniec konca");
-            Msg.msg("Zapamiętano przyporządkowane pozycje");
+        return zwrot;
     }
     
 //    private void skopiujPozycjeWzorcowe(String rb, UkladBR ukladdocelowy, UkladBR ukladzrodlowy) {
@@ -1079,4 +1092,6 @@ public class PozycjaBRKontaView implements Serializable {
         KontopozycjaZapis kz = new KontopozycjaZapis(kb);
         System.out.println("k");
     }
+
+    
 }
