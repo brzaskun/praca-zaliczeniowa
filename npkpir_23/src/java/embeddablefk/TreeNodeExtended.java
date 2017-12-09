@@ -1080,11 +1080,21 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         double wynik = findBypozycjaSymbol(finallNodes, formulaParse[0]).getKwota();
         for (int i = 1; i < formulalength; i++) {
             String znak = formulaParse[i++];
-            TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
-            if (znak.equals("-")) {
-                wynik -= drugi.getKwota();
+            if (znak.equals(">") && formulaParse.length == 3) {
+                if (wynik < 0.0) {
+                    wynik = 0.0;
+                }
+            } else if (znak.equals("<") && formulaParse.length == 3) {
+                if (wynik > 0.0) {
+                    wynik = 0.0;
+                }
             } else {
-                wynik += drugi.getKwota();
+                TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
+                if (znak.equals("-")) {
+                    wynik -= drugi.getKwota();
+                } else {
+                    wynik += drugi.getKwota();
+                }
             }
         }
         return wynik;
@@ -1094,12 +1104,22 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         double wynik = ((PozycjaRZiS) findBypozycjaSymbol(finallNodes, formulaParse[0]).getData()).getMce().get(mc);
         for (int i = 1; i < formulalength; i++) {
             String znak = formulaParse[i++];
-            TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
-            double kwota = ((PozycjaRZiS) drugi.getData()).getMce().get(mc);
-            if (znak.equals("-")) {
-                wynik -= kwota;
+            if (znak.equals(">") && formulaParse.length == 3) {
+                if (wynik < 0.0) {
+                    wynik = 0.0;
+                }
+            } else if (znak.equals("<") && formulaParse.length == 3) {
+                if (wynik > 0.0) {
+                    wynik = 0.0;
+                }
             } else {
-                wynik += kwota;
+                TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
+                double kwota = ((PozycjaRZiS) drugi.getData()).getMce().get(mc);
+                if (znak.equals("-")) {
+                    wynik -= kwota;
+                } else {
+                    wynik += kwota;
+                }
             }
         }
         return wynik;
@@ -1109,11 +1129,21 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         double wynik = findBypozycjaSymbol(finallNodes, formulaParse[0]).getKwotabo();
         for (int i = 1; i < formulalength; i++) {
             String znak = formulaParse[i++];
-            TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
-            if (znak.equals("-")) {
-                wynik -= drugi.getKwotabo();
+            if (znak.equals(">") && formulaParse.length == 3) {
+                if (wynik < 0.0) {
+                    wynik = 0.0;
+                }
+            } else if (znak.equals("<") && formulaParse.length == 3) {
+                if (wynik > 0.0) {
+                    wynik = 0.0;
+                }
             } else {
-                wynik += drugi.getKwotabo();
+                TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
+                if (znak.equals("-")) {
+                    wynik -= drugi.getKwotabo();
+                } else {
+                    wynik += drugi.getKwotabo();
+                }
             }
         }
         return wynik;

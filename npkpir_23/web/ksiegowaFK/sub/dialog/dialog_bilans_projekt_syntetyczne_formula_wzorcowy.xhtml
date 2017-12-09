@@ -19,7 +19,7 @@
                         </p:selectOneMenu>
                        <h:outputLabel value="Formuła (np. A+B):" for="formula" />
                        <p:inputText id="formula" value="#{pozycjaBRWzorcowyView.nowyelementBilans.formula}" title="Formuła pozycji" style="width: 300px;" required="false" validatorMessage="Nieprawidłowa formuła. Powinna wyglądać następująco: A+B lub A-B">
-                           <f:validateRegex pattern="(([A-Z])(\.[A-Z]*)*(\.[0-9])*(\.[a-z])*(\.\-\([0-9]\))*(\+|\-)*)*" for="formula" />
+                           <f:validateRegex pattern="(([A-Z]|[0-9])(\.[A-Z]*)*(\.[0-9])*(\.[a-z])*(\.\-\([0-9]\))*(\+|\-|&gt;|&lt;)*)*" for="formula" />
                        </p:inputText>
                        <p:commandButton value="dodaj" actionListener="#{pozycjaBRWzorcowyView.dodajnowapozycjeBilans('syntetyczna')}" accesskey="d" type="submit" update=":formXbilansprojektformula, :formbilansprojekt" style="width: 120px;" onclick="PF('bilansprojektsyntetyczneformula').hide()"/>
         </p:panelGrid>

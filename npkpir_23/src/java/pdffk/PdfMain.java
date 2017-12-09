@@ -798,12 +798,12 @@ public class PdfMain {
                 col = new int[size];
                 col[0] = 2;
                 col[1] = 5;
-                col[1] = 4;
-                col[2] = 3;
-                col[3] = 2;
+                col[2] = 4;
+                col[3] = 3;
                 col[4] = 2;
-                col[5] = 3;
-                col[6] = 4;
+                col[5] = 2;
+                col[6] = 3;
+                col[7] = 4;
                 return col;
             case "viewfk.StowRozrachCzlonkView$Pozycja":
                 col = new int[size];
