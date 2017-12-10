@@ -992,7 +992,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     ((TreeNodeExtended) p).setKwota(wynik);
                 }
             } catch (Exception e) {
-                
+                E.e(e);
             }
         }
     }
@@ -1012,7 +1012,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     }
                 }
             } catch (Exception e) {
-                
+                E.e(e);
             }
         }
     }
@@ -1029,7 +1029,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     ((PozycjaRZiS) p.getData()).getMce().put(kolumna,wynik);
                 }
             } catch (Exception e) {
-                
+                E.e(e);
             }
         }
     }
@@ -1213,7 +1213,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     private static String[] formulaparser(String formula) {
-        return formula != null ? formula.split("[+|-]") : null;
+        return formula != null ? formula.split("[\\+|\\-|\\<|\\>]") : null;
     }
     
     private static String[] znakparser(String[] pola, String formula) {
