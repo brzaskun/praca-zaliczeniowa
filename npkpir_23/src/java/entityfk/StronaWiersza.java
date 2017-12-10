@@ -663,6 +663,20 @@ public class StronaWiersza implements Serializable {
         return symbol;
     }
     
+    
+    public String getSymbolInnychWalutBOiSW() {
+        String symbol = "";
+        if (this.wiersz.getTabelanbp() != null) {
+            symbol = this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
+        } else if (this.symbolWalutyBO != null) {
+            symbol = this.symbolWalutyBO;
+        }
+        if (symbol.equals("PLN")) {
+            symbol = "";
+        }
+        return symbol;
+    }
+    
     public String getSkrotSymbolWalutBOiSW() {
         String symbol = "PLN";
         if (this.wiersz.getTabelanbp() != null) {

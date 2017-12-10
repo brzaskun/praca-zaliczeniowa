@@ -2212,6 +2212,7 @@ public class DokfkView implements Serializable {
     
     public void sprawdzlimity(Transakcja loop, int row) {
         if (aktualnyWierszDlaRozrachunkow.getPozostalo() < 0.0) {
+                Msg.msg("e","Rozliczono ponad kwotę płatności. Nie można zapisać rozliczeń");
                 RequestContext.getCurrentInstance().execute("r(\"rozrachunki:zapiszrozrachunekButton\").hide();");
             } else {
                 RequestContext.getCurrentInstance().execute("r(\"rozrachunki:zapiszrozrachunekButton\").show();");

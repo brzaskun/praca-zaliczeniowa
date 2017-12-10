@@ -17,7 +17,7 @@
             width: 70px !important;
         }
         .symbolrozrachunku input {
-            width: 40px !important;
+            width: 80px !important;
         }
 
     </style>
@@ -68,16 +68,16 @@
                             <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.nazwapelna}" style="font-weight: bold; width: 200px; word-wrap: normal; overflow: auto !important; white-space: normal !important;"/>
                         </p:column>
                         <p:column>
-                            <h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.length() > 40 ? dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.substring(0,39) : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza}" style="font-weight: bold;"/>
+                            <h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.getOpisWiersza(40)}" style="font-weight: bold;"/>
                         </p:column>
                         <p:column style="text-align: center;">
-                            <h:outputText id="walutarozliczajacego" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp eq null ? dokfkView.aktualnyWierszDlaRozrachunkow.symbolWalutyBO : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty}" 
-                                          style="font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? null : 'color: blue;'}"/>
+                            <h:outputText id="walutarozliczajacego" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.getSymbolWalutBOiSW()}" 
+                                          style="font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.getSymbolWalutBOiSW() eq 'PLN' ? null : 'color: blue;'}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
                 <p:panelGrid id="paneledycji2"  
-                             style="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN' ? 'width: 1000px;' :  'width: 700px;'}; height: 40px;" >
+                             style="#{dokfkView.aktualnyWierszDlaRozrachunkow.getSymbolWalutBOiSW() ne 'PLN' ? 'width: 1000px;' :  'width: 700px;'}; height: 40px;" >
                     <f:facet name="header">
                         <p:row>
                             <p:column>
@@ -90,13 +90,13 @@
                                 <h:outputText value="kwota pozostała do rozliczenia" />
                             </p:column>
                             <p:column>
-                                <h:outputText value="kwota pierwotna w PLN"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>    
+                                <h:outputText value="kwota pierwotna w PLN"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.getSymbolWalutBOiSW() ne 'PLN'}"/>    
                             </p:column>
-                            <p:column rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}" 
+                            <p:column rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.getSymbolWalutBOiSW() ne 'PLN'}" 
                                       style="width: 60px; text-align: center    ;">
                                 <h:outputText value="kurs"/>
                             </p:column>
-                            <p:column rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                            <p:column rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.getSymbolWalutBOiSW() ne 'PLN'}">
                                 <h:outputText value="tabela"/>
                             </p:column>
                         </p:row>
@@ -134,7 +134,7 @@
                     </p:column>
                     <p:column  style="text-align: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nazwaWaluty ne 'PLN'}">
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.nrtabeli} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.datatabeli}" 
-                                      style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
+                                      style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.getSymbolWalutBOiSW() eq 'PLN' ? 'white' : 'black'}"/>
                     </p:column>
                 </p:panelGrid>
                 <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza == 0}" >
@@ -155,10 +155,11 @@
                     <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="iteracja" rowIndexVar="row"  
                                  emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" 
                                  styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
-                                 scrollRows="22" scrollable="true" scrollHeight="370"  sortBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
+
+                                  sortBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
                                  style="width: 1050px;"
                                  >
-
+<!--                                 scrollRows="22" scrollable="true" scrollHeight="370" -->
                         <p:ajax event="sort" oncomplete="doklejsumowaniewprowadzonych();" global="false"/>
                         <p:ajax event="filter" oncomplete="doklejsumowaniewprowadzonych();"  global="false"/>
                         <f:facet name="header">
@@ -189,31 +190,29 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="kwota pierwotna" filterBy="#{iteracja.nowaTransakcja.kwota}"
-                                  sortBy="#{iteracja.nowaTransakcja.kwota}" styleClass="kolumnaznumerem" style="text-align: right; width: 50px;">
-                            <h:outputText value="#{iteracja.nowaTransakcja.kwota}">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                                  sortBy="#{iteracja.nowaTransakcja.kwota}" styleClass="kolumnaznumerem" style="width: 50px;">
+                            <bcf:outputpl value="#{iteracja.nowaTransakcja.kwota}"/>
                         </p:column>
                         <p:column headerText="opis wiersza dok sparowanego" style="width: 140px" filterBy="#{iteracja.opisWiersza}" filterMatchMode="contains">
                             <h:outputText id="opiswierszaWn" value="#{iteracja.opisWiersza}" style="font-size: x-small;"/>
                         </p:column>
                         <p:column headerText="symbol" style="text-align: left; width: 60px;"  styleClass="symbolrozrachunku"
-                                  filterBy="#{iteracja.nowaTransakcja.wiersz.dokfkS}">
+                                  filterBy="#{iteracja.nowaTransakcja.wiersz.dokfkS}" filterMatchMode="contains" sortBy="#{iteracja.nowaTransakcja.wiersz.dokfkS}">
                             <h:outputText id="symboldokWn" value="#{iteracja.nowaTransakcja.wiersz.dokfkS}"/>
                         </p:column>
                         <p:column headerText="wal." style="width: 30px; text-align: center">
                             <h:outputText id="walutaWn" 
-                                          value="#{iteracja.nowaTransakcja.symbolWalutBOiSW}" 
+                                          value="#{iteracja.nowaTransakcja.getSymbolInnychWalutBOiSW()}" 
                                           rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                         </p:column>
                         <p:column headerText="kurs" style="width: 40px;">
                             <h:outputText id="kursWn1" value="#{iteracja.nowaTransakcja.kursWalutyBOSW}"  
-                                          style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                          style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and iteracja.nowaTransakcja.kursWalutyBOSW ne 1}">
                                 <f:convertNumber minFractionDigits="4" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="różnica kurs." style="width: 40px;">
-                            <h:outputText id="roznicakursowa" value="#{iteracja.roznicekursowe}"  style="float: right;">
+                            <h:outputText id="roznicakursowa" value="#{iteracja.roznicekursowe}"  style="float: right;" rendered="#{iteracja.roznicekursowe ne 0.0}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
@@ -225,15 +224,16 @@
                     </p:dataTable>
                 </p:panel>
                 <!--                </div>-->
-                <p:outputPanel>
+                <p:outputPanel style="margin-top: 20px;">
                     <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="#{dokfkView.zapistransakcji}" 
                                      type="submit"
                                      oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();" 
-                                     update=":rozrachunki formwpisdokument:panelwalutowy" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                                     update=":rozrachunki formwpisdokument:panelwalutowy" style="margin-left: 10px; width: 150px;" 
+                                     rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                 </p:outputPanel>
                 <p:remoteCommand name="rozliczplatnoscspacja" actionListener="#{dokfkView.rozliczplatnoscspacja}"/>
             </h:form>
-            <div style="padding: 5px; margin-left: auto; margin-right: auto; text-align: center;">
+            <div style="padding: 5px; margin-left: auto; margin-right: auto; margin-bottom: 30px; margin-top: 20px; text-align: center;">
                 <h:form id="formcheckbox">
                     <p:selectBooleanCheckbox id="znaczniktransakcji" 
                                              value="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" 
