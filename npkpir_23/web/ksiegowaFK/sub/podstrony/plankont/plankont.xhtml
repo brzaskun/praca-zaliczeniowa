@@ -100,7 +100,7 @@
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
                              style="width: 1280px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
-                             scrollRows="300" scrollable="true" virtualScroll="true" scrollHeight="550" lazy="true" rows="600" 
+                             scrollRows="1400" scrollable="true" virtualScroll="true" scrollHeight="1400" lazy="true" rows="1400"
                              rowIndexVar="index"
                              >
                     <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" 

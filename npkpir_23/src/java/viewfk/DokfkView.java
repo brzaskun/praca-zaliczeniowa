@@ -2667,8 +2667,10 @@ public class DokfkView implements Serializable {
                 dokumenty = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
             }
             nadajnowenumery(serie, dokumenty);
+            System.out.println("Zakończono renumeracje");
             Msg.dP();
         } catch (Exception e) {
+            System.out.println("Błąd, nie zakończono renumeracji");
             Msg.dPe();
         }
     }
@@ -2685,7 +2687,7 @@ public class DokfkView implements Serializable {
             Collections.sort(nowadosortowania, new DokfkLPcomparator());
             int kolejny = 1;
             for (Dokfk f : nowadosortowania) {
-                f.setLp(kolejny++);
+                f.setNrkolejnywserii(kolejny++);
 
             }
         }
