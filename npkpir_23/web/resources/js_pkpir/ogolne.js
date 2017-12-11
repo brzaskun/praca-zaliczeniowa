@@ -127,7 +127,7 @@ var aktywujopis = function(czyjestvat) {
 
 var lisnerdodanienowegowiersza = function () {
     r('dodWiad:opis_input').on('keyup', function (event) {
-        var kodklawisza = e.which;
+        var kodklawisza = event.which;
         if (kodklawisza === 107) {
             r('dodWiad:dodkol').click();
             var wartoscpola = r('dodWiad:opis_input').val();
