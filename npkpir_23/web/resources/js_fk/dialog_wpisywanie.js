@@ -762,7 +762,7 @@ var dodajnowekontoWpis = function(lp,wnma) {
         }
         nrkonta = nrkonta.split(" ")[0];
         try {
-            if (nrkonta.length > 3) {
+            if (nrkonta.length > 3 && nrkonta.indexOf("-") === -1) {
                 nrkonta = nrkonta.substring(0,3)+"-"+nrkonta.substring(3);
             }
         } catch(e1){}
