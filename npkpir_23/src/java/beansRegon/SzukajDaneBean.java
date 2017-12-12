@@ -65,6 +65,45 @@ public class SzukajDaneBean {
         }
     }
      
+     public static Klienci znajdzdaneregonAutomat(String nip, GUSView gUSView) {
+        Klienci selected = new Klienci();
+        Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
+        Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
+        if (nip != null && !m.find() && nip.length()==10) {
+            Map<String, String> dane = gUSView.pobierzDane(nip);
+            if (dane.size()==1) {
+                selected.setNpelna("nie znaleziono firmy w bazie Regon");
+            } else {
+                selected.setNip(nip);
+                selected.setNpelna(dane.get("Nazwa"));
+                selected.setNskrocona(dane.get("Nazwa"));
+                selected.setKodpocztowy(dane.get("KodPocztowy"));
+                selected.setMiejscowosc(dane.get("Miejscowosc"));
+                String ulica = dane.get("Ulica") != null ? dane.get("Ulica") : "-";
+                selected.setUlica(ulica);
+                selected.setKrajkod("PL");
+                selected.setKrajnazwa("Polska");
+                String typ = dane.get("Typ");
+                if (typ.equals("P")) {
+                    selected.setDom(dane.get("praw_adSiedzNumerNieruchomosci"));
+                    if (dane.get("praw_adSiedzNumerLokalu") != null) {
+                        selected.setLokal(dane.get("praw_adSiedzNumerLokalu"));
+                    } else {
+                        selected.setLokal("-");
+                    }
+                } else {
+                    selected.setDom(dane.get("fiz_adSiedzNumerNieruchomosci"));
+                    if (dane.get("fiz_adSiedzNumerLokalu") != null) {
+                        selected.setLokal(dane.get("fiz_adSiedzNumerLokalu"));
+                    } else {
+                        selected.setLokal("-");
+                    }
+                }
+            }
+        }
+        return selected;
+    }
+     
      public static void znajdzdaneregon(String formularz, Podatnik selected, GUSView gUSView) {
         String nip = selected.getNip();
         Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(

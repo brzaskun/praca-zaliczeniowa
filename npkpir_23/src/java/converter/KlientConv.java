@@ -25,9 +25,12 @@ public class KlientConv implements javax.faces.convert.Converter{
        KlienciConverterView klienciConverterView = (KlienciConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"klienciConverterView");
        List<Klienci> listaKlientow = klienciConverterView.getListaKlientow();
         Klienci kl = new Klienci();
+        if (submittedValue.equals("dodaj klienta automatycznie")){  
+            listaKlientow.add(klienciConverterView.getKlientautomat());
+        } 
         if (submittedValue.trim().isEmpty()) {  
             return null;  
-        } else {  
+        } else {
             try {  
                 String number = submittedValue;  
                 for (Klienci p : listaKlientow) {  
@@ -35,7 +38,6 @@ public class KlientConv implements javax.faces.convert.Converter{
                         return p;  
                     }  
                 }  
-  
             } catch(NumberFormatException exception) {  
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));  
             }  

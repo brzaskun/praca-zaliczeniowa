@@ -27,6 +27,7 @@ public class KlienciConverterView implements Serializable{
     
     @Inject
     private KlienciDAO klienciDAO;
+    private Klienci klientautomat;
     
     
     
@@ -63,6 +64,14 @@ public class KlienciConverterView implements Serializable{
                     }
                 }
             }
+            pattern = Pattern.compile("[0-9]{10}");
+            m = pattern.matcher(query);
+            boolean czytopolskinip  = m.matches();
+            if (czytopolskinip) {
+                klientautomat = new Klienci("dodaj klienta automatycznie", "", query, "", "", "", "", "", "", "");
+                results.add(klientautomat);
+                
+            }
             results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
         }
         return results;
@@ -72,8 +81,15 @@ public class KlienciConverterView implements Serializable{
         return klienciDAO.findAll();
     }
 
-    public static void main(String[] args) {
-        System.out.println("lo23".toUpperCase());
+    public Klienci getKlientautomat() {
+        return klientautomat;
     }
-       
+
+              
+    public static void main(String[] args) {
+        Pattern pattern = Pattern.compile("[0-9]{10}");
+        Matcher  m = pattern.matcher("851100500");
+        boolean czytopolskinip  = m.matches();
+        System.out.println(""+czytopolskinip);
+    }
 }

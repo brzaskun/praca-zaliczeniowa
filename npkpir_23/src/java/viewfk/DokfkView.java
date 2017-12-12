@@ -15,6 +15,7 @@ import beansFK.DokumentFKBean;
 import beansFK.StronaWierszaBean;
 import beansFK.TabelaNBPBean;
 import beansPdf.PdfDokfk;
+import beansRegon.SzukajDaneBean;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.DokfkLPcomparator;
@@ -56,6 +57,7 @@ import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
+import gus.GUSView;
 import java.io.File;
 import java.io.Serializable;
 import java.text.NumberFormat;
@@ -236,6 +238,8 @@ public class DokfkView implements Serializable {
     private Konto kontoRozrachunkowe;
     private Dokfk poprzedniDokument ;
     private double[] sumadokbo;
+    @ManagedProperty(value = "#{gUSView}")
+    private GUSView gUSView;
     
 
     public DokfkView() {
@@ -1148,15 +1152,27 @@ public class DokfkView implements Serializable {
 
     public void pobierzopiszpoprzedniegodokItemSelect() {
         try {
-            poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
-            if (poprzedniDokument != null) {
-                selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
-                Wiersz w = selected.getListawierszy().get(0);
-                if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
-                    w.setOpisWiersza(selected.getOpisdokfk());
+            if (selected.getKontr().getNpelna().equals("dodaj klienta automatycznie")) {
+                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getKontr().getNip(), gUSView);
+                selected.setKontr(dodany);
+                if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                    klienciDAO.dodaj(dodany);
+                    Msg.dP();
                 }
+                RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
             } else {
-                kontoRozrachunkowe = null;
+                if (selected.getKontr() != null) {
+                    poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
+                    if (poprzedniDokument != null) {
+                        selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+                        Wiersz w = selected.getListawierszy().get(0);
+                        if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
+                            w.setOpisWiersza(selected.getOpisdokfk());
+                        }
+                    } else {
+                        kontoRozrachunkowe = null;
+                    }
+                }
             }
         } catch (Exception e) {
             E.e(e);
@@ -3722,5 +3738,14 @@ public class DokfkView implements Serializable {
     public void setSumadokbo(double[] sumadokbo) {
         this.sumadokbo = sumadokbo;
     }
+
+    public GUSView getgUSView() {
+        return gUSView;
+    }
+
+    public void setgUSView(GUSView gUSView) {
+        this.gUSView = gUSView;
+    }
+    
     
 }
