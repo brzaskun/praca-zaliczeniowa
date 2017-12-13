@@ -485,7 +485,7 @@ public class PlanKontView implements Serializable {
         } else {
             Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
         }
-    }
+        }
     
     public void dodajSlownikWpis() {
         String nrmacierzystego = PlanKontFKBean.modyfikujnrslownik(elementslownika_numerkonta);

@@ -760,7 +760,7 @@ public class PlanKontFKBean {
                 kp.setKontoID(noweKonto);
                 kp.setUkladBR(kpo.getUkladBR());
                 kp.setWynik0bilans1(kpo.isWynik0bilans1());
-                kontopozycjaZapisDAO.edit(kp);
+                kontopozycjaZapisDAO.dodaj(kp);
                 noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
                 kontoDAOfk.edit(noweKonto);
             } else {
