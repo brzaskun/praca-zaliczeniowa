@@ -598,17 +598,17 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>Manager</from-outcome>
-            <to-view-id>/manager/managerIndex.xhtml</to-view-id>
+            <to-view-id>/manager/managerIndex.xhtml?faces-redirect=true</to-view-id>
             <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>Bookkeeper</from-outcome>
-            <to-view-id>/index.xhtml</to-view-id>
+            <to-view-id>/index.xhtml?faces-redirect=true</to-view-id>
             <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>BookkeeperFK</from-outcome>
-            <to-view-id>/indexFK.xhtml</to-view-id>
+            <to-view-id>/indexFK.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>Multiuser</from-outcome>

@@ -379,6 +379,8 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
+            opiswstepny = new Paragraph(new Phrase("symbol księgowy " + selected.getDokfkSN(), ft[1]));
+            document.add(opiswstepny);
             opiswstepny = new Paragraph(new Phrase("okres rozliczeniony " + selected.getMiesiac() + "/" + selected.getRok(), ft[1]));
             document.add(opiswstepny);
         } catch (DocumentException ex) {
