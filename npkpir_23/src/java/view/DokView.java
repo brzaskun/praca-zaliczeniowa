@@ -349,6 +349,21 @@ public final class DokView implements Serializable {
         return rodzajedokumentow;
     }
 
+    public void dodajklientaautomat() {
+        try {
+            if (selDokument.getKontr().getNpelna().equals("dodaj klienta automatycznie")) {
+                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selDokument.getKontr().getNip(), gUSView);
+                selDokument.setKontr(dodany);
+                if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                    klDAO.dodaj(dodany);
+                }
+                RequestContext.getCurrentInstance().update("dodWiad:acForce");
+            }
+        } catch (Exception e) {
+            
+        }
+    }
+    
     //edytuje ostatni dokument celem wykorzystania przy wpisie
     public void edytujdokument() {
         try {

@@ -1150,6 +1150,21 @@ public class DokfkView implements Serializable {
         kontoRozrachunkowe = DokFKVATBean.pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
     }
 
+    public void dodajklientaautomatRK() {
+        try {
+            if (ewidencjaVatRK.getKlient().getNpelna().equals("dodaj klienta automatycznie")) {
+                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(ewidencjaVatRK.getKlient().getNip(), gUSView);
+                ewidencjaVatRK.setKlient(dodany);
+                if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                    klienciDAO.dodaj(dodany);
+                }
+                RequestContext.getCurrentInstance().update("ewidencjavatRK:klientRK");
+            }
+        } catch (Exception e) {
+            
+        }
+    }
+    
     public void pobierzopiszpoprzedniegodokItemSelect() {
         try {
             if (selected.getKontr().getNpelna().equals("dodaj klienta automatycznie")) {
@@ -1157,7 +1172,8 @@ public class DokfkView implements Serializable {
                 selected.setKontr(dodany);
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                     klienciDAO.dodaj(dodany);
-                    Msg.dP();
+                    //null bo dodajemy nowego kontrahenta inaczej wezmie ze starego
+                    kontoRozrachunkowe = null;
                 }
                 RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
             } else {

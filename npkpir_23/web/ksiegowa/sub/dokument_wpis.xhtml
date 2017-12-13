@@ -156,7 +156,7 @@
                                         valueChangeListener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}" 
                                         required="true" requiredMessage="Pole klienta nie może być puste" 
                                         onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
-                            <p:ajax event="itemSelect" partialSubmit="true"
+                            <p:ajax event="itemSelect" partialSubmit="true" listener="#{DokumentView.dodajklientaautomat()}"
                                     update="dodWiad:rodzajTrans,dodWiad:opis"  />
                             <f:facet name="itemtip">  
                                 <h:panelGrid  columns="2" cellpadding="5" width="400">  
