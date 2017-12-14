@@ -16,6 +16,8 @@ import data.Data;
 import embeddable.Parametr;
 import embeddable.Udzialy;
 import entity.ParamCzworkiPiatki;
+import entity.ParamDeklVatNadwyzka;
+import entity.ParamProcentVat;
 import entity.ParamSuper;
 import entity.ParamVatUE;
 import entity.Podatnik;
@@ -124,6 +126,10 @@ public class PodatnikView implements Serializable {
     private boolean wszystkiekonta;
     @Inject
     private ParamVatUE paramVatUE;
+    @Inject
+    private ParamProcentVat paramProcentVat;
+    @Inject
+    private ParamDeklVatNadwyzka paramDeklVatNadwyzka;
     @Inject
     private DokDAOfk dokDAOfk;
     
@@ -574,6 +580,34 @@ public class PodatnikView implements Serializable {
         }
     }
     
+     public void dodajparamProcentVat() {
+        int zwrot = 0;
+        zwrot = sprawdzParam(paramProcentVat, selected.getParamProcentVat());
+        if (zwrot == 1) {
+            selected.getParamProcentVat().add(paramProcentVat);
+            zachowajZmianyParam(selected);
+            podatnikDAO.edit(selected);
+            paramProcentVat = new ParamProcentVat();
+            Msg.msg("Dodano procent VAT");
+        } else {
+            Msg.msg("e","Wystąpił błąd. Nie dodano procent VAT");
+        }
+    }
+     
+     public void dodajparamDeklVatNadwyzka() {
+        int zwrot = 0;
+        zwrot = sprawdzParam(paramDeklVatNadwyzka, selected.getParamDeklVatNadwyzka());
+        if (zwrot == 1) {
+            selected.getParamDeklVatNadwyzka().add(paramDeklVatNadwyzka);
+            zachowajZmianyParam(selected);
+            podatnikDAO.edit(selected);
+            paramDeklVatNadwyzka = new ParamDeklVatNadwyzka();
+            Msg.msg("Dodano algorytm rozliczania zwrot VAT");
+        } else {
+            Msg.msg("e","Wystąpił błąd. Nie dodano algorytmu rozliczania zwrot VAT");
+        }
+    }
+    
     public int sortparamsuper(Object o1, Object o2) {
         return Data.compare(((ParamSuper) o1).getRokOd(), ((ParamSuper) o1).getMcOd(), ((ParamSuper) o2).getRokOd(), ((ParamSuper) o2).getMcOd());
     }
@@ -632,6 +666,37 @@ public class PodatnikView implements Serializable {
             podatnikDAO.edit(selected);
         }
     }
+    
+     public void usunparamProcentVat() {
+        if (selected.getParamProcentVat().size() > 0) {
+            List<ParamProcentVat> l = selected.getParamProcentVat();
+            ParamProcentVat p = l.get(l.size()-1);
+            l.remove(p);
+            if (l.size() > 0) {
+                ParamProcentVat o = l.get(l.size()-1);
+                o.setMcDo("");
+                o.setRokDo("");
+            }
+            zachowajZmianyParam(selected);
+            podatnikDAO.edit(selected);
+        }
+    }
+     
+      public void usunparamDeklVatNadwyzka() {
+        if (selected.getParamDeklVatNadwyzka().size() > 0) {
+            List<ParamDeklVatNadwyzka> l = selected.getParamDeklVatNadwyzka();
+            ParamDeklVatNadwyzka p = l.get(l.size()-1);
+            l.remove(p);
+            if (l.size() > 0) {
+                ParamDeklVatNadwyzka o = l.get(l.size()-1);
+                o.setMcDo("");
+                o.setRokDo("");
+            }
+            zachowajZmianyParam(selected);
+            podatnikDAO.edit(selected);
+        }
+    }
+
 
     public void dodajzus() {
         try {
@@ -1193,6 +1258,22 @@ public class PodatnikView implements Serializable {
 
     public List<Konto> getListaKontKasaBank() {
         return listaKontKasaBank;
+    }
+
+    public ParamProcentVat getParamProcentVat() {
+        return paramProcentVat;
+    }
+
+    public void setParamProcentVat(ParamProcentVat paramProcentVat) {
+        this.paramProcentVat = paramProcentVat;
+    }
+
+    public ParamDeklVatNadwyzka getParamDeklVatNadwyzka() {
+        return paramDeklVatNadwyzka;
+    }
+
+    public void setParamDeklVatNadwyzka(ParamDeklVatNadwyzka paramDeklVatNadwyzka) {
+        this.paramDeklVatNadwyzka = paramDeklVatNadwyzka;
     }
 
     public PodatnikWyborView getPodatnikWyborView() {

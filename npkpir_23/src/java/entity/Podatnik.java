@@ -241,6 +241,12 @@ public class Podatnik implements Serializable {
     @JoinColumn(name = "podid")
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
     private List<ParamVatUE> paramVatUE;
+    @JoinColumn(name = "podid")
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
+    private List<ParamProcentVat> paramProcentVat;
+    @JoinColumn(name = "podid")
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
+    private List<ParamDeklVatNadwyzka> paramDeklVatNadwyzka;
     @Column(name = "datarozpoczecia")
     @Size(max = 10)
     private String datarozpoczecia;
@@ -335,6 +341,14 @@ public class Podatnik implements Serializable {
             zwrot = printnazwa.substring(0, 15);
         }
         return zwrot;
+    }
+
+    public List<ParamProcentVat> getParamProcentVat() {
+        return paramProcentVat;
+    }
+
+    public void setParamProcentVat(List<ParamProcentVat> paramProcentVat) {
+        this.paramProcentVat = paramProcentVat;
     }
 
     public void setPrintnazwa(String printnazwa) {
@@ -692,6 +706,14 @@ public class Podatnik implements Serializable {
     
     public void setRemanent(List<Parametr> remanent) {
         this.remanent = remanent;
+    }
+
+    public List<ParamDeklVatNadwyzka> getParamDeklVatNadwyzka() {
+        return paramDeklVatNadwyzka;
+    }
+
+    public void setParamDeklVatNadwyzka(List<ParamDeklVatNadwyzka> paramDeklVatNadwyzka) {
+        this.paramDeklVatNadwyzka = paramDeklVatNadwyzka;
     }
     
  

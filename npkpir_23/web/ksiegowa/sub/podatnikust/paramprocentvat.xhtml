@@ -1,0 +1,46 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab title="Procent VAT do odliczenia">  
+            <h:form>
+                <h:outputText value="Procent VAT naliczonego do odliczenia - struktura" style="font-size: 15px"/>
+                <p:growl life="3600"  showDetail="true"/>
+                <p:focus for="parametryp1"/><br/>
+                <h:outputText value="dane historyczne"/><br/>
+                <p:panelGrid columns="5" style="width: 500px">
+                    <p:dataTable value="#{podatnikView.selected.paramProcentVat}"  var="loop" emptyMessage="nie wprowadzono parametrów"
+                                 sortBy="#{loop}" sortFunction="#{podatnikView.sortparamsuper}">
+                        <p:column headerText="od">
+                            <h:outputText value="#{loop.mcOd}-" />
+                            <h:outputText value="#{loop.rokOd}" />
+                        </p:column>
+                        <p:column headerText="do">
+                            <h:outputText value="#{loop.mcDo}-" />
+                            <h:outputText value="#{loop.rokDo}" />
+                        </p:column>
+                        <p:column headerText="rodzaj rozliczeń">
+                            <bcf:outputplprocent value="#{loop.parametr}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panelGrid>
+                <h:outputText value="wybierz parametry aktualne"/><br/>
+                <p:panelGrid id="parametryp1" columns="6" >
+                    <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.paramProcentVat.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
+                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.paramProcentVat.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                    <h:outputText value="procent VAT (np.: 19.4): "/><p:inputText value="#{podatnikView.paramProcentVat.parametr}"/>
+                </p:panelGrid>
+                <br/>
+                <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+                    <p:commandButton action="#{podatnikView.usunparamProcentVat()}" value="usun parametr" update="@form" type="submit"/>
+                    <p:commandButton action="#{podatnikView.dodajparamProcentVat()}" value="dodaj parametr" update="@form" type="submit"/>
+                </p:panelGrid>
+            </h:form>
+            <br/><br/>
+        </p:tab>
+</ui:composition> 
