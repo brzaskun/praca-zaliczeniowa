@@ -212,7 +212,7 @@
                 <p:dataTable id="tabelapkpir" value="#{DokumentView.selDokument.listakwot1}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" 
                              rowIndexVar="index" >
                     <p:column headerText="#{DokumentView.nieVatowiec ? 'kwota' : 'kwota netto*'}"  width="105">
-                        <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol="#{DokumentView.symbolWalutyNettoVat}" required="true" 
+                        <p:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol="#{DokumentView.symbolWalutyNettoVat}" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" onfocus="kalkulator_pobierzwiersz(this);dolaczwyliczenieKopiowanie(event);"
@@ -220,16 +220,16 @@
                             <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
                                     update="dodWiad:panelewidencjivat, dodWiad:sumbrutto, dodWiad:dokumentprosty"/>
                             <p:ajax event="change" listener="#{DokumentView.skopiujwartosc(index)}" global="false" partialSubmit="true"/>
-                        </pe:inputNumber>
+                        </p:inputNumber>
                     </p:column>
                     <p:column headerText="kwota w walucie"  width="105" rendered="#{DokumentView.selDokument.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
-                        <pe:inputNumber id="kwotaPkpir1" value="#{row.nettowaluta}" symbol=" #{DokumentView.selDokument.tabelanbp.waluta.skrotsymbolu}" required="true" 
+                        <p:inputNumber id="kwotaPkpir1" value="#{row.nettowaluta}" symbol=" #{DokumentView.selDokument.tabelanbp.waluta.skrotsymbolu}" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" readOnly="true">
                             <p:ajax event="blur" listener="#{DokumentView.przewalutuj(index)}" global="false" partialSubmit="true"
                                     update="dodWiad:sumbrutto"/>
-                        </pe:inputNumber>
+                        </p:inputNumber>
                     </p:column>
                     <p:column headerText="kolumna pkpir" style="text-align: center;" width="170">
                         <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}" 
@@ -283,7 +283,7 @@
                             </p:inputText>
                         </p:column>
                         <p:column headerText="wartość dokumentu">
-                            <pe:inputNumber id="sumbrutto" value="#{DokumentView.sumbrutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                            <p:inputNumber id="sumbrutto" value="#{DokumentView.sumbrutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                         </p:column>
                         <p:column headerText="inwestycja">
                             <h:selectOneMenu id="inwestycja" value="#{DokumentView.selDokument.inwestycja}" style="display: none; width: 200px;"
@@ -428,10 +428,10 @@
                             <p:inputText value="#{DokumentView.selectedSTR.stawka}" style="width: 30px;"/>
                         </p:column>
                         <p:column>
-                            <pe:inputNumber value="#{DokumentView.selectedSTR.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                            <p:inputNumber value="#{DokumentView.selectedSTR.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                         </p:column>
                         <p:column>
-                            <pe:inputNumber value="#{DokumentView.selectedSTR.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                            <p:inputNumber value="#{DokumentView.selectedSTR.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                         </p:column>
                         <p:column>
                             <h:selectOneMenu value="#{DokumentView.selectedSTR.typ}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
@@ -455,17 +455,17 @@
                         <h:outputText value="#{item.evewidencja.nazwa}"/>
                     </p:column>
                     <p:column headerText="#{mgs.netto}" style="width: 20%;">
-                        <pe:inputNumber id="netto" value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                        <p:inputNumber id="netto" value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                             <p:ajax event="change" listener="#{DokumentView.updatenetto(item)}" />
-                        </pe:inputNumber>
+                        </p:inputNumber>
                     </p:column>
                     <p:column headerText="#{mgs.VAT}" style="width: 20%;">
-                        <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                        <p:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                             <p:ajax event="change" listener="#{DokumentView.updatevat(item)}" />
-                        </pe:inputNumber>
+                        </p:inputNumber>
                     </p:column>
                     <p:column headerText="brutto" style="width: 20%;">
-                        <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                        <p:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column headerText="op/zw" style="width: 15%;">
                         <h:selectOneMenu value="#{item.opzw}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"

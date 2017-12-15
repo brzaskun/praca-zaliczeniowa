@@ -73,7 +73,7 @@
                         <f:selectItem itemLabel="należny/naliczony" itemValue="sz"/>
                     </p:selectOneMenu>
                      <h:outputText value="domyślna stawka vat"/>
-                     <pe:inputNumber value="#{evewidencjaView.selected.stawkavat}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" />
+                     <p:inputNumber value="#{evewidencjaView.selected.stawkavat}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" />
                 </p:panelGrid>
                     <p:commandButton action="#{evewidencjaView.dodaj()}" value="dodaj" update="akordeon:form0:tablica1, akordeon:parametryewidencji:parametr" type="submit" style="width: 120px; margin: 10px;"/>
                     <p:commandButton action="#{evewidencjaView.edytuj()}" value="edytuj" update="akordeon:form0:tablica1, akordeon:parametryewidencji:parametr" type="submit" style="width: 120px; margin: 10px;"/>

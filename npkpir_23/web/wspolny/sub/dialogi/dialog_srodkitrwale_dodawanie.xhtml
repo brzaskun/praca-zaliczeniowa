@@ -68,7 +68,7 @@
                     </p:column>
                     <h:outputText value="cena zakupu"/>
                     <p:column>
-                        <pe:inputNumber id="cenazakupu" value="#{STRTableView.selectedSTR.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                        <p:inputNumber id="cenazakupu" value="#{STRTableView.selectedSTR.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                         onblur="zweryfikujczyniebrakujesrodektrw('formdialogsrodki');"
                                         style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>

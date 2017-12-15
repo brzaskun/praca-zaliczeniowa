@@ -5,20 +5,15 @@
  */
 package pushService;
 
-import javax.faces.application.FacesMessage;
-import org.primefaces.push.annotation.OnMessage;
-import org.primefaces.push.annotation.PushEndpoint;
-import org.primefaces.push.impl.JSONEncoder;
-
 /**
  *
  * @author Osito
  */
-@PushEndpoint("/notify")
+//@PushEndpoint("/notify")
 public class Channel1 {
 
-    @OnMessage(encoders = {JSONEncoder.class})
-    public FacesMessage onMessage(FacesMessage message) {
-        return message;
-    }
+//    @OnMessage(encoders = {JSONEncoder.class})
+//    public FacesMessage onMessage(FacesMessage message) {
+//        return message;
+//    }
 }

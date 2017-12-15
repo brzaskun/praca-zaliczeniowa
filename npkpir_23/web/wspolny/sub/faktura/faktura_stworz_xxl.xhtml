@@ -69,35 +69,35 @@
                     <p:inputText id="iloscxxl" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosc" value="ilość" /></p:inputText>
                 </p:column>
                 <p:column headerText="cena jedn.netto" width="90" style="text-align: center;" rendered="#{!fakturaView.fakturaxxl}">
-                    <pe:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="cena jedn.netto" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.cena eq true ? true : false) : false}">
-                    <pe:inputNumber id="cenaxxl" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cenaxxl" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis0}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis0 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena0" value="#{row.cenajedn0}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena0" value="#{row.cenajedn0}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis1}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis1 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena1" value="#{row.cenajedn1}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena1" value="#{row.cenajedn1}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis2}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis2 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena2" value="#{row.cenajedn2}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena2" value="#{row.cenajedn2}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis3}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis3 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena3" value="#{row.cenajedn3}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena3" value="#{row.cenajedn3}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis4}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis4 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena4" value="#{row.cenajedn4}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena4" value="#{row.cenajedn4}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis5}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis5 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena5" value="#{row.cenajedn5}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena5" value="#{row.cenajedn5}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="stawka VAT" width="70" style="text-align: center;">
@@ -189,35 +189,35 @@
                     <p:inputText id="iloscxxlk" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosck" value="ilość" /></p:inputText>
                 </p:column>
                 <p:column headerText="cena jedn.netto" width="90" style="text-align: center;" rendered="#{!fakturaView.fakturaxxl}">
-                    <pe:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="cena jedn.netto" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.cena eq true ? true : false) : false}">
-                    <pe:inputNumber id="cenaxxlk" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cenaxxlk" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis0}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis0 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena0k" value="#{row.cenajedn0}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena0k" value="#{row.cenajedn0}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis1}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis1 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena1k" value="#{row.cenajedn1}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena1k" value="#{row.cenajedn1}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis2}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis2 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena2k" value="#{row.cenajedn2}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena2k" value="#{row.cenajedn2}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis3}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis3 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena3k" value="#{row.cenajedn3}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena3k" value="#{row.cenajedn3}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis4}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis4 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena4k" value="#{row.cenajedn4}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena4k" value="#{row.cenajedn4}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="#{fakturaXXLKolumnaView.selected.nettoopis5}" width="90" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.nettoopis5 ne '' ? true : false) : false}">
-                    <pe:inputNumber id="cena5k" value="#{row.cenajedn5}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cena5k" value="#{row.cenajedn5}" required="true" styleClass="kwotarozrachunku"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="stawka VAT" width="70">
