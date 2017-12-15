@@ -61,17 +61,17 @@
 
     </style>
    <script>
-        var doczeplistnerydopol = function() {
-                /* <![CDATA[ */
-                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-            $(document).on("click", '.walkingtable tr', function (e) {
-            try {
-                    zachowajobiekt(this, e);
-                } catch (ex) {
-                    alert('error dialog zapisynakoncie' + ex.toString());
-                }
-            });
-        };
+//        var doczeplistnerydopol = function() {
+//                /* <![CDATA[ */
+//                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+//            $(document).on("click", '.walkingtable tr', function (e) {
+//            try {
+//                    zachowajobiekt(this, e);
+//                } catch (ex) {
+//                    alert('error dialog zapisynakoncie' + ex.toString());
+//                }
+//            });
+//        };
         /* ]]> */
     </script>
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
@@ -85,23 +85,23 @@
 //           }
 //        };
 
-    var zaznaczpole = function() {
-        try {
-            var czyjest = rj("zapisy");
-            if (czyjest === null) {
-                r("formwpisdokument:data2DialogWpisywanie").select();
-            } else {
-                var czywidzialne = rj("zapisy").getAttribute("aria-hidden");
-                if (czywidzialne === "false"){
-                    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
-                    var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
-                    $(document.getElementById(nazwa)).select();  
-                }
-            }
-        } catch (e) {
-            
-        }
-        };
+//    var zaznaczpole = function() {
+//        try {
+//            var czyjest = rj("zapisy");
+//            if (czyjest === null) {
+//                r("formwpisdokument:data2DialogWpisywanie").select();
+//            } else {
+//                var czywidzialne = rj("zapisy").getAttribute("aria-hidden");
+//                if (czywidzialne === "false"){
+//                    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
+//                    var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
+//                    $(document.getElementById(nazwa)).select();  
+//                }
+//            }
+//        } catch (e) {
+//            
+//        }
+//        };
 //        
     </script>
     <p:dialog id="dialogpierwszy" dynamic="true"
@@ -153,7 +153,7 @@
                                     <p:inputText id="data1DialogWpisywanie" value="#{dokfkView.selected.datawystawienia}" 
                                                  onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                                  title="wpisz numer dnia, lub miesiąc i dzień" styleClass="dataInput"
-                                                 onfocus="odtworzwierszVATRK(this);" style="height: 19px;"
+                                                 style="height: 19px;"
                                                  >
                                         <p:ajax global="false" event="blur" partialSubmit="true"/>
                                     </p:inputText>
@@ -483,7 +483,7 @@
                             <p:rowToggler rendered="#{loop.dokfk.getVATRK(loop) ne null}"/>
                         </p:column>-->
                         <p:column headerText="opis transakcji" style="width: 150px; text-align: center;">
-                            <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 260px; height: 19px;" 
+                            <p:inputText id="opisdok" value="#{loop.opisWiersza}" style="width: 260px; height: 19px;" 
                                          styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                                 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{loop.idporzadkowy}');" -->
                                 <p:ajax global="false" event="focus" onstart="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.setLpwierszaRK(index+1)}"/>

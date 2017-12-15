@@ -16,7 +16,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza, event) {
             MYAPP.liczydloWcisnietychEnter = 1;
         }
         //setTimeout(focusNaNowoDodanym(source), 100);
-        console.log("lpwiersza " + lpwiersza + " wnma " + wnlubma + " typwiersza "+ typwiersza);
+        //console.log("lpwiersza " + lpwiersza + " wnma " + wnlubma + " typwiersza "+ typwiersza);
     } catch (blad) {
         alert("Blad w dialog_wpisywanie.js zachowaj wiersz " + blad);
     }
@@ -24,8 +24,8 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza, event) {
 
 var zachowajwierszVATRK = function (lp) {
     try {
-        console.log("zachowajwierszVATRK "+lp);
-        MYAPP.wierszpowrotuwalutyrecznie 
+        //console.log("zachowajwierszVATRK "+lp);
+        //MYAPP.wierszpowrotuwalutyrecznie 
         $(document.getElementById("wpisywaniefooter:lpwierszaRK")).val(lp);
     } catch (blad) {
         //alert("Blad w dialog_wpisywanie.js zachowaj wiersz "+blad);
@@ -36,7 +36,7 @@ var sprawdzmiesiacDialogWpisywanie = function(mcwpisu) {
   var mcdok = r("formwpisdokument:data3DialogWpisywanie").val();
   var mcdok = mcdok.split("-")[1];
   if (mcwpisu === mcdok) {
-      console.log("lolo");
+      //console.log("lolo");
   } else {
       rj("formwpisdokument:miesiac").style.color = "red";
       var h = r("formwpisdokument:miesiac").height();
@@ -174,7 +174,7 @@ var aktywujPierwszePoleNowegoWierszaVAT = function(event, wiersz){
             event.stopImmediatePropagation();
         }
     } catch (e) {
-        console.log("nie ma pola");
+        //console.log("nie ma pola");
     }
 };
 
@@ -566,7 +566,7 @@ var pokazwybortransakcjidialog = function() {
 var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza, typStronaWiersza) {
     try {
         MYAPP.typStronaWiersza = typStronaWiersza;
-        console.log("typStronaWiersza "+typStronaWiersza);
+        //console.log("typStronaWiersza "+typStronaWiersza);
         var dotychczasowagrupa;
         var nrgr = (lpmacierzystego === 0 ? lpwiersza : lpmacierzystego);
         if (MYAPP.hasOwnProperty("nrgrupywierszy")) {
@@ -586,7 +586,7 @@ var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza, typStronaWie
                 $(document.getElementById("wpisywaniegrupa:nrgrupywierszy")).val(nrgr);
             }
         }
-        console.log("lpmacierzystego "+lpmacierzystego+" lpwiersza "+lpwiersza);
+        //console.log("lpmacierzystego "+lpmacierzystego+" lpwiersza "+lpwiersza);
     }  catch (blad) {
         alert("Blad w dialog_wpisywanie.js pobierznumergrupywierszy " + blad);
     }
@@ -827,13 +827,16 @@ var zaznaczpoledaty = function(pole) {
     if (trescpola === "błędna data") {
         $(pole).select();
     }
+    if (trescpola === "") {
+        $(pole).focus();
+    }
 };
 
 var uruchomrozrachunki = function() {
     if (MYAPP.typStronaWiersza === 0) {
         setTimeout(pokazwybortransakcji(), 1000);
     } else {
-        console.log("sa rozliczenia");
+        //console.log("sa rozliczenia");
         wybranoRachunekPlatnoscCD();
     }
 };
