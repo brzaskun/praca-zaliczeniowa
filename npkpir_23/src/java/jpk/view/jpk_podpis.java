@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package beansPodpis;
+package jpk.view;
 
+import beansPodpis.*;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -57,6 +58,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import jpk201701.JPK;
 import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -67,10 +69,10 @@ import org.w3c.dom.NodeList;
  *
  * @author Osito
  */
-public class Xad {
+public class jpk_podpis {
 
     private static final String FILE = "d:/vat7a.xml";
-    private static final String OUTPUTFILE = "d:/plik.xml";
+    private static final String OUTPUTFILE = "wysylkapodpis.xml";
     private static String HASLO = "marlena1";
     private static String DRIVER = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/podpis/cryptoCertum3PKCS.dll";
 
@@ -79,17 +81,18 @@ public class Xad {
      */
     public static void main(String[] args) {
         try {
-            String content = new String(Files.readAllBytes(Paths.get(FILE)));
+            JPK jpk = Wysylka.makedummyJPK();
+            String content = new String(Files.readAllBytes(Paths.get("james2.xml")));
             podpisz(content);
         } catch (IOException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public static Object[] podpisz(String deklaracja) {
         Object[] podpisana = null;
         try {
-            //deklaracja = deklaracja.substring(38);
+            deklaracja = deklaracja.substring(56);
             Provider provider = ObslugaPodpisuBean.jestDriver();
             KeyStore keyStore = ObslugaPodpisuBean.jestKarta(HASLO);
             String alias = ObslugaPodpisuBean.aktualnyAlias(keyStore);
@@ -144,10 +147,11 @@ public class Xad {
             }
             //podpisana = saveInput(doc);
             saveXML(doc);
+            System.out.println("zapisalem podpisany plik");
 //            validate(doc, xmlSigFactory);
 
         } catch (Exception ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
         return podpisana;
     }
@@ -193,7 +197,7 @@ public class Xad {
             DocumentBuilder builder = dbf.newDocumentBuilder();
             return builder.parse(IOUtils.toInputStream(deklaracja, "UTF-8"));
         } catch (Exception ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -211,9 +215,9 @@ public class Xad {
             StreamResult streamResult = new StreamResult(outputFile);
             transformer.transform(domSource, streamResult);
         } catch (TransformerConfigurationException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -230,9 +234,9 @@ public class Xad {
             boolean coreValidity = signature.validate(valContext);
             System.out.println("podpis :" + coreValidity);
         } catch (MarshalException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XMLSignatureException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -254,10 +258,10 @@ public class Xad {
         try {
             Map<String, String> namespaces = new HashMap<String, String>(1);
             namespaces.put("ds", "http://www.w3.org/2000/09/xmldsig#");
-            XPathFilterParameterSpec paramsXpath = new XPathFilterParameterSpec("/Deklaracja", namespaces);
+            XPathFilterParameterSpec paramsXpath = new XPathFilterParameterSpec("/InitUploadType", namespaces);
             transforms.add(xmlSigFactory.newTransform(Transform.XPATH, (TransformParameterSpec) paramsXpath));
         } catch (Exception ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
         return transforms;
     }
@@ -282,9 +286,9 @@ public class Xad {
             zwrot[0] = bajty;
             zwrot[1] = stryng;
         } catch (TransformerConfigurationException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
         return zwrot;
     }

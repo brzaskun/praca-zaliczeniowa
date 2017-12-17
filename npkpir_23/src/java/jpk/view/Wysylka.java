@@ -98,14 +98,15 @@ public class Wysylka {
     public static byte[] encryptKoniec(String inputfilename, String outputfilename, SecretKey seckey) throws Exception {
         char[] plaintext = czytajplik(inputfilename);
         SecretKeySpec secretSpec = new SecretKeySpec(seckey.getEncoded(), "AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secretSpec);
         AlgorithmParameters params = cipher.getParameters();
         byte[] ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
         byte[] encryptedTextBytes = cipher.doFinal(String.valueOf(plaintext).getBytes("UTF-8"));
         Files.write(Paths.get(outputfilename), encryptedTextBytes);
         String zwrot = DatatypeConverter.printBase64Binary(encryptedTextBytes);
-        return cipher.getIV();
+        byte[] encoded = Base64.getEncoder().encode(ivBytes);
+        return encoded;
     }
     
     public static SecretKey encryptAESStart(String inputfilename, String outputfilename) throws Exception {

@@ -52,6 +52,13 @@ public class beanJPKwysylka {
             }
             JSONTokener js = new JSONTokener((Reader) in[0]);
             JSONObject jo = new JSONObject(js);
+            try {
+                String errors =  (String) jo.getJSONArray("Errors").get(0);
+                String nieudane =  jo.getString("Message");
+                System.out.println("nieudana wysylka: "+nieudane);
+                System.out.println("errors: "+errors);
+                return;
+            } catch (Exception e1){}
             String referenceNumber = jo.getString("ReferenceNumber");
             String[] a = new String[1];
             JSONArray job = jo.getJSONArray("RequestToUploadFileList");
@@ -88,10 +95,32 @@ public class beanJPKwysylka {
             System.out.println("Description "+Description);
             System.out.println("Details "+Details);
             System.out.println("Timestamp "+Timestamp);
-            System.out.println("Upo "+Upo);
+            System.out.println("Upo nr: "+Upo);
+            System.out.println("Referencenumber nr: "+referenceNumber);
         } catch (Exception ex) {
             E.e(ex);
         }
+    }
+     
+    public static void pobierzupo(String referenceNumber) {
+        Object[] ink = upo(URL_STEP3, referenceNumber);
+            int responseCode = (int) ink[1];
+            if (responseCode == 200) {
+                System.out.println("Kod 200 udany etap 3");
+            }
+            JSONTokener js = new JSONTokener((Reader) ink[0]);
+            JSONObject jo = new JSONObject(js);
+            Integer Code = (Integer) jo.get("Code");
+            String Description = (String) jo.get("Description");
+            String Details = (String) jo.get("Details");
+            String Timestamp = (String) jo.get("Timestamp");
+            String Upo = (String) jo.get("Upo");
+            System.out.println("Code "+Code);
+            System.out.println("Description "+Description);
+            System.out.println("Details "+Details);
+            System.out.println("Timestamp "+Timestamp);
+            System.out.println("Upo nr: "+Upo);
+            System.out.println("Referencenumber nr: "+referenceNumber);
     }
         
     

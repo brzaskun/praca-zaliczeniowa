@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
+<?xml version="1.0" encoding="UTF-8"?>
+<InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
     <DocumentType>JPK</DocumentType>
     <Version>01.02.01.20160617</Version>
     <EncryptionKey algorithm="RSA" encoding="Base64" mode="ECB" padding="PKCS#1">RpBLkg/Y4O+iQV01AkszhFfMSyJlUQh1JYQq623AOPgNahGema1SqB1CRW+T0Mg06n7mMkbjTldR1m7X5wIKN1qcpmLIN2vrCQ9zOsP3pmmp9qs75eTMULsr6fLKoxP5kvyRSaHVU7kdw7wXh1+Jcc97WzWUwz+4AXiH87S5nORIXErwHQngwuzYNqTg5ysBRBS1wB6aF2uR1hCnJqzjpKRhQcKajZUGuGKErnMYcQfhPP5wUgzQrG2/r9GNhQPaQnLqlwGz/2Qu3GA6zDdAjsA6OUOqBxiAr+Aw6D4TAoHNIOWJMYuS5t8B+VplzbNsCj+AOCwZwgVUma3X614T7A==</EncryptionKey>

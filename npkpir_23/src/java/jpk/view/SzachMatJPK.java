@@ -6,9 +6,12 @@
 package jpk.view;
 
 import error.E;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.PublicKey;
 import javax.crypto.SecretKey;
 import jpk.initupload.PrzygotujInitUploadXML;
+import static jpk.view.jpk_podpis.podpisz;
 import jpk201701.JPK;
 
 /**
@@ -18,6 +21,11 @@ import jpk201701.JPK;
 public class SzachMatJPK {
     
     public static void main(String[] args) {
+        //wysylka();
+        beanJPKwysylka.pobierzupo("60fe086a03bdca54000000456fdc8235");
+    }
+    
+    public static void wysylka() {
         try {
             JPK jpk = Wysylka.makedummyJPK();
             Wysylka.zipfile("james2.xml","james2.xml.zip");
@@ -25,7 +33,7 @@ public class SzachMatJPK {
             SecretKey secretKey = Wysylka.encryptAESStart("james2.xml.zip", "james2.xml.zip.aes");
             PublicKey publickey = Wysylka.getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
             String encryptionkeystring = Wysylka.wrapKey(publickey, secretKey);
-            String mainfilename = "james2.xml.zip.aes";
+            String mainfilename = "james2.xml";
             String partfilename = "james2.xml.zip.aes";
             byte[] ivBytes = Wysylka.encryptKoniec("james2.xml.zip", mainfilename, secretKey);
             int mainfilesize = Wysylka.readFilesize(mainfilename);
@@ -33,13 +41,16 @@ public class SzachMatJPK {
             String mainfilehash = Wysylka.fileSha256ToBase64(mainfilename);
             String partfilehash = Wysylka.fileMD5ToBase64(partfilename);
             String plikxmlnazwa = "wysylka.xml";
-            PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, ivBytes.toString(), partfilename, partfilesize, partfilehash, plikxmlnazwa);
+            PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), partfilename, partfilesize, partfilehash, plikxmlnazwa);
+            String content = new String(Files.readAllBytes(Paths.get("wysylka.xml")));
+            podpisz(content);
+            beanJPKwysylka.wysylka(partfilename, "wysylkapodpis.xml");
             System.out.println("Koniec szachmat");
-            beanJPKwysylka.wysylka(mainfilename, "wysylka.xml");
         } catch (Exception ex) {
             E.e(ex);
         }
         
     }
-    
+
+   
 }

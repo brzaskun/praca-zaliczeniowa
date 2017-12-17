@@ -57,13 +57,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "InitUploadType", propOrder = {
+@XmlType(name = "InitUpload", propOrder = {
     "documentType",
     "version",
     "encryptionKey",
     "documentList"
 })
-@XmlRootElement(name = "InitUploadType", namespace = "http://e-dokumenty.mf.gov.pl")
+@XmlRootElement(name = "InitUpload", namespace = "http://e-dokumenty.mf.gov.pl")
 public class InitUploadType {
 
     @XmlElement(name = "DocumentType", required = true)
