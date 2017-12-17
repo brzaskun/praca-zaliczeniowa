@@ -828,7 +828,7 @@ var zaznaczpoledaty = function(pole) {
         $(pole).select();
     }
     if (trescpola === "") {
-        $(pole).focus();
+        $(pole).select();
     }
 };
 

@@ -71,6 +71,7 @@ public class RodzajedokView implements Serializable {
                     }
                 }
             }
+            
         } catch (Exception e) { 
             E.e(e); 
         }

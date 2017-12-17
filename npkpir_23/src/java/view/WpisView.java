@@ -105,7 +105,7 @@ public class WpisView implements Serializable {
            czyniegosc();
         }
      
-    }
+        }
     
     public void initpublic() {
         init();
