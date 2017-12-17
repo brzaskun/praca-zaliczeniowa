@@ -15,7 +15,7 @@
                <p:inputText id="pole" value="#{rozrachunkiView.rozrachunek.dataplatnosci}" accesskey="s" >
                    <p:watermark for="pole" value="rrrr-mm-dd" /> 
                </p:inputText>
-               <p:inputNumber value="#{rozrachunkiView.rozrachunek.kwotawplacona}"  decimalPlaces="2" decimalSeparator="." thousandSeparator=" " symbol=" zł" symbolPosition="s"/>
+               <pe:inputNumber value="#{rozrachunkiView.rozrachunek.kwotawplacona}"  decimalPlaces="2" decimalSeparator="." thousandSeparator=" " symbol=" zł" symbolPosition="s"/>
            </p:panelGrid>
         <br/>
         <p:commandButton value="usun" actionListener="#{rozrachunkiView.usunostatniRozrachunek1}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;" oncomplete="PF('Dialog').hide()"/>

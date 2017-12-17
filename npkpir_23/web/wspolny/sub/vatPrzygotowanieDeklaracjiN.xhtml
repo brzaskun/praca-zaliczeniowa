@@ -99,15 +99,15 @@
             </p:panelGrid>
             <p:panelGrid columns="2"  style="width: 800px;"   rendered="#{vat7DKView.flaga eq 0}">
                 <h:outputText value="przeniesienie z pop.deklaracji"/>
-                <p:inputNumber value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0"/>
+                <pe:inputNumber value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0"/>
                 <h:outputText value="kwota wydatkowana na zakup kasy rejestrującej"/>
-                <p:inputNumber value="#{vat7DKView.kwotanakaserej}" decimalPlaces="0" />
+                <pe:inputNumber value="#{vat7DKView.kwotanakaserej}" decimalPlaces="0" />
                 <h:outputText value="zwrot na rachunek w terminie 25 dni"/>
-                <p:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0"/>
+                <pe:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0"/>
                 <h:outputText value="zwrot na rachunek w terminie 60 dni"/>
-                <p:inputNumber value="#{vat7DKView.zwrot60dni}" decimalPlaces="0"/>
+                <pe:inputNumber value="#{vat7DKView.zwrot60dni}" decimalPlaces="0"/>
                 <h:outputText value="zwrot na rachunek w terminie 180 dni"/>
-                <p:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0"/>
+                <pe:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0"/>
             </p:panelGrid>
         </h:form>
     <h:form id="deklaracjauwagavatzt"  >

@@ -20,10 +20,10 @@
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;"/>
             <p:commandButton value="kopiuj" actionListener="#{stowNaliczenieView.kopiuj}"
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;margin-left: 5px"/>
-            <p:inputNumber value="#{stowNaliczenieView.kwotadlawszystkich}"  decimalPlaces="2" decimalSeparator="."
+            <pe:inputNumber value="#{stowNaliczenieView.kwotadlawszystkich}"  decimalPlaces="2" decimalSeparator="."
                             thousandSeparator=" " symbol=" zł" symbolPosition="s">
                 <p:ajax event="blur" partialSubmit="true" global="false"/>
-            </p:inputNumber>
+            </pe:inputNumber>
             <p:commandButton value="oblicz" actionListener="#{stowNaliczenieView.oblicz}" title="Należy wybrać członków do obliczenia"
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;"/>
             <p:commandButton value="zachowaj" actionListener="#{stowNaliczenieView.zachowaj}"
@@ -54,7 +54,7 @@
                     <h:outputText value="#{wpisstow.miejsce.opismiejsca}"/>
                 </p:column>
                 <p:column width="90" headerText="kwota">
-                    <p:inputNumber id="vat" value="#{wpisstow.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                    <pe:inputNumber id="vat" value="#{wpisstow.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                                 symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                 </p:column>
                 <p:column headerText="zachowane">

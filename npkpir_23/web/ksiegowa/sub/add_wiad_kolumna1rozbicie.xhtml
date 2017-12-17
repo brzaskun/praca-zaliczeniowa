@@ -32,9 +32,9 @@
                             <f:facet name="header">
                                 <h:outputText value="netto"/>
                             </f:facet>
-                             <p:inputNumber value="#{item.nettowaluta}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" style="width: 120px;" >
+                             <pe:inputNumber value="#{item.nettowaluta}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" style="width: 120px;" >
                                  <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokumentView.przeliczkwoteRozbicie(item, index)}"/>
-                             </p:inputNumber>
+                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center; width: 130px;">
                             <f:facet name="header">

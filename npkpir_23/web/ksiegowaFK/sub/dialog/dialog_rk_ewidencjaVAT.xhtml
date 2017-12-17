@@ -78,22 +78,22 @@
                     <f:selectItems value="#{dokfkView.listaewidencjivatRK}" var="item" itemLabel="#{item.nazwa}"/>
                     <p:ajax event="change" global="false" partialSubmit="true"/>
                 </h:selectOneMenu>
-                <p:inputNumber id="netto" value="#{dokfkView.ewidencjaVatRK.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" 
+                <pe:inputNumber id="netto" value="#{dokfkView.ewidencjaVatRK.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" 
                                 required="true" requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
                                 style="text-align: right; height: 19px;" symbolPosition="s" 
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenettoRK()}" partialSubmit="true"/>
-                </p:inputNumber>
-                <p:inputNumber id="vat" value="#{dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
+                </pe:inputNumber>
+                <pe:inputNumber id="vat" value="#{dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
                                 requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
                                 style="text-align: right;" symbolPosition="s" 
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax global="false" event="change" listener="#{dokfkView.updatevatRK()}"  partialSubmit="true" />
-                </p:inputNumber>
-                <p:inputNumber id="brutto" value="#{dokfkView.ewidencjaVatRK.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
+                </pe:inputNumber>
+                <pe:inputNumber id="brutto" value="#{dokfkView.ewidencjaVatRK.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                 style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" 
                                 readOnly="true"> 
-                </p:inputNumber>
+                </pe:inputNumber>
                 <h:selectOneMenu value="#{dokfkView.ewidencjaVatRK.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');" style="text-align: right; width: 95%;"
                                  onblur="$(this).removeClass('ui-state-focus');">

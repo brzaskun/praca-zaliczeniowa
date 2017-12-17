@@ -10,7 +10,7 @@
     <h:body>
        <ui:composition>
            <f:view>
-               <p:inputNumber value="#{value}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px"
+               <pe:inputNumber value="#{value}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px"
                                symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="0" rendered="#{rendered != null ? rendered : true}"/>  
             </f:view>
        </ui:composition>

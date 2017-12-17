@@ -56,7 +56,7 @@
                     <f:selectItem itemLabel="kwartalne" itemValue="true"/>
                 </p:selectOneMenu>
                 <h:outputText value="stawka pod. (0,19)" rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
-                <p:inputNumber value="#{podatnikView.wybranyPodatnikOpodatkowanie.stawkapodatkuospr}" decimalPlaces="2" maxValue="1"  rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
+                <pe:inputNumber value="#{podatnikView.wybranyPodatnikOpodatkowanie.stawkapodatkuospr}" decimalPlaces="2" maxValue="1"  rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">

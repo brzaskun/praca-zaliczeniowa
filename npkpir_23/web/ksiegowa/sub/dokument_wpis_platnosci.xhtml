@@ -187,11 +187,11 @@
                             </h:selectOneMenu>
                         </p:column>
                         <p:column headerText="kwota" style="width: 110px;">
-                            <p:inputNumber  value="#{platnosciWalutyView.kwotadorozliczenia}" 
+                            <pe:inputNumber  value="#{platnosciWalutyView.kwotadorozliczenia}" 
                                              style="float: right; margin-right: 4px;" valueChangeListener="#{platnosciWalutyView.przelicz}"
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000">
                                 <p:ajax event="change" partialSubmit="true" global="false" update="@this @namingcontainer"/>
-                            </p:inputNumber>
+                            </pe:inputNumber>
                         </p:column>
                         <p:column headerText="tabela NBP" style="width: 110px;" >
                             <h:outputText value="#{platnosciWalutyView.nowa.tabelanbp}"/>

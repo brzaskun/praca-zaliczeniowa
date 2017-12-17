@@ -42,18 +42,18 @@
                     </p:column>
                     <h:outputText value="cena zakupu"/>
                     <p:column>
-                        <p:inputNumber id="cenazakupu" value="#{STRTableView.edytowanysrodek.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty netto - uzupełnij" 
+                        <pe:inputNumber id="cenazakupu" value="#{STRTableView.edytowanysrodek.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty netto - uzupełnij" 
                                         onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{STRTableView.zmianakwotynetto}"
                                         style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="kwota vat"/>
                     <p:column>
-                        <p:inputNumber id="kwotavat" value="#{STRTableView.edytowanysrodek.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty vat - uzupełnij" 
+                        <pe:inputNumber id="kwotavat" value="#{STRTableView.edytowanysrodek.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty vat - uzupełnij" 
                                         style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="umorzenie pocz."/>
                     <p:column>
-                        <p:inputNumber id="umorzeniepocz" value="#{STRTableView.edytowanysrodek.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty umorzenia - uzupełnij" 
+                        <pe:inputNumber id="umorzeniepocz" value="#{STRTableView.edytowanysrodek.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty umorzenia - uzupełnij" 
                                         onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{STRTableView.zmianaumorzeniapocz}"
                                         style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
@@ -76,12 +76,12 @@
                         </p:inputText>
                     </p:column>
                     <h:outputText value="nowa kwota"/>
-                    <p:inputNumber id="kwotaPkpir" value="#{STRTableView.kwotazmiany}" symbol="zł" required="true" 
+                    <pe:inputNumber id="kwotaPkpir" value="#{STRTableView.kwotazmiany}" symbol="zł" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" > 
                             <p:ajax event="change" global="false" partialSubmit="true"/>
-                     </p:inputNumber>
+                     </pe:inputNumber>
                 </p:panelGrid>
                 <p:panelGrid style="padding: 5px; margin-left: 5px;">
                 <f:facet name="header">
