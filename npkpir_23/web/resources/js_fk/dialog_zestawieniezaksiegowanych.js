@@ -38,7 +38,7 @@ var pokazeditbutton = function() {
 //var zapisywierszywybordok = function() {
 //    PF('wpisywanie').show();
 //    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
-//    var nazwa = 'formwpisdokument:dataList:'+lp+':opisdok';
+//    var nazwa = 'formwpisdokument:dataList:'+lp+':opisdokwpis';
 //    $(document.getElementById(nazwa)).select();
 //};
 
@@ -50,7 +50,7 @@ var pokazwierszoznaczony = function() {
         } else {
             var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
             if (lp !== -1) {
-                var nazwa = "formwpisdokument:dataList:"+lp+":opisdok";
+                var nazwa = "formwpisdokument:dataList:"+lp+":opisdokwpis";
                 r(nazwa).closest("td").click();
                 var bliskietd = r(nazwa).closest("td")[0];
                 var tablicaid = $(bliskietd).closest(".walkingtable")[0].id;

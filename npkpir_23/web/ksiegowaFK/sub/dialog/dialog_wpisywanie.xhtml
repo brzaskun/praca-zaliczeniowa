@@ -60,21 +60,8 @@
 
 
     </style>
-   <script>
-//        var doczeplistnerydopol = function() {
-//                /* <![CDATA[ */
-//                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-//            $(document).on("click", '.walkingtable tr', function (e) {
-//            try {
-//                    zachowajobiekt(this, e);
-//                } catch (ex) {
-//                    alert('error dialog zapisynakoncie' + ex.toString());
-//                }
-//            });
-//        };
-        /* ]]> */
-    </script>
-    <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
+ 
+ 
     <script>
 //        var kolornaglowka = function() {
 //          var x = $("#dialogpierwszy_title").text();
@@ -111,7 +98,8 @@
               onHide="wpisywanieOnHide();pokazeditbutton()"
               focus="formwpisdokument:data2DialogWpisywanie"
               >
-        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false" oncomplete="pokazwierszoznaczony();"/>
+<!--        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false" oncomplete="pokazwierszoznaczony();"/>-->
+        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false"/>
         <p:focus for="formwpisdokument">
             <h:form id="formwpisdokument" >
 
@@ -309,9 +297,7 @@
                                     <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" 
                                                  style="height: 19px; width: 230px;"
                                                  autocomplete="true">
-                                        <p:ajax event="blur" global="false" onstart="stworzdelegacje();" />
-                                        <p:ajax event="blur" partialSubmit="true" global="false" 
-                                                listener="#{dokfkView.skopiujopisdopierwszegowiersza()}"/>
+                                        <p:ajax event="blur" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" global="false"  />
                                     </p:inputText>
                                 </p:column>
                                
@@ -483,7 +469,7 @@
                             <p:rowToggler rendered="#{loop.dokfk.getVATRK(loop) ne null}"/>
                         </p:column>-->
                         <p:column headerText="opis transakcji" style="width: 150px; text-align: center;">
-                            <p:inputText id="opisdok" value="#{loop.opisWiersza}" style="width: 260px; height: 19px;" 
+                            <p:inputText id="opisdokwpis" value="#{loop.opisWiersza}" style="width: 260px; height: 19px;" 
                                          styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                                 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{loop.idporzadkowy}');" -->
                                 <p:ajax global="false" event="focus" onstart="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.setLpwierszaRK(index+1)}"/>

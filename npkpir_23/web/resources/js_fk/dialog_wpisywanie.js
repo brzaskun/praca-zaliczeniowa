@@ -53,7 +53,7 @@ var sprawdzmiesiacDialogWpisywanie = function(mcwpisu) {
 
 var odtworzwierszVATRK = function(lp) {
     var id = parseInt(lp)-1;
-    var wierszdokumentu = "formwpisdokument:dataList:"+id+":opis";
+    var wierszdokumentu = "formwpisdokument:dataList:"+id+":opisdokwpis";
     r(wierszdokumentu).focus();
     r(wierszdokumentu).keyup();
     r(wierszdokumentu).select();
@@ -186,12 +186,12 @@ var aktywujPierwszePoleNowegoWiersza = function(){
     } else {
         nrWiersza = 0;
     }
-    var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+    var i = "formwpisdokument:dataList:"+nrWiersza+":opisdokwpis";
     var i_obj = document.getElementById(i);
     try {
         while (i_obj.value !== "") {
             nrWiersza++;
-            i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+            i = "formwpisdokument:dataList:"+nrWiersza+":opisdokwpis";
             i_obj = document.getElementById(i);
         }
     } catch (e) {}
@@ -208,7 +208,7 @@ var aktywujPierwszePoleNowegoWierszaEnter = function(){
     } else {
         nrWiersza = 0;
     }
-    var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+    var i = "formwpisdokument:dataList:"+nrWiersza+":opisdokwpis";
     var i_obj = document.getElementById(i);
     $(i_obj).css('backgroundColor','#ffb');
     $(i_obj).focus();
@@ -219,7 +219,7 @@ var aktywujPierwszePoleNowegoWierszaEnter = function(){
 var aktywujNastepnePolePoprzedniegoWiersza = function(){
     var nrnastepnego = parseInt(MYAPP.lpwiersza) + 1;;
     var runfunckja = true;
-    var i = "formwpisdokument:dataList:"+nrnastepnego+":opis";
+    var i = "formwpisdokument:dataList:"+nrnastepnego+":opisdokwpis";
     var i_obj = document.getElementById(i);
     if (i_obj) {
         runfunckja = false;
@@ -434,7 +434,7 @@ var robfocus = function() {
     var dlugoscwierszy = wiersze.length;
     var poprzedniid = dlugoscwierszy - 2;
     var obecnywierszid = dlugoscwierszy - 1;
-    var wiersz = "formwpisdokument:dataList:" + obecnywierszid + ":opis";
+    var wiersz = "formwpisdokument:dataList:" + obecnywierszid + ":opisdokwpis";
     try {
         var tresc = document.getElementById(wiersz).value;
         if (tresc === "") {
@@ -507,8 +507,8 @@ var kopiujnazwepelna = function () {
 
 var skopiujopisdokumentu = function() {
   let opisdokumentu = r('formwpisdokument:opisdokumentu').val();
-  let opiswiersza = r('formwpisdokument:dataList:0:opis').val();
-  let polewiersza = r('formwpisdokument:dataList:0:opis');
+  let opiswiersza = r('formwpisdokument:dataList:0:opisdokwpis').val();
+  let polewiersza = r('formwpisdokument:dataList:0:opisdokwpis');
   if (opiswiersza === "") {
     $(polewiersza).val(opisdokumentu);
   }
@@ -518,7 +518,7 @@ var obsluzewidencjavatsprzedaz = function (event) {
     var charCode = (event.which) ? event.which : event.keyCode;
     if (charCode === 107) {
         event.target.value = 0.0;
-        r("formwpisdokument:dataList:0:opis").focus();
+        r("formwpisdokument:dataList:0:opisdokwpis").focus();
         event.preventDefault();
         event.stopPropagation();
         event.stopImmediatePropagation();
@@ -598,7 +598,7 @@ var sprawdzgrupeprzykliknieciuwzapisz = function() {
 
 
 var podswietlznalezionywierszzbrakiem = function(nrwiersza) {
-    var nr1 = "formwpisdokument:dataList:"+nrwiersza+":opis";
+    var nr1 = "formwpisdokument:dataList:"+nrwiersza+":opisdokwpis";
     var nr2 = "formwpisdokument:dataList:"+nrwiersza+":wn_input";
     var nr3 = "formwpisdokument:dataList:"+nrwiersza+":kontown_input";
     var nr4 = "formwpisdokument:dataList:"+nrwiersza+":ma_input";
@@ -613,7 +613,7 @@ var podswietlznalezionywierszzbrakiem = function(nrwiersza) {
 
 var podswietlznalezionywierszz = function(wiersz) {
     var i = parseInt(wiersz.name.split(":")[2]);
-    var nr1 = "formwpisdokument:dataList:"+i+":opis";
+    var nr1 = "formwpisdokument:dataList:"+i+":opisdokwpis";
     var nr2 = "formwpisdokument:dataList:"+i+":wn_input";
     var nr3 = "formwpisdokument:dataList:"+i+":kontown_input";
     var nr4 = "formwpisdokument:dataList:"+i+":ma_input";
@@ -635,7 +635,7 @@ var podswietlznalezionywierszz = function(wiersz) {
 
 var odswietlznalezionywierszz = function(wiersz) {
     var i = parseInt(wiersz.name.split(":")[2]);
-    var nr1 = "formwpisdokument:dataList:"+i+":opis";
+    var nr1 = "formwpisdokument:dataList:"+i+":opisdokwpis";
     var nr2 = "formwpisdokument:dataList:"+i+":wn_input";
     var nr3 = "formwpisdokument:dataList:"+i+":kontown_input";
     var nr4 = "formwpisdokument:dataList:"+i+":ma_input";
@@ -701,7 +701,7 @@ var skopiujKwoteZeStronaWn = function (idwiersza) {
 
 var powrotpozmianietabeli = function() {
     var id = parseInt($(document.getElementById("wpisywaniefooter:lpwierszaRK")).val())-1;
-    var wierszpowrotu = "formwpisdokument:dataList:"+id+":opis";
+    var wierszpowrotu = "formwpisdokument:dataList:"+id+":opisdokwpis";
     r(wierszpowrotu).focus();
     r(wierszpowrotu).select();
 };
@@ -727,8 +727,8 @@ var skopiujopis = function(nrbiezacegowiersza){
     } else {
         var nrstaregowiersza = nrbiezacegowiersza-2;
         nrbiezacegowiersza = nrbiezacegowiersza-1;
-        var biezacywiersz = "formwpisdokument:dataList:"+nrbiezacegowiersza+":opis";
-        var poprzedniopisval = r("formwpisdokument:dataList:"+nrstaregowiersza+":opis").val();
+        var biezacywiersz = "formwpisdokument:dataList:"+nrbiezacegowiersza+":opisdokwpis";
+        var poprzedniopisval = r("formwpisdokument:dataList:"+nrstaregowiersza+":opisdokwpis").val();
         if (r(biezacywiersz).val() === "") {
             r(biezacywiersz).val(poprzedniopisval);
             r(biezacywiersz).select();

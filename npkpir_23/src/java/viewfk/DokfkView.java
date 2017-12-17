@@ -1114,7 +1114,7 @@ public class DokfkView implements Serializable {
             boolean kopiowac1 = w.getStronyWiersza().size() == 2;
             if (kopiowac || kopiowac1) {
                 w.setOpisWiersza(selected.getOpisdokfk());
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:0:opisdok");
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             }
         } catch (Exception e) {
             E.e(e);
@@ -1569,7 +1569,7 @@ public class DokfkView implements Serializable {
             Msg.msg("Wybrano dokument do edycji: "+selected.getDokfkSN());
 //            RequestContext.getCurrentInstance().update("formwpisdokument");
 //            RequestContext.getCurrentInstance().update("zestawieniezapisownakontachpola");
-//            String nazwa = "formwpisdokument:dataList:"+numer+":opisdok";
+//            String nazwa = "formwpisdokument:dataList:"+numer+":opisdokwpis";
 //            String wierszf = "$(document.getElementById('"+nazwa+"')).select()";
 //            RequestContext.getCurrentInstance().execute(wierszf);
         }
@@ -1585,7 +1585,7 @@ public class DokfkView implements Serializable {
             Msg.msg("Wybrano dokument do edycji: "+selected.getDokfkSN());
 //            RequestContext.getCurrentInstance().update("formwpisdokument");
 //            RequestContext.getCurrentInstance().update("zestawieniezapisownakontachpola");
-//            String nazwa = "formwpisdokument:dataList:"+numer+":opisdok";
+//            String nazwa = "formwpisdokument:dataList:"+numer+":opisdokwpis";
 //            String wierszf = "$(document.getElementById('"+nazwa+"')).select()";
 //            RequestContext.getCurrentInstance().execute(wierszf);
         }
