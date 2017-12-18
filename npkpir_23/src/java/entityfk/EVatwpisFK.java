@@ -58,6 +58,8 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private boolean paliwo;
     @Column(name = "innyokres")
     private int innyokres;
+    @Column(name = "numerwlasnydokfk", nullable = false, length = 120)
+    private String numerwlasnydokfk;
     
     
 
@@ -73,12 +75,22 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     public EVatwpisFK() {
         this.innyokres = 0;
     }
+
+    
+    //<editor-fold defaultstate="collapsed" desc="getters & setters">\
+    public String getNumerwlasnydokfk() {
+        return numerwlasnydokfk;
+    }
+
+    public void setNumerwlasnydokfk(String numerwlasnydokfk) {
+        this.numerwlasnydokfk = numerwlasnydokfk;
+    }
     
      public boolean isPaliwo() {   
         return paliwo;
     }
 
-    //<editor-fold defaultstate="collapsed" desc="getters & setters">\
+
     public void setPaliwo(boolean paliwo) {
         this.paliwo = paliwo;
     }

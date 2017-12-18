@@ -7,12 +7,13 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
     <p:dialog id="dialogewidencjavatRK" header="Ewidencja VAT RK/DEL wiersz #{dokfkView.lpwierszaRK}" widgetVar="dialogewidencjavatRK"  appendTo="@(body)"
-              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',650,200);" modal="true"
+              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',750,220);" modal="true"
               closeOnEscape="true" onHide="ukryjdialogvatrk();" >
         <h:form id="ewidencjavatRK"> 
-            <p:panelGrid id="paneldatydokumentu" columns="4" style="width: 400px;"  styleClass="uipanelGrid0">
+            <p:panelGrid id="paneldatydokumentu" columns="5" style="width: 600px;"  styleClass="uipanelGrid0">
                 <h:outputText value="data dokumentu"/>
                 <h:outputText value="data operacji gosp."/>
+                <h:outputText value="nr wł dok."/>
                 <h:outputText value="dane kontrahenta"/>
                 <h:outputText value="50%" />
                 <h:inputText id="data1DialogVAT" value="#{dokfkView.ewidencjaVatRK.datadokumentu}"
@@ -37,7 +38,7 @@
                              >
                     <p:ajax global="false" event="blur" partialSubmit="true" />
                 </h:inputText>
-
+                <p:inputText value="#{dokfkView.ewidencjaVatRK.numerwlasnydokfk}" style="width: 170px;"/>
                 <p:autoComplete id="klientRK" value="#{dokfkView.ewidencjaVatRK.klient}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefkRK"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
@@ -101,11 +102,11 @@
                     <f:selectItem itemLabel="sprzed.op.izw." itemValue="sprzed.op.izw."/>
                 </h:selectOneMenu>
             </p:panelGrid>
-            <p:commandButton value="Zapisz" style="margin-left: 25%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dolaczWierszZKwotamiRK}" 
+            <p:commandButton value="Zapisz" style="margin-left: 30%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dolaczWierszZKwotamiRK}" 
                              oncomplete="odtworzwierszVATRK(#{dokfkView.lpWierszaWpisywanie});PF('dialogewidencjavatRK').hide();" global="false" rendered="#{!dokfkView.ewidencjaVATRKzapis0edycja1}"/>
-            <p:commandButton value="Edytuj" style="margin-left: 25%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.edytujWierszZKwotamiRK}" 
+            <p:commandButton value="Edytuj" style="margin-left: 30%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.edytujWierszZKwotamiRK}" 
                              oncomplete="odtworzwierszVATRK(#{dokfkView.lpWierszaWpisywanie});PF('dialogewidencjavatRK').hide();" global="false" rendered="#{dokfkView.ewidencjaVATRKzapis0edycja1}"/>
-            <p:commandButton value="Anuluj" style="margin-left: 5%; margin-top: 15px; width: 120px;" type="button" global="false"
+            <p:commandButton value="Anuluj" style="margin-left: 10%; margin-top: 15px; width: 120px;" type="button" global="false"
                              onclick="odtworzwierszVATRK(#{dokfkView.lpWierszaWpisywanie});PF('dialogewidencjavatRK').hide();"/>
         </h:form>
     </p:dialog>
