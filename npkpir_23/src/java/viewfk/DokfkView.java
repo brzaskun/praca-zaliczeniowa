@@ -1174,6 +1174,7 @@ public class DokfkView implements Serializable {
                     klienciDAO.dodaj(dodany);
                     //null bo dodajemy nowego kontrahenta inaczej wezmie ze starego
                     kontoRozrachunkowe = null;
+                    poprzedniDokument = null;
                 }
                 RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
             } else {
