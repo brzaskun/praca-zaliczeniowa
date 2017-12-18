@@ -355,8 +355,12 @@ pdffk.PdfMain.dodajQR(nazwapliku);
         table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
         table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
         table.addCell(ustawfrazeAlign(rs.getNrKolejny(), "left", 6));
-        table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
         try {
+            if (!rs.getOpis().equals("podsumowanie") && rs.getDokfk().getRodzajedok().getKategoriadokumentu()==0 && rs.getNumerwlasnydokfk() != null) {
+                table.addCell(ustawfrazeAlign(rs.getNumerwlasnydokfk(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
+            }
             if (rs.getKontr() != null) {
                 table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
             } else {
@@ -373,10 +377,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
                 table.addCell(ustawfrazeAlign("", "left", 6));
             }
         } catch (Exception e) {
-            if (e.getStackTrace() != null) {
-                E.e(e); 
-            }
-            
+            E.e(e); 
         }
 
         table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));

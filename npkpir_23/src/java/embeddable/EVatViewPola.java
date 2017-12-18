@@ -71,6 +71,7 @@ public class EVatViewPola implements Serializable{
     private String nrpolavat;
     private double procentvat;
     private boolean duplikat;
+    private String numerwlasnydokfk;
 
     
     
@@ -285,6 +286,18 @@ public class EVatViewPola implements Serializable{
     public void setDuplikat(boolean duplikat) {
         this.duplikat = duplikat;
     }
+
+    public String getNumerwlasnydokfk() {
+        return numerwlasnydokfk;
+    }
+
+    public void setNumerwlasnydokfk(String numerwlasnydokfk) {
+        this.numerwlasnydokfk = numerwlasnydokfk;
+    }
+
+    
+    
+    
 
     @Override
     public String toString() {

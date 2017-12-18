@@ -577,6 +577,7 @@ public class EwidencjaVatView implements Serializable {
                 EVatViewPola eVatViewPole = new EVatViewPola();
                 if (ewidwiersz.getWiersz() != null) {
                     eVatViewPole.setDataSprz(ewidwiersz.getDataoperacji());
+                    eVatViewPole.setNumerwlasnydokfk(ewidwiersz.getNumerwlasnydokfk());
                     eVatViewPole.setDataWyst(ewidwiersz.getDatadokumentu());
                     eVatViewPole.setKontr(ewidwiersz.getKlient());
                     String nrdok = ewidwiersz.getDokfk().toString2() + ", poz: " + ewidwiersz.getWiersz().getIdporzadkowy();
@@ -585,6 +586,7 @@ public class EwidencjaVatView implements Serializable {
                     eVatViewPole.setOpis(ewidwiersz.getWiersz().getOpisWiersza());
                 } else {
                     eVatViewPole.setDataSprz(ewidwiersz.getDokfk().getDataoperacji());
+                    eVatViewPole.setNumerwlasnydokfk(ewidwiersz.getNumerwlasnydokfk());
                     eVatViewPole.setDataWyst(ewidwiersz.getDokfk().getDatadokumentu());
                     eVatViewPole.setKontr(ewidwiersz.getDokfk().getKontr());
                     String nrdok = ewidwiersz.getDokfk().toString2();
