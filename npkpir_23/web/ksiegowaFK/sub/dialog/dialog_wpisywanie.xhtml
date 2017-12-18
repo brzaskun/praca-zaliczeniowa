@@ -72,24 +72,24 @@
 //           }
 //        };
 
-//    var zaznaczpole = function() {
-//        try {
-//            var czyjest = rj("zapisy");
-//            if (czyjest === null) {
-//                r("formwpisdokument:data2DialogWpisywanie").select();
-//            } else {
-//                var czywidzialne = rj("zapisy").getAttribute("aria-hidden");
-//                if (czywidzialne === "false"){
-//                    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
-//                    var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
-//                    $(document.getElementById(nazwa)).select();  
-//                }
-//            }
-//        } catch (e) {
-//            
-//        }
-//        };
-//        
+    var zaznaczpole = function() {
+        try {
+            var czyjest = rj("zapisy");
+            if (czyjest === null) {
+                r("formwpisdokument:data2DialogWpisywanie").select();
+            } else {
+                var czywidzialne = rj("zapisy").getAttribute("aria-hidden");
+                if (czywidzialne === "false"){
+                    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
+                    var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
+                    $(document.getElementById(nazwa)).select();  
+                }
+            }
+        } catch (e) {
+            
+        }
+        };
+        
     </script>
     <p:dialog id="dialogpierwszy" dynamic="true"
               header="#{dokfkView.naglowekWpisDokumentu[0]}" 
@@ -141,7 +141,7 @@
                                     <p:inputText id="data1DialogWpisywanie" value="#{dokfkView.selected.datawystawienia}" 
                                                  onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                                  title="wpisz numer dnia, lub miesiąc i dzień" styleClass="dataInput"
-                                                 style="height: 19px;"
+                                                 onfocus="odtworzwierszVATRK(this);" style="height: 19px;"
                                                  >
                                         <p:ajax global="false" event="blur" partialSubmit="true"/>
                                     </p:inputText>
@@ -297,7 +297,9 @@
                                     <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" 
                                                  style="height: 19px; width: 230px;"
                                                  autocomplete="true">
-                                        <p:ajax event="blur" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" global="false"  />
+                                        <p:ajax event="blur" global="false" onstart="stworzdelegacje();" />
+                                        <p:ajax event="blur" partialSubmit="true" global="false" 
+                                                listener="#{dokfkView.skopiujopisdopierwszegowiersza()}"/>
                                     </p:inputText>
                                 </p:column>
                                

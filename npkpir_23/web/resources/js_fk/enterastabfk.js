@@ -12,12 +12,14 @@ var TabKeyDown;
             taregetId = event.target.name;
         }
         var zawartoscpola = r(taregetId).val();
+        var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
+        var dlugoscwierszy = wiersze.length;
         try {
             var czyZawieraWn = taregetId.indexOf("kontown");
             var czyZawieraMa = taregetId.indexOf("kontoma");
             var enterdefault = taregetId.indexOf("enterdefault");
             var rozrachunki = taregetId.indexOf("rozrachunki");
-            var opis = taregetId.indexOf("opis");
+            var opis = taregetId.indexOf("opisdokwpis");
             var typwiersza = MYAPP.typwiersza;
             var wierszlp = parseInt($target.attr("name").split(":")[2])+1;
         } catch (e1) {
@@ -37,8 +39,6 @@ var TabKeyDown;
             } else {
                 var war1 = isTabKey(event);
                 if (war1===true) {
-                    var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
-                    var dlugoscwierszy = wiersze.length;
                     var war2 = dlugoscwierszy === wierszlp;
                     var war3 = czyZawieraWn > 0 && zawartoscpola !== "" && typwiersza === 1;
                     var war4 = czyZawieraMa > 0 && zawartoscpola !== "";
@@ -59,9 +59,7 @@ var TabKeyDown;
                             }
                         }
                     }
-                } else if (isArrowkey(event) && opis) {
-                    var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
-                    var dlugoscwierszy = wiersze.length;
+                } else if (isArrowkey(event) && opis > -1) {
                     if (event.keyCode === 40) {
                         goDown(wiersze,wierszlp);
                     } else if (event.keyCode === 38) {
