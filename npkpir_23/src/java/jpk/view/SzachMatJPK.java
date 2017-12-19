@@ -12,7 +12,6 @@ import java.security.PublicKey;
 import javax.crypto.SecretKey;
 import jpk.initupload.PrzygotujInitUploadXML;
 import static jpk.view.jpk_podpis.podpisz;
-import jpk201701.JPK;
 
 /**
  *
@@ -22,21 +21,21 @@ public class SzachMatJPK {
     
     public static void main(String[] args) {
         //wysylka();
-        beanJPKwysylka.pobierzupo("6f675a5903ff25d00000003f462ffbe1");
-        beanJPKwysylka.pobierzupo("6f6da1f101770fed0000003f4366e012");
+        beanJPKwysylka.pobierzupo("7086c3ad02eee6b40000003f3e5f3aa1");
     }
     //UWAGA USTAWIENIA PRODUKCYJNE
     public static void wysylka() {
         try {
             //JPK jpk = Wysylka.makedummyJPK();
-            Wysylka.zipfile("indyk.xml","james2.xml.zip");
-            Wysylka.encryptAES("james2.xml.zip", "james2.xml.zip.aes");
-            SecretKey secretKey = Wysylka.encryptAESStart("james2.xml.zip", "james2.xml.zip.aes");
+            String mainfilename = "indyk.xml";
+            String zipfilename = "james2.xml.zip";
+            String partfilename = "james2.xml.zip.aes";
+            Wysylka.zipfile(mainfilename,zipfilename);
+            //Wysylka.encryptAES("james2.xml.zip", "james2.xml.zip.aes");
+            SecretKey secretKey = Wysylka.encryptAESStart(zipfilename, partfilename);
             PublicKey publickey = Wysylka.getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
             String encryptionkeystring = Wysylka.wrapKey(publickey, secretKey);
-            String mainfilename = "james2.xml";
-            String partfilename = "james2.xml.zip.aes";
-            byte[] ivBytes = Wysylka.encryptKoniec("james2.xml.zip", mainfilename, secretKey);
+            byte[] ivBytes = Wysylka.encryptKoniec(zipfilename, mainfilename, secretKey);
             int mainfilesize = Wysylka.readFilesize(mainfilename);
             int partfilesize = Wysylka.readFilesize(partfilename);
             String mainfilehash = Wysylka.fileSha256ToBase64(mainfilename);
@@ -45,9 +44,7 @@ public class SzachMatJPK {
             PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), partfilename, partfilesize, partfilehash, plikxmlnazwa);
             String content = new String(Files.readAllBytes(Paths.get("wysylka.xml")));
             podpisz(content);
-            String referenceNumber = beanJPKwysylka.wysylka(partfilename, "wysylkapodpis.xml");
-            System.out.println("Koniec szachmat");
-            beanJPKwysylka.pobierzupo(referenceNumber);
+            beanJPKwysylka.wysylka(partfilename, "wysylkapodpis.xml");
         } catch (Exception ex) {
             E.e(ex);
         }

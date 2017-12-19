@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
+    <DocumentType>JPK</DocumentType>
+    <Version>01.02.01.20160617</Version>
+    <EncryptionKey algorithm="RSA" mode="ECB" padding="PKCS#1" encoding="Base64">enkrypszyn</EncryptionKey>
+    <DocumentList>
+        <Document>
+            <FormCode systemCode="JPK_VAT (2)" schemaVersion="1-0">JPK_VAT</FormCode>
+            <FileName>FILE1</FileName>
+            <ContentLength>1024</ContentLength>
+            <HashValue algorithm="SHA-256" encoding="Base64">MAINHASH</HashValue>
+            <FileSignatureList filesNumber="1">
+                <Packaging>
+                    <SplitZip type="split" mode="zip"/>
+                </Packaging>
+                <Encryption>
+                    <AES size="256" block="16" mode="CBC" padding="PKCS#7">
+                        <IV bytes="16" encoding="Base64">ivvalue</IV>
+                    </AES>
+                </Encryption>
+                <FileSignature>
+                    <OrdinalNumber>1</OrdinalNumber>
+                    <FileName>partfilename</FileName>
+                    <ContentLength>800</ContentLength>
+                    <HashValue algorithm="MD5" encoding="Base64">partfilehash</HashValue>
+                </FileSignature>
+            </FileSignatureList>
+        </Document>
+    </DocumentList>
+</InitUpload>

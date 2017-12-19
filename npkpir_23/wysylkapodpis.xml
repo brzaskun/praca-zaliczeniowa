@@ -1,27 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?><InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
     <DocumentType>JPK</DocumentType>
     <Version>01.02.01.20160617</Version>
-    <EncryptionKey algorithm="RSA" encoding="Base64" mode="ECB" padding="PKCS#1">IqZZ3XQBxtejZzkFuMdby7AENkot1rsOjyugycFxlgkpLkHAmeiahGoVPKdHzvgTplqUeqeG139fXbcvq64TA6jugTtfgefOWt+h76lSlnzi4WYQBb0WAJnmleENFdHiDSRNiehMmhQF1QukZQCV1iXoOasczfMmJI06stmrL8CRetrwr5UYq50gx0j0DWiYVAjLehltZ07LhBNa1eb0MPV+zQQluXri1CHDlsDL4Dvz2V0FR/VTAbGhs9XiRcyKla3ZCp9JW4bVyEfPy2xqyYcwe5+9fj4PdkCsPgrpF8ENxt8ILFR5AHY3Vkjjh75N0ln7Mig2XOa2qZs3D6PQcQ==</EncryptionKey>
+    <EncryptionKey algorithm="RSA" encoding="Base64" mode="ECB" padding="PKCS#1">EJ5x7QH282vRx3qZrPzM0rPjO52Q8NHCtSgJrt4b0eBkD4zfymBQUe6Bc1vU/mNZwSyUfqR1AmzzJxQSV+XYsfos1NNGNejmC6qMuC7Ip8tompQTFtUynx0SZhulwSsPrGaWkj8KBqEkfBZ4CufNU0GsouOMgEmq0tiznlwRPVYfnPfOHlR1crj8CYWnm+Hus0aIP0qqujDt5wRPpFMKswStLPnos82ZeQLlNoM47IAEujq8Q+9w9WlkyrAT62lT8S1b6KjJ6X4PTlu2EvhsCgepoxS1TIiBAaJOUDWId3wFHf+eOqoSCjFpSiGOX7i11wogtJ2p7WYrWYyHbIbB+w==</EncryptionKey>
     <DocumentList>
         <Document>
             <FormCode schemaVersion="1-0" systemCode="JPK_VAT (2)">JPK_VAT</FormCode>
-            <FileName>james2.xml</FileName>
-            <ContentLength>4160</ContentLength>
-            <HashValue algorithm="SHA-256" encoding="Base64">cwGvkCyH4sRJVdNMz77dwOAbSN3Nhhf1AoK3icJaA2I=</HashValue>
+            <FileName>indyk.xml</FileName>
+            <ContentLength>4752</ContentLength>
+            <HashValue algorithm="SHA-256" encoding="Base64">VMxxKwJOSJga/NxogGpgRd3S3658vtAk3hmG1fqnoW8=</HashValue>
             <FileSignatureList filesNumber="1">
                 <Packaging>
                     <SplitZip mode="zip" type="split"/>
                 </Packaging>
                 <Encryption>
                     <AES block="16" mode="CBC" padding="PKCS#7" size="256">
-                        <IV bytes="16" encoding="Base64">2hGPxziDTzua4SeP+RAuQw==</IV>
+                        <IV bytes="16" encoding="Base64">AnVQQdFk4DrV89UsAIAGlA==</IV>
                     </AES>
                 </Encryption>
                 <FileSignature>
                     <OrdinalNumber>1</OrdinalNumber>
                     <FileName>james2.xml.zip.aes</FileName>
-                    <ContentLength>4160</ContentLength>
-                    <HashValue algorithm="MD5" encoding="Base64">1iISL5xRj2TxOmbdlivNkQ==</HashValue>
+                    <ContentLength>4752</ContentLength>
+                    <HashValue algorithm="MD5" encoding="Base64">EFZ8mhU0qT7bRy2S90cNdA==</HashValue>
                 </FileSignature>
             </FileSignatureList>
         </Document>
@@ -52,4 +52,4 @@ csSqTTA0CXQOJTjoTK3NsWDhN964hIek/tIRpfnYDTXbXPyxNONdj3DtalB06Xqee2MrcOlNR8Ft
 DXk+hJ6GsRBO2gke8610POuhk3z2O6byepNi3bqT+DUiu+2v2H1RB61t3bjvbuKyK0kFR/LbXfr9
 rNyFrCzsd9Jn07r2lZBVDf2M8+fACAf2tRlj/dcbb81I0JRnoODkXeFXZxoiPqsPPc1UWJPBySsR
 XSjvKKHSqscgVa52aLssWZH+q4AG8BmJyL8bznzm4IstWmNQy+lDb7uk32kNcezpsabnAtr9s/BL
-bH9I+LSKYaiG</X509Certificate></X509Data></KeyInfo><Object Encoding="UTF-8" Id="idObject"><ds:QualifyingProperties xmlns:ds="http://uri.etsi.org/01903/v1.3.2#" Target="Signature" xmlns="http://www.w3.org/2000/09/xmldsig#"><ds:SignedProperties Id="SignedProperties"><ds:SignedSignatureProperties><ds:SigningCertificate><ds:Cert><ds:IssuerSerial><ds:X509IssuerName>CN=CERTUM QCA,O=Asseco Data Systems S.A.,C=PL,2.5.4.5=#130c4e722077706973753a203134</ds:X509IssuerName><ds:X509SerialNumber>17330148842783067769157515550615116270</ds:X509SerialNumber></ds:IssuerSerial><ds:CertDigest><ds:DigestMethod Algoritm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>T6in7P4XNKxy0oNqika5JKN3gc0=</ds:DigestValue></ds:CertDigest></ds:Cert></ds:SigningCertificate></ds:SignedSignatureProperties></ds:SignedProperties></ds:QualifyingProperties></Object></Signature></InitUpload>
+bH9I+LSKYaiG</X509Certificate></X509Data></KeyInfo><Object Encoding="UTF-8" Id="idObject"><ds:QualifyingProperties Target="Signature" xmlns:ds="http://uri.etsi.org/01903/v1.3.2#"><ds:SignedProperties Id="SignedProperties"><ds:SignedSignatureProperties><ds:SigningCertificate><ds:Cert><ds:IssuerSerial><ds:X509IssuerName>CN=CERTUM QCA,O=Asseco Data Systems S.A.,C=PL,2.5.4.5=#130c4e722077706973753a203134</ds:X509IssuerName><ds:X509SerialNumber>17330148842783067769157515550615116270</ds:X509SerialNumber></ds:IssuerSerial><ds:CertDigest><ds:DigestMethod Algoritm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>T6in7P4XNKxy0oNqika5JKN3gc0=</ds:DigestValue></ds:CertDigest></ds:Cert></ds:SigningCertificate></ds:SignedSignatureProperties></ds:SignedProperties></ds:QualifyingProperties></Object></Signature></InitUpload>

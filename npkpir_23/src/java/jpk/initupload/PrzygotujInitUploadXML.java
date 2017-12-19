@@ -84,15 +84,15 @@ public class PrzygotujInitUploadXML {
             FileOutputStream fileStream = new FileOutputStream(new File(plikxmlnazwa));
             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
             marshaller.marshal(doc, writer);
-            System.out.println("Wygenerowalem doc");
+            System.out.println("Wygenerowalem wysylka.xml");
         } catch (Exception e) {
-            System.out.println("Blad, nie wygenerowano doc");
+            System.out.println("Blad, nie wygenerowano wysylka.xml");
             E.e(e);
         }
         return doc;
     }
     
-    public static void main(String[] args) {
-        robDokument("enkrypszyn", "FILE1", 1024, "MAINHASH", "ivvalue", "partfilename", 800, "partfilehash", "plikxml.xml");
-    }
+//    public static void main(String[] args) {
+//        robDokument("enkrypszyn", "FILE1", 1024, "MAINHASH", "ivvalue", "partfilename", 800, "partfilehash", "plikxml.xml");
+//    }
 }

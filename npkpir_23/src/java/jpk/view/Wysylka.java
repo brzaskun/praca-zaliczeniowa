@@ -5,7 +5,6 @@
  */
 package jpk.view;
 
-import error.E;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -95,20 +94,7 @@ public class Wysylka {
         byte[] ivBytes = encryptKoniec(inputfilename, outputfilename, secretKey);
     }
     
-    public static byte[] encryptKoniec(String inputfilename, String outputfilename, SecretKey seckey) throws Exception {
-        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-        char[] plaintext = czytajplik(inputfilename);
-        SecretKeySpec secretSpec = new SecretKeySpec(seckey.getEncoded(), "AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, secretSpec);
-        AlgorithmParameters params = cipher.getParameters();
-        byte[] ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
-        byte[] encryptedTextBytes = cipher.doFinal(String.valueOf(plaintext).getBytes("UTF-8"));
-        Files.write(Paths.get(outputfilename), encryptedTextBytes);
-        String zwrot = DatatypeConverter.printBase64Binary(encryptedTextBytes);
-        byte[] encoded = Base64.getEncoder().encode(ivBytes);
-        return encoded;
-    }
+    
     
     public static SecretKey encryptAESStart(String inputfilename, String outputfilename) throws Exception {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
@@ -124,17 +110,41 @@ public class Wysylka {
     }
     
 
-    public static void saveprivatekey(SecretKey secretKey, String privkey, String pubkey) throws Exception {
-        PublicKey pk = readPublicKey(pubkey);
+    public static void saveprivatekey(SecretKey secretKey, String secretKeyFilename, String pubKeyFilename) throws Exception {
+        PublicKey pk = readPublicKey(pubKeyFilename);
         Cipher pkCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         pkCipher.init(Cipher.ENCRYPT_MODE, pk);
         System.out.println("blok pk "+pkCipher.getBlockSize());
-        CipherOutputStream os = new CipherOutputStream(new FileOutputStream(privkey), pkCipher);
+        CipherOutputStream os = new CipherOutputStream(new FileOutputStream(secretKeyFilename), pkCipher);
         os.write(secretKey.getEncoded());
         os.close();
     }
+    public static String wrapKey(PublicKey pubKey, SecretKey symKey) throws InvalidKeyException, IllegalBlockSizeException {
+        try {
+            final Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipher.init(Cipher.WRAP_MODE, pubKey);
+            final byte[] wrapped = cipher.wrap(symKey);
+            String encoded = Base64.getEncoder().encodeToString(wrapped);
+            return encoded;
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            throw new IllegalStateException("Java runtime does not support RSA/ECB/OAEPWithSHA1AndMGF1Padding",e);
+        }
+    }
     
-    private static char[] czytajplik(String filename) throws Exception {
+    public static byte[] encryptKoniec(String inputfilename, String outputfilename, SecretKey seckey) throws Exception {
+        SecretKeySpec secretSpec = new SecretKeySpec(seckey.getEncoded(), "AES");
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, secretSpec);
+        AlgorithmParameters params = cipher.getParameters();
+        byte[] ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
+        String plikdowyslania = new String(Files.readAllBytes(Paths.get(inputfilename)));
+        byte[] encryptedTextBytes = cipher.doFinal(plikdowyslania.getBytes("UTF-8"));
+        Files.write(Paths.get(outputfilename), encryptedTextBytes);
+        byte[] encoded = Base64.getEncoder().encode(ivBytes);
+        return encoded;
+    }    
+    
+     private static char[] czytajplik(String filename) throws Exception {
         String content = new String(Files.readAllBytes(Paths.get(filename)));
         return content.toCharArray();
     }
@@ -296,17 +306,7 @@ public class Wysylka {
         return DatatypeConverter.printBase64Binary(encryptedTextBytes);
     }
     
-    public static String wrapKey(PublicKey pubKey, SecretKey symKey) throws InvalidKeyException, IllegalBlockSizeException {
-        try {
-            final Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            cipher.init(Cipher.WRAP_MODE, pubKey);
-            final byte[] wrapped = cipher.wrap(symKey);
-            String encoded = Base64.getEncoder().encodeToString(wrapped);
-            return encoded;
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            throw new IllegalStateException("Java runtime does not support RSA/ECB/OAEPWithSHA1AndMGF1Padding",e);
-        }
-    }
+    
 
     public static String decrypt(char[] encryptedText) throws Exception {
 
@@ -387,26 +387,26 @@ public class Wysylka {
         return "Java(TM) SE Runtime Environment".equals(System.getProperty("java.runtime.name"));
     }
     
-    public static void main(String[] args) {
-        try {
-            JPK jpk = makedummyJPK();
-            //marshaller.marshal(jpk, new FileWriter("james2.xml"));
-            zipfile("james2.xml","james2.xml.zip");
-            encryptAES("james2.xml.zip", "james2.xml.zip.aes");
-//            Unmarshaller unmarshaller = context.createUnmarshaller();
-//            JPK person2 = (JPK) unmarshaller.unmarshal(new File("james2.xml"));
-//            System.out.println(person2);
-//            System.out.println(person2.getNazwisko());
-//            System.out.println(person2.getAdres());
-
-//          marshaller.marshal(person, new FileWriter("edyta.xml"));
-//          marshaller.marshal(person, System.out);
-            System.out.println("Zakonczono generowanie plikow");
-        } catch (Exception ex) {
-            E.e(ex);
-        }
-    }
-    
+//    public static void main(String[] args) {
+//        try {
+//            JPK jpk = makedummyJPK();
+//            //marshaller.marshal(jpk, new FileWriter("james2.xml"));
+//            zipfile("james2.xml","james2.xml.zip");
+//            encryptAES("james2.xml.zip", "james2.xml.zip.aes");
+////            Unmarshaller unmarshaller = context.createUnmarshaller();
+////            JPK person2 = (JPK) unmarshaller.unmarshal(new File("james2.xml"));
+////            System.out.println(person2);
+////            System.out.println(person2.getNazwisko());
+////            System.out.println(person2.getAdres());
+//
+////          marshaller.marshal(person, new FileWriter("edyta.xml"));
+////          marshaller.marshal(person, System.out);
+//            System.out.println("Zakonczono generowanie plikow");
+//        } catch (Exception ex) {
+//            E.e(ex);
+//        }
+//    }
+//    
     public static PublicKey getPublicKey(String filename) throws Exception {
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
         FileInputStream fileInputStream = new FileInputStream(new File(filename));
