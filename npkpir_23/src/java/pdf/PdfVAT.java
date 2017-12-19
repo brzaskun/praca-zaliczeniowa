@@ -356,7 +356,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
         table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
         table.addCell(ustawfrazeAlign(rs.getNrKolejny(), "left", 6));
         try {
-            if (!rs.getOpis().equals("podsumowanie") && rs.getDokfk().getRodzajedok().getKategoriadokumentu()==0 && rs.getNumerwlasnydokfk() != null) {
+            if (!rs.getOpis().equals("podsumowanie")&& rs.getDokfk() != null && rs.getDokfk().getRodzajedok().getKategoriadokumentu()==0 && rs.getNumerwlasnydokfk() != null) {
                 table.addCell(ustawfrazeAlign(rs.getNumerwlasnydokfk(), "left", 6));
             } else {
                 table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));

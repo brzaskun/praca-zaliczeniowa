@@ -91,14 +91,15 @@ public class Wysylka {
 
     public static void encryptAES(String inputfilename, String outputfilename) throws Exception {
         SecretKey secretKey = encryptAESStart(inputfilename, outputfilename);
-        saveprivatekey(secretKey, "privatekey.key", "pubkey.pem");
+        saveprivatekey(secretKey, "privatekey.key", "3af5843ae11db6d94edf0ea502b5cd1a.pem");
         byte[] ivBytes = encryptKoniec(inputfilename, outputfilename, secretKey);
     }
     
     public static byte[] encryptKoniec(String inputfilename, String outputfilename, SecretKey seckey) throws Exception {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         char[] plaintext = czytajplik(inputfilename);
         SecretKeySpec secretSpec = new SecretKeySpec(seckey.getEncoded(), "AES");
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secretSpec);
         AlgorithmParameters params = cipher.getParameters();
         byte[] ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
@@ -297,7 +298,7 @@ public class Wysylka {
     
     public static String wrapKey(PublicKey pubKey, SecretKey symKey) throws InvalidKeyException, IllegalBlockSizeException {
         try {
-            final Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
+            final Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.WRAP_MODE, pubKey);
             final byte[] wrapped = cipher.wrap(symKey);
             String encoded = Base64.getEncoder().encodeToString(wrapped);
@@ -338,7 +339,7 @@ public class Wysylka {
         return new String(salt);
     }
 
-    private static void removeCryptographyRestrictions() {
+    public static void removeCryptographyRestrictions() {
         Logger logger = Logger.getLogger(Wysylka.class.getName());
         if (!isRestrictedCryptography()) {
             logger.fine("Cryptography restrictions removal not needed");

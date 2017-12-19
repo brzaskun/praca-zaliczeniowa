@@ -22,13 +22,13 @@ public class SzachMatJPK {
     
     public static void main(String[] args) {
         //wysylka();
-        beanJPKwysylka.pobierzupo("60fe086a03bdca54000000456fdc8235");
+        beanJPKwysylka.pobierzupo("6eae92100090fcc90000003e1c4b668c");
     }
-    
+    //UWAGA USTAWIENIA PRODUKCYJNE
     public static void wysylka() {
         try {
-            JPK jpk = Wysylka.makedummyJPK();
-            Wysylka.zipfile("james2.xml","james2.xml.zip");
+            //JPK jpk = Wysylka.makedummyJPK();
+            Wysylka.zipfile("indyk.xml","james2.xml.zip");
             Wysylka.encryptAES("james2.xml.zip", "james2.xml.zip.aes");
             SecretKey secretKey = Wysylka.encryptAESStart("james2.xml.zip", "james2.xml.zip.aes");
             PublicKey publickey = Wysylka.getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
@@ -44,8 +44,9 @@ public class SzachMatJPK {
             PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), partfilename, partfilesize, partfilehash, plikxmlnazwa);
             String content = new String(Files.readAllBytes(Paths.get("wysylka.xml")));
             podpisz(content);
-            beanJPKwysylka.wysylka(partfilename, "wysylkapodpis.xml");
+            String referenceNumber = beanJPKwysylka.wysylka(partfilename, "wysylkapodpis.xml");
             System.out.println("Koniec szachmat");
+            beanJPKwysylka.pobierzupo(referenceNumber);
         } catch (Exception ex) {
             E.e(ex);
         }

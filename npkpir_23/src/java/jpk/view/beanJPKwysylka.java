@@ -32,9 +32,9 @@ import org.json.JSONTokener;
 public class beanJPKwysylka {
     private static String plikxml2 = "enveloped.xades";
 //    private static String plikxml = "enveloping.xades";
-    private static final String URL_STEP1 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/InitUploadSigned";
-    private static final String URL_STEP2 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/FinishUpload";
-    private static final String URL_STEP3 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/Status/";
+    private static final String URL_STEP1 = "https://e-dokumenty.mf.gov.pl/api/Storage/InitUploadSigned";
+    private static final String URL_STEP2 = "https://e-dokumenty.mf.gov.pl/api/Storage/FinishUpload";
+    private static final String URL_STEP3 = "https://e-dokumenty.mf.gov.pl/api/Storage/Status/";
 //    private static final String nazwapliku = "G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes";
     
     
@@ -43,7 +43,7 @@ public class beanJPKwysylka {
          System.out.println("zakonczylem wysylke");
      }
     
-     public static void wysylka(String nazwapliku, String plikxml) {
+     public static String wysylka(String nazwapliku, String plikxml) {
         try {
             Object[] in = autoryzacja(plikxml, URL_STEP1);
             int responseCode = (int) in[1];
@@ -57,7 +57,7 @@ public class beanJPKwysylka {
                 String nieudane =  jo.getString("Message");
                 System.out.println("nieudana wysylka: "+nieudane);
                 System.out.println("errors: "+errors);
-                return;
+                return null;
             } catch (Exception e1){}
             String referenceNumber = jo.getString("ReferenceNumber");
             String[] a = new String[1];
@@ -97,9 +97,11 @@ public class beanJPKwysylka {
             System.out.println("Timestamp "+Timestamp);
             System.out.println("Upo nr: "+Upo);
             System.out.println("Referencenumber nr: "+referenceNumber);
+            return referenceNumber;
         } catch (Exception ex) {
             E.e(ex);
         }
+        return "";
     }
      
     public static void pobierzupo(String referenceNumber) {
