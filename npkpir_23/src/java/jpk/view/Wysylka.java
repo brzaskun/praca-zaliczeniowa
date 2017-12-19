@@ -83,7 +83,7 @@ public class Wysylka {
             zos.closeEntry();
             //remember close it
             zos.close();
-            System.out.println("Done");
+            System.out.println("Done zipping file "+inputfilename);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -298,7 +298,7 @@ public class Wysylka {
     
     public static String wrapKey(PublicKey pubKey, SecretKey symKey) throws InvalidKeyException, IllegalBlockSizeException {
         try {
-            final Cipher cipher = Cipher.getInstance("RSA");
+            final Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             cipher.init(Cipher.WRAP_MODE, pubKey);
             final byte[] wrapped = cipher.wrap(symKey);
             String encoded = Base64.getEncoder().encodeToString(wrapped);
