@@ -295,7 +295,15 @@ public class EVatViewPola implements Serializable{
         this.numerwlasnydokfk = numerwlasnydokfk;
     }
 
-    
+    public String getNrpozycji() {
+        if (!this.getOpis().equals("podsumowanie") && this.getDokfk().getRodzajedok().getKategoriadokumentu()==0 && this.getNumerwlasnydokfk() != null) {
+            return this.numerwlasnydokfk;
+        } else if (!this.getOpis().equals("podsumowanie")){
+            return this.dokfk.getNumerwlasnydokfk();
+        } else {
+            return "";
+        }
+    }
     
     
 

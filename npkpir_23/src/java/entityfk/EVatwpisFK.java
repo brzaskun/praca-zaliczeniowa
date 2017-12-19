@@ -237,6 +237,8 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     public void setDataoperacji(String dataoperacji) {
         this.dataoperacji = dataoperacji;
     }
+    
+    
 //</editor-fold>
 
     @Override
