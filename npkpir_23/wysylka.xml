@@ -2,27 +2,27 @@
 <InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
     <DocumentType>JPK</DocumentType>
     <Version>01.02.01.20160617</Version>
-    <EncryptionKey algorithm="RSA" mode="ECB" padding="PKCS#1" encoding="Base64">LS070yqWbZkMyqgOgDrCizYQ5ZD57R9pnvMA7TfkswPcZ9JKtS/5MWAZNZd0ycw461uEh50jE5zX9OfGDK8fHxRcKij+SC/URPmsG2xKZU0qq3orKaRFfS4ka7Teuo/t+0muNNIik1MCcTD97CHLKKwW2oYNm60xUqQhkPIiAju/EBzRkg9tTLRImkAECghgKcmmABTrM8Vcm6tO8WGRmHu8sdGiyCGBOi27fqRSXc5XDKYl6r+n82M4eqHpLON6oDntyLiqapwNSqkIXYT56T2QywGI+DwtWpQrRFMN3Bzod0GqwmAt69Nia5W2CB3SN3ref4maRU9F1hxhWX4YVA==</EncryptionKey>
+    <EncryptionKey algorithm="RSA" mode="ECB" padding="PKCS#1" encoding="Base64">Ne/IIIruSdbrKY5oRI9iltwCsGrjq5bZnUAvqYM/BG5znJNDf+5RtXOIuInXIx8xnxQIkWYG9DiI5Xld4H6tYpWtSl9PlIWOVe8Hf5Rb1uPy6zfwjImiy16XVhhXhDP0ttktmwETQjj2+EUZCLVVXWEstq74mSGBFmrV1HHONuIISxk5fyKul0z6ayAZ9t7SFPuN6qNlRY754B6x4j5XtR6+6Y+ptYHSgtKKPnw2WG3RTPgZGmbjSYt0fv0RneEAnSA6EPx/WhfcbFDlNH8r5c8vSDtcuSH4FDw3ErSXFD0pI0btMECW2TSFwyOfvPfaAMe8I1U/lMP+OQb092BhRQ==</EncryptionKey>
     <DocumentList>
         <Document>
             <FormCode systemCode="JPK_VAT (2)" schemaVersion="1-0">JPK_VAT</FormCode>
             <FileName>indyk.xml</FileName>
             <ContentLength>1207</ContentLength>
-            <HashValue algorithm="SHA-256" encoding="Base64">a8o9AIiYxh5d2W5KTUQSrg2zOgC0Al34MKuMTgT+sYs=</HashValue>
+            <HashValue algorithm="SHA-256" encoding="Base64">Cl5WwYg+y9Y/t0AyYC5xwT5K0gHsKdRvRpFaIG92GHY=</HashValue>
             <FileSignatureList filesNumber="1">
                 <Packaging>
                     <SplitZip type="split" mode="zip"/>
                 </Packaging>
                 <Encryption>
                     <AES size="256" block="16" mode="CBC" padding="PKCS#7">
-                        <IV bytes="16" encoding="Base64">aPaAemUXNtjOx/bIItoweA==</IV>
+                        <IV bytes="16" encoding="Base64">a5+LvX4GoiTFiHwlnYugOA==</IV>
                     </AES>
                 </Encryption>
                 <FileSignature>
                     <OrdinalNumber>1</OrdinalNumber>
                     <FileName>james2.xml.zip.aes</FileName>
-                    <ContentLength>1168</ContentLength>
-                    <HashValue algorithm="MD5" encoding="Base64">dEYXwj4c6Cv4EQER9mh6ew==</HashValue>
+                    <ContentLength>1328</ContentLength>
+                    <HashValue algorithm="MD5" encoding="Base64">lIdLLijdp18X4h4D470GSw==</HashValue>
                 </FileSignature>
             </FileSignatureList>
         </Document>

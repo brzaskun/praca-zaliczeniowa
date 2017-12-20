@@ -135,7 +135,7 @@
                 </p:contextMenu>
                 <p:dataTable  var="wpis" value="#{STRTableView.sprzedane_wnip}" id="wnipListas" editable="true" 
                               scrollable="true" scrollHeight="390"
-                               style="max-width: 1200px;"
+                               style="width: 1400px;"
                               rowKey="#{wpis.id}" selection="#{STRTableView.wybranysrodektrwalySprzedane}" selectionMode="single"> 
 
                     <f:facet name="header">  
@@ -147,13 +147,15 @@
                         <h:outputText value="#{wpis.nrsrodka}" />
                     </p:column>
 
-                    <p:column id="dataColumn" headerText="data zakupu" filterBy="#{wpis.datazak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.datazak}" width="70">  
+                    <p:column id="dataColumn" headerText="data zakupu" 
+                              filterBy="#{wpis.datazak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.datazak}" width="80">  
 
                         <h:outputText value="#{wpis.datazak}">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
-                    <p:column id="data2Column" headerText="data przekazania" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" width="70">  
+                    <p:column id="data2Column" headerText="data przekazania" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" 
+                              filterStyle="display : none;" sortBy="#{wpis.dataprzek}" width="80">  
 
                         <h:outputText value="#{wpis.dataprzek}">
                             <f:convertDateTime dateStyle="medium"  />

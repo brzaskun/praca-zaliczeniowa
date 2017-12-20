@@ -142,8 +142,8 @@ public class Xad {
             } catch (XMLSignatureException ex) {
                 ex.printStackTrace();
             }
-            //podpisana = saveInput(doc);
-            saveXML(doc);
+            podpisana = saveInput(doc);
+            //saveXML(doc);
 //            validate(doc, xmlSigFactory);
 
         } catch (Exception ex) {

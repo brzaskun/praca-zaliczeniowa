@@ -121,7 +121,7 @@ public class VATUEDeklaracjaView implements Serializable {
         deklaracja.setPodmiot1(VATUEM4Bean.podmiot1(wpisView));
         deklaracja.setPozycjeSzczegolowe(VATUEM4Bean.pozycjeszczegolowe(lista));
         deklaracja.setPouczenie(BigDecimal.ONE);
-        return VATUEM4Bean.marszajuldoStringu(deklaracja, wpisView).substring(17);
+        return VATUEM4Bean.marszajuldoStringu(deklaracja, wpisView);
     }
     
     private String sporzadzkorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta) {
@@ -132,7 +132,7 @@ public class VATUEDeklaracjaView implements Serializable {
         deklaracja.setPodmiot1(VATUEKM4Bean.podmiot1(wpisView));
         deklaracja.setPozycjeSzczegolowe(VATUEKM4Bean.pozycjeszczegolowe(listaroznic));
         deklaracja.setPouczenie(BigDecimal.ONE);
-        return VATUEKM4Bean.marszajuldoStringu(deklaracja, wpisView).substring(17);
+        return VATUEKM4Bean.marszajuldoStringu(deklaracja, wpisView);
     }
 
     private Object[] podpiszDeklaracje(String xml) {

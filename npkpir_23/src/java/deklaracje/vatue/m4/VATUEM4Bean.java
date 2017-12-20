@@ -221,7 +221,7 @@ public class VATUEM4Bean {
         } catch (Exception ex) {
             E.e(ex);
         }
-        return sw.toString().replaceAll("\n|\r", "");
+        return sw.toString().replaceAll("\n|\r", "").substring(sw.toString().replaceAll("\n|\r", "").indexOf(">")+1);
     }
     
      public static Document StringToDocument(String strXml) throws Exception {
