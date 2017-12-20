@@ -21,7 +21,7 @@ public class SzachMatJPK {
     
     public static void main(String[] args) {
         //wysylka();
-        beanJPKwysylka.pobierzupo("7086c3ad02eee6b40000003f3e5f3aa1");
+        beanJPKwysylka.pobierzupo("72daad910032fb940000003f6cfd3114");
     }
     //UWAGA USTAWIENIA PRODUKCYJNE
     public static void wysylka() {
@@ -35,7 +35,7 @@ public class SzachMatJPK {
             SecretKey secretKey = Wysylka.encryptAESStart(zipfilename, partfilename);
             PublicKey publickey = Wysylka.getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
             String encryptionkeystring = Wysylka.wrapKey(publickey, secretKey);
-            byte[] ivBytes = Wysylka.encryptKoniec(zipfilename, mainfilename, secretKey);
+            byte[] ivBytes = Wysylka.encryptKoniec(zipfilename, partfilename, secretKey);
             int mainfilesize = Wysylka.readFilesize(mainfilename);
             int partfilesize = Wysylka.readFilesize(partfilename);
             String mainfilehash = Wysylka.fileSha256ToBase64(mainfilename);
