@@ -26,8 +26,8 @@ public class UnzipUtility {
          try {
              //JPK jpk = Wysylka.makedummyJPK();
              String mainfilename = "indyk.xml";
-             String zipfilename = "indyk2.xml.zip";
-             Wysylka.zipfile(mainfilename,zipfilename);
+             String zipfilename = "james2.xml.zip";
+             //Wysylka.zipfile(mainfilename,zipfilename);
              unzip(zipfilename, "unzipfolder");
          } catch (IOException ex) {
              Logger.getLogger(UnzipUtility.class.getName()).log(Level.SEVERE, null, ex);

@@ -59,7 +59,15 @@ public class beanJPKwysylka {
                 System.out.println("errors: "+errors);
                 return null;
             } catch (Exception e1){}
-            String referenceNumber = jo.getString("ReferenceNumber");
+            try {
+                String nieudane =  jo.getString("Message");
+                System.out.println("duplikat wysylka: "+nieudane);
+            } catch (Exception e1){
+            }
+            String referenceNumber = "nie pobrano";
+            try {
+                referenceNumber = jo.getString("ReferenceNumber");
+            } catch (Exception e1){}
             String[] a = new String[1];
             JSONArray job = jo.getJSONArray("RequestToUploadFileList");
             String uri = (String) ((JSONObject) job.get(0)).get("Url");

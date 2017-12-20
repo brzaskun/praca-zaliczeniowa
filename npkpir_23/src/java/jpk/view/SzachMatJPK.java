@@ -21,7 +21,7 @@ public class SzachMatJPK {
     
     public static void main(String[] args) {
         //wysylka();
-        beanJPKwysylka.pobierzupo("72daad910032fb940000003f6cfd3114");
+        beanJPKwysylka.pobierzupo("fa312ff700becb690000004c5d416b82");
     }
     //UWAGA USTAWIENIA PRODUKCYJNE
     public static void wysylka() {
