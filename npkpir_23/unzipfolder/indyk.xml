@@ -1,293 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<JPK xmlns="http://jpk.mf.gov.pl/wzor/2016/10/26/10261/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <Naglowek>
-        <KodFormularza kodSystemowy="JPK_VAT (2)" wersjaSchemy="1-0">JPK_VAT</KodFormularza>
-        <WariantFormularza>2</WariantFormularza>
-        <CelZlozenia>1</CelZlozenia>
-        <DataWytworzeniaJPK>2017-12-20T07:06:57.948Z</DataWytworzeniaJPK>
-        <DataOd>2017-11-01</DataOd>
-        <DataDo>2017-11-30</DataDo>
-        <DomyslnyKodWaluty>PLN</DomyslnyKodWaluty>
-        <KodUrzedu>3271</KodUrzedu>
-    </Naglowek>
-    <Podmiot1>
-        <IdentyfikatorPodmiotu>
-            <ns2:NIP>8561682099</ns2:NIP>
-            <ns2:PelnaNazwa>INDYK-REDŁO SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ</ns2:PelnaNazwa>
-            <ns2:REGON>812432107</ns2:REGON>
-        </IdentyfikatorPodmiotu>
-        <AdresPodmiotu>
-            <KodKraju>PL</KodKraju>
-            <Wojewodztwo>Zachodniopomorskie</Wojewodztwo>
-            <Powiat>Goleniowski</Powiat>
-            <Gmina>Osina</Gmina>
-            <Ulica>-</Ulica>
-            <NrDomu>23A</NrDomu>
-            <NrLokalu>-</NrLokalu>
-            <Miejscowosc>Redło</Miejscowosc>
-            <KodPocztowy>72-221</KodPocztowy>
-            <Poczta>Osina</Poczta>
-        </AdresPodmiotu>
-    </Podmiot1>
-    <SprzedazWiersz typ="G">
-        <LpSprzedazy>1</LpSprzedazy>
-        <NrKontrahenta>5621028701</NrKontrahenta>
-        <NazwaKontrahenta>GOSPODARSTWO ROLNE FERMA DROBIU Tadeusz Wolski</NazwaKontrahenta>
-        <AdresKontrahenta>89-350 Grabionna, ul. - null/-</AdresKontrahenta>
-        <DowodSprzedazy>48/11/2017</DowodSprzedazy>
-        <DataWystawienia>2017-11-30</DataWystawienia>
-        <DataSprzedazy>2017-11-23</DataSprzedazy>
-        <K_19>3000.0</K_19>
-        <K_20>690.0</K_20>
-    </SprzedazWiersz>
-    <SprzedazWiersz typ="G">
-        <LpSprzedazy>2</LpSprzedazy>
-        <NrKontrahenta>8561848016</NrKontrahenta>
-        <NazwaKontrahenta>Karma Sp. z o.o. Sp.k.</NazwaKontrahenta>
-        <AdresKontrahenta>70-100 Szczecin, ul. J.H.Dąbrowskiego  38/40/313</AdresKontrahenta>
-        <DowodSprzedazy>49/11/17</DowodSprzedazy>
-        <DataWystawienia>2017-11-30</DataWystawienia>
-        <DataSprzedazy>2017-11-24</DataSprzedazy>
-        <K_17>2627.86</K_17>
-        <K_18>210.23</K_18>
-    </SprzedazWiersz>
-    <SprzedazWiersz typ="G">
-        <LpSprzedazy>3</LpSprzedazy>
-        <NrKontrahenta>8561848016</NrKontrahenta>
-        <NazwaKontrahenta>Karma Sp. z o.o. Sp.k.</NazwaKontrahenta>
-        <AdresKontrahenta>70-100 Szczecin, ul. J.H.Dąbrowskiego  38/40/313</AdresKontrahenta>
-        <DowodSprzedazy>51/11/17</DowodSprzedazy>
-        <DataWystawienia>2017-12-31</DataWystawienia>
-        <DataSprzedazy>2017-11-30</DataSprzedazy>
-        <K_19>23803.65</K_19>
-        <K_20>5474.84</K_20>
-    </SprzedazWiersz>
-    <SprzedazWiersz typ="G">
-        <LpSprzedazy>4</LpSprzedazy>
-        <NrKontrahenta>8561848016</NrKontrahenta>
-        <NazwaKontrahenta>Karma Sp. z o.o. Sp.k.</NazwaKontrahenta>
-        <AdresKontrahenta>70-100 Szczecin, ul. J.H.Dąbrowskiego  38/40/313</AdresKontrahenta>
-        <DowodSprzedazy>52/11/17</DowodSprzedazy>
-        <DataWystawienia>2017-12-31</DataWystawienia>
-        <DataSprzedazy>2017-11-30</DataSprzedazy>
-        <K_19>3019.5</K_19>
-        <K_20>694.48</K_20>
-    </SprzedazWiersz>
-    <SprzedazWiersz typ="G">
-        <LpSprzedazy>5</LpSprzedazy>
-        <NrKontrahenta>8561848016</NrKontrahenta>
-        <NazwaKontrahenta>Karma Sp. z o.o. Sp.k.</NazwaKontrahenta>
-        <AdresKontrahenta>70-100 Szczecin, ul. J.H.Dąbrowskiego  38/40/313</AdresKontrahenta>
-        <DowodSprzedazy>54/11/17</DowodSprzedazy>
-        <DataWystawienia>2017-12-31</DataWystawienia>
-        <DataSprzedazy>2017-11-30</DataSprzedazy>
-        <K_19>5619.8</K_19>
-        <K_20>1292.55</K_20>
-    </SprzedazWiersz>
-    <SprzedazCtrl>
-        <LiczbaWierszySprzedazy>5</LiczbaWierszySprzedazy>
-        <PodatekNalezny>8362.10</PodatekNalezny>
-    </SprzedazCtrl>
-    <ZakupWiersz typ="G">
-        <LpZakupu>1</LpZakupu>
-        <NrDostawcy>8560000407</NrDostawcy>
-        <NazwaDostawcy>PRZEDSIĘBIORSTWO GOSPODARKI KOMUNALNEJ SP.ZOO</NazwaDostawcy>
-        <AdresDostawcy>72-100 GOLENIÓW, ul. KONOPNICKIEJ 12/</AdresDostawcy>
-        <DowodZakupu>004439/S03/2017/161444</DowodZakupu>
-        <DataZakupu>2017-10-31</DataZakupu>
-        <DataWplywu>2017-10-31</DataWplywu>
-        <K_45>95.0</K_45>
-        <K_46>7.6</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>2</LpZakupu>
-        <NrDostawcy>5250000794</NrDostawcy>
-        <NazwaDostawcy>Innogy Polska S.A.</NazwaDostawcy>
-        <AdresDostawcy>00-347 Warszawa, ul. Wybrzeże Kościuszkowskie 41/</AdresDostawcy>
-        <DowodZakupu>221018588841</DowodZakupu>
-        <DataZakupu>2017-10-31</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>10225.21</K_45>
-        <K_46>2351.8</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>3</LpZakupu>
-        <NrDostawcy>5272706082</NrDostawcy>
-        <NazwaDostawcy>PGNiG Obrót Detaliczny Sp. z o.o.</NazwaDostawcy>
-        <AdresDostawcy>01-224 Warszawa, ul. Kasprzaka 25c/</AdresDostawcy>
-        <DowodZakupu>7440/49/2017/F</DowodZakupu>
-        <DataZakupu>2017-10-31</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>21247.2</K_45>
-        <K_46>4886.86</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>4</LpZakupu>
-        <NrDostawcy>7822377160</NrDostawcy>
-        <NazwaDostawcy>ENEA Operator Sp. z o.o.</NazwaDostawcy>
-        <AdresDostawcy>60-479 Poznań, ul. Strzeszyńska 58/</AdresDostawcy>
-        <DowodZakupu>P/P/10200680/0012/17</DowodZakupu>
-        <DataZakupu>2017-10-31</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>4747.95</K_45>
-        <K_46>1092.04</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>5</LpZakupu>
-        <NrDostawcy>5260250995</NrDostawcy>
-        <NazwaDostawcy>Orange Polska S.A.</NazwaDostawcy>
-        <AdresDostawcy>02-326 Warszawa , ul. Al. jerozolimskie  160/</AdresDostawcy>
-        <DowodZakupu>FSC01110777/011/17</DowodZakupu>
-        <DataZakupu>2017-11-01</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>231.35</K_45>
-        <K_46>53.21</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>6</LpZakupu>
-        <NrDostawcy>7740001454</NrDostawcy>
-        <NazwaDostawcy>ORLEN SA</NazwaDostawcy>
-        <AdresDostawcy>09-411 Płock, ul. Chemików 7/</AdresDostawcy>
-        <DowodZakupu>19244K2/0403/17</DowodZakupu>
-        <DataZakupu>2017-11-02</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>81.35</K_45>
-        <K_46>9.36</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>7</LpZakupu>
-        <NrDostawcy>8511005008</NrDostawcy>
-        <NazwaDostawcy>Taxman Grzegorz Grzelczyk</NazwaDostawcy>
-        <AdresDostawcy>70-100 Szczecin, ul. Dąbrowskiego 38/40/313</AdresDostawcy>
-        <DowodZakupu>11/2017/Indy</DowodZakupu>
-        <DataZakupu>2017-11-03</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>500.0</K_45>
-        <K_46>115.0</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>8</LpZakupu>
-        <NrDostawcy>5260250995</NrDostawcy>
-        <NazwaDostawcy>Orange Polska S.A.</NazwaDostawcy>
-        <AdresDostawcy>02-326 Warszawa , ul. Al. jerozolimskie  160/</AdresDostawcy>
-        <DowodZakupu>17110965987206</DowodZakupu>
-        <DataZakupu>2017-11-06</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>146.18</K_45>
-        <K_46>33.62</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>9</LpZakupu>
-        <NrDostawcy>7822182433</NrDostawcy>
-        <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
-        <AdresDostawcy>60-004 Poznań, ul. Głogowska 431/</AdresDostawcy>
-        <DowodZakupu>249908</DowodZakupu>
-        <DataZakupu>2017-11-09</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>24.39</K_45>
-        <K_46>5.61</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>10</LpZakupu>
-        <NrDostawcy>7810043039</NrDostawcy>
-        <NazwaDostawcy>Gama Przedsiębiorstwo Handlowo-Usługowe Krystyna Bień</NazwaDostawcy>
-        <AdresDostawcy>62-081 Przeźmierowo, ul. Rynkowa 122/-</AdresDostawcy>
-        <DowodZakupu>FV10533/2017</DowodZakupu>
-        <DataZakupu>2017-11-09</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>21.14</K_45>
-        <K_46>2.43</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>11</LpZakupu>
-        <NrDostawcy>8561674409</NrDostawcy>
-        <NazwaDostawcy>STACJA PALIW ANNA KRÓL</NazwaDostawcy>
-        <AdresDostawcy>72-200 NOWOGARD, ul. NADTOROWA 14/</AdresDostawcy>
-        <DowodZakupu>F/003137/17</DowodZakupu>
-        <DataZakupu>2017-11-10</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>20.12</K_45>
-        <K_46>2.32</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>12</LpZakupu>
-        <NrDostawcy>7822182433</NrDostawcy>
-        <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
-        <AdresDostawcy>60-004 Poznań, ul. Głogowska 431/</AdresDostawcy>
-        <DowodZakupu>106449</DowodZakupu>
-        <DataZakupu>2017-11-11</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>24.39</K_45>
-        <K_46>5.61</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>13</LpZakupu>
-        <NrDostawcy>7872106032</NrDostawcy>
-        <NazwaDostawcy>Genpower Sp.z o.o.</NazwaDostawcy>
-        <AdresDostawcy>62-045 Pniewy, ul. Buszewo 33/</AdresDostawcy>
-        <DowodZakupu>1062/SER/2017</DowodZakupu>
-        <DataZakupu>2017-11-16</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>1949.9</K_45>
-        <K_46>448.48</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>14</LpZakupu>
-        <NrDostawcy>8590000441</NrDostawcy>
-        <NazwaDostawcy>Przedsiębiorstwo Usług Wodnych i Sanitarnych Spółka z o.o.</NazwaDostawcy>
-        <AdresDostawcy>72-200 Nowogard, ul. 700-lecia 14/2</AdresDostawcy>
-        <DowodZakupu>45635/WK/2017</DowodZakupu>
-        <DataZakupu>2017-11-16</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>2627.86</K_45>
-        <K_46>210.23</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>15</LpZakupu>
-        <NrDostawcy>7771801888</NrDostawcy>
-        <NazwaDostawcy>Stacja Kontroli Pojazdów Kopras Zbigniew</NazwaDostawcy>
-        <AdresDostawcy>62-070 Dopiewo, ul. Fiałkowo  1/-</AdresDostawcy>
-        <DowodZakupu>FV/05540/2017</DowodZakupu>
-        <DataZakupu>2017-11-16</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>51.41</K_45>
-        <K_46>5.8</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>16</LpZakupu>
-        <NrDostawcy>8561270095</NrDostawcy>
-        <NazwaDostawcy>PS- ELTECH Piotr Salamon</NazwaDostawcy>
-        <AdresDostawcy>72-200 Nowogard, ul.  Armii Krajowej 28/-</AdresDostawcy>
-        <DowodZakupu>F/001178/17</DowodZakupu>
-        <DataZakupu>2017-11-22</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>435.75</K_45>
-        <K_46>100.22</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>17</LpZakupu>
-        <NrDostawcy>8561674409</NrDostawcy>
-        <NazwaDostawcy>STACJA PALIW ANNA KRÓL</NazwaDostawcy>
-        <AdresDostawcy>72-200 NOWOGARD, ul. NADTOROWA 14/</AdresDostawcy>
-        <DowodZakupu>f/003234/17</DowodZakupu>
-        <DataZakupu>2017-11-23</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>79.35</K_45>
-        <K_46>9.13</K_46>
-    </ZakupWiersz>
-    <ZakupWiersz typ="G">
-        <LpZakupu>18</LpZakupu>
-        <NrDostawcy>5992849680</NrDostawcy>
-        <NazwaDostawcy>Auto-Benz Sp. z o.o.</NazwaDostawcy>
-        <AdresDostawcy>02-697 Warszawa, ul. Rzymowskiego 53/-</AdresDostawcy>
-        <DowodZakupu>5589/2017/HURT</DowodZakupu>
-        <DataZakupu>2017-11-30</DataZakupu>
-        <DataWplywu>2017-11-30</DataWplywu>
-        <K_45>3536.58</K_45>
-        <K_46>813.41</K_46>
-    </ZakupWiersz>
-    <ZakupCtrl>
-        <LiczbaWierszyZakupow>18</LiczbaWierszyZakupow>
-        <PodatekNaliczony>10152.73</PodatekNaliczony>
-    </ZakupCtrl>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<JPK xmlns="http://jpk.mf.gov.pl/wzor/2016/10/26/10261/" xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Naglowek>
+		<KodFormularza wersjaSchemy="1-0" kodSystemowy="JPK_VAT (2)">JPK_VAT</KodFormularza>
+		<WariantFormularza>2</WariantFormularza>
+		<CelZlozenia>3</CelZlozenia>
+		<DataWytworzeniaJPK>2017-02-01T00:00:00</DataWytworzeniaJPK>
+		<DataOd>2017-01-01</DataOd>
+		<DataDo>2017-01-31</DataDo>
+		<DomyslnyKodWaluty>PLN</DomyslnyKodWaluty>
+		<KodUrzedu>1435</KodUrzedu>
+	</Naglowek>
+	<Podmiot1>
+		<IdentyfikatorPodmiotu>
+			<etd:NIP>1111111111</etd:NIP>
+			<etd:PelnaNazwa>PEŁNA NAZWA PODMIOTU</etd:PelnaNazwa>
+			<etd:REGON>111111111</etd:REGON>
+		</IdentyfikatorPodmiotu>
+		<AdresPodmiotu>
+			<KodKraju>PL</KodKraju>
+			<Wojewodztwo>WOJEWÓDZTWO</Wojewodztwo>
+			<Powiat>POWIAT</Powiat>
+			<Gmina>GMINA</Gmina>
+			<Ulica>ULICA</Ulica>
+			<NrDomu>1</NrDomu>
+			<NrLokalu>2</NrLokalu>
+			<Miejscowosc>MIEJSCOWOŚĆ</Miejscowosc>
+			<KodPocztowy>00-000</KodPocztowy>
+			<Poczta>POCZTA</Poczta>
+		</AdresPodmiotu>
+	</Podmiot1>
 </JPK>

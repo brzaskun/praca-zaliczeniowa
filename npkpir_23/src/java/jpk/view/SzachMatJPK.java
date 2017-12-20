@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.security.PublicKey;
 import javax.crypto.SecretKey;
 import jpk.initupload.PrzygotujInitUploadXML;
+import static jpk.view.UnzipUtility.unzip;
 import static jpk.view.jpk_podpis.podpisz;
 
 /**
@@ -21,7 +22,11 @@ public class SzachMatJPK {
     
     public static void main(String[] args) {
         //wysylka();
-        beanJPKwysylka.pobierzupo("fa312ff700becb690000004c5d416b82");
+        //jpk tetsowy otwarte notatnikiem i zmieniony nip ostatnia cyfra 1 na 2
+        //jpk tetsowy otwarte notatnikiem i zmieniony nip ostatnia cyfra 1 na 0
+        //wpisalem nip, regon i uryad prawdyiwego indzka
+        //robie jpk ze niby korekta za styczen nr 3
+        beanJPKwysylka.pobierzupo("749f9f49039f27f10000003e531c2518");
     }
     //UWAGA USTAWIENIA PRODUKCYJNE
     public static void wysylka() {
@@ -31,6 +36,7 @@ public class SzachMatJPK {
             String zipfilename = "james2.xml.zip";
             String partfilename = "james2.xml.zip.aes";
             Wysylka.zipfile(mainfilename,zipfilename);
+            unzip(zipfilename, "unzipfolder");
             //Wysylka.encryptAES("james2.xml.zip", "james2.xml.zip.aes");
             SecretKey secretKey = Wysylka.encryptAESStart(zipfilename, partfilename);
             PublicKey publickey = Wysylka.getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
