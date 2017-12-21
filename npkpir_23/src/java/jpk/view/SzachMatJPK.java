@@ -26,7 +26,7 @@ public class SzachMatJPK {
         //jpk tetsowy otwarte notatnikiem i zmieniony nip ostatnia cyfra 1 na 0
         //wpisalem nip, regon i uryad prawdyiwego indzka
         //robie jpk ze niby korekta za styczen nr 3
-        beanJPKwysylka.pobierzupo("7574496c00024d8b0000003f4475cf6d");
+        beanJPKwysylka.pobierzupo("7624b2cf00714bc20000003e2a56f45d");
     }
     //UWAGA USTAWIENIA PRODUKCYJNE
     public static void wysylka() {

@@ -3,8 +3,8 @@
 	<Naglowek>
 		<KodFormularza wersjaSchemy="1-0" kodSystemowy="JPK_VAT (2)">JPK_VAT</KodFormularza>
 		<WariantFormularza>2</WariantFormularza>
-		<CelZlozenia>2</CelZlozenia>
-		<DataWytworzeniaJPK>2017-12-01T00:00:00</DataWytworzeniaJPK>
+		<CelZlozenia>1</CelZlozenia>
+		<DataWytworzeniaJPK>2017-02-01T00:00:00</DataWytworzeniaJPK>
 		<DataOd>2017-01-01</DataOd>
 		<DataDo>2017-01-31</DataDo>
 		<DomyslnyKodWaluty>PLN</DomyslnyKodWaluty>
