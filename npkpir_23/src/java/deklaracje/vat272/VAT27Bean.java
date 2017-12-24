@@ -154,7 +154,7 @@ public class VAT27Bean {
                 if (p.getKontrahent() != null) {
                     switch (p.getTransakcja()) {
                         case "RVC":
-                            sumaC += p.getNetto();
+                            sumaC = Z.z(sumaC +p.getNetto());
                             poz.getGrupaC().add(grupaC(p));
                             break;
                     }
@@ -165,17 +165,19 @@ public class VAT27Bean {
                 if (p.getKontrahent() != null) {
                     switch (p.getTransakcja()) {
                         case "RVCS":
-                            sumaD += p.getNetto();
+                            sumaD = Z.z(sumaD +p.getNetto());
                             poz.getGrupaD().add(grupaD(p));
                             break;
                     }
                 }
             }
-            poz.setP10(new BigDecimal(sumaC));
-            poz.setP11(new BigDecimal(sumaD));
+            poz.setP10(Z.zBD2(sumaC));
+            poz.setP11(Z.zBD2(sumaD));
         }
         return poz;
     }
+    
+    
 
     private static GrupaC grupaC(VatUe p) {
         GrupaC g = new GrupaC();
@@ -185,7 +187,7 @@ public class VAT27Bean {
         }
         g.setPC2("DOSTAWA1");
         g.setPC3(przetworznip(p.getKontrahent().getNip()));
-        g.setPC4(new BigDecimal(Z.zUDI(p.getNetto()).toString()));
+        g.setPC4(Z.zBD2(p.getNetto()));
         return g;
     }
 
@@ -197,7 +199,7 @@ public class VAT27Bean {
         g.setTyp(g.getTyp());
         g.setPD2("USŁUGA");
         g.setPD3(przetworznip(p.getKontrahent().getNip()));
-        g.setPD4(new BigDecimal(Z.zUDI(p.getNetto()).toString()));
+        g.setPD4(Z.zBD2(p.getNetto()));
         return g;
     }
     
@@ -250,7 +252,7 @@ public class VAT27Bean {
         } catch (Exception ex) {
             E.e(ex);
         }
-        return sw.toString().replaceAll("\n|\r", "");
+        return sw.toString().replaceAll("\n|\r", "").substring(sw.toString().replaceAll("\n|\r", "").indexOf(">")+1);
     }
     
      public static Document StringToDocument(String strXml) throws Exception {

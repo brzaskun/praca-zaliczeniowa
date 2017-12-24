@@ -40,6 +40,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -98,15 +99,21 @@ public class Wysylka {
     
     public static SecretKey encryptAESStart(String inputfilename, String outputfilename) throws Exception {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-        int iterations = 65536;
-        int keySize = 256;
+//        int iterations = 65536;
+//        int keySize = 256;
+//        removeCryptographyRestrictions();
+//        char[] plaintext = czytajplik(inputfilename);
+//        byte[] saltBytes = getSalt().getBytes();
+//        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+//        PBEKeySpec spec = new PBEKeySpec(plaintext, saltBytes, iterations, keySize);
+//        SecretKey secretKey = skf.generateSecret(spec);
         removeCryptographyRestrictions();
-        char[] plaintext = czytajplik(inputfilename);
-        byte[] saltBytes = getSalt().getBytes();
-        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        PBEKeySpec spec = new PBEKeySpec(plaintext, saltBytes, iterations, keySize);
-        SecretKey secretKey = skf.generateSecret(spec);
-        return secretKey;
+        KeyGenerator key = KeyGenerator.getInstance("AES");
+        key.init(256);
+        SecretKey s = key.generateKey();
+        byte[] raw = s.getEncoded();
+        SecretKeySpec skeySpec= new SecretKeySpec(raw, "AES");
+        return skeySpec;
     }
     
 
@@ -122,25 +129,29 @@ public class Wysylka {
     public static String wrapKey(PublicKey pubKey, SecretKey symKey) throws InvalidKeyException, IllegalBlockSizeException {
         try {
             final Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            cipher.init(Cipher.WRAP_MODE, pubKey);
+            cipher.init(Cipher.WRAP_MODE, publicKeyReader());
             final byte[] wrapped = cipher.wrap(symKey);
             String encoded = Base64.getEncoder().encodeToString(wrapped);
             return encoded;
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             throw new IllegalStateException("Java runtime does not support RSA/ECB/OAEPWithSHA1AndMGF1Padding",e);
-        }
+        } 
     }
     
     public static byte[] encryptKoniec(String inputfilename, String outputfilename, SecretKey seckey) throws Exception {
-        SecretKeySpec secretSpec = new SecretKeySpec(seckey.getEncoded(), "AES");
+        IvParameterSpec iv = new IvParameterSpec("kijhygtrfdcvbsge".getBytes());
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, secretSpec);
+        cipher.init(Cipher.ENCRYPT_MODE, seckey, iv);
+        int block = cipher.getBlockSize();
+        System.out.println("Block size "+block);
         AlgorithmParameters params = cipher.getParameters();
         byte[] ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
-        String plikdowyslania = new String(Files.readAllBytes(Paths.get(inputfilename)));
-        byte[] encryptedTextBytes = cipher.doFinal(plikdowyslania.getBytes("UTF-8"));
+        byte[] plikdowyslania = Files.readAllBytes(Paths.get(inputfilename));
+        byte[] encryptedTextBytes = cipher.doFinal(plikdowyslania);
         Files.write(Paths.get(outputfilename), encryptedTextBytes);
         byte[] encoded = Base64.getEncoder().encode(ivBytes);
+        byte[] valueDecoded= Base64.getDecoder().decode(encoded);
+        System.out.println("Decoded value is " + new String(valueDecoded));
         return encoded;
     }    
     
@@ -226,6 +237,16 @@ public class Wysylka {
         return Base64.getEncoder().encodeToString(digester.digest());
     }
 
+    public static void main(String[] args) {
+         try {
+             PublicKey p1 = getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
+             PublicKey p2 = publicKeyReader();
+             System.out.println(""+p1.equals(p2));
+         } catch (Exception ex) {
+             Logger.getLogger(Wysylka.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }
+    
 //    public static void main(String[] args) {
 //        try {
 //            removeCryptographyRestrictions();
@@ -414,6 +435,21 @@ public class Wysylka {
         PublicKey  publicKey = cert.getPublicKey();
         return publicKey;
   }
+    
+
+  public static PublicKey publicKeyReader() {
+         try {
+            CertificateFactory fact = CertificateFactory.getInstance("X.509");
+            FileInputStream is = new FileInputStream ("3af5843ae11db6d94edf0ea502b5cd1a.pem");
+            X509Certificate cer = (X509Certificate) fact.generateCertificate(is);
+            PublicKey key = cer.getPublicKey();
+            return key;
+         } catch (Exception ex) {
+             Logger.getLogger(Wysylka.class.getName()).log(Level.SEVERE, null, ex);
+             return null;
+         }
+  }
+
 
     public static JPK makedummyJPK() {
         JPK jpk = new JPK();

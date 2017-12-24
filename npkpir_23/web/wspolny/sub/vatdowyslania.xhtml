@@ -90,7 +90,7 @@
                 </p:panelGrid>
             </p:column>
             <p:column id="deleteColumn" headerText="usuń" width="110" style="text-align: center;">
-                <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" update="@form"
+                <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" update="@form zalacznikZZ zalacznikZT"
                                  id="delete" icon="ui-icon ui-icon-trash" type="submit" style="width: 80px;"/>
             </p:column>
             <p:rowExpansion>
@@ -105,7 +105,7 @@
     </h:form><br/>
     <h:form id="zalacznikZZ">
         <h:outputText value="Aby wysłać należy najpierw wypełnić załącznik VAT-ZZ" style="color: red;"
-                  rendered="#{deklaracjevatView.pokazZZ and !deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}"/>
+                  rendered="#{deklaracjevatView.pokazZZ}"/>
         <h:outputText value="Załącznik VAT-ZZ podpięty." rendered="#{deklaracjevatView.oczekujace.size() gt 0 and deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}" style="color: green;"/>
         <p:panel header="Załącznik VAT-ZZ załączany do deklaracji w przypadku wystąpienia o zwrot i braku sprzedaży opodatkowanej"
                  rendered="#{deklaracjevatView.pokazZZ}"  style="max-width: 1400px;">

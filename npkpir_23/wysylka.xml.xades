@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="Signature_20837700-49d0-4619-8ebf-82ac4bcb5de2_41"><ds:SignedInfo Id="SignedInfo_20837700-49d0-4619-8ebf-82ac4bcb5de2_19"><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><ds:Reference Id="Reference1_20837700-49d0-4619-8ebf-82ac4bcb5de2_7f" URI="#Object1_20837700-49d0-4619-8ebf-82ac4bcb5de2"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>KMWP18O0Mi+lB/R1+tQ+7prlHkg=</ds:DigestValue></ds:Reference><ds:Reference Id="SignedProperties-Reference_20837700-49d0-4619-8ebf-82ac4bcb5de2_70" Type="http://uri.etsi.org/01903#SignedProperties" URI="#SignedProperties_20837700-49d0-4619-8ebf-82ac4bcb5de2_16"><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>sicGbDv2gfpHkpgRMoqtN5BxNFI=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue Id="SignatureValue_20837700-49d0-4619-8ebf-82ac4bcb5de2_0a">decg8GOCPemmOqrHo7TneB0fvp76VB+Hn6EWcaBk2/OxZbbby0qvHCjsyfkAaEab
+pu7FALBnkXEH46Bd/viS/ZxC+pietILB+1siBBChNaDl4SVEcP5Lt0raRQFQGvQz
+kmog+VL9TGZG/MCYPxQePGDA8cDGDVWZZqYbu0fhWOkBpHyV9CCk2Fm6wT9bjHpn
+z2T+MEpgRQ5LjU6imH3sHepetoi0DLtVhm7NuP0FCPjq5UQ6v5Q61ea1eXHtTN0G
+tJUqEO0sZOysaDCmyd7lHXr1Y/aVHW+DESywFhjd54rjNFR74v+TbcUu1hXkhyxA
+OX6iEgO2zB5DOUwrPQM9QQ==</ds:SignatureValue><ds:KeyInfo Id="KeyInfo_20837700-49d0-4619-8ebf-82ac4bcb5de2_7c"><ds:X509Data><ds:X509Certificate>MIIE6zCCA9OgAwIBAgIQDQmqTnWwcRNEJfGFn0eZ7jANBgkqhkiG9w0BAQUFADBc
+MRUwEwYDVQQFEwxOciB3cGlzdTogMTQxCzAJBgNVBAYTAlBMMSEwHwYDVQQKDBhB
+c3NlY28gRGF0YSBTeXN0ZW1zIFMuQS4xEzARBgNVBAMMCkNFUlRVTSBRQ0EwHhcN
+MTcwOTIzMTcwMTM2WhcNMTgwOTIzMTcwMTM2WjBtMRswGQYDVQQDDBJHcnplZ29y
+eiBHcnplbGN6eWsxETAPBgNVBCoMCEdyemVnb3J6MRIwEAYDVQQEDAlHcnplbGN6
+eWsxGjAYBgNVBAUTEVBFU0VMOjcwMDUyODA5ODEwMQswCQYDVQQGEwJQTDCCASIw
+DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJepoCiyyUU026NNLCvIzqnL/oNb
+1lATgl0u4ZE4v8suXvvsBNAYk6v5bEIouvbHTx3AnRUB59YauFkc5xtV9fJgz1CI
+dm597rYgzd9U96eltEssFws6UPnmxFnf9ys+gcheXqYWB4gNIwV3f76NH594ldOg
+xtQLoYMSpPPd+UIfR0RcvA74U1GPMYNzLPJ9nph3+9pH3R0tNFQUbAKOUAlebPke
+fdbC0KQALJZIEkmjIKiHbW4pszxA23lwPSSvuTxvNU0lCi6MFPzo/1B21Zx1Dtin
+sVZrl4tjwkJHU71ddoXuDMJBebAF3nqC3qVsipIvuIsn09DjHGnB7a8iy4UCAwEA
+AaOCAZYwggGSMAwGA1UdEwEB/wQCMAAwLwYDVR0fBCgwJjAkoCKgIIYeaHR0cDov
+L2NybC5jZXJ0dW0ucGwvcWNhMTYuY3JsMB8GA1UdIwQYMBaAFL9zsRQ2yl2yG82p
+e2JX7+Q6eoI/MB0GA1UdDgQWBBRve89LVFbn6fQ0CU+9vFzR7B6VjzAOBgNVHQ8B
+Af8EBAMCBkAwgdYGA1UdIAEB/wSByzCByDCBxQYLKoRoAYb2dwIEAQEwgbUwLQYI
+KwYBBQUHAgEWIWh0dHA6Ly93d3cuY2VydHVtLnBsL3JlcG96eXRvcml1bTCBgwYI
+KwYBBQUHAgIwdzAfFhhBc3NlY28gRGF0YSBTeXN0ZW1zIFMuQS4wAwIBAQxUQ2Vy
+dHVtIFFDQSBPc29iaXN0eSAtIGt3YWxpZmlrb3dhbnkgY2VydHlmaWthdCB3eWRh
+bnkgcHJ6ZXogQXNzZWNvIERhdGEgU3lzdGVtcyBTLkEuMCgGCCsGAQUFBwEDBBww
+GjAIBgYEAI5GAQEwDgYJKoRoAWUDAQECCgEBMA0GCSqGSIb3DQEBBQUAA4IBAQAp
+wvCxFExaGTEhT1VPZ8fS4duncsSqTTA0CXQOJTjoTK3NsWDhN964hIek/tIRpfnY
+DTXbXPyxNONdj3DtalB06Xqee2MrcOlNR8FtDXk+hJ6GsRBO2gke8610POuhk3z2
+O6byepNi3bqT+DUiu+2v2H1RB61t3bjvbuKyK0kFR/LbXfr9rNyFrCzsd9Jn07r2
+lZBVDf2M8+fACAf2tRlj/dcbb81I0JRnoODkXeFXZxoiPqsPPc1UWJPBySsRXSjv
+KKHSqscgVa52aLssWZH+q4AG8BmJyL8bznzm4IstWmNQy+lDb7uk32kNcezpsabn
+Atr9s/BLbH9I+LSKYaiG</ds:X509Certificate></ds:X509Data></ds:KeyInfo><ds:Object><xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="QualifyingProperties_20837700-49d0-4619-8ebf-82ac4bcb5de2_1b" Target="#Signature_20837700-49d0-4619-8ebf-82ac4bcb5de2_41"><xades:SignedProperties Id="SignedProperties_20837700-49d0-4619-8ebf-82ac4bcb5de2_16"><xades:SignedSignatureProperties Id="SignedSignatureProperties_20837700-49d0-4619-8ebf-82ac4bcb5de2_52"><xades:SigningTime>2017-12-24T00:27:39Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>T6in7P4XNKxy0oNqika5JKN3gc0=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=CERTUM QCA,O=Asseco Data Systems S.A.,C=PL,serialNumber=Nr wpisu: 14</ds:X509IssuerName><ds:X509SerialNumber>17330148842783067769157515550615116270</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties><xades:SignedDataObjectProperties Id="SignedDataObjectProperties_20837700-49d0-4619-8ebf-82ac4bcb5de2_13"><xades:DataObjectFormat ObjectReference="#Reference1_20837700-49d0-4619-8ebf-82ac4bcb5de2_7f"><xades:Description>MIME-Version: 1.0
+Content-Type: text/xml
+Content-Transfer-Encoding: binary
+Content-Disposition: filename="wysylka.xml"</xades:Description><xades:ObjectIdentifier><xades:Identifier Qualifier="OIDAsURI">http://www.certum.pl/OIDAsURI/signedFile/1.2.616.1.113527.3.1.1.3.1</xades:Identifier><xades:Description>Opis formatu dokumentu oraz jego pełna nazwa</xades:Description><xades:DocumentationReferences><xades:DocumentationReference>http://www.certum.pl/OIDAsURI/signedFile.pdf</xades:DocumentationReference></xades:DocumentationReferences></xades:ObjectIdentifier><xades:MimeType>text/xml</xades:MimeType></xades:DataObjectFormat></xades:SignedDataObjectProperties></xades:SignedProperties><xades:UnsignedProperties Id="UnsignedProperties_20837700-49d0-4619-8ebf-82ac4bcb5de2_0d"><xades:UnsignedSignatureProperties><xades:SignatureTimeStamp Id="SignatureTimeStamp_20837700-49d0-4619-8ebf-82ac4bcb5de2"><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><xades:EncapsulatedTimeStamp Encoding="http://uri.etsi.org/01903/v1.2.2#DER">MIIIigYJKoZIhvcNAQcCoIIIezCCCHcCAQMxCTAHBgUrDgMCGjCB9QYLKoZIhvcN
+AQkQAQSggeUEgeIwgd8CAQEGCyqEaAGG9ncCBAECMCEwCQYFKw4DAhoFAAQUFvkz
+vLDeHOM77zkUJ7UmHzy616ECBw41+pPPTWMYDzIwMTcxMjI0MDAyODQyWjADAgEB
+AggKIkIj6irxkqBhpF8wXTEVMBMGA1UEBRMMTnIgd3Bpc3U6IDE1MQswCQYDVQQG
+EwJQTDEhMB8GA1UECgwYQXNzZWNvIERhdGEgU3lzdGVtcyBTLkEuMRQwEgYDVQQD
+DAtDRVJUVU0gUVRTQaEeMBwGCCsGAQUFBwEDAQEABA0wCzAJBgcEAIGXXgEBoIIE
+mTCCBJUwggN9oAMCAQICFCfmkuCpY3eBbttx6fvtMvhJaRW7MA0GCSqGSIb3DQEB
+BQUAMG4xCzAJBgNVBAYTAlBMMS4wLAYDVQQKDCVNaW5pc3RlciB3bGFzY2l3eSBk
+byBzcHJhdyBnb3Nwb2RhcmtpMS8wLQYDVQQDDCZOYXJvZG93ZSBDZW50cnVtIENl
+cnR5ZmlrYWNqaSAoTkNDZXJ0KTAeFw0xNjA0MDExNDM5MzdaFw0yMDEwMjYyMzU5
+NTlaMF0xFTATBgNVBAUTDE5yIHdwaXN1OiAxNTELMAkGA1UEBhMCUEwxITAfBgNV
+BAoMGEFzc2VjbyBEYXRhIFN5c3RlbXMgUy5BLjEUMBIGA1UEAwwLQ0VSVFVNIFFU
+U0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDdpxbveEtbwBbj4V0j
+cjVECYAJf+c/2r0uxcdwzDKOcLWAEdC98Pc31NJohaljSGT/9Iok28hnvz5xJ+zv
+ecnRobD29Wm0uqUN61NtLXN2KnZISN7lEBJuJHrADRh8WbQm0bqfBfq58SCwU+ef
+9L9gyLtsb+s2neaC4r13KlMI7nXgBCUCphoLX/Fw0QY9IZF6rEFurs59bNJemLnr
+UikFclLPQN13HYn6kLeJcmSJVYyUqlKKcyYy/Vm8FJwkf54dier6jHLjuSnSNSpL
+8TvJOLlHGtCqGQDg6pYDObRkEWR1oPldfbpj9A6xWXttL6y5dG6XkwX0KHrhEbdw
+loyjAgMBAAGjggE6MIIBNjAWBgNVHSUBAf8EDDAKBggrBgEFBQcDCDAMBgNVHRMB
+Af8EAjAAMIGrBgNVHSMEgaMwgaCAFFk0DPt950UBb8lwlsJOBvgPgUP2oXKkcDBu
+MQswCQYDVQQGEwJQTDEuMCwGA1UECgwlTWluaXN0ZXIgd2xhc2Npd3kgZG8gc3By
+YXcgZ29zcG9kYXJraTEvMC0GA1UEAwwmTmFyb2Rvd2UgQ2VudHJ1bSBDZXJ0eWZp
+a2FjamkgKE5DQ2VydCmCFGKnDQTDJLjUJ1bMP4Fr8usy7wcZMDEGA1UdIAEB/wQn
+MCUwIwYEVR0gADAbMBkGCCsGAQUFBwIBFg13d3cubmNjZXJ0LnBsMA4GA1UdDwEB
+/wQEAwIGwDAdBgNVHQ4EFgQUrV3Yr3j4bZUyS/6x15SvOpzOFYcwDQYJKoZIhvcN
+AQEFBQADggEBAEanKToRyyTIEdyIe5OQqkljy9eZpJN/SHCoRpdh5OpoT1fo1Yse
++e/0uoOJsmMCjS0uSK6sk+sTjN58PsL96RXzEGyRDxOQTfi+y9tfbSJgsaT+D/55
+6eRr+VRmWS6dimz2k1+I/SnR/ajDpwIumRLJgg1A9V29rnQJjNSZSosiSFEW05hb
+D7mEv4Qw0PyE5MNo7toK3r11jUd9SNDJGlap1T5noqAwSxmm9HgYgrjlsLWucStT
+n8U2GFm7WjtuEZ1IWfKGy78Zcw7/PZBhU39SuffFGmzRg6gW7X/MpTH2FdGJ6AQo
+GSMVTbQR0UFQ4tkEk3naYmFqQ70pvrNGhNkxggLQMIICzAIBATCBhjBuMQswCQYD
+VQQGEwJQTDEuMCwGA1UECgwlTWluaXN0ZXIgd2xhc2Npd3kgZG8gc3ByYXcgZ29z
+cG9kYXJraTEvMC0GA1UEAwwmTmFyb2Rvd2UgQ2VudHJ1bSBDZXJ0eWZpa2Fjamkg
+KE5DQ2VydCkCFCfmkuCpY3eBbttx6fvtMvhJaRW7MAkGBSsOAwIaBQCgggEeMBoG
+CSqGSIb3DQEJAzENBgsqhkiG9w0BCRABBDAcBgkqhkiG9w0BCQUxDxcNMTcxMjI0
+MDAyODQyWjAjBgkqhkiG9w0BCQQxFgQUU9lwMqRy7QJEqK8ateiRUDxoIJQwgbwG
+CyqGSIb3DQEJEAIMMYGsMIGpMIGmMIGjBBTe3fFdRsCpzzqeBm4HMbvui6CHTjCB
+ijBypHAwbjELMAkGA1UEBhMCUEwxLjAsBgNVBAoMJU1pbmlzdGVyIHdsYXNjaXd5
+IGRvIHNwcmF3IGdvc3BvZGFya2kxLzAtBgNVBAMMJk5hcm9kb3dlIENlbnRydW0g
+Q2VydHlmaWthY2ppIChOQ0NlcnQpAhQn5pLgqWN3gW7bcen77TL4SWkVuzANBgkq
+hkiG9w0BAQUFAASCAQBRe/7q+FglUOegIoGzo14CeQAQvuYDBfmWo4SjVQVEDlqs
+lv6PJy8KYQPC1J2m2FgfZn9aqJD1IW2+Wren/OpzMd+RjXk78VOLStehyJ67nKxo
+Zk4SvJdBnKiWhi2IAPJhmkQUGozZW9p6JwLHj2QYqqTUivWpaU+Hrsv4hli4VM6e
+3EiZGF3A5yiiE4js6ehGj9ilRPyssW5hNgBaw/+soKaVllYARsIh9OuW9X2dkCPo
+waHq6ndZ1lQPY4/k/06PMEzGrYrnh10+VF//1Kfz0aU9EUievMt7ogk4+14br1Vo
+9UrokUM6G9lrpKv8l441PlH66pdflzmXF5ajMp3C</xades:EncapsulatedTimeStamp></xades:SignatureTimeStamp></xades:UnsignedSignatureProperties></xades:UnsignedProperties></xades:QualifyingProperties></ds:Object><ds:Object Id="Object1_20837700-49d0-4619-8ebf-82ac4bcb5de2" MimeType="text/xml"><InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
+    <DocumentType>JPK</DocumentType>
+    <Version>01.02.01.20160617</Version>
+    <EncryptionKey algorithm="RSA" encoding="Base64" mode="ECB" padding="PKCS#1">E9F5Q3tprtCCIXa/lrudeD6R89Ze/AnBVbuIkfNQscjV9O9FsCYsjZeZUnyE28Inn5tNUg3F6XzCYEkyhOnaXIxrx5HSS+sxuH9cg+koWIELIcQ7al/MepiHVDSwftcNYJGwJbHOWPm/PlO/he5dn+BxshMUs+jZDEjkaenLyeI6M8ca94sfYX3NjcSjcSn5XyJfQXp2bGDLD3lBrXc32B0csnNwSZw/KDbNkbZHsHl3iPGo9WoPDeruSQRcg3hFVpwve8rodhDSa1wAJRmLbNADDYyRXrCwIb2qrWPcx+RMQ3RikRqLS5qWQ9kSrP7mpLYV4RtwQykaqlvisGn4wg==</EncryptionKey>
+    <DocumentList>
+        <Document>
+            <FormCode schemaVersion="1-0" systemCode="JPK_VAT (2)">JPK_VAT</FormCode>
+            <FileName>james2.xml</FileName>
+            <ContentLength>12488</ContentLength>
+            <HashValue algorithm="SHA-256" encoding="Base64">Atam6j1vTQuC3ltOY6TshOJLQQh5rCcBxv3Y6veqvik=</HashValue>
+            <FileSignatureList filesNumber="1">
+                <Encryption>
+                    <AES block="16" mode="CBC" padding="PKCS#7" size="256">
+                        <IV bytes="16" encoding="Base64">a2lqaHlndHJmZGN2YnNnZQ==</IV>
+                    </AES>
+                </Encryption>
+                <FileSignature>
+                    <OrdinalNumber>1</OrdinalNumber>
+                    <FileName>james2.xml.zip.aes</FileName>
+                    <ContentLength>3544</ContentLength>
+                    <HashValue algorithm="MD5" encoding="Base64">Ag5QvonKwV1Yr1ubQShvTg==</HashValue>
+                </FileSignature>
+            </FileSignatureList>
+        </Document>
+    </DocumentList>
+</InitUpload></ds:Object></ds:Signature>

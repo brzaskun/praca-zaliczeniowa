@@ -8,6 +8,7 @@ package jpk.view;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.Cipher;
@@ -44,6 +45,13 @@ public class RSACrypto {
             
             System.out.println(Arrays.equals(sessionKey1.getEncoded(),
                     sessionKey2.getEncoded()));
+            // encode data on your side using BASE64
+            byte[]   bytesEncoded = Base64.getEncoder().encode("kijhygtrfdcvbsge".getBytes());
+            System.out.println("ecncoded value is " + new String(bytesEncoded ));
+
+            // Decode data on other side, by processing encoded data
+            byte[] valueDecoded= Base64.getDecoder().decode("a2lqaHlndHJmZGN2YnNnZQ==".getBytes());
+            System.out.println("Decoded value is " + new String(valueDecoded));
         } catch (Exception ex) {
             Logger.getLogger(RSACrypto.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,36 +1,36 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
+<?xml version="1.0" encoding="UTF-8"?><InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
     <DocumentType>JPK</DocumentType>
     <Version>01.02.01.20160617</Version>
-    <EncryptionKey algorithm="RSA" encoding="Base64" mode="ECB" padding="PKCS#1">bSm/jt9VbAI/6ZN1ixLOeAde/u7YamR/zpFhAGX5vCmEPbz7dCREusV3HJvcHZLSQiyqCp6v98Tu58EEMnlUYksZlXc7GTLgsRsn7X5lChMYzhGxmE+4SrgoZXxALnKkUtd8WCJy8849FBkePP7GjgrXvE3Few/FAFkfgw6IZ6PoZe2q/tKx925PwzJnearNeP1kUuH24eLeKvPTN5Nu8UZJEv24Jo0tODsEUuhKX/6owA5f8BsR+CBVesXp1pf583jrRPHx7WOEj/oh7V8xsMB/WJFoPv6OTCECZd2rAUCGCnsffyMy2TrpuX5Bc8+K2YVhgLPygSOdPQIys4c+mQ==</EncryptionKey>
+    <EncryptionKey algorithm="RSA" encoding="Base64" mode="ECB" padding="PKCS#1">WNs7/KeMEKTh6O4OUxcflV6W/H1Olww30zcTDsP8m/HuPIWUlYmfe2GU+YnCszCmOtTNEvNewMQiwLmS8orT5DdbMBvbZWuiQ6TcnDJYU5gF5lAyN0VUPvKScIvacOy6paXq3guEorkjOn25m/KbiJoYH0U/LOj/Ve1y+2LB9U+9JDuFAPnu/xHNfKYyHUn38X7+bhvSo6eKvl5Q//FwO955yMKzH0xpXLUe/wzzdf9OEEttn2YWuZj7zJ8xzL6iFNAN0tlyL5jvX/3h9Gb/Eb8NcEKZH7UVaRnySfxVXtQefywJC7hsJBMAAAClKmBY/TRZWLi56RsQltNQn9NQjg==</EncryptionKey>
     <DocumentList>
         <Document>
             <FormCode schemaVersion="1-0" systemCode="JPK_VAT (2)">JPK_VAT</FormCode>
-            <FileName>indyk.xml</FileName>
-            <ContentLength>1207</ContentLength>
-            <HashValue algorithm="SHA-256" encoding="Base64">Va5gt1DS8w2y4tuhLYcmKPxcu9UuCdbA3v/3SmVSf84=</HashValue>
+            <FileName>james2.xml</FileName>
+            <ContentLength>12488</ContentLength>
+            <HashValue algorithm="SHA-256" encoding="Base64">Atam6j1vTQuC3ltOY6TshOJLQQh5rCcBxv3Y6veqvik=</HashValue>
             <FileSignatureList filesNumber="1">
                 <Packaging>
                     <SplitZip mode="zip" type="split"/>
                 </Packaging>
                 <Encryption>
                     <AES block="16" mode="CBC" padding="PKCS#7" size="256">
-                        <IV bytes="16" encoding="Base64">+O/qmRJHH+Uy7ZdBJ1Vn2g==</IV>
+                        <IV bytes="16" encoding="Base64">a2lqaHlndHJmZGN2YnNnZQ==</IV>
                     </AES>
                 </Encryption>
                 <FileSignature>
                     <OrdinalNumber>1</OrdinalNumber>
-                    <FileName>james2.xml.zip.aes</FileName>
-                    <ContentLength>1312</ContentLength>
-                    <HashValue algorithm="MD5" encoding="Base64">LyxH6z0fdlXEkSjtl4kbcQ==</HashValue>
+                    <FileName>james2.zip.aes</FileName>
+                    <ContentLength>2656</ContentLength>
+                    <HashValue algorithm="MD5" encoding="Base64">VYcdfB/TYixoKUD2aXe7NA==</HashValue>
                 </FileSignature>
             </FileSignatureList>
         </Document>
     </DocumentList>
-<Signature xmlns="http://www.w3.org/2000/09/xmldsig#" Id="Signature"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference Type="#Dokument-0" URI=""><Transforms><Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116"><XPath xmlns:ds="http://www.w3.org/2000/09/xmldsig#">/InitUploadType</XPath></Transform></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>2jmj7l5rSw0yVb/vlWAYkK/YBwk=</DigestValue></Reference></SignedInfo><SignatureValue Id="SignatureValueId">PrQvImXQt5go7rYhskVaz3ylOfxt70cgOP3NthC32/6TtIT6ZL3THE7o31RLsU57RddcFmsCTsSG
-qUMXnbHdMRMGOaiTNxZ5xhiZbeLPlg6bdk2GhS5Kp1XIpcEh17SbKQRmWyaP6xHkTLDR0XVx9IwK
-L6AI95MwJY3mTkp6sX7IOnGuh8fzc87ObGLgvQEqlb+pff3AQfgfL/aZHYbWsfKfvlzUlJpyU7U/
-Zjea2tT2yhF8HOOtpxR0FHkoK32p2TmCy4qy5mUn5e/bFmGdb90qztv4UqsmpguaT74uk2p2cVeH
-6MO+rqeVErVuyZH088XCfqgNfdEDqex7cE7alQ==</SignatureValue><KeyInfo><X509Data><X509SubjectName>C=PL,2.5.4.5=#1311504553454c3a3730303532383039383130,2.5.4.4=#0c0947727a656c637a796b,2.5.4.42=#0c0847727a65676f727a,CN=Grzegorz Grzelczyk</X509SubjectName><X509SubjectName>CN=CERTUM QCA,O=Asseco Data Systems S.A.,C=PL,2.5.4.5=#130c4e722077706973753a203134</X509SubjectName><X509Certificate>MIIE6zCCA9OgAwIBAgIQDQmqTnWwcRNEJfGFn0eZ7jANBgkqhkiG9w0BAQUFADBcMRUwEwYDVQQF
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#" Id="Signature"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference Type="#Dokument-0" URI=""><Transforms><Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116"><XPath xmlns:ds="http://www.w3.org/2000/09/xmldsig#">/Deklaracja</XPath></Transform></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>2jmj7l5rSw0yVb/vlWAYkK/YBwk=</DigestValue></Reference></SignedInfo><SignatureValue Id="SignatureValueId">BbRdyQJQjduo4IL0b1MEL/yjBDCPOSvU8Nd/IVLS1FAuEL3SjpmF7jJoOs+9e9pT89JkjMKo+2wj
+u67XqEnJKQHCu+M/lPGPkzsVpCk3rHkoclPhsDAOMbTZAgX97MAPJolgNJ5MMbwp71rHXB6eQAg6
+PlcS/kMeXbUllcUHoQ81zWTfQiykZQRFhp/vDiPxVqdK+aoMqes0BiU1UAa2b1wp6Sp6kpaG29v+
+7MyDSdwBvcw8yQnsarNWDe//teuBFYqj9kYr0onXfYJgBPLjhFH1ZeI5x22OjkqhVN1I2UroVpiu
+2OqLbg5gm0F+fV6qNVaDXfFJg2e7RuaaZ6fg1g==</SignatureValue><KeyInfo><X509Data><X509SubjectName>C=PL,2.5.4.5=#1311504553454c3a3730303532383039383130,2.5.4.4=#0c0947727a656c637a796b,2.5.4.42=#0c0847727a65676f727a,CN=Grzegorz Grzelczyk</X509SubjectName><X509SubjectName>CN=CERTUM QCA,O=Asseco Data Systems S.A.,C=PL,2.5.4.5=#130c4e722077706973753a203134</X509SubjectName><X509Certificate>MIIE6zCCA9OgAwIBAgIQDQmqTnWwcRNEJfGFn0eZ7jANBgkqhkiG9w0BAQUFADBcMRUwEwYDVQQF
 EwxOciB3cGlzdTogMTQxCzAJBgNVBAYTAlBMMSEwHwYDVQQKDBhBc3NlY28gRGF0YSBTeXN0ZW1z
 IFMuQS4xEzARBgNVBAMMCkNFUlRVTSBRQ0EwHhcNMTcwOTIzMTcwMTM2WhcNMTgwOTIzMTcwMTM2
 WjBtMRswGQYDVQQDDBJHcnplZ29yeiBHcnplbGN6eWsxETAPBgNVBCoMCEdyemVnb3J6MRIwEAYD

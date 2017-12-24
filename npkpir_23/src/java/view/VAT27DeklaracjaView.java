@@ -184,7 +184,7 @@ public class VAT27DeklaracjaView implements Serializable {
         deklaracja.setPozycjeSzczegolowe(VAT27Bean.pozycjeszczegolowe(lista));
         deklaracja.setPouczenie(BigDecimal.ONE);
         //VAT27Bean.marszajuldoplikuxml(deklaracja, wpisView);
-        return VAT27Bean.marszajuldoStringu(deklaracja, wpisView).substring(17);
+        return VAT27Bean.marszajuldoStringu(deklaracja, wpisView);
     }
 
     private Object[] podpiszDeklaracje(String xml) {

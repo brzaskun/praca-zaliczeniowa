@@ -144,6 +144,8 @@ public class DeklaracjevatView implements Serializable {
             E.e(e);
         }
         Collections.sort(wyslanenormalne, new Vatcomparator());
+        RequestContext.getCurrentInstance().update("zalacznikZZ");
+        RequestContext.getCurrentInstance().update("zalacznikZT");
     }
     
     public void podpiszdeklaracje(List<Deklaracjevat> oczekujace) {

@@ -4,17 +4,17 @@
 		<KodFormularza wersjaSchemy="1-0" kodSystemowy="JPK_VAT (2)">JPK_VAT</KodFormularza>
 		<WariantFormularza>2</WariantFormularza>
 		<CelZlozenia>1</CelZlozenia>
-		<DataWytworzeniaJPK>2017-02-01T00:00:00</DataWytworzeniaJPK>
-		<DataOd>2017-01-01</DataOd>
-		<DataDo>2017-01-31</DataDo>
+		<DataWytworzeniaJPK>2017-05-01T00:00:00</DataWytworzeniaJPK>
+		<DataOd>2017-04-01</DataOd>
+		<DataDo>2017-04-30</DataDo>
 		<DomyslnyKodWaluty>PLN</DomyslnyKodWaluty>
 		<KodUrzedu>1435</KodUrzedu>
 	</Naglowek>
 	<Podmiot1>
 		<IdentyfikatorPodmiotu>
-			<etd:NIP>1111111111</etd:NIP>
+			<etd:NIP>1111111112</etd:NIP>
 			<etd:PelnaNazwa>PEŁNA NAZWA PODMIOTU</etd:PelnaNazwa>
-			<etd:REGON>111111111</etd:REGON>
+			<etd:REGON>111111112</etd:REGON>
 		</IdentyfikatorPodmiotu>
 		<AdresPodmiotu>
 			<KodKraju>PL</KodKraju>

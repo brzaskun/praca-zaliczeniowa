@@ -8,6 +8,7 @@ package waluty;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  *
@@ -65,6 +66,11 @@ public class Z implements Serializable {
         return zwrot;
     }
     
+     public static BigDecimal zBD2(double l) {
+         return new BigDecimal(l).setScale(2, RoundingMode.HALF_EVEN);
+     }
+     
+    
 //    public static void main(String[] args) {
 //        double kwota = 123.64;
 //        double m = Math.round(kwota);
@@ -80,8 +86,9 @@ public class Z implements Serializable {
 //    }
      
       public static void main(String[] args) {
-        double kurswyliczony = Math.round(555354.35 / 133434.49 * 10000);
-        kurswyliczony /= 10000;
-          System.out.println(kurswyliczony);
+//        double kurswyliczony = Math.round(555354.35 / 133434.49 * 10000);
+//        kurswyliczony /= 10000;
+//          System.out.println(kurswyliczony);
+          System.out.println(""+z(+4/354.22));
     }
 }

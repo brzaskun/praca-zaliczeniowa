@@ -43,7 +43,7 @@ public class beanJPKwysylka {
          System.out.println("zakonczylem wysylke");
      }
     
-     public static String wysylka(String nazwapliku, String plikxml) {
+     public static String wysylka(String partfilename, String plikxml) {
         try {
             Object[] in = autoryzacja(plikxml, URL_STEP1);
             int responseCode = (int) in[1];
@@ -74,7 +74,7 @@ public class beanJPKwysylka {
             String blobname = (String) ((JSONObject) job.get(0)).get("BlobName");
             System.out.println("ref: "+referenceNumber);
             System.out.println("blobname: "+blobname);
-            wysylkaAzure(uri, nazwapliku);
+            wysylkaAzure(uri, partfilename);
             Object[] in1 = zakonczenie(referenceNumber, blobname, URL_STEP2);
             js = new JSONTokener((Reader) in1[0]);
             jo = new JSONObject(js);

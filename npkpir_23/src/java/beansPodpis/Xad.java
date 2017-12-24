@@ -152,6 +152,72 @@ public class Xad {
         return podpisana;
     }
     
+    public static Object[] podpiszjpk(String deklaracja) {
+        Object[] podpisana = null;
+        try {
+            //deklaracja = deklaracja.substring(38);
+            Provider provider = ObslugaPodpisuBean.jestDriver();
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(HASLO);
+            String alias = ObslugaPodpisuBean.aktualnyAlias(keyStore);
+            X509Certificate signingCertificate = (X509Certificate) ObslugaPodpisuBean.certyfikat(alias, keyStore);
+            String X509IssuerName = signingCertificate.getIssuerX500Principal().getName();
+            String X509SerialNumber = signingCertificate.getSerialNumber().toString();
+            //to znajduje sue w Signed Properties
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            byte[] hash = digest.digest(signingCertificate.getEncoded());
+            String hasz = DatatypeConverter.printBase64Binary(hash);
+            System.out.println(""+hasz);
+            PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, HASLO.toCharArray());
+            PublicKey pubKey = signingCertificate.getPublicKey();
+            XMLSignatureFactory xmlSigFactory = XMLSignatureFactory.getInstance("DOM");
+            Document doc = loadXML(deklaracja);
+            //zapakujdeklaracjejakoobiet(doc, xmlSigFactory);
+            XMLObject xades = dodajSignProp(doc, xmlSigFactory, hasz, X509IssuerName, X509SerialNumber);
+            List<Reference> ref = new ArrayList<>();
+            SignedInfo signedInfo = null;
+            CanonicalizationMethod canonicalizationMethod = xmlSigFactory.newCanonicalizationMethod(
+		CanonicalizationMethod.INCLUSIVE, (C14NMethodParameterSpec) null);
+            try {
+                Reference refdok = xmlSigFactory.newReference("", xmlSigFactory.newDigestMethod(DigestMethod.SHA1, null),
+                transforms(xmlSigFactory), "#Dokument-0", null);
+                ref.add(refdok);
+//                ref.add(xmlSigFactory.newReference("", xmlSigFactory.newDigestMethod(DigestMethod.SHA1, null),
+//                        Collections.singletonList(xmlSigFactory.newTransform(Transform.ENVELOPED,
+//                                (TransformParameterSpec) null)), null, "Dokument-Reference"));
+                signedInfo = xmlSigFactory.newSignedInfo(
+                        xmlSigFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE,
+                                (C14NMethodParameterSpec) null),
+                        xmlSigFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, null),
+                        ref);
+            } catch (NoSuchAlgorithmException ex) {
+                ex.printStackTrace();
+            }
+            KeyInfoFactory kif = xmlSigFactory.getKeyInfoFactory();
+            List x509Content = new ArrayList();
+            x509Content.add(signingCertificate.getSubjectX500Principal().getName());
+            x509Content.add(signingCertificate.getIssuerX500Principal().getName());
+            x509Content.add(signingCertificate);
+            X509Data x509data = kif.newX509Data(x509Content);
+            KeyInfo keyInfo = kif.newKeyInfo(Collections.singletonList(x509data));
+            //Create a new XML Signature
+            XMLSignature xmlSignature = xmlSigFactory.newXMLSignature(signedInfo, keyInfo, Collections.singletonList(xades), "Signature", "SignatureValueId");
+            DOMSignContext domSignCtx = new DOMSignContext((Key) privkey, doc.getFirstChild());
+            try {
+                //Sign the document
+                xmlSignature.sign(domSignCtx);
+            } catch (XMLSignatureException ex) {
+                ex.printStackTrace();
+            }
+            //podpisana = saveInput(doc);
+            saveXML(doc);
+//            validate(doc, xmlSigFactory);
+
+        } catch (Exception ex) {
+            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return podpisana;
+    }
+    
       private static XMLObject dodajSignProp(Document doc, XMLSignatureFactory xmlSigFactory, String digestValue, String X509IssuerName, String X509SerialNumber) {
         Element elQualifProp = doc.createElementNS("http://uri.etsi.org/01903/v1.3.2#", "ds:QualifyingProperties");
         elQualifProp.setAttribute("Target", "Signature");
@@ -206,7 +272,7 @@ public class Xad {
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 //            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             DOMSource domSource = new DOMSource(document);
-            String filename = OUTPUTFILE;
+            String filename = "wysylkapodpis.xml";
             File outputFile = new File(filename);
             StreamResult streamResult = new StreamResult(outputFile);
             transformer.transform(domSource, streamResult);

@@ -5,6 +5,9 @@
  */
 package jpk.view;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.AlgorithmParameters;
 import java.security.SecureRandom;
 import java.security.Security;
@@ -12,9 +15,10 @@ import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+import static jpk.view.Wysylka.removeCryptographyRestrictions;
 
 
 /**
@@ -23,23 +27,23 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class AESCryptoOld {
     private static String mainfilename = "indyk.xml";
-    private static String zipfilename = "james2.xml.zip";
-    private static String partfilename = "james2.xml.zip.aes";
+    private static String zipfilename = "james2.zip";
+    private static String partfilename = "james2.zip.aes";
     
     public static void main(String[] args) {
         try {
             //String text = new String(Files.readAllBytes(Paths.get(mainfilename)));
-            String text = "kotek plotek";
+            String text = "RandomInitżęśćóć";
             System.out.println("text "+text);
-            SecretKeySpec secretKeySpec = encryptAESStart(text);
-            Object[] zwrot = encryptKoniec(text, secretKeySpec);
-            decrypt(secretKeySpec, (byte[])zwrot[0], (byte[])zwrot[1]);
+            SecretKey secretKey = encryptAESStart(text);
+            Object[] zwrot = encryptKoniec(text, secretKey);
+            decrypt(secretKey, (byte[])zwrot[0], (byte[])zwrot[1]);
         } catch (Exception ex) {
             Logger.getLogger(AESCryptoOld.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-     public static SecretKeySpec encryptAESStart(String text) throws Exception {
+     public static SecretKey encryptAESStart(String text) throws Exception {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 //        int iterations = 65536;
 //        int keySize = 256;
@@ -49,27 +53,36 @@ public class AESCryptoOld {
 //        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 //        PBEKeySpec spec = new PBEKeySpec(plaintext, saltBytes, iterations, keySize);
 //        SecretKey secretKey = skf.generateSecret(spec);
-        SecretKeySpec skeySpec = new SecretKeySpec("RandomInitKeySCS".getBytes("UTF-8"), "AES");
-        return skeySpec;
+        removeCryptographyRestrictions();
+        KeyGenerator key = KeyGenerator.getInstance("AES");
+        key.init(256);
+//        SecretKey s = key.generateKey();
+//        byte[] raw = s.getEncoded();
+//        SecretKeySpec skeySpec= new SecretKeySpec(raw, "AES");
+        return key.generateKey();
     }
     
     
-    public static Object[] encryptKoniec(String text, SecretKeySpec skeySpec) throws Exception {
+    public static Object[] encryptKoniec(String text, SecretKey skey) throws Exception {
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+        cipher.init(Cipher.ENCRYPT_MODE, skey);
         AlgorithmParameters params = cipher.getParameters();
         byte[] ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
+        System.out.println("iv size "+ivBytes.length);
         byte[] encryptedTextBytes = Base64.getEncoder().encode(cipher.doFinal(text.getBytes("UTF-8")));
         byte[] ivencoded = Base64.getEncoder().encode(ivBytes);
         Object[] zwrot = new Object[2];
         zwrot[0] = encryptedTextBytes;
+        Files.write(Paths.get("zakodowana.aes"), encryptedTextBytes);
         System.out.println("encrypt "+new String(encryptedTextBytes));
         zwrot[1] = ivencoded;
         return zwrot;
     }
     
-    public static void decrypt(SecretKey key, byte[] ciphertext, byte[] ivBytes){
+    public static void decrypt(SecretKey key, byte[] cf, byte[] ivBytes){
         try {
+            Path path = Paths.get("zakodowana.aes");
+            byte[] ciphertext = Files.readAllBytes(path);
             IvParameterSpec iv = new IvParameterSpec(Base64.getDecoder().decode(ivBytes));
             Cipher c = Cipher.getInstance("AES/CBC/PKCS7PADDING");
             c.init(Cipher.DECRYPT_MODE, key, iv);
