@@ -133,22 +133,26 @@ public class beanJPKwysylka {
         String Description = (String) jo.get("Description");
         String Details = (String) jo.get("Details");
         String Timestamp = (String) jo.get("Timestamp");
-        String Upo = (String) jo.get("Upo");
+        String UpoString = (String) jo.get("Upo");
         System.out.println("Code " + Code);
         System.out.println("Description " + Description);
         System.out.println("Details " + Details);
         System.out.println("Timestamp " + Timestamp);
-        System.out.println("Upo nr: " + Upo);
+        System.out.println("Upo nr: " + UpoString);
         System.out.println("Referencenumber nr: " + referenceNumber);
         JAXBContext context;
         try {
             context = JAXBContext.newInstance(Potwierdzenie.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            int odint = Upo.indexOf("<Potwierdzenie");
-            int doint = Upo.indexOf("</Potwierdzenie>") + 16;
-            String potw = Upo.substring(odint, doint);
-            Potwierdzenie potwierdzenie = (Potwierdzenie) unmarshaller.unmarshal(new StringReader(potw));
-            System.out.println("");
+            int odint = UpoString.indexOf("<Potwierdzenie");
+            int doint = UpoString.indexOf("</Potwierdzenie>") + 16;
+            if (odint > -1 && doint > -1) {
+                String potw = UpoString.substring(odint, doint);
+                Potwierdzenie potwierdzenie = (Potwierdzenie) unmarshaller.unmarshal(new StringReader(potw));
+                upo.setPotwierdzenie(potwierdzenie);
+                //upo.setJpk(jpk);
+                System.out.println("");
+            }
         } catch (JAXBException ex) {
             Logger.getLogger(beanJPKwysylka.class.getName()).log(Level.SEVERE, null, ex);
         }

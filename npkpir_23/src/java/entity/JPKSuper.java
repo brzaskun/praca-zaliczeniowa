@@ -11,7 +11,8 @@ import java.io.Serializable;
  *
  * @author Osito
  */
-public class JPKSuper implements Serializable {
+public class JPKSuper  implements Serializable{
+    private static final long serialVersionUID = 1L;
     
 
     

@@ -104,7 +104,8 @@ public class JPK_VAT2 implements Serializable {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.marshal(jpk, System.out);
-            String plik = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\xml\\testowa"+wpisView.getPodatnikObiekt().getNip()+".xml";
+            String mainfilename = "jpk"+wpisView.getPodatnikObiekt().getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+            String plik = "build/web/resources/xml/"+mainfilename;
             FileOutputStream fileStream = new FileOutputStream(new File(plik));
             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
             marshaller.marshal(jpk, writer);
@@ -114,7 +115,22 @@ public class JPK_VAT2 implements Serializable {
     }
     
     
-
+//public static void main(String[] ar) {
+//    FileOutputStream fileStream = null;
+//        try {
+//            String mainfilename = "jpk8511005008mcrok072017.xml";
+//            String plik = "build/web/resources/xml/"+mainfilename;
+//            fileStream = new FileOutputStream(new File(plik));
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(JPK_VAT2.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            try {
+//                fileStream.close();
+//            } catch (IOException ex) {
+//                Logger.getLogger(JPK_VAT2.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//}
 
     private Object[] utworzWierszeJpkSprzedaz(List wiersze, Class c) {
         Object[] zwrot = new Object[2];

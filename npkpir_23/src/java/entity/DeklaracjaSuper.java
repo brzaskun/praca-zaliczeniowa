@@ -11,7 +11,8 @@ import java.io.Serializable;
  *
  * @author Osito
  */
-public class DeklaracjaSuper implements Serializable {
+public class DeklaracjaSuper  implements Serializable{
+    private static final long serialVersionUID = 1L;
     
 
     

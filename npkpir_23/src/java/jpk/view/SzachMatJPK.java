@@ -17,6 +17,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import jpk.initupload.PrzygotujInitUploadXML;
 import static jpk.view.UnzipUtility.unzip;
+import view.WpisView;
 
 /**
  *
@@ -33,12 +34,16 @@ public class SzachMatJPK {
         //james.zip.aes teraz sie nazywa
         //beanJPKwysylka.pobierzupo("8620b1f00131b6870000003f59bb9a27");
         //wywalilem base64 zzachowania pliku aes
-        beanJPKwysylka.pobierzupo("8636dfe903fa6b820000003f7b28f7e8");
+        UPO upo = beanJPKwysylka.pobierzupo("8636dfe903fa6b820000003f7b28f7e8");
     }
     
     //UWAGA USTAWIENIA PRODUKCYJNE
-    public static void wysylka(String mainfilename, String zipfilename, String aesfilename) {
+    public static void wysylka(WpisView wpisView) {
         try {
+            String dir = "build/web/resources/xml/";
+            String mainfilename = "jpk"+wpisView.getPodatnikObiekt().getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+            String zipfilename = mainfilename+".zip";
+            String aesfilename = zipfilename+".aes";
             Wysylka.zipfile(mainfilename,zipfilename);
             SecretKey secretKey = Wysylka.encryptAESStart(zipfilename, aesfilename);
             PublicKey publickey = Wysylka.getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
@@ -58,7 +63,24 @@ public class SzachMatJPK {
         }
     }
     
-    public static UPO pobierzupo(String nrref) {
+//    private static void pobierzplik(String mainfilename) {
+//        FileInputStream fileStream = null;
+//        try {
+//            String dir = "build/web/resources/xml/";
+//            String plik = dir+mainfilename;
+//            fileStream = new FileInputStream(new File(plik));
+//        } catch (FileNotFoundException ex) {
+//            E.e(ex);
+//        } finally {
+//            try {
+//                fileStream.close();
+//            } catch (IOException ex) {
+//                E.e(ex);
+//            }
+//        }
+//    }
+    
+    public static UPO pobierzupo(String nrref, WpisView wpisView) {
         UPO upo = null;
         try {
             upo = beanJPKwysylka.pobierzupo("nrref");

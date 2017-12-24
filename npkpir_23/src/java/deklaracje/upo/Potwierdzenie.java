@@ -8,6 +8,7 @@
 
 package deklaracje.upo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -187,7 +188,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "blad"
 })
 @XmlRootElement(name = "Potwierdzenie")
-public class Potwierdzenie {
+public class Potwierdzenie implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "NazwaPodmiotuPrzyjmujacego", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
