@@ -8,6 +8,8 @@
 
 package jpk201701;
 
+import entity.JPKSuper;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -189,7 +191,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "zakupCtrl"
 })
 @XmlRootElement(name = "JPK", namespace = "http://jpk.mf.gov.pl/wzor/2016/10/26/10261/")
-public class JPK {
+public class JPK extends JPKSuper implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "Naglowek", namespace = "http://jpk.mf.gov.pl/wzor/2016/10/26/10261/", required = true)
     protected TNaglowek naglowek;

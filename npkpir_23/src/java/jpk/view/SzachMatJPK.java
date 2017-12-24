@@ -5,7 +5,7 @@
  */
 package jpk.view;
 
-import static beansPodpis.Xad.podpiszjpk;
+import entity.UPO;
 import error.E;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,6 +24,8 @@ import static jpk.view.UnzipUtility.unzip;
  */
 public class SzachMatJPK {
     
+    private static String publiccertyffile = "3af5843ae11db6d94edf0ea502b5cd1a.cer";
+    
     public static void main(String[] args) {
         //wysylka();
         //
@@ -33,8 +35,41 @@ public class SzachMatJPK {
         //wywalilem base64 zzachowania pliku aes
         beanJPKwysylka.pobierzupo("8636dfe903fa6b820000003f7b28f7e8");
     }
+    
     //UWAGA USTAWIENIA PRODUKCYJNE
-    public static void wysylka() {
+    public static void wysylka(String mainfilename, String zipfilename, String aesfilename) {
+        try {
+            Wysylka.zipfile(mainfilename,zipfilename);
+            SecretKey secretKey = Wysylka.encryptAESStart(zipfilename, aesfilename);
+            PublicKey publickey = Wysylka.getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
+            String encryptionkeystring = Wysylka.wrapKey(publickey, secretKey);
+            byte[] ivBytes = Wysylka.encryptKoniec(zipfilename, aesfilename, secretKey);
+            int mainfilesize = Wysylka.readFilesize(mainfilename);
+            int partfilesize = Wysylka.readFilesize(aesfilename);
+            String mainfilehash = Wysylka.fileSha256ToBase64(mainfilename);
+            String partfilehash = Wysylka.fileMD5ToBase64(aesfilename);
+            String plikxmlnazwa = "wysylka.xml";
+            PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), aesfilename, partfilesize, partfilehash, plikxmlnazwa);
+            String content = new String(Files.readAllBytes(Paths.get("wysylka.xml")));
+            beansPodpis.Xad.podpiszjpk(content);
+            beanJPKwysylka.wysylka(aesfilename, "wysylkapodpis.xml");
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+    }
+    
+    public static UPO pobierzupo(String nrref) {
+        UPO upo = null;
+        try {
+            upo = beanJPKwysylka.pobierzupo("nrref");
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return upo;
+    }
+    
+    //UWAGA USTAWIENIA PRODUKCYJNE
+    public static void wysylkaTest() {
         try {
             //JPK jpk = Wysylka.makedummyJPK();
             String mainfilename = "james2.xml";
@@ -56,12 +91,11 @@ public class SzachMatJPK {
             String plikxmlnazwa = "wysylka.xml";
             PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), partfilename, partfilesize, partfilehash, plikxmlnazwa);
             String content = new String(Files.readAllBytes(Paths.get("wysylka.xml")));
-            podpiszjpk(content);
+            beansPodpis.Xad.podpiszjpk(content);
             beanJPKwysylka.wysylka(partfilename, "wysylkapodpis.xml");
         } catch (Exception ex) {
             E.e(ex);
         }
-        
     }
 
     public static void decrypt(SecretKey key, String partfilename, byte[] ivBytes){

@@ -7,6 +7,8 @@ package jpk.view;
 
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
+import deklaracje.upo.Potwierdzenie;
+import entity.UPO;
 import error.E;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -15,12 +17,18 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -112,25 +120,39 @@ public class beanJPKwysylka {
         return "";
     }
      
-    public static void pobierzupo(String referenceNumber) {
+    public static UPO pobierzupo(String referenceNumber) {
+        UPO upo = new UPO();
         Object[] ink = upo(URL_STEP3, referenceNumber);
-            int responseCode = (int) ink[1];
-            if (responseCode == 200) {
-                System.out.println("Kod 200 udany etap 3");
-            }
-            JSONTokener js = new JSONTokener((Reader) ink[0]);
-            JSONObject jo = new JSONObject(js);
-            Integer Code = (Integer) jo.get("Code");
-            String Description = (String) jo.get("Description");
-            String Details = (String) jo.get("Details");
-            String Timestamp = (String) jo.get("Timestamp");
-            String Upo = (String) jo.get("Upo");
-            System.out.println("Code "+Code);
-            System.out.println("Description "+Description);
-            System.out.println("Details "+Details);
-            System.out.println("Timestamp "+Timestamp);
-            System.out.println("Upo nr: "+Upo);
-            System.out.println("Referencenumber nr: "+referenceNumber);
+        int responseCode = (int) ink[1];
+        if (responseCode == 200) {
+            System.out.println("Kod 200 udany etap 3");
+        }
+        JSONTokener js = new JSONTokener((Reader) ink[0]);
+        JSONObject jo = new JSONObject(js);
+        Integer Code = (Integer) jo.get("Code");
+        String Description = (String) jo.get("Description");
+        String Details = (String) jo.get("Details");
+        String Timestamp = (String) jo.get("Timestamp");
+        String Upo = (String) jo.get("Upo");
+        System.out.println("Code " + Code);
+        System.out.println("Description " + Description);
+        System.out.println("Details " + Details);
+        System.out.println("Timestamp " + Timestamp);
+        System.out.println("Upo nr: " + Upo);
+        System.out.println("Referencenumber nr: " + referenceNumber);
+        JAXBContext context;
+        try {
+            context = JAXBContext.newInstance(Potwierdzenie.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            int odint = Upo.indexOf("<Potwierdzenie");
+            int doint = Upo.indexOf("</Potwierdzenie>") + 16;
+            String potw = Upo.substring(odint, doint);
+            Potwierdzenie potwierdzenie = (Potwierdzenie) unmarshaller.unmarshal(new StringReader(potw));
+            System.out.println("");
+        } catch (JAXBException ex) {
+            Logger.getLogger(beanJPKwysylka.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return upo;
     }
         
     

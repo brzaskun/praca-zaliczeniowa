@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="xmldsig-2b9ae63c-32d3-4e77-a4b3-503acbf7207d">
+<ds:SignedInfo>
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+<ds:Reference Id="xmldsig-2b9ae63c-32d3-4e77-a4b3-503acbf7207d-ref0" Type="http://www.w3.org/2000/09/xmldsig#Object" URI="#xmldsig-2b9ae63c-32d3-4e77-a4b3-503acbf7207d-object0">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>AU+D25IwywLUv9f6mHbZrzsrJB8=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#xmldsig-2b9ae63c-32d3-4e77-a4b3-503acbf7207d-signedprops">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>HJJFMcYpQoPE1EhrU76c423jYI0=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue Id="xmldsig-2b9ae63c-32d3-4e77-a4b3-503acbf7207d-sigvalue">
+TOEYJus6JjteVC/G/X4e2dDLvPrX7MLnOB4nrfTmYXl58AglsOJcqKcUuVC/TEm5BaVOgJi27I9x
+aVPzI6k3DVZdlpf3/woP1WfOb2O5FKDOd1mBggnIcNQOZ4s80/xHiNH7VscsWx7gabSRT0/zmy5H
+8QNgBu5aepCRYra3e5QSz6Zgf3WBWNEPE4hFzkmjulqN441APJRTRLxQey9eIdW7TERonrGMNp1x
+anylHeNZ6MKLhtu/BuRh3DJRcX4dCc+jsgqj4K3o10hHyDBWLZQN6VcBfrhWt8iF/ArHgEG+yhzM
+NzAkiafZIPCLZHWJlGZwEiCMkcLwlgfiDhOGtg==
+</ds:SignatureValue>
+<ds:KeyInfo>
+<ds:X509Data>
+<ds:X509Certificate>
+MIIFhTCCBG2gAwIBAgIQXOr7QkxfRPSnoYz6Kw5gAzANBgkqhkiG9w0BAQsFADCBijELMAkGA1UE
+BhMCUEwxIjAgBgNVBAoMGVVuaXpldG8gVGVjaG5vbG9naWVzIFMuQS4xJzAlBgNVBAsMHkNlcnR1
+bSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTEuMCwGA1UEAwwlQ2VydHVtIERpZ2l0YWwgSWRlbnRp
+ZmljYXRpb24gQ0EgU0hBMjAeFw0xNzAzMDMwOTU2NTRaFw0yMDAzMDIwOTU2NTRaMIGnMQswCQYD
+VQQGEwJQTDEeMBwGA1UECgwVTWluaXN0ZXJzdHdvIEZpbmFuc293MQwwCgYDVQQLDANDUEQxETAP
+BgNVBAcMCFdhcnN6YXdhMRQwEgYDVQQIDAttYXpvd2llY2tpZTEVMBMGA1UEAwwMZS1EZWtsYXJh
+Y2plMSowKAYJKoZIhvcNAQkBFhtpbmZvLmUtZGVrbGFyYWNqZUBtZi5nb3YucGwwggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDl2qVfXpkXRte0u7xHCjxk4FYy4tJ81TFxWQVEGadlMGuB
+J0984hnO0DCTGZlw1cc5RzI59I/jO7VjWXUVKbN6AoR09rti2Wo2EfH58YHhle00jxpgRn6kcpE+
+mu8Fbu0PruUucchraHn5gfaDPFZHheVN3D4cON9TkjhLjrOsOYvTQxT49ugeps6/Y0ooeOuamRFy
+HBvLSlHaQlBiBRtZEO25csPCB2nMsYmYtHa4IFmW/iQWoeaWv4vgFn3GEzGTTSRNPrklUV6BRXhk
+hJRssrpUNsokP2TMR2jTUcBzVFm6yuf8fOgueo03OK8dnYZUm4eUQkPuqPoHmSoW6VwBAgMBAAGj
+ggHGMIIBwjAMBgNVHRMBAf8EAjAAMDIGA1UdHwQrMCkwJ6AloCOGIWh0dHA6Ly9jcmwuY2VydHVt
+LnBsL2RpY2FzaGEyLmNybDBxBggrBgEFBQcBAQRlMGMwKwYIKwYBBQUHMAGGH2h0dHA6Ly9kaWNh
+c2hhMi5vY3NwLWNlcnR1bS5jb20wNAYIKwYBBQUHMAKGKGh0dHA6Ly9yZXBvc2l0b3J5LmNlcnR1
+bS5wbC9kaWNhc2hhMi5jZXIwHwYDVR0jBBgwFoAUP8pY6vHJCX5uM8EjrU6tPj1sRacwHQYDVR0O
+BBYEFOao5Pjm2DS9+4cGK7BCwR51TevxMB0GA1UdEgQWMBSBEmRpY2FzaGEyQGNlcnR1bS5wbDAO
+BgNVHQ8BAf8EBAMCBPAwQgYDVR0gBDswOTA3BgwqhGgBhvZ3AgUBBg4wJzAlBggrBgEFBQcCARYZ
+aHR0cHM6Ly93d3cuY2VydHVtLnBsL0NQUzAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQw
+EQYJYIZIAYb4QgEBBAQDAgWgMCYGA1UdEQQfMB2BG2luZm8uZS1kZWtsYXJhY2plQG1mLmdvdi5w
+bDANBgkqhkiG9w0BAQsFAAOCAQEAMLYsJ9XGI9AieeWuvbZtnbi8IrMj2f0hdOqyfFBVXurWykTf
+qJSK631wfzT/hHSbdjbtz+8htDd8H49LLF2eCw90OyRbnjZysUKoeQmY7jiFYPUIQzufogTv5fT+
+msXwk5bjBanrWTF4H7o8qjTC9MtiKippkGINdXm/SAR/68sDffGld7s1/sRrp8Sn+KY4bugioCr/
+nid6mDxRfTVqLjP7jUbQA2HPrwBltnVvzV8uFJCYJrU41UDvbE8fvRSEwQy/L6oGHvZj4zTEetxR
+9N+bRsTHKGDFqxsw/NC/6GjsfiSv8EhMC+Qvw6AnuRsC0fa4KCdTHaVKSYLb4TfGsw==
+</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+<ds:Object Id="xmldsig-2b9ae63c-32d3-4e77-a4b3-503acbf7207d-object0" MimeType="text/xml"><Potwierdzenie wersjaSchemy="6.0"><NazwaPodmiotuPrzyjmujacego>Ministerstwo Finansów</NazwaPodmiotuPrzyjmujacego><NumerReferencyjny>8636dfe903fa6b820000003f7b28f7e8</NumerReferencyjny><SkrotDokumentu>[Atam6j1vTQuC3ltOY6TshOJLQQh5rCcBxv3Y6veqvik=]</SkrotDokumentu><SkrotZlozonejStruktury>5d09dd044fb7bae0cd23f2ce01c91e91</SkrotZlozonejStruktury><NazwaStrukturyLogicznej>Schemat_JPK_VAT(2)_v1-0.xsd</NazwaStrukturyLogicznej><DataWplyniecia>2017-12-24T02:50:31+01:00</DataWplyniecia><StempelCzasu>MjAxNy0xMi0yNFQwMjo1MDozMSswMTowMA==</StempelCzasu><NIP1>8561682099</NIP1><KodUrzedu>3271</KodUrzedu><KodFormularza>JPK_VAT (2)</KodFormularza><Przyjeto>true</Przyjeto></Potwierdzenie></ds:Object>
+<ds:Object><xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" xmlns:xades141="http://uri.etsi.org/01903/v1.4.1#" Target="#xmldsig-2b9ae63c-32d3-4e77-a4b3-503acbf7207d"><xades:SignedProperties Id="xmldsig-2b9ae63c-32d3-4e77-a4b3-503acbf7207d-signedprops"><xades:SignedSignatureProperties><xades:SigningTime>2017-12-24T05:52:31.313+01:00</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>wZelLApE+UnJaTGgWy8TwHRGOoY=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Certum Digital Identification CA SHA2,OU=Certum Certification Authority,O=Unizeto Technologies S.A.,C=PL</ds:X509IssuerName><ds:X509SerialNumber>123509069214614686816240172418164744195</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties></xades:QualifyingProperties></ds:Object>
+</ds:Signature>
