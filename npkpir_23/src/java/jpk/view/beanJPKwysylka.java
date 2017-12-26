@@ -47,11 +47,11 @@ public class beanJPKwysylka {
 //    private static final String nazwapliku = "G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes";
 
     public static void main(String[] args) {
-        wysylkadoMF("G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes", "enveloped.xades");
+        wysylkadoMF("G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes", "enveloped.xades", new UPO());
         System.out.println("zakonczylem wysylke");
     }
 
-    public static Object[] wysylkadoMF(String aesfilename, String plikxml) {
+    public static Object[] wysylkadoMF(String aesfilename, String plikxml, UPO upo) {
         Object[] zwrot = null;
         try {
             Object[] etap1zwrot = etap1(plikxml);
@@ -67,7 +67,7 @@ public class beanJPKwysylka {
                 zwrot = etap2zwrot;
             }
             if (wynik2) {
-                Object[] etap3zwrot = etap3(referenceNumber);
+                Object[] etap3zwrot = etap3(referenceNumber, upo);
                 zwrot = etap3zwrot;
             }
         } catch (Exception ex) {
@@ -157,14 +157,13 @@ public class beanJPKwysylka {
         return zwrot;
     }
 
-    public static Object[] etap3(String referenceNumber) {
+    public static Object[] etap3(String referenceNumber, UPO upo) {
         Object[] zwrot = new Object[5];
         JSONObject jo = null;
         boolean wynik = false;
         String[] wiadomosc = new String[2];
         wiadomosc[0] = "i";
         wiadomosc[1] = "Rozpoczęcie autoryzacji do serwisu";
-        UPO upo = new UPO();
         Object[] ink = upo(URL_STEP3, referenceNumber);
         int responseCode = (int) ink[1];
         if (responseCode == 200) {
@@ -179,6 +178,12 @@ public class beanJPKwysylka {
             String Details = (String) jo.get("Details");
             String Timestamp = (String) jo.get("Timestamp");
             String UpoString = (String) jo.get("Upo");
+            upo.setCode(Code);
+            upo.setDescription(Description);
+            upo.setDetails(Details);
+            upo.setTimestamp(Timestamp);
+            upo.setUpoString(UpoString);
+            upo.setReferenceNumber(referenceNumber);
             System.out.println("Code " + Code);
             System.out.println("Description " + Description);
             System.out.println("Details " + Details);

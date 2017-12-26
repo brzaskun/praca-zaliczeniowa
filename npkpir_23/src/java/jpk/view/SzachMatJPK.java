@@ -16,8 +16,12 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import jpk.initupload.PrzygotujInitUploadXML;
 import static jpk.view.UnzipUtility.unzip;
+import jpk201701.JPK;
 import view.WpisView;
 
 /**
@@ -25,6 +29,7 @@ import view.WpisView;
  * @author Osito
  */
 public class SzachMatJPK {
+
     
     private static String publiccertyffile = "3af5843ae11db6d94edf0ea502b5cd1a.cer";
     
@@ -35,14 +40,15 @@ public class SzachMatJPK {
         //james.zip.aes teraz sie nazywa
         //beanJPKwysylka.etap3("8620b1f00131b6870000003f59bb9a27");
         //wywalilem base64 zzachowania pliku aes
-        Object[] zwrot = beanJPKwysylka.etap3("91cd491e00b0b9c90000004528eaccdd");
+        UPO upo = new UPO();
+        Object[] zwrot = beanJPKwysylka.etap3("91cd491e00b0b9c90000004528eaccdd", upo);
         String[] message = (String[]) zwrot[2];
         System.out.println(message[0]+" "+message[1]);
     }
     
     //UWAGA USTAWIENIA PRODUKCYJNE
-    public static String[] wysylka() {
-        String[] wiadomosc = new String[2];
+    public static String[] wysylka(WpisView wpisView, UPO upo) {
+        String[] wiadomosc = new String[4];
         wiadomosc[0] = "w";
         wiadomosc[1] = "Rozpoczęcie wysyłki JPK";   
         try {
@@ -73,8 +79,10 @@ public class SzachMatJPK {
                 String content = new String(Files.readAllBytes(Paths.get(dirplikxmlnazwa)));
                 String plikxmlnazwapodpis = "wysylkapodpis"+mainfilename;
                 String dirplikxmlnazwapodpis = dir+plikxmlnazwapodpis;
+                JPK jpk = pobierzJPK(dirmainfilename);
                 beansPodpis.Xad.podpiszjpk(content, dirplikxmlnazwapodpis);
-                Object[] zwrot = beanJPKwysylka.wysylkadoMF(diraesfilename, dirplikxmlnazwapodpis);
+                upo = new UPO(wpisView, jpk);
+                Object[] zwrot = beanJPKwysylka.wysylkadoMF(diraesfilename, dirplikxmlnazwapodpis, upo);
                 if ((int) zwrot[4] == 3) {
                     wiadomosc[0] = "i";
                     wiadomosc[1] = "Sporządzono, zaszyfrowano, wysłano JPK i otrzymano UPO";
@@ -82,9 +90,6 @@ public class SzachMatJPK {
                     String[] wiadomoscblad = (String[]) zwrot[2];
                     wiadomosc[0] = wiadomoscblad[0];
                     wiadomosc[1] = wiadomoscblad[1];
-                }
-                if ((int) zwrot[4] == 3 || (int) zwrot[4] == 3) {
-                    zachowajUPO(zwrot);
                 }
             } else {
                 wiadomosc[0] = "e";
@@ -115,17 +120,16 @@ public class SzachMatJPK {
 //        }
 //    }
     
-    public static UPO pobierzupo(String nrref, WpisView wpisView) {
-        UPO upo = null;
+    public static String[] pobierzupo(String nrref, UPO upo) {
+        String[] message = null;
         try {
-            Object[] zwrot = beanJPKwysylka.etap3(nrref);
-            if ((boolean) zwrot[1]) {
-                upo = (UPO) zwrot[3];
-            }
+            Object[] zwrot = beanJPKwysylka.etap3(nrref, upo);
+            message = (String[]) zwrot[2];
+       
         } catch (Exception e) {
             E.e(e);
         }
-        return upo;
+        return message;
     }
     
     //UWAGA USTAWIENIA PRODUKCYJNE
@@ -153,7 +157,8 @@ public class SzachMatJPK {
             PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), partfilename, partfilesize, partfilehash, plikxmlnazwa);
             String content = new String(Files.readAllBytes(Paths.get("wysylka.xml")));
             beansPodpis.Xad.podpiszjpk(content, plikxmlnazwapodpis);
-            beanJPKwysylka.wysylkadoMF(partfilename, plikxmlnazwapodpis);
+            UPO upo = new UPO();
+            beanJPKwysylka.wysylkadoMF(partfilename, plikxmlnazwapodpis, upo);
         } catch (Exception ex) {
             E.e(ex);
         }
@@ -191,8 +196,17 @@ public class SzachMatJPK {
         }
     }
 
-    private static void zachowajUPO(Object[] zwrot) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
    
+    private static JPK pobierzJPK(String dirmainfilename) {
+        JPK zwrot = null;
+        try {
+            JAXBContext context = JAXBContext.newInstance(JPK.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            zwrot = (JPK) unmarshaller.unmarshal(new File(dirmainfilename));
+        } catch (JAXBException ex) {
+            E.e(ex);
+        }
+        return zwrot;
+    }
 }

@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Pismoadmin;
+import entity.UPO;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
@@ -22,12 +23,12 @@ public class UPODAO extends DAO implements Serializable{
     private SessionFacade sessionFacade;
 
     public UPODAO() {
-        super(Pismoadmin.class);
+        super(UPO.class);
     }
     
     public  List<Pismoadmin> findAll(){
         try {
-            List<Pismoadmin> lista = sessionFacade.findAll(Pismoadmin.class);
+            List<Pismoadmin> lista = sessionFacade.findAll(UPO.class);
             return lista;
         } catch (Exception e) { E.e(e); 
             return null;
@@ -43,14 +44,7 @@ public class UPODAO extends DAO implements Serializable{
         }
    }
 
-    public List<Pismoadmin> findNowe() {
-        try {
-            List<Pismoadmin> lista = sessionFacade.findPismoadminNowe();
-            return lista;
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-    }
+   
     
     
 }

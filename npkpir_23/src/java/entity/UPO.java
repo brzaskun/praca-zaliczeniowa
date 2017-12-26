@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import jpk201701.JPK;
+import view.WpisView;
 
 /**
  *
@@ -54,6 +56,32 @@ public class UPO  implements Serializable {
     private DeklaracjaSuper deklaracja;
     @Column (name = "wersja")
     private String wersja;
+    @Column (name = "code")
+    private Integer code;
+    @Column (name = "description")
+    private String description;
+    @Column (name = "details")
+    private String details;
+    @Column (name = "timestamp")
+    private String timestamp;
+    @Column (name = "upoString")
+    private String upoString;
+    @Column (name = "referenceNumber")
+    private String referenceNumber;
+
+    public UPO() {
+    }
+
+    
+    public UPO(WpisView wpisView, JPK jpk) {
+        this.jpk = jpk;
+        this.podatnik = wpisView.getPodatnikObiekt();
+        this.miesiac = wpisView.getMiesiacWpisu();
+        this.rok = wpisView.getRokWpisuSt();
+        if (jpk != null) {
+            this.wersja = jpk.getNaglowek().getKodFormularza().getWersjaSchemy();
+        }
+    }
 
     public int getId() {
         return id;
@@ -118,6 +146,56 @@ public class UPO  implements Serializable {
     public void setWersja(String wersja) {
         this.wersja = wersja;
     }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getUpoString() {
+        return upoString;
+    }
+
+    public void setUpoString(String upoString) {
+        this.upoString = upoString;
+    }
+
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    public void setReferenceNumber(String referenceNumber) {
+        this.referenceNumber = referenceNumber;
+    }
+    
+    
 
     @Override
     public int hashCode() {

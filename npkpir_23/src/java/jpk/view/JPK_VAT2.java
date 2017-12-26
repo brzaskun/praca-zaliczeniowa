@@ -5,9 +5,11 @@
  */
 package jpk.view;
 
+import dao.UPODAO;
 import data.Data;
 import embeddable.TKodUS;
 import entity.EVatwpis1;
+import entity.UPO;
 import entityfk.EVatwpisFK;
 import error.E;
 import java.io.File;
@@ -47,6 +49,8 @@ public class JPK_VAT2 implements Serializable {
     @Inject
     private TKodUS tKodUS;
     private JPK jpk;
+    @Inject
+    private UPODAO uPODAO;
     
     
     public void przygotujXML() {
@@ -60,8 +64,11 @@ public class JPK_VAT2 implements Serializable {
         List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
         JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
         generujXML(listas, listaz, sprzedazCtrl, zakupCtrl);
-        //String[] wiadomosc = SzachMatJPK.wysylka(wpisView);
-        //Msg.msg(wiadomosc[0], wiadomosc[1]);
+        UPO upo = new UPO();
+        String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
+        Msg.msg(wiadomosc[0], wiadomosc[1]);
+        wiadomosc = zachowajUPO(upo);
+        Msg.msg(wiadomosc[0], wiadomosc[1]);
     }
     
     public void przygotujXMLFK() {
@@ -75,8 +82,21 @@ public class JPK_VAT2 implements Serializable {
         List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
         JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
         generujXML(listas, listaz, sprzedazCtrl, zakupCtrl);
-        //String[] wiadomosc = SzachMatJPK.wysylka(wpisView);
-        //Msg.msg(wiadomosc[0], wiadomosc[1]);
+        UPO upo = new UPO();
+        String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
+        wiadomosc = zachowajUPO(upo);
+        Msg.msg(wiadomosc[0], wiadomosc[1]);
+    }
+    
+    public void pobierzUPO(UPO selected) {
+        try {
+            UPO upo = new UPO();
+            String[] wiadomosc = SzachMatJPK.pobierzupo(selected.getReferenceNumber(), upo);
+            Msg.msg(wiadomosc[0], wiadomosc[1]);
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie udało się pobrać wiadomości");
+        }
     }
     
     
@@ -189,6 +209,26 @@ public class JPK_VAT2 implements Serializable {
         }
         zwrot[0] = lista;
         zwrot[1] = zakupCtrl;
+        return zwrot;
+    }
+    
+    private String[] zachowajUPO(UPO upo) {
+        String[] zwrot = new String[2];
+        zwrot[0] = "i";
+        zwrot[1] = "Rozpoczynam zachowanie UPO";
+        if (upo.getCode() != 0) {
+            try {
+                uPODAO.dodaj(upo);
+                zwrot[0] = "i";
+                zwrot[1] = "Udane zachowanie UPO";
+            } catch (Exception e) {
+                zwrot[0] = "e";
+                zwrot[1] = "Nieudane zachowanie UPO. Wystąpił błąd. Nie otrzymano upo";
+            }
+        } else {
+            zwrot[0] = "e";
+            zwrot[1] = "Wysyłka nieudana, nie ma UPO do zachowania";
+        }
         return zwrot;
     }
 
