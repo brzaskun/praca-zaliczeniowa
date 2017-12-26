@@ -302,6 +302,10 @@
             <to-view-id>/ksiegowa/ksiegowaVAT_ZD.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>vatjpk</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaVATJPK.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>zestawienie</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaZestawienieRok.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

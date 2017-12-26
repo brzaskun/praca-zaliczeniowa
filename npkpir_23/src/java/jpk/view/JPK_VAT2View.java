@@ -56,6 +56,7 @@ public class JPK_VAT2View implements Serializable {
     @Inject
     private UPO selected;
     private boolean nowa0korekta1;
+    private boolean pkpir0ksiegi1;
     
     public void init() {
         try {
@@ -70,6 +71,7 @@ public class JPK_VAT2View implements Serializable {
                     }
                 }
             }
+            pkpir0ksiegi1 = wpisView.isKsiegirachunkowe();
         } catch (Exception e) {
             
         }
@@ -320,6 +322,14 @@ public class JPK_VAT2View implements Serializable {
 
     public void setNowa0korekta1(boolean nowa0korekta1) {
         this.nowa0korekta1 = nowa0korekta1;
+    }
+
+    public boolean isPkpir0ksiegi1() {
+        return pkpir0ksiegi1;
+    }
+
+    public void setPkpir0ksiegi1(boolean pkpir0ksiegi1) {
+        this.pkpir0ksiegi1 = pkpir0ksiegi1;
     }
     
     
