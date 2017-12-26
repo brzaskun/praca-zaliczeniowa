@@ -8,6 +8,7 @@
 
 package jpk201701;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -60,7 +61,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "kodPocztowy",
     "poczta"
 })
-public class TAdresJPK {
+public class TAdresJPK implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "KodKraju", required = true)
     @XmlSchemaType(name = "normalizedString")

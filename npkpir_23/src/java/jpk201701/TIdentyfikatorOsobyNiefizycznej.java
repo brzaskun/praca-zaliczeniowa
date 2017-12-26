@@ -8,6 +8,7 @@
 
 package jpk201701;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -52,7 +53,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "pelnaNazwa",
     "regon"
 })
-public class TIdentyfikatorOsobyNiefizycznej {
+public class TIdentyfikatorOsobyNiefizycznej implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "NIP", required = true)
     protected String nip;

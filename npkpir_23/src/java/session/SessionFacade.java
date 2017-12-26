@@ -50,6 +50,7 @@ import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
 import entity.Sumypkpir;
+import entity.UPO;
 import entity.UmorzenieN;
 import entity.Uz;
 import entity.Wpis;
@@ -2112,6 +2113,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public void usunSumyPKPiR(String podatnik, String rok, String mc) {
         em.createNamedQuery("Sumypkpir.deleteByPodatnikRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
+    }
+
+    public List<UPO> findUPOPodatnikRok(Podatnik podatnikObiekt, String rokWpisuSt) {
+        return em.createNamedQuery("UPO.findUPOPodatnikRok").setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikObiekt).getResultList();
     }
 
     

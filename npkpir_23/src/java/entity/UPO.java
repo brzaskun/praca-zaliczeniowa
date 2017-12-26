@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,6 +30,9 @@ import view.WpisView;
  */
 @Entity
 @Table(name = "upo")
+@NamedQueries({
+    @NamedQuery(name = "UPO.findUPOPodatnikRok", query = "SELECT a FROM UPO a WHERE a.podatnik = :podatnik AND a.rok = :rok"),
+})
 public class UPO  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -225,6 +230,20 @@ public class UPO  implements Serializable {
     @Override
     public String toString() {
         return "UPO{" + "podatnik=" + podatnik.getPrintnazwa() + ", rok=" + rok + ", miesiac=" + miesiac + ", potwierdzenie=" + potwierdzenie.getKodFormularza() + ", jpk=" + jpk + ", deklaracja=" + deklaracja + ", wersja=" + wersja + '}';
+    }
+
+    public void uzupelnij(WpisView wpisView, JPK jpk) {
+        try {
+            this.jpk = jpk;
+            this.podatnik = wpisView.getPodatnikObiekt();
+            this.miesiac = wpisView.getMiesiacWpisu();
+            this.rok = wpisView.getRokWpisuSt();
+            if (jpk != null) {
+                this.wersja = jpk.getNaglowek().getKodFormularza().getWersjaSchemy();
+            }
+        } catch (Exception e) {
+            
+        }
     }
     
     

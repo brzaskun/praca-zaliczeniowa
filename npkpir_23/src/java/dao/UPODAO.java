@@ -12,6 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -35,14 +36,15 @@ public class UPODAO extends DAO implements Serializable{
         }
    }
     
-    public  List<Pismoadmin> findBiezace(){
+    
+    public List<UPO> findPodatnikRok(WpisView wpisView) {
         try {
-            List<Pismoadmin> lista = sessionFacade.findPismoadminBiezace();
+            List<UPO> lista = sessionFacade.findUPOPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             return lista;
         } catch (Exception e) { E.e(e); 
             return null;
         }
-   }
+    }
 
    
     

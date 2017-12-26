@@ -387,7 +387,8 @@ public class JPK extends JPKSuper implements Serializable {
         "identyfikatorPodmiotu",
         "adresPodmiotu"
     })
-    public static class Podmiot1 {
+    public static class Podmiot1 implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "IdentyfikatorPodmiotu", namespace = "http://jpk.mf.gov.pl/wzor/2016/10/26/10261/", required = true)
         protected TIdentyfikatorOsobyNiefizycznej identyfikatorPodmiotu;

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:form id="form_dialog_jpk_vat" >
+        <p:panel header="wygeneruj JPK VAT za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt}" style="width: 1250px;"/>
+        <p:panelGrid columns="2">
+            <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form"/>
+        </p:panelGrid>
+        <p:dataTable value="#{jPK_VAT2View.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px; margin-top: 10px;"
+                      sortBy="#{item.miesiac}"
+                     selection="#{jPK_VAT2View.selected}" selectionMode="single" rowKey="#{item.id}"
+                     emptyMessage="nie wysłano jeszcze plików jpk">
+            <f:facet name="header">
+                <h:outputText value="Wysłane jpk"/>
+            </f:facet>
+            <p:column style="width: 20px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="lp"/>
+                </f:facet>
+                <h:outputText value="#{index+1}" />
+            </p:column>
+            <p:column style="width: 30px; text-align: center;" sortBy="#{item.miesiac}">
+                <f:facet name="header">
+                    <h:outputText value="mc"/>
+                </f:facet>
+                <h:outputText value="#{item.miesiac}"/>
+            </p:column>
+            <p:column style="width: 40px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="wynik"/>
+                </f:facet>
+                <h:outputText value="#{item.code}"/>
+            </p:column>
+            <p:column style="width: 150px;" >
+                <f:facet name="header">
+                    <h:outputText value="opis"/>
+                </f:facet>
+                <h:outputText value="#{item.description}"/>
+            </p:column>
+            <p:column style="width: 150px;" >
+                <f:facet name="header">
+                    <h:outputText value="wiadomość"/>
+                </f:facet>
+                <h:outputText value="#{item.details}"/>
+            </p:column>
+            <p:column style="width: 120px; text-align: center;" >
+                <f:facet name="header">
+                    <h:outputText value="numer własny"/>
+                </f:facet>
+                <h:outputText value="#{item.referenceNumber}"/>
+            </p:column>
+            <p:column style="width: 90px; text-align: center;" >
+                <f:facet name="header">
+                    <h:outputText value="data przyjęcia"/>
+                </f:facet>
+                <h:outputText value="#{item.timestamp.substring(0,16)}">
+                </h:outputText>
+            </p:column>
+            <p:column style="width: 40px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="upo"/>
+                </f:facet>
+                <p:commandButton value="*" actionListener="#{jPK_VAT2View.pobierzUPO(item)}" update="@form"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</html>
+
+

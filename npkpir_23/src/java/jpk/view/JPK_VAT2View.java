@@ -39,7 +39,7 @@ import waluty.Z;
  */
 @ManagedBean
 @ViewScoped
-public class JPK_VAT2 implements Serializable {
+public class JPK_VAT2View implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
@@ -51,7 +51,20 @@ public class JPK_VAT2 implements Serializable {
     private JPK jpk;
     @Inject
     private UPODAO uPODAO;
+    private List<UPO> lista;
+    @Inject
+    private UPO selected;
     
+    public void init() {
+        try {
+            lista = uPODAO.findPodatnikRok(wpisView);
+            if (lista == null) {
+                lista = new ArrayList<>();
+            }
+        } catch (Exception e) {
+            
+        }
+    }
     
     public void przygotujXML() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
@@ -69,6 +82,7 @@ public class JPK_VAT2 implements Serializable {
         Msg.msg(wiadomosc[0], wiadomosc[1]);
         wiadomosc = zachowajUPO(upo);
         Msg.msg(wiadomosc[0], wiadomosc[1]);
+        lista.add(upo);
     }
     
     public void przygotujXMLFK() {
@@ -86,12 +100,12 @@ public class JPK_VAT2 implements Serializable {
         String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
         wiadomosc = zachowajUPO(upo);
         Msg.msg(wiadomosc[0], wiadomosc[1]);
+        lista.add(upo);
     }
     
     public void pobierzUPO(UPO selected) {
         try {
-            UPO upo = new UPO();
-            String[] wiadomosc = SzachMatJPK.pobierzupo(selected.getReferenceNumber(), upo);
+            String[] wiadomosc = SzachMatJPK.pobierzupo(selected.getReferenceNumber(), selected);
             Msg.msg(wiadomosc[0], wiadomosc[1]);
         } catch (Exception e) {
             E.e(e);
@@ -146,12 +160,12 @@ public class JPK_VAT2 implements Serializable {
 //            String plik = "build/web/resources/xml/"+mainfilename;
 //            fileStream = new FileOutputStream(new File(plik));
 //        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(JPK_VAT2.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(JPK_VAT2View.class.getName()).log(Level.SEVERE, null, ex);
 //        } finally {
 //            try {
 //                fileStream.close();
 //            } catch (IOException ex) {
-//                Logger.getLogger(JPK_VAT2.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(JPK_VAT2View.class.getName()).log(Level.SEVERE, null, ex);
 //            }
 //        }
 //}
@@ -254,6 +268,22 @@ public class JPK_VAT2 implements Serializable {
 
     public void setJpk(JPK jpk) {
         this.jpk = jpk;
+    }
+
+    public List<UPO> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<UPO> lista) {
+        this.lista = lista;
+    }
+
+    public UPO getSelected() {
+        return selected;
+    }
+
+    public void setSelected(UPO selected) {
+        this.selected = selected;
     }
     
     

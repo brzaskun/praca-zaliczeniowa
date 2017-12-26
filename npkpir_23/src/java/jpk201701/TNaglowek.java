@@ -8,6 +8,7 @@
 
 package jpk201701;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -72,7 +73,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "domyslnyKodWaluty",
     "kodUrzedu"
 })
-public class TNaglowek {
+public class TNaglowek implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "KodFormularza", required = true)
     protected TNaglowek.KodFormularza kodFormularza;
@@ -294,7 +296,8 @@ public class TNaglowek {
     @XmlType(name = "", propOrder = {
         "value"
     })
-    public static class KodFormularza {
+    public static class KodFormularza implements Serializable {
+        private static final long serialVersionUID = 1L;
 
         @XmlValue
         protected TKodFormularza value;
