@@ -77,6 +77,18 @@ public class JPK_VAT2View implements Serializable {
         }
     }
     
+    public void init2() {
+        nowa0korekta1 = false;
+        if (lista != null) {
+            for (UPO p : lista) {
+                    if (p.getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                        nowa0korekta1 = true;
+                        break;
+                    }
+            }
+        }
+    }
+    
     public void przygotujXML() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentow();
@@ -126,12 +138,16 @@ public class JPK_VAT2View implements Serializable {
         }
     }
     
-    public void usunUPO(UPO selected) {
+    public void usunUPO() {
         try {
-            String[] wiadomosc = SzachMatJPK.pobierzupo(selected.getReferenceNumber(), selected);
-            uPODAO.destroy(selected);
-            lista.remove(selected);
-            Msg.msg("Usunieto JPK");
+            if (selected != null) {
+                uPODAO.destroy(selected);
+                lista.remove(selected);
+                init2();
+                Msg.msg("Usunieto wybrany JPK "+selected.getReferenceNumber());
+            } else {
+                Msg.msg("e", "Nie wybrano JPK");
+            }
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie udało się usunąć JPK");

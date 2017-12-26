@@ -81,7 +81,7 @@
                 <f:facet name="header">
                     <h:outputText value="usuń"/>
                 </f:facet>
-                <p:commandButton icon="fa fa-trash" actionListener="#{jPK_VAT2View.usunUPO(item)}" update="@form"/>
+                <p:commandButton icon="fa fa-trash" onclick="PF('confirmation').show()" update="@form" global="false"/>
             </p:column>
             <p:rowExpansion>
                 <p:dataTable value="#{item}" var="itemik">
