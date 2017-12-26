@@ -63,7 +63,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  *
  * @author Osito
  */
-public class Wysylka {
+public class WysylkaSub {
      public static void zipfile(String inputfilenamepath, String inputfilename, String outputfilename) {
         byte[] buffer = new byte[1024];
         try {
@@ -245,7 +245,7 @@ public class Wysylka {
 //             PublicKey p2 = publicKeyReader();
              //System.out.println(""+p1.equals(p2));
          } catch (Exception ex) {
-             Logger.getLogger(Wysylka.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(WysylkaSub.class.getName()).log(Level.SEVERE, null, ex);
          }
     }
     
@@ -363,7 +363,7 @@ public class Wysylka {
     }
 
     public static void removeCryptographyRestrictions() {
-        Logger logger = Logger.getLogger(Wysylka.class.getName());
+        Logger logger = Logger.getLogger(WysylkaSub.class.getName());
         if (!isRestrictedCryptography()) {
             logger.fine("Cryptography restrictions removal not needed");
             return;
@@ -447,7 +447,7 @@ public class Wysylka {
 //            PublicKey key = cer.getPublicKey();
 //            return key;
 //         } catch (Exception ex) {
-//             Logger.getLogger(Wysylka.class.getName()).log(Level.SEVERE, null, ex);
+//             Logger.getLogger(WysylkaSub.class.getName()).log(Level.SEVERE, null, ex);
 //             return null;
 //         }
 //  }
@@ -470,7 +470,7 @@ public class Wysylka {
              OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
              marshaller.marshal(jpk, writer);
          } catch (Exception ex) {
-             Logger.getLogger(Wysylka.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(WysylkaSub.class.getName()).log(Level.SEVERE, null, ex);
          }
          return jpk;
     }

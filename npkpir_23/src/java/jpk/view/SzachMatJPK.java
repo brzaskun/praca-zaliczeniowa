@@ -29,17 +29,15 @@ public class SzachMatJPK {
     private static String publiccertyffile = "3af5843ae11db6d94edf0ea502b5cd1a.cer";
     
     public static void main(String[] args) {
-        wysylka();
+        //wysylka();
         //
         //beanJPKwysylka.etap3("85cc022a0135cd960000003e0c5dfb48");
         //james.zip.aes teraz sie nazywa
         //beanJPKwysylka.etap3("8620b1f00131b6870000003f59bb9a27");
         //wywalilem base64 zzachowania pliku aes
-//        UPO upo = null;
-//        Object[] zwrot = beanJPKwysylka.etap3("8636dfe903fa6b820000003f7b28f7e8");
-//        if ((boolean) zwrot[1]) {
-//            upo = (UPO) zwrot[3];
-//        }
+        Object[] zwrot = beanJPKwysylka.etap3("91cd491e00b0b9c90000004528eaccdd");
+        String[] message = (String[]) zwrot[2];
+        System.out.println(message[0]+" "+message[1]);
     }
     
     //UWAGA USTAWIENIA PRODUKCYJNE
@@ -58,17 +56,17 @@ public class SzachMatJPK {
                 String dirzipfilename = dir+zipfilename;
                 String aesfilename = zipfilename+".aes";
                 String diraesfilename = dir+aesfilename;
-                Wysylka.zipfile(dir+mainfilename,mainfilename,dirzipfilename);
-                SecretKey secretKey = Wysylka.encryptAESStart(dirzipfilename, diraesfilename);
-                PublicKey publickey = Wysylka.getPublicKey("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\3af5843ae11db6d94edf0ea502b5cd1a.cer");
-                String encryptionkeystring = Wysylka.wrapKey(publickey, secretKey);
-                byte[] ivBytes = Wysylka.encryptKoniec(dirzipfilename, diraesfilename, secretKey);
-                decrypt2(secretKey, diraesfilename, dir, ivBytes);
-                unzip(dir+"odkodowana.zip", dir+"unzipfolder2");
-                int mainfilesize = Wysylka.readFilesize(dir+mainfilename);
-                int partfilesize = Wysylka.readFilesize(diraesfilename);
-                String mainfilehash = Wysylka.fileSha256ToBase64(dir+mainfilename);
-                String partfilehash = Wysylka.fileMD5ToBase64(diraesfilename);
+                WysylkaSub.zipfile(dir+mainfilename,mainfilename,dirzipfilename);
+                SecretKey secretKey = WysylkaSub.encryptAESStart(dirzipfilename, diraesfilename);
+                PublicKey publickey = WysylkaSub.getPublicKey("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\3af5843ae11db6d94edf0ea502b5cd1a.cer");
+                String encryptionkeystring = WysylkaSub.wrapKey(publickey, secretKey);
+                byte[] ivBytes = WysylkaSub.encryptKoniec(dirzipfilename, diraesfilename, secretKey);
+                //decrypt2(secretKey, diraesfilename, dir, ivBytes);
+                //unzip(dir+"odkodowana.zip", dir+"unzipfolder2");
+                int mainfilesize = WysylkaSub.readFilesize(dir+mainfilename);
+                int partfilesize = WysylkaSub.readFilesize(diraesfilename);
+                String mainfilehash = WysylkaSub.fileSha256ToBase64(dir+mainfilename);
+                String partfilehash = WysylkaSub.fileMD5ToBase64(diraesfilename);
                 String plikxmlnazwa = "wysylka"+mainfilename;
                 String dirplikxmlnazwa = dir+plikxmlnazwa;
                 PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), aesfilename, partfilesize, partfilehash, dirplikxmlnazwa);
@@ -77,7 +75,7 @@ public class SzachMatJPK {
                 String dirplikxmlnazwapodpis = dir+plikxmlnazwapodpis;
                 beansPodpis.Xad.podpiszjpk(content, dirplikxmlnazwapodpis);
                 Object[] zwrot = beanJPKwysylka.wysylkadoMF(diraesfilename, dirplikxmlnazwapodpis);
-                if ((boolean) zwrot[1]) {
+                if ((int) zwrot[4] == 3) {
                     wiadomosc[0] = "i";
                     wiadomosc[1] = "Sporządzono, zaszyfrowano, wysłano JPK i otrzymano UPO";
                 } else {
@@ -85,12 +83,17 @@ public class SzachMatJPK {
                     wiadomosc[0] = wiadomoscblad[0];
                     wiadomosc[1] = wiadomoscblad[1];
                 }
+                if ((int) zwrot[4] == 3 || (int) zwrot[4] == 3) {
+                    zachowajUPO(zwrot);
+                }
             } else {
                 wiadomosc[0] = "e";
                 wiadomosc[1] = "Nie odnaleziono pliku z JPK, nie można bylo go wysłać";
             }
         } catch (Exception ex) {
             E.e(ex);
+            wiadomosc[0] = "e";
+            wiadomosc[1] = "Funkcja wysyłanie się wysypała. Błąd krytyczny! "+ex;
         }
         return wiadomosc;
     }
@@ -128,23 +131,23 @@ public class SzachMatJPK {
     //UWAGA USTAWIENIA PRODUKCYJNE
     public static void wysylkaTest() {
         try {
-            //JPK jpk = Wysylka.makedummyJPK();
+            //JPK jpk = WysylkaSub.makedummyJPK();
             String mainfilename = "james2.xml";
             String zipfilename = "james2.zip";
             String partfilename = "james2.zip.aes";
-            Wysylka.zipfile(mainfilename,mainfilename,zipfilename);
+            WysylkaSub.zipfile(mainfilename,mainfilename,zipfilename);
             unzip(zipfilename, "unzipfolder");
             //Wysylka.encryptAES("james2.xml.zip", "james2.xml.zip.aes");
-            SecretKey secretKey = Wysylka.encryptAESStart(zipfilename, partfilename);
-            PublicKey publickey = Wysylka.getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
-            String encryptionkeystring = Wysylka.wrapKey(publickey, secretKey);
-            byte[] ivBytes = Wysylka.encryptKoniec(zipfilename, partfilename, secretKey);
+            SecretKey secretKey = WysylkaSub.encryptAESStart(zipfilename, partfilename);
+            PublicKey publickey = WysylkaSub.getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
+            String encryptionkeystring = WysylkaSub.wrapKey(publickey, secretKey);
+            byte[] ivBytes = WysylkaSub.encryptKoniec(zipfilename, partfilename, secretKey);
             decrypt(secretKey, partfilename, ivBytes);
             unzip("odkodowana.zip", "unzipfolder2");
-            int mainfilesize = Wysylka.readFilesize(mainfilename);
-            int partfilesize = Wysylka.readFilesize(partfilename);
-            String mainfilehash = Wysylka.fileSha256ToBase64(mainfilename);
-            String partfilehash = Wysylka.fileMD5ToBase64(partfilename);
+            int mainfilesize = WysylkaSub.readFilesize(mainfilename);
+            int partfilesize = WysylkaSub.readFilesize(partfilename);
+            String mainfilehash = WysylkaSub.fileSha256ToBase64(mainfilename);
+            String partfilehash = WysylkaSub.fileMD5ToBase64(partfilename);
             String plikxmlnazwa = "wysylka.xml";
             String plikxmlnazwapodpis = "wysylkapodpis.xml";
             PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), partfilename, partfilesize, partfilehash, plikxmlnazwa);
@@ -186,6 +189,10 @@ public class SzachMatJPK {
         } catch (Exception ex) {
             System.out.println("decrypt2 "+ex);
         }
+    }
+
+    private static void zachowajUPO(Object[] zwrot) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
    
 }

@@ -81,7 +81,7 @@ public class jpk_podpis {
      */
     public static void main(String[] args) {
         try {
-            JPK jpk = Wysylka.makedummyJPK();
+            JPK jpk = WysylkaSub.makedummyJPK();
             String content = new String(Files.readAllBytes(Paths.get("james2.xml")));
             podpisz(content);
         } catch (IOException ex) {

@@ -77,7 +77,7 @@ public class beanJPKwysylka {
     }
 
     public static Object[] etap1(String plikxml) {
-        Object[] zwrot = new Object[4];
+        Object[] zwrot = new Object[5];
         JSONObject jo = null;
         boolean wynik = false;
         String[] wiadomosc = new String[2];
@@ -118,11 +118,12 @@ public class beanJPKwysylka {
         zwrot[1] = wynik;
         zwrot[2] = wiadomosc;
         zwrot[3] = referenceNumber;
+        zwrot[4] = 1;
         return zwrot;
     }
 
     public static Object[] etap2(String referenceNumber, String aesfilename, JSONObject jo) {
-        Object[] zwrot = new Object[4];
+        Object[] zwrot = new Object[5];
         boolean wynik = false;
         String[] wiadomosc = new String[2];
         wiadomosc[0] = "i";
@@ -152,11 +153,12 @@ public class beanJPKwysylka {
         zwrot[1] = wynik;
         zwrot[2] = wiadomosc;
         zwrot[3] = referenceNumber;
+        zwrot[4] = 2;
         return zwrot;
     }
 
     public static Object[] etap3(String referenceNumber) {
-        Object[] zwrot = new Object[4];
+        Object[] zwrot = new Object[5];
         JSONObject jo = null;
         boolean wynik = false;
         String[] wiadomosc = new String[2];
@@ -199,9 +201,20 @@ public class beanJPKwysylka {
             } catch (JAXBException ex) {
                 Logger.getLogger(beanJPKwysylka.class.getName()).log(Level.SEVERE, null, ex);
             }
+            if (Code==200) {
+                wiadomosc[0] = "i";
+                wiadomosc[1] = "Sukces, zakończono wysyłkę bez błędów";
+                zwrot[4] = 3;
+            } else {
+                wynik = false;
+                wiadomosc[0] = "e";
+                wiadomosc[1] = "Wysyłka zakończona błędem krytycznym. "+Description;
+                zwrot[4] = 4;
+            }
         } else {
             wiadomosc[0] = "i";
             wiadomosc[1] = "Nie udało się pobrać UPO. Wystąpił błąd";
+            zwrot[4] = 4;
         }
         zwrot[0] = jo;
         zwrot[1] = wynik;

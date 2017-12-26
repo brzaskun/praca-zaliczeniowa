@@ -18,7 +18,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import static jpk.view.Wysylka.removeCryptographyRestrictions;
+import static jpk.view.WysylkaSub.removeCryptographyRestrictions;
 
 
 /**
