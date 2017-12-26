@@ -57,13 +57,14 @@ import static jpk.view.JPK_VAT2_Bean.obliczsprzedazCtrl;
 import static jpk.view.JPK_VAT2_Bean.obliczzakupCtrl;
 import static jpk.view.JPK_VAT2_Bean.podmiot1;
 import jpk201701.JPK;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
  * @author Osito
  */
 public class Wysylka {
-     public static void zipfile(String inputfilename, String outputfilename) {
+     public static void zipfile(String inputfilenamepath, String inputfilename, String outputfilename) {
         byte[] buffer = new byte[1024];
         try {
             FileOutputStream fos = new FileOutputStream(outputfilename);
@@ -74,7 +75,7 @@ public class Wysylka {
             zos.setMethod(8);
             //best compresion
             zos.setLevel(9);
-            FileInputStream in = new FileInputStream(inputfilename);
+            FileInputStream in = new FileInputStream(inputfilenamepath);
             int len;
             while ((len = in.read(buffer)) > 0) {
                 zos.write(buffer, 0, len);
@@ -98,7 +99,7 @@ public class Wysylka {
     
     
     public static SecretKey encryptAESStart(String inputfilename, String outputfilename) throws Exception {
-        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        Security.addProvider(new BouncyCastleProvider());
 //        int iterations = 65536;
 //        int keySize = 256;
 //        removeCryptographyRestrictions();
@@ -129,7 +130,7 @@ public class Wysylka {
     public static String wrapKey(PublicKey pubKey, SecretKey symKey) throws InvalidKeyException, IllegalBlockSizeException {
         try {
             final Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            cipher.init(Cipher.WRAP_MODE, publicKeyReader());
+            cipher.init(Cipher.WRAP_MODE, pubKey);
             final byte[] wrapped = cipher.wrap(symKey);
             String encoded = Base64.getEncoder().encodeToString(wrapped);
             return encoded;
@@ -139,6 +140,7 @@ public class Wysylka {
     }
     
     public static byte[] encryptKoniec(String inputfilename, String outputfilename, SecretKey seckey) throws Exception {
+        Security.addProvider(new BouncyCastleProvider());
         IvParameterSpec iv = new IvParameterSpec("kijhygtrfdcvbsge".getBytes());
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         cipher.init(Cipher.ENCRYPT_MODE, seckey, iv);
@@ -240,8 +242,8 @@ public class Wysylka {
     public static void main(String[] args) {
          try {
              PublicKey p1 = getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
-             PublicKey p2 = publicKeyReader();
-             System.out.println(""+p1.equals(p2));
+//             PublicKey p2 = publicKeyReader();
+             //System.out.println(""+p1.equals(p2));
          } catch (Exception ex) {
              Logger.getLogger(Wysylka.class.getName()).log(Level.SEVERE, null, ex);
          }
@@ -437,18 +439,18 @@ public class Wysylka {
   }
     
 
-  public static PublicKey publicKeyReader() {
-         try {
-            CertificateFactory fact = CertificateFactory.getInstance("X.509");
-            FileInputStream is = new FileInputStream ("3af5843ae11db6d94edf0ea502b5cd1a.pem");
-            X509Certificate cer = (X509Certificate) fact.generateCertificate(is);
-            PublicKey key = cer.getPublicKey();
-            return key;
-         } catch (Exception ex) {
-             Logger.getLogger(Wysylka.class.getName()).log(Level.SEVERE, null, ex);
-             return null;
-         }
-  }
+//  public static PublicKey publicKeyReader() {
+//         try {
+//            CertificateFactory fact = CertificateFactory.getInstance("X.509");
+//            FileInputStream is = new FileInputStream ("3af5843ae11db6d94edf0ea502b5cd1a.pem");
+//            X509Certificate cer = (X509Certificate) fact.generateCertificate(is);
+//            PublicKey key = cer.getPublicKey();
+//            return key;
+//         } catch (Exception ex) {
+//             Logger.getLogger(Wysylka.class.getName()).log(Level.SEVERE, null, ex);
+//             return null;
+//         }
+//  }
 
 
     public static JPK makedummyJPK() {

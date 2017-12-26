@@ -38,146 +38,193 @@ import org.json.JSONTokener;
  * @author Osito
  */
 public class beanJPKwysylka {
+
     private static String plikxml2 = "enveloped.xades";
 //    private static String plikxml = "enveloping.xades";
-    private static final String URL_STEP1 = "https://e-dokumenty.mf.gov.pl/api/Storage/InitUploadSigned";
-    private static final String URL_STEP2 = "https://e-dokumenty.mf.gov.pl/api/Storage/FinishUpload";
-    private static final String URL_STEP3 = "https://e-dokumenty.mf.gov.pl/api/Storage/Status/";
+    private static final String URL_STEP1 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/InitUploadSigned";
+    private static final String URL_STEP2 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/FinishUpload";
+    private static final String URL_STEP3 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/Status/";
 //    private static final String nazwapliku = "G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes";
-    
-    
-     public static void main(String[] args) {
-         wysylka("G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes", "enveloped.xades");
-         System.out.println("zakonczylem wysylke");
-     }
-    
-     public static String wysylka(String partfilename, String plikxml) {
+
+    public static void main(String[] args) {
+        wysylkadoMF("G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes", "enveloped.xades");
+        System.out.println("zakonczylem wysylke");
+    }
+
+    public static Object[] wysylkadoMF(String aesfilename, String plikxml) {
+        Object[] zwrot = null;
         try {
-            Object[] in = autoryzacja(plikxml, URL_STEP1);
-            int responseCode = (int) in[1];
-            if (responseCode == 200) {
-                System.out.println("Kod 200 udany etap1");
+            Object[] etap1zwrot = etap1(plikxml);
+            zwrot = etap1zwrot;
+            JSONObject jo = (JSONObject) etap1zwrot[0];
+            boolean wynik1 = (boolean) etap1zwrot[1];
+            String[] wiadomosc = (String[]) etap1zwrot[2];
+            String referenceNumber = (String) etap1zwrot[3];
+            boolean wynik2 = false;
+            if (wynik1) {
+                Object[] etap2zwrot = etap2(referenceNumber, aesfilename, jo);
+                wynik2 = (boolean) etap2zwrot[1];
+                zwrot = etap2zwrot;
             }
+            if (wynik2) {
+                Object[] etap3zwrot = etap3(referenceNumber);
+                zwrot = etap3zwrot;
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return zwrot;
+    }
+
+    public static Object[] etap1(String plikxml) {
+        Object[] zwrot = new Object[4];
+        JSONObject jo = null;
+        boolean wynik = false;
+        String[] wiadomosc = new String[2];
+        wiadomosc[0] = "i";
+        wiadomosc[1] = "Rozpoczęcie autoryzacji do serwisu";
+        String referenceNumber = null;
+        Object[] in = autoryzacja(plikxml, URL_STEP1);
+        int responseCode = (int) in[1];
+        if (responseCode == 200) {
+            wiadomosc[0] = "i";
+            wiadomosc[1] = "Udane połączenie z serwisem";
+            wynik = true;
             JSONTokener js = new JSONTokener((Reader) in[0]);
-            JSONObject jo = new JSONObject(js);
-            try {
-                String errors =  (String) jo.getJSONArray("Errors").get(0);
-                String nieudane =  jo.getString("Message");
-                System.out.println("nieudana wysylka: "+nieudane);
-                System.out.println("errors: "+errors);
-                return null;
-            } catch (Exception e1){}
-            try {
-                String nieudane =  jo.getString("Message");
-                System.out.println("duplikat wysylka: "+nieudane);
-            } catch (Exception e1){
-            }
-            String referenceNumber = "nie pobrano";
-            try {
-                referenceNumber = jo.getString("ReferenceNumber");
-            } catch (Exception e1){}
-            String[] a = new String[1];
-            JSONArray job = jo.getJSONArray("RequestToUploadFileList");
-            String uri = (String) ((JSONObject) job.get(0)).get("Url");
-            String blobname = (String) ((JSONObject) job.get(0)).get("BlobName");
-            System.out.println("ref: "+referenceNumber);
-            System.out.println("blobname: "+blobname);
-            wysylkaAzure(uri, partfilename);
-            Object[] in1 = zakonczenie(referenceNumber, blobname, URL_STEP2);
-            js = new JSONTokener((Reader) in1[0]);
             jo = new JSONObject(js);
-            responseCode = (int) in1[1];
-            if (responseCode == 200) {
-                System.out.println("Kod 200 udany etap2");
-            } else {
-                String message = jo.getString("Message");
-                String errors = ((JSONArray) jo.get("Errors")).getString(0);
-                System.out.println("message "+message);
-                System.out.println("errors "+errors);
+            referenceNumber = jo.getString("ReferenceNumber");
+            System.out.println("Kod 200 udany etap1");
+        } else {
+            JSONTokener js = new JSONTokener((Reader) in[0]);
+            jo = new JSONObject(js);
+            try {
+                String errors = (String) jo.getJSONArray("Errors").get(0);
+                String nieudane = jo.getString("Message");
+                System.out.println("nieudana wysylka: " + nieudane);
+                System.out.println("errors: " + errors);
+                wiadomosc[0] = "e";
+                wiadomosc[1] = "Błąd połączenia z serwisem " + nieudane;
+            } catch (Exception e1) {
             }
-            Object[] ink = upo(URL_STEP3, referenceNumber);
-            responseCode = (int) ink[1];
-            if (responseCode == 200) {
-                System.out.println("Kod 200 udany etap 3");
+            try {
+                String nieudane = jo.getString("Message");
+                System.out.println("duplikat wysylka: " + nieudane);
+                wiadomosc[0] = "e";
+                wiadomosc[1] = "Błąd wysyłki. " + nieudane;
+            } catch (Exception e1) {
             }
-            js = new JSONTokener((Reader) ink[0]);
+        }
+        zwrot[0] = jo;
+        zwrot[1] = wynik;
+        zwrot[2] = wiadomosc;
+        zwrot[3] = referenceNumber;
+        return zwrot;
+    }
+
+    public static Object[] etap2(String referenceNumber, String aesfilename, JSONObject jo) {
+        Object[] zwrot = new Object[4];
+        boolean wynik = false;
+        String[] wiadomosc = new String[2];
+        wiadomosc[0] = "i";
+        wiadomosc[1] = "Rozpoczęcie wysyłki pliku jpk do serwisu Azure";
+        JSONArray job = jo.getJSONArray("RequestToUploadFileList");
+        String uri = (String) ((JSONObject) job.get(0)).get("Url");
+        String blobname = (String) ((JSONObject) job.get(0)).get("BlobName");
+        System.out.println("ref: " + referenceNumber);
+        System.out.println("blobname: " + blobname);
+        wysylkaAzure(uri, aesfilename);
+        Object[] in1 = zakonczenie(referenceNumber, blobname, URL_STEP2);
+        JSONTokener js = new JSONTokener((Reader) in1[0]);
+        jo = new JSONObject(js);
+        int responseCode = (int) in1[1];
+        if (responseCode == 200) {
+            System.out.println("Kod 200 udany etap2");
+            wynik = true;
+        } else {
+            String message = jo.getString("Message");
+            String errors = ((JSONArray) jo.get("Errors")).getString(0);
+            System.out.println("message " + message);
+            System.out.println("errors " + errors);
+            wiadomosc[0] = "i";
+            wiadomosc[1] = "Nieudane wyslanie pliku do Azure "+message;
+        }
+        zwrot[0] = jo;
+        zwrot[1] = wynik;
+        zwrot[2] = wiadomosc;
+        zwrot[3] = referenceNumber;
+        return zwrot;
+    }
+
+    public static Object[] etap3(String referenceNumber) {
+        Object[] zwrot = new Object[4];
+        JSONObject jo = null;
+        boolean wynik = false;
+        String[] wiadomosc = new String[2];
+        wiadomosc[0] = "i";
+        wiadomosc[1] = "Rozpoczęcie autoryzacji do serwisu";
+        UPO upo = new UPO();
+        Object[] ink = upo(URL_STEP3, referenceNumber);
+        int responseCode = (int) ink[1];
+        if (responseCode == 200) {
+            wiadomosc[0] = "i";
+            wiadomosc[1] = "Udane połączenie z serwisem. Pobieranie UPO";
+            wynik = true;
+            System.out.println("Kod 200 udany etap 3");
+            JSONTokener js = new JSONTokener((Reader) ink[0]);
             jo = new JSONObject(js);
             Integer Code = (Integer) jo.get("Code");
             String Description = (String) jo.get("Description");
             String Details = (String) jo.get("Details");
             String Timestamp = (String) jo.get("Timestamp");
-            String Upo = (String) jo.get("Upo");
-            System.out.println("Code "+Code);
-            System.out.println("Description "+Description);
-            System.out.println("Details "+Details);
-            System.out.println("Timestamp "+Timestamp);
-            System.out.println("Upo nr: "+Upo);
-            System.out.println("Referencenumber nr: "+referenceNumber);
-            return referenceNumber;
-        } catch (Exception ex) {
-            E.e(ex);
-        }
-        return "";
-    }
-     
-    public static UPO pobierzupo(String referenceNumber) {
-        UPO upo = new UPO();
-        Object[] ink = upo(URL_STEP3, referenceNumber);
-        int responseCode = (int) ink[1];
-        if (responseCode == 200) {
-            System.out.println("Kod 200 udany etap 3");
-        }
-        JSONTokener js = new JSONTokener((Reader) ink[0]);
-        JSONObject jo = new JSONObject(js);
-        Integer Code = (Integer) jo.get("Code");
-        String Description = (String) jo.get("Description");
-        String Details = (String) jo.get("Details");
-        String Timestamp = (String) jo.get("Timestamp");
-        String UpoString = (String) jo.get("Upo");
-        System.out.println("Code " + Code);
-        System.out.println("Description " + Description);
-        System.out.println("Details " + Details);
-        System.out.println("Timestamp " + Timestamp);
-        System.out.println("Upo nr: " + UpoString);
-        System.out.println("Referencenumber nr: " + referenceNumber);
-        JAXBContext context;
-        try {
-            context = JAXBContext.newInstance(Potwierdzenie.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            int odint = UpoString.indexOf("<Potwierdzenie");
-            int doint = UpoString.indexOf("</Potwierdzenie>") + 16;
-            if (odint > -1 && doint > -1) {
-                String potw = UpoString.substring(odint, doint);
-                Potwierdzenie potwierdzenie = (Potwierdzenie) unmarshaller.unmarshal(new StringReader(potw));
-                upo.setPotwierdzenie(potwierdzenie);
-                //upo.setJpk(jpk);
-                System.out.println("");
+            String UpoString = (String) jo.get("Upo");
+            System.out.println("Code " + Code);
+            System.out.println("Description " + Description);
+            System.out.println("Details " + Details);
+            System.out.println("Timestamp " + Timestamp);
+            System.out.println("Upo nr: " + UpoString);
+            System.out.println("Referencenumber nr: " + referenceNumber);
+            JAXBContext context;
+            try {
+                context = JAXBContext.newInstance(Potwierdzenie.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                int odint = UpoString.indexOf("<Potwierdzenie");
+                int doint = UpoString.indexOf("</Potwierdzenie>") + 16;
+                if (odint > -1 && doint > -1) {
+                    String potw = UpoString.substring(odint, doint);
+                    Potwierdzenie potwierdzenie = (Potwierdzenie) unmarshaller.unmarshal(new StringReader(potw));
+                    upo.setPotwierdzenie(potwierdzenie);
+                    //upo.setJpk(jpk);
+                    System.out.println("");
+                }
+            } catch (JAXBException ex) {
+                Logger.getLogger(beanJPKwysylka.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (JAXBException ex) {
-            Logger.getLogger(beanJPKwysylka.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            wiadomosc[0] = "i";
+            wiadomosc[1] = "Nie udało się pobrać UPO. Wystąpił błąd";
         }
-        return upo;
+        zwrot[0] = jo;
+        zwrot[1] = wynik;
+        zwrot[2] = wiadomosc;
+        zwrot[3] = upo;
+        return zwrot;
     }
-        
-    
+
     private static void wysylkaAzure(String ur, String nazwapliku) {
         try {
             // Upload an image file.
             CloudBlockBlob blob = new CloudBlockBlob(new URI(ur));
             File sourceFile = new File(nazwapliku);
             blob.upload(new FileInputStream(sourceFile), sourceFile.length());
-        }
-        catch (FileNotFoundException fileNotFoundException) {
+        } catch (FileNotFoundException fileNotFoundException) {
             System.out.print("FileNotFoundException encountered: ");
             System.out.println(fileNotFoundException.getMessage());
             System.exit(-1);
-        }
-        catch (StorageException storageException) {
+        } catch (StorageException storageException) {
             System.out.print("StorageException encountered: ");
             System.out.println(storageException.getMessage());
             System.exit(-1);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.print("Exception encountered: ");
             System.out.println(e.getMessage());
             System.exit(-1);
@@ -188,21 +235,21 @@ public class beanJPKwysylka {
         Object[] zwrot = new Object[2];
         try {
             String daneautoryzujace = new String(Files.readAllBytes(Paths.get(filename)));
-            byte[] postData = daneautoryzujace.getBytes( StandardCharsets.UTF_8 );
+            byte[] postData = daneautoryzujace.getBytes(StandardCharsets.UTF_8);
             int postDataLength = postData.length;
             URL url = new URL(URL_autoryzacja);
-            HttpURLConnection conn= (HttpURLConnection) url.openConnection();           
-            conn.setDoOutput( true );
-            conn.setInstanceFollowRedirects( false );
-            conn.setRequestMethod( "POST" );
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setInstanceFollowRedirects(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("charset", "utf-8");
-            conn.setRequestProperty("Content-Length", Integer.toString( postDataLength ));
-            conn.setUseCaches( false );
-            try( DataOutputStream wr = new DataOutputStream( conn.getOutputStream())) {
-               wr.write( postData );
+            conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+            conn.setUseCaches(false);
+            try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
+                wr.write(postData);
             }
-            zwrot = pobierzwiadomosc(conn);
+            zwrot = pobierzWynikPolaczenia(conn);
         } catch (Exception e) {
             E.e(e);
         }
@@ -227,7 +274,7 @@ public class beanJPKwysylka {
             try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
                 wr.write(postData);
             }
-            zwrot = pobierzwiadomosc(conn);
+            zwrot = pobierzWynikPolaczenia(conn);
         } catch (Exception e) {
             E.e(e);
         }
@@ -243,14 +290,14 @@ public class beanJPKwysylka {
             conn.setInstanceFollowRedirects(false);
             conn.setRequestMethod("GET");
             conn.setUseCaches(false);
-            zwrot = pobierzwiadomosc(conn);
+            zwrot = pobierzWynikPolaczenia(conn);
         } catch (Exception e) {
             E.e(e);
         }
         return zwrot;
     }
-    
-    private static Object[] pobierzwiadomosc(HttpURLConnection conn) {
+
+    private static Object[] pobierzWynikPolaczenia(HttpURLConnection conn) {
         Object[] zwrot = new Object[2];
         try {
             Reader in = null;
@@ -267,5 +314,3 @@ public class beanJPKwysylka {
         return zwrot;
     }
 }
-
-    

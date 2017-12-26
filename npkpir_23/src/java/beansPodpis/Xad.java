@@ -152,7 +152,7 @@ public class Xad {
         return podpisana;
     }
     
-    public static Object[] podpiszjpk(String deklaracja) {
+    public static Object[] podpiszjpk(String deklaracja, String plikxmlnazwapodpis) {
         Object[] podpisana = null;
         try {
             //deklaracja = deklaracja.substring(38);
@@ -209,7 +209,7 @@ public class Xad {
                 ex.printStackTrace();
             }
             //podpisana = saveInput(doc);
-            saveXML(doc);
+            saveXML(doc, plikxmlnazwapodpis);
 //            validate(doc, xmlSigFactory);
 
         } catch (Exception ex) {
@@ -264,7 +264,7 @@ public class Xad {
         return null;
     }
 
-    public static void saveXML(Document document) {
+    public static void saveXML(Document document, String plikxmlnazwapodpis) {
         try {
             // creating and writing to xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -272,8 +272,7 @@ public class Xad {
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 //            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             DOMSource domSource = new DOMSource(document);
-            String filename = "wysylkapodpis.xml";
-            File outputFile = new File(filename);
+            File outputFile = new File(plikxmlnazwapodpis);
             StreamResult streamResult = new StreamResult(outputFile);
             transformer.transform(domSource, streamResult);
         } catch (TransformerConfigurationException ex) {

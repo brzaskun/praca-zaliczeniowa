@@ -60,6 +60,8 @@ public class JPK_VAT2 implements Serializable {
         List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
         JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
         generujXML(listas, listaz, sprzedazCtrl, zakupCtrl);
+        //String[] wiadomosc = SzachMatJPK.wysylka(wpisView);
+        //Msg.msg(wiadomosc[0], wiadomosc[1]);
     }
     
     public void przygotujXMLFK() {
@@ -73,6 +75,8 @@ public class JPK_VAT2 implements Serializable {
         List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
         JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
         generujXML(listas, listaz, sprzedazCtrl, zakupCtrl);
+        //String[] wiadomosc = SzachMatJPK.wysylka(wpisView);
+        //Msg.msg(wiadomosc[0], wiadomosc[1]);
     }
     
     
@@ -90,9 +94,9 @@ public class JPK_VAT2 implements Serializable {
                 jpk.setZakupCtrl(zakupCtrl);
             }
             marszajuldoplikuxml(jpk);
-            Msg.dP();
+            Msg.msg("Wygenerowano plik JPK");
         } catch(Exception e) {
-            Msg.dPe();
+            Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
             E.e(e);
         }
     }
@@ -105,8 +109,8 @@ public class JPK_VAT2 implements Serializable {
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.marshal(jpk, System.out);
             String mainfilename = "jpk"+wpisView.getPodatnikObiekt().getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
-            String plik = "build/web/resources/xml/"+mainfilename;
-            FileOutputStream fileStream = new FileOutputStream(new File(plik));
+            String absoluteDiskPath = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\xml\\";
+            FileOutputStream fileStream = new FileOutputStream(new File(absoluteDiskPath+mainfilename));
             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
             marshaller.marshal(jpk, writer);
         } catch (Exception ex) {
