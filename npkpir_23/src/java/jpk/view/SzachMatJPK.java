@@ -39,7 +39,9 @@ public class SzachMatJPK {
         //beanJPKwysylka.etap3("85cc022a0135cd960000003e0c5dfb48");
         //james.zip.aes teraz sie nazywa
         //beanJPKwysylka.etap3("8620b1f00131b6870000003f59bb9a27");
-        //wywalilem base64 zzachowania pliku aes
+        //wywalilem base64 zzachowania pliku aes I TO BYLO TOOOOOOOO :)
+        //91cd491e00b0b9c90000004528eaccdd BLAD 412
+        //8636dfe903fa6b820000003f7b28f7e8
         UPO upo = new UPO();
         Object[] zwrot = beanJPKwysylka.etap3("91cd491e00b0b9c90000004528eaccdd", upo);
         String[] message = (String[]) zwrot[2];

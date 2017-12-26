@@ -206,7 +206,7 @@ public class beanJPKwysylka {
             } catch (JAXBException ex) {
                 Logger.getLogger(beanJPKwysylka.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (Code==200) {
+            if (Code==200 || Code==120) {
                 wiadomosc[0] = "i";
                 wiadomosc[1] = "Sukces, zakończono wysyłkę bez błędów";
                 zwrot[4] = 3;

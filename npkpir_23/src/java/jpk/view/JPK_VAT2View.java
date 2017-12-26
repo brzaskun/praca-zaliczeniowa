@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -54,12 +55,20 @@ public class JPK_VAT2View implements Serializable {
     private List<UPO> lista;
     @Inject
     private UPO selected;
+    private boolean nowa0korekta1;
     
     public void init() {
         try {
             lista = uPODAO.findPodatnikRok(wpisView);
             if (lista == null) {
                 lista = new ArrayList<>();
+            } else {
+                for (UPO p : lista) {
+                    if (p.getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                        nowa0korekta1 = true;
+                        break;
+                    }
+                }
             }
         } catch (Exception e) {
             
@@ -76,7 +85,7 @@ public class JPK_VAT2View implements Serializable {
         Object[] zakup = utworzwierszjpkZakup(wiersze, EVatwpis1.class);
         List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
         JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
-        generujXML(listas, listaz, sprzedazCtrl, zakupCtrl);
+        generujXML(listas, listaz, sprzedazCtrl, zakupCtrl, nowa0korekta1);
         UPO upo = new UPO();
         String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
         Msg.msg(wiadomosc[0], wiadomosc[1]);
@@ -95,7 +104,7 @@ public class JPK_VAT2View implements Serializable {
         Object[] zakup = utworzwierszjpkZakup(wiersze, EVatwpisFK.class);
         List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
         JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
-        generujXML(listas, listaz, sprzedazCtrl, zakupCtrl);
+        generujXML(listas, listaz, sprzedazCtrl, zakupCtrl, nowa0korekta1);
         UPO upo = new UPO();
         String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
         wiadomosc = zachowajUPO(upo);
@@ -106,6 +115,8 @@ public class JPK_VAT2View implements Serializable {
     public void pobierzUPO(UPO selected) {
         try {
             String[] wiadomosc = SzachMatJPK.pobierzupo(selected.getReferenceNumber(), selected);
+            selected.setDataupo(new Date());
+            uPODAO.edit(selected);
             Msg.msg(wiadomosc[0], wiadomosc[1]);
         } catch (Exception e) {
             E.e(e);
@@ -113,11 +124,25 @@ public class JPK_VAT2View implements Serializable {
         }
     }
     
+    public void usunUPO(UPO selected) {
+        try {
+            String[] wiadomosc = SzachMatJPK.pobierzupo(selected.getReferenceNumber(), selected);
+            uPODAO.destroy(selected);
+            lista.remove(selected);
+            Msg.msg("Usunieto JPK");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie udało się usunąć JPK");
+        }
+    }
     
-    public void generujXML(List<JPK.SprzedazWiersz> listas, List<JPK.ZakupWiersz> listaz, JPK.SprzedazCtrl sprzedazCtrl, JPK.ZakupCtrl zakupCtrl) {
+    
+    public void generujXML(List<JPK.SprzedazWiersz> listas, List<JPK.ZakupWiersz> listaz, JPK.SprzedazCtrl sprzedazCtrl, JPK.ZakupCtrl zakupCtrl, boolean nowa0korekta1) {
         try {
             jpk = new JPK();
             jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
+            byte cel = nowa0korekta1 ? (byte) 2 : (byte) 1;
+            jpk.getNaglowek().setCelZlozenia(cel);
             jpk.setPodmiot1(podmiot1(wpisView));
             jpk.getSprzedazWiersz().addAll(listas);
             if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
@@ -232,6 +257,9 @@ public class JPK_VAT2View implements Serializable {
         zwrot[1] = "Rozpoczynam zachowanie UPO";
         if (upo.getCode() != 0) {
             try {
+                upo.setWprowadzil(wpisView.getWprowadzil());
+                upo.setDataupo(new Date());
+                upo.setDatajpk(new Date());
                 uPODAO.dodaj(upo);
                 zwrot[0] = "i";
                 zwrot[1] = "Udane zachowanie UPO";
@@ -284,6 +312,14 @@ public class JPK_VAT2View implements Serializable {
 
     public void setSelected(UPO selected) {
         this.selected = selected;
+    }
+
+    public boolean isNowa0korekta1() {
+        return nowa0korekta1;
+    }
+
+    public void setNowa0korekta1(boolean nowa0korekta1) {
+        this.nowa0korekta1 = nowa0korekta1;
     }
     
     

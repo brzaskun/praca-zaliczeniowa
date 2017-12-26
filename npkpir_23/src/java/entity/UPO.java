@@ -7,6 +7,7 @@ package entity;
 
 import deklaracje.upo.Potwierdzenie;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import jpk201701.JPK;
@@ -73,7 +76,16 @@ public class UPO  implements Serializable {
     private String upoString;
     @Column (name = "referenceNumber")
     private String referenceNumber;
-
+    @Column(name = "datajpk")
+    @Temporal(TemporalType.DATE)
+    private Date datajpk;
+    @Column(name = "dataupo")
+    @Temporal(TemporalType.DATE)
+    private Date dataupo;
+    @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
+    @ManyToOne
+    private Uz wprowadzil;
+    
     public UPO() {
     }
 
@@ -130,6 +142,15 @@ public class UPO  implements Serializable {
 
     public JPKSuper getJpk() {
         return jpk;
+    }
+    
+    public String getJpkWersja() {
+        String zwrot = "pierw.";
+        String cel = Byte.toString(((JPK)jpk).getNaglowek().getCelZlozenia());
+        if (cel.equals("2")) {
+            zwrot = "kor.";
+        }
+        return zwrot;
     }
 
     public void setJpk(JPKSuper jpk) {
@@ -199,6 +220,31 @@ public class UPO  implements Serializable {
     public void setReferenceNumber(String referenceNumber) {
         this.referenceNumber = referenceNumber;
     }
+
+    public Date getDatajpk() {
+        return datajpk;
+    }
+
+    public void setDatajpk(Date datajpk) {
+        this.datajpk = datajpk;
+    }
+
+    public Date getDataupo() {
+        return dataupo;
+    }
+
+    public void setDataupo(Date dataupo) {
+        this.dataupo = dataupo;
+    }
+
+    public Uz getWprowadzil() {
+        return wprowadzil;
+    }
+
+    public void setWprowadzil(Uz wprowadzil) {
+        this.wprowadzil = wprowadzil;
+    }
+    
     
     
 

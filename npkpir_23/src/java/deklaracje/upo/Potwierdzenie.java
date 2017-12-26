@@ -638,4 +638,10 @@ public class Potwierdzenie implements Serializable{
         this.wersjaSchemy = value;
     }
 
+    @Override
+    public String toString() {
+        return "nazwa Podmiotu Przyjmujacego=" + nazwaPodmiotuPrzyjmujacego + ", numer Referencyjny=" + numerReferencyjny + ", skrot Dokumentu=" + skrotDokumentu + ", nip=" + nip1 + ", kod Urzedu=" + kodUrzedu + ", kod Formularza=" + kodFormularza + ", wersja Schemy=" + wersjaSchemy;
+    }
+
+    
 }
