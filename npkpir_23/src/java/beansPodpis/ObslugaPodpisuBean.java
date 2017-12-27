@@ -27,7 +27,17 @@ public class ObslugaPodpisuBean {
     static String HASLO = "marlena1";
 //    static String PLIK = "james.xml";
     static String DRIVER = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\podpis\\cryptoCertum3PKCS.dll";
-//    
+//  
+    public static boolean moznapodpisacjpk() {
+        boolean zwrot = false;
+        Provider provider = ObslugaPodpisuBean.jestDriver();
+        KeyStore keyStore = ObslugaPodpisuBean.jestKarta(HASLO);
+        if (provider != null && keyStore != null) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+    
     public static Provider jestDriver() {
         Provider pkcs11Provider = null;
         try {

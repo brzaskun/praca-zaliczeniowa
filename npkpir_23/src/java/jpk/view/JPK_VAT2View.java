@@ -5,6 +5,7 @@
  */
 package jpk.view;
 
+import beansPodpis.ObslugaPodpisuBean;
 import dao.UPODAO;
 import data.Data;
 import embeddable.TKodUS;
@@ -101,11 +102,16 @@ public class JPK_VAT2View implements Serializable {
         JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
         generujXML(listas, listaz, sprzedazCtrl, zakupCtrl, nowa0korekta1);
         UPO upo = new UPO();
-        String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
-        Msg.msg(wiadomosc[0], wiadomosc[1]);
-        wiadomosc = zachowajUPO(upo);
-        Msg.msg(wiadomosc[0], wiadomosc[1]);
-        lista.add(upo);
+        boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacjpk();
+        if (moznapodpisac) {
+            String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
+            Msg.msg(wiadomosc[0], wiadomosc[1]);
+            wiadomosc = zachowajUPO(upo);
+            Msg.msg(wiadomosc[0], wiadomosc[1]);
+            lista.add(upo);
+        } else {
+            Msg.msg("e", "Brak karty w czytniku. Nie można wysłać JPK");
+        }
     }
     
     public void przygotujXMLFK() {
@@ -120,10 +126,15 @@ public class JPK_VAT2View implements Serializable {
         JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
         generujXML(listas, listaz, sprzedazCtrl, zakupCtrl, nowa0korekta1);
         UPO upo = new UPO();
-        String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
-        wiadomosc = zachowajUPO(upo);
-        Msg.msg(wiadomosc[0], wiadomosc[1]);
-        lista.add(upo);
+        boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacjpk();
+        if (moznapodpisac) {
+            String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
+            wiadomosc = zachowajUPO(upo);
+            Msg.msg(wiadomosc[0], wiadomosc[1]);
+            lista.add(upo);
+            } else {
+            Msg.msg("e", "Brak karty w czytniku. Nie można wysłać JPK");
+        }
     }
     
     public void pobierzUPO(UPO selected) {
