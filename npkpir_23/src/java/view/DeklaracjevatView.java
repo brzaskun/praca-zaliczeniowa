@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansPodpis.ObslugaPodpisuBean;
 import beansVAT.VATDeklaracja;
 import comparator.Vatcomparator;
 import dao.DeklaracjaVatSchemaDAO;
@@ -67,6 +68,7 @@ public class DeklaracjevatView implements Serializable {
     private SMTPSettingsDAO sMTPSettingsDAO;
     private boolean pokazZT;
     private boolean pokazZZ;
+    private boolean pokazprzyciskpodpis;
 
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();
@@ -143,6 +145,7 @@ public class DeklaracjevatView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
+        pokazprzyciskpodpisfunkcja();
         Collections.sort(wyslanenormalne, new Vatcomparator());
         RequestContext.getCurrentInstance().update("zalacznikZZ");
         RequestContext.getCurrentInstance().update("zalacznikZT");
@@ -158,6 +161,7 @@ public class DeklaracjevatView implements Serializable {
                 biezaca.setDeklaracjapodpisana((byte[]) deklaracje[0]);
                 biezaca.setDeklaracja((String) deklaracje[1]);
                 deklaracjevatDAO.edit(biezaca);
+                pokazprzyciskpodpisfunkcja();
                 Msg.msg("Udało się podpisać deklarację podpisem certyfikowanym");
             } catch (Exception e) {
                 Msg.msg("e", "Nie udało się podpisać deklaracji");
@@ -225,6 +229,20 @@ public class DeklaracjevatView implements Serializable {
         } catch (Exception e) { E.e(e); 
             
         }
+    }
+    
+    public boolean pokazprzyciskpodpisfunkcja() {
+        boolean zwrot = false;
+        pokazprzyciskpodpis = false;
+        if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+            for (Deklaracjevat d : oczekujace) {
+                if (d.getDeklaracjapodpisana()==null) {
+                    pokazprzyciskpodpis = ObslugaPodpisuBean.moznaPodpisac();
+                }
+            }
+        }
+        zwrot = pokazprzyciskpodpis;
+        return zwrot;
     }
     
     public void drukujprzygotowanedowysylki(Deklaracjevat dkl) {
@@ -352,6 +370,14 @@ public class DeklaracjevatView implements Serializable {
 
     public void setPokazZZ(boolean pokazZZ) {
         this.pokazZZ = pokazZZ;
+    }
+
+    public boolean isPokazprzyciskpodpis() {
+        return pokazprzyciskpodpis;
+    }
+
+    public void setPokazprzyciskpodpis(boolean pokazprzyciskpodpis) {
+        this.pokazprzyciskpodpis = pokazprzyciskpodpis;
     }
 
    

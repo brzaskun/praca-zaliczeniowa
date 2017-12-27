@@ -153,8 +153,8 @@
             <p:column>
                 <h:form>
                     <p:commandButton value="podpisz" actionListener="#{deklaracjevatView.podpiszdeklaracje(deklaracjevatView.oczekujace)}" 
-                                     rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta}"
-                                     update=":akordeon:form" style="width: 120px;"/>
+                                     rendered="#{deklaracjevatView.pokazprzyciskpodpisfunkcja()}"
+                                     update=":akordeon:form @form" style="width: 120px;"/>
                     <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" 
                                      rendered="#{(vat7DKView.pokazuproszczona and !WpisView.podatnikObiekt.podpiscertyfikowany) or (vat7DKView.pokazuproszczona and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta)}"
                                      update=":akordeon:form" style="width: 120px;"/>
