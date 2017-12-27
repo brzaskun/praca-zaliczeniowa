@@ -106,6 +106,18 @@ public class Vat27View implements Serializable {
         }
 
     }
+    
+    private void init2() {
+        try {
+            pobierzdeklaracje27();
+            Deklaracjavat27 d = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
+            if (d != null) {
+                deklaracja0korekta1 = true;
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
 
     private void zachowajwbazie(String rok, String symbolokresu, String klient) {
         Vatuepodatnik vatuepodatnik = new Vatuepodatnik();
@@ -173,6 +185,7 @@ public class Vat27View implements Serializable {
             deklaracjavat27DAO.destroy(d);
             deklaracjevat27.remove(d);
             Msg.dP();
+            init2();
         } catch (Exception e) {
             Msg.dPe();
         }

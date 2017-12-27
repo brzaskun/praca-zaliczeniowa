@@ -150,6 +150,18 @@ public class VatUeFKView implements Serializable {
         }
     }
     
+    private void init2() {
+        try {
+            pobierzdeklaracjeUE();
+            DeklaracjavatUE d = deklaracjavatUEDAO.findbyPodatnikRokMc(wpisView);
+            if (d != null) {
+                deklaracja0korekta1 = true;
+            }
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+    }
+    
     
 
     private void zachowajwbazie(String rok, String symbolokresu, String klient) {
@@ -335,6 +347,7 @@ public class VatUeFKView implements Serializable {
             deklaracjavatUEDAO.destroy(d);
             deklaracjeUE.remove(d);
             Msg.dP();
+            init2();
         } catch (Exception e) {
             Msg.dPe();
         }
