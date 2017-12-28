@@ -8,15 +8,33 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <bcf:ajaxs/>
+    <h:outputScript library="js_fk" name="jquery.countdown.js"/>
+    
+    
+    
     <p:outputPanel style="text-align: center;">
         <h:form>
             <p:commandButton value="resetuj serwer" actionListener="#{servereset.reset()}" style="padding: 5px;margin: 5px;"
-                             update="@form" rendered="#{servereset.pokazbutton}"/>
+                             update="@form" rendered="#{servereset.pokazbutton}" onclick="startujreset();"/>
             <h:outputText value="Rozpoczął się reset serwera. Potrwa on ok 2-3 minut. Należy po tym czasie wybrać stronę logowania i wcisnąć kombinację klawiszy Ctrl+F5 celem odświeżenia"
                           style="color: red;"  rendered="#{!servereset.pokazbutton}"/>
         </h:form>
+        <div id="getting-started" style="margin: 10px; font-size: x-large;"><span id="clock"></span></div>
     </p:outputPanel>
+    <script type="text/javascript">
+      var startujreset = function() {
+        var fiveSeconds = new Date().getTime() + 180000;
+          $('#clock').countdown(fiveSeconds, {elapse: true})
+          .on('update.countdown', function(event) {
+            var $this = $(this);
+            if (event.elapsed) {
+              $this.html(event.strftime('Moża się zalogować'));
+            } else {
+              $this.html(event.strftime('Trwa restart: <span>%H:%M:%S</span>'));
+            }
+          });;
+      };
+    </script>
 <!--    <h:form>
         <p:commandButton value="numeruj dokumenty" actionListener="#{rewolucjaPodatnikView.procKonto()}"/>
     </h:form>-->

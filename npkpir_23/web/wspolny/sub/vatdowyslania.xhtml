@@ -8,7 +8,6 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
         
     xmlns:bcf="http://brzaskun.com/facelets">
-    <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>
     <p:outputPanel id="paneldeklaracjadowyslania">
     <h:form id="formX">
         <p:growl life="3600"  id="msg" autoUpdate="true"/>
@@ -155,6 +154,7 @@
                     <p:commandButton value="podpisz" actionListener="#{deklaracjevatView.podpiszdeklaracje(deklaracjevatView.oczekujace)}" 
                                      rendered="#{deklaracjevatView.pokazprzyciskpodpisfunkcja()}"
                                      update=":akordeon:form @form" style="width: 120px;"/>
+                    <p:outputPanel rendered="#{!deklaracjevatView.pokazprzyciskpodpis}">
                     <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" 
                                      rendered="#{(vat7DKView.pokazuproszczona and !WpisView.podatnikObiekt.podpiscertyfikowany) or (vat7DKView.pokazuproszczona and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta)}"
                                      update=":akordeon:form" style="width: 120px;"/>
@@ -162,6 +162,7 @@
                                      rendered="#{vat7DKView.pokazpelna and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta}"
                                      update=":akordeon:form" style="margin-left: 3%; width: 120px;"/>
                     <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":akordeon:form" style="margin-left: 3%; width: 120px;"/>
+                    </p:outputPanel>
                 </h:form>
             </p:column>
             <p:column>

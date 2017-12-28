@@ -2,13 +2,14 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
     <ui:composition template="/templateFK.xhtml">
         <ui:define name="title">
             <h:outputText value="Księgi rachunkowe"></h:outputText>
         </ui:define>
-      
         <ui:define name="body">
+            <bcf:ajaxs/>
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <p:layoutUnit id="centralna" position="center" >
@@ -33,11 +34,7 @@
                     <ui:include src="sub/dialog/dialog_ewidencjevat_sprawdzanie.xhtml"/>
                     <ui:include src="sub/dialog/dialog_ewvat_dedra.xhtml"/>
                     <ui:include src="sub/dialog/dialog_jpk_vat.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_roznice_kursowe.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_srodki_trwale_admodok.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_rmk_rmkdok.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_cechy_zapisow_podsumowanie.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_cechy_zapisu_recznie.xhtml"/>
+                    
 <!--                    edycjadok-->
                     <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>
                     <ui:include src="sub/dialog/dialog_delegacje_stworz.xhtml"/>

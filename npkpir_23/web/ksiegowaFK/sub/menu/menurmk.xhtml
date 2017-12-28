@@ -6,10 +6,48 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:tabView id="menurmk" styleClass="menutabView" orientation="left"  style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;"> 
-                <p:tab title="rozliczenia międzyokr.">
+<!--                <p:tab title="rozliczenia międzyokr.">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
                             <p:menuitem value="wykaz rozliczeń międzyokresowych" onclick="PF('dialogrmk').show();"></p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>  -->
+        <p:tab title="różnice kursowe">
+                    <h:form id="dialog1menu2">
+                        <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przeglądanie różnic kursowych" onclick="PF('dialogroznicekursowe').show();">
+                                <f:actionListener binding="#{rozniceKursoweFKView.init()}"/>
+                            </p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>  
+                <p:tab title="środki trwałe">
+                    <h:form id="dialog1menu3">
+                        <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przeglądanie odpisy amortyzacyjne" onclick="PF('dialogsrodkitrwaleadmodok').show();">
+<!--                                <f:actionListener binding="#{srodkiTrwaleAMOView.init()}"/>
+                                <f:actionListener binding="#{STRTableView.init()}"/>-->
+                            </p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>  
+                 <p:tab title="rozliczenia m.ok.">
+                    <h:form id="dialog1menu4">
+                        <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przeglądanie rozliczeń międzyokresowych" onclick="PF('dialogrmkdok').show();">
+                                    <f:actionListener binding="#{rMKView.init()}"/>
+                                    <f:actionListener binding="#{rMKDokView.init()}"/>
+                            </p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>
+                <p:tab title="cechy zapisów">
+                    <h:form id="dialog1menu5">
+                        <p:menu id="d1m5" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przeglądanie cech zapisów w m-cu" onclick="PF('dialogcechyzapisowpodsumowanie').show();">
+                                <f:actionListener binding="#{cechyzapisuPrzegladView.init()}"/>
+                            </p:menuitem>
                         </p:menu>
                     </h:form>
                 </p:tab>  
