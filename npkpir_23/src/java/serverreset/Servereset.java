@@ -5,9 +5,9 @@
  */
 package serverreset;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -19,13 +19,31 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class Servereset {
     
+    private boolean pokazbutton;
+    
+    @PostConstruct
+    private void init() {
+        pokazbutton = true;
+    }
+    
     public void reset() {
         try {
             String path="cmd /c start G:\\payara-4.1.2.173\\bin\\reset.bat";
             Runtime rn=Runtime.getRuntime();
             Process pr=rn.exec(path);
-        } catch (IOException ex) {
+            pokazbutton = false;
+        } catch (Exception ex) {
             Logger.getLogger(Servereset.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public boolean isPokazbutton() {
+        return pokazbutton;
+    }
+
+    public void setPokazbutton(boolean pokazbutton) {
+        this.pokazbutton = pokazbutton;
+    }
+    
+    
 }
