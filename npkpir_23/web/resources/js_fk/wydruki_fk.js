@@ -173,5 +173,5 @@ var wydrukzaksiegowane = function(kto){
 };
 
 var wydrukZaksiegowaneLista = function(kto){
-    window.open('../wydruki/'+kto+'dokumentzaksiegowane.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    window.open('../wydruki/'+kto+'dokumentzaksiegowane.pdf?faces-redirect=true','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };

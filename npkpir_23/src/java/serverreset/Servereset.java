@@ -21,7 +21,7 @@ public class Servereset {
     
     public void reset() {
         try {
-            String path="cmd /c start G:\\payara-4.1.2.173\\bin\\reset.bat";
+            String path="cmd /c start G:\\payara-4.1.2.174\\bin\\reset.bat";
             Runtime rn=Runtime.getRuntime();
             Process pr=rn.exec(path);
         } catch (IOException ex) {

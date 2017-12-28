@@ -66,6 +66,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import mail.MailOther;
@@ -217,7 +218,9 @@ public class FakturaView implements Serializable {
     
     private void sprawdzczyniezniknalplik(String nazwa) {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+nazwa;
+             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwapliku = realPath+"resources/images/logo/"+nazwa;
             File oldfile = new File(nazwapliku);
             if (!oldfile.isFile()) {
                 Logofaktura logofaktura = logofakturaDAO.findByPodatnik(wpisView.getPodatnikObiekt());

@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import msg.Msg;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -124,7 +125,9 @@ public class FakturaelementygraficzneView implements Serializable {
     public void usunlogo() {
         Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
         if (element != null) {
-            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+element.getFakturaelementygraficznePK().getNazwaelementu();
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwaplikuzbazy = realPath+"resources/images/logo/"+element.getFakturaelementygraficznePK().getNazwaelementu();
             File oldfile = new File(nazwaplikuzbazy);
             if (oldfile.isFile()) {
                 oldfile.delete();
@@ -167,7 +170,9 @@ public class FakturaelementygraficzneView implements Serializable {
     
     private void zachowajpliknadysku(InputStream is,String dt, String extension) {
         try {
-           String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+           String nazwapliku = realPath+"resources/images/logo/"+wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
            FileUtils.copyInputStreamToFile(is, new File(nazwapliku));
         } catch (Exception e) { 
             E.e(e); 
@@ -176,7 +181,9 @@ public class FakturaelementygraficzneView implements Serializable {
     
     private void sprawdzczyniezniknalplik(String nazwa) {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+nazwa;
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwapliku = realPath+"resources/images/logo/"+nazwa;
             File oldfile = new File(nazwapliku);
             if (!oldfile.isFile()) {
                 Logofaktura logofaktura = logofakturaDAO.findByPodatnik(wpisView.getPodatnikObiekt());

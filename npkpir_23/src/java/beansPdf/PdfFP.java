@@ -48,6 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import msg.B;
 import org.apache.commons.lang3.ArrayUtils;
 import pdf.PdfFaktura;
@@ -302,7 +303,9 @@ public class PdfFP {
                             pozycja = zwrocPolozenieElementu(skladnikifaktury, "logo");
                             Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
                             //FacesContext.getCurrentInstance().getExternalContext().getContext().getRealPath("/")
-                            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
+                            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                            String realPath = ctx.getRealPath("/");
+                            String nazwaplikuzbazy = realPath+"resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
                             File f = new File(nazwaplikuzbazy);
                             if (f.exists()) {
                                 Image logo = Image.getInstance(nazwaplikuzbazy);
@@ -422,7 +425,9 @@ public class PdfFP {
                         if (PdfFP.czydodatkowyelementjestAktywny("logo", elementydod)) {
                             pozycja = zwrocPolozenieElementu(skladnikifaktury, "logo");
                             Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
-                            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
+                            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                            String realPath = ctx.getRealPath("/");
+                            String nazwaplikuzbazy = realPath+"resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
                             File f = new File(nazwaplikuzbazy);
                             if (f.exists()) {
                                 Image logo = Image.getInstance(nazwaplikuzbazy);

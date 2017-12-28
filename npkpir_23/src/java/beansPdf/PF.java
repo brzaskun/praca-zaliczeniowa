@@ -14,6 +14,7 @@ import error.E;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.swing.JEditorPane;
 
 /**
@@ -24,7 +25,9 @@ public class PF {
     public static Font getFont(String nazwafontu) {
         Font zwrot = null;
         try {
-            FontFactory.register("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/fonts/"+nazwafontu+".ttf");
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            FontFactory.register(realPath+"resources/fonts/"+nazwafontu+".ttf");
             zwrot = FontFactory.getFont(nazwafontu, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 8); //10 is the size
          } catch (Exception ex) {
             E.e(ex);
@@ -36,7 +39,9 @@ public class PF {
     public static Font getFont(String nazwafontu, int size) {
         Font zwrot = null;
         try {
-            FontFactory.register("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/fonts/"+nazwafontu+".ttf");
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            FontFactory.register(realPath+"resources/fonts/"+nazwafontu+".ttf");
             zwrot = FontFactory.getFont(nazwafontu, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, size); //10 is the size
          } catch (Exception ex) {
             E.e(ex);
@@ -48,8 +53,9 @@ public class PF {
     public static Font getFontColor(String nazwafontu, int size, String kolor) {
         Font zwrot = null;
         try {
-            FacesContext context = FacesContext.getCurrentInstance();
-            FontFactory.register("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/fonts/"+nazwafontu+".ttf");
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            FontFactory.register(realPath+"resources/fonts/"+nazwafontu+".ttf");
             zwrot = FontFactory.getFont(nazwafontu, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, size); //10 is the size
             zwrot.setColor(pobierzkolor(kolor));
          } catch (Exception ex) {

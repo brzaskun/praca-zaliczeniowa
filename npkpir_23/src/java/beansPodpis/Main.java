@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -41,7 +43,7 @@ public class Main {
     private static final String SIGNED      = "D:/deklsigned.xml";
     private static final String DOCUMENT    = "D:/dekl.xml";
     
-    private static String DRIVER = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\podpis\\cryptoCertum3PKCS.dll";
+    private static String DRIVER = "resources\\podpis\\cryptoCertum3PKCS.dll";
     private static String PROVIDERNAME = "SmartCardn";
     private static String HASLO = "marlena1";
     private static X509Certificate CERT;
@@ -72,8 +74,10 @@ public class Main {
         List<X509Certificate> list = new ArrayList<>();
         KeyingDataProvider
         kdp;
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/")+DRIVER;
         kdp = new PKCS11KeyStoreKeyingDataProvider(
-                DRIVER,
+                realPath,
                 PROVIDERNAME, null,
                 new KeyStoreKeyingDataProvider.KeyStorePasswordProvider() {
                     @Override
@@ -105,8 +109,10 @@ public class Main {
     private static Provider jestDriver() {
         Provider pkcs11Provider = null;
         try {
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/")+DRIVER;
             String pkcs11config = "name=SmartCardn"+"\r"
-                    + "library="+DRIVER;
+                    + "library="+realPath;
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
             ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
             pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);

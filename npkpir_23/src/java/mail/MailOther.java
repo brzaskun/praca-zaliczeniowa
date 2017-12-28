@@ -16,12 +16,14 @@ import java.util.Date;
 import java.util.List;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
+import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.servlet.ServletContext;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import plik.Plik;
@@ -56,7 +58,9 @@ public class MailOther implements Serializable{
              // attach the file to the message
              File file = Plik.plik("pkpir" + wpisView.getPodatnikWpisu().trim() + ".pdf", true);
              if (file.isFile()) {
-                FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu().trim() + ".pdf");
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                String realPath = ctx.getRealPath("/");
+                FileDataSource fds = new FileDataSource(realPath+"wydruki/pkpir" + wpisView.getPodatnikWpisu().trim() + ".pdf");
                 mbp2.setDataHandler(new DataHandler(fds));
                 mbp2.setFileName(fds.getName());
 
@@ -102,7 +106,9 @@ public class MailOther implements Serializable{
                  MimeBodyPart mbp2 = new MimeBodyPart();
                  mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
                  // attach the file to the message
-                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf");
+                 ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                 String realPath = ctx.getRealPath("/");
+                 FileDataSource fds = new FileDataSource(realPath+"wydruki/fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf");
                  mbp2.setDataHandler(new DataHandler(fds));
                  mbp2.setFileName(fds.getName());
                  
@@ -157,7 +163,9 @@ public class MailOther implements Serializable{
                  MimeBodyPart mbp2 = new MimeBodyPart();
                  mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
                  // attach the file to the message
-                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikObiekt().getNip() + ".pdf");
+                 ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                 String realPath = ctx.getRealPath("/");
+                 FileDataSource fds = new FileDataSource(realPath+"wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikObiekt().getNip() + ".pdf");
                  mbp2.setDataHandler(new DataHandler(fds));
                  mbp2.setFileName(fds.getName());
                  
@@ -209,7 +217,9 @@ public class MailOther implements Serializable{
              MimeBodyPart mbp2 = new MimeBodyPart();
              mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
              // attach the file to the message
-             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf");
+             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            FileDataSource fds = new FileDataSource(realPath+"wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf");
              mbp2.setDataHandler(new DataHandler(fds));
              mbp2.setFileName(fds.getName());
              
@@ -251,7 +261,9 @@ public class MailOther implements Serializable{
              MimeBodyPart mbp2 = new MimeBodyPart();
               mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
              // attach the file to the message
-             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + wpisView.getPodatnikWpisu() + ".pdf");
+             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                 String realPath = ctx.getRealPath("/");
+                 FileDataSource fds = new FileDataSource(realPath+"wydruki/obroty" + wpisView.getPodatnikWpisu() + ".pdf");
              mbp2.setDataHandler(new DataHandler(fds));
              mbp2.setFileName(fds.getName());
              
@@ -293,7 +305,9 @@ public class MailOther implements Serializable{
               MimeBodyPart mbp2 = new MimeBodyPart();
                mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
               // attach the file to the message
-              FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + wpisView.getPodatnikWpisu() + ".pdf");
+              ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                 String realPath = ctx.getRealPath("/");
+                 FileDataSource fds = new FileDataSource(realPath+"wydruki/srodki" + wpisView.getPodatnikWpisu() + ".pdf");
               mbp2.setDataHandler(new DataHandler(fds));
               mbp2.setFileName(fds.getName());
               
@@ -339,7 +353,9 @@ public class MailOther implements Serializable{
              mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
             // attach the file to the message
             if (stara0nowa1 == 0 && Plik.plik("vat7-13" + wpisView.getPodatnikWpisu() + ".pdf", true).isFile()) {
-                FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + wpisView.getPodatnikWpisu() + ".pdf");
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                 String realPath = ctx.getRealPath("/");
+                 FileDataSource fds = new FileDataSource(realPath+"wydruki/vat7-13" + wpisView.getPodatnikWpisu() + ".pdf");
                 mbp2.setDataHandler(new DataHandler(fds));
                 mbp2.setFileName(fds.getName());
                  // create the Multipart and add its parts to it
@@ -355,7 +371,9 @@ public class MailOther implements Serializable{
                 f.delete();
                 RequestContext.getCurrentInstance().execute("schowajmailbutton("+row+");");
             } else if (stara0nowa1 == 1 && Plik.plik(wpisView.getPodatnikObiekt().getNip()+"vat7" + ".pdf", true).isFile()) {
-                FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/" + wpisView.getPodatnikObiekt().getNip()+"vat7" + ".pdf");
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                 String realPath = ctx.getRealPath("/");
+                 FileDataSource fds = new FileDataSource(realPath+"wydruki/" + wpisView.getPodatnikObiekt().getNip()+"vat7" + ".pdf");
                 mbp2.setDataHandler(new DataHandler(fds));
                 mbp2.setFileName(fds.getName());
                   // create the Multipart and add its parts to it
@@ -397,7 +415,9 @@ public class MailOther implements Serializable{
             MimeBodyPart mbp2 = new MimeBodyPart();
              mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
             // attach the file to the message
-            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nazwaewidencji + "-" + wpisView.getPodatnikObiekt().getNip() + ".pdf");
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                 String realPath = ctx.getRealPath("/");
+                 FileDataSource fds = new FileDataSource(realPath+"wydruki/vat-" + nazwaewidencji + "-" + wpisView.getPodatnikObiekt().getNip() + ".pdf");
             if (fds.getFile().exists()) {
                 mbp2.setDataHandler(new DataHandler(fds));
                 mbp2.setFileName(fds.getName());

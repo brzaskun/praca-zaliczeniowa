@@ -20,6 +20,8 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 public class GenerateInvoice {
 
@@ -131,7 +133,9 @@ public class GenerateInvoice {
             createHeadings(cb, 502, 633, "Ext Price");
 
             //add the images
-            Image companyLogo = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/9552340951_1421956135995_logo.png");
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            Image companyLogo = Image.getInstance(realPath+"resources/images/logo/9552340951_1421956135995_logo.png");
             companyLogo.setAbsolutePosition(25, 700);
             companyLogo.scalePercent(25);
             doc.add(companyLogo);

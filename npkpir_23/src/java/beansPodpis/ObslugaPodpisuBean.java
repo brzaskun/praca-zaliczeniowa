@@ -17,6 +17,8 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.Enumeration;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 /**
  *
@@ -26,7 +28,7 @@ public class ObslugaPodpisuBean {
     
     static String HASLO = "marlena1";
 //    static String PLIK = "james.xml";
-    static String DRIVER = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\podpis\\cryptoCertum3PKCS.dll";
+    static String DRIVER = "resources\\podpis\\cryptoCertum3PKCS.dll";
 //  
     public static boolean moznapodpisacjpk() {
         boolean zwrot = false;
@@ -41,8 +43,10 @@ public class ObslugaPodpisuBean {
     public static Provider jestDriver() {
         Provider pkcs11Provider = null;
         try {
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/")+DRIVER;
             String pkcs11config = "name=SmartCardn"+"\r"
-                    + "library="+DRIVER;
+                    + "library="+realPath;
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
             ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
             pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);

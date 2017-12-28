@@ -49,7 +49,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
@@ -94,7 +96,9 @@ public class PdfFaktura extends Pdf implements Serializable {
 
     public void drukuj(Faktura selected, int row, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura" + String.valueOf(row) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwapliku = realPath+"wydruki/faktura" + String.valueOf(row) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
@@ -112,7 +116,9 @@ public class PdfFaktura extends Pdf implements Serializable {
     
     public void drukujDuplikat(Faktura selected, FakturaDuplikat duplikat, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaduplikat" + String.valueOf(duplikat.getId()) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwapliku = realPath+"wydruki/fakturaduplikat" + String.valueOf(duplikat.getId()) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
@@ -130,7 +136,9 @@ public class PdfFaktura extends Pdf implements Serializable {
     
     public void drukujPodgladfaktury(Faktura selected, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura0" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwapliku = realPath+"wydruki/faktura0" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
@@ -174,7 +182,9 @@ public class PdfFaktura extends Pdf implements Serializable {
     }
 
     public void drukujokresowa(Fakturywystokresowe selected, int row, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(row) + "firma" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwapliku = realPath+"wydruki/fakturaNr" + String.valueOf(row) + "firma" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
         File file = new File(nazwapliku);
         if (file.isFile()) {
             file.delete();
@@ -216,7 +226,9 @@ public class PdfFaktura extends Pdf implements Serializable {
             if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta) || (wierszewtabelach > 7 && jestkorekta)) {
                 Document document = new Document();
                 PdfWriter writer = writerCreate(document, nrfakt, wpisView.getPodatnikObiekt().getNip());
-                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwapliku = realPath+"wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
                 PdfFP.dodajopisdok(document);
                 document.setMargins(0, 0, 400, 20);
                 document.open();
@@ -268,7 +280,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 PdfFP.usunplik(nazwapliku);
                 reader = new PdfReader(nazwapliku1);
                 parser = new PdfReaderContentParser(reader);
-                String nazwapliku2 = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                String nazwapliku2 = realPath+"wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
                 stamper = new PdfStamper(reader, new FileOutputStream(nazwapliku2));
                 TextMarginFinder finder;
                 int n = reader.getNumberOfPages();
@@ -326,7 +338,9 @@ public class PdfFaktura extends Pdf implements Serializable {
     private PdfWriter writerCreate(Document document, int nrfakt, String NIP) {
         PdfWriter writer = null;
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ NIP + ".pdf";
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwapliku = realPath+"wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ NIP + ".pdf";
             writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
             writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
             writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
@@ -348,7 +362,9 @@ public class PdfFaktura extends Pdf implements Serializable {
     
      private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura" + String.valueOf(nrfakt) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwapliku = realPath+"wydruki/faktura" + String.valueOf(nrfakt) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
         PdfFP.dodajopisdok(document);
         document.open();

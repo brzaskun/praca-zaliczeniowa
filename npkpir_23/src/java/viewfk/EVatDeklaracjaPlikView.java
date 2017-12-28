@@ -5,16 +5,11 @@
  */
 package viewfk;
 
-import dao.EvewidencjaDAO;
 import dao.WpisDAO;
 import daoFK.EVatDeklaracjaPlikDAO;
-import daoFK.EVatwpisDedraDAO;
 import data.Data;
-import dedra.Dedraparser;
-import entity.Evewidencja;
 import entity.Wpis;
 import entityfk.EVatDeklaracjaPlik;
-import entityfk.EVatwpisDedra;
 import error.E;
 import java.io.File;
 import java.io.IOException;
@@ -22,18 +17,17 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.UploadedFile;
@@ -69,7 +63,9 @@ public class EVatDeklaracjaPlikView  implements Serializable {
         String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
         Date d = new Date();
         String dt = String.valueOf(d.getTime());
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/uploaded/deklaracjevat/"+wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"dekl."+extension;
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String nazwapliku = realPath+"resources/uploaded/deklaracjevat/"+wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"dekl."+extension;
         String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"dekl."+extension;
         File newfile = new File(nazwapliku);
         File oldfile = new File(nazwapliku);

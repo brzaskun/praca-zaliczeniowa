@@ -24,6 +24,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.apache.commons.io.FileUtils;
@@ -66,7 +67,9 @@ public class EVatDedraView  implements Serializable {
         UploadedFile uploadedFile = event.getFile();
         String filename = uploadedFile.getFileName();
         String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/uploaded/"+wpisView.getPodatnikObiekt().getNip()+"_"+"vat."+extension;
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String nazwapliku = realPath+"resources/uploaded/"+wpisView.getPodatnikObiekt().getNip()+"_"+"vat."+extension;
         File newfile = new File(nazwapliku);
         File oldfile = new File(nazwapliku);
         if (oldfile.isFile()) {

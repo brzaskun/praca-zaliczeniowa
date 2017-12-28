@@ -16,6 +16,8 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -54,7 +56,8 @@ public class SzachMatJPK {
         wiadomosc[0] = "w";
         wiadomosc[1] = "Rozpoczęcie wysyłki JPK";   
         try {
-            String dir = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\xml\\";
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String dir = ctx.getRealPath("/")+"resources\\xml\\";
             String mainfilename = "JPK-VAT-TEST-0001.xml";
 //            String mainfilename = "jpk"+wpisView.getPodatnikObiekt().getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
             String dirmainfilename = dir+mainfilename;
@@ -66,7 +69,7 @@ public class SzachMatJPK {
                 String diraesfilename = dir+aesfilename;
                 WysylkaSub.zipfile(dir+mainfilename,mainfilename,dirzipfilename);
                 SecretKey secretKey = WysylkaSub.encryptAESStart(dirzipfilename, diraesfilename);
-                PublicKey publickey = WysylkaSub.getPublicKey("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\3af5843ae11db6d94edf0ea502b5cd1a.cer");
+                PublicKey publickey = WysylkaSub.getPublicKey(dir+"3af5843ae11db6d94edf0ea502b5cd1a.cer");
                 String encryptionkeystring = WysylkaSub.wrapKey(publickey, secretKey);
                 byte[] ivBytes = WysylkaSub.encryptKoniec(dirzipfilename, diraesfilename, secretKey);
                 //decrypt2(secretKey, diraesfilename, dir, ivBytes);

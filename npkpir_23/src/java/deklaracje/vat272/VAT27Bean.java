@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -231,7 +233,8 @@ public class VAT27Bean {
             StringWriter sw = new StringWriter();
             marshaller.marshal(dekl, new StreamResult(sw));
             Document dokmt = StringToDocument(sw.toString());
-            String plik = "C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\xml\\testowa"+wpisView.getPodatnikObiekt().getNip()+".xml";
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String plik = ctx.getRealPath("/")+"resources\\xml\\testowa"+wpisView.getPodatnikObiekt().getNip()+".xml";
             FileOutputStream fileStream = new FileOutputStream(new File(plik));
             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
             marshaller.marshal(dekl, writer);

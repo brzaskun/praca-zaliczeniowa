@@ -69,6 +69,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import msg.B;
 import plik.Plik;
 import testobjects.WierszCecha;
@@ -245,7 +246,9 @@ public class PdfMain {
     
     public static void dodajQR(String nazwapliku) {
         try {
-            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/taxman.jpg";
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwaplikuzbazy = realPath+"resources/images/logo/taxman.jpg";
             String nazwa = nazwapliku;
             if (!nazwapliku.endsWith(".pdf")) {
                 nazwapliku = nazwapliku+".pdf";
@@ -276,7 +279,9 @@ public class PdfMain {
     
     public static void main(String[] args) {
         try {
-            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/taxman.jpg";
+             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwaplikuzbazy = realPath+"resources/images/logo/taxman.jpg";
             String nazwa = Plik.getKatalog()+"2.pdf";
             File f = new File(nazwaplikuzbazy);
             if(f.exists()) {

@@ -13,12 +13,14 @@ import java.io.File;
 import java.io.Serializable;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
+import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.servlet.ServletContext;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;
@@ -56,7 +58,9 @@ public class MailFaktRozrach implements Serializable{
                Msg.msg("e", "Nie odnaleziono pliku załącznika");
                return;
            }
-            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/"+ nazwa+".pdf");
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            FileDataSource fds = new FileDataSource(realPath+"wydruki/"+ nazwa+".pdf");
             mbp2.setDataHandler(new DataHandler(fds));
             mbp2.setFileName(fds.getName());
 

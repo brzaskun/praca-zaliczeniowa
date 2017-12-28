@@ -74,7 +74,7 @@ public class jpk_podpis {
     private static final String FILE = "d:/vat7a.xml";
     private static final String OUTPUTFILE = "wysylkapodpis.xml";
     private static String HASLO = "marlena1";
-    private static String DRIVER = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/podpis/cryptoCertum3PKCS.dll";
+    
 
     /**
      * @param args the command line arguments

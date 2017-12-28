@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 /**
  *
@@ -17,11 +19,12 @@ import java.util.logging.Logger;
  */
 public class Plik {
     
-    private static final String katalog = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/";
     
     public static File plik(String nazwa, boolean temp) {
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/")+"wydruki\\";
         File file = null;
-        String pelnanazwa = katalog+nazwa;
+        String pelnanazwa = realPath+nazwa;
         if (temp == true) {
             file = new File(pelnanazwa);
             file.deleteOnExit();
@@ -32,8 +35,10 @@ public class Plik {
     }
     
     public static FileOutputStream plikR(String nazwa) {
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/")+"wydruki\\";
         FileOutputStream fileOutputStream = null;
-        String pelnanazwa = katalog+nazwa;
+        String pelnanazwa = realPath+nazwa;
         try {
             fileOutputStream = new FileOutputStream(pelnanazwa);
         } catch (FileNotFoundException ex) {
@@ -44,7 +49,9 @@ public class Plik {
     }
 
     public static String getKatalog() {
-        return katalog;
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/")+"wydruki\\";
+        return realPath;
     }
 
     public static void usun(String nazwa) {

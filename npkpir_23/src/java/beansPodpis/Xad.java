@@ -71,8 +71,8 @@ public class Xad {
 
     private static final String FILE = "d:/vat7a.xml";
     private static final String OUTPUTFILE = "d:/plik.xml";
-    private static String HASLO = "marlena1";
-    private static String DRIVER = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/podpis/cryptoCertum3PKCS.dll";
+    private static final String HASLO = "marlena1";
+
 
     /**
      * @param args the command line arguments

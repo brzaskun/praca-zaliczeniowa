@@ -8,7 +8,6 @@ package xls;
 import embeddablefk.TreeNodeExtended;
 import entity.Rodzajedok;
 import entityfk.Konto;
-import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,6 +17,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -28,7 +29,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFName;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -40,7 +40,7 @@ import view.WpisView;
  * @author Osito
  */
 public class WriteXLSFile {
-    private static final String FILE_PATH = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/xlsfile.xlsx";
+    private static final String FILE_PATH1 = "wydruki/xlsfile.xlsx";
     //We are making use of a single instance to prevent multiple write access to same file.
     private static final WriteXLSFile INSTANCE = new WriteXLSFile();
 
@@ -97,6 +97,9 @@ public class WriteXLSFile {
         sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
         sheet.setFitToPage(true);
         //write this workbook in excel file.
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
         try {
             FileOutputStream fos = new FileOutputStream(FILE_PATH);
             workbook.write(fos);
@@ -130,6 +133,9 @@ public class WriteXLSFile {
       //set paper size
         sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
         sheet.setFitToPage(true);
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
         //write this workbook in excel file.
         try {
             FileOutputStream fos = new FileOutputStream(FILE_PATH);
@@ -167,6 +173,9 @@ public class WriteXLSFile {
         sheet.setFitToPage(true);
         sheet.getPrintSetup().setLandscape(true);
         //write this workbook in excel file.
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
         try {
             FileOutputStream fos = new FileOutputStream(FILE_PATH);
             workbook.write(fos);
@@ -202,6 +211,9 @@ public class WriteXLSFile {
         sheet.setFitToPage(true);
         sheet.getPrintSetup().setLandscape(true);
         //write this workbook in excel file.
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
         try {
             FileOutputStream fos = new FileOutputStream(FILE_PATH);
             workbook.write(fos);
@@ -237,6 +249,9 @@ public class WriteXLSFile {
         sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
         sheet.setFitToPage(true);
         //write this workbook in excel file.
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
         try {
             FileOutputStream fos = new FileOutputStream(FILE_PATH);
             workbook.write(fos);
