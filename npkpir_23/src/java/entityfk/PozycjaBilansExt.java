@@ -8,15 +8,6 @@ import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *

@@ -8,6 +8,7 @@ package entityfk;
 
 import entity.Podatnik;
 import java.io.Serializable;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MiejscePrzychodow.findByPodatnikWszystkie", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik ORDER BY m.opismiejsca"),
     @NamedQuery(name = "MiejscePrzychodow.findByPodatnikRok", query = "SELECT m FROM MiejscePrzychodow m WHERE m.podatnikObj = :podatnik AND m.rok = :rok ORDER BY m.opismiejsca"),
 })
+@Cacheable
 public class MiejscePrzychodow extends MiejsceSuper implements Serializable {
     protected static final long serialVersionUID = 1L;
     @Column(name = "poczatek")

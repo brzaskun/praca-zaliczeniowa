@@ -6,6 +6,7 @@ package entityfk;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "KontopozycjaBiezaca.findByUkladBilansowe", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = true"),
     @NamedQuery(name = "KontopozycjaBiezaca.findByKontoId", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.kontoID.id = :kontoId"),
     @NamedQuery(name = "KontopozycjaBiezaca.findByRok", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.ukladBR.rok = :rok")})
+@Cacheable
 public class KontopozycjaBiezaca extends KontopozycjaSuper implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -7,6 +7,7 @@ package entityfk;
 
 import entity.Podatnik;
 import java.io.Serializable;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MiejsceKosztow.findByPodatnikWszystkie", query = "SELECT m FROM MiejsceKosztow m WHERE m.podatnikObj = :podatnik ORDER BY m.opismiejsca"),
     @NamedQuery(name = "MiejsceKosztow.countByPodatnik", query = "SELECT COUNT(d) FROM MiejsceKosztow d WHERE d.podatnikObj = :podatnik AND d.pokaz0chowaj1 = 0"),
 })
+@Cacheable
 public class MiejsceKosztow extends MiejsceSuper implements Serializable {
         
     public MiejsceKosztow() {

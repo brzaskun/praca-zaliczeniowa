@@ -4,13 +4,12 @@
  */
 package entityfk;
 
-import embeddable.Mce;
 import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
+import javax.persistence.Cacheable;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -51,6 +50,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PozycjaRZiS.findByRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.rok = :rok"),
     @NamedQuery(name = "PozycjaRZiS.findByUkladPodRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
     @NamedQuery(name = "PozycjaRZiS.findByUklad", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad")})
+@Cacheable
 public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
     
     @Transient

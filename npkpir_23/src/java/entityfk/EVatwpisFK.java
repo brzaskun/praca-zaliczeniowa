@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -44,11 +45,12 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private double vatwwalucie;
     @Column(name = "brutto")
     private double brutto;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Wiersz wiersz;
+    @OneToOne(fetch = FetchType.EAGER)
     private Klienci klient;
     @Column(name = "datadokumentu")
     private String datadokumentu;
