@@ -120,7 +120,7 @@ public class EwidencjaVatView implements Serializable {
     private List<EVatViewPola> filteredwierszeewidencji;
     private List<EVatViewPola> zachowanewybranewierszeewidencji;
     private Evewidencja ewidencjazakupu;
-    private String ewidencjadosprawdzania;
+//    private String ewidencjadosprawdzania;
     private List<EVatViewPola> wybranaewidencja;
     private List<EVatwpis1> ewidencjeZdokumentu;
     private List<EVatwpisFK> ewidencjeZdokumentuFK;
@@ -944,9 +944,9 @@ public class EwidencjaVatView implements Serializable {
         }
     }
      
-     public void wybierzewidencje() {
-         wybranaewidencja = listaewidencji.get(ewidencjadosprawdzania);
-     }
+//     public void wybierzewidencje() {
+//         wybranaewidencja = listaewidencji.get(ewidencjadosprawdzania);
+//     }
      @Inject
      private EVatwpis1DAO eVatwpis1DAO;
              
@@ -1356,14 +1356,14 @@ public class EwidencjaVatView implements Serializable {
     public void setNazwyewidencji(List<String> nazwyewidencji) {
         this.nazwyewidencji = nazwyewidencji;
     }
-
-    public String getEwidencjadosprawdzania() {
-        return ewidencjadosprawdzania;
-    }
-
-    public void setEwidencjadosprawdzania(String ewidencjadosprawdzania) {
-        this.ewidencjadosprawdzania = ewidencjadosprawdzania;
-    }
+//
+//    public String getEwidencjadosprawdzania() {
+//        return ewidencjadosprawdzania;
+//    }
+//
+//    public void setEwidencjadosprawdzania(String ewidencjadosprawdzania) {
+//        this.ewidencjadosprawdzania = ewidencjadosprawdzania;
+//    }
 
     public void setSumaprzesunietychBardziejPrzychody(double sumaprzesunietychBardziejPrzychody) {
         this.sumaprzesunietychBardziejPrzychody = sumaprzesunietychBardziejPrzychody;

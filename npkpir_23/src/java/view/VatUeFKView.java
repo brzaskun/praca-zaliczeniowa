@@ -39,7 +39,6 @@ import pdf.PdfVatUE;
 import pdffk.PdfVIES;
 import vies.VIESCheckBean;
 import vies.Vies;
-import waluty.Z;
 
 /**
  *
@@ -133,11 +132,11 @@ public class VatUeFKView implements Serializable {
                         }
                 }
             }
-            if (klienciWDTWNT.size() > 0) {
-                VatUe rzadpodsumowanie = new VatUe("podsum.", null, Z.z(sumanettovatue), Z.z(sumanettovatuewaluta));
-                klienciWDTWNT.add(rzadpodsumowanie);
-                zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
-            }
+//            if (klienciWDTWNT.size() > 0) {
+//                VatUe rzadpodsumowanie = new VatUe("podsum.", null, Z.z(sumanettovatue), Z.z(sumanettovatuewaluta));
+//                klienciWDTWNT.add(rzadpodsumowanie);
+//                zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
+//            }
         }
         try {
             pobierzdeklaracjeUE();

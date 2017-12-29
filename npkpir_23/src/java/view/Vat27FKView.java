@@ -158,7 +158,7 @@ public class Vat27FKView implements Serializable {
         } catch (Exception e) { E.e(e); };
         try {
             vatuepodatnikDAO.dodaj(vatuepodatnik);
-            Msg.msg("i", "Zachowano dane do VAT-EU");
+            Msg.msg("i", "Zachowano dane do VAT-27");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Błąd podczas zachowywania danych do VAT-UE");
         }
