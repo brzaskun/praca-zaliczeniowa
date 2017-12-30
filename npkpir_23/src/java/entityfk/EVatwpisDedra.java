@@ -18,8 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 /**
@@ -28,9 +26,6 @@ import javax.validation.constraints.Size;
  */
 @Named
 @Entity
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"ewidencja", "podid", "rok","nrkolejnywserii","seriadokfk", "WIERSZ_idwiersza", "KLIENT_id"})
-})
 @NamedQueries({
     @NamedQuery(name = "EVatwpisDedra.findByPodatnik", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik"),
     @NamedQuery(name = "EVatwpisDedra.findByPodatnikRok", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok"),

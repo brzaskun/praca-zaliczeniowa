@@ -40,7 +40,7 @@ import view.WpisView;
  * @author Osito
  */
 @Entity
-@Table(name = "konto", uniqueConstraints = {@UniqueConstraint(columnNames={"podatnik","pelnynumer","rok"})})
+@Table(name = "konto", uniqueConstraints = {@UniqueConstraint(columnNames={"podid","pelnynumer","rok"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Konto.findAll", query = "SELECT k FROM Konto k"),

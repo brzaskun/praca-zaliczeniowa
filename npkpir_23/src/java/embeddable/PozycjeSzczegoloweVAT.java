@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
     
 
@@ -209,7 +210,7 @@ public class PozycjeSzczegoloweVAT implements Serializable {
         poleI69=0;
         poleI70=0;
     }
-    
+    @Transient
     public List<PP> getPozycje() {
         List<PP> lista = new ArrayList<>();
         for(int i = 10;i<42;i++){

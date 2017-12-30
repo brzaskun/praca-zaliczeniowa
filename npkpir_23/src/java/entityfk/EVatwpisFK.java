@@ -27,7 +27,7 @@ import javax.persistence.UniqueConstraint;
 @Named
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"ewidencja", "podatnikObj", "rok","nrkolejnywserii","seriadokfk", "WIERSZ_idwiersza", "KLIENT_id"})
+    @UniqueConstraint(columnNames = {"ewidencja", "dokid", "WIERSZ_idwiersza", "KLIENT_id"})
 })
 @NamedQueries({
     @NamedQuery(name = "EVatwpisFK.findByWiersz", query = "SELECT k FROM EVatwpisFK k WHERE k.wiersz = :wiersz"),

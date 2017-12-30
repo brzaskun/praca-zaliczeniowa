@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Kliencifk.findAll", query = "SELECT k FROM Kliencifk k")
+    @NamedQuery(name = "Vies.findAll", query = "SELECT k FROM Vies k")
 })
 @Cacheable
 public class Vies implements Serializable {

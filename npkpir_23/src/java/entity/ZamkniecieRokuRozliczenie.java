@@ -30,7 +30,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "zamkniecieRokuRozliczenie", uniqueConstraints = {
-    @UniqueConstraint(columnNames={"podatnikObj", "zamkniecieRokuEtap"})
+    @UniqueConstraint(columnNames={"podid", "zamkniecieRokuEtap"})
 })
 @NamedQueries({
     @NamedQuery(name = "ZamkniecieRokuRozliczenie.findAll", query = "SELECT e FROM ZamkniecieRokuRozliczenie e"),

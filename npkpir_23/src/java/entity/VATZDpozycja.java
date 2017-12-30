@@ -9,7 +9,6 @@ import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +26,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "VATZDpozycja", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"dok", "seriadokfk", "nrkolejnywserii","podatnikObj","rok","deklaracjavat"})}
+    @UniqueConstraint(columnNames = {"dok", "dokid", "deklaracjevat"})}
 )
 public class VATZDpozycja implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -37,13 +36,13 @@ public class VATZDpozycja implements Serializable {
     @Column(name = "id")
     private Integer id;
     @JoinColumn(name = "dok", referencedColumnName = "id_dok")
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     private Dok dok;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
     @JoinColumn(name = "deklaracjevat", referencedColumnName = "id")
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     private Deklaracjevat deklaracjavat;
     @Size(max = 4)
     @Column(name = "rokZD")

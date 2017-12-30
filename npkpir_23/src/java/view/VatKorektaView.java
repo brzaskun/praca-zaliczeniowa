@@ -167,13 +167,13 @@ public class VatKorektaView implements Serializable {
     public void wybranoDeklaracje(){
         if (deklaracjaVAT instanceof Deklaracjevat) {
             pokazFormularze = true;
-            Msg.msg(String.format("Wybrano deklaracje nr: %s. Wpisz dokumenty koryguj\u0105ce", deklaracjaVAT.getId()));
+            Msg.msg(String.format("Wybrano deklaracje nr: %s. Wpisz dokumenty koryguj\u0105ce", deklaracjaVAT));
         }
         
     }
     
     public void dodajDok(){
-        if (deklaracjaVAT.getId() != null) {
+        if (deklaracjaVAT != null) {
             double netto = 0.0;
             double vat = 0.0;
             for (EwidencjaAddwiad p : vatKorektaDok.getEwidencjaVAT()) {
@@ -181,7 +181,7 @@ public class VatKorektaView implements Serializable {
                 vat += p.getVat();
             }
             vatKorektaDok.setId(listadokumentowDoKorekty.size()+1);
-            vatKorektaDok.setIdDeklaracji(deklaracjaVAT.getId());
+//            vatKorektaDok.setIdDeklaracji(deklaracjaVAT.getId());
             vatKorektaDok.setNetto(netto);
             vatKorektaDok.setVat(vat);
             vatKorektaDok.setBrutto(netto+vat);
@@ -249,7 +249,7 @@ public class VatKorektaView implements Serializable {
         deklaracjaVATPoKorekcie.setOpis("");
         deklaracjaVATPoKorekcie.setDataupo(null);
         deklaracjaVATPoKorekcie.setDatazlozenia(null);
-        deklaracjaVATPoKorekcie.setId(null);
+//        deklaracjaVATPoKorekcie.setId(null);
         deklaracjaVATPoKorekcie.setPodsumowanieewidencji(sumaewidencjiNowakorekta);
         deklaracjaVATPoKorekcie.setOrdzu("Korekta");
         deklaracjaVATPoKorekcie.setVatzt(null);

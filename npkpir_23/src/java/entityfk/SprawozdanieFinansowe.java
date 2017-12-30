@@ -29,7 +29,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"podatnik","rok","element"})
+    @UniqueConstraint(columnNames = {"podid","rok"})
 })
 @NamedQueries({
     @NamedQuery(name = "SprawozdanieFinansowe.findByPodatnikRok", query = "SELECT m FROM SprawozdanieFinansowe m WHERE m.podatnik = :podatnik AND m.rok = :rok"),

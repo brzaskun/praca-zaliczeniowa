@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Embeddable;
+import javax.persistence.Lob;
 
 /**
  *
@@ -27,6 +28,7 @@ public class Vatpoz implements Serializable {
     private String nazwaurzedu;
     private String podatnik;
     private PozycjeSzczegoloweVAT pozycjeszczegolowe;
+    @Lob
     private List<DeklaracjaVatPozycjeKoncowe> pozycjekoncowe;
     private String rok;
     private String regon;
@@ -128,7 +130,7 @@ public class Vatpoz implements Serializable {
     public void setRodzajdeklaracji(String rodzajdeklaracji) {
         this.rodzajdeklaracji = rodzajdeklaracji;
     }
-
+    @Lob
     public List<DeklaracjaVatPozycjeKoncowe> getPozycjekoncowe() {
         return pozycjekoncowe;
     }
