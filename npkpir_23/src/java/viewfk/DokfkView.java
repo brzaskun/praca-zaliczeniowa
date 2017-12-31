@@ -39,8 +39,8 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
-import embeddable.EVatViewPola;
 import embeddable.Parametr;
+import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -1576,7 +1576,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void znajdzDokumentOznaczDoPodswietlenia(List<EVatViewPola> stronawiersza) {
+    public void znajdzDokumentOznaczDoPodswietlenia(List<EVatwpisSuper> stronawiersza) {
         if (stronawiersza != null) {
             Dokfk odnalezionywbazie = stronawiersza.get(0).getDokfk();
             selected = odnalezionywbazie;

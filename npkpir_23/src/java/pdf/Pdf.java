@@ -11,7 +11,6 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.lowagie.tools.Executable;
 import dao.AmoDokDAO;
-import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
 import dao.VATDeklaracjaKorektaDokDAO;
@@ -110,9 +109,6 @@ public class Pdf implements Serializable {
     protected WpisView wpisView;
     @ManagedProperty(value = "#{obrotyView}")
     protected ObrotyView obrotyView;
-
-    @Inject
-    protected EwidencjeVatDAO ewidencjeVatDAO;
     @Inject
     protected UzDAO uzDAO;
     @Inject

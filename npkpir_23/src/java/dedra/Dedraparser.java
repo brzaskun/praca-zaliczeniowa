@@ -5,7 +5,8 @@
  */
 package dedra;
 
-import embeddable.EVatViewPola;
+
+import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Podatnik;
 import entityfk.EVatwpisDedra;
@@ -126,7 +127,7 @@ public class Dedraparser {
             NodeList nList = doc.getElementsByTagName("A1");
             System.out.println("----------------------------");
             for (int temp = 0; temp < nList.getLength(); temp++) {
-                EVatViewPola p = new EVatViewPola();
+                EVatwpisSuper p = new EVatwpisSuper();
                 Node nNode = nList.item(temp);
                 System.out.println("\nCurrent Element :" + nNode.getNodeName());
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {

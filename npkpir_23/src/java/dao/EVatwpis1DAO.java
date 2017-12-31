@@ -5,6 +5,7 @@
  */
 package dao;
 
+import embeddable.Kwartaly;
 import entity.EVatwpis1;
 import error.E;
 import java.io.Serializable;
@@ -29,4 +30,13 @@ public class EVatwpis1DAO  extends DAO implements Serializable {
             return null;
         }
    }
+
+    public List<EVatwpis1> zwrocBiezacegoKlientaRokMc(String podatnikWpisu, String rokWpisuSt, String miesiacWpisu) {
+        return sessionFacade.zwrocEVatwpis1KlientRokMc(podatnikWpisu, rokWpisuSt, miesiacWpisu);
+    }
+
+    public List<EVatwpis1> zwrocBiezacegoKlientaRokKW(String podatnikWpisu, String rokWpisuSt, String miesiacWpisu) {
+        List<String> mce = Kwartaly.mctoMcewKw(miesiacWpisu);
+        return sessionFacade.zwrocEVatwpis1KlientRokKw(podatnikWpisu, rokWpisuSt, mce);
+    }
 }

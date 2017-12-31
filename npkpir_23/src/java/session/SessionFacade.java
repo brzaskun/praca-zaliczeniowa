@@ -14,9 +14,9 @@ import entity.DeklaracjavatUE;
 import entity.Deklaracjevat;
 import entity.Dok;
 import entity.EVatOpis;
+import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Evpozycja;
-import entity.Ewidencjevat;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.FakturaStopkaNiemiecka;
@@ -251,10 +251,6 @@ public class SessionFacade<T> implements Serializable {
         return tmp;
     }
 
-    public Ewidencjevat findEwidencjeVAT(String rok, String mc, String pod) {
-        Ewidencjevat tmp = (Ewidencjevat) em.createQuery("SELECT p FROM  Ewidencjevat p WHERE p.rok = :rok AND p.miesiac = :miesiac AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
-        return tmp;
-    }
 
     public Uz findUzNP(String login) {
         Uz zwrot = null;
@@ -2117,6 +2113,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<UPO> findUPOPodatnikRok(Podatnik podatnikObiekt, String rokWpisuSt) {
         return em.createNamedQuery("UPO.findUPOPodatnikRok").setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikObiekt).getResultList();
+    }
+
+    public List<EVatwpis1> zwrocEVatwpis1KlientRokMc(String podatnikWpisu, String rokWpisuSt, String miesiacWpisu) {
+        return em.createNamedQuery("EVatwpis1.findByRokMc").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
+    }
+
+    public List<EVatwpis1> zwrocEVatwpis1KlientRokKw(String podatnikWpisu, String rokWpisuSt, List<String> mce) {
+        return em.createNamedQuery("EVatwpis1.findByRokKW").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList();
     }
 
     

@@ -19,7 +19,6 @@ import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.VATDeklaracjaKorektaDokDAO;
 import deklaracjaVAT7_13.VAT713;
-import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
 import embeddable.Kwartaly;
@@ -30,6 +29,7 @@ import embeddable.VatKorektaDok;
 import embeddable.Vatpoz;
 import entity.DeklaracjaVatSchema;
 import entity.Deklaracjevat;
+import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Podatnik;
@@ -202,12 +202,12 @@ public class VatKorektaView implements Serializable {
         vATDeklaracjaKorektaDok.setDeklaracjaPierwotna(deklaracjaVAT);
         vATDeklaracjaKorektaDok.setNowaWartoscVatZPrzeniesienia(nowaWartoscVatZPrzeniesienia);
         vATDeklaracjaKorektaDok.setListadokumentowDoKorekty(listadokumentowDoKorekty);
-        List<EVatViewPola> listadokvatprzetworzona = new ArrayList<>();
+        List<EVatwpisSuper> listadokvatprzetworzona = new ArrayList<>();
         /**
          * Sporzadza i przeksztalca dokumenty korekty w ewidencje vat
          */
         EwidencjaVATSporzadzanie.transferujDokdoEVatwpis(listadokumentowDoKorekty, listadokvatprzetworzona, wpisView.getRokWpisuSt() , wpisView.getMiesiacWpisu());
-        HashMap<String, List<EVatViewPola>> listaewidencji = new HashMap<>();
+        HashMap<String, List<EVatwpisSuper>> listaewidencji = new HashMap<>();
         HashMap<String, EVatwpisSuma> sumaewidencjiPierwotna = new HashMap<>();
         EwidencjaVATSporzadzanie.rozdzielEVatwpisNaEwidencje(listadokvatprzetworzona, listaewidencji, sumaewidencjiPierwotna, evewidencjaDAO);
         ArrayList<EVatwpisSuma> ewidencjeUzupelniane = new ArrayList<>(sumaewidencjiPierwotna.values());

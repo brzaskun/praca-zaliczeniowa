@@ -12,7 +12,6 @@ import dao.DeklaracjaVatSchemaPozKoncoweDAO;
 import dao.DeklaracjaVatSchemaWierszSumDAO;
 import dao.DeklaracjevatDAO;
 import dao.EvpozycjaDAO;
-import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
 import dao.SchemaEwidencjaDAO;
 import deklaracjaVAT7_13.VAT713;
@@ -33,7 +32,6 @@ import entity.Podatnik;
 import entity.SchemaEwidencja;
 import error.E;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,12 +63,12 @@ public class Vat7DKView implements Serializable {
     private Deklaracjevat nowadeklaracja;
     @ManagedProperty(value = "#{WpisView}")
     protected WpisView wpisView;
+    @ManagedProperty(value = "#{ewidencjaVatView}")
+    private EwidencjaVatView ewidencjaVatView;
     @Inject
     private Vatpoz pozycjeDeklaracjiVAT;
     @Inject
     private PodatnikDAO podatnikDAO;
-    @Inject
-    private EwidencjeVatDAO ewidencjeVatDAO;
     @Inject
     private EvpozycjaDAO evpozycjaDAO;
     @Inject
@@ -193,7 +191,19 @@ public class Vat7DKView implements Serializable {
 //        }
 //    }
     
-    public void obliczNowa() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void obliczNowaPkpir() {
+        ewidencjaVatView.stworzenieEwidencjiZDokumentow();
+        mapaewidencji =  ewidencjaVatView.getSumaewidencji();
+        obliczNowa();
+    }
+    public void obliczNowaFK() {
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
+        mapaewidencji =  ewidencjaVatView.getSumaewidencji();
+        obliczNowa();
+    }
+    
+    
+    public void obliczNowa() {
         flaga = 0;
         flagazt = false;
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -203,7 +213,6 @@ public class Vat7DKView implements Serializable {
         }
         List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
         pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, schemyLista);
-        mapaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
         ArrayList<EVatwpisSuma> pobraneewidencje = new ArrayList<>(mapaewidencji.values());
         schemawierszsumarycznylista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(pasujacaSchema);
         wygenerujwierszesumaryczne(pobraneewidencje, schemawierszsumarycznylista);
@@ -314,7 +323,6 @@ public class Vat7DKView implements Serializable {
     public void przelicznaliczony(ValueChangeEvent e) {
         DeklaracjaVatSchemaWierszSum przeniesienie = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota nadwyżki z poprzedniej deklaracji");
         przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(((Integer) e.getNewValue()));
-        HashMap<String, EVatwpisSuma> mapaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
         ArrayList<EVatwpisSuma> pobraneewidencje = new ArrayList<>(mapaewidencji.values());
         for (DeklaracjaVatSchemaWierszSum p : schemawierszsumarycznylista) {
             if (p.getCzescdeklaracji().equals("D") && !p.getDeklaracjaVatWierszSumaryczny().getNazwapozycji().equals("Kwota nadwyżki z poprzedniej deklaracji")) {
@@ -1086,6 +1094,14 @@ public class Vat7DKView implements Serializable {
 
     public void setFlagazt(boolean flagazt) {
         this.flagazt = flagazt;
+    }
+
+    public EwidencjaVatView getEwidencjaVatView() {
+        return ewidencjaVatView;
+    }
+
+    public void setEwidencjaVatView(EwidencjaVatView ewidencjaVatView) {
+        this.ewidencjaVatView = ewidencjaVatView;
     }
 
     

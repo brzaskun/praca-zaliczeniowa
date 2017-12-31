@@ -52,6 +52,20 @@ public class EvewidencjaDAO extends DAO implements Serializable {
         }
    }
     
+    public  Map<String, Evewidencja> findAllMapByPole(){
+        try {
+            List<Evewidencja> pobraneewidencje = findAll();
+            Collections.sort(pobraneewidencje, new Evewidencjacomparator());
+            Map<String,Evewidencja> mapaewidencji = new HashMap<>();
+            for (Evewidencja p : pobraneewidencje) {
+                mapaewidencji.put(p.getPole(), p);
+            }
+            return mapaewidencji;
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+   }
+    
     public Evewidencja znajdzponazwie(String nazwa)  {
         Evewidencja tmp = new Evewidencja();
         try {

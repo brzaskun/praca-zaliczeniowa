@@ -10,6 +10,7 @@ import dao.UPODAO;
 import data.Data;
 import embeddable.TKodUS;
 import entity.EVatwpis1;
+import entity.EVatwpisSuper;
 import entity.UPO;
 import entityfk.EVatwpisFK;
 import error.E;
@@ -95,7 +96,7 @@ public class JPK_VAT2View implements Serializable {
     public void przygotujXML() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentow();
-        List<EVatwpis1> wiersze = ewidencjaVatView.getEwidencjeZdokumentu();
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpis1.class);
         List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
         JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];
@@ -119,7 +120,7 @@ public class JPK_VAT2View implements Serializable {
     public void przygotujXMLFK() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
-        List<EVatwpisFK> wiersze = ewidencjaVatView.getEwidencjeZdokumentuFK();
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpisFK.class);
         List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
         JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];

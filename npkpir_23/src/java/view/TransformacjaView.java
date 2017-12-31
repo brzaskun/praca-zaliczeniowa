@@ -254,21 +254,21 @@ public class TransformacjaView implements Serializable{
 //            listaWszystkichDok.addAll(deklaracjevatDAO.findAll());
 //            //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
 //            for (Deklaracjevat p : listaWszystkichDok) {
-//                HashMap<String,List<EVatViewPola>> stareEwidencje = p.getEwidencje();
+//                HashMap<String,List<EVatwpisSuper>> stareEwidencje = p.getEwidencje();
 //                List<EwidencjevatDeklaracja> nowyEVatwpis = new ArrayList<>();
 //                if (stareEwidencje != null) {
 //                    List<String> klucze = new ArrayList<>();
 //                    klucze.addAll(stareEwidencje.keySet());
 //                    for (String t : klucze) {
 //                        EwidencjevatDeklaracja nowywpis = new EwidencjevatDeklaracja();
-//                        List<EVatViewPola> pobranepola = stareEwidencje.get(t);
+//                        List<EVatwpisSuper> pobranepola = stareEwidencje.get(t);
 //                        EVatwpisSuma eVatwpisSuma = p.getPodsumowanieewidencji().get(t);
 //                        nowywpis.setDeklaracja(p);
 //                        Evewidencja evewidencja = new Evewidencja();
 //                        try {
 //                            evewidencja = evewidencjaDAO.znajdzponazwie(pobranepola.get(0).getNazwaewidencji());
 //                        } catch (Exception e) { E.e(e); }
-//                        EVatViewPola wiersz = pobranepola.get(0);
+//                        EVatwpisSuper wiersz = pobranepola.get(0);
 //                        nowywpis.setEwidencja(evewidencja);
 //                        nowywpis.setMiesiac(wiersz.getDataSprz().substring(5,7));
 //                        nowywpis.setPodatnik(p.getPodatnik());

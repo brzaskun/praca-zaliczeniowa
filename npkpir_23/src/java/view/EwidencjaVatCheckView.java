@@ -4,8 +4,9 @@
  */
 package view;
 
-import embeddable.EVatViewPola;
+
 import embeddablefk.SaldoKonto;
+import entity.EVatwpisSuper;
 import entityfk.StronaWiersza;
 import implement.ListExt;
 import java.io.Serializable;
@@ -31,14 +32,14 @@ public class EwidencjaVatCheckView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
-   public void wykryjbledy(List<List<EVatViewPola>> ewidencje, List<SaldoKonto> kontavat) {
-       List<EVatViewPola> ewidencjezawartosc = pobierzdane(ewidencje);
+   public void wykryjbledy(List<List<EVatwpisSuper>> ewidencje, List<SaldoKonto> kontavat) {
+       List<EVatwpisSuper> ewidencjezawartosc = pobierzdane(ewidencje);
        List<StronaWiersza> zakupy = pobierzzakupy(kontavat);
        List<StronaWiersza> sprzedaz = pobierzsprzedaz(kontavat);
-       List<EVatViewPola> brakinakoncie = sprawdzbrakinakoncie(ewidencjezawartosc, zakupy, sprzedaz);
+       List<EVatwpisSuper> brakinakoncie = sprawdzbrakinakoncie(ewidencjezawartosc, zakupy, sprzedaz);
        if (brakinakoncie.size() > 0) {
            double suma = 0.0;
-           for (EVatViewPola p : brakinakoncie) {
+           for (EVatwpisSuper p : brakinakoncie) {
                suma += p.getVat();
            }
            System.out.println("sa braki e ewidencji"+suma);
@@ -59,17 +60,17 @@ public class EwidencjaVatCheckView implements Serializable {
        
    }
 
-   private List<EVatViewPola> pobierzdane(List<List<EVatViewPola>> ewidencje) {
-       List<EVatViewPola> ewidencjezawartosc = new ArrayList<>();
-       for (List<EVatViewPola> p : ewidencje) {
+   private List<EVatwpisSuper> pobierzdane(List<List<EVatwpisSuper>> ewidencje) {
+       List<EVatwpisSuper> ewidencjezawartosc = new ArrayList<>();
+       for (List<EVatwpisSuper> p : ewidencje) {
            ewidencjezawartosc.addAll(p);
        }
        System.out.println("size "+ewidencjezawartosc.size());
        int l = 1;
-       for (Iterator<EVatViewPola> it = ewidencjezawartosc.iterator(); it.hasNext();) {
+       for (Iterator<EVatwpisSuper> it = ewidencjezawartosc.iterator(); it.hasNext();) {
            System.out.println("licznik: "+l);
            l++;
-           EVatViewPola wiersz = it.next();
+           EVatwpisSuper wiersz = it.next();
            if (wiersz.getNazwaewidencji() == null) {
                it.remove();
            } else if (wiersz.getNazwaewidencji().isTylkoNetto()) {
@@ -79,7 +80,7 @@ public class EwidencjaVatCheckView implements Serializable {
        return ewidencjezawartosc;
    }
 
-    private boolean czyjestnakoncie(EVatViewPola p, List<StronaWiersza> zapisy) {
+    private boolean czyjestnakoncie(EVatwpisSuper p, List<StronaWiersza> zapisy) {
         boolean jest = false;
         if (p.getVat() == 27.32) {
             System.out.println("");
@@ -123,11 +124,11 @@ public class EwidencjaVatCheckView implements Serializable {
         return l;
     }
 
-    private List<EVatViewPola> sprawdzbrakinakoncie(List<EVatViewPola> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
+    private List<EVatwpisSuper> sprawdzbrakinakoncie(List<EVatwpisSuper> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
        List<StronaWiersza> zakupysz = new ArrayList<>(zakupy);
        List<StronaWiersza> sprzedazsz  = new ArrayList<>(sprzedaz);
-       List<EVatViewPola> brakinakoncie = new ArrayList<>();
-       for (EVatViewPola p : ewidencjezawartosc) {
+       List<EVatwpisSuper> brakinakoncie = new ArrayList<>();
+       for (EVatwpisSuper p : ewidencjezawartosc) {
            boolean nk = false;
            if (p.getNazwaewidencji() != null) {
                 if (p.getNazwaewidencji().getTypewidencji().equals("z")) {
@@ -148,7 +149,7 @@ public class EwidencjaVatCheckView implements Serializable {
        return brakinakoncie;
     }
 
-    private List<StronaWiersza> sprawdzbrakiwewidencji(List<EVatViewPola> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
+    private List<StronaWiersza> sprawdzbrakiwewidencji(List<EVatwpisSuper> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
        List<StronaWiersza> brakiwewidencji = new ArrayList<>();
        for (StronaWiersza p : zakupy) {
            if (p.getDokfk().getVatM().equals(wpisView.getMiesiacWpisu()) && p.getDokfk().getVatR().equals(wpisView.getRokWpisuSt())
@@ -171,9 +172,9 @@ public class EwidencjaVatCheckView implements Serializable {
        return brakiwewidencji;
     }
 
-    private boolean czyjestwewidencji(StronaWiersza r, List<EVatViewPola> ewidencjezawartosc) {
+    private boolean czyjestwewidencji(StronaWiersza r, List<EVatwpisSuper> ewidencjezawartosc) {
         boolean jest = false;
-        for (EVatViewPola p : ewidencjezawartosc) {
+        for (EVatwpisSuper p : ewidencjezawartosc) {
              if (Z.z(p.getVat()) == Z.z(r.getKwotaPLN())) {
                 if (p.equals(r.getDokfk())) {
                     if (p.getNrWlDk().equals(r.getDokfk().getNumerwlasnydokfk())) {
@@ -186,9 +187,9 @@ public class EwidencjaVatCheckView implements Serializable {
         return jest;
     }
 
-    private List<EwidencjaKonto> stworzzestawienie(List<EVatViewPola> brakiwewidencji, List<StronaWiersza> brakinakoncie) {
+    private List<EwidencjaKonto> stworzzestawienie(List<EVatwpisSuper> brakiwewidencji, List<StronaWiersza> brakinakoncie) {
         ListExt<EwidencjaKonto> l = new ListExt<EwidencjaKonto>();
-        for (EVatViewPola p : brakiwewidencji) {
+        for (EVatwpisSuper p : brakiwewidencji) {
             l.add(new EwidencjaKonto(p, null, p.getVat(), 0.0));
         }
         for (StronaWiersza p : brakinakoncie) {
@@ -223,7 +224,7 @@ public class EwidencjaVatCheckView implements Serializable {
     
    
     public class EwidencjaKonto {
-        private EVatViewPola ewidencja;
+        private EVatwpisSuper ewidencja;
         private StronaWiersza konto;
         private double kwotaewidencja;
         private double kwotakonto;
@@ -232,7 +233,7 @@ public class EwidencjaVatCheckView implements Serializable {
         private String mrewidencja;
         private String mrrokkonto;
 
-        public EwidencjaKonto(EVatViewPola ewidencja, StronaWiersza konto, double kwotaewidencja, double kwotakonto) {
+        public EwidencjaKonto(EVatwpisSuper ewidencja, StronaWiersza konto, double kwotaewidencja, double kwotakonto) {
             this.ewidencja = ewidencja;
             this.konto = konto;
             this.kwotaewidencja = kwotaewidencja;
@@ -287,11 +288,11 @@ public class EwidencjaVatCheckView implements Serializable {
         }
         
         //<editor-fold defaultstate="collapsed" desc="comment">
-        public EVatViewPola getEwidencja() {
+        public EVatwpisSuper getEwidencja() {
             return ewidencja;
         }
         
-        public void setEwidencja(EVatViewPola ewidencja) {
+        public void setEwidencja(EVatwpisSuper ewidencja) {
             this.ewidencja = ewidencja;
         }
         

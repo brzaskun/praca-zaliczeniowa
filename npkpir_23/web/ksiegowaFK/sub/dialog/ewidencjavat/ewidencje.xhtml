@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     
     <p:tab title="ewidencje">
-        <p:tabView id="akordeon2" value="#{ewidencjaVatView.ewidencje}"  var="item">
+        <p:tabView id="akordeon2" value="#{ewidencjaVatView.ewidencjeFK}"  var="item">
             <p:ajax event="tabChange" listener="#{ewidencjaVatView.wybranewierszeewidencjiczysc}" global="false" update="form:akordeon:akordeon2"/>
             <p:tab title="#{item[0].nazwaewidencji.nazwa}">
                 <p:commandButton value="Drukuj data" icon="ui-icon-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.getPodatnikObiekt().getNip()}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>

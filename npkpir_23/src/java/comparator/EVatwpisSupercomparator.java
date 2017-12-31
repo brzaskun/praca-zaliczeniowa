@@ -6,8 +6,9 @@
 package comparator;
 
 
+import entity.EVatwpis1;
 import entity.EVatwpisSuper;
-import entityfk.Wiersz;
+import entityfk.EVatwpisFK;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,14 +23,19 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class EVatwpisFKcomparator implements Comparator<EVatwpisSuper> {
+public class EVatwpisSupercomparator implements Comparator<EVatwpisSuper> {
 
     @Override
     public int compare(EVatwpisSuper o1, EVatwpisSuper o2) {
-        Wiersz wo1 = o1.getWiersz();
-        Wiersz wo2 = o2.getWiersz();
-        String datao1 = wo1 != null ? o1.getDataoperacji() : o1.getDokfk().getDataoperacji();
-        String datao2 = wo2 != null ? o2.getDataoperacji() : o2.getDokfk().getDataoperacji();
+        String datao1 = null;
+        String datao2 = null;
+       if (o1 instanceof EVatwpis1) {
+            datao1 = ((EVatwpis1) o1).getDataoperacji();
+            datao2 = ((EVatwpis1) o2).getDataoperacji();
+       } else {
+            datao1 = ((EVatwpisFK) o1).getDataoperacji();
+            datao2 = ((EVatwpisFK) o2).getDataoperacji();
+      }
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datao1date = null;

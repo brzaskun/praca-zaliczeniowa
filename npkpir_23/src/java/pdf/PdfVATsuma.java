@@ -15,11 +15,8 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import dao.EwidencjeVatDAO;
 import data.Data;
 import embeddable.EVatwpisSuma;
-import embeddable.Kwartaly;
-import entity.Ewidencjevat;
 import entity.Podatnik;
 import entity.Uz;
 import java.io.FileNotFoundException;
@@ -30,12 +27,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import javax.ejb.Stateless;
 import plik.Plik;
 import view.WpisView;
 import waluty.Z;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *
@@ -44,7 +40,7 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
 
 public class PdfVATsuma {
 
-    public static void drukuj(EwidencjeVatDAO ewidencjeVatDAO, WpisView wpisView) throws FileNotFoundException, DocumentException, IOException  {
+    public static void drukuj(HashMap<String, EVatwpisSuma> sumaewidencji, WpisView wpisView) throws FileNotFoundException, DocumentException, IOException  {
         Document document = new Document();
         PdfWriter.getInstance(document, Plik.plikR("vatsuma" + wpisView.getPodatnikObiekt().getNip() + ".pdf")).setInitialLeading(16);
         document.addTitle("Zestawienie sum z ewidencji VAT");
@@ -97,15 +93,7 @@ public class PdfVATsuma {
                 formatter.setGroupingUsed(true);
             List<EVatwpisSuma> sumaVatSprzedaz = new ArrayList<>();
             List<EVatwpisSuma> sumaVatZakup = new ArrayList<>();
-            Ewidencjevat lista;
-            try {
-                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
-            } catch (Exception e) {
-                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
-            }
-            for (EVatwpisSuma ew : lista.getSumaewidencji().values()) {
+            for (EVatwpisSuma ew : sumaewidencji.values()) {
                 String typeewidencji = ew.getEwidencja().getTypewidencji();
                 switch (typeewidencji) {
                     case "s" : sumaVatSprzedaz.add(ew);

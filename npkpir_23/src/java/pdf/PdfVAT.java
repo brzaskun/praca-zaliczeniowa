@@ -23,11 +23,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import comparator.EVatViewPolaWartoscNettocomparator;
 import comparator.EVatViewPolaWartosccomparator;
 import comparator.EVatViewPolacomparator;
-import dao.EwidencjeVatDAO;
-import embeddable.EVatViewPola;
-import embeddable.Kwartaly;
-import embeddable.Parametr;
-import entity.Ewidencjevat;
+import entity.EVatwpis1;
+import entity.EVatwpisSuper;
 import entity.Podatnik;
 import error.E;
 import java.io.File;
@@ -51,20 +48,8 @@ import view.WpisView;
 
 public class PdfVAT {
 
-    public static void drukujewidencje(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO, String nazwaewidencji, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
-        Podatnik pod = wpisView.getPodatnikObiekt();
+    public static void drukujewidencje(WpisView wpisView, HashMap<String, List<EVatwpisSuper>> mapa, String nazwaewidencji, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
         try {
-            List<Parametr> param = pod.getVatokres();
-            //problem kwartalu
-            Ewidencjevat lista;
-            try {
-                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
-            } catch (Exception e) {
-                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
-            }
-            HashMap<String, List<EVatViewPola>> mapa = lista.getEwidencje();
             Set<String> nazwy = mapa.keySet();
             for (String p : nazwy) {
                 if (p.equals(nazwaewidencji)) {
@@ -157,13 +142,13 @@ public class PdfVAT {
                     table.setHeaderRows(5);
                     table.setFooterRows(1);
 
-                    List<EVatViewPola> ew = lista.getEwidencje().get(p);
+                    List<EVatwpisSuper> ew = mapa.get(p);
                     int size = ew.size();
-                    EVatViewPola polesuma = ew.get(size - 1);
+                    EVatwpisSuper polesuma = ew.get(size - 1);
                     ew.remove(polesuma);
                      boolean sortujponetto = false;
                     if (size > 0) {
-                        EVatViewPola wp = ew.get(0);
+                        EVatwpisSuper wp = ew.get(0);
                         if (wp.getNazwaewidencji().getTransakcja().equals("usługi poza ter.")) {
                             sortujponetto = true;
                         }
@@ -179,11 +164,9 @@ public class PdfVAT {
                     }
                     ew.add(polesuma);
                     Integer i = 1;
-                    for (EVatViewPola rs : ew) {
-                        if (p.equals("zakup")) {
-                            //if (rs.getVat() != 0) {
-                                dodajwiersztabeli(table, rs, i);
-                            //}
+                    for (EVatwpisSuper rs : ew) {
+                        if (rs instanceof EVatwpis1) {
+                            dodajwiersztabeliEVatwpis1(table, rs, i);
                         } else {
                             dodajwiersztabeli(table, rs, i);
                         }
@@ -194,7 +177,7 @@ public class PdfVAT {
                     pdf.addAuthor("Biuro Rachunkowe Taxman");
                     pdf.close();
 pdffk.PdfMain.dodajQR(nazwapliku);
-
+                
                 }
             }
             //Msg.msg("i","Wydrukowano ewidencje","form:messages");
@@ -202,20 +185,8 @@ pdffk.PdfMain.dodajQR(nazwapliku);
         }
     }
     
-    public static void drukujewidencjeWybrane(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO, String nazwaewidencji, boolean wartosc,List<EVatViewPola> wybranewierszeewidencji) throws DocumentException, FileNotFoundException, IOException {
-        Podatnik pod = wpisView.getPodatnikObiekt();
+    public static void drukujewidencjeWybrane(WpisView wpisView, HashMap<String, List<EVatwpisSuper>> mapa, String nazwaewidencji, boolean wartosc,List<EVatwpisSuper> wybranewierszeewidencji) throws DocumentException, FileNotFoundException, IOException {
         try {
-            List<Parametr> param = pod.getVatokres();
-            //problem kwartalu
-            Ewidencjevat lista;
-            try {
-                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
-            } catch (Exception e) {
-                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
-            }
-            HashMap<String, List<EVatViewPola>> mapa = lista.getEwidencje();
             Set<String> nazwy = mapa.keySet();
             for (String p : nazwy) {
                 if (p.equals(nazwaewidencji)) {
@@ -308,11 +279,11 @@ pdffk.PdfMain.dodajQR(nazwapliku);
                     table.setHeaderRows(5);
                     table.setFooterRows(1);
                     int size = wybranewierszeewidencji.size();
-                    EVatViewPola polesuma = wybranewierszeewidencji.get(size - 1);
+                    EVatwpisSuper polesuma = wybranewierszeewidencji.get(size - 1);
                     wybranewierszeewidencji.remove(polesuma);
                     boolean sortujponetto = false;
                     if (size > 0) {
-                        EVatViewPola wp = wybranewierszeewidencji.get(0);
+                        EVatwpisSuper wp = wybranewierszeewidencji.get(0);
                         if (wp.getNazwaewidencji().getTransakcja().equals("usługi poza ter.")) {
                             sortujponetto = true;
                         }
@@ -328,11 +299,9 @@ pdffk.PdfMain.dodajQR(nazwapliku);
                     }
                     wybranewierszeewidencji.add(polesuma);
                     Integer i = 1;
-                    for (EVatViewPola rs : wybranewierszeewidencji) {
-                        if (p.equals("zakup")) {
-                            //if (rs.getVat() != 0) {
-                                dodajwiersztabeli(table, rs, i);
-                            //}
+                     for (EVatwpisSuper rs : wybranewierszeewidencji) {
+                        if (rs instanceof EVatwpis1) {
+                            dodajwiersztabeliEVatwpis1(table, rs, i);
                         } else {
                             dodajwiersztabeli(table, rs, i);
                         }
@@ -350,7 +319,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
         }
     }
     
-    private static void dodajwiersztabeli(PdfPTable table, EVatViewPola rs, Integer i) throws DocumentException, IOException {
+    private static void dodajwiersztabeli(PdfPTable table, EVatwpisSuper rs, Integer i) throws DocumentException, IOException {
         table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
         table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
         table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
@@ -379,29 +348,53 @@ pdffk.PdfMain.dodajQR(nazwapliku);
         } catch (Exception e) {
             E.e(e); 
         }
-
         table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
         table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
         table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
         table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
-        
     }
     
-    public static void drukujewidencjenajednejkartce(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
+    private static void dodajwiersztabeliEVatwpis1(PdfPTable table, EVatwpisSuper eVatwpisSuper, Integer i) throws DocumentException, IOException {
+        EVatwpis1 rs = (EVatwpis1) eVatwpisSuper;
+        table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
+        table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
+        table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
+        table.addCell(ustawfrazeAlign(rs.getNrKolejny(), "left", 6));
+        try {
+            if (!rs.getOpis().equals("podsumowanie")&& rs.getNrWlDk() != null) {
+                table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign("podsumowanie", "left", 6));
+            }
+            if (!rs.getOpis().equals("podsumowanie")&&rs.getKontr() != null) {
+                table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign("", "left", 6));
+            }
+            if (!rs.getOpis().equals("podsumowanie")&&rs.getKontr() != null && rs.getKontr().getNip() != null) {
+                table.addCell(ustawfrazeAlign(rs.getKontr().getNip(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign("", "left", 6));
+            }
+            if (rs.getKontr() != null && rs.getKontr().getKodpocztowy() != null) {
+                table.addCell(ustawfrazeAlign(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign("", "left", 6));
+            }
+        } catch (Exception e) {
+            E.e(e); 
+        }
+        table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
+        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
+    }
+    
+    
+    public static void drukujewidencjenajednejkartce(WpisView wpisView, HashMap<String, List<EVatwpisSuper>> mapa, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
         Podatnik pod = wpisView.getPodatnikObiekt();
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 25);
         try {
-            List<Parametr> param = pod.getVatokres();
-            //problem kwartalu
-            Ewidencjevat lista;
-            try {
-                    lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
-            } catch (Exception e) {
-                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
-            }
-            HashMap<String, List<EVatViewPola>> mapa = lista.getEwidencje();
             List<String> nazwy = new ArrayList<>();
             nazwy.addAll(mapa.keySet());
             String nazwapliku = null;
@@ -445,7 +438,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
                 Collections.sort(nazwy);
                 for (Iterator<String> nazwa = nazwy.iterator(); nazwa.hasNext();) {
                   String p = nazwa.next();
-                  pdf.add(stworztabele(lista, p, wpisView, wartosc));
+                  pdf.add(stworztabele(mapa, p, wpisView, wartosc));
                   if (nazwa.hasNext()) {
                     Paragraph parag = new Paragraph();
                     parag.setLeading(20);
@@ -462,7 +455,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
         }
     }
     
-    private static PdfPTable stworztabele(Ewidencjevat lista, String nazwaewidencji, WpisView wpisView, boolean wartosc) {
+    private static PdfPTable stworztabele(HashMap<String, List<EVatwpisSuper>> mapa, String nazwaewidencji, WpisView wpisView, boolean wartosc) {
         try {
             PdfPTable table = new PdfPTable(12);
             table.setWidthPercentage(95);
@@ -517,23 +510,21 @@ pdffk.PdfMain.dodajQR(nazwapliku);
             table.setHeaderRows(5);
             table.setFooterRows(1);
 
-            List<EVatViewPola> ew = lista.getEwidencje().get(nazwaewidencji);
+            List<EVatwpisSuper> ew = mapa.get(nazwaewidencji);
             if (wartosc==true) {
                 Collections.sort(ew, new EVatViewPolaWartosccomparator());
             } else {
                 Collections.sort(ew, new EVatViewPolacomparator());
             }
             Integer i = 1;
-             for (EVatViewPola rs : ew) {
-                    if (nazwaewidencji.equals("zakup")) {
-                        if (rs.getVat() != 0) {
-                            dodajwiersztabeli(table, rs, i) ;
-                        }
-                    } else {
-                      dodajwiersztabeli(table, rs, i) ;
-                    }
-                    i++;
-                }
+            for (EVatwpisSuper rs : ew) {
+                      if (rs instanceof EVatwpis1) {
+                          dodajwiersztabeliEVatwpis1(table, rs, i);
+                      } else {
+                          dodajwiersztabeli(table, rs, i);
+                      }
+                      i++;
+            }
             return table;
         } catch (Exception e) {
             E.e(e); 

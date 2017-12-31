@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
@@ -20,12 +22,22 @@ import javax.persistence.ManyToOne;
 @Named
 @Entity
 @Cacheable
+@NamedQueries({
+    @NamedQuery(name = "EVatwpis1.findByRokKW", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND (d.mcEw = :mc1 OR d.mcEw = :mc2 OR d.mcEw = :mc3)"),
+    @NamedQuery(name = "EVatwpis1.findByRokMc", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND d.mcEw = :mc"),
+})
 public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     private static final long serialVersionUID = -3274961058594456484L;
     
     @JoinColumn(name = "dok", referencedColumnName = "id_dok")
     @ManyToOne(cascade = CascadeType.ALL)
     private Dok dok;
+
+    
+    public EVatwpis1(EVatwpis1 wiersz) {
+        super(wiersz);
+        this.dok = wiersz.dok;
+    }
     
     
 
@@ -56,18 +68,22 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     }
 
   
+    @Override
     public double getNetto() {
         return netto;
     }
 
+    @Override
     public void setNetto(double netto) {
         this.netto = netto;
     }
 
+    @Override
     public double getVat() {
         return vat;
     }
 
+    @Override
     public void setVat(double vat) {
         this.vat = vat;
     }
@@ -122,6 +138,11 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
         return hash;
     }
 
+    @Override
+    public String toString() {
+        return "EVatwpis1{"+ super.toString() + "dok=" + dok.toString2() + '}';
+    }
+
     
     
 
@@ -143,10 +164,97 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
         return true;
     }
 
-   
+    @Override
+   public String getDataSprz() {
+      String zwrot = this.getDok() != null ? this.getDok().getDataSprz() : "";
+      return zwrot;
+    }
+    
+    @Override
+    public String getDataWyst() {
+      String zwrot = this.getDok() != null ? this.getDok().getDataWyst() : "";
+      return zwrot;
+    }
+    
+    @Override
+    public Klienci getKontr() {
+      Klienci zwrot = this.getDok() != null ? this.getDok().getKontr() : new Klienci();
+      return zwrot;
+    }
+    
+    @Override
+    public String getNrKolejny() {
+      String zwrot = this.getDok() != null ? this.getDok().getTypdokumentu()+"/"+this.getDok().getIdDok()+"/"+this.getDok().getPkpirR() :"";
+      return zwrot;
+    }
+    
+    @Override
+    public String getNrWlDk() {
+      return this.getDok() != null ? this.getDok().getNrWlDk() :"";
+    }
+    
+    @Override
+    public String getOpis() {
+      String zwrot = this.getDok() != null ? this.getDok().getOpis() : "podsumowanie";
+      return zwrot;
+    }
+    
+    @Override
+    public double getProcentvat() {
+//        double zwrot = this.getDok().getRodzTrans().getProcentvat();
+//        if (this.isPaliwo()) {
+//            zwrot = (50.0);
+//        }
+        return 100.0;
+    }
+    
+    @Override
+    public Evewidencja getNazwaewidencji() {
+        return this.getEwidencja();
+    }
+    
+    public String getNrpolanetto() {
+        return this.getEwidencja().getNrpolanetto();
+    }
+
+    public String getNrpolavat() {
+        return this.getEwidencja().getNrpolavat();
+    }
+    
+    public String getOpiszw() {
+        return this.getEstawka();
+    }
+    
+    @Override
+    public String getInnymc(){
+        return this.getDok().getVatM();
+    }
+    
+    @Override
+    public String getInnyrok(){
+        return this.getDok().getVatR();
+    }
+    
+    @Override
+    public String getDataoperacji() {
+        return this.dok.getDataSprz();
+    }
+    
+    @Override
+    public void setNazwaewidencji(Evewidencja object) {
+        super.ewidencja = object;
+    }
 
    
+    @Override
+    public void setDuplikat(boolean duplikat) {
+        super.duplikat = duplikat;
+    }
     
+    @Override
+    public boolean isDuplikat() {
+        return super.duplikat;
+    }
 }
 
 

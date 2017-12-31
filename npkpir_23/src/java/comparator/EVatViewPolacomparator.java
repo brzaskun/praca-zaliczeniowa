@@ -5,7 +5,8 @@
  */
 package comparator;
 
-import embeddable.EVatViewPola;
+
+import entity.EVatwpisSuper;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,10 +19,10 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class EVatViewPolacomparator implements Comparator<EVatViewPola> {
+public class EVatViewPolacomparator implements Comparator<EVatwpisSuper> {
 
     @Override
-    public int compare(EVatViewPola o1, EVatViewPola o2) {
+    public int compare(EVatwpisSuper o1, EVatwpisSuper o2) {
         String datao1 = o1.getDataWyst();
         String datao2 = o2.getDataWyst();
         DateFormat formatter;

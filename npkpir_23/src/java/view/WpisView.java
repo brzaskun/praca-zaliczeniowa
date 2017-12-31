@@ -59,6 +59,7 @@ public class WpisView implements Serializable {
     private boolean mc0kw1;
     private boolean ksiegirachunkowe;
     private boolean vatowiec;
+    private int vatokres;
     private boolean paramCzworkiPiatki;
     @Inject
     private Podatnik podatnikObiekt;
@@ -338,8 +339,14 @@ public class WpisView implements Serializable {
                 String czyjestvat = sprawdzjakiokresvat();
                 if (czyjestvat.equals("blad")) {
                     vatowiec = false;
+                    vatokres = 0;
                 } else {
                     vatowiec = true;
+                    if (czyjestvat.equals("kwartalne")) {
+                        vatokres = 2;
+                    } else {
+                        vatokres = 1;
+                    }
                 }
                 if (rodzajopodatkowania.contains("ryczałt")) {
                     ksiegaryczalt = false;
@@ -688,6 +695,14 @@ public class WpisView implements Serializable {
 
     public String getPrintNazwa() {
         return this.podatnikObiekt.getPrintnazwa();
+    }
+
+    public int getVatokres() {
+        return vatokres;
+    }
+
+    public void setVatokres(int vatokres) {
+        this.vatokres = vatokres;
     }
 
   

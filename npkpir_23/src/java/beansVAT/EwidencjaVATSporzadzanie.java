@@ -8,10 +8,10 @@ package beansVAT;
 
 import dao.EvewidencjaDAO;
 import data.Data;
-import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
 import embeddable.VatKorektaDok;
+import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.EwidencjaVatView;
 
@@ -35,7 +34,7 @@ public class EwidencjaVATSporzadzanie {
     
     
     
-    public static void transferujDokdoEVatwpis(List<VatKorektaDok> listadokvat, List<EVatViewPola>listadokvatprzetworzona, String rok, String mc) {
+    public static void transferujDokdoEVatwpis(List<VatKorektaDok> listadokvat, List<EVatwpisSuper>listadokvatprzetworzona, String rok, String mc) {
          for (VatKorektaDok dokumentkorekty : listadokvat) {
                 if (dokumentkorekty.getEwidencjaVAT() != null) {
                     List<EwidencjaAddwiad> ewidencja = new ArrayList<>();
@@ -44,7 +43,7 @@ public class EwidencjaVATSporzadzanie {
                     for (EwidencjaAddwiad ewidwiersz : ewidencja) {
                         if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
                             try {
-                                EVatViewPola wiersz = new EVatViewPola();
+                                EVatwpisSuper wiersz = new EVatwpisSuper();
                                 wiersz.setId(lp++);
                                 wiersz.setDataSprz(Data.ostatniDzien(rok, mc));
                                 wiersz.setDataWyst(Data.ostatniDzien(rok, mc));
@@ -53,8 +52,6 @@ public class EwidencjaVATSporzadzanie {
                                 wiersz.setOpis(dokumentkorekty.getOpisDokumnetu());
                                 Evewidencja nowaEv = ewidwiersz.getEvewidencja();
                                 wiersz.setNazwaewidencji(nowaEv);
-                                wiersz.setNrpolanetto(nowaEv.getNrpolanetto());
-                                wiersz.setNrpolavat(nowaEv.getNrpolavat());
                                 wiersz.setNetto(ewidwiersz.getNetto());
                                 wiersz.setVat(ewidwiersz.getVat());
                                 wiersz.setOpizw(ewidwiersz.getOpzw());
@@ -68,9 +65,9 @@ public class EwidencjaVATSporzadzanie {
             }
     }
     
-    public static void rozdzielEVatwpisNaEwidencje(List<EVatViewPola>listadokvatprzetworzona, HashMap<String, List<EVatViewPola>> listaewidencji, HashMap<String, EVatwpisSuma> sumaewidencji,  EvewidencjaDAO evewidencjaDAO) {
-        for (EVatViewPola wierszogolny : listadokvatprzetworzona) {
-                ArrayList<EVatViewPola> listatmp = new ArrayList<>();
+    public static void rozdzielEVatwpisNaEwidencje(List<EVatwpisSuper>listadokvatprzetworzona, HashMap<String, List<EVatwpisSuper>> listaewidencji, HashMap<String, EVatwpisSuma> sumaewidencji,  EvewidencjaDAO evewidencjaDAO) {
+        for (EVatwpisSuper wierszogolny : listadokvatprzetworzona) {
+                ArrayList<EVatwpisSuper> listatmp = new ArrayList<>();
                 //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
                 String nazwaewidencji = wierszogolny.getNazwaewidencji().getNazwa();
                 try {
@@ -78,7 +75,7 @@ public class EwidencjaVATSporzadzanie {
                     listatmp.addAll(c);
                 } catch (Exception e) {
                     try {
-                        listaewidencji.put(nazwaewidencji, new ArrayList<EVatViewPola>());
+                        listaewidencji.put(nazwaewidencji, new ArrayList<EVatwpisSuper>());
                         Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
                         sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
                     } catch (Exception ex) {
