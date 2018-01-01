@@ -210,6 +210,11 @@ public class SessionFacade<T> implements Serializable {
         List<Pitpoz> lista = em.createNamedQuery("Pitpoz.findAll").getResultList();
         return lista;
     }
+    
+     public List<Dok> findPodidnull() {
+        List<Dok> lista = em.createNamedQuery("Dok.podidnull").getResultList();
+        return lista;
+    }
 
     public Pitpoz findPitpoz(String rok, String mc, String pod) {
         Pitpoz tmp = (Pitpoz) em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();

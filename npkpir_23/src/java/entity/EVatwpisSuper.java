@@ -25,6 +25,7 @@ import javax.validation.constraints.Size;
  */
 @MappedSuperclass
 public class EVatwpisSuper implements Serializable {
+    private static final long serialVersionUID = 7803477770796415103L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

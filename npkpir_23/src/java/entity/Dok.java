@@ -50,6 +50,7 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByIdDokOdDo", query = "SELECT d FROM Dok d WHERE d.idDok > :odd AND D.idDok < :dod"),
     @NamedQuery(name = "Dok.findByTypDokumentu", query = "SELECT d FROM Dok d WHERE d.typdokumentu = :typdokumentu"),
     @NamedQuery(name = "Dok.findByKontr", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr"),
+    @NamedQuery(name = "Dok.podidnull", query = "SELECT d FROM Dok d WHERE d.poddid IS NULL"),
     @NamedQuery(name = "Dok.findByKontr1Null", query = "SELECT d FROM Dok d WHERE d.kontr1 IS NULL"),
     @NamedQuery(name = "Dok.findByDataWyst", query = "SELECT d FROM Dok d WHERE d.dataWyst = :dataWyst"),
     @NamedQuery(name = "Dok.findByTermin30", query = "SELECT d FROM Dok d WHERE d.termin30 = :termin30"),
@@ -101,6 +102,9 @@ public class Dok extends DokSuper implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "typdokumentu")
     private String typdokumentu;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rodzajedok", referencedColumnName = "id")
+    private Rodzajedok rodzajedok;
     @Size(max = 10)
     @Column(name = "nrWpkpir")
     private int nrWpkpir;
@@ -225,6 +229,9 @@ public class Dok extends DokSuper implements Serializable {
                 @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
             })
     private List<Cechazapisu> cechadokumentuLista;
+    @ManyToOne
+    @JoinColumn(name = "podid", referencedColumnName = "id")
+    private Podatnik poddid;
     
     public Dok() {
         this.listakwot1 = new ArrayList<>();
@@ -562,6 +569,16 @@ public class Dok extends DokSuper implements Serializable {
     public Waluty getWalutadokumentu() {
         return walutadokumentu;
     }
+
+    public Rodzajedok getRodzajedok() {
+        return rodzajedok;
+    }
+
+    public void setRodzajedok(Rodzajedok rodzajedok) {
+        this.rodzajedok = rodzajedok;
+    }
+    
+    
     
     public String getSymbolWaluty() {
         String zwrot = "PLN";
@@ -581,6 +598,14 @@ public class Dok extends DokSuper implements Serializable {
 
     public void setTabelanbp(Tabelanbp tabelanbp) {
         this.tabelanbp = tabelanbp;
+    }
+
+    public Podatnik getPoddid() {
+        return poddid;
+    }
+
+    public void setPoddid(Podatnik poddid) {
+        this.poddid = poddid;
     }
 
     
