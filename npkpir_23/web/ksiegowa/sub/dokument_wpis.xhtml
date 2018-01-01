@@ -88,7 +88,7 @@
                 </p:panelGrid>
                 <p:panelGrid id="panelTabelaNBP" style="width: 270px;">
                     <f:facet name="header">
-                        <p:row>
+                        <p:row rendered="#{DokumentView.selDokument.walutadokumentu.symbolwaluty ne 'PLN'}">
                             <p:column width="110">
                                 <h:outputText id="w02" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : 'z dnia'}" style="width: 110px;"/>
                             </p:column>
