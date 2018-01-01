@@ -90,13 +90,13 @@
                     <f:facet name="header">
                         <p:row>
                             <p:column width="110">
-                                <h:outputText id="w02" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" style="width: 110px;"/>
+                                <h:outputText id="w02" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : 'z dnia'}" style="width: 110px;"/>
                             </p:column>
                             <p:column width="90">
-                                <h:outputText id="w01" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" style="width: 90px;"/>
+                                <h:outputText id="w01" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : 'tabela NBP'}" style="width: 90px;"/>
                             </p:column>
                             <p:column width="90">
-                                <h:outputText id="w03" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" style="width: 90px;"/>
+                                <h:outputText id="w03" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : 'kurs średni'}" style="width: 90px;"/>
                             </p:column>
                         </p:row>
                     </f:facet>

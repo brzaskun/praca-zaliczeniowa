@@ -196,6 +196,7 @@ public final class DokView implements Serializable {
     @Inject
     private Kolumna1Rozbicie sumarozbicie;
     private double stawkaVATwPoprzednimDok;
+    private Tabelanbp domyslatabela;
     
 
     public DokView() {
@@ -291,7 +292,9 @@ public final class DokView implements Serializable {
                 }
             }
             if (wysDokument != null) {
-                typdokumentu = wysDokument.getRodzajedok().getSkrot().toString();
+                typdokumentu = wysDokument.getRodzajedok().getSkrot();
+                selDokument.setRodzajedok(wysDokument.getRodzajedok());
+                selDokument.setOpis(wysDokument.getOpis());
                 wygenerujnumerkolejny();
             } else {
                 this.typdokumentu = "ZZ";
@@ -310,7 +313,8 @@ public final class DokView implements Serializable {
         Klienci klient = klDAO.findKlientByNip(podX.getNip());
         selDokument.setKontr1(klient);
         podepnijEwidencjeVat();
-        DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
+        domyslatabela = DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
+        selDokument.setTabelanbp(domyslatabela);
         RequestContext.getCurrentInstance().update("dodWiad");
         //ukrocmiesiace();
 
@@ -891,7 +895,7 @@ public final class DokView implements Serializable {
                 selDokument.setVatM(wpisView.getMiesiacWpisu());
                 selDokument.setVatR(wpisView.getRokWpisuSt());
                 selDokument.setKontr1(wstawKlientaDoNowegoDok());
-                DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
+                selDokument.setTabelanbp(domyslatabela);
                 selectedSTR = new SrodekTrw();
                 if (!wpisView.isVatowiec() && !selDokument.getRodzajedok().getSkrot().equals("IU")) {
                     selDokument.setDokumentProsty(true);

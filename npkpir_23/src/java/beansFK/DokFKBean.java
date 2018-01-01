@@ -23,7 +23,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import view.WpisView;
@@ -56,7 +55,7 @@ public class DokFKBean {
         }
     }
     
-    public static void dodajWaluteDomyslnaDoDokumentu(WalutyDAOfk walutyDAOfk, TabelanbpDAO tabelanbpDAO, Dok selected) {
+    public static Tabelanbp dodajWaluteDomyslnaDoDokumentu(WalutyDAOfk walutyDAOfk, TabelanbpDAO tabelanbpDAO, Dok selected) {
         selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty("PLN"));
         Tabelanbp tabelanbpPLN = null;
         try {
@@ -68,7 +67,7 @@ public class DokFKBean {
             tabelanbpDAO.dodaj(new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01"));
             tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
         }
-        selected.setTabelanbp(tabelanbpPLN);
+        return tabelanbpPLN;
     }
 
     public static Rodzajedok odnajdzZZ(List<Rodzajedok> rodzajedokKlienta) {
