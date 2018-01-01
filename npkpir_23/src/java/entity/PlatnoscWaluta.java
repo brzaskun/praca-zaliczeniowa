@@ -9,7 +9,6 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -82,7 +81,7 @@ public class PlatnoscWaluta implements Serializable {
 
     public double getSprzedazPlus() {
         double zwrot = 0.0;
-        if (this.dokument.getRodzTrans().equals("sprzedaz")) {
+        if (this.dokument.getRodzajedok().getSkrot().equals("sprzedaz")) {
             if (this.roznice > 0.0) {
                 zwrot = this.roznice;
             }
@@ -92,7 +91,7 @@ public class PlatnoscWaluta implements Serializable {
     
     public double getSprzedazMinus() {
         double zwrot = 0.0;
-        if (this.dokument.getRodzTrans().equals("sprzedaz")) {
+        if (this.dokument.getRodzajedok().getSkrot().equals("sprzedaz")) {
             if (this.roznice < 0.0) {
                 zwrot = this.roznice;
             }
@@ -102,7 +101,7 @@ public class PlatnoscWaluta implements Serializable {
     
     public double getZakupPlus() {
         double zwrot = 0.0;
-        if (!this.dokument.getRodzTrans().equals("sprzedaz")) {
+        if (!this.dokument.getRodzajedok().getSkrot().equals("sprzedaz")) {
             if (this.roznice > 0.0) {
                 zwrot = this.roznice;
             }
@@ -112,7 +111,7 @@ public class PlatnoscWaluta implements Serializable {
     
     public double getZakupMinus() {
         double zwrot = 0.0;
-        if (!this.dokument.getRodzTrans().equals("sprzedaz")) {
+        if (!this.dokument.getRodzajedok().getSkrot().equals("sprzedaz")) {
             if (this.roznice < 0.0) {
                 zwrot = this.roznice;
             }

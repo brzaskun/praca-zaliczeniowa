@@ -91,8 +91,8 @@ public class PdfObroty  {
             table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left",8));
             table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left",8));
             table.addCell(ustawfrazeAlign(rs.getKontr().getAdres(), "left",7));
-            table.addCell(ustawfrazeAlign(rs.getRodzTrans(), "left",8));
-            table.addCell(ustawfrazeAlign(rs.getTypdokumentu(), "center",8));
+            table.addCell(ustawfrazeAlign(rs.getRodzajedok() != null ? rs.getRodzajedok().getSkrot():"", "left",8));
+            table.addCell(ustawfrazeAlign(rs.getRodzajedok() != null ? rs.getRodzajedok().getRodzajtransakcji():"", "center",8));
             table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left",8));
             table.addCell(ustawfrazeAlign(rs.getOpis(), "left",8));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right",8));
@@ -138,7 +138,6 @@ public class PdfObroty  {
         suma.setNrWpkpir(0);
         suma.setNrWlDk("");
         suma.setKontr(new Klienci());
-        suma.setRodzTrans("");
         suma.setOpis("podsumowanie");
         suma.setNetto(nettosuma);
         suma.setBrutto(bruttosuma);

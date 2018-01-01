@@ -46,6 +46,7 @@ import entity.Fakturywystokresowe;
 import entity.KwotaKolumna1;
 import entity.Logofaktura;
 import entity.Podatnik;
+import entity.Rodzajedok;
 import entity.Wpis;
 import entityfk.Dokfk;
 import error.E;
@@ -839,8 +840,8 @@ public class FakturaView implements Serializable {
             selDokument.setDataWyst(faktura.getDatawystawienia());
             selDokument.setDataSprz(faktura.getDatawystawienia());
             selDokument.setKontr(faktura.getKontrahent());
-            selDokument.setRodzTrans("sprzedaz");
-            selDokument.setTypdokumentu("SZ");
+            Rodzajedok rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt());
+            selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(faktura.getFakturaPK().getNumerkolejny());
             selDokument.setOpis(faktura.getPozycjenafakturze().get(0).getNazwa());
             List<KwotaKolumna1> listaX = new ArrayList<>();

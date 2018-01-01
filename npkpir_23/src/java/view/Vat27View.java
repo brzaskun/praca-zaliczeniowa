@@ -176,7 +176,7 @@ public class Vat27View implements Serializable {
 
     private boolean warunekkontrahenci(Dok p) {
         boolean zwrot = false;
-        zwrot = p.getRodzTrans().equals("odwrotne obciążenie sprzedawca");
+        zwrot = p.getRodzajedok().getSkrot().equals("odwrotne obciążenie sprzedawca");
         return zwrot;
     }
     

@@ -57,7 +57,7 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByTermin150", query = "SELECT d FROM Dok d WHERE d.termin30 = :termin150"),
     @NamedQuery(name = "Dok.findByTerminPlatnosci", query = "SELECT d FROM Dok d WHERE d.terminPlatnosci = :terminPlatnosci"),
     @NamedQuery(name = "Dok.findByNrWlDk", query = "SELECT d FROM Dok d WHERE d.nrWlDk = :nrWlDk"),
-    @NamedQuery(name = "Dok.findByRodzTrans", query = "SELECT d FROM Dok d WHERE d.rodzTrans = :rodzTrans"),
+    @NamedQuery(name = "Dok.findByRodzTrans", query = "SELECT d FROM Dok d WHERE d.rodzajedok.skrot = :rodzTrans"),
     @NamedQuery(name = "Dok.findByOpis", query = "SELECT d FROM Dok d WHERE d.opis = :opis"),
     @NamedQuery(name = "Dok.findByUwagi", query = "SELECT d FROM Dok d WHERE d.uwagi = :uwagi"),
     @NamedQuery(name = "Dok.findByPkpirM", query = "SELECT d FROM Dok d WHERE d.pkpirM = :pkpirM"),
@@ -137,9 +137,9 @@ public class Dok extends DokSuper implements Serializable {
     @Column(name = "data_sprzedazy")
 //    @Temporal(TemporalType.DATE)
     private String dataSprz;
-    @Size(max = 45)
-    @Column(name = "rodz_trans")
-    private String rodzTrans;
+//    @Size(max = 45)
+//    @Column(name = "rodz_trans")
+//    private String rodzTrans;
     @Size(max = 45)
     @Column(name = "opis")
     private String opis;
@@ -321,14 +321,7 @@ public class Dok extends DokSuper implements Serializable {
         this.nrWlDk = nrWlDk;
     }
 
-    public String getRodzTrans() {
-        return rodzTrans;
-    }
-
-    public void setRodzTrans(String rodzTrans) {
-        this.rodzTrans = rodzTrans;
-    }
-
+    
     public String getOpis() {
         return opis;
     }
@@ -653,7 +646,7 @@ public class Dok extends DokSuper implements Serializable {
         hash = 83 * hash + Objects.hashCode(this.kontr1);
         hash = 83 * hash + Objects.hashCode(this.podatnik);
         hash = 83 * hash + Objects.hashCode(this.dataWyst);
-        hash = 83 * hash + Objects.hashCode(this.rodzTrans);
+        hash = 83 * hash + Objects.hashCode(this.rodzajedok);
         hash = 83 * hash + Objects.hashCode(this.netto);
         return hash;
     }
@@ -681,7 +674,7 @@ public class Dok extends DokSuper implements Serializable {
         if (!Objects.equals(this.dataWyst, other.dataWyst)) {
             return false;
         }
-        if (!Objects.equals(this.rodzTrans, other.rodzTrans)) {
+        if (!Objects.equals(this.rodzajedok, other.rodzajedok)) {
             return false;
         }
         if (!Objects.equals(this.netto, other.netto)) {
