@@ -33,7 +33,7 @@
 
         <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" filteredValue="#{obrotyView.dokumentyFiltered}"
                       selection="#{obrotyView.goscwybral}"  widgetVar="dokTable" 
-                      rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
+                      rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
                       style="max-width: 1400px;"  >
             <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <p:ajax event="rowSelectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
@@ -65,7 +65,7 @@
                 </f:facet>
                 <h:outputText value="#{wpis.kontr.npelna}"  />
             </p:column>
-            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzTrans}" filterMatchMode="exact" filterStyle="display: none;" sortBy="#{wpis.rodzTrans}" style="width: 9%; text-align: center;">  
+            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzajedok.rodzajtransakcji}" filterMatchMode="exact" filterStyle="display: none;" sortBy="#{wpis.rodzajedok.rodzajtransakcji}" style="width: 9%; text-align: center;">  
                 <f:facet name="filter">
                     <p:selectOneMenu onchange="PF('dokTable').filter()" >
                         <f:selectItem itemLabel="rodz" itemValue="#{null}" />
@@ -73,7 +73,7 @@
                         <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
                     </p:selectOneMenu>
                 </f:facet>
-                <h:outputText value="#{wpis.rodzTrans}" />
+                <h:outputText value="#{wpis.rodzajedok.rodzajtransakcji}" />
             </p:column>
             <p:column id="typDokColumn" headerText="symbol dok" filterBy="#{wpis.typdokumentu}" filterMatchMode="exact" sortBy="#{wpis.typdokumentu}" style="width: 8%; text-align: center;">  
                  <f:facet name="filter">

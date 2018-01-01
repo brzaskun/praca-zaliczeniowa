@@ -126,7 +126,7 @@
                           rowIndexVar="index" 
                           style="width: 1400px; margin-top: 10px; height: 700px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" 
                           widgetVar="dokTable"
-                          rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
+                          rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid" 
                           >
@@ -164,11 +164,12 @@
                     <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  rendered="#{!(wpis.kontr.nip eq '0000000000')}"/>
                     <h:outputText value=" #{wpis.kontr.miejscowosc}"  rendered="#{wpis.kontr.nip eq '0000000000'}"/>
                 </p:column>
-                <p:column id="rodzTrColumn"  filterBy="#{wpis.typdokumentu}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.typdokumentu}"  style="width: 5%;text-align: center;">
+                <p:column id="rodzTrColumn"  filterBy="#{wpis.rodzajedok}" filterStyle="display : none;" filterMatchMode="contains" 
+                          sortBy="#{wpis.rodzajedok.skrot}"  style="width: 5%;text-align: center;">
                     <f:facet name="filter">
-                        <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 30px;" autoWidth="false">
-                            <f:selectItem itemLabel="dok" itemValue="#{null}" />
-                            <f:selectItems value="#{DokTabView.dokumentypodatnika}" />
+                        <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 30px;" autoWidth="false" converter="RodzajedokConv">
+                            <f:selectItem itemLabel="dok" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{DokTabView.dokumentypodatnika}" var="ixi" itemLabel="#{ixi.skrot}"/>
                         </p:selectOneMenu>
                     </f:facet>
                     <h:outputText value="#{wpis.typdokumentu}"/>

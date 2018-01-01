@@ -8,6 +8,7 @@ import embeddable.Kwartaly;
 import embeddable.Mce;
 import entity.Dok;
 import entity.Klienci;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
@@ -56,27 +57,27 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.dokumentDuplicatAMO(selD, rok);
     }
     
-    public Dok znajdzDuplikatwtrakcie(Dok selD, String nazwapelna, String typdokumentu) {
-        return dokFacade.dokumentDuplicatwtrakcie(selD, nazwapelna, typdokumentu);
+    public Dok znajdzDuplikatwtrakcie(Dok selD, Podatnik podatnik, String typdokumentu) {
+        return dokFacade.dokumentDuplicatwtrakcie(selD, podatnik, typdokumentu);
     }
   
-    public List<Dok> zwrocBiezacegoKlienta(String pod) {
+    public List<Dok> zwrocBiezacegoKlienta(Podatnik pod) {
         return dokFacade.findDokPod(pod);
     }
 
-    public List<Dok> zwrocBiezacegoKlientaRokVAT(String pod, String rok) {
+    public List<Dok> zwrocBiezacegoKlientaRokVAT(Podatnik pod, String rok) {
         return dokFacade.findDokBKVAT(pod,rok);
     }
   
-    public List<Dok> zwrocBiezacegoKlientaRok(String pod, String rok) {
+    public List<Dok> zwrocBiezacegoKlientaRok(Podatnik pod, String rok) {
         return dokFacade.findDokBK(pod,rok);
     }
     
-    public List<Dok> zwrocBiezacegoKlientaRokPrzychody(String pod, String rok) {
+    public List<Dok> zwrocBiezacegoKlientaRokPrzychody(Podatnik pod, String rok) {
         return dokFacade.findDokBKPrzychody(pod,rok);
     }
     
-    public List<Dok> zwrocBiezacegoKlientaRokMcPrzychody(String pod, String rok, String mc) {
+    public List<Dok> zwrocBiezacegoKlientaRokMcPrzychody(Podatnik pod, String rok, String mc) {
         return dokFacade.findDokBKMCPrzychody(pod,rok, mc);
     }
      
@@ -85,55 +86,55 @@ public class DokDAO extends DAO implements Serializable {
     }
     
    
-    public List<Dok> zwrocBiezacegoKlientaRokMC(String pod, String rok, String mc) {
+    public List<Dok> zwrocBiezacegoKlientaRokMC(Podatnik pod, String rok, String mc) {
         return dokFacade.findDokBK(pod, rok, mc);
     }
     
     public List zwrocBiezacegoKlientaRokMC(WpisView wpisView) {
-        return dokFacade.findDokBK(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        return dokFacade.findDokBK(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
     }
     
-    public List<Dok> zwrocBiezacegoKlientaRokMCWaluta(String pod, String rok, String mc) {
+    public List<Dok> zwrocBiezacegoKlientaRokMCWaluta(Podatnik pod, String rok, String mc) {
         return dokFacade.findDokBKWaluta(pod, rok, mc);
     }
     
-    public List<Dok> zwrocBiezacegoKlientaRokKW(String pod, String rok, String mc) {
+    public List<Dok> zwrocBiezacegoKlientaRokKW(Podatnik pod, String rok, String mc) {
         List<String> mce = Kwartaly.mctoMcewKw(mc);
         return dokFacade.findDokRokKW(pod, rok, mce);
     }
     
     public List zwrocBiezacegoKlientaRokKW(WpisView wpisView) {
         List<String> mce = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
-        return dokFacade.findDokRokKW(wpisView.getPodatnikWpisu(), wpisView.getRokUprzedniSt(), mce);
+        return dokFacade.findDokRokKW(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), mce);
     }
     
-    public Object iledokumentowklienta(String pod, String rok, String mc) {
+    public Object iledokumentowklienta(Podatnik pod, String rok, String mc) {
         return dokFacade.findDokBKCount(pod, rok, mc);
     }
     
-    public List<Dok> zwrocBiezacegoKlientaDuplikat(String pod, String rok) {
+    public List<Dok> zwrocBiezacegoKlientaDuplikat(Podatnik pod, String rok) {
         return dokFacade.findDokDuplikat(pod, rok);
     }
     
     
-    public Dok find(String typdokumentu, String podatnik, Integer rok){
+    public Dok find(String typdokumentu, Podatnik podatnik, Integer rok){
         return  dokFacade.findDokTPR(typdokumentu,podatnik,rok.toString());
     }
     
-    public Dok findDokMC(String typdokumentu, String podatnik, String rok, String mc){
+    public Dok findDokMC(String typdokumentu, Podatnik podatnik, String rok, String mc){
         return dokFacade.findDokMC(typdokumentu, podatnik, rok, mc);
     }
     
-    public void destroyStornoDok(String rok, String mc, String podatnik) {
+    public void destroyStornoDok(String rok, String mc, Podatnik podatnik) {
         Dok tmp = dokFacade.findStornoDok(rok, mc, podatnik);
         dokFacade.remove(tmp);
     }
 
-    public Dok findFaktWystawione(String nazwapelna, Klienci kontrahent, String numerkolejny, double brutto) {
-        return dokFacade.findFaktWystawione(nazwapelna, kontrahent, numerkolejny, brutto);
+    public Dok findFaktWystawione(Podatnik podatnik, Klienci kontrahent, String numerkolejny, double brutto) {
+        return dokFacade.findFaktWystawione(podatnik, kontrahent, numerkolejny, brutto);
     }
 
-    public int liczdokumenty(String rok, String mc, String podatnik) {
+    public int liczdokumenty(String rok, String mc, Podatnik podatnik) {
         List<String> poprzedniemce = Mce.poprzedniemce(mc);
         int iloscdok = 0;
         for (String p : poprzedniemce) {
@@ -142,7 +143,7 @@ public class DokDAO extends DAO implements Serializable {
         return iloscdok;
     }
    
-     public Dok findDokLastofaKontrahent(String podatnik, Klienci kontr, String rok) {
+     public Dok findDokLastofaKontrahent(Podatnik podatnik, Klienci kontr, String rok) {
        try {
            return dokFacade.findDokLastofaTypeKontrahent(podatnik, kontr,rok);
        } catch (Exception e ){

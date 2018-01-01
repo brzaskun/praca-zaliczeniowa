@@ -69,7 +69,7 @@ public class Vat27View implements Serializable {
         String mc = wpisView.getMiesiacWpisu();
         opisvatuepkpir = wpisView.getPodatnikWpisu() + " Zestawienie dokumentów do deklaracji VAT-27 na koniec " + rok + "/" + mc + " rozliczenie miesięczne";
         try {
-            dokvatmc = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok, mc);
+            dokvatmc = dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikObiekt(), rok, mc);
             Collections.sort(dokvatmc, new Dokcomparator());
             klienciWDTWNT.addAll(kontrahenciUE(dokvatmc));
             int numerkolejny = 1;

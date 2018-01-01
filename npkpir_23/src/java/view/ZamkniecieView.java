@@ -11,6 +11,7 @@ import embeddable.Mce;
 import embeddable.Okresrozliczeniowy;
 import embeddable.Roki;
 import entity.Dok;
+import entity.Podatnik;
 import entity.Zamknietemiesiace;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -163,14 +164,14 @@ public class ZamkniecieView implements Serializable {
         }
         for(Okresrozliczeniowy pozycjaNowa : roznice){
            if(pozycjaNowa.isZamkniety()==true){
-               ksieguj(wpisView.getPodatnikWpisu(),pozycjaNowa.getRok(), pozycjaNowa.getMiesiac(), "ksiegi");
+               ksieguj(wpisView.getPodatnikObiekt(),pozycjaNowa.getRok(), pozycjaNowa.getMiesiac(), "ksiegi");
            } else {
-               ksieguj(wpisView.getPodatnikWpisu(),pozycjaNowa.getRok(), pozycjaNowa.getMiesiac(), "bufor");
+               ksieguj(wpisView.getPodatnikObiekt(),pozycjaNowa.getRok(), pozycjaNowa.getMiesiac(), "bufor");
            }
         }
     }
     
-    private void ksieguj(String podatnik, String rok, String mc, String stan){
+    private void ksieguj(Podatnik podatnik, String rok, String mc, String stan){
         List<Dok> lista = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok,mc);
         for(Dok dokument : lista){
             dokument.setStatus(stan);

@@ -7,15 +7,9 @@ package viewfk;
 
 import dao.DAO;
 import dao.PodatnikDAO;
-import entity.Dok;
-import entity.Podatnik;
-import entity.Rodzajedok;
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
-import msg.Msg;
 import session.SessionFacade;
 
 /**
@@ -31,43 +25,43 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
     private PodatnikDAO podatnikDAO;
    
     
-     public void edycjadok() {
-        List<Dok> dokumenty= sessionFacade.findAll(Dok.class);
-        System.out.println("Pobralem dok");
-        List<Podatnik> podatnik= sessionFacade.findAll(Podatnik.class);
-        System.out.println("Pobralem podatnicy");
-        int i = 1;
-        for (Iterator<Dok> it = dokumenty.iterator(); it.hasNext();) {
-            Dok w = it.next();
-            if (w.getTypdokumentu()!= null) {
-                w.setPoddid(odnajdzdok(podatnik, w.getPodatnik().trim()));
-                printprogres(i);
-            }
-        }
-        System.out.println("Zachowuje");
-        sessionFacade.edit(dokumenty);
-        System.out.println("Skonczylem");
-        Msg.msg("Przenumerowane "+dokumenty.size());
-    }
-    
-    public void edycjadokrodzaj() {
-        List<Dok> dokumenty= sessionFacade.findAll(Dok.class);
-        System.out.println("Pobralem dok");
-        List<Rodzajedok> rodzajedok= sessionFacade.findAll(Rodzajedok.class);
-        System.out.println("Pobralem rodzajedok");
-        int i = 1;
-        for (Iterator<Dok> it = dokumenty.iterator(); it.hasNext();) {
-            Dok w = it.next();
-            if (w.getTypdokumentu()!= null) {
-                w.setRodzajedok(odnajdzrodzajdok(rodzajedok, w.getTypdokumentu(), w.getPoddid()));
-                printprogres(i);
-            }
-        }
-        System.out.println("Zachowuje");
-        sessionFacade.edit(dokumenty);
-        System.out.println("Skonczylem");
-        Msg.msg("Przenumerowane "+dokumenty.size());
-    }
+//     public void edycjadok() {
+//        List<Dok> dokumenty= sessionFacade.findAll(Dok.class);
+//        System.out.println("Pobralem dok");
+//        List<Podatnik> podatnik= sessionFacade.findAll(Podatnik.class);
+//        System.out.println("Pobralem podatnicy");
+//        int i = 1;
+//        for (Iterator<Dok> it = dokumenty.iterator(); it.hasNext();) {
+//            Dok w = it.next();
+//            if (w.getTypdokumentu()!= null) {
+//                w.setPoddid(odnajdzdok(podatnik, w.getPodatnik().trim()));
+//                printprogres(i);
+//            }
+//        }
+//        System.out.println("Zachowuje");
+//        sessionFacade.edit(dokumenty);
+//        System.out.println("Skonczylem");
+//        Msg.msg("Przenumerowane "+dokumenty.size());
+//    }
+//    
+//    public void edycjadokrodzaj() {
+//        List<Dok> dokumenty= sessionFacade.findAll(Dok.class);
+//        System.out.println("Pobralem dok");
+//        List<Rodzajedok> rodzajedok= sessionFacade.findAll(Rodzajedok.class);
+//        System.out.println("Pobralem rodzajedok");
+//        int i = 1;
+//        for (Iterator<Dok> it = dokumenty.iterator(); it.hasNext();) {
+//            Dok w = it.next();
+//            if (w.getTypdokumentu()!= null) {
+//                w.setRodzajedok(odnajdzrodzajdok(rodzajedok, w.getTypdokumentu(), w.getPoddid()));
+//                printprogres(i);
+//            }
+//        }
+//        System.out.println("Zachowuje");
+//        sessionFacade.edit(dokumenty);
+//        System.out.println("Skonczylem");
+//        Msg.msg("Przenumerowane "+dokumenty.size());
+//    }
     
 //    public void przenumeruj()  {
 //        List<Dokfk> wiersze= sessionFacade.findAll(Dokfk.class);
@@ -721,26 +715,26 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
 //            return zwrot;
 //        }
 
-    private Rodzajedok odnajdzrodzajdok(List<Rodzajedok> rodzajedok, String typdokumentu, Podatnik podid) {
-        Rodzajedok zwrot = null;
-        for (Rodzajedok r : rodzajedok) {
-            if (r.getPodatnikObj().equals(podid) && r.getSkrot().equals(typdokumentu)) {
-                zwrot = r;
-                break;
-            }
-        }
-        return zwrot;
-    }
-
-    private Podatnik odnajdzdok(List<Podatnik> podatnik, String podatnik0) {
-        Podatnik zwrot = null;
-        for (Podatnik r : podatnik) {
-            if (r.getNazwapelna().trim().equals(podatnik0)) {
-                zwrot = r;
-                break;
-            }
-        }
-        return zwrot;
-    }
+//    private Rodzajedok odnajdzrodzajdok(List<Rodzajedok> rodzajedok, String typdokumentu, Podatnik podid) {
+//        Rodzajedok zwrot = null;
+//        for (Rodzajedok r : rodzajedok) {
+//            if (r.getPodatnikObj().equals(podid) && r.getSkrot().equals(typdokumentu)) {
+//                zwrot = r;
+//                break;
+//            }
+//        }
+//        return zwrot;
+//    }
+//
+//    private Podatnik odnajdzdok(List<Podatnik> podatnik, String podatnik0) {
+//        Podatnik zwrot = null;
+//        for (Podatnik r : podatnik) {
+//            if (r.getNazwapelna().trim().equals(podatnik0)) {
+//                zwrot = r;
+//                break;
+//            }
+//        }
+//        return zwrot;
+//    }
    
 }   

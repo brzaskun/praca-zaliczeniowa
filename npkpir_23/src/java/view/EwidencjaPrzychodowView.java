@@ -151,7 +151,7 @@ public class EwidencjaPrzychodowView implements Serializable {
         String podatnik = wpisView.getPodatnikWpisu();
         Podatnik pod = wpisView.getPodatnikObiekt();
         int numerkolejny = EwidencjaPrzychBean.pobierznumerrecznie(pod,rok,mc);
-        List<Dok> dokumentyzaMc = EwidencjaPrzychBean.pobierzdokumentyR(dokDAO, podatnik, rok, mc, numerkolejny);
+        List<Dok> dokumentyzaMc = EwidencjaPrzychBean.pobierzdokumentyR(dokDAO, pod, rok, mc, numerkolejny);
         podsumowanie = EwidencjaPrzychBean.ustawpodsumowanieR();
         for (Dok tmp : dokumentyzaMc) {
             DokEwidPrzych dk = new DokEwidPrzych(tmp);

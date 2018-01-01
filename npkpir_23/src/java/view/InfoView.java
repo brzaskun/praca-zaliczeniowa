@@ -86,7 +86,7 @@ public class InfoView implements Serializable{
         pod = wpisView.getPodatnikObiekt();
         podatnik = wpisView.getPodatnikWpisu();
         rok = wpisView.getRokWpisu().toString();
-        dokumenty = dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok);
+        dokumenty = dokDAO.zwrocBiezacegoKlientaRok(pod, rok);
         if(!dokumenty.isEmpty()){
         selectedDok = dokumenty.get(dokumenty.size()-1);
         liczbawprowadzonychdok = dokumenty.size();

@@ -19,7 +19,6 @@ import error.E;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.ParametrView;
 import view.WpisView;
@@ -47,7 +46,7 @@ public class KsiegaBean {
         return numerkolejny;
     }
 
-    public static List<Dok> pobierzdokumenty(DokDAO dokDAO, String podatnik, Integer rok, String mc, int numerkolejny) {
+    public static List<Dok> pobierzdokumenty(DokDAO dokDAO, Podatnik podatnik, Integer rok, String mc, int numerkolejny) {
         List<Dok> dokumentyZaRok = null;
         List<Dok> dokumentyZaMc = new ArrayList<>();
         try {

@@ -10,7 +10,6 @@ import entity.Klienci;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
-import javax.persistence.Embeddable;
 
 /**
  *
@@ -55,7 +54,7 @@ public class DokEwidPrzych implements Serializable {
         this.setNrWpkpir(tmp.getNrWpkpir());
         this.setNrWlDk(tmp.getNrWlDk());
         this.setKontr(tmp.getKontr());
-        this.setPodatnik(tmp.getPodatnik());
+        this.setPodatnik(tmp.getPodatnik().getNazwapelna());
         this.setDataWyst(tmp.getDataWyst());
         this.setOpis(tmp.getOpis());
         this.setUwagi(tmp.getUwagi());

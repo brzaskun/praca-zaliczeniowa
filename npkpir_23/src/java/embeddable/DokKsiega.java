@@ -60,7 +60,7 @@ public class DokKsiega implements Serializable {
         this.setNrWpkpir(tmp.getNrWpkpir());
         this.setNrWlDk(tmp.getNrWlDk());
         this.setKontr(tmp.getKontr());
-        this.setPodatnik(tmp.getPodatnik());
+        this.setPodatnik(tmp.getPodatnik().getNazwapelna());
         this.setDataWyst(tmp.getDataWyst());
         this.setOpis(tmp.getOpis());
         this.setUwagi(tmp.getUwagi());

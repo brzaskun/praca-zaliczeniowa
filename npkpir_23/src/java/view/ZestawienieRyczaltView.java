@@ -14,7 +14,6 @@ import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Mce;
 import embeddable.RyczaltPodatek;
-import embeddable.Straty1;
 import embeddable.ZestawienieRyczalt;
 import entity.Dok;
 import entity.KwotaKolumna1;
@@ -144,7 +143,7 @@ public class ZestawienieRyczaltView implements Serializable {
             }
             Collection c = null;
             try {
-                c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
+                c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString());
             } catch (Exception e) { E.e(e); 
             }
             if (c != null) {

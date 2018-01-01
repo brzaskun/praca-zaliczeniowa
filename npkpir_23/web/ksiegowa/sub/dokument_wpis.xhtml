@@ -174,7 +174,7 @@
                         </p:autoComplete>
                     </p:column>
                     <p:column>
-                        <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}" 
+                        <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzajedok}" converter="RodzajedokConv"
                                          style="width: 180px; word-break: break-all; height: 25px;" 
                                          styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
@@ -182,7 +182,7 @@
                                          onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');">
                             <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrotNazwyDok} - #{loop.nazwa}" 
-                                           itemValue="#{loop.skrotNazwyDok}"/>
+                                           itemValue="#{loop}"/>
 <!--                            <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>-->
                             <f:ajax event="change"  listener="#{DokumentView.wygenerujnumerkolejny()}"/>
                             <f:ajax event="blur"  listener="#{DokumentView.wygenerujnumerkolejnyonblur()}"/>

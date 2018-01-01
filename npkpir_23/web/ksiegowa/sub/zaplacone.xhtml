@@ -13,7 +13,7 @@
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="12,18,24,32,50" 
                       rowKey="#{wpis.idDok}" selection="#{rozrachunkiView.selDokument}" selectionMode="single"
-                      rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                      rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
             <p:ajax event="rowEdit" update=":form:messages, @form" listener="#{rozrachunkiView.usunzzaplaconych}" />
             <f:facet name="header">  

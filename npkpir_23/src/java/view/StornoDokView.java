@@ -105,7 +105,7 @@ public class StornoDokView implements Serializable {
         ArrayList<Dok> tmplist = new ArrayList<>();
         if (wpisView.getPodatnikWpisu() != null) {
             try {
-                tmplist.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu()));
+                tmplist.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikObiekt()));
             } catch (Exception e) { E.e(e); 
             }
             Integer r = wpisView.getRokWpisu();
@@ -303,7 +303,7 @@ public class StornoDokView implements Serializable {
             }
         }
         stornoDokDAO.destroy(stornodok);
-        dokDAO.destroyStornoDok(rok.toString(), mc, podatnik);
+        dokDAO.destroyStornoDok(rok.toString(), mc, wpisView.getPodatnikObiekt());
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
         }
     }

@@ -40,7 +40,7 @@ public class FakturaBean {
     public static String uzyjwzorcagenerujnumerDok(String wzorzec, String skrot, WpisView wpisView, DokDAO dokDAO) {
         String wygenerowanynumer = "";
         String separator = znajdzseparator(wzorzec);
-        Dok ostatnidokument = dokDAO.find(skrot, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Dok ostatnidokument = dokDAO.find(skrot, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         if (ostatnidokument != null) {
             String[] elementypoprzedniafakt = elementydokumentu(ostatnidokument, separator);
             wygenerowanynumer = generowanie(wzorzec, separator, elementypoprzedniafakt, wpisView, 0);

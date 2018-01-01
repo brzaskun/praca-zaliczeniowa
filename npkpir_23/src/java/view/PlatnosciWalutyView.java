@@ -185,7 +185,7 @@ public class PlatnosciWalutyView  implements Serializable {
     }
     
     public void zmienliste() {
-        dokumenty = dokDAO.zwrocBiezacegoKlientaRokMCWaluta(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        dokumenty = dokDAO.zwrocBiezacegoKlientaRokMCWaluta(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (ukryjrozliczone) {
             for (Iterator<Dok> it = dokumenty.iterator(); it.hasNext();) {
                 double suma = obliczsume(it.next());

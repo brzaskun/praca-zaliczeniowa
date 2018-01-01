@@ -94,7 +94,7 @@ public class ObrotyView implements Serializable{
         kontrahentypodatnika = new ArrayList<>();
         rodzajetransakcji = new ArrayList<>();
           if (wpisView.getMiesiacOd() != null) {
-               obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
+               obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString());
                 obiektDOKmrjsfSelX.clear();
                 String mOd = wpisView.getMiesiacOd();
                 Integer mOdI = Integer.parseInt(mOd);
@@ -111,7 +111,7 @@ public class ObrotyView implements Serializable{
                     if (zakres.contains(tmpx.getPkpirM())) {
                         obiektDOKmrjsfSelX.add(tmpx);
                         dokumentyl.add(tmpx.getTypdokumentu());
-                        rodzaje.add(tmpx.getRodzTrans());
+                        rodzaje.add(tmpx.getRodzajedok().getSkrot());
                         kontrahenty.add(tmpx.getKontr().getNpelna());
                     }
                 }
@@ -139,7 +139,7 @@ public class ObrotyView implements Serializable{
         //dokumenty podatnika z roku
         obiektDOKjsfSelRok = new ArrayList<>();
           if (wpisView.getMiesiacOd() != null) {
-               obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
+               obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString());
                 obiektDOKmrjsfSelX.clear();
                 String mOd = wpisView.getMiesiacOd();
                 Integer mOdI = Integer.parseInt(mOd);

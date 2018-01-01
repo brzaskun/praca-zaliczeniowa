@@ -644,7 +644,7 @@ public class FakturaView implements Serializable {
     
     private void usunfakturezaksiegowana(Faktura p) {
         try {
-                Dok znajdka = dokDAO.findFaktWystawione(p.getWystawca().getNazwapelna(), p.getKontrahent(), p.getFakturaPK().getNumerkolejny(), p.getBrutto());
+                Dok znajdka = dokDAO.findFaktWystawione(p.getWystawca(), p.getKontrahent(), p.getFakturaPK().getNumerkolejny(), p.getBrutto());
                 dokDAO.destroy(znajdka);
                 Msg.msg("i", "Usunięto księgowanie faktury: " + p.getFakturaPK().getNumerkolejny());
             } catch (EJBException e1) {
@@ -833,7 +833,7 @@ public class FakturaView implements Serializable {
             selDokument.setPkpirR(rok);
             selDokument.setVatM(miesiac);
             selDokument.setVatR(rok);
-            selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+            selDokument.setPodatnik(wpisView.getPodatnikObiekt());
             selDokument.setStatus("bufor");
             selDokument.setUsunpozornie(false);
             selDokument.setDataWyst(faktura.getDatawystawienia());

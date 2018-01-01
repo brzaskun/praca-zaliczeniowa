@@ -4,6 +4,7 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -18,11 +19,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 import dao.AmoDokDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
-
 import entity.Amodok;
 import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
+import entity.UmorzenieN;
 import entity.Uz;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,13 +33,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Stateless;
 import msg.Msg;
+import static pdf.PdfVAT7.absText;
 import plik.Plik;
 import view.WpisView;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import entity.UmorzenieN;
-import static pdf.PdfVAT7.absText;
 
 /**
  *
@@ -121,7 +119,7 @@ public class PdfPK {
         document.add(Chunk.NEWLINE);
         miziu1 = new Paragraph(new Phrase("Firma: " + selected.getPodatnik(), fontM));
         document.add(miziu1);
-        Podatnik pod = podatnikDAO.find(selected.getPodatnik());
+        Podatnik pod = selected.getPodatnik();
         miziu1 = new Paragraph(new Phrase("adres: " + pod.getMiejscowosc() + " " + pod.getUlica() + " " + pod.getNrdomu(), fontM));
         document.add(miziu1);
         miziu1 = new Paragraph(new Phrase("NIP: " + pod.getNip(), fontM));

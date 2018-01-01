@@ -168,7 +168,7 @@ public class ZestawienieView implements Serializable {
             }
             Collection c = null;
             try {
-                c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
+                c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString());
             } catch (Exception e) {
                 E.e(e);
             }
@@ -1119,7 +1119,7 @@ public class ZestawienieView implements Serializable {
             E.e(e);
         }
         try {
-            dokumentamo = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
+            dokumentamo = dokDAO.findDokMC("AMO", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
         } catch (Exception e) {
             E.e(e);
         }

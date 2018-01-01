@@ -7,6 +7,7 @@ package view;
 import beansDok.CechaBean;
 import beansDok.Rozrachunki;
 import comparator.Dokcomparator;
+import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.InwestycjeDAO;
@@ -19,6 +20,8 @@ import entity.Amodok;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Inwestycje;
+import entity.Podatnik;
+import entity.Rodzajedok;
 import entity.StornoDok;
 import entity.Uz;
 import entity.Wpis;
@@ -75,7 +78,7 @@ public class DokTabView implements Serializable {
     private List<Dok> dokumentyFiltered;
     //dokumenty o tym samym okresie vat
     private List<Dok> dokvatmc;
-    private List<String> dokumentypodatnika;
+    private List<Rodzajedok> dokumentypodatnika;
     private List<String> kontrahentypodatnika;
     //dokumenty okresowe
     private List<Dok> dokumentyokresowe;
@@ -138,10 +141,10 @@ public class DokTabView implements Serializable {
         }
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
-        String podatnik = wpisView.getPodatnikWpisu();
+        Podatnik podatnik = wpisView.getPodatnikObiekt();
         uzytkownik = wpisView.getWprowadzil();
         try {
-            StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
+            StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik.getNazwapelna());
             setButton(false);
         } catch (Exception ef) {
             setButton(true);
@@ -167,7 +170,7 @@ public class DokTabView implements Serializable {
         }
         numerkolejny = dokDAO.liczdokumenty(rok.toString(), mc, podatnik) + 1;
         dokumentylista = new ArrayList<>();
-        Set<String> dokumentyl = new HashSet<>();
+        Set<Rodzajedok> dokumentyl = new HashSet<>();
         Set<String> kontrahenty = new HashSet<>();
         Set<String> waluty = new HashSet<>();
          if (dokumentypobrane != null) {
@@ -180,7 +183,7 @@ public class DokTabView implements Serializable {
                 System.out.println("");
             }
             if (tmpx.getPkpirM().equals(mc)) {
-                dokumentyl.add(tmpx.getTypdokumentu());
+                dokumentyl.add(tmpx.getRodzajedok());
                 kontrahenty.add(tmpx.getKontr().getNpelna());
                 waluty.add(tmpx.getWalutadokumentu() != null ? tmpx.getWalutadokumentu().getSymbolwaluty() : "PLN");
                 if (wybranacechadok == null) {
@@ -202,7 +205,7 @@ public class DokTabView implements Serializable {
             }
         }
         dokumentypodatnika.addAll(dokumentyl);
-        Collections.sort(dokumentypodatnika);
+        Collections.sort(dokumentypodatnika, new Rodzajedokcomparator());
         Collator collator = Collator.getInstance(new Locale("pl", "PL"));
         collator.setStrength(Collator.PRIMARY);
         kontrahentypodatnika.addAll(kontrahenty);
@@ -216,7 +219,7 @@ public class DokTabView implements Serializable {
     
      public void sprawdzCzyNieDuplikat() {
         Msg.msg("i", "Rozpoczynam badanie bazy klienta "+wpisView.getPodatnikWpisu()+" na obecność duplikatów");
-        List<Dok> pobranedokumentypodatnika = dokDAO.zwrocBiezacegoKlientaDuplikat(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<Dok> pobranedokumentypodatnika = dokDAO.zwrocBiezacegoKlientaDuplikat(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Iterator it = pobranedokumentypodatnika.iterator();
         int licznik = 0;
         while (it.hasNext()) {
@@ -328,7 +331,7 @@ public class DokTabView implements Serializable {
 
     
     private boolean sprawdzczytoniesrodek(Dok dok) {
-        return sTRDAO.findSTR(dok.getPodatnik(), dok.getNetto(), dok.getNrWlDk());
+        return sTRDAO.findSTR(dok.getPodatnik().getNazwapelna(), dok.getNetto(), dok.getNrWlDk());
     }
 
     //usun jak wciaz dziala bez nich
@@ -540,13 +543,15 @@ public class DokTabView implements Serializable {
         this.wybranacechadok = wybranacechadok;
     }
 
-    public List<String> getDokumentypodatnika() {
+    public List<Rodzajedok> getDokumentypodatnika() {
         return dokumentypodatnika;
     }
 
-    public void setDokumentypodatnika(List<String> dokumentypodatnika) {
+    public void setDokumentypodatnika(List<Rodzajedok> dokumentypodatnika) {
         this.dokumentypodatnika = dokumentypodatnika;
     }
+
+  
 
     public List<String> getWalutywdokum() {
         return walutywdokum;

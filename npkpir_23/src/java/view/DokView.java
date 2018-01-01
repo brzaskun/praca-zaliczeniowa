@@ -291,8 +291,7 @@ public final class DokView implements Serializable {
                 }
             }
             if (wysDokument != null) {
-                typdokumentu = wysDokument.getTypdokumentu().toString();
-                selDokument.setTypdokumentu(wysDokument.getTypdokumentu().toString());
+                typdokumentu = wysDokument.getRodzajedok().getSkrot().toString();
                 wygenerujnumerkolejny();
             } else {
                 this.typdokumentu = "ZZ";
@@ -368,7 +367,7 @@ public final class DokView implements Serializable {
     public void edytujdokument() {
         try {
             selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
-            typdokumentu = selDokument.getTypdokumentu();
+            typdokumentu = selDokument.getRodzajedok().getSkrot();
             dokDAO.destroy(selDokument);
         } catch (Exception e) {
             E.e(e);
@@ -472,7 +471,7 @@ public final class DokView implements Serializable {
 //            sumujnetto();
 //            ewidencjaAddwiad = new ArrayList<>();
 //        } else 
-        String typdok = typdokumentu != null ? typdokumentu : selDokument.getTypdokumentu();
+        String typdok = typdokumentu != null ? typdokumentu : selDokument.getRodzajedok().getSkrot();
         if (selDokument.isDokumentProsty() && !typdok.equals("IU")) {
             ukryjEwiencjeVAT = true;
             sumujnetto();
@@ -783,7 +782,7 @@ public final class DokView implements Serializable {
         selDokument.setWprowadzil(wpisView.getWprowadzil().getLogin());
         selDokument.setPkpirM(wpisView.getMiesiacWpisu());
         selDokument.setPkpirR(wpisView.getRokWpisu().toString());
-        selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+        selDokument.setPodatnik(wpisView.getPodatnikObiekt());
         if (selDokument.getInwestycja() != null) {
             selDokument.setSymbolinwestycji(selDokument.getInwestycja().getSymbol());
         } else {
@@ -818,17 +817,6 @@ public final class DokView implements Serializable {
                 selDokument.setEwidencjaVAT1(null);
             }
             selDokument.setStatus("bufor");
-            selDokument.setTypdokumentu(typdokumentu);
-            String transakcjiRodzaj = "";
-            Rodzajedok r = null;
-            for (Iterator<Rodzajedok> itd = rodzajedokKlienta.iterator();itd.hasNext();) {
-                Rodzajedok temp = itd.next();
-                if (temp.getSkrotNazwyDok().equals(typdokumentu)) {
-                    transakcjiRodzaj = temp.getRodzajtransakcji();
-                    r = temp;
-                    break;
-                }
-            }
             //Usuwa puste kolumy w przypadku bycia takiej po skopiowaniu poprzednio zaksiegowanego dokumentu
             double kwotanetto = 0.0;
             for (Iterator<KwotaKolumna1> it = selDokument.getListakwot1().iterator();it.hasNext();) {
@@ -841,10 +829,9 @@ public final class DokView implements Serializable {
                 }
             }
             selDokument.setNetto(Z.z(kwotanetto));
-            selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
-            if (r.getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotanetto != 0.0) {
+            if (selDokument.getRodzajedok().getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotanetto != 0.0) {
                 KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(Z.z(kwotavat), "poz. koszty");
                 kwotaKolumna.setDok(selDokument);
                 kwotanetto = Z.z(kwotanetto + kwotaKolumna.getNetto());
@@ -906,7 +893,7 @@ public final class DokView implements Serializable {
                 selDokument.setKontr1(wstawKlientaDoNowegoDok());
                 DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
                 selectedSTR = new SrodekTrw();
-                if (!wpisView.isVatowiec() && !selDokument.getTypdokumentu().equals("IU")) {
+                if (!wpisView.isVatowiec() && !selDokument.getRodzajedok().getSkrot().equals("IU")) {
                     selDokument.setDokumentProsty(true);
                     ewidencjaAddwiad.clear();
                     ukryjEwiencjeVAT = true;
@@ -917,7 +904,6 @@ public final class DokView implements Serializable {
                 selDokument.setOpis(wysDokument.getOpis());
                 setRenderujwysz(false);
                 setPokazEST(false);
-                selDokument.setTypdokumentu(wysDokument.getTypdokumentu().toString());
                 wygenerujnumerkolejny();
                 int i = 0;
                 try {
@@ -1056,7 +1042,7 @@ public final class DokView implements Serializable {
             Msg.msg("e", "Brak naliczeń odpisów za bieżący miesiąc. Nie można utworzyć dokumentu AMO");
             return;
         }
-        Dok znalezionyBiezacy = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokBiezacy.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokBiezacy.getAmodokPK().getMc()));
+        Dok znalezionyBiezacy = dokDAO.findDokMC("AMO", wpisView.getPodatnikObiekt(), String.valueOf(amodokBiezacy.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokBiezacy.getAmodokPK().getMc()));
         if (znalezionyBiezacy == null) {
             String[] poprzedniOkres = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             Amodok amodokPoprzedni = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), poprzedniOkres[0], Integer.parseInt(poprzedniOkres[1]));
@@ -1066,7 +1052,7 @@ public final class DokView implements Serializable {
                 if (amodokPoprzedni != null) {
                     if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
                         //szukamy w dokumentach a nuz jest. jak jest to naprawiam ze nie naniesiono ze zaksiegowany
-                        Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokPoprzedni.getAmodokPK().getMc()));
+                        Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikObiekt(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokPoprzedni.getAmodokPK().getMc()));
                         double umorzeniepoprzedni = SrodkiTrwBean.sumujumorzenia(amodokPoprzedni.getPlanumorzen());
                         if (znaleziony instanceof Dok && znaleziony.getNetto() == umorzeniepoprzedni) {
                             amodokPoprzedni.setZaksiegowane(true);
@@ -1091,13 +1077,13 @@ public final class DokView implements Serializable {
                 selDokument.setPkpirR(wpisView.getRokWpisu().toString());
                 selDokument.setVatM(wpisView.getMiesiacWpisu());
                 selDokument.setVatR(wpisView.getRokWpisu().toString());
-                selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+                selDokument.setPodatnik(wpisView.getPodatnikObiekt());
                 selDokument.setStatus("bufor");
                 selDokument.setUsunpozornie(false);
                 selDokument.setDataWyst(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
                 selDokument.setKontr(new Klienci("", "dowód wewnętrzny"));
-                selDokument.setRodzTrans("amortyzacja");
-                selDokument.setTypdokumentu("AMO");
+                Rodzajedok amodok = rodzajedokDAO.find("AMO", wpisView.getPodatnikObiekt());
+                selDokument.setRodzajedok(amodok);
                 selDokument.setNrWlDk(wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
                 selDokument.setOpis("umorzenie za miesiac");
                 List<KwotaKolumna1> listaX = new ArrayList<>();
@@ -1157,7 +1143,7 @@ public final class DokView implements Serializable {
             selDokument.setPkpirR(wpisView.getRokWpisu().toString());
             selDokument.setVatM("");
             selDokument.setVatR("");
-            selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+            selDokument.setPodatnik(wpisView.getPodatnikObiekt());
             selDokument.setStatus("bufor");
             String data;
             switch (wpisView.getMiesiacWpisu()) {
@@ -1179,7 +1165,7 @@ public final class DokView implements Serializable {
             }
             selDokument.setDataWyst(data);
             selDokument.setKontr(new Klienci("111111111", "wlasny"));
-            selDokument.setRodzTrans("storno niezapłaconych faktur");
+//            selDokument.setRodzTrans("storno niezapłaconych faktur");
             selDokument.setNrWlDk(wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
             selDokument.setOpis("storno za miesiac");
             List<KwotaKolumna1> listaX = new ArrayList<>();
@@ -1190,7 +1176,6 @@ public final class DokView implements Serializable {
             listaX.add(tmpX);
             selDokument.setListakwot1(listaX);
             selDokument.setRozliczony(true);
-            selDokument.setTypdokumentu(typdokumentu);
             selDokument.setUsunpozornie(false);
             //sprawdzCzyNieDuplikat(selDokument);
             if (selDokument.getNetto() != 0) {
@@ -1213,9 +1198,9 @@ public final class DokView implements Serializable {
 
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
         Dok tmp = null;
-        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt().getNazwapelna(), selD.getTypdokumentu());
+        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt(), selD.getRodzajedok().getSkrot());
         if (tmp instanceof Dok) {
-            String wiadomosc = "Dokument " + selD.getTypdokumentu() + " dla tego klienta, o nr " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest zaksiegowany u pod: " + tmp.getPodatnik() + " rok/mc: " + tmp.getPkpirR() + "/" + tmp.getPkpirM() + " dnia: " + Data.data_ddMMMMyyyy(tmp.getDataK());
+            String wiadomosc = "Dokument " + selD.getRodzajedok().getSkrot() + " dla tego klienta, o nr " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest zaksiegowany u pod: " + tmp.getPodatnik() + " rok/mc: " + tmp.getPkpirR() + "/" + tmp.getPkpirM() + " dnia: " + Data.data_ddMMMMyyyy(tmp.getDataK());
             Msg.msg("e", wiadomosc);
             throw new Exception();
         }
@@ -1224,9 +1209,9 @@ public final class DokView implements Serializable {
     public void sprawdzCzyNieDuplikatwtrakcie(AjaxBehaviorEvent ex) {
         try {
             Dok selD = null;
-            selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna(), (String) Params.params("dodWiad:rodzajTrans"));
+            selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt(), (String) Params.params("dodWiad:rodzajTrans"));
             if (selD instanceof Dok) {
-                String wiadomosc = "Dokument typu " + selD.getTypdokumentu() + " dla tego klienta, o numerze " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest juz zaksiegowany u podatnika: " + selD.getPodatnik() + " w miesiącu " + selD.getPkpirM();
+                String wiadomosc = "Dokument typu " + selD.getRodzajedok().getSkrot() + " dla tego klienta, o numerze " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest juz zaksiegowany u podatnika: " + selD.getPodatnik() + " w miesiącu " + selD.getPkpirM();
                 Msg.msg("e", wiadomosc);
                 RequestContext.getCurrentInstance().execute("$('#dodWiad\\\\:numerwlasny').select();");
             } else {
@@ -1382,18 +1367,10 @@ public final class DokView implements Serializable {
         try {
             selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
             liczbawierszy = selDokument.getListakwot1().size();
-            String skrot = selDokument.getTypdokumentu();
-            List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-            Rodzajedok rodzajdok = new Rodzajedok();
-            for (Rodzajedok p : listaD) {
-                if (p.getSkrotNazwyDok().equals(skrot)) {
-                    rodzajdok = p;
-                    break;
-                }
-            }
-            typdokumentu = skrot;
+            Rodzajedok rodzajdok = selDokument.getRodzajedok();
+            typdokumentu = rodzajdok.getSkrot();
             selDokument.setNrWlDk(null);
-            podepnijListe(skrot);
+            podepnijListe(rodzajdok.getSkrot());
             renderujwyszukiwarke(rodzajdok);
             renderujtabele(rodzajdok);
         } catch (Exception e) {
@@ -1410,15 +1387,7 @@ public final class DokView implements Serializable {
     private void skopiujdoedycjidane() {
         selDokument = dokTabView.getGosciuwybral().get(0);
         liczbawierszy = selDokument.getListakwot1().size();
-        String skrot = selDokument.getTypdokumentu();
-        List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-        Rodzajedok rodzajdok = new Rodzajedok();
-        for (Rodzajedok p : listaD) {
-            if (p.getSkrotNazwyDok().equals(skrot)) {
-                rodzajdok = p;
-                break;
-            }
-        }
+        String skrot = selDokument.getRodzajedok().getSkrot();
         typdokumentu = skrot;
         podepnijListe(skrot);//to jest wybor kolumn do selectOneMenu bez tego nie ma selectedItems
         if (selDokument.getListakwot1().isEmpty()) {
@@ -1448,8 +1417,8 @@ public final class DokView implements Serializable {
                 sumbrutto += p.getNetto();
             }
         }
-        renderujwyszukiwarke(rodzajdok);
-        renderujtabele(rodzajdok);
+        renderujwyszukiwarke(selDokument.getRodzajedok());
+        renderujtabele(selDokument.getRodzajedok());
         if (ewidencjaAddwiad.isEmpty()) {
             ukryjEwiencjeVAT = false;
             RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
@@ -1460,7 +1429,7 @@ public final class DokView implements Serializable {
     public void sprawdzczywybranodokumentdoedycji() {
         skopiujdoedycjidane();
         obsluzcechydokumentu();
-        if (selDokument.getTypdokumentu().equals("OT")) {
+        if (selDokument.getRodzajedok().getSkrot().equals("OT")) {
             Msg.msg("e", "Nie można edytować dokumnetu zakupu środków trwałych!");
             RequestContext.getCurrentInstance().execute("PF('dialogEdycjaZaksiegowanychDokumentow').hide();");
             return;
@@ -1562,12 +1531,13 @@ public final class DokView implements Serializable {
         String klientnip = klient.getNip();
         if (!klientnip.equals(wpisView.getPodatnikObiekt().getNip())) {
             try {
-                Dok poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt().getNazwapelna(), klient, wpisView.getRokWpisuSt());
+                Dok poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt(), klient, wpisView.getRokWpisuSt());
                 if (poprzedniDokument == null) {
-                    poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt().getNazwapelna(), klient, wpisView.getRokUprzedniSt());
+                    poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt(), klient, wpisView.getRokUprzedniSt());
                 }
                 if (poprzedniDokument != null) {
                     selDokument.setTypdokumentu(poprzedniDokument.getTypdokumentu());
+                    selDokument.setRodzajedok(poprzedniDokument.getRodzajedok());
                     typdokumentu = poprzedniDokument.getTypdokumentu();
                     typpoprzedniegodokumentu = poprzedniDokument.getTypdokumentu();
                     selDokument.setOpis(poprzedniDokument.getOpis());
@@ -1602,6 +1572,8 @@ public final class DokView implements Serializable {
                     } catch (Exception e) {
 
                     }
+                }else {
+                    typdokumentu = selDokument.getRodzajedok().getSkrot();
                 }
             } catch (Exception e) {
                 E.e(e);

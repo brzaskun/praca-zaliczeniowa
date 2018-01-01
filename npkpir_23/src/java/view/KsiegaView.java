@@ -114,7 +114,7 @@ private static final long serialVersionUID = 1L;
         Podatnik pod = wpisView.getPodatnikObiekt();
         int numerkolejny = KsiegaBean.pobierznumerrecznie(pod,rok,mc);
         //dlatego jest caly rok bo nadajemy numery za kazdym razem
-        List<Dok> dokumentyzaMc = KsiegaBean.pobierzdokumenty(dokDAO, podatnik, rok, mc, numerkolejny);
+        List<Dok> dokumentyzaMc = KsiegaBean.pobierzdokumenty(dokDAO, pod, rok, mc, numerkolejny);
         if (lista != null) {
             cechydokzlisty = CechaBean.znajdzcechy(dokumentyzaMc);
         }

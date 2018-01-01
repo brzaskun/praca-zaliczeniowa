@@ -57,7 +57,7 @@ public class DokTabGuestView implements Serializable {
         pobranedokumenty = new ArrayList<>();
         pobranedokumentyFiltered = null;
         try {
-            pobranedokumenty.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()), wpisView.getMiesiacWpisu()));
+            pobranedokumenty.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikObiekt(), String.valueOf(wpisView.getRokWpisu()), wpisView.getMiesiacWpisu()));
             Collections.sort(pobranedokumenty, new Dokcomparator());
         } catch (Exception e) { E.e(e); 
         }
@@ -69,7 +69,7 @@ public class DokTabGuestView implements Serializable {
         } catch (Exception e) { E.e(e); 
             System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
         }
-        numerkolejny = dokDAO.liczdokumenty(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu()) + 1;
+        numerkolejny = dokDAO.liczdokumenty(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikObiekt()) + 1;
         for (Dok tmpx : pobranedokumenty) {
             tmpx.setNrWpkpir(numerkolejny++);
         }

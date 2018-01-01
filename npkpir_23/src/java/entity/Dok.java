@@ -50,7 +50,6 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByIdDokOdDo", query = "SELECT d FROM Dok d WHERE d.idDok > :odd AND D.idDok < :dod"),
     @NamedQuery(name = "Dok.findByTypDokumentu", query = "SELECT d FROM Dok d WHERE d.typdokumentu = :typdokumentu"),
     @NamedQuery(name = "Dok.findByKontr", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr"),
-    @NamedQuery(name = "Dok.podidnull", query = "SELECT d FROM Dok d WHERE d.poddid IS NULL"),
     @NamedQuery(name = "Dok.findByKontr1Null", query = "SELECT d FROM Dok d WHERE d.kontr1 IS NULL"),
     @NamedQuery(name = "Dok.findByDataWyst", query = "SELECT d FROM Dok d WHERE d.dataWyst = :dataWyst"),
     @NamedQuery(name = "Dok.findByTermin30", query = "SELECT d FROM Dok d WHERE d.termin30 = :termin30"),
@@ -118,11 +117,11 @@ public class Dok extends DokSuper implements Serializable {
     @JoinColumn(name = "kontr1", referencedColumnName = "id")
     @ManyToOne
     private Klienci kontr1;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "podatnik")
-    private String podatnik;
+//    @Basic(optional = false)
+//    @NotNull
+//    @Size(min = 1, max = 50)
+//    @Column(name = "podatnik")
+//    private String podatnik;
     @Basic(optional = false)
     @NotNull
     @Column(name = "wpr")
@@ -231,7 +230,7 @@ public class Dok extends DokSuper implements Serializable {
     private List<Cechazapisu> cechadokumentuLista;
     @ManyToOne
     @JoinColumn(name = "podid", referencedColumnName = "id")
-    private Podatnik poddid;
+    private Podatnik podatnik;
     
     public Dok() {
         this.listakwot1 = new ArrayList<>();
@@ -379,14 +378,15 @@ public class Dok extends DokSuper implements Serializable {
         this.vatR = vatR;
     }
 
-    public String getPodatnik() {
+    public Podatnik getPodatnik() {
         return podatnik;
     }
 
-    public void setPodatnik(String podatnik) {
+    public void setPodatnik(Podatnik podatnik) {
         this.podatnik = podatnik;
     }
 
+   
    
 
     public String getWprowadzil() {
@@ -600,14 +600,7 @@ public class Dok extends DokSuper implements Serializable {
         this.tabelanbp = tabelanbp;
     }
 
-    public Podatnik getPoddid() {
-        return poddid;
-    }
-
-    public void setPoddid(Podatnik poddid) {
-        this.poddid = poddid;
-    }
-
+    
     
     public Double getNettoWaluta() {
         double suma = 0.0;
