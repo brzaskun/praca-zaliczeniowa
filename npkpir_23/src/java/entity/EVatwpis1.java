@@ -184,7 +184,7 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     
     @Override
     public String getNrKolejny() {
-      String zwrot = this.getDok() != null ? this.getDok().getTypdokumentu()+"/"+this.getDok().getIdDok()+"/"+this.getDok().getPkpirR() :"";
+      String zwrot = this.getDok() != null ? this.getDok().getRodzajedok().getSkrot()+"/"+this.getDok().getIdDok()+"/"+this.getDok().getPkpirR() :"";
       return zwrot;
     }
     

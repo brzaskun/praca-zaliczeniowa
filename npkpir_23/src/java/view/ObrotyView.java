@@ -110,8 +110,8 @@ public class ObrotyView implements Serializable{
                 for (Dok tmpx : obiektDOKjsfSelRok){
                     if (zakres.contains(tmpx.getPkpirM())) {
                         obiektDOKmrjsfSelX.add(tmpx);
-                        dokumentyl.add(tmpx.getTypdokumentu());
-                        rodzaje.add(tmpx.getRodzajedok().getSkrot());
+                        dokumentyl.add(tmpx.getRodzajedok().getSkrot());
+                        rodzaje.add(tmpx.getRodzajedok().getRodzajtransakcji());
                         kontrahenty.add(tmpx.getKontr().getNpelna());
                     }
                 }

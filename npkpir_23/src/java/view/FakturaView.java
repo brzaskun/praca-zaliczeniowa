@@ -862,7 +862,8 @@ public class FakturaView implements Serializable {
                 eVatwpis1.setDok(selDokument);
                 ewidencjaTransformowana.add(eVatwpis1);
                 if (r.getEwidencja().getNazwa().equals("usługi świad. poza ter.kraju")) {
-                    selDokument.setTypdokumentu("UPTK100");
+                    Rodzajedok rodzajedo = rodzajedokDAO.find("UPTK100", wpisView.getPodatnikObiekt());
+                    selDokument.setRodzajedok(rodzajedok);
                 }
             }
             selDokument.setEwidencjaVAT1(ewidencjaTransformowana);

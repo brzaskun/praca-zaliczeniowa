@@ -231,7 +231,7 @@ public class DokTabView implements Serializable {
                 ++licznik;
             } catch (Exception ex) {}
             if (tmp == true) {
-                String wiadomosc = "Dokument typu "+badany.getTypdokumentu()+" dla tego klienta, o numerze "+badany.getNrWlDk()+" i kwocie netto "+badany.getNetto()+" jest juz zaksiegowany u podatnika: " + badany.getPodatnik();
+                String wiadomosc = "Dokument typu "+badany.getRodzajedok().getSkrot()+" dla tego klienta, o numerze "+badany.getNrWlDk()+" i kwocie netto "+badany.getNetto()+" jest juz zaksiegowany u podatnika: " + badany.getPodatnik();
                 Msg.msg("e", wiadomosc);
                 return;
             }
@@ -257,13 +257,13 @@ public class DokTabView implements Serializable {
       }
     public void destroy2() {
         if(dokdoUsuniecia.getStatus().equals("bufor")){
-        String temp = dokdoUsuniecia.getTypdokumentu();
+        String temp = dokdoUsuniecia.getRodzajedok().getSkrot();
         if ((Rozrachunki.sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
             Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw dokument strono, proszę "+dokdoUsuniecia.getIdDok().toString(),"form:messages");
         } else if (sprawdzczytoniesrodek(dokdoUsuniecia) == true) {
             Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw środek z ewidencji "+dokdoUsuniecia.getIdDok().toString(),"form:messages");
         } else {
-            if(dokdoUsuniecia.getTypdokumentu().equals("AMO")){
+            if(dokdoUsuniecia.getRodzajedok().getSkrot().equals("AMO")){
                 //poszukiwanie czy nie ma po nim jakiegos
                 Amodok amotmpnas = new Amodok();
                 if(!"12".equals(wpisView.getMiesiacWpisu())){
@@ -301,7 +301,7 @@ public class DokTabView implements Serializable {
     
      public void destroy2roz() throws Exception {
         if(dokdoUsuniecia.getStatus().equals("bufor")){
-        String temp = dokdoUsuniecia.getTypdokumentu();
+        String temp = dokdoUsuniecia.getRodzajedok().getSkrot();
         if ((Rozrachunki.sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -311,7 +311,7 @@ public class DokTabView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             throw new Exception();
         } else {
-            dokdoUsuniecia.getTypdokumentu().equals("OT");
+            dokdoUsuniecia.getRodzajedok().getSkrot().equals("OT");
             try {
                 dokDAO.destroy(dokdoUsuniecia);
                 dokumentypobrane.remove(dokdoUsuniecia);

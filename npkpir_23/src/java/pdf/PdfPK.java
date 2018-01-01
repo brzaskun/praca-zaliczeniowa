@@ -89,7 +89,7 @@ public class PdfPK {
         document.add(miziu);
         document.add(Chunk.NEWLINE);
         Paragraph miziu1;
-        switch (selected.getTypdokumentu()) {
+        switch (selected.getRodzajedok().getSkrot()) {
             case "PK":
             case "OT":
             case "IN":
@@ -124,7 +124,7 @@ public class PdfPK {
         document.add(miziu1);
         miziu1 = new Paragraph(new Phrase("NIP: " + pod.getNip(), fontM));
         document.add(miziu1);
-        if (!selected.getTypdokumentu().equals("PK") && !selected.getTypdokumentu().equals("OT") && !selected.getTypdokumentu().equals("IN") && !selected.getTypdokumentu().equals("ZUS") && !selected.getTypdokumentu().equals("AMO")) {
+        if (!selected.getRodzajedok().getSkrot().equals("PK") && !selected.getRodzajedok().getSkrot().equals("OT") && !selected.getRodzajedok().getSkrot().equals("IN") && !selected.getRodzajedok().getSkrot().equals("ZUS") && !selected.getRodzajedok().getSkrot().equals("AMO")) {
             document.add(Chunk.NEWLINE);
             miziu1 = new Paragraph(new Phrase("Kontrahent: " + selected.getKontr().getNpelna(), fontM));
             document.add(miziu1);
@@ -134,14 +134,14 @@ public class PdfPK {
             document.add(miziu1);
         }
         document.add(Chunk.NEWLINE);
-        String t = selected.getTypdokumentu();
+        String t = selected.getRodzajedok().getSkrot();
         if (t.equals("OT")||t.equals("PK")||t.equals("AMO")||t.equals("ZUS")||t.equals("LP")) {
             document.add(tabelaPK(selected));
         } else {
             document.add(tabelaFaktura(selected));
         }
         document.add(Chunk.NEWLINE);
-        if (selected.getTypdokumentu().equals("AMO")) {
+        if (selected.getRodzajedok().getSkrot().equals("AMO")) {
             document.add(new Paragraph("Zawartość dokumentu amortyzacji", fontM));
             document.add(Chunk.NEWLINE);
             dodajamo(document, amoDokDAO, wpisView);
@@ -208,7 +208,7 @@ public class PdfPK {
             table.addCell(ustawfrazeAlign("0.00", "right", 10));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 10));
         }
-        table.addCell(ustawfrazeAlign(selected.getTypdokumentu(), "center", 10));
+        table.addCell(ustawfrazeAlign(selected.getRodzajedok().getSkrot(), "center", 10));
         String kolumny = "";
         try {
             for (KwotaKolumna1 p : selected.getListakwot1()) {
@@ -240,7 +240,7 @@ public class PdfPK {
         table.addCell(ustawfrazeAlign(String.valueOf(selected.getNrWpkpir()), "center", 10));
         table.addCell(ustawfrazeAlign(selected.getOpis(), "left", 10));
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 10));
-        table.addCell(ustawfrazeAlign(selected.getTypdokumentu(), "center", 10));
+        table.addCell(ustawfrazeAlign(selected.getRodzajedok().getSkrot(), "center", 10));
         String kolumny = "";
         try {
             for (KwotaKolumna1 p : selected.getListakwot1()) {

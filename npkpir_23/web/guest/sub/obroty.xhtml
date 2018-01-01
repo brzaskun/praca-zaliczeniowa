@@ -24,7 +24,7 @@
         
         <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" 
                       selection="#{obrotyView.goscwybral}"  widgetVar="dokTable"
-                      rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
+                      rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
                       style="width: 85%;" > 
             <p:ajax event="rowSelectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <p:ajax event="rowUnselectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>                <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>      
@@ -44,11 +44,11 @@
             <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
                 <h:outputText value="#{wpis.kontr.npelna}"  />
             </p:column>
-            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzTrans}" filterMatchMode="contains" sortBy="#{wpis.rodzTrans}">  
-                <h:outputText value="#{wpis.rodzTrans}" />
+            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzajedok.rodzajtransakcji}" filterMatchMode="contains" sortBy="#{wpis.rodzajedok.rodzajtransakcji}">  
+                <h:outputText value="#{wpis.rodzajedok.rodzajtransakcji}" />
             </p:column>
-            <p:column id="typDokColumn" headerText="symbol dok" filterBy="#{wpis.typdokumentu}" filterMatchMode="contains" sortBy="#{wpis.typdokumentu}">  
-                <h:outputText value="#{wpis.typdokumentu}" />
+            <p:column id="typDokColumn" headerText="symbol dok" filterBy="#{wpis.rodzajedok.skrot}" filterMatchMode="contains" sortBy="#{wpis.rodzajedok.skrot}">  
+                <h:outputText value="#{wpis.rodzajedok.skrot}" />
             </p:column>
             <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}">  
                <h:outputText value="#{wpis.nrWlDk}" />

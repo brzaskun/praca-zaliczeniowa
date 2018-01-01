@@ -80,7 +80,7 @@ public class Vat27View implements Serializable {
             double sumanettovatue = 0.0;
             for (Dok p : dokvatmc) {
                 for (VatUe s : klienciWDTWNT) {
-                    if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getTypdokumentu().equals(s.getTransakcja())) {
+                    if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
                         s.setNetto(p.getNetto() + s.getNetto());
                         s.setLiczbadok(s.getLiczbadok() + 1);
                         s.getZawiera().add(p);
@@ -166,7 +166,7 @@ public class Vat27View implements Serializable {
         for (Dok p : dokvatmc) {
             if (warunekkontrahenci(p)) {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                VatUe veu = new VatUe(p.getTypdokumentu(), p.getKontr(), 0.0, 0);
+                VatUe veu = new VatUe(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
                 veu.setZawiera(new ArrayList<>());
                 klienty.add(veu);
             }
@@ -176,7 +176,7 @@ public class Vat27View implements Serializable {
 
     private boolean warunekkontrahenci(Dok p) {
         boolean zwrot = false;
-        zwrot = p.getRodzajedok().getSkrot().equals("odwrotne obciążenie sprzedawca");
+        zwrot = p.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie sprzedawca");
         return zwrot;
     }
     

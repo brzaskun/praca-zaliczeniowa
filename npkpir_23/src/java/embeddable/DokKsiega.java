@@ -56,7 +56,7 @@ public class DokKsiega implements Serializable {
 
     public DokKsiega(Dok tmp) {
         this.setIdDok(tmp.getIdDok());
-        this.setTypdokumentu(tmp.getTypdokumentu());
+        this.setTypdokumentu(tmp.getRodzajedok().getSkrot());
         this.setNrWpkpir(tmp.getNrWpkpir());
         this.setNrWlDk(tmp.getNrWlDk());
         this.setKontr(tmp.getKontr());

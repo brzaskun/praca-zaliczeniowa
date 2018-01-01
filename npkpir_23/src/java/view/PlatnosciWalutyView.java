@@ -87,7 +87,7 @@ public class PlatnosciWalutyView  implements Serializable {
             if (tmpx.getWalutadokumentu() != null) {
                 wd.add(tmpx.getWalutadokumentu());
             }
-            d.add(tmpx.getTypdokumentu());
+            d.add(tmpx.getRodzajedok().getSkrot());
         }
         kontrahentypodatnika.addAll(k);
         skrotwalutywdokum.addAll(w);

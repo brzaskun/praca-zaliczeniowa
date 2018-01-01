@@ -99,12 +99,12 @@ public class InfoView implements Serializable{
         }
         HashSet<String> tmpset1 = new HashSet<>();
         for(Dok p : dokumenty){
-            tmpset1.add(p.getTypdokumentu());
+            tmpset1.add(p.getRodzajedok().getSkrot());
         }
         for(String p : tmpset1){
             int i = 0;
             for(Dok r : dokumenty){
-                if(r.getTypdokumentu().equals(p)){
+                if(r.getRodzajedok().getSkrot().equals(p)){
                     i++;
                 }
             }

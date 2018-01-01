@@ -1946,7 +1946,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(p.getNrWpkpir()), "center", 8, 25f));
                 table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getKontr1().toString3(), "left", 8));
-                table.addCell(ustawfrazeAlign(p.getTypdokumentu(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getRodzajedok().getSkrot(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
                 tablicaWkomorce(table, p, "entity.Dok", 0);

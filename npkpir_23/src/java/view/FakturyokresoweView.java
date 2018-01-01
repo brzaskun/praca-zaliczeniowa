@@ -115,7 +115,7 @@ public class FakturyokresoweView implements Serializable{
                     if (r.getDokument().getKontr().getNip().equals(p.getKontr().getNip())){
                         kontrahenci = true;
                     }
-                    if (r.getDokument().getTypdokumentu().equals(p.getTypdokumentu())){
+                    if (r.getDokument().getRodzajedok().equals(p.getRodzajedok())){
                         typdokumentu = true;
                     }
                     if(kontrahenci && typdokumentu){

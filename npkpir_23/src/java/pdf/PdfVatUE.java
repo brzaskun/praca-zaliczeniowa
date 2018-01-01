@@ -4,6 +4,8 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -19,26 +21,24 @@ import entity.Dok;
 import entity.Podatnik;
 import entity.Uz;
 import entityfk.Dokfk;
+import error.E;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 import org.primefaces.context.RequestContext;
+import static pdf.PdfVAT7.absText;
 import pdffk.PdfMain;
+import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
 import view.WpisView;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import error.E;
-import static pdf.PdfVAT7.absText;
-import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.finalizacjaDokumentuQR;
 
 /**
  *
@@ -140,7 +140,7 @@ public class PdfVatUE {
             table.addCell(ustawfraze("okres VAT", 0, 1));
             table.setHeaderRows(1);
             for (Dok p : zawiera) {
-                table.addCell(ustawfrazeAlign(p.getTypdokumentu(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getRodzajedok().getSkrot(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getOpis(), "left", 7));

@@ -52,7 +52,7 @@ public class StatystykaBean implements Runnable {
         double zwrot = 0.0;
         List<String> typydok = pobierztypydok();
         for (Dok p : dokumenty) {
-           if (typydok.contains(p.getTypdokumentu())) {
+           if (typydok.contains(p.getRodzajedok().getSkrot())) {
                zwrot += p.getBrutto();
            }
         }

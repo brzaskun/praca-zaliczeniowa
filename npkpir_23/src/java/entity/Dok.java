@@ -48,7 +48,7 @@ import waluty.Z;
 @NamedQueries({
     @NamedQuery(name = "Dok.findByIdDok", query = "SELECT d FROM Dok d WHERE d.idDok = :idDok"),
     @NamedQuery(name = "Dok.findByIdDokOdDo", query = "SELECT d FROM Dok d WHERE d.idDok > :odd AND D.idDok < :dod"),
-    @NamedQuery(name = "Dok.findByTypDokumentu", query = "SELECT d FROM Dok d WHERE d.typdokumentu = :typdokumentu"),
+    @NamedQuery(name = "Dok.findByTypDokumentu", query = "SELECT d FROM Dok d WHERE d.rodzajedok.skrot = :typdokumentu"),
     @NamedQuery(name = "Dok.findByKontr", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr"),
     @NamedQuery(name = "Dok.findByKontr1Null", query = "SELECT d FROM Dok d WHERE d.kontr1 IS NULL"),
     @NamedQuery(name = "Dok.findByDataWyst", query = "SELECT d FROM Dok d WHERE d.dataWyst = :dataWyst"),
@@ -57,7 +57,7 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByTermin150", query = "SELECT d FROM Dok d WHERE d.termin30 = :termin150"),
     @NamedQuery(name = "Dok.findByTerminPlatnosci", query = "SELECT d FROM Dok d WHERE d.terminPlatnosci = :terminPlatnosci"),
     @NamedQuery(name = "Dok.findByNrWlDk", query = "SELECT d FROM Dok d WHERE d.nrWlDk = :nrWlDk"),
-    @NamedQuery(name = "Dok.findByRodzTrans", query = "SELECT d FROM Dok d WHERE d.rodzajedok.skrot = :rodzTrans"),
+    @NamedQuery(name = "Dok.findByRodzTrans", query = "SELECT d FROM Dok d WHERE d.rodzajedok.rodzajtransakcji = :rodzTrans"),
     @NamedQuery(name = "Dok.findByOpis", query = "SELECT d FROM Dok d WHERE d.opis = :opis"),
     @NamedQuery(name = "Dok.findByUwagi", query = "SELECT d FROM Dok d WHERE d.uwagi = :uwagi"),
     @NamedQuery(name = "Dok.findByPkpirM", query = "SELECT d FROM Dok d WHERE d.pkpirM = :pkpirM"),
@@ -67,8 +67,8 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByVatR", query = "SELECT d FROM Dok d WHERE d.vatR = :vatR"),
     @NamedQuery(name = "Dok.znajdzInwestycja", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.dataWyst = :data AND d.netto = :netto AND d.nrWlDk = :numer"),
     @NamedQuery(name = "Dok.findDuplicate", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.netto = :netto AND d.pkpirR = :pkpirR"),
-    @NamedQuery(name = "Dok.findDuplicateAMO", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.nrWlDk = :nrWlDk AND d.pkpirR = :pkpirR AND d.typdokumentu = 'AMO'"),
-    @NamedQuery(name = "Dok.findDuplicatewTrakcie", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.podatnik = :podatnik AND d.typdokumentu = :typdokumentu"),
+    @NamedQuery(name = "Dok.findDuplicateAMO", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.nrWlDk = :nrWlDk AND d.pkpirR = :pkpirR AND d.rodzajedok.skrot = 'AMO'"),
+    @NamedQuery(name = "Dok.findDuplicatewTrakcie", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.podatnik = :podatnik AND d.rodzajedok.skrot = :typdokumentu"),
     @NamedQuery(name = "Dok.findStornoDok", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.opis = :opis"),
     @NamedQuery(name = "Dok.findPoprzednik", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.opis = :opis"),
     @NamedQuery(name = "Dok.findByRozliczony", query = "SELECT d FROM Dok d WHERE d.rozliczony = :rozliczony"),
@@ -77,15 +77,15 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByFakturaWystawiona", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.brutto = :brutto"),
     @NamedQuery(name = "Dok.findByBK", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Dok.findByInwestycje", query = "SELECT d FROM Dok d WHERE d.symbolinwestycji IS NOT NULL AND d.symbolinwestycji != '' AND d.symbolinwestycji != 'wybierz'"),
-    @NamedQuery(name = "Dok.findByBKPrzychody", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik AND (d.typdokumentu = 'SPRY' OR d.typdokumentu = 'UPTK100' OR d.typdokumentu = 'RVCS')"),
-    @NamedQuery(name = "Dok.findByBKMCPrzychody", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND (d.typdokumentu = 'SPRY' OR d.typdokumentu = 'UPTK100' OR d.typdokumentu = 'RVCS')"),
+    @NamedQuery(name = "Dok.findByBKPrzychody", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik AND (d.rodzajedok.skrot = 'SPRY' OR d.rodzajedok.skrot = 'UPTK100' OR d.rodzajedok.skrot = 'RVCS')"),
+    @NamedQuery(name = "Dok.findByBKMCPrzychody", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND (d.rodzajedok.skrot = 'SPRY' OR d.rodzajedok.skrot = 'UPTK100' OR d.rodzajedok.skrot = 'RVCS')"),
     @NamedQuery(name = "Dok.findByBKVAT", query = "SELECT d FROM Dok d WHERE d.vatR = :vatR AND d.podatnik = :podatnik"),
-    @NamedQuery(name = "Dok.findByTPR", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik AND d.typdokumentu = :typdokumentu"),
+    @NamedQuery(name = "Dok.findByTPR", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik AND d.rodzajedok.skrot = :typdokumentu"),
     @NamedQuery(name = "Dok.findByBKM", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Dok.findByBKMWaluta", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.tabelanbp.waluta.symbolwaluty != 'PLN' "),
     @NamedQuery(name = "Dok.findByRokKW", query = "SELECT d FROM Dok d WHERE d.vatR = :pkpirR AND d.podatnik = :podatnik AND (d.vatM = :mc1 OR d.vatM = :mc2 OR d.vatM = :mc3)"),
     @NamedQuery(name = "Dok.findByDuplikat", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik"),
-    @NamedQuery(name = "Dok.findByRMPT", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.typdokumentu = :typdokumentu"),
+    @NamedQuery(name = "Dok.findByRMPT", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.rodzajedok.skrot = :typdokumentu"),
     @NamedQuery(name = "Dok.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.podatnik FROM Dok d WHERE d.wprowadzil = :wprowadzil")
 })
 @Cacheable 
@@ -96,11 +96,11 @@ public class Dok extends DokSuper implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_dok")
     private Long idDok;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "typdokumentu")
-    private String typdokumentu;
+//    @Basic(optional = false)
+//    @NotNull
+//    @Size(min = 1, max = 255)
+//    @Column(name = "typdokumentu")
+//    private String typdokumentu;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rodzajedok", referencedColumnName = "id")
     private Rodzajedok rodzajedok;
@@ -235,14 +235,12 @@ public class Dok extends DokSuper implements Serializable {
     public Dok() {
         this.listakwot1 = new ArrayList<>();
         this.cechadokumentuLista = new ArrayList<>();
-        this.typdokumentu = "";
         this.getListakwot1().add(new KwotaKolumna1());
     }
 
     public Dok(Long idDok) {
         this.listakwot1 = new ArrayList<>();
         this.cechadokumentuLista = new ArrayList<>();
-        this.typdokumentu = "";
         this.getListakwot1().add(new KwotaKolumna1());
         this.idDok = idDok;
     }
@@ -501,14 +499,6 @@ public class Dok extends DokSuper implements Serializable {
 
     public void setStorno(ArrayList<Stornodoch> storno) {
         this.storno = storno;
-    }
-
-    public String getTypdokumentu() {
-        return typdokumentu;
-    }
-
-    public void setTypdokumentu(String typdokumentu) {
-        this.typdokumentu = typdokumentu;
     }
 
     public Double getBrutto() {

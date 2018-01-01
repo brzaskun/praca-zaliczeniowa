@@ -1536,10 +1536,10 @@ public final class DokView implements Serializable {
                     poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt(), klient, wpisView.getRokUprzedniSt());
                 }
                 if (poprzedniDokument != null) {
-                    selDokument.setTypdokumentu(poprzedniDokument.getTypdokumentu());
+                    selDokument.setTypdokumentu(poprzedniDokument.getRodzajedok().getSkrot());
                     selDokument.setRodzajedok(poprzedniDokument.getRodzajedok());
-                    typdokumentu = poprzedniDokument.getTypdokumentu();
-                    typpoprzedniegodokumentu = poprzedniDokument.getTypdokumentu();
+                    typdokumentu = poprzedniDokument.getRodzajedok().getSkrot();
+                    typpoprzedniegodokumentu = poprzedniDokument.getRodzajedok().getSkrot();
                     selDokument.setOpis(poprzedniDokument.getOpis());
                     if (typpoprzedniegodokumentu.startsWith("S")) {
                         List<EVatwpis1> e = poprzedniDokument.getEwidencjaVAT1();
