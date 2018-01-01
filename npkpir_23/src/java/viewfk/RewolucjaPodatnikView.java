@@ -735,7 +735,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
     private Podatnik odnajdzdok(List<Podatnik> podatnik, String podatnik0) {
         Podatnik zwrot = null;
         for (Podatnik r : podatnik) {
-            if (r.getNazwapelna().equals(podatnik0)) {
+            if (r.getNazwapelna().trim().equals(podatnik0)) {
                 zwrot = r;
                 break;
             }
