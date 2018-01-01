@@ -201,11 +201,7 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     
     @Override
     public double getProcentvat() {
-//        double zwrot = this.getDok().getRodzTrans().getProcentvat();
-//        if (this.isPaliwo()) {
-//            zwrot = (50.0);
-//        }
-        return 100.0;
+        return this.getDok().getRodzajedok().getProcentvat();
     }
     
     @Override
