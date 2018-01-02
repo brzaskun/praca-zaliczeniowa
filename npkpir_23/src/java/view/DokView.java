@@ -296,6 +296,7 @@ public final class DokView implements Serializable {
                 wygenerujnumerkolejny();
             } else {
                 this.typdokumentu = "ZZ";
+                selDokument.setRodzajedok(rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt()));
             }
         } catch (Exception e) {
             this.typdokumentu = "ZZ";
