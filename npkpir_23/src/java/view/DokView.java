@@ -300,6 +300,7 @@ public final class DokView implements Serializable {
             }
         } catch (Exception e) {
             this.typdokumentu = "ZZ";
+            selDokument.setRodzajedok(rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt()));
             E.e(e);
         }
         selDokument.setKontr1(wstawKlientaDoNowegoDok());
