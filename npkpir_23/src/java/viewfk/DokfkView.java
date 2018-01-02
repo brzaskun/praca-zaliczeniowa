@@ -263,28 +263,30 @@ public class DokfkView implements Serializable {
     @PostConstruct
     private void init() {
         try {
-            //resetujDokument(); //to jest chyba niepotrzebne bo ta funkcja jest wywolywana jak otwieram okienko wpisu i potem po kazdym zachowaniu
-            //obsluzcechydokumentu();
-            stworzlisteewidencjiRK();
-            //RequestContext.getCurrentInstance().update("ewidencjavatRK");
-            dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-            //wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
-            //wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
-            wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
-            klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-            ewidencjadlaRKDEL = evewidencjaDAO.znajdzponazwie("zakup");
-            wybranacechadok = null;
-            pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
-            pobranecechypodatnikzapas.addAll(pobranecechypodatnik);
-            if (klientdlaPK == null) {
-                klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
+            if (wpisView.isKsiegirachunkowe()) {
+                //resetujDokument(); //to jest chyba niepotrzebne bo ta funkcja jest wywolywana jak otwieram okienko wpisu i potem po kazdym zachowaniu
+                //obsluzcechydokumentu();
+                stworzlisteewidencjiRK();
+                //RequestContext.getCurrentInstance().update("ewidencjavatRK");
+                dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+                //wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
+                //wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
+                wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
+                klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                ewidencjadlaRKDEL = evewidencjaDAO.znajdzponazwie("zakup");
+                wybranacechadok = null;
+                pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
+                pobranecechypodatnikzapas.addAll(pobranecechypodatnik);
+                if (klientdlaPK == null) {
+                    klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
+                }
+                miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
+                kontadlaewidencji.put("221-3", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                resetujDokumentOpen();
             }
-            miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
-            kontadlaewidencji.put("221-3", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
-            kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
-            kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
-            kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
-            resetujDokumentOpen();
         } catch (Exception e) {
             E.e(e);
         }

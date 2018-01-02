@@ -73,7 +73,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -94,7 +93,6 @@ import waluty.Z;
 public final class DokView implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private HtmlSelectOneMenu pkpirLista;
     @Inject
     private Dok selDokument;
     @Inject
@@ -132,8 +130,8 @@ public final class DokView implements Serializable {
 
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    @ManagedProperty(value = "#{KlView}")
-    private KlView klView;
+//    @ManagedProperty(value = "#{KlView}")
+//    private KlView klView;
     @ManagedProperty(value = "#{srodkiTrwaleView}")
     private SrodkiTrwaleView sTRView;
     @ManagedProperty(value = "#{STRTableView}")
@@ -379,46 +377,9 @@ public final class DokView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
     }
 
-    /**
-     * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
-     * czy to transakcja zakupu czy sprzedazy
-     */
-    /**
-     * Ta funckja jest gdy wpisuje dokument i dziala
-     * params.get("dodWiad:rodzajTrans")
-     */
+       
     public void podepnijListe() {
-        try {
-            pkpirLista.getChildren().clear();
-        } catch (Exception egf) {
-            pkpirLista = new HtmlSelectOneMenu();
-        }
-        podepnijListecd(typdokumentu);
-    }
-
-    /**
-     * Ta funckja jest gdy edytuje dokument i dziala
-     * params.get("dodWiad:rodzajTrans")
-     */
-    public void podepnijListe(String skrot) {
-        try {
-            pkpirLista.getChildren().clear();
-        } catch (Exception egf) {
-            pkpirLista = new HtmlSelectOneMenu();
-        }
-        podepnijListecd(skrot);
-    }
-    
-    public void podepnijListecd(String skrot) {
-        Iterator itd = rodzajedokKlienta.iterator();
-        String transakcjiRodzaj = null;
-        while (itd.hasNext()) {
-            Rodzajedok temp = (Rodzajedok) itd.next();
-            if (temp.getSkrotNazwyDok().equals(skrot)) {
-                transakcjiRodzaj = temp.getRodzajtransakcji();
-                break;
-            }
-        }
+        String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
         if (wpisView.isKsiegaryczalt()) {
             kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
         } else {
@@ -430,44 +391,7 @@ public final class DokView implements Serializable {
             }
     }
 
-//    public void podepnijListecd(String skrot) {
-//        Iterator itd;
-//        itd = rodzajedokKlienta.iterator();
-//        String transakcjiRodzaj = "";
-//        while (itd.hasNext()) {
-//            Rodzajedok temp = (Rodzajedok) itd.next();
-//            if (temp.getSkrotNazwyDok().equals(skrot)) {
-//                transakcjiRodzaj = temp.getRodzajtransakcji();
-//                break;
-//            }
-//        }
-//        List valueList = new ArrayList();
-//        UISelectItems ulista = new UISelectItems();
-//        if (wpisView.isKsiegaryczalt()) {
-//            kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
-//        } else {
-//            kolumny = Kolmn.zwrockolumnyR(transakcjiRodzaj);
-//        }
-//        /*dodajemy na poczatek zwyczajawa kolumne klienta*/
-//        if (selDokument.getKontr() != null) {
-//            if (selDokument.getKontr().getPkpirKolumna() != null) {
-//                String kol = selDokument.getKontr().getPkpirKolumna();
-//                SelectItem selectI = new SelectItem(kol, kol);
-//                valueList.add(selectI);
-//            }
-//            /**/
-//            for (String kolumnanazwa : kolumny) {
-//                SelectItem selectItem = new SelectItem(kolumnanazwa, kolumnanazwa);
-//                valueList.add(selectItem);
-//            }
-//            ulista.setValue(valueList);
-//            switch (transakcjiRodzaj) {
-//                case "srodek trw sprzedaz":
-//                    setPokazEST(true);
-//                    RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
-//            }
-//        }
-//    }
+
 
     public void podepnijEwidencjeVat() {
 //        if (selDokument.getTabelanbp() != null && !selDokument.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
@@ -475,33 +399,27 @@ public final class DokView implements Serializable {
 //            sumujnetto();
 //            ewidencjaAddwiad = new ArrayList<>();
 //        } else 
-        String typdok = typdokumentu != null ? typdokumentu : selDokument.getRodzajedok().getSkrot();
-        if (selDokument.isDokumentProsty() && !typdok.equals("IU")) {
+        if (selDokument.isDokumentProsty() && !selDokument.getRodzajedok().getSkrot().equals("IU")) {
             ukryjEwiencjeVAT = true;
             sumujnetto();
             ewidencjaAddwiad = new ArrayList<>();
         } else {
             ukryjEwiencjeVAT = false;
-            String transakcjiRodzaj = "";
-            for (Rodzajedok temp : rodzajedokKlienta) {
-                if (temp.getSkrotNazwyDok().equals(typdokumentu)) {
-                    transakcjiRodzaj = temp.getRodzajtransakcji();
-                    break;
-                }
-            }
+            String typdok = selDokument.getRodzajedok().getSkrot();
+            String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
             if (wpisView.isVatowiec() == true || typdok.equals("IU")) {
                 /*wyswietlamy ewidencje VAT*/
                 List<Evewidencja> opisewidencji = new ArrayList<>();
                 selDokument.setDokumentProsty(false);
                 opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(transakcjiRodzaj));
-                if (typdokumentu.equals("UPTK")) {
+                if (typdok.equals("UPTK")) {
                     for (Iterator<Evewidencja> it = opisewidencji.iterator(); it.hasNext();) {
                         Evewidencja p = it.next();
                         if (p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
                             it.remove();
                         }
                     }
-                } else if (typdokumentu.equals("UPTK100")) {
+                } else if (typdok.equals("UPTK100")) {
                     for (Iterator<Evewidencja> it = opisewidencji.iterator(); it.hasNext();) {
                         Evewidencja p = it.next();
                         if (p.getNazwa().equals("usługi świad. poza ter.kraju")) {
@@ -528,11 +446,10 @@ public final class DokView implements Serializable {
                 }
                 //obliczam 23% dla pierwszego
                 ewidencjaAddwiad.get(0).setNetto(sumanetto);
-                Rodzajedok r = rodzajedokDAO.find(typdokumentu, wpisView.getPodatnikObiekt());
                 if (transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.")
                         || transakcjiRodzaj.equals("eksport towarów") || transakcjiRodzaj.equals("odwrotne obciążenie sprzedawca")) {
                     ewidencjaAddwiad.get(0).setVat(0.0);
-                } else if (r.getProcentvat() != 0.0) {
+                } else if (selDokument.getRodzajedok().getProcentvat() != 0.0) {
                     ewidencjaAddwiad.get(0).setVat(Z.z((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2));
                     ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + Z.z(((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2)));
                     sumbrutto = ewidencjaAddwiad.get(0).getNetto() + Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23);
@@ -713,24 +630,16 @@ public final class DokView implements Serializable {
     
     public void wygenerujnumerkolejny() {
         String nowynumer = "";
-        List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-        Rodzajedok rodzajdok = new Rodzajedok();
-        for (Rodzajedok p : listaD) {
-            if (p.getSkrotNazwyDok().equals(typdokumentu)) {
-                rodzajdok = p;
-                break;
-            }
-        }
-        String wzorzec = rodzajdok.getWzorzec();
+        String wzorzec = selDokument.getRodzajedok().getWzorzec();
         if (wzorzec != null && !wzorzec.equals("")) {
             try {
-                nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, typdokumentu, wpisView, dokDAO);
+                nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, selDokument.getRodzajedok().getSkrot(), wpisView, dokDAO);
             } catch (Exception e) {
                 nowynumer = wzorzec;
             }
         }
-        renderujwyszukiwarke(rodzajdok);
-        renderujtabele(rodzajdok);
+        renderujwyszukiwarke(selDokument.getRodzajedok());
+        renderujtabele(selDokument.getRodzajedok());
         selDokument.setNrWlDk(nowynumer);
         RequestContext.getCurrentInstance().update("dodWiad:numerwlasny");
     }
@@ -856,6 +765,7 @@ public final class DokView implements Serializable {
             selDokument.setBrutto(kwotabrutto);
             selDokument.setUsunpozornie(false);
             //jezeli jest edytowany dokument to nie dodaje a edytuje go w bazie danych
+            Rodzajedok rodzajdokdoprzeniesienia = selDokument.getRodzajedok();
             if (rodzajdodawania == 1) {
                 sprawdzCzyNieDuplikat(selDokument);
                 dokDAO.dodaj(selDokument);
@@ -896,6 +806,8 @@ public final class DokView implements Serializable {
                 selDokument.setVatR(wpisView.getRokWpisuSt());
                 selDokument.setKontr1(wstawKlientaDoNowegoDok());
                 selDokument.setTabelanbp(domyslatabela);
+                selDokument.setWalutadokumentu(domyslatabela.getWaluta());
+                selDokument.setRodzajedok(rodzajdokdoprzeniesienia);
                 selectedSTR = new SrodekTrw();
                 if (!wpisView.isVatowiec() && !selDokument.getRodzajedok().getSkrot().equals("IU")) {
                     selDokument.setDokumentProsty(true);
@@ -908,7 +820,7 @@ public final class DokView implements Serializable {
                 selDokument.setOpis(wysDokument.getOpis());
                 setRenderujwysz(false);
                 setPokazEST(false);
-                wygenerujnumerkolejny();
+                //wygenerujnumerkolejny();nie potrzebne jest generowane w xhtml
                 int i = 0;
                 try {
                     if (wysDokument.getListakwot1() != null) {
@@ -1374,7 +1286,7 @@ public final class DokView implements Serializable {
             Rodzajedok rodzajdok = selDokument.getRodzajedok();
             typdokumentu = rodzajdok.getSkrot();
             selDokument.setNrWlDk(null);
-            podepnijListe(rodzajdok.getSkrot());
+            podepnijListe();
             renderujwyszukiwarke(rodzajdok);
             renderujtabele(rodzajdok);
         } catch (Exception e) {
@@ -1391,9 +1303,7 @@ public final class DokView implements Serializable {
     private void skopiujdoedycjidane() {
         selDokument = dokTabView.getGosciuwybral().get(0);
         liczbawierszy = selDokument.getListakwot1().size();
-        String skrot = selDokument.getRodzajedok().getSkrot();
-        typdokumentu = skrot;
-        podepnijListe(skrot);//to jest wybor kolumn do selectOneMenu bez tego nie ma selectedItems
+        podepnijListe();//to jest wybor kolumn do selectOneMenu bez tego nie ma selectedItems
         if (selDokument.getListakwot1().isEmpty()) {
             KwotaKolumna1 kwotaKolumna1 = new KwotaKolumna1();
             kwotaKolumna1.setDok(selDokument);
@@ -1791,13 +1701,13 @@ public final class DokView implements Serializable {
         this.ewidencjaAddwiad = ewidencjaAddwiad;
     }
 
-    public KlView getKlView() {
-        return klView;
-    }
-
-    public void setKlView(KlView klView) {
-        this.klView = klView;
-    }
+//    public KlView getKlView() {
+//        return klView;
+//    }
+//
+//    public void setKlView(KlView klView) {
+//        this.klView = klView;
+//    }
 
     public SrodekTrw getSelectedSTR() {
         return selectedSTR;
@@ -1813,14 +1723,6 @@ public final class DokView implements Serializable {
 
     public void setDokDAO(DokDAO dokDAO) {
         this.dokDAO = dokDAO;
-    }
-
-    public HtmlSelectOneMenu getPkpirLista() {
-        return pkpirLista;
-    }
-
-    public void setPkpirLista(HtmlSelectOneMenu pkpirLista) {
-        this.pkpirLista = pkpirLista;
     }
 
     public Klienci getSelectedKontr() {
