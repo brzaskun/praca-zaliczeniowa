@@ -25,12 +25,14 @@ public class Roki implements Serializable{
 
     static{
         rokiList = new ArrayList<>();
+        rokiList.add(2018);
         rokiList.add(2017);
         rokiList.add(2016);
         rokiList.add(2015);
         rokiList.add(2014);
         rokiList.add(2013);
         rokiListS = new ArrayList<>();
+        rokiListS.add("2018");
         rokiListS.add("2017");
         rokiListS.add("2016");
         rokiListS.add("2015");
