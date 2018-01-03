@@ -86,7 +86,7 @@ public class Wiersz implements Serializable {
     @JoinColumn(name = "TABELANBP_idtabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne(fetch = FetchType.LAZY)
     private Tabelanbp tabelanbp;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.LAZY)
     @MapKeyColumn(name = "strona_key")
     private Map<String, StronaWiersza> strona;
     @Column(name = "lpmacierzystego")
