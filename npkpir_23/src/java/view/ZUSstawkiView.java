@@ -139,7 +139,7 @@ public class ZUSstawkiView implements Serializable {
 
     public void wybranowiadomosc() {
         wprowadzanie = serialclone.SerialClone.clone(selected);
-        Msg.msg("Wybrano stawki ZUS.");
+        Msg.msg("Wybrano stawki ZUS  za okres"+selected.getZusstawkiPK().getRok()+"/"+selected.getZusstawkiPK().getMiesiac());
     }
 
     public int sortujZUSstawki(Object obP, Object obW) {

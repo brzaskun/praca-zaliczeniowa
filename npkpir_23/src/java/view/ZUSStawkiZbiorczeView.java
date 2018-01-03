@@ -66,7 +66,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     
     private void ustawRokMc() {
         biezacyRok = String.valueOf(new DateTime().getYear());
-        String biezacyMc = Mce.getNumberToMiesiac().get((new DateTime().getMonthOfYear())+1 > 12 ? 12 : (new DateTime().getMonthOfYear())-1);
+        String biezacyMc = Mce.getNumberToMiesiac().get((new DateTime().getMonthOfYear()));
         if (obrabianeparametryzus == null) {
             obrabianeparametryzus = new Zusstawki();
         }
@@ -178,7 +178,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             dodaj0edtuj1 = false;
             Msg.msg("Usunięto parametr ZUS do podatnika "+selected.getNazwapelna());
         } catch (Exception e) { E.e(e); 
-            Msg.msg("Nieusunięto parametr ZUS do podatnika "+selected.getNazwapelna());
+            Msg.msg("Nieusunięto parametr ZUS do podatnika. Nie wybrano wiersza."+selected.getNazwapelna());
         }
     }
       
@@ -269,27 +269,31 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         obrabianeparametryzus = serialclone.SerialClone.clone(zusstawki);
         zonglerkaPrzyciskamiDodajEdytuj(zusparametr);
         pokazButtonUsun = true;
-        Msg.msg("Wybrano stawki ZUS.");
+        Msg.msg("Wybrano stawki ZUS  za okres"+zusstawki.getZusstawkiPK().getRok()+"/"+zusstawki.getZusstawkiPK().getMiesiac());
     }
     
     
      public int sortujZUSstawki(Object obP, Object obW)  {
-        int rokO1 = Integer.parseInt(((ZusstawkiPK) obP).getRok());
-        int rokO2 = Integer.parseInt(((ZusstawkiPK) obW).getRok());
-        int mcO1 = Integer.parseInt(((ZusstawkiPK) obP).getMiesiac());
-        int mcO2 = Integer.parseInt(((ZusstawkiPK) obW).getMiesiac());
-        if (rokO1 < rokO2) {
-            return -1;
-        } else if (rokO1 > rokO2) {
-            return 1;
-        } else if (rokO1 == rokO2) {
-            if (mcO1 == mcO2) {
-                return 0;
-            } else if (mcO1 < mcO2) {
+        try {
+            int rokO1 = Integer.parseInt(((ZusstawkiPK) obP).getRok());
+            int rokO2 = Integer.parseInt(((ZusstawkiPK) obW).getRok());
+            int mcO1 = Integer.parseInt(((ZusstawkiPK) obP).getMiesiac());
+            int mcO2 = Integer.parseInt(((ZusstawkiPK) obW).getMiesiac());
+            if (rokO1 < rokO2) {
                 return -1;
-            } else {
+            } else if (rokO1 > rokO2) {
                 return 1;
+            } else if (rokO1 == rokO2) {
+                if (mcO1 == mcO2) {
+                    return 0;
+                } else if (mcO1 < mcO2) {
+                    return -1;
+                } else {
+                    return 1;
+                }
             }
+        } catch (Exception e) {
+            
         }
         return 0;
     }

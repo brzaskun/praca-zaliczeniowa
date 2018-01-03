@@ -33,6 +33,7 @@ import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.event.SelectEvent;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -97,19 +98,21 @@ public class ZUSMailView implements Serializable {
         }
     }
     private static final String trescmaila = "<p> Szanowny Podatniku</p> <p> W niniejszym mailu znajdziesz naliczone kwoty zobowiązań z tytułu ZUS I PIT-4</p> "
-            + "<p> do zapłaty w miesiącu <span style=\"color:#008000;\">%s/%s</span></p> "
+            + "<p> do zapłaty/przelania w miesiącu <span style=\"color:#008000;\">%s/%s</span></p> "
             + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"> <caption> zestawienie zobowiązań</caption> <thead> <tr> "
             + "<th scope=\"col\"> lp</th> <th scope=\"col\"> tytuł</th> <th scope=\"col\"> kwota</th> </tr> </thead> <tbody> <tr> <td style=\"text-align: center;\"> 1</td> "
             + "<td> ZUS 51</td> <td style=\"text-align: right;\"> %.2f</td> </tr> <tr> <td style=\"text-align: center;\"> 2</td>"
             + " <td> ZUS 52</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <tr> <td style=\"text-align: center;\"> 3</td>"
-            + " <td> ZUS 53</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <tr> <td style=\"text-align: center;\"> 4</td> <td>"
+            + " <td> ZUS 53</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <tr> <td style=\"text-align: center;\"> 4</td> "
+            + " <td> Razem ZUS do przelania</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <tr> <td style=\"text-align: center;\"> 5</td><td>"
             + " PIT-4</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <td style=\"text-align: center;\"> 5</td> <td>"
             + " PIT-8</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> </tbody> </table>"
             + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> "
+            + "<p> Ważne! Przelew do ZUS od stycznia 2018 robimy jedną kwotą na JEDNO indywidulane konto wskazane przez ZUS.</p>"
             + "<p> Przypominamy o terminach płatności ZUS:</p>"
             + " <p> do <span style=\"color:#008000;\">10-go</span> &nbsp;- dla os&oacute;b niezatrudniających pracownik&oacute;w</p>"
             + " <p> do <span style=\"color:#008000;\">15-go</span> - dla firm z pracownikami</p>"
-            + " <p> do <span style=\"color:#006400;\">20-go</span> - PIT-4 od wynagrodzeń pracownik&oacute;w</p>"
+            + " <p> do <span style=\"color:#006400;\">20-go</span> - PIT-4/PIT-8 od wynagrodzeń pracownik&oacute;w</p>"
             + " <p> &nbsp;</p>";
     
     public void przygotujmaile() {
@@ -143,7 +146,8 @@ public class ZUSMailView implements Serializable {
                     pit4 = zusmail.getPit4()!= null ? zusmail.getPit4(): 0;
                     pit8 = zusmail.getPit8()!= null ? zusmail.getPit8(): 0;
                     zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
-                    zusmail.setTresc(String.format(new Locale("pl"),trescmaila, rok, mc, zus51, zus52, zus53, pit4, pit8));
+                    double sumazus = Z.z(zus51+zus52+zus53);
+                    zusmail.setTresc(String.format(new Locale("pl"),trescmaila, rok, mc, zus51, zus52, zus53, sumazus, pit4, pit8));
                     zusmail.setAdresmail(p.getEmail());
                     zusmail.setWysylajacy(wpisView.getWprowadzil().getLogin());
                     if (!wykazprzygotowanychmaili.contains(zusmail)) {
