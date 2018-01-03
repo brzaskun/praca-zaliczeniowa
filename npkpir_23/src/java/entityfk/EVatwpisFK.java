@@ -62,6 +62,10 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private int innyokres;
     @Column(name = "numerwlasnydokfk", nullable = false, length = 120)
     private String numerwlasnydokfk;
+    @Column(name = "opisvat", nullable = false, length = 120)
+    private String opisvat;
+
+   
     
     
 
@@ -107,7 +111,13 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     public void setNumerwlasnydokfk(String numerwlasnydokfk) {
         this.numerwlasnydokfk = numerwlasnydokfk;
     }
-    
+     public String getOpisvat() {
+        return opisvat;
+    }
+
+    public void setOpisvat(String opisvat) {
+        this.opisvat = opisvat;
+    }
      public boolean isPaliwo() {   
         return paliwo;
     }

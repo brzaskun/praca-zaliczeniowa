@@ -601,6 +601,13 @@ public class DokFKVATBean {
         double vatEwidVat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();
         Konto kontoRozrachunkowe = null;
+        String wierszpierwszyopis = ewidencjaVatRK.getNumerwlasnydokfk()+", "+ewidencjaVatRK.getOpisvat()+", ";
+        String kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona();
+        if (kontrnazwa == null) {
+            kontrnazwa = ewidencjaVatRK.getKlient().getNpelna();
+        }
+        kontrnazwa = kontrnazwa.length() < 18 ? kontrnazwa : kontrnazwa.substring(0, 17);
+        wierszpierwszyopis = wierszpierwszyopis+kontrnazwa;
         if (selected.getRodzajedok().getSkrotNazwyDok().equals("DEL")) {
             try {
                 kontoRozrachunkowe = kontoDAOfk.findKontoNazwaPelnaPodatnik(selected.getNumerwlasnydokfk(), wpisView);
@@ -615,15 +622,7 @@ public class DokFKVATBean {
             if (wierszpierwszy != null) {
                 StronaWiersza wn = wierszpierwszy.getStronaWn();
                 StronaWiersza ma = wierszpierwszy.getStronaMa();
-                if (wierszpierwszy.getOpisWiersza().equals("")) {
-                    wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
-                }
-                String kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona();
-                if (kontrnazwa == null) {
-                    kontrnazwa = ewidencjaVatRK.getKlient().getNpelna();
-                }
-                kontrnazwa = kontrnazwa.length() < 18 ? kontrnazwa : kontrnazwa.substring(0, 17);
-                wierszpierwszy.setOpisWiersza(wierszpierwszy.getOpisWiersza()+" "+kontrnazwa);
+                wierszpierwszy.setOpisWiersza(wierszpierwszyopis);
                 wierszpierwszy.setTabelanbp(selected.getTabelanbp());
                 wn.setKwota(nettoEwidVat);
                 ma.setKwota(nettoEwidVat + vatEwidVat);
@@ -704,6 +703,13 @@ public class DokFKVATBean {
         List<Wiersz> nowewiersze = new ArrayList<>();
         double nettoEwidVat = ewidencjaVatRK.getNetto();
         double vatEwidVat = ewidencjaVatRK.getVat();
+        String wierszpierwszyopis = ewidencjaVatRK.getNumerwlasnydokfk()+", "+ewidencjaVatRK.getOpis()+", ";
+        String kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona();
+        if (kontrnazwa == null) {
+            kontrnazwa = ewidencjaVatRK.getKlient().getNpelna();
+        }
+        kontrnazwa = kontrnazwa.length() < 18 ? kontrnazwa : kontrnazwa.substring(0, 17);
+        wierszpierwszyopis = wierszpierwszyopis+kontrnazwa;
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();
         Konto kontoRozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
         if (kontoRozrachunkowe != null) {
@@ -715,6 +721,7 @@ public class DokFKVATBean {
                 wn.setKwota(nettoEwidVat);
                 ma.setKwota(nettoEwidVat + vatEwidVat);
                 nowewiersze.add(wierszpierwszy);
+                wierszpierwszy.setOpisWiersza(wierszpierwszyopis);
             }
              if (vatEwidVat != 0.0) {
                 double vatodliczenie = Z.z(vatEwidVat / 2.0);
@@ -724,11 +731,13 @@ public class DokFKVATBean {
                      if (ewidencjaVatRK.isPaliwo()) {
                          ewidencjaVatRK.setVat(vatodliczenie);
                          ewidencjaVatRK.setBrutto(nettoEwidVat + vatodliczenie);
-                     }
+                                             }
                      if (ewidencjaVatRK.isPaliwo()) {
                          wierszdrugi.getStronaWn().setKwota(vatodliczenie);
+                         wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat podl. odlicz.");
                      } else {
                          wierszdrugi.getStronaWn().setKwota(vatEwidVat);
+                         wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
                      }
                  }
                  wierszdrugi.setTabelanbp(selected.getTabelanbp());

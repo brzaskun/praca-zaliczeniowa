@@ -7,15 +7,14 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
     <p:dialog id="dialogewidencjavatRK" header="Ewidencja VAT RK/DEL wiersz #{dokfkView.lpwierszaRK}" widgetVar="dialogewidencjavatRK"  appendTo="@(body)"
-              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',750,220);" modal="true"
+              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',800,220);" modal="true"
               closeOnEscape="true" onHide="ukryjdialogvatrk();" >
         <h:form id="ewidencjavatRK"> 
-            <p:panelGrid id="paneldatydokumentu" columns="5" style="width: 600px;"  styleClass="uipanelGrid0">
+            <p:panelGrid id="paneldatydokumentu" columns="4" style="width: 600px;"  styleClass="uipanelGrid0">
                 <h:outputText value="data dokumentu"/>
                 <h:outputText value="data operacji gosp."/>
                 <h:outputText value="nr wł dok."/>
                 <h:outputText value="dane kontrahenta"/>
-                <h:outputText value="50%" />
                 <h:inputText id="data1DialogVAT" value="#{dokfkView.ewidencjaVatRK.datadokumentu}"
                              onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogVAT');
                                              $(this).removeClass('ui-state-focus');
@@ -44,9 +43,9 @@
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
                                 cache="true" forceSelection="true" queryDelay="10"  styleClass="wpisywaniekontrfk" 
                                 required="true" requiredMessage="Pole klienta nie może być puste" onblur="sprawdzczybrakklientaRK();"
-                                style="width: 250px;">
+                                style="width: 300px;">
                     <p:ajax event="query" global="false"/>
-                    <p:ajax event="itemSelect" listener="#{dokfkView.dodajklientaautomatRK()}" partialSubmit="true"/>
+                    <p:ajax event="itemSelect" listener="#{dokfkView.dodajklientaautomatRK()}" partialSubmit="true" global="false"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
                             <f:facet name="header">  
@@ -61,14 +60,17 @@
                         </h:panelGrid>
                     </f:facet>
                 </p:autoComplete>
-                <p:selectBooleanCheckbox label="Paliwo" value="#{dokfkView.ewidencjaVatRK.paliwo}"/>
+               
             </p:panelGrid>
-            <p:panelGrid id="panelzewidencjavat" columns="5"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
+            <p:panelGrid id="panelzewidencjavat" columns="7"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
+                <h:outputText value="opis ewidencji" style="width: 160px;"/>
                 <h:outputText value="rodzaj ewidencji" style="width: 110px;"/>
                 <h:outputText value="#{mgs.netto}" style="width: 95px;"/>
                 <h:outputText value="#{mgs.VAT}" style="width: 95px;"/>
                 <h:outputText value="brutto" style="width: 95px;"/>
                 <h:outputText value="op/zw" style="width: 75px;"/>
+                <h:outputText value="50%" />
+                <p:inputText value="#{dokfkView.ewidencjaVatRK.opisvat}" style="width: 170px;"/>
                 <h:selectOneMenu value="#{dokfkView.ewidencjaVatRK.ewidencja}" converter="EVatwpisFKConv"
                                  onblur="$(this).removeClass('ui-state-focus');
                                         $(this).addClass('ui-state-default');"
@@ -101,6 +103,7 @@
                     <f:selectItem itemLabel="sprz.op" itemValue="sprz.op"/>
                     <f:selectItem itemLabel="sprzed.op.izw." itemValue="sprzed.op.izw."/>
                 </h:selectOneMenu>
+                 <p:selectBooleanCheckbox label="Paliwo" value="#{dokfkView.ewidencjaVatRK.paliwo}"/>
             </p:panelGrid>
             <p:commandButton value="Zapisz" style="margin-left: 30%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dolaczWierszZKwotamiRK}" 
                              oncomplete="odtworzwierszVATRK(#{dokfkView.lpWierszaWpisywanie});PF('dialogewidencjavatRK').hide();" global="false" rendered="#{!dokfkView.ewidencjaVATRKzapis0edycja1}"/>
