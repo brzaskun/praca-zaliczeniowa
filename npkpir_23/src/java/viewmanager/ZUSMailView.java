@@ -106,7 +106,7 @@ public class ZUSMailView implements Serializable {
             + " <td> ZUS 53</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <tr> <td style=\"text-align: center;\"> 4</td> "
             + " <td> Razem ZUS do przelania</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <tr> <td style=\"text-align: center;\"> 5</td><td>"
             + " PIT-4</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <td style=\"text-align: center;\"> 5</td> <td>"
-            + " PIT-8</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> </tbody> </table>"
+            + " PIT-8AR</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> </tbody> </table>"
             + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> "
             + "<p> Ważne! Przelew do ZUS od stycznia 2018 robimy jedną kwotą na JEDNO indywidulane konto wskazane przez ZUS.</p>"
             + "<p> Przypominamy o terminach płatności ZUS:</p>"
