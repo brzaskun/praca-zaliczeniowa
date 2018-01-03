@@ -35,6 +35,38 @@
           });;
       };
     </script>
+     <p:outputPanel id="wrapper">
+        <h:form>
+            <p:dataTable  var="wpis" value="#{sesjaView.wykazsesjiZalogowani}" id="lista" sortOrder="descending"
+                          paginator="true" paginatorAlwaysVisible="true" rows="20" sortBy="#{wpis.zalogowanie}"
+                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                          rowsPerPageTemplate="20,50,100" 
+                          rowKey="#{wpis.nrsesji}"> 
+                <f:facet name="header">  
+                    <h:outputText value="Wykaz zalogowanych osób" />  
+                </f:facet>
+                <p:column headerText="nr sesji" >  
+                    <h:outputText value="#{wpis.nrsesji}" />
+                </p:column>
+                <p:column headerText="login" >  
+                    <h:outputText value="#{wpis.uzytkownik}" />
+                </p:column>
+                <p:column headerText="ip" >  
+                    <h:outputText value="#{wpis.ip}" />
+                </p:column>
+                <p:column headerText="login">  
+                    <h:outputText value="#{wpis.zalogowanie}" >
+                        <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="logout" >  
+                    <h:outputText value="#{wpis.wylogowanie}" >
+                        <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:outputPanel>
 <!--    <h:form>
         <p:commandButton value="dok podid" actionListener="#{rewolucjaPodatnikView.edycjadok()}"/>
     </h:form>

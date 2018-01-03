@@ -8,6 +8,9 @@ import dao.SesjaDAO;
 import entity.Sesja;
 import error.E;
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,6 +33,7 @@ public class SesjaView implements Serializable {
     @Inject
     private SesjaDAO sesjaDAO;
     private List<Sesja> wykazsesji;
+    private List<Sesja> wykazsesjiZalogowani;
 
     public SesjaView() {
 
@@ -37,9 +41,39 @@ public class SesjaView implements Serializable {
 
     @PostConstruct
     private void init() {
-       
+       pobierzsesjeZalogowani();
     }
 
+    public void pobierzsesjeZalogowani() {
+        try {
+            wykazsesjiZalogowani = sesjaDAO.findSesjaZalogowani();
+            for (Iterator<Sesja> it = wykazsesjiZalogowani.iterator(); it.hasNext(); ) {
+                Sesja s = it.next();
+                if (s.getWylogowanie() == null) {
+                    java.time.LocalDate zalogowanie = asLocalDate(s.getZalogowanie());
+                    java.time.LocalDate limes = asLocalDate(new Date()).minusDays(1);
+                    if (limes.compareTo(zalogowanie) > 0) {
+                        it.remove();
+                    }
+                }
+            }
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+    }
+    
+    public static void main(String[] args){
+        java.time.LocalDate ld = asLocalDate(new Date()).minusDays(1);
+        System.out.println(ld);
+        java.time.LocalDate ld2 = asLocalDate(new Date());
+        System.out.println(ld2);
+        System.out.println(ld2.compareTo(ld));
+    }
+    
+  public static java.time.LocalDate asLocalDate(Date date) {
+    return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+  }
+    
     public void pobierzsesje() {
         try {
             wykazsesji = sesjaDAO.findAll();
@@ -114,6 +148,14 @@ public class SesjaView implements Serializable {
 
     public void setWykazsesji(List<Sesja> wykazsesji) {
         this.wykazsesji = wykazsesji;
+    }
+
+    public List<Sesja> getWykazsesjiZalogowani() {
+        return wykazsesjiZalogowani;
+    }
+
+    public void setWykazsesjiZalogowani(List<Sesja> wykazsesjiZalogowani) {
+        this.wykazsesjiZalogowani = wykazsesjiZalogowani;
     }
 
     

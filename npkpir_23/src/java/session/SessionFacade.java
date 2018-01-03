@@ -2124,5 +2124,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("EVatwpis1.findByRokKW").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList();
     }
 
+    public List<Sesja> findSesjaZalogowani() {
+        return em.createNamedQuery("Sesja.findByZalogowani").getResultList();
+    }
+
     
 }

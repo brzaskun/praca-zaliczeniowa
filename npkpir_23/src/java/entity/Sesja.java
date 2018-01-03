@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Sesja.findByIloscmaili", query = "SELECT s FROM Sesja s WHERE s.iloscmaili = :iloscmaili"),
     @NamedQuery(name = "Sesja.findByIloscwydrukow", query = "SELECT s FROM Sesja s WHERE s.iloscwydrukow = :iloscwydrukow"),
     @NamedQuery(name = "Sesja.findByNrsesji", query = "SELECT s FROM Sesja s WHERE s.nrsesji = :nrsesji"),
+    @NamedQuery(name = "Sesja.findByZalogowani", query = "SELECT s FROM Sesja s WHERE s.wylogowanie IS NULL"),
     @NamedQuery(name = "Sesja.findByUzytkownik", query = "SELECT s FROM Sesja s WHERE s.uzytkownik = :uzytkownik"),
     @NamedQuery(name = "Sesja.findByWylogowanie", query = "SELECT s FROM Sesja s WHERE s.wylogowanie = :wylogowanie"),
     @NamedQuery(name = "Sesja.findByZalogowanie", query = "SELECT s FROM Sesja s WHERE s.zalogowanie = :zalogowanie")})

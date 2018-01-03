@@ -52,4 +52,12 @@ public class SesjaDAO extends DAO implements Serializable {
         }
 
     }
+
+    public List<Sesja> findSesjaZalogowani() {
+        try {
+            return sesjaFacade.findSesjaZalogowani();
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
 }
