@@ -2773,8 +2773,6 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(wierszid);
                 wiersz.setTabelanbp(tabelanbprecznie);
                 przepiszWaluty(wiersz);
-                String update = "formwpisdokument:dataList:" + wierszid + ":kurswiersza";
-                RequestContext.getCurrentInstance().update(update);
                 poledlawaluty = "";
             }
         } catch (Exception e) {
