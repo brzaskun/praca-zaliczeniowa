@@ -70,6 +70,18 @@ public class VATDeklaracja implements Serializable {
             SchemaEwidencja se = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
             SchemaEwidencja sm = se.getSchemamacierzysta();
             pozycje.add(new EwidPoz(se, sm, ew.getNetto(), ew.getVat(), ew.getEwidencja().isTylkoNetto()));
+            if (sm != null) {
+                EwidPoz nowywierszmacierzysty = new EwidPoz(sm, null, BigDecimal.ZERO, BigDecimal.ZERO, ew.getEwidencja().isTylkoNetto());
+                boolean niemamacierzystego= true;
+                for (EwidPoz ewpoz : pozycje) {
+                    if (ewpoz.equals(nowywierszmacierzysty)) {
+                        niemamacierzystego = false;
+                    }
+                }
+                if (niemamacierzystego) {
+                    pozycje.add(nowywierszmacierzysty);
+                }
+            }
         }
         for (EwidPoz s : pozycje) {
             if (s.odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
@@ -77,6 +89,7 @@ public class VATDeklaracja implements Serializable {
                     if (st.odnalezionyWierszSchemaEwidencja.equals(s.odnalezionyWierszSchemaEwidencjaMacierzysty)) {
                         st.setNetto(st.getNetto()+s.getNetto());
                         st.setVat(st.getVat()+s.getVat());
+                        break;
                     }
                 }
             }

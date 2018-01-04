@@ -7,6 +7,7 @@ package beansVAT;
 
 import entity.SchemaEwidencja;
 import java.math.BigDecimal;
+import java.util.Objects;
 import waluty.Z;
 
 /**
@@ -23,6 +24,34 @@ public class EwidPoz {
     double vat;
     boolean tylkonetto;
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.odnalezionyWierszSchemaEwidencja);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EwidPoz other = (EwidPoz) obj;
+        if (!Objects.equals(this.odnalezionyWierszSchemaEwidencja, other.odnalezionyWierszSchemaEwidencja)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
+    
     public EwidPoz(SchemaEwidencja odnalezionyWierszSchemaEwidencja, SchemaEwidencja odnalezionyWierszSchemaEwidencjaMacierzysty, BigDecimal netto, BigDecimal vat, boolean tylkonetto) {
         this.polenetto = odnalezionyWierszSchemaEwidencja.getPolenetto();
         this.polevat = odnalezionyWierszSchemaEwidencja.getPolevat();
@@ -30,7 +59,7 @@ public class EwidPoz {
         this.odnalezionyWierszSchemaEwidencjaMacierzysty = odnalezionyWierszSchemaEwidencjaMacierzysty;
         this.netto = Z.z(netto.doubleValue());
         this.vat = Z.z(vat.doubleValue());
-        this.tylkonetto = false;
+        this.tylkonetto = tylkonetto;
     }
 
     public String getPolenetto() {
@@ -91,7 +120,11 @@ public class EwidPoz {
 
     @Override
     public String toString() {
-        return "EwidPoz{" + "polenetto=" + polenetto + ", polevat=" + polevat + ", odnalezionyWierszSchemaEwidencja=" + odnalezionyWierszSchemaEwidencja.getEvewidencja().getNazwa() + ", odnalezionyWierszSchemaEwidencjaMacierzysty=" + odnalezionyWierszSchemaEwidencjaMacierzysty.getEvewidencja().getNazwa() + ", netto=" + netto + ", vat=" + vat + ", tylkonetto=" + tylkonetto + '}';
+        if (odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
+            return "EwidPoz{" + "polenetto=" + polenetto + ", polevat=" + polevat + ", odnalezionyWierszSchemaEwidencja=" + odnalezionyWierszSchemaEwidencja.getEvewidencja().getNazwa() + ", odnalezionyWierszSchemaEwidencjaMacierzysty=" + odnalezionyWierszSchemaEwidencjaMacierzysty.getEvewidencja().getNazwa() + ", netto=" + netto + ", vat=" + vat + ", tylkonetto=" + tylkonetto + '}';
+        } else {
+            return "EwidPoz{" + "polenetto=" + polenetto + ", polevat=" + polevat + ", odnalezionyWierszSchemaEwidencja=" + odnalezionyWierszSchemaEwidencja.getEvewidencja().getNazwa() + ", odnalezionyWierszSchemaEwidencjaMacierzysty=null, netto=" + netto + ", vat=" + vat + ", tylkonetto=" + tylkonetto + '}';
+        }
     }
     
     

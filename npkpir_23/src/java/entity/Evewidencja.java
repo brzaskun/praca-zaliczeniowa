@@ -8,6 +8,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -45,7 +46,7 @@ public class Evewidencja implements Serializable {
     private String nazwa;
     @Size(max = 255)
     @JoinColumn(name = "nazwapola", referencedColumnName = "nazwapola",nullable = true)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Evpozycja nazwapola;
     @Column(name = "pole")
     private String pole;

@@ -468,9 +468,10 @@ public class EwidencjaVatView implements Serializable {
             if (ewid.getNazwaewidencji().getTypewidencji().equals("sz")) {
                 wierszedodatkowe.add(duplikujEVatwpisSuper(ewid));
             }
-            if (ewid.getNazwaewidencji().getNazwapola() != null && ewid.getNazwaewidencji().getNazwapola().getMacierzysty() != null){
-                wierszedodatkowe.add(duplikujsubwiersze(ewid, ewidencje));
-            }
+// to nie ma prawa dzialac funkcja ta jest w miejscyu beansvat vatdeklaracja przyporzadkujPozycjeSzczegoloweNowe            
+//            if (ewid.getNazwaewidencji().getNazwapola() != null && ewid.getNazwaewidencji().getNazwapola().getMacierzysty() != null){
+//                wierszedodatkowe.add(duplikujsubwiersze(ewid, ewidencje));
+//            }
         }
         listadokvatprzetworzona.addAll(wierszedodatkowe);
         return ewidencje;
