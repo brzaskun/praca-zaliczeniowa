@@ -703,7 +703,7 @@ public class DokFKVATBean {
         List<Wiersz> nowewiersze = new ArrayList<>();
         double nettoEwidVat = ewidencjaVatRK.getNetto();
         double vatEwidVat = ewidencjaVatRK.getVat();
-        String wierszpierwszyopis = ewidencjaVatRK.getNumerwlasnydokfk()+", "+ewidencjaVatRK.getOpis()+", ";
+        String wierszpierwszyopis = ewidencjaVatRK.getNumerwlasnydokfk()+", "+ewidencjaVatRK.getOpisvat()+", ";
         String kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona();
         if (kontrnazwa == null) {
             kontrnazwa = ewidencjaVatRK.getKlient().getNpelna();
@@ -770,9 +770,16 @@ public class DokFKVATBean {
     
     
     
-    public static List<Wiersz> rozliczVatPrzychodEdycja(EVatwpisFK wierszvatdoc, double[] wartosciVAT, Dokfk selected, WpisView wpisView) {
+    public static List<Wiersz> rozliczVatPrzychodEdycja(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView) {
         List<Wiersz> nowewiersze = new ArrayList<>();
         if (wartosciVAT[0] != 0 || wartosciVAT[2] != 0) {
+            String wierszpierwszyopis = ewidencjaVatRK.getNumerwlasnydokfk()+", "+ewidencjaVatRK.getOpisvat()+", ";
+            String kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona();
+            if (kontrnazwa == null) {
+                kontrnazwa = ewidencjaVatRK.getKlient().getNpelna();
+            }
+            kontrnazwa = kontrnazwa.length() < 18 ? kontrnazwa : kontrnazwa.substring(0, 17);
+            wierszpierwszyopis = wierszpierwszyopis+kontrnazwa;
             Wiersz wierszpierwszy = selected.getListawierszy().get(0);
             Waluty w = selected.getWalutadokumentu();
             try {
@@ -780,7 +787,7 @@ public class DokFKVATBean {
                 if (wierszpierwszy != null && wartosciVAT[0]!=0) {
                     StronaWiersza wn = wierszpierwszy.getStronaWn();
                     StronaWiersza ma = wierszpierwszy.getStronaMa();
-                    wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
+                    wierszpierwszy.setOpisWiersza(wierszpierwszyopis);
                     if (w.getSymbolwaluty().equals("PLN")) {
                         ma.setKwota(wartosciVAT[0]);
                         ma.setKwotaPLN(wartosciVAT[0]);
@@ -822,7 +829,7 @@ public class DokFKVATBean {
                         wierszdrugi.getStronaMa().setKwotaPLN(wartosciVAT[1]);
                     }
                }
-                int index = wierszvatdoc.getLp()-1 < 0 ? 0 : wierszvatdoc.getLp()-1;
+                int index = ewidencjaVatRK.getLp()-1 < 0 ? 0 : ewidencjaVatRK.getLp()-1;
                 RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":netto");
                 RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":brutto");
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -841,17 +848,19 @@ public class DokFKVATBean {
         Konto kontoRozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
         if (kontoRozrachunkowe != null) {
             if (wierszpierwszy != null) {
-                StronaWiersza wn = wierszpierwszy.getStronaWn();
-                StronaWiersza ma = wierszpierwszy.getStronaMa();
-                if (wierszpierwszy.getOpisWiersza().equals("")) {
-                    wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
-                }
+                String wierszpierwszyopis = ewidencjaVatRK.getNumerwlasnydokfk()+", "+ewidencjaVatRK.getOpisvat()+", ";
                 String kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona();
                 if (kontrnazwa == null) {
                     kontrnazwa = ewidencjaVatRK.getKlient().getNpelna();
                 }
                 kontrnazwa = kontrnazwa.length() < 18 ? kontrnazwa : kontrnazwa.substring(0, 17);
-                wierszpierwszy.setOpisWiersza(wierszpierwszy.getOpisWiersza()+" "+kontrnazwa);
+                wierszpierwszyopis = wierszpierwszyopis+kontrnazwa;
+                StronaWiersza wn = wierszpierwszy.getStronaWn();
+                StronaWiersza ma = wierszpierwszy.getStronaMa();
+                if (wierszpierwszy.getOpisWiersza().equals("")) {
+                    wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
+                }
+                wierszpierwszy.setOpisWiersza(wierszpierwszyopis);
                 ma.setKwota(nettovat);
                 wn.setKwota(nettovat+kwotavat);
                 if (kontoRozrachunkowe != null) {

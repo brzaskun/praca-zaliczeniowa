@@ -110,7 +110,7 @@
                  rendered="#{deklaracjevatView.pokazZZ}"  style="max-width: 1400px;">
             <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}">
                 <h:outputText value="Przygotowana korekta deklaracji nie zawiera wniosku o zwrot VAT i nie może być wysłana!"/>
-                <h:outputText value="wpisz wnioskowaną kwotę "/><p:inputText style="width: 200px;" value="#{vat7VATZZView.kwota}"/>
+<!--                <h:outputText value="wpisz wnioskowaną kwotę "/><p:inputText style="width: 200px;" value="#{vat7VATZZView.kwota}"/>-->
                 <h:outputText value="wybierz powód złożenia wniosku:"/>
                 <p:selectOneMenu value="#{vat7VATZZView.powod}" converter="DeklaracjaVatZZPowodConv" style="width: 700px;">
                         <f:selectItem itemLabel="wybierz powód" itemValue=""/>
@@ -118,8 +118,10 @@
                         <p:ajax event="change" listener="#{deklaracjaVatZZPowodPrzypView.pobierzprzyporzadkowanie}" partialSubmit="true" global="false"
                                 />
                 </p:selectOneMenu>
-                <h:outputText value="wpisz uzasadnienie wniosku: "/><p:inputTextarea rows="5" style="width: 900px;" value="#{vat7VATZZView.informacja}"/>
-                <p:commandButton value="Załącz" actionListener="#{vat7VATZZView.dodajzalacznikVATZZ(deklaracjevatView.oczekujace)}" update="formX zalacznikZZ"/>
+                <h:outputText value="wpisz uzasadnienie wniosku: "/><p:inputTextarea 
+                    required="true" requiredMessage="Brakuje uzasadnienia wniosku"
+                    rows="5" style="width: 900px;" value="#{vat7VATZZView.informacja}"/>
+                <p:commandButton value="Załącz" actionListener="#{vat7VATZZView.dodajzalacznikVATZZ(deklaracjevatView.oczekujace, vat7DKView.zwrot25dni)}" update="formX zalacznikZZ"/>
             </p:panelGrid>
         </p:panel>
     </h:form>

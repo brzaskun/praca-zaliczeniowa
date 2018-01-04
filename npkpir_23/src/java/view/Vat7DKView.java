@@ -641,7 +641,7 @@ public class Vat7DKView implements Serializable {
                     }
                 }
             } else {
-                Msg.msg("i", "Nie istnieje uprzednio wysłana dekalracja za ten okres rozliczeniowy. Tworzę nową","form:messages");
+                Msg.msg("i", "Nie istnieje uprzednio wysłana deklaracja za ten okres rozliczeniowy. Tworzę nową","form:messages");
             }
         } catch (Exception e) {
             E.e(e);

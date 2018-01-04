@@ -47,7 +47,7 @@ public class Vat7VATZZView extends Vat7DKView implements Serializable{
     private String informacja;
     private DeklaracjaVatZZPowod powod;
     
-    public void dodajzalacznikVATZZ(List<Deklaracjevat> lista) throws IOException{
+    public void dodajzalacznikVATZZ(List<Deklaracjevat> lista, int zwrot) throws IOException{
         if (!lista.isEmpty()) {
             Deklaracjevat temp = lista.get(0);
             DeklaracjaVatZZ zal = temp.getSchemaobj().getDeklaracjaVatZZ();
@@ -57,13 +57,13 @@ public class Vat7VATZZView extends Vat7DKView implements Serializable{
             //pozbywamy sie koncowki </ns:Deklaracja> ale szukamy wpierw czy isteje juz inny zalacznik
             int lastIndexOf = trescdeklaracji.lastIndexOf("</Zalaczniki>");
             if (lastIndexOf == -1) {
-                zalacznik = new VATZZ(zal,powod,kwota,informacja,0).getVatzz();
+                zalacznik = new VATZZ(zal,powod,zwrot,informacja,0).getVatzz();
                 lastIndexOf = trescdeklaracji.lastIndexOf("<podp:DaneAutoryzujace");
                 if (lastIndexOf==-1) {
                     lastIndexOf = trescdeklaracji.lastIndexOf("</Deklaracja>");
                 }
             } else {
-                zalacznik = new VATZZ(zal,powod,kwota,informacja,1).getVatzz();
+                zalacznik = new VATZZ(zal,powod,zwrot,informacja,1).getVatzz();
             }
             String koncowka = trescdeklaracji.substring(lastIndexOf);
             trescdeklaracji = trescdeklaracji.substring(0, lastIndexOf);
