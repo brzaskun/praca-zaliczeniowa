@@ -402,6 +402,15 @@ public class Data implements Serializable {
         return sb.toString();
    }
     
+   public static int czyczterymiesiace(String datawplywu, String dataoperacji, String mcwpisu, String rokwpisu) {
+       //fakture WNT z operacja w styczniu(data obowiazku podatkowego) mozna musi rozliczyc asymetrycznie nalezny/naliczony
+       //w deklaracji za kwiecien jesli otrzymal ja do 25.maja lub za maj, jesli po 25.maja
+       //jezeli koniecmca.dataotrzymania > koniecmca.dataoperacji+3 to
+       //jezeli dzien.miesiac.dataotrzymania < 25.koniecmca.dataoperacji+4 to rozliczenie a mkoniecmca.dataoperacji+3
+       //inaczej koniecmca.dataoperacji+4
+       return Mce.odlegloscMcy(Data.getMc(dataoperacji), Data.getRok(dataoperacji), Data.getMc(datawplywu), Data.getRok(datawplywu));
+   }
+    
    public static void main(String[] args) {
         String dzien = null;
         String mc = "05";

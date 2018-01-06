@@ -39,6 +39,7 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
+import embeddable.Mce;
 import embeddable.Parametr;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
@@ -528,46 +529,84 @@ public class DokfkView implements Serializable {
 //////////////////////EWIDENCJE VAT
     
     public void podepnijEwidencjeVatDok(int rodzaj) {
-        if (zapisz0edytuj1 == false) {
+        if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null) {
             podepnijEwidencjeVat(rodzaj);
+        } else {
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
+                selected.setEwidencjaVAT(null);
+            }
         }
     }
     
     public void podepnijEwidencjeVat(int rodzaj) {
-            boolean vatowiec = wpisView.isVatowiec();
-            if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5 && vatowiec) {
+            if (wpisView.isVatowiec() && selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5) {
+                    //0 jest przay wpisie
+                    int k = 0;
                     if (rodzaj == 0) {
                         this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
+                    } else {
+                        k = this.selected.getEwidencjaVAT().size();
                     }
                     if (selected.getTabelanbp() == null) {
                         symbolWalutyNettoVat = " zł";
                     } else {
                         symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
                     }
-                    /*wyswietlamy ewidencje VAT*/
-                    List<Evewidencja> opisewidencji = new ArrayList<>();
-                    opisewidencji.addAll(pobierzewidencje());
-                    int k = 0;
-                    if (rodzaj == 1) {
-                        k = this.selected.getEwidencjaVAT().size();
-                    }
+                    Evewidencja ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");;
+                    List<Evewidencja> opisewidencji = pobierzewidencje();
                     for (Evewidencja p : opisewidencji) {
-                        EVatwpisFK eVatwpisFK = new EVatwpisFK();
-                        eVatwpisFK.setLp(k++);
-                        eVatwpisFK.setEwidencja(p);
-                        eVatwpisFK.setNetto(0.0);
-                        eVatwpisFK.setVat(0.0);
-                        eVatwpisFK.setDokfk(selected);
-                        eVatwpisFK.setEstawka("op");
-                        eVatwpisFK.setMcEw(selected.getVatM());
-                        eVatwpisFK.setRokEw(selected.getVatR());
-                        eVatwpisFK.setInnyokres(0);
-                        this.selected.getEwidencjaVAT().add(eVatwpisFK);
+                        if(selected.getRodzajedok().getSkrot().equals("WNT") && czyrozjechalysiemce()) {
+                            EVatwpisFK pierwszaewid = new EVatwpisFK(k++, p, selected);
+                            pierwszaewid.setNieduplikuj(true);
+                            this.selected.getEwidencjaVAT().add(pierwszaewid);
+                            String[] rokmiesiacduplikatu = rokmiesiacduplikatu();
+                            EVatwpisFK drugaewid = (EVatwpisFK) beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(pierwszaewid,ewidencjazakupu);
+                            drugaewid.setLp(k++);
+                            drugaewid.setNieduplikuj(true);
+                            drugaewid.setRokEw(rokmiesiacduplikatu[0]);
+                            drugaewid.setMcEw(rokmiesiacduplikatu[1]);
+                            this.selected.getEwidencjaVAT().add(drugaewid);
+                        } else {
+                            this.selected.getEwidencjaVAT().add(new EVatwpisFK(k++, p, selected));
+                        }
                     }
                     RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
             } else {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             }
+    }
+    
+    private boolean czyrozjechalysiemce() {
+        boolean zwrot = false;
+        if (selected.getDataoperacji() != null && selected.getDatawplywu() != null) {
+            String dataoperacji = selected.getDataoperacji();
+            String datawplywu = selected.getDatawplywu();
+            if (Data.getMc(dataoperacji).equals(Data.getMc(datawplywu))) {
+                return false;
+            }
+            int ilemiesiecy = Mce.odlegloscMcy(Data.getMc(dataoperacji), Data.getRok(dataoperacji), Data.getMc(datawplywu), Data.getRok(datawplywu));
+            if (ilemiesiecy > 3) {
+                zwrot = true;
+            }
+        }
+        return zwrot;
+    }
+    
+    private String[] rokmiesiacduplikatu() {
+        String[] zwrot = new String[2];
+        String dzienwplywu = Data.getDzien(selected.getDatawplywu());
+        if (Integer.valueOf(dzienwplywu) < 25) {
+                if (wpisView.getMiesiacWpisu().equals("01")) {
+                    zwrot[0] = wpisView.getRokUprzedniSt();
+                } else {
+                    zwrot[0] = wpisView.getRokWpisuSt();
+                }
+                zwrot[1] = wpisView.getMiesiacUprzedni();
+        } else {
+                zwrot[0] = wpisView.getRokWpisuSt();
+                zwrot[1] = wpisView.getMiesiacWpisu();
+        }
+        return zwrot;
     }
     
     private List<Evewidencja> pobierzewidencje() {
@@ -616,7 +655,8 @@ public class DokfkView implements Serializable {
     }
 
     public void dolaczWierszeZKwotami(EVatwpisFK evatwpis) {
-        if (!selected.iswTrakcieEdycji()){
+        boolean niesumuj = evatwpis.isNieduplikuj() && evatwpis.getEwidencja().getNazwa().equals("zakup");
+        if (!selected.iswTrakcieEdycji() && !niesumuj){
             Rodzajedok rodzajdok = selected.getRodzajedok();
             double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
             if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
@@ -3763,6 +3803,8 @@ public class DokfkView implements Serializable {
     public void setgUSView(GUSView gUSView) {
         this.gUSView = gUSView;
     }
+
+    
     
     
 }

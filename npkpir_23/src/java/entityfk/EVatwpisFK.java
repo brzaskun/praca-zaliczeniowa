@@ -98,6 +98,18 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
         this.numerwlasnydokfk = eVatwpisFK.numerwlasnydokfk;
     }
 
+    public EVatwpisFK(int k, Evewidencja p, Dokfk selected) {
+        this.setLp(k);
+        this.setEwidencja(p);
+        this.setNetto(0.0);
+        this.setVat(0.0);
+        this.setDokfk(selected);
+        this.setEstawka("op");
+        this.setMcEw(selected.getVatM());
+        this.setRokEw(selected.getVatR());
+        this.setInnyokres(0);
+    }
+
         
     
 
@@ -456,6 +468,16 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     @Override
     public boolean isDuplikat() {
         return super.duplikat;
+    }
+
+    @Override
+    public boolean isNieduplikuj() {
+        return nieduplikuj;
+    }
+
+    @Override
+    public void setNieduplikuj(boolean nieduplikuj) {
+        this.nieduplikuj = nieduplikuj;
     }
     
 }

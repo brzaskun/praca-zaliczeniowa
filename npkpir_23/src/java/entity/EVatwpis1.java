@@ -251,6 +251,18 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     public boolean isDuplikat() {
         return super.duplikat;
     }
+
+    @Override
+    public boolean isNieduplikuj() {
+        return nieduplikuj;
+    }
+
+    @Override
+    public void setNieduplikuj(boolean nieduplikuj) {
+        this.nieduplikuj = nieduplikuj;
+    }
+    
+    
 }
 
 

@@ -46,8 +46,11 @@ public class EVatwpisSuper implements Serializable {
     @Size(max = 4)
     @Column(name = "rokEw")
     protected String rokEw;
+    @Column(name="nieduplikuj")
+    protected boolean nieduplikuj;
     @Transient
     protected boolean duplikat;
+    
 
     public EVatwpisSuper(EVatwpisSuper wiersz) {
         this.id = wiersz.id;
@@ -84,6 +87,14 @@ public class EVatwpisSuper implements Serializable {
 
     public String getRokEw() {
         return rokEw;
+    }
+
+    public boolean isNieduplikuj() {
+        return nieduplikuj;
+    }
+
+    public void setNieduplikuj(boolean nieduplikuj) {
+        this.nieduplikuj = nieduplikuj;
     }
 
     public String getDataWyst() {

@@ -10,8 +10,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import msg.Msg;
@@ -438,7 +436,7 @@ public class Mce implements Serializable{
 //    }
     
     public static void main(String[] args) {
-        System.out.println(odlegloscMcy(12,2014,6,2015));
+        System.out.println(odlegloscMcy(1,2017,5,2017));
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">

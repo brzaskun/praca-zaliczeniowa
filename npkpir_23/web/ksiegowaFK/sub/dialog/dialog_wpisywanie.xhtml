@@ -387,9 +387,9 @@
                         <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
                                      style="margin-top: 0px;" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 || dokfkView.selected.rodzajedok.kategoriadokumentu == 2}"
                                      sortBy="#{item.lp}" styleClass="gridvat">
-                            <p:column headerText="" width="5">
+<!--                            <p:column headerText="" width="5">
                                 <h:outputText value="#{item.lp+1}" styleClass="lpwierszavat"/>
-                            </p:column>
+                            </p:column>-->
                             <p:column headerText="rodzaj ewid." width="80">
                                 <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px;" rendered="#{item.ewidencja.nazwa.length() lt 15}"/>
                                 <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px; font-size: smaller" rendered="#{item.ewidencja.nazwa.length() ge 15}"/>
@@ -422,9 +422,12 @@
                                     <p:ajax global="false" event="focus" listener="#{dokfkView.dolaczWierszeZKwotami(item)}" partialSubmit="true"/>
                                 </h:selectOneMenu>
                             </p:column>
-                            <p:column headerText="#{dokfkView.sprawdzjakiokresvat() eq 'kwartalne' ? '+kw' : '+mc'}" style="width: 25px; text-align: center;">
+                            <p:column style="width: 25px; text-align: center;" rendered="#{!item.nieduplikuj}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{dokfkView.sprawdzjakiokresvat() eq 'kwartalne' ? '+kw' : '+mc'}" rendered="#{!item.nieduplikuj}"/>
+                                </f:facet>
                                 <p:inputText id="mcshift" value="#{item.innyokres}" style="width: 30px; text-align: center;" 
-                                             maxlength="2" onblur="sprawdzmcshift(this)"
+                                             maxlength="2" onblur="sprawdzmcshift(this)" 
                                              >
                                     <f:validateDoubleRange minimum="-3" maximum="3"/>
                                     <p:ajax global="false" event="keyup" partialSubmit="true"/>
@@ -432,12 +435,17 @@
                                             update="formwpisdokument:dataList formwpisdokument:miesiacVAT"/>
                                 </p:inputText>
                             </p:column>
-                            <p:column style="width: 20px; text-align: center;">
-                                <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false" onfocus="focusNowyVAT(event, this);" rendered="#{item.ewidencja.nazwa.contains('sprzedaż') ne true}"/>
+                            <p:column style="width: 20px; text-align: center;" rendered="#{!item.nieduplikuj}">
+                                <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false"
+                                                 onfocus="focusNowyVAT(event, this);" rendered="#{item.ewidencja.nazwa.contains('sprzedaż') ne true}"/>
                             </p:column>
-                            <p:column style="width: 20px; text-align: center;">
-                                <p:commandButton value="-" actionListener="#{dokfkView.usunEwidencjeDodatkowa(item)}" update=":formwpisdokument:tablicavat" global="false" oncomplete="r('formwpisdokument:tablicavat:0:netto_input').select();"
+                            <p:column style="width: 20px; text-align: center;" rendered="#{!item.nieduplikuj}">
+                                <p:commandButton value="-" actionListener="#{dokfkView.usunEwidencjeDodatkowa(item)}" update=":formwpisdokument:tablicavat" 
+                                                 global="false" oncomplete="r('formwpisdokument:tablicavat:0:netto_input').select();"
                                                  rendered="#{item.ewidencja.nazwa.contains('sprzedaż') ne true}"/>
+                            </p:column>
+                            <p:column style="width: 20px; text-align: center;"  rendered="#{item.nieduplikuj}">
+                                <h:outputText value="#{item.mcEw}/#{item.rokEw.substring(2)}"/>
                             </p:column>
                         </p:dataTable>
                     </p:panelGrid>

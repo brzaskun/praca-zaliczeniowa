@@ -839,24 +839,26 @@ public class Dokfk extends DokSuper implements Serializable {
     public void oznaczVATdokument(String sprawdzjakiokresvat) {
         if (!sprawdzjakiokresvat.equals("blad") && !this.ewidencjaVAT.isEmpty()) {
             for (EVatwpisFK p : this.ewidencjaVAT) {
-                if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
-                    if (p.getInnyokres() == 0) {
-                        p.setMcEw(this.getMiesiac());
-                        p.setRokEw(this.getRok());
-                        this.setVatR(this.getRok());
-                        this.setVatM(this.getMiesiac());
-                    } else if (sprawdzjakiokresvat.equals("kwartalne")) {
-                        String[] nowyokres = Kwartaly.zwiekszkwartal(this.getRok(), this.getMiesiac(), p.getInnyokres());
-                        p.setRokEw(nowyokres[0]);
-                        p.setMcEw(nowyokres[1]);
-                        this.setVatR(nowyokres[0]);
-                        this.setVatM(nowyokres[1]);
-                    } else {
-                        String[] nowyokres = Mce.zwiekszmiesiac(this.getRok(), this.getMiesiac(), p.getInnyokres());
-                        p.setRokEw(nowyokres[0]);
-                        p.setMcEw(nowyokres[1]);
-                        this.setVatR(nowyokres[0]);
-                        this.setVatM(nowyokres[1]);
+                if (!p.isNieduplikuj()) {
+                    if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
+                        if (p.getInnyokres() == 0) {
+                            p.setMcEw(this.getMiesiac());
+                            p.setRokEw(this.getRok());
+                            this.setVatR(this.getRok());
+                            this.setVatM(this.getMiesiac());
+                        } else if (sprawdzjakiokresvat.equals("kwartalne")) {
+                            String[] nowyokres = Kwartaly.zwiekszkwartal(this.getRok(), this.getMiesiac(), p.getInnyokres());
+                            p.setRokEw(nowyokres[0]);
+                            p.setMcEw(nowyokres[1]);
+                            this.setVatR(nowyokres[0]);
+                            this.setVatM(nowyokres[1]);
+                        } else {
+                            String[] nowyokres = Mce.zwiekszmiesiac(this.getRok(), this.getMiesiac(), p.getInnyokres());
+                            p.setRokEw(nowyokres[0]);
+                            p.setMcEw(nowyokres[1]);
+                            this.setVatR(nowyokres[0]);
+                            this.setVatM(nowyokres[1]);
+                        }
                     }
                 }
             }

@@ -20,7 +20,6 @@ import entity.Dok;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
-import entity.Evpozycja;
 import entity.Wpis;
 import entityfk.EVatwpisFK;
 import error.E;
@@ -465,8 +464,8 @@ public class EwidencjaVatView implements Serializable {
         Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMapByPole();
         List<EVatwpisSuper> wierszedodatkowe = new ArrayList<>();
         for (EVatwpisSuper ewid : listadokvatprzetworzona) {
-            if (ewid.getNazwaewidencji().getTypewidencji().equals("sz")) {
-                wierszedodatkowe.add(duplikujEVatwpisSuper(ewid));
+            if (ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj()) {
+                wierszedodatkowe.add(beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(ewid,ewidencjazakupu));
             }
 // to nie ma prawa dzialac funkcja ta jest w miejscyu beansvat vatdeklaracja przyporzadkujPozycjeSzczegoloweNowe            
 //            if (ewid.getNazwaewidencji().getNazwapola() != null && ewid.getNazwaewidencji().getNazwapola().getMacierzysty() != null){
@@ -478,38 +477,23 @@ public class EwidencjaVatView implements Serializable {
     }
     
     //*****************DOZROBIENIA
-    //duplikjowanie do deklaraccji
-     private EVatwpisSuper duplikujsubwiersze(EVatwpisSuper wiersz, Map<String, Evewidencja> ewidencje) {
-        Evpozycja macierzysty = wiersz.getNazwaewidencji().getNazwapola().getMacierzysty();
-        Evewidencja ewidencja = ewidencje.get(macierzysty.getNazwapola());
-         EVatwpisSuper duplikat = null;
-        if (wiersz instanceof EVatwpis1) {
-            duplikat = new EVatwpis1((EVatwpis1) wiersz);
-        } else {
-            duplikat = new EVatwpisFK((EVatwpisFK) wiersz);
-        }
-        //wpisuje pola zakupu
-        duplikat.setNazwaewidencji(ewidencja);
-        duplikat.setDuplikat(true);
-        return duplikat;
-    }
-    
-     //duplikowanie do ewidencji
-    private EVatwpisSuper duplikujEVatwpisSuper(EVatwpisSuper wiersz) {
-        EVatwpisSuper duplikat = null;
-        if (wiersz instanceof EVatwpis1) {
-            duplikat = new EVatwpis1((EVatwpis1) wiersz);
-        } else {
-            duplikat = new EVatwpisFK((EVatwpisFK) wiersz);
-        }
-        //wpisuje pola zakupu
-        duplikat.setNazwaewidencji(ewidencjazakupu);
-        duplikat.setDuplikat(true);
-        if (duplikat.getProcentvat() != 0) {
-            duplikat.setVat(Z.z(duplikat.getVat() * (duplikat.getProcentvat() / 100)));
-        }
-        return duplikat;
-    }
+    //duplikjowanie do deklaraccji ???
+//     private EVatwpisSuper duplikujsubwiersze(EVatwpisSuper wiersz, Map<String, Evewidencja> ewidencje) {
+//        Evpozycja macierzysty = wiersz.getNazwaewidencji().getNazwapola().getMacierzysty();
+//        Evewidencja ewidencja = ewidencje.get(macierzysty.getNazwapola());
+//         EVatwpisSuper duplikat = null;
+//        if (wiersz instanceof EVatwpis1) {
+//            duplikat = new EVatwpis1((EVatwpis1) wiersz);
+//        } else {
+//            duplikat = new EVatwpisFK((EVatwpisFK) wiersz);
+//        }
+//        //wpisuje pola zakupu
+//        duplikat.setNazwaewidencji(ewidencja);
+//        duplikat.setDuplikat(true);
+//        return duplikat;
+//    }
+//    
+     
 
 //    private List transferujEVatwpisFKDoEVatwpisSuper(List<EVatwpisFK> listaprzetworzona, String vatokres) throws Exception {
 //        List<EVatwpisSuper> przetransferowane = new ArrayList<>();
