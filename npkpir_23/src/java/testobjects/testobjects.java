@@ -125,7 +125,7 @@ public class testobjects {
        n.add("konto Wn");
        n.add("kwota Ma");
        n.add("konto Ma");
-       n.add("waluta");
+       n.add("wal.");
        List t = getWierszeKonta(wiersze);
        List[] tabela = new List[2];
        tabela[0] = n;

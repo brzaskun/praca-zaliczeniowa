@@ -982,17 +982,31 @@ public class PdfMain {
                     return col;
                 }
             case "testobjects.WierszKonta":
-                int[] col2 = new int[size];
-                col2[0] = 1;
-                col2[1] = 5;
-                col2[2] = 2;
-                col2[3] = 3;
-                col2[4] = 2;
-                col2[5] = 3;
-                if (size > 6) {
-                    col2[6] = 2;
+                if (modyfikator == 0) {
+                    int[] col2 = new int[size];
+                    col2[0] = 1;
+                    col2[1] = 6;
+                    col2[2] = 3;
+                    col2[3] = 4;
+                    col2[4] = 3;
+                    col2[5] = 4;
+                    if (size > 6) {
+                        col2[6] = 1;
+                    }
+                    return col2;
+                } else {
+                    int[] col2 = new int[size];
+                    col2[0] = 1;
+                    col2[1] = 5;
+                    col2[2] = 2;
+                    col2[3] = 3;
+                    col2[4] = 2;
+                    col2[5] = 3;
+                    if (size > 6) {
+                        col2[6] = 2;
+                    }
+                    return col2;
                 }
-                return col2;
             case "testobjects.WierszWNTWDT":
                 int[] col3 = new int[size];
                 col3[0] = 1;
