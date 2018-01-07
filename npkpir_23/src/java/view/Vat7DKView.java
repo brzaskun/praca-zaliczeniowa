@@ -28,6 +28,7 @@ import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaPozKoncowe;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
+import entity.Evewidencja;
 import entity.Podatnik;
 import entity.SchemaEwidencja;
 import error.E;
@@ -215,10 +216,10 @@ public class Vat7DKView implements Serializable {
         pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, schemyLista);
         ArrayList<EVatwpisSuma> pobraneewidencje = new ArrayList<>(mapaewidencji.values());
         schemawierszsumarycznylista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(pasujacaSchema);
-        wygenerujwierszesumaryczne(pobraneewidencje, schemawierszsumarycznylista);
         pozycjeDeklaracjiVAT.setCelzlozenia("1");
         //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
+        wygenerujwierszesumaryczne(schemaewidencjalista, pobraneewidencje, schemawierszsumarycznylista);
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null);
         sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);
         System.out.println("Koniec");
@@ -328,7 +329,7 @@ public class Vat7DKView implements Serializable {
             if (p.getCzescdeklaracji().equals("D") && !p.getDeklaracjaVatWierszSumaryczny().getNazwapozycji().equals("Kwota nadwyżki z poprzedniej deklaracji")) {
                 p.getDeklaracjaVatWierszSumaryczny().setSumanetto(0);
                 p.getDeklaracjaVatWierszSumaryczny().setSumavat(0);
-                VATDeklaracja.podsumujewidencje(pobraneewidencje, p);
+                VATDeklaracja.podsumujewidencje(null, pobraneewidencje, p);
             }
         }
         DeklaracjaVatSchemaWierszSum naliczony = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem kwota podatku naliczonego do odliczenia");
@@ -379,10 +380,44 @@ public class Vat7DKView implements Serializable {
         zachowaj = false;
     }
     
-    private void wygenerujwierszesumaryczne(ArrayList<EVatwpisSuma> pobraneewidencje, List<DeklaracjaVatSchemaWierszSum> schemawierszsumzbazy) {
-        for (DeklaracjaVatSchemaWierszSum p : schemawierszsumzbazy) {
-            VATDeklaracja.podsumujewidencje(pobraneewidencje, p);
+    private void wygenerujwierszesumaryczne(List<SchemaEwidencja> schemaewidencjalista, ArrayList<EVatwpisSuma> pobraneewidencje, List<DeklaracjaVatSchemaWierszSum> schemawierszsumzbazy) {
+        ArrayList<EVatwpisSuma> ewidencjenowe = new ArrayList<>();
+        if (schemaewidencjalista != null) {
+            for (EVatwpisSuma r : pobraneewidencje) {
+                SchemaEwidencja se = szukaniewieszaSchemy(schemaewidencjalista, r.getEwidencja());
+                SchemaEwidencja sm = se.getSchemamacierzysta();
+                if (sm != null) {
+                    Evewidencja ewm = sm.getEvewidencja();
+                    r.setNiesumuj(true);
+                    boolean nieznaleziono = true;
+                    for (EVatwpisSuma r1 : pobraneewidencje) {
+                        if (r1.getEwidencja().equals(ewm)) {
+                            r1.setNetto(r1.getNetto().add(r.getNetto()));
+                            r1.setVat(r1.getVat().add(r.getVat()));
+                            nieznaleziono = false;
+                        }
+                    }
+                    if (nieznaleziono) {
+                        ewidencjenowe.add(new EVatwpisSuma(ewm, r.getNetto(), r.getVat(), ""));
+                    }
+                }
+            }
+            if(ewidencjenowe.size() > 0) {
+                pobraneewidencje.addAll(ewidencjenowe);
+            }
         }
+        for (DeklaracjaVatSchemaWierszSum p : schemawierszsumzbazy) {
+            VATDeklaracja.podsumujewidencje(schemaewidencjalista, pobraneewidencje, p);
+        }
+    }
+    private static SchemaEwidencja szukaniewieszaSchemy(List<SchemaEwidencja> schemaewidencjalista, Evewidencja evewidencja) {
+        SchemaEwidencja s = null;
+        for (SchemaEwidencja p : schemaewidencjalista) {
+            if (p.getEvewidencja().equals(evewidencja)) {
+                s = p;
+            }
+        }
+        return s;
     }
         
      private String kodUrzaduSkarbowegoPobierz() {

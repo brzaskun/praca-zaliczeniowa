@@ -70,29 +70,6 @@ public class VATDeklaracja implements Serializable {
             SchemaEwidencja se = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
             SchemaEwidencja sm = se.getSchemamacierzysta();
             pozycje.add(new EwidPoz(se, sm, ew.getNetto(), ew.getVat(), ew.getEwidencja().isTylkoNetto()));
-            if (sm != null) {
-                EwidPoz nowywierszmacierzysty = new EwidPoz(sm, null, BigDecimal.ZERO, BigDecimal.ZERO, ew.getEwidencja().isTylkoNetto());
-                boolean niemamacierzystego= true;
-                for (EwidPoz ewpoz : pozycje) {
-                    if (ewpoz.equals(nowywierszmacierzysty)) {
-                        niemamacierzystego = false;
-                    }
-                }
-                if (niemamacierzystego) {
-                    pozycje.add(nowywierszmacierzysty);
-                }
-            }
-        }
-        for (EwidPoz s : pozycje) {
-            if (s.odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
-                for (EwidPoz st : pozycje) {
-                    if (st.odnalezionyWierszSchemaEwidencja.equals(s.odnalezionyWierszSchemaEwidencjaMacierzysty)) {
-                        st.setNetto(st.getNetto()+s.getNetto());
-                        st.setVat(st.getVat()+s.getVat());
-                        break;
-                    }
-                }
-            }
         }
         for (EwidPoz ew : pozycje) {
             try {
@@ -391,12 +368,12 @@ public class VATDeklaracja implements Serializable {
         return pasujaca;
     }
 
-    public static void podsumujewidencje(ArrayList<EVatwpisSuma> pobraneewidencje, DeklaracjaVatSchemaWierszSum p) {
+    public static void podsumujewidencje(List<SchemaEwidencja> schemaewidencjalista, ArrayList<EVatwpisSuma> pobraneewidencje, DeklaracjaVatSchemaWierszSum p) {
         DeklaracjaVatWierszSumaryczny wierszsumaryczny = p.getDeklaracjaVatWierszSumaryczny();
         int n = 0;
         int v = 0;
             for (EVatwpisSuma ew : pobraneewidencje) {
-                if (!ew.getEwidencja().getTypewidencji().equals("z")) {
+                if (!ew.getEwidencja().getTypewidencji().equals("z") && !ew.isNiesumuj()) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem (suma przychodów)")) {
                         n += Z.zUD(ew.getNetto().doubleValue());
                         v += Z.zUD(ew.getVat().doubleValue());

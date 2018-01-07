@@ -22,6 +22,7 @@ public class EVatwpisSuma implements Serializable {
     private BigDecimal netto;
     private BigDecimal vat;
     private String estawka;
+    private boolean niesumuj;
 
     public EVatwpisSuma(Evewidencja ewidencja, BigDecimal netto, BigDecimal vat, String estawka) {
         this.ewidencja = ewidencja;
@@ -31,6 +32,14 @@ public class EVatwpisSuma implements Serializable {
     }
 
     public EVatwpisSuma() {
+    }
+
+    public boolean isNiesumuj() {
+        return niesumuj;
+    }
+
+    public void setNiesumuj(boolean niesumuj) {
+        this.niesumuj = niesumuj;
     }
 
     

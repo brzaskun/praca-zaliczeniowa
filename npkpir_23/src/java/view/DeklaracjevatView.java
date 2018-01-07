@@ -234,7 +234,7 @@ public class DeklaracjevatView implements Serializable {
     public boolean pokazprzyciskpodpisfunkcja() {
         boolean zwrot = false;
         pokazprzyciskpodpis = false;
-        if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+        if (oczekujace != null && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
             for (Deklaracjevat d : oczekujace) {
                 if (d.getDeklaracjapodpisana()==null) {
                     pokazprzyciskpodpis = ObslugaPodpisuBean.moznaPodpisac();
