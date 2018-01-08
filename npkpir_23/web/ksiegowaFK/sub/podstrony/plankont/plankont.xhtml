@@ -99,61 +99,43 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
-                             style="width: 1280px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1350px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              scrollRows="1400" scrollable="true" virtualScroll="true" scrollHeight="1400" lazy="true" rows="1400"
                              rowIndexVar="index"
                              >
+                    <p:ajax event="filter" global="false"/>
                     <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" 
                             listener="#{planKontView.selrow}" global="false"/>
-                    <p:columnGroup type="header">
-                        <p:row>
-                            <p:column colspan="1" headerText="" width="1" />
-                            <p:column colspan="1" headerText="" width="10"/>
-                            <p:column colspan="1" headerText="#{mgs.numerkonta}" width="80" />
-                            <p:column colspan="1" headerText="nazwa pełna" width="300"/>
-                            <p:column colspan="1" headerText="nazwa skrócona" width="200" rendered="#{facesContext.externalContext.remoteUser ne '4'}"/>
-                            <p:column colspan="1" headerText="dzieci" width="40" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                            <p:column colspan="1" headerText="przyp." width="80" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                            <p:column colspan="1" headerText="b/w" width="20"/>
-                            <p:column colspan="1" headerText="rozrach." width="50"/>
-                            <p:column colspan="1" headerText="pozycja Wn" width="60"/>
-                            <p:column colspan="1" headerText="pozycja Ma" width="60"/>
-                            <p:column colspan="1" headerText="blok" width="40"/>
-                            <p:column colspan="1" headerText="słow" width="40"/>
-                            <p:column colspan="1" headerText="P/K" width="40"/>
-                            <p:column colspan="1" headerText="saldo" width="40"/>
-                        </p:row>
-                    </p:columnGroup>
-                    <p:column>
+                    <p:column style="width: 10px;">
                         <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
                     </p:column>
                     <p:column  style="width: 50px; text-align: center;">
                         <h:outputText value="#{loop.mapotomkow == true ? '+' : null}" /> 
                     </p:column>
-                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}" filterBy="#{loop.pelnynumer}" groupRow="true">
+                    <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}" >
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                     </p:column>
-                    <p:column  style="width: 200px;">
+                    <p:column headerText="nazwa pełna" style="width: 300px;">
                         <h:outputText id="nazwapelna" value="#{loop.nazwapelna}" /> 
                         <h:outputText value=" id " rendered="#{loop.idslownika gt 0}"/> 
                         <h:outputText value="#{loop.idslownika}" rendered="#{loop.idslownika gt 0}"/> 
                     </p:column>
-                    <p:column style="width: 30px; text-align: center;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+                    <p:column headerText="dzieci" style="width: 60px; text-align: center;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
                         <h:outputText value="#{loop.mapotomkow eq true ? 't' : null}"/> 
                     </p:column>
-                    <p:column style="width: 80px;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+                    <p:column headerText="przyp." style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
                         <h:outputText value="#{loop.kontopozycjaID.syntetykaanalityka}"/> 
                     </p:column>
-                    <p:column style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser ne '4'}">
+                    <p:column headerText="nazw skróc."  style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser ne '4'}">
                         <h:outputText value="#{loop.nazwaskrocona.length() lt 37 ? loop.nazwaskrocona : loop.nazwaskrocona.substring(0,37)}"/> 
                     </p:column>
-                    <p:column  style="width: 20px; text-align: center;">
+                    <p:column headerText="b/w" style="width: 20px; text-align: center;">
                         <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
                     </p:column>
-                    <p:column  style="width: 120px; text-align: center;">
+                    <p:column headerText="rozrach" style="width: 70px; text-align: center;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
                     </p:column>
 <!--                    <p:column headerText="poziom" style="width: 50px; text-align: center;">
@@ -162,22 +144,22 @@
 <!--                    <p:column headerText="macierz." style="width: 50px;">
                         <h:outputText value="#{loop.macierzyste}" /> 
                     </p:column>-->
-                    <p:column  style="width: 100px; text-align: center;">
+                    <p:column  headerText="pozycja Wn" style="width: 90px; text-align: center;">
                         <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaWn : '!'}" style="#{loop.kontopozycjaID == null ? 'color: red' : null}"/> 
                     </p:column>
-                    <p:column  style="width: 100px; text-align: center;">
+                    <p:column headerText="pozycja Ma" style="width: 90px; text-align: center;">
                         <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : '!'}" style="#{loop.kontopozycjaID == null ? 'color: red' : null}"/> 
                     </p:column>
-                    <p:column  style="width: 40px; text-align: center;">
+                    <p:column headerText="blok" style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
                     </p:column>
-                    <p:column style="width: 40px; text-align: center;">
+                    <p:column headerText="słow" style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
                     </p:column>
-                    <p:column style="width: 40px; text-align: center;">
+                    <p:column headerText="P/K" style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
                     </p:column>
-                    <p:column style="width: 40px; text-align: center;">
+                    <p:column headerText="saldo" style="width: 40px; text-align: center;">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText value="#{loop.wnma0wm1ma2S}" /></f:facet>

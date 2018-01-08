@@ -538,6 +538,12 @@ public class DokfkView implements Serializable {
         }
     }
     
+    public void podepnijEwidencjeVatDokBlur(int rodzaj) {
+        if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null && selected.isDwarejestry() && czyrozjechalysiemce() && selected.getEwidencjaVAT().size() != 2) {
+            podepnijEwidencjeVat(rodzaj);
+        }
+    }
+    
     public void podepnijEwidencjeVat(int rodzaj) {
             if (wpisView.isVatowiec() && selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5) {
                     //0 jest przay wpisie
@@ -555,7 +561,7 @@ public class DokfkView implements Serializable {
                     Evewidencja ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");;
                     List<Evewidencja> opisewidencji = pobierzewidencje();
                     for (Evewidencja p : opisewidencji) {
-                        if(selected.getRodzajedok().getSkrot().equals("WNT") && czyrozjechalysiemce()) {
+                        if(selected.isDwarejestry() && czyrozjechalysiemce()) {
                             EVatwpisFK pierwszaewid = new EVatwpisFK(k++, p, selected);
                             pierwszaewid.setNieduplikuj(true);
                             this.selected.getEwidencjaVAT().add(pierwszaewid);
