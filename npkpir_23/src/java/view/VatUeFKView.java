@@ -198,7 +198,7 @@ public class VatUeFKView implements Serializable {
         for (DokSuper p : listadokumentow) {
             if (warunekkontrahenci(p)) {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                VatUe veu = new VatUe(p.getTypdokumentu(), p.getKontr(), 0.0, 0);
+                VatUe veu = new VatUe(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
                 veu.setZawierafk(new ArrayList<>());
                 klienty.add(veu);
                 uzupelnijdanekontrahenta(p.getKontr());

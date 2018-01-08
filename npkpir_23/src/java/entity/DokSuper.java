@@ -18,6 +18,7 @@ import javax.persistence.Transient;
  */
 @MappedSuperclass
 public class DokSuper  implements Serializable {
+    private static final long serialVersionUID = -1401473269477599841L;
     @Transient
     private Klienci kontr1;
     @Transient
@@ -32,6 +33,7 @@ public class DokSuper  implements Serializable {
     private List<EVatwpisFK> ewidencjaVAT;
     @Transient
     private Waluty walutadokumentu;
+    
 
     public String getTypdokumentu() {
         return typdokumentu;
@@ -57,5 +59,14 @@ public class DokSuper  implements Serializable {
     public Waluty getWalutadokumentu() {
         return walutadokumentu;
     }
+
+    public Rodzajedok getRodzajedok() {
+        return rodzajedok;
+    }
+
+    public void setRodzajedok(Rodzajedok rodzajedok) {
+        this.rodzajedok = rodzajedok;
+    }
    
+    
 }
