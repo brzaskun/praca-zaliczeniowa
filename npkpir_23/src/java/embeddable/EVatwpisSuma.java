@@ -18,6 +18,7 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 public class EVatwpisSuma implements Serializable {
+    private static final long serialVersionUID = 609846542238933045L;
     @Inject private Evewidencja ewidencja;
     private BigDecimal netto;
     private BigDecimal vat;
