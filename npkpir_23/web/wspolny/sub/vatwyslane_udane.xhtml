@@ -36,20 +36,27 @@
                         <h:outputText value="status"/><h:outputText value="#{item.status}"/>
                     </h:panelGrid>
                 </p:dataGrid>
-                <p:dataGrid columns="1" value="#{item}" var="item2">
-                    <p:dataTable value="#{item2.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;">
-                        <p:column width="500" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
+               <p:panelGrid columns="2"  style="height: 150px;" columnClasses="thirty-percent seventy-percent">
+                    <p:dataTable value="#{item.pozycjeszczegolowe.getPozycje()}" var="wiersz" >
+                        <p:column width="100">
+                            <h:outputText value="#{wiersz.nazwapola}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl0 value="#{wiersz.kwota}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable value="#{item.schemawierszsumarycznylista}" var="wiersz" >
+                        <p:column width="350" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                         </p:column>
-                        <p:column width="50" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
+                        <p:column width="50" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}" style="text-align: center;">
                             <h:outputText value="#{wiersz.polevat}"/>
                         </p:column>
                         <p:column rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <bcf:outputpl0 value="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat}"/>
                         </p:column>
                     </p:dataTable>
-                    
-                </p:dataGrid>
+                </p:panelGrid>
             </p:column>
             <p:column id="previewColumn" headerText="operacje" width="110" style="text-align: center;">
                 <p:panelGrid columns="1">
