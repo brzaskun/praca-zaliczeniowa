@@ -111,8 +111,14 @@ public class VatUeFKView implements Serializable {
             double sumanettovatue = 0.0;
             double sumanettovatuewaluta = 0.0;
             for (DokSuper p : listadokumentowUE) {
+                String typdokumentu = null;
+                if (p instanceof Dok) {
+                    typdokumentu = ((Dok) p).getRodzajedok().getSkrot();
+                } else {
+                    typdokumentu = ((Dokfk) p).getRodzajedok().getSkrot();
+                }
                 for (VatUe s : klienciWDTWNT) {
-                    if (p.getKontr()!= null && p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getTypdokumentu().equals(s.getTransakcja())) {
+                    if (p.getKontr()!= null && p.getKontr().getNip().equals(s.getKontrahent().getNip()) && typdokumentu.equals(s.getTransakcja())) {
                             double[] t = p.pobierzwartosci();
                             double netto = t[0];
                             double nettowaluta = t[1];
@@ -206,11 +212,17 @@ public class VatUeFKView implements Serializable {
 //        if (dok.getNrWlDk().equals("6/2017/VAŠE")) {
 //            System.out.println("dok "+p.toString());
 //        }
+        String typdokumentu = null;
+        if (p instanceof Dok) {
+            typdokumentu = ((Dok) p).getRodzajedok().getSkrot();
+        } else {
+            typdokumentu = ((Dokfk) p).getRodzajedok().getSkrot();
+        }
         boolean zwrot = false;
         if (Data.czyjestpo("2016-11-30", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
-            zwrot = p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT")  || p.getTypdokumentu().equals("UPTK100");
+            zwrot = typdokumentu.equals("WNT") || typdokumentu.equals("WDT")  || typdokumentu.equals("UPTK100");
         } else {
-            zwrot = p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT")  || p.getTypdokumentu().equals("UPTK");
+            zwrot = typdokumentu.equals("WNT") || typdokumentu.equals("WDT")  || typdokumentu.equals("UPTK");
         }
         return zwrot;
     }
