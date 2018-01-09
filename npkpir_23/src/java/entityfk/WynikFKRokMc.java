@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "WynikFKRokMc.findPodatnikRokMcFirma", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.mc = :mc AND w.udzialowiec = 'firma'"),
     @NamedQuery(name = "WynikFKRokMc.findPodatnikRokMcUdzialowiec", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.mc = :mc AND w.udzialowiec = :udzialowiec"),
     @NamedQuery(name = "WynikFKRokMc.findPodatnikRok", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok"),
+    @NamedQuery(name = "WynikFKRokMc.findPodatnikRokFirma", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.udzialowiec = 'firma'"),
     @NamedQuery(name = "WynikFKRokMc.findPodatnikRokUdzialowiec", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.udzialowiec IS NOT NULL"),
     @NamedQuery(name = "WynikFKRokMc.findById", query = "SELECT w FROM WynikFKRokMc w WHERE w.id = :id"),
     @NamedQuery(name = "WynikFKRokMc.findByKoszty", query = "SELECT w FROM WynikFKRokMc w WHERE w.koszty = :koszty"),
@@ -77,6 +78,8 @@ public class WynikFKRokMc implements Serializable {
     private String rok;
     @Column(precision = 22)
     private Double wynikfinansowy;
+    @Column(name = "wynikfinansowynarastajaco",precision = 22)
+    private Double wynikfinansowynarastajaco;
     @Column(precision = 22)
     private Double wynikpodatkowy;
     @Column(precision = 22)
@@ -126,6 +129,14 @@ public class WynikFKRokMc implements Serializable {
     
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Double getWynikfinansowynarastajaco() {
+        return wynikfinansowynarastajaco;
+    }
+
+    public void setWynikfinansowynarastajaco(Double wynikfinansowynarastajaco) {
+        this.wynikfinansowynarastajaco = wynikfinansowynarastajaco;
     }
 
     public double getUdzial() {

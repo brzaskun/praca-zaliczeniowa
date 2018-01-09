@@ -14,10 +14,9 @@ import daoFK.CechazapisuDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import daoFK.WynikFKRokMcDAO;
-import em.Em;
+import embeddable.Mce;
 import embeddablefk.PozycjeSymulacjiNowe;
 import embeddablefk.SaldoKonto;
-import entity.Podatnik;
 import entity.PodatnikUdzialy;
 import entityfk.Cechazapisu;
 import entityfk.Konto;
@@ -32,7 +31,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import msg.B;
 import msg.Msg;
 import pdf.PdfSymulacjaWyniku;
@@ -354,6 +352,13 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
     public void zaksiegujwynik () {
+        double wynikfinnarastajaco = 0.0;
+        List<WynikFKRokMc> wynikpoprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokFirma(wpisView);
+        for (WynikFKRokMc p : wynikpoprzedniemce) {
+            if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
+                wynikfinnarastajaco += p.getWynikfinansowy();
+            }
+        }
         List<PozycjeSymulacji> pozycje = new ArrayList<>(pozycjePodsumowaniaWyniku);
         WynikFKRokMc wynikFKRokMc = new WynikFKRokMc();
         wynikFKRokMc.setPodatnikObj(wpisView.getPodatnikObiekt());
@@ -362,6 +367,8 @@ public class SymulacjaWynikuView implements Serializable {
         wynikFKRokMc.setPrzychody(pozycje.get(0).getWartosc());
         wynikFKRokMc.setKoszty(pozycje.get(1).getWartosc());
         wynikFKRokMc.setWynikfinansowy(pozycje.get(2).getWartosc());
+        wynikfinnarastajaco += wynikFKRokMc.getWynikfinansowy();
+        wynikFKRokMc.setWynikfinansowynarastajaco(wynikfinnarastajaco);
         wynikFKRokMc.setNkup(pozycje.get(3).getWartosc()+pozycje.get(4).getWartosc()+pozycje.get(5).getWartosc());
         wynikFKRokMc.setNpup(pozycje.get(6).getWartosc()+pozycje.get(7).getWartosc()+pozycje.get(8).getWartosc());
         wynikFKRokMc.setWynikpodatkowy(pozycje.get(9).getWartosc());

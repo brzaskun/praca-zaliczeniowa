@@ -32,7 +32,7 @@
             };
         </script>
         <h:form id="formsymulacja">
-            <p:panelGrid columns="13" style="margin-left: 2%;" >
+            <p:panelGrid columns="14" style="margin-left: 2%;" >
                 <h:outputText value="rok" style="margin-right: 10px;"/>
                 <h:outputText value="#{WpisView.rokWpisuSt}" style="margin-right: 10px;"/>
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
@@ -48,7 +48,8 @@
                                      oncomplete="pokazprzyciski();"
                                      style="width: 120px; margin-left: 20px;" update="akordeon:formsymulacja akordeon:formsymulacja:tabelapodsumowanienowa"/>
                 </p:column>
-                <h:outputText value="#{mgs.przetwarzanie}"/>
+                <p:commandButton value="zaksięguj" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"
+                                style="width: 120px; " update="akordeon:formsymulacjanarastajaco"/>
                 <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)"/>
                 <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>
                 <h:outputText id="tylkosyntopis" value="tylko konta syntetyczne" style="margin-left: 15px; display: none;"/>
@@ -69,8 +70,8 @@
 
             <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
-                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1000px"
-                         scrollable="true" scrollHeight="400"
+                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1000px; height: 400px; overflow-y: scroll;"
+                         
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.zapisyprzychodowe}: #{symulacjaWynikuView.sumaprzychody}"/>
@@ -83,7 +84,7 @@
                 <p:column width="20">
                     <p:rowToggler/>
                 </p:column>
-                <p:column headerText="id" width="20" sortBy="#{loop.id}"  style="text-align: center;">
+                <p:column headerText="id" sortBy="#{loop.id}"  style="width: 20px; text-align: center;">
                     <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>
                 <p:column headerText="#{mgs.konto}" width="70" >
@@ -144,8 +145,7 @@
             </p:dataTable>
             <p:dataTable id="tablicasymulacjaK" value="#{symulacjaWynikuView.listakontakoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoKoszty}" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1000px" widgetVar="tablicasymulacjaK"
-                         scrollable="true" scrollHeight="500"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1000px; height: 500px; overflow-y: scroll;" widgetVar="tablicasymulacjaK"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.zapisykosztowe}: #{symulacjaWynikuView.sumakoszty}"/>
@@ -338,8 +338,7 @@
                     <bcf:outputpl value="#{loop1.wartosc}"/>
                 </p:column>
             </p:dataTable>-->
-            <p:commandButton value="#{mgs.zaksiegujrozliczenie}" actionListener="#{symulacjaWynikuView.zaksiegujwynik}"
-                                style="margin-top: 10px; width: 150px; margin-bottom: 30px;" update="akordeon:formsymulacjanarastajaco"/>
+            
             </p:outputPanel>
         </h:form>
        
