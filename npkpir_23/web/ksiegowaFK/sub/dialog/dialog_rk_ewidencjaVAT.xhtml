@@ -13,8 +13,8 @@
             <p:panelGrid id="paneldatydokumentu" columns="4" style="width: 600px;"  styleClass="uipanelGrid0">
                 <h:outputText value="data dokumentu"/>
                 <h:outputText value="data operacji gosp."/>
-                <h:outputText value="nr wł dok."/>
                 <h:outputText value="dane kontrahenta"/>
+                <h:outputText value="nr wł dok."/>
                 <h:inputText id="data1DialogVAT" value="#{dokfkView.ewidencjaVatRK.datadokumentu}"
                              onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogVAT');
                                              $(this).removeClass('ui-state-focus');
@@ -37,7 +37,6 @@
                              >
                     <p:ajax global="false" event="blur" partialSubmit="true" />
                 </h:inputText>
-                <p:inputText value="#{dokfkView.ewidencjaVatRK.numerwlasnydokfk}" style="width: 170px;"/>
                 <p:autoComplete id="klientRK" value="#{dokfkView.ewidencjaVatRK.klient}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefkRK"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
@@ -60,17 +59,17 @@
                         </h:panelGrid>
                     </f:facet>
                 </p:autoComplete>
-               
+                <p:inputText value="#{dokfkView.ewidencjaVatRK.numerwlasnydokfk}" style="width: 170px;"/>
             </p:panelGrid>
             <p:panelGrid id="panelzewidencjavat" columns="7"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
-                <h:outputText value="opis ewidencji" style="width: 160px;"/>
+                <h:outputText value="opis transakcji" style="width: 160px;"/>
                 <h:outputText value="rodzaj ewidencji" style="width: 110px;"/>
                 <h:outputText value="#{mgs.netto}" style="width: 95px;"/>
                 <h:outputText value="#{mgs.VAT}" style="width: 95px;"/>
                 <h:outputText value="brutto" style="width: 95px;"/>
                 <h:outputText value="op/zw" style="width: 75px;"/>
                 <h:outputText value="50%" />
-                <p:inputText value="#{dokfkView.ewidencjaVatRK.opisvat}" style="width: 170px;"/>
+                <p:inputText id="opisvat" value="#{dokfkView.ewidencjaVatRK.opisvat}" style="width: 170px;"/>
                 <h:selectOneMenu value="#{dokfkView.ewidencjaVatRK.ewidencja}" converter="EVatwpisFKConv"
                                  onblur="$(this).removeClass('ui-state-focus');
                                         $(this).addClass('ui-state-default');"

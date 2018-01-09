@@ -1207,11 +1207,25 @@ public class DokfkView implements Serializable {
                     klienciDAO.dodaj(dodany);
                 }
                 RequestContext.getCurrentInstance().update("ewidencjavatRK:klientRK");
+            } else {
+                ewidencjaVatRK.setOpisvat(pobierzopis(ewidencjaVatRK.getKlient()));
+                RequestContext.getCurrentInstance().update("ewidencjavatRK:opisvat");
             }
         } catch (Exception e) {
             
         }
     }
+    
+    private String pobierzopis(Klienci klient) {
+        String zwrot = null;
+        try {
+            zwrot = eVatwpisFKDAO.findEVatwpisFKPodatnikKlient(wpisView.getPodatnikObiekt(), klient, wpisView.getRokWpisuSt());
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+    }
+    
     
     public void pobierzopiszpoprzedniegodokItemSelect() {
         try {
@@ -3809,6 +3823,8 @@ public class DokfkView implements Serializable {
     public void setgUSView(GUSView gUSView) {
         this.gUSView = gUSView;
     }
+
+    
 
     
     

@@ -7,6 +7,7 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Klienci;
 import entity.Podatnik;
 import entityfk.EVatwpisFK;
 import entityfk.Wiersz;
@@ -14,7 +15,6 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -145,6 +145,10 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     
     public EVatwpisFK znajdzEVatwpisFKPoWierszu(Wiersz wiersz) {
         return sessionFacade.znajdzEVatwpisFKPoWierszu(wiersz);
+    }
+
+    public String findEVatwpisFKPodatnikKlient(Podatnik podatnikObiekt, Klienci klient, String rok) {
+        return sessionFacade.findEVatwpisFKPodatnikKlient(podatnikObiekt, klient, rok);
     }
     
 }
