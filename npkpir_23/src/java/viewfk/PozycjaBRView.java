@@ -16,6 +16,7 @@ import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
+import data.Data;
 import embeddable.Mce;
 import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
@@ -96,6 +97,7 @@ public class PozycjaBRView implements Serializable {
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     private boolean laczlata;
+    private String bilansnadzien;
     
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -123,6 +125,7 @@ public class PozycjaBRView implements Serializable {
             if (uklad.getUklad() == null) {
                 uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             }
+            bilansnadzien = Data.dzienostatni(wpisView);
         } catch (Exception e) {
             
         }
@@ -526,16 +529,19 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void zmianaukladprzegladBilansBO() {
+        bilansnadzien = Data.dzienostatni(wpisView);
         PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         obliczBilansOtwarciaBilansDataWybierz();
     }
     
      public void zmianaukladprzegladRZiS() {
+        bilansnadzien = Data.dzienostatni(wpisView);
         PozycjaRZiSFKBean.zmianaukladu("wynikowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         pobierzukladprzegladRZiS();
     }
     
     public void zmianaukladprzegladBilans() {
+        bilansnadzien = Data.dzienostatni(wpisView);
         PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         pobierzukladprzegladBilans("aktywa");
     }
@@ -879,12 +885,12 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void drukujBilansAP(double sumabilansowaA, double sumabilansowaP) {
-           PdfBilans.drukujBilansAP(rootBilansAktywa, rootBilansPasywa, wpisView, sumabilansowaA, sumabilansowaP);
+           PdfBilans.drukujBilansAP(rootBilansAktywa, rootBilansPasywa, wpisView, sumabilansowaA, sumabilansowaP, bilansnadzien);
     }
     
     public void drukujBilansBODataAP(String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP) {
         if (ap.equals("x")) {
-            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, ap, sumabilansowaBO, sumabilansowaA, sumabilansowaP);
+            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, ap, sumabilansowaBO, sumabilansowaA, sumabilansowaP, bilansnadzien);
         }
     }
     
@@ -931,6 +937,14 @@ public class PozycjaBRView implements Serializable {
 
     public void setPodpieteStronyWiersza(List<StronaWierszaKwota> podpieteStronyWiersza) {
         this.podpieteStronyWiersza = podpieteStronyWiersza;
+    }
+
+    public String getBilansnadzien() {
+        return bilansnadzien;
+    }
+
+    public void setBilansnadzien(String bilansnadzien) {
+        this.bilansnadzien = bilansnadzien;
     }
 
     public boolean isLaczlata() {

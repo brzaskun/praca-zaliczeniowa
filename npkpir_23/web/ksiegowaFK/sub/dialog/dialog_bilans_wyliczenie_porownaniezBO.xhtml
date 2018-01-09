@@ -59,6 +59,10 @@
                      <p:selectBooleanCheckbox id="laczlata" value="#{pozycjaBRView.laczlata}">
                          <p:ajax event="change" partialSubmit="true" global="false"/>
                      </p:selectBooleanCheckbox>
+                     <h:outputText value="bilans na dzień" style="margin-left: 5px;"/>
+                     <p:inputText value="#{pozycjaBRView.bilansnadzien}" maxlength="10" size="10"> 
+                         <p:ajax event="blur" partialSubmit="true" global="false"/>
+                     </p:inputText>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" >

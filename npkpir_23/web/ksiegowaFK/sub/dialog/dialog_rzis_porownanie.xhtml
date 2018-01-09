@@ -45,10 +45,14 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRZestawienieView.rozwinwszystkie(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":form_dialog_rzis_porownanie:dataList" style="float: left;" />
+                <h:outputText value="bilans na dzień" style="margin-left: 5px;"/>
+                <p:inputText value="#{pozycjaBRZestawienieView.bilansnadzien}" maxlength="10" size="10"> 
+                    <p:ajax event="blur" partialSubmit="true" global="false"/>
+                </p:inputText>
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRZestawienieView.rozwinwszystkie(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":form_dialog_rzis_porownanie:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRZestawienieView.rozwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":form_dialog_rzis_porownanie:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRZestawienieView.zwinwszystkie(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":form_dialog_rzis_porownanie:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRZestawienieView.zwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":form_dialog_rzis_porownanie:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRZestawienieView.zwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":form_dialog_rzis_porownanie:dataList" style="float: left;" />-->
                 <p:column>
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 50px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRZestawienieView.drukujRZiSBO()}"/>
                 </p:column>

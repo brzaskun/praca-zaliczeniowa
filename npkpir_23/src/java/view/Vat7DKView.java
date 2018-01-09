@@ -257,7 +257,6 @@ public class Vat7DKView implements Serializable {
                     } else {
                         przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniezpoprzedniejdeklaracji);
                         naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji);
-                        RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
                         Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
                     }
                 }

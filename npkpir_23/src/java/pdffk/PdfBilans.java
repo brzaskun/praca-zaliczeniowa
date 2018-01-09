@@ -15,6 +15,7 @@ import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepnySF;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
@@ -31,7 +32,7 @@ import view.WpisView;
 
 public class PdfBilans {
     
-    public static void drukujBilansAP(TreeNodeExtended rootProjektA, TreeNodeExtended rootProjektP, WpisView wpisView, double sumabilansowaA, double sumabilansowaP) {
+    public static void drukujBilansAP(TreeNodeExtended rootProjektA, TreeNodeExtended rootProjektP, WpisView wpisView, double sumabilansowaA, double sumabilansowaP, String bilansnadzien) {
         String nazwa = null;
         nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansObliczenie-"+wpisView.getRokWpisuSt();
         File file = Plik.plik(nazwa, true);
@@ -45,7 +46,7 @@ public class PdfBilans {
             otwarcieDokumentu(document, nazwa);
             dodajsuma(rootProjektA, "a", sumabilansowaA);
             dodajsuma(rootProjektP, "p", sumabilansowaP);
-            dodajOpisWstepny(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepnySF(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), bilansnadzien);
             PdfMain.dodajLinieOpisu(document, "Strona aktywów");
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjektA),75,0);
             document.newPage();
@@ -99,7 +100,7 @@ public class PdfBilans {
         }
     }
     
-    public static void drukujBilansBODataAP(TreeNodeExtended rootProjektA, TreeNodeExtended rootProjektP,WpisView wpisView, String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP) {
+    public static void drukujBilansBODataAP(TreeNodeExtended rootProjektA, TreeNodeExtended rootProjektP,WpisView wpisView, String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP, String bilansnadzien) {
         String nazwa = null;
         nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansObliczenieAktywaPasywaBOData-"+wpisView.getRokWpisuSt();
         File file = Plik.plik(nazwa, true);
@@ -113,7 +114,7 @@ public class PdfBilans {
             otwarcieDokumentu(document, nazwa);
             dodajsuma(rootProjektA, "a", sumabilansowaBO, sumabilansowaA);
             dodajsuma(rootProjektP, "p", sumabilansowaBO, sumabilansowaP);
-            dodajOpisWstepny(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepnySF(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), bilansnadzien);
             PdfMain.dodajLinieOpisu(document, "Strona aktywów");
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjektA),75,5);
             document.newPage();

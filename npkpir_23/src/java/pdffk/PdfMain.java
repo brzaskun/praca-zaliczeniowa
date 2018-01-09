@@ -448,7 +448,7 @@ public class PdfMain {
         }
     }
     
-    public static void dodajOpisWstepnySF(Document document, String opis, Podatnik podatnik, String mc, String rok) {
+    public static void dodajOpisWstepnySF(Document document, String opis, Podatnik podatnik, String bilansnadzien) {
         try {
             StringBuilder s = new StringBuilder();
             s.append("Firma ");
@@ -463,10 +463,8 @@ public class PdfMain {
             opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
-            if (mc != null) {
-                opiswstepny = new Paragraph(new Phrase(B.b("nakoniec") + " " + mc + "/" + rok, ft[1]));
-            } else {
-                opiswstepny = new Paragraph(new Phrase(B.b("nakoniec") + " rok "+ rok, ft[1]));
+            if (bilansnadzien != null) {
+               opiswstepny = new Paragraph(new Phrase("bilans sporządzony na dzień "+bilansnadzien, ft[2]));
             }
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);

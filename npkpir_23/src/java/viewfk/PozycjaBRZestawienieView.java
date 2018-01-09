@@ -16,6 +16,7 @@ import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
 import daoFK.WierszBODAO;
+import data.Data;
 import embeddable.Mce;
 import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
@@ -97,6 +98,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     @Inject
     private UkladBRDAO ukladBRDAO;
     private boolean laczlata;
+    private String bilansnadzien;
     
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -148,6 +150,7 @@ public class PozycjaBRZestawienieView implements Serializable {
             pozycje_old.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
             pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
             pozycje.addAll(pozycjaRZiSDAO.findAll());
+            bilansnadzien = Data.dzienostatni(wpisView);
         } catch (Exception e){}
     }
     
@@ -793,7 +796,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     }
     
     public void drukujRZiSBO() {
-        PdfRZiS.drukujRZiSBO(rootProjektRZiS, wpisView);
+        PdfRZiS.drukujRZiSBO(rootProjektRZiS, wpisView, bilansnadzien);
     }
 
     public boolean isLaczlata() {
@@ -843,6 +846,14 @@ public class PozycjaBRZestawienieView implements Serializable {
 
     public void setPodpieteStronyWiersza(List<StronaWierszaKwota> podpieteStronyWiersza) {
         this.podpieteStronyWiersza = podpieteStronyWiersza;
+    }
+
+    public String getBilansnadzien() {
+        return bilansnadzien;
+    }
+
+    public void setBilansnadzien(String bilansnadzien) {
+        this.bilansnadzien = bilansnadzien;
     }
 
     public double getSumabilansowaaktywa() {

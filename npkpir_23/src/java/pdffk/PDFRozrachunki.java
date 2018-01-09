@@ -5,14 +5,10 @@
  */
 package pdffk;
 
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import data.Data;
-import entity.Uz;
-import entityfk.Konto;
 import entityfk.StronaWiersza;
 import format.F;
 import java.io.File;
@@ -20,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
