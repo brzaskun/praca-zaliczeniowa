@@ -158,7 +158,7 @@ var obliczwysokosc = function(sourceid) {
         MYAPP.bottom = MYAPP.top+MYAPP.height;  
 };
 
-var stop = function (event) {
+var stop = function () {
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();

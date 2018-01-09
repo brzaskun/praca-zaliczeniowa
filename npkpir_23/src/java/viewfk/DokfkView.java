@@ -241,6 +241,7 @@ public class DokfkView implements Serializable {
     private double[] sumadokbo;
     @ManagedProperty(value = "#{gUSView}")
     private GUSView gUSView;
+    private Cechazapisu cechazapisudododania;
     
 
     public DokfkView() {
@@ -1984,6 +1985,14 @@ public class DokfkView implements Serializable {
         }
     }
 
+    public void dodajcechedostronawiersza() {
+       if (cechazapisudododania != null) {
+            pobranecechypodatnik.remove(cechazapisudododania);
+            stronaWierszaCechy.getCechazapisuLista().add(cechazapisudododania);
+            cechazapisudododania.getStronaWierszaLista().add(stronaWierszaCechy);
+       }
+    }
+    
     public void dodajcechedostronawiersza(Cechazapisu c) {
         pobranecechypodatnik.remove(c);
         stronaWierszaCechy.getCechazapisuLista().add(c);
@@ -3824,7 +3833,23 @@ public class DokfkView implements Serializable {
         this.gUSView = gUSView;
     }
 
-    
+    public Cechazapisu getCechazapisudododania() {
+        return cechazapisudododania;
+    }
+
+    public void setCechazapisudododania(Cechazapisu cechazapisudododania) {
+        this.cechazapisudododania = cechazapisudododania;
+    }
+
+    public void wybierzcechankup() {
+        if (pobranecechypodatnik != null) {
+            for (Cechazapisu p : pobranecechypodatnik) {
+                if (p.getCechazapisuPK().getNazwacechy().equals("NKUP")) {
+                    cechazapisudododania = p;
+                }
+            }
+        }
+    }
 
     
     
