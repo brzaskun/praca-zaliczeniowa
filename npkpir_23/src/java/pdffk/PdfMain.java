@@ -464,7 +464,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             if (bilansnadzien != null) {
-               opiswstepny = new Paragraph(new Phrase("bilans sporządzony na dzień "+bilansnadzien, ft[2]));
+               opiswstepny = new Paragraph(new Phrase("bilans zamknięcia sporządzony na dzień "+bilansnadzien, ft[2]));
             }
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
