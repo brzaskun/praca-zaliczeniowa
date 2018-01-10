@@ -540,7 +540,18 @@ public class DokfkView implements Serializable {
     }
     
     public void podepnijEwidencjeVatDokBlur(int rodzaj) {
-        if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null && selected.isDwarejestry() && czyrozjechalysiemce() && selected.getEwidencjaVAT().size() != 2) {
+        if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null 
+                && selected.isDwarejestry() && czyrozjechalysiemce() && 
+                (selected.getRodzajedok().getSkrot().equals("WNT") && selected.getEwidencjaVAT().size() != 2 ||
+                selected.getRodzajedok().getSkrot().equals("RVC") && selected.getEwidencjaVAT().size() != 2 ||
+                selected.getRodzajedok().getSkrot().equals("IU") && selected.getEwidencjaVAT().size() != 4)) {
+            podepnijEwidencjeVat(rodzaj);
+        }
+        if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null 
+                && selected.isDwarejestry() && !czyrozjechalysiemce() && 
+                (selected.getRodzajedok().getSkrot().equals("WNT") && selected.getEwidencjaVAT().size() == 2 ||
+                selected.getRodzajedok().getSkrot().equals("RVC") && selected.getEwidencjaVAT().size() == 2 ||
+                selected.getRodzajedok().getSkrot().equals("IU") && selected.getEwidencjaVAT().size() == 4)) {
             podepnijEwidencjeVat(rodzaj);
         }
     }

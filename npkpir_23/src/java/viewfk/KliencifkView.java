@@ -107,7 +107,7 @@ public class KliencifkView implements Serializable {
                     wybranyklient = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
                 } else if (!wybranyklient.getNpelna().equals("nowy klient")) {
                     int wynik = pobieraniekontaFK();
-                    if (wynik == 1) {
+                    if (wynik == 1 && !wybranyklient.getNip().equals(wpisView.getPodatnikObiekt().getNip())) {
                         makonto0niemakonta1 = true;
                     } else {
                         makonto0niemakonta1 = false;
