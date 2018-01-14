@@ -34,6 +34,7 @@ import javax.xml.bind.Marshaller;
 import static jpk.view.JPK_VAT2_Bean.*;
 import jpk201701.JPK;
 import msg.Msg;
+import pdf.PdfUPO;
 import view.EwidencjaVatView;
 import view.WpisView;
 import waluty.Z;
@@ -168,6 +169,9 @@ public class JPK_VAT2View implements Serializable {
         }
     }
     
+    public void drukujUPO(UPO item) {
+        PdfUPO.drukuj(item, wpisView);
+    }
     
     public void generujXML(List<JPK.SprzedazWiersz> listas, List<JPK.ZakupWiersz> listaz, JPK.SprzedazCtrl sprzedazCtrl, JPK.ZakupCtrl zakupCtrl, boolean nowa0korekta1) {
         try {
@@ -288,7 +292,6 @@ public class JPK_VAT2View implements Serializable {
         String[] zwrot = new String[2];
         zwrot[0] = "i";
         zwrot[1] = "Rozpoczynam zachowanie UPO";
-        if (upo.getCode() != 0) {
             try {
                 upo.setWprowadzil(wpisView.getWprowadzil());
                 upo.setDataupo(new Date());
@@ -300,10 +303,6 @@ public class JPK_VAT2View implements Serializable {
                 zwrot[0] = "e";
                 zwrot[1] = "Nieudane zachowanie UPO. Wystąpił błąd. Nie otrzymano upo";
             }
-        } else {
-            zwrot[0] = "e";
-            zwrot[1] = "Wysyłka nieudana, nie ma UPO do zachowania";
-        }
         return zwrot;
     }
 

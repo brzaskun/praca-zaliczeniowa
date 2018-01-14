@@ -462,5 +462,14 @@ public class TKodUS implements Serializable {
         return wyraz.toUpperCase();
     }		
 
+    public static String getNazwaUrzedu(String kodurzedu) {
+        String zwrot = "nie znaleziono";
+        for (String p : mapaUrzadKod.keySet()) {
+            if (mapaUrzadKod.get(p).equals(kodurzedu)) {
+                zwrot = p;
+            }
+        }
+        return zwrot;
+    }
     
 }

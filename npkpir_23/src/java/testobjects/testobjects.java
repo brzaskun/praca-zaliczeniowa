@@ -36,6 +36,7 @@ import entityfk.WierszBO;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import jpk201701.JPK;
 import msg.B;
 import vies.Vies;
 import view.WpisView;
@@ -1020,6 +1021,40 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        return w;
    }
    
+   public static List[] getTabelaUPOS(List<JPK.SprzedazWiersz>  wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("nip");
+       n.add("nazwa");
+       n.add("nr faktury");
+       n.add("data wyst.");
+       n.add("data sprzed.");
+       n.add("netto");
+       n.add("vat");
+       n.add("p. netto");
+       n.add("p. vat");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    public static List[] getTabelaUPOZ(List<JPK.ZakupWiersz> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("nip");
+       n.add("nazwa");
+       n.add("nr faktury");
+       n.add("data wpływu.");
+       n.add("data zakupu");
+       n.add("netto");
+       n.add("vat");
+       n.add("p. netto");
+       n.add("p. vat");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+    }
   
 //   public static void main(String[] args) {
 //       Dokfk p = getDokfk("PK");
@@ -1027,6 +1062,14 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
 //       List r = getWiersze();
 //       System.out.println(p.toString());
 //   }
+
+   
+
+    
+
+  
+
+    
 
     
    

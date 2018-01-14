@@ -10,6 +10,7 @@ package jpk201701;
 
 import entity.JPKSuper;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -471,7 +472,8 @@ public class JPK extends JPKSuper implements Serializable {
         "liczbaWierszySprzedazy",
         "podatekNalezny"
     })
-    public static class SprzedazCtrl {
+    public static class SprzedazCtrl  implements Serializable {
+         protected static final long serialVersionUID = 1L;
 
         @XmlElement(name = "LiczbaWierszySprzedazy", namespace = "http://jpk.mf.gov.pl/wzor/2016/10/26/10261/", required = true)
         @XmlSchemaType(name = "nonNegativeInteger")
@@ -644,7 +646,8 @@ public class JPK extends JPKSuper implements Serializable {
         "k38",
         "k39"
     })
-    public static class SprzedazWiersz {
+    public static class SprzedazWiersz implements Serializable {
+         protected static final long serialVersionUID = 1L;
 
         @XmlElement(name = "LpSprzedazy", namespace = "http://jpk.mf.gov.pl/wzor/2016/10/26/10261/", required = true)
         @XmlSchemaType(name = "nonNegativeInteger")
@@ -733,6 +736,43 @@ public class JPK extends JPKSuper implements Serializable {
         @XmlSchemaType(name = "anySimpleType")
         protected String typ;
 
+        private static final List SPRZEDAZWIERSZENETTO;
+        private static final List SPRZEDAZWIERSZEVAT;
+        static {
+            SPRZEDAZWIERSZENETTO = new ArrayList();
+            SPRZEDAZWIERSZENETTO.add("getK10");
+            SPRZEDAZWIERSZENETTO.add("getK11");
+            SPRZEDAZWIERSZENETTO.add("getK12");
+            SPRZEDAZWIERSZENETTO.add("getK13");
+            SPRZEDAZWIERSZENETTO.add("getK14");
+            SPRZEDAZWIERSZENETTO.add("getK15");
+            SPRZEDAZWIERSZENETTO.add("getK17");
+            SPRZEDAZWIERSZENETTO.add("getK19");
+            SPRZEDAZWIERSZENETTO.add("getK21");
+            SPRZEDAZWIERSZENETTO.add("getK22");
+            SPRZEDAZWIERSZENETTO.add("getK23");
+            SPRZEDAZWIERSZENETTO.add("getK25");
+            SPRZEDAZWIERSZENETTO.add("getK27");
+            SPRZEDAZWIERSZENETTO.add("getK29");
+            SPRZEDAZWIERSZENETTO.add("getK31");
+            SPRZEDAZWIERSZENETTO.add("getK32");
+            SPRZEDAZWIERSZENETTO.add("getK34");
+            SPRZEDAZWIERSZEVAT = new ArrayList();
+            SPRZEDAZWIERSZEVAT.add("getK16");
+            SPRZEDAZWIERSZEVAT.add("getK18");
+            SPRZEDAZWIERSZEVAT.add("getK20");
+            SPRZEDAZWIERSZEVAT.add("getK24");
+            SPRZEDAZWIERSZEVAT.add("getK26");
+            SPRZEDAZWIERSZEVAT.add("getK28");
+            SPRZEDAZWIERSZEVAT.add("getK30");
+            SPRZEDAZWIERSZEVAT.add("getK33");
+            SPRZEDAZWIERSZEVAT.add("getK35");
+            SPRZEDAZWIERSZEVAT.add("getK36");
+            SPRZEDAZWIERSZEVAT.add("getK37");
+            SPRZEDAZWIERSZEVAT.add("getK38");
+            SPRZEDAZWIERSZEVAT.add("getK39");
+        };
+        
         /**
          * Gets the value of the lpSprzedazy property.
          * 
@@ -1649,6 +1689,85 @@ public class JPK extends JPKSuper implements Serializable {
             this.typ = value;
         }
 
+        public double getNetto() {
+            double zwrot = 0.0;
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (SPRZEDAZWIERSZENETTO.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = pole.doubleValue();
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+
+        public double getVat() {
+            double zwrot = 0.0;
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (SPRZEDAZWIERSZEVAT.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = pole.doubleValue();
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+
+        public String getNettoPole() {
+            String zwrot = "";
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (SPRZEDAZWIERSZENETTO.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = p.getName().substring(3);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+
+        public String getVatPole() {
+            String zwrot = "";
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (SPRZEDAZWIERSZEVAT.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = p.getName().substring(3);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
     }
 
 
@@ -1677,7 +1796,8 @@ public class JPK extends JPKSuper implements Serializable {
         "liczbaWierszyZakupow",
         "podatekNaliczony"
     })
-    public static class ZakupCtrl {
+    public static class ZakupCtrl  implements Serializable {
+         protected static final long serialVersionUID = 1L;
 
         @XmlElement(name = "LiczbaWierszyZakupow", namespace = "http://jpk.mf.gov.pl/wzor/2016/10/26/10261/", required = true)
         @XmlSchemaType(name = "nonNegativeInteger")
@@ -1792,7 +1912,8 @@ public class JPK extends JPKSuper implements Serializable {
         "k49",
         "k50"
     })
-    public static class ZakupWiersz {
+    public static class ZakupWiersz  implements Serializable {
+         protected static final long serialVersionUID = 1L;
 
         @XmlElement(name = "LpZakupu", namespace = "http://jpk.mf.gov.pl/wzor/2016/10/26/10261/", required = true)
         @XmlSchemaType(name = "nonNegativeInteger")
@@ -1837,6 +1958,20 @@ public class JPK extends JPKSuper implements Serializable {
         @XmlSchemaType(name = "anySimpleType")
         protected String typ;
 
+        private static final List ZAKUPWIERSZENETTO;
+        private static final List ZAKUPWIERSZEVAT;
+        static {
+            ZAKUPWIERSZENETTO = new ArrayList();
+            ZAKUPWIERSZENETTO.add("getK43");
+            ZAKUPWIERSZENETTO.add("getK45");
+            ZAKUPWIERSZEVAT = new ArrayList();
+            ZAKUPWIERSZEVAT.add("getK44");
+            ZAKUPWIERSZEVAT.add("getK46");
+            ZAKUPWIERSZEVAT.add("getK47");
+            ZAKUPWIERSZEVAT.add("getK48");
+            ZAKUPWIERSZEVAT.add("getK49");
+            ZAKUPWIERSZEVAT.add("getK50");
+        };
         /**
          * Gets the value of the lpZakupu property.
          * 
@@ -2223,6 +2358,86 @@ public class JPK extends JPKSuper implements Serializable {
          */
         public void setTyp(String value) {
             this.typ = value;
+        }
+
+        public double getNetto() {
+            double zwrot = 0.0;
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (ZAKUPWIERSZENETTO.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = pole.doubleValue();
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+
+        public double getVat() {
+            double zwrot = 0.0;
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (ZAKUPWIERSZEVAT.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = pole.doubleValue();
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+
+        public String getNettoPole() {
+            String zwrot = "";
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (ZAKUPWIERSZENETTO.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = p.getName().substring(3);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+
+        public String getVatPole() {
+            String zwrot = "";
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (ZAKUPWIERSZEVAT.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = p.getName().substring(3);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
         }
 
     }

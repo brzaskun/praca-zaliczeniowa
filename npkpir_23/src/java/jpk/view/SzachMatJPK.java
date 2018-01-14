@@ -58,8 +58,8 @@ public class SzachMatJPK {
         try {
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String dir = ctx.getRealPath("/")+"resources\\xml\\";
-            String mainfilename = "JPK-VAT-TEST-0001.xml";
-//            String mainfilename = "jpk"+wpisView.getPodatnikObiekt().getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+            //String mainfilename = "JPK-VAT-TEST-0001.xml";
+            String mainfilename = "jpk"+wpisView.getPodatnikObiekt().getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
             String dirmainfilename = dir+mainfilename;
             File czyjestmainfile = new File(dirmainfilename);
             if (czyjestmainfile.exists()) {
