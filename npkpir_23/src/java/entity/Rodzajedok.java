@@ -119,6 +119,8 @@ public class Rodzajedok implements Serializable {
         this.rodzajtransakcji = rodzajedok.getRodzajtransakcji();
         this.skrot = rodzajedok.getSkrot();
         this.wzorzec = rodzajedok.getWzorzec();
+        this.stawkavat = rodzajedok.getStawkavat();
+        this.tylkovatnalezny = rodzajedok.isTylkovatnalezny();
     }
 
     
