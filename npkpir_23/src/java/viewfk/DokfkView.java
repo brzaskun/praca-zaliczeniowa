@@ -585,7 +585,11 @@ public class DokfkView implements Serializable {
                             drugaewid.setMcEw(rokmiesiacduplikatu[1]);
                             this.selected.getEwidencjaVAT().add(drugaewid);
                         } else {
-                            this.selected.getEwidencjaVAT().add(new EVatwpisFK(k++, p, selected));
+                            EVatwpisFK pierwszaewid = new EVatwpisFK(k++, p, selected);
+                            if (selected.getRodzajedok().isTylkovatnalezny()) {
+                                pierwszaewid.setNieduplikuj(true);
+                            }
+                            this.selected.getEwidencjaVAT().add(pierwszaewid);
                         }
                     }
                     RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");

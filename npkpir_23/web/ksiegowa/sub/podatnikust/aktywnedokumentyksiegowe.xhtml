@@ -111,6 +111,8 @@
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazkg}" />
                     <h:outputText value=" pokaż szt: " />
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazszt}" />
+                    <h:outputText value=" rozliczaj tylko VAT należny: " />
+                    <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkovatnalezny}" />
                 </p:panelGrid>
                 <p:panelGrid id="parametryDokKsi1" columns="4" rendered="#{WpisView.ksiegirachunkowe}">
 

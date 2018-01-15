@@ -97,7 +97,8 @@ public class Rodzajedok implements Serializable {
     private double procentvat;
     @Column(name = "stawkavat")
     private double stawkavat;
-   
+    @Column(name="tylkovatnalezny")
+    private boolean tylkovatnalezny;
 
 
     public Rodzajedok() {
@@ -278,6 +279,16 @@ public class Rodzajedok implements Serializable {
     public void setStawkavat(double stawkavat) {
         this.stawkavat = stawkavat;
     }
+
+    public boolean isTylkovatnalezny() {
+        return tylkovatnalezny;
+    }
+
+    public void setTylkovatnalezny(boolean tylkovatnalezny) {
+        this.tylkovatnalezny = tylkovatnalezny;
+    }
+    
+    
 
     @Override
     public int hashCode() {

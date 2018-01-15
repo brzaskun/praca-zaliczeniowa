@@ -260,7 +260,7 @@ public class DokFKVATBean {
                     if (wierszDokumentuPoprzedniego != null && wierszDokumentuBiezacego != null) {
                         StronaWiersza wnDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
                         StronaWiersza wnDokumenuBiezacego = wierszDokumentuBiezacego.getStronaWn();
-                        if (wnDokumenuBiezacego != null && !wnDokumenuBiezacego.getKonto().getZwyklerozrachszczegolne().equals("vat")) {
+                        if (wnDokumenuBiezacego != null && !wnDokumenuBiezacego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
                             wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
                         }
                         StronaWiersza maDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaMa();
@@ -402,7 +402,7 @@ public class DokFKVATBean {
                     }
                 }
                 wiersz2_3.setTabelanbp(selected.getTabelanbp());
-                if (odliczenie0koszt1==0) {
+                if (odliczenie0koszt1==0   && !selected.getRodzajedok().isTylkovatnalezny()) {
                     Konto kontovat = selected.getRodzajedok().getKontovat();
                     if (kontovat != null) {
                         wiersz2_3.getStronaWn().setKonto(kontovat);
@@ -416,7 +416,7 @@ public class DokFKVATBean {
                 } else {
                     wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat nie podl. odl.");
                     wiersz2_3.getStronaWn().setKonto(kontadlaewidencji.get("404-2"));
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().contains("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().contains("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")  && !selected.getRodzajedok().isTylkovatnalezny()) {
                         wiersz2_3.getStronaMa().setKonto(kontadlaewidencji.get("221-1"));
                     }
                 }

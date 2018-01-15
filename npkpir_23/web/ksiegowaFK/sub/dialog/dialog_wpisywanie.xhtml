@@ -385,6 +385,7 @@
                     </p:panelGrid>
 
                     <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="width: 620px;">
+                        <h:outputText value="tylko ewidencja vat z podatkiem należnym" style="color: blue;" rendered="#{dokfkView.selected.rodzajedok.tylkovatnalezny}"/>
                         <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
                                      style="margin-top: 0px;" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 || dokfkView.selected.rodzajedok.kategoriadokumentu == 2}"
                                      sortBy="#{item.lp}" styleClass="gridvat">

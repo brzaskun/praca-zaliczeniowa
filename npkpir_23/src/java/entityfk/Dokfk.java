@@ -976,7 +976,7 @@ public class Dokfk extends DokSuper implements Serializable {
     
     public boolean isDwarejestry() {
         boolean zwrot = false;
-        if (this.getRodzajedok().getSkrot().equals("WNT") || this.getRodzajedok().getSkrot().equals("IU") || this.getRodzajedok().getSkrot().equals("RVC")) {
+        if (!this.getRodzajedok().isTylkovatnalezny() && this.getRodzajedok().getSkrot().equals("WNT") || this.getRodzajedok().getSkrot().equals("IU") || this.getRodzajedok().getSkrot().equals("RVC")) {
             zwrot = true;
         }
         return zwrot;
