@@ -12,7 +12,7 @@
         <p:growl life="3600"  id="messages" autoUpdate="true" showDetail="true"/>
         <br/>
 
-        <p:panelGrid columns="1" style="max-width: 900px">
+        <p:panelGrid columns="1" style="max-width: 1050px">
             <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
                          selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" >
                 <p:ajax event="rowSelect" listener="#{rodzajedokView.skopiujwierszdoedycji}"/>
@@ -22,7 +22,7 @@
                 <p:column headerText="skrót" sortBy="#{loop.skrotNazwyDok}"  style="text-align: center;">
                     <h:outputText value="#{loop.skrotNazwyDok}" />
                 </p:column>
-                <p:column headerText="nazwa pełna" sortBy="#{loop.nazwa}">
+                <p:column headerText="nazwa pełna" sortBy="#{loop.nazwa}" width="200">
                     <h:outputText value="#{loop.nazwa}" />
                 </p:column>
                 <p:column headerText="rodzaj transakcji">
@@ -39,8 +39,11 @@
                         <f:convertNumber integerOnly="true"/>
                     </h:outputText>
                 </p:column>
-                 <p:column headerText="automat" style="text-align: center;">
+                <p:column headerText="automat" style="text-align: center;">
                      <h:outputText value="#{loop.niepokazuj eq true ? 'n/p' : null}" />
+                </p:column>
+                <p:column headerText="tylko vat należ." style="text-align: center;">
+                    <h:outputText value="#{loop.tylkovatnalezny eq true ? 'tak' : null}" />
                 </p:column>
                 <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                     <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
@@ -80,6 +83,8 @@
             </p:inputText>
             <h:outputText value=" dokument automatyczny: " />
             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.niepokazuj}"/>
+            <h:outputText value=" tylko vat należny" />
+            <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkovatnalezny}"/>
         </p:panelGrid>
         <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
             <p:commandButton  actionListener="#{rodzajedokView.dodaj()}" value="dodaj dokument" update=":form"/>
