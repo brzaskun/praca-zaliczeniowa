@@ -75,6 +75,8 @@ public class WierszBO implements Serializable {
     private int nowy0edycja1usun2;
     @Column(name="otwarcielikwidacji")
     private boolean otwarcielikwidacji;
+    @Column(name="roznicakursowastatystyczna")
+    private boolean roznicakursowastatystyczna;
 
     public WierszBO() {
         
@@ -123,6 +125,7 @@ public class WierszBO implements Serializable {
         this.rozrachunek = false;
         this.wprowadzil = wprowadzil;
         this.nowy0edycja1usun2 = 0;
+        this.roznicakursowastatystyczna = p.isRoznicakursowastatystyczna();
     }
 
    
@@ -252,6 +255,14 @@ public class WierszBO implements Serializable {
 
     public void setKwotaWn(double kwotaWn) {
         this.kwotaWn = kwotaWn;
+    }
+
+    public boolean isRoznicakursowastatystyczna() {
+        return roznicakursowastatystyczna;
+    }
+
+    public void setRoznicakursowastatystyczna(boolean roznicakursowastatystyczna) {
+        this.roznicakursowastatystyczna = roznicakursowastatystyczna;
     }
 
     public double getKwotaMa() {

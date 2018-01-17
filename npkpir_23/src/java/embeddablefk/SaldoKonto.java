@@ -41,6 +41,7 @@ public class SaldoKonto implements Serializable {
     private double kursdlaBO;
     private double saldoWnPLN;
     private double saldoMaPLN;
+    private boolean roznicakursowastatystyczna;
 
     public SaldoKonto() {
         this.zapisy = new ArrayList<>();
@@ -251,6 +252,15 @@ public class SaldoKonto implements Serializable {
     public void setObrotyMaMc(double obrotyMaMc) {
         this.obrotyMaMc = obrotyMaMc;
     }
+
+    public boolean isRoznicakursowastatystyczna() {
+        return roznicakursowastatystyczna;
+    }
+
+    public void setRoznicakursowastatystyczna(boolean roznicakursowastatystyczna) {
+        this.roznicakursowastatystyczna = roznicakursowastatystyczna;
+    }
+
     
     public Konto getKonto() {
         return konto;

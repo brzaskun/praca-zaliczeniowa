@@ -22,9 +22,9 @@
             <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikObiekt.nip}');" style="width: 120px;margin-left: 30px;"/>
             <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 70px;"/>
             <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 5px;"/>
-            <p:commandButton value="wyślij jpk" icon="ui-icon-play" actionListener="#{JPK_VAT2View.przygotujXMLFK()}"
+<!--            <p:commandButton value="wyślij jpk" icon="ui-icon-play" actionListener="#{JPK_VAT2View.przygotujXMLFK()}"
                              update="paneljpk"
-                             style="width: 120px; margin-left: 5px;"/>
+                             style="width: 120px; margin-left: 5px;"/>-->
         </p:panelGrid>
         <p:separator/>
         <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">

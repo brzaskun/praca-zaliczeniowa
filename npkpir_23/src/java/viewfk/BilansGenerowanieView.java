@@ -421,6 +421,7 @@ public class BilansGenerowanieView implements Serializable {
                 if (nowewiersze.size() > 1 || (nowewiersze.size() == 1 && !nowewiersze.get(0).getWalutadlabo().getSymbolwaluty().equals("PLN"))) {
                     SaldoKonto roznicekursowe = rozliczroznicekursowedwojki(p,nowewiersze);
                     if (roznicekursowe != null) {
+                        roznicekursowe.setRoznicakursowastatystyczna(true);
                         nowalista.add(roznicekursowe);
                     }
                 }
