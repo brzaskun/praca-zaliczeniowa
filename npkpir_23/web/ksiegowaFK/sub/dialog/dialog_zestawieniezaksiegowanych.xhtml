@@ -143,6 +143,8 @@
                             oncomplete="PF('dialogwpisrmk').show();"/>
                 <p:menuitem value="zaksięguj dokfk" icon="fa fa-book"
                             actionListener="#{dokfkView.zaksiegujdokumenty()}" update=":zestawieniedokumentow:dataList"/>
+                 <p:menuitem value="sortuj wiersze" icon="fa fa-exchange"
+                            actionListener="#{dokfkView.sortujwiersze}"/>
                 <p:separator/>
                 <p:menuitem value="usuń zaznaczone" icon="fa fa-times" actionListener="#{dokfkView.usunzaznaczone}"
                             oncomplete="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"

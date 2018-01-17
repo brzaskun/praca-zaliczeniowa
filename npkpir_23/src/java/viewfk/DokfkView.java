@@ -2918,6 +2918,26 @@ public class DokfkView implements Serializable {
         }
     }
     
+    public void sortujwiersze() {
+        if (selectedlist == null || selectedlist.isEmpty()) {
+            Msg.msg("e", "Nie wybrano dokumentu");
+        } else {
+            Dokfk dosortowania = selectedlist.get(0);
+            if (dosortowania.getRodzajedok().getKategoriadokumentu()!=0) {
+                Msg.msg("e", "Sortuje tylko dokumenty typu WB i RK");
+            } else {
+                try {
+                    dosortowania.sortujwierszeData();
+                    //dosortowania.sortujwierszeID();
+                    dokDAOfk.edit(dosortowania);
+                    Msg.msg("Posortowano wiersze dokumentu");
+                } catch (Exception e) {
+                    Msg.msg("e", "Wystąpił błąd, nie posortowano wierszy dokumentu");
+                }
+            }
+        }
+    }
+    
     public void zaksiegujdokumenty() {
         if (selectedlist == null || selectedlist.isEmpty()) {
             Msg.msg("e", "Nie wybrano dokumentu do zaksięowania");

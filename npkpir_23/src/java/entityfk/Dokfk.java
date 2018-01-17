@@ -981,4 +981,138 @@ public class Dokfk extends DokSuper implements Serializable {
         }
         return zwrot;
     }
+
+     public void sortujwierszeData() {
+        Object[] wiersze =  this.getListawierszy().toArray();
+        int n = wiersze.length - 1;
+        while (n > 0) {
+            int last = 0;
+            for (int j = 0; j < n; j++) {
+                Wiersz o1 = (Wiersz) wiersze[j];
+                Wiersz o2 = (Wiersz) wiersze[j+1];
+                int wieksza = Integer.parseInt(o1.getDataWalutyWiersza());
+                int mniejsza = Integer.parseInt(o2.getDataWalutyWiersza());
+                if (wieksza > mniejsza) {
+                    swap(wiersze, j, j + 1);
+                    last = j;
+                }
+            }
+            n = last;
+        }
+        List<Wiersz> nowe = new ArrayList<>();
+        int licz = 1;
+        for (Object wiersze1 : wiersze) {
+            Wiersz w = (Wiersz) wiersze1;
+            w.setIdporzadkowy(licz++);
+            nowe.add(w);
+        }
+        this.setListawierszy(nowe);
+        
+    }
+    
+    public static void sortujwierszeData(Popo popo) {
+        Object[] wiersze =  popo.lista.toArray();
+        int n = wiersze.length - 1;
+        while (n > 0) {
+            int last = 0;
+            for (int j = 0; j < n; j++) {
+                Popo o1 = (Popo) wiersze[j];
+                Popo o2 = (Popo) wiersze[j+1];
+                int wieksza = o1.data;
+                int mniejsza = o2.data;
+                if (wieksza > mniejsza) {
+                    swap(wiersze, j, j + 1);
+                    last = j;
+                }
+            }
+            n = last;
+        }
+        List<Popo> nowe = new ArrayList<>();
+        for (Object wiersze1 : wiersze) {
+            nowe.add((Popo) wiersze1);
+            System.out.println(wiersze1);
+        }
+        popo.setLista(nowe);
+        
+    }
+    
+    private static class Popo {
+        int lp;
+        int id; 
+        int data;
+        int rwiersza;
+        
+        public List<Popo> lista;
+
+        public Popo() {
+            lista = new ArrayList<>();
+            lista.add(new Popo(1,1,3,0));
+            lista.add(new Popo(2,2,8,0));
+            lista.add(new Popo(3,3,15,0));
+            lista.add(new Popo(4,4,1,0));
+            lista.add(new Popo(5,5,8,0));
+            lista.add(new Popo(6,6,8,1));
+        }
+
+        private Popo(int i, int i0, int i1, int i2) {
+            this.lp = i;
+            this.id = i0;
+            this.data = i1;
+            this.rwiersza = i2;
+        }
+
+        @Override
+        public String toString() {
+            return "Popo{" + "lp=" + lp + ", id=" + id + ", data=" + data + ", rwiersza=" + rwiersza + '}';
+        }
+
+        
+
+        public void setLista(List<Popo> lista) {
+            this.lista = lista;
+        }
+        
+        
+        
+    }
+    
+    public static void sortujwierszeID() {
+        Popo popo = new Popo();
+        Object[] wiersze =  popo.lista.toArray();
+        int n = wiersze.length - 1;
+        while (n > 0) {
+            int last = 0;
+            for (int j = 0; j < n; j++) {
+                Popo o1 = (Popo) wiersze[j];
+                Popo o2 = (Popo) wiersze[j+1];
+                int wieksza = o1.data;
+                int mniejsza = o2.data;
+                int wiekszeid = o1.id;
+                int mniejszeid = o2.id;
+                if (wieksza == mniejsza && wiekszeid < mniejszeid) {
+                    swap(wiersze, j, j + 1);
+                    last = j;
+                }
+            }
+            n = last;
+        }
+        List<Popo> nowe = new ArrayList<>();
+        for (Object wiersze1 : wiersze) {
+            nowe.add((Popo) wiersze1);
+            System.out.println(wiersze1);
+        }
+        popo.setLista(nowe);
+        //this.setListawierszy(nowe);
+    }
+    
+    private static void swap(Object[] tablica, int i, int j) {
+        Object temp = tablica[i];
+        tablica[i] = tablica[j];
+        tablica[j] = temp;
+    }
+    
+    public static void main(String[] args) {
+        Popo popo = new Popo();
+        sortujwierszeData(popo);
+    }
 }

@@ -113,10 +113,10 @@
                     <h:outputText value="#{wpis.rodzajdokumentu}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}"/>
                     <h:outputText value=" korekta" rendered="#{wpis.pozycjepokorekcie.size() > 0}" style="color: red;"/>
                 </p:column>
-                <p:column  headerText="edytuj" style="text-align: center;"  width="40">
+<!--                <p:column  headerText="edytuj" style="text-align: center;"  width="40" >
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis)}" 
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
-                </p:column>
+                </p:column>-->
                 <p:column  headerText="PDF" style="text-align: center;"  width="40">
                     <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
                 </p:column>
