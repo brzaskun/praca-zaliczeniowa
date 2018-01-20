@@ -627,7 +627,7 @@ public class KontoZapisFKView implements Serializable{
             if (s.getSumaWnPLN()> s.getSumaMaPLN()) {
                 s.setSaldoWnPLN(Z.z(s.getSumaWnPLN()- s.getSumaMaPLN()));
             } else {
-                s.setSaldoMa(Z.z(s.getSumaMaPLN()- s.getSumaWnPLN()));
+                s.setSaldoMaPLN(Z.z(s.getSumaMaPLN()- s.getSumaWnPLN()));
             }
         }
         return zbiorcza;

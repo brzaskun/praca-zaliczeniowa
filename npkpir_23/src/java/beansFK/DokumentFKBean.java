@@ -387,11 +387,13 @@ public class DokumentFKBean implements Serializable {
     
     private static double pobierzkwotezsumyPLN(ListaSum wierszsum) {
         double zwrot = 0.0;
+        String wal = wierszsum.getWaluta();
         if (wierszsum.getSaldoWn() > 0) {
-            zwrot = wierszsum.getSaldoWnPLN();
+            zwrot = wierszsum.getSaldoWnPLN() != 0.0 ? wierszsum.getSaldoWnPLN() : wal.equals("PLN") ? wierszsum.getSaldoWn() : 0.0;
         } else {
-            zwrot = wierszsum.getSaldoMaPLN();
+            zwrot = wierszsum.getSaldoMaPLN() != 0.0 ? wierszsum.getSaldoMaPLN() : wal.equals("PLN") ? wierszsum.getSaldoMa() : 0.0;
         }
+        
         return zwrot;
     }
 

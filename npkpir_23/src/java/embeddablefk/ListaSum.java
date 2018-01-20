@@ -6,14 +6,14 @@
 package embeddablefk;
 
 import entityfk.Tabelanbp;
-import entityfk.Waluty;
-import viewfk.PojazdyView;
+import java.io.Serializable;
 
 /**
  *
  * @author Osito
  */
-public class ListaSum {
+public class ListaSum  implements Serializable{
+    private static final long serialVersionUID = 1L;
     private Tabelanbp tabelanbp;
     private double kurswaluty;
     private String waluta;
@@ -121,6 +121,11 @@ public class ListaSum {
     
 
 //</editor-fold>
+
+    @Override
+    public String toString() {
+        return "ListaSum{" + "kurswaluty=" + kurswaluty + ", waluta=" + waluta + ", sumaWn=" + sumaWn + ", sumaMa=" + sumaMa + ", saldoWn=" + saldoWn + ", saldoMa=" + saldoMa + ", sumaWnPLN=" + sumaWnPLN + ", sumaMaPLN=" + sumaMaPLN + ", saldoWnPLN=" + saldoWnPLN + ", saldoMaPLN=" + saldoMaPLN + '}';
+    }
 
 
 }
