@@ -701,6 +701,9 @@ public class KontoZapisFKView implements Serializable{
     
     public void rozliczzaznaczone() {
         if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 1) {
+            if (wybranekontadosumowania.size()==2 && RozliczTransakcjeBean.sprawdznowatransakcje(wybranekontadosumowania)==null) {
+                RozliczTransakcjeBean.wybierzjednatransakcje(wybranekontadosumowania);
+            }
             if (RozliczTransakcjeBean.sprawdznowatransakcje(wybranekontadosumowania)==null) {
                 Msg.msg("e", "Żadna z pozycji nie jest oznaczona jako rachunek. Nie można zrobić szybkiego rozliczenia");
             } else if (RozliczTransakcjeBean.wiecejnizjednatransakcja(wybranekontadosumowania)) {
@@ -711,6 +714,11 @@ public class KontoZapisFKView implements Serializable{
                 Msg.msg("Rozliczam oznaczone transakcje");
                 List<StronaWiersza> listapoedycji = RozliczTransakcjeBean.naniestransakcje(wybranekontadosumowania);
                 stronaWierszaDAO.editList(listapoedycji);
+                for (StronaWiersza p : wybranekontadosumowania) {
+                    if (Z.z(p.getPozostalo()) == 0.0) {
+                        kontozapisy.remove(p);
+                    }
+                }
             }
         } else {
             Msg.msg("e", "Należy wybrać przynajmniej dwa zapisy po różnych stronach konta w celu rozliczenia transakcji");
