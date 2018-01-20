@@ -45,7 +45,7 @@ public class DokFKBean {
             E.e(e);
         }
         if (tabelanbpPLN == null) {
-            tabelanbpDAO.dodaj(new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01"));
+            tabelanbpDAO.dodaj(new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01", 1.0));
             tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
         }
         selected.setTabelanbp(tabelanbpPLN);
@@ -64,7 +64,7 @@ public class DokFKBean {
             E.e(e);
         }
         if (tabelanbpPLN == null) {
-            tabelanbpDAO.dodaj(new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01"));
+            tabelanbpDAO.dodaj(new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01", 1.0));
             tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
         }
         return tabelanbpPLN;

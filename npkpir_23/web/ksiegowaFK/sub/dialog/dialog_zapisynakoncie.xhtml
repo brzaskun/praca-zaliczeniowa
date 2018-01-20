@@ -74,8 +74,9 @@
                             </p:column>
                             <p:splitButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" icon="fa fa-print" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieKompakt}"  >
                                 <p:menuitem global="false" value="druk poziomy" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
+                                <p:menuitem global="false" value="druk poziomy" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                             </p:splitButton>
-                            <p:commandButton value="duży druk" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"   style="width: 120px; margin-left: 30px;"/>
+                            
                             <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" 
                                              style="width: 120px; margin-left: 10px;"
                                              update="tabelazzapisami, :tabelazsumami:sumy" />
@@ -180,6 +181,7 @@
                                     actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania.get(0))}"
                                     oncomplete="PF('wpisywanie').show();"/>
                         <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
+                        <p:menuitem value="usuń różnice kursowe" icon="fa minus" actionListener="#{kontoZapisFKView.usunroznicekursowe()}" update=":tabelazzapisami:tabela"/>
                         <p:menuitem value="rozlicz saldo" icon="fa minus-square" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                         <p:menuitem value="rozlicz konto bankowe" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczkontobankowe()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                         <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>

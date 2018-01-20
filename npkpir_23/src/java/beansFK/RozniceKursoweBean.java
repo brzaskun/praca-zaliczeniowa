@@ -5,11 +5,8 @@
  */
 package beansFK;
 
-import data.Data;
-import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import error.E;
-import java.util.List;
 import waluty.Z;
 
 /**
@@ -26,7 +23,7 @@ public class RozniceKursoweBean {
                 if (placonakwota != 0.0) {
                     double kursPlatnosci = loop.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
                     double kursRachunku = loop.getNowaTransakcja().getKursWalutyBOSW();
-                    if (kursPlatnosci == 0.0 && kursRachunku != 0.0) {
+                    if (kursPlatnosci == 0.0 && kursRachunku != 1.0) {
                         if (placonakwota > 0.0) {
                             double kwotaPlatnosciwWalucie = Z.z(placonakwota / kursRachunku);
                             double kwotaRachunkuwWalucie = loop.getNowaTransakcja().getKwota() - loop.getNowaTransakcja().getRozliczono() + placonakwota;

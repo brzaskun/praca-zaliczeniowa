@@ -16,7 +16,8 @@
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </h:selectOneMenu>
                 </p:panelGrid>
-                <p:dataTable id="dataList" value="#{inwestycjeView.inwestycjerozpoczete}" style="width: 1550px;" emptyMessage="Nie ma żadnych rozpoczętych inwestycji w firmie" var="item"
+                <p:dataTable id="dataList" value="#{inwestycjeView.inwestycjerozpoczete}" style="width: 1550px;" 
+                             emptyMessage="Nie ma żadnych rozpoczętych inwestycji w firmie" var="item"
                              paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                              rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true"  selection="#{inwestycjeView.wybrany}" selectionMode="single"
                              rowKey="#{item.id}">

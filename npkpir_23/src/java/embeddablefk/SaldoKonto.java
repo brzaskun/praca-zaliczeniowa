@@ -225,7 +225,7 @@ public class SaldoKonto implements Serializable {
 
     @Override
     public String toString() {
-        return "SaldoKonto{" + "konto=" + konto.getPelnynumer() + ", obrotyBoWn=" + obrotyBoWn + ", obrotyBoMa=" + obrotyBoMa + ", saldoWn=" + saldoWn + ", saldoMa=" + saldoMa + '}';
+        return "SaldoKonto{" + " " + konto.getPelnynumer() + ", obrotyBoWn=" + obrotyBoWn + ", obrotyBoMa=" + obrotyBoMa + ", saldoWn=" + saldoWn + ", saldoMa=" + saldoMa +", wal=" + walutadlabo.getSymbolwaluty() + '}';
     }
 //<editor-fold defaultstate="collapsed" desc="comment">
     

@@ -972,6 +972,17 @@ public class KontoZapisFKView implements Serializable{
         for (StronaWiersza p : wybranekontadosumowania) {
             kontozapisy.remove(p);
         }
+        sumazapisowtotal();
+    }
+    
+    public void usunroznicekursowe() {
+        for (Iterator<StronaWiersza> it = kontozapisy.iterator(); it.hasNext();) {
+            StronaWiersza p = it.next();
+            if (p.isRoznicaKursowa()) {
+                it.remove();
+            }
+        }
+        sumazapisowtotal();
     }
     
     public void przeksieguj() {

@@ -45,7 +45,8 @@
             <h:outputText value="wybierz parametry aktualne"/><br/>
             <p:panelGrid id="parametrypodatnika" columns="6" >
                 <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
-                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}" >
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
                     <f:selectItem itemValue="zasady ogólne" itemLabel="zasady ogólne"/> 
                     <f:selectItem itemValue="podatek liniowy" itemLabel="podatek liniowy"/>
                     <f:selectItem itemValue="ryczałt" itemLabel="ryczałt"/>

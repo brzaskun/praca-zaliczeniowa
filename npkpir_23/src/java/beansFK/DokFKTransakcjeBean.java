@@ -20,10 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
-import msg.Msg;
-import params.Params;
 import waluty.Z;
 
 /**
@@ -290,7 +287,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 } else if (placonakwota != 0.0) {
                     double kursPlatnosci = loop.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
                     double kursRachunku = loop.getNowaTransakcja().getKursWalutyBOSW();
-                    if (kursPlatnosci == 0.0 && kursRachunku != 0.0) {
+                    if (kursPlatnosci == 0.0 && kursRachunku != 1.0) {
                         if (placonakwota > 0.0) {
                             double kwotaPlatnosciwWalucie = Z.z(placonakwota / kursRachunku);
                             double kwotaRachunkuwWalucie = loop.getNowaTransakcja().getKwota() - loop.getNowaTransakcja().getRozliczono(loop);

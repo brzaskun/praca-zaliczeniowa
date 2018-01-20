@@ -475,11 +475,13 @@ public class StronaWiersza implements Serializable {
     }
 
     public double getKursWalutyBOSW() {
+        double zwrot = 1.0;
         if (this.getWiersz().getTabelanbp() != null) {
-            return this.wiersz.getTabelanbp().getKurssredni();
-        } else {
-            return this.kursBO;
+            zwrot = this.wiersz.getTabelanbp().getKurssredni();
+        } else if (this.kursBO != 0.0) {
+            zwrot = this.kursBO;
         }
+        return zwrot;
     }
     
     public String getStylopisrozrachunki() {
@@ -863,6 +865,14 @@ public class StronaWiersza implements Serializable {
         String zwrot = "1";
         if (this.wiersz.getDataWalutyWiersza() != null) {
             zwrot = this.wiersz.getDataWalutyWiersza();
+        }
+        return zwrot;
+    }
+
+    public boolean isRoznicaKursowa() {
+        boolean zwrot = false;
+        if (this.getKontoPrzeciwstawne() !=null && this.getKontoPrzeciwstawne().getPelnynumer().equals("755")) {
+            zwrot = true;
         }
         return zwrot;
     }

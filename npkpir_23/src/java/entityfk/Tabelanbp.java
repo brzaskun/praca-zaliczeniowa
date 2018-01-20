@@ -89,6 +89,13 @@ public class Tabelanbp implements Serializable {
         this.waluta = waluta;
         this.datatabeli = datatabeli;
     }
+    
+    public Tabelanbp(String nrtabeli, Waluty waluta, String datatabeli, double kurs) {
+        this.nrtabeli = nrtabeli;
+        this.waluta = waluta;
+        this.datatabeli = datatabeli;
+        this.kurssredni = kurs;
+    }
 
     
     public Integer getIdtabelanbp() {

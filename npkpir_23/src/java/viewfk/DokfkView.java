@@ -2282,7 +2282,7 @@ public class DokfkView implements Serializable {
                 try {
                     tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
                     if (tabelanbpPLN == null) {
-                        tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01");
+                        tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01", 1.0);
                         tabelanbpDAO.dodaj(tabelanbpPLN);
                     }
                 } catch (Exception e) {
