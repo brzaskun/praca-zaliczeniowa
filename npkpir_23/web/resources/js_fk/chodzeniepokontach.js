@@ -48,6 +48,7 @@
 
 var zachowajobiekt = function(obiekt, event) {
     try {
+        console.log("wywołanei: chodzeniepokontach/zachowajobiekt");
         if (event !== null) {
             var source = event.target || event.srcElement;
         } else {
@@ -67,7 +68,7 @@ var zachowajobiekt = function(obiekt, event) {
             MYAPP[MYAPP.zmienna] = numerwiersza;
             obliczwysokosc(sourceid);
             MYAPP.obiekt = obiekt;
-            stop(event);
+            //stop(event);
         }
     } catch (ex) {
         alert("Blad w zachowajobiekt/chodzeniepokonach.js zachowajobiekt" + ex.toString());

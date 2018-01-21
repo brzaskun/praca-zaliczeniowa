@@ -63,7 +63,7 @@
  
  
     <script>
-//        var kolornaglowka = function() {
+        //        var kolornaglowka = function() {
 //          var x = $("#dialogpierwszy_title").text();
 //          if (x.indexOf("rok") > -1) {
 //            $("#dialogpierwszy_title").css({
@@ -72,34 +72,48 @@
 //           }
 //        };
 
-    var zaznaczpole = function() {
-        try {
-            var czyjest = rj("zapisy");
-            if (czyjest === null) {
-                r("formwpisdokument:data2DialogWpisywanie").select();
-            } else {
-                var czywidzialne = rj("zapisy").getAttribute("aria-hidden");
-                if (czywidzialne === "false"){
-                    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
-                    var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
-                    $(document.getElementById(nazwa)).select();  
-                }
-            }
-        } catch (e) {
-            
-        }
-        };
+//    var zaznaczpole = function() {
+//        try {
+//            var czyjest = rj("zapisy");
+//            if (czyjest === null) {
+//                r("formwpisdokument:data2DialogWpisywanie").select();
+//            } else {
+//                var czywidzialne = rj("zapisy").getAttribute("aria-hidden");
+//                if (czywidzialne === "false"){
+//                    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
+//                    var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
+//                    $(document.getElementById(nazwa)).select();  
+//                }
+//            }
+//        } catch (e) {
+//            
+//        }
+//        };
         
     </script>
+<!--    <script>
+        var doczeplistnerydopol = function() {
+                /* <![CDATA[ */
+                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.walkingtable tr', function (event) {
+            try {
+                    zachowajobiekt(this, event);
+                } catch (ex) {
+                    alert('error dialog zapisynakoncie' + ex.toString());
+                }
+            });
+        };
+        /* ]]> */
+    </script>-->
     <p:dialog id="dialogpierwszy" dynamic="true"
               header="#{dokfkView.naglowekWpisDokumentu[0]}" 
               widgetVar="wpisywanie" modal="true" appendTo="@(body)" 
-              resizable="false" onShow="wpisywanieOnShow(1160,630);doczeplistnerydopol();zaznaczpole();" closable="true"
+              resizable="false" onShow="wpisywanieOnShow(1160,630);" closable="true"
               onHide="wpisywanieOnHide();pokazeditbutton()"
               focus="formwpisdokument:data2DialogWpisywanie"
               >
-<!--        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false" oncomplete="pokazwierszoznaczony();"/>-->
-        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false"/>
+        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false"  oncomplete="pokazwierszoznaczony();"/>
+<!--        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false" />-->
         <p:focus for="formwpisdokument">
             <h:form id="formwpisdokument" >
 
@@ -466,7 +480,7 @@
                     <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="width: 1100px; height: 280px; overflow-y: scroll;" 
                                  rowIndexVar="index" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.hashCode()}" 
                                  widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
-                                 styleClass="walkingtable">
+                                 styleClass="walkingtable2">
 <!--                        <style>
                             .ui-datatable-scrollable-theadclone {
                                 display: none !important;
@@ -485,7 +499,7 @@
                                          styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                                 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{loop.idporzadkowy}');" -->
                                 <p:ajax global="false" event="focus" onstart="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.setLpwierszaRK(index+1)}"/>
-                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
+<!--                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>-->
                                 <p:ajax global="false" event="blur" oncomplete="skopiujopis(#{loop.idporzadkowy});" partialSubmit="true" />
                             </p:inputText>
                         </p:column>

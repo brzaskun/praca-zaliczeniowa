@@ -18,6 +18,7 @@ import error.E;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import view.WpisView;
@@ -28,7 +29,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-
+@Named
 public class DokFKVATBean {
     
     public static Double pobierzstawke(EVatwpisFK evatwpis) {

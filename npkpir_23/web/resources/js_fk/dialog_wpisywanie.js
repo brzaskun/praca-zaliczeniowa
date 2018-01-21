@@ -580,7 +580,7 @@ var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza, typStronaWie
             if (typeof dotychczasowagrupa !== "undefined") {
                 $(document.getElementById("wpisywaniegrupa:nrgrupyaktualny")).val(nrgr);
                 $(document.getElementById("wpisywaniegrupa:nrgrupywierszy")).val(dotychczasowagrupa);
-                $(document.getElementById("wpisywaniegrupa:sprawdzwartoscigrupy")).click();
+                //$(document.getElementById("wpisywaniegrupa:sprawdzwartoscigrupy")).click();
             } else {
                 $(document.getElementById("wpisywaniegrupa:nrgrupyaktualny")).val(nrgr);
                 $(document.getElementById("wpisywaniegrupa:nrgrupywierszy")).val(nrgr);

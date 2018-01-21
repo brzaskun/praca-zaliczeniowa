@@ -618,9 +618,9 @@ public class ObslugaWiersza {
         double kwotaMa = 0.0;
         try {
             if (wierszbiezacy.getTypWiersza() == 0) {
-                kontoWn = wierszbiezacy.getStronaWn().getKonto();
-                kontoMa = wierszbiezacy.getStronaMa().getKonto();
-                if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
+//                kontoWn = wierszbiezacy.getStronaWn().getKonto();
+//                kontoMa = wierszbiezacy.getStronaMa().getKonto();
+//                if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
                     kwotaWn = wierszbiezacy.getStronaWn().getKwota();
                     kwotaMa = wierszbiezacy.getStronaMa().getKwota();
                     double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
@@ -660,7 +660,7 @@ public class ObslugaWiersza {
                         } else if (kwotaMa > kwotaWn) {
                             ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 1);
                         }
-                    }
+//                    }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 2) {
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();

@@ -8,8 +8,18 @@ import beansDok.ListaEwidencjiVat;
 import beansFK.DialogWpisywanie;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
-import beansFK.DokFKVATBean;
 import static beansFK.DokFKVATBean.pobierzKontoRozrachunkowe;
+import static beansFK.DokFKVATBean.podsumujwartosciVAT;
+import static beansFK.DokFKVATBean.podsumujwartosciVATRK;
+import static beansFK.DokFKVATBean.rozliczEdytujVatKosztRK;
+import static beansFK.DokFKVATBean.rozliczEdytujVatPrzychodRK;
+import static beansFK.DokFKVATBean.rozliczVatKoszt;
+import static beansFK.DokFKVATBean.rozliczVatKosztEdycja;
+import static beansFK.DokFKVATBean.rozliczVatKosztRK;
+import static beansFK.DokFKVATBean.rozliczVatPrzychod;
+import static beansFK.DokFKVATBean.rozliczVatPrzychodEdycja;
+import static beansFK.DokFKVATBean.rozliczVatPrzychodRK;
+import static beansFK.DokFKVATBean.ustawvat;
 import beansFK.DokFKWalutyBean;
 import beansFK.DokumentFKBean;
 import beansFK.StronaWierszaBean;
@@ -478,6 +488,7 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 wiersz.getStronaWn().setKwota(kwotanowa);
                 przepiszWaluty(wiersz);
+                sprawdzwartoscigrupy(wiersz);
             } catch (Exception e1) {
                 E.e(e1);
             }
@@ -497,6 +508,7 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 wiersz.getStronaMa().setKwota(kwotanowa);
                 przepiszWaluty(wiersz);
+                sprawdzwartoscigrupy(wiersz);
             } catch (Exception e1) {
                 E.e(e1);
             }
@@ -680,7 +692,7 @@ public class DokfkView implements Serializable {
         boolean niesumuj = evatwpis.isNieduplikuj() && evatwpis.getEwidencja().getNazwa().equals("zakup");
         if (!selected.iswTrakcieEdycji() && !niesumuj){
             Rodzajedok rodzajdok = selected.getRodzajedok();
-            double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
+            double[] wartosciVAT = podsumujwartosciVAT(selected.getEwidencjaVAT());
             if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
                 if (kontoRozrachunkowe == null) {
                     kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
@@ -693,14 +705,14 @@ public class DokfkView implements Serializable {
                         RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
                         RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
                     }
-                    DokFKVATBean.rozliczVatKoszt(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
+                    rozliczVatKoszt(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
                 } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
-                    DokFKVATBean.rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
+                    rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
                 }
             } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 1) {
-                DokFKVATBean.rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView);
+                rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView);
             } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 2) {
-                DokFKVATBean.rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView);
+                rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView);
             }
             selected.setZablokujzmianewaluty(true);
             RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowywybor");
@@ -718,12 +730,12 @@ public class DokfkView implements Serializable {
         wierszRK.setDataWalutyWiersza(dzien);
         EVatwpisFK evatwpis = ewidencjaVatRK;
         Wiersz w = evatwpis.getWiersz();
-        double[] wartosciVAT = DokFKVATBean.podsumujwartosciVATRK(ewidencjaVatRK);
+        double[] wartosciVAT = podsumujwartosciVATRK(ewidencjaVatRK);
         List<Wiersz> dodanewiersze = null;
         if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            dodanewiersze = DokFKVATBean.rozliczVatKosztRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
+            dodanewiersze = rozliczVatKosztRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
         } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            dodanewiersze = DokFKVATBean.rozliczVatPrzychodRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
+            dodanewiersze = rozliczVatPrzychodRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
         }
         for (Wiersz p : dodanewiersze) {
             przepiszWaluty(p);
@@ -745,12 +757,12 @@ public class DokfkView implements Serializable {
             wierszRK.setDataWalutyWiersza(dzien);
             EVatwpisFK e = ewidencjaVatRK;
             Wiersz w = e.getWiersz();
-            double[] wartosciVAT = DokFKVATBean.podsumujwartosciVATRK(ewidencjaVatRK);
+            double[] wartosciVAT = podsumujwartosciVATRK(ewidencjaVatRK);
             List<Wiersz> dodanewiersze = null;
             if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = DokFKVATBean.rozliczEdytujVatKosztRK(e, wartosciVAT, selected, wierszRKindex, kontadlaewidencji);
+                dodanewiersze = rozliczEdytujVatKosztRK(e, wartosciVAT, selected, wierszRKindex, kontadlaewidencji);
             } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = DokFKVATBean.rozliczEdytujVatPrzychodRK(e, wartosciVAT, selected, wierszRKindex);
+                dodanewiersze = rozliczEdytujVatPrzychodRK(e, wartosciVAT, selected, wierszRKindex);
             }
             for (Wiersz p : dodanewiersze) {
                 przepiszWaluty(p);
@@ -764,7 +776,7 @@ public class DokfkView implements Serializable {
     }
 
     public void updatenetto(EVatwpisFK evatwpis, String form) {
-        DokFKVATBean.ustawvat(evatwpis, selected);
+        ustawvat(evatwpis, selected);
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         int lp = evatwpis.getLp();
         symbolWalutyNettoVat = " zł";
@@ -795,7 +807,7 @@ public class DokfkView implements Serializable {
     public void updatenettoRK() {
         EVatwpisFK evatwpis = ewidencjaVatRK;
         double stawkavat = 0.23;
-        DokFKVATBean.ustawvat(evatwpis, selected, stawkavat);
+        ustawvat(evatwpis, selected, stawkavat);
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         String update = "ewidencjavatRK:netto";
         RequestContext.getCurrentInstance().update(update);
@@ -1211,7 +1223,7 @@ public class DokfkView implements Serializable {
                 w.setOpisWiersza(selected.getOpisdokfk());
             }
         }
-        kontoRozrachunkowe = DokFKVATBean.pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
+        kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
     }
 
     public void dodajklientaautomatRK() {
@@ -2707,19 +2719,19 @@ public class DokfkView implements Serializable {
         Msg.msg("Zmieniono ewidencje");
     }
 
-    public void sprawdzwartoscigrupy() {
-        if (nrgrupywierszy == null) {
-            return;
-        }
+    public void sprawdzwartoscigrupy(Wiersz wierszbiezacy) {
         try {
-            System.out.println("sprawdzwartoscigrupy() grupa nr: " + nrgrupywierszy);
-            Wiersz wierszpodstawowy = selected.getListawierszy().get(nrgrupywierszy - 1);
-            if (wierszpodstawowy.getDokfk().getSeriadokfk().equals("BO")) {
+            Wiersz wiersznastepny = selected.nastepnyWiersz(wierszbiezacy);
+            if (wiersznastepny==null || wierszbiezacy.getDokfk().getSeriadokfk().equals("BO")) {
                 return;
             }
+            Wiersz wierszpodstawowy = wierszbiezacy;
+            if (wierszpodstawowy.getLpmacierzystego() != 0) {
+                wierszpodstawowy = selected.getListawierszy().get(wierszpodstawowy.getLpmacierzystego()-1);
+            }
+            int nrgr = wierszpodstawowy.getLpmacierzystego() == 0 ? wierszpodstawowy.getIdporzadkowy() : wierszpodstawowy.getLpmacierzystego();
             double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
             double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
-            Wiersz wiersznastepny = null;
             do {
                 wiersznastepny = selected.nastepnyWiersz(wierszpodstawowy);
                 if (wiersznastepny != null) {
@@ -2734,18 +2746,21 @@ public class DokfkView implements Serializable {
                         typwiersza = 2;
                         System.out.println("kwotaMa " + wiersznastepny.getStronaMa().getKwota());
                     }
+                } else {
+                    wiersznastepny = wierszpodstawowy;
+                    break;
                 }
-                if (wiersznastepny == null || wiersznastepny.getTypWiersza() == 0) {
+                if (wiersznastepny.getTypWiersza() == 0) {
                     break;
                 }
             } while (true);
             if (Z.z(sumaWn) != Z.z(sumaMa)) {
                 Wiersz wierszpoprzedni = selected.poprzedniWiersz(wiersznastepny);
                 if (wiersznastepny != null) {
-                    ObslugaWiersza.wygenerujWierszRoznicowy(wierszpoprzedni, true, nrgrupywierszy, selected);
+                    ObslugaWiersza.wygenerujWierszRoznicowy(wierszpoprzedni, true, nrgr, selected);
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 } else {
-                    ObslugaWiersza.wygenerujWierszRoznicowy(wierszpoprzedni, false, nrgrupywierszy, selected);
+                    ObslugaWiersza.wygenerujWierszRoznicowy(wierszpoprzedni, false, nrgr, selected);
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 }
                 selected.przeliczKwotyWierszaDoSumyDokumentu();

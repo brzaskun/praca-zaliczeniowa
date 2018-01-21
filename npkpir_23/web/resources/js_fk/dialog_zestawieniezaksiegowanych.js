@@ -44,23 +44,26 @@ var pokazeditbutton = function() {
 
 var pokazwierszoznaczony = function() {
     try {
-        if (document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia')===null) {
+        if (document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value === "-1") {
             r("formwpisdokument:data2DialogWpisywanie").focus();
             r("formwpisdokument:data2DialogWpisywanie").select();
         } else {
             var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
-            if (lp !== -1) {
+            var jest = rj("formwpiskonta:wyborkonta_input").value;
+            if (lp !== "-1") {
                 var nazwa = "formwpisdokument:dataList:"+lp+":opisdokwpis";
-                r(nazwa).closest("td").click();
+                //r(nazwa).closest("td")[0].click();
                 var bliskietd = r(nazwa).closest("td")[0];
-                var tablicaid = $(bliskietd).closest(".walkingtable")[0].id;
+                var tablicaid = $(bliskietd).closest(".walkingtable2")[0].id;
                 obliczwysokosc(tablicaid);
                 var przesun = isScrolledIntoView(bliskietd);
                 r(nazwa).select();
                 document.getElementById(tablicaid).scrollTop = document.getElementById(tablicaid).scrollTop + przesun;
-                document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value = -1;
+                document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value = "-1";
             }
         }
-    } catch (e){}
+    } catch (e){
+        //alert('blad '+e);
+    }
 };
 
