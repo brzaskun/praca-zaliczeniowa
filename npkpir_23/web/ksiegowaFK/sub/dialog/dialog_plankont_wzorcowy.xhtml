@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
    
     <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" dynamic="true"
-              resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1370, 750);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
+              resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1450, 750);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy" style="width: 200px;">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="PF('nowekontosyntetyczne').show();" />
@@ -22,7 +22,7 @@
                 <p:menuitem value="Implem. konto" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoZAnalitykom()}" icon="ui-icon-tag" update=" :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Porządkuj konta" actionListener="#{planKontView.porzadkowanieKontWzorcowych()}" icon="ui-icon-note" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":formwzorcowy"/>
+                <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKontaWzorcowy()}" icon="ui-icon-locked" update=":formwzorcowy"/>
             </p:contextMenu>
             <!--            <script>
             
@@ -67,7 +67,7 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont"
-                             style="width: 1330px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1410px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkontawzorcowy, :formedycjanazwwzorcowy" global="false" listener="#{planKontView.selrowwzorcowy()}"/>
@@ -106,6 +106,9 @@
                     </p:column>
                     <p:column  style="width: 20px; text-align: center;">
                         <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
+                    </p:column>
+                     <p:column style="width: 80px;">
+                        <h:outputText value="#{loop.kontopozycjaID.syntetykaanalityka}"/> 
                     </p:column>
                     <p:column  style="width: 120px; text-align: center;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>

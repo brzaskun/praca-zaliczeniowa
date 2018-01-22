@@ -914,7 +914,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public Object findKontaPotomneWzorcowyCount(WpisView wpisView, String macierzyste) {
-        return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
+        return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNTWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
 
     public List<Konto> findKontaMaSlownik(Podatnik podatnik, Integer rok, int idslownika) {

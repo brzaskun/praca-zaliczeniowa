@@ -390,19 +390,20 @@ public class PlanKontView implements Serializable {
         if (kontomacierzyste.isBlokada() == false) {
             czysasiostry = kontomacierzyste.isMapotomkow();
             int wynikdodaniakonta = 1;
-            if (podatnik.equals(null)) {
+            if (podatnik == null) {
                 wynikdodaniakonta = PlanKontFKBean.dodajanalityczneWzorzec(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             } else {
                 wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             }
             if (wynikdodaniakonta == 0) {
                 try {
-                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, wybranyuklad);
+                    UkladBR uklad = czyoddacdowzorca ? wybranyukladwzorcowy : wybranyuklad;
+                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, uklad);
                     if (kpo != null) {
                         if (kpo.getSyntetykaanalityka().equals("analityka")) {
                             Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                         } else {
-                            PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", wybranyuklad);
+                            PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", uklad);
                         }
                     }
                 } catch (Exception e) {
@@ -1212,6 +1213,27 @@ public class PlanKontView implements Serializable {
         }
     }
 
+    
+    public void obslugaBlokadyKontaWzorcowy() {
+        try {
+            if (selectednodekontowzorcowy != null) {
+                if (selectednodekontowzorcowy.isBlokada() == false) {
+                    selectednodekontowzorcowy.setBlokada(true);
+                    kontoDAOfk.edit(selectednodekontowzorcowy);
+                    Msg.msg("w", "Zabezpieczono konto przed edycją.");
+                } else if (selectednodekontowzorcowy.isBlokada() == true) {
+                    selectednodekontowzorcowy.setBlokada(false);
+                    kontoDAOfk.edit(selectednodekontowzorcowy);
+                    Msg.msg("w", "Odblokowano edycję konta.");
+                }
+            } else {
+                Msg.msg("f", "Nie wybrano konta", "formX:messages");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Problem ze zdjęciem blokady");
+        }
+    }
     public void obslugaBlokadyKonta() {
         try {
             if (selectednodekonto != null) {

@@ -110,6 +110,7 @@ public class PlanKontFKBean {
          nowekonto.setKontomacierzyste(macierzyste);
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
+         nowekonto.setWnma0wm1ma2(macierzyste.getWnma0wm1ma2());
          return zachowajkontowzorzec(nowekonto, kontoDAOfk, wpisView);
     }
     
@@ -132,6 +133,7 @@ public class PlanKontFKBean {
          nowekonto.setKontomacierzyste(macierzyste);
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
+         nowekonto.setWnma0wm1ma2(macierzyste.getWnma0wm1ma2());
          return zachowajkonto(wykazkont, nowekonto, kontoDAOfk);
     }
     

@@ -7,6 +7,8 @@ package pdf;
 import static beansPdf.PdfFont.formatujKurs;
 import static beansPdf.PdfFont.formatujLiczba;
 import static beansPdf.PdfFont.formatujWaluta;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -23,19 +25,15 @@ import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import error.E;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import plik.Plik;
-import view.WpisView;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import entity.Uz;
-import java.io.File;
-import java.util.ArrayList;
+import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
@@ -45,12 +43,14 @@ import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
+import plik.Plik;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-
+@Named
 public class PdfKontoZapisy {
 
     public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, 

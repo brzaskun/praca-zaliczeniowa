@@ -36,6 +36,7 @@ import entityfk.WierszBO;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.inject.Named;
 import jpk201701.JPK;
 import msg.B;
 import vies.Vies;
@@ -48,6 +49,7 @@ import viewfk.StowRozrachCzlonkZbiorczeView;
  *
  * @author Osito
  */
+@Named
 public class testobjects {
     
     
