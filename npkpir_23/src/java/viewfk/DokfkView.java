@@ -2867,7 +2867,9 @@ public class DokfkView implements Serializable {
     public void zamienkursnareczny() {
         try {
             String wierszlp = poledlawaluty;
-            if (!wiersz.equals("")) {
+            if (selected.getRodzajedok().getKategoriadokumentu()==0 && !tabelanbprecznie.getWaluta().equals(selected.getWalutadokumentu())) {
+                Msg.msg("e", "Waluta dokumentu WB/RK jest inna niz wybranej tabeli z kursem. Nie zmieniam kursu wiersza");
+            } else if (!wiersz.equals("")) {
                 int wierszid = Integer.parseInt(wierszlp) - 1;
                 Wiersz wiersz = selected.getListawierszy().get(wierszid);
                 wiersz.setTabelanbp(tabelanbprecznie);

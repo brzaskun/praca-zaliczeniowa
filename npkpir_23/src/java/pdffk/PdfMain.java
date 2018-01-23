@@ -1470,7 +1470,7 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("jpk201701.JPK$ZakupWiersz")) {
                 JPK.ZakupWiersz p = (JPK.ZakupWiersz) it.next();
-                table.addCell(ustawfrazeAlign(p.getLpZakupu().intValue(), "center", 7));
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
                 table.addCell(ustawfrazeAlign(p.getNrDostawcy(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getNazwaDostawcy(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDowodZakupu(), "left", 7));
@@ -1483,7 +1483,7 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("jpk201701.JPK$SprzedazWiersz")) {
                 JPK.SprzedazWiersz p = (JPK.SprzedazWiersz) it.next();
-                table.addCell(ustawfrazeAlign(p.getLpSprzedazy().intValue(), "center", 7));
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
                 table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getNazwaKontrahenta(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDowodSprzedazy(), "left", 7));
