@@ -41,9 +41,9 @@ public class beanJPKwysylka {
 
     private static String plikxml2 = "enveloped.xades";
 //    private static String plikxml = "enveloping.xades";
-    private static final String URL_STEP1 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/InitUploadSigned";
-    private static final String URL_STEP2 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/FinishUpload";
-    private static final String URL_STEP3 = "https://test-e-dokumenty.mf.gov.pl/api/Storage/Status/";
+    private static final String URL_STEP1 = "https://e-dokumenty.mf.gov.pl/api/Storage/InitUploadSigned";
+    private static final String URL_STEP2 = "https://e-dokumenty.mf.gov.pl/api/Storage/FinishUpload";
+    private static final String URL_STEP3 = "https://e-dokumenty.mf.gov.pl/api/Storage/Status/";
 //    private static final String nazwapliku = "G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes";
 
     public static void main(String[] args) {
