@@ -164,12 +164,12 @@
                     <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  rendered="#{!(wpis.kontr.nip eq '0000000000')}"/>
                     <h:outputText value=" #{wpis.kontr.miejscowosc}"  rendered="#{wpis.kontr.nip eq '0000000000'}"/>
                 </p:column>
-                <p:column id="rodzTrColumn"  filterBy="#{wpis.rodzajedok.skrot}" filterStyle="display : none;" filterMatchMode="contains" 
-                          sortBy="#{wpis.rodzajedok.skrot}"  style="width: 5%;text-align: center;">
+                <p:column id="rodzTrColumn"  filterBy="#{wpis.rodzajedok}" filterStyle="display : none;" filterMatchMode="contains" 
+                          sortBy="#{wpis.rodzajedok}"  style="width: 5%;text-align: center;">
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 30px;" autoWidth="false" converter="RodzajedokConv">
                             <f:selectItem itemLabel="dok" itemValue="#{null}" noSelectionOption="true"/>
-                            <f:selectItems value="#{DokTabView.dokumentypodatnika}" var="ixi" itemLabel="#{ixi.skrot}" itemValue="#{ixi}"/>
+                            <f:selectItems value="#{DokTabView.dokumentypodatnika}" var="ixi" itemLabel="#{ixi.skrotNazwyDok}" itemValue="#{ixi}"/>
                         </p:selectOneMenu>
                     </f:facet>
                     <h:outputText value="#{wpis.rodzajedok.skrot}"/>

@@ -41,11 +41,13 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     
     
 
-    public EVatwpis1(Evewidencja ewidencja, double netto, double vat, String estawka) {
+    public EVatwpis1(Evewidencja ewidencja, double netto, double vat, String estawka, String mcEw, String rokEw) {
         this.ewidencja = ewidencja;
         this.netto = netto;
         this.vat = vat;
         this.estawka = estawka;
+        this.mcEw = mcEw;
+        this.rokEw = rokEw;
     }
     
     public EVatwpis1(Evewidencja ewidencja, double netto, double vat, String estawka, Dok dok) {

@@ -14,12 +14,14 @@
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabeleTabela}" update=":form:dokumentyLista :form:cechydokuk :form:menutablica westKsiegowa:linki"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabeleTabela}" oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
+                            update=":form:dokumentyLista :form:cechydokuk :form:menutablica westKsiegowa:linki"/>
                 </p:selectOneMenu>
                 <h:outputText value="Miesiąc:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabeleTabela}" update=":form:dokumentyLista :form:cechydokuk :form:menutablica westKsiegowa:linki"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabeleTabela}"  oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
+                            update=":form:dokumentyLista :form:cechydokuk :form:menutablica westKsiegowa:linki"/>
                 </p:selectOneMenu>
             </p:panelGrid>
            <p:panel id="linki" header="linki">

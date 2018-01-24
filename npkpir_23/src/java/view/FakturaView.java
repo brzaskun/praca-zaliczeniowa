@@ -858,7 +858,7 @@ public class FakturaView implements Serializable {
             selDokument.setRozliczony(true);
             List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
             for (EVatwpis r : faktura.getEwidencjavat()) {
-                EVatwpis1 eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
+                EVatwpis1 eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
                 eVatwpis1.setDok(selDokument);
                 ewidencjaTransformowana.add(eVatwpis1);
                 if (r.getEwidencja().getNazwa().equals("usługi świad. poza ter.kraju")) {
