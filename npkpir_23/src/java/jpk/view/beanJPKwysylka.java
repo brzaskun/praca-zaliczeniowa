@@ -210,6 +210,11 @@ public class beanJPKwysylka {
                 wiadomosc[0] = "i";
                 wiadomosc[1] = "Sukces, zakończono wysyłkę bez błędów";
                 zwrot[4] = 3;
+            } else if (Code>300 && Code <400){
+                wynik = false;
+                wiadomosc[0] = "i";
+                wiadomosc[1] = "Trwa przetwarzanie. "+Description;
+                zwrot[4] = 4;
             } else {
                 wynik = false;
                 wiadomosc[0] = "e";
