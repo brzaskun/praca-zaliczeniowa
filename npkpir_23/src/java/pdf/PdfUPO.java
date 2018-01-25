@@ -51,15 +51,23 @@ public class PdfUPO extends Pdf implements Serializable {
             Collections.sort(sprzedazWiersz, new JPKSprzedazWierszcomparator());
             dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz),100, 0);
             JPK.SprzedazCtrl sprzedazCtrl = ((JPK)upo.getJpk()).getSprzedazCtrl();
-            String opis = "Ilość faktur "+sprzedazCtrl.getLiczbaWierszySprzedazy().intValue()+". Podatek należny "+F.curr(sprzedazCtrl.getPodatekNalezny().doubleValue());
-            dodajLinieOpisu(document, opis);
+            if (sprzedazCtrl!=null) {
+                String opis = "Ilość faktur "+sprzedazCtrl.getLiczbaWierszySprzedazy().intValue()+". Podatek należny "+F.curr(sprzedazCtrl.getPodatekNalezny().doubleValue());
+                dodajLinieOpisu(document, opis);
+            } else {
+                dodajLinieOpisu(document, "Brak dokumentów sprzedaży");
+            }
             List<JPK.ZakupWiersz> zakupWiersz = ((JPK)upo.getJpk()).getZakupWiersz();
             Collections.sort(zakupWiersz, new JPKZakupWierszcomparator());
             dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz),100,0);
             JPK.ZakupCtrl zakupCtrl = ((JPK)upo.getJpk()).getZakupCtrl();
-            opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());
-            dodajLinieOpisu(document, opis);
-            opis = "Nr wysyłki "+upo.getReferenceNumber();
+            if (zakupCtrl!=null) {
+                String opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());
+                dodajLinieOpisu(document, opis);
+            } else {
+                dodajLinieOpisu(document, "Brak dokumentów zakupu");
+            }
+            String opis = "Nr wysyłki "+upo.getReferenceNumber();
             dodajLinieOpisuBezOdstepu(document, opis);
             opis = "Okres "+upo.getMiesiac()+"/"+upo.getRok();
             dodajLinieOpisuBezOdstepu(document, opis);
@@ -68,17 +76,23 @@ public class PdfUPO extends Pdf implements Serializable {
             if (upo.getCode() != null) {
                 opis = "Data upo "+data.Data.data_ddMMMMyyyy(upo.getDataupo());
                 dodajLinieOpisuBezOdstepu(document, opis);
-                opis = "Kod "+upo.getCode();
+                opis = "Kod upo "+upo.getCode();
                 dodajLinieOpisuBezOdstepu(document, opis);
                 opis = "Wersja "+upo.getWersja();
+                dodajLinieOpisuBezOdstepu(document, opis);
             }
             if (upo.getPotwierdzenie() != null) {
-                dodajLinieOpisuBezOdstepu(document, opis);
                 opis = "Potwierdzenie "+upo.getPotwierdzenie().getNazwaPodmiotuPrzyjmujacego();
                 dodajLinieOpisuBezOdstepu(document, opis);
-                opis = "Nr id: "+upo.getPotwierdzenie().getNumerIdentyfikacyjny() +"Nr ref: "+upo.getPotwierdzenie().getNumerReferencyjny();
+                opis = "Skrot dokumentu: "+upo.getPotwierdzenie().getSkrotDokumentu() +"Nr ref: "+upo.getPotwierdzenie().getNumerReferencyjny();
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Stempel czasu "+upo.getPotwierdzenie().getStempelCzasu();
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Nazwa struktury logicznej "+upo.getPotwierdzenie().getNazwaStrukturyLogicznej();
                 dodajLinieOpisuBezOdstepu(document, opis);
                 opis = "Nazwa urzędu "+TKodUS.getNazwaUrzedu(upo.getPotwierdzenie().getKodUrzedu());
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Data wpłynęcia "+data.Data.data_ddMMMMyyyy(upo.getPotwierdzenie().getDataWplyniecia().toGregorianCalendar().getTime());
                 dodajLinieOpisuBezOdstepu(document, opis);
             }
             opis = "Sporządził "+upo.getWprowadzil().getImieNazwisko();

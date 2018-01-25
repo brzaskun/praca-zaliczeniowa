@@ -10,7 +10,7 @@
     <bcf:ajaxs/>
         <h:form>
             <p:panel header="deklaracje VAT"/>
-            <p:dataTable value="#{deklaracjeListaView.oczekujaceVAT7}" var="item1" style="width: 1300px;" emptyMessage="Nie ma deklaracji oczekujących na sprawdzenie">
+            <p:dataTable value="#{deklaracjeListaView.oczekujaceVAT7}" var="item1" style="width: 1380px;" emptyMessage="Nie ma deklaracji oczekujących na sprawdzenie">
                 <p:column headerText="rok/mc" width="80">
                     <h:outputText value="#{item1.rok}/#{item1.miesiac}"/>
                 </p:column>
@@ -29,7 +29,10 @@
                     <h:outputText value="#{item1.opis}"/>
                 </p:column>
                 <p:column width="90" style="text-align: center;">
-                    <p:commandButton value="upo" actionListener="#{beanek.pobierzwyslane(item1.identyfikator)}" update="@form"  style="width: 80px;"/>
+                    <p:commandButton value="upo" actionListener="#{beanek.pobierzwyslane(item1)}" update="@form"  style="width: 80px;"/>
+                </p:column>
+                <p:column width="90" style="text-align: center;">
+                    <p:commandButton value="druk" actionListener="#{deklaracjevatView.drukujdeklaracje(item1)}" style="width: 80px;"/>
                 </p:column>
             </p:dataTable>
         </h:form>

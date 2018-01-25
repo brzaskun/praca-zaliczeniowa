@@ -86,6 +86,7 @@ public class DeklSuper implements Serializable {
     @Column(name = "datasporzadzenia")
     @Temporal(TemporalType.DATE)
     protected Date datasporzadzenia;
+    
 
     @Override
     public String toString() {

@@ -784,7 +784,7 @@ public class Vat7DKView implements Serializable {
     private Vatpoz uzupelnijPozycjeDeklaracji(Vatpoz pozycje, String vatokres, String kwotaautoryzujaca) {
         pozycje.setPozycjekoncowe(pobierzpozycjekoncowe(pasujacaSchema));
         pozycje.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
-        pozycje.setPodatnik(wpisView.getPodatnikObiekt().getNazwapelnaPDF());
+        pozycje.setPodatnik(wpisView.getPodatnikObiekt().getPrintnazwa());
         pozycje.setRegon(wpisView.getPodatnikObiekt().getRegon());
         pozycje.setRok(rok);
         if (vatokres.equals("miesięczne")) {
@@ -862,6 +862,7 @@ public class Vat7DKView implements Serializable {
         nowadekl.setOpis("");
         nowadekl.setWzorschemy(schema.getNazwaschemy());
         nowadekl.setSchemaobj(schema);
+        nowadekl.setKwotaautoryzacja(pozycje.getKwotaautoryzacja());
         return nowadekl;
     }
     
@@ -870,8 +871,6 @@ public class Vat7DKView implements Serializable {
     private boolean czypokazurproszczona() {
         boolean zwrot = true;
         if (wpisView.isKsiegirachunkowe()) {
-            zwrot = false;
-        } else if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany() && !sprawdzczymozna()) {
             zwrot = false;
         }
         return zwrot;

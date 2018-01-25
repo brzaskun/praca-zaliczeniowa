@@ -832,6 +832,14 @@ public class JPK extends JPKSuper implements Serializable {
         public String getNazwaKontrahenta() {
             return nazwaKontrahenta;
         }
+        
+        public String getNazwaKontrahentaShort() {
+            String zwrot = nazwaKontrahenta;
+            if (zwrot != null && zwrot.length()>50) {
+                zwrot = nazwaKontrahenta.substring(0, 49);
+            }
+            return zwrot;
+        }
 
         /**
          * Sets the value of the nazwaKontrahenta property.
@@ -2030,6 +2038,14 @@ public class JPK extends JPKSuper implements Serializable {
          */
         public String getNazwaDostawcy() {
             return nazwaDostawcy;
+        }
+        
+        public String getNazwaDostawcyShort() {
+            String zwrot = nazwaDostawcy;
+            if (zwrot != null && zwrot.length()>50) {
+                zwrot = nazwaDostawcy.substring(0, 49);
+            }
+            return zwrot;
         }
 
         /**

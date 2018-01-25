@@ -98,8 +98,9 @@
                     </p:column>
                     
                     <p:rowExpansion>
-                        <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >  
-                            <p:dataTable var="subwpis" value="#{wpis1.zawierafk}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 98%;"  rendered="#{wpis1.zawierafk.size() > 0}">
+                        <p:column id="ewidencjavat" headerText="dokumenty podsumowane" >  
+                            <p:dataTable var="subwpis" value="#{wpis1.zawierafk}"
+                                         emptyMessage="brak dokumentów"  resizableColumns="true"   rendered="#{wpis1.zawierafk.size() gt 0}">
                                 <p:column id="SubColumn1" headerText="data wyst" width="70">  
                                     <h:outputText value="#{subwpis.datadokumentu}" />
                                 </p:column>
@@ -112,7 +113,7 @@
                                 <p:column id="SubColumn1c" headerText="#{mgs.opis}" width="250">  
                                     <h:outputText value="#{subwpis.opisdokfk}" />
                                 </p:column>
-                                <p:column id="SubColumn1a"  headerText="wartość netto w pln">  
+                                <p:column id="SubColumn1a"  headerText="netto pln">  
                                     <h:outputText value="#{subwpis.nettoPLNWNT}" style="float: right;">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
@@ -134,27 +135,27 @@
                                     <h:outputText value="#{subwpis.vatM}/#{subwpis.vatR}" style="float: right;"/>
                                 </p:column>
                             </p:dataTable>
-                            <p:dataTable var="subwpis" value="#{wpis1.zawiera}" emptyMessage="brak dokumentów"  resizableColumns="true" rowIndexVar="index"
-                                         style="width: 90%;" rendered="#{wpis1.zawiera.size() > 0}">
-                                <p:column id="SubColumn0" headerText="#{mgs.numerkolejny}" style="text-align: center;" width="30">  
-                                <h:outputText value="#{index+1}" />
+                            <p:dataTable var="subwpis1" value="#{wpis1.zawiera}" emptyMessage="brak dokumentów"  resizableColumns="true" rowIndexVar="index1"
+                                        rendered="#{wpis1.zawiera.size() gt 0}">
+                            <p:column id="SubColumn0" headerText="#{mgs.numerkolejny}" style="text-align: center;" width="30">  
+                                <h:outputText value="#{index1+1}" />
                             </p:column>
                             <p:column id="SubColumn1" headerText="data wyst">  
-                                <h:outputText value="#{subwpis.dataWyst}" />
+                                <h:outputText value="#{subwpis1.dataWyst}" />
                             </p:column>
                             <p:column id="SubColumn1b" headerText="nr własny">  
-                                <h:outputText value="#{subwpis.nrWlDk}" />
+                                <h:outputText value="#{subwpis1.nrWlDk}" />
                             </p:column>
                             <p:column id="SubColumn1c" headerText="#{mgs.opis}">  
-                                <h:outputText value="#{subwpis.opis}" />
+                                <h:outputText value="#{subwpis1.opis}" />
                             </p:column>
                             <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
-                                <h:outputText value="#{subwpis.netto}" style="float: right;">
+                                <h:outputText value="#{subwpis1.netto}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
                             <p:column id="SubColumn4" headerText="okresy vat">  
-                                <h:outputText value="#{subwpis.vatM}/#{subwpis.vatR}" style="float: right;"/>
+                                <h:outputText value="#{subwpis1.vatM}/#{subwpis1.vatR}" style="float: right;"/>
                             </p:column>
                         </p:dataTable>
                         </p:column>

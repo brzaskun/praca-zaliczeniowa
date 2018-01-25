@@ -77,10 +77,10 @@ public class UPO  implements Serializable {
     @Column (name = "referenceNumber")
     private String referenceNumber;
     @Column(name = "datajpk")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date datajpk;
     @Column(name = "dataupo")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataupo;
     @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
     @ManyToOne

@@ -22,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -81,6 +82,8 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
     @Lob
     @Column(name = "schemawierszsumarycznylista")
     private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
+    @Transient
+    private String kwotaautoryzacja;  
     
     
     public Deklaracjevat() {
@@ -358,6 +361,14 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
 
     public void setDatasporzadzenia(Date datasporzadzenia) {
         this.datasporzadzenia = datasporzadzenia;
+    }
+
+    public String getKwotaautoryzacja() {
+        return kwotaautoryzacja;
+    }
+
+    public void setKwotaautoryzacja(String kwotaautoryzacja) {
+        this.kwotaautoryzacja = kwotaautoryzacja;
     }
 
     

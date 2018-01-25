@@ -297,6 +297,24 @@ public class DeklaracjevatView implements Serializable {
         }
     }
     
+    public void drukujdeklaracje(Deklaracjevat dkl) {
+        try {
+            DeklaracjaVatSchema pasujacaSchema = null;
+            List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
+            for (DeklaracjaVatSchema p : schemyLista) {
+                if (p.getNazwaschemy().equals(dkl.getWzorschemy())) {
+                    pasujacaSchema = p;
+                    break;
+                }
+            }
+            Integer rok = Integer.parseInt(pasujacaSchema.getRokOd());
+            Integer mc = Integer.parseInt(pasujacaSchema.getMcOd());
+            PdfVAT7new.drukujNowaVAT7(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO, wpisView);
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+    }
+    
     private void aktualizujGuest(){
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");

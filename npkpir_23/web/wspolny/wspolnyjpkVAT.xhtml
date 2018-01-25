@@ -79,7 +79,7 @@
             </p:column>
              <p:column style="width: 40px; text-align: center;">
                 <f:facet name="header">
-                    <h:outputText />
+                    <h:outputText value="print"/>
                 </f:facet>
                  <p:commandButton icon="fa fa-print" actionListener="#{jPK_VAT2View.drukujUPO(item)}"  global="false"/>
             </p:column>
@@ -87,7 +87,7 @@
                 <f:facet name="header">
                     <h:outputText value="usuń"/>
                 </f:facet>
-                <p:commandButton icon="fa fa-trash" onclick="PF('confirmation').show()" update="@form" global="false"/>
+                <p:commandButton icon="fa fa-trash" onclick="PF('confirmation').show()" update="@form" global="false" rendered="#{item.code gt 399}"/>
             </p:column>
             <p:rowExpansion>
                 <p:dataTable value="#{item}" var="itemik">

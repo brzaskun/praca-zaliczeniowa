@@ -1471,8 +1471,8 @@ public class PdfMain {
             if (nazwaklasy.equals("jpk201701.JPK$ZakupWiersz")) {
                 JPK.ZakupWiersz p = (JPK.ZakupWiersz) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 7));
-                table.addCell(ustawfrazeAlign(p.getNrDostawcy(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getNazwaDostawcy(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getNrDostawcy(), "left", 7, 22f));
+                table.addCell(ustawfrazeAlign(p.getNazwaDostawcyShort(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDowodZakupu(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDataWplywu(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDataZakupu(), "left", 7));
@@ -1484,8 +1484,8 @@ public class PdfMain {
             if (nazwaklasy.equals("jpk201701.JPK$SprzedazWiersz")) {
                 JPK.SprzedazWiersz p = (JPK.SprzedazWiersz) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 7));
-                table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getNazwaKontrahenta(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 7, 22f));
+                table.addCell(ustawfrazeAlign(p.getNazwaKontrahentaShort(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDowodSprzedazy(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDataWystawienia(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDataSprzedazy(), "left", 7));

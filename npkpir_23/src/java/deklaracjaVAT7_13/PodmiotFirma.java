@@ -24,7 +24,7 @@ class PodmiotFirma {
     public PodmiotFirma(Vatpoz selected) {
         Daneteleadresowe adres = selected.getAdres();
         NIP = adres.getNIP();
-        Nazwa = StringEscapeUtils.escapeJava(selected.getPodatnik());
+        Nazwa = StringEscapeUtils.escapeXml(selected.getPodatnik());
         REGON = selected.getRegon();
         Podmiot = "<Podmiot1 rola=\"Podatnik\"><etd:OsobaNiefizyczna><etd:NIP>"+NIP
                 +"</etd:NIP><etd:PelnaNazwa>"+Nazwa+"</etd:PelnaNazwa><etd:REGON>"
