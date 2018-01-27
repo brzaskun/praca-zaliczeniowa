@@ -6,6 +6,7 @@
 package embeddablefk;
 
 import entityfk.Tabelanbp;
+import entityfk.Waluty;
 import java.io.Serializable;
 
 /**
@@ -17,6 +18,7 @@ public class ListaSum  implements Serializable{
     private Tabelanbp tabelanbp;
     private double kurswaluty;
     private String waluta;
+    private Waluty walutabo;
     private double sumaWn;
     private double sumaMa;
     private double saldoWn;
@@ -117,6 +119,14 @@ public class ListaSum  implements Serializable{
 
     public void setWaluta(String waluta) {
         this.waluta = waluta;
+    }
+
+    public Waluty getWalutabo() {
+        return walutabo;
+    }
+
+    public void setWalutabo(Waluty walutabo) {
+        this.walutabo = walutabo;
     }
     
 

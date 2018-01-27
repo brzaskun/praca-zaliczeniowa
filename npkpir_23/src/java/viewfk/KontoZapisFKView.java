@@ -607,8 +607,9 @@ public class KontoZapisFKView implements Serializable{
         for (StronaWiersza p : kontozapisy) {
             ListaSum r = zbiorcza.get(p.getSymbolWalutBOiSW());
             r.setTabelanbp(p.getWiersz().getTabelanbp());
+            r.setWalutabo(p.getWierszbo() != null ? p.getWierszbo().getWaluta(): null);
             r.setKurswaluty(p.getKursWalutyBOSW());
-            if (r != null) {
+            if (r != null && !r.getWaluta().equals("PLN")) {
                 if (p.getWnma().equals("Wn")) {
                     r.setSumaWn(Z.z(r.getSumaWn() + p.getKwota()));
                     r.setSumaWnPLN(Z.z(r.getSumaWnPLN()+ p.getKwotaPLN()));
@@ -617,18 +618,48 @@ public class KontoZapisFKView implements Serializable{
                     r.setSumaMaPLN(Z.z(r.getSumaMaPLN()+ p.getKwotaPLN()));
                 }
             }
+            ListaSum rpln = zbiorcza.get("PLN");
+            if (rpln != null) {
+                if (p.getWnma().equals("Wn")) {
+                    rpln.setSumaWn(Z.z(rpln.getSumaWn() + p.getKwotaPLN()));
+                    rpln.setSumaWnPLN(Z.z(rpln.getSumaWnPLN()+ p.getKwotaPLN()));
+                } else if (p.getWnma().equals("Ma")) {
+                    rpln.setSumaMa(Z.z(rpln.getSumaMa() + p.getKwotaPLN()));
+                    rpln.setSumaMaPLN(Z.z(rpln.getSumaMaPLN()+ p.getKwotaPLN()));
+                }
+            }
         }
+        ListaSum rpln = zbiorcza.get("PLN");
         for (ListaSum s : zbiorcza.values()) {
-            if (s.getSumaWn() > s.getSumaMa()) {
-                s.setSaldoWn(Z.z(s.getSumaWn() - s.getSumaMa()));
-            } else {
-                s.setSaldoMa(Z.z(s.getSumaMa() - s.getSumaWn()));
+            if (!s.getWaluta().equals("PLN")) {
+                if (s.getSumaWn() > s.getSumaMa()) {
+                    s.setSaldoWn(Z.z(s.getSumaWn() - s.getSumaMa()));
+                } else {
+                    s.setSaldoMa(Z.z(s.getSumaMa() - s.getSumaWn()));
+                }
+                if (s.getSumaWnPLN()> s.getSumaMaPLN()) {
+                    s.setSaldoWnPLN(Z.z(s.getSumaWnPLN()- s.getSumaMaPLN()));
+                } else {
+                    s.setSaldoMaPLN(Z.z(s.getSumaMaPLN()- s.getSumaWnPLN()));
+                }
+                if (s.getSaldoWn() > 0.0) {
+                    rpln.setSumaWn(Z.z(rpln.getSumaWn() - s.getSaldoWnPLN()));
+                    rpln.setSumaWnPLN(Z.z(rpln.getSumaWnPLN() - s.getSaldoWnPLN()));
+                } else if (s.getSaldoMa() > 0.0) {
+                    rpln.setSumaMa(Z.z(rpln.getSumaMa() - s.getSaldoMaPLN()));
+                    rpln.setSumaMaPLN(Z.z(rpln.getSumaMaPLN() - s.getSaldoMaPLN()));
+                }
             }
-            if (s.getSumaWnPLN()> s.getSumaMaPLN()) {
-                s.setSaldoWnPLN(Z.z(s.getSumaWnPLN()- s.getSumaMaPLN()));
-            } else {
-                s.setSaldoMaPLN(Z.z(s.getSumaMaPLN()- s.getSumaWnPLN()));
-            }
+        }
+        if (rpln.getSumaWn() > rpln.getSumaMa()) {
+            rpln.setSaldoWn(Z.z(rpln.getSumaWn() - rpln.getSumaMa()));
+        } else {
+            rpln.setSaldoMa(Z.z(rpln.getSumaMa() - rpln.getSumaWn()));
+        }
+        if (rpln.getSumaWnPLN()> rpln.getSumaMaPLN()) {
+            rpln.setSaldoWnPLN(Z.z(rpln.getSumaWnPLN()- rpln.getSumaMaPLN()));
+        } else {
+            rpln.setSaldoMaPLN(Z.z(rpln.getSumaMaPLN()- rpln.getSumaWnPLN()));
         }
         return zbiorcza;
     }
@@ -980,6 +1011,21 @@ public class KontoZapisFKView implements Serializable{
         for (StronaWiersza p : wybranekontadosumowania) {
             kontozapisy.remove(p);
         }
+        sumazapisowtotal();
+    }
+    
+    public void usunzListyARS() {
+        for (Iterator<StronaWiersza> it = kontozapisy.iterator();it.hasNext();) {
+            try {
+                StronaWiersza p = it.next();
+                if (p.getDokfk().getSeriadokfk().equals("ARS")) {
+                    dokDAOfk.destroy(p.getDokfk());
+                    zapisyRok.remove(p);
+                    it.remove();
+                }
+            } catch (Exception e){}
+        }
+        Msg.msg("Usunięto dok ASR");
         sumazapisowtotal();
     }
     

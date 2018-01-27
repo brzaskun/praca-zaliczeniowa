@@ -63,11 +63,10 @@ public class VATUEDeklaracjaView implements Serializable {
                 }
             }
             if (robickorekte) {
-                Msg.msg("w","Przygotowano korektę dekalaracji VAT-UE");
+                robdeklaracjekorekta(lista, staralista, true, nrkolejny);
             } else {
-                Msg.msg("w","Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
+                Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
             }
-            robdeklaracjekorekta(lista, staralista, true, nrkolejny);
         }
     }
     

@@ -320,26 +320,36 @@ public class DokumentFKBean implements Serializable {
         Konto kontodorozliczenia = sw.getKonto();
         for (Object z : sumy) {
             ListaSum wierszsum = (ListaSum) z;
-            Wiersz w = new Wiersz(idporzadkowy++, 0);
-            uzupelnijwierszWaluta(w, nowydok, wierszsum.getTabelanbp());
-            String opiswiersza = "automatyczna korekta salda: " + sw.getKonto().getPelnynumer() + " na koniec " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()+" dla waluty "+wierszsum.getWaluta();
-            w.setOpisWiersza(opiswiersza);
-            double kwotaWal = pobierzkwotezsumyWal(wierszsum);
-            double kwotaPLN = pobierzkwotezsumyPLN(wierszsum);
-            if (wierszsum.getSaldoWn() > 0.0) {
-                StronaWiersza strWn = new StronaWiersza(w, "Wn", kwotaWal, pko);
-                StronaWiersza strMa = new StronaWiersza(w, "Ma", kwotaWal, kontodorozliczenia);
-                w.setStronaWn(strWn);
-                w.setStronaMa(strMa);
-            } else {
-                StronaWiersza strWn = new StronaWiersza(w, "Wn", kwotaWal, kontodorozliczenia);
-                StronaWiersza strMa = new StronaWiersza(w, "Ma", kwotaWal, ppo);
-                w.setStronaWn(strWn);
-                w.setStronaMa(strMa);
+            if (wierszsum.getSaldoWn() > 0.0 || wierszsum.getSaldoMa() > 0.0) {
+                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                uzupelnijwierszWaluta(w, nowydok, wierszsum.getTabelanbp());
+                String opiswiersza = "automatyczna korekta salda: " + sw.getKonto().getPelnynumer() + " na koniec " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()+" dla waluty "+wierszsum.getWaluta();
+                w.setOpisWiersza(opiswiersza);
+                double kwotaWal = pobierzkwotezsumyWal(wierszsum);
+                double kwotaPLN = pobierzkwotezsumyPLN(wierszsum);
+                if (wierszsum.getSaldoWn() > 0.0) {
+                    StronaWiersza strWn = new StronaWiersza(w, "Wn", kwotaWal, pko);
+                    StronaWiersza strMa = new StronaWiersza(w, "Ma", kwotaWal, kontodorozliczenia);
+                    if (wierszsum.getTabelanbp()==null) {
+                        strWn.setSymbolWalutyBO(wierszsum.getWalutabo().getSymbolwaluty());
+                        strMa.setSymbolWalutyBO(wierszsum.getWalutabo().getSymbolwaluty());
+                    }
+                    w.setStronaWn(strWn);
+                    w.setStronaMa(strMa);
+                } else if (wierszsum.getSaldoMa() > 0.0){
+                    StronaWiersza strWn = new StronaWiersza(w, "Wn", kwotaWal, kontodorozliczenia);
+                    StronaWiersza strMa = new StronaWiersza(w, "Ma", kwotaWal, ppo);
+                    if (wierszsum.getTabelanbp()==null) {
+                        strWn.setSymbolWalutyBO(wierszsum.getWalutabo().getSymbolwaluty());
+                        strMa.setSymbolWalutyBO(wierszsum.getWalutabo().getSymbolwaluty());
+                    }
+                    w.setStronaWn(strWn);
+                    w.setStronaMa(strMa);
+                }
+                w.getStronaWn().setKwotaPLN(kwotaPLN);
+                w.getStronaMa().setKwotaPLN(kwotaPLN);
+                nowydok.getListawierszy().add(w);
             }
-            w.getStronaWn().setKwotaPLN(kwotaPLN);
-            w.getStronaMa().setKwotaPLN(kwotaPLN);
-            nowydok.getListawierszy().add(w);
         }
     }
     
