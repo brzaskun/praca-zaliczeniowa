@@ -10,6 +10,8 @@
             <p:commandButton value="wyślij korektafk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="podgląd jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKPodglad()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
         </p:panelGrid>
         <p:dataTable value="#{jPK_VAT2View.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px; margin-top: 10px;"
                       sortBy="#{item.miesiac}"

@@ -104,6 +104,43 @@ public class PdfUPO extends Pdf implements Serializable {
             Msg.msg("w", "Nie wybrano Planu kont do wydruku");
         }
     }
+   
+   public static void drukujJPK(JPK jpk, WpisView wpisView) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"JPK";
+        if (jpk != null) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Plik JPK zestawienie", wpisView.getPodatnikObiekt(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            List<JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
+            Collections.sort(sprzedazWiersz, new JPKSprzedazWierszcomparator());
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz),100, 0);
+            JPK.SprzedazCtrl sprzedazCtrl = jpk.getSprzedazCtrl();
+            if (sprzedazCtrl!=null) {
+                String opis = "Ilość faktur "+sprzedazCtrl.getLiczbaWierszySprzedazy().intValue()+". Podatek należny "+F.curr(sprzedazCtrl.getPodatekNalezny().doubleValue());
+                dodajLinieOpisu(document, opis);
+            } else {
+                dodajLinieOpisu(document, "Brak dokumentów sprzedaży");
+            }
+            List<JPK.ZakupWiersz> zakupWiersz = jpk.getZakupWiersz();
+            Collections.sort(zakupWiersz, new JPKZakupWierszcomparator());
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz),100,0);
+            JPK.ZakupCtrl zakupCtrl = jpk.getZakupCtrl();
+            if (zakupCtrl!=null) {
+                String opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());
+                dodajLinieOpisu(document, opis);
+            } else {
+                dodajLinieOpisu(document, "Brak dokumentów zakupu");
+            }
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano Planu kont do wydruku");
+        }
+    }
 
     private static void getSprzedazWiersz() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
