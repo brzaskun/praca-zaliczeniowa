@@ -19,6 +19,7 @@ import embeddable.SchemaEwidencjaSuma;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
+import entity.Podatnik;
 import entity.SchemaEwidencja;
 import entity.Uz;
 import java.io.File;
@@ -66,10 +67,11 @@ public class PdfVAT7new {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
+        Podatnik pod = podatnikDAO.find(d.getPodatnik());
         if (d.getWzorschemy().contains("M")) {
-            dodajOpisWstepny(document, "Deklaracja VAT firma: ", wpisView.getPodatnikObiekt(), d.getMiesiac(), d.getRok());
+            dodajOpisWstepny(document, "Deklaracja VAT firma: ", pod, d.getMiesiac(), d.getRok());
         } else {
-            dodajOpisWstepny(document, "Deklaracja VAT firma: ", wpisView.getPodatnikObiekt(), d.getNrkwartalu(), d.getRok());
+            dodajOpisWstepny(document, "Deklaracja VAT firma: ", pod, d.getNrkwartalu(), d.getRok());
         }
         if (schematewidencjesprzedazy != null) {
             dodajTabele(document, testobjects.getSchemaEwidencjaSuma(schematewidencjesprzedazy),97,0);

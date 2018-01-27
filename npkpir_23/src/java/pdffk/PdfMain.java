@@ -420,6 +420,7 @@ public class PdfMain {
         }
     }
     
+    
     public static void dodajOpisWstepny(Document document, String opis, Podatnik podatnik, String mc, String rok) {
         try {
             StringBuilder s = new StringBuilder();

@@ -13,6 +13,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.PodatnikDAO;
 import entity.Deklaracjavat27;
+import entity.Podatnik;
 import entity.Uz;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -50,7 +51,8 @@ public class PdfVAT27dekl {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Deklaracja VAT-27 firma: ", wpisView.getPodatnikObiekt(), d.getMiesiac(), d.getRok());
+            Podatnik pod = podatnikDAO.find(d.getPodatnik());
+            dodajOpisWstepny(document, "Deklaracja VAT-27 firma: ", pod, d.getMiesiac(), d.getRok());
             dodajTabele(document, testobjects.getPozycje(d.getPozycje()),97,1);
             uzupelnijDlaVAT7(document, d, wpisView);
             finalizacjaDokumentuQR(document,nazwa);
