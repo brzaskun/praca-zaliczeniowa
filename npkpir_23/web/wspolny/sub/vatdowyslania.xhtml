@@ -210,10 +210,9 @@
     </p:tab>
      <p:tab title="Deklaracja została wysłana poza programem. Kliknij ,żeby zachować jej wersje elektroniczną w programie.">
         <p:panelGrid columns="2" style="width: 80%;">
+        <h:outputText value="Deklaracja powinna byc przygotowana do wysyłki. Bez deklaracji nie można jej zachować" style="color:red;"/>
         <h:form>
-            <p:commandButton value="oznacz" actionListener="#{beanek.wysylkaReczna(deklaracjevatView.oczekujace)}" update=":akordeon:formrecznie:upoformrecznie" style="width: 150px;"/>
-        </h:form>
-        <h:form id="formrecznie">
+            <p:commandButton value="oznacz" actionListener="#{beanek.wysylkaReczna(deklaracjevatView.oczekujace)}" update="@form" style="width: 150px;"/>
             <p:panelGrid columns="2" id="upoformrecznie" style="width: 100%;">
                 <h:outputText value="id przesyłki"/>
                 <h:inputText value="#{beanek.idpobierzT}" style="width: 90%;"/>

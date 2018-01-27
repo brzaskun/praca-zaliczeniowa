@@ -101,18 +101,19 @@ public class VAT27DeklaracjaView implements Serializable {
                 }
             }
             if (robickorekte) {
-                deklaracjavat27DAO.usundeklaracje27(wpisView);
-                for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
-                    Deklaracjavat27 d = it.next();
-                    if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
-                        vat27View.getDeklaracjevat27().remove(d);
-                        break;
-                    }
-                }
-                robdeklaracjeFK(lista, true, nrkolejny);
+               Msg.msg("Sporządzam korektę deklaracji VAT-27");
             } else {
-                Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
+                Msg.msg("w","Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
             }
+            deklaracjavat27DAO.usundeklaracje27(wpisView);
+            for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
+                Deklaracjavat27 d = it.next();
+                if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
+                    vat27View.getDeklaracjevat27().remove(d);
+                    break;
+                }
+            }
+            robdeklaracjeFK(lista, true, nrkolejny);
         }
     }
     

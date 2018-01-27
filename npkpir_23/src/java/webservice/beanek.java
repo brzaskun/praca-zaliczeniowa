@@ -563,7 +563,7 @@ public class beanek  implements Serializable {
 //        }
         try {
             wysylanaDeklaracja.setIdentyfikator(wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+wpisView.findNazwaPodatnika()+wpisView.getWprowadzil().getLogin());
-            idpobierzT = wysylanaDeklaracja.getIdentyfikator();
+            wysylanaDeklaracja.setIdentyfikator(idpobierzT);
             wysylanaDeklaracja.setStatus("200");
             statMBT = wysylanaDeklaracja.getStatus();
             wysylanaDeklaracja.setOpis("Udana rejestracja wysyłki poza systemem");
