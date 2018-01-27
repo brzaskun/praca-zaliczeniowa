@@ -183,6 +183,7 @@
                                             requiredMessage="Nie wybrany odbiorca faktury" queryDelay="10" styleClass="wpisywaniekontrfk" 
                                             >
                                 <p:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" partialSubmit="true" oncomplete="sprawdzczybrakklientafaktura();"  global="false"/>
+                                <p:ajax event="itemSelect" listener="#{fakturaView.faktItemSelect}" partialSubmit="true" global="false"/>
                                 <p:ajax event="query"  global="false"/>
                                 <f:facet name="itemtip">  
                                     <h:panelGrid  columns="2" cellpadding="5" width="400">  

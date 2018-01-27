@@ -24,11 +24,6 @@
             </p:selectOneMenu>
                 <h:outputLabel for="problem" value="na czym polega problem?"/>
                 <p:inputTextarea id="problem" value="#{pismoAdminView.pismoadmin.tresc}" rows="9" autoResize="false" cols="80" validatorMessage="Rozpisz się bardziej. Napisz na czym dokłanie polega problem."/>
-                <h:outputLabel for="waznosc" value="jak wazny jest problem?"/>
-                <p:selectOneMenu id="waznosc" value="#{pismoAdminView.pismoadmin.waznosc}" validator="#{pismoAdminView.walidacjawaznosc}">
-                    <f:selectItem itemLabel="wybierz ważność" itemValue="wybierz ważność"/>
-                    <f:selectItems value="#{pismoAdminView.waznosc}"/>
-                </p:selectOneMenu>
                 <p:commandButton value="molestuj admina" actionListener="#{pismoAdminView.molestujadmina}" style="width: 150px;" update=":wykazpism"/>
             </p:panelGrid>
         </h:form>

@@ -10,6 +10,7 @@ import beansFaktura.FakturaBean;
 import beansFaktura.FakturaOkresowaGenNum;
 import beansMail.OznaczFaktBean;
 import beansMail.SMTPBean;
+import beansRegon.SzukajDaneBean;
 import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
@@ -43,6 +44,7 @@ import entity.FakturaWalutaKonto;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
 import entity.Fakturywystokresowe;
+import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Logofaktura;
 import entity.Podatnik;
@@ -50,6 +52,7 @@ import entity.Rodzajedok;
 import entity.Wpis;
 import entityfk.Dokfk;
 import error.E;
+import gus.GUSView;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -111,6 +114,8 @@ public class FakturaView implements Serializable {
     private WpisView wpisView;
     @ManagedProperty(value = "#{fakturaWalutaKontoView}")
     private FakturaWalutaKontoView fakturaWalutaKontoView;
+    @ManagedProperty(value = "#{gUSView}")
+    private GUSView gUSView;
     @Inject
     private FakturaDAO fakturaDAO;
     @Inject
@@ -432,6 +437,21 @@ public class FakturaView implements Serializable {
             
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Błąd. Niedokonano edycji faktury.");
+        }
+    }
+    
+    public void faktItemSelect() {
+        try {
+            if (selected.getKontrahent().getNpelna().equals("dodaj klienta automatycznie")) {
+                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getKontrahent().getNip(), gUSView);
+                selected.setKontrahent(dodany);
+                if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                    klienciDAO.dodaj(dodany);
+                }
+                RequestContext.getCurrentInstance().update("akordeon:formstworz:acForce");
+            }
+        } catch (Exception e) {
+            E.e(e);
         }
     }
 
@@ -1660,6 +1680,14 @@ public class FakturaView implements Serializable {
 
     public boolean isRachunek() {
         return rachunek;
+    }
+
+    public GUSView getgUSView() {
+        return gUSView;
+    }
+
+    public void setgUSView(GUSView gUSView) {
+        this.gUSView = gUSView;
     }
 
     public void setRachunek(boolean rachunek) {

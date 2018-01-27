@@ -55,6 +55,7 @@ public class PismoAdminView implements Serializable{
         listamenu.add("podatkowa ksiega");
         listamenu.add("faktury miesieczne");
         listamenu.add("faktury wystawione i rozl.");
+        listamenu.add("jpk");
         listamenu.add("niezaplacone");
         listamenu.add("zaplacone");
         listamenu.add("obroty w roku");
@@ -71,7 +72,7 @@ public class PismoAdminView implements Serializable{
         listamenu_fk.add("księgowanie");
         listamenu_fk.add("przeglądanie zaksięgowanych");
         listamenu_fk.add("zapisy konta");
-        listamenu_fk.add("obroty konta");
+        listamenu_fk.add("jpk");
         listamenu_fk.add("zestawienia sald");
         listamenu_fk.add("zestawienia sald narast.");
         listamenu_fk.add("symulacja");
@@ -93,6 +94,7 @@ public class PismoAdminView implements Serializable{
         waznosc.add("nie można bez tego pracować");
         status = new ArrayList<>();
         status.add("wysłana");
+        status.add("za mało danych");
         status.add("admin nierozumie");
         status.add("admin przeczytał");
         status.add("admin pracuje");
@@ -100,8 +102,8 @@ public class PismoAdminView implements Serializable{
         status.add("zmiany naniesione");
         statusadmin = new ArrayList<>();
         statusadmin.add("wysłana");
+        statusadmin.add("za mało danych");
         statusadmin.add("admin nierozumie");
-        statusadmin.add("admin przeczytał");
         statusadmin.add("admin pracuje");
         statusadmin.add("odrzucona");
         statusadmin.add("zmiany naniesione");
@@ -143,6 +145,7 @@ public class PismoAdminView implements Serializable{
              pismoadmin.setDatawiadomosci(new Date());
              pismoadmin.setNadawca(wpisView.getWprowadzil().getLogin());
              pismoadmin.setStatus("wysłana");
+             pismoadmin.setWaznosc(".");
              int wynik = sprawdzduplikat();
              if (wynik == 0) {
                  pismoadminDAO.dodaj(pismoadmin);
