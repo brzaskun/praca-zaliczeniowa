@@ -34,6 +34,7 @@ import waluty.Z;
     private Date datatelefon;
     private String ostatniaplatnoscdata;
     private double ostatniaplatnosckwota;
+    private boolean przeniesionosaldo;
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
         this.rozliczenie = p;
@@ -45,7 +46,7 @@ import waluty.Z;
         this.mail = "";
         this.dataupomnienia = p.getDataupomnienia();
         this.datatelefon = p.getDatatelefon();
-        
+        this.przeniesionosaldo = p.isPrzeniesionosaldo();
     }
 
     public FakturaPodatnikRozliczenie(Faktura r) {
@@ -62,6 +63,7 @@ import waluty.Z;
         }
         this.dataupomnienia = r.getDataupomnienia();
         this.datatelefon = r.getDatatelefon();
+        this.przeniesionosaldo = r.isPrzeniesionosaldo();
     }
 
     @Override
@@ -198,6 +200,14 @@ import waluty.Z;
 
     public void setDataupomnienia(Date dataupomnienia) {
         this.dataupomnienia = dataupomnienia;
+    }
+
+    public boolean isPrzeniesionosaldo() {
+        return przeniesionosaldo;
+    }
+
+    public void setPrzeniesionosaldo(boolean przeniesionosaldo) {
+        this.przeniesionosaldo = przeniesionosaldo;
     }
     
 

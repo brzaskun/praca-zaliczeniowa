@@ -5,7 +5,6 @@
 package comparator;
 
 import embeddable.FakturaPodatnikRozliczenie;
-import entity.Dok;
 import error.E;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,11 +32,13 @@ public class FakturaPodatnikRozliczeniecomparator implements Comparator<FakturaP
              datao1date = formatter.parse(datao1);
         } catch (ParseException ex) {
             E.e(ex);
+            return 0;
         }
         try {
             datao2date = formatter.parse(datao2);
         } catch (ParseException ex) {
             E.e(ex);
+            return 0;
         }
         return (datao1date.before(datao2date) ? -1 : (datao1date.equals(datao2date) ? 0 : 1));
     }

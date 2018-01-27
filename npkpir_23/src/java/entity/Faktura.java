@@ -251,6 +251,8 @@ public class Faktura implements Serializable {
     private boolean zaplacona;
     @Column(name = "zaliczkowa")
     private boolean zaliczkowa;
+    @Column(name = "przeniesionosaldo")
+    private boolean przeniesionosaldo;
   
 
     public Faktura() {
@@ -343,6 +345,14 @@ public class Faktura implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public boolean isPrzeniesionosaldo() {
+        return przeniesionosaldo;
+    }
+
+    public void setPrzeniesionosaldo(boolean przeniesionosaldo) {
+        this.przeniesionosaldo = przeniesionosaldo;
     }
 
     public boolean isRachunek() {

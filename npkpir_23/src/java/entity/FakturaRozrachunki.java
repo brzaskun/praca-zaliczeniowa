@@ -82,7 +82,8 @@ public class FakturaRozrachunki implements Serializable {
     @Column(name = "datatelefon", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datatelefon;
-    
+    @Column(name = "przeniesionosaldo")
+    private boolean przeniesionosaldo;
     
     @PrePersist
     private void prepresist() {
@@ -126,6 +127,14 @@ public class FakturaRozrachunki implements Serializable {
     
     public void setLp(Integer lp) {
         this.lp = lp;
+    }
+
+    public boolean isPrzeniesionosaldo() {
+        return przeniesionosaldo;
+    }
+
+    public void setPrzeniesionosaldo(boolean przeniesionosaldo) {
+        this.przeniesionosaldo = przeniesionosaldo;
     }
     
     public Podatnik getWystawca() {

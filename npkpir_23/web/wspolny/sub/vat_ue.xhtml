@@ -99,7 +99,7 @@
                     
                     <p:rowExpansion>
                         <p:column id="ewidencjavat" headerText="dokumenty podsumowane" >  
-                            <p:dataTable var="subwpis" value="#{wpis1.zawierafk}"
+                            <p:dataTable var="subwpis" value="#{wpis1.zawierafk}" style="width: 80%;"
                                          emptyMessage="brak dokumentów"  resizableColumns="true"   rendered="#{wpis1.zawierafk.size() gt 0}">
                                 <p:column id="SubColumn1" headerText="data wyst" width="70">  
                                     <h:outputText value="#{subwpis.datadokumentu}" />
@@ -136,7 +136,7 @@
                                 </p:column>
                             </p:dataTable>
                             <p:dataTable var="subwpis1" value="#{wpis1.zawiera}" emptyMessage="brak dokumentów"  resizableColumns="true" rowIndexVar="index1"
-                                        rendered="#{wpis1.zawiera.size() gt 0}">
+                                        rendered="#{wpis1.zawiera.size() gt 0}" style="width: 80%;">
                             <p:column id="SubColumn0" headerText="#{mgs.numerkolejny}" style="text-align: center;" width="30">  
                                 <h:outputText value="#{index1+1}" />
                             </p:column>

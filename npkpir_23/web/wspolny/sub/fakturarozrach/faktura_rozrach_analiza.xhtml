@@ -39,7 +39,7 @@
                     <h:outputText id="mailklienta" value="mail: #{fakturaRozrachunkiAnalizaView.szukanyklient.email}" style="margin-top: 10px;" />
                 </p:column>
             </p:panelGrid>
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1010px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1150px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          rowIndexVar="row"
                          >
@@ -53,19 +53,19 @@
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
                 </p:column>
-                <p:column width="70" sortable="true" sortBy="#{item.data}">
+                <p:column width="80" sortable="true" sortBy="#{item.data}">
                     <f:facet name="header">
                         <h:outputText value="data dok"/>
                     </f:facet>
                     <h:outputText value="#{item.data}"/>
                 </p:column>
-                <p:column width="70">
+                <p:column width="80">
                     <f:facet name="header">
                         <h:outputText value="data wysyłki"/>
                     </f:facet>
                     <h:outputText value="#{item.mail}" rendered="#{item.mail ne ''}"/>
                 </p:column>
-                <p:column width="120">
+                <p:column width="160">
                     <f:facet name="header">
                         <h:outputText value="dokument"/>
                     </f:facet>

@@ -315,6 +315,39 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         aktywnytab = 2;
     }
     
+    public void zaksiegujjakoBO (FakturaPodatnikRozliczenie p) {
+        double saldo = p.getSaldo();
+        FakturaRozrachunki f = new FakturaRozrachunki();
+        f.setData(wpisView.getRokNastepnySt()+"-01-01");
+        if (p.isFaktura0rozliczenie1()) {
+            FakturaRozrachunki fr = p.getRozliczenie();
+            szukanyklient = fr.getKontrahent();
+            fr.setPrzeniesionosaldo(true);
+            fakturaRozrachunkiDAO.edit(fr);
+        } else {
+            Faktura fa = p.getFaktura();
+            szukanyklient = fa.getKontrahent();
+            fa.setPrzeniesionosaldo(true);
+            fakturaDAO.edit(fa);
+        }
+        f.setKontrahent(szukanyklient);
+        f.setKwota(saldo);
+        f.setRok(wpisView.getRokNastepnySt());
+        f.setMc("01");
+        f.setWystawca(wpisView.getPodatnikObiekt());
+        f.setWprowadzil(wpisView.getWprowadzil());
+        f.setZaplata0korekta1(true);
+        f.setRodzajdokumentu("ka");
+        String nr = "bo/"+wpisView.getPodatnikWpisu().substring(0,1)+"/"+wpisView.getMiesiacWpisu();
+        f.setNrdokumentu(nr);
+        f.setPrzeniesionosaldo(true);
+        selectOneUI.setValue(szukanyklient);
+        fakturaRozrachunkiDAO.dodaj(f);
+        zestawieniezbiorcze();
+        aktywnytab = 3;
+        Msg.msg("Zaksięgowano w bo");
+    }
+    
     public void korygujsaldo(FakturaPodatnikRozliczenie p) {
         double saldo = p.getSaldo();
         FakturaRozrachunki f = new FakturaRozrachunki();
