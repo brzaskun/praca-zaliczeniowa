@@ -1001,9 +1001,16 @@ public class Dokfk extends DokSuper implements Serializable {
         }
         List<Wiersz> nowe = new ArrayList<>();
         int licz = 1;
+        int wiersztyp0 = 0;
         for (Object wiersze1 : wiersze) {
             Wiersz w = (Wiersz) wiersze1;
             w.setIdporzadkowy(licz++);
+            if (w.getTypWiersza()==0) {
+                wiersztyp0 = w.getIdporzadkowy();
+                w.setLpmacierzystego(w.getIdporzadkowy());
+            } else {
+                w.setLpmacierzystego(wiersztyp0);
+            }
             nowe.add(w);
         }
         this.setListawierszy(nowe);

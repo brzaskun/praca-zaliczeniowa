@@ -862,7 +862,7 @@ public class StronaWiersza implements Serializable {
     }
     
     public String getDataWiersza() {
-        String zwrot = "1";
+        String zwrot = this.getDataOperacji();
         if (this.wiersz.getDataWalutyWiersza() != null) {
             zwrot = this.wiersz.getDataWalutyWiersza();
         }

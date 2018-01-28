@@ -13,7 +13,7 @@
             <h:outputLabel for="menulink" value="gdzie wystąpił problem?" />
              <p:selectOneMenu id="menulink" value="#{pismoAdminView.pismoadmin.menulink}" style="width: 200px;" validator="#{pismoAdminView.walidacjaobszaru}"
                              rendered="#{facesContext.externalContext.isUserInRole('Bookkeeper')}">
-                <f:selectItem itemLabel="wybierz obszar" itemValue="wybierz obszar"/>
+                <f:selectItem itemLabel="wybierz obszar" itemValue="wybierz obszar" noSelectionOption="true"/>
                 <f:selectItems value="#{pismoAdminView.listamenu}"/>
             </p:selectOneMenu>
             <p:selectOneMenu id="menulink2" value="#{pismoAdminView.pismoadmin.menulink}" style="width: 200px;" validator="#{pismoAdminView.walidacjaobszaru}"
@@ -23,7 +23,7 @@
             </p:selectOneMenu>
             <h:outputLabel for="problem" value="na czym polega problem?"/>
             <p:inputTextarea id="problem" value="#{pismoAdminView.pismoadmin.tresc}" rows="9" autoResize="false" cols="80" validatorMessage="Rozpisz się bardziej. Napisz na czym dokłanie polega problem."/>
-             <p:commandButton value="napisz do admina" actionListener="#{pismoAdminView.molestujadmina}" style="width: 150px;" update=":wykazpism"/>
+             <p:commandButton value="napisz do admina" actionListener="#{pismoAdminView.molestujadmina}" style="width: 150px;" update=":wykazpism @form"/>
         </p:panelGrid>
     </h:form>
     <f:view>
@@ -63,12 +63,6 @@
                         <h:outputText value="Treść"/>
                     </f:facet>
                     <h:outputText value="#{item.tresc}"/>
-                </p:column>
-                <p:column width="80">
-                    <f:facet name="header">
-                        <h:outputText value="Ważność"/>
-                    </f:facet>
-                    <h:outputText value="#{item.waznosc}"/>
                 </p:column>
                 <p:column width="100">
                     <f:facet name="header">
