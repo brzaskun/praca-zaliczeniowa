@@ -868,6 +868,14 @@ public class StronaWiersza implements Serializable {
         }
         return zwrot;
     }
+    
+    public String getDataWierszaPelna() {
+        String zwrot = this.getDataOperacji();
+        if (this.wiersz.getDataWalutyWiersza() != null) {
+            zwrot = this.getDokfk().getRok()+"-"+this.getDokfk().getMiesiac()+"-"+this.wiersz.getDataWalutyWiersza();
+        }
+        return zwrot;
+    }
 
     public boolean isRoznicaKursowa() {
         boolean zwrot = false;

@@ -247,7 +247,6 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setPodatnik("Wzorcowy");
                     r.setUklad(ukladdocelowy.getUklad());
                     r.setRok(ukladdocelowy.getRok());
-                    r.setLp(null);
                     PozycjaRZiS macierzyste = wyszukajmacierzysteRZiS(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
@@ -271,7 +270,6 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setPodatnik("Wzorcowy");
                     r.setUklad(ukladdocelowy.getUklad());
                     r.setRok(ukladdocelowy.getRok());
-                    r.setLp(null);
                     PozycjaBilans macierzyste = wyszukajmacierzysteBilans(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaBilansDAO.dodaj(r);

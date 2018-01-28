@@ -139,8 +139,8 @@ public class UkladBRView implements Serializable {
                 pozycjaBRKontaView.init();
                 pozycjaBRKontaView.setUkladdocelowykonta(ukladBR);
                 pozycjaBRKontaView.setUkladzrodlowykonta(ukladzrodlowy);
-                pozycjaBRKontaView.kopiujprzyporzadkowaniekont("r", true);
-                pozycjaBRKontaView.kopiujprzyporzadkowaniekont("b", true);
+                //pozycjaBRKontaView.kopiujprzyporzadkowaniekont("r", true);
+                //pozycjaBRKontaView.kopiujprzyporzadkowaniekont("b", true);
                 Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
             }
         } catch (EJBException ejb) {
@@ -175,15 +175,24 @@ public class UkladBRView implements Serializable {
 
     public void usun(UkladBR ukladBR) {
         try {
-            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
-            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
-            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
-            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
-            ukladBRDAO.destroy(ukladBR);
-            lista.remove(ukladBR);
-            pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
-            pozycjaBilansDAO.findRemoveBilansuklad(ukladBR);
-            Msg.msg("i", "Usunięto wybrany układ");
+            if (ukladBR != null) {
+                List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                for (Konto k : konta) {
+                    k.setKontopozycjaID(null);
+                }
+                kontoDAOfk.editList(konta);
+                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
+                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
+                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
+                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
+                ukladBRDAO.destroy(ukladBR);
+                lista.remove(ukladBR);
+                pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
+                pozycjaBilansDAO.findRemoveBilansuklad(ukladBR);
+                Msg.msg("i", "Usunięto wybrany układ");
+            } else {
+                Msg.msg("e", "Nie wybrano układu do usunięcia");
+            }
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba usuniecia układu." + e.getMessage());
@@ -198,7 +207,8 @@ public class UkladBRView implements Serializable {
             for (int i = 1; i <= maxlevel; i++) {
                 macierzyste = skopiujlevel(pozycje, macierzyste, i, podatnik, rok, uklad);
             }
-            System.out.println("Kopiuje");
+            pozycjaRZiSDAO.dodaj(pozycje);
+            System.out.println("ImplementujRZiS UkladBRView");
         } else {
             Msg.msg("e", "Brak pozycji bilansu przyporządkowanych do wybranego układu");
         }
@@ -218,6 +228,7 @@ public class UkladBRView implements Serializable {
             for (int i = 1; i <= maxlevel; i++) {
                 macierzyste = skopiujlevelB(pozycje, macierzyste, i, podatnik, rok, uklad);
             }
+            pozycjaBilansDAO.dodaj(pozycje);
         } else {
             Msg.msg("e", "Brak pozycji bilansu przyporządkowanych do wybranego układu");
         }
@@ -331,12 +342,12 @@ public class UkladBRView implements Serializable {
                 r.setUklad(uklad);
                 r.setPrzyporzadkowanekonta(null);
                 r.setPrzyporzadkowanestronywiersza(null);
-                try {
-                    pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {
-                    System.out.println("Blad " + e.getStackTrace()[0].toString());
-
-                }
+//                try {
+//                    pozycjaRZiSDAO.dodaj(r);
+//                } catch (Exception e) {
+//                    System.out.println("Blad " + e.getStackTrace()[0].toString());
+//
+//                }
                 macierzyste.add(r);
             }
         }
@@ -352,12 +363,10 @@ public class UkladBRView implements Serializable {
                     r.setPodatnik(podatnik);
                     r.setRok(rok);
                     r.setUklad(uklad);
-                    r.setLp(null);
                     r.setPrzyporzadkowanekonta(null);
                     r.setPrzyporzadkowanestronywiersza(null);
                     PozycjaRZiS macierzyste = wyszukajmacierzyste(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
-                    pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {
                     System.out.println("Blad " + e.getStackTrace()[0].toString());
@@ -386,12 +395,12 @@ public class UkladBRView implements Serializable {
                 r.setPodatnik(podatnik);
                 r.setRok(rok);
                 r.setUklad(uklad);
-                try {
-                    pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {
-                    System.out.println("Blad " + e.getStackTrace()[0].toString());
-
-                }
+//                try {
+//                    pozycjaRZiSDAO.dodaj(r);
+//                } catch (Exception e) {
+//                    System.out.println("Blad " + e.getStackTrace()[0].toString());
+//
+//                }
                 macierzyste.add(r);
             }
         }
@@ -407,10 +416,8 @@ public class UkladBRView implements Serializable {
                     r.setPodatnik(podatnik);
                     r.setRok(rok);
                     r.setUklad(uklad);
-                    r.setLp(null);
                     PozycjaBilans macierzyste = wyszukajmacierzysteB(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
-                    pozycjaBilansDAO.dodaj(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {
                     System.out.println("Blad " + e.getStackTrace()[0].toString());
@@ -517,7 +524,6 @@ public class UkladBRView implements Serializable {
                     PozycjaRZiS r = serialclone.SerialClone.clone(p);
                     r.setPodatnik(wpisView.getPodatnikWpisu());
                     r.setRok(rok);
-                    r.setLp(null);
                     PozycjaRZiS macierzyste = wyszukajmacierzysteRZiS(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
@@ -538,7 +544,6 @@ public class UkladBRView implements Serializable {
                     PozycjaBilans r = serialclone.SerialClone.clone(p);
                     r.setPodatnik(wpisView.getPodatnikWpisu());
                     r.setRok(rok);
-                    r.setLp(null);
                     PozycjaBilans macierzyste = wyszukajmacierzysteBilans(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
@@ -571,4 +576,42 @@ public class UkladBRView implements Serializable {
         return null;
     }
 
+    public void uzupelnijpozycje() {
+        Msg.msg("Start");
+        List<PozycjaBilans> bilansowe = pozycjaBilansDAO.findAll();
+        for (PozycjaBilans p : bilansowe) {
+            if (p.getMacierzysty() > 0) {
+                try {
+                    PozycjaBilans mac = pozycjaBilansDAO.findBilansLP(p.getMacierzysty());
+                    if (mac != null) {
+                        p.setMacierzysta(mac);
+                        System.out.println(""+p.getLp()+" mac"+mac.getLp());
+                    }
+                } catch (Exception r) {
+                    System.out.println(" "+p);
+                }
+            }
+        }
+        pozycjaBilansDAO.editList(bilansowe);
+        Msg.msg("Bilansowe");
+        List<PozycjaRZiS> wynikowe = pozycjaRZiSDAO.findAll();
+        for (PozycjaRZiS p : wynikowe) {
+            if (p.getMacierzysty() > 0) {
+                try {
+                    PozycjaRZiS mac = pozycjaRZiSDAO.findRzisLP(p.getMacierzysty());
+                    if (mac != null) {
+                        p.setMacierzysta(mac);
+                        System.out.println(""+p.getLp()+" mac"+mac.getLp());
+                    }
+                } catch (Exception r) {
+                    System.out.println(" "+p);
+                }
+            }
+        }
+        pozycjaRZiSDAO.editList(wynikowe);
+        Msg.msg("Wynikowe");
+        System.out.println("koniec");
+    }
+    
+    
 }

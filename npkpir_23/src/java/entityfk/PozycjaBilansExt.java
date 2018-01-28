@@ -75,11 +75,11 @@ public class PozycjaBilansExt extends PozycjaRZiSBilans implements Serializable 
     }
     
 
-    public Integer getLp() {
+    public int getLp() {
         return lp;
     }
 
-    public void setLp(Integer lp) {
+    public void setLp(int lp) {
         this.lp = lp;
     }
 
@@ -215,25 +215,7 @@ public class PozycjaBilansExt extends PozycjaRZiSBilans implements Serializable 
         this.de = de;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (lp != null ? lp.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PozycjaBilansExt)) {
-            return false;
-        }
-        PozycjaBilansExt other = (PozycjaBilansExt) object;
-        if ((this.lp == null && other.lp != null) || (this.lp != null && !this.lp.equals(other.lp))) {
-            return false;
-        }
-        return true;
-    }
+   
 
     @Override
     public String toString() {

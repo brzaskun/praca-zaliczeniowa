@@ -9,10 +9,8 @@ import embeddablefk.StronaWierszaKwota;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -28,8 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Pozycjarzis",  uniqueConstraints = {
     @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad"})})
 @XmlRootElement
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorValue(value = "PozycjaRZiS")
+//@Inheritance(strategy = InheritanceType.JOINED)
+//@DiscriminatorValue(value = "PozycjaRZiS")
 @NamedQueries({
     @NamedQuery(name = "PozycjaRZiS.findAll", query = "SELECT p FROM PozycjaRZiS p"),
     @NamedQuery(name = "PozycjaRZiS.Delete", query = "DELETE FROM PozycjaRZiS p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
@@ -50,7 +48,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PozycjaRZiS.findByUkladPodRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
     @NamedQuery(name = "PozycjaRZiS.findByUklad", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad")})
 public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
-    
+    @JoinColumn(name = "macierzysta", referencedColumnName = "lp")
+    protected PozycjaRZiS macierzysta;
     @Transient
     private Map<String,Double> mce;
     
@@ -115,16 +114,18 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
         }
         
     }
-    
+
     @Override
-    public Integer getLp() {
+    public int getLp() {
         return lp;
     }
 
     @Override
-    public void setLp(Integer lp) {
+    public void setLp(int lp) {
         this.lp = lp;
     }
+    
+  
 
     @Override
     public String getFormula() {
@@ -292,26 +293,18 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
         this.mce = mce;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (lp != null ? lp.hashCode() : 0);
-        return hash;
+    public PozycjaRZiS getMacierzysta() {
+        return macierzysta;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PozycjaRZiS)) {
-            return false;
-        }
-        PozycjaRZiS other = (PozycjaRZiS) object;
-        if ((this.lp == null && other.lp != null) || (this.lp != null && !this.lp.equals(other.lp))) {
-            return false;
-        }
-        return true;
+    public void setMacierzysta(PozycjaRZiS macierzysta) {
+        this.macierzysta = macierzysta;
     }
 
+    
+
+    
+   
     
     
 }

@@ -1842,9 +1842,6 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
-    public void wyzerujPozycjeWKontach(WpisView wpisView, String bilansowewynikowe) {
-        em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
-    }
 
     public void wyzerujBoWnBoMawKontach(WpisView wpisView, String bilansowewynikowe) {
         em.createNamedQuery("Konto.wyzerujBoWnwKontach").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();

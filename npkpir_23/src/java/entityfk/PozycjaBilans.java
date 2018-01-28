@@ -8,10 +8,8 @@ import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -27,8 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad", "przychod0koszt1"})
 })
 @XmlRootElement
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorValue(value = "PozycjaBilans")
+//@Inheritance(strategy = InheritanceType.JOINED)
+//@DiscriminatorValue(value = "PozycjaBilans")
 @NamedQueries({
     @NamedQuery(name = "PozycjaBilans.findAll", query = "SELECT p FROM PozycjaBilans p"),
     @NamedQuery(name = "PozycjaBilans.Delete", query = "DELETE FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
@@ -53,7 +51,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PozycjaBilans.findByUkladPodRok", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
     @NamedQuery(name = "PozycjaBilans.findByUklad", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad")})
 public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
-   
+   @JoinColumn(name = "macierzysta", referencedColumnName = "lp")
+    protected PozycjaBilans macierzysta;
 
                 
     public PozycjaBilans() {
@@ -114,15 +113,19 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
         this.kwota = 0.0;
         this.formula = formula;
     }
-    
 
-    public Integer getLp() {
+    @Override
+    public int getLp() {
         return lp;
     }
 
-    public void setLp(Integer lp) {
+    @Override
+    public void setLp(int lp) {
         this.lp = lp;
     }
+    
+
+   
 
     public String getFormula() {
         return formula;
@@ -265,28 +268,19 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
     public void setKwotabo(double kwotabo) {
         this.kwotabo = kwotabo;
     }
+
+    public PozycjaBilans getMacierzysta() {
+        return macierzysta;
+    }
+
+    public void setMacierzysta(PozycjaBilans macierzysta) {
+        this.macierzysta = macierzysta;
+    }
+
+   
     
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (lp != null ? lp.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PozycjaBilans)) {
-            return false;
-        }
-        PozycjaBilans other = (PozycjaBilans) object;
-        if ((this.lp == null && other.lp != null) || (this.lp != null && !this.lp.equals(other.lp))) {
-            return false;
-        }
-        return true;
-    }
-
+   
     @Override
     public String toString() {
         return "PozycjaBilans{" + "lp=" + lp + ", formula=" + formula + ", nazwa=" + nazwa + ", pozycjaString=" + pozycjaString + ", pozycjaSymbol=" + pozycjaSymbol + ", pozycjanr=" + pozycjanr + ", rok=" + rok + ", uklad=" + uklad + '}';

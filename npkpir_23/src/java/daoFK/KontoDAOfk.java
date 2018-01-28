@@ -335,9 +335,6 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
 
-    public void wyzerujPozycjeWKontach(WpisView wpisView, String bilansowewynikowe) {
-        kontoFacade.wyzerujPozycjeWKontach(wpisView, bilansowewynikowe);
-    }
 
     public void wyzerujBoWnBoMawKontach(WpisView wpisView, String bilansowewynikowe) {
         kontoFacade.wyzerujBoWnBoMawKontach(wpisView, bilansowewynikowe);

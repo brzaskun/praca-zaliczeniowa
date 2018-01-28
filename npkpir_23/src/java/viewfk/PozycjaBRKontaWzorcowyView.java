@@ -620,13 +620,6 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         }
     }
     
-   private void wyczyscKonta(String rb) {
-        if (rb.equals("wynikowe")) {
-            kontoDAO.wyzerujPozycjeWKontach(wpisView,"wynikowe");
-        } else {
-            kontoDAO.wyzerujPozycjeWKontach(wpisView,"bilansowe");
-        }
-    }
    
    private void wyczyscKontaWzorcowy(UkladBR uklad, String rb) {
         List<Konto> list = kontoDAO.findWszystkieKontaWzorcowy(wpisView);

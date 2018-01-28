@@ -114,7 +114,6 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findKontoMacierzystyNrkonta", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.kontomacierzyste = :kontomacierzyste AND k.nrkonta = :nrkonta"),
     @NamedQuery(name = "Konto.findByRozwin", query = "SELECT k FROM Konto k WHERE k.rozwin = :rozwin"),
     @NamedQuery(name = "Konto.updateMapotomkow", query = "UPDATE Konto k SET k.mapotomkow = '0' WHERE k.podatnik = :podatnik AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.NullPozycjaBilansoweWynikowe", query = "UPDATE Konto k SET k.kontopozycjaID = NULL WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.bilansowewynikowe = :bilansowewynikowe"),
     @NamedQuery(name = "Konto.wyzerujBowKontach", query = "UPDATE Konto k SET k.boWn = 0.0, k.boMa = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.wyzerujBoWnwKontach", query = "UPDATE Konto k SET k.boWn = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.bilansowewynikowe = :bilansowewynikowe"),
     @NamedQuery(name = "Konto.wyzerujBoMawKontach", query = "UPDATE Konto k SET k.boMa = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.bilansowewynikowe = :bilansowewynikowe"),
@@ -584,10 +583,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     }
     
     @Override
-    public Integer getLp() {
+    public int getLp() {
         return this.id;
     }
-
+    
+    @Override
+   public void setLp(int lp) {
+        
+    }
     public int getRok() {
         return rok;
     }
@@ -743,11 +746,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         return "Konto{" + "id=" + id + ", rok=" + rok +", podatnik=" + podatnik.getPrintnazwa() + ", nrkonta=" + pelnynumer + ", nazwa=" + nazwapelna + ", syntetyczne=" + syntetyczne + ", nazwaskrocona=" + nazwaskrocona + ", bilansowewynikowe=" + bilansowewynikowe + ", zwyklerozrachszczegolne=" + zwyklerozrachszczegolne + '}';
     }
 
-    @Override
-    public void setLp(Integer lp) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+        
     public String getNazwaKontaInt() {
         String zwrot = this.getNazwaskrocona();
         String lokale = LocaleInfo.getLocale();

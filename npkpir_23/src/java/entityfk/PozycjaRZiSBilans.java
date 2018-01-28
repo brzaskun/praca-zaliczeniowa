@@ -30,7 +30,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    protected Integer lp;
+    protected int lp;
     @Size(max = 255)
     @Column(length = 255)
     protected String formula;
@@ -116,14 +116,14 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     }
 
     @Override
-    public Integer getLp() {
+    public int getLp() {
         return lp;
     }
 
-    @Override
-    public void setLp(Integer lp) {
+    public void setLp(int lp) {
         this.lp = lp;
     }
+
 
     public String getFormula() {
         return formula;
@@ -237,13 +237,40 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         this.kwotabo = kwotabo;
     }
 
-    
+   
     
     
     @Override
     public String toString() {
         return "PozycjaRZiSBilans{" + "lp=" + lp + ", formula=" + formula + ", kwota=" + kwota + ", level=" + level + ", nazwa=" + nazwa + ", podatnik=" + podatnik + ", pozycjaString=" + pozycjaString + ", pozycjaSymbol=" + pozycjaSymbol + ", przychod0koszt1=" + przychod0koszt1 + ", rok=" + rok + ", uklad=" + uklad + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + this.lp;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PozycjaRZiSBilans other = (PozycjaRZiSBilans) obj;
+        if (this.lp != other.lp) {
+            return false;
+        }
+        return true;
+    }
+
+   
 
     
     

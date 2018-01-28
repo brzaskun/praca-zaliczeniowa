@@ -2072,13 +2072,18 @@ public class PdfMain {
                     //PdfKontoZapisy drukujzapisyKompakt
                     StronaWiersza p = (StronaWiersza) it.next();
                     table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
-                    if (p.getDokfk() != null && p.getDokfk().getRodzajedok().getKategoriadokumentu()==0) {
-                        table.addCell(ustawfrazeAlign(p.getDataWiersza(), "center", 7));
+                    try {
+                    if (p.getDokfk() != null && p.getDokfk().getRodzajedok() != null && p.getDokfk().getRodzajedok().getKategoriadokumentu()==0) {
+                        table.addCell(ustawfrazeAlign(p.getDataWierszaPelna(), "center", 7));
                     } else {
                         table.addCell(ustawfrazeAlign(p.getDataOperacji(), "center", 7));
                     }
+                    } catch (Exception e) {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                        System.out.println("");
+                    }
                     table.addCell(ustawfrazeAlign(p.getDokfkS(), "center", 7));
-                    table.addCell(ustawfrazeAlign(p.getIdporzadkowy(), "center", 7));
+                    table.addCell(ustawfrazeAlign(p.getIdporzadkowy() > 0 ? p.getIdporzadkowy(): "", "center", 7));
                     table.addCell(ustawfrazeAlign(p.getNumerwlasnydokfk(), "center", 7));
                     table.addCell(ustawfrazeAlign(p.getOpisWiersza(34), "left", 7));
                     if (p.isWn()) {

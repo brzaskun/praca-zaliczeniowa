@@ -21,8 +21,8 @@ public abstract class ToBeATreeNodeObject implements Serializable{
 
     public abstract void setLevel(int level);
     
-    public abstract Integer getLp();
+    public abstract int getLp();
 
-    public abstract void setLp(Integer lp);
+    public abstract void setLp(int lp);
     
 }
