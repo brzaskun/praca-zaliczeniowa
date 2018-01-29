@@ -11,7 +11,6 @@ import entity.Podatnik;
 import entityfk.Cechazapisu;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -42,6 +41,10 @@ public class CechazapisuDAOfk extends DAO implements Serializable {
 
     public List<Cechazapisu> findPodatnik(Podatnik podatnikObiekt) {
         return sessionFacade.findCechaZapisuByPodatnik(podatnikObiekt);
+    }
+
+    public Cechazapisu findPodatniknkup() {
+        return sessionFacade.findCechaZapisuByPodatnikNKUP();
     }
 
     
