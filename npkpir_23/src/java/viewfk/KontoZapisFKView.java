@@ -11,6 +11,7 @@ import comparator.Kontocomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
+import daoFK.CechazapisuDAOfk;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
@@ -77,6 +78,8 @@ public class KontoZapisFKView implements Serializable{
     private DokDAOfk dokDAOfk;
     @Inject
     private KlienciDAO klienciDAO;
+    @Inject
+    private CechazapisuDAOfk cechazapisuDAOfk;
     @Inject private Konto wybranekonto;
     @Inject private Konto kontodoprzeksiegowania;
     private Double sumaWn;
@@ -772,7 +775,7 @@ public class KontoZapisFKView implements Serializable{
     public void rozliczsaldo() {
         if (kontozapisy != null && kontozapisy.size() > 0) {
             Map<String, ListaSum> listasum = sumujzapisy();
-            Dokfk nowydok = DokumentFKBean.generujdokumentAutomRozrach(wpisView, klienciDAO, "ARS", "automatyczne rozliczenie salda konta", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, listasum, dokDAOfk);
+            Dokfk nowydok = DokumentFKBean.generujdokumentAutomRozrach(wpisView, klienciDAO, "ARS", "automatyczne rozliczenie salda konta", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, listasum, dokDAOfk, cechazapisuDAOfk);
             dokDAOfk.dodaj(nowydok);
             dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
             this.listasum = new ArrayList<>();
