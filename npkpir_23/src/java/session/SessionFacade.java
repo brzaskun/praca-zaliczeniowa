@@ -2063,6 +2063,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Cechazapisu> findCechaZapisuByPodatnik(Podatnik podatnikObiekt) {
         return em.createNamedQuery("Cechazapisu.findByPodatnik").setParameter("podatnik", podatnikObiekt).getResultList();
     }
+    
+    public Cechazapisu findCechaZapisuByPodatnikNKUP() {
+        return (Cechazapisu) em.createNamedQuery("Cechazapisu.findByPodatnikNKUP").setParameter("nazwacechy", "NKUP").getSingleResult();
+    }
 
     public List<Fakturywystokresowe> findOkresoweOstatnieByfaktura(Faktura p) {
         return em.createNamedQuery("Fakturywystokresowe.findByFaktura").setParameter("faktura", p).getResultList();
@@ -2132,6 +2136,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public String findEVatwpisFKPodatnikKlient(Podatnik podatnikObiekt, Klienci klient, String rok) {
         return ((EVatwpisFK) em.createNamedQuery("EVatwpisFK.findEVatwpisFKPodatnikKlient").setParameter("podatnik", podatnikObiekt).setParameter("klient", klient).setParameter("rok", rok).setMaxResults(1).getSingleResult()).getOpisvat();
     }
+
+    
 
     
 }
