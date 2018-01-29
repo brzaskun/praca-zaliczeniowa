@@ -7,6 +7,7 @@ package beansFK;
 
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
+import daoFK.CechazapisuDAOfk;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
@@ -15,6 +16,7 @@ import embeddablefk.ListaSum;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entity.UmorzenieN;
+import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.MiejscePrzychodow;
@@ -67,10 +69,11 @@ public class DokumentFKBean implements Serializable {
         return nowydok;
     }
     
-    public static Dokfk generujdokumentAutomRozrach(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, KontoDAOfk kontoDAOfk, List konta, Map<String, ListaSum> sumy, DokDAOfk dokDAOfk) {
+    public static Dokfk generujdokumentAutomRozrach(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, KontoDAOfk kontoDAOfk, List konta, Map<String, ListaSum> sumy, DokDAOfk dokDAOfk, CechazapisuDAOfk cechazapisuDAOfk) {
         Dokfk nowydok = stworznowydokument(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
+        Cechazapisu nkup = cechazapisuDAOfk.findPodatniknkup();
         nowydok.setNumerwlasnydokfk(DokFKBean.wygenerujnumerkolejnyRozrach(nowydok, wpisView, dokDAOfk));
-        ustawwierszePK(nowydok, konta, new ArrayList<ListaSum>(sumy.values()), wpisView, kontoDAOfk, tabelanbpDAO);
+        ustawwierszePK(nowydok, konta, new ArrayList<ListaSum>(sumy.values()), wpisView, kontoDAOfk, nkup);
         if (nowydok.getListawierszy() != null) {
             nowydok.przeliczKwotyWierszaDoSumyDokumentu();
         }
@@ -311,7 +314,7 @@ public class DokumentFKBean implements Serializable {
         return kontoDAOfk.findBySlownikoweMacierzyste(konto,nrkonta, wpisView);
     }
     
-    private static void ustawwierszePK(Dokfk nowydok, List stronywiersza, List sumy, WpisView wpisView, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO) {
+    private static void ustawwierszePK(Dokfk nowydok, List stronywiersza, List sumy, WpisView wpisView, KontoDAOfk kontoDAOfk, Cechazapisu nkup) {
         nowydok.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
         StronaWiersza sw = (StronaWiersza) stronywiersza.get(0);
@@ -329,6 +332,7 @@ public class DokumentFKBean implements Serializable {
                 double kwotaPLN = pobierzkwotezsumyPLN(wierszsum);
                 if (wierszsum.getSaldoWn() > 0.0) {
                     StronaWiersza strWn = new StronaWiersza(w, "Wn", kwotaWal, pko);
+                    strWn.getCechazapisuLista().add(nkup);
                     StronaWiersza strMa = new StronaWiersza(w, "Ma", kwotaWal, kontodorozliczenia);
                     if (wierszsum.getTabelanbp()==null) {
                         strWn.setSymbolWalutyBO(wierszsum.getWalutabo().getSymbolwaluty());
