@@ -43,7 +43,7 @@ public class KontaFKBean implements Serializable{
         }
         List<Konto> sprawdzonemacierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
-            if (!p.getMacierzyste().equals("0")) {
+            if (p.getKontomacierzyste()!=null) {
                 try {
                     Konto macierzyste = p.getKontomacierzyste();
                     if (!sprawdzonemacierzyste.contains(macierzyste)) {
@@ -69,7 +69,7 @@ public class KontaFKBean implements Serializable{
         kontoDAO.editList(wykazkont);
         List<Konto> sprawdzonemacierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
-             if (!p.getMacierzyste().equals("0")) {
+             if (p.getKontomacierzyste()!=null) {
                 try {
                     Konto macierzyste = pobierzmacierzysteWzorcowy(p, kontoDAO, wpisView);
                     naniesBlokade(macierzyste, kontoDAO);
@@ -87,17 +87,11 @@ public class KontaFKBean implements Serializable{
     
     private static Konto pobierzmacierzyste(Konto p, KontoDAOfk kontoDAO, WpisView wpisView) {
         Konto macierzyste = p.getKontomacierzyste();
-        if (macierzyste == null) {
-            macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        }
         return macierzyste;
     }
     
     private static Konto pobierzmacierzysteWzorcowy(Konto p, KontoDAOfk kontoDAO, WpisView wpisView) {
         Konto macierzyste = p.getKontomacierzyste();
-        if (macierzyste == null) {
-            macierzyste = kontoDAO.findKonto(p.getMacierzyste(), null, wpisView.getRokWpisu());
-        }
         return macierzyste;
     }
     
@@ -217,7 +211,7 @@ public class KontaFKBean implements Serializable{
         for (Konto p : kontamacierzyste) {
             if (p.isMapotomkow()==true) {
                 for (Konto r : wykazkont) {
-                    if (r.getMacierzyste().equals(p.getPelnynumer())) {
+                    if (r.getKontomacierzyste().equals(p)) {
                         nowepotomne.add(r);
                     }
                 }

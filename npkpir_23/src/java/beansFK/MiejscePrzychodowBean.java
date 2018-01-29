@@ -14,7 +14,6 @@ import entityfk.StronaWiersza;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 import viewfk.MiejscePrzychodowView;
@@ -38,7 +37,7 @@ public class MiejscePrzychodowBean {
                     double suma = 0;
                     List<StronaWiersza> listastron = new ArrayList<>();
                     for (StronaWiersza s : stronywiersza) {
-                        if (s.getKonto().getNazwapelna().equals(p.getOpismiejsca()) && s.getKonto().getMacierzyste().equals(r.getPelnynumer())) {
+                        if (s.getKonto().getNazwapelna().equals(p.getOpismiejsca()) && s.getKonto().getKontomacierzyste().equals(r)) {
                             if (!wpisView.getMiesiacWpisu().equals("CR") && s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                                 suma += sumuj(s);
                                 listastron.add(s);
