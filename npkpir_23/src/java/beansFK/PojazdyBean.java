@@ -13,7 +13,6 @@ import entityfk.StronaWiersza;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 import viewfk.PojazdyView;
@@ -40,7 +39,7 @@ public class PojazdyBean {
                         if (s.getKonto().getNazwapelna().equals("ZS228CG") && r.getPelnynumer().equals("403-2")) {
                             System.out.println("");
                         }
-                        if (s.getKonto().getNazwapelna().equals(p.getNrrejestracyjny()) && s.getKonto().getMacierzyste().equals(r.getPelnynumer())) {
+                        if (s.getKonto().getNazwapelna().equals(p.getNrrejestracyjny()) && s.getKonto().getKontomacierzyste().equals(r)) {
                             if (s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                                 suma += sumuj(s);
                                 listastron.add(s);
