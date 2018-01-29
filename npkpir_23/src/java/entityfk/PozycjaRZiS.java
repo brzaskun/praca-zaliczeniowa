@@ -159,14 +159,10 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
 
     @Override
     public int getMacierzysty() {
-        return macierzysty;
+        return macierzysta.getLp();
     }
 
-    @Override
-    public void setMacierzysty(int macierzysty) {
-        this.macierzysty = macierzysty;
-    }
-
+    
     @Override
     public String getNazwa() {
         return nazwa;

@@ -366,7 +366,7 @@ public class UkladBRView implements Serializable {
                     r.setPrzyporzadkowanekonta(null);
                     r.setPrzyporzadkowanestronywiersza(null);
                     PozycjaRZiS macierzyste = wyszukajmacierzyste(p, macierzystelista);
-                    r.setMacierzysty(macierzyste.getLp());
+                    r.setMacierzysta(macierzyste);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {
                     System.out.println("Blad " + e.getStackTrace()[0].toString());
@@ -378,7 +378,7 @@ public class UkladBRView implements Serializable {
     }
 
     private PozycjaRZiS wyszukajmacierzyste(PozycjaRZiS macierzyste, List<PozycjaRZiS> macierzystelista) {
-        PozycjaRZiS mac = pozycjaRZiSDAO.findRzisLP(macierzyste.getMacierzysty());
+        PozycjaRZiS mac = macierzyste.getMacierzysta();
         for (PozycjaRZiS p : macierzystelista) {
             if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
                 return p;
@@ -417,7 +417,7 @@ public class UkladBRView implements Serializable {
                     r.setRok(rok);
                     r.setUklad(uklad);
                     PozycjaBilans macierzyste = wyszukajmacierzysteB(p, macierzystelista);
-                    r.setMacierzysty(macierzyste.getLp());
+                    r.setMacierzysta(macierzyste);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {
                     System.out.println("Blad " + e.getStackTrace()[0].toString());
@@ -429,7 +429,7 @@ public class UkladBRView implements Serializable {
     }
 
     private PozycjaBilans wyszukajmacierzysteB(PozycjaBilans macierzyste, List<PozycjaBilans> macierzystelista) {
-        PozycjaBilans mac = pozycjaBilansDAO.findBilansLP(macierzyste.getMacierzysty());
+        PozycjaBilans mac = macierzyste.getMacierzysta();
         for (PozycjaBilans p : macierzystelista) {
             if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
                 return p;
@@ -525,7 +525,7 @@ public class UkladBRView implements Serializable {
                     r.setPodatnik(wpisView.getPodatnikWpisu());
                     r.setRok(rok);
                     PozycjaRZiS macierzyste = wyszukajmacierzysteRZiS(p, macierzystelista);
-                    r.setMacierzysty(macierzyste.getLp());
+                    r.setMacierzysta(macierzyste);
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {  E.e(e);
@@ -545,7 +545,7 @@ public class UkladBRView implements Serializable {
                     r.setPodatnik(wpisView.getPodatnikWpisu());
                     r.setRok(rok);
                     PozycjaBilans macierzyste = wyszukajmacierzysteBilans(p, macierzystelista);
-                    r.setMacierzysty(macierzyste.getLp());
+                    r.setMacierzysta(macierzyste);
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {  E.e(e);
@@ -557,7 +557,7 @@ public class UkladBRView implements Serializable {
     }
     
     private PozycjaRZiS wyszukajmacierzysteRZiS(PozycjaRZiS macierzyste, List<PozycjaRZiS> macierzystelista) {
-        PozycjaRZiS mac = pozycjaRZiSDAO.findRzisLP(macierzyste.getMacierzysty());
+        PozycjaRZiS mac = macierzyste.getMacierzysta();
         for (PozycjaRZiS p : macierzystelista) {
             if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
                 return p;
@@ -567,7 +567,7 @@ public class UkladBRView implements Serializable {
     }
     
     private PozycjaBilans wyszukajmacierzysteBilans(PozycjaBilans macierzyste, List<PozycjaBilans> macierzystelista) {
-        PozycjaBilans mac = pozycjaBilansDAO.findBilansLP(macierzyste.getMacierzysty());
+        PozycjaBilans mac = macierzyste.getMacierzysta();
         for (PozycjaBilans p : macierzystelista) {
             if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
                 return p;
@@ -580,9 +580,9 @@ public class UkladBRView implements Serializable {
         Msg.msg("Start");
         List<PozycjaBilans> bilansowe = pozycjaBilansDAO.findAll();
         for (PozycjaBilans p : bilansowe) {
-            if (p.getMacierzysty() > 0) {
+            if (p.getMacierzysta() != null) {
                 try {
-                    PozycjaBilans mac = pozycjaBilansDAO.findBilansLP(p.getMacierzysty());
+                    PozycjaBilans mac = p.getMacierzysta();
                     if (mac != null) {
                         p.setMacierzysta(mac);
                         System.out.println(""+p.getLp()+" mac"+mac.getLp());
@@ -596,9 +596,9 @@ public class UkladBRView implements Serializable {
         Msg.msg("Bilansowe");
         List<PozycjaRZiS> wynikowe = pozycjaRZiSDAO.findAll();
         for (PozycjaRZiS p : wynikowe) {
-            if (p.getMacierzysty() > 0) {
+            if (p.getMacierzysta() != null) {
                 try {
-                    PozycjaRZiS mac = pozycjaRZiSDAO.findRzisLP(p.getMacierzysty());
+                    PozycjaRZiS mac = p.getMacierzysta();
                     if (mac != null) {
                         p.setMacierzysta(mac);
                         System.out.println(""+p.getLp()+" mac"+mac.getLp());

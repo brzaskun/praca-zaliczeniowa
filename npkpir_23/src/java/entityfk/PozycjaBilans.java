@@ -123,8 +123,11 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
     public void setLp(int lp) {
         this.lp = lp;
     }
-    
 
+    @Override
+    public int getMacierzysty() {
+        return macierzysta.getLp();
+    }
    
     @Override
     public String getFormula() {

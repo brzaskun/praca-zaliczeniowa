@@ -248,7 +248,7 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setUklad(ukladdocelowy.getUklad());
                     r.setRok(ukladdocelowy.getRok());
                     PozycjaRZiS macierzyste = wyszukajmacierzysteRZiS(p, macierzystelista);
-                    r.setMacierzysty(macierzyste.getLp());
+                    r.setMacierzysta(macierzyste);
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {  E.e(e);
@@ -271,7 +271,7 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setUklad(ukladdocelowy.getUklad());
                     r.setRok(ukladdocelowy.getRok());
                     PozycjaBilans macierzyste = wyszukajmacierzysteBilans(p, macierzystelista);
-                    r.setMacierzysty(macierzyste.getLp());
+                    r.setMacierzysta(macierzyste);
                     pozycjaBilansDAO.dodaj(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {  E.e(e);
@@ -283,7 +283,7 @@ public class UkladBRWzorcowyView implements Serializable{
     }
     
     private PozycjaRZiS wyszukajmacierzysteRZiS(PozycjaRZiS macierzyste, List<PozycjaRZiS> macierzystelista) {
-        PozycjaRZiS mac = pozycjaRZiSDAO.findRzisLP(macierzyste.getMacierzysty());
+        PozycjaRZiS mac = macierzyste.getMacierzysta();
         for (PozycjaRZiS p : macierzystelista) {
             if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
                 return p;
@@ -293,7 +293,7 @@ public class UkladBRWzorcowyView implements Serializable{
     }
     
     private PozycjaBilans wyszukajmacierzysteBilans(PozycjaBilans macierzyste, List<PozycjaBilans> macierzystelista) {
-        PozycjaBilans mac = pozycjaBilansDAO.findBilansLP(macierzyste.getMacierzysty());
+        PozycjaBilans mac = macierzyste.getMacierzysta();
         for (PozycjaBilans p : macierzystelista) {
             if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
                 return p;

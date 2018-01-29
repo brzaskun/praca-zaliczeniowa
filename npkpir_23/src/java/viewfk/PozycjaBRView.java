@@ -479,11 +479,11 @@ public class PozycjaBRView implements Serializable {
             pozycjeaktywa.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
             pozycjepasywa.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
             if (pozycjeaktywa.isEmpty()) {
-                pozycjeaktywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                pozycjeaktywa.add(new PozycjaBilans(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
             if (pozycjepasywa.isEmpty()) {
-                pozycjepasywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                pozycjepasywa.add(new PozycjaBilans(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
             UkladBRBean.czyscPozycje(pozycjeaktywa);
@@ -571,14 +571,14 @@ public class PozycjaBRView implements Serializable {
                 nowyelementRZiS.setPozycjaSymbol("A");
                 nowyelementRZiS.setPozycjaString("A");
                 nowyelementRZiS.setLevel(0);
-                nowyelementRZiS.setMacierzysty(0);
+                nowyelementRZiS.setMacierzysta(null);
             } else {
                 String poprzednialitera = ((PozycjaRZiS) rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementRZiS.setPozycjaSymbol(nowalitera);
                 nowyelementRZiS.setPozycjaString(nowalitera);
                 nowyelementRZiS.setLevel(0);
-                nowyelementRZiS.setMacierzysty(0);
+                nowyelementRZiS.setMacierzysta(null);
                 if (!(nowyelementRZiS.getFormula() instanceof String)) {
                     nowyelementRZiS.setFormula("");
                 }
@@ -624,7 +624,7 @@ public class PozycjaBRView implements Serializable {
             nowyelementRZiS.setPozycjaString(parent.getPozycjaString() + "." + nastepnysymbol);
             nowyelementRZiS.setPrzychod0koszt1(parent.isPrzychod0koszt1());
             nowyelementRZiS.setLevel(level + 1);
-            nowyelementRZiS.setMacierzysty(parent.getLp());
+            nowyelementRZiS.setMacierzysta(parent);
             if (!(nowyelementRZiS.getFormula() instanceof String)) {
                 nowyelementRZiS.setFormula("");
             }
@@ -654,14 +654,14 @@ public class PozycjaBRView implements Serializable {
                 nowyelementBilans.setPozycjaSymbol("A");
                 nowyelementBilans.setPozycjaString("A");
                 nowyelementBilans.setLevel(0);
-                nowyelementBilans.setMacierzysty(0);
+                nowyelementBilans.setMacierzysta(null);
             } else {
                 String poprzednialitera = ((PozycjaBilans) rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementBilans.setPozycjaSymbol(nowalitera);
                 nowyelementBilans.setPozycjaString(nowalitera);
                 nowyelementBilans.setLevel(0);
-                nowyelementBilans.setMacierzysty(0);
+                nowyelementBilans.setMacierzysta(null);
                 if (!(nowyelementBilans.getFormula() instanceof String)) {
                     nowyelementBilans.setFormula("");
                 }
@@ -707,7 +707,7 @@ public class PozycjaBRView implements Serializable {
             nowyelementBilans.setPozycjaString(parent.getPozycjaString() + "." + nastepnysymbol);
             nowyelementBilans.setPrzychod0koszt1(parent.isPrzychod0koszt1());
             nowyelementBilans.setLevel(level + 1);
-            nowyelementBilans.setMacierzysty(parent.getLp());
+            nowyelementBilans.setMacierzysta(parent);
             if (!(nowyelementBilans.getFormula() instanceof String)) {
                 nowyelementBilans.setFormula("");
             }
@@ -737,7 +737,7 @@ public class PozycjaBRView implements Serializable {
             pozycje.remove(wybranynodekonta.getData());
             pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
             if (pozycje.isEmpty()) {
-                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
             rootProjektRZiS = new TreeNodeExtended("root", null);

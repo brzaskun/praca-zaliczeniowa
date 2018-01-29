@@ -104,30 +104,30 @@ public class PozycjaBRWzorcowyView implements Serializable {
     private void init() {
 
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
-        pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
-        pozycje_old.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(3, "A.II", "II", 1, 1, "Zmiana stanu produktów", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(4, "A.III", "III", 1, 1, "Koszt wytworzenia produktów na własne potrzeby jednostki", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(5, "A.IV", "IV", 1, 1, "Przychody netto ze sprzedaży towarów i materiałów", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(6, "B", "B", 0, 0, "Koszty działalności operacyjnej", true));
-        pozycje_old.add(new PozycjaRZiS(7, "B.I", "I", 6, 1, "Amortyzacja", true));
-        pozycje_old.add(new PozycjaRZiS(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(9, "B.III", "III", 6, 1, "Usługi obce", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(11, "B.V", "V", 6, 1, "Wynagrodzenia", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
-        pozycje_old.add(new PozycjaRZiS(14, "B.I.2.a)", "a)", 13, 3, "bobopo", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(15, "C", "C", 0, 0, "Zysk (strata) ze sprzedaży (A-B)", false, "A-B"));
-        pozycje_old.add(new PozycjaRZiS(16, "D", "D", 0, 0, "Pozostałe truey operacyjne", false));
-        pozycje_old.add(new PozycjaRZiS(17, "D.I", "I", 16, 1, "Zysk z niefinansowych aktywów trwałych", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(18, "D.II", "II", 16, 1, "Dotacje", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(19, "D.III", "III", 16, 1, "Inne truey operacyjne", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(20, "E", "E", 0, 0, "Pozostałe koszty operacyjne", true));
-        pozycje_old.add(new PozycjaRZiS(21, "E.I", "I", 20, 1, "Strata z niefinansowych aktywów trwałych", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
+//        pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
+//        pozycje_old.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(3, "A.II", "II", 1, 1, "Zmiana stanu produktów", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(4, "A.III", "III", 1, 1, "Koszt wytworzenia produktów na własne potrzeby jednostki", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(5, "A.IV", "IV", 1, 1, "Przychody netto ze sprzedaży towarów i materiałów", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(6, "B", "B", 0, 0, "Koszty działalności operacyjnej", true));
+//        pozycje_old.add(new PozycjaRZiS(7, "B.I", "I", 6, 1, "Amortyzacja", true));
+//        pozycje_old.add(new PozycjaRZiS(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(9, "B.III", "III", 6, 1, "Usługi obce", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(11, "B.V", "V", 6, 1, "Wynagrodzenia", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
+//        pozycje_old.add(new PozycjaRZiS(14, "B.I.2.a)", "a)", 13, 3, "bobopo", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(15, "C", "C", 0, 0, "Zysk (strata) ze sprzedaży (A-B)", false, "A-B"));
+//        pozycje_old.add(new PozycjaRZiS(16, "D", "D", 0, 0, "Pozostałe truey operacyjne", false));
+//        pozycje_old.add(new PozycjaRZiS(17, "D.I", "I", 16, 1, "Zysk z niefinansowych aktywów trwałych", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(18, "D.II", "II", 16, 1, "Dotacje", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(19, "D.III", "III", 16, 1, "Inne truey operacyjne", false, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(20, "E", "E", 0, 0, "Pozostałe koszty operacyjne", true));
+//        pozycje_old.add(new PozycjaRZiS(21, "E.I", "I", 20, 1, "Strata z niefinansowych aktywów trwałych", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
+//        pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
         //tutaj dzieje sie magia :) tak funkcja przeksztalca baze danych w nody
         pozycje.addAll(pozycjaRZiSDAO.findAll());
 //        if (pozycje.size() == 0) {
@@ -165,7 +165,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
        try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
             if (pozycje.isEmpty()) {
-               pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+               pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
         } catch (Exception e) {  E.e(e);
@@ -209,11 +209,11 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 pozycjeaktywa.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
                 pozycjepasywa.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
             if (pozycjeaktywa.isEmpty()) {
-               pozycjeaktywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+               pozycjeaktywa.add(new PozycjaBilans(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
             if (pozycjepasywa.isEmpty()) {
-               pozycjepasywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+               pozycjepasywa.add(new PozycjaBilans(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
         } catch (Exception e) {  E.e(e);
@@ -339,14 +339,14 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 nowyelementRZiS.setPozycjaSymbol("A");
                 nowyelementRZiS.setPozycjaString("A");
                 nowyelementRZiS.setLevel(0);
-                nowyelementRZiS.setMacierzysty(0);
+                nowyelementRZiS.setMacierzysta(null);
             } else {
                 String poprzednialitera = ((PozycjaRZiS) rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementRZiS.setPozycjaSymbol(nowalitera);
                 nowyelementRZiS.setPozycjaString(nowalitera);
                 nowyelementRZiS.setLevel(0);
-                nowyelementRZiS.setMacierzysty(0);
+                nowyelementRZiS.setMacierzysta(null);
                 if (!(nowyelementRZiS.getFormula() instanceof String)) {
                     nowyelementRZiS.setFormula("");
                 }
@@ -392,7 +392,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             nowyelementRZiS.setPozycjaString(parent.getPozycjaString() + "." + nastepnysymbol);
             nowyelementRZiS.setPrzychod0koszt1(parent.isPrzychod0koszt1());
             nowyelementRZiS.setLevel(level + 1);
-            nowyelementRZiS.setMacierzysty(parent.getLp());
+            nowyelementRZiS.setMacierzysta(parent);
             if (!(nowyelementRZiS.getFormula() instanceof String)) {
                 nowyelementRZiS.setFormula("");
             }
@@ -435,14 +435,14 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 nowyelementBilans.setPozycjaSymbol("A");
                 nowyelementBilans.setPozycjaString("A");
                 nowyelementBilans.setLevel(0);
-                nowyelementBilans.setMacierzysty(0);
+                nowyelementBilans.setMacierzysta(null);
             } else {
                 String poprzednialitera = ((PozycjaBilans) rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementBilans.setPozycjaSymbol(nowalitera);
                 nowyelementBilans.setPozycjaString(nowalitera);
                 nowyelementBilans.setLevel(0);
-                nowyelementBilans.setMacierzysty(0);
+                nowyelementBilans.setMacierzysta(null);
                 if (!(nowyelementBilans.getFormula() instanceof String)) {
                     nowyelementBilans.setFormula("");
                 }
@@ -488,7 +488,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             nowyelementBilans.setPozycjaString(parent.getPozycjaString() + "." + nastepnysymbol);
             nowyelementBilans.setPrzychod0koszt1(parent.isPrzychod0koszt1());
             nowyelementBilans.setLevel(level + 1);
-            nowyelementBilans.setMacierzysty(parent.getLp());
+            nowyelementBilans.setMacierzysta(parent);
             if (!(nowyelementBilans.getFormula() instanceof String)) {
                 nowyelementBilans.setFormula("");
             }
@@ -518,7 +518,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             pozycje.remove(wybranynodekonta.getData());
             pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
             if (pozycje.isEmpty()) {
-                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
             rootProjektRZiS = new TreeNodeExtended("root", null);
@@ -537,7 +537,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             }
             pozycje = new ArrayList<>();
             if (pozycje.isEmpty()) {
-                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
             rootProjektRZiS = new TreeNodeExtended("root", null);
@@ -559,7 +559,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             pozycje.remove(wybranynodekonta.getData());
             pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
             if (pozycje.isEmpty()) {
-                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             } else {
                 String pierwszysymbol = PozycjaRZiSFKBean.zwrocPierwszySymbol(level);
