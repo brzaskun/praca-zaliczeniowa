@@ -120,7 +120,7 @@ public class PozycjaBRKontaView implements Serializable {
             pozycje = new ArrayList<>();
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(wybranyuklad));
             if (pozycje.isEmpty()) {
-                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
             drugiinit();
@@ -151,7 +151,7 @@ public class PozycjaBRKontaView implements Serializable {
                 pozycje.addAll(pozycjaBilansDAO.findBilansukladPasywa(wybranyuklad));
             }
             if (pozycje.isEmpty()) {
-                pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                pozycje.add(new PozycjaBilans(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
             drugiinitbilansowe();

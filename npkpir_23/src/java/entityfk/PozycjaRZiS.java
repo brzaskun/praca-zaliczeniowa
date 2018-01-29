@@ -75,22 +75,22 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
 
     
 
-    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1) {
+    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, PozycjaRZiS macierzysta, int level, String nazwa, boolean przychod0koszt1) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
-        this.macierzysty = macierzysty;
+        this.macierzysta = macierzysta;
         this.level = level;
         this.nazwa = nazwa;
         this.przychod0koszt1 = przychod0koszt1;
         this.formula = "";
     }
     
-    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota) {
+    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, PozycjaRZiS macierzysta, int level, String nazwa, boolean przychod0koszt1, double kwota) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
-        this.macierzysty = macierzysty;
+        this.macierzysta = macierzysta;
         this.level = level;
         this.nazwa = nazwa;
         this.przychod0koszt1 = przychod0koszt1;
@@ -98,11 +98,11 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
         this.formula = "";
     }
 
-    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, String formula) {
+    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, PozycjaRZiS macierzysta, int level, String nazwa, boolean przychod0koszt1, String formula) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
-        this.macierzysty = macierzysty;
+        this.macierzysta = macierzysta;
         this.level = level;
         this.nazwa = nazwa;
         this.przychod0koszt1 = przychod0koszt1;

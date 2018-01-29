@@ -534,7 +534,7 @@ public class PozycjaRZiSFKBean {
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(ukladBR));
             if (pozycje.isEmpty()) {
-               pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+               pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
             for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {

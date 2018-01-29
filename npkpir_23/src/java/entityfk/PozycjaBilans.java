@@ -79,22 +79,22 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
     }
     
 
-    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1) {
+    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, PozycjaBilans macierzysta, int level, String nazwa, boolean przychod0koszt1) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
-        this.macierzysty = macierzysty;
+        this.macierzysta = macierzysta;
         this.level = level;
         this.nazwa = nazwa;
         this.przychod0koszt1 = przychod0koszt1;
         this.formula = "";
     }
     
-    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota) {
+    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, PozycjaBilans macierzysta, int level, String nazwa, boolean przychod0koszt1, double kwota) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
-        this.macierzysty = macierzysty;
+        this.macierzysta = macierzysta;
         this.level = level;
         this.nazwa = nazwa;
         this.przychod0koszt1 = przychod0koszt1;
@@ -102,11 +102,11 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
         this.formula = "";
     }
 
-    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, String formula) {
+    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, PozycjaBilans macierzysta, int level, String nazwa, boolean przychod0koszt1, String formula) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
-        this.macierzysty = macierzysty;
+        this.macierzysta = macierzysta;
         this.level = level;
         this.nazwa = nazwa;
         this.przychod0koszt1 = przychod0koszt1;
@@ -126,19 +126,19 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
     
 
    
-
+    @Override
     public String getFormula() {
         return formula;
     }
-
+    @Override
     public void setFormula(String formula) {
         this.formula = formula;
     }
-
+    @Override
     public double getKwota() {
         return kwota;
     }
-
+    @Override
     public void setKwota(double kwota) {
         this.kwota = kwota;
     }
@@ -153,68 +153,68 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
         this.level = level;
     }
 
-    @Override
-    public int getMacierzysty() {
-        return macierzysty;
-    }
+ 
 
+    
     @Override
-    public void setMacierzysty(int macierzysty) {
-        this.macierzysty = macierzysty;
-    }
-
     public String getNazwa() {
         return nazwa;
     }
-
+    @Override
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
-
+    @Override
     public String getPodatnik() {
         return podatnik;
     }
-
+    @Override
     public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
-
+    @Override
     public String getPozycjaString() {
         return pozycjaString;
     }
-
+    @Override
     public void setPozycjaString(String pozycjaString) {
         this.pozycjaString = pozycjaString;
     }
-
+    @Override
     public String getPozycjaSymbol() {
         return pozycjaSymbol;
     }
 
+    @Override
     public void setPozycjaSymbol(String pozycjaSymbol) {
         this.pozycjaSymbol = pozycjaSymbol;
     }
-
+    @Override
     public Integer getPozycjanr() {
         return pozycjanr;
     }
 
+    @Override
     public void setPozycjanr(Integer pozycjanr) {
         this.pozycjanr = pozycjanr;
     }
 
+   @Override
     public boolean isPrzychod0koszt1() {
         return przychod0koszt1;
     }
 
+   @Override
     public void setPrzychod0koszt1(boolean przychod0koszt1) {
         this.przychod0koszt1 = przychod0koszt1;
     }
 
+   @Override
     public List<KontoKwota> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
     }
 
+   @Override
     public void setPrzyporzadkowanekonta(List<KontoKwota> przyporzadkowanekonta) {
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
@@ -277,7 +277,7 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
         this.macierzysta = macierzysta;
     }
 
-   
+    
     
 
    

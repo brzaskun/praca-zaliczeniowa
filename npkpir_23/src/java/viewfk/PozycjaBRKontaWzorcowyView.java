@@ -101,7 +101,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             try {
                 pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
                 if (pozycje.isEmpty()) {
-                    pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                    pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                     Msg.msg("i", "Dodaje pusta pozycje");
                 }
             } catch (Exception e) {  E.e(e);
@@ -136,7 +136,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                     pozycje.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
                 }
                 if (pozycje.isEmpty()) {
-                    pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                    pozycje.add(new PozycjaBilans(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                     Msg.msg("i", "Dodaje pusta pozycje");
                 }
             } catch (Exception e) {  E.e(e);
