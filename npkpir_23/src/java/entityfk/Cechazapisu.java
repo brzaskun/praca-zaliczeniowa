@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cechazapisu.findAll", query = "SELECT c FROM Cechazapisu c"),
     @NamedQuery(name = "Cechazapisu.findByPodatnikOnly", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik = :podatnik"),
     @NamedQuery(name = "Cechazapisu.findByPodatnik", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik IS NULL OR c.podatnik = :podatnik"),
+    @NamedQuery(name = "Cechazapisu.findByPodatnikNKUP", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik IS NULL AND c.cechazapisuPK.nazwacechy = :nazwacechy"),
     @NamedQuery(name = "Cechazapisu.findByNazwacechy", query = "SELECT c FROM Cechazapisu c WHERE c.cechazapisuPK.nazwacechy = :nazwacechy"),
     @NamedQuery(name = "Cechazapisu.findByRodzajcechy", query = "SELECT c FROM Cechazapisu c WHERE c.cechazapisuPK.rodzajcechy = :rodzajcechy")})
 public class Cechazapisu implements Serializable {
