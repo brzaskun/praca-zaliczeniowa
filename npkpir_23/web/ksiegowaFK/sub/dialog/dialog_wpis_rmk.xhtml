@@ -41,7 +41,7 @@
                                              $(this).addClass('ui-state-focus');" style="width: 200px;"
                                          >
                             <f:selectItem itemLabel="wybierz konto" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{rMKView.listakontkosztowych}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                            <f:selectItems value="#{rMKView.listakontkosztowych}" var="loop" itemValue="#{loop}" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
                         </h:selectOneMenu>
                     </p:column>
                     <p:column headerText="konto rmk" width="200" style="text-align: center;">
@@ -53,7 +53,7 @@
                                              $(this).addClass('ui-state-focus');" style="width: 200px;"
                                          >
                             <f:selectItem itemLabel="wybierz konto" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{rMKView.listakontrmk}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                            <f:selectItems value="#{rMKView.listakontrmk}" var="loop1" itemValue="#{loop1}" itemLabel="#{loop1.pelnynumer} #{loop1.nazwapelna}"/>
                         </h:selectOneMenu>
                     </p:column>
                 </p:dataTable>

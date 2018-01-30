@@ -125,6 +125,10 @@ public class RMKView  implements Serializable {
             dokfk = wybranydok.get(0);
             if (dokfk != null) {
                 rmk.setDataksiegowania(dokfk.getDatawystawienia());
+                rmk.setOpiskosztu(dokfk.getOpisdokfk());
+                rmk.setKwotacalkowita(dokfk.getListawierszy().get(0).getStronaWn().getKwotaPLN());
+                rmk.setKontormk(dokfk.getListawierszy().get(0).getStronaWn().getKonto());
+                rmk.setLiczbamiesiecy(12);
             }
             
         } catch (Exception e) {
@@ -134,27 +138,33 @@ public class RMKView  implements Serializable {
     
     
     public void dodajRMK() {
-        rmk.setDokfk(dokfk);
-        double kwotamiesieczna = Z.z(rmk.getKwotacalkowita()/rmk.getLiczbamiesiecy());
-        rmk.setKwotamiesieczna(kwotamiesieczna);
-        rmk.setDataksiegowania(dokfk.getDataoperacji());
-        rmk.setMckosztu(dokfk.getMiesiac());
-        rmk.setRokkosztu(dokfk.getRok());
-        double kwotamax = rmk.getKwotacalkowita();
-        Double narastajaco = 0.0;
-        while (kwotamax - narastajaco > 0) {
-            double odpisbiezacy = (kwotamax - narastajaco) > rmk.getKwotamiesieczna() ? rmk.getKwotamiesieczna() : kwotamax - narastajaco;
-            if((kwotamax - narastajaco) < rmk.getKwotamiesieczna()){
-                rmk.getPlanowane().add(Z.z(kwotamax - narastajaco));
-                break;
-            } else {
-                rmk.getPlanowane().add(odpisbiezacy);
+        try {
+            rmk.setDokfk(dokfk);
+            double kwotamiesieczna = Z.z(rmk.getKwotacalkowita()/rmk.getLiczbamiesiecy());
+            rmk.setKwotamiesieczna(kwotamiesieczna);
+            rmk.setDataksiegowania(dokfk.getDataoperacji());
+            rmk.setMckosztu(dokfk.getMiesiac());
+            rmk.setRokkosztu(dokfk.getRok());
+            double kwotamax = rmk.getKwotacalkowita();
+            Double narastajaco = 0.0;
+            while (kwotamax - narastajaco > 0) {
+                double odpisbiezacy = (kwotamax - narastajaco) > rmk.getKwotamiesieczna() ? rmk.getKwotamiesieczna() : kwotamax - narastajaco;
+                if((kwotamax - narastajaco) < rmk.getKwotamiesieczna()){
+                    rmk.getPlanowane().add(Z.z(kwotamax - narastajaco));
+                    break;
+                } else {
+                    rmk.getPlanowane().add(odpisbiezacy);
+                }
+                narastajaco = narastajaco + odpisbiezacy;
             }
-            narastajaco = narastajaco + odpisbiezacy;
+            rmkdao.dodaj(rmk);
+            System.out.println("rmk dodaje");
+            Msg.msg("Dodano rozliczenie międzyokresowe");
+        } catch (Exception e) {
+            Msg.msg("e", "Takie RMK już zaksięgowano");
+        } finally {
+            rmk = new RMK();
         }
-        rmkdao.dodaj(rmk);
-        System.out.println("rmk dodaje");
-        Msg.msg("Dodano rozliczenie międzyokresowe");
     }
     
     private double podsumujrmk(List<RMK> listarmk) {
