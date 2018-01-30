@@ -39,7 +39,7 @@ public class PojazdyBean {
                         if (s.getKonto().getNazwapelna().equals("ZS228CG") && r.getPelnynumer().equals("403-2")) {
                             System.out.println("");
                         }
-                        if (s.getKonto().getNazwapelna().equals(p.getNrrejestracyjny()) && s.getKonto().getKontomacierzyste().equals(r)) {
+                        if (s.getKonto().getNazwapelna().equals(p.getNrrejestracyjny()) && s.getKonto().getKontomacierzyste()!=null && s.getKonto().getKontomacierzyste().equals(r)) {
                             if (s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                                 suma += sumuj(s);
                                 listastron.add(s);

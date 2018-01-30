@@ -37,7 +37,7 @@ public class MiejscePrzychodowBean {
                     double suma = 0;
                     List<StronaWiersza> listastron = new ArrayList<>();
                     for (StronaWiersza s : stronywiersza) {
-                        if (s.getKonto().getNazwapelna().equals(p.getOpismiejsca()) && s.getKonto().getKontomacierzyste().equals(r)) {
+                        if (s.getKonto().getNazwapelna().equals(p.getOpismiejsca()) && s.getKonto().getKontomacierzyste()!=null && s.getKonto().getKontomacierzyste().equals(r)) {
                             if (!wpisView.getMiesiacWpisu().equals("CR") && s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                                 suma += sumuj(s);
                                 listastron.add(s);

@@ -211,7 +211,7 @@ public class KontaFKBean implements Serializable{
         for (Konto p : kontamacierzyste) {
             if (p.isMapotomkow()==true) {
                 for (Konto r : wykazkont) {
-                    if (r.getKontomacierzyste().equals(p)) {
+                    if (r.getKontomacierzyste() != null && r.getKontomacierzyste().equals(p)) {
                         nowepotomne.add(r);
                     }
                 }
