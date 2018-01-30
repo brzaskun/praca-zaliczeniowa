@@ -9,6 +9,7 @@ package entityfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -59,6 +60,9 @@ public class RMK  implements Serializable{
     @ManyToOne
     @JoinColumn(name = "kontokosztowe", referencedColumnName = "id")
     private Konto kontokosztowe;
+     @ManyToOne
+    @JoinColumn(name = "kontormk", referencedColumnName = "id")
+    private Konto kontormk;
     @Size(max = 255)
     @Column(name = "dataksiegowania")
     private String dataksiegowania;
@@ -187,6 +191,45 @@ public class RMK  implements Serializable{
     public void setUjetewksiegach(List<Double> ujetewksiegach) {
         this.ujetewksiegach = ujetewksiegach;
     }
+
+    public Konto getKontormk() {
+        return kontormk;
+    }
+
+    public void setKontormk(Konto kontormk) {
+        this.kontormk = kontormk;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RMK other = (RMK) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "RMK{" + "opiskosztu=" + opiskosztu + ", dokfk=" + dokfk.getDokfkSN() + ", kwotacalkowita=" + kwotacalkowita + ", liczbamiesiecy=" + liczbamiesiecy + ", kwotamiesieczna=" + kwotamiesieczna + ", kontokosztowe=" + kontokosztowe + ", kontormk=" + kontormk + ", dataksiegowania=" + dataksiegowania + ", rokkosztu=" + rokkosztu + ", mckosztu=" + mckosztu + ", rozliczony=" + rozliczony + ", planowane=" + planowane + ", ujetewksiegach=" + ujetewksiegach + '}';
+    }
+    
     
     
 }

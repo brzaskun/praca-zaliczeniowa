@@ -585,7 +585,7 @@
                             <pe:inputNumber   id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{loop.stronaMa != null}" onfocus="kalkulator_pobierzwiersz(this);"
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
-                                            
+                                            readonly="#{loop.stronaMa.typStronaWiersza ne 0}"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                                 <p:ajax global="false" event="change" partialSubmit="true"  />
                                 <p:ajax global="false" event="blur" partialSubmit="true"  onstart="skopiujKwoteZeStronaWn(#{loop.idporzadkowy-1}, 'Wn');"/>

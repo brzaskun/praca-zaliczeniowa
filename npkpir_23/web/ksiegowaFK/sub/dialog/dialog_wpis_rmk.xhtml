@@ -13,7 +13,7 @@
         }
     </style>
     <p:dialog id="dialogwpisrmk" header="Wpisywanie nowej pozycji RMK" widgetVar="dialogwpisrmk"  modal="true" appendTo="@(body)"
-              resizable="false"  onShow="ustawdialog('dialogwpisrmk','dialogtrzeci',1100,300);" 
+              resizable="false"  onShow="ustawdialog('dialogwpisrmk','dialogtrzeci',1200,300);" 
               closeOnEscape="true" onHide="resetujdialog('dialogwpisrmk');" >
         <h:form id="formrmk">
             
@@ -32,15 +32,28 @@
                     <p:column headerText="liczba miesięcy" width="70" style="text-align: center;">
                         <p:inputText value="#{loop.liczbamiesiecy}" style="text-align: center;" size="3"/>
                     </p:column>
-                    <p:column headerText="konto rmk" width="300" style="text-align: center;">
+                    <p:column headerText="konto kosztowe" width="200" style="text-align: center;">
                         <h:selectOneMenu value="#{loop.kontokosztowe}" converter="#{kontoConv}"
                                          onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
-                                             $(this).addClass('ui-state-focus');" style="width: 380px;"
+                                             $(this).addClass('ui-state-focus');" style="width: 200px;"
                                          >
+                            <f:selectItem itemLabel="wybierz konto" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{rMKView.listakontkosztowych}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                    <p:column headerText="konto rmk" width="200" style="text-align: center;">
+                        <h:selectOneMenu value="#{loop.kontormk}" converter="#{kontoConv}"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                         onfocus="$(this).removeClass('ui-state-default');
+                                             $(this).addClass('ui-state-focus');" style="width: 200px;"
+                                         >
+                            <f:selectItem itemLabel="wybierz konto" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{rMKView.listakontrmk}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
                         </h:selectOneMenu>
                     </p:column>
                 </p:dataTable>

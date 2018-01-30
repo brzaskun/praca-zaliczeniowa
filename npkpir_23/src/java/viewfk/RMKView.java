@@ -6,6 +6,7 @@
 
 package viewfk;
 
+import comparator.Kontocomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
@@ -28,6 +29,7 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -51,6 +53,7 @@ public class RMKView  implements Serializable {
     @Inject
     private RMK rmk;
     private List<Konto> listakontkosztowych;
+    private List<Konto> listakontrmk;
     private List<RMK> listarmk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -78,6 +81,7 @@ public class RMKView  implements Serializable {
 
     public RMKView() {
         this.listakontkosztowych = new ArrayList<>();
+        this.listakontrmk = new ArrayList<>();
         this.listarmk = new ArrayList<>();
     }
     
@@ -89,6 +93,14 @@ public class RMKView  implements Serializable {
                 p.remove();
             }
         }
+        Collections.sort(listakontkosztowych, new Kontocomparator());
+        listakontrmk = kontoDAO.findKontaGrupa6(wpisView);
+        for (Iterator<Konto> p = listakontrmk.iterator(); p.hasNext();) {
+            if (!p.next().getPelnynumer().startsWith("641-")) {
+                p.remove();
+            }
+        }
+        Collections.sort(listakontrmk, new Kontocomparator());
         listarmk = rmkdao.findRMKByPodatnikRok(wpisView);
         this.sumarmk = podsumujrmk(listarmk);
         RequestContext.getCurrentInstance().update("formrmk");
@@ -102,6 +114,14 @@ public class RMKView  implements Serializable {
                     p.remove();
                 }
             }
+            Collections.sort(listakontkosztowych, new Kontocomparator());
+            listakontrmk = kontoDAO.findKontaGrupa6(wpisView);
+            for (Iterator<Konto> p = listakontrmk.iterator(); p.hasNext();) {
+                if (!p.next().getPelnynumer().startsWith("641-")) {
+                    p.remove();
+                }
+            }
+            Collections.sort(listakontrmk, new Kontocomparator());
             dokfk = wybranydok.get(0);
             if (dokfk != null) {
                 rmk.setDataksiegowania(dokfk.getDatawystawienia());
@@ -194,6 +214,7 @@ public class RMKView  implements Serializable {
         ustawrodzajedok(nd);
         ustawtabelenbp(nd);
         ustawwiersze(nd);
+        nd.przeliczKwotyWierszaDoSumyDokumentu();
         return nd;
     }
     
@@ -249,9 +270,10 @@ public class RMKView  implements Serializable {
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "odpis amortyzacyjny dla: "+p.getOpiskosztu(); 
                 w.setOpisWiersza(opiswiersza);
-                Konto kontoRMK = kontoDAO.findKonto("641", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                Konto kontokoszt = kontoDAO.findKonto(p.getKontokosztowe().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                Konto kontoRMK = kontoDAO.findKonto(p.getKontormk().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 double kwota = wyliczkwotedopobrania(p);
-                StronaWiersza kosztrmk = new StronaWiersza(w, "Wn", kwota, p.getKontokosztowe());
+                StronaWiersza kosztrmk = new StronaWiersza(w, "Wn", kwota, kontokoszt);
                 StronaWiersza emk = new StronaWiersza(w, "Ma", kwota, kontoRMK);
                 w.setStronaWn(kosztrmk);
                 w.setStronaMa(emk);
@@ -349,6 +371,14 @@ public class RMKView  implements Serializable {
 
     public void setrMKDokView(RMKDokView rMKDokView) {
         this.rMKDokView = rMKDokView;
+    }
+
+    public List<Konto> getListakontrmk() {
+        return listakontrmk;
+    }
+
+    public void setListakontrmk(List<Konto> listakontrmk) {
+        this.listakontrmk = listakontrmk;
     }
 
     

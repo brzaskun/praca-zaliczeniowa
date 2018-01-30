@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialogrmkdok" header="Zestawienie dla dokumentów RMK - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogrmkdok"  
-              resizable="false"  onShow="ustawdialog('dialogrmkdok','menurejestry',1150,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmkdok');" >
+              resizable="false"  onShow="ustawdialog('dialogrmkdok','menurmk',1350,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmkdok');" >
         <bcf:ajaxs/>
         <h:form id="formrmk">
             <p:outputPanel style="margin-top: 10px">
@@ -108,13 +108,19 @@
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column width="240">
+                    <p:column width="150">
                         <f:facet name="header">
-                            <h:outputText value="konto rmk"/>
+                            <h:outputText value="konto kosztowe"/>
                         </f:facet>
                         <h:outputText value="#{item.kontokosztowe.pelnynumer}/#{item.kontokosztowe.nazwapelna}"/>
                     </p:column>
-                    <p:column style="text-align: center;" width="70">
+                     <p:column width="150">
+                        <f:facet name="header">
+                            <h:outputText value="konto rmk"/>
+                        </f:facet>
+                        <h:outputText value="#{item.kontormk.pelnynumer}/#{item.kontormk.nazwapelna}"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="80">
                         <f:facet name="header">
                             <h:outputText value="data księgowania"/>
                         </f:facet>
