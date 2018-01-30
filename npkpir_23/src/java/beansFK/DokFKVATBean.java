@@ -239,7 +239,7 @@ public class DokFKVATBean {
             Konto kontoprzyporzadkowaneDoRodzajuDok = selected.getRodzajedok().getKontorozrachunkowe();
             Konto konto = null;
             for (Konto p : listakont) {
-                if (kontoprzyporzadkowaneDoRodzajuDok.equals(p)) {
+                if (kontoprzyporzadkowaneDoRodzajuDok.equals(p.getKontomacierzyste())) {
                     konto = p;
                     break;
                 }
