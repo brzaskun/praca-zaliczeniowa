@@ -187,6 +187,7 @@
                         <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
                         <p:separator/>
                         <p:menuitem value="zeruj saldo" icon="fa fa-eye" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="zeruj saldo pln" icon="fa fa-bullseye" actionListener="#{kontoZapisFKView.rozliczsaldopln()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                         <p:menuitem value="usuń dok ARS" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListyARS()}" update=":tabelazzapisami:tabela"/>
                     </p:contextMenu>
                     <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>

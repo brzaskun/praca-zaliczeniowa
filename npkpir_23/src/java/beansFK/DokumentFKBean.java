@@ -325,7 +325,8 @@ public class DokumentFKBean implements Serializable {
             ListaSum wierszsum = (ListaSum) z;
             if (wierszsum.getSaldoWn() > 0.0 || wierszsum.getSaldoMa() > 0.0) {
                 Wiersz w = new Wiersz(idporzadkowy++, 0);
-                uzupelnijwierszWaluta(w, nowydok, wierszsum.getTabelanbp());
+                Tabelanbp tabela = wierszsum.getTabelanbp() != null ? wierszsum.getTabelanbp() : nowydok.getTabelanbp();
+                uzupelnijwierszWaluta(w, nowydok, tabela);
                 String opiswiersza = "automatyczna korekta salda: " + sw.getKonto().getPelnynumer() + " na koniec " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()+" dla waluty "+wierszsum.getWaluta();
                 w.setOpisWiersza(opiswiersza);
                 double kwotaWal = pobierzkwotezsumyWal(wierszsum);
@@ -334,7 +335,7 @@ public class DokumentFKBean implements Serializable {
                     StronaWiersza strWn = new StronaWiersza(w, "Wn", kwotaWal, pko);
                     strWn.getCechazapisuLista().add(nkup);
                     StronaWiersza strMa = new StronaWiersza(w, "Ma", kwotaWal, kontodorozliczenia);
-                    if (wierszsum.getTabelanbp()==null) {
+                    if (wierszsum.getTabelanbp()==null && wierszsum.getWalutabo()!=null) {
                         strWn.setSymbolWalutyBO(wierszsum.getWalutabo().getSymbolwaluty());
                         strMa.setSymbolWalutyBO(wierszsum.getWalutabo().getSymbolwaluty());
                     }
@@ -343,7 +344,7 @@ public class DokumentFKBean implements Serializable {
                 } else if (wierszsum.getSaldoMa() > 0.0){
                     StronaWiersza strWn = new StronaWiersza(w, "Wn", kwotaWal, kontodorozliczenia);
                     StronaWiersza strMa = new StronaWiersza(w, "Ma", kwotaWal, ppo);
-                    if (wierszsum.getTabelanbp()==null) {
+                    if (wierszsum.getTabelanbp()==null && wierszsum.getWalutabo()!=null) {
                         strWn.setSymbolWalutyBO(wierszsum.getWalutabo().getSymbolwaluty());
                         strMa.setSymbolWalutyBO(wierszsum.getWalutabo().getSymbolwaluty());
                     }
