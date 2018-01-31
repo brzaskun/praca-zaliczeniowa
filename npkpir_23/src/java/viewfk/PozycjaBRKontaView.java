@@ -341,8 +341,8 @@ public class PozycjaBRKontaView implements Serializable {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, null, kontoDAO, wpisView.getPodatnikObiekt(), wnma, Integer.parseInt(wybranyuklad.getRok()));
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
-            if (konto.getMacierzysty() > 0) {
-                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
+            if (konto.getKontomacierzyste() != null) {
+                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getKontomacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
             }
         } else if (konto.getZwyklerozrachszczegolne().equals("szczególne")) {
             String wnma = "";
@@ -369,7 +369,7 @@ public class PozycjaBRKontaView implements Serializable {
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
             if (konto.getMacierzysty() > 0) {
-                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
+                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getKontomacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
             }
         } else if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
             przyporzadkowanekonta.remove(konto);
@@ -381,7 +381,7 @@ public class PozycjaBRKontaView implements Serializable {
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
             if (konto.getMacierzysty() > 0) {
-                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
+                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getKontomacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
             }
             
         } else {
@@ -433,7 +433,7 @@ public class PozycjaBRKontaView implements Serializable {
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
             if (konto.getMacierzysty() > 0) {
-                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
+                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getKontomacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
             }
         } else if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
             przyporzadkowanekonta.remove(konto);
@@ -445,7 +445,7 @@ public class PozycjaBRKontaView implements Serializable {
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
             if (konto.getMacierzysty() > 0) {
-                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
+                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getKontomacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
             }
             kontabezprzydzialu.add(konto);
             Collections.sort(kontabezprzydzialu, new Kontocomparator());

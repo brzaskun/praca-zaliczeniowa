@@ -1147,7 +1147,7 @@ public class PlanKontView implements Serializable {
     }
 
     private void oznaczbraksiostr(boolean sadzieci, Konto kontoDoUsuniecia, String klientWzor) {
-        Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
+        Konto kontomacierzyste = kontoDoUsuniecia.getKontomacierzyste();
         List<Konto> siostry = sprawdzczysasiostry(klientWzor, kontomacierzyste);
         if (siostry.size() < 1) {
             //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
@@ -1158,7 +1158,7 @@ public class PlanKontView implements Serializable {
     private void usunslownikowe(Konto kontoDoUsuniecia) {
         int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), wykazkont, kontopozycjaZapisDAO, wybranyuklad);
         if (wynik == 0) {
-            Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
+            Konto kontomacierzyste = kontoDoUsuniecia.getKontomacierzyste();
             kontomacierzyste.setBlokada(false);
             kontomacierzyste.setMapotomkow(false);
             kontomacierzyste.setIdslownika(0);
@@ -1206,7 +1206,7 @@ public class PlanKontView implements Serializable {
     }
 
     private void odznaczmacierzyste(boolean sadzieci, Konto kontomacierzyste, Konto kontoDoUsuniecia) {
-        if (sadzieci == false && !kontoDoUsuniecia.getMacierzyste().equals("0")) {
+        if (sadzieci == false && kontoDoUsuniecia.getKontomacierzyste()!=null) {
             kontomacierzyste.setBlokada(false);
             kontomacierzyste.setMapotomkow(false);
             kontoDAOfk.edit(kontomacierzyste);
@@ -1720,7 +1720,7 @@ public class PlanKontView implements Serializable {
             List<Konto> kontapodatnika = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
             for (Konto p : wykazkontwzor) {
-                if (p.getMacierzysty() == 0) {
+                if (p.getKontomacierzyste() == null) {
                     Konto r = pobierzkontopodatnika(kontapodatnika,p);
                     if (r != null) {
                         nanieswnmaImpl(r, p.getWnma0wm1ma2(), kontapodatnika);

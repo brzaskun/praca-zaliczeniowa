@@ -142,7 +142,7 @@ public class BilansPodgladView  implements Serializable{
         for (int i = level; i > -1 ; i--) {
             for (Konto p : listakont) {
                 if (p.getLevel()==i) {
-                    Konto macierzyste = znajdzmacierzysty(p.getMacierzysty(), listakont);
+                    Konto macierzyste = p.getKontomacierzyste();
                     if (macierzyste != null) {
                         macierzyste.setBoWn(macierzyste.getBoWn()+p.getBoWn());
                         macierzyste.setBoMa(macierzyste.getBoMa()+p.getBoMa());
@@ -185,15 +185,15 @@ public class BilansPodgladView  implements Serializable{
         }
     }
     
-    private Konto znajdzmacierzysty(int macierzysty, List<Konto> listakont) {
-        for (Konto p : listakont) {
-            if (p.getId() == macierzysty) {
-                return p;
-            }
-        }
-        return null;
-    }
-    
+//    private Konto znajdzmacierzysty(int macierzysty, List<Konto> listakont) {
+//        for (Konto p : listakont) {
+//            if (p.getId() == macierzysty) {
+//                return p;
+//            }
+//        }
+//        return null;
+//    }
+//    
         
     public void drukuj() {
         if (selectednodes != null && selectednodes.length > 0) {
@@ -263,7 +263,7 @@ public class BilansPodgladView  implements Serializable{
         double roznicawn = 0.0;
         double roznicama = 0.0;
         for (KontoBO p : w) {
-            if (p.getMacierzysty()==0) {
+            if (p.getKontomacierzyste() == null) {
                 wn += p.getBoWn();
                 ma += p.getBoMa();
                 wnrokpop += p.getSaldorokpopWn();

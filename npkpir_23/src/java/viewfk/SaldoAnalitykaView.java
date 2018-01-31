@@ -683,13 +683,13 @@ public class SaldoAnalitykaView implements Serializable {
     }
     
     private void obsluzmacierzyste(Konto p, double saldoWnksiegi, double saldoMaksiegi) {
-        Konto mac = kontoDAOfk.findKonto(p.getKontomacierzyste().getPelnynumer(), p.getPodatnik(), p.getRok());
+        Konto mac = p.getKontomacierzyste();
         if (mac != null) {
             mac.setSaldoWnksiegi(Z.z(mac.getSaldoWnksiegi()+saldoWnksiegi));
             mac.setSaldoMaksiegi(Z.z(mac.getSaldoMaksiegi()+saldoMaksiegi));
             mac.setZaksiegowane(true);
             kontoDAOfk.edit(mac);
-            if (mac.getMacierzysty() != 0) {
+            if (mac.getKontomacierzyste() != null) {
                 obsluzmacierzyste(mac, saldoWnksiegi, saldoMaksiegi);
             }
         }

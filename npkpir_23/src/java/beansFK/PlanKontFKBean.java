@@ -859,7 +859,7 @@ public class PlanKontFKBean {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, podatnik, wnmaPrzypisywanieKont, Integer.parseInt(uklad.getRok()));
             }
             //czesc nanoszaca informacje na macierzyste
-            if (konto.getMacierzysty() > 0) {
+            if (konto.getKontomacierzyste() != null) {
                 PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, podatnik, Integer.parseInt(uklad.getRok()), true);
             }
         } catch (Exception e) {
@@ -886,7 +886,7 @@ public class PlanKontFKBean {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, podatnik, "bilans", Integer.parseInt(uklad.getRok()));
             }
             //czesc nanoszaca informacje na macierzyste
-            if (konto.getMacierzysty() > 0) {
+            if (konto.getKontomacierzyste() != null) {
                 PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, podatnik, Integer.parseInt(uklad.getRok()), true);
             }
         } catch (Exception e) {
@@ -906,7 +906,7 @@ public class PlanKontFKBean {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, podatnik, "wynik", Integer.parseInt(uklad.getRok()));
             }
             //czesc nanoszaca informacje na macierzyste
-            if (konto.getMacierzysty() > 0) {
+            if (konto.getKontomacierzyste() != null) {
                 PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, podatnik, Integer.parseInt(uklad.getRok()), false);
             }
         } catch (Exception e) {
@@ -935,7 +935,7 @@ public class PlanKontFKBean {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, podatnik, wnmaPrzypisywanieKont, Integer.parseInt(uklad.getRok()));
             }
             //czesc nanoszaca informacje na macierzyste
-            if (konto.getMacierzysty() > 0) {
+            if (konto.getKontomacierzyste() != null) {
                 PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, podatnik, Integer.parseInt(uklad.getRok()), false);
             }
         } catch (Exception e) {

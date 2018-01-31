@@ -349,9 +349,9 @@ public class PozycjaRZiSFKBean {
         return null;
     }
 
-    public static void odznaczmacierzyste(String macierzyste, String kontoanalizowane, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok) {
+    public static void odznaczmacierzyste(Konto macierzyste, String kontoanalizowane, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok) {
         List<Konto> siostry = null;
-        siostry = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, macierzyste);
+        siostry = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, macierzyste.getPelnynumer());
         if (siostry.size() > 1) {
             boolean sainne = false;
             for (Konto p : siostry) {
@@ -361,11 +361,11 @@ public class PozycjaRZiSFKBean {
             }
             if (sainne == false) {
                 Konto konto = null;
-                konto = kontoDAO.findKonto(macierzyste, podatnik, rok);
+                konto = kontoDAO.findKonto(macierzyste.getPelnynumer(), podatnik, rok);
                 konto.setKontopozycjaID(null);
                 kontoDAO.edit(konto);
-                if (konto.getMacierzysty() > 0) {
-                    odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, podatnik, rok);
+                if (konto.getKontomacierzyste() != null) {
+                    odznaczmacierzyste(konto.getKontomacierzyste(), konto.getPelnynumer(), kontoDAO, podatnik, rok);
                 }
             }
         }
@@ -386,7 +386,7 @@ public class PozycjaRZiSFKBean {
             kp.setUkladBR(uklad);
             kontomacierzyste.setKontopozycjaID(kp);
             kontoDAO.edit(kontomacierzyste);
-            if (kontomacierzyste.getMacierzysty() > 0) {
+            if (kontomacierzyste.getKontomacierzyste() != null) {
                 oznaczmacierzyste(kontomacierzyste, uklad, kontoDAO, podatnik, rok, wynik0bilans1);
             }
         } else {
@@ -396,7 +396,7 @@ public class PozycjaRZiSFKBean {
             kp.setPozycjaWn(dziecko.getKontopozycjaID().getPozycjaWn());
             kp.setPozycjaMa(dziecko.getKontopozycjaID().getPozycjaMa());
             kontoDAO.edit(kontomacierzyste);
-            if (kontomacierzyste.getMacierzysty() > 0) {
+            if (kontomacierzyste.getKontomacierzyste() != null) {
                 oznaczmacierzyste(kontomacierzyste, uklad, kontoDAO, podatnik, rok, wynik0bilans1);
             }
         }

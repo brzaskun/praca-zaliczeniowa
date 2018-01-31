@@ -65,7 +65,7 @@ public class PlanKontUzupelnijView implements Serializable {
             for (Konto p : kontazrodlowe) {
                 if (!kontadocelowe.contains(p)) {
                     if (p.isSlownikowe() == false) {
-                        if (p.getMacierzysty() == 0) {
+                        if (p.getKontomacierzyste() == null) {
                             level0.add(p);
                         } else {
                             levelinne.add(p);
