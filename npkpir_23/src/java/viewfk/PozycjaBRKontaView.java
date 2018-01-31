@@ -550,40 +550,33 @@ public class PozycjaBRKontaView implements Serializable {
         if (rb.equals("r")) {
             List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladdocelowy, "wynikowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "wynikowe");
+            List<KontopozycjaZapis> nowezapispozycje = new ArrayList<>();
             for (KontopozycjaBiezaca p : pozycjebiezace) {
                 try {
                     if (p.isWynik0bilans1() == false) {
-                        kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+                        nowezapispozycje.add(new KontopozycjaZapis(p));
                     }
                 } catch (Exception e) {
                     // ma usuwac jak zmienie kwalifikacje przyporzadkowanego juz konta
                     E.e(e);
-                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID(), wybranyuklad);
-                    if (znajda != null) {
-                        kontopozycjaZapisDAO.destroy(znajda);
-                        kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
-                    }
                 }
             }
         }
         if (rb.equals("b")) {
             List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladdocelowy, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe");
+            List<KontopozycjaZapis> nowezapispozycje = new ArrayList<>();
             for (KontopozycjaBiezaca p : pozycjebiezace) {
                 try {
                     if (p.isWynik0bilans1() == true) {
-                        kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+                        nowezapispozycje.add(new KontopozycjaZapis(p));
                     }
                 } catch (Exception e) {
                     // ma usuwac jak zmienie kwalifikacje przyporzadkowanego juz konta
                     E.e(e);
-                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID(), wybranyuklad);
-                    if (znajda != null) {
-                        kontopozycjaZapisDAO.destroy(znajda);
-                        kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
-                    }
                 }
             }
+            kontopozycjaZapisDAO.editList(nowezapispozycje);
         }
         Msg.msg("Zapamiętano przyporządkowane pozycje");
     }
