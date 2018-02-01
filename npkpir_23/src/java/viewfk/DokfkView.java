@@ -2956,19 +2956,19 @@ public class DokfkView implements Serializable {
     }
     
     public void zaksiegujdokumenty() {
-        if (selectedlist == null || selectedlist.isEmpty()) {
+        if (wykazZaksiegowanychDokumentow == null || wykazZaksiegowanychDokumentow.isEmpty()) {
             Msg.msg("e", "Nie wybrano dokumentu do zaksięowania");
         } else {
             try {
-                for (Dokfk p : selectedlist) {
+                for (Dokfk p : wykazZaksiegowanychDokumentow) {
                     if (p.getDataksiegowania() == null) {
                         p.setDataksiegowania(new Date());
                     } else {
                         p.setDataksiegowania(null);
                     }
                 }
-                dokDAOfk.editList(selectedlist);
-                Msg.msg("Zaksięgowano dokumenty w liczbie: "+selectedlist.size());
+                dokDAOfk.editList(wykazZaksiegowanychDokumentow);
+                Msg.msg("Zaksięgowano dokumenty w liczbie: "+wykazZaksiegowanychDokumentow.size());
             } catch (Exception e) {
                 E.e(e);
                 Msg.msg("e", "Wystąpił błąd podczas księgowania dokumentów.");

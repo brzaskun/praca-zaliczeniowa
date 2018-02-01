@@ -231,7 +231,8 @@
                     <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o"
                                      actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
                                      styleClass="fkbutton" 
-                                      style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
+                                      style="width: 30px;"  onsuccess="PF('wpisywanie').show();"
+                                      rendered="#{item.dataksiegowania eq null and !WpisView.rokzamkniety}"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;">
                     <p:commandButton actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="fa fa-trash-o" 

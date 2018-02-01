@@ -95,6 +95,25 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         }
     }
     
+    public void obsluzPrzyporzadkowaneKontaRZiS(double kwota, Konto konto) {
+        if (przyporzadkowanekonta == null && kwota != 0.0) {
+            przyporzadkowanekonta = new ArrayList<>();
+        }
+        if (kwota != 0.0) {
+            boolean nowe = true;
+            for (KontoKwota p : przyporzadkowanekonta) {
+                if (p.getKonto().equals(konto)) {
+                    p.setKwota(p.getKwota()+kwota);
+                    nowe = false;
+                    break;
+                }
+            }
+            if (nowe) {
+                przyporzadkowanekonta.add(new KontoKwota(konto, kwota));
+            }
+        }
+    }
+    
     @Override
     public int getLevel() {
         return level;

@@ -310,6 +310,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         double kwotapierwotna = Z.z(pozycja.getKwota());
                         double donaniesienia = 0.0;
                         pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
+                        pozycja.obsluzPrzyporzadkowaneKontaRZiS(kwotaWn, stronaWiersza.getKonto());
                         if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
                             donaniesienia = kwotapierwotna+kwotaWn;
                         } else {
@@ -327,6 +328,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         double kwotapierwotna = Z.z(pozycja.getKwota());
                         double donaniesienia = 0.0;
                         pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
+                        pozycja.obsluzPrzyporzadkowaneKontaRZiS(kwotaMa, stronaWiersza.getKonto());
                         if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
                             donaniesienia = kwotapierwotna+kwotaMa;
                         } else {

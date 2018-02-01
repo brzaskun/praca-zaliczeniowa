@@ -8,6 +8,7 @@ package embeddablefk;
 
 import entityfk.Konto;
 import entityfk.PozycjaRZiS;
+import format.F;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -55,9 +56,9 @@ public class KontoKwota implements Serializable {
     }
 
     
-    @Override
+    
     public String toString() {
-        return konto.getPelnynumer() + " ";
+        return konto.getPelnynumer() + ": "+F.curr(kwota)+";";
     }
     
     
