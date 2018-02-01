@@ -343,7 +343,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         f.setPrzeniesionosaldo(true);
         selectOneUI.setValue(szukanyklient);
         fakturaRozrachunkiDAO.dodaj(f);
-        zestawieniezbiorcze();
         aktywnytab = 3;
         Msg.msg("Zaksięgowano w bo");
     }
@@ -369,7 +368,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         f.setNrdokumentu(nr);
         selectOneUI.setValue(szukanyklient);
         fakturaRozrachunkiDAO.dodaj(f);
-        zestawieniezbiorcze();
+        saldanierozliczone.remove(p);
         aktywnytab = 3;
     }
     
