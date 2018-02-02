@@ -97,51 +97,34 @@ public class JPK_VAT2View implements Serializable {
     public void przygotujXML() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentow();
-        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
-        Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpis1.class);
-        List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
-        JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];
-        Object[] zakup = utworzwierszjpkZakup(wiersze, EVatwpis1.class);
-        List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
-        JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
-        generujXML(listas, listaz, sprzedazCtrl, zakupCtrl, nowa0korekta1);
-        UPO upo = new UPO();
-        boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacjpk();
-        if (moznapodpisac) {
-            String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
-            Msg.msg(wiadomosc[0], wiadomosc[1]);
-            wiadomosc = zachowajUPO(upo);
-            Msg.msg(wiadomosc[0], wiadomosc[1]);
-            lista.add(upo);
-        } else {
-            Msg.msg("e", "Brak karty w czytniku. Nie można wysłać JPK");
-        }
+        Object[] zwrot = tworzwierszeJPK();
+        generujXML(zwrot, nowa0korekta1);
+        wysylkaJPK();
     }
     
     public void przygotujXMLPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentow();
-        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
-        Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpis1.class);
-        List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
-        JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];
-        Object[] zakup = utworzwierszjpkZakup(wiersze, EVatwpis1.class);
-        List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
-        JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
-        generujXMLPodglad(listas, listaz, sprzedazCtrl, zakupCtrl, nowa0korekta1);
+        Object[] zwrot = tworzwierszeJPK();
+        generujXMLPodglad(zwrot, nowa0korekta1);
     }
     
     public void przygotujXMLFK() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
-        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
-        Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpisFK.class);
-        List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
-        JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];
-        Object[] zakup = utworzwierszjpkZakup(wiersze, EVatwpisFK.class);
-        List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
-        JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
-        generujXML(listas, listaz, sprzedazCtrl, zakupCtrl, nowa0korekta1);
+        Object[] zwrot = tworzwierszeJPK();
+        generujXML(zwrot, nowa0korekta1);
+        wysylkaJPK();
+    }
+    
+    public void przygotujXMLFKPodglad() {
+        ewidencjaVatView.setPobierzmiesiacdlajpk(true);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
+        Object[] zwrot = tworzwierszeJPK();
+        generujXMLPodglad(zwrot, nowa0korekta1);
+    }
+    
+    private void wysylkaJPK() {
         UPO upo = new UPO();
         boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacjpk();
         if (moznapodpisac) {
@@ -154,17 +137,47 @@ public class JPK_VAT2View implements Serializable {
         }
     }
     
-    public void przygotujXMLFKPodglad() {
-        ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
+    private Object[] tworzwierszeJPK() {
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
-        Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze, EVatwpisFK.class);
+        Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze);
         List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
         JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];
-        Object[] zakup = utworzwierszjpkZakup(wiersze, EVatwpisFK.class);
+        Object[] zakup = utworzwierszjpkZakup(wiersze);
         List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
         JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
-        generujXMLPodglad(listas, listaz, sprzedazCtrl, zakupCtrl, nowa0korekta1);
+        Object[] zwrot = new Object[4];
+        zwrot[0] = listas;
+        zwrot[1] = listaz;
+        zwrot[2] = sprzedazCtrl;
+        zwrot[3] = zakupCtrl;
+        return zwrot;
+    }
+    
+    
+    private JPK genJPK(Object[] zwrot, boolean nowa0korekta1) {
+        List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) zwrot[0];
+        List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zwrot[1];
+        JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) zwrot[2];
+        JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zwrot[3];
+        JPK jpk = new JPK();
+        try {
+            jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
+            byte cel = nowa0korekta1 ? (byte) 2 : (byte) 1;
+            jpk.getNaglowek().setCelZlozenia(cel);
+            jpk.setPodmiot1(podmiot1(wpisView));
+            jpk.getSprzedazWiersz().addAll(listas);
+            if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
+                jpk.setSprzedazCtrl(sprzedazCtrl);
+            }
+            jpk.getZakupWiersz().addAll(listaz);
+            if (zakupCtrl.getLiczbaWierszyZakupow().intValue() > 0) {
+                jpk.setZakupCtrl(zakupCtrl);
+            }
+        } catch(Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
+            E.e(e);
+        }
+        return jpk;
     }
     
     public void pobierzUPO(UPO selected) {
@@ -200,21 +213,9 @@ public class JPK_VAT2View implements Serializable {
     }
     
     
-    public void generujXMLPodglad(List<JPK.SprzedazWiersz> listas, List<JPK.ZakupWiersz> listaz, JPK.SprzedazCtrl sprzedazCtrl, JPK.ZakupCtrl zakupCtrl, boolean nowa0korekta1) {
-        JPK jpk = new JPK();
+    public void generujXMLPodglad(Object[] zwrot, boolean nowa0korekta1) {
+        JPK jpk = genJPK(zwrot, nowa0korekta1);
         try {
-            jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
-            byte cel = nowa0korekta1 ? (byte) 2 : (byte) 1;
-            jpk.getNaglowek().setCelZlozenia(cel);
-            jpk.setPodmiot1(podmiot1(wpisView));
-            jpk.getSprzedazWiersz().addAll(listas);
-            if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
-                jpk.setSprzedazCtrl(sprzedazCtrl);
-            }
-            jpk.getZakupWiersz().addAll(listaz);
-            if (zakupCtrl.getLiczbaWierszyZakupow().intValue() > 0) {
-                jpk.setZakupCtrl(zakupCtrl);
-            }
             PdfUPO.drukujJPK(jpk, wpisView);
         } catch(Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
@@ -223,21 +224,9 @@ public class JPK_VAT2View implements Serializable {
     }
     
     
-    public void generujXML(List<JPK.SprzedazWiersz> listas, List<JPK.ZakupWiersz> listaz, JPK.SprzedazCtrl sprzedazCtrl, JPK.ZakupCtrl zakupCtrl, boolean nowa0korekta1) {
+    public void generujXML(Object[] zwrot, boolean nowa0korekta1) {
+        JPK jpk = genJPK(zwrot, nowa0korekta1);
         try {
-            jpk = new JPK();
-            jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
-            byte cel = nowa0korekta1 ? (byte) 2 : (byte) 1;
-            jpk.getNaglowek().setCelZlozenia(cel);
-            jpk.setPodmiot1(podmiot1(wpisView));
-            jpk.getSprzedazWiersz().addAll(listas);
-            if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
-                jpk.setSprzedazCtrl(sprzedazCtrl);
-            }
-            jpk.getZakupWiersz().addAll(listaz);
-            if (zakupCtrl.getLiczbaWierszyZakupow().intValue() > 0) {
-                jpk.setZakupCtrl(zakupCtrl);
-            }
             marszajuldoplikuxml(jpk);
             Msg.msg("Wygenerowano plik JPK");
         } catch(Exception e) {
@@ -282,8 +271,9 @@ public class JPK_VAT2View implements Serializable {
 //        }
 //}
 
-    private Object[] utworzWierszeJpkSprzedaz(List wiersze, Class c) {
+    private Object[] utworzWierszeJpkSprzedaz(List wiersze) {
         Object[] zwrot = new Object[2];
+        Class c = wiersze.get(0).getClass();
         List<JPK.SprzedazWiersz> lista = new ArrayList<>();
         JPK.SprzedazCtrl sprzedazCtrl = new JPK.SprzedazCtrl();
         sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
@@ -310,8 +300,9 @@ public class JPK_VAT2View implements Serializable {
         return zwrot;
     }
     
-    private Object[] utworzwierszjpkZakup(List wiersze, Class c) {
+    private Object[] utworzwierszjpkZakup(List wiersze) {
         Object[] zwrot = new Object[2];
+        Class c = wiersze.get(0).getClass();
         List<JPK.ZakupWiersz> lista = new ArrayList<>();
         JPK.ZakupCtrl zakupCtrl = new JPK.ZakupCtrl();
         zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
