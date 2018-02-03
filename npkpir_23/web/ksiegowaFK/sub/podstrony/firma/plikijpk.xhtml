@@ -26,6 +26,99 @@
                     <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLAll(item1, jPKListaView.jpkmoznarobic)}" update="@form" style="width: 120px;"/>
                 </p:column>
             </p:dataTable>
+            <p:dataTable value="#{jPKListaView.jpkzrobione}" var="item" rowIndexVar="index" id="tabela" style="width: 1450px; margin-top: 10px;"
+                         sortBy="#{item.podatnik.printnazwa}"
+                     selectionMode="single" rowKey="#{item.id}"
+                     emptyMessage="nie wysłano jeszcze plików jpk">
+            <p:ajax event="rowToggle" global="false"/>
+                <p:column style="width: 20px; text-align: center;">
+                    <p:rowToggler/>
+                </p:column>
+            <f:facet name="header">
+                <h:outputText value="Wysłane jpk"/>
+            </f:facet>
+            <p:column style="width: 20px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="lp"/>
+                </f:facet>
+                <h:outputText value="#{index+1}" />
+            </p:column>
+            <p:column style="width: 350px;" >
+                <f:facet name="header">
+                    <h:outputText value="podatnik"/>
+                </f:facet>
+                <h:outputText value="#{item.podatnik.printnazwa}"/>
+            </p:column>
+             <p:column style="width: 20px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="v"/>
+                </f:facet>
+                 <h:outputText value="#{item.getJpkWersja()}" />
+            </p:column>
+            <p:column style="width: 30px; text-align: center;" sortBy="#{item.miesiac}">
+                <f:facet name="header">
+                    <h:outputText value="mc"/>
+                </f:facet>
+                <h:outputText value="#{item.miesiac}"/>
+            </p:column>
+            <p:column style="width: 40px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="wynik"/>
+                </f:facet>
+                <h:outputText value="#{item.code}"/>
+            </p:column>
+            <p:column style="width: 150px;" >
+                <f:facet name="header">
+                    <h:outputText value="status"/>
+                </f:facet>
+                <h:outputText value="#{item.description}"/>
+            </p:column>
+            <p:column style="width: 120px; text-align: center;" >
+                <f:facet name="header">
+                    <h:outputText value="numer własny"/>
+                </f:facet>
+                <h:outputText value="#{item.referenceNumber}"/>
+            </p:column>
+            <p:column style="width: 90px; text-align: center;" >
+                <f:facet name="header">
+                    <h:outputText value="data przyjęcia"/>
+                </f:facet>
+                <h:outputText value="#{item.timestamp.substring(0,16)}">
+                </h:outputText>
+            </p:column>
+            <p:column style="width: 40px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="upo"/>
+                </f:facet>
+                <p:commandButton icon="fa fa-archive" actionListener="#{jPK_VAT2View.pobierzUPO(item)}" update="@form"/>
+            </p:column>
+             <p:column style="width: 40px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="print"/>
+                </f:facet>
+                 <p:commandButton icon="fa fa-print" actionListener="#{jPK_VAT2View.drukujUPO(item)}"  global="false"/>
+            </p:column>
+            <p:rowExpansion>
+                <p:dataTable value="#{item}" var="itemik">
+                        <p:column headerText="data jpk" width="80">
+                            <h:outputText value="#{itemik.datajpk}">
+                                <f:convertDateTime pattern="dd/MM/yyy HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="data upo" width="80">
+                            <h:outputText value="#{itemik.dataupo}">
+                                <f:convertDateTime pattern="dd/MM/yyy HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="sporządził" width="100">
+                            <h:outputText value="#{itemik.wprowadzil.imie} #{itemik.wprowadzil.nazw}"/>
+                        </p:column>
+                        <p:column headerText="upo">
+                            <h:outputText value="#{itemik.wprowadzil.potwierdzenie.toString()}"/>
+                        </p:column>
+                 </p:dataTable>
+            </p:rowExpansion>
+        </p:dataTable>
         </h:form>
         
 </ui:composition>

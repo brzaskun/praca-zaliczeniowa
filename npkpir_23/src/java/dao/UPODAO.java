@@ -45,6 +45,15 @@ public class UPODAO extends DAO implements Serializable{
             return null;
         }
     }
+    
+    public List<UPO> findUPORokMc(WpisView wpisView) {
+        try {
+            List<UPO> lista = sessionFacade.findUPORokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            return lista;
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
 
    
     

@@ -2123,6 +2123,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<UPO> findUPOPodatnikRok(Podatnik podatnikObiekt, String rokWpisuSt) {
         return em.createNamedQuery("UPO.findUPOPodatnikRok").setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikObiekt).getResultList();
     }
+    
+    public List<UPO> findUPORokMc(String rokWpisuSt, String miesiacWpisu) {
+        return em.createNamedQuery("UPO.findUPORokMc").setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
+    }
 
     public List<EVatwpis1> zwrocEVatwpis1KlientRokMc(Podatnik podatnikWpisu, String rokWpisuSt, String miesiacWpisu) {
         return em.createNamedQuery("EVatwpis1.findByRokMc").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
@@ -2139,6 +2143,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public String findEVatwpisFKPodatnikKlient(Podatnik podatnikObiekt, Klienci klient, String rok) {
         return ((EVatwpisFK) em.createNamedQuery("EVatwpisFK.findEVatwpisFKPodatnikKlient").setParameter("podatnik", podatnikObiekt).setParameter("klient", klient).setParameter("rok", rok).setMaxResults(1).getSingleResult()).getOpisvat();
     }
+
+    
 
     
 

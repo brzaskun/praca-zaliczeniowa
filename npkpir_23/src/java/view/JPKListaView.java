@@ -7,8 +7,10 @@ package view;
 
 import dao.DeklaracjevatDAO;
 import dao.PodatnikDAO;
+import dao.UPODAO;
 import entity.Deklaracjevat;
 import entity.Podatnik;
+import entity.UPO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,11 +39,15 @@ public class JPKListaView  implements Serializable {
     @Inject
     private PodatnikDAO podatnikDAO;
     private List<Podatnik> jpkmoznarobic;
+    @Inject
+    private UPODAO upodao;
+    private List<UPO> jpkzrobione;
     
     
     @PostConstruct
     public void init() {
         jpkmoznarobic = new ArrayList<>();
+        jpkzrobione = new ArrayList<>();
         List<Podatnik> podatnicy = podatnikDAO.findAll();
         List<Deklaracjevat> wyslaneVAT7 = deklaracjevatDAO.findDeklaracjeWyslane200RokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         Set<Podatnik> podatnikdowyslania = new HashSet<>();
@@ -49,6 +55,8 @@ public class JPKListaView  implements Serializable {
             podatnikdowyslania.add(znajdzpodanik(p.getPodatnik(), podatnicy));
         }
         jpkmoznarobic.addAll(podatnikdowyslania);
+        jpkzrobione.addAll(upodao.findUPORokMc(wpisView));
+        
     }
     
    private Podatnik znajdzpodanik(String podatnik, List<Podatnik> podatnicy) {
@@ -85,6 +93,14 @@ public class JPKListaView  implements Serializable {
 
     public void setJpkmoznarobic(List<Podatnik> jpkmoznarobic) {
         this.jpkmoznarobic = jpkmoznarobic;
+    }
+
+    public List<UPO> getJpkzrobione() {
+        return jpkzrobione;
+    }
+
+    public void setJpkzrobione(List<UPO> jpkzrobione) {
+        this.jpkzrobione = jpkzrobione;
     }
 
     
