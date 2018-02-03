@@ -38,11 +38,11 @@ public class MiejsceKosztow extends MiejsceSuper implements Serializable {
     public MiejsceKosztow() {
     }
 
-    public MiejsceKosztow(Integer id) {
+    public MiejsceKosztow(int id) {
         this.id = id;
     }
 
-    public MiejsceKosztow(Integer id, boolean aktywny, String opismiejsca) {
+    public MiejsceKosztow(int id, boolean aktywny, String opismiejsca) {
         this.id = id;
         this.aktywny = aktywny;
         this.opismiejsca = opismiejsca;
@@ -56,21 +56,26 @@ public class MiejsceKosztow extends MiejsceSuper implements Serializable {
 
    
 
-    @Override
+   @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 23 * hash + this.id;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MiejsceKosztow)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        MiejsceKosztow other = (MiejsceKosztow) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MiejsceKosztow other = (MiejsceKosztow) obj;
+        if (this.id != other.id) {
             return false;
         }
         return true;

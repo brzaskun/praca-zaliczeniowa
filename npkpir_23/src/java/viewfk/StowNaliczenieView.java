@@ -123,7 +123,6 @@ public class StowNaliczenieView  implements Serializable {
                 if (!mcpop.equals("12")) {
                     List<StowNaliczenie> naliczenia =  stowNaliczenieDAO.findByMcKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mcpop, wybranakategoria);
                     for (StowNaliczenie p : naliczenia) {
-                       p.setId(null);
                        p.setMc(wpisView.getMiesiacWpisu());
                        p.setDataksiegowania(null);
                     }

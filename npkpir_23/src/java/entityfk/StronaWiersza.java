@@ -88,7 +88,7 @@ public class StronaWiersza implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
     @ManyToOne
     @JoinColumn(name = "idwiersza", referencedColumnName = "idwiersza")
     private Wiersz wiersz;
@@ -274,14 +274,15 @@ public class StronaWiersza implements Serializable {
         this.kursBO = kursBO;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
+  
     public String getWnma() {
         return wnma;
     }
@@ -768,9 +769,9 @@ public class StronaWiersza implements Serializable {
 
     @Override
     public String toString() {
-        if (this.id != null) {
+        if (this.id != 0) {
             return "SW" + "id=" + id + ", konto=" + konto.getPelnynumer() + "," + " "+this.getRokMc()+" "+ wnma + ", wiersz=" + wiersz.getIdporzadkowy() + ", kwota=" + kwota+ ", kwotapln=" + kwotaPLN + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo+ "wal: "+ this.getSymbolWalutBOiSW() + ", nowatransakcja=" + typStronaWiersza + '}';
-        } else if (this.id == null && this.konto != null) {
+        } else if (this.id != 0 && this.konto != null) {
             return "SW" + "id=null," + wnma + ", konto= " + konto.getPelnynumer() + ", wiersz= " + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
         } else {
             return "SW" + "id=null," + wnma + ", wiersz= " + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';

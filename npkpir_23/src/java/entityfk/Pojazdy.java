@@ -46,7 +46,7 @@ public class Pojazdy implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "aktywny", nullable = false)
@@ -95,13 +95,15 @@ public class Pojazdy implements Serializable {
         this.rok = rok;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
+
+   
 
     public boolean getAktywny() {
         return aktywny;
@@ -163,19 +165,24 @@ public class Pojazdy implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 23 * hash + this.id;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Pojazdy)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Pojazdy other = (Pojazdy) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pojazdy other = (Pojazdy) obj;
+        if (this.id != other.id) {
             return false;
         }
         return true;

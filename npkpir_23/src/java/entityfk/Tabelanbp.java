@@ -54,7 +54,7 @@ public class Tabelanbp implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idtabelanbp", nullable = false)
-    private Integer idtabelanbp;
+    private int idtabelanbp;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
@@ -97,14 +97,14 @@ public class Tabelanbp implements Serializable {
         this.kurssredni = kurs;
     }
 
-    
-    public Integer getIdtabelanbp() {
+    public int getIdtabelanbp() {
         return idtabelanbp;
     }
 
-    public void setIdtabelanbp(Integer idtabelanbp) {
+    public void setIdtabelanbp(int idtabelanbp) {
         this.idtabelanbp = idtabelanbp;
     }
+
 
     public String getNrtabeli() {
         return nrtabeli;

@@ -30,7 +30,7 @@ public class RodzajCzlonkostwaConv  implements javax.faces.convert.Converter{
                 String skrot = submittedValue;  
                   for (RodzajCzlonkostwa p : kl) {
                     Integer w = Integer.parseInt(submittedValue);
-                    if (p.getId().equals(w)) {  
+                    if (p.getId() == w) {  
                         return p;  
                     }  
                 }  

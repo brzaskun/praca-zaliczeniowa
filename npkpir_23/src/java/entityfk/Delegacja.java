@@ -47,7 +47,7 @@ public class Delegacja implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "aktywny", nullable = false)
@@ -94,14 +94,7 @@ public class Delegacja implements Serializable {
         this.nrkonta = numer;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
+    
     public boolean getAktywny() {
         return aktywny;
     }
@@ -157,30 +150,46 @@ public class Delegacja implements Serializable {
     public void setKrajowa0zagraniczna1(boolean krajowa0zagraniczna1) {
         this.krajowa0zagraniczna1 = krajowa0zagraniczna1;
     }
-    
-    
-    
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
+    
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 23 * hash + this.id;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Delegacja)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Delegacja other = (Delegacja) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Delegacja other = (Delegacja) obj;
+        if (this.id != other.id) {
             return false;
         }
         return true;
     }
+    
+     
+    
 
+    
     @Override
     public String toString() {
         return opisdlugi;

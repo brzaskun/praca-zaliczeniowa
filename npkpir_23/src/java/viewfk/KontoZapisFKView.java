@@ -802,6 +802,10 @@ public class KontoZapisFKView implements Serializable{
     public void rozliczsaldo() {
         if (kontozapisy != null && kontozapisy.size() > 0) {
             Map<String, ListaSum> listasum = sumujzapisy();
+            if (wpisView.getMiesiacWpisu().equals("CR")) {
+                wpisView.setMiesiacWpisu("12");
+                wpisView.aktualizuj();
+            }
             Dokfk nowydok = DokumentFKBean.generujdokumentAutomRozrach(wpisView, klienciDAO, "ARS", "automatyczne rozliczenie salda konta", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, listasum, dokDAOfk, cechazapisuDAOfk);
             dokDAOfk.dodaj(nowydok);
             dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);

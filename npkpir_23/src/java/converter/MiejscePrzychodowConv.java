@@ -6,13 +6,11 @@
 package converter;
 
 import entityfk.MiejscePrzychodow;
-import entityfk.RodzajCzlonkostwa;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import viewfk.RodzajeCzlonkostwaView;
 import viewfk.StowRozrachCzlonkView;
 
 /**
@@ -29,10 +27,9 @@ public class MiejscePrzychodowConv  implements javax.faces.convert.Converter{
             return null;  
         } else {  
             try {  
-                String skrot = submittedValue;  
                   for (MiejscePrzychodow p : kl) {
-                    Integer w = Integer.parseInt(submittedValue);
-                    if (p.getId().equals(w)) {  
+                    int w = Integer.parseInt(submittedValue);
+                    if (p.getId() == w) {  
                         return p;  
                     }  
                 }  

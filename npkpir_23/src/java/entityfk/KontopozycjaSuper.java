@@ -26,7 +26,7 @@ public class KontopozycjaSuper implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idKP", nullable = false)
-    protected Integer idKP;
+    protected int idKP;
     @Size(max = 255)
     @Column(length = 255, name = "pozycjaWn")
     protected String pozycjaWn;
