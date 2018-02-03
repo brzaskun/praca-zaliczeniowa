@@ -385,7 +385,7 @@ public class Data implements Serializable {
                 dzien = "28";
             }
         } else {
-            if (mc.equals("07")) {
+            if (mc.equals("07") || mc.equals("12")) {
                 dzien = "31";
             } else if (mod==0) {
                 dzien = "30";

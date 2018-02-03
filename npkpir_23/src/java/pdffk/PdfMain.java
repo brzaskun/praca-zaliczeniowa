@@ -1590,13 +1590,13 @@ public class PdfMain {
                 int levelPlus = p.getLevel() + 1;
                 if (p.getLevel() != 0) {
                     for (int j = 0; j < p.getLevel(); j++) {
-                        table.addCell(ustawfrazeAlign("", "l", 7));
+                        table.addCell(ustawfrazeAlign("", "l", 8));
                     }
                 }
-                table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 8));
                 if (p.getLevel() < maxlevel) {
                     for (int k = levelPlus; k <= maxlevel; k++) {
-                        table.addCell(ustawfrazeAlign("", "l", 7));
+                        table.addCell(ustawfrazeAlign("", "l", 8));
                     }
                 }
                 if (p.getLevel() == 0) {
@@ -1607,23 +1607,23 @@ public class PdfMain {
                     }
                 } else {
                     if (l.equals("pl")) {
-                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
+                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
                     }
                 }
                 if (modyfikator == 3) {
                     if (p.getKwotabo()!= 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 7));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "right", 7));
+                        table.addCell(ustawfrazeAlign("", "right", 8));
                     }
                 }
                 if (modyfikator != 2) {
                     if (p.getKwota() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "right", 7));
+                        table.addCell(ustawfrazeAlign("", "right", 8));
                     }
                 }
                 if (modyfikator != 0 && modyfikator != 3) {
@@ -1648,7 +1648,7 @@ public class PdfMain {
                     }
                 }
                 pozycja.append(p.getPozycjaSymbol());
-                table.addCell(ustawfrazeAlign(pozycja.toString(), "left", 7));
+                table.addCell(ustawfrazeAlign(pozycja.toString(), "left", 8));
                 if (p.getLevel() == 0) {
                     if (l.equals("pl")) {
                         table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
@@ -1663,9 +1663,9 @@ public class PdfMain {
                     }
                 } else {
                     if (l.equals("pl")) {
-                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
+                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
                     }
                 }
                 if (modyfikator == 5) {
