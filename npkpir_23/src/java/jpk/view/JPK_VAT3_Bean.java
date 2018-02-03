@@ -7,6 +7,7 @@ package jpk.view;
 
 import entity.EVatwpis1;
 import entity.Evewidencja;
+import entity.Podatnik;
 import entityfk.EVatwpisFK;
 import error.E;
 import java.lang.reflect.Method;
@@ -25,7 +26,6 @@ import jpk201801.JPK;
 import jpk201801.JPK.Podmiot1;
 import jpk201801.TKodFormularza;
 import jpk201801.TNaglowek;
-import view.WpisView;
 
 
 /**
@@ -99,10 +99,10 @@ public class JPK_VAT3_Bean {
         return DatatypeFactory.newInstance().newXMLGregorianCalendar(f.format(data));
     }
 
-    public static Podmiot1 podmiot1(WpisView wv) {
+    public static Podmiot1 podmiot1(Podatnik wv) {
         Podmiot1 p = new Podmiot1();
-        p.setNIP(wv.getPodatnikObiekt().getNip());
-        p.setPelnaNazwa(wv.getPodatnikObiekt().getNazwapelna());
+        p.setNIP(wv.getNip());
+        p.setPelnaNazwa(wv.getNazwapelna());
         p.setEmail("us@taxman.biz.pl");
         return p;
     }

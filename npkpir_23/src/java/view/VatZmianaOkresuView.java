@@ -5,6 +5,7 @@
  */
 package view;
 
+import entity.Podatnik;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -24,8 +25,8 @@ public class VatZmianaOkresuView implements Serializable {
     @ManagedProperty(value = "#{kontaVatFKView}")
     private KontaVatFKView kontaVatFKView;
     
-    public void aktualizujpozmianiedaty() {
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
+    public void aktualizujpozmianiedaty(Podatnik podatnik) {
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik);
         kontaVatFKView.init();
     }
 

@@ -12,6 +12,7 @@ import comparator.JPK3SprzedazWierszcomparator;
 import comparator.JPK3ZakupWierszcomparator;
 import embeddable.TKodUS;
 import entity.JPKSuper;
+import entity.Podatnik;
 import entity.UPO;
 import entity.Uz;
 import format.F;
@@ -184,15 +185,15 @@ public class PdfUPO extends Pdf implements Serializable {
         }
     }
    
-   public static void drukujJPK2(JPKSuper jpk, WpisView wpisView) {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"JPK";
+   public static void drukujJPK2(JPKSuper jpk, WpisView wpisView, Podatnik podatnik) {
+        String nazwa = podatnik.getNip()+"JPK";
         if (jpk != null) {
             Uz uz = wpisView.getWprowadzil();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Plik JPK zestawienie", wpisView.getPodatnikObiekt(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Plik JPK zestawienie", podatnik,wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             List<jpk201701.JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK2SprzedazWierszcomparator());
             dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz),100, 0);
@@ -221,15 +222,15 @@ public class PdfUPO extends Pdf implements Serializable {
         }
     }
    
-   public static void drukujJPK3(JPKSuper jpk, WpisView wpisView) {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"JPK";
+   public static void drukujJPK3(JPKSuper jpk, WpisView wpisView, Podatnik podatnik) {
+        String nazwa = podatnik.getNip()+"JPK";
         if (jpk != null) {
             Uz uz = wpisView.getWprowadzil();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Plik JPK zestawienie", wpisView.getPodatnikObiekt(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Plik JPK zestawienie", podatnik,wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             List<jpk201801.JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK3SprzedazWierszcomparator());
             dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz),100, 0);

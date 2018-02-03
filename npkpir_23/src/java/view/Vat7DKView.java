@@ -193,12 +193,12 @@ public class Vat7DKView implements Serializable {
 //    }
     
     public void obliczNowaPkpir() {
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow();
+        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         mapaewidencji =  ewidencjaVatView.getSumaewidencji();
         obliczNowa();
     }
     public void obliczNowaFK() {
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt());
         mapaewidencji =  ewidencjaVatView.getSumaewidencji();
         obliczNowa();
     }

@@ -30,7 +30,6 @@ import jpk201701.TIdentyfikatorOsobyNiefizycznej;
 import jpk201701.TKodFormularza;
 import jpk201701.TKodKraju;
 import jpk201701.TNaglowek;
-import view.WpisView;
 
 
 /**
@@ -105,10 +104,10 @@ public class JPK_VAT2_Bean {
         return DatatypeFactory.newInstance().newXMLGregorianCalendar(f.format(data));
     }
 
-    public static Podmiot1 podmiot1(WpisView wv) {
+    public static Podmiot1 podmiot1(Podatnik podatnik) {
         Podmiot1 p = new Podmiot1();
-        p.setIdentyfikatorPodmiotu(indetyfikator(wv.getPodatnikObiekt()));
-        p.setAdresPodmiotu(adrespodmiotu(wv.getPodatnikObiekt()));
+        p.setIdentyfikatorPodmiotu(indetyfikator(podatnik));
+        p.setAdresPodmiotu(adrespodmiotu(podatnik));
         return p;
     }
     

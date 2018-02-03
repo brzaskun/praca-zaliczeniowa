@@ -20,6 +20,7 @@ import entity.Dok;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
+import entity.Podatnik;
 import entity.Wpis;
 import entityfk.EVatwpisFK;
 import error.E;
@@ -141,7 +142,7 @@ public class EwidencjaVatView implements Serializable {
     public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
         aktualizuj();
         init();
-        stworzenieEwidencjiZDokumentow();
+        stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
     }
     
@@ -174,7 +175,7 @@ public class EwidencjaVatView implements Serializable {
         listaprzesunietychKoszty = new ArrayList<>();
     }
 
-    public void stworzenieEwidencjiZDokumentow() {
+    public void stworzenieEwidencjiZDokumentow(Podatnik podatnik) {
         try {
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
             zerujListy();
@@ -182,7 +183,7 @@ public class EwidencjaVatView implements Serializable {
             if (pobierzmiesiacdlajpk) {
                 vatokres = 1;
             }
-            pobierzEVATwpis1zaOkres(vatokres);
+            pobierzEVATwpis1zaOkres(podatnik, vatokres);
             przejrzyjEVatwpis1Lista();
             stworzenieEwidencjiCzescWspolna();
             for (String k : listaewidencji.keySet()) {
@@ -202,7 +203,7 @@ public class EwidencjaVatView implements Serializable {
     }
 
   
-    public void stworzenieEwidencjiZDokumentowFK() {
+    public void stworzenieEwidencjiZDokumentowFK(Podatnik podatnik) {
         try {
             listadokvatprzetworzona = new ArrayList<>();
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
@@ -346,13 +347,13 @@ public class EwidencjaVatView implements Serializable {
         }
     }
     
-    private void pobierzEVATwpis1zaOkres(int vatokres) {
+    private void pobierzEVATwpis1zaOkres(Podatnik podatnik, int vatokres) {
         try {
             listadokvatprzetworzona = new ArrayList<>();
             if (vatokres==1) {
-                listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(podatnik, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             } else {
-                listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokKW(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokKW(podatnik, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             }
             Collections.sort(listadokvatprzetworzona, new EVatwpisSupercomparator());
         } catch (Exception e) { 

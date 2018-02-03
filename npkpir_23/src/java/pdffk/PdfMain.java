@@ -425,7 +425,7 @@ public class PdfMain {
             StringBuilder s = new StringBuilder();
             s.append(podatnik.getFirmaForma());
             s.append(" ");
-            s.append(podatnik.getNazwapelnaPDF());
+            s.append(podatnik.getPrintnazwa());
             s.append(" NIP ");
             s.append(podatnik.getNip());
             Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));

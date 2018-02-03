@@ -12,6 +12,7 @@ import embeddable.TKodUS;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
 import entity.JPKSuper;
+import entity.Podatnik;
 import entity.UPO;
 import entityfk.EVatwpisFK;
 import error.E;
@@ -92,33 +93,60 @@ public class JPK_VAT2View implements Serializable {
         }
     }
     
+        
+    
     public void przygotujXML() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow();
-        generujXML(nowa0korekta1);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+        generujXML(wpisView.getPodatnikObiekt(), nowa0korekta1);
         wysylkaJPK();
+    }
+    
+     public void przygotujXMLAll(Podatnik podatnik,  List<Podatnik> dowyslania) {
+        ewidencjaVatView.setPobierzmiesiacdlajpk(true);
+        if (podatnik.getFormaPrawna()==null) {
+            ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik);
+        } else {
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik);
+        }
+        generujXML(podatnik, nowa0korekta1);
+        boolean udane = wysylkaJPK();
+        if (udane) {
+            dowyslania.remove(podatnik);
+        }
     }
     
     public void przygotujXMLPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow();
-        generujXMLPodglad(nowa0korekta1);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+        generujXMLPodglad(wpisView.getPodatnikObiekt(), nowa0korekta1);
+    }
+    
+    public void przygotujXMLPodgladAll(Podatnik podatnik) {
+        ewidencjaVatView.setPobierzmiesiacdlajpk(true);
+        if (podatnik.getFormaPrawna()==null) {
+            ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik);
+        } else {
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik);
+        }
+        generujXMLPodglad(podatnik, nowa0korekta1);
     }
     
     public void przygotujXMLFK() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
-        generujXML(nowa0korekta1);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt());
+        generujXML(wpisView.getPodatnikObiekt(), nowa0korekta1);
         wysylkaJPK();
     }
     
     public void przygotujXMLFKPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
-        generujXMLPodglad(nowa0korekta1);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt());
+        generujXMLPodglad(wpisView.getPodatnikObiekt(), nowa0korekta1);
     }
     
-    private void wysylkaJPK() {
+    private boolean wysylkaJPK() {
+        boolean udane = false;
         UPO upo = new UPO();
         boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacjpk();
         if (moznapodpisac) {
@@ -126,14 +154,18 @@ public class JPK_VAT2View implements Serializable {
             wiadomosc = zachowajUPO(upo);
             Msg.msg(wiadomosc[0], wiadomosc[1]);
             lista.add(upo);
+            if (upo != null && upo.getCode()==120) {
+                udane = true;
+            }
             } else {
             Msg.msg("e", "Brak karty w czytniku. Nie można wysłać JPK");
         }
+        return udane;
     }
     
       
     
-    private JPKSuper genJPK(boolean nowa0korekta1) {
+    private JPKSuper genJPK(Podatnik podatnik, boolean nowa0korekta1) {
         JPKSuper zwrot = null;
         try {
             if (wpisView.getRokWpisu()>2017) {
@@ -148,7 +180,7 @@ public class JPK_VAT2View implements Serializable {
                 jpk.setNaglowek(JPK_VAT3_Bean.naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView)));
                 int cel = nowa0korekta1 ? 1 : 0;
                 jpk.getNaglowek().setCelZlozenia(cel);
-                jpk.setPodmiot1(JPK_VAT3_Bean.podmiot1(wpisView));
+                jpk.setPodmiot1(JPK_VAT3_Bean.podmiot1(podatnik));
                 jpk.getSprzedazWiersz().addAll(listas);
                 if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
                     jpk.setSprzedazCtrl(sprzedazCtrl);
@@ -170,7 +202,7 @@ public class JPK_VAT2View implements Serializable {
                 jpk.setNaglowek(JPK_VAT2_Bean.naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
                 byte cel = nowa0korekta1 ? (byte) 2 : (byte) 1;
                 jpk.getNaglowek().setCelZlozenia(cel);
-                jpk.setPodmiot1(JPK_VAT2_Bean.podmiot1(wpisView));
+                jpk.setPodmiot1(JPK_VAT2_Bean.podmiot1(podatnik));
                 jpk.getSprzedazWiersz().addAll(listas);
                 if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
                     jpk.setSprzedazCtrl(sprzedazCtrl);
@@ -230,13 +262,13 @@ public class JPK_VAT2View implements Serializable {
     }
     
     
-    public void generujXMLPodglad(boolean nowa0korekta1) {
-        JPKSuper jpk = genJPK(nowa0korekta1);
+    public void generujXMLPodglad(Podatnik podatnik, boolean nowa0korekta1) {
+        JPKSuper jpk = genJPK(podatnik, nowa0korekta1);
         try {
             if (wpisView.getRokWpisu() > 2017) {
-                PdfUPO.drukujJPK3(jpk, wpisView);
+                PdfUPO.drukujJPK3(jpk, wpisView, podatnik);
             } else {
-                PdfUPO.drukujJPK2(jpk, wpisView);
+                PdfUPO.drukujJPK2(jpk, wpisView, podatnik);
             }
         } catch(Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
@@ -245,10 +277,10 @@ public class JPK_VAT2View implements Serializable {
     }
     
     
-    public void generujXML(boolean nowa0korekta1) {
-        JPKSuper jpk = genJPK(nowa0korekta1);
+    public void generujXML(Podatnik podatnik, boolean nowa0korekta1) {
+        JPKSuper jpk = genJPK(podatnik, nowa0korekta1);
         try {
-            marszajuldoplikuxml(jpk);
+            marszajuldoplikuxml(podatnik, jpk);
             Msg.msg("Wygenerowano plik JPK");
         } catch(Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
@@ -256,14 +288,14 @@ public class JPK_VAT2View implements Serializable {
         }
     }
     
-    private void marszajuldoplikuxml(JPKSuper jpk) {
+    private void marszajuldoplikuxml(Podatnik podatnik, JPKSuper jpk) {
         try {
             JAXBContext context = JAXBContext.newInstance(jpk.getClass());
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.marshal(jpk, System.out);
-            String mainfilename = "jpk"+wpisView.getPodatnikObiekt().getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+            String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String realPath = ctx.getRealPath("/")+"resources\\xml\\";
             FileOutputStream fileStream = new FileOutputStream(new File(realPath+mainfilename));
