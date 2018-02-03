@@ -7,11 +7,11 @@
 
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialogrmkdok" header="Zestawienie dla dokumentów RMK - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogrmkdok"  
-              resizable="false"  onShow="ustawdialog('dialogrmkdok','menurmk',1350,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmkdok');" >
+              resizable="false"  onShow="ustawdialog('dialogrmkdok','menurmk',1410,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmkdok');" >
         <bcf:ajaxs/>
         <h:form id="formrmk">
             <p:outputPanel style="margin-top: 10px">
-                <p:dataTable value="#{rMKDokView.kontarmk}" var="item" style="width: 90%;" id="saldokontasrodkitrw" emptyMessage="Brak kont rmk">
+                <p:dataTable value="#{rMKDokView.kontarmk}" var="item" style="width: 750px;" id="saldokontasrodkitrw" emptyMessage="Brak kont rmk">
                     <p:ajax event="rowToggle" global="false"/>
                     <p:column style="text-align: center;" width="10">
                         <p:rowToggler/>
@@ -131,6 +131,12 @@
                             <h:outputText value="rok/mc kosztu"/>
                         </f:facet>
                         <h:outputText value="#{item.rokkosztu}/#{item.mckosztu}"/>
+                    </p:column>
+                     <p:column width="60" style="text-align: center;" >
+                        <f:facet name="header" >
+                            <h:outputText value="% kup"/>
+                        </f:facet>
+                         <h:outputText value="#{item.procentkosztpodatkowy}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">

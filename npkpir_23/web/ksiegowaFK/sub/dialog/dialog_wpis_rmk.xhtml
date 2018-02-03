@@ -13,27 +13,30 @@
         }
     </style>
     <p:dialog id="dialogwpisrmk" header="Wpisywanie nowej pozycji RMK" widgetVar="dialogwpisrmk"  modal="true" appendTo="@(body)"
-              resizable="false"  onShow="ustawdialog('dialogwpisrmk','dialogtrzeci',1200,300);" 
+              resizable="false"  onShow="ustawdialog('dialogwpisrmk','dialogtrzeci',1250,300);" 
               closeOnEscape="true" onHide="resetujdialog('dialogwpisrmk');" >
         <h:form id="formrmk">
             
-                <p:dataTable id="tabelarmkwprowadzanie" value="#{rMKView.rmk}" var="loop"> 
+                <p:dataTable id="tabelarmkwprowadzanie" value="#{rMKView.rmk}" var="looprmk"> 
                     <p:column headerText="opis wydatku" style="text-align: center; height: 30px;" width="200">
-                        <p:inputText id="opiswydatku" value="#{loop.opiskosztu}" style="width: 260px;"/>
+                        <p:inputText id="opiswydatku" value="#{looprmk.opiskosztu}" style="width: 260px;"/>
                     </p:column>
                     <p:column headerText="data ksiegowania" width="70" style="text-align: center;">
-                        <p:inputText id="dataksiegowania" value="#{loop.dataksiegowania}"  placeholder="rrrr-mm-dd" size="10"
+                        <p:inputText id="dataksiegowania" value="#{looprmk.dataksiegowania}"  placeholder="rrrr-mm-dd" size="10"
                                      onblur="weryfikujsporzadzfakture(this);" style="text-align: center;"/>
                     </p:column>
                     <p:column headerText="kwota kosztu" width="100"  style="text-align: center;">
-                        <pe:inputNumber value="#{loop.kwotacalkowita}" symbol=" zł" required="true" 
+                        <pe:inputNumber value="#{looprmk.kwotacalkowita}" symbol=" zł" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column headerText="liczba miesięcy" width="70" style="text-align: center;">
-                        <p:inputText value="#{loop.liczbamiesiecy}" style="text-align: center;" size="3"/>
+                        <p:inputText value="#{looprmk.liczbamiesiecy}" style="text-align: center;" size="3"/>
+                    </p:column>
+                     <p:column headerText="% kosztów podatkowych" width="60" style="text-align: center;">
+                         <pe:inputNumber decimalPlaces="2" decimalSeparator="." maxValue="100" maxlength="5" minValue="0" value="#{looprmk.procentkosztpodatkowy}"/>
                     </p:column>
                     <p:column headerText="konto kosztowe" width="200" style="text-align: center;">
-                        <h:selectOneMenu value="#{loop.kontokosztowe}" converter="#{kontoConv}"
+                        <h:selectOneMenu value="#{looprmk.kontokosztowe}" converter="#{kontoConv}"
                                          onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -41,11 +44,11 @@
                                              $(this).addClass('ui-state-focus');" style="width: 200px;"
                                          >
                             <f:selectItem itemLabel="wybierz konto" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{rMKView.listakontkosztowych}" var="loop" itemValue="#{loop}" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                            <f:selectItems value="#{rMKView.listakontkosztowych}" var="loop2" itemValue="#{loop2}" itemLabel="#{loop2.pelnynumer} #{loop2.nazwapelna}"/>
                         </h:selectOneMenu>
                     </p:column>
                     <p:column headerText="konto rmk" width="200" style="text-align: center;">
-                        <h:selectOneMenu value="#{loop.kontormk}" converter="#{kontoConv}"
+                        <h:selectOneMenu value="#{looprmk.kontormk}" converter="#{kontoConv}"
                                          onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"

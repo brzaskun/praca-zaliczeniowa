@@ -10,6 +10,7 @@ import comparator.Kontocomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
+import daoFK.CechazapisuDAOfk;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.RMKDAO;
@@ -19,6 +20,7 @@ import data.Data;
 import embeddable.Mce;
 import entity.Klienci;
 import entity.Rodzajedok;
+import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.RMK;
@@ -78,6 +80,8 @@ public class RMKView  implements Serializable {
     @Inject
     private RMKDAO rmkdao;
     private double sumarmk;
+    @Inject
+    private CechazapisuDAOfk cechazapisuDAOfk;
 
     public RMKView() {
         this.listakontkosztowych = new ArrayList<>();
@@ -197,7 +201,8 @@ public class RMKView  implements Serializable {
         try {
             dokDAOfk.dodaj(dokumentRMK);
             Msg.msg("Zaksięgowano dokument RMK");
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {  
+            E.e(e);
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu RMK");
         }
     }
@@ -278,16 +283,28 @@ public class RMKView  implements Serializable {
             if (p.isRozliczony() == false) {
                 Wiersz w = new Wiersz(idporzadkowy++, 0);
                 uzupelnijwiersz(w, nd);
-                String opiswiersza = "odpis amortyzacyjny dla: "+p.getOpiskosztu(); 
+                String opiswiersza = "odpis rmk dla: "+p.getOpiskosztu(); 
                 w.setOpisWiersza(opiswiersza);
                 Konto kontokoszt = kontoDAO.findKonto(p.getKontokosztowe().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 Konto kontoRMK = kontoDAO.findKonto(p.getKontormk().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 double kwota = wyliczkwotedopobrania(p);
+                double kwotankup = wyliczkwotedopobraniankup(p);
                 StronaWiersza kosztrmk = new StronaWiersza(w, "Wn", kwota, kontokoszt);
-                StronaWiersza emk = new StronaWiersza(w, "Ma", kwota, kontoRMK);
+                StronaWiersza emk = new StronaWiersza(w, "Ma", Z.z(kwota+kwotankup), kontoRMK);
                 w.setStronaWn(kosztrmk);
                 w.setStronaMa(emk);
                 nd.getListawierszy().add(w);
+                if (kwotankup > 0.0) {
+                    Cechazapisu nkup = cechazapisuDAOfk.findPodatniknkup();
+                    w = new Wiersz(idporzadkowy++, 1);
+                    uzupelnijwiersz(w, nd);
+                    opiswiersza = "odpis NKUP rmk dla: "+p.getOpiskosztu(); 
+                    w.setOpisWiersza(opiswiersza);
+                    kosztrmk = new StronaWiersza(w, "Wn", kwotankup, kontokoszt);
+                    kosztrmk.getCechazapisuLista().add(nkup);
+                    w.setStronaWn(kosztrmk);
+                    nd.getListawierszy().add(w);
+                }
             }
         }
     }
@@ -302,7 +319,6 @@ public class RMKView  implements Serializable {
     }
      
     private double wyliczkwotedopobrania(RMK p) {
-        String rok;
         int odelgloscwmcach = Mce.odlegloscMcy(p.getMckosztu(), p.getRokkosztu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
         double kwota = 0.0;
         try {
@@ -315,9 +331,30 @@ public class RMKView  implements Serializable {
             E.e(e);
             p.setRozliczony(true);
         }
+        if (p.getProcentkosztpodatkowy() != 100.0) {
+            kwota = Z.z(kwota*p.getProcentkosztpodatkowy()/100);
+        }
         return kwota;
     }
-     
+    
+    private double wyliczkwotedopobraniankup(RMK p) {
+        int odelgloscwmcach = Mce.odlegloscMcy(p.getMckosztu(), p.getRokkosztu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        double kwota = 0.0;
+        try {
+           kwota = p.getPlanowane().get(odelgloscwmcach);
+           p.setUjetewksiegach(new ArrayList<Double>());
+           for (int i = 0;i < odelgloscwmcach+1;i++){
+               p.getUjetewksiegach().add(p.getPlanowane().get(i));
+           }
+        } catch (Exception e) {  
+            E.e(e);
+            p.setRozliczony(true);
+        }
+        if (p.getProcentkosztpodatkowy() != 100.0) {
+            kwota = kwota - Z.z(kwota*p.getProcentkosztpodatkowy()/100);
+        }
+        return kwota;
+    }
      
     public RMK getRmk() {
         return rmk;
@@ -390,6 +427,8 @@ public class RMKView  implements Serializable {
     public void setListakontrmk(List<Konto> listakontrmk) {
         this.listakontrmk = listakontrmk;
     }
+
+    
 
     
     

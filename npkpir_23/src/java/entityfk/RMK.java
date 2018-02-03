@@ -78,10 +78,13 @@ public class RMK  implements Serializable{
     @Lob
     @Column(name = "ujetewksiegach")
     private List<Double> ujetewksiegach;
+    @Column(name = "procentkosztpodatkowy")
+    private double procentkosztpodatkowy;
 
     public RMK() {
         this.planowane = new ArrayList<>();
         this.ujetewksiegach = new ArrayList<>();
+        this.procentkosztpodatkowy = 100.0;
     }
     
     
@@ -199,6 +202,15 @@ public class RMK  implements Serializable{
     public void setKontormk(Konto kontormk) {
         this.kontormk = kontormk;
     }
+
+    public double getProcentkosztpodatkowy() {
+        return procentkosztpodatkowy;
+    }
+
+    public void setProcentkosztpodatkowy(double procentkosztpodatkowy) {
+        this.procentkosztpodatkowy = procentkosztpodatkowy;
+    }
+    
 
     @Override
     public int hashCode() {
