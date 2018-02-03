@@ -6,14 +6,21 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
  * @author Osito
  */
-public class JPKSuper  implements Serializable{
+public abstract class  JPKSuper<T>  implements Serializable{
     private static final long serialVersionUID = 1L;
-    
 
+    public  abstract List<T> getSprzedazWiersz();
+
+    public abstract T getSprzedazCtrl();
+
+    public abstract List<T> getZakupWiersz();
+
+    public abstract T getZakupCtrl();
     
 }

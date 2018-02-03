@@ -11,6 +11,7 @@ import data.Data;
 import embeddable.TKodUS;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
+import entity.JPKSuper;
 import entity.UPO;
 import entityfk.EVatwpisFK;
 import error.E;
@@ -31,8 +32,6 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import static jpk.view.JPK_VAT2_Bean.*;
-import jpk201701.JPK;
 import msg.Msg;
 import pdf.PdfUPO;
 import view.EwidencjaVatView;
@@ -54,7 +53,6 @@ public class JPK_VAT2View implements Serializable {
     private EwidencjaVatView ewidencjaVatView;
     @Inject
     private TKodUS tKodUS;
-    private JPK jpk;
     @Inject
     private UPODAO uPODAO;
     private List<UPO> lista;
@@ -97,31 +95,27 @@ public class JPK_VAT2View implements Serializable {
     public void przygotujXML() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentow();
-        Object[] zwrot = tworzwierszeJPK();
-        generujXML(zwrot, nowa0korekta1);
+        generujXML(nowa0korekta1);
         wysylkaJPK();
     }
     
     public void przygotujXMLPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentow();
-        Object[] zwrot = tworzwierszeJPK();
-        generujXMLPodglad(zwrot, nowa0korekta1);
+        generujXMLPodglad(nowa0korekta1);
     }
     
     public void przygotujXMLFK() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
-        Object[] zwrot = tworzwierszeJPK();
-        generujXML(zwrot, nowa0korekta1);
+        generujXML(nowa0korekta1);
         wysylkaJPK();
     }
     
     public void przygotujXMLFKPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK();
-        Object[] zwrot = tworzwierszeJPK();
-        generujXMLPodglad(zwrot, nowa0korekta1);
+        generujXMLPodglad(nowa0korekta1);
     }
     
     private void wysylkaJPK() {
@@ -137,60 +131,79 @@ public class JPK_VAT2View implements Serializable {
         }
     }
     
-    private Object[] tworzwierszeJPK() {
-        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
-        Object[] sprzedaz = utworzWierszeJpkSprzedaz(wiersze);
-        List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) sprzedaz[0];
-        JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) sprzedaz[1];
-        Object[] zakup = utworzwierszjpkZakup(wiersze);
-        List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zakup[0];
-        JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zakup[1];
-        Object[] zwrot = new Object[4];
-        zwrot[0] = listas;
-        zwrot[1] = listaz;
-        zwrot[2] = sprzedazCtrl;
-        zwrot[3] = zakupCtrl;
-        return zwrot;
-    }
+      
     
-    
-    private JPK genJPK(Object[] zwrot, boolean nowa0korekta1) {
-        List<JPK.SprzedazWiersz> listas = (List<JPK.SprzedazWiersz>) zwrot[0];
-        List<JPK.ZakupWiersz> listaz = (List<JPK.ZakupWiersz>) zwrot[1];
-        JPK.SprzedazCtrl sprzedazCtrl = (JPK.SprzedazCtrl) zwrot[2];
-        JPK.ZakupCtrl zakupCtrl = (JPK.ZakupCtrl) zwrot[3];
-        JPK jpk = new JPK();
+    private JPKSuper genJPK(boolean nowa0korekta1) {
+        JPKSuper zwrot = null;
         try {
-            jpk.setNaglowek(naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
-            byte cel = nowa0korekta1 ? (byte) 2 : (byte) 1;
-            jpk.getNaglowek().setCelZlozenia(cel);
-            jpk.setPodmiot1(podmiot1(wpisView));
-            jpk.getSprzedazWiersz().addAll(listas);
-            if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
-                jpk.setSprzedazCtrl(sprzedazCtrl);
-            }
-            jpk.getZakupWiersz().addAll(listaz);
-            if (zakupCtrl.getLiczbaWierszyZakupow().intValue() > 0) {
-                jpk.setZakupCtrl(zakupCtrl);
+            if (wpisView.getRokWpisu()>2017) {
+                jpk201801.JPK jpk = new jpk201801.JPK();
+                List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+                Object[] sprzedaz = utworzWierszeJpkSprzedaz3(wiersze);
+                List<jpk201801.JPK.SprzedazWiersz> listas = (List<jpk201801.JPK.SprzedazWiersz>) sprzedaz[0];
+                jpk201801.JPK.SprzedazCtrl sprzedazCtrl = (jpk201801.JPK.SprzedazCtrl) sprzedaz[1];
+                Object[] zakup = utworzwierszjpkZakup3(wiersze);
+                List<jpk201801.JPK.ZakupWiersz> listaz = (List<jpk201801.JPK.ZakupWiersz>) zakup[0];
+                jpk201801.JPK.ZakupCtrl zakupCtrl = (jpk201801.JPK.ZakupCtrl) zakup[1];
+                jpk.setNaglowek(JPK_VAT3_Bean.naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView)));
+                int cel = nowa0korekta1 ? 1 : 0;
+                jpk.getNaglowek().setCelZlozenia(cel);
+                jpk.setPodmiot1(JPK_VAT3_Bean.podmiot1(wpisView));
+                jpk.getSprzedazWiersz().addAll(listas);
+                if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
+                    jpk.setSprzedazCtrl(sprzedazCtrl);
+                }
+                jpk.getZakupWiersz().addAll(listaz);
+                if (zakupCtrl.getLiczbaWierszyZakupow().intValue() > 0) {
+                    jpk.setZakupCtrl(zakupCtrl);
+                }
+                zwrot = jpk;
+            } else {
+                jpk201701.JPK jpk = new jpk201701.JPK();
+                List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+                Object[] sprzedaz = utworzWierszeJpkSprzedaz2(wiersze);
+                List<jpk201701.JPK.SprzedazWiersz> listas = (List<jpk201701.JPK.SprzedazWiersz>) sprzedaz[0];
+                jpk201701.JPK.SprzedazCtrl sprzedazCtrl = (jpk201701.JPK.SprzedazCtrl) sprzedaz[1];
+                Object[] zakup = utworzwierszjpkZakup2(wiersze);
+                List<jpk201701.JPK.ZakupWiersz> listaz = (List<jpk201701.JPK.ZakupWiersz>) zakup[0];
+                jpk201701.JPK.ZakupCtrl zakupCtrl = (jpk201701.JPK.ZakupCtrl) zakup[1];
+                jpk.setNaglowek(JPK_VAT2_Bean.naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
+                byte cel = nowa0korekta1 ? (byte) 2 : (byte) 1;
+                jpk.getNaglowek().setCelZlozenia(cel);
+                jpk.setPodmiot1(JPK_VAT2_Bean.podmiot1(wpisView));
+                jpk.getSprzedazWiersz().addAll(listas);
+                if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
+                    jpk.setSprzedazCtrl(sprzedazCtrl);
+                }
+                jpk.getZakupWiersz().addAll(listaz);
+                if (zakupCtrl.getLiczbaWierszyZakupow().intValue() > 0) {
+                    jpk.setZakupCtrl(zakupCtrl);
+                }
+                zwrot = jpk;
             }
         } catch(Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
             E.e(e);
         }
-        return jpk;
+        return zwrot;
     }
     
     public void pobierzUPO(UPO selected) {
         try {
-            String[] wiadomosc = SzachMatJPK.pobierzupo(selected.getReferenceNumber(), selected);
-            selected.setDataupo(new Date());
-            uPODAO.edit(selected);
-            Msg.msg(wiadomosc[0], wiadomosc[1]);
+            if (selected.getCode()!=200) {
+                String[] wiadomosc = SzachMatJPK.pobierzupo(selected.getReferenceNumber(), selected);
+                selected.setDataupo(new Date());
+                uPODAO.edit(selected);
+                Msg.msg(wiadomosc[0], wiadomosc[1]);
+            } else {
+                Msg.msg("Obecny status wysyłki to 200. Nie pobieram UPO");
+            }
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie udało się pobrać wiadomości");
         }
     }
+    
     
     public void usunUPO() {
         try {
@@ -209,14 +222,22 @@ public class JPK_VAT2View implements Serializable {
     }
     
     public void drukujUPO(UPO item) {
-        PdfUPO.drukuj(item, wpisView);
+        if (wpisView.getRokWpisu() > 2017) {
+            PdfUPO.drukuj_JPK3(item, wpisView);
+        } else {
+            PdfUPO.drukuj_JPK2(item, wpisView);
+        }
     }
     
     
-    public void generujXMLPodglad(Object[] zwrot, boolean nowa0korekta1) {
-        JPK jpk = genJPK(zwrot, nowa0korekta1);
+    public void generujXMLPodglad(boolean nowa0korekta1) {
+        JPKSuper jpk = genJPK(nowa0korekta1);
         try {
-            PdfUPO.drukujJPK(jpk, wpisView);
+            if (wpisView.getRokWpisu() > 2017) {
+                PdfUPO.drukujJPK3(jpk, wpisView);
+            } else {
+                PdfUPO.drukujJPK2(jpk, wpisView);
+            }
         } catch(Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
             E.e(e);
@@ -224,8 +245,8 @@ public class JPK_VAT2View implements Serializable {
     }
     
     
-    public void generujXML(Object[] zwrot, boolean nowa0korekta1) {
-        JPK jpk = genJPK(zwrot, nowa0korekta1);
+    public void generujXML(boolean nowa0korekta1) {
+        JPKSuper jpk = genJPK(nowa0korekta1);
         try {
             marszajuldoplikuxml(jpk);
             Msg.msg("Wygenerowano plik JPK");
@@ -235,9 +256,9 @@ public class JPK_VAT2View implements Serializable {
         }
     }
     
-    private void marszajuldoplikuxml(JPK jpk) {
+    private void marszajuldoplikuxml(JPKSuper jpk) {
         try {
-            JAXBContext context = JAXBContext.newInstance(JPK.class);
+            JAXBContext context = JAXBContext.newInstance(jpk.getClass());
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
@@ -271,11 +292,11 @@ public class JPK_VAT2View implements Serializable {
 //        }
 //}
 
-    private Object[] utworzWierszeJpkSprzedaz(List wiersze) {
+    private Object[] utworzWierszeJpkSprzedaz2(List wiersze) {
         Object[] zwrot = new Object[2];
         Class c = wiersze.get(0).getClass();
-        List<JPK.SprzedazWiersz> lista = new ArrayList<>();
-        JPK.SprzedazCtrl sprzedazCtrl = new JPK.SprzedazCtrl();
+        List<jpk201701.JPK.SprzedazWiersz> lista = new ArrayList<>();
+        jpk201701.JPK.SprzedazCtrl sprzedazCtrl = new jpk201701.JPK.SprzedazCtrl();
         sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
         sprzedazCtrl.setPodatekNalezny(BigDecimal.ZERO);
         if (c.getName().equals("entity.EVatwpis1")) {
@@ -283,7 +304,7 @@ public class JPK_VAT2View implements Serializable {
             for (Object p : wiersze) {
                 EVatwpis1 wiersz = (EVatwpis1) p;
                 if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                    lista.add(dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                    lista.add(JPK_VAT2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
                 }
             }
         } else {
@@ -291,7 +312,7 @@ public class JPK_VAT2View implements Serializable {
             for (Object p : wiersze) {
                 EVatwpisFK wiersz = (EVatwpisFK) p;
                 if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                    lista.add(dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                    lista.add(JPK_VAT2_Bean.dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
                 }
             }
         }
@@ -300,11 +321,40 @@ public class JPK_VAT2View implements Serializable {
         return zwrot;
     }
     
-    private Object[] utworzwierszjpkZakup(List wiersze) {
+    private Object[] utworzWierszeJpkSprzedaz3(List wiersze) {
         Object[] zwrot = new Object[2];
         Class c = wiersze.get(0).getClass();
-        List<JPK.ZakupWiersz> lista = new ArrayList<>();
-        JPK.ZakupCtrl zakupCtrl = new JPK.ZakupCtrl();
+        List<jpk201801.JPK.SprzedazWiersz> lista = new ArrayList<>();
+        jpk201801.JPK.SprzedazCtrl sprzedazCtrl = new jpk201801.JPK.SprzedazCtrl();
+        sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
+        sprzedazCtrl.setPodatekNalezny(BigDecimal.ZERO);
+        if (c.getName().equals("entity.EVatwpis1")) {
+            int lp = 1;
+            for (Object p : wiersze) {
+                EVatwpis1 wiersz = (EVatwpis1) p;
+                if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                    lista.add(JPK_VAT3_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                }
+            }
+        } else {
+            int lp = 1;
+            for (Object p : wiersze) {
+                EVatwpisFK wiersz = (EVatwpisFK) p;
+                if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                    lista.add(JPK_VAT3_Bean.dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                }
+            }
+        }
+        zwrot[0] = lista;
+        zwrot[1] = sprzedazCtrl;
+        return zwrot;
+    }
+    
+    private Object[] utworzwierszjpkZakup2(List wiersze) {
+        Object[] zwrot = new Object[2];
+        Class c = wiersze.get(0).getClass();
+        List<jpk201701.JPK.ZakupWiersz> lista = new ArrayList<>();
+        jpk201701.JPK.ZakupCtrl zakupCtrl = new jpk201701.JPK.ZakupCtrl();
         zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
         zakupCtrl.setPodatekNaliczony(BigDecimal.ZERO);
         if (c.getName().equals("entity.EVatwpis1")) {
@@ -312,7 +362,7 @@ public class JPK_VAT2View implements Serializable {
             for (Object p : wiersze) {
                 EVatwpis1 wiersz = (EVatwpis1) p;
                 if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                    lista.add(dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                    lista.add(JPK_VAT2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
                 }
             }
         } else {
@@ -320,7 +370,36 @@ public class JPK_VAT2View implements Serializable {
             for (Object p : wiersze) {
                 EVatwpisFK wiersz = (EVatwpisFK) p;
                 if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                    lista.add(dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                    lista.add(JPK_VAT2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                }
+            }
+        }
+        zwrot[0] = lista;
+        zwrot[1] = zakupCtrl;
+        return zwrot;
+    }
+    
+    private Object[] utworzwierszjpkZakup3(List wiersze) {
+        Object[] zwrot = new Object[2];
+        Class c = wiersze.get(0).getClass();
+        List<jpk201801.JPK.ZakupWiersz> lista = new ArrayList<>();
+        jpk201801.JPK.ZakupCtrl zakupCtrl = new jpk201801.JPK.ZakupCtrl();
+        zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
+        zakupCtrl.setPodatekNaliczony(BigDecimal.ZERO);
+        if (c.getName().equals("entity.EVatwpis1")) {
+            int lp = 1;
+            for (Object p : wiersze) {
+                EVatwpis1 wiersz = (EVatwpis1) p;
+                if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                    lista.add(JPK_VAT3_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                }
+            }
+        } else {
+            int lp = 1;
+            for (Object p : wiersze) {
+                EVatwpisFK wiersz = (EVatwpisFK) p;
+                if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                    lista.add(JPK_VAT3_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
                 }
             }
         }
@@ -363,13 +442,7 @@ public class JPK_VAT2View implements Serializable {
         this.wpisView = wpisView;
     }
 
-    public JPK getJpk() {
-        return jpk;
-    }
-
-    public void setJpk(JPK jpk) {
-        this.jpk = jpk;
-    }
+     
 
     public List<UPO> getLista() {
         return lista;

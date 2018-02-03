@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
-import jpk201701.JPK;
 import msg.B;
 import vies.Vies;
 import view.WpisView;
@@ -1023,7 +1022,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        return w;
    }
    
-   public static List[] getTabelaUPOS(List<JPK.SprzedazWiersz>  wiersze) {
+   public static List[] getTabelaUPOS(List wiersze) {
        List n = new ArrayList();
        n.add("lp");
        n.add("nip");
@@ -1040,7 +1039,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        tabela[1] = wiersze;
        return tabela;
    }
-    public static List[] getTabelaUPOZ(List<JPK.ZakupWiersz> wiersze) {
+    public static List[] getTabelaUPOZ(List wiersze) {
        List n = new ArrayList();
        n.add("lp");
        n.add("nip");

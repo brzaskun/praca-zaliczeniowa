@@ -70,7 +70,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
-import jpk201701.JPK;
 import msg.B;
 import plik.Plik;
 import testobjects.WierszCecha;
@@ -779,6 +778,7 @@ public class PdfMain {
                 col[4] = 3;
                 return col;
             case "jpk201701.JPK$SprzedazWiersz":
+            case "jpk201801.JPK$SprzedazWiersz":
                 col = new int[size];
                 col[0] = 1;
                 col[1] = 4;
@@ -792,6 +792,7 @@ public class PdfMain {
                 col[9] = 2;
                 return col;
             case "jpk201701.JPK$ZakupWiersz":
+            case "jpk201801.JPK$ZakupWiersz":
                 col = new int[size];
                 col[0] = 1;
                 col[1] = 4;
@@ -1469,8 +1470,8 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOstatniaplatnosckwota())), "right", 8));
                 }
             }
-            if (nazwaklasy.equals("jpk201701.JPK$ZakupWiersz")) {
-                JPK.ZakupWiersz p = (JPK.ZakupWiersz) it.next();
+            if (nazwaklasy.equals("jpk201701.JPK$ZakupWiersz") || nazwaklasy.equals("jpk201801.JPK$ZakupWiersz")) {
+                jpkabstract.ZakupWierszA p =  (jpkabstract.ZakupWierszA) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 7));
                 table.addCell(ustawfrazeAlign(p.getNrDostawcy(), "left", 7, 22f));
                 table.addCell(ustawfrazeAlign(p.getNazwaDostawcyShort(), "left", 7));
@@ -1482,8 +1483,8 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getNettoPole(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getVatPole(), "center", 7));
             }
-            if (nazwaklasy.equals("jpk201701.JPK$SprzedazWiersz")) {
-                JPK.SprzedazWiersz p = (JPK.SprzedazWiersz) it.next();
+            if (nazwaklasy.equals("jpk201701.JPK$SprzedazWiersz") || nazwaklasy.equals("jpk201801.JPK$SprzedazWiersz")) {
+                jpkabstract.SprzedazWierszA p = (jpkabstract.SprzedazWierszA) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 7));
                 table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 7, 22f));
                 table.addCell(ustawfrazeAlign(p.getNazwaKontrahentaShort(), "left", 7));
