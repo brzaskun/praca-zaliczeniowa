@@ -201,13 +201,16 @@ public class UkladBRView implements Serializable {
 
     private void implementujRZiS(UkladBR ukladBR, String podatnik, String rok, String uklad) {
         List<PozycjaRZiS> pozycje = pozycjaRZiSDAO.findRzisuklad(ukladBR);
+        List<PozycjaRZiS> pozycjenowe = new ArrayList<>();
         if (pozycje != null && pozycje.size() > 0) {
             List<PozycjaRZiS> macierzyste = skopiujlevel0(pozycje, podatnik, rok, uklad);
+            pozycjenowe.addAll(macierzyste);
             int maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladBR);
             for (int i = 1; i <= maxlevel; i++) {
                 macierzyste = skopiujlevel(pozycje, macierzyste, i, podatnik, rok, uklad);
+                pozycjenowe.addAll(macierzyste);
             }
-            pozycjaRZiSDAO.dodaj(pozycje);
+            pozycjaRZiSDAO.dodaj(pozycjenowe);
             System.out.println("ImplementujRZiS UkladBRView");
         } else {
             Msg.msg("e", "Brak pozycji bilansu przyporządkowanych do wybranego układu");
@@ -216,19 +219,28 @@ public class UkladBRView implements Serializable {
 
     private void implementujBilans(UkladBR ukladBR, String podatnik, String rok, String uklad) {
         List<PozycjaBilans> pozycje = pozycjaBilansDAO.findBilansukladAktywa(ukladBR);
+        List<PozycjaBilans> pozycjenowe = new ArrayList<>();
         if (pozycje != null && pozycje.size() > 0) {
             List<PozycjaBilans> macierzyste = skopiujlevel0B(pozycje, podatnik, rok, uklad);
+            pozycjenowe.addAll(macierzyste);
             int maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikAktywa(ukladBR);
             for (int i = 1; i <= maxlevel; i++) {
                 macierzyste = skopiujlevelB(pozycje, macierzyste, i, podatnik, rok, uklad);
+                pozycjenowe.addAll(macierzyste);
             }
-            pozycje = pozycjaBilansDAO.findBilansukladPasywa(ukladBR);
-            macierzyste = skopiujlevel0B(pozycje, podatnik, rok, uklad);
-            maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikPasywa(ukladBR);
+            pozycjaBilansDAO.dodaj(pozycjenowe);
+        }
+        pozycje = pozycjaBilansDAO.findBilansukladPasywa(ukladBR);
+        pozycjenowe = new ArrayList<>();
+        if (pozycje != null && pozycje.size() > 0) {
+            List<PozycjaBilans> macierzyste = skopiujlevel0B(pozycje, podatnik, rok, uklad);
+            pozycjenowe.addAll(macierzyste);
+            int maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikPasywa(ukladBR);
             for (int i = 1; i <= maxlevel; i++) {
                 macierzyste = skopiujlevelB(pozycje, macierzyste, i, podatnik, rok, uklad);
+                pozycjenowe.addAll(macierzyste);
             }
-            pozycjaBilansDAO.dodaj(pozycje);
+            pozycjaBilansDAO.dodaj(pozycjenowe);
         } else {
             Msg.msg("e", "Brak pozycji bilansu przyporządkowanych do wybranego układu");
         }
