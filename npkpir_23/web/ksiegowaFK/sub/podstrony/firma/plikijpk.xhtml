@@ -23,7 +23,7 @@
                     <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodgladAll(item1)}" update="@form" style="width: 120px;"/>
                 </p:column>
                 <p:column width="90" style="text-align: center;">
-                    <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLAll(item1, jPKListaView.jpkmoznarobic)}" update="@form" style="width: 120px;"/>
+                    <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLAll(item1, jPKListaView.jpkmoznarobic, jPKListaView.jpkzrobione)}" update="@form" style="width: 120px;"/>
                 </p:column>
             </p:dataTable>
             <p:dataTable value="#{jPKListaView.jpkzrobione}" var="item" rowIndexVar="index" id="tabela" style="width: 1450px; margin-top: 10px;"
