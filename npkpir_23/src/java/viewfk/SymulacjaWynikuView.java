@@ -86,7 +86,7 @@ public class SymulacjaWynikuView implements Serializable {
     private List<Cechazapisu> pobranecechypodatnik;
     @Inject
     private CechazapisuDAOfk cechazapisuDAOfk;
-
+    
 
     public SymulacjaWynikuView() {
         this.sumaSaldoKontoPrzychody = new ArrayList<>();
@@ -464,6 +464,22 @@ public class SymulacjaWynikuView implements Serializable {
         this.wybraneprzychody = wybraneprzychody;
     }
 
+    public double getNkup() {
+        return nkup;
+    }
+
+    public void setNkup(double nkup) {
+        this.nkup = nkup;
+    }
+
+    public double getNpup() {
+        return npup;
+    }
+
+    public void setNpup(double npup) {
+        this.npup = npup;
+    }
+
     public List<PozycjeSymulacjiNowe> getPozycjePodsumowaniaWynikuNowe() {
         return pozycjePodsumowaniaWynikuNowe;
     }
@@ -550,6 +566,22 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setPozycjePodsumowaniaWyniku(List<PozycjeSymulacji> pozycjePodsumowaniaWyniku) {
         this.pozycjePodsumowaniaWyniku = pozycjePodsumowaniaWyniku;
+    }
+
+    public double getKupmn_mc() {
+        return kupmn_mc;
+    }
+
+    public void setKupmn_mc(double kupmn_mc) {
+        this.kupmn_mc = kupmn_mc;
+    }
+
+    public double getPmn_mc() {
+        return pmn_mc;
+    }
+
+    public void setPmn_mc(double pmn_mc) {
+        this.pmn_mc = pmn_mc;
     }
 
   
