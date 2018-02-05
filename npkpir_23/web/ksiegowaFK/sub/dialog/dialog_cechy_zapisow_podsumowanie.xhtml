@@ -72,10 +72,10 @@
                 </p:row>
             </p:panelGrid>
             <p:dataTable id="tabelacechyzapisow" var="wpiscechy" value="#{cechyzapisuPrzegladView.zapisyZCecha}" rowKey="#{wpiscechy.id}"
-                         selection="#{cechyzapisuPrzegladView.wybraneZapisyZCecha}"  scrollable="true" scrollRows="20" scrollHeight="480"
+                         selection="#{cechyzapisuPrzegladView.wybraneZapisyZCecha}" 
                          filteredValue="#{cechyzapisuPrzegladView.zapisyZCechafilter}" rowSelectMode="add"
                          emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" styleClass="gridtablicasyntetyczne"
-                         style="width: 1200px;"  widgetVar="tabelacechyzapisow" rowIndexVar="index">
+                         style="width: 1200px; height: 480px; overflow-y: scroll;"  widgetVar="tabelacechyzapisow" rowIndexVar="index">
                 <p:ajax event="rowSelect" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
                 <p:ajax event="rowSelectCheckbox" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
