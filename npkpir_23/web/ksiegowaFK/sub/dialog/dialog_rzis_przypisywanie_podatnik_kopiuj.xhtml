@@ -27,7 +27,7 @@
                     <f:selectItems value="#{ukladBRView.lista}" var="p" itemLabel="#{p.lp} #{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
-            <p:commandButton value="kopiuj" actionListener="#{pozycjaBRKontaView.kopiujprzyporzadkowaniekont('r', true)}" type="submit"  update=":formrzisuklad"
+            <p:commandButton value="kopiuj" actionListener="#{pozycjaBRKontaView.kopiujprzyporzadkowaniekont('r', true)}" type="submit"  
                                  style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_rzis_przypisywanie_podatnik_kopiuj').hide();"
                                  />
             <p:commandButton value="anuluj" type="button" 
