@@ -221,7 +221,7 @@
             <p:dataTable id="tabelacechyzapisow" var="wpis" value="#{symulacjaWynikuView.zapisyZCecha}" editable="true" rowKey="#{wpis.id}"
                          filteredValue="#{symulacjaWynikuView.zapisyZCechafiltered}"
                          emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" 
-                         style="width: 900px;"  scrollable="true" scrollRows="20" scrollHeight="300" 
+                         style="width: 900px; height: 250px; overflow-y: scroll;"  scrollable="true"
                           widgetVar="tabelacechyzapisow" rowIndexVar="index">
                 <p:ajax event="filter" global="false"/>
                 <f:facet name="header">  
@@ -255,6 +255,16 @@
                     <bcf:outputpl value="#{wpis.stronaWiersza.kwotaPLN}"/>
                 </p:column>
             </p:dataTable>
+                <p:panelGrid columns="4">
+                <h:outputText value="Razem NKUP"/>
+                <bcf:outputpl value="#{symulacjaWynikuView.nkup}"/>
+                <h:outputText value="Razem NPUP"/>
+                <bcf:outputpl value="#{symulacjaWynikuView.npup}"/>
+                <h:outputText value="Razem KUPMN"/>
+                <bcf:outputpl value="#{symulacjaWynikuView.kupmn_mc}"/>
+                <h:outputText value="Razem PMN"/>
+                <bcf:outputpl value="#{symulacjaWynikuView.pmn_mc}"/>
+                </p:panelGrid>
                  <p:outputPanel>
             <p:dataTable id="tabelapodsumowanienowa" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item2"
                          style="width: 80%;margin-top: 10px;">
