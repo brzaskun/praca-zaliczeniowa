@@ -68,48 +68,49 @@ public class ListaEwidencjiVat implements Serializable{
     @PostConstruct
     public void init(){
         List<Evewidencja> tmp = eVDAO.findAll();
-        Collections.sort(tmp, new Evewidencjacomparator());
-        for (Evewidencja up : tmp){
-            listadostepnychewidencji.add(up);
-            switch(up.getTransakcja()) {
-                case "zakup" : 
-                    zakupVList.add(up);
-                    break;
-                case "srodek trw" : 
-                    srodkitrwaleVList.add(up);
-                    break;
-                case "inwestycja" : 
-                    srodkitrwaleVList.add(up);
-                    break;
-                case "WDT" : 
-                    wdtVList.add(up);
-                    break;
-                case "WNT" : 
-                    wntVList.add(up);
-                    break;
-                case "odwrotne obciążenie" : 
-                    rvcVList.add(up);
-                    break;
-                case ("odwrotne obciążenie sprzedawca"):
-                    rvcVListS.add(up);
-                    break;
-                case "import uslug" : 
-                    importuslugList.add(up);
-                    break;
-                case "import usług" : 
-                    importuslugList.add(up);
-                    break;
-                case "usługi poza ter." :
-                    uslugiPTK.add(up);
-                    break;
-                case "eksport towarów" :
-                    eksporttowarow.add(up);
-                    break;
-                default : 
-                    sprzedazVList.add(up);
+        if (tmp != null) {
+            Collections.sort(tmp, new Evewidencjacomparator());
+            for (Evewidencja up : tmp){
+                listadostepnychewidencji.add(up);
+                switch(up.getTransakcja()) {
+                    case "zakup" : 
+                        zakupVList.add(up);
+                        break;
+                    case "srodek trw" : 
+                        srodkitrwaleVList.add(up);
+                        break;
+                    case "inwestycja" : 
+                        srodkitrwaleVList.add(up);
+                        break;
+                    case "WDT" : 
+                        wdtVList.add(up);
+                        break;
+                    case "WNT" : 
+                        wntVList.add(up);
+                        break;
+                    case "odwrotne obciążenie" : 
+                        rvcVList.add(up);
+                        break;
+                    case ("odwrotne obciążenie sprzedawca"):
+                        rvcVListS.add(up);
+                        break;
+                    case "import uslug" : 
+                        importuslugList.add(up);
+                        break;
+                    case "import usług" : 
+                        importuslugList.add(up);
+                        break;
+                    case "usługi poza ter." :
+                        uslugiPTK.add(up);
+                        break;
+                    case "eksport towarów" :
+                        eksporttowarow.add(up);
+                        break;
+                    default : 
+                        sprzedazVList.add(up);
+                }
             }
         }
-
     }
     
     public List<Evewidencja> pobierzEvewidencje(String transakcjiRodzaj) {
