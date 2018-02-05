@@ -213,7 +213,7 @@ public class EwidencjaVatView implements Serializable {
                 vatokres = "miesięczne";
             }
             System.out.println("vat okres: "+vatokres);
-            listadokvatprzetworzona.addAll(pobierzEVatRokFK(vatokres));
+            listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres));
             Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
             listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
             wyluskajzlisty(listaprzesunietychKoszty, "koszty");
@@ -363,18 +363,18 @@ public class EwidencjaVatView implements Serializable {
 
 
 
-    private List<EVatwpisFK> pobierzEVatRokFK(String vatokres) {
+    private List<EVatwpisFK> pobierzEVatRokFK(Podatnik podatnik, String vatokres) {
         try {
             switch (vatokres) {
                 case "blad":
                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne": 
-                    return eVatwpisFKDAO.findPodatnikMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
+                    return eVatwpisFKDAO.findPodatnikMc(podatnik, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
                 default:
                     Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                    return eVatwpisFKDAO.findPodatnikMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+                    return eVatwpisFKDAO.findPodatnikMc(podatnik, wpisView.getRokWpisuSt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
             }
         } catch (Exception e) { E.e(e); 
             return null;
