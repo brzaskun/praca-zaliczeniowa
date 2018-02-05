@@ -107,7 +107,7 @@ public class PdfUPO extends Pdf implements Serializable {
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
-            Msg.msg("w", "Nie wybrano Planu kont do wydruku");
+            Msg.msg("w", "Pusty plik JPK");
         }
     }
    
@@ -181,7 +181,7 @@ public class PdfUPO extends Pdf implements Serializable {
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
-            Msg.msg("w", "Nie wybrano Planu kont do wydruku");
+            Msg.msg("w", "Pusty plik JPK");
         }
     }
    
@@ -218,7 +218,7 @@ public class PdfUPO extends Pdf implements Serializable {
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
-            Msg.msg("w", "Nie wybrano Planu kont do wydruku");
+            Msg.msg("w", "Pusty plik JPK");
         }
     }
    
@@ -255,7 +255,7 @@ public class PdfUPO extends Pdf implements Serializable {
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
-            Msg.msg("w", "Nie wybrano Planu kont do wydruku");
+            Msg.msg("w", "Pusty plik JPK");
         }
     }
 
