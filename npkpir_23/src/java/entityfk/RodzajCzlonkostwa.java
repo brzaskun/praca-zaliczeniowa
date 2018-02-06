@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -25,7 +27,7 @@ public class RodzajCzlonkostwa  implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
     @Column(name = "nazwa", unique = true)
     private String nazwa;
     @Column(name = "skrotnazwy", unique = true)
@@ -67,14 +69,13 @@ public class RodzajCzlonkostwa  implements Serializable{
         return "RodzajeCzlonkostwa{" + "nazwa=" + nazwa + ", skrotnazwy=" + skrotnazwy + ", opis=" + opis + '}';
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
 
     public String getNazwa() {
         return nazwa;

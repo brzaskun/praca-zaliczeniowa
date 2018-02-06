@@ -375,7 +375,7 @@ public class PozycjaRZiSFKBean {
         Konto kontomacierzyste = null;
         kontomacierzyste = kontoDAO.findKonto(dziecko.getMacierzyste(), podatnik, rok);
         KontopozycjaBiezaca kp = kontomacierzyste.getKontopozycjaID() != null ? kontomacierzyste.getKontopozycjaID() : new KontopozycjaBiezaca();
-        if (kp.getUkladBR() == null) {
+        if (kp.getIdKP() == null) {
             kp.setSyntetykaanalityka("analityka");
             kp.setStronaWn(dziecko.getKontopozycjaID().getStronaWn());
             kp.setStronaMa(dziecko.getKontopozycjaID().getStronaMa());
@@ -411,7 +411,7 @@ public class PozycjaRZiSFKBean {
                     p.setKontopozycjaID(null);
                 } else {
                     KontopozycjaBiezaca kp = p.getKontopozycjaID() != null ? p.getKontopozycjaID() : new KontopozycjaBiezaca();
-                    if (kp.getUkladBR() == null) {
+                    if (kp.getIdKP() == null) {
                         kp.setKontoID(p);
                         kp.setSyntetykaanalityka("syntetyka");
                         kp.setUkladBR(pozycja.getUkladBR());
@@ -446,7 +446,7 @@ public class PozycjaRZiSFKBean {
                        p.setKontopozycjaID(null);
                    } else {
                         KontopozycjaBiezaca kp = p.getKontopozycjaID() != null ? p.getKontopozycjaID() : new KontopozycjaBiezaca();
-                        if (kp.getUkladBR() == null) {
+                        if (kp.getIdKP() == null) {
                            kp.setKontoID(p);
                            kp.setSyntetykaanalityka("syntetyka");
                            kp.setWynik0bilans1(konto.getKontopozycjaID().isWynik0bilans1());

@@ -48,7 +48,7 @@ public class Kliencifk implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "lp", nullable = false)
-    private int lp;
+    private Integer lp;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
@@ -96,14 +96,13 @@ public class Kliencifk implements Serializable {
         this.aktywny = aktywny;
     }
 
-    public int getLp() {
+    public Integer getLp() {
         return lp;
     }
 
-    public void setLp(int lp) {
+    public void setLp(Integer lp) {
         this.lp = lp;
     }
-
 
     public String getNip() {
         return nip;
@@ -155,30 +154,23 @@ public class Kliencifk implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + this.lp;
+        int hash = 0;
+        hash += (lp != null ? lp.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Kliencifk)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Kliencifk other = (Kliencifk) obj;
-        if (this.lp != other.lp) {
+        Kliencifk other = (Kliencifk) object;
+        if ((this.lp == null && other.lp != null) || (this.lp != null && !this.lp.equals(other.lp))) {
             return false;
         }
         return true;
     }
-
-    
 
     @Override
     public String toString() {

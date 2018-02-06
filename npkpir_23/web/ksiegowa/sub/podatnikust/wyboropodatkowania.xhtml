@@ -11,7 +11,8 @@
             <h:outputText value="Wybór opodatkowania podatkiem dochodowym" style="font-size: 15px"/>
             <p:focus for="parametrypodatnika"/><br/>
             <h:outputText value="dane historyczne"/><br/>
-            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 980px;">
+            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 980px;" 
+                         rowKey="#{loop.id}" selection="#{podatnikView.podatnikOpodatkowanieSelected}" selectionMode="single">
                 <p:column headerText="od" width="80">
                         <h:outputText value="#{loop.mcOd}-" />
                         <h:outputText value="#{loop.rokOd}" />
@@ -32,7 +33,14 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="dołączony do roku">
-                        <h:outputText value="#{loop.dolaczonydoroku}" />
+                        <p:inplace  editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">
+                            <h:outputText value="#{loop.dolaczonydoroku eq null ? 'opcjonalne'  : loop.dolaczonydoroku}" />
+                            <p:inputText value="#{loop.dolaczonydoroku}"
+                                              label="text" />  
+                                <p:ajax event="save" global="false" listener="#{podatnikView.edycjaopodatkowanie(loop)}" 
+                                        partialSubmit="true"/>
+                        
+                        </p:inplace>
                     </p:column>
                     <p:column headerText="zamkniety" width="60" style="text-align: center;">
                         <h:outputText value="#{loop.zamkniety ? 'tak': 'nie'}" style="#{loop.zamkniety ? 'color: red;': 'color: green;'}"/>

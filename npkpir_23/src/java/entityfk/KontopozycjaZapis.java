@@ -44,6 +44,7 @@ public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable
 
     
     public KontopozycjaZapis(KontopozycjaBiezaca p) {
+        this.idKP = null;
         this.kontoID = p.kontoID;
         this.pozycjaMa = p.pozycjaMa;
         this.pozycjaWn = p.pozycjaWn;
@@ -65,14 +66,15 @@ public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable
         this.wynik0bilans1 = p.wynik0bilans1;
     }
 
-    public int getIdKP() {
+       
+
+    public Integer getIdKP() {
         return idKP;
     }
 
-    public void setIdKP(int idKP) {
+    public void setIdKP(Integer idKP) {
         this.idKP = idKP;
     }
-
 
     public String getPozycjaWn() {
         return pozycjaWn;

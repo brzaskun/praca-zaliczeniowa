@@ -46,7 +46,7 @@ public class RMK  implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
     @Column(name = "opiskosztu")
     private String opiskosztu;
     @JoinColumn(name = "dokid", referencedColumnName = "id")
@@ -86,15 +86,16 @@ public class RMK  implements Serializable{
         this.ujetewksiegach = new ArrayList<>();
         this.procentkosztpodatkowy = 100.0;
     }
+    
+    
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-    
 
     public String getOpiskosztu() {
         return opiskosztu;

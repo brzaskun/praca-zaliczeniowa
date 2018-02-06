@@ -40,7 +40,7 @@ public class StowNaliczenie implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
-    protected int id;
+    protected Integer id;
     @JoinColumn(name="miejsce", referencedColumnName = "id")
     private MiejscePrzychodow miejsce;
     @Column(name="rok")
@@ -112,15 +112,17 @@ public class StowNaliczenie implements Serializable {
         return "StowNaliczenie{" + "miejsce=" + miejsce.opismiejsca + ", rok=" + rok + ", mc=" + mc + ", przych0koszt1=" + przych0koszt1 + ", kwota=" + kwota + ", kategoria=" + kategoria + '}';
     }
 
-    public int getId() {
+    
+    
+    
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    
     public MiejscePrzychodow getMiejsce() {
         return miejsce;
     }

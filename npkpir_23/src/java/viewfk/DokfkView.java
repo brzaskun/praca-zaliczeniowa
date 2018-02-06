@@ -488,7 +488,9 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 wiersz.getStronaWn().setKwota(kwotanowa);
                 przepiszWaluty(wiersz);
+                if (kwotastara != 0.0) {
                 sprawdzwartoscigrupy(wiersz);
+                }
             } catch (Exception e1) {
                 E.e(e1);
             }
@@ -508,7 +510,9 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 wiersz.getStronaMa().setKwota(kwotanowa);
                 przepiszWaluty(wiersz);
+                if (kwotastara != 0.0) {
                 sprawdzwartoscigrupy(wiersz);
+                }
             } catch (Exception e1) {
                 E.e(e1);
             }

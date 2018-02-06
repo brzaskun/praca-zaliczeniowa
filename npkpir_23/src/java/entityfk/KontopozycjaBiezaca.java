@@ -40,6 +40,7 @@ public class KontopozycjaBiezaca extends KontopozycjaSuper implements Serializab
     private static final long serialVersionUID = 1L;
 
     public KontopozycjaBiezaca(KontopozycjaZapis p) {
+        this.idKP = null;
         this.kontoID = p.kontoID;
         this.pozycjaMa = p.pozycjaMa;
         this.pozycjaWn = p.pozycjaWn;
@@ -52,12 +53,14 @@ public class KontopozycjaBiezaca extends KontopozycjaSuper implements Serializab
 
     public KontopozycjaBiezaca() {
     }
+    
+    
 
-    public int getIdKP() {
+    public Integer getIdKP() {
         return idKP;
     }
 
-    public void setIdKP(int idKP) {
+    public void setIdKP(Integer idKP) {
         this.idKP = idKP;
     }
 

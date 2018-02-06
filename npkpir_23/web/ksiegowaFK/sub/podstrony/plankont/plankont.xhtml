@@ -82,7 +82,7 @@
                   </p:selectOneMenu>
                    <h:outputText value="#{mgs.nazwaukładu}"/>
                    <p:selectOneMenu value="#{planKontView.wybranyuklad}" converter="UkladBRConv">
-                       <f:selectItem itemLabel="brak układu" itemValue="" noSelectionOption="true"/>
+                       <f:selectItem itemLabel="brak układu"  noSelectionOption="true"/>
                         <f:selectItems value="#{planKontView.listaukladow}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" update="form_dialog_plankont:dataList" partialSubmit="true" listener="#{planKontView.zmienuklad()}"/>
                     </p:selectOneMenu>

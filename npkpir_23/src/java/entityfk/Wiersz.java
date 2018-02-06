@@ -61,7 +61,7 @@ public class Wiersz implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idwiersza", nullable = false)
     //to jest id generowany przez serwer
-    private int idwiersza;
+    private Integer idwiersza;
     @Column(name = "idporzadkowy")
     //to jest numer nadawany kazdorazowo od 1 dla numerowania wewnatrz dokumentu
     private Integer idporzadkowy;
@@ -421,8 +421,10 @@ public class Wiersz implements Serializable {
                 return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : " + typWiersza + " Wn: null, Ma: " + getStronaMa().getKwota() + " Ma:" + getStronaMa().getKonto().getPelnynumer() + " " + opisWiersza;
             } else if (getStronaMa() == null && getStronaWn().getKonto() != null) {
                 return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : " + typWiersza + " Wn: " + getStronaWn().getKwota() + " Ma: null}" + " Wn:" + getStronaWn().getKonto().getPelnynumer() + " " + opisWiersza;
-            } else if (getStronaWn().getKonto() != null && getStronaMa().getKonto() != null) {
+            } else if (idwiersza != null && getStronaWn().getKonto() != null && getStronaMa().getKonto() != null) {
                 return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + "typ : " + typWiersza + " Wn: " + getStronaWn().getKwota() + " Ma: " + getStronaMa().getKwota() + " Wn:" + getStronaWn().getKonto().getPelnynumer() + " Ma: " + getStronaMa().getKonto().getPelnynumer() + " " + opisWiersza;
+            } else if (getStronaWn().getKonto() != null && getStronaMa().getKonto() != null) {
+                return "idwiersza= null, idporz.=" + idporzadkowy + "typ : " + typWiersza + " Wn: " + getStronaWn().getKwota() + " Ma: " + getStronaMa().getKwota() + " Wn:" + getStronaWn().getKonto().getPelnynumer() + " Ma: " + getStronaMa().getKonto().getPelnynumer() + " " + opisWiersza;
             } else if (getStronaWn() != null && getStronaMa() != null) {
                 return "idwiersza= null, idporz.=" + idporzadkowy + "typ : " + typWiersza + " Wn: " + getStronaWn().getKwota() + " Ma: " + getStronaMa().getKwota() + " " + opisWiersza;
             } else {

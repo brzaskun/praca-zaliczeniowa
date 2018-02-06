@@ -122,6 +122,7 @@ public class PodatnikView implements Serializable {
     private List<PodatnikOpodatkowanieD> podatnikOpodatkowanie;
     @Inject
     private PodatnikOpodatkowanieD wybranyPodatnikOpodatkowanie;
+    private PodatnikOpodatkowanieD podatnikOpodatkowanieSelected;
     private List<FormaPrawna> formyprawne;
     private boolean wszystkiekonta;
     @Inject
@@ -221,6 +222,19 @@ public class PodatnikView implements Serializable {
         } catch (Exception e) { 
             E.e(e); 
             Msg.msg("e", "Wystąpił błąd podczas resetowania formularza");
+        }
+    }
+    
+    public void edycjaopodatkowanie(PodatnikOpodatkowanieD item) {
+        try {
+            if (item.getDolaczonydoroku().equals("")) {
+                item.setDolaczonydoroku(null);
+            }
+            podatnikOpodatkowanieDDAO.edit(item);
+            Msg.msg("i", "Edycja roku obrotowego udana.");
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e", "Wystąpił błąd podczas edycji roku obrotowego");
         }
     }
 
@@ -1535,6 +1549,16 @@ public class PodatnikView implements Serializable {
     public void setWszystkiekonta(boolean wszystkiekonta) {
         this.wszystkiekonta = wszystkiekonta;
     }
+
+    public PodatnikOpodatkowanieD getPodatnikOpodatkowanieSelected() {
+        return podatnikOpodatkowanieSelected;
+    }
+
+    public void setPodatnikOpodatkowanieSelected(PodatnikOpodatkowanieD podatnikOpodatkowanieSelected) {
+        this.podatnikOpodatkowanieSelected = podatnikOpodatkowanieSelected;
+    }
+
+    
 
     public void setPodatnikUdzialy(List<PodatnikUdzialy> podatnikUdzialy) {
         this.podatnikUdzialy = podatnikUdzialy;

@@ -29,7 +29,7 @@ public class MiejsceSuper implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
-    protected int id;
+    protected Integer id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "aktywny", nullable = false)
@@ -58,14 +58,14 @@ public class MiejsceSuper implements Serializable {
     @Column(name = "pokaz0chowaj1", nullable = true)
     protected boolean pokaz0chowaj1;
 
-    public int getId() {
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
 
     public boolean isAktywny() {
         return aktywny;

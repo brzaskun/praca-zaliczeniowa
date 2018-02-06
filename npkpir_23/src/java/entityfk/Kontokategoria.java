@@ -15,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -43,7 +45,7 @@ public class Kontokategoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private int id;
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
@@ -66,12 +68,12 @@ public class Kontokategoria implements Serializable {
         this.listakont = new ArrayList<>();
     }
 
-    public Kontokategoria(int id) {
+    public Kontokategoria(Integer id) {
         this.listakont = new ArrayList<>();
         this.id = id;
     }
 
-    public Kontokategoria(int id, String symbol, String opispelny, String opisskrocony) {
+    public Kontokategoria(Integer id, String symbol, String opispelny, String opisskrocony) {
         this.listakont = new ArrayList<>();
         this.id = id;
         this.symbol = symbol;
@@ -79,15 +81,13 @@ public class Kontokategoria implements Serializable {
         this.opisskrocony = opisskrocony;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
-    
 
     public String getSymbol() {
         return symbol;
@@ -120,35 +120,28 @@ public class Kontokategoria implements Serializable {
     public void setListakont(List<Konto> listakont) {
         this.listakont = listakont;
     }
+    
+    
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + this.id;
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Kontokategoria)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Kontokategoria other = (Kontokategoria) obj;
-        if (this.id != other.id) {
+        Kontokategoria other = (Kontokategoria) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
-    
-    
-
-   
 
     @Override
     public String toString() {
