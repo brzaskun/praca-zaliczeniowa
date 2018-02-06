@@ -1065,6 +1065,7 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":walutadokumentuzest");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":vatdokumentuzest");
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
+                RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
             } catch (Exception e) {
                 E.e(e);
                 komunikatywpisdok = "Nie udało się zmienic dokumentu ";
