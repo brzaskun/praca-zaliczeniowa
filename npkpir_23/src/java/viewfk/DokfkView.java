@@ -489,7 +489,7 @@ public class DokfkView implements Serializable {
                 wiersz.getStronaWn().setKwota(kwotanowa);
                 przepiszWaluty(wiersz);
                 if (kwotastara != 0.0) {
-                sprawdzwartoscigrupy(wiersz);
+                    sprawdzwartoscigrupy(wiersz);
                 }
             } catch (Exception e1) {
                 E.e(e1);
@@ -511,7 +511,7 @@ public class DokfkView implements Serializable {
                 wiersz.getStronaMa().setKwota(kwotanowa);
                 przepiszWaluty(wiersz);
                 if (kwotastara != 0.0) {
-                sprawdzwartoscigrupy(wiersz);
+                    sprawdzwartoscigrupy(wiersz);
                 }
             } catch (Exception e1) {
                 E.e(e1);
