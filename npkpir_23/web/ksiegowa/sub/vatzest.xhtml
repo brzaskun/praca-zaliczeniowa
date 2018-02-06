@@ -14,8 +14,8 @@
             document.getElementById('link').click()
         }
     </script>
-    <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}" rendered="#{!WpisView.ksiegirachunkowe}"/>
-<!--    <p:commandButton value="sporządź" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}" update="formVatZestKsiegowa" style="width: 120px; padding: 5px;"/>-->
+    <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}" rendered="#{!WpisView.ksiegirachunkowe}"/>
+<!--    <p:commandButton value="sporządź" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}" update="formVatZestKsiegowa" style="width: 120px; padding: 5px;"/>-->
     <p:tabView id="akordeon">
         <p:tab id="ewid1" title="ewidencje">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
