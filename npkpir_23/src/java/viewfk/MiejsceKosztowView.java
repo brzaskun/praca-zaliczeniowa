@@ -125,11 +125,12 @@ public class MiejsceKosztowView  implements Serializable{
     }
 
     public void usun(MiejsceKosztow miejsceKosztow) {
-        if (miejsceKosztow.isAktywny() == true) {
-            Msg.msg("e", "Miejsce kosztów jest w użyciu, nie można usunąć opisu");
-        } else {
+        try {
             miejsceKosztowDAO.destroy(miejsceKosztow);
             miejscakosztow.remove(miejsceKosztow);
+            Msg.msg("Usunięto miejsce kosztów");
+        } catch (Exception e) {
+            Msg.dPe();
         }
     }
     
