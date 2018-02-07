@@ -7,6 +7,7 @@ package jpk.view;
 
 import beansPodpis.ObslugaPodpisuBean;
 import dao.UPODAO;
+import daoFK.EVatwpisDedraDAO;
 import data.Data;
 import embeddable.TKodUS;
 import entity.EVatwpis1;
@@ -14,6 +15,7 @@ import entity.EVatwpisSuper;
 import entity.JPKSuper;
 import entity.Podatnik;
 import entity.UPO;
+import entityfk.EVatwpisDedra;
 import entityfk.EVatwpisFK;
 import error.E;
 import java.io.File;
@@ -61,6 +63,8 @@ public class JPK_VAT2View implements Serializable {
     private UPO selected;
     private boolean nowa0korekta1;
     private boolean pkpir0ksiegi1;
+    @Inject
+    private EVatwpisDedraDAO eVatwpisDedraDAO;
     
     public void init() {
         try {
@@ -95,10 +99,18 @@ public class JPK_VAT2View implements Serializable {
     
         
     
+    public void przygotujXMLDedra() {
+        List<EVatwpisDedra> wiersze =  eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
+        List<EVatwpisSuper> lista = new ArrayList<>(wiersze);
+        generujXML(lista, wpisView.getPodatnikObiekt(), nowa0korekta1);
+        wysylkaJPK();
+    }
+    
     public void przygotujXML() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
-        generujXML(wpisView.getPodatnikObiekt(), nowa0korekta1);
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+        generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
         wysylkaJPK();
     }
     
@@ -109,7 +121,8 @@ public class JPK_VAT2View implements Serializable {
         } else {
             ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik);
         }
-        generujXML(podatnik, nowa0korekta1);
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+        generujXML(wiersze, podatnik, nowa0korekta1);
         UPO upo = wysylkaJPK();
         if (upo != null && upo.getReferenceNumber() != null) {
             dowyslania.remove(podatnik);
@@ -121,6 +134,11 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         generujXMLPodglad(wpisView.getPodatnikObiekt(), nowa0korekta1);
+    }
+    
+    public void przygotujXMLPodgladDedra() {
+        List<EVatwpisDedra> wiersze =  eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
+        generujXMLPodgladDedra(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
     }
     
     public void przygotujXMLPodgladAll(Podatnik podatnik) {
@@ -136,7 +154,8 @@ public class JPK_VAT2View implements Serializable {
     public void przygotujXMLFK() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt());
-        generujXML(wpisView.getPodatnikObiekt(), nowa0korekta1);
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+        generujXML(wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1);
         wysylkaJPK();
     }
     
@@ -162,12 +181,11 @@ public class JPK_VAT2View implements Serializable {
     
       
     
-    private JPKSuper genJPK(Podatnik podatnik, boolean nowa0korekta1) {
+    private JPKSuper genJPK(List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
         JPKSuper zwrot = null;
         try {
             if (wpisView.getRokWpisu()>2017) {
                 jpk201801.JPK jpk = new jpk201801.JPK();
-                List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
                 Object[] sprzedaz = utworzWierszeJpkSprzedaz3(wiersze);
                 List<jpk201801.JPK.SprzedazWiersz> listas = (List<jpk201801.JPK.SprzedazWiersz>) sprzedaz[0];
                 jpk201801.JPK.SprzedazCtrl sprzedazCtrl = (jpk201801.JPK.SprzedazCtrl) sprzedaz[1];
@@ -179,17 +197,16 @@ public class JPK_VAT2View implements Serializable {
                 jpk.getNaglowek().setCelZlozenia(cel);
                 jpk.setPodmiot1(JPK_VAT3_Bean.podmiot1(podatnik));
                 jpk.getSprzedazWiersz().addAll(listas);
-                if (sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
+                if (sprzedazCtrl != null && sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
                     jpk.setSprzedazCtrl(sprzedazCtrl);
                 }
                 jpk.getZakupWiersz().addAll(listaz);
-                if (zakupCtrl.getLiczbaWierszyZakupow().intValue() > 0) {
+                if (zakupCtrl != null && zakupCtrl.getLiczbaWierszyZakupow().intValue() > 0) {
                     jpk.setZakupCtrl(zakupCtrl);
                 }
                 zwrot = jpk;
             } else {
                 jpk201701.JPK jpk = new jpk201701.JPK();
-                List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
                 Object[] sprzedaz = utworzWierszeJpkSprzedaz2(wiersze);
                 List<jpk201701.JPK.SprzedazWiersz> listas = (List<jpk201701.JPK.SprzedazWiersz>) sprzedaz[0];
                 jpk201701.JPK.SprzedazCtrl sprzedazCtrl = (jpk201701.JPK.SprzedazCtrl) sprzedaz[1];
@@ -259,8 +276,24 @@ public class JPK_VAT2View implements Serializable {
     }
     
     
+    public void generujXMLPodgladDedra(List<EVatwpisDedra> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
+        List<EVatwpisSuper> lista = new ArrayList<>(wiersze);
+        JPKSuper jpk = genJPK(lista, podatnik, nowa0korekta1);
+        try {
+            if (wpisView.getRokWpisu() > 2017) {
+                PdfUPO.drukujJPK3(jpk, wpisView, podatnik);
+            } else {
+                PdfUPO.drukujJPK2(jpk, wpisView, podatnik);
+            }
+        } catch(Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
+            E.e(e);
+        }
+    }
+    
     public void generujXMLPodglad(Podatnik podatnik, boolean nowa0korekta1) {
-        JPKSuper jpk = genJPK(podatnik, nowa0korekta1);
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+        JPKSuper jpk = genJPK(wiersze, podatnik, nowa0korekta1);
         try {
             if (wpisView.getRokWpisu() > 2017) {
                 PdfUPO.drukujJPK3(jpk, wpisView, podatnik);
@@ -274,8 +307,8 @@ public class JPK_VAT2View implements Serializable {
     }
     
     
-    public void generujXML(Podatnik podatnik, boolean nowa0korekta1) {
-        JPKSuper jpk = genJPK(podatnik, nowa0korekta1);
+    public void generujXML(List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
+        JPKSuper jpk = genJPK(wiersze, podatnik, nowa0korekta1);
         try {
             marszajuldoplikuxml(podatnik, jpk);
             Msg.msg("Wygenerowano plik JPK");
@@ -338,6 +371,14 @@ public class JPK_VAT2View implements Serializable {
                         lista.add(JPK_VAT2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
                     }
                 }
+            } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
+                int lp = 1;
+                for (Object p : wiersze) {
+                    EVatwpisDedra wiersz = (EVatwpisDedra) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                    }
+                }
             } else {
                 int lp = 1;
                 for (Object p : wiersze) {
@@ -366,6 +407,14 @@ public class JPK_VAT2View implements Serializable {
                 int lp = 1;
                 for (Object p : wiersze) {
                     EVatwpis1 wiersz = (EVatwpis1) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT3_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                    }
+                }
+            } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
+                int lp = 1;
+                for (Object p : wiersze) {
+                    EVatwpisDedra wiersz = (EVatwpisDedra) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
                         lista.add(JPK_VAT3_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
                     }
@@ -402,6 +451,8 @@ public class JPK_VAT2View implements Serializable {
                         lista.add(JPK_VAT2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
                     }
                 }
+            } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
+
             } else {
                 int lp = 1;
                 for (Object p : wiersze) {
@@ -434,6 +485,8 @@ public class JPK_VAT2View implements Serializable {
                         lista.add(JPK_VAT3_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
                     }
                 }
+            } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
+
             } else {
                 int lp = 1;
                 for (Object p : wiersze) {

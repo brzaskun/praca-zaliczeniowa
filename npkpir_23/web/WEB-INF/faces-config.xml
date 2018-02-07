@@ -33,6 +33,10 @@
             <to-view-id>/dedra/dedraDeklaracje.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>dedrajpk</from-outcome>
+            <to-view-id>/dedra/dedraJPK.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>admin</from-outcome>
             <to-view-id>/admin/adminIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

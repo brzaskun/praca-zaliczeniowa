@@ -16,7 +16,7 @@
                       style="height: 100px; width: 500px;">
         </p:fileUpload>
         <p:dataTable value="#{eVatDeklaracjaPlikView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px;"
-                     scrollable="true" scrollHeight="350" scrollRows="20" editable="true"
+                     scrollable="true" scrollHeight="450" scrollRows="20" editable="true"
                      emptyMessage="#{mgs.niepobranowierszy}">
             <p:ajax event="rowEdit" update=":form:messages" listener="#{eVatDeklaracjaPlikView.zachowajzmiany}" global="false"/>
             <p:column style="width: 20px;">
@@ -31,7 +31,7 @@
                 </f:facet>
                 <h:outputText value="#{item.dataoperacji}"/>
             </p:column>
-            <p:column style="width: 40px;">
+            <p:column style="width: 50px;">
                 <f:facet name="header">
                     <h:outputText value="#{mgs.mcrok}"/>
                 </f:facet>

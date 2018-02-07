@@ -15,7 +15,7 @@
                           uploadLabel="#{mgs.wczytaj}" label="#{mgs.wybierz}" cancelLabel="#{mgs.rezygnuj}"   rendered="#{eVatDedraView.wiersze.size() eq 0}"
                           style="height: 100px; width: 500px;">
             </p:fileUpload>
-            <p:dataTable value="#{eVatDedraView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px;"
+            <p:dataTable value="#{eVatDedraView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1300px;"
                          scrollable="true" scrollHeight="550" scrollRows="20" sortBy="#{item.faktura}"
                          emptyMessage="#{mgs.niepobranowierszy}">
                 <f:facet name="header">
@@ -27,13 +27,13 @@
                     </f:facet>
                     <h:outputText value="#{index+1}" rendered="#{item.ulica ne 'podsumowanie'}"/>
                 </p:column>
-                <p:column style="width: 80px;" sortBy="#{item.datadokumentu}">
+                <p:column style="width: 90px;" sortBy="#{item.datadokumentu}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.dataksiegowania}"/>
                     </f:facet>
                     <h:outputText value="#{item.datadokumentu}"/>
                 </p:column>
-                <p:column style="width: 40px;">
+                <p:column style="width: 50px;">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.mcrok}"/>
                     </f:facet>

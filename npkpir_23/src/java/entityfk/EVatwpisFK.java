@@ -182,6 +182,7 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
         this.klient = klient;
     }
 
+    @Override
     public Evewidencja getEwidencja() {
         return ewidencja;
     }

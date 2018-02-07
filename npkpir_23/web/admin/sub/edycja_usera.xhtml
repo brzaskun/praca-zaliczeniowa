@@ -29,7 +29,7 @@
                 <f:selectItem itemValue="cz" itemLabel="cz"/>
             </p:selectOneMenu>
             <p:selectOneMenu value="#{UzView.selUzytkownik.firma}" style="width: 300px;" >
-                <f:selectItems value="#{podatnikWyborView.listaPodatnikow}" var="item" itemLabel="#{item.nazwapelna}" itemValue="#{item.nip}"/>
+                <f:selectItems value="#{podatnikWyborView.listaPodatnikow}" var="item" itemLabel="#{item.printnazwa}" itemValue="#{item.nip}"/>
             </p:selectOneMenu>
             <p:selectOneMenu value="#{UzView.selUzytkownik.loginglowny}" style="width: 200px;" converter="#{uzConv}">
                 <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>

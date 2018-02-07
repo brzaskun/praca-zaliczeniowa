@@ -11,12 +11,12 @@
                  <h:outputText value="#{mgs.rok}:" style="text-shadow: #6374AB 1px -1px 1px"/>
                  <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="form_dialog_ewvat_dedra"/>
+                    <p:ajax event="change" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="@(form)"/>
                 </p:selectOneMenu>
                  <h:outputText value="#{mgs.mcshort}:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="form_dialog_ewvat_dedra"/>
+                    <p:ajax event="change" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="@(form)"/>
                 </p:selectOneMenu>
             </p:panelGrid>
         </h:form>
@@ -25,6 +25,7 @@
                 <p:submenu label="menu">  
                     <p:menuitem value="#{mgs.dokumenty}" outcome="Dedra" icon="ui-icon-circle-arrow-e" />
                     <p:menuitem value="#{mgs.deklaracje}" outcome="dedradeklaracje" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="JPK" outcome="dedrajpk" icon="ui-icon-circle-arrow-e" />
                 </p:submenu>  
             </p:menu>
              <p:panel>

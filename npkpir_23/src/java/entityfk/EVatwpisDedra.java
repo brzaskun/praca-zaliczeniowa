@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokMc", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc"),
     @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokInnyOkres", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.innyokres != 0")
 })
-public class EVatwpisDedra implements Serializable {
+public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

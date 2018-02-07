@@ -5,13 +5,18 @@
       xmlns:p="http://primefaces.org/ui">
     <h:form id="form_dialog_jpk_vat" >
         <p:panel header="wygeneruj JPK VAT za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt}" style="width: 1250px;"/>
-        <p:panelGrid columns="2">
+        <p:panelGrid columns="2" rendered="#{WpisView.podatnikObiekt.nip ne '5263158333'}">
             <p:commandButton value="wyślij jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="wyślij korektafk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="podgląd jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKPodglad()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
+        </p:panelGrid>
+        <p:panelGrid columns="2" rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}">
+            <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujDedra()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodgladDedra()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
         </p:panelGrid>
         <p:dataTable value="#{jPK_VAT2View.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px; margin-top: 10px;"
                       sortBy="#{item.miesiac}"

@@ -208,6 +208,12 @@ public class EVatwpisSuper implements Serializable {
     public String getNrpozycji() {
         return "";
     }
+
+    public void setEwidencja(Evewidencja ewidencja) {
+        this.ewidencja = ewidencja;
+    }
+
+
     
 
     @Override
