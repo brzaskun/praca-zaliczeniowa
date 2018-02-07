@@ -8,17 +8,11 @@ import entity.*;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.inject.Named;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -34,29 +28,15 @@ import javax.validation.constraints.Size;
 })
 public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private long id;
     private int lp;
-    @JoinColumn(name = "ewidencja", referencedColumnName = "nazwa")
-    @ManyToOne
-    private Evewidencja ewidencja;
     @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnikObj;
-    @Column(name = "netto")
-    private double netto;
     @Column(name = "nettowwalucie")
     private double nettowwalucie;
-    @Column(name = "vat")
-    private double vat;
     @Column(name = "vatwwalucie")
     private double vatwwalucie;
     @Column(name = "brutto")
     private double brutto;
-    @Column(name = "estawka")
-    private String estawka;
     @Column(name = "imienazwisko")
     private String imienazwisko;
     @Column(name = "faktura")
@@ -71,12 +51,7 @@ public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
     private String dataoperacji;
     @Column(name = "innyokres")
     private int innyokres;
-    @Size(max = 2)
-    @Column(name = "mcEw")
-    private String mcEw;
-    @Size(max = 4)
-    @Column(name = "rokEw")
-    private String rokEw;
+    
 
 
     public EVatwpisDedra(double netto, double vat) {
@@ -215,7 +190,7 @@ public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
     public Podatnik getPodatnikObj() {
         return podatnikObj;
     }
-
+  
     public void setPodatnikObj(Podatnik podatnikObj) {
         this.podatnikObj = podatnikObj;
     }
