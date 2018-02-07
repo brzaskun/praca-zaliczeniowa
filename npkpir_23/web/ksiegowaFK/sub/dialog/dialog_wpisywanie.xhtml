@@ -499,6 +499,7 @@
                                          styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                                 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{loop.idporzadkowy}');" -->
                                 <p:ajax global="false" event="focus" onstart="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.setLpwierszaRK(index+1)}"/>
+                                <p:ajax global="false" event="focus" listener="#{dokfkView.sprawdzwartoscigrupy(loop)}"/>
 <!--                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>-->
                                 <p:ajax global="false" event="blur" oncomplete="skopiujopis(#{loop.idporzadkowy});" partialSubmit="true" />
                             </p:inputText>

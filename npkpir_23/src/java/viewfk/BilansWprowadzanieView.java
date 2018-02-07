@@ -174,7 +174,7 @@ public class BilansWprowadzanieView implements Serializable {
         String mc = wpisView.getMiesiacWpisu();
         walutadomyslna = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
         this.listaW = new ArrayList<>();
-        if (wpisView.getPodatnikObiekt().getDataotwarcialikwidacji()!=null) {
+        if (wpisView.getPodatnikObiekt().getDataotwarcialikwidacji()!=null && !wpisView.getPodatnikObiekt().getDataotwarcialikwidacji().equals("")) {
             String mcl = Data.getMc(wpisView.getPodatnikObiekt().getDataotwarcialikwidacji());
             wpisView.setMiesiacWpisu(mcl);
         }
@@ -275,19 +275,23 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     public void pobierzlista(int nrlisty) {
-        pokazstarekonta = false;
-        listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1100px; padding: 10px; margin-top: 5px;");
-        listaBO = listazbiorcza.get(nrlisty);
-        if (listaBO.size() == 1 && listaBO.get(0).getKonto() == null) {
-            listaBO.remove(0);
-        }
-        listaBOsumy = listaSumList.get(nrlisty);
-        nraktualnejlisty = nrlisty;
-        if (listaBOFiltered != null) {
-            listaBOFiltered = null;
-            RequestContext.getCurrentInstance().execute("try{PF('tab0prosta').clearFilters()}catch(e){}");
-            RequestContext.getCurrentInstance().execute("try{PF('tab0zlozona').clearFilters()}catch(e){}");
-        }
+        try {
+            pokazstarekonta = false;
+            if (listaBOdatatable != null) {
+                listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1100px; padding: 10px; margin-top: 5px;");
+            }
+            listaBO = listazbiorcza.get(nrlisty);
+            if (listaBO.size() == 1 && listaBO.get(0).getKonto() == null) {
+                listaBO.remove(0);
+            }
+            listaBOsumy = listaSumList.get(nrlisty);
+            nraktualnejlisty = nrlisty;
+            if (listaBOFiltered != null) {
+                listaBOFiltered = null;
+                RequestContext.getCurrentInstance().execute("try{PF('tab0prosta').clearFilters()}catch(e){}");
+                RequestContext.getCurrentInstance().execute("try{PF('tab0zlozona').clearFilters()}catch(e){}");
+            }
+        } catch (Exception e) {}
     }
     
     public void pobierzlistaS() {

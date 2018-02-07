@@ -2724,13 +2724,12 @@ public class DokfkView implements Serializable {
         Msg.msg("Zmieniono ewidencje");
     }
 
-    public void sprawdzwartoscigrupy(Wiersz wierszbiezacy) {
+    public void sprawdzwartoscigrupy(Wiersz wiersznastepny) {
         try {
-            Wiersz wiersznastepny = selected.nastepnyWiersz(wierszbiezacy);
-            if (wiersznastepny==null || wierszbiezacy.getDokfk().getSeriadokfk().equals("BO")) {
+            if (wiersznastepny.getDokfk().getSeriadokfk().equals("BO")) {
                 return;
             }
-            Wiersz wierszpodstawowy = wierszbiezacy;
+            Wiersz wierszpodstawowy = selected.poprzedniWiersz(wiersznastepny);
             if (wierszpodstawowy.getLpmacierzystego() != 0) {
                 wierszpodstawowy = selected.getListawierszy().get(wierszpodstawowy.getLpmacierzystego()-1);
             }
