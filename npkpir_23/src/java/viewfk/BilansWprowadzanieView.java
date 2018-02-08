@@ -907,7 +907,7 @@ public class BilansWprowadzanieView implements Serializable {
         int idporzadkowy = 1;
         if (listabiezaca != null && listabiezaca.size() > 0) {
             for (WierszBO p : listabiezaca) {
-                if (p != null && (p.getKwotaWn() != 0 || p.getKwotaMa() != 0 || p.getKwotaWnPLN() != 0 || p.getKwotaMaPLN() != 0)) {
+                if (p != null && (p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaWnPLN() != 0.0 || p.getKwotaMaPLN() != 0.0)) {
                     Wiersz w = new Wiersz(idporzadkowy++, 0);
                     uzupelnijwiersz(w, nd);
                     if (p.getKonto().getPelnynumer().equals("202-1-5")) {
@@ -963,7 +963,7 @@ public class BilansWprowadzanieView implements Serializable {
         for (Iterator<WierszBO> it = zachowaneWiersze.iterator(); it.hasNext();) {
             WierszBO p = it.next();
             Wiersz wierszwdokumencie = niezawierategokonta(wiersze, p);
-            if (wierszwdokumencie == null && (Z.z(p.getKwotaWn()) != 0.0 || Z.z(p.getKwotaMa()) != 0.0)) {
+            if (wierszwdokumencie == null && (Z.z(p.getKwotaWn()) != 0.0 || Z.z(p.getKwotaWnPLN()) != 0.0 || Z.z(p.getKwotaMa()) != 0.0 || Z.z(p.getKwotaMaPLN()) != 0.0)) {
                 Wiersz w = new Wiersz(idporzadkowy++, 0);
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "zapis BO: " + p.getOpis();
@@ -971,26 +971,26 @@ public class BilansWprowadzanieView implements Serializable {
                     opiswiersza = "kwota obrotów: " + p.getOpis();
                 }
                 w.setOpisWiersza(opiswiersza);
-                if (p.getKwotaWn() != 0.0) {
+                if (p.getKwotaWn() != 0.0 || p.getKwotaWnPLN()!= 0.0) {
                     generujStronaWierszaWn(p, w);
-                } else if (p.getKwotaMa() != 0.0) {
+                } else if (p.getKwotaMa() != 0.0 || p.getKwotaMaPLN() != 0.0) {
                     generujStronaWierszaMa(p, w);
                 }
                 nd.getListawierszy().add(w);
-            } else if (wierszwdokumencie != null && (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0)) {
+            } else if (wierszwdokumencie != null && (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0) && Z.z(p.getKwotaWnPLN()) == 0.0 && Z.z(p.getKwotaMaPLN()) == 0.0) {
                 usunWiersz(wierszwdokumencie);
-            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaWn() != null && p.getKwotaWn() != 0.0) {
+            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaWn() != null && (p.getKwotaWn() != 0.0  || p.getKwotaWnPLN()!= 0.0)) {
                 edytujKwotaWiersz(p, wierszwdokumencie.getStronaWn(), "Wn");
-            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaMa() != null && p.getKwotaMa() != 0.0) {
+            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaMa() != null && (p.getKwotaMa() != 0.0 || p.getKwotaMaPLN() != 0.0)) {
                 edytujKwotaWiersz(p, wierszwdokumencie.getStronaMa(), "Ma");
-            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaWn() != null && p.getKwotaMa() != 0.0) {
+            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaWn() != null && (p.getKwotaMa() != 0.0 || p.getKwotaMaPLN() != 0.0)) {
                 usunStronaWiersza(wierszwdokumencie, "Wn");
                 generujStronaWierszaMa(p, wierszwdokumencie);
-            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaMa() != null && p.getKwotaWn() != 0.0) {
+            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaMa() != null && (p.getKwotaWn() != 0.0  || p.getKwotaWnPLN()!= 0.0)) {
                 usunStronaWiersza(wierszwdokumencie, "Ma");
                 generujStronaWierszaWn(p, wierszwdokumencie);
             }
-            if (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0) {
+            if (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0 && Z.z(p.getKwotaWnPLN()) == 0.0 && Z.z(p.getKwotaMaPLN()) == 0.0) {
                 wierszBODAO.destroy(p);
                 it.remove();
             }
