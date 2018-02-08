@@ -5,6 +5,8 @@
  */
 package jpk.view;
 
+import entity.JPKSuper;
+import entity.Podatnik;
 import entity.UPO;
 import error.E;
 import java.io.File;
@@ -23,7 +25,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import jpk.initupload.PrzygotujInitUploadXML;
 import static jpk.view.UnzipUtility.unzip;
-import jpk201701.JPK;
 import view.WpisView;
 
 /**
@@ -51,7 +52,7 @@ public class SzachMatJPK {
     }
     
     //UWAGA USTAWIENIA PRODUKCYJNE
-    public static String[] wysylka(WpisView wpisView, UPO upo) {
+    public static String[] wysylka(Podatnik podatnik, WpisView wpisView, UPO upo) {
         String[] wiadomosc = new String[4];
         wiadomosc[0] = "w";
         wiadomosc[1] = "Rozpoczęcie wysyłki JPK";   
@@ -59,7 +60,7 @@ public class SzachMatJPK {
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String dir = ctx.getRealPath("/")+"resources\\xml\\";
             //String mainfilename = "JPK-VAT-TEST-0001.xml";
-            String mainfilename = "jpk"+wpisView.getPodatnikObiekt().getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+            String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
             String dirmainfilename = dir+mainfilename;
             File czyjestmainfile = new File(dirmainfilename);
             if (czyjestmainfile.exists()) {
@@ -80,11 +81,11 @@ public class SzachMatJPK {
                 String partfilehash = WysylkaSub.fileMD5ToBase64(diraesfilename);
                 String plikxmlnazwa = "wysylka"+mainfilename;
                 String dirplikxmlnazwa = dir+plikxmlnazwa;
-                PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), aesfilename, partfilesize, partfilehash, dirplikxmlnazwa);
+                PrzygotujInitUploadXML.robDokument(wpisView, encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), aesfilename, partfilesize, partfilehash, dirplikxmlnazwa);
                 String content = new String(Files.readAllBytes(Paths.get(dirplikxmlnazwa)));
                 String plikxmlnazwapodpis = "wysylkapodpis"+mainfilename;
                 String dirplikxmlnazwapodpis = dir+plikxmlnazwapodpis;
-                JPK jpk = pobierzJPK(dirmainfilename);
+                JPKSuper jpk = pobierzJPK(dirmainfilename, wpisView);
                 beansPodpis.Xad.podpiszjpk(content, dirplikxmlnazwapodpis);
                 upo.uzupelnij(wpisView, jpk);
                 Object[] zwrot = beanJPKwysylka.wysylkadoMF(diraesfilename, dirplikxmlnazwapodpis, upo);
@@ -138,7 +139,7 @@ public class SzachMatJPK {
     }
     
     //UWAGA USTAWIENIA PRODUKCYJNE
-    public static void wysylkaTest() {
+    public static void wysylkaTest(WpisView wpisView) {
         try {
             //JPK jpk = WysylkaSub.makedummyJPK();
             String mainfilename = "james2.xml";
@@ -159,7 +160,7 @@ public class SzachMatJPK {
             String partfilehash = WysylkaSub.fileMD5ToBase64(partfilename);
             String plikxmlnazwa = "wysylka.xml";
             String plikxmlnazwapodpis = "wysylkapodpis.xml";
-            PrzygotujInitUploadXML.robDokument(encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), partfilename, partfilesize, partfilehash, plikxmlnazwa);
+            PrzygotujInitUploadXML.robDokument(wpisView, encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), partfilename, partfilesize, partfilehash, plikxmlnazwa);
             String content = new String(Files.readAllBytes(Paths.get("wysylka.xml")));
             beansPodpis.Xad.podpiszjpk(content, plikxmlnazwapodpis);
             UPO upo = new UPO();
@@ -203,15 +204,27 @@ public class SzachMatJPK {
 
     
    
-    private static JPK pobierzJPK(String dirmainfilename) {
-        JPK zwrot = null;
-        try {
-            JAXBContext context = JAXBContext.newInstance(JPK.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            zwrot = (JPK) unmarshaller.unmarshal(new File(dirmainfilename));
-        } catch (JAXBException ex) {
-            E.e(ex);
+    private static JPKSuper pobierzJPK(String dirmainfilename, WpisView wpisView) {
+        if (wpisView.getRokWpisu() > 2017) {
+            jpk201801.JPK zwrot = null;
+            try {
+                JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                zwrot = (jpk201801.JPK) unmarshaller.unmarshal(new File(dirmainfilename));
+            } catch (JAXBException ex) {
+                E.e(ex);
+            }
+            return zwrot;
+        } else {
+            jpk201701.JPK zwrot = null;
+            try {
+                JAXBContext context = JAXBContext.newInstance(jpk201701.JPK.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                zwrot = (jpk201701.JPK) unmarshaller.unmarshal(new File(dirmainfilename));
+            } catch (JAXBException ex) {
+                E.e(ex);
+            }
+            return zwrot;
         }
-        return zwrot;
     }
 }

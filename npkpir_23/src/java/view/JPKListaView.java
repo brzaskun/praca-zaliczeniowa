@@ -56,6 +56,13 @@ public class JPKListaView  implements Serializable {
         }
         jpkmoznarobic.addAll(podatnikdowyslania);
         jpkzrobione.addAll(upodao.findUPORokMc(wpisView));
+        if (jpkzrobione == null) {
+            jpkzrobione = new ArrayList<>();
+        } else {
+            for (UPO r : jpkzrobione) {
+                jpkmoznarobic.remove(r.getPodatnik());
+            }
+        }
         
     }
     

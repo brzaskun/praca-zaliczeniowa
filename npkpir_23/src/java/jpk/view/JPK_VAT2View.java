@@ -103,7 +103,10 @@ public class JPK_VAT2View implements Serializable {
         List<EVatwpisDedra> wiersze =  eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
         List<EVatwpisSuper> lista = new ArrayList<>(wiersze);
         generujXML(lista, wpisView.getPodatnikObiekt(), nowa0korekta1);
-        wysylkaJPK();
+        UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
+        if (upo != null && upo.getReferenceNumber() != null) {
+            this.lista.add(upo);
+        }
     }
     
     public void przygotujXML() {
@@ -111,7 +114,10 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
-        wysylkaJPK();
+        UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
+        if (upo != null && upo.getReferenceNumber() != null) {
+            this.lista.add(upo);
+        }
     }
     
      public void przygotujXMLAll(Podatnik podatnik,  List<Podatnik> dowyslania,  List<UPO> jpkzrobione) {
@@ -123,7 +129,7 @@ public class JPK_VAT2View implements Serializable {
         }
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         generujXML(wiersze, podatnik, nowa0korekta1);
-        UPO upo = wysylkaJPK();
+        UPO upo = wysylkaJPK(podatnik);
         if (upo != null && upo.getReferenceNumber() != null) {
             dowyslania.remove(podatnik);
             jpkzrobione.add(upo);
@@ -156,7 +162,10 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         generujXML(wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1);
-        wysylkaJPK();
+        UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
+        if (upo != null && upo.getReferenceNumber() != null) {
+            this.lista.add(upo);
+        }
     }
     
     public void przygotujXMLFKPodglad() {
@@ -165,14 +174,17 @@ public class JPK_VAT2View implements Serializable {
         generujXMLPodglad(wpisView.getPodatnikObiekt(), nowa0korekta1);
     }
     
-    private UPO wysylkaJPK() {
+    private UPO wysylkaJPK(Podatnik podatnik) {
         UPO upo = new UPO();
         boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacjpk();
         if (moznapodpisac) {
-            String[] wiadomosc = SzachMatJPK.wysylka(wpisView, upo);
-            wiadomosc = zachowajUPO(upo);
-            Msg.msg(wiadomosc[0], wiadomosc[1]);
-            lista.add(upo);
+            String[] wiadomosc = SzachMatJPK.wysylka(podatnik, wpisView, upo);
+            if (!wiadomosc[0].equals("e")) {
+                wiadomosc = zachowajUPO(upo);
+                Msg.msg(wiadomosc[0], wiadomosc[1]);
+            } else {
+                Msg.msg(wiadomosc[0], wiadomosc[1]);
+            }
         } else {
             Msg.msg("e", "Brak karty w czytniku. Nie można wysłać JPK");
         }
@@ -193,7 +205,7 @@ public class JPK_VAT2View implements Serializable {
                 List<jpk201801.JPK.ZakupWiersz> listaz = (List<jpk201801.JPK.ZakupWiersz>) zakup[0];
                 jpk201801.JPK.ZakupCtrl zakupCtrl = (jpk201801.JPK.ZakupCtrl) zakup[1];
                 jpk.setNaglowek(JPK_VAT3_Bean.naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView)));
-                int cel = nowa0korekta1 ? 1 : 0;
+                int cel = nowa0korekta1 ? pobierznumerkorekty() : 0;
                 jpk.getNaglowek().setCelZlozenia(cel);
                 jpk.setPodmiot1(JPK_VAT3_Bean.podmiot1(podatnik));
                 jpk.getSprzedazWiersz().addAll(listas);
@@ -568,6 +580,17 @@ public class JPK_VAT2View implements Serializable {
 
     public void setPkpir0ksiegi1(boolean pkpir0ksiegi1) {
         this.pkpir0ksiegi1 = pkpir0ksiegi1;
+    }
+
+    private int pobierznumerkorekty() {
+        int numer = 1;
+        for (UPO p : lista) {
+            int celzlozenia = ((jpk201801.JPK)p.getJpk()).getNaglowek().getCelZlozenia();
+            if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer) {
+                numer = celzlozenia;
+            }
+        }
+        return numer;
     }
     
     

@@ -402,7 +402,8 @@ public class JPK extends JPKSuper implements Serializable {
         "pelnaNazwa",
         "email"
     })
-    public static class Podmiot1 {
+    public static class Podmiot1   implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "NIP", namespace = "http://jpk.mf.gov.pl/wzor/2017/11/13/1113/", required = true)
         protected String nip;
@@ -514,7 +515,8 @@ public class JPK extends JPKSuper implements Serializable {
         "liczbaWierszySprzedazy",
         "podatekNalezny"
     })
-    public static class SprzedazCtrl {
+    public static class SprzedazCtrl   implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "LiczbaWierszySprzedazy", namespace = "http://jpk.mf.gov.pl/wzor/2017/11/13/1113/", required = true)
         @XmlSchemaType(name = "nonNegativeInteger")
@@ -1818,7 +1820,8 @@ public class JPK extends JPKSuper implements Serializable {
         "liczbaWierszyZakupow",
         "podatekNaliczony"
     })
-    public static class ZakupCtrl {
+    public static class ZakupCtrl   implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "LiczbaWierszyZakupow", namespace = "http://jpk.mf.gov.pl/wzor/2017/11/13/1113/", required = true)
         @XmlSchemaType(name = "nonNegativeInteger")

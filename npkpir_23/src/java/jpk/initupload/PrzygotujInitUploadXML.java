@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import view.WpisView;
 
 /**
  *
@@ -18,7 +19,7 @@ import javax.xml.bind.Marshaller;
  */
 public class PrzygotujInitUploadXML {
     
-    public static InitUploadType robDokument(String enkrypszynkey, String mainfilename, long mainfilelength, String mainfilehash, String ivvalue, String partfilename, int partfilelength, String partfilehash, String plikxmlnazwa) {
+    public static InitUploadType robDokument(WpisView wpisView, String enkrypszynkey, String mainfilename, long mainfilelength, String mainfilehash, String ivvalue, String partfilename, int partfilelength, String partfilehash, String plikxmlnazwa) {
         InitUploadType doc = new InitUploadType();
         try {
             doc.setDocumentType("JPK");
@@ -33,9 +34,15 @@ public class PrzygotujInitUploadXML {
             doc.setDocumentList(new ArrayOfDocumentType());
             ArrayOfDocumentType.Document adok = new ArrayOfDocumentType.Document();
             DocumentType.FormCode formkode = new DocumentType.FormCode();
-            formkode.setSystemCode("JPK_VAT (2)");
-            formkode.setSchemaVersion("1-0");
-            formkode.setValue("JPK_VAT");
+            if (wpisView.getRokWpisu() > 2017) {
+                formkode.setSystemCode("JPK_VAT (3)");
+                formkode.setSchemaVersion("1-1");
+                formkode.setValue("JPK_VAT");
+            } else {
+                formkode.setSystemCode("JPK_VAT (2)");
+                formkode.setSchemaVersion("1-0");
+                formkode.setValue("JPK_VAT");
+            }
             adok.setFormCode(formkode);
             adok.setFileName(mainfilename);
             adok.setContentLength(mainfilelength);
