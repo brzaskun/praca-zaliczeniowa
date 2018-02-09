@@ -38,7 +38,7 @@ import view.WpisView;
 public class PdfUPO extends Pdf implements Serializable {
 
    public static void drukuj_JPK2(UPO upo, WpisView wpisView) {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"JPK";
+        String nazwa = upo.getPodatnik().getNip()+"JPK";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
@@ -49,7 +49,7 @@ public class PdfUPO extends Pdf implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Plik JPK zestawienie", wpisView.getPodatnikObiekt(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Plik JPK zestawienie", upo.getPodatnik(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             JPKSuper jpk = upo.getJpk();
             List<jpk201701.JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK2SprzedazWierszcomparator());
@@ -112,7 +112,7 @@ public class PdfUPO extends Pdf implements Serializable {
     }
    
    public static void drukuj_JPK3(UPO upo, WpisView wpisView) {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"JPK";
+        String nazwa = upo.getPodatnik().getNip()+"JPK";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
@@ -123,7 +123,7 @@ public class PdfUPO extends Pdf implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Plik JPK zestawienie", wpisView.getPodatnikObiekt(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Plik JPK zestawienie", upo.getPodatnik(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             JPKSuper jpk = upo.getJpk();
             List<jpk201801.JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK3SprzedazWierszcomparator());
