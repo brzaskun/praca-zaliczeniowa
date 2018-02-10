@@ -36,6 +36,22 @@
             <from-outcome>dedrajpk</from-outcome>
             <to-view-id>/dedra/dedraJPK.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>dedravat</from-outcome>
+            <to-view-id>/dedra/dedraVATwysylka.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>dedrawysylka</from-outcome>
+            <to-view-id>/dedra/dedraWysylka.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>dedrawysylane</from-outcome>
+            <to-view-id>/dedra/dedraWyslane.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>dedraustawienia</from-outcome>
+            <to-view-id>/dedra/dedraUstawienia.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>admin</from-outcome>
             <to-view-id>/admin/adminIndex.xhtml?faces-redirect=true</to-view-id>

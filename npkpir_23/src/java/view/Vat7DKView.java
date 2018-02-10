@@ -191,7 +191,11 @@ public class Vat7DKView implements Serializable {
 //            zachowaj = false;
 //        }
 //    }
-    
+    public void obliczNowaDedra() {
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowDedra(wpisView.getPodatnikObiekt());
+        mapaewidencji =  ewidencjaVatView.getSumaewidencji();
+        obliczNowa();
+    }
     public void obliczNowaPkpir() {
         ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         mapaewidencji =  ewidencjaVatView.getSumaewidencji();
@@ -209,6 +213,9 @@ public class Vat7DKView implements Serializable {
         flagazt = false;
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
         String vatokres = sprawdzjakiokresvat();
+        if (wpisView.getPodatnikObiekt().getNip().equals("5263158333")) {
+            vatokres = "miesięczne";
+        }
         if (!vatokres.equals("miesięczne")) {
             mc = Kwartaly.getMapamcMcwkw().get(wpisView.getMiesiacWpisu());
         }
@@ -248,16 +255,18 @@ public class Vat7DKView implements Serializable {
                         naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji);
                     }
                 } else {
-                    if (przeniesieniezpoprzedniejdeklaracji == null) {
-                        Integer kwotazprzeniesienia = pobierz47zustawienN();
-                        przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
-                        naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
-                        //najpierwszadeklaracja(); nie wiem po co to
-                        Msg.msg("i", "Pobrałem kwotę do przeniesienia z ustawień");
-                    } else {
-                        przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniezpoprzedniejdeklaracji);
-                        naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji);
-                        Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
+                    if (!wpisView.getPodatnikObiekt().getNip().equals("5263158333")) {
+                        if (przeniesieniezpoprzedniejdeklaracji == null) {
+                            Integer kwotazprzeniesienia = pobierz47zustawienN();
+                            przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
+                            naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
+                            //najpierwszadeklaracja(); nie wiem po co to
+                            Msg.msg("i", "Pobrałem kwotę do przeniesienia z ustawień");
+                        } else {
+                            przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniezpoprzedniejdeklaracji);
+                            naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji);
+                            Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
+                        }
                     }
                 }
             } catch (Exception ex) {

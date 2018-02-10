@@ -11,6 +11,7 @@ import dao.EvewidencjaDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
 import dao.WpisDAO;
+import daoFK.EVatwpisDedraDAO;
 import daoFK.EVatwpisFKDAO;
 import data.Data;
 import embeddable.EVatwpisSuma;
@@ -22,6 +23,7 @@ import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Podatnik;
 import entity.Wpis;
+import entityfk.EVatwpisDedra;
 import entityfk.EVatwpisFK;
 import error.E;
 import java.io.IOException;
@@ -112,6 +114,8 @@ public class EwidencjaVatView implements Serializable {
 //    private String ewidencjadosprawdzania;
     private List<EVatwpisSuper> wybranaewidencja;
     private boolean pobierzmiesiacdlajpk;
+    @Inject
+    private EVatwpisDedraDAO eVatwpisDedraDAO;
 
     public EwidencjaVatView() {
         nazwyewidencji = new ArrayList<>();
@@ -201,6 +205,33 @@ public class EwidencjaVatView implements Serializable {
         }
         //drukuj ewidencje
     }
+    
+    public void stworzenieEwidencjiZDokumentowDedra(Podatnik podatnik) {
+        try {
+            ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
+            zerujListy();
+            int vatokres = wpisView.getVatokres();
+            if (pobierzmiesiacdlajpk) {
+                vatokres = 1;
+            }
+            pobierzEVatwpisDedrazaOkres(podatnik, vatokres);
+            //przejrzyjEVatwpis1Lista();
+            stworzenieEwidencjiCzescWspolna();
+            for (String k : listaewidencji.keySet()) {
+                nazwyewidencji.add(k);
+            }
+            for (List p : listaewidencji.values()) {
+                ewidencje.add(p);
+            }
+            pobierzmiesiacdlajpk = false;
+            RequestContext.getCurrentInstance().update("formVatZestKsiegowa");
+            Msg.msg("Sporządzono ewidencje");
+        } catch (Exception e) { 
+            Msg.dPe();
+            E.e(e);
+        }
+        //drukuj ewidencje
+    }
 
   
     public void stworzenieEwidencjiZDokumentowFK(Podatnik podatnik) {
@@ -270,7 +301,7 @@ public class EwidencjaVatView implements Serializable {
     public void stworzenieEwidencjiCzescWspolna() {
         try {
             //rozdziela zapisy na poszczególne ewidencje
-            rozdzielEVatwpis1NaEwidencje();
+            rozdzielEVatwpisDedraNaEwidencje();
             rozdzielsumeEwidencjiNaPodlisty();
             /**
              * dodajemy wiersze w tab sumowanie
@@ -354,6 +385,20 @@ public class EwidencjaVatView implements Serializable {
                 listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(podatnik, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             } else {
                 listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokKW(podatnik, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            }
+            Collections.sort(listadokvatprzetworzona, new EVatwpisSupercomparator());
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+    }
+    
+    private void pobierzEVatwpisDedrazaOkres(Podatnik podatnik, int vatokres) {
+        try {
+            listadokvatprzetworzona = new ArrayList<>();
+            if (vatokres==1) {
+                listadokvatprzetworzona.addAll(eVatwpisDedraDAO.findWierszePodatnikMc(wpisView));
+            } else {
+                listadokvatprzetworzona.addAll(eVatwpisDedraDAO.findWierszePodatnikMc(wpisView));
             }
             Collections.sort(listadokvatprzetworzona, new EVatwpisSupercomparator());
         } catch (Exception e) { 
@@ -458,7 +503,27 @@ public class EwidencjaVatView implements Serializable {
                 ew.setVat(sumavat);
             }
         }
-        
+    }
+    
+    private void rozdzielEVatwpisDedraNaEwidencje() {
+        Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMap();
+        for (EVatwpisSuper wierszogolny : listadokvatprzetworzona) {
+            if (wierszogolny.getNetto() != 0.0 || wierszogolny.getVat() != 0.0) {
+                //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
+                String nazwaewidencji = ewidencje.get("sprzedaż 23%").getNazwa();
+                if (!listaewidencji.containsKey(nazwaewidencji)) {
+                    listaewidencji.put(nazwaewidencji, new ArrayList<EVatwpisSuper>());
+                    Evewidencja nowaEv = ewidencje.get(nazwaewidencji);
+                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
+                }
+                listaewidencji.get(nazwaewidencji).add(wierszogolny);
+                EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
+                BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(wierszogolny.getNetto()).setScale(2, RoundingMode.HALF_EVEN));
+                ew.setNetto(sumanetto);
+                BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(wierszogolny.getVat()).setScale(2, RoundingMode.HALF_EVEN));
+                ew.setVat(sumavat);
+            }
+        }
     }
 
     private  Map<String, Evewidencja> przejrzyjEVatwpis1Lista() {
