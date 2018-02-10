@@ -341,7 +341,7 @@ public class KontaVatFKView implements Serializable {
         }
         Dokfk dokumentvat = null;
         int nrkolejny = oblicznumerkolejny();
-        if (nrkolejny > 1 && !zachowajstarynie0tak1) {
+        if (nrkolejny > 0 && !zachowajstarynie0tak1) {
             usundokumentztegosamegomiesiaca();
             nrkolejny = oblicznumerkolejny();
             dokumentvat = stworznowydokument(nrkolejny);
