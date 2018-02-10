@@ -617,11 +617,9 @@ public class PozycjaBRKontaView implements Serializable {
             } else {
                 if (rb.equals("r")) {
                     skopiujPozycje(rb, wybranyuklad, ukladwzorcowy, wpisView.getPodatnikObiekt());
-                    zaksiegujzmianypozycji("r", wybranyuklad);
                     pobierzukladkontoR();
                 } else {
                     skopiujPozycje(rb, wybranyuklad, ukladwzorcowy, wpisView.getPodatnikObiekt());
-                    zaksiegujzmianypozycji("b", wybranyuklad);
                     pobierzukladkontoB("aktywa");
                 }
             }
@@ -645,14 +643,14 @@ public class PozycjaBRKontaView implements Serializable {
             if (rb.equals("r")) {
                 Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-wynikowych");
                 skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik);
-                wybranyuklad = ukladdocelowykonta;
-                zaksiegujzmianypozycji("r", wybranyuklad);
+                //wybranyuklad = ukladdocelowykonta;
+                //zaksiegujzmianypozycji("r", wybranyuklad);
                 pobierzukladkontoR();
             } else {
                 Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-bilansowych");
                 skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik);
-                wybranyuklad = ukladdocelowykonta;
-                zaksiegujzmianypozycji("b", wybranyuklad);
+                //wybranyuklad = ukladdocelowykonta;
+                //zaksiegujzmianypozycji("b", wybranyuklad);
                 pobierzukladkontoB("aktywa");
             }
             Msg.msg("Zakończono kopiowanie przyporządkowania");
@@ -681,105 +679,75 @@ public class PozycjaBRKontaView implements Serializable {
             wyczyscKonta("wynikowe", podatnik, ukladdocelowy.getRok());
             kontabezprzydzialu = new ArrayList<>();
             przyporzadkowanekonta = new ArrayList<>();
-            //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "wynikowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "wynikowe");
             List<PozycjaRZiS> pozycjedoprzejrzenia = pozycjaRZiSDAO.findRzisuklad(ukladdocelowy);
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladzrodlowy, "wynikowe");
+            List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaWynikowePodatnika(podatnik, ukladdocelowy.getRok());
+            List<KontopozycjaZapis> nowekontopozycjazapis = new ArrayList<>();
             for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
                 if (czypozycjazawiera(pozycjedoprzejrzenia, p)) {
-                    if (!p.getSyntetykaanalityka().equals("analityka") && !p.getSyntetykaanalityka().equals("syntetyka")) {
-                        if (p.getSyntetykaanalityka().equals("wynikowe") || p.getSyntetykaanalityka().equals("szczególne")) {
-                            try {
-                                Konto kontorokdocelowy = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), podatnik, wpisView.getRokWpisu());
-                                if (kontorokdocelowy != null) {
-                                    System.out.println("Konto " + kontorokdocelowy.getPelnynumer());
-                                } else {
-                                    System.out.println("Nie ma takeigo konta " + p.getKontoID().getPelnynumer());
-                                }
-                                boxNaKonto = kontorokdocelowy;
-                                if (kontorokdocelowy != null && kontorokdocelowy.getBilansowewynikowe().equals("wynikowe")) {
-                                    kontorokdocelowy.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
-                                    if (kontorokdocelowy.getZwyklerozrachszczegolne().equals("szczególne")) {
-                                        wybranapozycja = p.getPozycjaWn();
-                                        wnmaPrzypisywanieKont = "wn";
-                                        onKontoDropRAutoSzczegolne(kontorokdocelowy, p.getPozycjaWn(), ukladdocelowy, false);
-                                        wybranapozycja = p.getPozycjaMa();
-                                        Konto kontouzytkownika1 = kontoDAO.findKonto(kontorokdocelowy.getId());
-                                        boxNaKonto = kontouzytkownika1;
-                                        onKontoDropRAutoSzczegolne(kontouzytkownika1, p.getPozycjaMa(), ukladdocelowy, false);
-                                    } else {
-                                        onKontoDropRAutoZwykle(kontorokdocelowy, p.getPozycjaWn(), ukladdocelowy, false, wpisView.getPodatnikObiekt());
-                                    }
-                                }
-                            } catch (Exception e) {
-                                E.e(e);
-                            }
-                        }
-                    } else {
-                        //nie przejmuje sie tym bo wyzej jest funkcja oznaczajaca takie macierzyste
-                        System.out.println("konto przyporzadkowane analityka RZIS");
+                    Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
+                    if (nowekonto != null) {
+                        KontopozycjaZapis kp = new KontopozycjaZapis();
+                        kp.setKontoID(nowekonto);
+                        kp.setPozycjaWn(p.getPozycjaWn());
+                        kp.setPozycjaMa(p.getPozycjaMa());
+                        kp.setStronaWn(p.getStronaWn());
+                        kp.setStronaMa(p.getStronaMa());
+                        kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
+                        kp.setUkladBR(ukladdocelowy);
+                        kp.setWynik0bilans1(false);
+                        nowekontopozycjazapis.add(kp);
                     }
                 }
             }
+            kontopozycjaZapisDAO.dodaj(nowekontopozycjazapis);
         }
         if (rb.equals("b")) {
             wyczyscKonta("bilansowe", podatnik, wpisView.getRokWpisuSt());
             kontabezprzydzialu = new ArrayList<>();
             przyporzadkowanekonta = new ArrayList<>();
-            //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe");
             List<PozycjaBilans> pozycjedoprzejrzenia = pozycjaBilansDAO.findBilansukladAktywaPasywa(ukladdocelowy);
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladzrodlowy, "bilansowe");
+            List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, ukladdocelowy.getRok());
+            List<KontopozycjaZapis> nowekontopozycjazapis = new ArrayList<>();
             for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
                 if (czypozycjazawieraBilans(pozycjedoprzejrzenia, p)) {
-//                if (!p.getSyntetykaanalityka().equals("syntetyka")) {
-                    try {
-                        Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), podatnik, wpisView.getRokWpisu());
-                        if (kontouzytkownika != null) {
-                            System.out.println("Konto " + kontouzytkownika.getPelnynumer());
-                        } else {
-                            System.out.println("Nie ma takeigo konta " + p.getKontoID().getPelnynumer());
-                        }
-                        boxNaKonto = kontouzytkownika;
-                        if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("bilansowe")) {
-                            kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
-                            if (kontouzytkownika.getPelnynumer().equals("010-3")) {
-                                System.out.println("mam");
-                            }
-                            if (!kontouzytkownika.getZwyklerozrachszczegolne().equals("zwykłe")) {
-                                if (p.getStronaWn() != null) {
-                                    wybranapozycja = p.getPozycjaWn();
-                                    wnmaPrzypisywanieKont = "wn";
-                                    aktywa0pasywa1 = p.getStronaWn().equals("0") ? false : true;
-                                    onKontoDropBAutoSzczegolne(kontouzytkownika, p.getPozycjaWn(), ukladdocelowy, false);
-                                }
-                                if (p.getStronaMa() != null) {
-                                    wybranapozycja = p.getPozycjaMa();
-                                    wnmaPrzypisywanieKont = "ma";
-                                    aktywa0pasywa1 = p.getStronaMa().equals("0") ? false : true;
-                                    Konto kontouzytkownika1 = kontoDAO.findKonto(kontouzytkownika.getId());
-                                    boxNaKonto = kontouzytkownika1;
-                                    onKontoDropBAutoSzczegolne(kontouzytkownika1, p.getPozycjaMa(), ukladdocelowy, false);
-                                }
-                            } else {
-                                aktywa0pasywa1 = p.getStronaWn().equals("0") ? false : true;
-                                onKontoDropBAutoZwykle(kontouzytkownika, p.getPozycjaWn(), ukladdocelowy, aktywa0pasywa1, false);
-                            }
-                        }
-                    } catch (Exception e) {
-                        E.e(e);
+                    Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
+                    if (nowekonto != null) {
+                        KontopozycjaZapis kp = new KontopozycjaZapis();
+                        kp.setKontoID(nowekonto);
+                        kp.setPozycjaWn(p.getPozycjaWn());
+                        kp.setPozycjaMa(p.getPozycjaMa());
+                        kp.setStronaWn(p.getStronaWn());
+                        kp.setStronaMa(p.getStronaMa());
+                        kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
+                        kp.setUkladBR(ukladdocelowy);
+                        kp.setWynik0bilans1(true);
+                        nowekontopozycjazapis.add(kp);
                     }
-//                } else {
-//                    //nie przejmuje sie tym bo wyzej jest funkcja oznaczajaca takie macierzyste
-//                    System.out.println("konto przyporzadkowane analityka Bilans");
-//                }
-
                 }
             }
+            kontopozycjaZapisDAO.dodaj(nowekontopozycjazapis);
             System.out.println("zakonczenie przyporzadkowanie pozycji Koniec konca");
             Msg.msg("Zapamiętano przyporządkowane pozycje");
         }
     }
+    
+    private Konto pobierzkontozlisty(List<Konto> kontarokudocelowego, KontopozycjaZapis stara) {
+        Konto nowekonto = null;
+        try {
+            int index = kontarokudocelowego.indexOf(stara.getKontoID());
+            if (index > -1) {
+                nowekonto = kontarokudocelowego.get(index);
+            }
+        } catch (Exception e) {}
+        return nowekonto;
+    }
+    
     private boolean czypozycjazawiera(List<PozycjaRZiS> pozycjedoprzejrzenia, KontopozycjaZapis p) {
         boolean zwrot = false;
         for (PozycjaRZiS r : pozycjedoprzejrzenia) {
