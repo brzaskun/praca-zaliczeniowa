@@ -2144,6 +2144,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return ((EVatwpisFK) em.createNamedQuery("EVatwpisFK.findEVatwpisFKPodatnikKlient").setParameter("podatnik", podatnikObiekt).setParameter("klient", klient).setParameter("rok", rok).setMaxResults(1).getSingleResult()).getOpisvat();
     }
 
+    public List<KontopozycjaZapis> findByKontoOnly(Konto konto) {
+        return em.createNamedQuery("KontopozycjaZapis.findByKontoOnly").setParameter("konto", konto).getResultList();
+                
+    }
+
     
 
     

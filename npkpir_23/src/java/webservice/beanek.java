@@ -460,7 +460,9 @@ public class beanek  implements Serializable {
         }
         try {
             if (temp.isJestcertyfikat()) {
-                dok = temp.getDeklaracjapodpisana();
+                if (temp.getDeklaracjapodpisana() != null) {
+                    dok = temp.getDeklaracjapodpisana();
+                }
                 sendSignDocument_Test(dok, id, stat, opis);
             } else {
                 sendUnsignDocument_Test(dok, lang, signT, id, stat, opis);

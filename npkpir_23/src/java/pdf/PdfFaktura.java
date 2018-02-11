@@ -48,7 +48,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -64,7 +64,7 @@ import view.WpisView;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class PdfFaktura extends Pdf implements Serializable {
 
     

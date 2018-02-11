@@ -10,6 +10,7 @@ import entityfk.KontopozycjaZapis;
 import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -58,6 +59,16 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
         KontopozycjaZapis kontopozycjaZapis = null;
         try {
             kontopozycjaZapis = sessionFacade.fintKontoPozycjaZapisByKonto(konto, ukladBR);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return kontopozycjaZapis;
+    }
+
+    public List<KontopozycjaZapis> findByKontoOnly(Konto konto) {
+        List<KontopozycjaZapis> kontopozycjaZapis = new ArrayList<>();
+        try {
+            kontopozycjaZapis = sessionFacade.findByKontoOnly(konto);
         } catch (Exception e) {
             E.e(e);
         }
