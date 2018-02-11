@@ -5,6 +5,7 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Podatnik;
 import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
@@ -62,6 +63,14 @@ public class UkladBRDAO extends DAO implements Serializable{
         }
     }
     
+    
+    public List<UkladBR> findPodatnikRok(Podatnik podatnik, String rok) {
+        try {
+            return sessionFacade.findUkladBRPodatnikRok(podatnik, rok);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
     
 
     public List<UkladBR> findukladBRWzorcowyRok(String rokWpisu) {

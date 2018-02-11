@@ -893,6 +893,7 @@ public class PlanKontFKBean {
             E.e(e);
         }
     }
+    
 
     public static void przyporzadkujRZiS_kontozwykle(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, Podatnik podatnik, String wnmaPrzypisywanieKont) {
         try {

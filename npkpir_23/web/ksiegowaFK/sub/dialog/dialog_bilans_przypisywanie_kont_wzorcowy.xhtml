@@ -38,7 +38,8 @@
             </p:panelGrid>
             <p:panelGrid columns="3" >
                 <p:column>
-                    <p:treeTable id="dataList" value="#{pozycjaBRKontaWzorcowyView.rootProjektKontaBilans}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaWzorcowyView.wybranynodekonta}" 
+                    <p:treeTable id="dataList" value="#{pozycjaBRKontaWzorcowyView.rootProjektKontaBilans}" var="loop" selectionMode="single" 
+                                 selection="#{pozycjaBRKontaWzorcowyView.wybranynodekonta}" 
                                  styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
                                  emptyMessage="Brak pozycji Bilansu">
                         <p:ajax event="select" global="false" listener="#{pozycjaBRKontaWzorcowyView.wybranopozycjeBilans()}"

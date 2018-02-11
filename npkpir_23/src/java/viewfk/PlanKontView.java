@@ -5,6 +5,7 @@
 package viewfk;
 
 import beansFK.KontaFKBean;
+import beansFK.KontoPozycjaBean;
 import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.UkladBRBean;
@@ -749,29 +750,30 @@ public class PlanKontView implements Serializable {
             try {
                 List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
                 for (Podatnik p : listapodatnikowfk) {
-                    Konto kontowzorcowe = selectednodekontowzorcowy;
+                    Konto kontopodatnik = new Konto(selectednodekontowzorcowy);
                     try {
-                        kontowzorcowe.setPodatnik(p);
-                        Konto macierzyste = kontoDAOfk.findKonto(kontowzorcowe.getMacierzyste(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-                        if (!kontowzorcowe.getMacierzyste().equals("0")) {
-                            kontowzorcowe.setMacierzysty(macierzyste.getId());
-                            kontowzorcowe.setKontomacierzyste(macierzyste);
+                        kontopodatnik.setPodatnik(p);
+                        Konto macierzyste = kontoDAOfk.findKonto(kontopodatnik.getMacierzyste(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                        if (!kontopodatnik.getMacierzyste().equals("0")) {
+                            kontopodatnik.setMacierzysty(macierzyste.getId());
+                            kontopodatnik.setKontomacierzyste(macierzyste);
                             macierzyste.setMapotomkow(true);
                             macierzyste.setBlokada(true);
                             kontoDAOfk.edit(macierzyste);
                         } else {
-                            kontowzorcowe.setMapotomkow(false);
-                            kontowzorcowe.setBlokada(false);
+                            kontopodatnik.setMapotomkow(false);
+                            kontopodatnik.setBlokada(false);
                         }
-                        kontoDAOfk.dodaj(kontowzorcowe);
+                        kontoDAOfk.dodaj(kontopodatnik);
+                        KontoPozycjaBean.duplikujpozycje(ukladBRDAO,wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekontowzorcowy, kontopodatnik, kontopozycjaZapisDAO);
                     } catch (RollbackException e) {
-
+                        E.e(e);
                     } catch (PersistenceException x) {
-                        Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + kontowzorcowe.getPelnynumer());
+                        Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + kontopodatnik.getPelnynumer());
                     } catch (Exception ef) {
+                        E.e(ef);
                     }
                 }
-                wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego u wszystkich klientów FK");
             } catch (Exception e1) {
                 Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
@@ -782,20 +784,22 @@ public class PlanKontView implements Serializable {
     }
 
     public void implementacjaJednegoKontaWzorcowegoZAnalitykom() {
-        if (selectednodekonto != null) {
+        if (selectednodekontowzorcowy != null) {
             try {
                 List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
                 for (Podatnik p : listapodatnikowfk) {
-                    Konto konto = selectednodekonto;
-                    dodajpojedynczekoto(konto, wpisView.getPodatnikObiekt());
-                    List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik(null, wpisView.getRokWpisu(), konto.getPelnynumer());
-                    for (Konto r : potomne) {
-                        dodajpojedynczekoto(r, wpisView.getPodatnikObiekt());
+                    Konto konto = new Konto(selectednodekontowzorcowy);
+                    konto = dodajpojedynczekoto(konto, p);
+                    KontoPozycjaBean.duplikujpozycje(ukladBRDAO, wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekontowzorcowy, konto, kontopozycjaZapisDAO);
+                    List<Konto> potomnelista = kontoDAOfk.findKontaPotomneWzorcowy(wpisView.getRokWpisu(), selectednodekontowzorcowy.getPelnynumer());
+                    if (potomnelista != null) {
+                        for (Konto r : potomnelista) {
+                            Konto potomne = new Konto(r);
+                            potomne = dodajpojedynczekoto(potomne, p);
+                            KontoPozycjaBean.duplikujpozycje(ukladBRDAO, wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), r, potomne, kontopozycjaZapisDAO);
+                        }
                     }
                 }
-                wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-                //root = rootInit(wykazkont);
-                //rozwinwszystkie(root);
                 Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego z analityką u wszystkich klientów FK");
             } catch (Exception e1) {
                 Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
@@ -824,10 +828,10 @@ public class PlanKontView implements Serializable {
         }
     }
 
-    private void dodajpojedynczekoto(Konto konto, Podatnik podatnik) {
+    private Konto dodajpojedynczekoto(Konto konto, Podatnik podatnik) {
         konto.setPodatnik(podatnik);
         if (!konto.getMacierzyste().equals("0")) {
-            Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), podatnik, wpisView.getRokWpisu());
             konto.setMacierzysty(macierzyste.getId());
             konto.setKontomacierzyste(macierzyste);
             macierzyste.setMapotomkow(true);
@@ -845,6 +849,7 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + konto.getPelnynumer());
         } catch (Exception ef) {
         }
+        return konto;
     }
 
     private void dodajpojedynczekotoWzorcowy(Konto konto, String pelnynumer) {

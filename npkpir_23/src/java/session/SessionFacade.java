@@ -1753,6 +1753,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<UkladBR> findUkladBRPodatnikRok(WpisView wpisView) {
         return em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
+    
+    public List<UkladBR> findUkladBRPodatnikRok(Podatnik podatnik, String rok) {
+        return em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnik.getNazwapelna()).setParameter("rok", rok).getResultList();
+    }
 
     public void findRemoveRzisuklad(String uklad, String podatnik, String rok) {
         em.createNamedQuery("PozycjaRZiS.Delete").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();

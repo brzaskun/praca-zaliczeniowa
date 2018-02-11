@@ -237,7 +237,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                     kontabezprzydzialu.remove(konto);
                 }
             } else if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
-                PlanKontFKBean.przyporzadkujBilans_kontozwykle(wybranapozycja, konto, uklad, kontoDAO, wpisView.getPodatnikObiekt(), null, aktywa0pasywa1);
+                PlanKontFKBean.przyporzadkujBilans_kontozwykle(wybranapozycja, konto, uklad, kontoDAO, null, null, aktywa0pasywa1);
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 kontabezprzydzialu.remove(konto);

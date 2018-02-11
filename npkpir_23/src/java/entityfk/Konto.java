@@ -270,7 +270,6 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     }
 
     public Konto(Konto old) {
-        this.id = old.id;
         this.podatnik = old.podatnik;
         this.nrkonta = old.nrkonta;
         this.syntetyczne = old.syntetyczne;
@@ -279,7 +278,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.nazwaskrocona = old.nazwaskrocona;
         this.bilansowewynikowe = old.bilansowewynikowe;
         this.zwyklerozrachszczegolne = old.zwyklerozrachszczegolne;
-        this.kontopozycjaID = old.kontopozycjaID;
+        this.kontopozycjaID = null;
         this.macierzyste = old.macierzyste;
         this.macierzysty = old.macierzysty;
         this.kontomacierzyste = old.kontomacierzyste;
@@ -306,6 +305,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.zaksiegowane = old.zaksiegowane;
         this.niewidoczne = old.niewidoczne;
     }
+
     
     
 

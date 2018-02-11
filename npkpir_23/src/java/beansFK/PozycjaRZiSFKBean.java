@@ -404,7 +404,11 @@ public class PozycjaRZiSFKBean {
     
     public static void przyporzadkujpotkomkowZwykle(String macierzyste, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, Podatnik podatnik, String bilanswynik, Integer rok) {
         List<Konto> potomki = null;
-        potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, macierzyste);
+        if (podatnik == null) {
+            potomki = kontoDAO.findKontaPotomneWzorcowy(rok, macierzyste);
+        } else {
+            potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, macierzyste);
+        }
         if (potomki != null) {
             for (Konto p : potomki) {
                 if (pozycja == null) {
@@ -435,9 +439,15 @@ public class PozycjaRZiSFKBean {
         }
     }
     
+    
+    
     public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO,  Podatnik podatnik, String wnma, Integer rok) {
         List<Konto> potomki = null;
-        potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, konto.getPelnynumer());
+        if (podatnik == null) {
+            potomki = kontoDAO.findKontaPotomneWzorcowy(rok, konto.getPelnynumer());
+        } else {
+            potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, konto.getPelnynumer());
+        }
         if (potomki != null) {
             for (Konto p : potomki) {
                 try {
