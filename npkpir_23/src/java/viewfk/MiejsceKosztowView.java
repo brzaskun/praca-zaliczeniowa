@@ -9,6 +9,7 @@ package viewfk;
 import beansFK.MiejsceKosztowBean;
 import beansFK.PlanKontFKBean;
 import beansFK.SlownikiBean;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
@@ -67,12 +68,11 @@ public class MiejsceKosztowView  implements Serializable{
         
     }
 
-    @PostConstruct
     public void init() {
         try {
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnikWszystkie(wpisView.getPodatnikObiekt());
-        } catch (Exception e) {  E.e(e);
-            
+        } catch (Exception e) { 
+            E.e(e);
         }
     }
     
@@ -126,9 +126,36 @@ public class MiejsceKosztowView  implements Serializable{
 
     public void usun(MiejsceKosztow miejsceKosztow) {
         try {
-            miejsceKosztowDAO.destroy(miejsceKosztow);
-            miejscakosztow.remove(miejsceKosztow);
-            Msg.msg("Usunięto miejsce kosztów");
+            //idslownika 2
+            List<Konto> wszystkieslonikowe = kontoDAOfk.findWszystkieKontaPodatnikaTylkoSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<Konto> dosprawdzenia = new ArrayList<>();
+            for (Konto p : wszystkieslonikowe) {
+                if (p.getNrkonta().equals(miejsceKosztow.getNrkonta()) && p.getKontomacierzyste().getIdslownika()==2) {
+                    dosprawdzenia.add(p);
+                }
+            }
+            boolean nieusuwac = false;
+            Konto boxnakonto = null;
+            for (Konto r : dosprawdzenia) {
+                List<StronaWiersza> wynik = stronaWierszaDAO.findStronaByKontoOnly(r);
+                if (wynik != null && wynik.size() > 0) {
+                    boxnakonto = r;
+                    nieusuwac = true;
+                    break;
+                }
+            }
+            if (nieusuwac) {
+                Msg.msg("e", "Są zapisy w roku bieżącym na koncie "+boxnakonto.getPelnynumer()+" z użyciem tego miejsca kosztów. Nie można go usunąć!");
+            } else {
+                for (Konto r : dosprawdzenia) {
+                    kontoDAOfk.destroy(r);
+                }
+                miejsceKosztowDAO.destroy(miejsceKosztow);
+                miejscakosztow.remove(miejsceKosztow);
+                Msg.msg("Usunięto miejsce kosztów "+miejsceKosztow.getOpismiejsca()+" wraz z kontami");
+                
+            }
+            
         } catch (Exception e) {
             Msg.dPe();
         }
@@ -171,9 +198,9 @@ public class MiejsceKosztowView  implements Serializable{
         int nr1 = Integer.parseInt(((MiejsceKosztow) o1).getNrkonta());
         int nr2 = Integer.parseInt(((MiejsceKosztow) o2).getNrkonta());
         if (nr1 > nr2) {
-            return 1;
-        } else if (nr1 < nr2) {
             return -1;
+        } else if (nr1 < nr2) {
+            return 1;
         }
         return 0;
     }

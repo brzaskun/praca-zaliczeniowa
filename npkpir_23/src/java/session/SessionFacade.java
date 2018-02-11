@@ -1359,6 +1359,15 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             return null;
         }
     }
+    
+    public List<StronaWiersza> findStronaWierszaByKontoOnly(Konto konto) {
+        try {
+            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoOnly").setParameter("konto", konto).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaKorekta(Konto konto, String symbolwaluty, String wnma) {
         try {

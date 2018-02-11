@@ -38,6 +38,10 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     public StronaWierszaDAO(SessionFacade sessionFacade) {
         this.sessionFacade = sessionFacade;
     }
+    
+    public List<StronaWiersza> findStronaByKontoOnly(Konto konto) {
+        return sessionFacade.findStronaWierszaByKontoOnly(konto);
+    }
 
     public List<StronaWiersza> findStronaByKontoWnMa(Konto konto, String wnma) {
         String nowewnma;

@@ -356,7 +356,7 @@ public class PlanKontView implements Serializable {
         Konto kontomacierzyste = selectednodekonto;
         if (noweKonto.getBilansowewynikowe() != null) {
             int wynikdodaniakonta = 1;
-            if (podatnik.equals(null)) {
+            if (podatnik == null) {
                 wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczneWzorzec(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             } else {
                 wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
