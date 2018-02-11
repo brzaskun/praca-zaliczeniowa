@@ -340,24 +340,24 @@ public class PlanKontFKBean {
     }
      
      public static KontopozycjaZapis naniesprzyporzadkowanie(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
-        KontopozycjaZapis kpo = null;
+        KontopozycjaZapis kontopozycjamacierzysta = null;
         try {
             Konto macierzyste = noweKonto.getKontomacierzyste();
-            kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
-            if (macierzyste != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
-                if (kpo != null) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBR);
+            kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
+            if (macierzyste != null && !kontopozycjamacierzysta.getSyntetykaanalityka().equals("analityka")) {
+                if (kontopozycjamacierzysta != null) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBR);
                 }
             } else {
-                kpo = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
-                if (kpo != null) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka(), ukladBR);
+                kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
+                if (kontopozycjamacierzysta != null) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kontopozycjamacierzysta.getSyntetykaanalityka(), ukladBR);
                 }
             }
         } catch (Exception e) {
             E.e(e);
         }
-        return kpo;
+        return kontopozycjamacierzysta;
     }
 // nie uzywamy bo jest p.getKontomacierzyste     
 //      private static Konto pobierzmacierzyste(Konto p, KontoDAOfk kontoDAO, WpisView wpisView) {
@@ -760,7 +760,7 @@ public class PlanKontFKBean {
                 kp.setStronaMa(kpo.getStronaMa());
                 kp.setSyntetykaanalityka(wersja);
                 kp.setKontoID(noweKonto);
-                kp.setUkladBR(kpo.getUkladBR());
+                kp.setUkladBR(ukladBR);
                 kp.setWynik0bilans1(kpo.isWynik0bilans1());
                 kontopozycjaZapisDAO.dodaj(kp);
                 noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
@@ -771,7 +771,7 @@ public class PlanKontFKBean {
                 kp.setStronaWn(kpo.getStronaWn());
                 kp.setStronaMa(kpo.getStronaMa());
                 kp.setSyntetykaanalityka(wersja);
-                kp.setUkladBR(kpo.getUkladBR());
+                kp.setUkladBR(ukladBR);
                 kp.setWynik0bilans1(kpo.isWynik0bilans1());
                 kontopozycjaZapisDAO.edit(kp);
                 noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
