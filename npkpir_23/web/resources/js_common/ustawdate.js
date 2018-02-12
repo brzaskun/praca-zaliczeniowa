@@ -193,6 +193,15 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
      }
    };
    
+   var weryfikujdateauto = function (el) {
+       var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
+       var testw = document.getElementById(el).value;
+        if (!testw.match(re)){
+            document.getElementById(el).value = "b\u0142ędna data";
+        }
+   };
+   
+   
    var weryfikujdatekursreczny = function (rokwpisu) {
        var dataWyst = document.getElementById("formkursrecznie:dataKursReczny:0:datakurs");
        var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;

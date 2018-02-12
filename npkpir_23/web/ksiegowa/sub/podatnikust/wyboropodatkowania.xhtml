@@ -54,11 +54,11 @@
             <p:panelGrid id="parametrypodatnika" columns="6" >
                 <h:outputText value="data od: "/>
                 <p:inputText id="dataod" value="#{podatnikView.wybranyPodatnikOpodatkowanie.datarozpoczecia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
-                    <p:ajax event="blur" onstart="weryfikujsporzadzfakture()"/>
+                    <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:dataod')"/>
                 </p:inputText>
                 <h:outputText value="data od: "/>
                 <p:inputText id="datado" value="#{podatnikView.wybranyPodatnikOpodatkowanie.datazakonczenia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
-                    <p:ajax event="blur" onstart="weryfikujsporzadzfakture()"/>
+                    <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:datado')"/>
                 </p:inputText>
                 <h:outputText value="symbol roku: "/>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.symbolroku}"><f:selectItems value="#{Roki.rokiListString}"/>
