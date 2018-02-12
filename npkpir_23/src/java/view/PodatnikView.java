@@ -173,6 +173,8 @@ public class PodatnikView implements Serializable {
         formyprawne.add(FormaPrawna.STOWARZYSZENIE);
         formyprawne.add(FormaPrawna.FEDERACJA);
         formyprawne.add(FormaPrawna.FUNDACJA);
+        wybranyPodatnikOpodatkowanie.setDatarozpoczecia("01-01-"+wpisView.getRokWpisuSt());
+        wybranyPodatnikOpodatkowanie.setDatazakonczenia("31-12-"+wpisView.getRokWpisuSt());
     }
 
     public void skopiujdoedycji() {
@@ -477,7 +479,8 @@ public class PodatnikView implements Serializable {
             wybranyPodatnikOpodatkowanie.setMcOd("01");
             wybranyPodatnikOpodatkowanie.setMcDo("12");
             wybranyPodatnikOpodatkowanie.setPodatnikObj(wpisView.getPodatnikObiekt());
-            wybranyPodatnikOpodatkowanie.setRokDo(wybranyPodatnikOpodatkowanie.getRokOd());
+            wybranyPodatnikOpodatkowanie.setRokOd(wybranyPodatnikOpodatkowanie.getSymbolroku());
+            wybranyPodatnikOpodatkowanie.setRokDo(wybranyPodatnikOpodatkowanie.getSymbolroku());
             wybranyPodatnikOpodatkowanie.setDatawprowadzenia(new Date());
             wybranyPodatnikOpodatkowanie.setKsiegowa(wpisView.getWprowadzil());
             podatnikOpodatkowanie.add(wybranyPodatnikOpodatkowanie);
@@ -1636,7 +1639,17 @@ public class PodatnikView implements Serializable {
         
     }
 
-    
+    public void uzupelnijpozycje() {
+        List<PodatnikOpodatkowanieD> lista = podatnikOpodatkowanieDDAO.findAll();
+        for (PodatnikOpodatkowanieD p : lista) {
+            p.setDatarozpoczecia("01-01-"+p.getRokOd());
+            p.setDatazakonczenia("31-12-"+p.getRokDo());
+            p.setSymbolroku(p.getRokOd());
+        }
+        podatnikOpodatkowanieDDAO.editList(lista);
+        Msg.dP();
+        System.out.println("koniec");
+    }
  
 
 }

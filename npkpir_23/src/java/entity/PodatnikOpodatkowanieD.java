@@ -67,6 +67,14 @@ public class PodatnikOpodatkowanieD implements Serializable{
     @JoinColumn(name = "ksiegowa", referencedColumnName = "login")
     @ManyToOne
     private Uz ksiegowa;
+    @Column(name = "datarozpoczecia")
+    private String datarozpoczecia;
+    @Column(name = "datazakonczenia")
+    private String datazakonczenia;
+    @Column(name = "symbolroku")
+    private String symbolroku;
+    @Column(name = "rokwydluzony")
+    private boolean rokwydluzony;
  
     public PodatnikOpodatkowanieD() {
         
@@ -239,6 +247,39 @@ public class PodatnikOpodatkowanieD implements Serializable{
         this.ksiegowa = ksiegowa;
     }
 
+    public String getDatarozpoczecia() {
+        return datarozpoczecia;
+    }
+
+    public void setDatarozpoczecia(String datarozpoczecia) {
+        this.datarozpoczecia = datarozpoczecia;
+    }
+
+    public String getDatazakonczenia() {
+        return datazakonczenia;
+    }
+
+    public void setDatazakonczenia(String datazakonczenia) {
+        this.datazakonczenia = datazakonczenia;
+    }
+
+    public String getSymbolroku() {
+        return symbolroku;
+    }
+
+    public void setSymbolroku(String symbolroku) {
+        this.symbolroku = symbolroku;
+    }
+
+    public boolean isRokwydluzony() {
+        return rokwydluzony;
+    }
+
+    public void setRokwydluzony(boolean rokwydluzony) {
+        this.rokwydluzony = rokwydluzony;
+    }
+
+    
    
     
 }

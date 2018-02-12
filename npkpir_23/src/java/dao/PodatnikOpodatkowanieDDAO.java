@@ -46,5 +46,9 @@ public class PodatnikOpodatkowanieDDAO extends DAO implements Serializable{
         }
         return null;
     }
+
+    public List<PodatnikOpodatkowanieD> findAll() {
+        return sessionFacade.findAll(PodatnikOpodatkowanieD.class);
+    }
     
 }

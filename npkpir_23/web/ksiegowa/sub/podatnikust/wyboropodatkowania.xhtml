@@ -52,7 +52,18 @@
             </p:dataTable>
             <h:outputText value="wybierz parametry aktualne"/><br/>
             <p:panelGrid id="parametrypodatnika" columns="6" >
-                <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
+                <h:outputText value="data od: "/>
+                <p:inputText id="dataod" value="#{podatnikView.wybranyPodatnikOpodatkowanie.datarozpoczecia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
+                    <p:ajax event="blur" onstart="weryfikujsporzadzfakture()"/>
+                </p:inputText>
+                <h:outputText value="data od: "/>
+                <p:inputText id="datado" value="#{podatnikView.wybranyPodatnikOpodatkowanie.datazakonczenia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
+                    <p:ajax event="blur" onstart="weryfikujsporzadzfakture()"/>
+                </p:inputText>
+                <h:outputText value="symbol roku: "/>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.symbolroku}"><f:selectItems value="#{Roki.rokiListString}"/>
+                </p:selectOneMenu>
+                <h:outputText value="rodzaj opod: "/>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}">
                     <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
                     <f:selectItem itemValue="zasady ogólne" itemLabel="zasady ogólne"/> 
@@ -60,9 +71,10 @@
                     <f:selectItem itemValue="ryczałt" itemLabel="ryczałt"/>
                     <f:selectItem itemValue="księgi rachunkowe" itemLabel="księgi rachunkowe"/>
                 </p:selectOneMenu>
+                <h:outputText value="mc/kw: "/>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.mc0kw1}" >
-                    <f:selectItem itemLabel="miesięczne" itemValue="false"/> 
-                    <f:selectItem itemLabel="kwartalne" itemValue="true"/>
+                    <f:selectItem itemLabel="miesięcznie" itemValue="false"/> 
+                    <f:selectItem itemLabel="kwartalnie" itemValue="true"/>
                 </p:selectOneMenu>
                 <h:outputText value="stawka pod. (0,19)" rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
                 <pe:inputNumber value="#{podatnikView.wybranyPodatnikOpodatkowanie.stawkapodatkuospr}" decimalPlaces="2" maxValue="1"  rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
