@@ -175,6 +175,7 @@ public class PodatnikView implements Serializable {
         formyprawne.add(FormaPrawna.FUNDACJA);
         wybranyPodatnikOpodatkowanie.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
         wybranyPodatnikOpodatkowanie.setDatazakonczenia(wpisView.getRokWpisuSt()+"-12-01");
+        wybranyPodatnikOpodatkowanie.setStawkapodatkuospr(0.19);
     }
 
     public void skopiujdoedycji() {
@@ -476,11 +477,11 @@ public class PodatnikView implements Serializable {
 //
     public void dodajdoch() {
         if (sprawdzrok(wybranyPodatnikOpodatkowanie, podatnikOpodatkowanie) == 0) {
-            wybranyPodatnikOpodatkowanie.setMcOd("01");
-            wybranyPodatnikOpodatkowanie.setMcDo("12");
+            wybranyPodatnikOpodatkowanie.setMcOd(Data.getMc(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
+            wybranyPodatnikOpodatkowanie.setMcDo(Data.getMc(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
             wybranyPodatnikOpodatkowanie.setPodatnikObj(wpisView.getPodatnikObiekt());
-            wybranyPodatnikOpodatkowanie.setRokOd(wybranyPodatnikOpodatkowanie.getSymbolroku());
-            wybranyPodatnikOpodatkowanie.setRokDo(wybranyPodatnikOpodatkowanie.getSymbolroku());
+            wybranyPodatnikOpodatkowanie.setRokOd(Data.getRok(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
+            wybranyPodatnikOpodatkowanie.setRokDo(Data.getRok(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
             wybranyPodatnikOpodatkowanie.setDatawprowadzenia(new Date());
             wybranyPodatnikOpodatkowanie.setKsiegowa(wpisView.getWprowadzil());
             podatnikOpodatkowanie.add(wybranyPodatnikOpodatkowanie);
@@ -544,7 +545,7 @@ public class PodatnikView implements Serializable {
         } else {
             PodatnikOpodatkowanieD ostatniparametr = stare.get(stare.size() - 1);
             Integer old_rokDo = Integer.parseInt(ostatniparametr.getRokDo());
-            Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
+            Integer new_rokOd = Integer.parseInt(Data.getRok(nowe.getDatarozpoczecia()));
             if (old_rokDo == new_rokOd - 1) {
                 return 0;
             } else {

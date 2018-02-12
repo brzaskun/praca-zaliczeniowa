@@ -14,14 +14,15 @@
             <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 980px;" 
                          rowKey="#{loop.id}" selection="#{podatnikView.podatnikOpodatkowanieSelected}" selectionMode="single">
                 <p:column headerText="od" width="80">
-                        <h:outputText value="#{loop.mcOd}-" />
-                        <h:outputText value="#{loop.rokOd}" />
+                    <h:outputText value="#{loop.datarozpoczecia}" />
                     </p:column>
                 <p:column headerText="do" width="80">
-                        <h:outputText value="#{loop.mcDo}-" />
-                        <h:outputText value="#{loop.rokDo}" />
+                    <h:outputText value="#{loop.datazakonczenia}" />
                     </p:column>
-                    <p:column headerText="rodzaj opodatkowania">
+                 <p:column headerText="symbol roku">
+                     <h:outputText value="#{loop.symbolroku}" />
+                    </p:column>
+                <p:column headerText="rodzaj opodatkowania" width="150">
                         <h:outputText value="#{loop.formaopodatkowania}" />
                     </p:column>
                     <p:column headerText="mies./kwart.">
