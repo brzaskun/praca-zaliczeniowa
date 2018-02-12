@@ -14,7 +14,7 @@
             <p:focus for="parametrypodatnika8"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
-                <p:dataTable value="#{podatnikView.selected.pole47N}"  var="loop" 
+                <p:dataTable value="#{podatnikView.selected.pole47}"  var="loop" 
                             emptyMessage="Nie wprowadzono wartości pola do przeniesienia">
                     <p:column>
                     <h:outputText value="kwota pola47: " />
@@ -24,7 +24,7 @@
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
-            <h:outputText value="wpisz kwotę"/><br/>
+            <h:outputText value="wpisz kwotę w pełnych złotych (bez groszy!)"/><br/>
             <p:panelGrid id="parametrypodatnika8" columns="4" >
                 <p:inputText value="#{podatnikView.selected.pole47}" />
             </p:panelGrid>

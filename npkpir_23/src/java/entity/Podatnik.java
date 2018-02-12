@@ -730,15 +730,11 @@ public class Podatnik implements Serializable {
         return pole47;
     }
     
-    public Integer getPole47N() {
-        Integer wartosc = null;
-        if (pole47 != null && !pole47.equals("") ) {
-            wartosc = Integer.parseInt(pole47);
-        }
-        return wartosc;
-    }
-    
+        
     public void setPole47(String pole47) {
+        if (pole47!=null) {
+            pole47 = pole47.replace(",", ".");
+        }
         this.pole47 = pole47;
     }
     

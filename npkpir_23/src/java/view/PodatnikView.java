@@ -933,12 +933,14 @@ public class PodatnikView implements Serializable {
 
     public void dodajpole47() {
         try {
-            zachowajZmiany(selected);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno udziały.", selected.getNazwapelna());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            if (selected.getPole47().contains(",")||selected.getPole47().contains(".")) {
+                Msg.msg("e", "Podaj kwotę w pełych złotych, bez groszy po przecinku");
+            } else {
+                zachowajZmiany(selected);
+                Msg.msg("Zachowano kwotę do przeniesienia");
+            } 
         } catch (Exception e) { E.e(e); 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno udziału.", selected.getNazwapelna());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e","Wystąpił błąd, nie zachowano kwoty do przeniesienia");
         }
     }
 
