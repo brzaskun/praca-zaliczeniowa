@@ -216,7 +216,7 @@ public class EwidencjaVatView implements Serializable {
             }
             pobierzEVatwpisDedrazaOkres(podatnik, vatokres);
             //przejrzyjEVatwpis1Lista();
-            stworzenieEwidencjiCzescWspolna();
+            stworzenieEwidencjiCzescWspolnaDedra();
             for (String k : listaewidencji.keySet()) {
                 nazwyewidencji.add(k);
             }
@@ -298,10 +298,30 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    public void stworzenieEwidencjiCzescWspolna() {
+    public void stworzenieEwidencjiCzescWspolnaDedra() {
         try {
             //rozdziela zapisy na poszczególne ewidencje
             rozdzielEVatwpisDedraNaEwidencje();
+            rozdzielsumeEwidencjiNaPodlisty();
+            /**
+             * dodajemy wiersze w tab sumowanie
+             */
+            uzupelnijSumyEwidencji();
+            /**
+             * Dodaj sumy do ewidencji dla wydruku
+             */
+            dodajsumyDoEwidencjiEVatwpis1();
+            obliczwynikokresu();
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        //drukuj ewidencje
+    }
+    
+    public void stworzenieEwidencjiCzescWspolna() {
+        try {
+            //rozdziela zapisy na poszczególne ewidencje
+            rozdzielEVatwpis1NaEwidencje();
             rozdzielsumeEwidencjiNaPodlisty();
             /**
              * dodajemy wiersze w tab sumowanie
