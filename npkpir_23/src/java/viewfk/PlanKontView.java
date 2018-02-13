@@ -965,8 +965,8 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontPodatnika() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         //resetuj kolumne macierzyste
-        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(wybranyuklad, "wynikowe");
-        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(wybranyuklad, "bilansowe");
+        kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(wybranyuklad, "wynikowe");
+        kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(wybranyuklad, "bilansowe");
         resetujpozycjebiezace();
         //tutaj nanosi czy ma potomkow
         KontaFKBean.ustawCzyMaPotomkow(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO, wybranyuklad);

@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import beansFK.PlanKontFKBean;
 import comparator.UkladBRcomparator;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaBiezacaDAO;
@@ -46,6 +47,8 @@ public class UkladBRView implements Serializable {
     private WpisView wpisView;
     @ManagedProperty(value = "#{pozycjaBRKontaView}")
     private PozycjaBRKontaView pozycjaBRKontaView;
+    @ManagedProperty(value = "#{planKontView}")
+    private PlanKontView planKontView;
     @Inject
     private UkladBR selected;
     private UkladBR wybranyukladwzorcowy;
@@ -166,6 +169,7 @@ public class UkladBRView implements Serializable {
             pozycjaBRKontaView.init();
             pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("r");
             pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("b");
+            planKontView.porzadkowanieKontPodatnika();
             Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString());
@@ -183,8 +187,8 @@ public class UkladBRView implements Serializable {
                 kontoDAOfk.editList(konta);
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
-                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
-                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
+                kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladBR, "wynikowe");
+                kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladBR, "bilansowe");
                 ukladBRDAO.destroy(ukladBR);
                 lista.remove(ukladBR);
                 pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
@@ -254,6 +258,15 @@ public class UkladBRView implements Serializable {
     public void setSelected(UkladBR selected) {
         this.selected = selected;
     }
+
+    public PlanKontView getPlanKontView() {
+        return planKontView;
+    }
+
+    public void setPlanKontView(PlanKontView planKontView) {
+        this.planKontView = planKontView;
+    }
+
 
     public PozycjaBRKontaView getPozycjaBRKontaView() {
         return pozycjaBRKontaView;

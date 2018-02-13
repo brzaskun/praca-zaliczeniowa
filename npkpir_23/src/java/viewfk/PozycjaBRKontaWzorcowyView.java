@@ -94,8 +94,8 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             uklad.oznaczUkladBR(ukladBRDAO);
             przyporzadkowanekonta = new ArrayList<>();
             wyczyscKontaWzorcowy(uklad, "wynikowe");
-            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
-            //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+            kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
+            //kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
             PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true, "wynikowe");
             pozycje = new ArrayList<>();
             try {
@@ -123,8 +123,8 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             uklad.oznaczUkladBR(ukladBRDAO);
             przyporzadkowanekonta = new ArrayList<>();
             wyczyscKontaWzorcowy(uklad, "bilansowe");
-            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
-            //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
+            kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
+            //kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
             PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true, "bilansowe");
             pozycje = new ArrayList<>();
             try {
@@ -603,14 +603,14 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             wyczyscKontaWzorcowy(uklad, "wynikowe");
             kontabezprzydzialu = new ArrayList<>();
             przyporzadkowanekonta = new ArrayList<>();
-            //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+            //kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
             pobierzukladkontoR();
         } else {
             wyczyscKontaWzorcowy(uklad, "bilansowe");
             kontabezprzydzialu = new ArrayList<>();
             przyporzadkowanekonta = new ArrayList<>();
-            //kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
+            //kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
             if (aktywa0pasywa1==false) {
                 pobierzukladkontoB("aktywa");

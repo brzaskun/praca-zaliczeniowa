@@ -111,9 +111,9 @@ public class UkladBRWzorcowyView implements Serializable{
 
     public void usun(UkladBR ukladBR) {
         try {
-            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
+            kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladBR, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
-            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
+            kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladBR, "wynikowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
             ukladBRDAO.destroy(ukladBR);
             lista.remove(ukladBR);

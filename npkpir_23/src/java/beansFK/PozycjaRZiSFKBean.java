@@ -178,9 +178,9 @@ public class PozycjaRZiSFKBean {
         try {
             List<KontopozycjaZapis> kontopozycja = new ArrayList<>();
             if (bilansowewynikowe.equals("wynikowe")) {
-                kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"wynikowe"));
+                kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(uklad,"wynikowe"));
             } else {
-                kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"bilansowe"));
+                kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(uklad,"bilansowe"));
             }
             List<Konto> l = new ArrayList<>();
             for (KontopozycjaZapis p : kontopozycja) {
@@ -572,7 +572,7 @@ public class PozycjaRZiSFKBean {
             ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
             PozycjaRZiSFKBean.pobierzPozycje(pozycje, pozycjaRZiSDAO, uklad);
             PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontoDAO);
-            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, bilansowewynikowe);
+            kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, bilansowewynikowe);
             PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, bilansowewynikowe);
         } catch (Exception e) {
             E.e(e);
@@ -585,7 +585,7 @@ public class PozycjaRZiSFKBean {
             ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
             PozycjaRZiSFKBean.pobierzPozycje(pozycje, pozycjaRZiSDAO, uklad);
             PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, null, wpisView.getRokWpisuSt(), kontoDAO);
-            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, bilansowewynikowe);
+            kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, bilansowewynikowe);
             PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, bilansowewynikowe);
         } catch (Exception e) {
             E.e(e);

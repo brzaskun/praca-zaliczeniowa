@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "KontopozycjaZapis.findByUklad", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad"),
     @NamedQuery(name = "KontopozycjaZapis.findByUkladWynikowe", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = false"),
     @NamedQuery(name = "KontopozycjaZapis.findByUkladBilansowe", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = true"),
+    @NamedQuery(name = "KontopozycjaZapis.findByUkladBilansoweWzorzec", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = true AND k.kontoID.podatnik IS NULL"),
     @NamedQuery(name = "KontopozycjaZapis.findByKontoId", query = "SELECT k FROM KontopozycjaZapis k WHERE k.kontoID = :kontoId AND k.ukladBR = :ukladBR"),
     @NamedQuery(name = "KontopozycjaZapis.findByKontoOnly", query = "SELECT k FROM KontopozycjaZapis k WHERE k.kontoID = :konto"),
     @NamedQuery(name = "KontopozycjaZapis.findByRok", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR.rok = :rok")})
@@ -176,7 +177,11 @@ public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable
 
     @Override
     public String toString() {
-        return "KontopozycjaZapis{" + ", konto=" + kontoID + "pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + '}';
+        if (kontoID.getPodatnik()==null) {
+            return "KontopozycjaZapis{" + ", konto=" + kontoID.getPelnynumer()+" rok "+kontoID.getRok()+" pod Wzorcowy, pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + '}';
+        } else {
+            return "KontopozycjaZapis{" + ", konto=" + kontoID.getPelnynumer()+" rok "+kontoID.getRok()+" pod "+kontoID.getPodatnik().getPrintnazwaShort() + "pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + '}';
+        }
     }
     
     

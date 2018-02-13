@@ -44,7 +44,7 @@ public class KontopozycjaBiezacaDAO extends DAO implements Serializable{
         }
     }
     
-    public void usunZapisaneKontoPozycjaPodatnikUklad(UkladBR uklad, String rb) {
+    public void usunKontoPozycjaBiezacaPodatnikUklad(UkladBR uklad, String rb) {
         try {
             sessionFacade.usunZapisaneKontoPozycjaBiezacaPodatnikUklad(uklad, rb);
         } catch (Exception e) {
