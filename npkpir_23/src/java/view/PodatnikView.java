@@ -1623,12 +1623,20 @@ public class PodatnikView implements Serializable {
         try {
             if (selectedDod.getNazwapelna() == null) {
                 List<Podatnik> l = podatnikDAO.findAllManager();
-                StringBuilder sb = new StringBuilder();
-                sb.append(Data.aktualnyRokShort());
-                String fp = selectedDod.getFormaPrawna() == null ? "f":"p";
-                sb.append(fp);
-                sb.append(l.size());
-                String index = sb.toString();
+                int rozmiar = l.size();
+                String index  = nowyindex(rozmiar);
+                boolean istnieje = true;
+                while (istnieje) {
+                    istnieje = false;
+                    for (Podatnik pod : l) {
+                        if (pod.getNazwapelna().equals(index)) {
+                            rozmiar = rozmiar +1;
+                            index = nowyindex(rozmiar);
+                            istnieje = true;
+                            break;
+                        }
+                    }
+                }
                 selectedDod.setNazwapelna(index);
                 Msg.msg("Wygenerowano index dla firmy");
             }
@@ -1638,6 +1646,15 @@ public class PodatnikView implements Serializable {
             throw new Exception();
         }
         
+    }
+    
+    private String nowyindex(int rozmiar) {
+        String fp = selectedDod.getFormaPrawna() == null ? "f":"p";
+        StringBuilder sb = new StringBuilder();
+        sb.append(Data.aktualnyRokShort());
+        sb.append(fp);
+        sb.append(rozmiar);
+        return sb.toString();
     }
 
     public void uzupelnijpozycje() {
