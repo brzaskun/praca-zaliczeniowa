@@ -15,7 +15,7 @@
                 <p:commandButton id="przycisk2d" value="oblicz"  actionListener="#{vat7DKView.obliczNowaDedra()}" update="@form deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
                                  rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}"/>
                 <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowaPkpir()}" update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
-                                 rendered="#{!WpisView.ksiegirachunkowe and !WpisView.podatnikObiekt.nip eq '5263158333'}"/>
+                                 rendered="#{!WpisView.ksiegirachunkowe and WpisView.podatnikObiekt.nip ne '5263158333'}"/>
                 <p:commandButton id="przycisk3a" value="oblicz"  actionListener="#{vat7DKView.obliczNowaFK()}" update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
                                  rendered="#{WpisView.ksiegirachunkowe}"/>
 <!--                <p:commandButton id="przycisk2a" value="sprawdź kartę"  update="formdekl:przyciskivat" style="width: 150px"
