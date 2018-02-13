@@ -351,7 +351,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         double saldo = p.getSaldo();
         FakturaRozrachunki f = new FakturaRozrachunki();
         f.setData(Data.aktualnaData());
-        if (p.isFaktura0rozliczenie1()) {
+        if (p.getRozliczenie()!= null) {
             szukanyklient = p.getRozliczenie().getKontrahent();
         } else {
             szukanyklient = p.getFaktura().getKontrahent();

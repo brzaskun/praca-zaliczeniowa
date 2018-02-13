@@ -111,6 +111,7 @@ public class PlanKontKopiujView implements Serializable {
         }
         planKontView.init();
         System.out.println("koniec implementacji");
+        Msg.msg("Zaimplementowano wzorcowy plan kont z roku "+rokzrodlowy);
     }
 
     private List<Konto> skopiujlevel0(Podatnik podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {
