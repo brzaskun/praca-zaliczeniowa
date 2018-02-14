@@ -6,8 +6,11 @@ package embeddablefk;
 
 import abstractClasses.ToBeATreeNodeObject;
 import comparator.Kontocomparator;
+import comparator.PozycjaBilanscomparator;
+import comparator.PozycjaRZiScomparator;
 import embeddable.Mce;
 import entityfk.Konto;
+import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
@@ -110,6 +113,14 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             }
             if (values.size()>0) {
                 rzedy.put(String.valueOf(i),  values);
+            }
+        }
+        for (String p : rzedy.keySet()) {
+            ArrayList<T> values = rzedy.get(p);
+            if (values.get(0) != null && values.get(0).getClass().getSimpleName().equals("PozycjaBilans")) {
+                Collections.sort((ArrayList<PozycjaBilans>)values, new PozycjaBilanscomparator());
+            } else if (values.get(0) != null && values.get(0).getClass().getSimpleName().equals("PozycjaRZiS")) {
+                Collections.sort((ArrayList<PozycjaRZiS>)values, new PozycjaRZiScomparator());
             }
         }
         return rzedy;
