@@ -229,7 +229,7 @@ public class KontaFKBean implements Serializable{
    
     public static int czytesamekonta(Konto kontozrodlowe, Konto kontodocelowe) {
         int zwrot = 0;
-        if (kontozrodlowe.equals(kontodocelowe)) {
+        if (kontozrodlowe.equals(kontodocelowe) && kontozrodlowe.isMapotomkow()==false) {
             zwrot = 1;
         }
         return zwrot;

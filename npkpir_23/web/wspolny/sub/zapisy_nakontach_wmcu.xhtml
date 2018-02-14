@@ -126,7 +126,7 @@
                     <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1190px; height: 550px; overflow-y: scroll;"
+                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="width: 1190px; height: 550px; overflow-y: scroll;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1" rowSelectMode="add"
                                  >
@@ -134,9 +134,9 @@
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false" oncomplete="odswietlrozrachunki()"/>
                         <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>
-                        <p:ajax event="rowSelectCheckbox" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania)}" 
+                        <p:ajax event="rowSelectCheckbox" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranezapisydosumowania)}" 
                             update=":zestawieniezapisownakontachpola"/>
-                        <p:ajax event="rowSelect" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania)}" 
+                        <p:ajax event="rowSelect" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKViewwybranezapisydosumowaniaa)}" 
                             update=":zestawieniezapisownakontachpola"/>
                         <p:ajax event="filter" global="false" oncomplete="przeliczfilterzapisy()"/>
                         <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>

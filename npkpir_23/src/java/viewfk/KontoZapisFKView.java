@@ -64,7 +64,7 @@ public class KontoZapisFKView implements Serializable{
     private List<StronaWiersza> kontozapisyfiltered;
     @Inject private StronaWiersza wybranyzapis;
     private List<StronaWiersza> kontorozrachunki;
-    private List<StronaWiersza> wybranekontadosumowania;
+    private List<StronaWiersza> wybranezapisydosumowania;
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private TransakcjaDAO transakcjaDAO;
@@ -109,7 +109,7 @@ public class KontoZapisFKView implements Serializable{
     public KontoZapisFKView() {
         E.m(this);
         kontozapisy = new ArrayList<>();
-        wybranekontadosumowania = new ArrayList<>();
+        wybranezapisydosumowania = new ArrayList<>();
         wybranaWalutaDlaKont = "wszystkie";
         listasum = new ArrayList<>();
         ListaSum l = new ListaSum();
@@ -199,7 +199,7 @@ public class KontoZapisFKView implements Serializable{
         pokaztransakcje = false;
         nierenderujkolumnnywalut = true;
         try {
-            wybranekontadosumowania = new ArrayList<>();
+            wybranezapisydosumowania = new ArrayList<>();
             kontozapisyfiltered = null;
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
             kontozapisy = new ArrayList<>();
@@ -259,7 +259,7 @@ public class KontoZapisFKView implements Serializable{
             init();
         }
         try {
-            wybranekontadosumowania = new ArrayList<>();
+            wybranezapisydosumowania = new ArrayList<>();
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
             kontozapisy = new ArrayList<>();
             List<Konto> kontapotomnetmp = new ArrayList<>();
@@ -372,8 +372,8 @@ public class KontoZapisFKView implements Serializable{
                 ko.remove(n);
             }
         }
-        wybranekontadosumowania = new ArrayList<>();
-        wybranekontadosumowania.addAll(ko);
+        wybranezapisydosumowania = new ArrayList<>();
+        wybranezapisydosumowania.addAll(ko);
         sumazapisowtotal();
     } 
     
@@ -383,10 +383,10 @@ public class KontoZapisFKView implements Serializable{
         int selsize = sel.size();
         int kontosize = kontozapisy.size();
         if (selsize==kontosize) {
-            wybranekontadosumowania = new ArrayList<>();
+            wybranezapisydosumowania = new ArrayList<>();
         } else {
-            wybranekontadosumowania = new ArrayList<>();
-            wybranekontadosumowania.addAll(kontozapisy);
+            wybranezapisydosumowania = new ArrayList<>();
+            wybranezapisydosumowania.addAll(kontozapisy);
         }
         sumazapisowtotal();
     } 
@@ -449,8 +449,8 @@ public class KontoZapisFKView implements Serializable{
         try {
             sumaWn = 0.0;
             sumaMa = 0.0;
-            if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
-                for(StronaWiersza p : wybranekontadosumowania){
+            if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
+                for(StronaWiersza p : wybranezapisydosumowania){
                     sumujstrony(p);
                 }
             } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
@@ -541,8 +541,8 @@ public class KontoZapisFKView implements Serializable{
     public void sumazapisowpln(){
         sumaWnPLN = 0.0;
         sumaMaPLN = 0.0;
-        if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
-            for(StronaWiersza p : wybranekontadosumowania){
+        if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
+            for(StronaWiersza p : wybranezapisydosumowania){
                 double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     Z.z(sumaWnPLN = sumaWnPLN + kwotadlasumy);
@@ -761,21 +761,21 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void rozliczzaznaczone() {
-        if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 1) {
-            if (wybranekontadosumowania.size()==2 && RozliczTransakcjeBean.sprawdznowatransakcje(wybranekontadosumowania)==null) {
-                RozliczTransakcjeBean.wybierzjednatransakcje(wybranekontadosumowania);
+        if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 1) {
+            if (wybranezapisydosumowania.size()==2 && RozliczTransakcjeBean.sprawdznowatransakcje(wybranezapisydosumowania)==null) {
+                RozliczTransakcjeBean.wybierzjednatransakcje(wybranezapisydosumowania);
             }
-            if (RozliczTransakcjeBean.sprawdznowatransakcje(wybranekontadosumowania)==null) {
+            if (RozliczTransakcjeBean.sprawdznowatransakcje(wybranezapisydosumowania)==null) {
                 Msg.msg("e", "Żadna z pozycji nie jest oznaczona jako rachunek. Nie można zrobić szybkiego rozliczenia");
-            } else if (RozliczTransakcjeBean.wiecejnizjednatransakcja(wybranekontadosumowania)) {
+            } else if (RozliczTransakcjeBean.wiecejnizjednatransakcja(wybranezapisydosumowania)) {
                 Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje/faktury. Nie można rozliczyć zapisów. Zmień oznaczenie w zakładce Rozrachunki");
-            } else if (czyroznewaluty(wybranekontadosumowania)){
+            } else if (czyroznewaluty(wybranezapisydosumowania)){
                 Msg.msg("e", "Zaznaczone dokumenty są różnowalutowe. Nie można zrobić szybkiego rozliczenia");
             } else {
                 Msg.msg("Rozliczam oznaczone transakcje");
-                List<StronaWiersza> listapoedycji = RozliczTransakcjeBean.naniestransakcje(wybranekontadosumowania);
+                List<StronaWiersza> listapoedycji = RozliczTransakcjeBean.naniestransakcje(wybranezapisydosumowania);
                 stronaWierszaDAO.editList(listapoedycji);
-                for (StronaWiersza p : wybranekontadosumowania) {
+                for (StronaWiersza p : wybranezapisydosumowania) {
                     if (Z.z(p.getPozostalo()) == 0.0) {
                         kontozapisy.remove(p);
                     }
@@ -896,7 +896,7 @@ public class KontoZapisFKView implements Serializable{
     //poszukuje rozrachunkow do sparowania
     public void odszukajsparowanerozrachunki() {
         try {
-            StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
+            StronaWiersza wybranyrozrachunek = wybranezapisydosumowania.get(0);
             if (wybranyrozrachunek.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                 List<Transakcja> listytransakcjiNT = transakcjaDAO.findByNowaTransakcja(wybranyrozrachunek);
                 List<Transakcja> listytransakcjiR = transakcjaDAO.findByRozliczajacy(wybranyrozrachunek);
@@ -998,10 +998,10 @@ public class KontoZapisFKView implements Serializable{
                 sumazapisow();
                 sumazapisowpln();
                 PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, true);
-            } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+            } else if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum, true);
+                PdfKontoZapisy.drukujzapisy(wpisView, wybranezapisydosumowania, wybranekonto, listasum, true);
             } else {
                 PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, true);
             }
@@ -1016,10 +1016,10 @@ public class KontoZapisFKView implements Serializable{
                 sumazapisow();
                 sumazapisowpln();
                 PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisyfiltered, wybranekonto, listasum, 2, nierenderujkolumnnywalut);
-            } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+            } else if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisyKompakt(wpisView, wybranekontadosumowania, wybranekonto, listasum, 2, nierenderujkolumnnywalut);
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, wybranezapisydosumowania, wybranekonto, listasum, 2, nierenderujkolumnnywalut);
             } else {
                 PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisy, wybranekonto, listasum, 2, nierenderujkolumnnywalut);
             }
@@ -1035,10 +1035,10 @@ public class KontoZapisFKView implements Serializable{
                 sumazapisow();
                 sumazapisowpln();
                 PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, false);
-            } else if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+            } else if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum, false);
+                PdfKontoZapisy.drukujzapisy(wpisView, wybranezapisydosumowania, wybranekonto, listasum, false);
             } else {
                 PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, false);
             }
@@ -1066,7 +1066,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void usunzListy() {
-        for (StronaWiersza p : wybranekontadosumowania) {
+        for (StronaWiersza p : wybranezapisydosumowania) {
             kontozapisy.remove(p);
         }
         sumazapisowtotal();
@@ -1105,16 +1105,15 @@ public class KontoZapisFKView implements Serializable{
                     Msg.msg("e", "Konto źródłowe jest tożsame z docelowym, przerywam przeksięgowanie");
                     return;
                 }
-                if (wybranekontadosumowania == null || wybranekontadosumowania.isEmpty()) {
+                if (wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty()) {
                     Msg.msg("e", "Nie wybrano pozycji do przeksięgowania. Nie można wykonać przeksięgowania");
                     return;
                 }
-                if (wybranekonto.isMapotomkow() == false) {
-                    przeksiegujanalityke();
-                } else if (wybranekonto.isMapotomkow() == true && wybranekonto.getIdslownika() > 0) {
+                if (wybranekonto.isMapotomkow() == true && wybranekonto.getIdslownika() == kontodoprzeksiegowania.getIdslownika()) {
                     przeksiegujslownikowe();
                 } else {
-                    Msg.msg("e", "Konto docelowe ma analitykę i nie jest kontem słownikowym. Nie można przeksięgować");
+                    przeksiegujanalityke();
+                    Msg.msg("w", "Konto żrółowe/docelowe ma analitykę. Być może trzeba ją usunąć");
                 }
             } else {
                 Msg.msg("e", "Nie wybrałeś konta docelowego");
@@ -1127,7 +1126,7 @@ public class KontoZapisFKView implements Serializable{
     
     private void przeksiegujanalityke() {
         int rozrachunkowe = 0;
-        for (StronaWiersza p : wybranekontadosumowania) {
+        for (StronaWiersza p : wybranezapisydosumowania) {
             if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
                 p.setKonto(kontodoprzeksiegowania);
                 stronaWierszaDAO.edit(p);
@@ -1153,7 +1152,7 @@ public class KontoZapisFKView implements Serializable{
             return;
         }
         int brakkonta = 0;
-        for (StronaWiersza p : wybranekontadosumowania) {
+        for (StronaWiersza p : wybranezapisydosumowania) {
             Konto kontodocelowe = znajdzpotomne(potomne,p.getKonto());
             if (kontodocelowe != null) {
                     p.setKonto(kontodocelowe);
@@ -1242,12 +1241,12 @@ public class KontoZapisFKView implements Serializable{
         this.kontorozrachunki = kontorozrachunki;
     }
     
-    public List<StronaWiersza> getWybranekontadosumowania() {
-        return wybranekontadosumowania;
+    public List<StronaWiersza> getWybranezapisydosumowania() {
+        return wybranezapisydosumowania;
     }
     
-    public void setWybranekontadosumowania(List<StronaWiersza> wybranekontadosumowania) {
-        this.wybranekontadosumowania = wybranekontadosumowania;
+    public void setWybranezapisydosumowania(List<StronaWiersza> wybranezapisydosumowania) {
+        this.wybranezapisydosumowania = wybranezapisydosumowania;
     }
     
     public Double getSumaWn() {
