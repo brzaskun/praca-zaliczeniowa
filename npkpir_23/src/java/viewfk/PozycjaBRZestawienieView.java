@@ -122,7 +122,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         try {
             uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
