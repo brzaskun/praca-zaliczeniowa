@@ -39,9 +39,9 @@ public class StronaWierszacomparatorBO implements Comparator<StronaWiersza> {
             E.e(ex);
         }
         int zwrot = datao1date.before(datao2date) ? -1 : (datao1date.equals(datao2date) ? 0 : 1);
-        if (zwrot == 0) {
-            int datawiersza1 = Integer.parseInt(o1.getDataWiersza());
-            int datawiersza2 = Integer.parseInt(o2.getDataWiersza());
+        if (zwrot == 0 && o1.getWiersz().getDataWalutyWiersza() != null && o2.getWiersz().getDataWalutyWiersza() != null) {
+            int datawiersza1 = Integer.parseInt(o1.getWiersz().getDataWalutyWiersza());
+            int datawiersza2 = Integer.parseInt(o2.getWiersz().getDataWalutyWiersza());
             zwrot = datawiersza1 < datawiersza2 ? -1 : (datawiersza1 == datawiersza2 ? 0 : 1);
         }
         return zwrot;

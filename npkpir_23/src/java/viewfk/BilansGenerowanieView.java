@@ -401,6 +401,10 @@ public class BilansGenerowanieView implements Serializable {
     private List<SaldoKonto> przetwarzajSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
         List<SaldoKonto> nowalista = new ArrayList<>();
         for (SaldoKonto p : listaSaldoKonto) {
+            System.out.println("przetwarzajSaldoKonto "+p.getKonto().getPelnynumer());
+            if (p.getKonto().getPelnynumer().equals("132-1")) {
+                System.out.println("");
+            }
             if (p.getKonto().getPelnynumer().startsWith("149")) {
                 nowalista.addAll(przetworzPojedyncze(p));
             } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==false) {
