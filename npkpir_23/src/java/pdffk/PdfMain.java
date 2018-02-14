@@ -449,7 +449,7 @@ public class PdfMain {
         }
     }
     
-    public static void dodajOpisWstepnySF(Document document, String opis, Podatnik podatnik, String bilansnadzien) {
+    public static void dodajOpisWstepnySF(Document document, String opis, Podatnik podatnik, String bilansnadzien, String bilansoddnia) {
         try {
             StringBuilder s = new StringBuilder();
             s.append("Firma ");
@@ -464,8 +464,42 @@ public class PdfMain {
             opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
+            if (bilansoddnia != null) {
+               opiswstepny = new Paragraph(new Phrase("bilans otwarcia na dzień "+bilansoddnia, ft[1]));
+            }
+            document.add(opiswstepny);
             if (bilansnadzien != null) {
-               opiswstepny = new Paragraph(new Phrase("bilans zamknięcia sporządzony na dzień "+bilansnadzien, ft[2]));
+               opiswstepny = new Paragraph(new Phrase("bilans zamknięcia na dzień "+bilansnadzien, ft[1]));
+            }
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+        } catch (DocumentException ex) {
+            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
+            E.e(ex);
+        }
+    }
+    
+     public static void dodajOpisWstepnySFRZIS(Document document, String opis, Podatnik podatnik, String bilansnadzien, String bilansoddnia) {
+        try {
+            StringBuilder s = new StringBuilder();
+            s.append("Firma ");
+            s.append(podatnik.getNazwapelnaPDF());
+            s.append(" NIP ");
+            s.append(podatnik.getNip());
+            Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            s = new StringBuilder();
+            s.append(opis);
+            opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            if (bilansoddnia != null) {
+               opiswstepny = new Paragraph(new Phrase("stan na koniec roku poprzedniego - "+bilansoddnia, ft[1]));
+            }
+            document.add(opiswstepny);
+            if (bilansnadzien != null) {
+               opiswstepny = new Paragraph(new Phrase("stan na koniec roku bieżącego - "+bilansnadzien, ft[1]));
             }
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);

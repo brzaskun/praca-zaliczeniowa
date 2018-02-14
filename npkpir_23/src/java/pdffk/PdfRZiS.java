@@ -18,6 +18,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajOpisWstepnySF;
+import static pdffk.PdfMain.dodajOpisWstepnySFRZIS;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.dodajTabeleNar;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -58,7 +59,7 @@ public class PdfRZiS {
         }
     }
     
-     public static void drukujRZiSBO(TreeNodeExtended rootProjektRZiS, WpisView wpisView, String bilansnadzien) {
+     public static void drukujRZiSBO(TreeNodeExtended rootProjektRZiS, WpisView wpisView, String bilansnadzien, String bilansoddnia) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -70,7 +71,7 @@ public class PdfRZiS {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepnySF(document, "Rachunek Zysków i Strat", wpisView.getPodatnikObiekt(), bilansnadzien);
+            dodajOpisWstepnySFRZIS(document, "Rachunek Zysków i Strat", wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia);
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSBO(rootProjektRZiS),75,3);
             PdfMain.dodajpodpis(document);
             finalizacjaDokumentuQR(document,nazwa);

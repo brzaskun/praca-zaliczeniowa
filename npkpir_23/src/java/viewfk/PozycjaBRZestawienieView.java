@@ -99,6 +99,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     private UkladBRDAO ukladBRDAO;
     private boolean laczlata;
     private String bilansnadzien;
+    private String bilansoddnia;
     
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -151,6 +152,7 @@ public class PozycjaBRZestawienieView implements Serializable {
 //            pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
             pozycje.addAll(pozycjaRZiSDAO.findAll());
             bilansnadzien = Data.dzienostatni(wpisView);
+            bilansoddnia = wpisView.getRokUprzedniSt()+"-12-31";
         } catch (Exception e){}
     }
     
@@ -796,7 +798,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     }
     
     public void drukujRZiSBO() {
-        PdfRZiS.drukujRZiSBO(rootProjektRZiS, wpisView, bilansnadzien);
+        PdfRZiS.drukujRZiSBO(rootProjektRZiS, wpisView, bilansnadzien, bilansoddnia);
     }
 
     public boolean isLaczlata() {
@@ -966,7 +968,14 @@ public class PozycjaBRZestawienieView implements Serializable {
         this.wykazkont = wykazkont;
     }
 
-   
+    public String getBilansoddnia() {
+        return bilansoddnia;
+    }
+
+    public void setBilansoddnia(String bilansoddnia) {
+        this.bilansoddnia = bilansoddnia;
+    }
+
 
     public TreeNode getWybranynodekonta() {
         return wybranynodekonta;

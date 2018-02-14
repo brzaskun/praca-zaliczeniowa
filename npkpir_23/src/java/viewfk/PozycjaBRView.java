@@ -98,6 +98,8 @@ public class PozycjaBRView implements Serializable {
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     private boolean laczlata;
     private String bilansnadzien;
+    private String bilansoddnia;
+    
     
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -126,6 +128,7 @@ public class PozycjaBRView implements Serializable {
                 uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             }
             bilansnadzien = Data.dzienostatni(wpisView);
+            bilansoddnia = wpisView.getRokWpisuSt()+"-01-01";
         } catch (Exception e) {
             
         }
@@ -885,12 +888,12 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void drukujBilansAP(double sumabilansowaA, double sumabilansowaP) {
-           PdfBilans.drukujBilansAP(rootBilansAktywa, rootBilansPasywa, wpisView, sumabilansowaA, sumabilansowaP, bilansnadzien);
+           PdfBilans.drukujBilansAP(rootBilansAktywa, rootBilansPasywa, wpisView, sumabilansowaA, sumabilansowaP, bilansnadzien, bilansoddnia);
     }
     
     public void drukujBilansBODataAP(String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP) {
         if (ap.equals("x")) {
-            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, ap, sumabilansowaBO, sumabilansowaA, sumabilansowaP, bilansnadzien);
+            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, ap, sumabilansowaBO, sumabilansowaA, sumabilansowaP, bilansnadzien, bilansoddnia);
         }
     }
     
@@ -1131,6 +1134,14 @@ public class PozycjaBRView implements Serializable {
 
     public void setRootBilans(TreeNodeExtended rootBilans) {
         this.rootBilans = rootBilans;
+    }
+
+    public String getBilansoddnia() {
+        return bilansoddnia;
+    }
+
+    public void setBilansoddnia(String bilansoddnia) {
+        this.bilansoddnia = bilansoddnia;
     }
 
     public TreeNodeExtended getRootProjektKonta() {

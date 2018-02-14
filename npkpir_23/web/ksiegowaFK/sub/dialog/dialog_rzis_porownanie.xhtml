@@ -30,7 +30,7 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="7">
+            <p:panelGrid columns="9">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRZestawienieView.uklad}" converter="UkladBRConv">
@@ -45,7 +45,11 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <h:outputText value="bilans na dzień" style="margin-left: 5px;"/>
+                 <h:outputText value="rok poprzedni " style="margin-left: 5px;"/>
+                 <p:inputText value="#{pozycjaBRZestawienieView.bilansoddnia}" maxlength="10" size="10"> 
+                    <p:ajax event="blur" partialSubmit="true" global="false"/>
+                </p:inputText>
+                <h:outputText value="rok bieżący" style="margin-left: 5px;"/>
                 <p:inputText value="#{pozycjaBRZestawienieView.bilansnadzien}" maxlength="10" size="10"> 
                     <p:ajax event="blur" partialSubmit="true" global="false"/>
                 </p:inputText>
