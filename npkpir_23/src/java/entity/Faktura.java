@@ -215,8 +215,8 @@ public class Faktura implements Serializable {
     private int dnizaplaty;
     @Column
     private String nazwa;
-    @Column(nullable = true)
-    private Integer idfakturaokresowa;
+    @JoinColumn(name = "idfakturaokresowa", referencedColumnName = "id")
+    private Fakturywystokresowe idfakturaokresowa;
     @Column(name = "stopka")
     private String stopka;
     @Column(name = "nowy0archiwum1")
@@ -253,6 +253,8 @@ public class Faktura implements Serializable {
     private boolean zaliczkowa;
     @Column(name = "przeniesionosaldo")
     private boolean przeniesionosaldo;
+    @Column(name = "tylkodlaokresowej")
+    private boolean tylkodlaokresowej;
   
 
     public Faktura() {
@@ -515,14 +517,14 @@ public class Faktura implements Serializable {
         this.stopka = stopka;
     }
 
-    public Integer getIdfakturaokresowa() {
+    public Fakturywystokresowe getIdfakturaokresowa() {
         return idfakturaokresowa;
     }
 
-    public void setIdfakturaokresowa(Integer idfakturaokresowa) {
+    public void setIdfakturaokresowa(Fakturywystokresowe idfakturaokresowa) {
         this.idfakturaokresowa = idfakturaokresowa;
     }
-    
+
 
     public int getDnizaplaty() {
         return dnizaplaty;
@@ -850,8 +852,14 @@ public class Faktura implements Serializable {
     public void setNumerzamowienia(String numerzamowienia) {
         this.numerzamowienia = numerzamowienia;
     }
-    
-    
+
+    public boolean isTylkodlaokresowej() {
+        return tylkodlaokresowej;
+    }
+
+    public void setTylkodlaokresowej(boolean tylkodlaokresowej) {
+        this.tylkodlaokresowej = tylkodlaokresowej;
+    }
 
     public boolean isFakturaxxl() {
         return fakturaxxl;

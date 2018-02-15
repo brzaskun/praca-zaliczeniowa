@@ -135,7 +135,7 @@
                     <p:commandButton update=":form1:messages" actionListener="#{pdfFaktura.drukujokresowa(wpis, row, WpisView)}" icon="ui-icon-print" />
                 </p:column>
                 <p:column  headerText="edytuj" style="text-align: center;"  width="40">
-                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis.dokument)}" 
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis)}" 
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                 <p:rowExpansion>

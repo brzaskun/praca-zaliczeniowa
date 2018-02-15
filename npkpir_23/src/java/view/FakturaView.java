@@ -60,6 +60,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
@@ -210,10 +211,12 @@ public class FakturaView implements Serializable {
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
         for (Faktura fakt : fakturytmp) {
-            if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
-                fakturyarchiwum.add(fakt);
-            } else {
-                faktury.add(fakt);
+            if (!fakt.isTylkodlaokresowej()) {
+                if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
+                    fakturyarchiwum.add(fakt);
+                } else {
+                    faktury.add(fakt);
+                }
             }
         }
         Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
@@ -424,11 +427,19 @@ public class FakturaView implements Serializable {
             selected.setNazwa(null);
         }
         try {
-            fakturaDAO.edit(selected);
             if (selected.isWygenerowanaautomatycznie() == true) {
-                   selected.setWygenerowanaautomatycznie(false);
+                selected.setWygenerowanaautomatycznie(false);
             }
-            fakturaDAO.edit(selected);
+            if (selected.getIdfakturaokresowa()!=null) {
+                String nowynumer = String.valueOf(new DateTime().getMillis());
+                selected.getFakturaPK().setNumerkolejny(nowynumer);
+                selected.setTylkodlaokresowej(true);
+                fakturaDAO.dodaj(selected);
+                selected.getIdfakturaokresowa().setDokument(selected);
+                fakturywystokresoweDAO.edit(selected.getIdfakturaokresowa());
+            } else {
+                fakturaDAO.edit(selected);
+            }
             init();
             Msg.msg("i", "Wyedytowano fakturę.");
             pokazfakture = false;
@@ -480,7 +491,10 @@ public class FakturaView implements Serializable {
         }
     }
     
-    public void skierujfakturedoedycji(Faktura faktura) {
+    public void skierujfakturedoedycji(Fakturywystokresowe fakturaokresowa) {
+        Faktura faktura = fakturaokresowa.getDokument();
+        faktura.setIdfakturaokresowa(fakturaokresowa);
+        fakturaDAO.edit(faktura);
         selected = serialclone.SerialClone.clone(faktura);
         selected.setKontrahent(faktura.getKontrahent());
         fakturaxxl = faktura.isFakturaxxl();
@@ -681,8 +695,8 @@ public class FakturaView implements Serializable {
         Podatnik wystawca = nowa.getWystawca();
         String rok = nowa.getRok();
         Fakturywystokresowe fakturaokresowa = null;
-        if (nowa.getIdfakturaokresowa() > 0) {
-            fakturaokresowa = fakturywystokresoweDAO.findFakturaOkresowaById(nowa.getIdfakturaokresowa());
+        if (nowa.getIdfakturaokresowa() != null) {
+            fakturaokresowa = nowa.getIdfakturaokresowa();
         } else {
             fakturaokresowa = fakturywystokresoweDAO.findOkresowa(rok, klientnip, wystawca.getNazwapelna(), nowa.getBrutto());
         }
@@ -940,6 +954,8 @@ public class FakturaView implements Serializable {
                 nowafakturaokresowa.setRok(rok);
                 try {
                     fakturywystokresoweDAO.dodaj(nowafakturaokresowa);
+                    p.setIdfakturaokresowa(nowafakturaokresowa);
+                    fakturaDAO.edit(p);
                     fakturyokresowe.add(nowafakturaokresowa);
                     Msg.msg("i", "Dodano fakturę okresową");
                 } catch (Exception e) { 
@@ -1110,7 +1126,7 @@ public class FakturaView implements Serializable {
                 nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
             }
             nowa.setWygenerowanaautomatycznie(true);
-            nowa.setIdfakturaokresowa(p.getId());
+            nowa.setIdfakturaokresowa(p);
             nowa.setWyslana(false);
             nowa.setDatazaplaty(null);
             nowa.setZaksiegowana(false);
@@ -1972,5 +1988,7 @@ public class FakturaView implements Serializable {
 //           System.out.println(p.getWystawcaNIP());
 //       }
 //   }
-    
+    public static void main(String[] args) {
+        System.out.println(""+new DateTime().getMillis());
+    }
 }
