@@ -215,7 +215,7 @@ public class JPK_VAT2_Bean {
         JPK.SprzedazWiersz w = new JPK.SprzedazWiersz();
         try {
             w.setLpSprzedazy(lp);
-             if (ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0) {
+             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
                 w.setDataSprzedazy(dataoddo(ev.getDataoperacji()));
                 w.setDataWystawienia(dataoddo(ev.getDatadokumentu()));
                 w.setNrKontrahenta(ev.getKlient().getNip());
@@ -309,7 +309,7 @@ public class JPK_VAT2_Bean {
         JPK.ZakupWiersz w = new JPK.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
-            if (ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0) {
+            if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
                 w.setDataZakupu(dataoddo(ev.getDataoperacji()));
                 w.setDataWplywu(dataoddo(ev.getDatadokumentu()));
                 w.setNrDostawcy(ev.getKlient().getNip());
