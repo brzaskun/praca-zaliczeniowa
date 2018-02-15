@@ -162,12 +162,21 @@ public class JPK_VAT3_Bean {
         JPK.SprzedazWiersz w = new JPK.SprzedazWiersz();
         try {
             w.setLpSprzedazy(lp);
-            w.setDataSprzedazy(dataoddo(ev.getDokfk().getDataoperacji()));
-            w.setDataWystawienia(dataoddo(ev.getDokfk().getDatawystawienia()));
-            w.setNrKontrahenta(ev.getDokfk().getKontr().getNip());
-            w.setNazwaKontrahenta(ev.getDokfk().getKontr().getNpelna());
-            w.setAdresKontrahenta(ev.getDokfk().getKontr().getAdres());
-            w.setDowodSprzedazy(ev.getDokfk().getNumerwlasnydokfk());
+            if (ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0) {
+                w.setDataSprzedazy(dataoddo(ev.getDataoperacji()));
+                w.setDataWystawienia(dataoddo(ev.getDatadokumentu()));
+                w.setNrKontrahenta(ev.getKlient().getNip());
+                w.setNazwaKontrahenta(ev.getKlient().getNpelna());
+                w.setAdresKontrahenta(ev.getKlient().getAdres());
+                w.setDowodSprzedazy(ev.getNumerwlasnydokfk());
+            } else {
+                w.setDataSprzedazy(dataoddo(ev.getDokfk().getDataoperacji()));
+                w.setDataWystawienia(dataoddo(ev.getDokfk().getDatawystawienia()));
+                w.setNrKontrahenta(ev.getDokfk().getKontr().getNip());
+                w.setNazwaKontrahenta(ev.getDokfk().getKontr().getNpelna());
+                w.setAdresKontrahenta(ev.getDokfk().getKontr().getAdres());
+                w.setDowodSprzedazy(ev.getDokfk().getNumerwlasnydokfk());
+            }
             dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl);
         } catch (Exception ex) {
 
@@ -244,12 +253,21 @@ public class JPK_VAT3_Bean {
         JPK.ZakupWiersz w = new JPK.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
-            w.setDataZakupu(dataoddo(ev.getDokfk().getDataoperacji()));
-            w.setDataWplywu(dataoddo(ev.getDokfk().getDatawystawienia()));
-            w.setNazwaDostawcy(ev.getDokfk().getKontr().getNpelna());
-            w.setNrDostawcy(ev.getDokfk().getKontr().getNip());
-            w.setAdresDostawcy(ev.getDokfk().getKontr().getAdres());
-            w.setDowodZakupu(ev.getDokfk().getNumerwlasnydokfk());
+            if (ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0) {
+                w.setDataZakupu(dataoddo(ev.getDataoperacji()));
+                w.setDataWplywu(dataoddo(ev.getDatadokumentu()));
+                w.setNrDostawcy(ev.getKlient().getNip());
+                w.setNazwaDostawcy(ev.getKlient().getNpelna());
+                w.setAdresDostawcy(ev.getKlient().getAdres());
+                w.setDowodZakupu(ev.getNumerwlasnydokfk());
+            } else {
+                w.setDataZakupu(dataoddo(ev.getDokfk().getDataoperacji()));
+                w.setDataWplywu(dataoddo(ev.getDokfk().getDatawystawienia()));
+                w.setNazwaDostawcy(ev.getDokfk().getKontr().getNpelna());
+                w.setNrDostawcy(ev.getDokfk().getKontr().getNip());
+                w.setAdresDostawcy(ev.getDokfk().getKontr().getAdres());
+                w.setDowodZakupu(ev.getDokfk().getNumerwlasnydokfk());
+            }
             dodajkwotydowierszaZakupu(w,ev, zakupCtrl);
         } catch (Exception ex) {
 
