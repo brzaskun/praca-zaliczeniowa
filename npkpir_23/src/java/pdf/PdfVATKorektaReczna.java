@@ -86,7 +86,7 @@ public class PdfVATKorektaReczna {
             miziu1.setAlignment(Element.ALIGN_CENTER);
             document.add(miziu1);
             document.add(Chunk.NEWLINE);
-            miziu1 = new Paragraph(new Phrase("okres rozliczeniony "+selected.getDeklaracjaKorekta().getMiesiac()+"/"+selected.getDeklaracjaKorekta().getRok(),fontM));
+            miziu1 = new Paragraph(new Phrase("okres rozliczeniowy "+selected.getDeklaracjaKorekta().getMiesiac()+"/"+selected.getDeklaracjaKorekta().getRok(),fontM));
             document.add(miziu1);
             document.add(Chunk.NEWLINE);
             miziu1 = new Paragraph(new Phrase("Firma: "+selected.getDeklaracjaKorekta().getPodatnik(),fontM));

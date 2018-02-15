@@ -315,7 +315,7 @@ public class PdfVatUE {
     ////            miziu1.setAlignment(Element.ALIGN_CENTER);
     ////            document.add(miziu1);
     ////            document.add(new Chunk().NEWLINE);
-    ////            miziu1 = new Paragraph(new Phrase("okres rozliczeniony ",fontM));
+    ////            miziu1 = new Paragraph(new Phrase("okres rozliczeniowy ",fontM));
     ////            document.add(miziu1);
     ////            document.add(new Chunk().NEWLINE);
     ////            miziu1 = new Paragraph(new Phrase("Firma: ",fontM));

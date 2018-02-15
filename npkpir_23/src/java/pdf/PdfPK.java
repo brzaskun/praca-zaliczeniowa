@@ -114,7 +114,7 @@ public class PdfPK {
         miziu1.setAlignment(Element.ALIGN_CENTER);
         document.add(miziu1);
         document.add(Chunk.NEWLINE);
-        miziu1 = new Paragraph(new Phrase("okres rozliczeniony " + selected.getPkpirM() + "/" + selected.getPkpirR(), fontM));
+        miziu1 = new Paragraph(new Phrase("okres rozliczeniowy " + selected.getPkpirM() + "/" + selected.getPkpirR(), fontM));
         document.add(miziu1);
         document.add(Chunk.NEWLINE);
         miziu1 = new Paragraph(new Phrase("Firma: " + selected.getPodatnik(), fontM));

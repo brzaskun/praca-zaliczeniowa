@@ -71,7 +71,7 @@ public class PdfVATsuma {
             miziu1.setAlignment(Element.ALIGN_CENTER);
             document.add(miziu1);
             document.add(Chunk.NEWLINE);
-            miziu1 = new Paragraph(new Phrase("okres rozliczeniony "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu(),fontM));
+            miziu1 = new Paragraph(new Phrase("okres rozliczeniowy "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu(),fontM));
             document.add(miziu1);
             document.add(Chunk.NEWLINE);
             miziu1 = new Paragraph(new Phrase("Firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(),fontM));

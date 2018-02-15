@@ -386,7 +386,7 @@ public class PdfMain {
             document.add(Chunk.NEWLINE);
             opiswstepny = new Paragraph(new Phrase("symbol księgowy " + selected.getDokfkSN(), ft[1]));
             document.add(opiswstepny);
-            opiswstepny = new Paragraph(new Phrase("okres rozliczeniony " + selected.getMiesiac() + "/" + selected.getRok(), ft[1]));
+            opiswstepny = new Paragraph(new Phrase("okres rozliczeniowy " + selected.getMiesiac() + "/" + selected.getRok(), ft[1]));
             document.add(opiswstepny);
         } catch (DocumentException ex) {
             System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny");
