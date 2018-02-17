@@ -32,7 +32,7 @@
               resizable="true" onShow="ustawdialog('dialog_salda_analityczne_bo','menuzestawienia',1550,750);doczeplistnerydopol();"
               onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
               >
-        <p:ajax event="open" listener="#{saldoAnalitykaView.odswiezsaldoanalitycznebo()}" update=":form_dialog_salda_analityczne_bo, :tabelazsumamianalitykabo:sumy"/>
+        <p:ajax event="open" listener="#{saldoAnalitykaView.odswiezsaldoanalitycznebo()}" update=":form_dialog_salda_analityczne_bo :tabelazsumamianalitykabo:sumy"/>
         <h:form id="form_dialog_salda_analityczne_bo">
             <p:panelGrid columns="8" style="margin-left: 2%;" >
                 <!--            <p:column>

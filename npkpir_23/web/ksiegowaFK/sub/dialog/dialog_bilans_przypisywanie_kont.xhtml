@@ -74,7 +74,7 @@
                                 
                             </p:splitButton>
                              <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                               actionListener="#{pozycjaBRKontaView.onKontoDropB(konto)}" update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected"
+                                               actionListener="#{pozycjaBRKontaView.onKontoDropB(konto)}" update=":formbilansuklad:dostepnekonta :formbilansuklad:selected"
                                                style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};"
                                                rendered="#{konto.mapotomkow == false ? (konto.level == 0 ? true : false) : null}">
                             </p:commandButton>

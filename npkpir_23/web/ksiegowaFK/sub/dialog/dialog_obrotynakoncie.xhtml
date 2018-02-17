@@ -21,7 +21,7 @@
                                         styleClass="kontoinput, autoCompleteBig" 
                                         >
                             <p:ajax event="query" global="false"/>
-                            <p:ajax event="itemSelect" partialSubmit="true"  listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":formobroty:dataListObroty, :tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy, :formobrotykonta:nazwawybranegokonta" 
+                            <p:ajax event="itemSelect" partialSubmit="true"  listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":formobroty:dataListObroty :tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy :formobrotykonta:nazwawybranegokonta" 
                                     oncomplete="zaznacznoda('formobroty:dataListObroty_data','formobroty:dataListObroty','formobrotykonta:wyborkontaobroty_input');"/>
                         </p:autoComplete>
                         <h:outputText value=" #{mgs.wybranekonto}:"/>
@@ -32,7 +32,7 @@
                         <p:panelGrid columns="3">
                             <h:outputText value="#{mgs.walutadokumentu} " style="text-align: right;"/>
                             <h:selectOneMenu id="wybranawaluta" value="#{kontoObrotyFKView.wybranaWalutaDlaKont}">
-                                <p:ajax event="change" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy" />
+                                <p:ajax event="change" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy" />
                                 <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
                                 <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                             </h:selectOneMenu>
@@ -77,9 +77,9 @@
                                  selection="#{kontoObrotyFKView.wybranekonto}"
                                  sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}" 
                                  styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" rowKey="#{loop.id}">
-                        <p:ajax event="rowSelect" update=":tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy, :formobrotykonta:nazwawybranegokonta" 
+                        <p:ajax event="rowSelect" update=":tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy :formobrotykonta:nazwawybranegokonta" 
                                 listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNode}" />
-                        <p:ajax event="rowUnselect" update=":tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy, :formobrotykonta:nazwawybranegokonta" 
+                        <p:ajax event="rowUnselect" update=":tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy :formobrotykonta:nazwawybranegokonta" 
                                 listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNodeUnselect}" />
                         <p:column width="0.1">
                             <h:outputText value="#{loop1.level}" style="font-size: 0.1pt;"/>

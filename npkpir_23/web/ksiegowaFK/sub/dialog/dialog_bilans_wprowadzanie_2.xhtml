@@ -472,7 +472,7 @@
                     <p:commandButton value="nanieś na konta" actionListener="#{bilansWprowadzanieView.zapiszWierszeBOnaKonta()}" style="width: 120px;"
                                      update="formbilanswprowadzanie2 formbilanswprowadzanie3"  rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow eq false}">
                     </p:commandButton>
-<!--                    <p:commandButton value="księguj rozrachunki" actionListener="#{bilansWprowadzanieView.ksiegujrozrachunki()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
+<!--                    <p:commandButton value="księguj rozrachunki" actionListener="#{bilansWprowadzanieView.ksiegujrozrachunki()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma :formbilanswprowadzanie:kwotysum" >
                     </p:commandButton>-->
                     <p:commandButton value="generuj dok. BO" actionListener="#{bilansWprowadzanieView.generowanieDokumentuBO()}" style="width: 120px; margin-left: 5px;" update="formbilanswprowadzanie2 formbilanswprowadzanie3" rendered="#{!bilansWprowadzanieView.isteniejeDokBO}"/>
                     <p:commandButton value="edytuj dok. BO" actionListener="#{bilansWprowadzanieView.edytowanieDokumentuBO()}" 

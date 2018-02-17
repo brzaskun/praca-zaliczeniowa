@@ -56,8 +56,8 @@
                     <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
                                  scrollable="true" style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;" rendered="#{pozycjaBRView.pokazaktywa}">
-                        <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
-                        <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
+                        <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta :formprzegladbilanszapisy:podpietepozycje"/>
+                        <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta :formprzegladbilanszapisy:podpietepozycje"/>
                         <f:facet name="header">
                             <h:outputText value="#{mgs.aktywa} "/>
                             <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa}"/>

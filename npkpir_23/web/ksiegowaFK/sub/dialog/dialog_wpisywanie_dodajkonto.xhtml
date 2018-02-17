@@ -21,7 +21,7 @@
                     <h:outputLabel value="Nazwa skrócona:" for="nazwaskrocona" />
                     <p:inputText id="nazwaskrocona" value="#{planKontView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
 
-                    <p:commandButton id="dodajbutton" value="dodaj" actionListener="#{planKontView.dodajanalityczneWpis()}" type="submit" update=":form_dialog_wpisywanie_dodajkonto, :formwpisdokument:dataList, :parametrynowekonto" 
+                    <p:commandButton id="dodajbutton" value="dodaj" actionListener="#{planKontView.dodajanalityczneWpis()}" type="submit" update=":form_dialog_wpisywanie_dodajkonto :formwpisdokument:dataList :parametrynowekonto" 
                                      style="margin-left: 90px; float: left; margin-top: 15px; width: 120px;" oncomplete="odtworzwierszKontoWpis();PF('dialog_wpisywanie_dodajkonto').hide();">
                     </p:commandButton>
                     <p:commandButton value="anuluj" style="margin-right: 70px; margin-top: 15px; float: right; width: 120px;" oncomplete="odtworzwierszKontoWpis();PF('dialog_wpisywanie_dodajkonto').hide();" update=":parametrynowekonto"/>

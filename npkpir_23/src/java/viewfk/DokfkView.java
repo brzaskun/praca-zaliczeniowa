@@ -777,6 +777,7 @@ public class DokfkView implements Serializable {
         ustawvat(evatwpis, selected);
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         int lp = evatwpis.getLp();
+        evatwpis.setSprawdzony(0);
         symbolWalutyNettoVat = " zł";
         String update = form + ":tablicavat:" + lp + ":netto";
         RequestContext.getCurrentInstance().update(update);
@@ -796,6 +797,7 @@ public class DokfkView implements Serializable {
             evatwpis.setVatwwalucie(Z.z(evatwpis.getVat() / kurs));
         }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
+        evatwpis.setSprawdzony(0);
         String update = form + ":tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
         String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":brutto_input').select();";
@@ -1531,6 +1533,23 @@ public class DokfkView implements Serializable {
         return zwrot;
     }
 
+    public void przygotujDokumentEdycjaEFK(List<EVatwpisFK> lista, List<EVatwpisSuper> wybranewierszeewidencji) {
+         EVatwpisFK w = null;
+        if (wybranewierszeewidencji!= null && wybranewierszeewidencji.size()==1) {
+            w = (EVatwpisFK) wybranewierszeewidencji.get(0);
+        } else {
+            w = (EVatwpisFK) wybranewierszeewidencji.get(wybranewierszeewidencji.size()-1);
+        }
+        if (w!=null) {
+            pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
+            pobranecechypodatnikzapas.addAll(pobranecechypodatnik);
+            Dokfk dokdk = dokDAOfk.findDokfkObj(w.getDokfk());
+            przygotujDokumentEdycja(dokdk, 0);
+        }
+    }
+    
+    
+    
     public void przygotujDokumentEdycja(Dokfk wybranyDokfk, Integer row) {
         try {
                 wybranyDokfk.setwTrakcieEdycji(true);
@@ -1555,14 +1574,6 @@ public class DokfkView implements Serializable {
                 } else {
                     selected.setZablokujzmianewaluty(false);
                 }
-//                if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-//                    saldoinnedok = obliczsaldopoczatkowe();
-//                    selected.setSaldopoczatkowe(Z.z(saldoinnedok));
-//                    saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
-//                    Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
-//                    DialogWpisywanie.rozliczsalda(selected, saldoBO, saldoinnedok, kontorozrachunkowe);
-//                    System.out.println("Udane obliczenie salda");
-//                }
                 RequestContext.getCurrentInstance().update("formwpisdokument");
         } catch (Exception e) {
             E.e(e);

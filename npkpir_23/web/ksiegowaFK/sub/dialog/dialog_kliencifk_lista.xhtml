@@ -36,10 +36,10 @@
                     <h:outputText value="#{item.nip}"/>
                 </p:column>
                 <p:column headerText="edytuj" style="text-align: center; width: 70px;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{kliencifkView.edytuj(item)}" update=":kliencifkform, :kliencifkformLista" global="false"/>
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{kliencifkView.edytuj(item)}" update=":kliencifkform :kliencifkformLista" global="false"/>
                 </p:column>
                 <p:column headerText="usuń" style="text-align: center; width: 70px;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{kliencifkView.remove(item)}" update=":kliencifkform, :kliencifkformLista"/>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{kliencifkView.remove(item)}" update=":kliencifkform :kliencifkformLista"/>
                 </p:column>
             </p:dataTable>
         </h:form>

@@ -21,9 +21,9 @@
                 <p:inputText id="nazwamiejscas" value="#{delegacjeView.selected.opiskrotki}" style="width: 300px;"/>
             </p:panelGrid>
             <p:commandButton value="dodaj" actionListener="#{delegacjeView.dodaj(true)}" style="margin: 2%; width: 120px;" 
-                             update=":delegacje, :delegacjezagranicalista" rendered="#{delegacjeView.zapisz0edytuj1 == false}"/>
+                             update=":delegacje :delegacjezagranicalista" rendered="#{delegacjeView.zapisz0edytuj1 == false}"/>
             <p:commandButton value="edytuj" actionListener="#{delegacjeView.zapiszedycje(true)}" style="margin: 2%; width: 120px;" 
-                             update=":delegacje, :delegacjezagranicalista" rendered="#{delegacjeView.zapisz0edytuj1 == true}"/>
+                             update=":delegacje :delegacjezagranicalista" rendered="#{delegacjeView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="delegacjezagranicalista">
             <p:dataTable value="#{delegacjeView.delegacjezagraniczne}" var="item" style="width: 850px;height: 500px;overflow-y: scroll;"

@@ -27,9 +27,9 @@
                 </p:panelGrid>
                 <p:panelGrid columns="2" >
                     <p:commandButton value="dodaj" actionListener="#{miejsceKosztowView.dodaj()}" style="margin: 2%; width: 120px;" 
-                                     update=":miejscakosztow, :miejscakosztowlista" rendered="#{miejsceKosztowView.zapisz0edytuj1 == false}"/>
+                                     update=":miejscakosztow :miejscakosztowlista" rendered="#{miejsceKosztowView.zapisz0edytuj1 == false}"/>
                     <p:commandButton value="edytuj" actionListener="#{miejsceKosztowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
-                                     update=":miejscakosztow, :miejscakosztowlista"
+                                     update=":miejscakosztow :miejscakosztowlista"
                                      oncomplete="PF('listamiejscakosztow').clearFilters();"
                                      rendered="#{miejsceKosztowView.zapisz0edytuj1 == true}"/>
                     <p:commandButton value="rezygnuj" actionListener="#{miejsceKosztowView.canceledycje()}" style="margin: 2%; width: 120px;" 
@@ -63,12 +63,12 @@
                     </p:selectBooleanCheckbox>
                 </p:column>
                 <p:column headerText="edytuj" style="text-align: center; width: 50px;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejsceKosztowView.edytuj(item)}" update=":miejscakosztow, :miejscakosztowlista" 
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejsceKosztowView.edytuj(item)}" update=":miejscakosztow :miejscakosztowlista" 
                                      rendered="#{WpisView.rokWpisu eq item.rok}" style="width: 40px;"/>
                     <h:outputText value="#{item.rok}" rendered="#{WpisView.rokWpisu ne item.rok}"/>
                 </p:column>
                 <p:column headerText="usuń"  style="text-align: center; width: 50px;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejsceKosztowView.usun(item)}" update=":miejscakosztow, :miejscakosztowlista" rendered="#{WpisView.rokWpisu eq item.rok}" style="width: 40px;"/>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejsceKosztowView.usun(item)}" update=":miejscakosztow :miejscakosztowlista" rendered="#{WpisView.rokWpisu eq item.rok}" style="width: 40px;"/>
                 </p:column>
             </p:dataTable>
         </h:form>

@@ -71,7 +71,7 @@ var zachowajobiekt = function(obiekt, event) {
             //stop(event);
         }
     } catch (ex) {
-        alert("Blad w zachowajobiekt/chodzeniepokonach.js zachowajobiekt" + ex.toString());
+        //alert("Blad w zachowajobiekt/chodzeniepokonach.js zachowajobiekt" + ex.toString());
     }
 };
 

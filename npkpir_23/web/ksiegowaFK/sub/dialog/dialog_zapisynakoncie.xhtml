@@ -47,7 +47,7 @@
                     <h:form>
                         <h:outputText value="poprzedni rok"/>
                         <p:selectBooleanCheckbox value="#{kontoZapisFKView.pobierzrokpoprzedni}"  style="margin-left: 5px;">
-                            <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieRokPop}" update=":tabelazzapisami, :tabelazsumami" />
+                            <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieRokPop}" update=":tabelazzapisami :tabelazsumami" />
                         </p:selectBooleanCheckbox>
                     </h:form>
                     <h:form id="walutazapisynakoncie">
@@ -62,14 +62,14 @@
                             <h:outputText value="od"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
-                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami, :tabelazsumami"/>
+                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami :tabelazsumami"/>
                                     <f:selectItems value="#{Mce.mceList}"/>
                                 </p:selectOneMenu>
                             </p:column>
                             <h:outputText value="do"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
-                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami, :tabelazsumami"/>
+                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami :tabelazsumami"/>
                                     <f:selectItems value="#{Mce.mceList}"/>
                                 </p:selectOneMenu>
                             </p:column>
