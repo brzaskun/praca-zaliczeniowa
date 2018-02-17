@@ -65,6 +65,8 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private String numerwlasnydokfk;
     @Column(name = "opisvat", nullable = false, length = 120)
     private String opisvat;
+    @Column(name = "sprawdzony")
+    private int sprawdzony;
 
    
     
@@ -124,6 +126,16 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     public void setNumerwlasnydokfk(String numerwlasnydokfk) {
         this.numerwlasnydokfk = numerwlasnydokfk;
     }
+
+    public int getSprawdzony() {
+        return sprawdzony;
+    }
+
+    public void setSprawdzony(int sprawdzony) {
+        this.sprawdzony = sprawdzony;
+    }
+    
+    
      public String getOpisvat() {
         return opisvat;
     }

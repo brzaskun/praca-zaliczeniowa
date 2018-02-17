@@ -51,6 +51,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
+import org.primefaces.component.api.UITabPanel;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.UnselectEvent;
@@ -177,6 +178,40 @@ public class EwidencjaVatView implements Serializable {
         listadokvatprzetworzona = new ArrayList<>();
         sumaewidencji = new HashMap<>();
         listaprzesunietychKoszty = new ArrayList<>();
+    }
+    
+    private org.primefaces.component.tabview.TabView iTabPanel;
+
+    public org.primefaces.component.tabview.TabView getiTabPanel() {
+        return iTabPanel;
+    }
+
+    public void setiTabPanel(org.primefaces.component.tabview.TabView iTabPanel) {
+        this.iTabPanel = iTabPanel;
+    }
+    
+    
+            
+    public void fakturasprawdzanie(int l, List<EVatwpisFK> lista) {
+        EVatwpisFK w = null;
+        if (zachowanewybranewierszeewidencji!= null && zachowanewybranewierszeewidencji.size()==1) {
+            w = (EVatwpisFK) zachowanewybranewierszeewidencji.get(0);
+        } else {
+            w = (EVatwpisFK) zachowanewybranewierszeewidencji.get(zachowanewybranewierszeewidencji.size()-1);
+        }
+        if (w!=null) {
+            int rowek = 0;
+            for (EVatwpisFK s : lista) {
+                if (s.equals(w)) {
+                    s.setSprawdzony(l);
+                    eVatwpisFKDAO.edit(s);
+                    break;
+                }
+                rowek++;
+            }
+            String p = "form:akordeon:akordeon2:"+iTabPanel.getActiveIndex()+":tabela:"+rowek+":polespr";
+            RequestContext.getCurrentInstance().update(p);
+        }
     }
 
     public void stworzenieEwidencjiZDokumentow(Podatnik podatnik) {

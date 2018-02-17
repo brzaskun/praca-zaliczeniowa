@@ -100,7 +100,7 @@ public class FakturaOkresowaGenNum {
         List<Faktura> fakturyutworzone = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
         boolean oblicznowa = false;
         for (Faktura p : fakturyutworzone) {
-            if (p.getFakturaPK().getNumerkolejny().equals(numer)) {
+            if (p.getFakturaPK().getNumerkolejny().toLowerCase().equals(numer.toLowerCase())) {
                 oblicznowa = true;
                 break;
             }

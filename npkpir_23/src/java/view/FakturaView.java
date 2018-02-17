@@ -1133,6 +1133,7 @@ public class FakturaView implements Serializable {
             nowa.setZatwierdzona(false);
             nowa.setAutor(wpisView.getWprowadzil().getLogin());
             int fakturanowyrok = 0;
+            boolean istnieje = true;
             FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, nowa, wpisView);
             String datasprzedazy = nowa.getDatasprzedazy();
             String miesiacsprzedazy = datasprzedazy.substring(5, 7);

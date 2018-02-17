@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     
     <p:tab title="ewidencje">
-        <p:tabView id="akordeon2" value="#{ewidencjaVatView.ewidencjeFK}"  var="item">
+        <p:tabView id="akordeon2" value="#{ewidencjaVatView.ewidencjeFK}" binding="#{ewidencjaVatView.iTabPanel}"  var="item">
             <p:ajax event="tabChange" listener="#{ewidencjaVatView.wybranewierszeewidencjiczysc}" global="false" update="form:akordeon:akordeon2"/>
             <p:tab title="#{item[0].nazwaewidencji.nazwa}">
                 <p:commandButton value="Drukuj data" icon="ui-icon-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.getPodatnikObiekt().getNip()}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
@@ -25,8 +25,10 @@
                                             <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'v')}"/>-->
                 <p:separator/>
                 <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
-<!--                    <p:menuitem value="wybierz dok" global="false" icon="fa fa-google-wallet" 
-                                />-->
+                    <p:menuitem global="false" value="prawidłowa" actionListener="#{ewidencjaVatView.fakturasprawdzanie(1, item)}" icon="ui-icon-check"/>
+                    <p:menuitem global="false" value="zawiera błędy" actionListener="#{ewidencjaVatView.fakturasprawdzanie(2,item)}"  icon="ui-icon-closethick"/>
+                    <p:menuitem global="false" value="nie sprawdzona" actionListener="#{ewidencjaVatView.fakturasprawdzanie(0,item)}"  icon="ui-icon-help"/>
+                    <p:menuitem></p:menuitem>
                     <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
                                 update=":formwpisdokument"
                                 />
@@ -53,6 +55,10 @@
                         <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                         <h:outputText value="" rendered="#{itemik.id eq '9999' ? true : false}"/>
                     </p:column>-->
+                    <p:column headerText="spr" style="text-align: center;" width="20" sortBy="#{wpis.sprawdzony}">  
+                    <h:outputText id="polespr" value="#{itemik.sprawdzony eq 2 ? '. .' : (itemik.sprawdzony eq 1 ? '. .' : '.')}" 
+                                  style="#{itemik.sprawdzony eq 2 ? 'background-color: red; color: red;' : (itemik.sprawdzony eq 1 ? 'background-color: green; color: green;' : null)}"/>
+                </p:column>
                     <p:column styleClass="datawystawienia" headerText="data wyst." style="width: 80px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
                         <h:outputText value="#{itemik.dataWyst}"/>
                     </p:column>
