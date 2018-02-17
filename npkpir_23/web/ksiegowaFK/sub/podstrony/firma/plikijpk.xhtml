@@ -10,7 +10,7 @@
     <bcf:ajaxs/>
         <h:form>
             <p:growl autoUpdate="true"/>
-            <p:panel header="Wykaz podatników, dla których można robić pliki JPK"/>
+            <p:panel header="Wykaz podatników, dla których nie wysłano jeszcze plików JPK"/>
             <p:dataTable value="#{jPKListaView.jpkmoznarobic}" var="item1" style="width: 890px;" emptyMessage="Nie ma podatników oczekujących na jpk za miesiąc"
                          sortBy="#{item1.printnazwa}" rowIndexVar="index">
                 <p:column  width="20">

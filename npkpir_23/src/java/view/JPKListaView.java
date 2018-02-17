@@ -49,12 +49,12 @@ public class JPKListaView  implements Serializable {
         jpkmoznarobic = new ArrayList<>();
         jpkzrobione = new ArrayList<>();
         List<Podatnik> podatnicy = podatnikDAO.findAll();
-        List<Deklaracjevat> wyslaneVAT7 = deklaracjevatDAO.findDeklaracjeWyslane200RokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        Set<Podatnik> podatnikdowyslania = new HashSet<>();
-        for (Deklaracjevat p : wyslaneVAT7) {
-            podatnikdowyslania.add(znajdzpodanik(p.getPodatnik(), podatnicy));
-        }
-        jpkmoznarobic.addAll(podatnikdowyslania);
+//        List<Deklaracjevat> wyslaneVAT7 = deklaracjevatDAO.findDeklaracjeWyslane200RokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//        Set<Podatnik> podatnikdowyslania = new HashSet<>();
+//        for (Deklaracjevat p : wyslaneVAT7) {
+//            podatnikdowyslania.add(znajdzpodanik(p.getPodatnik(), podatnicy));
+//        }
+        jpkmoznarobic.addAll(podatnicy);
         jpkzrobione.addAll(upodao.findUPORokMc(wpisView));
         if (jpkzrobione == null) {
             jpkzrobione = new ArrayList<>();
@@ -63,7 +63,6 @@ public class JPKListaView  implements Serializable {
                 jpkmoznarobic.remove(r.getPodatnik());
             }
         }
-        
     }
     
    private Podatnik znajdzpodanik(String podatnik, List<Podatnik> podatnicy) {
