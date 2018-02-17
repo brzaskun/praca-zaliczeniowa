@@ -30,7 +30,7 @@
                     <p:menuitem global="false" value="nie sprawdzona" actionListener="#{ewidencjaVatView.fakturasprawdzanie(0,item)}"  icon="ui-icon-help"/>
                     <p:menuitem></p:menuitem>
                     <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
-                                actionListener="#{dokfkView.przygotujDokumentEdycjaEFK(item,ewidencjaVatView.zachowanewybranewierszeewidencji)}" 
+                                actionListener="#{dokfkView.przygotujDokumentEdycjaEFK(item,ewidencjaVatView.zachowanewybranewierszeewidencji, ewidencjaVatView.iTabPanel)}" 
                                 oncomplete="PF('wpisywanie').show();"
                                 />
                 </p:contextMenu>

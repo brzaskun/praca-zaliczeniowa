@@ -252,6 +252,7 @@ public class DokfkView implements Serializable {
     @ManagedProperty(value = "#{gUSView}")
     private GUSView gUSView;
     private Cechazapisu cechazapisudododania;
+    private String linijkaewidencjiupdate;
     
 
     public DokfkView() {
@@ -1064,6 +1065,10 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":wartoscdokumentuzest");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":walutadokumentuzest");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":vatdokumentuzest");
+                if (linijkaewidencjiupdate != null) {
+                    RequestContext.getCurrentInstance().update(linijkaewidencjiupdate);
+                    linijkaewidencjiupdate = null;
+                }
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
             } catch (Exception e) {
@@ -1533,7 +1538,7 @@ public class DokfkView implements Serializable {
         return zwrot;
     }
 
-    public void przygotujDokumentEdycjaEFK(List<EVatwpisFK> lista, List<EVatwpisSuper> wybranewierszeewidencji) {
+    public void przygotujDokumentEdycjaEFK(List<EVatwpisFK> lista, List<EVatwpisSuper> wybranewierszeewidencji, org.primefaces.component.tabview.TabView iTabPanel) {
          EVatwpisFK w = null;
         if (wybranewierszeewidencji!= null && wybranewierszeewidencji.size()==1) {
             w = (EVatwpisFK) wybranewierszeewidencji.get(0);
@@ -1544,8 +1549,17 @@ public class DokfkView implements Serializable {
             pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
             pobranecechypodatnikzapas.addAll(pobranecechypodatnik);
             Dokfk dokdk = dokDAOfk.findDokfkObj(w.getDokfk());
+            int rowek = 0;
+            for (EVatwpisFK s : lista) {
+                if (s.equals(w)) {
+                    break;
+                }
+                rowek++;
+            }
+            linijkaewidencjiupdate = "form:akordeon:akordeon2:"+iTabPanel.getActiveIndex()+":tabela:"+rowek+":polespr";
             przygotujDokumentEdycja(dokdk, 0);
         }
+        
     }
     
     

@@ -35,10 +35,11 @@
                             </h:panelGrid>
                         </f:facet>
                     </p:autoComplete>
-                    <p:commandButton id="dodajbutton" value="dodaj" actionListener="#{kliencifkView.dolaczanieKontrDoSlownikowych()}" type="submit" update=":form_dialog_wpisywanie_znajdzkontrahenta, :formwpisdokument:dataList, :parametrynowekonto" 
+                    <p:commandButton id="dodajbutton" value="dodaj" actionListener="#{kliencifkView.dolaczanieKontrDoSlownikowych()}" type="submit" update=":form_dialog_wpisywanie_znajdzkontrahenta :formwpisdokument:dataList :parametrynowekonto" 
                                      style="margin-left: 15px; float: left; margin-top: 15px; width: 120px;" oncomplete="odtworzwierszKontoWpisKontrahent('#{kliencifkView.wybranyklient1.npelna}');PF('dialog_wpisywanie_znajdzkontrahenta').hide();">
                     </p:commandButton>
-                    <p:commandButton value="anuluj" style="margin-right: 15px; margin-top: 15px; float: right; width: 120px;" oncomplete="odtworzwierszKontoWpisKontrahent();PF('dialog_wpisywanie_znajdzkontrahenta').hide();" update=":parametrynowekonto"/>
+                    <p:commandButton value="anuluj" style="margin-right: 15px; margin-top: 15px; float: right; width: 120px;" oncomplete="odtworzwierszKontoWpisKontrahent();PF('dialog_wpisywanie_znajdzkontrahenta').hide();" 
+                                     update=":parametrynowekonto"/>
                 </p:panelGrid>
             </p:focus>
         </h:form>  

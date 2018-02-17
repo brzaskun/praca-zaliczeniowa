@@ -22,7 +22,7 @@
                     <p:inputText id="nazwaskrocona" value="#{planKontView.elementslownika_nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
 
                     <p:commandButton id="dodajbutton" value="dodaj" actionListener="#{planKontView.dodajSlownikWpis()}" 
-                                     type="submit" update=":form_dialog_wpisywanie_dodajslownik, :formwpisdokument:dataList, :parametrynowekonto" 
+                                     type="submit" update=":form_dialog_wpisywanie_dodajslownik :formwpisdokument:dataList :parametrynowekonto" 
                                      style="margin-left: 15px; float: left; margin-top: 15px; width: 120px;" 
                                      oncomplete="odtworzwierszKontoWpis();PF('dialog_wpisywanie_dodajslownik').hide();">
                     </p:commandButton>
