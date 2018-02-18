@@ -5,9 +5,10 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <h:form id="forminwestycje">
+    
         <p:tabView id="akordeon">
             <p:tab title="rozpoczęte">
+                <h:form id="forminwestycje">
                 <p:panelGrid columns="4" style="margin-left: 65%;">
                     <h:outputText value="m-c zakończenia"/><h:selectOneMenu value="#{inwestycjeView.mczakonczenia}">
                         <f:selectItems value="#{Mce.mceList}"/>
@@ -80,6 +81,29 @@
                     </p:column>
                     <p:rowExpansion>
                         <p:column>
+                                 <p:panelGrid columns="1">
+                        <p:autoComplete id="acForce12" value="#{item.srodkikst}" completeMethod="#{srodkikstView.complete}"
+                                        var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
+                                        minQueryLength="3" maxResults="15" maxlength="15" itemtipMyPosition="rightbottom"
+                                        queryDelay="100" size="50" required="true">
+                            <p:ajax event="itemSelect" global="false" update="@form" listener="#{inwestycjeView.edytuj(item)}"/>
+                            <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400" >  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane środka trwałego"/>
+                                    </f:facet>  
+                                    <h:outputText value="Nazwa: " />  
+                                    <h:outputText id="npelna1" value="#{pa.nazwa}"/>  
+                                    <h:outputText value="Stawka " />  
+                                    <h:outputText id="nip1" value="#{pa.stawka}" />  
+                                    <h:outputText value="KŚT " />  
+                                    <h:outputText id="klumna1" value="#{pa.symbol}" /> 
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+                        <h:outputText value="symbol #{item.srodkikst.symbol}"  style="width: 100px"/>
+                        <h:outputText value="stawka #{item.srodkikst.stawka}%" style="width: 100px"/>
+                        </p:panelGrid>
                             <f:facet name="header">
                                 <h:outputText value="Dokumenty"/>
                             </f:facet>
@@ -88,7 +112,7 @@
                                          sortBy="#{wpis.dataWyst}" sortOrder="descending"
                                          rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" style="width: 1100px;">
 
-                                <p:column id="nrColumn" headerText="#{mgs.numerkolejny}" sortBy="#{index}" width="50">  
+                                <p:column id="nrColumn" headerText="#{mgs.numerkolejny}" sortBy="#{index}" width="20" style="text-align: center;">  
                                     <h:outputText value="#{index+1}"/>
                                 </p:column>
                                 <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" width="110">  
@@ -117,6 +141,7 @@
                                     <p:commandButton icon="fa fa-trash" actionListener="#{inwestycjeView.usunrachunek(item,wpis)}" update=":forminwestycje"/>
                                 </p:column>-->
                             </p:dataTable>
+                        
                         </p:column>
                     </p:rowExpansion>
                     <p:column width="80">
@@ -129,25 +154,29 @@
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <p:commandButton value="#{mgs.drukuj}" actionListener="#{inwestycjeView.drukujInwestycje(item)}" icon="ui-icon-print" style="width: 80px;"/>
+                        <p:commandButton value="#{mgs.drukuj}" actionListener="#{inwestycjeView.drukujInwestycje(item)}" icon="ui-icon-print" style="width: 80px;" rendered="#{item.srodkikst ne null}"/>
+                        <h:outputText value="brak klasyfikacji KŚT!" rendered="#{item.srodkikst eq null}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <p:commandButton value="Zakończ" actionListener="#{inwestycjeView.zamknijinwestycje(item)}" icon="ui-icon-locked" update=":forminwestycje:akordeon:dataList :forminwestycje:akordeon:zakonczoneList" style="width: 80px;"/>
+                        <p:commandButton value="Zakończ" actionListener="#{inwestycjeView.zamknijinwestycje(item)}" icon="ui-icon-locked" update="@(form)" style="width: 80px;" rendered="#{item.srodkikst ne null}"/>
+                        <h:outputText value="brak klasyfikacji KŚT!" rendered="#{item.srodkikst eq null}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <p:commandButton value="Usuń" actionListener="#{inwestycjeView.usun}" icon="ui-icon-trash" update=":forminwestycje:akordeon:dataList" style="width: 80px;"/>
+                        <p:commandButton value="Usuń" actionListener="#{inwestycjeView.usun(item)}" icon="ui-icon-trash" update="@form" style="width: 80px;"/>
                     </p:column>
 
                 </p:dataTable>
+                    </h:form>
             </p:tab>
 
             <p:tab id="nowa" title="nowa">
+                <h:form>
                 <p:focus for="nowapanel">
                     <p:panelGrid id="nowapanel" columns="2">
                         <h:outputLabel value="Rok rozpoczecia:" for="rokrozpoczecia" />
@@ -159,14 +188,40 @@
                             <f:selectItems value="#{Mce.mceList}"/>
                         </p:selectOneMenu>
                         <h:outputLabel value="Skrót:" for="skrot" />
-                        <p:inputText id="skrot" value="#{inwestycjeView.selected.skrot}" title="Skrot" />
+                        <p:inputText id="skrot" value="#{inwestycjeView.selected.skrot}" title="Skrot" required="true"/>
                         <h:outputLabel value="Opis:" for="#{mgs.opis}" />
-                        <p:inputTextarea id="opis" value="#{inwestycjeView.selected.opis}" cols="40" title="#{mgs.opis}"/>
+                        <p:inputTextarea id="opis" value="#{inwestycjeView.selected.opis}" cols="40" title="#{mgs.opis}" required="true"/>
+                        <h:outputText value="symbol inwest wg KŚT"/>
+                        <p:panelGrid columns="1">
+                        <p:autoComplete id="acForce12" value="#{inwestycjeView.selected.srodkikst}" completeMethod="#{srodkikstView.complete}"
+                                        var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
+                                        minQueryLength="3" maxResults="15" maxlength="15" itemtipMyPosition="rightbottom"
+                                        queryDelay="100" size="50" required="true">
+                            <p:ajax event="itemSelect" global="false" update="@parent"/>
+                            <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400" >  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane środka trwałego"/>
+                                    </f:facet>  
+                                    <h:outputText value="Nazwa: " />  
+                                    <h:outputText id="npelna1" value="#{pa.nazwa}"/>  
+                                    <h:outputText value="Stawka " />  
+                                    <h:outputText id="nip1" value="#{pa.stawka}" />  
+                                    <h:outputText value="KŚT " />  
+                                    <h:outputText id="klumna1" value="#{pa.symbol}" /> 
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+                        <h:outputText value="symbol #{inwestycjeView.selected.srodkikst.symbol}"  style="width: 100px"/>
+                        <h:outputText value="stawka #{inwestycjeView.selected.srodkikst.stawka}%" style="width: 100px"/>
+                        </p:panelGrid>
                     </p:panelGrid>
                 </p:focus>
-                <p:commandButton value="Dodaj" actionListener="#{inwestycjeView.dodaj}" update="@form :forminwestycje:akordeon:dataList"/>
+                <p:commandButton value="Dodaj" actionListener="#{inwestycjeView.dodaj}" update="@(form)" style="width: 120px;"/>
+                </h:form>
             </p:tab>
             <p:tab title="zakończone">
+                <h:form>
                 <p:contextMenu for="zakonczoneList">
                 </p:contextMenu>
                 <p:dataTable id="zakonczoneList" value="#{inwestycjeView.inwestycjezakonczone}" style="width: 1600px;" emptyMessage="Nie ma żadnych zakończonych inwestycji w firmie" var="item"
@@ -272,7 +327,11 @@
                         <f:facet name="header">
                             <h:outputText value="Stan"/>
                         </f:facet>
-                        <h:outputText value="#{item.zakonczona eq true ? 'zakończona' : 'rozpoczęta'}"/>
+                        <h:outputText value="#{item.zakonczona eq true ? 'zakończona'  : 'rozpoczęta'}"/>
+                        <h:outputText value="#{item.dokOT ne null ? ' OT z nr ': ''}"/>
+                        <h:outputText value="#{item.dokOT ne null ? item.dokOT.nrWlDk  : ''}"/>
+                        <h:outputText value="#{item.dokOT ne null ? ' , data ': ''}"/>
+                        <h:outputText value="#{item.dokOT ne null ? item.dokOT.dataWyst  : ''}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
@@ -284,11 +343,11 @@
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <p:commandButton value="Otwórz" actionListener="#{inwestycjeView.otworzinwestycje(item)}" icon="ui-icon-unlocked" update=":forminwestycje:akordeon:dataList :forminwestycje:akordeon:zakonczoneList" style="width: 90px;"/>
+                        <p:commandButton value="Otwórz" actionListener="#{inwestycjeView.otworzinwestycje(item)}" icon="ui-icon-unlocked" update="@(form)" style="width: 90px;"/>
                     </p:column>
                 </p:dataTable>
+                    </h:form>
             </p:tab>
         </p:tabView>
-    </h:form>
-</ui:composition>   
+    </ui:composition>   
 

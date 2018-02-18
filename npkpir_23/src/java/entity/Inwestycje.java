@@ -17,9 +17,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
@@ -93,6 +95,12 @@ public class Inwestycje implements Serializable {
     @JoinColumn(name = "inwestycja")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Dok> doklist;
+    @JoinColumn(name = "srodkikst", referencedColumnName = "id")
+    @ManyToOne
+    private Srodkikst srodkikst;
+    @JoinColumn(name = "dokOT", referencedColumnName = "id_dok")
+    @OneToOne(orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Dok dokOT;
 
     
 
@@ -181,6 +189,14 @@ public class Inwestycje implements Serializable {
         this.rokzakonczenia = rokzakonczenia;
     }
 
+    public Dok getDokOT() {
+        return dokOT;
+    }
+
+    public void setDokOT(Dok dokOT) {
+        this.dokOT = dokOT;
+    }
+
     public String getMczakonczenia() {
         return mczakonczenia;
     }
@@ -211,6 +227,14 @@ public class Inwestycje implements Serializable {
 
     public void setDoklist(List<Dok> doklist) {
         this.doklist = doklist;
+    }
+
+    public Srodkikst getSrodkikst() {
+        return srodkikst;
+    }
+
+    public void setSrodkikst(Srodkikst srodkikst) {
+        this.srodkikst = srodkikst;
     }
 
     
@@ -248,7 +272,25 @@ public class Inwestycje implements Serializable {
         return "Inwestycje{" + "podatnik=" + podatnik + ", skrot=" + skrot + ", symbol=" + symbol + ", opis=" + opis + ", rokrozpoczecia=" + rokrozpoczecia + ", mcrozpoczecia=" + mcrozpoczecia + ", rokzakonczenia=" + rokzakonczenia + ", mczakonczenia=" + mczakonczenia + ", total=" + total + ", zakonczona=" + zakonczona + '}';
     }
 
-    
+    public Double getNetto() {
+        double zwrot = 0.0;
+        if (doklist != null) {
+            for(Dok p : this.doklist) {
+                zwrot += p.getNetto();
+            }
+        }
+        return zwrot;
+    }
+
+    public Double getVAT() {
+        double zwrot = 0.0;
+        if (doklist != null) {
+            for(Dok p : this.doklist) {
+                zwrot += p.getVat();
+            }
+        }
+        return zwrot;
+    }
 
     public class Sumazalata implements Serializable {
         private static final long serialVersionUID = -6730292558506174856L;

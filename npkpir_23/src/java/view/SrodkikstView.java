@@ -96,6 +96,8 @@ public class SrodkikstView implements Serializable {
                 srodkikstDAO.dodaj(w);
         }
     }
+    
+    
 
     public List<Srodkikst> getLista() {
         return lista;

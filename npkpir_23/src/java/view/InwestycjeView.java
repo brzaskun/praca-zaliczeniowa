@@ -4,12 +4,21 @@
  */
 package view;
 
+import beansSrodkiTrwale.SrodkiTrwBean;
 import dao.DokDAO;
 import dao.InwestycjeDAO;
+import dao.RodzajedokDAO;
+import dao.STRDAO;
+import data.Data;
 import embeddable.Roki;
 import entity.Dok;
 import entity.Inwestycje;
 import entity.Inwestycje.Sumazalata;
+import entity.Klienci;
+import entity.KwotaKolumna1;
+import entity.Rodzajedok;
+import entity.SrodekTrw;
+import entity.Srodkikst;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +29,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import pdf.PdfInwestycja;
 
 /**
@@ -40,11 +50,17 @@ public class InwestycjeView implements Serializable {
     @Inject
     private DokDAO dokDAO;
     @Inject
+    protected STRDAO sTRDAO;
+    @Inject
     private Inwestycje selected;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
     @Inject
     private Inwestycje wybrany;
     private String mczakonczenia;
     private String rokzakonczenia;
+    @Inject
+    private Srodkikst srodekkategoria;
 
     @PostConstruct
     private void init() {
@@ -78,14 +94,14 @@ public class InwestycjeView implements Serializable {
         }
     }
 
-    public void usun() {
+    public void usun(Inwestycje wybrana) {
         try {
-            if (!wybrany.getDoklist().isEmpty()) {
+            if (!wybrana.getDoklist().isEmpty()) {
                 Msg.msg("e", "Inwestycja zawiera dokumenty! Usuń je najpierw", "form:messages");
                 throw new Exception();
             } else {
-                inwestycjeDAO.destroy(wybrany);
-                inwestycjerozpoczete.remove(wybrany);
+                inwestycjeDAO.destroy(wybrana);
+                inwestycjerozpoczete.remove(wybrana);
                 Msg.msg("i", "Usunąłem wybrną inwestycję", "form:messages");
             }
         } catch (Exception e) {
@@ -94,18 +110,91 @@ public class InwestycjeView implements Serializable {
         }
     }
 
-    public void zamknijinwestycje(Inwestycje wybrany) {
+    public void zamknijinwestycje(Inwestycje wybranainwestycja) {
         try {
-            wybrany.setZakonczona(Boolean.TRUE);
-            wybrany.setMczakonczenia(mczakonczenia);
-            wybrany.setRokzakonczenia(rokzakonczenia);
-            inwestycjeDAO.edit(wybrany);
-            inwestycjerozpoczete.remove(wybrany);
-            inwestycjezakonczone.add(wybrany);
+            wybranainwestycja.setZakonczona(Boolean.TRUE);
+            wybranainwestycja.setMczakonczenia(mczakonczenia);
+            wybranainwestycja.setRokzakonczenia(rokzakonczenia);
+            inwestycjeDAO.edit(wybranainwestycja);
+            inwestycjerozpoczete.remove(wybranainwestycja);
+            inwestycjezakonczone.add(wybranainwestycja);
             Msg.msg("i", "Zamknąłem wybrną inwestycję", "form:messages");
+            dodajdokumentOT(wybranainwestycja);
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd. Nie zamknąłem wkazanej inwestycji", "form:messages");
+        }
+    }
+    
+    private void dodajdokumentOT(Inwestycje wybranainwestycja) {
+        try {
+                Dok selDokument = new Dok();
+                selDokument.setEwidencjaVAT1(null);
+                selDokument.setWprowadzil(wpisView.getWprowadzil().getLogin());
+                selDokument.setPkpirM(wpisView.getMiesiacWpisu());
+                selDokument.setPkpirR(wpisView.getRokWpisu().toString());
+                selDokument.setVatM(wpisView.getMiesiacWpisu());
+                selDokument.setVatR(wpisView.getRokWpisu().toString());
+                selDokument.setPodatnik(wpisView.getPodatnikObiekt());
+                selDokument.setStatus("bufor");
+                selDokument.setUsunpozornie(false);
+                selDokument.setDataWyst(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                selDokument.setKontr(new Klienci("", "dowód wewnętrzny"));
+                Rodzajedok amodok = rodzajedokDAO.find("OT", wpisView.getPodatnikObiekt());
+                selDokument.setRodzajedok(amodok);
+                selDokument.setNrWlDk("OTINW/"+wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
+                selDokument.setOpis("inwestycja "+wybranainwestycja.getSkrot()+" zakończenie");
+                List<KwotaKolumna1> listaX = new ArrayList<>();
+                KwotaKolumna1 tmpX = new KwotaKolumna1();
+                tmpX.setDok(selDokument);
+                tmpX.setNetto(wybranainwestycja.getNetto());
+                tmpX.setVat(wybranainwestycja.getVAT());
+                tmpX.setNazwakolumny("inwestycje");
+                listaX.add(tmpX);
+                selDokument.setListakwot1(listaX);
+                selDokument.setNetto(wybranainwestycja.getTotal());
+                selDokument.setRozliczony(true);
+                //sprawdzCzyNieDuplikat(selDokument);
+                if (selDokument.getNetto() > 0) {
+                    wybranainwestycja.setDokOT(selDokument);
+                    inwestycjeDAO.edit(wybranainwestycja);
+                    String wiadomosc = "Inwestycha zaksięghowana: " + selDokument.getPkpirR() + "/" + selDokument.getPkpirM() + " kwota: " + selDokument.getNetto();
+                    Msg.msg("i", wiadomosc);
+                    dodajSTR(wybranainwestycja);
+                } else {
+                    Msg.msg("e", "Wartośc inwestycji to 0.00, nie ma czego skiegować");
+                }
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd, dokument OT nie zaksięgowany!");
+            }
+    }
+    
+    public void dodajSTR(Inwestycje wybranainwestycja) {
+        try {
+            SrodekTrw selectedSTR = new SrodekTrw();
+            selectedSTR.setNetto(wybranainwestycja.getNetto());
+            selectedSTR.setVat(wybranainwestycja.getVAT());
+            selectedSTR.setDatazak(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            selectedSTR.setDataprzek(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
+            selectedSTR.setNrwldokzak("OTINW/"+wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
+            selectedSTR.setZlikwidowany(0);
+            selectedSTR.setStawka(Double.valueOf(wybranainwestycja.getSrodkikst().getStawka()));
+            selectedSTR.setKst(wybranainwestycja.getSrodkikst().getSymbol());
+            selectedSTR.setDatasprzedazy("");
+            selectedSTR.setPodatnik(wpisView.getPodatnikWpisu());
+            selectedSTR.setNazwa(wybranainwestycja.getOpis());
+            SrodkiTrwBean.odpisroczny(selectedSTR);
+            SrodkiTrwBean.odpismiesieczny(selectedSTR);
+            //oblicza planowane umorzenia
+            selectedSTR.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(selectedSTR));
+            selectedSTR.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(selectedSTR, wpisView));
+            sTRDAO.dodaj(selectedSTR);
+            Msg.msg("i", "Środek trwały "+selectedSTR.getNazwa()+" dodany", "formSTR:messages");
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e","Nowy srodek nie zachowany ");
         }
     }
 
@@ -115,6 +204,7 @@ public class InwestycjeView implements Serializable {
             wybrany.setMczakonczenia(null);
             wybrany.setMczakonczenia("");
             wybrany.setRokzakonczenia("");
+            wybrany.setDokOT(null);
             inwestycjeDAO.edit(wybrany);
             inwestycjezakonczone.remove(wybrany);
             inwestycjerozpoczete.add(wybrany);
@@ -124,6 +214,16 @@ public class InwestycjeView implements Serializable {
             Msg.msg("e", "Wystąpił błąd. Nie można było ponownie otworzyć inwestycji", "form:messages");
         }
     }
+    public void edytuj(Inwestycje i) {
+        try {
+            inwestycjeDAO.edit(i);
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+    
+    
 //usuwa tez rachunek z bazy danych!!!
 //    public void usunrachunek(Inwestycje inwestycja, Dok dok) {
 //        try {
@@ -169,6 +269,14 @@ public class InwestycjeView implements Serializable {
 
     public List<Inwestycje> getInwestycjerozpoczete() {
         return inwestycjerozpoczete;
+    }
+
+    public Srodkikst getSrodekkategoria() {
+        return srodekkategoria;
+    }
+
+    public void setSrodekkategoria(Srodkikst srodekkategoria) {
+        this.srodekkategoria = srodekkategoria;
     }
 
     public void setInwestycjerozpoczete(List<Inwestycje> inwestycjerozpoczete) {
@@ -246,4 +354,6 @@ public class InwestycjeView implements Serializable {
         }
 
     }
+
+    
 }
