@@ -576,7 +576,6 @@ public class KontaVatFKView implements Serializable {
         double zaokr = r % 1;
         zaokr = Math.round(zaokr*100);
         zaokr /= 100;
-        System.out.println(zaokr);
     }
  //<editor-fold defaultstate="collapsed" desc="comment">
     public List<SaldoKonto> getKontavat() {

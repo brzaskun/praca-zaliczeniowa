@@ -292,7 +292,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 it.remove();
             }
         }
-        System.out.println("pobrane faktury rozliczenia");
     }
     
     public void sumujwybrane() {
@@ -383,7 +382,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void mailKlienci(FakturaPodatnikRozliczenie p) {
         if (szukanyklient != null && !nowepozycje.isEmpty()) {
-            System.out.println(p.toString());
             FakturaRozrachunki r = p.getRozliczenie();
             Faktura f = p.getFaktura();
             double saldo = p.getSaldo();
@@ -408,7 +406,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void telefonKlienci(FakturaPodatnikRozliczenie p) {
         if (szukanyklient != null && !nowepozycje.isEmpty()) {
-            System.out.println(p.toString());
             FakturaRozrachunki r = p.getRozliczenie();
             Faktura f = p.getFaktura();
             double saldo = p.getSaldo();

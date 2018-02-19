@@ -191,7 +191,6 @@ public class KliencifkView implements Serializable {
     
     public void kopiujwybranyklient(ValueChangeEvent e) {
         wybranyklient1 = serialclone.SerialClone.clone((Klienci) e.getNewValue());
-        System.out.println("e");
     }
 
     private String pobierznastepnynumer() {

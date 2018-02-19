@@ -211,7 +211,6 @@ public class StronaWierszaBean {
             kwotazlotowki = 0.0;
             kwotazlotowki = Math.round(kwotawaluta * kurs * 100);
             kwotazlotowki /= 100;
-            System.out.println(kwotazlotowki);
             double vatpln = kwotazlotowki * 0.05;
      }
 }

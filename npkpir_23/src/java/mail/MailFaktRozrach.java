@@ -54,7 +54,6 @@ public class MailFaktRozrach implements Serializable{
            String nazwa = wpisView.getPodatnikObiekt().getNip()+"faktrozrach";
            File file = Plik.plik(nazwa+".pdf", true);
            if (file.isFile() == false) {
-               System.out.println("Nie odnaleziono pliku załącznika");
                Msg.msg("e", "Nie odnaleziono pliku załącznika");
                return;
            }

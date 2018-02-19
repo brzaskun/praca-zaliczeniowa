@@ -48,7 +48,6 @@ public class beanJPKwysylka {
 
     public static void main(String[] args) {
         wysylkadoMF("G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes", "enveloped.xades", new UPO());
-        System.out.println("zakonczylem wysylke");
     }
 
     public static Object[] wysylkadoMF(String aesfilename, String plikxml, UPO upo) {
@@ -93,7 +92,6 @@ public class beanJPKwysylka {
             JSONTokener js = new JSONTokener((Reader) in[0]);
             jo = new JSONObject(js);
             referenceNumber = jo.getString("ReferenceNumber");
-            System.out.println("Kod 200 udany etap1");
         } else {
             JSONTokener js = new JSONTokener((Reader) in[0]);
             jo = new JSONObject(js);
@@ -101,14 +99,12 @@ public class beanJPKwysylka {
                 String errors = (String) jo.getJSONArray("Errors").get(0);
                 String nieudane = jo.getString("Message");
                 System.out.println("nieudana wysylka: " + nieudane);
-                System.out.println("errors: " + errors);
                 wiadomosc[0] = "e";
                 wiadomosc[1] = "Błąd połączenia z serwisem " + nieudane;
             } catch (Exception e1) {
             }
             try {
                 String nieudane = jo.getString("Message");
-                System.out.println("duplikat wysylka: " + nieudane);
                 wiadomosc[0] = "e";
                 wiadomosc[1] = "Błąd wysyłki. " + nieudane;
             } catch (Exception e1) {
@@ -132,20 +128,17 @@ public class beanJPKwysylka {
         String uri = (String) ((JSONObject) job.get(0)).get("Url");
         String blobname = (String) ((JSONObject) job.get(0)).get("BlobName");
         System.out.println("ref: " + referenceNumber);
-        System.out.println("blobname: " + blobname);
         wysylkaAzure(uri, aesfilename);
         Object[] in1 = zakonczenie(referenceNumber, blobname, URL_STEP2);
         JSONTokener js = new JSONTokener((Reader) in1[0]);
         jo = new JSONObject(js);
         int responseCode = (int) in1[1];
         if (responseCode == 200) {
-            System.out.println("Kod 200 udany etap2");
             wynik = true;
         } else {
             String message = jo.getString("Message");
             String errors = ((JSONArray) jo.get("Errors")).getString(0);
             System.out.println("message " + message);
-            System.out.println("errors " + errors);
             wiadomosc[0] = "i";
             wiadomosc[1] = "Nieudane wyslanie pliku do Azure "+message;
         }
@@ -189,7 +182,6 @@ public class beanJPKwysylka {
             System.out.println("Details " + Details);
             System.out.println("Timestamp " + Timestamp);
             System.out.println("Upo nr: " + UpoString);
-            System.out.println("Referencenumber nr: " + referenceNumber);
             JAXBContext context;
             try {
                 context = JAXBContext.newInstance(Potwierdzenie.class);
@@ -201,7 +193,6 @@ public class beanJPKwysylka {
                     Potwierdzenie potwierdzenie = (Potwierdzenie) unmarshaller.unmarshal(new StringReader(potw));
                     upo.setPotwierdzenie(potwierdzenie);
                     //upo.setJpk(jpk);
-                    System.out.println("");
                 }
             } catch (JAXBException ex) {
                 Logger.getLogger(beanJPKwysylka.class.getName()).log(Level.SEVERE, null, ex);
@@ -241,15 +232,12 @@ public class beanJPKwysylka {
             blob.upload(new FileInputStream(sourceFile), sourceFile.length());
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.print("FileNotFoundException encountered: ");
-            System.out.println(fileNotFoundException.getMessage());
             System.exit(-1);
         } catch (StorageException storageException) {
             System.out.print("StorageException encountered: ");
-            System.out.println(storageException.getMessage());
             System.exit(-1);
         } catch (Exception e) {
             System.out.print("Exception encountered: ");
-            System.out.println(e.getMessage());
             System.exit(-1);
         }
     }

@@ -100,14 +100,11 @@ public class WierszBO implements Serializable {
         this.rok = rok;
         this.mc = mc;
         if (p.getOpisdlabo() != null) {
-            System.out.println("");
         }
-        System.out.println("opis: "+p.getOpisdlabo());
         this.opis = p.getOpisdlabo() != null ? p.getOpisdlabo() : "zapis BO " + p.hashCode();
         this.podatnik = podatnik;
         this.konto = konto;
         if (p.getKonto().getPelnynumer().equals("202-2-13")) {
-            System.out.println("s");
         }
         if (p.getSaldoWn() > p.getSaldoMa()) {
             this.kwotaWn = Z.z(p.getSaldoWn() - p.getSaldoMa());

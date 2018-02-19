@@ -34,7 +34,6 @@ public class AESCryptoOld {
         try {
             //String text = new String(Files.readAllBytes(Paths.get(mainfilename)));
             String text = "RandomInitżęśćóć";
-            System.out.println("text "+text);
             SecretKey secretKey = encryptAESStart(text);
             Object[] zwrot = encryptKoniec(text, secretKey);
             decrypt(secretKey, (byte[])zwrot[0], (byte[])zwrot[1]);
@@ -74,7 +73,6 @@ public class AESCryptoOld {
         Object[] zwrot = new Object[2];
         zwrot[0] = encryptedTextBytes;
         Files.write(Paths.get("zakodowana.aes"), encryptedTextBytes);
-        System.out.println("encrypt "+new String(encryptedTextBytes));
         zwrot[1] = ivencoded;
         return zwrot;
     }
@@ -87,9 +85,7 @@ public class AESCryptoOld {
             Cipher c = Cipher.getInstance("AES/CBC/PKCS7PADDING");
             c.init(Cipher.DECRYPT_MODE, key, iv);
             byte[] original = c.doFinal(Base64.getDecoder().decode(ciphertext));
-            System.out.println("decrypt: "+new String(original));
         } catch (Exception ex) {
-            System.out.println("decryot "+ex);
         }
     }
     

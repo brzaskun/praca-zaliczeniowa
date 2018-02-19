@@ -35,7 +35,6 @@ public class WydrukInterceptor {
             int ilosc = sesja.getIloscwydrukow();
             ilosc = ilosc + 1;
             sesja.setIloscwydrukow(ilosc);
-            System.out.println("ilosc wydrukow "+ilosc);
             result = ctx.proceed();
             sesjaDAO.edit(sesja);
         } catch (Exception e) { 

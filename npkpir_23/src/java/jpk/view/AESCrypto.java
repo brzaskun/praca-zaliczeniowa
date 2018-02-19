@@ -18,8 +18,6 @@ public class AESCrypto {
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
 
             byte[] encrypted = cipher.doFinal(value.getBytes());
-            System.out.println("encrypted string: "
-                    + Base64.encode(encrypted));
 
             return Base64.encode(encrypted);
         } catch (Exception ex) {
@@ -52,7 +50,5 @@ public class AESCrypto {
         String key = "Bar12345Bar12345"; // 128 bit key
         String initVector = "RandomInitVector"; // 16 bytes IV
         String initVector2 = "RandomInitVector";
-        System.out.println(decrypt(key, initVector,
-                encrypt(key, initVector2, "Hello World")));
     }
 }

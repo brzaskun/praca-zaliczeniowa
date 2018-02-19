@@ -24,7 +24,6 @@ public class PrintLine extends Thread {
 
     public void run() {
         try {
-            System.out.println(linia);
         } catch (Exception ex) {
             Logger.getLogger(KreatorWatkow.class.getName()).log(Level.SEVERE, null, ex);
         }

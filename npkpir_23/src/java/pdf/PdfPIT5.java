@@ -39,7 +39,6 @@ import view.WpisView;
 public class PdfPIT5 {
     
     public static void drukuj(Pitpoz selected, WpisView wpisView, PodatnikDAO podatnikDAO) throws DocumentException, FileNotFoundException, IOException {
-        System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
         PdfWriter.getInstance(document, Plik.plikR("pit5" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
         document.addTitle("PIT5");

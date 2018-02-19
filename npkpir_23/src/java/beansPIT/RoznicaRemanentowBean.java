@@ -47,7 +47,6 @@ public class RoznicaRemanentowBean {
                     //remnierem = "Wartość ostatniego remanentu za " + tmp.getRokOd() + " wynosi: " + tmp.getParametr();
                 }
             } catch (Exception e) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString());
                     return 0.0;
             }
         } catch (Exception ex) {

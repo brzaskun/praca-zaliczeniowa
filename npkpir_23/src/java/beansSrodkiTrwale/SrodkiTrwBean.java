@@ -55,7 +55,6 @@ public class SrodkiTrwBean implements Serializable {
         naliczodpisymczneUlepszenie(s);
         int i = 1;
         for (Double p : s.getUmorzPlan()) {
-            System.out.println(p.intValue());
             i++;
         }
         

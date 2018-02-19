@@ -62,11 +62,10 @@ public class StornoDokView implements Serializable {
         //
         calendar.set(Calendar.DATE, lastDate);
         int lastDay = calendar.get(Calendar.DAY_OF_WEEK);
-        
         //
         // Print the current date and the last date of the month
         //
-        System.out.println("Last Date: " + calendar.getTime());
+
         
     }
 

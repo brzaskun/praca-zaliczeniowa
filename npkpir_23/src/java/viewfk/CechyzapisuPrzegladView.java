@@ -72,7 +72,6 @@ public class CechyzapisuPrzegladView implements Serializable{
                 }
             }
         }
-        System.out.println("liczba "+zapisyZCecha.size());
     }
     
     public void initCIT8() {
@@ -104,7 +103,6 @@ public class CechyzapisuPrzegladView implements Serializable{
                 }
             }
         }
-        System.out.println("liczba "+zapisyZCecha.size());
         RequestContext.getCurrentInstance().update("formcechyzapisow");
     }
 

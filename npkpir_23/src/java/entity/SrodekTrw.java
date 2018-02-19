@@ -181,7 +181,6 @@ public class SrodekTrw implements Serializable {
             WpisView bean = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
             zwrot = this.netto - this.umorzeniepoczatkowe;
             if (this.getNazwa().equals("ładowarka job 525-67")) {
-                System.out.println("");
             }
             for (UmorzenieN p : this.planumorzen) {
                 if (Data.compare(p, bean) != 1) {

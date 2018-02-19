@@ -329,7 +329,6 @@ public class PdfFont {
             formatter.setMaximumFractionDigits(2);
             Locale l = Locale.GERMAN;
             String moneyString = formatter.format(10000);
-            System.out.println(moneyString);
         } catch (Exception e) {
             E.e(e);
         }

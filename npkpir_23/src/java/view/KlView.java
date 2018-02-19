@@ -291,7 +291,6 @@ public class KlView implements Serializable {
                     try {
                         if (knazwa == null && knip == null) {
                             klDAO.dodaj(selected);
-                            System.out.println("import " + selected.toString2());
                         }
                     } catch (Exception es) {
                     }
@@ -552,7 +551,6 @@ public class KlView implements Serializable {
         Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
         Matcher m = p.matcher("851100".substring(0,1));  //<-- matcher( not Matcher
         if(!m.find()) {
-            System.out.println("s");
         }
     }
     

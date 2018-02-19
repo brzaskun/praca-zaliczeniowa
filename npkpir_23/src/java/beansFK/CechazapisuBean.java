@@ -108,7 +108,6 @@ public class CechazapisuBean {
         for (Wiersz p : listawierszy) {
             if (p.getStronaWn() != null) {
                 if (p.getStronaWn().getKwota() == 48.27) {
-                    System.out.println("");
                 }
                 if (p.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe")) {
                     lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaWn()));
@@ -116,7 +115,6 @@ public class CechazapisuBean {
             }
             if (p.getStronaMa() != null) {
                 if (p.getStronaMa().getKwota() == 48.27) {
-                    System.out.println("");
                 }
                 if (p.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe")) {
                     lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaMa()));
@@ -130,7 +128,6 @@ public class CechazapisuBean {
         List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = new ArrayList<>();
         if (r.getStronaWn() != null) {
             if (r.getStronaWn().getKwota() == 48.27) {
-                System.out.println("");
             }
             if (r.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaWn().getCechazapisuLista() != null) {
                 for (Cechazapisu s : r.getStronaWn().getCechazapisuLista()) {
@@ -140,7 +137,6 @@ public class CechazapisuBean {
         }
         if (r.getStronaMa() != null) {
             if (r.getStronaMa().getKwota() == 48.27) {
-                System.out.println("");
             }
             if (r.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaMa().getCechazapisuLista() != null) {
                 for (Cechazapisu s : r.getStronaMa().getCechazapisuLista()) {

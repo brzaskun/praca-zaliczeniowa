@@ -105,7 +105,6 @@ public class WriteXLSFile {
             workbook.write(fos);
             fos.close();
 
-            System.out.println(FILE_PATH + " is successfully written");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -142,7 +141,6 @@ public class WriteXLSFile {
             workbook.write(fos);
             fos.close();
 
-            System.out.println(FILE_PATH + " is successfully written");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -181,7 +179,6 @@ public class WriteXLSFile {
             workbook.write(fos);
             fos.close();
 
-            System.out.println(FILE_PATH + " is successfully written");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -219,7 +216,6 @@ public class WriteXLSFile {
             workbook.write(fos);
             fos.close();
 
-            System.out.println(FILE_PATH + " is successfully written");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -257,7 +253,6 @@ public class WriteXLSFile {
             workbook.write(fos);
             fos.close();
 
-            System.out.println(FILE_PATH + " is successfully written");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

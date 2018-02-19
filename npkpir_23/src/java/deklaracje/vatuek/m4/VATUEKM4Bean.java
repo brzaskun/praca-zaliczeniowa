@@ -253,7 +253,6 @@ public class VATUEKM4Bean {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            marshaller.marshal(dekl, System.out);
             StringWriter sw = new StringWriter();
             marshaller.marshal(dekl, new StreamResult(sw));
             Document dokmt = StringToDocument(sw.toString());
@@ -274,7 +273,6 @@ public class VATUEKM4Bean {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, false);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            marshaller.marshal(dekl, System.out);
             marshaller.marshal(dekl, new StreamResult(sw));
         } catch (Exception ex) {
             E.e(ex);
@@ -339,7 +337,6 @@ public class VATUEKM4Bean {
             InputSource is = new InputSource(sr);
             Document doc = builder.parse(is);
             Element g = doc.getElementById("Grupa3");
-            System.out.println(doc.getDocumentElement().getTagName());
             Element element = doc.getDocumentElement();
             Node node = doc.createElement("podp:DaneAutoryzujace");
             String aut = "<podp:DaneAutoryzujace xmlns:podp=\"http://e-deklaracje.mf.gov.pl/Repozytorium/Definicje/Podpis/\"><podp:NIP>8511005008"
@@ -369,7 +366,6 @@ public class VATUEKM4Bean {
         tf.setOutputProperty(OutputKeys.INDENT, "yes");
         Writer out = new StringWriter();
         tf.transform(new DOMSource(xml), new StreamResult(out));
-        System.out.println(out.toString());
     }
 
 

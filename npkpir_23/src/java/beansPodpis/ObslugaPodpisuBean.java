@@ -65,7 +65,6 @@ public class ObslugaPodpisuBean {
             keyStore.load(null, pin);
         }   catch (KeyStoreException | NoSuchAlgorithmException | CertificateException ex) {
             keyStore = null;
-            System.out.println("Brak karty. Problem z odczytaniem karty");
             E.e(ex);
         } catch (Exception ex) {
             keyStore = null;
@@ -86,12 +85,10 @@ public class ObslugaPodpisuBean {
                 // System.out.println("Certificate: " + cert);
                 if (today.after(cert.getNotBefore()) && today.before(cert.getNotAfter())) {
                     aliasfinal = alias;
-                    System.out.println("cert "+alias);
                     //break;
                 }
             }
         } catch (KeyStoreException ex) {
-            System.out.println("Brak aktualnego certyfikatu. Problem z odczytaniem certyfikatu");
             E.e(ex);
 //        } catch (IOException ex) {
 //            Logger.getLogger(ObslugaPodpisuBean.class.getName()).log(Level.SEVERE, null, ex);

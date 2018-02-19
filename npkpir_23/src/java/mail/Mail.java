@@ -118,7 +118,6 @@ public class Mail {
                     + stopka,  "text/html; charset=utf-8");
             message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);
-            System.out.println("wyslano mail nadano uprawnienia");
         } catch (Exception e) {
             E.e(e);
             throw new RuntimeException(e);

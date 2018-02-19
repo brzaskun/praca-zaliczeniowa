@@ -208,7 +208,6 @@ public class DokFKTransakcjeBean implements Serializable{
             pobrana.addAll((stronawiersza).getPlatnosci());
             return pobrana;
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
             return pobrana;
         }
     }

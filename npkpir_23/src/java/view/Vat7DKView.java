@@ -229,7 +229,6 @@ public class Vat7DKView implements Serializable {
         wygenerujwierszesumaryczne(schemaewidencjalista, pobraneewidencje, schemawierszsumarycznylista);
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null);
         sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);
-        System.out.println("Koniec");
         deklaracjakorygowana = czynieczekajuzcosdowyslania();
         flaga = zbadajpobranadeklarajce(deklaracjakorygowana);
         Deklaracjevat ostatniawyslana = cozostalowyslane();
@@ -319,7 +318,6 @@ public class Vat7DKView implements Serializable {
                 doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot180dni);
             }
            VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
-           System.out.println("sporzadzono deklaracje");
         }
     }
     

@@ -51,7 +51,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println("______________________");
         System.out.println("\tSign");
-        System.out.println("______________________");
         signBes();
         
 //        System.out.println("______________________");
@@ -102,7 +101,6 @@ public class Main {
         DOMSource source = new DOMSource(doc);        
         StreamResult result = new StreamResult(new File(SIGNED));
         transformer.transform(source, result);
-        System.out.println("koniec");
     }
 
     

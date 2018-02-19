@@ -37,6 +37,5 @@ public class JPAProgramatically {
        public static void main(String[] args)  {
         EntityManagerFactory emfH2 = javax.persistence.Persistence.createEntityManagerFactory("fkKonto1");
         EntityManager emH2 = emfH2.createEntityManager();
-        System.out.println(emH2);
     }
 }

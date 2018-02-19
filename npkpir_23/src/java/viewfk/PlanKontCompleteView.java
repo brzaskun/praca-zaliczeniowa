@@ -43,12 +43,10 @@ public class PlanKontCompleteView implements Serializable {
   @PostConstruct
   public void init() {
       listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
-      System.out.println("Wywołanie PlanKontCompleteView init()");
   }
     
     public List<Konto> complete(String qr) {
         if (qr != null) {
-            System.out.println("Wywołanie PlanKontCompleteView complete()");
             String query = null;
             List<Konto> results = new ArrayList<>();
             if (listakontOstatniaAnalitykaklienta != null) {
@@ -139,7 +137,6 @@ public class PlanKontCompleteView implements Serializable {
       
     public static void main(String[] args) {
         String s = "201-2-4";
-        System.out.println(s.matches("^(.*\\s+.*)+$"));
     }
     
 }

@@ -89,6 +89,6 @@ public class Z implements Serializable {
 //        double kurswyliczony = Math.round(555354.35 / 133434.49 * 10000);
 //        kurswyliczony /= 10000;
 //          System.out.println(kurswyliczony);
-          System.out.println(""+z(+4/354.22));
+
     }
 }

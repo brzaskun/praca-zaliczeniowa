@@ -352,7 +352,6 @@ public class PodatnikView implements Serializable {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(pricesString);
         while (m.find()) {
-            System.out.println("lolo");
         }
     }
 
@@ -1666,7 +1665,6 @@ public class PodatnikView implements Serializable {
         }
         podatnikOpodatkowanieDDAO.editList(lista);
         Msg.dP();
-        System.out.println("koniec");
     }
  
 

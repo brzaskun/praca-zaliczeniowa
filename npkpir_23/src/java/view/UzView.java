@@ -163,8 +163,7 @@ public class UzView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 return "failure";
 
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()+" "+e.toString()); 
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Reset hasła nie udany.", e.getStackTrace().toString());
+            } catch (Exception e) {                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Reset hasła nie udany.", e.getStackTrace().toString());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
         }
@@ -219,11 +218,9 @@ public class UzView implements Serializable {
             try {
                 sformatuj();
                 Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy, null, sMTPSettingsDAO.findSprawaByDef());
-                System.out.println("Nadano uprawnienia "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
                 Msg.msg("Nowy uzytkownik edytowany: "+selUzytkownik.getLogin());
             } catch (Exception e) { 
                 E.e(e); 
-                System.out.println("Nie nadano uprawnien "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
                 Msg.msg("e", "Uzytkownik nie zedytowany View: "+selUzytkownik.getEmail());
             }
         }

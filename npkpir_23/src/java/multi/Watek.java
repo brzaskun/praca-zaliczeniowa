@@ -32,7 +32,6 @@ public class Watek implements Serializable {
             ex.execute(new PobierzZBazy(kontoDAOfk, i));
         }
         ex.shutdown();
-        System.out.println("koniec");
     }
 
 //    public static void main(String[] args) {

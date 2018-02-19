@@ -90,6 +90,5 @@ public class KlienciConverterView implements Serializable{
         Pattern pattern = Pattern.compile("[0-9]{10}");
         Matcher  m = pattern.matcher("851100500");
         boolean czytopolskinip  = m.matches();
-        System.out.println(""+czytopolskinip);
     }
 }

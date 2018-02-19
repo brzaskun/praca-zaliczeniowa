@@ -175,7 +175,6 @@ public class UkladBRWzorcowyView implements Serializable{
         for(int i = 1; i <= maxlevel;i++) {
                 macierzyste = skopiujlevelRZiS(pozycje, macierzyste,i, ukladdocelowy);
         }
-        System.out.println("Kopiuje RZiS");
     }
      
       private void implementujBilans(UkladBR ukladzrodlowy, UkladBR ukladdocelowy) {
@@ -191,7 +190,6 @@ public class UkladBRWzorcowyView implements Serializable{
         for(int i = 1; i <= maxlevel;i++) {
                 macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, ukladdocelowy);
         }
-        System.out.println("Kopiuje Bilans");
     }
      
       private List<PozycjaRZiS> skopiujlevel0RZiS(List<PozycjaRZiS> pozycje, UkladBR ukladdocelowy) {

@@ -67,7 +67,6 @@ public class DokTabGuestView implements Serializable {
             String wartosc = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getNumerpkpir(), wpisView.getRokWpisu(), Integer.parseInt(wpisView.getMiesiacWpisu()));
             numerkolejny = Integer.parseInt(wartosc);
         } catch (Exception e) { E.e(e); 
-            System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
         }
         numerkolejny = dokDAO.liczdokumenty(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikObiekt()) + 1;
         for (Dok tmpx : pobranedokumenty) {

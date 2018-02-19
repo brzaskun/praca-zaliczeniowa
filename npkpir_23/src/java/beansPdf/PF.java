@@ -94,7 +94,6 @@ public class PF {
         Font f = getFont("Courier");
         JEditorPane outputArea = new JEditorPane();
         String fontFamily = outputArea.getFont().getFamily();
-        System.out.println("dd "+f.getFamilyname());
     }
 
     

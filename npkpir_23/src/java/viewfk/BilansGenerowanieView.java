@@ -125,7 +125,6 @@ public class BilansGenerowanieView implements Serializable {
             Dokfk nowydokBO = generujNowyDokBO(wierszeBO, podatnik);
             assert nowydokBO.getNumerwlasnydokfk().equals("1/23/345/z") : "nie wygenerowano poprawnie";
         }
-        System.out.println("koniec");
     }
 
     private static List<testobjects.Konto> pobierzkonta(String podatnik) {
@@ -284,7 +283,6 @@ public class BilansGenerowanieView implements Serializable {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Blad przy koncie "+p.getKonto().getPelnynumer());
                 E.e(e);
             }
         }
@@ -401,16 +399,13 @@ public class BilansGenerowanieView implements Serializable {
     private List<SaldoKonto> przetwarzajSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
         List<SaldoKonto> nowalista = new ArrayList<>();
         for (SaldoKonto p : listaSaldoKonto) {
-            System.out.println("przetwarzajSaldoKonto "+p.getKonto().getPelnynumer());
             if (p.getKonto().getPelnynumer().equals("132-1")) {
-                System.out.println("");
             }
             if (p.getKonto().getPelnynumer().startsWith("149")) {
                 nowalista.addAll(przetworzPojedyncze(p));
             } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==false) {
                 nowalista.addAll(przetworzPojedyncze(p));
             } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==true) {
-                System.out.println("saldokonto "+p.getKonto().getPelnynumer());
                 Set<Waluty> waluty = pobierzWalutySaldoKonto(p, false);
                 waluty.add(listawalut.get("PLN"));
                 List<SaldoKonto> wierszeSumWalutaPLN = new ArrayList<>();
@@ -446,7 +441,6 @@ public class BilansGenerowanieView implements Serializable {
     
     private SaldoKonto rozliczroznicekursowedwojki(SaldoKonto p, List<SaldoKonto> nowewiersze) {
         if (p.getKonto().getPelnynumer().equals("203-2-5")) {
-            System.out.println("");
         }
         double wnpln = p.getSaldoWn();
         double mapln = p.getSaldoMa();
@@ -536,7 +530,6 @@ public class BilansGenerowanieView implements Serializable {
 
     private Collection<? extends SaldoKonto> przetworzWBRK(SaldoKonto p, Waluty waluta) {
         if (p.getKonto().getPelnynumer().equals("149-3")) {
-            System.out.println("");
         }
         List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
         Waluty walutapln = listawalut.get("PLN");

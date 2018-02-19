@@ -91,9 +91,7 @@ public class PrzygotujInitUploadXML {
             FileOutputStream fileStream = new FileOutputStream(new File(plikxmlnazwa));
             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
             marshaller.marshal(doc, writer);
-            System.out.println("Wygenerowalem wysylka.xml");
         } catch (Exception e) {
-            System.out.println("Blad, nie wygenerowano wysylka.xml");
             E.e(e);
         }
         return doc;

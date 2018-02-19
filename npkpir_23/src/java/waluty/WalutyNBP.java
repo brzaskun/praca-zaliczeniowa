@@ -180,6 +180,5 @@ public class WalutyNBP implements Serializable {
         } catch (ParseException ex) {
             Logger.getLogger(WalutyNBP.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(datao1date.before(datao2date));
     }
 }

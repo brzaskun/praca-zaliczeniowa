@@ -70,7 +70,6 @@ public class ReadXLSFile {
                 interpaperXLS.setVatPLN(row.getCell(16).getNumericCellValue());
                 interpaperXLS.setBruttoPLN(row.getCell(17).getNumericCellValue());
                 listafaktur.add(interpaperXLS);
-                System.out.println(interpaperXLS.toString2());
             }
             file.close();
         }
@@ -275,7 +274,6 @@ public class ReadXLSFile {
                 interpaperXLS.setNettoPLN(row.getCell(14).getNumericCellValue());
                 interpaperXLS.setVatPLN(row.getCell(15).getNumericCellValue());
                 interpaperXLS.setBruttoPLN(row.getCell(16).getNumericCellValue());
-                System.out.println(interpaperXLS.toString2());
             }
             file.close();
         } catch (Exception e) {

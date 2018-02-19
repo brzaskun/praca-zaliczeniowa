@@ -93,7 +93,6 @@ private static final long serialVersionUID = 1L;
                 ksiegimiesieczne.put(mc, lista);
             }
         }
-        System.out.println("wygenerowano");
     }
     
     public void drukujPKPIRrok() {
@@ -171,7 +170,6 @@ private static final long serialVersionUID = 1L;
             DokKsiega sumakoncowa = KsiegaBean.ustawsumakoncowa();
             KsiegaBean.rozliczpodsumowania(listasum, sumaposrednia, sumakoncowa, biezacymiesiac);
             lista.add(sumaposrednia);
-            System.out.println("dodanie sumy posredniej");
             lista.add(sumakoncowa);
         }
     }

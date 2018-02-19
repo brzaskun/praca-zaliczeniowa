@@ -448,7 +448,6 @@ public class DokumentFKBean implements Serializable {
 
     public static void main(String[] args) {
         String nowy = zwieksznumerojeden("1/08/2015/AMO");
-        System.out.println("nowy " + nowy);
     }
 
     

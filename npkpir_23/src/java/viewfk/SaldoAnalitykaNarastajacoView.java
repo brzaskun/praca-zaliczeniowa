@@ -91,7 +91,6 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         int licznik = 0;
         for (Konto p : kontaklienta) {
             if (p.getPelnynumer().equals("809")) {
-                System.out.println("stop");
             }
             SaldoKontoNarastajaco saldoKonto = new SaldoKontoNarastajaco();
             saldoKonto.setId(licznik++);

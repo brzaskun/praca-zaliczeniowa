@@ -198,10 +198,8 @@ public class beanektest  implements Serializable {
             System.out.println("status "+statMB.toString());
             System.out.println("opis "+opisMB);
             System.out.println("data "+new Date());
-            System.out.println("Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc);
         } catch (ClientTransportException ex1) {
             E.e(ex1);
-            System.out.println("Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc);
         }
 
     }
@@ -296,7 +294,6 @@ public class beanektest  implements Serializable {
     }
 
     public void robtest() throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
-        System.out.println("ron test "+wysylanaDeklaracja);
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
@@ -320,10 +317,8 @@ public class beanektest  implements Serializable {
             System.out.println("status "+statMBT.toString());
             System.out.println("opis "+opisMB);
             System.out.println("data "+new Date());
-            System.out.println("Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc);
         } catch (ClientTransportException ex1) {
             E.e(ex1);
-            System.out.println("Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc);
         }
     }
     
@@ -341,7 +336,6 @@ public class beanektest  implements Serializable {
         List<String> komunikat = null;
         komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
         if (komunikat.size() > 1) {
-            System.out.println("Komunikat "+komunikat.get(0)+" "+komunikat.get(1));
         }
         upoMBT = upo.value;
         statMBT = stat.value+ " ";
@@ -349,7 +343,6 @@ public class beanektest  implements Serializable {
         System.out.println("idMB "+idMBT);
         System.out.println("status "+statMBT.toString());
         System.out.println("opis "+opisMBT);
-        System.out.println("upo "+upoMBT);
 
     }
 

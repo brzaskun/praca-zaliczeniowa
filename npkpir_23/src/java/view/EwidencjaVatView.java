@@ -278,7 +278,6 @@ public class EwidencjaVatView implements Serializable {
             if (pobierzmiesiacdlajpk) {
                 vatokres = "miesięczne";
             }
-            System.out.println("vat okres: "+vatokres);
             listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres));
             Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
             listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
@@ -312,7 +311,6 @@ public class EwidencjaVatView implements Serializable {
             RequestContext.getCurrentInstance().update("form_dialog_ewidencjevat_sprawdzanie");
         } catch (Exception e) { 
             E.e(e); 
-            System.out.println("blad przy tworzeniu ewidencji vat "+e.getMessage());
         }
         //drukuj ewidencje
     }
@@ -865,12 +863,10 @@ public class EwidencjaVatView implements Serializable {
                 if (p.getDok().getVatM() != null) {
                     p.setMcEw(p.getDok().getVatM());
                 }
-                System.out.println(" "+i++);
             }
              
          }
          eVatwpis1DAO.editList(lista);
-         System.out.println("Skonczylem");
      }
 
     

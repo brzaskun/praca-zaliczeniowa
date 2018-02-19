@@ -1084,7 +1084,6 @@ public class DokfkView implements Serializable {
     }
 
     public void edycjaDlaRozrachunkow() {
-        System.out.println("edycjaDlaRozrachunkow");
         try {
             UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
             dokDAOfk.edit(selected);
@@ -1428,7 +1427,6 @@ public class DokfkView implements Serializable {
             if (flag != 1) {
                 Wiersz wierszNastepny = selected.nastepnyWiersz(wybranyWiersz);
                 if (wybranyWiersz.getLpmacierzystego() == 0 && wierszNastepny.getLpmacierzystego() != 0) {
-                    System.out.println("Jest to wiersz zawierający kwotę rozliczona w dalszych wierszach. Nie można go usunąć");
                     Msg.msg("e", "Jest to wiersz zawierający kwotę rozliczona w dalszych wierszach. Nie można go usunąć");
                     flag = 1;
                 }
@@ -1925,7 +1923,6 @@ public class DokfkView implements Serializable {
     public void pobranieWiersza(Wiersz wybranywiersz) {
         lpWierszaWpisywanie = wybranywiersz.getIdporzadkowy();
         //Msg.msg("Wiersz "+lpWierszaWpisywanie);
-        System.out.println("pobrano wiersz " + lpWierszaWpisywanie);
     }
 
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
@@ -1993,9 +1990,7 @@ public class DokfkView implements Serializable {
                         RequestContext.getCurrentInstance().update("dialogdrugi");
                         RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                     } else {
-                        System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView pobranieStronaWiersza()");
                     }
-                    System.out.println(wybranastronawiersza.toString());
 
                 } 
                 if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().equals(selected.getRodzajedok().getKontorozrachunkowe())) {
@@ -2003,7 +1998,6 @@ public class DokfkView implements Serializable {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Blad DokfkView pobranieStronaWiersza");
             E.e(e);
         }
         if (wybranastronawiersza.getKonto() != null && !wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
@@ -2071,7 +2065,6 @@ public class DokfkView implements Serializable {
         //0 oznacza strone niewybrana
         if (aktualnyWierszDlaRozrachunkow == null) {
             Msg.msg("e", "AktualnyWierszDlaRozrachunkow jest pusty wybranoRachunekPlatnoscCD(String stronawiersza)");
-            System.out.println("AktualnyWierszDlaRozrachunkow jest pusty wybranoRachunekPlatnoscCD(String stronawiersza)");
             return;
         }
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
@@ -2093,7 +2086,6 @@ public class DokfkView implements Serializable {
             //RequestContext.getCurrentInstance().update("dialogdrugi");
             //RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
         } else {
-            System.out.println("Blad aktualny wiersz ma dziwny numer DokfkView wybranoRachunekPlatnoscCD");
         }
     }
 
@@ -2141,7 +2133,6 @@ public class DokfkView implements Serializable {
                         stronawiersza = "Wn";
                     }
                 }
-                System.out.println("aktualny wiersz dla roarachunku " + wybranastronawiersza.toString());
                 stronyWierszazDokumentu = (DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(wybranastronawiersza.getKonto().getPelnynumer(), stronawiersza, wybranastronawiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                 stronyWierszazBazy = DokFKTransakcjeBean.pobierzStronaWierszazBazy(wybranastronawiersza, stronawiersza, stronaWierszaDAO, transakcjaDAO);
                 transakcje = (DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(stronyWierszazDokumentu, stronyWierszazBazy, wybranastronawiersza, wpisView.getPodatnikWpisu()));
@@ -2387,7 +2378,6 @@ public class DokfkView implements Serializable {
         System.out.println("sparowany " + kwotaSparowanywPLN);
         roznicakursowa = Math.round(roznicakursowa * 100);
         roznicakursowa /= 100;
-        System.out.println("roznica " + roznicakursowa);
     }
 
     public void obsluzDataWiersza(Wiersz wierszbiezacy) {
@@ -2570,7 +2560,11 @@ public class DokfkView implements Serializable {
                     //                wierszRKindex = d.getRowIndex();
                     //                wierszRK = (Wiersz) d.getRowData();
                     System.out.println("lpwiersza " + lpWierszaWpisywanie);
-                    wierszRKindex = lpWierszaWpisywanie - 1;
+//                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
+                    //                Object o = d.getLocalSelection();
+                    //                wierszRKindex = d.getRowIndex();
+                    //                wierszRK = (Wiersz) d.getRowData();
+                                        wierszRKindex = lpWierszaWpisywanie - 1;
                     wierszRK = selected.getListawierszy().get(wierszRKindex);
                     ewidencjaVatRK = null;
                     for (EVatwpisFK p : selected.getEwidencjaVAT()) {
@@ -2591,14 +2585,12 @@ public class DokfkView implements Serializable {
                         ewidencjaVATRKzapis0edycja1 = false;
                     }
                     RequestContext.getCurrentInstance().update("dialogewidencjavatRK");
-                    System.out.println("Generowanie ewidencji vat rk");
                 } catch (Exception e) {
                     E.e(e);
                 }
             }
         } else {
             ewidencjaVatRK = null;
-            System.out.println("Blad ewidencjaVatRKInit() lpwiersza == \"\"");
         }
     }
 
@@ -2764,12 +2756,10 @@ public class DokfkView implements Serializable {
                         wierszpodstawowy = wiersznastepny;
                         sumaWn += wiersznastepny.getStronaWn().getKwota();
                         typwiersza = 1;
-                        System.out.println("kwotaWn " + wiersznastepny.getStronaWn().getKwota());
                     } else if (wiersznastepny.getTypWiersza() == 2) {
                         wierszpodstawowy = wiersznastepny;
                         sumaMa += wiersznastepny.getStronaMa().getKwota();
                         typwiersza = 2;
-                        System.out.println("kwotaMa " + wiersznastepny.getStronaMa().getKwota());
                     }
                 } else {
                     wiersznastepny = wierszpodstawowy;
@@ -2793,7 +2783,6 @@ public class DokfkView implements Serializable {
             rozliczsaldoWBRK(wierszpodstawowy.getIdporzadkowy() - 1);
         } catch (Exception e) {
             E.e(e);
-            System.out.println("Problem z numerem grupy DokfkView sprawdzwartoscigrupy()");
         }
     }
 
@@ -2826,10 +2815,8 @@ public class DokfkView implements Serializable {
                 dokumenty = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
             }
             nadajnowenumery(serie, dokumenty);
-            System.out.println("Zakończono renumeracje");
             Msg.dP();
         } catch (Exception e) {
-            System.out.println("Błąd, nie zakończono renumeracji");
             Msg.dPe();
         }
     }
@@ -3691,7 +3678,6 @@ public class DokfkView implements Serializable {
                 for (Wiersz w : p.getListawierszy()) {
                     if (w.getStronaWn() != null && w.getStronaWn().getKonto() != null && w.getStronaWn().getKonto().getPelnynumer().startsWith("0")) {
                         zawierasrodki = true;
-                        System.out.println("sa srodki " + p);
                         break;
                     }
                 }
@@ -3700,7 +3686,6 @@ public class DokfkView implements Serializable {
                     oznaczone.add(p);
                 }
             }
-            System.out.println("SKONCZYLEM KSIEGOWAC SRODKI");
             dokDAOfk.editList(oznaczone);
         } catch (Exception e) {
             E.e(e);
@@ -3716,7 +3701,6 @@ public class DokfkView implements Serializable {
                 for (Wiersz w : p.getListawierszy()) {
                     if (w.getStronaWn() != null && w.getStronaWn().getKonto() != null && w.getStronaWn().getKonto().getPelnynumer().startsWith("64")) {
                         zawierarmk = true;
-                        System.out.println("sa srodki " + p);
                         break;
                     }
                 }
@@ -3725,7 +3709,6 @@ public class DokfkView implements Serializable {
                     oznaczone.add(p);
                 }
             }
-            System.out.println("SKONCZYLEM KSIEGOWAC RMK");
             dokDAOfk.editList(oznaczone);
         } catch (Exception e) {
             E.e(e);
@@ -3852,7 +3835,6 @@ public class DokfkView implements Serializable {
                     @Override
                     public void run() {
                         for (StronaWiersza r : p.getStronyWierszy()) {
-                            System.out.println("s "+r.getId());
                         }
                     }
                 });

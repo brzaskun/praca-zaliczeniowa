@@ -179,7 +179,6 @@ public class FDfkBean {
             Konto kontorozrach = kontoDAOfk.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             strwn.setKonto(kontorozrach);
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
         }
         strwn.setKwotaPLN(Z.z(netto+vat));
         strma.setKwotaPLN(Z.z(netto));

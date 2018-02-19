@@ -675,7 +675,6 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
 //    
     private void printprogres(int val) {
         if ( (val % 5000) == 0) {
-            System.out.println("zrobiono "+val);
         }
     }
 //    

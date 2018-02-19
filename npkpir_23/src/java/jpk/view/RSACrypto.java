@@ -51,7 +51,6 @@ public class RSACrypto {
 
             // Decode data on other side, by processing encoded data
             byte[] valueDecoded= Base64.getDecoder().decode("a2lqaHlndHJmZGN2YnNnZQ==".getBytes());
-            System.out.println("Decoded value is " + new String(valueDecoded));
         } catch (Exception ex) {
             Logger.getLogger(RSACrypto.class.getName()).log(Level.SEVERE, null, ex);
         }

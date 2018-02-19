@@ -28,7 +28,6 @@ public class KontonumerComparator implements Comparator<Konto>{
     public int compare(Konto o1, Konto o2) {
        String numer1 = o1.getPelnynumer();
        String numer2 = o2.getPelnynumer();
-       System.out.println("numer1: "+numer1+" / numer2: "+numer2);
        String[] splitnumer1 = numer1.split("-");
        String[] splitnumer2 = numer2.split("-");
        int wynik = 0;

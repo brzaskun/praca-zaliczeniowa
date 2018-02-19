@@ -261,7 +261,6 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
         for (Konto p : kontaklienta) {
             if (p.getPelnynumer().equals("202-1-5")) {
-                System.out.println("stop");
             }
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
@@ -296,7 +295,6 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
         for (Konto p : kontaklienta) {
             if (p.getPelnynumer().equals("201-2-34")) {
-                System.out.println("stop");
             }
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
@@ -539,10 +537,8 @@ public class SaldoAnalitykaView implements Serializable {
             }
         } catch (Exception e) {
             if (r.getKonto() == null) {
-                System.out.println("Konto null " + r.getDokfkS());
             }
             if (r.getWiersz().getDokfk().getMiesiac() == null) {
-                System.out.println("Miesiac null " + r.toString());
             }
             E.e(e);
             if (wierszenieuzupelnione.size() > 0) {
@@ -590,10 +586,8 @@ public class SaldoAnalitykaView implements Serializable {
                     }
                 } catch (Exception e) {
                     if (r.getKonto() == null) {
-                        System.out.println("Konto null " + r.toString());
                     }
                     if (r.getWiersz().getDokfk().getMiesiac() == null) {
-                        System.out.println("Miesiac null " + r.toString());
                     }
                     E.e(e);
                     if (wierszenieuzupelnione.size() > 0) {
@@ -698,7 +692,6 @@ public class SaldoAnalitykaView implements Serializable {
     private void przygotuj_0() {
         List<SaldoKonto> pobranekonta = pobierzkonta(listaSaldoKonto, "0", 0);
         //grupa0 = generujgrupe0(pobranekonta);
-        System.out.println("konta");
     }
 
     private List<SaldoKonto> pobierzkonta(List<SaldoKonto> listaSaldoKonto, String string, int i) {
@@ -726,7 +719,6 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
         for (Konto p : kontaklienta) {
             if (p.getPelnynumer().equals("202-1-5")) {
-                System.out.println("stop");
             }
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);

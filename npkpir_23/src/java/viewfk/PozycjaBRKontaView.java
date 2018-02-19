@@ -296,7 +296,6 @@ public class PozycjaBRKontaView implements Serializable {
         } else {
             Konto konto = boxNaKonto;
             if (konto.getPelnynumer().equals("201") || konto.getPelnynumer().equals("201-1") || konto.getPelnynumer().equals("201-1-0")){
-                System.out.println("mam");
             }
             if (przyporzadkowanekonta.contains(konto)) {
                     przyporzadkowanekonta.remove(konto);
@@ -623,7 +622,6 @@ public class PozycjaBRKontaView implements Serializable {
                     pobierzukladkontoB("aktywa");
                 }
             }
-            System.out.println("Zakonczono kopiowanie przyporzadkowania kont do ukladu");
         } else {
             Msg.msg("e", "Podatnik nie posiada zdefiniowanych układów Bilansu i RZiS. Nie można zaimplementować przyporządkowania.");
         }
@@ -654,11 +652,10 @@ public class PozycjaBRKontaView implements Serializable {
                 pobierzukladkontoB("aktywa");
             }
             Msg.msg("Zakończono kopiowanie przyporządkowania");
-            System.out.println("Zakończono kopiowanie przyporządkowania 669");
                     
         } catch (Exception e) {
             E.e(e);
-            Msg.dPe();;
+            Msg.dPe();
         }
     }
     
@@ -737,7 +734,6 @@ public class PozycjaBRKontaView implements Serializable {
                 }
             }
             kontopozycjaZapisDAO.dodaj(nowekontopozycjazapis);
-            System.out.println("zakonczenie przyporzadkowanie pozycji Koniec konca");
             Msg.msg("Zapamiętano przyporządkowane pozycje");
         }
     }
@@ -1070,7 +1066,6 @@ public class PozycjaBRKontaView implements Serializable {
     public static void main(String[] args) {
         KontopozycjaBiezaca kb = new KontopozycjaBiezaca();
         KontopozycjaZapis kz = new KontopozycjaZapis(kb);
-        System.out.println("k");
     }
 
     

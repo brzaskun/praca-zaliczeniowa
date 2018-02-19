@@ -96,7 +96,6 @@ public class SrodkiTrwaleView implements Serializable {
             }
         } catch (Exception e) {            
             E.e(e);            
-            System.out.println("StrodkiTrwaleView - dodajSrodekTrwalyFK() blad");
             Msg.msg("e", "Blad podczas dodawanie srodkow trwalych " + E.e(e));
         }
     }

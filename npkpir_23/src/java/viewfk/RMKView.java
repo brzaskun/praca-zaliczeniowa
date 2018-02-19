@@ -162,7 +162,6 @@ public class RMKView  implements Serializable {
                 narastajaco = narastajaco + odpisbiezacy;
             }
             rmkdao.dodaj(rmk);
-            System.out.println("rmk dodaje");
             Msg.msg("Dodano rozliczenie międzyokresowe");
         } catch (Exception e) {
             Msg.msg("e", "Takie RMK już zaksięgowano");

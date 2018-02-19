@@ -246,7 +246,6 @@ public class DokFKVATBean {
             }
             return konto;
         } catch (Exception e) {  
-            System.out.println("Brak w konatch słownikowych danego kontrahenta. Zweryfikuj plan kont czy sa podpiete slowniki "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Brak w konatch słownikowych danego kontrahenta. Zweryfikuj plan kont czy sa podpiete slowniki");
             return null;
         }
@@ -283,7 +282,6 @@ public class DokFKVATBean {
         Waluty w = selected.getWalutadokumentu();
         try {
             if (kontoRozrachunkowe == null) {
-                System.out.println("Brak zdefiniowanych kont przyporządkowanych do dokumentu.");
                 Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu.");
             }
                 if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {

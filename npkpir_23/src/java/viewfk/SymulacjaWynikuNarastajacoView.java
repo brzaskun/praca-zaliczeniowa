@@ -225,7 +225,6 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup")+" #"+String.valueOf(i), Z.z(roznicadlankup-wynikfinansowyudzial)));
                 System.out.println("roznicadlankup "+roznicadlankup);
                 System.out.println("podstawa "+podstawaopodatkowania);
-                System.out.println("wynikfinsudzial "+wynikfinansowyudzial);
                 podstawaopodatkowania = podstawaopodatkowania < 0.0 ? 0.0 : Z.z0(podstawaopodatkowania);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
                 double podatek = Z.z0(podstawaopodatkowania*0.19);
@@ -386,7 +385,6 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             System.out.println("nazwa "+pobrane.getNazwa());
             s.setNkup(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
-            System.out.println("nazwa "+pobrane.getNazwa());
             s.setWynikpodatkowy(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
             s.setPodatek(pobrane.getWartosc());

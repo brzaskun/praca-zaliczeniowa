@@ -1037,7 +1037,6 @@ public class Dokfk extends DokSuper implements Serializable {
         List<Popo> nowe = new ArrayList<>();
         for (Object wiersze1 : wiersze) {
             nowe.add((Popo) wiersze1);
-            System.out.println(wiersze1);
         }
         popo.setLista(nowe);
         
@@ -1106,7 +1105,6 @@ public class Dokfk extends DokSuper implements Serializable {
         List<Popo> nowe = new ArrayList<>();
         for (Object wiersze1 : wiersze) {
             nowe.add((Popo) wiersze1);
-            System.out.println(wiersze1);
         }
         popo.setLista(nowe);
         //this.setListawierszy(nowe);

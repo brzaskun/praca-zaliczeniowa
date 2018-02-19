@@ -158,7 +158,6 @@ public class DokTabView implements Serializable {
                 numerkolejny = Integer.parseInt(wartosc);
             } catch (Exception e) {
                 System.out.println("Blad " + e.toString());
-                System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
             }
         }
         try {
@@ -180,7 +179,6 @@ public class DokTabView implements Serializable {
             boolean dodaj = false;
             tmpx.setNrWpkpir(numerkolejny++);
             if (tmpx.getNrWlDk().equals("31100068/07")) {
-                System.out.println("");
             }
             if (tmpx.getPkpirM().equals(mc)) {
                 dokumentyl.add(tmpx.getRodzajedok());
@@ -395,7 +393,6 @@ public class DokTabView implements Serializable {
     }
     
     public void fakturasprawdzanieajax(Object i) {
-        System.out.println("");
     }
      
     

@@ -1302,7 +1302,6 @@ public class FakturaView implements Serializable {
         resetujbiezacymiesiac();
         for (Faktura r : faktury) {
             if (r.getBrutto() == 123.0) {
-                System.out.println("");
             }
             for (Fakturywystokresowe p : this.fakturyokresowe) {
                 if (p.getDokument().getKontrahent().equals(r.getKontrahent()) && p.getDokument().getBrutto() == r.getBrutto()) {
@@ -1452,7 +1451,6 @@ public class FakturaView implements Serializable {
             MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getWprowadzil()), sMTPSettingsDAO.findSprawaByDef());
         } catch (Exception e) { E.e(e); 
             Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
-            System.out.println("Błąd podczas wysyłki faktury "+e.getMessage());
         }
     }
     
@@ -1990,6 +1988,5 @@ public class FakturaView implements Serializable {
 //       }
 //   }
     public static void main(String[] args) {
-        System.out.println(""+new DateTime().getMillis());
     }
 }

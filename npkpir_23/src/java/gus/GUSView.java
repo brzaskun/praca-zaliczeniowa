@@ -61,7 +61,6 @@ public class GUSView implements Serializable {
                 String res = e3.daneSzukaj(pw);
                 if (res.equals("")) {
                     zwrot.put("Nieznaleziono", nip);
-                    System.out.println("nie znaleziono firmy");
                 } else {
                     Map<String, String> zwrottmp = wyslijdanefirmy(pozycje, res);
                     String typjedn = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportTypJednostki");
@@ -77,7 +76,6 @@ public class GUSView implements Serializable {
                         rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportDzialalnoscFizycznejCeidg");
                         zwrot.putAll(wyslijdanefirmy(pozycje2fiz, rapszcz));
                     }
-                    System.out.println("znalezion firme");
                 }
             }
         } catch (Exception e) {
@@ -124,20 +122,21 @@ public class GUSView implements Serializable {
                     rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportDzialalnoscFizycznejCeidg");
                     zwrot.putAll(wyslijdanefirmy(pozycje2fiz, rapszcz));
                 }
+                //            PublDaneRaportDzialalnosciPrawnej
+                //String ko1 = service.getE3().daneKomunikat();
                 System.out.println("3");
+    //            PublDaneRaportDzialalnosciPrawnej
+                //String ko1 = service.getE3().daneKomunikat();
     //            PublDaneRaportDzialalnosciPrawnej
                 //String ko1 = service.getE3().daneKomunikat();
 
                 //String ko = service.getE3().getValue();
     //            QName q = new QName("Regon");
                 String s = service.getE3().pobierzCaptcha();
-    //            JAXBElement el = new JAXBElement(q, String.class, "320890902");
-
                 //ko = service.getE3().daneKomunikat();
-                System.out.println("d");
+    //            JAXBElement el = new JAXBElement(q, String.class, "320890902");
             } else {
                 danefirmy = "Nie znaleziono firmy";
-                System.out.println("Nie znaleziono firmy");
             }
         } catch (Exception e) {
             E.e(e);
@@ -292,14 +291,12 @@ public class GUSView implements Serializable {
             if (a.length==2) {
                 a[0] = "KOTEK";
                 String b = StringUtils.capitalize(StringUtils.lowerCase(a[0]))+" "+StringUtils.capitalize(a[1]);
-                System.out.println(b);
             }
             sb.append(p);
             sb.append(" ");
             sb.append(element);
             sb.append("\n");
         }
-        System.out.println(sb.toString());
     }
 
     public void view() {

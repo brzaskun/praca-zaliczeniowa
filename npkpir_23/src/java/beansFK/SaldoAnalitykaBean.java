@@ -39,7 +39,6 @@ public class SaldoAnalitykaBean extends Thread {
                 saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
             }
             saldoKonto.getZapisy().add(r);
-            System.out.println("Przegladam "+r.getDokfkS());
     }
 
 

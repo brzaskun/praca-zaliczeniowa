@@ -441,7 +441,6 @@ public class JPK_VAT2_Bean {
             JPK.SprzedazWiersz jpk = new JPK.SprzedazWiersz();
             Method method = JPK.SprzedazWiersz.class.getMethod("setK25",BigDecimal.class);
             method.invoke(jpk, BigDecimal.TEN);
-            System.out.println("");
         } catch (Exception ex) {
             Logger.getLogger(JPK_VAT2_Bean.class.getName()).log(Level.SEVERE, null, ex);
         }

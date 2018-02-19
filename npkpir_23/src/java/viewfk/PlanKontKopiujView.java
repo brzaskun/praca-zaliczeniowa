@@ -72,7 +72,6 @@ public class PlanKontKopiujView implements Serializable {
             for (int biezacylevel = 1; biezacylevel <= maxlevel; biezacylevel++) {
                 macierzyste = skopiujlevel(podatnikzrodlowy, podatnikdocelowy, wykazkont, macierzyste, biezacylevel, rokdocelowy);
             }
-            System.out.println("Kopiuje");
             planKontView.init();
             planKontView.porzadkowanieKontPodatnika();
             kopiujSlownikowe = false;
@@ -90,7 +89,6 @@ public class PlanKontKopiujView implements Serializable {
                 macierzyste = skopiujlevelWzorcowy(null, wykazkont, macierzyste, i, rokdocelowy);
             }
             kopiujSlownikowe = false;
-            System.out.println("Kopiuje");
         }
     }
 
@@ -110,7 +108,6 @@ public class PlanKontKopiujView implements Serializable {
             macierzyste = skopiujlevel(null, wpisView.getPodatnikObiekt(), wykazkont, macierzyste, i, rokdocelowy);
         }
         planKontView.init();
-        System.out.println("koniec implementacji");
         Msg.msg("Zaimplementowano wzorcowy plan kont z roku "+rokzrodlowy);
     }
 
@@ -135,7 +132,6 @@ public class PlanKontKopiujView implements Serializable {
             if (p.getLevel() == biezacylevel) {
                 try {
                     if (!podatnikzrodlowy.equals(podatnikDocelowy) && p.isSlownikowe()) {
-                        System.out.println("nie powielam słownikowego");
                     } else if (p.isSlownikowe() == true && kopiujSlownikowe) {
                         nowemacierzyste.add(kopiujKonto(p, macierzystelista, podatnikDocelowy, true));
                     } else if (p.isSlownikowe() == false) {
@@ -163,7 +159,6 @@ public class PlanKontKopiujView implements Serializable {
 
     private Konto kopiujKonto(Konto p, List<Konto> macierzystelista, Podatnik podatnikDocelowy, boolean slownikowe) {
         if (p.getPelnynumer().equals("010-5")) {
-            System.out.println("");
         }
         Konto r = serialclone.SerialClone.clone(p);
         zeruDanekontaBO(r);

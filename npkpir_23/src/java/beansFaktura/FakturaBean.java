@@ -207,7 +207,6 @@ public class FakturaBean {
         try {
             String dzien = "2015-09-31";
             DateTime dt = new DateTime(dzien);
-            System.out.println("d");
         } catch (Exception ex) {
             Logger.getLogger(FakturaBean.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -69,7 +69,6 @@ public class ReadWriteTextFileJDK7 implements Serializable{
         String przechowalnia;
         String wynik = String.valueOf(aMsg);
         if (wynik.contains("Kontrahent")) {
-            System.out.println("Wykryłem kontrahenta");
         } else if (wynik.contains("nazwa")) {
             String tmp = String.valueOf(aMsg).substring(8).trim();
             try {

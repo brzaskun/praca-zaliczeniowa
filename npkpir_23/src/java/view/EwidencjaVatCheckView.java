@@ -42,7 +42,6 @@ public class EwidencjaVatCheckView implements Serializable {
            for (EVatwpisSuper p : brakinakoncie) {
                suma += p.getVat();
            }
-           System.out.println("sa braki e ewidencji"+suma);
        }
        List<StronaWiersza> brakiwewidencji = sprawdzbrakiwewidencji(ewidencjezawartosc, zakupy, sprzedaz);
        if (brakiwewidencji.size() > 0) {
@@ -50,13 +49,11 @@ public class EwidencjaVatCheckView implements Serializable {
            for (StronaWiersza p : brakiwewidencji) {
                suma += p.getKwota();
            }
-           System.out.println("sa braki na kontach "+suma);
            Msg.msg("e","Zakończono sprawdzanie ewidencji. Wykryto błędy.");
        } else {
            Msg.msg("i","Zakończono sprawdzanie ewidencji. Nie wykryto błędów.");
        }
        ewkonto = stworzzestawienie(brakinakoncie, brakiwewidencji);
-       System.out.println("jest lista zbiorcza "+ewkonto.size());
        
    }
 
@@ -65,10 +62,8 @@ public class EwidencjaVatCheckView implements Serializable {
        for (List<EVatwpisSuper> p : ewidencje) {
            ewidencjezawartosc.addAll(p);
        }
-       System.out.println("size "+ewidencjezawartosc.size());
        int l = 1;
        for (Iterator<EVatwpisSuper> it = ewidencjezawartosc.iterator(); it.hasNext();) {
-           System.out.println("licznik: "+l);
            l++;
            EVatwpisSuper wiersz = it.next();
            if (wiersz.getNazwaewidencji() == null) {
@@ -83,7 +78,6 @@ public class EwidencjaVatCheckView implements Serializable {
     private boolean czyjestnakoncie(EVatwpisSuper p, List<StronaWiersza> zapisy) {
         boolean jest = false;
         if (p.getVat() == 27.32) {
-            System.out.println("");
         }
         for (Iterator it = zapisy.iterator(); it.hasNext(); ) {
             StronaWiersza r = (StronaWiersza) it.next();

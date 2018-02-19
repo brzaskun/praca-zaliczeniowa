@@ -43,7 +43,6 @@ public class UsunPusteKontaPLL extends Thread {
     public static void main(String[] args) {
         List<Integer> l = zrobliste();
         for (Iterator<Integer> it = l.iterator(); it.hasNext();) {
-            System.out.println("numer "+it.next());
         }
     }
     

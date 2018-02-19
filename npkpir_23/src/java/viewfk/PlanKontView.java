@@ -498,7 +498,6 @@ public class PlanKontView implements Serializable {
             Konto slownik = potomne.get(0);
             String nazwaslownika = slownik.getNazwapelna();
             if (nazwaslownika.equals("Słownik miejsca przychodów")) {
-                System.out.println("");
                 MiejscePrzychodow mp = new MiejscePrzychodow();
                 mp.setOpismiejsca(elementslownika_nazwapelna);
                 mp.setOpisskrocony(elementslownika_nazwaskrocona);
@@ -709,7 +708,6 @@ public class PlanKontView implements Serializable {
         if (!wykazkontwzor.isEmpty()) {
             for (Konto p : wykazkontwzor) {
                 if (wpisView.isParamCzworkiPiatki() == false && p.getPelnynumer().startsWith("5")) {
-                    System.out.println("Nie implementuje konta 5");
                 } else {
                     p.setMapotomkow(false);
                     p.setBlokada(false);
@@ -1473,7 +1471,6 @@ public class PlanKontView implements Serializable {
             for (Delegacja r : delegacjekrajowe) {
                 try {
                     if (r.getOpisdlugi().equals("113/05/2015/k")) {
-                        System.out.println("k");
                     }
                     PlanKontFKBean.porzadkujslownik(kontamacierzysteZeSlownikiem, wykazkont, r.getOpisdlugi(), r.getOpiskrotki(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk, Slownik.DELKRAJ, wybranyuklad);
                 } catch (Exception e1) {

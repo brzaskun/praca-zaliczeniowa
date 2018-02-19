@@ -22,7 +22,6 @@ public class DFKWiersze {
             wn = wiersz.getStronaWn();
             ma = wiersz.getStronaMa();
         }  catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
         }
         StronaWiersza stw = null;
         if (wnma.equals("Wn") && wn != null) {
@@ -38,7 +37,6 @@ public class DFKWiersze {
                 stw.setTypStronaWiersza(1);
             }
         } else {
-            System.out.println("Blad przy automatycznym tworzeniu nowej transakcji stw == null DFKWiersze.java zaznaczNowaTransakcja(args[])");
         }
     }
 }

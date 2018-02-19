@@ -36,7 +36,6 @@ public class Makexml {
 //                }
 //            };
 //            marshaller.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper", npm);
-            marshaller.marshal(deklaracja, System.out);
             marshaller.marshal(deklaracja, new FileWriter("james.xml"));
             marshaller.marshal(deklaracja,sw);
         } catch (Exception ex) {

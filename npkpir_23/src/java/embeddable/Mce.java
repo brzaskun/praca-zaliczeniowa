@@ -436,7 +436,6 @@ public class Mce implements Serializable{
 //    }
     
     public static void main(String[] args) {
-        System.out.println(odlegloscMcy(1,2017,5,2017));
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">

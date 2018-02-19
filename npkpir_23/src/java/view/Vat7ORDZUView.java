@@ -26,7 +26,6 @@ public class Vat7ORDZUView extends Vat7DKView implements Serializable{
     public static void main(String[] args) {
         System.out.println(dekl);
         int lastIndexOf = dekl.lastIndexOf("<podp:DaneAutoryzujace");
-        System.out.println(lastIndexOf);
         dekl = dekl.substring(0, lastIndexOf);
     }
      

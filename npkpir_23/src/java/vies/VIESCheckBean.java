@@ -75,7 +75,6 @@ public class VIESCheckBean {
     private static Vies pobierz(String kraj, String nip, Klienci k, Podatnik podatnik, Uz wprowadzil) throws SocketTimeoutException {
         Vies zwrot = new Vies();
         if (kraj.equals("ES")) {
-            System.out.println("");
         }
         try {
             Connection.Response res = null;
@@ -169,10 +168,8 @@ public class VIESCheckBean {
                 if (linkText.contains("Yes, valid VAT number") || znalazl == true) {
                     znalazl = true;
                     if (!linkText.equals("")) {
-                        System.out.println(linkText);
                     }
                 } else {
-                    System.out.println("Nie znalazl");
                     break;
                 }
             }

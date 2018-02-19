@@ -100,7 +100,6 @@ public class WalutyViewFK implements Serializable {
         if (!symboleTabelRecznie.isEmpty()) {
             kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(symbolRecznie, wprowadzonekursyRok));
         }
-        System.out.println("");
     }
     
     public void generujNumerTabeli() {

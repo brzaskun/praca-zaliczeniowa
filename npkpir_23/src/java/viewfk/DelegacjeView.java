@@ -177,7 +177,6 @@ public class DelegacjeView  implements Serializable{
         try {
             if (dokfk.getRodzajedok().getSkrot().contains("DEL")) {
                 jest1niema0 = DelegacjaBean.sprawdzczyjestdelegacja(delegacjaDAO, dokfk.getNumerwlasnydokfk());
-                System.out.println("delegacja: " + jest1niema0);
                 Konto kontoRozrachunkowe = null;
                 try {
                     kontoRozrachunkowe = kontoDAOfk.findKontoNazwaPelnaPodatnik(dokfk.getNumerwlasnydokfk(), wpisView);

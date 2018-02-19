@@ -150,11 +150,9 @@ public class PdfMain {
             czcionki[2] = font;
             return czcionki;
         } catch (DocumentException ex) {
-            System.out.println("Problem z generowaniem czcionek");
             E.e(ex);
             return null;
         } catch (IOException ex) {
-            System.out.println("Problem z generowaniem czcionek");
             E.e(ex);
             return null;
         }
@@ -172,7 +170,6 @@ public class PdfMain {
             writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
             return writer;
         } catch (DocumentException ex) {
-            System.out.println("Problem z otwarciem dokumentu PDFMain inicjacjaWritera");
             E.e(ex);
             return null;
         }
@@ -190,7 +187,6 @@ public class PdfMain {
             writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
             return writer;
         } catch (DocumentException ex) {
-            System.out.println("Problem z otwarciem dokumentu PDFMain inicjacjaWritera");
             E.e(ex);
             return null;
         }
@@ -239,7 +235,6 @@ public class PdfMain {
             document.add(poledaty);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem daty PDFMain dodajDate");
             E.e(ex);
         }
     }
@@ -271,7 +266,6 @@ public class PdfMain {
                 Plik.usun(nazwa);
                 Plik.zapiszjako(plikzqr,nazwa);
             }
-            System.out.println("Dodano QR");
         } catch (Exception ex) {
             Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -299,7 +293,6 @@ public class PdfMain {
                 Plik.usun(nazwa);
                 Plik.zapiszjako(plikzqr,nazwa);
             }
-            System.out.println("Dodano QR");
         } catch (Exception ex) {
             Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -389,7 +382,6 @@ public class PdfMain {
             opiswstepny = new Paragraph(new Phrase("okres rozliczeniowy " + selected.getMiesiac() + "/" + selected.getRok(), ft[1]));
             document.add(opiswstepny);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny");
             E.e(ex);
         }
     }
@@ -414,7 +406,6 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
             E.e(ex);
         }
     }
@@ -444,7 +435,6 @@ public class PdfMain {
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
             E.e(ex);
         }
     }
@@ -474,7 +464,6 @@ public class PdfMain {
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
             E.e(ex);
         }
     }
@@ -504,7 +493,6 @@ public class PdfMain {
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
             E.e(ex);
         }
     }
@@ -529,7 +517,6 @@ public class PdfMain {
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
             E.e(ex);
         }
     }
@@ -546,7 +533,6 @@ public class PdfMain {
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem linii podpisu PDFMain dodajpodpis(Document document)");
             E.e(ex);
         }
     }
@@ -558,7 +544,6 @@ public class PdfMain {
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem linii opisu PDFMain dodajLinieOpisu(Document, String, String)");
             E.e(ex);
         }
     }
@@ -568,7 +553,6 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_LEFT);
             document.add(opiswstepny);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem linii opisu PDFMain dodajLinieOpisu(Document, String, String)");
             E.e(ex);
         }
     }
@@ -582,7 +566,6 @@ public class PdfMain {
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem informacj z lp PDFMain informacjaoZaksiegowaniu");
             E.e(ex);
         }
     }
@@ -609,7 +592,6 @@ public class PdfMain {
             }
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem informacji o firmie PDFMain infooFirmie");
             E.e(ex);
         }
     }
@@ -626,7 +608,6 @@ public class PdfMain {
                 document.add(Chunk.NEWLINE);
             }
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem saldapoczatkowego PDFMain infooFirmie");
             E.e(ex);
         }
     }
@@ -643,7 +624,6 @@ public class PdfMain {
                 document.add(Chunk.NEWLINE);
             }
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem saldapoczatkowego PDFMain infooFirmie");
             E.e(ex);
         }
     }
@@ -661,7 +641,6 @@ public class PdfMain {
                 document.add(table);
             }
         } catch (DocumentException ex) {
-            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
             E.e(ex);
         }
     }
@@ -679,7 +658,6 @@ public class PdfMain {
                 document.add(table);
             }
         } catch (DocumentException ex) {
-            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
             E.e(ex);
         }
     }
@@ -697,7 +675,6 @@ public class PdfMain {
                 document.add(table);
             }
         } catch (DocumentException ex) {
-            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
             E.e(ex);
         }
     }
@@ -715,7 +692,6 @@ public class PdfMain {
                 document.add(table);
             }
         } catch (DocumentException ex) {
-            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
             E.e(ex);
         }
     }
@@ -733,7 +709,6 @@ public class PdfMain {
                 document.add(table);
             }
         } catch (DocumentException ex) {
-            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
             E.e(ex);
         }
     }
@@ -755,7 +730,6 @@ public class PdfMain {
                 return null;
             }
         } catch (Exception ex) {
-            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
             E.e(ex);
             return null;
         }
@@ -1340,7 +1314,6 @@ public class PdfMain {
             p.setSpacingAfter(b);
             return p;
         } catch (DocumentException ex) {
-            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain przygotujtabele");
             E.e(ex);
             return null;
         }
@@ -1377,7 +1350,6 @@ public class PdfMain {
             document.add(new Paragraph("___________________________", ft[1]));
             document.add(new Paragraph("sporządził", ft[1]));
         } catch (DocumentException ex) {
-            System.out.println("Problem z podpisem PDFMain dodajpodpis");
             E.e(ex);
         }
     }
@@ -2115,7 +2087,6 @@ public class PdfMain {
                     }
                     } catch (Exception e) {
                         table.addCell(ustawfrazeAlign("", "center", 7));
-                        System.out.println("");
                     }
                     table.addCell(ustawfrazeAlign(p.getDokfkS(), "center", 7));
                     table.addCell(ustawfrazeAlign(p.getIdporzadkowy() > 0 ? p.getIdporzadkowy(): "", "center", 7));
@@ -2604,8 +2575,6 @@ public class PdfMain {
 		for (int i = 0; i <= 10; i++) {
 			double num = Math.PI * Math.pow(i, i) * i;
 			System.out.print("  formatted:" + numberFormat.format(num));
-			System.out.println(" | unformatted:" + num);
 		}
-		System.out.println();
 	}
 }

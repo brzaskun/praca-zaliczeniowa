@@ -61,7 +61,6 @@ public class PozycjaRZiSFKBean {
      public static void wyluskajNieprzyporzadkowaneAnalitykiBilans(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, Podatnik podatnik, boolean aktywa0pasywa1, Integer rok) {
         for (Konto p : pobraneKontaSyntetyczne) {
             if (p.getPelnynumer().equals("201")) {
-                System.out.println("");
             }
             if (p.getKontopozycjaID() != null) {
                 if (p.getZwyklerozrachszczegolne().equals("szczególne") && (p.getKontopozycjaID().getPozycjaWn() != null || p.getKontopozycjaID().getPozycjaMa() != null)) {
@@ -292,7 +291,6 @@ public class PozycjaRZiSFKBean {
             lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "wynikowe", wpisView, wzorcowy);
         }
         if (lista.size() > 1) {
-            System.out.println("jest lista");
         }
         List<KontoKwota> kontokwotalist = new ArrayList<>();
         if (lista != null) {
@@ -507,7 +505,6 @@ public class PozycjaRZiSFKBean {
                 k.setObrotyMa(k.getObrotyMa()+kwotaMa);
             } catch (Exception e) {
                 E.e(e);
-                System.out.println("Blad sumujObrotyNaKontach");
             }
             
         }

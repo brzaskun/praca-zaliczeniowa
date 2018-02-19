@@ -46,14 +46,12 @@ public class MailSetUp implements Serializable{
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
         } catch (MessagingException ex) {
             E.e(ex);
-            System.out.println("Nie masz ma wprowadzonego adresu mail podatnika. Wysyłka nieudana");
         }
         if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")) {
             try {
                 message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
             } catch (Exception e) {
                 E.e(e);
-                System.out.println("Nie masz ma wprowadzonego adresu mail BCC");
             }
         }
         return message;

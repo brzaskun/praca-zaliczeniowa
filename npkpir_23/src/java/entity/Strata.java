@@ -212,20 +212,16 @@ public class Strata  implements Serializable {
         for (Podatnik p : podatnicy) {
             List<Straty1> stratyzlatub1 = p.getStratyzlatub1();
             if (stratyzlatub1 != null && stratyzlatub1.size() > 0) {
-                System.out.println(p.getNazwapelna());
                 for (Straty1 r : stratyzlatub1) {
                     System.out.print(r.getRok());
                     System.out.print(" ");
                     System.out.println(r.getKwota());
                     Strata nowastrata = new Strata(p, Integer.parseInt(r.getRok()), Z.z(Double.parseDouble(r.getKwota())), Z.z(Double.parseDouble(r.getKwota())/2), Z.z(Double.parseDouble(r.getWykorzystano())), Z.z(Double.parseDouble(r.getZostalo())));
-                    System.out.println("Nowa strata "+nowastrata);
                     List<Straty1.Wykorzystanie> wykorzystanieBiezace = r.getWykorzystanieBiezace();
                     if (wykorzystanieBiezace != null && wykorzystanieBiezace.size() > 0) {
-                        System.out.println("Wykorzystanie");
                         for (Straty1.Wykorzystanie s : wykorzystanieBiezace) {
                             System.out.print(s.getRokwykorzystania());
                             System.out.print(" ");
-                            System.out.println(s.getKwotawykorzystania());
                             StrataWykorzystanie stratawykorzystanie = new StrataWykorzystanie(nowastrata, s.getRokwykorzystania(), Z.z(s.getKwotawykorzystania()));
                             nowastrata.getNowewykorzystanie().add(stratawykorzystanie);
                         }
@@ -236,9 +232,7 @@ public class Strata  implements Serializable {
         }
         List<Strata> resultList = em.createNamedQuery("Strata.findAll").getResultList();
         for (Strata l : resultList) {
-            System.out.println(l);
         }
-        System.out.println("e");
     }
    
     

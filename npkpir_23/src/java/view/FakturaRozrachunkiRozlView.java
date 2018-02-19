@@ -60,7 +60,6 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
             }
         }
         pobierzplatnosci();
-        System.out.println("d");
     }
     
     public void pobierzplatnosci() {

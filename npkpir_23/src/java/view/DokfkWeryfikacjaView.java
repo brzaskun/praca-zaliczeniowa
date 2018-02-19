@@ -256,7 +256,6 @@ public class DokfkWeryfikacjaView implements Serializable {
             for (EVatwpisFK ew : p.getEwidencjaVAT()) {
                 if (p.getListawierszy().size() > 1 && (p.getRodzajedok().getKategoriadokumentu() == 1 || p.getRodzajedok().getKategoriadokumentu() == 2)) {
                     if (ew.getInnyokres() == 0) {
-                        System.out.println("dok " + p.getDokfkSN());
                         if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-3")) {
                             listabrakivat.add(p);
                         }

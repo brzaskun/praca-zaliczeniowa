@@ -911,7 +911,6 @@ public class BilansWprowadzanieView implements Serializable {
                     Wiersz w = new Wiersz(idporzadkowy++, 0);
                     uzupelnijwiersz(w, nd);
                     if (p.getKonto().getPelnynumer().equals("202-1-5")) {
-                        System.out.println("stop");
                     }
                     String opiswiersza = "zapis BO: " + p.getOpis();
                     if (!wpisView.getMiesiacWpisu().equals("01")) {
@@ -1529,7 +1528,6 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     public void drukujBO() {
-        System.out.println("");
         List<WierszBO> w = new ArrayList<>();
         if (listaBOselected != null && listaBOselected.size() > 0) {
             w = listaBOselected;
@@ -1548,7 +1546,6 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
      public void drukujdrukujObrotyWszystkieBO() {
-        System.out.println("");
         List<WierszBO> w = new ArrayList<>();
         for (List<WierszBO> l : listaGrupa.values()) {
             if (l.size() > 0 && l.get(0) != null && l.get(0).getKonto() != null) {
@@ -1563,7 +1560,6 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public void drukujObroty() {
-        System.out.println("");
         List<WierszBO> w = new ArrayList<>();
         if (listaBOselected != null && listaBOselected.size() > 0) {
             w = listaBOselected;
@@ -1582,7 +1578,6 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public void drukujObrotyWszystkie() {
-        System.out.println("");
         List<WierszBO> w = new ArrayList<>();
         for (List<WierszBO> l : listaGrupa.values()) {
             if (l.get(0) != null && l.get(0).getKonto() != null) {
@@ -1640,7 +1635,6 @@ public class BilansWprowadzanieView implements Serializable {
         String pierwszy = "Śmigieł";
         String drugi = "śmig";
         boolean s = pierwszy.toLowerCase().contains(drugi.toLowerCase());
-        System.out.println(s);
     }
 
     

@@ -74,7 +74,6 @@ public class RozrachunkiView implements Serializable {
                 String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
                 numerkolejny = Integer.parseInt(wartosc);
             } catch (Exception e) { E.e(e); 
-                System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
             }
         }
         List<Dok> dokumenty = dokTabView.getDokumentylista();

@@ -40,7 +40,6 @@ public class Rownolegle extends Thread {
             Konto r = (Konto) rx;
             if (r.getPodatnik().equals(p.getNazwapelna())) {
                 licz++;
-                System.out.println("l "+licz);
             }
         }
 //        em = Em.getEm();
@@ -70,6 +69,5 @@ public class Rownolegle extends Thread {
                 Rownolegle r = new Rownolegle(p, konta);
             }
         }
-        System.out.println("zachowanie "+licz);
     }
 }

@@ -465,12 +465,10 @@ public class WpisView implements Serializable {
     }
 
     public String getZmianaokresuMc() {
-        System.out.println("pobieram okres z "+zmianaokresuMc);
         return zmianaokresuMc;
     }
 
     public void setZmianaokresuMc(String zmianaokresuMc) {
-        System.out.println("z,mieniam okres na "+zmianaokresuMc);
         this.zmianaokresuMc = zmianaokresuMc;
     }
 

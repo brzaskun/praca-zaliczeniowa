@@ -439,7 +439,6 @@ public class Data implements Serializable {
         sb.append(mc);
         sb.append("-");
         sb.append(dzien);
-        System.out.println(sb.toString());
    }
 //   public static Date asDate(LocalDate localDate) {
 //    return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());

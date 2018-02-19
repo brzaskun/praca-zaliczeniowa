@@ -178,7 +178,6 @@ public class ZestawienieWynikoweRokView implements Serializable {
         System.out.println(udzial);
         double podstawaopodatkowania = Z.z(udzial*wynikfinansowy);
         System.out.println(podstawaopodatkowania);
-        System.out.println(Z.z0(podstawaopodatkowania*0.19));
     }
 
     private List<KontoSumyRok> pobierzkontadolisty(List<Konto> kontaklienta) {

@@ -115,7 +115,6 @@ public class SymulacjaWynikuView implements Serializable {
         obliczsymulacjeNowa();
 //        pozycjeDoWyplatyNarastajaco = symulacjaWynikuNarastajacoView.danedobiezacejsym();
 //        obliczkwotydowyplaty();
-        System.out.println("");
         tylkokontasyntetyczneoblicz();
     }
 
@@ -690,7 +689,6 @@ public class SymulacjaWynikuView implements Serializable {
         System.out.println(udzial);
         double podstawaopodatkowania = Z.z(udzial*wynikfinansowy);
         System.out.println(podstawaopodatkowania);
-        System.out.println(Z.z0(podstawaopodatkowania*0.19));
     }
 
     public static class PozycjeSymulacjiTabela {
@@ -787,7 +785,6 @@ public class SymulacjaWynikuView implements Serializable {
 //            List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza  t JOIN t.wiersz.dokfk s WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(s.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
 //            System.out.println("");
               double udział = Z.z4(Double.parseDouble("33.33")/100);
-              System.out.println(""+udział);
         }
     }
 }

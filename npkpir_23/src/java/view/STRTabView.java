@@ -195,7 +195,6 @@ public class STRTabView implements Serializable {
                                     srodkiTrwale.add(srodek);
                                     if (srodek.getDatasprzedazy() == null || srodek.getDatasprzedazy().equals("")) {
                                         if (bezcalkowicieumorzonych && srodek.getNetto().doubleValue() == srodek.getUmorzeniepoczatkowe().doubleValue()) {
-                                            System.out.println("");
                                         } else {
                                             if (srodek.getNetto().doubleValue() != srodek.getUmorzeniepoczatkowe().doubleValue()) {
                                                 posiadane2.add(srodek);
@@ -207,7 +206,6 @@ public class STRTabView implements Serializable {
                                         sprzedane.add(srodek);
                                     } else {
                                         if (bezcalkowicieumorzonych && srodek.getNetto().doubleValue() == srodek.getUmorzeniepoczatkowe().doubleValue()) {
-                                            System.out.println("");
                                         } else {
                                             if (srodek.getNetto().doubleValue() != srodek.getUmorzeniepoczatkowe().doubleValue()) {
                                                 posiadane2.add(srodek);

@@ -84,7 +84,6 @@ public class UkladBRView implements Serializable {
             Collections.sort(listaWzorcowy, new UkladBRcomparator());
             ukladdocelowyrok = wpisView.getRokWpisuSt();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
         }
     }
 
@@ -110,7 +109,6 @@ public class UkladBRView implements Serializable {
             nazwanowegoukladu = null;
             Msg.msg("i", "Dodano nowy układ podatnika");
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba dodania układu dla podatnika. " + e.getMessage());
         }
     }
@@ -149,7 +147,6 @@ public class UkladBRView implements Serializable {
         } catch (EJBException ejb) {
             Msg.msg("e", "Nieudana próba skopiowania układu. Układ za dany rok już istnieje " + ejb.getMessage());
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba skopiowania układu. " + e.getMessage());
         }
     }
@@ -172,7 +169,6 @@ public class UkladBRView implements Serializable {
             planKontView.porzadkowanieKontPodatnika();
             Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba dodania implementacji układu wzorcowego. " + e.getMessage());
         }
     }
@@ -198,7 +194,6 @@ public class UkladBRView implements Serializable {
                 Msg.msg("e", "Nie wybrano układu do usunięcia");
             }
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba usuniecia układu." + e.getMessage());
         }
     }
@@ -215,7 +210,6 @@ public class UkladBRView implements Serializable {
                 pozycjenowe.addAll(macierzyste);
             }
             pozycjaRZiSDAO.dodaj(pozycjenowe);
-            System.out.println("ImplementujRZiS UkladBRView");
         } else {
             Msg.msg("e", "Brak pozycji bilansu przyporządkowanych do wybranego układu");
         }
@@ -394,8 +388,6 @@ public class UkladBRView implements Serializable {
                     r.setMacierzysta(macierzyste);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {
-                    System.out.println("Blad " + e.getStackTrace()[0].toString());
-
                 }
             }
         }
@@ -445,8 +437,6 @@ public class UkladBRView implements Serializable {
                     r.setMacierzysta(macierzyste);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {
-                    System.out.println("Blad " + e.getStackTrace()[0].toString());
-
                 }
             }
         }
@@ -474,7 +464,6 @@ public class UkladBRView implements Serializable {
                 implementujBilans(ukladzrodlowy, ukladdocelowyrok);
                 Msg.msg("Skopiowano ukłąd wzorcowy z pozycjami");
             } catch (Exception e) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString());
                 Msg.msg("e", "Wystąpił błąd. Nie skopiowano nowego układu.");
             }
         }
@@ -486,7 +475,6 @@ public class UkladBRView implements Serializable {
         for(int i = 1; i <= maxlevel;i++) {
                 macierzyste = skopiujlevelRZiS(pozycje, macierzyste,i, rok);
         }
-        System.out.println("Kopiuje");
     }
      
       private void implementujBilans(UkladBR ukladzrodlowy, String rok) {
@@ -502,7 +490,6 @@ public class UkladBRView implements Serializable {
         for(int i = 1; i <= maxlevel;i++) {
                 macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, rok);
         }
-        System.out.println("Kopiuje");
     }
      
       private List<PozycjaRZiS> skopiujlevel0RZiS(List<PozycjaRZiS> pozycje, String rok) {
@@ -610,10 +597,8 @@ public class UkladBRView implements Serializable {
                     PozycjaBilans mac = p.getMacierzysta();
                     if (mac != null) {
                         p.setMacierzysta(mac);
-                        System.out.println(""+p.getLp()+" mac"+mac.getLp());
                     }
                 } catch (Exception r) {
-                    System.out.println(" "+p);
                 }
             }
         }
@@ -626,16 +611,13 @@ public class UkladBRView implements Serializable {
                     PozycjaRZiS mac = p.getMacierzysta();
                     if (mac != null) {
                         p.setMacierzysta(mac);
-                        System.out.println(""+p.getLp()+" mac"+mac.getLp());
                     }
                 } catch (Exception r) {
-                    System.out.println(" "+p);
                 }
             }
         }
         pozycjaRZiSDAO.editList(wynikowe);
         Msg.msg("Wynikowe");
-        System.out.println("koniec");
     }
     
     

@@ -70,7 +70,6 @@ public class PlanKontBOView implements Serializable {
     
      public List<Konto> completeBO(String qr) {
         if (qr != null) {
-            System.out.println("Wywołanie PlanKontBOView completeBO()");
             String query = null;
             List<Konto> listakontOstatniaAnalitykaklienta = null;
             List<Konto> results = new ArrayList<>();

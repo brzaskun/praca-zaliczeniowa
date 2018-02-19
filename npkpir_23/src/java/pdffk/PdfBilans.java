@@ -339,6 +339,5 @@ public class PdfBilans {
         double sumabilansowa = 233445.11;
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         String sumatxt = formatter.format(sumabilansowa);
-        System.out.println(sumatxt);
     }
 }

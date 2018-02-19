@@ -30,7 +30,6 @@ public class PobierzZBazy extends Thread {
         try {
             Konto k = kontoDAOfk.findKonto2(id);
             if (k != null) {
-                System.out.println("konto: " + k);
             }
         } catch (Exception ex) {
 

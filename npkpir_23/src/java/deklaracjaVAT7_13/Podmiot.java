@@ -189,7 +189,6 @@ class Podmiot {
 
     public static void main(String[] args) {
         String escapedBodyValue = StringEscapeUtils.escapeXml("MWP D&H UG");
-        System.out.println("e "+escapedBodyValue);
     }
     
 }

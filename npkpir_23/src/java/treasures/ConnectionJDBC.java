@@ -47,9 +47,7 @@ public class ConnectionJDBC {
             while(result.next()){
                 
                 list.add(result.getString("nip"));
-                System.out.println(result.getString("nip"));
             }
-            System.out.println("e");
         } catch (Exception ex) {
             E.e(ex);
         }

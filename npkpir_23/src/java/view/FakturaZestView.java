@@ -118,7 +118,6 @@ public class FakturaZestView implements Serializable {
             }
         }
         Msg.msg("Pobrano faktury");
-        System.out.println("Skoncozne");
     }
     
   

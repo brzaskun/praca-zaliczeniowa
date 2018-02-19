@@ -100,7 +100,6 @@ public class Xad {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
             byte[] hash = digest.digest(signingCertificate.getEncoded());
             String hasz = DatatypeConverter.printBase64Binary(hash);
-            System.out.println(""+hasz);
             PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, HASLO.toCharArray());
             PublicKey pubKey = signingCertificate.getPublicKey();
             XMLSignatureFactory xmlSigFactory = XMLSignatureFactory.getInstance("DOM");
@@ -166,7 +165,6 @@ public class Xad {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
             byte[] hash = digest.digest(signingCertificate.getEncoded());
             String hasz = DatatypeConverter.printBase64Binary(hash);
-            System.out.println(""+hasz);
             PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, HASLO.toCharArray());
             PublicKey pubKey = signingCertificate.getPublicKey();
             XMLSignatureFactory xmlSigFactory = XMLSignatureFactory.getInstance("DOM");
@@ -293,7 +291,6 @@ public class Xad {
             XMLSignature signature = xmlSigFactory.unmarshalXMLSignature(valContext);
             // Validate the XMLSignature.
             boolean coreValidity = signature.validate(valContext);
-            System.out.println("podpis :" + coreValidity);
         } catch (MarshalException ex) {
             Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XMLSignatureException ex) {

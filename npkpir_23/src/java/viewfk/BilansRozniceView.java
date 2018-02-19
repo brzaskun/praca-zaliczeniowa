@@ -48,7 +48,6 @@ public class BilansRozniceView implements Serializable {
         liczbawierszyDok = wierszeDok.size();
         wierszeBOroznice = zrobrozniceBO(new ArrayList<>(wierszeBO), new ArrayList<>(wierszeDok));
         wierszeDokroznice = zrobrozniceDok(new ArrayList<>(wierszeBO), new ArrayList<>(wierszeDok));
-        System.out.println("");
     }
 
     private List<StronaWiersza> pobierzstrony(List<Dokfk> dokfk) {

@@ -84,7 +84,6 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
                     return k.compare(((Zapisy) o1).getKonto(), ((Zapisy) o2).getKonto());
                 }
             });
-            System.out.println("");
             
         }
     }

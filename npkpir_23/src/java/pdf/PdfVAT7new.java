@@ -81,7 +81,6 @@ public class PdfVAT7new {
         finalizacjaDokumentuQR(document,nazwa);
         String f = "pokazwydruk('"+nazwa+"');";
         RequestContext.getCurrentInstance().execute(f);
-        System.out.println("test");
     }
 
     private static void uzupelnijDlaVAT7(Document document, Deklaracjevat d, WpisView wpisView) {

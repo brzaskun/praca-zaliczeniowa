@@ -125,7 +125,6 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
                kontozapisy.add(kz);
             }
         }
-        System.out.println("odnalazlem pobierzZapisyNaKoncieNode(Konto wybraneKontoNode)");
     }
     
     public void usunzerowe() {

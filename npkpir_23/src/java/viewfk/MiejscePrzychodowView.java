@@ -406,7 +406,6 @@ public class MiejscePrzychodowView  implements Serializable{
          String data = "brzaskun@o2.pl";
          String regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
          System.out.println(data.matches(regex));
-         System.out.println("Regex "+regex);
     }
     
 }

@@ -58,7 +58,6 @@ public class PdfVATUEdekl {
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
-            System.out.println("test");
         } catch(Exception e) {
             document.close();
         }

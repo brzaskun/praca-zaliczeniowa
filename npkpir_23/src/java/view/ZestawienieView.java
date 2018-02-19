@@ -648,7 +648,6 @@ public class ZestawienieView implements Serializable {
                         }
                     }catch (Exception e) {
                         Dok t = dokument;
-                        System.out.println(dokument.toString());
                         E.e(e);
                     }
                 }

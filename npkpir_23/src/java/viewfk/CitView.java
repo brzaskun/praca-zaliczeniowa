@@ -73,7 +73,6 @@ public class CitView implements Serializable {
         this.przychodypokorekcie = this.razemprzychody + this.razemzapisycechaprzychod;
         this.kosztypokorekcie = this.razemkoszty + this.razemzapisycechakoszt;
         this.wynikpokorektach = this.przychodypokorekcie - this.kosztypokorekcie;
-        System.out.println("pobralem");
     }
     
     private TreeNodeExtended pobierzukladprzegladRZiS() {

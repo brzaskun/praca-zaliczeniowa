@@ -108,7 +108,6 @@ public class PlanKontUzupelnijView implements Serializable {
                 }
             }
             kontopozycjaZapisDAO.dodaj(nowekontopozycjazapis);
-            System.out.println("Wydrukowałem brakujące konta");
             Msg.msg("Zakończono implementację brakujących kont");
             //planKontView.init();
             //planKontView.porzadkowanieKontPodatnika();

@@ -430,7 +430,6 @@ public class PlanKontFKBean {
             } catch (Exception e) {
                 zwrot = 1;
                 E.e(e);
-                System.out.println("blad podczas usuwania konta slownikowego aktualizujslownikKontrahenciRemove()");
                 break;
             }
         }
@@ -982,7 +981,6 @@ public class PlanKontFKBean {
         for (char p : l) {
             i++;
             if (Character.isLetter(p)) {
-                System.out.println(" "+i);
                 nowynumer = pelnynumer.substring(0, i-1);
                 break;
             }
@@ -990,7 +988,6 @@ public class PlanKontFKBean {
         if (nowynumer.endsWith("-")) {
             nowynumer = nowynumer.substring(0, nowynumer.length()-1);
         }
-        System.out.println(" "+nowynumer);
 //        String[] w = str.split("\\s+");
 //        System.out.println("w "+w[0]);
 //        String koncowka = w[w.length-1];

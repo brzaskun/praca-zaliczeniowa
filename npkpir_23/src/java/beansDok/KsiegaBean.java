@@ -40,7 +40,6 @@ public class KsiegaBean {
                 numerkolejny = Integer.parseInt(wartosc);
             } catch (Exception e) { 
                 E.e(e); 
-                System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
             }
         }
         return numerkolejny;

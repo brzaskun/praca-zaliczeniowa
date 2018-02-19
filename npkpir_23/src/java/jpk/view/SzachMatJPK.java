@@ -48,7 +48,6 @@ public class SzachMatJPK {
         UPO upo = new UPO();
         Object[] zwrot = beanJPKwysylka.etap3("91cd491e00b0b9c90000004528eaccdd", upo);
         String[] message = (String[]) zwrot[2];
-        System.out.println(message[0]+" "+message[1]);
     }
     
     //UWAGA USTAWIENIA PRODUKCYJNE
@@ -179,10 +178,8 @@ public class SzachMatJPK {
             c.init(Cipher.DECRYPT_MODE, key, iv);
             byte[] original = c.doFinal(Base64.getDecoder().decode(ciphertext));
             Files.write(Paths.get("odkodowana.zip"), original);
-            System.out.println("odkodowalem");
             //System.out.println("decrypt: "+new String(original));
         } catch (Exception ex) {
-            System.out.println("decryot "+ex);
         }
     }
     
@@ -195,10 +192,8 @@ public class SzachMatJPK {
             c.init(Cipher.DECRYPT_MODE, key, iv);
             byte[] original = c.doFinal(ciphertext);
             Files.write(Paths.get(dir+"odkodowana.zip"), original);
-            System.out.println("odkodowalem");
             //System.out.println("decrypt: "+new String(original));
         } catch (Exception ex) {
-            System.out.println("decrypt2 "+ex);
         }
     }
 

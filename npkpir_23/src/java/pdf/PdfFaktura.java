@@ -301,7 +301,6 @@ public class PdfFaktura extends Pdf implements Serializable {
                 stamper.close();
                 reader.close();
                 PdfFP.usunplik(nazwapliku1);
-                System.out.println("no ");
             } else {
                 Document document = new Document();
                 PdfWriter writer = writerCreate(document, nrfakt, wpisView.getPodatnikObiekt().getNip());
@@ -501,22 +500,21 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
             //table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
             document.close();
             writer.close();
-    //        PdfReader reader = new PdfReader("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\wydruki\\testowa.pdf");
-    //        PdfReaderContentParser parser = new PdfReaderContentParser(reader);
-    //        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("d:/tparser.pdf"));
-    //        TextMarginFinder finder;
-    //        int n = reader.getNumberOfPages();
-    //        finder = parser.processContent(n, new TextMarginFinder());
-    //        System.out.println(finder.getLlx());
-    //        System.out.println(finder.getLly());
-    //        System.out.println(finder.getWidth());
-    //        System.out.println(finder.getHeight());
-    //        //PdfContentByte canvas = stamper.getImportedPage(reader, n);
-    ////        PdfContentByte canvas = stamper.getOverContent(1);
-    ////        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), finder.getLlx()+30, finder.getLly()-20, 0);
-    //        stamper.close();
-    //        reader.close();
-            System.out.println("no ");
+            //        PdfReader reader = new PdfReader("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\wydruki\\testowa.pdf");
+            //        PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+            //        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("d:/tparser.pdf"));
+            //        TextMarginFinder finder;
+            //        int n = reader.getNumberOfPages();
+            //        finder = parser.processContent(n, new TextMarginFinder());
+            //        System.out.println(finder.getLlx());
+            //        System.out.println(finder.getLly());
+            //        System.out.println(finder.getWidth());
+            //        System.out.println(finder.getHeight());
+            //        //PdfContentByte canvas = stamper.getImportedPage(reader, n);
+            ////        PdfContentByte canvas = stamper.getOverContent(1);
+            ////        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), finder.getLlx()+30, finder.getLly()-20, 0);
+            //        stamper.close();
+            //        reader.close();
         } catch (Exception e) {
             document.close();
         }

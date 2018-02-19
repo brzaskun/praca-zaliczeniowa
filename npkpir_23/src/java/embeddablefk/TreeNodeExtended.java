@@ -304,7 +304,6 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             try {
                 Konto kontopobrane = stronaWiersza.getKonto();
                 if (kontopobrane.getPelnynumer().equals("755")) {
-                    System.out.println("33");
                 }
                 String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
                 String pozycjaRZiS_ma = kontopobrane.getKontopozycjaID().getPozycjaMa();
@@ -483,9 +482,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
         for (Konto p: plankont) {
-            System.out.println("Bilans konto "+p.getPelnynumer());
             if (p.getPelnynumer().equals("234-4-2")) {
-                System.out.println("d");
             }
             Konto kontopobrane = p;
             if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
@@ -605,9 +602,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
         for (Konto p: plankont) {
-            System.out.println("Bilans konto "+p.getPelnynumer());
             if (p.getPelnynumer().equals("201-1-5")) {
-                System.out.println("d");
             }
             Konto kontopobrane = p;
             if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
@@ -1204,7 +1199,6 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     public static void main(String[] args) {
         String formula = "A.I+A.II-A.III";
         String[] s = parseall(formula);
-        System.out.println("");
     }
     
     private static String[] parseall(String f) {

@@ -46,7 +46,6 @@ public class Dedraparser {
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             pobierzfaktury(doc, wierszeewidencji, wpisView, podatnik, ewidencja);
             pobierzkorekty(doc, wierszeewidencji, wpisView, podatnik, ewidencja);
-            System.out.println("");
         } catch (Exception ex) {
             Msg.msg("e", "Wystąpił błąd przy importowaniu pliku xml. Sprawdź, czy plik nie zawiera błędów.");
             Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,7 +58,6 @@ public class Dedraparser {
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 EVatwpisDedra p = new EVatwpisDedra();
                 Node nNode = nList.item(temp);
-                System.out.println("\nCurrent Element :" + nNode.getNodeName());
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
                     p.setFaktura(eElement.getAttribute("F"));
@@ -90,7 +88,6 @@ public class Dedraparser {
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 EVatwpisDedra p = new EVatwpisDedra();
                 Node nNode = nList.item(temp);
-                System.out.println("\nCurrent Element :" + nNode.getNodeName());
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
                     p.setFaktura(eElement.getAttribute("FO"));
@@ -129,7 +126,6 @@ public class Dedraparser {
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 EVatwpisSuper p = new EVatwpisSuper();
                 Node nNode = nList.item(temp);
-                System.out.println("\nCurrent Element :" + nNode.getNodeName());
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
                     System.out.println("id: " + eElement.getAttribute("F"));
@@ -139,10 +135,8 @@ public class Dedraparser {
                     System.out.println("imie_i_nazwisko: " + eElement.getAttribute("N"));
                     System.out.println("ulica: " + eElement.getAttribute("A"));
                     System.out.println("miasto: " + eElement.getAttribute("M"));
-                    System.out.println("stawka: " + eElement.getAttribute("S"));
                 }
             }
-            System.out.println("");
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -143,7 +143,6 @@ public class EwidencjaPrzychodowView implements Serializable {
                 ksiegimiesieczne.put(mc, lista);
             }
         }
-        System.out.println("wygenerowano");
     }
     
     private void generujksiege(String mc) {

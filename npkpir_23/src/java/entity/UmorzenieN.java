@@ -255,6 +255,44 @@ public class UmorzenieN implements Serializable {
 //                System.out.println("Bladddddd "+p.getNazwa()+" sumastare: "+sumastare+" sumanowe: "+sumanowe);
 //            }
 //        }
+//        List<SrodekTrw> srodki = em.createNamedQuery("SrodekTrw.findAll").getResultList();
+//        for (SrodekTrw p : srodki) {
+//            p.setPlanumorzen(new ArrayList<UmorzenieN>());
+//            List<Umorzenie> umorzenia = p.getUmorzWyk();
+//            List<UmorzenieN> umorzenianowe = new ArrayList<>();
+//            if (umorzenia != null && umorzenia.size() > 0) {
+//                System.out.println(p.getNazwa());
+//                for (Umorzenie r : umorzenia) {
+//                    UmorzenieN u = new UmorzenieN(r);
+//                    if (p.getKontonetto() != null) {
+//                        u.setKontonetto(p.getKontonetto().getPelnynumer());
+//                    }
+//                    if (p.getKontoumorzenie() != null) {
+//                        u.setKontoumorzenie(p.getKontoumorzenie().getPelnynumer());
+//                    }
+//                    u.setSrodekTrw(p);
+//                    p.getPlanumorzen().add(u);
+//                    umorzenianowe.add(u);
+//                }
+//            }
+//            Em.saveList(em, umorzenianowe);
+//            Em.edit(em, p);
+//        }
+//        for (SrodekTrw p : srodki) {
+//            List<UmorzenieN> nowe = em.createNamedQuery("UmorzenieN.findStr").setParameter("srt", p).getResultList();
+//            List<Umorzenie> stare = p.getUmorzWyk();
+//            double sumastare = 0.0;
+//            double sumanowe = 0.0;
+//            for (Umorzenie r1 : stare) {
+//                sumastare += r1.getKwota().doubleValue();
+//            }
+//            for (UmorzenieN r2 : nowe) {
+//                sumanowe += r2.getKwota();
+//            }
+//            if (Z.z(sumanowe) != Z.z(sumastare)) {
+//                System.out.println("Bladddddd "+p.getNazwa()+" sumastare: "+sumastare+" sumanowe: "+sumanowe);
+//            }
+//        }
         System.out.println("start");
             List<Amodok> amodoklista = em.createNamedQuery("Amodok.findAll").getResultList();
             for (Amodok p : amodoklista) {
@@ -267,15 +305,12 @@ public class UmorzenieN implements Serializable {
                         nowe.setRodzaj(r.getRodzaj());
                         Em.edit(em, nowe);
                         p.getPlanumorzen().add(nowe);
-                        System.out.println("jest ");
                     } else {
-                        System.out.println("brak umorzenia ");
                     }
                 }
                 Em.edit(em, p);
                 //System.out.println("edycja "+p.getAmodokPK().toString());
             }
-            System.out.println("KONIEC KONIEC KONIEC");
     }
       
     public static UmorzenieN pobierz(EntityManager em, Umorzenie r, String podatnik) {
@@ -289,7 +324,6 @@ public class UmorzenieN implements Serializable {
                 zwrot = (UmorzenieN) em.createNamedQuery("UmorzenieN.findStrNazwaMcRok").setParameter("srt", r.getNazwaSrodka()).setParameter("podatnik", podatnik).setParameter("mc", r.getMcUmorzenia()).setParameter("rok", r.getRokUmorzenia()).getSingleResult();
             }
         } catch (Exception e) {
-            System.out.println("dziwne");
         }   
         return zwrot;
     }

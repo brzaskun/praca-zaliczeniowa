@@ -148,7 +148,6 @@ public class PozycjaBRWzorcowyView implements Serializable {
         try {
          pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, aktywapasywa, br);
         } catch (Exception e) {  E.e(e);
-            System.out.println("Blad przy pobieraniu ukladu "+e.toString());
         }   
         root.getChildren().clear();
         if (pozycje != null) {

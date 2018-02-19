@@ -234,7 +234,6 @@ public class KontoZapisFKView implements Serializable{
             sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             Msg.msg("Pobrano zapisy dla konta "+wybraneKontoNode.getPelnynumer());
-            System.out.println("odnalazlem pobierzZapisyNaKoncieNode() KontoZapisFKView");
         } catch (Exception e) {
             E.e(e);
         }
@@ -279,7 +278,6 @@ public class KontoZapisFKView implements Serializable{
             sumazapisow();
             sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-            System.out.println("odnalazlem pobierzZapisyNaKoncieNode() KontoZapisFKView");
         } catch (Exception e) {
             E.e(e);
         }
@@ -327,7 +325,6 @@ public class KontoZapisFKView implements Serializable{
         sumazapisow();
         sumazapisowpln();
         //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-        System.out.println("odnalazlem pobierzZapisyZmianaWaluty() kontoZapisFKView");
     }
     
     
@@ -756,7 +753,6 @@ public class KontoZapisFKView implements Serializable{
             roznicawn = -roznicama;
             roznicama = 0.0;
         }
-        System.out.println("koniec roznica do zaksiegowania "+roznicawn);
         return new double[]{roznicawn,roznicama};
     }
     

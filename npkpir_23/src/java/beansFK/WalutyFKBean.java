@@ -83,7 +83,6 @@ public class WalutyFKBean {
     
     @Schedule(hour = "10,15", persistent = false)
     public void pobierzkursy() {
-        System.out.println("pobieram kursy ********************************************************************");
         String datawstepna;
         Integer numertabeli;
         List<Waluty> pobranewaluty = walutyDAOfk.findAll();

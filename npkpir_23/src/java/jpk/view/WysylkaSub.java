@@ -84,7 +84,6 @@ public class WysylkaSub {
             zos.closeEntry();
             //remember close it
             zos.close();
-            System.out.println("Done zipping file "+inputfilename);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -122,7 +121,6 @@ public class WysylkaSub {
         PublicKey pk = readPublicKey(pubKeyFilename);
         Cipher pkCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         pkCipher.init(Cipher.ENCRYPT_MODE, pk);
-        System.out.println("blok pk "+pkCipher.getBlockSize());
         CipherOutputStream os = new CipherOutputStream(new FileOutputStream(secretKeyFilename), pkCipher);
         os.write(secretKey.getEncoded());
         os.close();
@@ -153,7 +151,6 @@ public class WysylkaSub {
         Files.write(Paths.get(outputfilename), encryptedTextBytes);
         byte[] encoded = Base64.getEncoder().encode(ivBytes);
         byte[] valueDecoded= Base64.getDecoder().decode(encoded);
-        System.out.println("Decoded value is " + new String(valueDecoded));
         return encoded;
     }    
     
@@ -292,7 +289,6 @@ public class WysylkaSub {
     public static void print(byte[] b){
         System.out.println(new String(b));
         System.out.println("Length: " + b.length * 8);
-        System.out.println("---------------");
     }
     private static String salt;
     private static int iterations = 65536  ;
@@ -323,7 +319,6 @@ public class WysylkaSub {
         AlgorithmParameters params = cipher.getParameters();
         ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
         System.out.println("iv "+ivBytes+" size "+ivBytes.length);
-        System.out.println("blok  "+cipher.getBlockSize());
         byte[] encryptedTextBytes = cipher.doFinal(String.valueOf(plaintext).getBytes("UTF-8"));
 
         return DatatypeConverter.printBase64Binary(encryptedTextBytes);
@@ -333,7 +328,6 @@ public class WysylkaSub {
 
     public static String decrypt(char[] encryptedText) throws Exception {
 
-        System.out.println(encryptedText);
 
         byte[] encryptedTextBytes = DatatypeConverter.parseBase64Binary(new String(encryptedText));
         SecretKeySpec secretSpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
@@ -465,7 +459,6 @@ public class WysylkaSub {
              JAXBContext context = JAXBContext.newInstance(JPK.class);
              Marshaller marshaller = context.createMarshaller();
              marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-             marshaller.marshal(jpk, System.out);
              FileOutputStream fileStream = new FileOutputStream(new File("james2.xml"));
              OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
              marshaller.marshal(jpk, writer);

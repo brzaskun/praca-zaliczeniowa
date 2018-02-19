@@ -343,12 +343,10 @@ public class ObslugaWiersza {
                     wierszpodstawowy = wiersznastepny;
                     sumaWn += wiersznastepny.getStronaWn().getKwota();
                     typwiersza = 1;
-                    System.out.println("kwotaWn "+wiersznastepny.getStronaWn().getKwota());
                 } else if (wiersznastepny.getTypWiersza() == 2) {
                     wierszpodstawowy = wiersznastepny;
                     sumaMa += wiersznastepny.getStronaMa().getKwota();
                     typwiersza = 2;
-                    System.out.println("kwotaMa "+wiersznastepny.getStronaMa().getKwota());
                 }
             }
             if (wiersznastepny == null || wiersznastepny.getTypWiersza() == 0) {

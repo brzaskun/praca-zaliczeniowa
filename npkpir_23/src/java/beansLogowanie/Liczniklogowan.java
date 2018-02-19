@@ -47,7 +47,6 @@ public class Liczniklogowan {
                 return 0;
             }
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
             return 0;
         }
     }
@@ -60,7 +59,6 @@ public class Liczniklogowan {
             rejestrlogowanDAO.edit(biezacelogowanie);
             return biezacelogowanie.getIlosclogowan();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
             return 0;
         }
     }

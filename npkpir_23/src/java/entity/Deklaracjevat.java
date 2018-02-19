@@ -405,7 +405,6 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
 	String date = sdf.format(new Date()); 
-        System.out.println(date);
     }
    
     

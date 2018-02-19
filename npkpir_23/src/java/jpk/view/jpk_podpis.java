@@ -147,7 +147,6 @@ public class jpk_podpis {
             }
             //podpisana = saveInput(doc);
             saveXML(doc);
-            System.out.println("zapisalem podpisany plik");
 //            validate(doc, xmlSigFactory);
 
         } catch (Exception ex) {
@@ -232,7 +231,6 @@ public class jpk_podpis {
             XMLSignature signature = xmlSigFactory.unmarshalXMLSignature(valContext);
             // Validate the XMLSignature.
             boolean coreValidity = signature.validate(valContext);
-            System.out.println("podpis :" + coreValidity);
         } catch (MarshalException ex) {
             Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XMLSignatureException ex) {

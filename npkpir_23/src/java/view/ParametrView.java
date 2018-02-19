@@ -106,6 +106,5 @@ public class ParametrView implements Serializable {
         param = zwrocParametr(lista, 2016, 1);
         System.out.println("param2 "+param);
         param = zwrocParametr(lista, 2017, 1);
-        System.out.println("param2 "+param);
     }
 }

@@ -27,11 +27,10 @@ public class KreatorWatkow extends Thread {
     public void run() {
         try {
             Socket socket = new Socket(serwer, port);
-            System.out.println("Socket otwarty: " + port);
             socket.close();
         } catch (IOException ex) {
-            System.out.println("Socket zamkniety: " + port);
             //Logger.getLogger(KreatorWatkow.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 

@@ -59,7 +59,6 @@ public class VATDeklaracja implements Serializable {
                 }
             } catch (Exception ex) {
                 E.e(ex);
-                System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ex.getMessage());
             }
         }
     }
@@ -92,11 +91,9 @@ public class VATDeklaracja implements Serializable {
                         pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
                     }
                 } else {
-                    System.out.println("Ewidencja nie jest podczepiona pod schemat "+ew.toString());
                 }
             } catch (Exception ex) {
                 E.e(ex);
-                System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ew.toString());
             }
         }
     }
@@ -124,7 +121,6 @@ public class VATDeklaracja implements Serializable {
                 }
             } catch (Exception ex) {
                 E.e(ex);
-                System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ex.getMessage());
             }
         }
     }
@@ -435,7 +431,6 @@ public class VATDeklaracja implements Serializable {
         for (Iterator<SchemaEwidencja> it = schemaewidencjalista.iterator(); it.hasNext();) {
             SchemaEwidencja p = it.next();
             if (p.getEvewidencja().getNazwa().equals("sprzedaż 23%")) {
-                System.out.println("s");
             }
             if(!p.getCzescdeklaracji().equals("C")) {
                 it.remove();
@@ -466,9 +461,8 @@ public class VATDeklaracja implements Serializable {
   
    public static void main(String[] args) {
        double i = 1+0.49499;
-       //double j = Z.zUD(i);
-       System.out.println("i "+i);
-       //System.out.println("j "+j);
+        //double j = Z.zUD(i);
+        //System.out.println("j "+j);
    }
 
 //    private static SchemaEwidencjaSuma niezawiera(List<SchemaEwidencjaSuma> lista, SchemaEwidencja s) {

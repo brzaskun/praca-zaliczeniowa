@@ -37,7 +37,6 @@ public class PojazdyBean {
                     List<StronaWiersza> listastron = new ArrayList<>();
                     for (StronaWiersza s : stronywiersza) {
                         if (s.getKonto().getNazwapelna().equals("ZS228CG") && r.getPelnynumer().equals("403-2")) {
-                            System.out.println("");
                         }
                         if (s.getKonto().getNazwapelna().equals(p.getNrrejestracyjny()) && s.getKonto().getKontomacierzyste()!=null && s.getKonto().getKontomacierzyste().equals(r)) {
                             if (s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
