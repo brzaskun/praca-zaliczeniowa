@@ -59,7 +59,7 @@
             </p:panelGrid>
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.dokument.fakturaPK.numerkolejny}" style="max-width: 1400px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nskrocona}" sortOrder="ascending"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis}" style="max-width: 1400px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nskrocona}" sortOrder="ascending"
                          rowSelectMode="add">
                 
                 <f:facet name="header">  

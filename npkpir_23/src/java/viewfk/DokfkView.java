@@ -1265,12 +1265,14 @@ public class DokfkView implements Serializable {
         try {
             if (selected.getKontr().getNpelna().equals("dodaj klienta automatycznie")) {
                 Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getKontr().getNip(), gUSView);
-                selected.setKontr(dodany);
-                if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                    klienciDAO.dodaj(dodany);
-                    //null bo dodajemy nowego kontrahenta inaczej wezmie ze starego
-                    kontoRozrachunkowe = null;
-                    poprzedniDokument = null;
+                if (!dodany.getNpelna().equals("dodaj klienta automatycznie")) {
+                    selected.setKontr(dodany);
+                    if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                        klienciDAO.dodaj(dodany);
+                        //null bo dodajemy nowego kontrahenta inaczej wezmie ze starego
+                        kontoRozrachunkowe = null;
+                        poprzedniDokument = null;
+                    }
                 }
                 RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
             } else {
