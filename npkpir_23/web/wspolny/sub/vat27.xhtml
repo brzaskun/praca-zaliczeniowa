@@ -4,7 +4,9 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <bcf:ajaxs rendered="#{!WpisView.ksiegirachunkowe}"/>
     <h:form id="form">
         <p:outputPanel id="wrapper" deferred="true"> 
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vat27View.drukujewidencje()}"
@@ -83,7 +85,7 @@
                     </p:column>
                 </p:rowExpansion>
             </p:dataTable>
-    <p:messages id="mesydzue" autoUpdate="true"/>
+            <p:messages id="mesydzue" autoUpdate="true" styleClass="upd3"/>
                 <p:separator/>
                 <p:dataTable value="#{vat27View.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1410px;" styleClass="upd3"
                              selection="#{vat27View.dekl27selected}" selectionMode="single" rowKey="#{row.id}">
