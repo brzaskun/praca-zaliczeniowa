@@ -37,8 +37,6 @@ import view.WpisView;
 import waluty.Z;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

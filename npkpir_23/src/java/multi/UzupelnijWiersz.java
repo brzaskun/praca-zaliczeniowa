@@ -5,13 +5,7 @@
  */
 package multi;
 
-import embeddablefk.SaldoKonto;
-import entityfk.Konto;
 import entityfk.StronaWiersza;
-import error.E;
-import java.util.List;
-import java.util.Map;
-import waluty.Z;
 
 /**
  *

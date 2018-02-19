@@ -7,10 +7,6 @@ package multi;
 
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

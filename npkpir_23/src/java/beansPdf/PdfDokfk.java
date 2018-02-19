@@ -9,7 +9,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Uz;
 import entityfk.Dokfk;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import static pdffk.PdfMain.*;
 

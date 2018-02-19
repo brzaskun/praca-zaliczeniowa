@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 

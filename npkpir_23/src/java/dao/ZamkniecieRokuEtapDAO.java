@@ -4,7 +4,6 @@
  */
 package dao;
 
-import entity.Wpis;
 import entity.ZamkniecieRokuEtap;
 import error.E;
 import java.io.Serializable;

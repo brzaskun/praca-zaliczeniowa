@@ -5,7 +5,6 @@
  */
 package beansDok;
 
-import data.Data;
 import entity.DeklaracjaVatZZ;
 import java.io.Serializable;
 import java.util.Iterator;

@@ -4,12 +4,10 @@
  */
 package embeddable;
 
-import entity.SrodekTrw;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
-import javax.persistence.ManyToOne;
 
 /**
  *

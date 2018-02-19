@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import static jpk.view.JPK_VAT3_Bean.dataoddo;
 import jpk201701.CurrCodeType;
 import jpk201701.JPK;
 import jpk201701.JPK.Podmiot1;

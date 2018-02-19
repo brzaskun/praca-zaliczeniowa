@@ -5,8 +5,6 @@
  */
 package enumy;
 
-import javax.inject.Named;
-
 /**
  *
  * @author Osito

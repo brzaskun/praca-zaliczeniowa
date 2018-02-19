@@ -23,9 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateless;
 import org.primefaces.context.RequestContext;
-import static pdf.PdfVAT7.absText;
 import plik.Plik;
 import static pdf.PdfVAT7.absText;
 

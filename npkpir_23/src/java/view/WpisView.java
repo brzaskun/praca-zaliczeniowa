@@ -167,7 +167,7 @@ public class WpisView implements Serializable {
         return wpis;
     }
     
-    private final void obsluzMce(Wpis wpis) {
+    private void obsluzMce(Wpis wpis) {
          try {
             if (miesiacOd == null) {
                     miesiacOd = wpis.getMiesiacOd();
@@ -215,13 +215,13 @@ public class WpisView implements Serializable {
         naniesDaneDoWpis();
     }
 
-    public final void wpisAktualizujZmianadaty() {
+    public void wpisAktualizujZmianadaty() {
         miesiacWpisu = new String(zmianaokresuMc);
         rokWpisu = zmianaokresuRok;
         naniesDaneDoWpis();
     }
     
-    public final void naniesDaneDoWpis() {
+    public void naniesDaneDoWpis() {
         czegosbrakuje = false;
         String wprowadzilX = getPrincipal().getName();
         wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
@@ -256,7 +256,7 @@ public class WpisView implements Serializable {
         naniesDaneDoWpis();
     }
 
-    private final Principal getPrincipal() {
+    private Principal getPrincipal() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         return request.getUserPrincipal();
     }
@@ -405,7 +405,7 @@ public class WpisView implements Serializable {
         }
     }
     
-    private final void ustawMceOdDo() {
+    private void ustawMceOdDo() {
         if (miesiacDo == null && miesiacWpisu == null) {
             miesiacDo = miesiacWpisu;
             miesiacOd = miesiacWpisu;

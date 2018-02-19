@@ -5,13 +5,8 @@
  */
 package test;
 
-import em.Em;
-import entity.Podatnik;
-import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 

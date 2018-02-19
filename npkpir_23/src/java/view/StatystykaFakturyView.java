@@ -6,29 +6,17 @@
 package view;
 
 import entity.Statystyka;
-import beanStatystyka.StatystykaBean;
-import beanStatystyka.StatystykaBeanFK;
-import dao.DokDAO;
-import dao.FakturaDAO;
-import dao.PodatnikDAO;
 import dao.StatystykaDAO;
-import daoFK.DokDAOfk;
-import data.Data;
 import embeddable.Roki;
 import embeddable.StatystykaFaktury;
-import entity.Podatnik;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import waluty.Z;
 
 /**
  *

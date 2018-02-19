@@ -4,9 +4,7 @@
  */
 package comparator;
 
-import embeddablefk.KontoKwota;
 import embeddablefk.SaldoKonto;
-import entityfk.Konto;
 import java.util.Comparator;
 import javax.inject.Named;
 

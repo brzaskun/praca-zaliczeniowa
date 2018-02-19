@@ -7,9 +7,7 @@ package pdffk;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
-import embeddablefk.ListaSum;
 import entityfk.Konto;
-import entityfk.StronaWiersza;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

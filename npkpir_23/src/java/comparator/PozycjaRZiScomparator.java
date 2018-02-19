@@ -6,7 +6,6 @@
 
 package comparator;
 
-import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import java.util.Comparator;
 import javax.inject.Named;

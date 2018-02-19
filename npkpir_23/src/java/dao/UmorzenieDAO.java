@@ -4,9 +4,7 @@
  */
 package dao;
 
-import embeddable.Umorzenie;
 import entity.SrodekTrw;
-import entity.Sumypkpir;
 import entity.UmorzenieN;
 import error.E;
 import java.io.Serializable;

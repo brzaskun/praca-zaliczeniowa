@@ -8,7 +8,6 @@ package beansPdf;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfSpotColor;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import static pdf.Pdf.RESULT;
 

@@ -5,7 +5,6 @@
  */
 package dao;
 
-import entity.Sesja;
 import entity.Statusprogramu;
 import error.E;
 import java.io.Serializable;

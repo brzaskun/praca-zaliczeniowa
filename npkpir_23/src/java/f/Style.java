@@ -5,14 +5,6 @@
  */
 package f;
 
-import embeddable.Parametr;
-import entity.ParamCzworkiPiatki;
-import entity.Podatnik;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 /**
  *
  * @author Osito

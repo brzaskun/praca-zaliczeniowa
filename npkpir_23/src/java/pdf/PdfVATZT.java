@@ -21,7 +21,6 @@ import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import javax.ejb.Stateless;
 import static pdf.PdfVAT7.absText;
 import plik.Plik;
 

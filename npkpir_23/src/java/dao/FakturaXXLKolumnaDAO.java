@@ -7,7 +7,6 @@ package dao;
 
 import entity.FakturaXXLKolumna;
 import entity.Podatnik;
-import entityfk.Kliencifk;
 import error.E;
 import java.io.Serializable;
 import javax.inject.Inject;

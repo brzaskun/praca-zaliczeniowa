@@ -4,8 +4,6 @@
  */
 package timer;
 
-import javax.ejb.Stateless;
-
 /**
  *
  * @author Osito

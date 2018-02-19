@@ -225,7 +225,7 @@ public class Logowanie implements Serializable {
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/SessionExpired.xhtml?faces-redirect=true");
     }
 
-    public final void invalidatesession() {
+    public void invalidatesession() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         if (session != null) {
             session.invalidate();
@@ -233,7 +233,7 @@ public class Logowanie implements Serializable {
     }
 
     //po okreslonym czasie bezczynnosci na stronie Access denied przerzuci do strony logowania
-    public final void autologin() {
+    public void autologin() {
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml?faces-redirect=true");
     }
     

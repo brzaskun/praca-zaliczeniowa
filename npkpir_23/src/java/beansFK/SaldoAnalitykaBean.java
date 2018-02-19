@@ -5,12 +5,9 @@
  */
 package beansFK;
 
-import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import error.E;
-import java.util.List;
 import waluty.Z;
 
 /**

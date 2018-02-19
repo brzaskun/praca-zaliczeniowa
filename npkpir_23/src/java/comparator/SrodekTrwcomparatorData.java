@@ -7,7 +7,6 @@
 package comparator;
 
 import embeddable.STRtabela;
-import entity.SrodekTrw;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

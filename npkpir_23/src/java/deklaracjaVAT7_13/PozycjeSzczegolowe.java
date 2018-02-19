@@ -5,7 +5,6 @@
 package deklaracjaVAT7_13;
 
 import embeddable.PozycjeSzczegoloweVAT;
-import embeddable.Schema;
 import embeddable.Vatpoz;
 import entity.DeklaracjaVatSchema;
 import java.lang.reflect.InvocationTargetException;

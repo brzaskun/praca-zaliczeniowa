@@ -5,15 +5,12 @@
 package dao;
 
 import entity.Dok;
-import entity.Evopis;
 import entity.PlatnoscWaluta;
 import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
-import javax.inject.Inject;
 import javax.inject.Named;
-import session.SessionFacade;
 
 /**
  *

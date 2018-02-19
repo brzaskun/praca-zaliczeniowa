@@ -4,7 +4,6 @@
  */
 package comparator;
 
-import entity.Klienci;
 import entityfk.Kliencifk;
 import java.util.Comparator;
 import javax.inject.Named;

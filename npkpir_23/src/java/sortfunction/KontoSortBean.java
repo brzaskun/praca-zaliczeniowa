@@ -6,7 +6,6 @@
 package sortfunction;
 
 import entityfk.Konto;
-import javax.ejb.Stateless;
 
 /**
  *

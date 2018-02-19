@@ -6,9 +6,7 @@
 
 package comparator;
 
-import entity.Deklaracjevat;
 import entity.Zusstawki;
-import entity.ZusstawkiPK;
 import java.util.Comparator;
 import javax.inject.Named;
 

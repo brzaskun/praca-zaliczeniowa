@@ -17,7 +17,6 @@ import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajOpisWstepnySF;
 import static pdffk.PdfMain.dodajOpisWstepnySFRZIS;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.dodajTabeleNar;

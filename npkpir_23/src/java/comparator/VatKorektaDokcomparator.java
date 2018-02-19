@@ -7,7 +7,6 @@
 package comparator;
 
 import embeddable.VatKorektaDok;
-import entity.Klienci;
 import java.util.Comparator;
 import javax.inject.Named;
 

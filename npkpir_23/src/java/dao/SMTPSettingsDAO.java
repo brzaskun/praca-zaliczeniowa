@@ -5,9 +5,7 @@
 package dao;
 
 import entity.SMTPSettings;
-import entity.Sprawa;
 import entity.Uz;
-import entity.ZamkniecieRokuRozliczenie;
 import error.E;
 import java.io.Serializable;
 import java.util.List;

@@ -6,9 +6,6 @@
 
 package treasures;
 
-import javax.faces.context.FacesContext;
-import view.KlienciConverterView;
-
 /**
  *
  * @author Osito

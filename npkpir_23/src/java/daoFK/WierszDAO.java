@@ -29,7 +29,7 @@ public class WierszDAO extends DAO implements Serializable {
         return sessionFacade.findAll(Wiersz.class);
     }
     
-    public final List<Wiersz> pobierzWiersze(Tabelanbp tabelanbp, Podatnik podatnik, String rok) {
+    public List<Wiersz> pobierzWiersze(Tabelanbp tabelanbp, Podatnik podatnik, String rok) {
         List<Wiersz> zwrot = null;
         try {
             zwrot = sessionFacade.getEntityManager().createNamedQuery("Wiersz.findByPodatnikRokTabela").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("tabelanbp", tabelanbp).getResultList();

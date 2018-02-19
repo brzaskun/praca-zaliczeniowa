@@ -4,7 +4,6 @@
  */
 package comparator;
 
-import entity.Klienci;
 import entityfk.RodzajCzlonkostwa;
 import java.text.Collator;
 import java.util.Comparator;

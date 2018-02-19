@@ -6,19 +6,11 @@
 
 package embeddable;
 
-import entity.VATDeklaracjaKorektaDok;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Size;
 
 /**
  *

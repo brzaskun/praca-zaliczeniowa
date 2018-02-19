@@ -10,7 +10,6 @@ import entityfk.Dokfk;
 import entityfk.Tabelanbp;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateless;
 import org.joda.time.DateTime;
 
 /**

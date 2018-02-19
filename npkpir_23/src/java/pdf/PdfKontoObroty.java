@@ -4,10 +4,7 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.formatujKurs;
 import static beansPdf.PdfFont.formatujWaluta;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -22,7 +19,6 @@ import embeddable.Parametr;
 import embeddablefk.ListaSum;
 import entity.Podatnik;
 import entityfk.Konto;
-import entityfk.StronaWiersza;
 import error.E;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -30,7 +26,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import plik.Plik;
 import view.WpisView;
 import viewfk.KontoObrotyFKView;

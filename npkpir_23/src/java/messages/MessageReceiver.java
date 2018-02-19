@@ -5,8 +5,6 @@
 package messages;
 
 import java.util.Date;
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.jms.JMSException;

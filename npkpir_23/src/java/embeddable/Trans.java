@@ -5,7 +5,6 @@
 package embeddable;
 
 import dao.PodatnikDAO;
-import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

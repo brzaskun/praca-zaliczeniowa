@@ -6,8 +6,6 @@
 package pdf;
 
 import static beansPdf.PdfFont.formatujWaluta;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeSpanFont;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -24,15 +22,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;
 import viewfk.PojazdyView;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 

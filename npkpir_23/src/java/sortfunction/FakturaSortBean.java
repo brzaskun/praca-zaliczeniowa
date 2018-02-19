@@ -5,15 +5,8 @@
  */
 package sortfunction;
 
-import entity.Faktura;
-import entityfk.Dokfk;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 import view.WpisView;
 
 /**

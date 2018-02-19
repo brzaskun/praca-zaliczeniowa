@@ -6,14 +6,12 @@ package dao;
 
 import entity.Sprawa;
 import entity.Uz;
-import entity.ZamkniecieRokuRozliczenie;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
-import view.WpisView;
 
 /**
  *

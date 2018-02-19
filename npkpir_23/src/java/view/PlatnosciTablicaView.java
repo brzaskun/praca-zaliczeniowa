@@ -18,13 +18,11 @@ import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.Ryczpoz;
-import entity.Uz;
 import entity.Wpis;
 import entity.Zusstawki;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +32,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**

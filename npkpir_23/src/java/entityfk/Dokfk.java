@@ -745,7 +745,7 @@ public class Dokfk extends DokSuper implements Serializable {
 //        } catch (Exception e) {
 //        }
 //    }
-    public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu, Rodzajedok rodzajedok, WpisView wpisView) {
+    public void ustawNoweSelected(String symbolPoprzedniegoDokumentu, Rodzajedok rodzajedok, WpisView wpisView) {
         //chodzi o FVS, FVZ a nie o numerwlasnydokfk :)
         this.setPodatnikObj(wpisView.getPodatnikObiekt());
         if (symbolPoprzedniegoDokumentu != null) {

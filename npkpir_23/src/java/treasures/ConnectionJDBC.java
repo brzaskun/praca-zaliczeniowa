@@ -5,7 +5,6 @@
  */
 package treasures;
 
-import entity.Podatnik;
 import error.E;
 import java.sql.Connection;
 import java.sql.DriverManager;

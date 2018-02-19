@@ -6,9 +6,7 @@
 package view;
 
 import dao.DeklaracjaVatPozycjeKoncoweDAO;
-import dao.DeklaracjaVatWierszSumarycznyDAO;
 import entity.DeklaracjaVatPozycjeKoncowe;
-import entity.DeklaracjaVatWierszSumaryczny;
 import error.E;
 import java.io.Serializable;
 import java.util.List;

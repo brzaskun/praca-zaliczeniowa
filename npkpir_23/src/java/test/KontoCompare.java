@@ -5,20 +5,7 @@
  */
 package test;
 
-import databaseDirect.ConnectToDatabase;
-import entityfk.Konto;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import javax.ejb.Singleton;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.criteria.Root;
-import sortfunction.KontonumerComparator;
 
 /**
  *

@@ -12,7 +12,6 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 
 /**

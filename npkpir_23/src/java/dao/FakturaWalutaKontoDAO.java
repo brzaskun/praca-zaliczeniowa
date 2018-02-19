@@ -6,7 +6,6 @@
 package dao;
 
 import entity.FakturaWalutaKonto;
-import entityfk.SkladkaCzlonek;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;

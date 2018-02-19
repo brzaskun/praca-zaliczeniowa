@@ -11,7 +11,6 @@ import daoFK.SkladkaStowarzyszenieDAO;
 import entityfk.MiejscePrzychodow;
 import entityfk.SkladkaCzlonek;
 import entityfk.SkladkaStowarzyszenie;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;

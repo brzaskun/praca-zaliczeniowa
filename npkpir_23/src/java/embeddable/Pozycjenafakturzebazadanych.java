@@ -5,8 +5,6 @@
 package embeddable;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import javax.persistence.Embeddable;
 
 /**

@@ -5,7 +5,6 @@
  */
 package viewfk.subroutines;
 
-import javax.ejb.Stateless;
 import javax.inject.Named;
 
 /**

@@ -4,7 +4,6 @@
  */
 package viewfk;
 
-import beansFK.PlanKontFKBean;
 import comparator.UkladBRcomparator;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaBiezacaDAO;

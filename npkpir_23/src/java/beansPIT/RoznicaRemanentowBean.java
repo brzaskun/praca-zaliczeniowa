@@ -8,7 +8,6 @@ package beansPIT;
 import embeddable.Parametr;
 import entity.Podatnik;
 import java.util.List;
-import javax.ejb.Stateless;
 import view.WpisView;
 
 /**

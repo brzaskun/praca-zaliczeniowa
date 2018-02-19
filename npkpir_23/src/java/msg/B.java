@@ -7,7 +7,6 @@ package msg;
 
 import error.E;
 import java.util.ResourceBundle;
-import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 
 /**

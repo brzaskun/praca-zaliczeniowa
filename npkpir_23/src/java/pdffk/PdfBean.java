@@ -5,7 +5,6 @@
  */
 package pdffk;
 
-import entityfk.WierszBO;
 import java.util.ArrayList;
 import java.util.List;
 

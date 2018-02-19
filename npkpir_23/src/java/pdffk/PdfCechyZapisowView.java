@@ -9,7 +9,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.UzDAO;
 import entity.Uz;
-import entityfk.Dokfk;
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;

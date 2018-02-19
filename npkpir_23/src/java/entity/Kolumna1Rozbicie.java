@@ -7,7 +7,6 @@ package entity;
 
 import entityfk.Tabelanbp;
 import java.io.Serializable;
-import javax.inject.Named;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;

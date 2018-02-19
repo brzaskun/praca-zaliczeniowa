@@ -5,14 +5,8 @@
 package dao;
 
 import entity.ParamVatUE;
-import entity.Platnosci;
-import entity.PlatnosciPK;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
-import javax.inject.Inject;
 import javax.inject.Named;
-import session.SessionFacade;
 
 /**
  *

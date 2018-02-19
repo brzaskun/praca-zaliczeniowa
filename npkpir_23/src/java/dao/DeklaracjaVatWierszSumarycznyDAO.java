@@ -5,7 +5,6 @@
  */
 package dao;
 
-import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatWierszSumaryczny;
 import java.io.Serializable;
 import java.util.List;

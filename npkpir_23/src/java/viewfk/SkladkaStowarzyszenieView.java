@@ -12,7 +12,6 @@ import entityfk.RodzajCzlonkostwa;
 import entityfk.SkladkaStowarzyszenie;
 import error.E;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;

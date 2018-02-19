@@ -90,7 +90,7 @@ import waluty.Z;
  */
 @ManagedBean(name = "DokumentView")
 @ViewScoped
-public final class DokView implements Serializable {
+public class DokView implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Inject

@@ -6,13 +6,11 @@
 package converter;
 
 import entityfk.MiejscePrzychodow;
-import entityfk.RodzajCzlonkostwa;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import viewfk.RodzajeCzlonkostwaView;
 import viewfk.StowRozrachCzlonkView;
 
 /**

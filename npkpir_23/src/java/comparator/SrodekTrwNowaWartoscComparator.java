@@ -4,7 +4,6 @@
  */
 package comparator;
 
-import entity.Dok;
 import entity.SrodekTrw_NowaWartosc;
 import error.E;
 import java.text.DateFormat;
@@ -12,8 +11,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
 
 /**

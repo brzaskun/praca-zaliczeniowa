@@ -5,7 +5,6 @@
  */
 package comparator;
 
-import entityfk.Dokfk;
 import entityfk.Transakcja;
 import java.text.DateFormat;
 import java.text.ParseException;

@@ -52,7 +52,7 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
                 try {
                     //System.out.println("ew "+p);
                     int p_mc = Integer.parseInt(p.getMcEw());
-                    if (p_mc > dg && p_mc < gg && p.getDokfk().getRodzajedok().getSkrot() != "VAT") {
+                    if (p_mc > dg && p_mc < gg && !"VAT".equals(p.getDokfk().getRodzajedok().getSkrot())) {
                         l.add(p);
                     }
                 } catch (Exception e) {

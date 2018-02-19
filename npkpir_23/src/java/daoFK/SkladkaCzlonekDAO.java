@@ -6,7 +6,6 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.RodzajCzlonkostwa;
 import entityfk.SkladkaCzlonek;
 import java.io.Serializable;
 import java.util.List;

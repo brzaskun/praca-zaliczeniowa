@@ -4,7 +4,6 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -28,7 +27,6 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import javax.ejb.Stateless;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;

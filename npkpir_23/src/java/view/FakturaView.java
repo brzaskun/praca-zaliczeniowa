@@ -60,7 +60,6 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;

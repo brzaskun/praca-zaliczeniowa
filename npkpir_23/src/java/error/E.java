@@ -5,8 +5,6 @@
  */
 package error;
 
-import javax.ejb.Stateless;
-
 /**
  *
  * @author Osito

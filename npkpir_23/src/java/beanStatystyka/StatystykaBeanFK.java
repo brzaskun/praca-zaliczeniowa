@@ -6,10 +6,8 @@
 package beanStatystyka;
 
 import entity.Statystyka;
-import dao.DokDAO;
 import dao.FakturaDAO;
 import daoFK.DokDAOfk;
-import entity.Dok;
 import entity.Faktura;
 import entity.Podatnik;
 import entityfk.Dokfk;

@@ -21,7 +21,6 @@ import entity.Deklaracjevat;
 import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import javax.ejb.Stateless;
 import plik.Plik;
 
 /**

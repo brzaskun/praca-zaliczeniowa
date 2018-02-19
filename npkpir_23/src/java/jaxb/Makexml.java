@@ -5,13 +5,10 @@
  */
 package jaxb;
 
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 import error.E;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.StringWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;

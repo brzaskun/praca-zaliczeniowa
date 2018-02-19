@@ -7,9 +7,7 @@ package embeddable;
 
 import entity.Podatnik;
 import entity.Statystyka;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import waluty.Z;
 

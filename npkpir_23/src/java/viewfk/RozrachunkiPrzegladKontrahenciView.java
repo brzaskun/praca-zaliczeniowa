@@ -6,19 +6,15 @@
 
 package viewfk;
 
-import comparator.Kontocomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import entityfk.Transakcja;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;

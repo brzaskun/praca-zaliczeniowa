@@ -4,20 +4,8 @@
  */
 package messages;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.jms.TextMessage;
 
 /**
  *

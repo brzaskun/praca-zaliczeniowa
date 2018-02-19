@@ -12,7 +12,6 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;

@@ -5,7 +5,6 @@
 package comparator;
 
 import entity.FakturaRozrachunki;
-import entity.Klienci;
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;

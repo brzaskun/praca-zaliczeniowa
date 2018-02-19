@@ -7,7 +7,6 @@
 package comparator;
 
 import entityfk.UkladBR;
-import entityfk.WierszBO;
 import java.util.Comparator;
 import javax.inject.Named;
 

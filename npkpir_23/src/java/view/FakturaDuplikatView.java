@@ -10,7 +10,6 @@ import dao.FakturaDAO;
 import dao.FakturaDuplikatDAO;
 import entity.Faktura;
 import entity.FakturaDuplikat;
-import entity.Fakturywystokresowe;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;

@@ -8,7 +8,6 @@ package viewfk;
 import embeddablefk.TreeNodeExtended;
 import entityfk.PozycjaRZiS;
 import error.E;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;

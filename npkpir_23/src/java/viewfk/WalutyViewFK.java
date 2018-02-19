@@ -232,7 +232,7 @@ public class WalutyViewFK implements Serializable {
         }
     }
     
-    public final void onRowEdit(RowEditEvent event) {
+    public void onRowEdit(RowEditEvent event) {
         try {
             Tabelanbp rzad = (Tabelanbp) event.getObject();
             tabelanbpDAO.edit(rzad);

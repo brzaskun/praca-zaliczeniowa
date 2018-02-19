@@ -360,7 +360,7 @@ public class VATUEKM4Bean {
 
     }
     
-    public static final void prettyPrint(Document xml) throws Exception {
+    public static void prettyPrint(Document xml) throws Exception {
         Transformer tf = TransformerFactory.newInstance().newTransformer();
         tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         tf.setOutputProperty(OutputKeys.INDENT, "yes");

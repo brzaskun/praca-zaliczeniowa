@@ -7,7 +7,6 @@
 package viewfk;
 
 import beansFK.RozliczTransakcjeBean;
-import beansFK.RozniceKursoweBean;
 import comparator.StronaWierszacomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
