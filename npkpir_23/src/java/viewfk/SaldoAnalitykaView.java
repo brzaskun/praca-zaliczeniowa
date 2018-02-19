@@ -259,20 +259,18 @@ public class SaldoAnalitykaView implements Serializable {
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
         Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
-        for (Konto p : kontaklienta) {
-            if (p.getPelnynumer().equals("202-1-5")) {
-            }
+        kontaklienta.forEach((p) -> {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             przygotowanalista.put(p.getPelnynumer(), saldoKonto);
-        }
+        });
         naniesBOnaKonto(przygotowanalista, zapisyBO);
         naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
         naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
-        for (SaldoKonto s : przygotowanalista.values()) {
+        przygotowanalista.values().parallelStream().map((s) -> {
             s.sumujBOZapisy();
-            s.wyliczSaldo();
-        }
+            return s;
+        }).forEachOrdered(SaldoKonto::wyliczSaldo);
 //        for (int i = 1; i < przygotowanalista.size()+1; i++) {
 //            przygotowanalista.get(i-1).setId(i);
 //        }
@@ -293,19 +291,23 @@ public class SaldoAnalitykaView implements Serializable {
     private void przygotowanalistasaldBO(List<Konto> kontaklienta, List<StronaWiersza> zapisyRok) {
         Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
-        for (Konto p : kontaklienta) {
+        kontaklienta.parallelStream().map((p) -> {
             if (p.getPelnynumer().equals("201-2-34")) {
             }
+            return p;
+        }).forEachOrdered((p) -> {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             przygotowanalista.put(p.getPelnynumer(), saldoKonto);
-        }
+        });
         resetujBOnaKonto(przygotowanalista);
         naniesZapisyNaKontoBO(przygotowanalista, zapisyRok, wierszenieuzupelnione);
-        for (SaldoKonto s : przygotowanalista.values()) {
+        przygotowanalista.values().parallelStream().map((s) -> {
             s.sumujBOZapisy();
+            return s;
+        }).forEachOrdered((s) -> {
             s.wyliczSaldo();
-        }
+        });
 //        for (int i = 1; i < przygotowanalista.size()+1; i++) {
 //            przygotowanalista.get(i-1).setId(i);
 //        }
@@ -452,16 +454,16 @@ public class SaldoAnalitykaView implements Serializable {
 //</editor-fold>
 
     private void resetujBOnaKonto(Map<String, SaldoKonto> przygotowanalista) {
-        for (SaldoKonto r : przygotowanalista.values()) {
-            if (r != null) {
-                r.setBoWn(0.0);
-                r.setBoMa(0.0);
-            }
-        }
+        przygotowanalista.values().parallelStream().filter((r) -> (r != null)).map((r) -> {
+            r.setBoWn(0.0);
+            return r;
+        }).forEachOrdered((r) -> {
+            r.setBoMa(0.0);
+        });
     }
 
     private void naniesBOnaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyBO) {
-        for (StronaWiersza r : zapisyBO) {
+        zapisyBO.forEach((r) -> {
             SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
             if (p != null) {
                 if (tylkozapisywalutowe && !r.getSymbolWalutBOiSW().equals("PLN")) {
@@ -480,7 +482,7 @@ public class SaldoAnalitykaView implements Serializable {
                     p.getZapisy().add(r);
                 }
             }
-        }
+        });
     }
 
     private void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione, boolean obroty0zapisy1) {
@@ -657,7 +659,7 @@ public class SaldoAnalitykaView implements Serializable {
     public void zaksiegujsaldakont() {
         try {
             kontoDAOfk.zerujsaldazaksiegowane(wpisView);
-            for (SaldoKonto p : listaSaldoKonto) {
+            listaSaldoKonto.forEach((p) -> {
                 Konto anal = p.getKonto();
                 if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                     anal.setZaksiegowane(true);
@@ -668,7 +670,7 @@ public class SaldoAnalitykaView implements Serializable {
                         obsluzmacierzyste(anal, anal.getSaldoWnksiegi(), anal.getSaldoMaksiegi());
                     }
                 }
-            }
+            });
             Msg.dP();
         } catch (Exception e) {
             E.e(e);
@@ -717,13 +719,15 @@ public class SaldoAnalitykaView implements Serializable {
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
         Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
-        for (Konto p : kontaklienta) {
+        kontaklienta.parallelStream().map((p) -> {
             if (p.getPelnynumer().equals("202-1-5")) {
             }
+            return p;
+        }).forEachOrdered((p) -> {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             przygotowanalista.put(p.getPelnynumer(), saldoKonto);
-        }
+        });
         naniesBOnaKonto(przygotowanalista, zapisyBO);
         naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
         naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);

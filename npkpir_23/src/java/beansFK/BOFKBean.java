@@ -28,22 +28,18 @@ public class BOFKBean {
     public static List<StronaWiersza> pobierzZapisyBO(DokDAOfk dokDAOfk, WpisView wpisView) {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
-        for (Dokfk p : dokfk) {
-            if (p.getOpisdokfk().contains("bilans otwarcia roku:")) {
-                zapisy.addAll(p.getStronyWierszy());
-            }
-        }
+        dokfk.parallelStream().filter((p) -> (p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
+            zapisy.addAll(p.getStronyWierszy());
+        });
         return zapisy;
     }
     
     public static List<StronaWiersza> pobierzZapisyObrotyRozp(DokDAOfk dokDAOfk, WpisView wpisView) {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
-        for (Dokfk p : dokfk) {
-            if (!p.getOpisdokfk().contains("bilans otwarcia roku:")) {
-                zapisy.addAll(p.getStronyWierszy());
-            }
-        }
+        dokfk.parallelStream().filter((p) -> (!p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
+            zapisy.addAll(p.getStronyWierszy());
+        });
         return zapisy;
     }
     
@@ -76,33 +72,31 @@ public class BOFKBean {
     public static List<StronaWiersza> pobierzZapisyBO(Konto konto, String waluta, WierszBODAO wierszBODAO, WpisView wpisView) {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKontoWaluta(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto, waluta);
-        for (WierszBO p : wierszeBO) {
+        wierszeBO.forEach((p) -> {
             if (p.getKwotaWnPLN() != 0.0) {
                 zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
             } else {
                 zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
             }
-        }
+        });
         return zapisy;
     }
     
     public static List<StronaWiersza> pobierzZapisyBOSyntetyka(KontoDAOfk kontoDAOfk, Konto konto, DokDAOfk dokDAOfk, WpisView wpisView) {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
-        for (Dokfk p : dokfk) {
-            if (p.getNrkolejnywserii()==1) {
-                for (StronaWiersza r : p.getStronyWierszy()) {
-                    if (r.getKonto().equals(konto)) {
-                        zapisy.add(r);
-                    }
+        dokfk.parallelStream().filter((p) -> (p.getNrkolejnywserii()==1)).forEachOrdered((p) -> {
+            for (StronaWiersza r : p.getStronyWierszy()) {
+                if (r.getKonto().equals(konto)) {
+                    zapisy.add(r);
                 }
             }
-        }
+        });
         if (konto.isMapotomkow()) {
             List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto.getPelnynumer());
-            for (Konto p : kontapotomne) {
+            kontapotomne.forEach((p) -> {
                 zapisy.addAll(pobierzZapisyBOSyntetyka(kontoDAOfk, p, dokDAOfk, wpisView));
-            }
+            });
         }
         return zapisy;
     }
