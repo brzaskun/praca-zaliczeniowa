@@ -13,7 +13,7 @@
             <p:growl life="3600"  id="messages"/>
             <p:focus for="parametryp9"/><br/>
             <h:outputText value="dane historyczne"/><br/>
-            <p:panelGrid columns="4" style="width: 800px">
+            <p:panelGrid columns="4" style="width: 900px">
                 <p:dataTable value="#{podatnikView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}"
                               editable="true">
                     <p:ajax event="rowEdit" update=":akordeon:form9:messages" listener="#{podatnikView.editUdzialy}" />
@@ -37,11 +37,11 @@
                     <p:column headerText="nip" width="100">
                         <h:outputText value="#{loop.nip}" />
                     </p:column>
+                    <p:column headerText="pesel" width="100">
+                        <h:outputText value="#{loop.pesel}" />
+                    </p:column>
                     <p:column headerText="udział" style="text-align: center;">
                         <h:outputText value="#{loop.udzial}" />
-                    </p:column>
-                    <p:column id="editColumn" headerText="edytuj" width="50" style="text-align: center;">
-                        
                     </p:column>
                     <p:column style="text-align: center;" headerText="usuń">
                         <p:commandButton action="#{podatnikView.usunUdzialy(loop)}"  icon="ui-icon-trash" update="@form" type="submit"/>
@@ -50,10 +50,17 @@
             </p:panelGrid>
             <h:outputText value="wpisz dane"/><br/>
             <p:panelGrid id="parametryp9" columns="4" >
-                <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.udzialy.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
-                <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.udzialy.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                <h:outputText value="data od: "/>
+                <p:inputText id="dataod" value="#{podatnikView.udzialy.datarozpoczecia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
+                    <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:dataod')"/>
+                </p:inputText>
+                <h:outputText value="data od: "/>
+                <p:inputText id="datado" value="#{podatnikView.udzialy.datazakonczenia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
+                    <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:datado')"/>
+                </p:inputText>
                 <h:outputText value="nazwisko i imie"/><h:inputText value="#{podatnikView.udzialy.nazwiskoimie}"/>
                 <h:outputText value="nip"/><h:inputText value="#{podatnikView.udzialy.nip}"/>
+                <h:outputText value="pesel"/><h:inputText value="#{podatnikView.udzialy.pesel}"/>
                 <h:outputText value="udział - 100=100%"/><h:inputText value="#{podatnikView.udzialy.udzial}"/>
             </p:panelGrid>
             <br/>

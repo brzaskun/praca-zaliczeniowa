@@ -48,11 +48,17 @@ public class PodatnikUdzialy implements Serializable{
     private String nazwiskoimie;
     @Column(name = "nip")
     private String nip;
+    @Column(name = "pesel")
+    private String pesel;
     @Column(name = "udzial")
     private String udzial;
     @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnikObj;
+     @Column(name = "datarozpoczecia")
+    private String datarozpoczecia;
+    @Column(name = "datazakonczenia")
+    private String datazakonczenia;
    
 
     public PodatnikUdzialy() {
@@ -188,6 +194,30 @@ public class PodatnikUdzialy implements Serializable{
 
     public void setPodatnikObj(Podatnik podatnikObj) {
         this.podatnikObj = podatnikObj;
+    }
+
+    public String getPesel() {
+        return pesel;
+    }
+
+    public void setPesel(String pesel) {
+        this.pesel = pesel;
+    }
+
+    public String getDatarozpoczecia() {
+        return datarozpoczecia;
+    }
+
+    public void setDatarozpoczecia(String datarozpoczecia) {
+        this.datarozpoczecia = datarozpoczecia;
+    }
+
+    public String getDatazakonczenia() {
+        return datazakonczenia;
+    }
+
+    public void setDatazakonczenia(String datazakonczenia) {
+        this.datazakonczenia = datazakonczenia;
     }
 
    

@@ -175,6 +175,8 @@ public class PodatnikView implements Serializable {
         formyprawne.add(FormaPrawna.FUNDACJA);
         wybranyPodatnikOpodatkowanie.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
         wybranyPodatnikOpodatkowanie.setDatazakonczenia(wpisView.getRokWpisuSt()+"-12-01");
+        udzialy.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
+        udzialy.setDatazakonczenia(wpisView.getRokWpisuSt()+"-12-01");
         wybranyPodatnikOpodatkowanie.setStawkapodatkuospr(0.19);
     }
 
@@ -972,6 +974,10 @@ public class PodatnikView implements Serializable {
                 if (udzialy.getNip().equals(p.getNip())) {
                     throw new Exception();
                 }
+                
+                if (udzialy.getPesel().equals(p.getPesel())) {
+                    throw new Exception();
+                }
             }
             String udzial = udzialy.getUdzial();
             udzial = udzial.replace(",", ".");
@@ -980,13 +986,19 @@ public class PodatnikView implements Serializable {
             if (sumaudzialow > 100.0) {
                 throw new Exception();
             }
-            udzialy.setPodatnikObj(selected);
-            podatnikUdzialy.add(udzialy);
-            podatnikUdzialyDAO.dodaj(udzialy);
-            udzialy = new PodatnikUdzialy();
-            Msg.msg("i", "Dodano udziały", "akordeon:form6:messages");
+            if (udzialy.getDatarozpoczecia()!=null && udzialy.getDatazakonczenia()!=null) {
+                udzialy.setMcOd(Data.getMc(udzialy.getDatarozpoczecia()));
+                udzialy.setMcDo(Data.getMc(udzialy.getDatazakonczenia()));
+                udzialy.setRokOd(Data.getRok(udzialy.getDatarozpoczecia()));
+                udzialy.setRokDo(Data.getRok(udzialy.getDatazakonczenia()));
+                udzialy.setPodatnikObj(selected);
+                podatnikUdzialy.add(udzialy);
+                podatnikUdzialyDAO.dodaj(udzialy);
+                udzialy = new PodatnikUdzialy();
+                Msg.msg("i", "Dodano udziały");
+        }
         } catch (Exception ex) {
-            Msg.msg("e", "Niedodano udziału, wystąpił błąd. Sprawdz dane:nazwisko, procenty", "akordeon:form6:messages");
+            Msg.msg("e", "Niedodano udziału, wystąpił błąd. Sprawdz dane:nazwisko, procenty");
         }
 
     }
@@ -995,12 +1007,19 @@ public class PodatnikView implements Serializable {
         try {
             Integer sumaudzialow = 0;
             for (PodatnikUdzialy p : podatnikUdzialy) {
-                try {
-                    if (!p.getRokDo().isEmpty()) {
-                    }
-                } catch (Exception ef) {
-                    sumaudzialow += Integer.parseInt(p.getUdzial());
-                }
+                sumaudzialow += Integer.parseInt(p.getUdzial());
+            }
+            if (sumaudzialow > 100) {
+                throw new Exception();
+            }
+            if (udzialy.getDatarozpoczecia()!=null && udzialy.getDatazakonczenia()!=null) {
+                udzialy.setMcOd(Data.getMc(udzialy.getDatarozpoczecia()));
+                udzialy.setMcDo(Data.getMc(udzialy.getDatazakonczenia()));
+                udzialy.setRokOd(Data.getRok(udzialy.getDatarozpoczecia()));
+                udzialy.setRokDo(Data.getRok(udzialy.getDatazakonczenia()));
+            }
+            for (PodatnikUdzialy p : podatnikUdzialy) {
+                sumaudzialow += Integer.parseInt(p.getUdzial());
             }
             if (sumaudzialow > 100) {
                 throw new Exception();
