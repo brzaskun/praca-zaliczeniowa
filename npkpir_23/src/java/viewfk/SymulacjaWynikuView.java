@@ -98,7 +98,9 @@ public class SymulacjaWynikuView implements Serializable {
         List<Konto> kontaklientaprzychody = new ArrayList<>();
         List<Konto> kontaklientakoszty = new ArrayList<>();
         for (Konto p : kontaklienta) {
-            if (p.getZwyklerozrachszczegolne().equals("szczególne")) {
+            if (p.getPelnynumer().equals("490")) {
+                kontaklientakoszty.add(p);
+            } else if (p.getZwyklerozrachszczegolne().equals("szczególne")) {
                 kontaklientakoszty.add(p);
                 kontaklientaprzychody.add(p);
             } else if (p.isPrzychod0koszt1()) {

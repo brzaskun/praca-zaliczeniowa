@@ -87,20 +87,27 @@
                         <p:ajax event="change" update="form_dialog_plankont:dataList" partialSubmit="true" listener="#{planKontView.zmienuklad()}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
-            <p:outputPanel style="padding: 10px;">
+            <p:panelGrid columns="10">
+                <p:commandButton value="0" actionListener="#{planKontView.pobierzlista(0)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="1" actionListener="#{planKontView.pobierzlista(1)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="2" actionListener="#{planKontView.pobierzlista(2)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="3" actionListener="#{planKontView.pobierzlista(3)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="4" actionListener="#{planKontView.pobierzlista(4)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="6" actionListener="#{planKontView.pobierzlista(6)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="7" actionListener="#{planKontView.pobierzlista(7)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="8" actionListener="#{planKontView.pobierzlista(8)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="S" actionListener="#{planKontView.pobierzwszystkie()}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
                 <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>
-            </p:outputPanel>
-
-            
+                </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:dataTable id="dataList" value="#{planKontView.wykazkontlazy}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
+                <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
                              rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
                                               (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
                              style="width: 1350px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
-                             scrollRows="1400" scrollable="true" virtualScroll="true" scrollHeight="1400" lazy="true" rows="1400"
+                             scrollRows="1400" 
                              rowIndexVar="index"
                              >
                     <p:ajax event="filter" global="false"/>

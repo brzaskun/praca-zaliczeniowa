@@ -1105,7 +1105,7 @@ public class KontoZapisFKView implements Serializable{
                     Msg.msg("e", "Nie wybrano pozycji do przeksięgowania. Nie można wykonać przeksięgowania");
                     return;
                 }
-                if (wybranekonto.isMapotomkow() == true && wybranekonto.getIdslownika() == kontodoprzeksiegowania.getIdslownika()) {
+                if (!wybranekonto.equals(kontodoprzeksiegowania) && wybranekonto.isMapotomkow() == true && wybranekonto.getIdslownika() == kontodoprzeksiegowania.getIdslownika()) {
                     przeksiegujslownikowe();
                 } else {
                     przeksiegujanalityke();

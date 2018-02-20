@@ -193,6 +193,49 @@ public class PlanKontView implements Serializable {
         Collections.sort(wykazkont, new Kontocomparator());
     }
     
+        public void pobierzlista(int numkont) {
+        switch(numkont) {
+            case 0:
+                wykazkont = kontoDAOfk.findKontaGrupa0(wpisView);
+                break;
+            case 1:
+                wykazkont = kontoDAOfk.findKontaGrupa1(wpisView);
+                break;
+            case 2:
+                wykazkont = kontoDAOfk.findKontaGrupa2(wpisView);
+                break;
+            case 3:
+                wykazkont = kontoDAOfk.findKontaGrupa3(wpisView);
+                break;
+            case 4:
+                wykazkont = kontoDAOfk.findKontaGrupa4(wpisView);
+                break;
+            case 5:
+                wykazkont = kontoDAOfk.findKontaGrupa5(wpisView);
+                break;
+            case 6:
+                wykazkont = kontoDAOfk.findKontaGrupa6(wpisView);
+                break;
+            case 7:
+                wykazkont = kontoDAOfk.findKontaGrupa7(wpisView);
+                break;
+            case 8:
+                wykazkont = kontoDAOfk.findKontaGrupa8(wpisView);
+                break;
+        }
+        Collections.sort(wykazkont, new Kontocomparator());
+        bezslownikowych = false;
+        tylkosyntetyka = false;
+        wykazkontlazy = new LazyKontoDataModel(wykazkont);
+    }
+    
+    public void pobierzwszystkie() {
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        Collections.sort(wykazkont, new Kontocomparator());
+        wykazkontlazy = new LazyKontoDataModel(wykazkont);
+    }
+    
+    
     public void zmienukladwzorcowy() {
         listaukladowwzorcowy = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
         for (UkladBR p : listaukladowwzorcowy) {
