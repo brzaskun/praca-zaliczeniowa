@@ -490,6 +490,33 @@ public class FakturaView implements Serializable {
         }
     }
     
+    public void skierujfakturedoedycjiZwykla(Faktura faktura) {
+        selected = serialclone.SerialClone.clone(faktura);
+        selected.setKontrahent(faktura.getKontrahent());
+        fakturaxxl = faktura.isFakturaxxl();
+        if (fakturaxxl) {
+            //dataTablepozycjenafakturze.setStyle("width: 1280px;");
+            //dataTablepozycjenafakturzekorekta.setStyle("width: 1280px;");
+        } else {
+            //dataTablepozycjenafakturze.setStyle("width: 790px;");
+            //dataTablepozycjenafakturzekorekta.setStyle("width: 790px;");
+        }
+        fakturazwykla = faktura.isFakturaNormalna();
+        fakturavatmarza = faktura.isFakturavatmarza();
+        fakturaxxl = faktura.isFakturaxxl();
+        fakturaniemiecka = faktura.isFakturaniemiecka13b();
+        fakturakorekta = faktura.getPozycjepokorekcie() != null;
+        rachunek = faktura.isRachunek();
+        aktywnytab = 0;
+        pokazfakture = true;
+        zapis0edycja1 = true;
+        kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
+//        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
+//        RequestContext.getCurrentInstance().execute(funkcja);
+//        funkcja = "PF('tworzenieklientapolenazwy').activate();";
+//        RequestContext.getCurrentInstance().execute(funkcja);
+       }
+    
     public void skierujfakturedoedycji(Fakturywystokresowe fakturaokresowa) {
         Faktura faktura = fakturaokresowa.getDokument();
         faktura.setIdfakturaokresowa(fakturaokresowa);
