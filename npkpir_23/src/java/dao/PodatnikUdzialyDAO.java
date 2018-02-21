@@ -29,6 +29,10 @@ public class PodatnikUdzialyDAO extends DAO implements Serializable{
     public List<PodatnikUdzialy> findUdzialyPodatnik(WpisView wpisView) {
         return sessionFacade.findUdzialyPodatnik(wpisView);
     }
+
+    public List<PodatnikUdzialy> findAll() {
+        return sessionFacade.findAll(PodatnikUdzialy.class);
+    }
     
     
     

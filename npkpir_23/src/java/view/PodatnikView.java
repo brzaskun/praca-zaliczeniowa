@@ -1686,5 +1686,13 @@ public class PodatnikView implements Serializable {
         Msg.dP();
     }
  
-
+    public void aktualizujopodatkowanie() {
+        List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findAll();
+        for (PodatnikUdzialy p : udzialy) {
+            p.setDatarozpoczecia(p.getRokOd()+"-"+p.getMcOd()+"-01");
+        }
+        podatnikUdzialyDAO.editList(udzialy);
+        Msg.dP();
+    }
+    
 }
