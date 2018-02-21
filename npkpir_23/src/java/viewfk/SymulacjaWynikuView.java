@@ -250,7 +250,7 @@ public class SymulacjaWynikuView implements Serializable {
         String kto = B.b("wszyscy");
         int id = 1;
         pozycjePodsumowaniaWynikuNowe.add(obliczpojedyncza(id++, przychody, koszty, wynik, wynikpodatkowy, udzial, kto));
-        List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+        List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnikBiezace(wpisView);
         for (PodatnikUdzialy p : udzialy) {
             double udział = Z.z4(Double.parseDouble(p.getUdzial())/100);
             pozycjePodsumowaniaWynikuNowe.add(obliczpojedyncza(id++, przychody, koszty, wynik, wynikpodatkowy, udział, p.getNazwiskoimie()));

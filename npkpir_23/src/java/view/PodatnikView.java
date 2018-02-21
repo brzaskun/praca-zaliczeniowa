@@ -176,7 +176,6 @@ public class PodatnikView implements Serializable {
         wybranyPodatnikOpodatkowanie.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
         wybranyPodatnikOpodatkowanie.setDatazakonczenia(wpisView.getRokWpisuSt()+"-12-01");
         udzialy.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
-        udzialy.setDatazakonczenia(wpisView.getRokWpisuSt()+"-12-01");
         wybranyPodatnikOpodatkowanie.setStawkapodatkuospr(0.19);
     }
 
@@ -957,46 +956,37 @@ public class PodatnikView implements Serializable {
     public void dodajUdzialy() {
         selected = wpisView.getPodatnikObiekt();
         try {
-            double sumaudzialow = 0;
             for (PodatnikUdzialy p : podatnikUdzialy) {
-                String udzial = p.getUdzial();
-                udzial = udzial.replace(",", ".");
-                double udzialkwota = Double.parseDouble(udzial);
-                try {
-                    if (!p.getRokDo().isEmpty()) {
-                    }
-                } catch (Exception ef) {
-                    sumaudzialow += udzialkwota;
-                }
-                if (udzialy.getNazwiskoimie().equals(p.getNazwiskoimie())) {
+                if (udzialy.getDatarozpoczecia().equals("")){
                     throw new Exception();
                 }
-                if (udzialy.getNip().equals(p.getNip())) {
+                if (udzialy.getNazwiskoimie().equals("") || udzialy.getNazwiskoimie().equals(p.getNazwiskoimie())) {
                     throw new Exception();
                 }
-                
-                if (udzialy.getPesel().equals(p.getPesel())) {
+                if (!udzialy.getNip().equals("") && udzialy.getNip().equals(p.getNip())) {
+                    throw new Exception();
+                }
+                if (!udzialy.getPesel().equals("") && udzialy.getPesel().equals(p.getPesel())) {
                     throw new Exception();
                 }
             }
-            String udzial = udzialy.getUdzial();
-            udzial = udzial.replace(",", ".");
-            double udzialkwota = Double.parseDouble(udzial);
-            sumaudzialow += udzialkwota;
-            if (sumaudzialow > 100.0) {
+            if (udzialy.getDatarozpoczecia()!=null && !udzialy.getDatarozpoczecia().equals("")) {
+                udzialy.setMcOd(Data.getMc(udzialy.getDatarozpoczecia()));
+                udzialy.setRokOd(Data.getRok(udzialy.getDatarozpoczecia()));
+            }
+            if (udzialy.getDatarozpoczecia()!=null && !udzialy.getDatazakonczenia().equals("")) {
+                udzialy.setRokDo(Data.getRok(udzialy.getDatazakonczenia()));
+                udzialy.setMcDo(Data.getMc(udzialy.getDatazakonczenia()));
+            }
+            udzialy.setPodatnikObj(selected);
+            podatnikUdzialy.add(udzialy);
+            if (sumujudzialy(podatnikUdzialy) > 100.0) {
+                udzialy.setUdzial(null);
                 throw new Exception();
             }
-            if (udzialy.getDatarozpoczecia()!=null && udzialy.getDatazakonczenia()!=null) {
-                udzialy.setMcOd(Data.getMc(udzialy.getDatarozpoczecia()));
-                udzialy.setMcDo(Data.getMc(udzialy.getDatazakonczenia()));
-                udzialy.setRokOd(Data.getRok(udzialy.getDatarozpoczecia()));
-                udzialy.setRokDo(Data.getRok(udzialy.getDatazakonczenia()));
-                udzialy.setPodatnikObj(selected);
-                podatnikUdzialy.add(udzialy);
-                podatnikUdzialyDAO.dodaj(udzialy);
-                udzialy = new PodatnikUdzialy();
-                Msg.msg("i", "Dodano udziały");
-        }
+            podatnikUdzialyDAO.dodaj(udzialy);
+            udzialy = new PodatnikUdzialy();
+            Msg.msg("i", "Dodano udziały");
         } catch (Exception ex) {
             Msg.msg("e", "Niedodano udziału, wystąpił błąd. Sprawdz dane:nazwisko, procenty");
         }
@@ -1006,32 +996,38 @@ public class PodatnikView implements Serializable {
     public void editUdzialy() {
         try {
             Integer sumaudzialow = 0;
-            for (PodatnikUdzialy p : podatnikUdzialy) {
-                sumaudzialow += Integer.parseInt(p.getUdzial());
-            }
-            if (sumaudzialow > 100) {
+            if (sumujudzialy(podatnikUdzialy) > 100.0) {
                 throw new Exception();
             }
-            if (udzialy.getDatarozpoczecia()!=null && udzialy.getDatazakonczenia()!=null) {
+            if (udzialy.getDatarozpoczecia()!=null && !udzialy.getDatarozpoczecia().equals("")) {
                 udzialy.setMcOd(Data.getMc(udzialy.getDatarozpoczecia()));
-                udzialy.setMcDo(Data.getMc(udzialy.getDatazakonczenia()));
                 udzialy.setRokOd(Data.getRok(udzialy.getDatarozpoczecia()));
+            }
+            if (udzialy.getDatarozpoczecia()!=null && !udzialy.getDatazakonczenia().equals("")) {
                 udzialy.setRokDo(Data.getRok(udzialy.getDatazakonczenia()));
-            }
-            for (PodatnikUdzialy p : podatnikUdzialy) {
-                sumaudzialow += Integer.parseInt(p.getUdzial());
-            }
-            if (sumaudzialow > 100) {
-                throw new Exception();
+                udzialy.setMcDo(Data.getMc(udzialy.getDatazakonczenia()));
             }
             podatnikUdzialyDAO.edit(udzialy);
             udzialy = new PodatnikUdzialy();
             Msg.msg("i", "Wyedytowano udziały", "akordeon:form6:messages");
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie zmieniono udziałów", "akordeon:form6:messages");
         }
     }
 
+    private double sumujudzialy(List<PodatnikUdzialy> podatnikUdzialy) {
+        double zwrot = 0.0;
+        for (PodatnikUdzialy p : podatnikUdzialy) {
+            if (p.getDatazakonczenia()==null || p.getDatazakonczenia().equals("")) {
+                String udzial = p.getUdzial();
+                udzial = udzial.replace(",", ".");
+                zwrot += Double.parseDouble(udzial);
+            }
+        }
+        return zwrot;
+    }
+    
     public void usunUdzialy(PodatnikUdzialy udzialy) {
         selected = wpisView.getPodatnikObiekt();
         podatnikUdzialyDAO.destroy(udzialy);

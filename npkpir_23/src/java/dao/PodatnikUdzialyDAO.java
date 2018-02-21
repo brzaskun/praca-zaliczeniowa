@@ -5,8 +5,10 @@
  */
 package dao;
 
+import data.Data;
 import entity.PodatnikUdzialy;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,6 +30,17 @@ public class PodatnikUdzialyDAO extends DAO implements Serializable{
 
     public List<PodatnikUdzialy> findUdzialyPodatnik(WpisView wpisView) {
         return sessionFacade.findUdzialyPodatnik(wpisView);
+    }
+    
+    public List<PodatnikUdzialy> findUdzialyPodatnikBiezace(WpisView wpisView) {
+        List<PodatnikUdzialy> udzialy = sessionFacade.findUdzialyPodatnik(wpisView);
+        for(Iterator it = udzialy.iterator();it.hasNext();) {
+            PodatnikUdzialy p = (PodatnikUdzialy) it.next();
+            if (p.getDatazakonczenia()!=null && !Data.czyjestpomiedzy(p.getDatarozpoczecia(), p.getDatazakonczenia(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
+                it.remove();
+            }
+        }
+        return udzialy;
     }
 
     public List<PodatnikUdzialy> findAll() {
