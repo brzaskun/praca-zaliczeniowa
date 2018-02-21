@@ -7,6 +7,7 @@ package viewfk;
 
 import dao.PodatnikUdzialyDAO;
 import daoFK.WynikFKRokMcDAO;
+import data.Data;
 import embeddable.Mce;
 import entity.PodatnikUdzialy;
 import entityfk.WynikFKRokMc;
@@ -209,17 +210,25 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         }
         pozycjeObliczeniaPodatku = new ArrayList<>();
         try {
-            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnikBiezace(wpisView);
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             int i = 1;
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-                pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double roznicadlankup = Z.z(udział*wynikpodatkowy - udział*pdop);
-                double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy - udział*pdop);
-                double wynikfinansowyudzial = Z.z(udział*wynikfinansowy);
-                if (formaprawna) {
-                    wynikfinansowyudzial = Z.z(udział*wynikfinansowynetto);
-                    podstawaopodatkowania = Z.z(udział*wynikfinansowynetto);
+                double roznicadlankup = 0.0;
+                double podstawaopodatkowania = 0.0;
+                double wynikfinansowyudzial = 0.0;
+                if (p.getDatazakonczenia()==null || (p.getDatazakonczenia()!=null && Data.czyjestpomiedzy(p.getDatarozpoczecia(), p.getDatazakonczenia(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()))) {
+                    udział = Z.z(Double.parseDouble(p.getUdzial())/100);
+                    pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
+                    roznicadlankup = Z.z(udział*wynikpodatkowy - udział*pdop);
+                    podstawaopodatkowania = Z.z0(udział*wynikpodatkowy - udział*pdop);
+                    wynikfinansowyudzial = Z.z(udział*wynikfinansowy);
+                    if (formaprawna) {
+                        wynikfinansowyudzial = Z.z(udział*wynikfinansowynetto);
+                        podstawaopodatkowania = Z.z(udział*wynikfinansowynetto);
+                    }
+                } else {
+                    pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
                 }
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowy")+" #"+String.valueOf(i), wynikfinansowyudzial));
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup")+" #"+String.valueOf(i), Z.z(roznicadlankup-wynikfinansowyudzial)));
@@ -247,7 +256,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         zaplaconepodatki = new HashMap<>();
         wyplaconedywidendy = new HashMap<>();
         List<WynikFKRokMc> poprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView);
-        List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnikBiezace(wpisView);
+        List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
         for (PodatnikUdzialy p : udzialy) {
             double sumazaplaconegopodatku = 0.0;
             double sumawyplaconedywidendy = 0.0;
@@ -267,7 +276,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private void obliczkwotydowyplaty() {
         pozycjeDoWyplaty = new ArrayList<>();
         try {
-            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnikBiezace(wpisView);
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
