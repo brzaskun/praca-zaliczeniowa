@@ -104,7 +104,7 @@ public class JPK_VAT3_Bean {
     public static Podmiot1 podmiot1(Podatnik wv) {
         Podmiot1 p = new Podmiot1();
         p.setNIP(wv.getNip());
-        p.setPelnaNazwa(wv.getNazwapelna());
+        p.setPelnaNazwa(wv.getPrintnazwa());
         p.setEmail("us@taxman.biz.pl");
         return p;
     }

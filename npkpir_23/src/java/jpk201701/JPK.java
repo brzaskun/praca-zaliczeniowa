@@ -363,6 +363,13 @@ public class JPK extends JPKSuper implements Serializable {
         this.zakupCtrl = value;
     }
 
+    @Override
+    public String toString() {
+        return "JPK{" + "naglowek=" + naglowek + ", podmiot1=" + podmiot1 + ", sprzedazCtrl=" + sprzedazCtrl + ", zakupCtrl=" + zakupCtrl + '}';
+    }
+
+    
+    
 
     /**
      * <p>Java class for anonymous complex type.

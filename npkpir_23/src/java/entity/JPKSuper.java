@@ -23,4 +23,5 @@ public abstract class  JPKSuper<T>  implements Serializable{
 
     public abstract T getZakupCtrl();
     
+    
 }

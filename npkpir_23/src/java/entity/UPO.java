@@ -7,7 +7,10 @@ package entity;
 
 import deklaracje.upo.Potwierdzenie;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +27,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import jpk201701.JPK;
 import view.WpisView;
 
@@ -162,6 +168,38 @@ public class UPO  implements Serializable {
         }
         return zwrot;
     }
+    
+    public String getJpkNaglowek() {
+        String zwrot = "nie pobrano";
+        if (jpk != null) {
+            if (jpk instanceof jpk201701.JPK) {
+                try {
+                    jpk201701.JPK jpkt = (jpk201701.JPK)jpk;
+                    JAXBContext context = JAXBContext.newInstance(jpk201701.JPK.class);
+                    Marshaller marshaller = context.createMarshaller();
+                    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                    StringWriter sw = new StringWriter();
+                    marshaller.marshal(jpkt,sw);
+                    zwrot = sw.toString();
+                } catch (JAXBException ex) {
+                    Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                try {
+                    jpk201801.JPK jpkt = (jpk201801.JPK)jpk;
+                    JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);
+                    Marshaller marshaller = context.createMarshaller();
+                    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                    StringWriter sw = new StringWriter();
+                    marshaller.marshal(jpkt,sw);
+                    zwrot = sw.toString();
+                } catch (JAXBException ex) {
+                    Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return zwrot;
+    }
 
     public void setJpk(JPKSuper jpk) {
         this.jpk = jpk;
@@ -288,10 +326,10 @@ public class UPO  implements Serializable {
         return "UPO{" + "podatnik=" + podatnik.getPrintnazwa() + ", rok=" + rok + ", miesiac=" + miesiac + ", potwierdzenie=" + potwierdzenie.getKodFormularza() + ", jpk=" + jpk + ", deklaracja=" + deklaracja + ", wersja=" + wersja + '}';
     }
 
-    public void uzupelnij(WpisView wpisView, JPKSuper jpk) {
+    public void uzupelnij(Podatnik podatnik, WpisView wpisView, JPKSuper jpk) {
         try {
             this.jpk = jpk;
-            this.podatnik = wpisView.getPodatnikObiekt();
+            this.podatnik = podatnik;
             this.miesiac = wpisView.getMiesiacWpisu();
             this.rok = wpisView.getRokWpisuSt();
             if (jpk != null) {
