@@ -134,7 +134,7 @@ public class DeklaracjevatView implements Serializable {
                 if (!wyslanetestowe.contains(p)) {
                     if (p.getStatus().startsWith("4")) {
                         wyslanezbledem.add(p);
-                    } else if (p.getStatus().startsWith("3")) {
+                    } else if (p.getStatus().startsWith("3") || p.getStatus().startsWith("1")) {
                         wyslaneniepotwierdzone.add(p);
                     } else {
                         wyslanenormalne.add(p);
