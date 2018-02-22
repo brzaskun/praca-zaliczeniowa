@@ -63,6 +63,14 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
     
+    public List findDokfkPodatnikRokMcVAT(WpisView wpisView) {
+        try {
+           return dokFacade.findDokfkPodatnikRokMcVAT(wpisView);
+       } catch (Exception e ){
+           return null;
+       }
+    }
+    
     public List findDokfkPodatnikRokKw(WpisView wpisView) {
         List<Dokfk> zwrot = new ArrayList<>();
         try {

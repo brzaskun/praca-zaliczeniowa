@@ -88,7 +88,7 @@ public class VatUeFKView implements Serializable {
             String vatUEokres = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getParamVatUE(), rok, m);
             if (vatUEokres.equals("miesięczne")) {
                 if (wpisView.isKsiegirachunkowe()) {
-                    listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+                    listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMcVAT(wpisView);
                 } else {
                     listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokMC(wpisView);
                 }

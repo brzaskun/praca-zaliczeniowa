@@ -25,9 +25,9 @@
                                             <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'v')}"/>-->
                 <p:separator/>
                 <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
-                    <p:menuitem global="false" value="prawidłowa" actionListener="#{ewidencjaVatView.fakturasprawdzanie(1, item)}" icon="ui-icon-check"/>
-                    <p:menuitem global="false" value="zawiera błędy" actionListener="#{ewidencjaVatView.fakturasprawdzanie(2,item)}"  icon="ui-icon-closethick"/>
-                    <p:menuitem global="false" value="nie sprawdzona" actionListener="#{ewidencjaVatView.fakturasprawdzanie(0,item)}"  icon="ui-icon-help"/>
+                    <p:menuitem global="false" value="prawidłowa" actionListener="#{ewidencjaVatView.fakturasprawdzanie(1, item)}" icon="ui-icon-check" partialSubmit="true"/>
+                    <p:menuitem global="false" value="zawiera błędy" actionListener="#{ewidencjaVatView.fakturasprawdzanie(2,item)}"  icon="ui-icon-closethick" partialSubmit="true"/>
+                    <p:menuitem global="false" value="nie sprawdzona" actionListener="#{ewidencjaVatView.fakturasprawdzanie(0,item)}"  icon="ui-icon-help" partialSubmit="true"/>
                     <p:menuitem></p:menuitem>
                     <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
                                 actionListener="#{dokfkView.przygotujDokumentEdycjaEFK(item,ewidencjaVatView.zachowanewybranewierszeewidencji, ewidencjaVatView.iTabPanel)}" 

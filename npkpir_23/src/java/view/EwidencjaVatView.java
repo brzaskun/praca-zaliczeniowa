@@ -202,7 +202,11 @@ public class EwidencjaVatView implements Serializable {
             for (EVatwpisFK s : lista) {
                 if (s.equals(w)) {
                     s.setSprawdzony(l);
-                    eVatwpisFKDAO.edit(s);
+                    if (s.isDuplikat()) {
+                        Msg.msg("w", "Oznaczono zapis zduplikowany. Zmiany nie zostaną zachowane w bazie", "grmes");
+                    } else {
+                        eVatwpisFKDAO.edit(s);
+                    }
                     break;
                 }
                 rowek++;
