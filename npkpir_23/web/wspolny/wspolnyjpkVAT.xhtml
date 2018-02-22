@@ -97,6 +97,8 @@
                 <p:commandButton icon="fa fa-trash" onclick="PF('confirmation').show()" update="@form" global="false" rendered="#{item.code gt 399}"/>
             </p:column>
             <p:rowExpansion>
+                <p:panelGrid columns="1">
+                    <h:outputText value="#{item.getJpkNaglowek().substring(0,900)}"/>
                 <p:dataTable value="#{item}" var="itemik">
                         <p:column headerText="data jpk" width="80">
                             <h:outputText value="#{itemik.datajpk}">
@@ -112,9 +114,11 @@
                             <h:outputText value="#{itemik.wprowadzil.imie} #{itemik.wprowadzil.nazw}"/>
                         </p:column>
                         <p:column headerText="upo">
-                            <h:outputText value="#{itemik.wprowadzil.potwierdzenie.toString()}"/>
+                            <h:outputText value="#{itemik.potwierdzenie.toString()}"/>
                         </p:column>
                  </p:dataTable>
+                
+                </p:panelGrid>
             </p:rowExpansion>
         </p:dataTable>
     </h:form>

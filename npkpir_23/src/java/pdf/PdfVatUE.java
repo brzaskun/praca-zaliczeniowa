@@ -102,9 +102,9 @@ public class PdfVatUE {
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
                     document.add(table);
-                    if (p.getZawiera() != null) {
+                    if (p.getZawiera() != null && p.getZawiera().size()>0) {
                     document.add(createsubtable(p.getZawiera()));
-                    } else {
+                    } else if (p.getZawierafk() != null && p.getZawierafk().size()>0){
                         document.add(createsubtablefk(p.getZawierafk()));
                     }
                     document.add(Chunk.NEWLINE);
