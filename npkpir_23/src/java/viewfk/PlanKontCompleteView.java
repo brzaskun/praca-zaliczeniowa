@@ -5,9 +5,16 @@
  */
 package viewfk;
 
+import beansFK.PlanKontFKBean;
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
+import daoFK.KontopozycjaZapisDAO;
+import daoFK.MiejscePrzychodowDAO;
+import daoFK.UkladBRDAO;
 import entityfk.Konto;
+import entityfk.KontopozycjaZapis;
+import entityfk.MiejscePrzychodow;
+import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,10 +22,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
+import msg.Msg;
 import view.WpisView;
 
 /**
@@ -27,13 +39,25 @@ import view.WpisView;
  */
 @ManagedBean
 @ViewScoped
-public class PlanKontCompleteView implements Serializable {
+public class PlanKontCompleteView implements javax.faces.convert.Converter, Serializable {
     private static final long serialVersionUID = 1L;
     private List<Konto> listakontOstatniaAnalitykaklienta;
     @Inject
+    private Konto noweKonto;
+    @Inject
     private KontoDAOfk kontoDAOfk;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
+    @Inject
+    private MiejscePrzychodowDAO miejscePrzychodowDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private String elementslownika_nazwapelna;
+    private String elementslownika_nazwaskrocona;
+    private String elementslownika_numerkonta;
+    private List<Konto> konta;
 
     public PlanKontCompleteView() {
          E.m(this);
@@ -43,6 +67,7 @@ public class PlanKontCompleteView implements Serializable {
   @PostConstruct
   public void init() {
       listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+      konta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
   }
     
     public List<Konto> complete(String qr) {
@@ -117,6 +142,135 @@ public class PlanKontCompleteView implements Serializable {
         }
         return null;
     }
+    
+    public void dodajanalityczneWpis() {
+        String nrmacierzystego = PlanKontFKBean.modyfikujnranalityczne(noweKonto.getPelnynumer());
+        Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
+        if (kontomacierzyste != null && kontomacierzyste.getIdslownika() == 0) {
+            int wynikdodaniakonta = 1;
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+            if (wynikdodaniakonta == 0) {
+                try {
+                    UkladBR wybranyuklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, wybranyuklad);
+                    if (kpo.getSyntetykaanalityka().equals("analityka")) {
+                        Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
+                    } else {
+                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", wybranyuklad);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            if (wynikdodaniakonta == 0) {
+                PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAOfk);
+//                if (czyoddacdowzorca == true) {
+//                    wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
+//                } else {
+//                    //  MEGAZOR
+//                    wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+//                }
+                noweKonto = new Konto();
+                //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
+                Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
+            } else {
+                noweKonto = new Konto();
+                Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
+            }
+            init();
+        } else {
+            Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
+        }
+    }
+    
+     public void dodajSlownikWpis() {
+        String nrmacierzystego = PlanKontFKBean.modyfikujnrslownik(elementslownika_numerkonta);
+        Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
+        List<Konto> potomne = PlanKontFKBean.pobierzpotomne(kontomacierzyste, kontoDAOfk);
+        Collections.sort(potomne, new Kontocomparator());
+        if (potomne != null && potomne.size() > 0) {
+            Konto slownik = potomne.get(0);
+            String nazwaslownika = slownik.getNazwapelna();
+            if (nazwaslownika.equals("Słownik miejsca przychodów")) {
+                MiejscePrzychodow mp = new MiejscePrzychodow();
+                mp.setOpismiejsca(elementslownika_nazwapelna);
+                mp.setOpisskrocony(elementslownika_nazwaskrocona);
+                mp.setAktywny(true);
+                mp.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumerMP());
+                mp.setRok(wpisView.getRokWpisu());
+                miejscePrzychodowDAO.dodaj(mp);
+                if (kontomacierzyste != null) {
+                    int wynikdodaniakonta = 0;
+                    List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                    wynikdodaniakonta = PlanKontFKBean.aktualizujslownikMiejscaPrzychodow(wykazkont, miejscePrzychodowDAO, mp, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+                    if (wynikdodaniakonta == 0) {
+                        noweKonto = new Konto();
+                        //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
+                        Msg.msg("i", "Dodaje konto słownikowe", "formX:messages");
+                    } else {
+                        noweKonto = new Konto();
+                        Msg.msg("e", "Konto słownikowe o takim numerze juz istnieje!", "formX:messages");
+                    }
+                    elementslownika_nazwapelna = null;
+                    elementslownika_nazwaskrocona = null;
+                    elementslownika_numerkonta = null;
+                    init();
+                } else {
+                    Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
+                }
+            }
+        }
+    }
+     
+    private String pobierzkolejnynumerMP() {
+        List miejsca = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+        int max = 0;
+        for (Iterator<MiejscePrzychodow> it = miejsca.iterator(); it.hasNext();) {
+            MiejscePrzychodow m = it.next();
+            int nr = Integer.parseInt(m.getNrkonta());
+            if (max < nr) {
+                max = nr;
+            }
+        }
+        String zwrot = String.valueOf(max+1);
+        return zwrot;
+    }
+    
+    @Override
+    public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
+        if (submittedValue.length() > 2) {
+            try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
+                if (submittedValue.trim().isEmpty()) {
+                    return null;
+                } else {
+                    try {
+                        String number = submittedValue.split(" ")[0];
+                        for (Konto p : konta) {
+                            if (p.getPelnynumer().equals(number)) {
+                                return p;
+                            }
+                        }
+
+                    } catch (NumberFormatException exception) {
+                        throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));
+                    }
+                }
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+  
+    @Override
+    public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
+        if (value == null || value.equals("")) {  
+            return "";  
+        } else {  
+            return String.valueOf(((Konto) value).getPelnynumer());  
+        }  
+    }  
 
     public WpisView getWpisView() {
         return wpisView;
@@ -138,5 +292,39 @@ public class PlanKontCompleteView implements Serializable {
     public static void main(String[] args) {
         String s = "201-2-4";
     }
+
+    public String getElementslownika_nazwapelna() {
+        return elementslownika_nazwapelna;
+    }
+
+    public void setElementslownika_nazwapelna(String elementslownika_nazwapelna) {
+        this.elementslownika_nazwapelna = elementslownika_nazwapelna;
+    }
+
+    public String getElementslownika_nazwaskrocona() {
+        return elementslownika_nazwaskrocona;
+    }
+
+    public void setElementslownika_nazwaskrocona(String elementslownika_nazwaskrocona) {
+        this.elementslownika_nazwaskrocona = elementslownika_nazwaskrocona;
+    }
+
+    public String getElementslownika_numerkonta() {
+        return elementslownika_numerkonta;
+    }
+
+    public void setElementslownika_numerkonta(String elementslownika_numerkonta) {
+        this.elementslownika_numerkonta = elementslownika_numerkonta;
+    }
+
+    public Konto getNoweKonto() {
+        return noweKonto;
+    }
+
+    public void setNoweKonto(Konto noweKonto) {
+        this.noweKonto = noweKonto;
+    }
+    
+    
     
 }

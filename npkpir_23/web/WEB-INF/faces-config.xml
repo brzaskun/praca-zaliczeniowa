@@ -842,6 +842,12 @@
         </converter-class> 
     </converter>
     <converter>
+        <converter-id>PlanKontCompleteView</converter-id>  
+        <converter-class>  
+            viewfk.PlanKontCompleteView  
+        </converter-class> 
+    </converter>
+    <converter>
         <converter-id>KontokategoriaConv</converter-id>  
         <converter-class>  
             converter.KontokategoriaConv 

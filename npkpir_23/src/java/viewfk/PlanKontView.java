@@ -125,9 +125,7 @@ public class PlanKontView implements Serializable {
     private boolean bezslownikowych;
     private boolean tylkosyntetyka;
     private String kontadowyswietlenia;
-    private String elementslownika_nazwapelna;
-    private String elementslownika_nazwaskrocona;
-    private String elementslownika_numerkonta;
+    
     private String styltabeliplankont;
     private boolean usunprzyporzadkowanie;
     private List<UkladBR> listaukladow;
@@ -492,103 +490,11 @@ public class PlanKontView implements Serializable {
 
     
     
-    public void dodajanalityczneWpis() {
-        String nrmacierzystego = PlanKontFKBean.modyfikujnranalityczne(noweKonto.getPelnynumer());
-        Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
-        if (kontomacierzyste != null && kontomacierzyste.getIdslownika() == 0) {
-            int wynikdodaniakonta = 1;
-            wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
-            if (wynikdodaniakonta == 0) {
-                try {
-                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, wybranyuklad);
-                    if (kpo.getSyntetykaanalityka().equals("analityka")) {
-                        Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
-                    } else {
-                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", wybranyuklad);
-                    }
-                } catch (Exception e) {
-                    E.e(e);
-                }
-            }
-            if (wynikdodaniakonta == 0) {
-                PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAOfk);
-//                if (czyoddacdowzorca == true) {
-//                    wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
-//                } else {
-//                    //  MEGAZOR
-//                    wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-//                }
-                noweKonto = new Konto();
-                //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
-                Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
-            } else {
-                noweKonto = new Konto();
-                Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
-            }
-            planKontCompleteView.init();
-            kontoConv.init();
-        } else {
-            Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
-        }
-        }
     
-    public void dodajSlownikWpis() {
-        String nrmacierzystego = PlanKontFKBean.modyfikujnrslownik(elementslownika_numerkonta);
-        Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
-        List<Konto> potomne = PlanKontFKBean.pobierzpotomne(kontomacierzyste, kontoDAOfk);
-        Collections.sort(potomne, new Kontocomparator());
-        if (potomne != null && potomne.size() > 0) {
-            Konto slownik = potomne.get(0);
-            String nazwaslownika = slownik.getNazwapelna();
-            if (nazwaslownika.equals("Słownik miejsca przychodów")) {
-                MiejscePrzychodow mp = new MiejscePrzychodow();
-                mp.setOpismiejsca(elementslownika_nazwapelna);
-                mp.setOpisskrocony(elementslownika_nazwaskrocona);
-                mp.setAktywny(true);
-                mp.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumerMP());
-                mp.setRok(wpisView.getRokWpisu());
-                miejscePrzychodowDAO.dodaj(mp);
-                if (kontomacierzyste != null) {
-                    int wynikdodaniakonta = 0;
-                    wynikdodaniakonta = PlanKontFKBean.aktualizujslownikMiejscaPrzychodow(wykazkont, miejscePrzychodowDAO, mp, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-                    if (wynikdodaniakonta == 0) {
-                        if (czyoddacdowzorca == true) {
-                            wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
-                        } else {
-                            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-                        }
-                        noweKonto = new Konto();
-                        //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
-                        Msg.msg("i", "Dodaje konto słownikowe", "formX:messages");
-                    } else {
-                        noweKonto = new Konto();
-                        Msg.msg("e", "Konto słownikowe o takim numerze juz istnieje!", "formX:messages");
-                    }
-                    elementslownika_nazwapelna = null;
-                    elementslownika_nazwaskrocona = null;
-                    elementslownika_numerkonta = null;
-                    planKontCompleteView.init();
-                    kontoConv.init();
-                } else {
-                    Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
-                }
-            }
-        }
-    }
     
-     private String pobierzkolejnynumerMP() {
-        List miejsca = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
-        int max = 0;
-        for (Iterator<MiejscePrzychodow> it = miejsca.iterator(); it.hasNext();) {
-            MiejscePrzychodow m = it.next();
-            int nr = Integer.parseInt(m.getNrkonta());
-            if (max < nr) {
-                max = nr;
-            }
-        }
-        String zwrot = String.valueOf(max+1);
-        return zwrot;
-    }
+   
+    
+     
     /*
     KONTR = 1
     MIEJS = 2
@@ -1930,36 +1836,12 @@ public class PlanKontView implements Serializable {
         this.bezslownikowych = bezslownikowych;
     }
 
-    public String getElementslownika_nazwapelna() {
-        return elementslownika_nazwapelna;
-    }
-
-    public void setElementslownika_nazwapelna(String elementslownika_nazwapelna) {
-        this.elementslownika_nazwapelna = elementslownika_nazwapelna;
-    }
-
-    public String getElementslownika_nazwaskrocona() {
-        return elementslownika_nazwaskrocona;
-    }
-
-    public void setElementslownika_nazwaskrocona(String elementslownika_nazwaskrocona) {
-        this.elementslownika_nazwaskrocona = elementslownika_nazwaskrocona;
-    }
-
-    public boolean isTylkosyntetyka() {
+      public boolean isTylkosyntetyka() {
         return tylkosyntetyka;
     }
 
     public void setTylkosyntetyka(boolean tylkosyntetyka) {
         this.tylkosyntetyka = tylkosyntetyka;
-    }
-
-    public String getElementslownika_numerkonta() {
-        return elementslownika_numerkonta;
-    }
-
-    public void setElementslownika_numerkonta(String elementslownika_numerkonta) {
-        this.elementslownika_numerkonta = elementslownika_numerkonta;
     }
 
     public String getKontadowyswietlenia() {

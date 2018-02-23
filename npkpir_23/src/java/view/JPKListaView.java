@@ -8,6 +8,7 @@ package view;
 import dao.DeklaracjevatDAO;
 import dao.PodatnikDAO;
 import dao.UPODAO;
+import embeddable.Parametr;
 import entity.Deklaracjevat;
 import entity.Podatnik;
 import entity.UPO;
@@ -52,7 +53,11 @@ public class JPKListaView  implements Serializable {
 //        for (Deklaracjevat p : wyslaneVAT7) {
 //            podatnikdowyslania.add(znajdzpodanik(p.getPodatnik(), podatnicy));
 //        }
-        jpkmoznarobic.addAll(podatnicy);
+        podatnicy.parallelStream().forEach((p)->{
+            if (!sprawdzjakiokresvat(p).equals("blad")) {
+                jpkmoznarobic.add(p);
+            }
+        });
         jpkzrobione.addAll(upodao.findUPORokMc(wpisView));
         if (jpkzrobione == null) {
             jpkzrobione = new ArrayList<>();
@@ -61,6 +66,13 @@ public class JPKListaView  implements Serializable {
                 jpkmoznarobic.remove(r.getPodatnik());
             }
         }
+    }
+    
+     private String sprawdzjakiokresvat(Podatnik p) {
+        Integer rok = wpisView.getRokWpisu();
+        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        List<Parametr> parametry = p.getVatokres();
+        return ParametrView.zwrocParametr(parametry, rok, mc);
     }
     
    private Podatnik znajdzpodanik(String podatnik, List<Podatnik> podatnicy) {

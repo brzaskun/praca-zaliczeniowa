@@ -13,15 +13,15 @@
             <p:focus for="dkp">
                 <p:panelGrid id="dkp" columns="2" style="width: 400px;">
                     <h:outputLabel value="Numer konta:" for="numerkonta" />
-                    <p:inputText id="numerkonta" value="#{planKontView.noweKonto.pelnynumer}" 
+                    <p:inputText id="numerkonta" value="#{planKontCompleteView.noweKonto.pelnynumer}" 
                                  title="Pełny numer" required="true" requiredMessage="The Nazwaskrocona field is required." onblur="sprawdzczydodajeanalityczne()"/>
                     <h:outputLabel value="Nazwa pełna:" for="nazwapelna" />
-                    <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.noweKonto.nazwapelna}" 
+                    <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontCompleteView.noweKonto.nazwapelna}" 
                                      title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required." onblur="kopiujnazwepelnakonta('form_dialog_wpisywanie_dodajkonto:nazwapelna', 'form_dialog_wpisywanie_dodajkonto:nazwaskrocona')"/>
                     <h:outputLabel value="Nazwa skrócona:" for="nazwaskrocona" />
-                    <p:inputText id="nazwaskrocona" value="#{planKontView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
+                    <p:inputText id="nazwaskrocona" value="#{planKontCompleteView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
 
-                    <p:commandButton id="dodajbutton" value="dodaj" actionListener="#{planKontView.dodajanalityczneWpis()}" type="submit" update=":form_dialog_wpisywanie_dodajkonto :formwpisdokument:dataList :parametrynowekonto" 
+                    <p:commandButton id="dodajbutton" value="dodaj" actionListener="#{planKontCompleteView.dodajanalityczneWpis()}" type="submit" update=":form_dialog_wpisywanie_dodajkonto :formwpisdokument:dataList :parametrynowekonto" 
                                      style="margin-left: 90px; float: left; margin-top: 15px; width: 120px;" oncomplete="odtworzwierszKontoWpis();PF('dialog_wpisywanie_dodajkonto').hide();">
                     </p:commandButton>
                     <p:commandButton value="anuluj" style="margin-right: 70px; margin-top: 15px; float: right; width: 120px;" oncomplete="odtworzwierszKontoWpis();PF('dialog_wpisywanie_dodajkonto').hide();" update=":parametrynowekonto"/>
