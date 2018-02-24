@@ -122,8 +122,9 @@ public class PdfVatUE {
         }
         RequestContext.getCurrentInstance().execute("wydrukvatue('" + wpisView.getPodatnikObiekt().getNip() + "');");
     }
+    
 
-    private static PdfPTable createsubtable(List<Dok> zawiera) {
+    public static PdfPTable createsubtable(List<Dok> zawiera) {
         PdfPTable table = new PdfPTable(6);
         try {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
@@ -152,7 +153,7 @@ public class PdfVatUE {
         return table;
     }
 
-    private static PdfPTable createsubtablefk(List<Dokfk> zawiera) {
+    public static PdfPTable createsubtablefk(List<Dokfk> zawiera) {
         PdfPTable table = new PdfPTable(8);
         try {
             table.setWidthPercentage(95);
