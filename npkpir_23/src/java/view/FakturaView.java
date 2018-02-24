@@ -1210,6 +1210,7 @@ public class FakturaView implements Serializable {
                             p.setM12(p.getM12() + 1);
                             break;
                     }
+                    p.setDatawystawienia(nowa.getDatawystawienia());
                     fakturywystokresoweDAO.edit(p);
                 }
                 Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());

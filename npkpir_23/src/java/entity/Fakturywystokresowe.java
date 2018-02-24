@@ -4,6 +4,7 @@
  */
 package entity;
 
+import data.Data;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -77,6 +78,9 @@ public class Fakturywystokresowe implements Serializable {
         @JoinColumn(name = "fa_numerkolejny", referencedColumnName = "numerkolejny")
     })
     private Faktura dokument;
+    @Size(max = 10)
+    @Column(length = 10)
+    private String datawystawienia;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
@@ -315,6 +319,30 @@ public class Fakturywystokresowe implements Serializable {
         this.biezaca0archiwalna1 = biezaca0archiwalna1;
     }
 
+    public String getDatawystawienia() {
+        return datawystawienia;
+    }
+
+    public void setDatawystawienia(String datawystawienia) {
+        this.datawystawienia = datawystawienia;
+    }
+
+    public String getDatawystawieniaOld() {
+        String zwrot = this.dokument.getDatawystawienia();
+        if (datawystawienia!=null) {
+            zwrot = datawystawienia;
+        }
+        return zwrot;
+    }
+    
+    public String getStyldaty(String mc) {
+        String zwrot = "color: initial";
+        if (Data.getMc(this.getDatawystawieniaOld()).equals(mc)) {
+            zwrot = "color: green";
+        }
+        return zwrot;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

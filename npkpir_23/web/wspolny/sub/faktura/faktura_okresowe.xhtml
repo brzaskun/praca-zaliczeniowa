@@ -17,6 +17,7 @@
                 <p:menuitem value="Sprawdź bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.sprawdzbiezacymiesiac()}" icon="fa fa-spinner" />
                 <p:menuitem value="Resetuj bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.resetujbiezacymiesiac()}" icon="ui-icon-cancel" />
                 <p:menuitem value="Oznacz bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczbiezacymiesiac()}" icon="ui-icon-plus" />
+                <p:separator/>
                 <p:menuitem value="Skopiuj do nowego roku" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.skopiujdoNowegoroku()}" icon="ui-icon-star" />
             </p:contextMenu>
             <p:panelGrid id="panelsumokresowe">
@@ -59,7 +60,7 @@
             </p:panelGrid>
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis}" style="max-width: 1400px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nskrocona}" sortOrder="ascending"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1400px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nskrocona}" sortOrder="ascending"
                          rowSelectMode="add">
                 
                 <f:facet name="header">  
@@ -68,9 +69,9 @@
                     <p:inputText id="globalFilter" onkeyup="PF('okresTable').filter()" style="width:150px" />  
                 </f:facet>
                 <p:ajax event="filter" global="false"/>
-                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
-                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
-                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>      
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1" global="false"/>
+                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1" global="false"/>      
                 <p:ajax event="rowToggle" global="false" />
                 <p:column style="text-align: center;" width="20"> 
                     <h:outputText value="#{row+1}"/>
@@ -78,16 +79,16 @@
                 <p:column width="20">
                     <p:rowToggler />
                 </p:column>
-                <p:column selectionMode="multiple"  width="40" style="text-align: center;"/>
+                <p:column selectionMode="multiple"   width="40" style="text-align: center;"/>
                 <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" 
                           filterMatchMode="contains" filterStyle="display : none;" width="150">
-                    <h:outputText value="#{wpis.dokument.kontrahent}"/>
+                    <h:outputText value="#{wpis.dokument.kontrahent}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
-                <p:column headerText="data wystawienia" sortBy="#{wpis.dokument.datawystawienia}" filterBy="#{wpis.dokument.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;" width="90">
-                    <h:outputText value="#{wpis.dokument.datawystawienia}"/>
+                <p:column headerText="data wystawienia" sortBy="#{wpis.getDatawystawieniaOld()}" filterBy="#{wpis.getDatawystawieniaOld()}" filterMatchMode="contains" filterStyle="display : none;" width="90">
+                    <h:outputText value="#{wpis.getDatawystawieniaOld()}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" sortBy="#{wpis.dokument.opisFaktury}" filterBy="#{wpis.dokument.opisFaktury}" filterMatchMode="contains" filterStyle="display : none;">
-                    <h:outputText value="#{wpis.dokument.opisFaktury}"/>
+                    <h:outputText value="#{wpis.dokument.opisFaktury}"  style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
                 <p:column headerText="netto" sortBy="#{wpis.dokument.nettoFaktura}" filterBy="#{wpis.dokument.nettoFaktura}" filterMatchMode="contains" filterStyle="display : none;" width="70">
                     <bcf:outputpl value="#{wpis.dokument.nettoFaktura}" />

@@ -12,7 +12,7 @@
                          oncomplete="PF('confirmationFaktura').hide()"  
                          actionListener="#{fakturaView.destroysporzadzone}" style="margin-left: 70px;"/>  
     </p:confirmDialog>  
-    <p:confirmDialog id="confirmDialog1" message="Wygenerować nowe faktury w miesiącu #{WpisView.miesiacWpisu}?"  appendTo="@(body)"
+    <p:confirmDialog id="confirmDialog1" message="Wygenerować #{fakturaView.gosciwybralokres.size()} nowe faktury w miesiącu #{WpisView.miesiacWpisu}?"  appendTo="@(body)"
                      header="Generowanie nowych faktur" severity="alert" widgetVar="confirmationFakturaOkresowe" >  
         <p:commandButton id="decline1" value="Nie" onclick="PF('confirmationFakturaOkresowe').hide()" type="button" style="margin-left: 15px;; width: 120px;"/>   
         <p:commandButton id="confirm1" value="Tak" update="akordeon:formsporzadzone:dokumentyLista akordeon:formzestawienie:dokumentyZestawienie akordeon:formokresowe:dokumentyOkresowe" 
