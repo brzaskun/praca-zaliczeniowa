@@ -101,12 +101,12 @@ public class PdfPojazdy {
         }
         Integer i = 1;
         for (PojazdyZest rs : l.getPojazdyZest()) {
-            table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
-            table.addCell(ustawfrazeAlign(rs.getKontonazwa(), "left", 7));
-            table.addCell(ustawfrazeAlign(rs.getKontonumer(), "left", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(rs.getStronywiersza().size()), "center", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getSumaokres()), "right", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getSumanarastajaco()), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 8));
+            table.addCell(ustawfrazeAlign(rs.getKontonazwa(), "left", 8));
+            table.addCell(ustawfrazeAlign(rs.getKontonumer(), "left", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(rs.getStronywiersza().size()), "center", 8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getSumaokres()), "right", 8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getSumanarastajaco()), "right", 8));
             if (rodzajdruku==2) {
                 PdfPTable p = subtable(rs.getStronywiersza());
                 PdfPCell r = new PdfPCell(p);
@@ -123,27 +123,27 @@ public class PdfPojazdy {
         table.setWidths(new int[]{1, 2, 2, 2, 4, 3, 2});
         table.setWidthPercentage(95);
         try {
-            table.addCell(ustawfrazeSpanFont("", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("dokument", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("data", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("nr własny", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("kontrahent", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("wiersz", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("kwota", 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont("", 0, 1, 8));
+            table.addCell(ustawfrazeSpanFont("dokument", 0, 1, 8));
+            table.addCell(ustawfrazeSpanFont("data", 0, 1, 8));
+            table.addCell(ustawfrazeSpanFont("nr własny", 0, 1, 8));
+            table.addCell(ustawfrazeSpanFont("kontrahent", 0, 1, 8));
+            table.addCell(ustawfrazeSpanFont("wiersz", 0, 1, 8));
+            table.addCell(ustawfrazeSpanFont("kwota", 0, 1, 8));
 
             table.setHeaderRows(1);
         } catch (IOException ex) {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (StronaWiersza rs : stronywiersza) {
-            table.addCell(ustawfrazeAlign("", "left", 6));
-            table.addCell(ustawfrazeAlign(rs.getDokfkS(), "center", 6));
-            table.addCell(ustawfrazeAlign(rs.getDokfk().getDatadokumentu(), "left", 6));
-            table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 6));
+            table.addCell(ustawfrazeAlign("", "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getDokfkS(), "center", 7));
+            table.addCell(ustawfrazeAlign(rs.getDokfk().getDatadokumentu(), "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 7));
             String kontr = rs.getWiersz().geteVatwpisFK() == null ? rs.getDokfk().getKontr().getNpelna() : rs.getWiersz().geteVatwpisFK().getKlient().getNpelna();
-            table.addCell(ustawfrazeAlign(kontr, "left", 6));
-            table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 6));
+            table.addCell(ustawfrazeAlign(kontr, "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
         }
         return table;
     }

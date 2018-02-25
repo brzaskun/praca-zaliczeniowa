@@ -25,7 +25,6 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="#{mgs.pobierz}" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="akordeon:formzapisymiejscakosztowwmcu" style="width: 120px;"/>
-                <h:outputText value="#{mgs.przetwarzanie}"/>
                 <p:commandButton value="#{mgs.drukujtab}" actionListener="#{miejsceKosztowView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}',1)"/>
                 <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{miejsceKosztowView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}',2)"/>
                 <h:outputText value="rozwiń wszystkie wiersze "/>

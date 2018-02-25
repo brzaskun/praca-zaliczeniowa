@@ -12,6 +12,7 @@ import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import entityfk.StronaWiersza;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import javax.inject.Named;
@@ -36,11 +37,13 @@ public class MiejsceKosztowBean {
                 if (stronywiersza.size() > 0) {
                     double suma = 0;
                     List<StronaWiersza> listastron = new ArrayList<>();
-                    for (StronaWiersza s : stronywiersza) {
+                    for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext();) {
+                        StronaWiersza s = it.next();
                         if (s.getKonto().getNazwapelna().equals(p.getOpismiejsca()) && s.getKonto().getKontomacierzyste()!=null && s.getKonto().getKontomacierzyste().equals(r)) {
                             if (s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                                 suma += sumuj(s);
                                 listastron.add(s);
+                                it.remove();
                             }
                         }
                     }
