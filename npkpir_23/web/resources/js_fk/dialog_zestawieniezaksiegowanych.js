@@ -35,12 +35,12 @@ var pokazeditbutton = function() {
     }
 };
 
-//var zapisywierszywybordok = function() {
-//    PF('wpisywanie').show();
-//    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
-//    var nazwa = 'formwpisdokument:dataList:'+lp+':opisdokwpis';
-//    $(document.getElementById(nazwa)).select();
-//};
+var zapisywierszywybordok = function() {
+    PF('wpisywanie').show();
+    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
+    var nazwa = 'formwpisdokument:dataList:'+lp+':opisdokwpis';
+    $(document.getElementById(nazwa)).select();
+};
 
 var pokazwierszoznaczony = function() {
     try {
