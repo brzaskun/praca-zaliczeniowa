@@ -359,6 +359,7 @@ public class PozycjaBRView implements Serializable {
          } else {
              obliczBilansOtwarciaBilansData();
          }
+         bilansnadzien = Data.ostatniDzien(wpisView);
      }
      
      public void obliczBilansOtwarciaBilansDataDwaLata() {
@@ -535,18 +536,21 @@ public class PozycjaBRView implements Serializable {
         bilansnadzien = Data.dzienostatni(wpisView);
         PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         obliczBilansOtwarciaBilansDataWybierz();
+        bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
      public void zmianaukladprzegladRZiS() {
         bilansnadzien = Data.dzienostatni(wpisView);
         PozycjaRZiSFKBean.zmianaukladu("wynikowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         pobierzukladprzegladRZiS();
+        bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
     public void zmianaukladprzegladBilans() {
         bilansnadzien = Data.dzienostatni(wpisView);
         PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         pobierzukladprzegladBilans("aktywa");
+        bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
     

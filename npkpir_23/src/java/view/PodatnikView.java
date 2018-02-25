@@ -133,6 +133,7 @@ public class PodatnikView implements Serializable {
     private ParamDeklVatNadwyzka paramDeklVatNadwyzka;
     @Inject
     private DokDAOfk dokDAOfk;
+    private double sumaudzialow;
     
 
     public PodatnikView() {
@@ -177,6 +178,7 @@ public class PodatnikView implements Serializable {
         wybranyPodatnikOpodatkowanie.setDatazakonczenia(wpisView.getRokWpisuSt()+"-12-01");
         udzialy.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
         wybranyPodatnikOpodatkowanie.setStawkapodatkuospr(0.19);
+        sumaudzialow = sumujudzialy(podatnikUdzialy);
     }
 
     public void skopiujdoedycji() {
@@ -980,7 +982,8 @@ public class PodatnikView implements Serializable {
             }
             udzialy.setPodatnikObj(selected);
             podatnikUdzialy.add(udzialy);
-            if (sumujudzialy(podatnikUdzialy) > 100.0) {
+            sumaudzialow = sumujudzialy(podatnikUdzialy);
+            if (sumaudzialow > 100.0) {
                 udzialy.setUdzial(null);
                 throw new Exception();
             }
@@ -1690,5 +1693,15 @@ public class PodatnikView implements Serializable {
         podatnikUdzialyDAO.editList(udzialy);
         Msg.dP();
     }
+
+    public double getSumaudzialow() {
+        return sumaudzialow;
+    }
+
+    public void setSumaudzialow(double sumaudzialow) {
+        this.sumaudzialow = sumaudzialow;
+    }
+
+
     
 }

@@ -207,6 +207,7 @@ public class PozycjaBRZestawienieView implements Serializable {
             rootProjektRZiS.getChildren().clear();
             Msg.msg("e", e.getLocalizedMessage());
         }
+        bilansnadzien = Data.ostatniDzien(wpisView);
     }
     public void zmianaukladprzegladRZiS() {
         UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
@@ -216,6 +217,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
         PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
         pobierzukladprzegladRZiSWybierz();
+        bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
     public void zmianaukladprzegladRZiSBO() {
@@ -226,6 +228,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
         PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
         obliczRZiSOtwarciaRZiSData();
+        bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
             
@@ -237,6 +240,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
         PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "bilansowe");
         pobierzukladprzegladBilans();
+        bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
     public void pobierzukladprzegladRZiSWybierz() {

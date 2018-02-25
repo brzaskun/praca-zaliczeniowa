@@ -9,10 +9,11 @@
 
     <p:tab title="Udziały w firmie">
         <h:form id="form9" >
-            <h:outputText value="Udziały w firmie" style="font-size: 15px"/>
+            <h:outputText value="Udziały w firmie - razem " style="font-size: 15px"/>
+            <h:outputText id="sumaudzialow" value="#{podatnikView.sumaudzialow}" style="font-size: 15px"/>
             <p:growl life="3600"  id="messages"/>
             <p:focus for="parametryp9"/><br/>
-            <h:outputText value="dane historyczne"/><br/>
+            <br/>
             <p:panelGrid columns="4" style="width: 900px">
                 <p:dataTable value="#{podatnikView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica"
                               editable="true">
@@ -61,8 +62,8 @@
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
-                <p:commandButton action="#{podatnikView.dodajUdzialy()}" value="dodaj udział" update="akordeon:form9:parametryp9 akordeon:form9:parametryp9a akordeon:form9:form9tablica" type="submit" style="width: 120px;"/>
-                <p:commandButton action="#{podatnikView.editUdzialy()}" value="edytuj udział" update="akordeon:form9:parametryp9 akordeon:form9:parametryp9a akordeon:form9:form9tablica" type="submit" style="margin-left: 10px; width: 120px;"/>
+                <p:commandButton action="#{podatnikView.dodajUdzialy()}" value="dodaj udział" update="akordeon:form9:sumaudzialow akordeon:form9:parametryp9 akordeon:form9:parametryp9a akordeon:form9:form9tablica" type="submit" style="width: 120px;"/>
+                <p:commandButton action="#{podatnikView.editUdzialy()}" value="edytuj udział" update="akordeon:form9:sumaudzialow akordeon:form9:parametryp9 akordeon:form9:parametryp9a akordeon:form9:form9tablica" type="submit" style="margin-left: 10px; width: 120px;"/>
             </p:panelGrid>
         </h:form>
         <br/><br/>

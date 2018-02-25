@@ -55,28 +55,7 @@ public class Data implements Serializable {
     }
     
     public static String ostatniDzien(WpisView wpisView) {
-        String mc = wpisView.getMiesiacWpisu();
-        Integer rok = wpisView.getRokWpisu();
-        Year currentYear = Year.of(rok);
-        switch (mc) {
-            case "01":
-            case "03":
-            case "05":
-            case "07":
-            case "08":
-            case "10":
-            case "12":
-                return rok + "-" + mc + "-31";
-            case "02":
-                if (currentYear.isLeap()) {
-                    return rok + "-" + mc + "-29";
-                } else {
-                    return rok + "-" + mc + "-28";
-                }
-                
-            default:
-                return rok + "-" + mc + "-30";
-        }
+       return pobierzdzien(wpisView);
     }
     
     /**
