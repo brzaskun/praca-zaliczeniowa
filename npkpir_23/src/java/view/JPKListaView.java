@@ -69,7 +69,7 @@ public class JPKListaView  implements Serializable {
     }
    
     public void jpkkorekta() {
-        List<UPO> lista = upodao.findUPORokMc(wpisView);
+        List<UPO> lista = upodao.findUPORokMc("2018", "01");
         for (UPO p: lista) {
             jpk201801.JPK jpk = (jpk201801.JPK) p.getJpk();
             Podatnik pod = podatnikDAO.findPodatnikByNIP(jpk.getPodmiot1().getNIP());

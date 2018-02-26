@@ -54,6 +54,15 @@ public class UPODAO extends DAO implements Serializable{
             return null;
         }
     }
+    
+    public List<UPO> findUPORokMc(String rok, String mc) {
+        try {
+            List<UPO> lista = sessionFacade.findUPORokMc(rok, mc);
+            return lista;
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
 
    
     

@@ -78,6 +78,8 @@ public class PdfZestRok{
         table.addCell(ustawfraze(B.b("wydrukpkpir"), 4, 0));
         if (wpisView.getPodatnikObiekt().getNazwadlafaktury() != null && !wpisView.getPodatnikObiekt().getNazwadlafaktury().equals("")) {
             table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwadlafaktury(), 4, 0));
+        } else if (wpisView.getPodatnikObiekt().getPrintnazwa()!=null) {
+            table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getPrintnazwa(), 4, 0));
         } else {
             table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 4, 0));
         }
