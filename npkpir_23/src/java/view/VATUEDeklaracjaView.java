@@ -17,6 +17,7 @@ import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -48,16 +49,25 @@ public class VATUEDeklaracjaView implements Serializable {
             Msg.msg("e", "Pierwotna deklaracja nie została wysłana, nie można zrobić korekty");
         } else {
             List<VatUe> staralista = stara.getPozycje();
+            for(Iterator<VatUe> it = staralista.iterator();it.hasNext();) {
+                if (it.next().getTransakcja().equals("podsum.")) {
+                    it.remove();
+                }
+            }
             boolean robickorekte = false;
             int nrkolejny = 0;
-            for (VatUe s : staralista) {
-                for (VatUe t : lista) {
-                    if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
-                        if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
-                            t.setKorekta(true);
-                            robickorekte = true;
-                            nrkolejny = stara.getNrkolejny()+1;
-                            break;
+            if (staralista.size()<lista.size()) {
+                robickorekte = true;
+            } else {
+                for (VatUe s : staralista) {
+                    for (VatUe t : lista) {
+                        if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
+                            if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
+                                t.setKorekta(true);
+                                robickorekte = true;
+                                nrkolejny = stara.getNrkolejny()+1;
+                                break;
+                            }
                         }
                     }
                 }

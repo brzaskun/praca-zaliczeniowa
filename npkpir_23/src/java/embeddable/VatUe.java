@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.Objects;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import vies.Vies;
 
 /**
@@ -32,8 +34,10 @@ public class VatUe implements Serializable{
     private int liczbadok;
     private String nazwawaluty;
     @Lob
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Dok> zawiera;
     @Lob
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Dokfk> zawierafk;
     private Vies vies;
     private boolean korekta;

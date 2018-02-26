@@ -196,7 +196,7 @@ public class JPK_VAT2View implements Serializable {
     private JPKSuper genJPK(List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
         JPKSuper zwrot = null;
         try {
-            if (wpisView.getRokWpisu()>2017) {
+            if (Integer.parseInt(Data.aktualnyRok())>2017) {
                 jpk201801.JPK jpk = new jpk201801.JPK();
                 Object[] sprzedaz = utworzWierszeJpkSprzedaz3(wiersze);
                 List<jpk201801.JPK.SprzedazWiersz> listas = (List<jpk201801.JPK.SprzedazWiersz>) sprzedaz[0];

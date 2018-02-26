@@ -18,6 +18,7 @@ import entity.DeklaracjavatUE;
 import entity.Dok;
 import entity.DokSuper;
 import entity.Klienci;
+import entity.Podatnik;
 import entityfk.Dokfk;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
@@ -345,7 +346,8 @@ public class VatUeFKView implements Serializable {
             if (d == null) {
                 Msg.msg("e", "Nie wybrano deklaracji");
             } else {
-                PdfVATUEdekl.drukujVATUE(podatnikDAO, d, wpisView);
+                Podatnik podatnik = podatnikDAO.find(d.getPodatnik());
+                PdfVATUEdekl.drukujVATUE(podatnikDAO, d, wpisView, podatnik);
                 Msg.msg("Wydrukowano deklaracje");
             }
         } catch (Exception e) {

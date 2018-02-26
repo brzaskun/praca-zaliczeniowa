@@ -100,7 +100,7 @@
             </p:column>
             <p:rowExpansion>
                 <p:panelGrid columns="1">
-                    <h:outputText value="#{item.getJpkNaglowek().substring(0,900)}"/>
+                    <h:outputText value="#{item.getJpkNaglowek()}"/>
                 <p:dataTable value="#{item}" var="itemik">
                         <p:column headerText="data jpk" width="80">
                             <h:outputText value="#{itemik.datajpk}">

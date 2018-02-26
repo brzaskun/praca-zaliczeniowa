@@ -120,6 +120,12 @@ public class VATUEKM4Bean {
         if (lista != null) {
             for (VatUe p : lista) {
                 if (p.getKontrahent() != null) {
+                    if (p.getNettoprzedkorekta()==null) {
+                        p.setNettoprzedkorekta(0.0);
+                    }
+                    if (p.getNetto()==null) {
+                        p.setNetto(0.0);
+                    }
                     if (Z.z(p.getNetto()) != 0.0 && Z.z(p.getNettoprzedkorekta()) != 0.0) {
                         switch (p.getTransakcja()) {
                             case "WDT":

@@ -810,6 +810,7 @@ public class Dokfk extends DokSuper implements Serializable {
     }
 
     public List<StronaWiersza> getStronyWierszy() {
+        this.getListawierszy().size();
         List<StronaWiersza> lista = new ArrayList<>();
         for (Wiersz p : this.listawierszy) {
             if (p.getStronaWn() != null) {
@@ -928,6 +929,7 @@ public class Dokfk extends DokSuper implements Serializable {
     }
     
     public String getNettoPLNWNT() {
+        this.getStronyWierszy().size();
         double w = 0.0;
         for (StronaWiersza p : this.getStronyWierszy()) {
             if (p.getKonto().getBilansowewynikowe().equals("wynikowe") || p.getKonto().getPelnynumer().startsWith("3")) {
@@ -938,6 +940,7 @@ public class Dokfk extends DokSuper implements Serializable {
     }
     
      public String getVATPLNWNT() {
+        this.getStronyWierszy().size();
         double w = 0.0;
         for (StronaWiersza p : this.getStronyWierszy()) {
             if (p.getKonto().getPelnynumer().startsWith("221")) {
@@ -948,6 +951,7 @@ public class Dokfk extends DokSuper implements Serializable {
     }
     
      public String getNettoWALWNT() {
+        this.getStronyWierszy().size();
         double w = 0.0;
         for (StronaWiersza p : this.getStronyWierszy()) {
             if (p.getKonto().getBilansowewynikowe().equals("wynikowe") || p.getKonto().getPelnynumer().startsWith("3")) {

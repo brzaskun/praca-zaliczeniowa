@@ -78,10 +78,9 @@ public class PdfVATUEdekl {
 //        }
 //    }
     
-     public static void drukujVATUE(PodatnikDAO podatnikDAO, DeklaracjavatUE d, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
-        Podatnik podatnik = wpisView.getPodatnikObiekt();
+     public static void drukujVATUE(PodatnikDAO podatnikDAO, DeklaracjavatUE d, WpisView wpisView, Podatnik podatnik) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        String nazwapliku = "VATUE" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+        String nazwapliku = "VATUE" + podatnik.getNip() + ".pdf";
         try {
             List<Parametr> param = podatnik.getVatokres();
             //problem kwartalu
@@ -108,7 +107,7 @@ public class PdfVATUEdekl {
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            PdfMain.dodajOpisWstepny(document, "Deklaracja VAT-UE firma: ", wpisView.getPodatnikObiekt(), d.getMiesiac(), d.getRok());
+            PdfMain.dodajOpisWstepny(document, "Deklaracja VAT-UE firma: ", podatnik, d.getMiesiac(), d.getRok());
             int lp = 1;
             for (VatUe p : d.getPozycje()) {
                 PdfPTable table = new PdfPTable(7);
@@ -147,7 +146,7 @@ public class PdfVATUEdekl {
             document.close();
             E.e(e);
         }
-        RequestContext.getCurrentInstance().execute("wydrukvatue('" + wpisView.getPodatnikObiekt().getNip() + "');");
+        RequestContext.getCurrentInstance().execute("wydrukvatue('" + podatnik.getNip() + "');");
     }
 
     private static void uzupelnijDlaVAT7(Document document, DeklaracjavatUE d, WpisView wpisView) {
