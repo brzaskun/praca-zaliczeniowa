@@ -67,6 +67,17 @@ public class JPKListaView  implements Serializable {
             }
         }
     }
+   
+    public void jpkkorekta() {
+        List<UPO> lista = upodao.findUPORokMc(wpisView);
+        for (UPO p: lista) {
+            jpk201801.JPK jpk = (jpk201801.JPK) p.getJpk();
+            Podatnik pod = podatnikDAO.findPodatnikByNIP(jpk.getPodmiot1().getNIP());
+            p.setPodatnik(pod);
+        }
+        upodao.editList(lista);
+        System.out.println("koniec");
+    }
     
      private String sprawdzjakiokresvat(Podatnik p) {
         Integer rok = wpisView.getRokWpisu();
