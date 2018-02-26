@@ -26,3 +26,11 @@ var ukryjdialogvatrk = function() {
     resetujdialog('dialogewidencjavatRK');
 };
 
+var czypuste = function(pole) {
+  var zawartosc = pole.value;
+  if (zawartosc===""){
+      $(pole).focus();
+  }
+  console.log("ss");
+};
+

@@ -59,7 +59,8 @@
                         </h:panelGrid>
                     </f:facet>
                 </p:autoComplete>
-                <p:inputText value="#{dokfkView.ewidencjaVatRK.numerwlasnydokfk}" style="width: 170px;"/>
+                <p:inputText value="#{dokfkView.ewidencjaVatRK.numerwlasnydokfk}" style="width: 170px;" required="true" requiredMessage="brak nr wlasnego dokumentu" onblur="czypuste(this)">
+                </p:inputText>
             </p:panelGrid>
             <p:panelGrid id="panelzewidencjavat" columns="7"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
                 <h:outputText value="opis transakcji" style="width: 160px;"/>
