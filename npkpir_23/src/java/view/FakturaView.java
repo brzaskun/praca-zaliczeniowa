@@ -429,7 +429,7 @@ public class FakturaView implements Serializable {
             if (selected.isWygenerowanaautomatycznie() == true) {
                 selected.setWygenerowanaautomatycznie(false);
             }
-            if (selected.getIdfakturaokresowa()!=null) {
+            if (selected.getIdfakturaokresowa()!=null && selected.isTylkodlaokresowej()) {
                 String nowynumer = String.valueOf(new DateTime().getMillis());
                 selected.getFakturaPK().setNumerkolejny(nowynumer);
                 selected.setTylkodlaokresowej(true);
@@ -437,6 +437,7 @@ public class FakturaView implements Serializable {
                 selected.getIdfakturaokresowa().setDokument(selected);
                 fakturywystokresoweDAO.edit(selected.getIdfakturaokresowa());
             } else {
+                selected.setTylkodlaokresowej(false);
                 fakturaDAO.edit(selected);
             }
             init();
@@ -521,6 +522,7 @@ public class FakturaView implements Serializable {
         Faktura faktura = fakturaokresowa.getDokument();
         faktura.setIdfakturaokresowa(fakturaokresowa);
         fakturaDAO.edit(faktura);
+        selected.setTylkodlaokresowej(true);
         selected = serialclone.SerialClone.clone(faktura);
         selected.setKontrahent(faktura.getKontrahent());
         fakturaxxl = faktura.isFakturaxxl();
