@@ -166,6 +166,7 @@ public class JPK_VAT2View implements Serializable {
         if (upo != null && upo.getReferenceNumber() != null) {
             this.lista.add(upo);
         }
+System.out.println("koniec");
     }
     
     public void przygotujXMLFKPodglad() {

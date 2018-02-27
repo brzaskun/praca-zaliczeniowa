@@ -73,6 +73,7 @@ public class VATUEDeklaracjaView implements Serializable {
                 }
             }
             if (robickorekte) {
+                nrkolejny = stara.getNrkolejny()+1;
                 robdeklaracjekorekta(lista, staralista, true, nrkolejny);
             } else {
                 Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
@@ -107,7 +108,7 @@ public class VATUEDeklaracjaView implements Serializable {
      public void robdeklaracjekorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta, int nrkolejny) {
         try {
             String deklaracja = sporzadzkorekta(lista, staralista, korekta);
-            Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
+                Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
             if (podpisanadeklaracja != null) {
                 DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
                 deklaracjavatUE.setNrkolejny(nrkolejny);
