@@ -88,47 +88,49 @@ public class MailOther implements Serializable{
          for (Faktura faktura : fakturydomaila){
              try {
                  Klienci klientf = faktura.getKontrahent();
-                 MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings, ogolne);
-                 String nazwa = wpisView.getPodatnikObiekt().getNazwadlafaktury() != null ? wpisView.getPodatnikObiekt().getNazwadlafaktury() : wpisView.getPodatnikWpisu();
-                 message.setSubject("Wydruk faktury VAT - "+SMTPBean.nazwaFirmyFrom(settings, ogolne),"UTF-8");
-                 // create and fill the first message part
-                 MimeBodyPart mbp1 = new MimeBodyPart();
-                 mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
-                 mbp1.setContent("Witam"
-                     + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
-                     + "<p>dla firmy "+klientf.getNpelna()+"</p>"
-                     + "<p>za okres "+faktura.getRok()+"/"+faktura.getMc()+"</p>"
-                     + "<p>"+wiadomoscdodatkowa+"</p>"
-                     + Mail.reklama
-                     + stopka,  "text/html; charset=utf-8");
-             
-                 // create the second message part
-                 MimeBodyPart mbp2 = new MimeBodyPart();
-                 mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
-                 // attach the file to the message
-                 ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-                 String realPath = ctx.getRealPath("/");
-                 FileDataSource fds = new FileDataSource(realPath+"wydruki/fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf");
-                 mbp2.setDataHandler(new DataHandler(fds));
-                 mbp2.setFileName(fds.getName());
-                 
-                 // create the Multipart and add its parts to it
-                 Multipart mp = new MimeMultipart();
-                 mp.addBodyPart(mbp1);
-                 mp.addBodyPart(mbp2);
-                 
-                 // add the Multipart to the message
-                 message.setContent(mp);
-                 Transport.send(message);
-                 Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
-                 faktura.setWyslana(true);
-                 faktura.setDatawysylki(new Date());
-                 RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
-                 try {
-                    File file = Plik.plik("fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf", true);
-                    file.delete();
-                 } catch (Exception ef) {
-                     Msg.msg("e", "Nieudane usunięcie pliku faktury");
+                 if (klientf.getEmail()!=null && !klientf.getEmail().equals("")) {
+                    MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings, ogolne);
+                    String nazwa = wpisView.getPodatnikObiekt().getNazwadlafaktury() != null ? wpisView.getPodatnikObiekt().getNazwadlafaktury() : wpisView.getPodatnikWpisu();
+                    message.setSubject("Wydruk faktury VAT - "+SMTPBean.nazwaFirmyFrom(settings, ogolne),"UTF-8");
+                    // create and fill the first message part
+                    MimeBodyPart mbp1 = new MimeBodyPart();
+                    mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+                    mbp1.setContent("Witam"
+                        + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
+                        + "<p>dla firmy "+klientf.getNpelna()+"</p>"
+                        + "<p>za okres "+faktura.getRok()+"/"+faktura.getMc()+"</p>"
+                        + "<p>"+wiadomoscdodatkowa+"</p>"
+                        + Mail.reklama
+                        + stopka,  "text/html; charset=utf-8");
+
+                    // create the second message part
+                    MimeBodyPart mbp2 = new MimeBodyPart();
+                    mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
+                    // attach the file to the message
+                    ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                    String realPath = ctx.getRealPath("/");
+                    FileDataSource fds = new FileDataSource(realPath+"wydruki/fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf");
+                    mbp2.setDataHandler(new DataHandler(fds));
+                    mbp2.setFileName(fds.getName());
+
+                    // create the Multipart and add its parts to it
+                    Multipart mp = new MimeMultipart();
+                    mp.addBodyPart(mbp1);
+                    mp.addBodyPart(mbp2);
+
+                    // add the Multipart to the message
+                    message.setContent(mp);
+                    Transport.send(message);
+                    Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
+                    faktura.setWyslana(true);
+                    faktura.setDatawysylki(new Date());
+                    RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+                    try {
+                       File file = Plik.plik("fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf", true);
+                       file.delete();
+                    } catch (Exception ef) {
+                        Msg.msg("e", "Nieudane usunięcie pliku faktury");
+                    }
                  }
              } catch (MessagingException e) {
                  throw new RuntimeException(e);
