@@ -5,6 +5,7 @@
 package embeddablefk;
 
 import abstractClasses.ToBeATreeNodeObject;
+import comparator.KontoBOcomparator;
 import comparator.Kontocomparator;
 import comparator.PozycjaBilanscomparator;
 import comparator.PozycjaRZiScomparator;
@@ -67,19 +68,29 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     while (it.hasNext()) {
                         TreeNodeExtended r = (TreeNodeExtended) it.next();
                         T parent = (T) r.getData();
-                        int lp = 0;
-                        int macierzysty = 0;
                         try {
                             //tutaj wyszukujemy funkcje, a mozna bylo uzyc abstrakcji
-                            lp = ((ToBeATreeNodeObject) parent).getLp();
-                            macierzysty = ((ToBeATreeNodeObject) p).getMacierzysty();
+                            if (p.getClass().getSimpleName().equals("KontoBO")) {
+                            String lps = ((Konto) p).getMacierzyste();
+                            String macs = ((Konto) parent).getPelnynumer();
+                            if (lps.equals(macs)) {
+                                 TreeNodeExtended tmp = new TreeNodeExtended(p, r);
+                                 tmp.setExpanded(true);
+                                 nowe.add(tmp);
+                             }
+                           } else {
+                                int lp = 0;
+                                int macierzysty = 0;
+                                lp = ((ToBeATreeNodeObject) parent).getLp();
+                                macierzysty = ((ToBeATreeNodeObject) p).getMacierzysty();
+                                if (lp == macierzysty) {
+                                    TreeNodeExtended tmp = new TreeNodeExtended(p, r);
+                                    tmp.setExpanded(true);
+                                    nowe.add(tmp);
+                                }
+                            }
                         } catch (Exception ex) {
-                           E.e(ex);
-                        }
-                        if (lp == macierzysty) {
-                            TreeNodeExtended tmp = new TreeNodeExtended(p, r);
-                            tmp.setExpanded(true);
-                            nowe.add(tmp);
+                           
                         }
                     }
                 }
@@ -1175,6 +1186,9 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             Object pobrany = biezaca.get(0);
             if (pobrany.getClass().getSimpleName().equals("Konto")) {
                 Collections.sort((List<Konto>) biezaca, new Kontocomparator());
+            }
+            if (pobrany.getClass().getSimpleName().equals("KontoBO")) {
+                Collections.sort((List<KontoBO>) biezaca, new KontoBOcomparator());
             }
         }
     }

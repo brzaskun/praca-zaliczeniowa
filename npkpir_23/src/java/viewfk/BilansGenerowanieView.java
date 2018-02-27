@@ -399,7 +399,8 @@ public class BilansGenerowanieView implements Serializable {
     private List<SaldoKonto> przetwarzajSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
         List<SaldoKonto> nowalista = new ArrayList<>();
         for (SaldoKonto p : listaSaldoKonto) {
-            if (p.getKonto().getPelnynumer().equals("132-1")) {
+            if (p.getKonto().getPelnynumer().equals("201-2-133")) {
+                System.out.println("");
             }
             if (p.getKonto().getPelnynumer().startsWith("149")) {
                 nowalista.addAll(przetworzPojedyncze(p));
@@ -659,6 +660,16 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private Collection<? extends SaldoKonto> sumujdlawaluty(Waluty wal, List<StronaWiersza> zapisy) {
+        //na poczatku usuniemy te co pokazuja ze sa rozliczone
+        List<StronaWiersza> zerowe = new ArrayList<>();
+        for (StronaWiersza s : zapisy) {
+            if (Z.z(s.getPozostalo())==0.0) {
+                zerowe.add(s);
+            }
+        }
+        for (StronaWiersza w : zerowe) {
+            zapisy.remove(zapisy.indexOf(w));
+        }
         List<StronaWiersza> zapisydopor = new ArrayList<>();
         zapisydopor.addAll(zapisy);
         for (ListIterator<StronaWiersza> it = zapisy.listIterator(); it.hasNext();) {

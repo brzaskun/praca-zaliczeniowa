@@ -295,7 +295,7 @@ public class StronaWiersza implements Serializable {
         this.rozliczono = 0.0;
         if (this.nowatransakcja) {
             for (Transakcja p : this.platnosci) {
-                if (p.getKwotawwalucierachunku() > 0.0) {
+                if (p.getKwotawwalucierachunku() != 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
                 } else {
                     this.rozliczono += p.getKwotatransakcji();
@@ -324,7 +324,7 @@ public class StronaWiersza implements Serializable {
         this.rozliczono = 0.0;
         for (Transakcja p : this.platnosci) {
             if (p != loop) {
-                if (p.getKwotawwalucierachunku() > 0.0) {
+                if (p.getKwotawwalucierachunku() != 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
                 } else {
                     this.rozliczono += p.getKwotatransakcji();
@@ -349,7 +349,7 @@ public class StronaWiersza implements Serializable {
                 }
             }
             for (Transakcja p : this.platnosci) {
-                if (p.getKwotawwalucierachunku() > 0.0) {
+                if (p.getKwotawwalucierachunku() != 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
                 } else {
                     this.rozliczono += p.getKwotatransakcji();
@@ -385,19 +385,20 @@ public class StronaWiersza implements Serializable {
     }
 
     public double getPozostalo() {
-        if (this.getDokfk().getNumerwlasnydokfk().equals("0519/07/2015")) {
+        if (this.getId().equals(441747)) {
+            System.out.println("");
         }
         this.rozliczono = 0.0;
-        if (this.nowatransakcja) {
+//        if (this.nowatransakcja || this.platnosci != null) {
             for (Transakcja p : this.platnosci) {
-                if (p.getKwotawwalucierachunku() > 0.0) {
+                if (p.getKwotawwalucierachunku() != 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
                 } else {
                     this.rozliczono += p.getKwotatransakcji();
                 }
             }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
-        } else {
+//        } else {
             for (Transakcja p : this.nowetransakcje) {
                     this.rozliczono += p.getKwotatransakcji();
             }
@@ -409,7 +410,7 @@ public class StronaWiersza implements Serializable {
 //                }
 //            }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
-        }
+//        }
         return Z.z(this.pozostalo);
     }
 
@@ -426,7 +427,7 @@ public class StronaWiersza implements Serializable {
                 }
             }
             for (Transakcja p : this.platnosci) {
-                if (p.getKwotawwalucierachunku() > 0.0) {
+                if (p.getKwotawwalucierachunku() != 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
                 } else {
                     this.rozliczono += p.getKwotatransakcji();
