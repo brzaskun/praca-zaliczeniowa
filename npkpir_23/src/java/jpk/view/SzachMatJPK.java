@@ -5,6 +5,7 @@
  */
 package jpk.view;
 
+import data.Data;
 import entity.JPKSuper;
 import entity.Podatnik;
 import entity.UPO;
@@ -200,7 +201,7 @@ public class SzachMatJPK {
     
    
     private static JPKSuper pobierzJPK(String dirmainfilename, WpisView wpisView) {
-        if (wpisView.getRokWpisu() > 2017) {
+        if (Integer.parseInt(Data.aktualnyRok()) > 2017) {
             jpk201801.JPK zwrot = null;
             try {
                 JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);

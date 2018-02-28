@@ -114,7 +114,7 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
-        UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
+            UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
         if (upo != null && upo.getReferenceNumber() != null) {
             this.lista.add(upo);
         }
@@ -166,7 +166,7 @@ public class JPK_VAT2View implements Serializable {
         if (upo != null && upo.getReferenceNumber() != null) {
             this.lista.add(upo);
         }
-System.out.println("koniec");
+        System.out.println("koniec");
     }
     
     public void przygotujXMLFKPodglad() {
@@ -281,7 +281,7 @@ System.out.println("koniec");
     }
     
     public void drukujUPO(UPO item) {
-        if (wpisView.getRokWpisu() > 2017) {
+        if (Integer.parseInt(Data.aktualnyRok()) > 2017) {
             PdfUPO.drukuj_JPK3(item, wpisView);
         } else {
             PdfUPO.drukuj_JPK2(item, wpisView);
@@ -293,7 +293,7 @@ System.out.println("koniec");
         List<EVatwpisSuper> lista = new ArrayList<>(wiersze);
         JPKSuper jpk = genJPK(lista, podatnik, nowa0korekta1);
         try {
-            if (wpisView.getRokWpisu() > 2017) {
+            if (Integer.parseInt(Data.aktualnyRok()) > 2017) {
                 PdfUPO.drukujJPK3(jpk, wpisView, podatnik);
             } else {
                 PdfUPO.drukujJPK2(jpk, wpisView, podatnik);
@@ -308,7 +308,7 @@ System.out.println("koniec");
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         JPKSuper jpk = genJPK(wiersze, podatnik, nowa0korekta1);
         try {
-            if (wpisView.getRokWpisu() > 2017) {
+            if (Integer.parseInt(Data.aktualnyRok()) > 2017) {
                 PdfUPO.drukujJPK3(jpk, wpisView, podatnik);
             } else {
                 PdfUPO.drukujJPK2(jpk, wpisView, podatnik);
@@ -585,9 +585,13 @@ System.out.println("koniec");
     private int pobierznumerkorekty() {
         int numer = 1;
         for (UPO p : lista) {
-            int celzlozenia = ((jpk201801.JPK)p.getJpk()).getNaglowek().getCelZlozenia();
-            if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer) {
-                numer = celzlozenia;
+            if (p.getJpk().getClass().getName().equals("jpk201701.JPK")) {
+                numer = 1;
+            } else if (p.getJpk().getClass().getName().equals("jpk201801.JPK")) {
+                int celzlozenia = ((jpk201801.JPK)p.getJpk()).getNaglowek().getCelZlozenia();
+                if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer) {
+                    numer = celzlozenia;
+                }
             }
         }
         return numer;
