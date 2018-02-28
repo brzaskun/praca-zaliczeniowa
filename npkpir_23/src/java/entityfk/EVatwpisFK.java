@@ -417,7 +417,11 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     
     @Override
     public String getNrWlDk() {
-      return this.getDokfk() != null ? this.getDokfk().getNumerwlasnydokfk() :"";
+      String zwrot = this.getDokfk() != null ? this.getDokfk().getNumerwlasnydokfk() :"";
+      if (this.getWiersz() != null) {
+          zwrot = this.getNumerwlasnydokfk();
+      }
+      return zwrot;
     }
     
     @Override

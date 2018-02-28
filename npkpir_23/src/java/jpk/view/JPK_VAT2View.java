@@ -65,6 +65,7 @@ public class JPK_VAT2View implements Serializable {
     private boolean pkpir0ksiegi1;
     @Inject
     private EVatwpisDedraDAO eVatwpisDedraDAO;
+    List<EVatwpisSuper> bledy;
     
     public void init() {
         try {
@@ -113,10 +114,15 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
-        generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
-            UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
-        if (upo != null && upo.getReferenceNumber() != null) {
-            this.lista.add(upo);
+        List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
+        if (bledy.size()==0) {
+            generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
+                UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
+            if (upo != null && upo.getReferenceNumber() != null) {
+                this.lista.add(upo);
+            }
+        } else {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
     }
     
@@ -139,12 +145,23 @@ public class JPK_VAT2View implements Serializable {
     public void przygotujXMLPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
-        generujXMLPodglad(wpisView.getPodatnikObiekt(), nowa0korekta1);
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+        List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
+        if (bledy.size()==0) {
+            generujXMLPodglad(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
+        } else {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        }
     }
     
     public void przygotujXMLPodgladDedra() {
         List<EVatwpisDedra> wiersze =  eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
-        generujXMLPodgladDedra(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
+        List<EVatwpisSuper> bledy = weryfikujwierszeDedra(wiersze);
+        if (bledy.size()==0) {
+            generujXMLPodgladDedra(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
+        } else {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        }
     }
     
     public void przygotujXMLPodgladAll(Podatnik podatnik) {
@@ -154,25 +171,34 @@ public class JPK_VAT2View implements Serializable {
         } else {
             ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik);
         }
-        generujXMLPodglad(podatnik, nowa0korekta1);
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+        generujXMLPodglad(wiersze, podatnik, nowa0korekta1);
     }
     
     public void przygotujXMLFK() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
-        generujXML(wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1);
-        UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
-        if (upo != null && upo.getReferenceNumber() != null) {
-            this.lista.add(upo);
+        List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
+        if (bledy.size()==0) {
+            generujXML(wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1);
+            UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
+            if (upo != null && upo.getReferenceNumber() != null) {
+                this.lista.add(upo);
+            }
         }
-        System.out.println("koniec");
     }
     
     public void przygotujXMLFKPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt());
-        generujXMLPodglad(wpisView.getPodatnikObiekt(), nowa0korekta1);
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+        List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
+        if (bledy.size()==0) {
+            generujXMLPodglad(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
+        } else {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        }
     }
     
     private UPO wysylkaJPK(Podatnik podatnik) {
@@ -304,8 +330,7 @@ public class JPK_VAT2View implements Serializable {
         }
     }
     
-    public void generujXMLPodglad(Podatnik podatnik, boolean nowa0korekta1) {
-        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+    public void generujXMLPodglad(List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
         JPKSuper jpk = genJPK(wiersze, podatnik, nowa0korekta1);
         try {
             if (Integer.parseInt(Data.aktualnyRok()) > 2017) {
@@ -582,6 +607,15 @@ public class JPK_VAT2View implements Serializable {
         this.pkpir0ksiegi1 = pkpir0ksiegi1;
     }
 
+    public List<EVatwpisSuper> getBledy() {
+        return bledy;
+    }
+
+    public void setBledy(List<EVatwpisSuper> bledy) {
+        this.bledy = bledy;
+    }
+
+    
     private int pobierznumerkorekty() {
         int numer = 1;
         for (UPO p : lista) {
@@ -595,6 +629,82 @@ public class JPK_VAT2View implements Serializable {
             }
         }
         return numer;
+    }
+
+    private List<EVatwpisSuper> weryfikujwiersze(List<EVatwpisSuper> wiersze) {
+        List<EVatwpisSuper> zwrot = new ArrayList<>();
+        for (EVatwpisSuper p : wiersze) {
+            if (p instanceof EVatwpisFK) {
+                EVatwpisFK pf = (EVatwpisFK) p;
+                if (pf.getDataSprz()==null || p.getDataSprz().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+                if (pf.getDataWyst()==null || pf.getDataWyst().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+                if (pf.getKontr()==null) {
+                    zwrot.add(p);
+                    break;
+                }
+                if (pf.getNrWlDk()==null || pf.getNrWlDk().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+            }
+            if (p instanceof EVatwpis1) {
+                EVatwpis1 pf = (EVatwpis1) p;
+                if (pf.getDok().getDataWyst()==null || pf.getDok().getDataWyst().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+                if (pf.getDok().getDataSprz()==null || pf.getDok().getDataSprz().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+                if (pf.getDok().getKontr1()==null) {
+                    zwrot.add(p);
+                    break;
+                }
+                if (pf.getDok().getNrWlDk()==null || pf.getDok().getNrWlDk().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    private List<EVatwpisSuper> weryfikujwierszeDedra(List<EVatwpisDedra> wiersze) {
+        List<EVatwpisSuper> zwrot = new ArrayList<>();
+        for (EVatwpisDedra p : wiersze) {
+            if (p instanceof EVatwpisDedra) {
+                EVatwpisDedra pf = p;
+                if (pf.getDataoperacji()==null || p.getDataoperacji().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+                if (pf.getDatadokumentu()==null || pf.getDatadokumentu().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+                if (pf.getImienazwisko()==null || pf.getImienazwisko().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+                if (pf.getAdres()==null || pf.getAdres().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+                if (pf.getFaktura()==null || pf.getFaktura().equals("")) {
+                    zwrot.add(p);
+                    break;
+                }
+            }
+            
+        }
+        return zwrot;
     }
     
     

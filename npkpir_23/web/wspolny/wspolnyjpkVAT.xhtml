@@ -18,6 +18,55 @@
             <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujDedra()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodgladDedra()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
         </p:panelGrid>
+        
+        <p:dataTable value="#{jPK_VAT2View.bledy}" var="itemblad" rowIndexVar="index" id="tabelablad" style="width: 1250px; margin-top: 10px;"
+                     sortBy="#{itemblad.miesiac}" rendered="#{jPK_VAT2View.bledy ne null and jPK_VAT2View.bledy.size() gt 0}"
+                     selection="#{jPK_VAT2View.selected}" selectionMode="single" rowKey="#{itemblad.hash()}"
+                     emptyMessage="brak bledów w dokumentach">
+            <p:ajax event="rowToggle" global="false"/>
+                <p:column style="width: 20px; text-align: center;">
+                    <p:rowToggler/>
+                </p:column>
+            <f:facet name="header">
+                <h:outputText value="Dokumenty z błędami"/>
+            </f:facet>
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="data sprz."/>
+                </f:facet>
+                <h:outputText value="#{itemblad.dataSprz}" />
+            </p:column>
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="data wyst"/>
+                </f:facet>
+                <h:outputText value="#{itemblad.dataWyst}" />
+            </p:column>
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="nr dok"/>
+                </f:facet>
+                <h:outputText value="#{itemblad.nrWlDk}" />
+            </p:column>
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="opis"/>
+                </f:facet>
+                <h:outputText value="#{itemblad.opis}" />
+            </p:column>
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="netto"/>
+                </f:facet>
+                <h:outputText value="#{itemblad.netto}" />
+            </p:column>
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="vat"/>
+                </f:facet>
+                <h:outputText value="#{itemblad.vat}" />
+            </p:column>
+        </p:dataTable>
         <p:dataTable value="#{jPK_VAT2View.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px; margin-top: 10px;"
                       sortBy="#{item.miesiac}"
                      selection="#{jPK_VAT2View.selected}" selectionMode="single" rowKey="#{item.id}"
