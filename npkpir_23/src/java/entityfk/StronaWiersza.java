@@ -389,7 +389,7 @@ public class StronaWiersza implements Serializable {
             System.out.println("");
         }
         this.rozliczono = 0.0;
-//        if (this.nowatransakcja || this.platnosci != null) {
+        if (this.platnosci != null) {
             for (Transakcja p : this.platnosci) {
                 if (p.getKwotawwalucierachunku() != 0.0) {
                     this.rozliczono += p.getKwotawwalucierachunku();
@@ -398,6 +398,8 @@ public class StronaWiersza implements Serializable {
                 }
             }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
+        }
+        if (this.nowetransakcje != null) {
 //        } else {
             for (Transakcja p : this.nowetransakcje) {
                     this.rozliczono += p.getKwotatransakcji();
@@ -411,6 +413,7 @@ public class StronaWiersza implements Serializable {
 //            }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
 //        }
+        }
         return Z.z(this.pozostalo);
     }
 
