@@ -259,7 +259,7 @@ public class SaldoAnalitykaView implements Serializable {
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
         Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
-        kontaklienta.forEach((p) -> {
+        kontaklienta.stream().forEach((p) -> {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             przygotowanalista.put(p.getPelnynumer(), saldoKonto);
@@ -463,7 +463,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     private void naniesBOnaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyBO) {
-        zapisyBO.forEach((r) -> {
+        zapisyBO.stream().forEach((r) -> {
             SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
             if (p != null) {
                 if (tylkozapisywalutowe && !r.getSymbolWalutBOiSW().equals("PLN")) {
@@ -487,8 +487,7 @@ public class SaldoAnalitykaView implements Serializable {
 
     private void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione, boolean obroty0zapisy1) {
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
-        for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
-            StronaWiersza r = it.next();
+        zapisyRok.stream().forEach(r-> {
             if (obroty0zapisy1 == true && !r.getDokfk().getSeriadokfk().equals("BO")) {
                 if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                     nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione);
@@ -498,8 +497,7 @@ public class SaldoAnalitykaView implements Serializable {
                     nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione);
                 }
             }
-        }
-
+        });
     }
 
     private void nanieskonkretnyzapis(StronaWiersza r, Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> wierszenieuzupelnione) {
@@ -731,10 +729,12 @@ public class SaldoAnalitykaView implements Serializable {
         naniesBOnaKonto(przygotowanalista, zapisyBO);
         naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
         naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
-        for (SaldoKonto s : przygotowanalista.values()) {
+        przygotowanalista.values().parallelStream().map((s) -> {
             s.sumujBOZapisy();
+            return s;
+        }).forEachOrdered((s) -> {
             s.wyliczSaldo();
-        }
+        });
 //        for (int i = 1; i < przygotowanalista.size()+1; i++) {
 //            przygotowanalista.get(i-1).setId(i);
 //        }

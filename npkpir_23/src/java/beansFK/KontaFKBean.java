@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.DoubleAccumulator;
 import javax.inject.Named;
 import javax.persistence.PersistenceException;
 import msg.Msg;
@@ -134,53 +135,75 @@ public class KontaFKBean implements Serializable{
     
     public static SaldoKonto sumujsaldakont(List<SaldoKonto> przygotowanalista) {
         SaldoKonto p = new SaldoKonto();
-        for (SaldoKonto r : przygotowanalista) {
-            p.setBoWn(Z.z(p.getBoWn() + r.getBoWn()));
-            p.setBoMa(Z.z(p.getBoMa() + r.getBoMa()));
-            p.setObrotyWn(Z.z(p.getObrotyWn() + r.getObrotyWn()));
-            p.setObrotyMa(Z.z(p.getObrotyMa() + r.getObrotyMa()));
-            p.setObrotyWnMc(Z.z(p.getObrotyWnMc()+ r.getObrotyWnMc()));
-            p.setObrotyMaMc(Z.z(p.getObrotyMaMc()+ r.getObrotyMaMc()));
-            p.setObrotyBoWn(Z.z(p.getObrotyBoWn() + r.getObrotyBoWn()));
-            p.setObrotyBoMa(Z.z(p.getObrotyBoMa() + r.getObrotyBoMa()));
-            p.setSaldoWn(Z.z(p.getSaldoWn() + r.getSaldoWn()));
-            p.setSaldoMa(Z.z(p.getSaldoMa() + r.getSaldoMa()));
-        }
-        p.setBoWn(Z.z(p.getBoWn()));
-        p.setBoMa(Z.z(p.getBoMa()));
-        p.setObrotyWn(Z.z(p.getObrotyWn()));
-        p.setObrotyMa(Z.z(p.getObrotyMa()));
-        p.setObrotyWnMc(Z.z(p.getObrotyWnMc()));
-        p.setObrotyMaMc(Z.z(p.getObrotyMaMc()));
-        p.setObrotyBoWn(Z.z(p.getObrotyBoWn()));
-        p.setObrotyBoMa(Z.z(p.getObrotyBoMa()));
-        p.setSaldoWn(Z.z(p.getSaldoWn()));
-        p.setSaldoMa(Z.z(p.getSaldoMa()));
+        DoubleAccumulator  bown = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator boma = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obwnmc = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obmamc = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obwn = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obma = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obbown = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obboma = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator saldown = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator saldoma = new DoubleAccumulator(Double::sum,0.d);
+        przygotowanalista.parallelStream().forEach(r-> {
+            bown.accumulate(r.getBoWn());
+            boma.accumulate(r.getBoMa());
+            obwnmc.accumulate(r.getObrotyWnMc());
+            obmamc.accumulate(r.getObrotyMaMc());
+            obwn.accumulate(r.getObrotyWn());
+            obma.accumulate(r.getObrotyMa());
+            obbown.accumulate(r.getObrotyBoWn());
+            obboma.accumulate(r.getObrotyBoMa());
+            saldown.accumulate(r.getSaldoWn());
+            saldoma.accumulate(r.getSaldoMa());
+        });
+        p.setBoWn(Z.z(bown.doubleValue()));
+        p.setBoMa(Z.z(boma.doubleValue()));
+        p.setObrotyWnMc(Z.z(obwnmc.doubleValue()));
+        p.setObrotyMaMc(Z.z(obmamc.doubleValue()));
+        p.setObrotyWn(Z.z(obwn.doubleValue()));
+        p.setObrotyMa(Z.z(obma.doubleValue()));
+        p.setObrotyBoWn(Z.z(obbown.doubleValue()));
+        p.setObrotyBoMa(Z.z(obboma.doubleValue()));
+        p.setSaldoWn(Z.z(saldown.doubleValue()));
+        p.setSaldoMa(Z.z(saldoma.doubleValue()));
         return p;
     }
     
     public static SaldoKonto sumujsaldakont(Map<String,SaldoKonto> przygotowanalista) {
         SaldoKonto p = new SaldoKonto();
-        for (SaldoKonto r : przygotowanalista.values()) {
-            p.setBoWn(Z.z(p.getBoWn() + r.getBoWn()));
-            p.setBoMa(Z.z(p.getBoMa() + r.getBoMa()));
-            p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + r.getObrotyWnMc()));
-            p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + r.getObrotyMaMc()));
-            p.setObrotyWn(Z.z(p.getObrotyWn() + r.getObrotyWn()));
-            p.setObrotyMa(Z.z(p.getObrotyMa() + r.getObrotyMa()));
-            p.setObrotyBoWn(Z.z(p.getObrotyBoWn() + r.getObrotyBoWn()));
-            p.setObrotyBoMa(Z.z(p.getObrotyBoMa() + r.getObrotyBoMa()));
-            p.setSaldoWn(Z.z(p.getSaldoWn() + r.getSaldoWn()));
-            p.setSaldoMa(Z.z(p.getSaldoMa() + r.getSaldoMa()));
-        }
-        p.setBoWn(Z.z(p.getBoWn()));
-        p.setBoMa(Z.z(p.getBoMa()));
-        p.setObrotyWn(Z.z(p.getObrotyWn()));
-        p.setObrotyMa(Z.z(p.getObrotyMa()));
-        p.setObrotyBoWn(Z.z(p.getObrotyBoWn()));
-        p.setObrotyBoMa(Z.z(p.getObrotyBoMa()));
-        p.setSaldoWn(Z.z(p.getSaldoWn()));
-        p.setSaldoMa(Z.z(p.getSaldoMa()));
+        DoubleAccumulator  bown = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator boma = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obwnmc = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obmamc = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obwn = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obma = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obbown = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator obboma = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator saldown = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator saldoma = new DoubleAccumulator(Double::sum,0.d);
+        przygotowanalista.values().parallelStream().forEach(r-> {
+            bown.accumulate(r.getBoWn());
+            boma.accumulate(r.getBoMa());
+            obwnmc.accumulate(r.getObrotyWnMc());
+            obmamc.accumulate(r.getObrotyMaMc());
+            obwn.accumulate(r.getObrotyWn());
+            obma.accumulate(r.getObrotyMa());
+            obbown.accumulate(r.getObrotyBoWn());
+            obboma.accumulate(r.getObrotyBoMa());
+            saldown.accumulate(r.getSaldoWn());
+            saldoma.accumulate(r.getSaldoMa());
+        });
+        p.setBoWn(Z.z(bown.doubleValue()));
+        p.setBoMa(Z.z(boma.doubleValue()));
+        p.setObrotyWnMc(Z.z(obwnmc.doubleValue()));
+        p.setObrotyMaMc(Z.z(obmamc.doubleValue()));
+        p.setObrotyWn(Z.z(obwn.doubleValue()));
+        p.setObrotyMa(Z.z(obma.doubleValue()));
+        p.setObrotyBoWn(Z.z(obbown.doubleValue()));
+        p.setObrotyBoMa(Z.z(obboma.doubleValue()));
+        p.setSaldoWn(Z.z(saldown.doubleValue()));
+        p.setSaldoMa(Z.z(saldoma.doubleValue()));
         return p;
     }
     

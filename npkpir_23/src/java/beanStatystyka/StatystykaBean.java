@@ -12,7 +12,11 @@ import entity.Faktura;
 import entity.Podatnik;
 import entity.Statystyka;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.DoubleSummaryStatistics;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -51,11 +55,7 @@ public class StatystykaBean implements Runnable {
      private double obroty(List<Dok> dokumenty) {
         double zwrot = 0.0;
         List<String> typydok = pobierztypydok();
-        for (Dok p : dokumenty) {
-           if (typydok.contains(p.getRodzajedok().getSkrot())) {
-               zwrot += p.getBrutto();
-           }
-        }
+        zwrot = dokumenty.stream().filter((p) -> (typydok.contains(p.getRodzajedok().getSkrot()))).map((p) -> p.getBrutto()).reduce(zwrot, (accumulator, _item) -> accumulator + _item);
         return zwrot;
     }
     
@@ -96,6 +96,23 @@ public class StatystykaBean implements Runnable {
         zwrot.add("EXP");
         zwrot.add("UPTK100");
         return zwrot;
+    }
+    
+    public static void main(String[] args) {
+    	  int[] array = {23,43,56,97,32};
+    	  Arrays.stream(array).reduce((x,y) -> x+y).ifPresent(s -> System.out.println(s));
+    	  Arrays.stream(array).reduce(Integer::sum).ifPresent(s -> System.out.println(s));
+    	  //Set start value. Result will be start value + sum of array. 
+    	  int startValue = 100;
+    	  int sum = Arrays.stream(array).reduce(startValue, (x,y) -> x+y);
+    	  System.out.println(sum);
+    	  sum = Arrays.stream(array).reduce(startValue, Integer::sum);
+    	  System.out.println(sum);
+          
+          List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);	  
+          DoubleSummaryStatistics stats = list.parallelStream()
+  			     .collect(Collectors.summarizingDouble(i -> i));
+  	  System.out.println("Sum:"+stats.getSum());
     }
     
 }

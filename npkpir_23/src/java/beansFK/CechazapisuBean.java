@@ -33,34 +33,25 @@ public class CechazapisuBean {
     
     private static List<StronaWiersza> wierszezcecha(List<StronaWiersza> lista, String nazwacechy, String mc) {
         List<StronaWiersza> listazcecha = new ArrayList<>();
-        for (StronaWiersza p : lista) {
-            if (p.getDokfk().getMiesiac().equals(mc)) {
-                if (p.getCechazapisuLista() != null && p.getCechazapisuLista().size() > 0) {
-                    for (Cechazapisu r : p.getCechazapisuLista()) {
-                        if (r.getCechazapisuPK().getNazwacechy().equals(nazwacechy)) {
-                            listazcecha.add(p);
-                        }
-                    }
+        lista.stream().filter((p) -> (p.getDokfk().getMiesiac().equals(mc))).filter((p) -> (p.getCechazapisuLista() != null && p.getCechazapisuLista().size() > 0)).forEachOrdered((p) -> {
+            for (Cechazapisu r : p.getCechazapisuLista()) {
+                if (r.getCechazapisuPK().getNazwacechy().equals(nazwacechy)) {
+                    listazcecha.add(p);
                 }
             }
-        }
+        });
         return listazcecha;
     }
     
     private static List<StronaWiersza> dokumentyzcecha(List<StronaWiersza> lista, String nazwacechy, String mc) {
         List<StronaWiersza> listazcecha = new ArrayList<>();
-        for (StronaWiersza p : lista) {
-            Dokfk d = p.getDokfk();
-            if (d.getMiesiac().equals(mc)) {
-                if (d.getCechadokumentuLista() != null && d.getCechadokumentuLista().size() > 0) {
-                    for (Cechazapisu r : d.getCechadokumentuLista()) {
-                        if (r.getCechazapisuPK().getNazwacechy().equals(nazwacechy)) {
-                            listazcecha.add(p);
-                        }
-                    }
+        lista.stream().filter((p) -> (p.getDokfk().getMiesiac().equals(mc))).filter((p) -> (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
+            for (Cechazapisu r : p.getDokfk().getCechadokumentuLista()) {
+                if (r.getCechazapisuPK().getNazwacechy().equals(nazwacechy)) {
+                    listazcecha.add(p);
                 }
             }
-        }
+        });
         return listazcecha;
     }
 
@@ -156,6 +147,7 @@ public class CechazapisuBean {
                     for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
                         if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
                             usun = false;
+                            break;
                         }
                     }
                     if (usun) {
@@ -166,6 +158,7 @@ public class CechazapisuBean {
                     for (Cechazapisu cz : p.getCechazapisuLista()) {
                         if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
                             usun = false;
+                            break;
                         }
                     }
                     if (usun) {
