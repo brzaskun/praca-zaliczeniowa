@@ -29,7 +29,7 @@ public class CechaBean  implements Serializable{
                 for (Dok p : wykazZaksiegowanychDokumentow) {
                     if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
                         for (Cechazapisu r : p.getCechadokumentuLista()) {
-                            lista.add(r.getCechazapisuPK().getNazwacechy());
+                            lista.add(r.getNazwacechy());
                         }
                     }
                 }
@@ -48,7 +48,7 @@ public class CechaBean  implements Serializable{
                 for (DokKsiega p : wykazZaksiegowanychDokumentow) {
                     if (p.getDokument() != null && p.getDokument().getCechadokumentuLista() != null && p.getDokument().getCechadokumentuLista().size() > 0) {
                         for (Cechazapisu r : p.getDokument().getCechadokumentuLista()) {
-                            lista.add(r.getCechazapisuPK().getNazwacechy());
+                            lista.add(r.getNazwacechy());
                         }
                     }
                 }

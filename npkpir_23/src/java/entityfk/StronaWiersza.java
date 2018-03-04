@@ -126,8 +126,7 @@ public class StronaWiersza implements Serializable {
             joinColumns = {
                 @JoinColumn(name = "id_StronaWiersza", referencedColumnName = "id"),},
             inverseJoinColumns = {
-                @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
-                @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
+                @JoinColumn(name = "idcecha", referencedColumnName = "id"),
             })
     private List<Cechazapisu> cechazapisuLista;
     private String symbolWalutyBO;

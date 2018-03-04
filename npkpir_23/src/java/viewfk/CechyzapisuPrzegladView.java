@@ -62,7 +62,7 @@ public class CechyzapisuPrzegladView implements Serializable{
         int i = 1;
         for (CechaStronaWiersza p : zapisyZCecha) {
             p.setId(i++);
-            wykazcech.add(p.getCechazapisu().getCechazapisuPK().getNazwacechy());
+            wykazcech.add(p.getCechazapisu().getNazwacechy());
         }
         if (jakiecechy) {
             for (Iterator<CechaStronaWiersza> it = zapisyZCecha.iterator(); it.hasNext();) {
@@ -84,7 +84,7 @@ public class CechyzapisuPrzegladView implements Serializable{
             for (Iterator<CechaStronaWiersza> it = zapisyZCecha.iterator(); it.hasNext();) {
                 CechaStronaWiersza n = it.next();
                 if (!n.getStronaWiersza().getDokfk().getMiesiac().equals("12")) {
-                    if (n.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("pmn") || n.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("kupmn")) {
+                    if (n.getCechazapisu().getNazwacechy().toLowerCase().equals("pmn") || n.getCechazapisu().getNazwacechy().toLowerCase().equals("kupmn")) {
                         it.remove();
                     }
                 }
@@ -93,7 +93,7 @@ public class CechyzapisuPrzegladView implements Serializable{
         int i = 1;
         for (CechaStronaWiersza p : zapisyZCecha) {
             p.setId(i++);
-            wykazcech.add(p.getCechazapisu().getCechazapisuPK().getNazwacechy());
+            wykazcech.add(p.getCechazapisu().getNazwacechy());
         }
         if (jakiecechy) {
             for (Iterator<CechaStronaWiersza> it = zapisyZCecha.iterator(); it.hasNext();) {

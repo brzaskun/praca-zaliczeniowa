@@ -63,7 +63,7 @@
                             <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
                                     update="akordeon:formsymulacja"  oncomplete="pokazprzyciski();"/>
                             <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
-                            <f:selectItems value="#{symulacjaWynikuView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.cechazapisuPK.nazwacechy}" itemValue="#{item1.cechazapisuPK.nazwacechy}"/>
+                            <f:selectItems value="#{symulacjaWynikuView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.nazwacechy}" itemValue="#{item1.nazwacechy}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
             
@@ -229,9 +229,9 @@
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('tabelacechyzapisow').filter();" style="width:150px" />  
                 </f:facet>
-                <p:column headerText="nazwa cechy" style="width:60px;" sortBy="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}"
-                          filterBy="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}" filterMatchMode="contains" filterStyle="display: none;">
-                    <h:outputText value="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}"/>
+                <p:column headerText="nazwa cechy" style="width:60px;" sortBy="#{wpis.cechazapisu.nazwacechy}"
+                          filterBy="#{wpis.cechazapisu.nazwacechy}" filterMatchMode="contains" filterStyle="display: none;">
+                    <h:outputText value="#{wpis.cechazapisu.nazwacechy}"/>
                 </p:column>
                 <p:column headerText="#{mgs.dokument}" style="width:60px;"
                           filterBy="#{wpis.stronaWiersza.dokfkS}" filterMatchMode="contains" filterStyle="display: none;">

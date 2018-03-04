@@ -86,19 +86,19 @@
                 <p:column headerText="#{mgs.numerkolejny}" width="30"  >
                     <h:outputText value="#{index+1}" />
                 </p:column>
-                <p:column headerText="nazwa cechy" width="80" sortBy="#{wpiscechy.cechazapisu.cechazapisuPK.nazwacechy}" 
-                          filterBy="#{wpiscechy.cechazapisu.cechazapisuPK.nazwacechy}" filterMatchMode="exact">
+                <p:column headerText="nazwa cechy" width="80" sortBy="#{wpiscechy.cechazapisu.nazwacechy}" 
+                          filterBy="#{wpiscechy.cechazapisu.nazwacechy}" filterMatchMode="exact">
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('tabelacechyzapisow').filter()"  style="width: 80px;">
                             <f:selectItem itemLabel="cecha" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{cechyzapisuPrzegladView.wykazcech}" />
                         </p:selectOneMenu>
                     </f:facet>
-                    <h:outputText value="#{wpiscechy.cechazapisu.cechazapisuPK.nazwacechy}"/>
+                    <h:outputText value="#{wpiscechy.cechazapisu.nazwacechy}"/>
                 </p:column>
                 <p:column headerText="rodzaj cechy" width="60"  styleClass="filter20"
-                          sortBy="#{wpiscechy.cechazapisu.cechazapisuPK.rodzajcechy}" filterBy="#{wpiscechy.cechazapisu.cechazapisuPK.rodzajcechy}" filterMatchMode="contains">
-                    <h:outputText value="#{wpiscechy.cechazapisu.cechazapisuPK.rodzajcechy}"/>
+                          sortBy="#{wpiscechy.cechazapisu.rodzajcechy}" filterBy="#{wpiscechy.cechazapisu.rodzajcechy}" filterMatchMode="contains">
+                    <h:outputText value="#{wpiscechy.cechazapisu.rodzajcechy}"/>
                 </p:column>
                 <p:column headerText="#{mgs.dokument}" width="80"  styleClass="filter60"
                           sortBy="#{wpiscechy.stronaWiersza.dokfkS}" filterBy="#{wpiscechy.stronaWiersza.dokfkS}" filterMatchMode="contains">

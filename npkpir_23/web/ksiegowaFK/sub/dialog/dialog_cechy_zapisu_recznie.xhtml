@@ -13,18 +13,18 @@
             
             <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
                           style="overflow-y: scroll; height: 400px;"
-                         rowKey="#{item.cechazapisuPK.nazwacechy}">
+                         rowKey="#{item.nazwacechy}">
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Nazwa cechy"/>
                     </f:facet>
-                    <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
+                    <h:outputText value="#{item.nazwacechy}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Rodzaj cechy"/>
                     </f:facet>
-                    <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
+                    <h:outputText value="#{item.rodzajcechy}"/>
                 </p:column>
                  <p:column>
                     <f:facet name="header">
@@ -62,10 +62,10 @@
                 </f:facet>
                 <p:row>
                     <p:column>
-                        <p:inputText value="#{cechazapisuView.selected.cechazapisuPK.nazwacechy}" style="width: 150px;"/>
+                        <p:inputText value="#{cechazapisuView.selected.nazwacechy}" style="width: 150px;"/>
                     </p:column>
                     <p:column>
-                        <p:selectOneMenu value="#{cechazapisuView.selected.cechazapisuPK.rodzajcechy}" style="width: 300px;">
+                        <p:selectOneMenu value="#{cechazapisuView.selected.rodzajcechy}" style="width: 300px;">
                             <f:selectItem itemLabel="nie stanowi k.u.p." itemValue="nkup"/>
                             <f:selectItem itemLabel="stanowi k.u.p. w m-c następnym" itemValue="kupmn"/>
                             <f:selectItem itemLabel="nie stanowi przychodu" itemValue="np"/>

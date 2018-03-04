@@ -1818,7 +1818,7 @@ public class DokfkView implements Serializable {
                             boolean dousuniecia = true;
                             if (r.getCechadokumentuLista() != null && r.getCechadokumentuLista().size() > 0) {
                                 for (Cechazapisu ch : r.getCechadokumentuLista()) {
-                                    if (ch.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                                    if (ch.getNazwacechy().equals(wybranacechadok)) {
                                         dousuniecia = false;
                                     }
                                 }
@@ -1828,7 +1828,7 @@ public class DokfkView implements Serializable {
                                 for (StronaWiersza sw : r.getStronyWierszy()) {
                                     if (sw.getCechazapisuLista() != null && sw.getCechazapisuLista().size() > 0) {
                                         for (Cechazapisu ch : sw.getCechazapisuLista()) {
-                                            if (ch.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                                            if (ch.getNazwacechy().equals(wybranacechadok)) {
                                                 dousuniecia2 = false;
                                             }
                                         }
@@ -3596,7 +3596,7 @@ public class DokfkView implements Serializable {
             for (Dokfk p : wykazZaksiegowanychDokumentow) {
                 if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
                     for (Cechazapisu r : p.getCechadokumentuLista()) {
-                        lista.add(r.getCechazapisuPK().getNazwacechy());
+                        lista.add(r.getNazwacechy());
                     }
                 }
             }
@@ -3903,7 +3903,7 @@ public class DokfkView implements Serializable {
     public void wybierzcechankup() {
         if (pobranecechypodatnik != null) {
             for (Cechazapisu p : pobranecechypodatnik) {
-                if (p.getCechazapisuPK().getNazwacechy().equals("NKUP")) {
+                if (p.getNazwacechy().equals("NKUP")) {
                     cechazapisudododania = p;
                 }
             }

@@ -188,7 +188,7 @@ public class DokTabView implements Serializable {
                     dodaj = true;
                 } else if (!tmpx.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
                     for (Cechazapisu cz : tmpx.getCechadokumentuLista()) {
-                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                        if (cz.getNazwacechy().equals(wybranacechadok)) {
                             dodaj = true;
                             break;
                         }
@@ -504,8 +504,8 @@ public class DokTabView implements Serializable {
             dokDAO.editList(gosciuwybral);
             if (cechydokzlisty == null) {
                 cechydokzlisty = new ArrayList();
-            } else if (!cechydokzlisty.contains(c.getCechazapisuPK().getNazwacechy())) {
-                cechydokzlisty.add(c.getCechazapisuPK().getNazwacechy());
+            } else if (!cechydokzlisty.contains(c.getNazwacechy())) {
+                cechydokzlisty.add(c.getNazwacechy());
             }
             Msg.msg("Nadano wybranym dokumentom żądaną cechę");
         }
@@ -517,7 +517,7 @@ public class DokTabView implements Serializable {
                 c.getDokLista().remove(p);
             }
             dokDAO.editList(gosciuwybral);
-            cechydokzlisty.remove(c.getCechazapisuPK().getNazwacechy());
+            cechydokzlisty.remove(c.getNazwacechy());
             wybranacechadok = null;
             init();
             Msg.msg("Usunięto wybranym dokumentom żądaną cechę");

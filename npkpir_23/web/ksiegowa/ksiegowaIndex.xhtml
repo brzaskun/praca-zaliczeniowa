@@ -46,7 +46,7 @@
                                     <p:commandButton id="cechadokumentu" value="cechy dok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
                                                      onclick="PF('dialogCechyDokumentu').show();" accesskey="v" update="dodWiad:panelcechy"
                                         global="false" rendered="#{DokumentView.cechadomyslna eq null}"/>
-                                    <p:commandButton id="cechadokumentuauto" value="#{DokumentView.cechadomyslna.cechazapisuPK.nazwacechy}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
+                                    <p:commandButton id="cechadokumentuauto" value="#{DokumentView.cechadomyslna.nazwacechy}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
                                                      accesskey="v" actionListener="#{DokumentView.cechadomyslnaobsluz()}" update="dodWiad:panelcechy" oncomplete="r('dodWiad:dataPole').focus();r('dodWiad:dataPole').select()"
                                         global="false" rendered="#{DokumentView.cechadomyslna ne null}"/>
                                     <p:commandButton id="cechadefiniowanie" value="dodaj cechę" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 

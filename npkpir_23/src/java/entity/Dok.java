@@ -224,8 +224,7 @@ public class Dok extends DokSuper implements Serializable {
                 @JoinColumn(name = "id_dok", referencedColumnName = "id_dok"),
             },
             inverseJoinColumns = {
-                @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
-                @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
+                 @JoinColumn(name = "idcecha", referencedColumnName = "id"),
             })
     private List<Cechazapisu> cechadokumentuLista;
     @ManyToOne
@@ -620,7 +619,7 @@ public class Dok extends DokSuper implements Serializable {
         StringBuilder sb = new StringBuilder();
         if (czyCecha()) {
             for (Cechazapisu p : this.cechadokumentuLista) {
-                sb.append(p.getNazwa());
+                sb.append(p.getNazwacechy());
                 sb.append(",");
             }
         }

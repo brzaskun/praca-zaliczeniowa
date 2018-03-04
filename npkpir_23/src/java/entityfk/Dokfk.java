@@ -175,8 +175,7 @@ public class Dokfk extends DokSuper implements Serializable {
                 @JoinColumn(name = "dokid", referencedColumnName = "id")
             },
             inverseJoinColumns = {
-                @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
-                @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
+                @JoinColumn(name = "idcecha", referencedColumnName = "id"),
             })
     private List<Cechazapisu> cechadokumentuLista;
     @Column(name = "nrdziennika")

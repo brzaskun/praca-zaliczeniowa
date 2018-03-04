@@ -127,7 +127,7 @@ private static final long serialVersionUID = 1L;
                     sumowac = true;
                 } else if (!tmp.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
                     for (Cechazapisu cz : tmp.getCechadokumentuLista()) {
-                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                        if (cz.getNazwacechy().equals(wybranacechadok)) {
                             lista.add(dk);
                             sumowac = true;
                             break;

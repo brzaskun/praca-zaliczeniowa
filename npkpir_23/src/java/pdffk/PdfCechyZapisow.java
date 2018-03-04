@@ -77,11 +77,11 @@ public class PdfCechyZapisow {
         for (Iterator<CechyzapisuPrzegladView.CechaStronaWiersza> it = wiersze.iterator(); it.hasNext();){
             CechyzapisuPrzegladView.CechaStronaWiersza cecha = it.next();
             if (b == true) {
-                if (cecha.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("pmn") || cecha.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("npup")) {
+                if (cecha.getCechazapisu().getNazwacechy().toLowerCase().equals("pmn") || cecha.getCechazapisu().getNazwacechy().toLowerCase().equals("npup")) {
                    zwrot.add(cecha);
                 }
             } else {
-                if (cecha.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("nkup") || cecha.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("kupmn")) {
+                if (cecha.getCechazapisu().getNazwacechy().toLowerCase().equals("nkup") || cecha.getCechazapisu().getNazwacechy().toLowerCase().equals("kupmn")) {
                     zwrot.add(cecha);
                 }
             }

@@ -11,14 +11,23 @@ import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,17 +36,33 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"nazwacechy", "rodzajcechy"})}
+)
 @NamedQueries({
     @NamedQuery(name = "Cechazapisu.findAll", query = "SELECT c FROM Cechazapisu c"),
     @NamedQuery(name = "Cechazapisu.findByPodatnikOnly", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik = :podatnik"),
     @NamedQuery(name = "Cechazapisu.findByPodatnik", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik IS NULL OR c.podatnik = :podatnik"),
-    @NamedQuery(name = "Cechazapisu.findByPodatnikNKUP", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik IS NULL AND c.cechazapisuPK.nazwacechy = :nazwacechy"),
-    @NamedQuery(name = "Cechazapisu.findByNazwacechy", query = "SELECT c FROM Cechazapisu c WHERE c.cechazapisuPK.nazwacechy = :nazwacechy"),
-    @NamedQuery(name = "Cechazapisu.findByRodzajcechy", query = "SELECT c FROM Cechazapisu c WHERE c.cechazapisuPK.rodzajcechy = :rodzajcechy")})
+    @NamedQuery(name = "Cechazapisu.findByPodatnikNKUP", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik IS NULL AND c.nazwacechy = :nazwacechy"),
+    @NamedQuery(name = "Cechazapisu.findByNazwacechy", query = "SELECT c FROM Cechazapisu c WHERE c.nazwacechy = :nazwacechy"),
+    @NamedQuery(name = "Cechazapisu.findByRodzajcechy", query = "SELECT c FROM Cechazapisu c WHERE c.rodzajcechy = :rodzajcechy")})
 public class Cechazapisu implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected CechazapisuPK cechazapisuPK  = new CechazapisuPK();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
+    @Column(nullable = false, length = 150)
+    private String nazwacechy;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
+    @Column(nullable = false, length = 150)
+    private String rodzajcechy;
     @ManyToMany(mappedBy = "cechadokumentuLista")
     private List<Dokfk> dokfkLista;
     @ManyToMany(mappedBy = "cechadokumentuLista")
@@ -58,7 +83,8 @@ public class Cechazapisu implements Serializable {
             
     
     public Cechazapisu() {
-        this.cechazapisuPK = new CechazapisuPK();
+        this.nazwacechy = nazwacechy;
+        this.rodzajcechy = rodzajcechy;
         this.dokfkLista = new ArrayList<>();
         this.dokLista = new ArrayList<>();
         this.stronaWierszaLista = new ArrayList<>();
@@ -66,7 +92,8 @@ public class Cechazapisu implements Serializable {
     }
 
     public Cechazapisu(CechazapisuPK cechazapisuPK) {
-        this.cechazapisuPK = cechazapisuPK;
+        this.nazwacechy = nazwacechy;
+        this.rodzajcechy = rodzajcechy;
         this.dokfkLista = new ArrayList<>();
         this.dokLista = new ArrayList<>();
         this.stronaWierszaLista = new ArrayList<>();
@@ -74,7 +101,8 @@ public class Cechazapisu implements Serializable {
     }
 
     public Cechazapisu(String nazwacechy, String rodzajcechy) {
-        this.cechazapisuPK = new CechazapisuPK(nazwacechy, rodzajcechy);
+        this.nazwacechy = nazwacechy;
+        this.rodzajcechy = rodzajcechy;
         this.dokfkLista = new ArrayList<>();
         this.dokLista = new ArrayList<>();
         this.stronaWierszaLista = new ArrayList<>();
@@ -82,17 +110,7 @@ public class Cechazapisu implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public CechazapisuPK getCechazapisuPK() {
-        return cechazapisuPK;
-    }
-    
-    public void setCechazapisuPK(CechazapisuPK cechazapisuPK) {
-        this.cechazapisuPK = cechazapisuPK;
-    }
-    
-    public String getNazwa() {
-        return this.cechazapisuPK.getNazwacechy();
-    }
+
     public List<Dok> getDokLista() {
         return dokLista;
     }
@@ -140,24 +158,63 @@ public class Cechazapisu implements Serializable {
     public void setStronaWierszaLista(List<StronaWiersza> stronaWierszaLista) {
         this.stronaWierszaLista = stronaWierszaLista;
     }
+
+    public String getNazwacechy() {
+        return nazwacechy;
+    }
+
+    public void setNazwacechy(String nazwacechy) {
+        this.nazwacechy = nazwacechy;
+    }
+
+    public String getRodzajcechy() {
+        return rodzajcechy;
+    }
+
+    public void setRodzajcechy(String rodzajcechy) {
+        this.rodzajcechy = rodzajcechy;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    
     
 //</editor-fold>
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (cechazapisuPK != null ? cechazapisuPK.hashCode() : 0);
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.nazwacechy);
+        hash = 37 * hash + Objects.hashCode(this.rodzajcechy);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Cechazapisu)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Cechazapisu other = (Cechazapisu) object;
-        if ((this.cechazapisuPK == null && other.cechazapisuPK != null) || (this.cechazapisuPK != null && !this.cechazapisuPK.equals(other.cechazapisuPK))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cechazapisu other = (Cechazapisu) obj;
+        if (!Objects.equals(this.nazwacechy, other.nazwacechy)) {
+            return false;
+        }
+        if (!Objects.equals(this.rodzajcechy, other.rodzajcechy)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -165,7 +222,9 @@ public class Cechazapisu implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Cechazapisu[ cechazapisuPK=" + cechazapisuPK + " ]";
+        return "Cechazapisu{" + "nazwacechy=" + nazwacechy + ", rodzajcechy=" + rodzajcechy + '}';
     }
+
+    
     
 }

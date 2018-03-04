@@ -13,10 +13,10 @@
             <p:dataTable  value="#{DokumentView.pobranecechypodatnik}" var="item" rows="6" style="height: 270px;"
                           emptyMessage="cechy nie zostały zdefiniowane">
                 <p:column headerText="nazwa cechy do wyboru">
-                    <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
+                    <h:outputText value="#{item.nazwacechy}"/>
                 </p:column>
                 <p:column headerText="rodzaj cechy do wyboru" style="text-align: center;">
-                    <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
+                    <h:outputText value="#{item.rodzajcechy}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton value="+" actionListener="#{DokumentView.dodajcechedodokumentu(item)}" update="formCH dodWiad:panelcechy"/>
@@ -26,10 +26,10 @@
             <p:dataTable  value="#{DokumentView.selDokument.cechadokumentuLista}" var="item" rows="6" style="height: 170px;"
                           emptyMessage="dokument bez cech">
                 <p:column headerText="nazwa cechy przyporządkowanej">
-                    <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
+                    <h:outputText value="#{item.nazwacechy}"/>
                 </p:column>
                 <p:column headerText="rodzaj cechy przyporządkowanej" style="text-align: center;">
-                    <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
+                    <h:outputText value="#{item.rodzajcechy}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton value="-" actionListener="#{DokumentView.usuncechedodokumentu(item)}" update="formCH dodWiad:panelcechy"/>

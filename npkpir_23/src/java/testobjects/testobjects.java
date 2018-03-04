@@ -1000,7 +1000,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        List<WierszCecha> w = new ArrayList<WierszCecha>();
        for (CechaStronaWiersza p : wiersze) {
            String opiskonta = p.getStronaWiersza().getKonto().getPelnynumer()+ " " + p.getStronaWiersza().getKonto().getNazwapelna();
-           WierszCecha r = new WierszCecha(p.getId(), p.getCechazapisu().getCechazapisuPK().getNazwacechy(), p.getCechazapisu().getCechazapisuPK().getRodzajcechy(), p.getStronaWiersza().getDokfkS(), p.getStronaWiersza().getDokfk().getDatawystawienia(), p.getStronaWiersza().getDokfk().getDataoperacji(), p.getStronaWiersza().getWiersz().getOpisWiersza(), opiskonta, p.getStronaWiersza().getKwotaPLN());
+           WierszCecha r = new WierszCecha(p.getId(), p.getCechazapisu().getNazwacechy(), p.getCechazapisu().getRodzajcechy(), p.getStronaWiersza().getDokfkS(), p.getStronaWiersza().getDokfk().getDatawystawienia(), p.getStronaWiersza().getDokfk().getDataoperacji(), p.getStronaWiersza().getWiersz().getOpisWiersza(), opiskonta, p.getStronaWiersza().getKwotaPLN());
            w.add(r);
        }
        return w;

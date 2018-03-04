@@ -35,7 +35,7 @@ public class CechazapisuBean {
         List<StronaWiersza> listazcecha = new ArrayList<>();
         lista.stream().filter((p) -> (p.getDokfk().getMiesiac().equals(mc))).filter((p) -> (p.getCechazapisuLista() != null && p.getCechazapisuLista().size() > 0)).forEachOrdered((p) -> {
             for (Cechazapisu r : p.getCechazapisuLista()) {
-                if (r.getCechazapisuPK().getNazwacechy().equals(nazwacechy)) {
+                if (r.getNazwacechy().equals(nazwacechy)) {
                     listazcecha.add(p);
                 }
             }
@@ -47,7 +47,7 @@ public class CechazapisuBean {
         List<StronaWiersza> listazcecha = new ArrayList<>();
         lista.stream().filter((p) -> (p.getDokfk().getMiesiac().equals(mc))).filter((p) -> (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
             for (Cechazapisu r : p.getDokfk().getCechadokumentuLista()) {
-                if (r.getCechazapisuPK().getNazwacechy().equals(nazwacechy)) {
+                if (r.getNazwacechy().equals(nazwacechy)) {
                     listazcecha.add(p);
                 }
             }
@@ -145,7 +145,7 @@ public class CechazapisuBean {
                 if (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0) {
                     boolean usun = true;
                     for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
-                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                        if (cz.getNazwacechy().equals(wybranacechadok)) {
                             usun = false;
                             break;
                         }
@@ -156,7 +156,7 @@ public class CechazapisuBean {
                 } else if (p.getCechazapisuLista() != null && p.getCechazapisuLista().size() > 0) {
                     boolean usun = true;
                     for (Cechazapisu cz : p.getCechazapisuLista()) {
-                        if (cz.getCechazapisuPK().getNazwacechy().equals(wybranacechadok)) {
+                        if (cz.getNazwacechy().equals(wybranacechadok)) {
                             usun = false;
                             break;
                         }

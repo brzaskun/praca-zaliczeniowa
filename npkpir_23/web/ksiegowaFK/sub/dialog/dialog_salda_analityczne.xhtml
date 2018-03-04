@@ -85,7 +85,7 @@
                             <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" 
                                     update="formtablicaanalityczne:tablicasaldaanalityczne"/>
                             <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
-                            <f:selectItems value="#{saldoAnalitykaView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.cechazapisuPK.nazwacechy}" itemValue="#{item1.cechazapisuPK.nazwacechy}"/>
+                            <f:selectItems value="#{saldoAnalitykaView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.nazwacechy}" itemValue="#{item1.nazwacechy}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
             <p:remoteCommand actionListener="#{saldoAnalitykaView.sumujwybranekonta}" name="przeliczfilter" update=":tabelazsumamianalityka:sumy" global="false"/>

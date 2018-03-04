@@ -14,17 +14,17 @@
         <h:form id="formCHW" >
             <p:dataTable  value="#{dokfkView.pobranecechypodatnik}" var="item" rows="6" style="height: 270px;" id="tablicacech"
                           emptyMessage="cechy nie zostały zdefiniowane" selection="#{dokfkView.cechazapisudododania}" 
-                          rowKey="#{item.cechazapisuPK}" styleClass="walkingtable" rowIndexVar="index">
+                          rowKey="#{item}" styleClass="walkingtable" rowIndexVar="index">
                 <p:column width="10" styleClass="lpwiersza" style="text-align: center;">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column selectionMode="single" width="20"  styleClass="checkwiersza">
                 </p:column>
                 <p:column headerText="nazwa cechy do wyboru">
-                    <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
+                    <h:outputText value="#{item.nazwacechy}"/>
                 </p:column>
                 <p:column headerText="rodzaj cechy do wyboru" style="text-align: center;">
-                    <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
+                    <h:outputText value="#{item.rodzajcechy}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton value="+" actionListener="#{dokfkView.dodajcechedostronawiersza(item)}" global="false" update="@form"/>
@@ -34,10 +34,10 @@
             <p:dataTable  value="#{dokfkView.stronaWierszaCechy.cechazapisuLista}" var="item" rows="6" style="height: 170px;" id="tablicacech2"
                           emptyMessage="dokument bez cech">
                 <p:column headerText="nazwa cechy przyporządkowanej">
-                    <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
+                    <h:outputText value="#{item.nazwacechy}"/>
                 </p:column>
                 <p:column headerText="rodzaj cechy przyporządkowanej" style="text-align: center;">
-                    <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
+                    <h:outputText value="#{item.rodzajcechy}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton value="-" actionListener="#{dokfkView.usuncechedostronawiersza(item)}" global="false" update="@form"/>

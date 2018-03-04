@@ -11,19 +11,19 @@
               closeOnEscape="true">
         <h:form id="formCHpkpir" >
             <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
-                        rowKey="#{item.cechazapisuPK.nazwacechy}" style="overflow-y: scroll; height: 400px;"
+                        rowKey="#{item.nazwacechy}" style="overflow-y: scroll; height: 400px;"
                         filteredValue="#{cechazapisuView.pobranecechyfiltered}">
-                <p:column filterBy="#{item.cechazapisuPK.nazwacechy}">
+                <p:column filterBy="#{item.nazwacechy}">
                     <f:facet name="header">
                         <h:outputText value="nazwa cechy"/>
                     </f:facet>
-                    <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>
+                    <h:outputText value="#{item.nazwacechy}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="rodzaj cechy"/>
                     </f:facet>
-                    <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
+                    <h:outputText value="#{item.rodzajcechy}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
@@ -76,10 +76,10 @@
                 </f:facet>
                 <p:row>
                     <p:column>
-                        <p:inputText value="#{cechazapisuView.selected.cechazapisuPK.nazwacechy}" style="width: 150px;" requiredMessage="Wpis nazwę cechy" required="true"/>
+                        <p:inputText value="#{cechazapisuView.selected.nazwacechy}" style="width: 150px;" requiredMessage="Wpis nazwę cechy" required="true"/>
                     </p:column>
                     <p:column>
-                        <p:selectOneMenu value="#{cechazapisuView.selected.cechazapisuPK.rodzajcechy}" style="width: 300px;" requiredMessage="Wybierz rodzaj cechy" required="true">
+                        <p:selectOneMenu value="#{cechazapisuView.selected.rodzajcechy}" style="width: 300px;" requiredMessage="Wybierz rodzaj cechy" required="true">
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                             <f:selectItem itemLabel="nie stanowi k.u.p." itemValue="nkup"/>
                             <f:selectItem itemLabel="stanowi k.u.p. w m-c następnym" itemValue="kupmn"/>

@@ -6,12 +6,15 @@
 
 package viewfk;
 
+import dao.DokDAO;
 import daoFK.CechazapisuDAOfk;
+import entity.Dok;
 import entityfk.Cechazapisu;
 import entityfk.CharakterCechy;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -60,7 +63,7 @@ public class CechazapisuView implements Serializable {
   
     public void usun(Cechazapisu c) {
         try {
-            if (c.getCechazapisuPK().getNazwacechy().equals("KUPMN") || c.getCechazapisuPK().getNazwacechy().equals("NKUP") || c.getCechazapisuPK().getNazwacechy().equals("NPUP")|| c.getCechazapisuPK().getNazwacechy().equals("PMN")) {
+            if (c.getNazwacechy().equals("KUPMN") || c.getNazwacechy().equals("NKUP") || c.getNazwacechy().equals("NPUP")|| c.getNazwacechy().equals("PMN")) {
                 Msg.msg("e", "Nie można usunąć cech podstawowych");
                 return;
             } else {
@@ -81,6 +84,32 @@ public class CechazapisuView implements Serializable {
             Msg.dPe();
         }
     }
+    
+    @Inject
+    private DokDAO dokDAO;
+    
+    public void nadajid() {
+        System.out.println("start");
+        List<Dok> wszystkie = dokDAO.findAll();
+        List<Cechazapisu> cechy = cechazapisuDAOfk.findAll();
+        HashMap<String, Cechazapisu> cechymapa = stworzmape(cechy);
+        for (Dok p : wszystkie) {
+            p.getCechadokumentuLista().forEach((r)->{
+                r.setId(cechymapa.get(r.getNazwacechy()).getId());
+            });
+        }
+        cechazapisuDAOfk.editList(wszystkie);
+        System.out.println("koniec");
+    }
+    
+    private HashMap<String, Cechazapisu> stworzmape(List<Cechazapisu> cechy) {
+        HashMap<String, Cechazapisu> mapa = new HashMap<>();
+        cechy.forEach((p) -> {
+            mapa.put(p.getNazwacechy(), p);
+        });
+        return mapa;
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="comment">    
     public String charakter(int num) {
         return CharakterCechy.numtoString(num);
@@ -116,6 +145,8 @@ public class CechazapisuView implements Serializable {
         this.pobranecechy = pobranecechy;
     }
 //</editor-fold>
+
+    
     
     
     
