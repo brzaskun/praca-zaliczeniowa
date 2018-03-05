@@ -26,13 +26,11 @@ public class CechaBean  implements Serializable{
         List zwrot = new ArrayList<>();
         try {
                 Set<String> lista = new HashSet<>();
-                for (Dok p : wykazZaksiegowanychDokumentow) {
-                    if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
-                        for (Cechazapisu r : p.getCechadokumentuLista()) {
-                            lista.add(r.getNazwacechy());
-                        }
+                wykazZaksiegowanychDokumentow.parallelStream().filter((p) -> (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
+                    for (Cechazapisu r : p.getCechadokumentuLista()) {
+                        lista.add(r.getNazwacechy());
                     }
-                }
+            });
                 zwrot = new ArrayList<>(lista);
                 Collections.sort(zwrot);
         } catch (Exception e) {

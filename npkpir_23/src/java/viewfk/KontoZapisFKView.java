@@ -37,6 +37,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.DoubleAccumulator;
+import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -158,12 +160,11 @@ public class KontoZapisFKView implements Serializable{
     }
     
     private void usunkontabezsald() {
-        Set<Konto> listakont = new HashSet<>();
-        for (StronaWiersza p : zapisyRok) {
-            if (p.getKonto() != null) {
-                listakont.add(p.getKonto());
-            }
-        }
+        List<Konto> konta = new ArrayList<>();
+        zapisyRok.stream().filter((p) -> (p.getKonto() != null)).forEach((p) -> {
+            konta.add(p.getKonto());
+        });
+        Set<Konto> listakont = konta.stream().collect(Collectors.toCollection(HashSet::new));
         Set<Konto> listamacierzyste = wyluskajmacierzyste(listakont);
         wykazkont = new ArrayList<>();
         wykazkont.addAll(listakont);
@@ -172,13 +173,12 @@ public class KontoZapisFKView implements Serializable{
     
     private Set<Konto> wyluskajmacierzyste(Set<Konto> listakont) {
         Set<Konto> listamacierzyste = new HashSet<>();
-        for (Konto p : listakont) {
-            Konto m = p.getKontomacierzyste();
+        listakont.parallelStream().map((p) -> p.getKontomacierzyste()).forEachOrdered((m) -> {
             while (m != null) {
                 listamacierzyste.add(m);
                 m = m.getKontomacierzyste();
             }
-        }
+        });
         return listamacierzyste;
     }
     
@@ -210,26 +210,26 @@ public class KontoZapisFKView implements Serializable{
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
             
-            for (StronaWiersza r : zapisyRok) {
-                if (kontapotomneListaOstateczna.contains(r.getKonto())) {
-                    if (!r.getSymbolWalutBOiSW().equals("PLN")) {
-                        nierenderujkolumnnywalut = false;
+            zapisyRok.parallelStream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).map((r) -> {
+                if (!r.getSymbolWalutBOiSW().equals("PLN")) {
+                    nierenderujkolumnnywalut = false;
+                }
+                return r;
+            }).forEachOrdered((r) -> {
+                if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                    if (mc >= granicaDolna && mc <= granicaGorna) {
+                        kontozapisy.add(r);
                     }
-                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                } else {
+                    if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                         if (mc >= granicaDolna && mc <= granicaGorna) {
                             kontozapisy.add(r);
                         }
-                    } else {
-                        if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
-                            int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                            if (mc >= granicaDolna && mc <= granicaGorna) {
-                                kontozapisy.add(r);
-                            }
-                        }
                     }
                 }
-            }
+            });
             sumazapisow();
             sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
@@ -446,19 +446,23 @@ public class KontoZapisFKView implements Serializable{
         try {
             sumaWn = 0.0;
             sumaMa = 0.0;
+            DoubleAccumulator  wn = new DoubleAccumulator(Double::sum,0.d);
+            DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
             if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
-                for(StronaWiersza p : wybranezapisydosumowania){
-                    sumujstrony(p);
-                }
+                wybranezapisydosumowania.parallelStream().forEach((p) -> {
+                    sumujstrony(wn, ma, p);
+                });
             } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
-                for(StronaWiersza p : kontozapisyfiltered){
-                    sumujstrony(p);
-                }
+                kontozapisyfiltered.parallelStream().forEach((p) -> {
+                    sumujstrony(wn, ma, p);
+                });
             } else {
-                for(StronaWiersza p : kontozapisy){
-                    sumujstrony(p);
-                }
+                kontozapisy.parallelStream().forEach((p) -> {
+                    sumujstrony(wn, ma, p);
+                });
             }
+            sumaWn = Z.z(sumaWn+wn.doubleValue());
+            sumaMa = Z.z(sumaMa+ma.doubleValue());
             saldoWn = 0.0;
             saldoMa = 0.0;
             if(sumaWn>sumaMa){
@@ -479,9 +483,13 @@ public class KontoZapisFKView implements Serializable{
         try {
             sumaWn = 0.0;
             sumaMa = 0.0;
+            DoubleAccumulator  wn = new DoubleAccumulator(Double::sum,0.d);
+            DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
             for(StronaWiersza p : kontozapisy){
-                 sumujstrony(p);
+                 sumujstrony(wn, ma, p);
             }
+            sumaWn = Z.z(sumaWn+wn.doubleValue());
+            sumaMa = Z.z(sumaMa+ma.doubleValue());
             saldoWn = 0.0;
             saldoMa = 0.0;
             if(sumaWn>sumaMa){
@@ -498,74 +506,70 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
-    private void sumujstrony(StronaWiersza p) {
+    private void sumujstrony(DoubleAccumulator  wn, DoubleAccumulator  ma, StronaWiersza p) {
         if (p.getWnma().equals("Wn")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
                 if (!p.getSymbolWalutBOiSW().equals("PLN")) {
-                    sumawnwiersz(p);
+                    sumawiersz(wn, p);
                 }
             } else {
-                sumawnwiersz(p);
+                sumawiersz(wn, p);
             }
         } else if (p.getWnma().equals("Ma")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
                 if (!p.getSymbolWalutBOiSW().equals("PLN")) {
-                    sumamawiersz(p);
+                    sumawiersz(ma, p);
                 }
             } else {
-                sumamawiersz(p);
+                sumawiersz(ma,p);
             }
-
         }
     }
     
-    private void sumawnwiersz(StronaWiersza p) {
+    private void sumawiersz(DoubleAccumulator  wn, StronaWiersza p) {
         if (pokaztransakcje) {
-            sumaWn = Z.z(sumaWn + p.getPozostalo());
+            wn.accumulate(p.getPozostalo());
         } else {
-            sumaWn = Z.z(sumaWn + p.getKwota());
+            wn.accumulate(p.getKwota());
         }
     }
     
-    private void sumamawiersz(StronaWiersza p) {
-        if (pokaztransakcje) {
-            sumaMa = Z.z(sumaMa + p.getPozostalo());
-        } else {
-            sumaMa = Z.z(sumaMa + p.getKwota());
-        }
-    }
-    
+        
     public void sumazapisowpln(){
         sumaWnPLN = 0.0;
         sumaMaPLN = 0.0;
+        DoubleAccumulator  wn = new DoubleAccumulator(Double::sum,0.d);
+        DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
         if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
-            for(StronaWiersza p : wybranezapisydosumowania){
+            wybranezapisydosumowania.parallelStream().forEach((p) -> {
                 double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
-                    Z.z(sumaWnPLN = sumaWnPLN + kwotadlasumy);
+                    wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
-                    Z.z(sumaMaPLN = sumaMaPLN + kwotadlasumy);
+                    ma.accumulate(kwotadlasumy);
                 }
-            }
+            });
         } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
-            for(StronaWiersza p : kontozapisyfiltered){
+            kontozapisyfiltered.parallelStream().forEach((p) -> {
                 double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
-                    Z.z(sumaWnPLN = sumaWnPLN + kwotadlasumy);
+                    wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
-                    Z.z(sumaMaPLN = sumaMaPLN + kwotadlasumy);
+                    ma.accumulate(kwotadlasumy);
                 }
-            }
+            });
         }  else {
-            for(StronaWiersza p : kontozapisy){
+            kontozapisy.parallelStream().forEach((p) -> {
                 double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
-                    Z.z(sumaWnPLN = sumaWnPLN + kwotadlasumy);
+                    wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
-                    Z.z(sumaMaPLN = sumaMaPLN + kwotadlasumy);
+                    ma.accumulate(kwotadlasumy);
                 }
-            }
+            });
         }
+        sumaWnPLN = Z.z(wn.doubleValue());
+        sumaMaPLN = Z.z(ma.doubleValue());
         saldoWnPLN = 0.0;
         saldoMaPLN = 0.0;
         if(sumaWnPLN>sumaMaPLN){
