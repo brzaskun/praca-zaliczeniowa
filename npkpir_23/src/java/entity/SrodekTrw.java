@@ -463,7 +463,11 @@ public class SrodekTrw implements Serializable {
     }
     
     public Integer getRokPrzekazania() {
-        return Integer.parseInt(this.getDataprzek().substring(0, 4));
+        Integer zwrot = 2000;
+        try {
+            zwrot = Integer.parseInt(this.getDataprzek().substring(0, 4));
+        } catch (Exception e){}
+        return zwrot;
     }
     
     public Integer getRokSprzedazy() {

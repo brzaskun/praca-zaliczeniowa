@@ -160,7 +160,9 @@ public class STRTabView implements Serializable {
                                     if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() < 100) {
                                         planUmorzen.add(srodek);
                                     }
-                                    if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() == 100) {
+                                    if (srodek.getNetto().equals(srodek.getUmorzeniepoczatkowe())) {
+                                        planUmorzen_100.add(srodek);
+                                    } else if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() == 100) {
                                         planUmorzen_100.add(srodek);
                                     }
                                     srodkiTrwale.add(srodek);
@@ -189,7 +191,9 @@ public class STRTabView implements Serializable {
                                     if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() < 100) {
                                         planUmorzen.add(srodek);
                                     }
-                                    if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() == 100) {
+                                    if (srodek.getNetto().equals(srodek.getUmorzeniepoczatkowe())) {
+                                        planUmorzen_100.add(srodek);
+                                    } else if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() == 100) {
                                         planUmorzen_100.add(srodek);
                                     }
                                     srodkiTrwale.add(srodek);
