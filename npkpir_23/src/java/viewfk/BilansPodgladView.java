@@ -73,6 +73,7 @@ public class BilansPodgladView  implements Serializable{
                     if (kontoRokPop.getPelnynumer().equals(k.getPelnynumer())) {
                         kontopo.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
                         kontopo.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
+                        ita.remove();
                         break;
                     }
                 }
@@ -101,6 +102,7 @@ public class BilansPodgladView  implements Serializable{
                     if (kontoRokPop.getPelnynumer().equals(k.getPelnynumer())) {
                         kontopo.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
                         kontopo.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
+                        ita.remove();
                         break;
                     }
                 }

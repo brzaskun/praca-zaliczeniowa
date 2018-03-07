@@ -6,13 +6,15 @@
 package embeddablefk;
 
 import entityfk.Konto;
+import java.io.Serializable;
 import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-public class KontoBO extends Konto{
+public class KontoBO extends Konto implements Serializable {
+    private static final long serialVersionUID = 1L;
     private double saldorokpopWn;
     private double saldorokpopMa;
     private double roznicaWn;
@@ -53,7 +55,21 @@ public class KontoBO extends Konto{
     public double getRoznicaMa() {
         return Z.z(this.getBoMa()-this.saldorokpopMa);
     }
-
+    public boolean getRozBOWn() {
+        boolean zwrot = false;
+        if (Z.z(this.getBoWn()-this.saldorokpopWn) != 0.0) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+    
+    public boolean getRozBOMa() {
+        boolean zwrot = false;
+        if (Z.z(this.getBoMa()-this.saldorokpopMa) != 0.0) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
     
     
 }

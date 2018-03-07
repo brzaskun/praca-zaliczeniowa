@@ -34,24 +34,24 @@
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:panelGrid columns="2">
-                <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"
-                             rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
-                             scrollable="true" style="width: 1290px; height: 600px;" emptyMessage="Nie ma zapisów na kontach w pozycji BO. Sprawdz czy zapisano wiersze BO do bazy." sortBy="#{loop.pelnynumer}">
+                <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loopbop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"
+                             rowStyleClass="#{loopbop.level eq 0 ? 'row1' : loopbop.level eq 1 ? 'row2' : loopbop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
+                             scrollable="true" style="width: 1290px; height: 600px;" emptyMessage="Nie ma zapisów na kontach w pozycji BO. Sprawdz czy zapisano wiersze BO do bazy." sortBy="#{loopbop.pelnynumer}">
                     <p:ajax event="select" global="false"/>
                     <p:ajax event="unselect" global="false" />
-                    <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
-                        <h:outputText value="#{loop.pelnynumer}" /> 
+                    <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loopbop.level eq 2 ? 'druga' : null}">
+                        <h:outputText value="#{loopbop.pelnynumer}" /> 
                     </p:column>
-                    <p:column headerText="nazwa pełna" style="width: 150px;">
-                        <h:outputText value="#{loop.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
-                                <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                    <p:column headerText="nazwa pełna" style="width: 250px;">
+                        <h:outputText value="#{loopbop.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                                <h:outputText value="#{loopbop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                     </p:column>
-                    <p:column headerText="Strona Wn" style="width: 70px; text-align: center;">
-                        <h:outputText value="#{loop.kontopozycjaID.stronaWn != null ? loop.kontopozycjaID.pozycjaWn : ''}" /> 
+<!--                    <p:column headerText="Pozycja Wn" style="width: 70px; text-align: center;">
+                        <h:outputText value="#{loopbop.kontopozycjaID != null ? loopbop.kontopozycjaID.pozycjaWn : 'a'}" /> 
                     </p:column>
-                    <p:column headerText="Strona Ma" style="width: 70px; text-align: center;">
-                        <h:outputText value="#{loop.kontopozycjaID.stronaMa != null ? loop.kontopozycjaID.pozycjaMa : ''}" /> 
-                    </p:column>
+                    <p:column headerText="Pozycja Ma" style="width: 70px; text-align: center;">
+                        <h:outputText value="#{loopbop.kontopozycjaID != null ? loopbop.kontopozycjaID.pozycjaMa : 'a'}" /> 
+                    </p:column>-->
                     <p:column style="width: 100px;">
                         <f:facet name="header">
                             <h:outputText value="Wn: "/>
@@ -59,7 +59,7 @@
                                 <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </f:facet>
-                        <h:outputText value="#{loop.boWn ne 0 ? loop.boWn : ''}" style="float: right;">
+                        <h:outputText value="#{loopbop.boWn ne 0 ? loopbop.boWn : ''}" style="float: right;">
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
@@ -67,7 +67,7 @@
                         <f:facet name="header">
                             <h:outputText value="Wn rok pop: "/>
                         </f:facet>
-                        <h:outputText value="#{loop.saldorokpopWn ne 0 ? loop.saldorokpopWn : ''}" style="float: right;">
+                        <h:outputText value="#{loopbop.saldorokpopWn ne 0 ? loopbop.saldorokpopWn : ''}" style="float: right;">
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
@@ -78,7 +78,7 @@
                                 <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </f:facet>
-                        <h:outputText value="#{loop.boMa ne 0 ? loop.boMa : ''}" style="float: right;">
+                        <h:outputText value="#{loopbop.boMa ne 0 ? loopbop.boMa : ''}" style="float: right;">
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText> 
                     </p:column>
@@ -86,17 +86,17 @@
                         <f:facet name="header">
                             <h:outputText value="Ma rok pop: "/>
                         </f:facet>
-                        <h:outputText value="#{loop.saldorokpopMa ne 0 ? loop.saldorokpopMa : ''}" style="float: right;">
+                        <h:outputText value="#{loopbop.saldorokpopMa ne 0 ? loopbop.saldorokpopMa : ''}" style="float: right;">
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
                     <p:column headerText="różnica Wn" style="width: 70px; text-align: right;">
-                        <h:outputText value="#{loop.roznicaWn}" rendered="#{loop.boWn-loop.saldorokpopWn ne 0}">
+                        <h:outputText value="#{loopbop.roznicaWn}" rendered="#{loopbop.getRozBOWn()}">
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="różnica Ma" style="width: 70px; text-align: right;">
-                        <h:outputText value="#{loop.roznicaMa}" rendered="#{loop.boMa-loop.saldorokpopMa ne 0}">
+                        <h:outputText value="#{loopbop.roznicaMa}" rendered="#{loopbop.getRozBOMa()}">
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
                         </h:outputText>
                     </p:column>
