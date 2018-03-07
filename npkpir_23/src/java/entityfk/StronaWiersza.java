@@ -384,9 +384,6 @@ public class StronaWiersza implements Serializable {
     }
 
     public double getPozostalo() {
-        if (this.getId().equals(441747)) {
-            System.out.println("");
-        }
         this.rozliczono = 0.0;
         if (this.platnosci != null) {
             for (Transakcja p : this.platnosci) {
