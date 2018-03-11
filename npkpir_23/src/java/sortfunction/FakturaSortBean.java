@@ -24,7 +24,6 @@ public class FakturaSortBean {
                 String[] nro1T = nro1.split("/");
                 String[] nro2T = nro2.split("/");
                 int wynik = 0;
-                if (nro1T.length==nro2T.length) {
                     int ob1 = 0;
                     int ob2 = 0;
                     if (mapa.containsKey("rok")) {
@@ -49,7 +48,6 @@ public class FakturaSortBean {
                             wynik = porownaj(ob1, ob2);
                         }
                     }
-                }
                 return wynik;
             }
         } catch (Exception e) {
