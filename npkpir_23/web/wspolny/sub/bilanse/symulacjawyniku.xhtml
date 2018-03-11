@@ -39,14 +39,14 @@
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
-                                update="akordeon:formsymulacja akordeon:formsymulacja:tabelapodsumowanienowa" oncomplete="pokazprzyciski();"/>
+                                update="akordeon:formsymulacja akordeon:formsymulacja:tabelapodsumowanienowa akordeon:formsymulacjankup" oncomplete="pokazprzyciski();"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" 
                                      oncomplete="pokazprzyciski();"
-                                     style="width: 120px; margin-left: 20px;" update="akordeon:formsymulacja akordeon:formsymulacja:tabelapodsumowanienowa"/>
+                                     style="width: 120px; margin-left: 20px;" update="akordeon:formsymulacja akordeon:formsymulacja:tabelapodsumowanienowa akordeon:formsymulacjankup"/>
                 </p:column>
                 <p:commandButton value="zaksięguj" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"
                                 style="width: 120px; " update="akordeon:formsymulacjanarastajaco"/>
@@ -54,14 +54,14 @@
                 <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>
                 <h:outputText id="tylkosyntopis" value="tylko konta syntetyczne" style="margin-left: 15px; display: none;"/>
                 <p:selectBooleanCheckbox  id="tylkosyntcheck" value="#{symulacjaWynikuView.tylkokontasyntetyczne}"  style="margin-left: 15px; display: none;">
-                    <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" partialSubmit="true" update="akordeon:formsymulacja"
+                    <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" partialSubmit="true" update="akordeon:formsymulacja akordeon:formsymulacjankup"
                             oncomplete="pokazprzyciski();"/>
                 </p:selectBooleanCheckbox>
                 <h:outputText value="księgowania z cechami"/>
                             <p:selectOneMenu value="#{symulacjaWynikuView.wybranacechadok}" id="cechydokuk"
                                          style="width: 200px;" >
                             <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
-                                    update="akordeon:formsymulacja"  oncomplete="pokazprzyciski();"/>
+                                    update="akordeon:formsymulacja akordeon:formsymulacjankup"  oncomplete="pokazprzyciski();"/>
                             <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
                             <f:selectItems value="#{symulacjaWynikuView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.nazwacechy}" itemValue="#{item1.nazwacechy}"/>
                     </p:selectOneMenu>
@@ -217,55 +217,6 @@
                     </p:dataTable>
                 </p:rowExpansion>
             </p:dataTable>
-            <p:outputPanel rendered="#{symulacjaWynikuView.wybranacechadok == null}" style="margin-top: 10px;">
-            <p:dataTable id="tabelacechyzapisow" var="wpis" value="#{symulacjaWynikuView.zapisyZCecha}" editable="true" rowKey="#{wpis.id}"
-                         filteredValue="#{symulacjaWynikuView.zapisyZCechafiltered}"
-                         emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" 
-                         style="width: 900px; height: 250px; overflow-y: scroll;"  scrollable="true"
-                          widgetVar="tabelacechyzapisow" rowIndexVar="index">
-                <p:ajax event="filter" global="false"/>
-                <f:facet name="header">  
-                    <h:outputText value="Zestawienie zapisów z cechami " />  
-                    <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="PF('tabelacechyzapisow').filter();" style="width:150px" />  
-                </f:facet>
-                <p:column headerText="nazwa cechy" style="width:60px;" sortBy="#{wpis.cechazapisu.nazwacechy}"
-                          filterBy="#{wpis.cechazapisu.nazwacechy}" filterMatchMode="contains" filterStyle="display: none;">
-                    <h:outputText value="#{wpis.cechazapisu.nazwacechy}"/>
-                </p:column>
-                <p:column headerText="#{mgs.dokument}" style="width:60px;"
-                          filterBy="#{wpis.stronaWiersza.dokfkS}" filterMatchMode="contains" filterStyle="display: none;">
-                    <h:outputText value="#{wpis.stronaWiersza.dokfkS}"/>
-                </p:column>
-                <p:column headerText="#{mgs.datadok}" style="width:80px;">
-                    <h:outputText value="#{wpis.stronaWiersza.dokfk.datawystawienia}"/>
-                </p:column>
-                <p:column headerText="#{mgs.miesiąc}" style="width:40px;">
-                    <h:outputText value="#{wpis.stronaWiersza.dokfk.miesiac}"/>
-                </p:column>
-                <p:column headerText="#{mgs.wiersz}" style="width:350px;"
-                          filterBy="#{wpis.stronaWiersza.wiersz.opisWiersza}" filterMatchMode="contains" filterStyle="display: none;">
-                    <h:outputText value="#{wpis.stronaWiersza.wiersz.opisWiersza}"/>
-                </p:column>
-                <p:column headerText="#{mgs.konto}" style="width:70px;"
-                          filterBy="#{wpis.stronaWiersza.konto.pelnynumer}" filterMatchMode="startsWith" filterStyle="display: none;">
-                    <h:outputText value="#{wpis.stronaWiersza.konto.pelnynumer}"/>
-                </p:column>
-                <p:column headerText="#{mgs.kwota}" style="width:70px;">
-                    <bcf:outputpl value="#{wpis.stronaWiersza.kwotaPLN}"/>
-                </p:column>
-            </p:dataTable>
-                <p:panelGrid columns="4">
-                <h:outputText value="Razem NKUP"/>
-                <bcf:outputpl value="#{symulacjaWynikuView.nkup}"/>
-                <h:outputText value="Razem NPUP"/>
-                <bcf:outputpl value="#{symulacjaWynikuView.npup}"/>
-                <h:outputText value="Razem KUPMN"/>
-                <bcf:outputpl value="#{symulacjaWynikuView.kupmn_mc}"/>
-                <h:outputText value="Razem PMN"/>
-                <bcf:outputpl value="#{symulacjaWynikuView.pmn_mc}"/>
-                </p:panelGrid>
-                 <p:outputPanel>
             <p:dataTable id="tabelapodsumowanienowa" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item2"
                          style="width: 80%;margin-top: 10px;">
                 <p:column width="30" style="text-align: center;">
@@ -305,51 +256,6 @@
                     <bcf:outputpl value="#{item2.wynikpodatkowy}"/>
                 </p:column>
             </p:dataTable>
-        </p:outputPanel>
-<!--            <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
-                         emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjasuma"
-                         >
-                <f:facet name="header">
-                    <h:outputText value="#{mgs.obliczeniewyniku}"/>
-                </f:facet>
-                <p:column headerText="#{mgs.opis}" width="140" >
-                    <h:outputText value="#{loop.nazwa}"/>
-                </p:column>
-                <p:column headerText="#{mgs.kwota}" width="60" >
-                    <bcf:outputpl value="#{loop.wartosc}"/>
-                </p:column>
-            </p:dataTable>-->
-<!--            <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuView.pozycjeObliczeniaPodatku}" var="loop" rowKey="#{loop.nazwa}"
-                         emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width=" 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
-                         >
-                <f:facet name="header">
-                    <h:outputText value="#{mgs.obliczeniepodatku}"/>
-                </f:facet>
-                <p:column headerText="#{mgs.opis}" width="140" >
-                    <h:outputText value="#{loop.nazwa}"/>
-                </p:column>
-                <p:column headerText="#{mgs.kwota}" width="60" >
-                    <bcf:outputpl value="#{loop.wartosc}"/>
-                </p:column>
-            </p:dataTable>
-            <p:dataTable id="tablicasymulacjawyplata" value="#{symulacjaWynikuView.pozycjeDoWyplaty}" var="loop1" rowKey="#{loop1.nazwa}"
-                         emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width=" 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
-                         >
-                <f:facet name="header">
-                    <h:outputText value="#{mgs.obliczkwotadowypl}"/>
-                </f:facet>
-                <p:column headerText="#{mgs.opis}" width="140" >
-                    <h:outputText value="#{loop1.nazwa}"/>
-                </p:column>
-                <p:column headerText="#{mgs.kwota}" width="60" >
-                    <bcf:outputpl value="#{loop1.wartosc}"/>
-                </p:column>
-            </p:dataTable>-->
-            
-            </p:outputPanel>
         </h:form>
        
     </p:tab>  

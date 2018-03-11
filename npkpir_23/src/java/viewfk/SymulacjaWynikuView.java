@@ -80,6 +80,8 @@ public class SymulacjaWynikuView implements Serializable {
     private double pmn_mc_pop;
     private List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCecha;
     private List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCechafiltered;
+    private List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCechaP;
+    private List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCechafilteredP;
     private double wynikfinansowy;
     private boolean tylkokontasyntetyczne;
     private String wybranacechadok;
@@ -302,6 +304,7 @@ public class SymulacjaWynikuView implements Serializable {
 
     private void pobierzzapisyzcechami() {
         zapisyZCecha = new ArrayList<>();
+        zapisyZCechaP = new ArrayList<>();
         //pobieram wszystkie strony wiersza z roku
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikoweCecha(stronaWierszaDAO, wpisView);
         //pobieram strony wiersza z cecha i wyluskuje strony wiersza z dokumentu z cecha
@@ -331,14 +334,14 @@ public class SymulacjaWynikuView implements Serializable {
         List<StronaWiersza> zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP", wpisView.getMiesiacWpisu());
         for (StronaWiersza stw : zapisycechaprzychod) {
             for (Cechazapisu s : stw.getCechazapisuLista()) {
-                    zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw));
+                    zapisyZCechaP.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw));
                 }
         }
         npup = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP", wpisView.getMiesiacWpisu());
         zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "PMN", wpisView.getMiesiacWpisu());
         for (StronaWiersza stw : zapisycechaprzychod) {
             for (Cechazapisu s : stw.getCechazapisuLista()) {
-                    zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw));
+                    zapisyZCechaP.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw));
                 }
         }
         pmn_mc = -CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacWpisu());
@@ -347,7 +350,7 @@ public class SymulacjaWynikuView implements Serializable {
         pmn_mc_pop = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacUprzedni());
         for (StronaWiersza stw : zapisycechaprzychod) {
             for (Cechazapisu s : stw.getCechazapisuLista()) {
-                zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw, "popmc"));
+                zapisyZCechaP.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw, "popmc"));
             }
         }
     }
@@ -463,6 +466,22 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setWybraneprzychody(List<SaldoKonto> wybraneprzychody) {
         this.wybraneprzychody = wybraneprzychody;
+    }
+
+    public List<CechyzapisuPrzegladView.CechaStronaWiersza> getZapisyZCechaP() {
+        return zapisyZCechaP;
+    }
+
+    public void setZapisyZCechaP(List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCechaP) {
+        this.zapisyZCechaP = zapisyZCechaP;
+    }
+
+    public List<CechyzapisuPrzegladView.CechaStronaWiersza> getZapisyZCechafilteredP() {
+        return zapisyZCechafilteredP;
+    }
+
+    public void setZapisyZCechafilteredP(List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCechafilteredP) {
+        this.zapisyZCechafilteredP = zapisyZCechafilteredP;
     }
 
     public double getNkup() {
