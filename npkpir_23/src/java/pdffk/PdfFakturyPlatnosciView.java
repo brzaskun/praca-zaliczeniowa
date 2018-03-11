@@ -10,8 +10,10 @@ import com.itextpdf.text.pdf.PdfWriter;
 import dao.UzDAO;
 import entity.Faktura;
 import entity.Uz;
+import format.F;
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -35,7 +37,14 @@ public class PdfFakturyPlatnosciView implements Serializable {
     @Inject
     private UzDAO uzDAO;
     
-    public void drukujzaksiegowanydokument(List<Faktura> wiersze, String zaplaconyniezaplacony) {
+    public void drukujzaksiegowanydokument(List<Faktura> wierszeA, List<Faktura> wierszeF, String zaplaconyniezaplacony) {
+        List<Faktura> wiersze = new ArrayList<>();
+        if (wierszeF!=null && wierszeF.size()>0) {
+            wiersze.addAll(wierszeF);
+        } else {
+            wiersze.addAll(wierszeA);
+        }
+        double suma = 0.0;
         String nazwa = null;
         if (zaplaconyniezaplacony.equals("zapłaconych")) {
             nazwa = wpisView.getPodatnikObiekt().getNip()+"fakturyplatnosci";
@@ -47,6 +56,9 @@ public class PdfFakturyPlatnosciView implements Serializable {
             file.delete();
         }
         if (wiersze != null && wiersze.size() > 0) {
+            for (Faktura f : wiersze) {
+                suma += f.getBruttoFaktura();
+            }
             Uz uz = wpisView.getWprowadzil();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
@@ -54,6 +66,8 @@ public class PdfFakturyPlatnosciView implements Serializable {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie "+zaplaconyniezaplacony+" faktur za okres", wpisView.getPodatnikObiekt(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaFakturyPlatnosci(wiersze, zaplaconyniezaplacony),100,0);
+            
+            dodajLinieOpisu(document, "Razem: "+F.curr(suma));
             finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             if (zaplaconyniezaplacony.equals("zapłaconych")) {

@@ -19,40 +19,44 @@ public class FakturaSortBean {
         Map<String, Integer> mapa = rozbijwzor(wpisView.getPodatnikObiekt().getSchematnumeracji());
         try {
             if (mapa != null) {
+                if (o1.equals("1519630911331")) {
+                    System.out.println("dd");
+                }
                 String nro1 = (String) o1;
                 String nro2 = (String) o2;
                 String[] nro1T = nro1.split("/");
                 String[] nro2T = nro2.split("/");
-               int dlugosc = nro1T.length;
                 int wynik = 0;
-                int ob1 = 0;
-                int ob2 = 0;
-                if (mapa.containsKey("rok")) {
-                    int rok = mapa.get("rok");
-                    ob1 = Integer.parseInt(nro1T[rok]);
-                    ob2 = Integer.parseInt(nro2T[rok]);
-                    wynik = porownaj(ob1, ob2);
-                } 
-                if (mapa.containsKey("mc")){
-                    if (wynik == 0 ) {
-                        int mc = mapa.get("mc");
-                        ob1 = Integer.parseInt(nro1T[mc]);
-                        ob2 = Integer.parseInt(nro2T[mc]);
+                if (nro1T.length==nro2T.length) {
+                    int ob1 = 0;
+                    int ob2 = 0;
+                    if (mapa.containsKey("rok")) {
+                        int rok = mapa.get("rok");
+                        ob1 = Integer.parseInt(nro1T[rok]);
+                        ob2 = Integer.parseInt(nro2T[rok]);
                         wynik = porownaj(ob1, ob2);
+                    } 
+                    if (mapa.containsKey("mc")){
+                        if (wynik == 0 ) {
+                            int mc = mapa.get("mc");
+                            ob1 = Integer.parseInt(nro1T[mc]);
+                            ob2 = Integer.parseInt(nro2T[mc]);
+                            wynik = porownaj(ob1, ob2);
+                        }
                     }
-                }
-                if (mapa.containsKey("nr")){
-                    if (wynik == 0 ) {
-                    int nr = mapa.get("nr");
-                        ob1 = Integer.parseInt(nro1T[nr]);
-                        ob2 = Integer.parseInt(nro2T[nr]);
-                        wynik = porownaj(ob1, ob2);
+                    if (mapa.containsKey("nr")){
+                        if (wynik == 0 ) {
+                        int nr = mapa.get("nr");
+                            ob1 = Integer.parseInt(nro1T[nr]);
+                            ob2 = Integer.parseInt(nro2T[nr]);
+                            wynik = porownaj(ob1, ob2);
+                        }
                     }
                 }
                 return wynik;
             }
         } catch (Exception e) {
-                
+            System.out.println(""+e);
         }
        return 0;
     }

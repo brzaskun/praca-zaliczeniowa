@@ -32,6 +32,8 @@ import msg.Msg;
 public class FakturyPlatnosciView  implements Serializable {
     private List<Faktura> fakturyniezaplacone;
     private List<Faktura> fakturyzaplacone;
+    private List<Faktura> fakturyniezaplaconeF;
+    private List<Faktura> fakturyzaplaconeF;
     @Inject
     private FakturaDAO fakturaDAO;
     @Inject
@@ -41,11 +43,17 @@ public class FakturyPlatnosciView  implements Serializable {
     private String datazaplaty;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
+    private double sumaniezaplaconych;
 
     @PostConstruct
     private void init() {
         fakturyniezaplacone = fakturaDAO.findbyPodatnikRokMcPlatnosci(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), false);
         fakturyzaplacone = fakturaDAO.findbyPodatnikRokMcPlatnosci(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), true);
+        if (fakturyniezaplacone!=null && fakturyniezaplacone.size()>0) {
+            for (Faktura f : fakturyniezaplacone) {
+                    sumaniezaplaconych += f.getBruttoFaktura();
+            }
+        }
     }
     
     public void aktualizujTabeleTabelaGuest(AjaxBehaviorEvent e) throws IOException {
@@ -138,6 +146,30 @@ public class FakturyPlatnosciView  implements Serializable {
 
     public void setSelected(Faktura selected) {
         this.selected = selected;
+    }
+
+    public List<Faktura> getFakturyniezaplaconeF() {
+        return fakturyniezaplaconeF;
+    }
+
+    public void setFakturyniezaplaconeF(List<Faktura> fakturyniezaplaconeF) {
+        this.fakturyniezaplaconeF = fakturyniezaplaconeF;
+    }
+
+    public List<Faktura> getFakturyzaplaconeF() {
+        return fakturyzaplaconeF;
+    }
+
+    public void setFakturyzaplaconeF(List<Faktura> fakturyzaplaconeF) {
+        this.fakturyzaplaconeF = fakturyzaplaconeF;
+    }
+
+    public double getSumaniezaplaconych() {
+        return sumaniezaplaconych;
+    }
+
+    public void setSumaniezaplaconych(double sumaniezaplaconych) {
+        this.sumaniezaplaconych = sumaniezaplaconych;
     }
     
     
