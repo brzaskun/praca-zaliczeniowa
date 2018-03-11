@@ -19,9 +19,6 @@ public class FakturaSortBean {
         Map<String, Integer> mapa = rozbijwzor(wpisView.getPodatnikObiekt().getSchematnumeracji());
         try {
             if (mapa != null) {
-                if (o1.equals("1519630911331")) {
-                    System.out.println("dd");
-                }
                 String nro1 = (String) o1;
                 String nro2 = (String) o2;
                 String[] nro1T = nro1.split("/");
