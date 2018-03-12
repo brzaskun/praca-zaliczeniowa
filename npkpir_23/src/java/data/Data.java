@@ -7,9 +7,12 @@ package data;
 import embeddable.Mce;
 import entity.UmorzenieN;
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Named;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -389,36 +392,63 @@ public class Data implements Serializable {
        //inaczej koniecmca.dataoperacji+4
        return Mce.odlegloscMcy(Data.getMc(dataoperacji), Data.getRok(dataoperacji), Data.getMc(datawplywu), Data.getRok(datawplywu));
    }
-    
-   public static void main(String[] args) {
-        String dzien = null;
-        String mc = "05";
-        Integer rok = 2017;
-        int mod = Integer.parseInt(mc) % 2;
-        Year currentYear = Year.of(rok);
-        boolean jestprzestepny = currentYear.isLeap();
-        if (mc.equals("02")) {
-            if (jestprzestepny) {
-                dzien = "29";
-            } else {
-                dzien = "28";
-            }
-        } else {
-            if (mc.equals("07")) {
-                dzien = "31";
-            } else if (mod==0) {
-                dzien = "30";
-            } else {
-                dzien = "31";
-            }
+   public static int compareDay(String dateString1, String dateString2) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            Date date1 = format.parse(dateString1);
+            Date date2 = format.parse(dateString2);
+            return date1.compareTo(date2);
+         } catch (ParseException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append(rok);
-        sb.append("-");
-        sb.append(mc);
-        sb.append("-");
-        sb.append(dzien);
+        return 0;
    }
+   
+    public static void main(String[] args) {
+        try {
+            String termin = "10-05-2012";
+            String dzis = "11-05-2012";
+            
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            
+            Date date1 = format.parse(termin);
+            Date date2 = format.parse(dzis);
+            
+            if (date1.compareTo(date2) <0) {
+                System.out.println("red");
+            }   } catch (ParseException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+//   public static void main(String[] args) {
+//        String dzien = null;
+//        String mc = "05";
+//        Integer rok = 2017;
+//        int mod = Integer.parseInt(mc) % 2;
+//        Year currentYear = Year.of(rok);
+//        boolean jestprzestepny = currentYear.isLeap();
+//        if (mc.equals("02")) {
+//            if (jestprzestepny) {
+//                dzien = "29";
+//            } else {
+//                dzien = "28";
+//            }
+//        } else {
+//            if (mc.equals("07")) {
+//                dzien = "31";
+//            } else if (mod==0) {
+//                dzien = "30";
+//            } else {
+//                dzien = "31";
+//            }
+//        }
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(rok);
+//        sb.append("-");
+//        sb.append(mc);
+//        sb.append("-");
+//        sb.append(dzien);
+//   }
 //   public static Date asDate(LocalDate localDate) {
 //    return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 //  }

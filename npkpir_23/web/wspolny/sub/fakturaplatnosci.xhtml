@@ -57,7 +57,7 @@
                 <h:outputText value="#{wpis.terminzaplaty}"/>
             </p:column>
             <p:column style="text-align: center;">
-                <p:commandButton value="Z" style="width: 30px;" global="false" onclick="PF('czynaniescplatnoscfaktury').show();" actionListener="#{fakturyPlatnosciView.skopiujfakture(wpis)}"
+                <p:commandButton value="Z" style="width: 30px;;#{wpis.kolorklawisza()}" global="false" onclick="PF('czynaniescplatnoscfaktury').show();" actionListener="#{fakturyPlatnosciView.skopiujfakture(wpis)}"
                                  update="formdatazaplaty"/>
             </p:column>
         </p:dataTable>

@@ -29,6 +29,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import view.WpisView;
 
 /**
  *
@@ -337,6 +338,14 @@ public class Faktura implements Serializable {
 
     public Faktura(String wystawcanazwa, String numerkolejny) {
         this.fakturaPK = new FakturaPK(wystawcanazwa, numerkolejny);
+    }
+    
+    public String kolorklawisza() {
+        String zwrot="";
+        if (Data.compareDay(this.terminzaplaty, Data.aktualnaData())<0) {
+            zwrot="color:red;";
+        }
+        return zwrot;
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
