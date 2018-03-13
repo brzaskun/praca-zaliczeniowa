@@ -26,10 +26,11 @@
             <h:outputText value="#{index+1}"/>
         </p:column>
         <p:column width="200" headerText="nazwa podatnika">
-            <h:outputText value="#{podatnik.printnazwa}"/>
-        </p:column>
-        <p:column width="200" headerText="imie nazwisko">
+            <h:outputText value="#{podatnik.printnazwa} / "/>
             <h:outputText value="#{podatnik.imie} #{podatnik.nazwisko}"/>
+        </p:column>
+        <p:column width="200" headerText="email">
+            <h:outputText value="#{podatnik.email}"/>
         </p:column>
          <p:column width="250" headerText="adres">
              <p:panelGrid columns="2">
