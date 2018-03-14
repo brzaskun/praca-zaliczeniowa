@@ -28,7 +28,7 @@ public class Servereset {
     
     public void reset() {
         try {
-            String path="runas /savecred /user:Osito \"G:\\payara-4.1.2.173\\bin\\reset.bat\"";
+            String path="cmd /c start G:\\payara-4.1.2.173\\bin\\reset.bat";
             Runtime rn=Runtime.getRuntime();
             Process pr=rn.exec(path);
             pokazbutton = false;
