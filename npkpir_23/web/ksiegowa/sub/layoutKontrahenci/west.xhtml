@@ -45,9 +45,10 @@
                     <p:menu>
                         <p:menuitem global="false" value="wykaz dokumentów"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem global="false" value="podatkowa ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == true}"/>                         <p:menuitem global="false" value="ewid. przychodów"  outcome="ewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == false}"/>
-                        <p:menuitem global="false" value="faktury miesieczne"  outcome="fakturymiesieczne" icon="ui-icon-circle-arrow-e"/> 
+<!--                    <p:menuitem global="false" value="faktury miesieczne"  outcome="fakturymiesieczne" icon="ui-icon-circle-arrow-e"/> 
                         <p:menuitem global="false" value="niezaplacone"  outcome="niezaplacone" icon="ui-icon-circle-arrow-e"/>  
-                        <p:menuitem global="false" value="zaplacone"  outcome="zaplacone" icon="ui-icon-circle-arrow-e"/>  
+                        <p:menuitem global="false" value="zaplacone"  outcome="zaplacone" icon="ui-icon-circle-arrow-e"/>  -->
+                        <p:menuitem global="false" value="import sprzedaży" outcome="importsprzedazy"  icon="ui-icon-circle-arrow-e" update="@form" />  
                         <p:menuitem global="false" value="obroty w roku" outcome="obroty"  icon="ui-icon-circle-arrow-e" update="@form" />  
                         <p:menuitem global="false" value="kontrahenci fakt." outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem global="false" value="zestaw. sumaryczne"  outcome="zestawienie" icon="ui-icon-circle-arrow-e"/>  

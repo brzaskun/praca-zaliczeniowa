@@ -1342,6 +1342,24 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             return null;
         }
     }
+    
+    public Klienci findKlientByNipImport(String nip) {
+        List<Klienci> wynik = null;
+        try {
+            wynik = em.createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getResultList();
+            if (!wynik.isEmpty() && wynik.size()==1) {
+                return wynik.get(0);
+            } else if (!wynik.isEmpty() && wynik.size()>1){
+                return new Klienci();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
 
     public Dok findDokByNr(String numer) {
         return (Dok) em.createNamedQuery("Dok.findByNrWlDk").setParameter("nrWlDk", "fvp/2013/13185/m").getSingleResult();

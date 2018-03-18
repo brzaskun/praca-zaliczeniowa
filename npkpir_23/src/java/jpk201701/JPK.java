@@ -1710,6 +1710,7 @@ public class JPK extends JPKSuper implements Serializable {
             this.typ = value;
         }
 
+         @Override
         public double getNetto() {
             double zwrot = 0.0;
             if (this != null) {
@@ -1730,6 +1731,7 @@ public class JPK extends JPKSuper implements Serializable {
             return zwrot;
         }
 
+         @Override
         public double getVat() {
             double zwrot = 0.0;
             if (this != null) {
