@@ -896,7 +896,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, Integer rok, String macierzyste) {
-        return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        if (podatnik==null) {
+            return em.createNamedQuery("Konto.findByMacierzysteBOPodatnikWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList();
+        } else {
+            return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        }
     }
 
     public List<Konto> findKontaPotomneWzorcowy(Integer rok, String macierzyste) {
@@ -1772,7 +1776,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public int findMaxLevelPodatnik(Podatnik podatnik, int rokWpisu) {
-        return (int) em.createNamedQuery("Konto.findByMaxLevelPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rokWpisu).getSingleResult();
+        if (podatnik==null) {
+            return (int) em.createNamedQuery("Konto.findByMaxLevelPodatnikWzorcowy").setParameter("rok", rokWpisu).getSingleResult();
+        } else {
+            return (int) em.createNamedQuery("Konto.findByMaxLevelPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rokWpisu).getSingleResult();
+        }
     }
 
     public List<UkladBR> findUkladBRPodatnik(String nazwapelna) {
