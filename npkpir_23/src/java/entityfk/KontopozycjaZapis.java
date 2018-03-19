@@ -178,9 +178,9 @@ public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable
     @Override
     public String toString() {
         if (kontoID.getPodatnik()==null) {
-            return "KontopozycjaZapis{" + ", konto=" + kontoID.getPelnynumer()+" rok "+kontoID.getRok()+" pod Wzorcowy, pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + '}';
+            return "KontopozycjaZapis{"+ ", ukladBR=" + ukladBR+"/ "+kontoID.getId() + ", konto=" + kontoID.getPelnynumer()+" rok "+kontoID.getRok()+" pod Wzorcowy, pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + '}';
         } else {
-            return "KontopozycjaZapis{" + ", konto=" + kontoID.getPelnynumer()+" rok "+kontoID.getRok()+" pod "+kontoID.getPodatnik().getPrintnazwaShort() + "pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + '}';
+            return "KontopozycjaZapis{"+ ", ukladBR=" + ukladBR+"/ "+kontoID.getId() + ", konto=" + kontoID.getPelnynumer()+" rok "+kontoID.getRok()+" pod "+kontoID.getPodatnik().getPrintnazwaShort() + "pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka ;
         }
     }
     

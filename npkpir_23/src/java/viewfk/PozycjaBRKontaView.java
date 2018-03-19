@@ -28,6 +28,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -682,6 +683,15 @@ public class PozycjaBRKontaView implements Serializable {
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "wynikowe");
             List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaWynikowePodatnika(podatnik, ukladdocelowy.getRok());
             List<KontopozycjaZapis> nowekontopozycjazapis = new ArrayList<>();
+            if (podatnik==null) {
+                for (Iterator<KontopozycjaZapis> it = zapisanePOzycjezUkladuWzorcowego.iterator();it.hasNext();) {
+                    KontopozycjaZapis p = it.next();
+                    if (p.getKontoID().getPodatnik()!=null) {
+                        it.remove();
+                        kontopozycjaZapisDAO.destroy(p);
+                    }
+                }
+            }
             for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
                 if (czypozycjazawiera(pozycjedoprzejrzenia, p)) {
                     Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
@@ -716,6 +726,15 @@ public class PozycjaBRKontaView implements Serializable {
             }
             List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, ukladdocelowy.getRok());
             List<KontopozycjaZapis> nowekontopozycjazapis = new ArrayList<>();
+            if (podatnik==null) {
+                for (Iterator<KontopozycjaZapis> it = zapisanePOzycjezUkladuWzorcowego.iterator();it.hasNext();) {
+                    KontopozycjaZapis p = it.next();
+                    if (p.getKontoID().getPodatnik()!=null) {
+                        it.remove();
+                        kontopozycjaZapisDAO.destroy(p);
+                    }
+                }
+            }
             for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
                 if (czypozycjazawieraBilans(pozycjedoprzejrzenia, p)) {
                     Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
