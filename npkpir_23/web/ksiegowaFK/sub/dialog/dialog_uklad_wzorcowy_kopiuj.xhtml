@@ -16,11 +16,13 @@
         <h:form id="formdialog_ukladwzorcowy_kopiuj">
             <p:panelGrid  columns="2">
                 <h:outputText value="Wybrany układ wzorcowy" style="width: 250px;"/>
-                <p:selectOneMenu  value="#{ukladBRWzorcowyView.ukladzrodlowy}" style="width: 280px;"  converter="UkladBRWzorcowyConv">
+                <p:selectOneMenu  value="#{ukladBRWzorcowyView.ukladzrodlowy}" style="width: 280px;"  converter="UkladBRWzorcowyConv" >
+                    <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                     <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="p" itemLabel="#{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>
+                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{ukladBRWzorcowyView.kopiujnazweukladu}" update="formdialog_ukladwzorcowy_kopiuj:nazwadocelowego"/>
                 </p:selectOneMenu>
                 <h:outputText value="Skopiuj pobrany układ jako" style="width: 250px; margin-top: 10px;"/>
-                <p:inputText value="#{ukladBRWzorcowyView.ukladdocelowynazwa}"/>
+                <p:inputText value="#{ukladBRWzorcowyView.ukladdocelowynazwa}" id="nazwadocelowego" readonly="true"/>
                 <h:outputText value="Rok skopiowanego" />
                 <p:inputText value="#{ukladBRWzorcowyView.ukladdocelowyrok}"/>
             </p:panelGrid>
