@@ -109,6 +109,10 @@ public class UkladBRWzorcowyView implements Serializable{
     }
 
 
+    public void kopiujnazweukladu() {
+        ukladdocelowynazwa = ukladzrodlowy.getUklad();
+    }
+    
     public void usun(UkladBR ukladBR) {
         try {
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladBR, "bilansowe");
