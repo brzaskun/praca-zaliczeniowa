@@ -9,6 +9,8 @@ package pdf;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Dok;
+import entityfk.Tabelanbp;
+import entityfk.Tabelanbp_;
 import error.E;
 import format.F;
 import java.io.File;
@@ -79,16 +81,19 @@ public class PdfDok extends Pdf implements Serializable {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma -  ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            PdfMain.dodajLinieOpisu(document, "Waluta pliku jpk "+lista.get(0).getSymbolWaluty());
             dodajTabele(document, testobjects.testobjects.getListaDokImport(lista),100,modyfikator);
             double netto = 0.0;
             double vat = 0.0;
             double nettowaluta = 0.0;
             double vatwaluta = 0.0;
+            Tabelanbp tab = null;
             for (Dok p : lista) {
                 netto = netto+p.getNetto();
                 vat = vat+p.getVat();
                 nettowaluta = nettowaluta+p.getNettoWaluta();
                 vatwaluta = vatwaluta+p.getVatWaluta();
+                tab=p.getTabelanbp();
             }
             double brutto = Z.z(netto+vat);
             double bruttowal = Z.z(nettowaluta+vatwaluta);
@@ -96,8 +101,12 @@ public class PdfDok extends Pdf implements Serializable {
             PdfMain.dodajLinieOpisu(document, opis);
             opis = "netto: "+F.curr(netto)+" vat: "+F.curr(vat)+" brutto: "+F.curr(brutto);
             PdfMain.dodajLinieOpisu(document, opis);
-            opis = "netto wal: "+F.curr(nettowaluta)+" vat wal: "+F.curr(vatwaluta)+" brutto: "+F.curr(bruttowal);
-            PdfMain.dodajLinieOpisu(document, opis);
+            if (tab!=null && !tab.getWaluta().getSymbolwaluty().equals("PLN")) {
+                opis = "waluta dokumentów "+tab.getWaluta().getSymbolwaluty();
+                PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "netto wal: "+F.curr(nettowaluta, tab.getWaluta().getSymbolwaluty())+" vat wal: "+F.curr(vatwaluta, tab.getWaluta().getSymbolwaluty())+" brutto: "+F.curr(bruttowal, tab.getWaluta().getSymbolwaluty());
+                PdfMain.dodajLinieOpisu(document, opis);
+            }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);

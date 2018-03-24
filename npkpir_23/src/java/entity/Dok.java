@@ -602,7 +602,7 @@ public class Dok extends DokSuper implements Serializable {
             }
         }
         double kurs = this.tabelanbp.getKurssredniPrzelicznik();
-        suma = Z.z4(suma*kurs);
+        suma = Z.z4(suma/kurs);
         return suma;
     }
 

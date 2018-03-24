@@ -6,6 +6,7 @@
 package view;
 
 import beansFK.DokFKBean;
+import beansFK.TabelaNBPBean;
 import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
@@ -14,6 +15,7 @@ import dao.RodzajedokDAO;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import data.Data;
+import deklaracje.jpkfa.CurrCodeType;
 import deklaracje.jpkfa.JPK;
 import embeddable.EVatwpis;
 import entity.Dok;
@@ -45,6 +47,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import jpkabstract.SprzedazWierszA;
 import msg.Msg;
+import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -107,6 +110,9 @@ public class ImportFakturyView  implements Serializable {
                 dokumenty = stworzdokumenty(jpk);
             }
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            if (dokumenty.size()==0) {
+                Msg.msg("e", "Brak dokumentów w pliku jpk wg zadanych kruteriów");
+            }
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
@@ -126,12 +132,13 @@ public class ImportFakturyView  implements Serializable {
     
     private List<Dok> stworzdokumenty(deklaracje.jpkfa.JPK jpk) {
         List<Dok> dokumenty = new ArrayList<>();
-        
+        CurrCodeType walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty();
+        String waldok = walutapliku.toString();
         if (jpk != null) {
             jpk.getFaktura().forEach((p) -> {
                 deklaracje.jpkfa.JPK.Faktura wiersz = (deklaracje.jpkfa.JPK.Faktura) p;
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=10) {
-                    Dok dok = generujdok(p);
+                    Dok dok = generujdok(p, waldok);
                     if (dok!=null) {
                         dokumenty.add(dok);
                     }
@@ -143,12 +150,13 @@ public class ImportFakturyView  implements Serializable {
     
     private List<Dok> stworzdokumentyfiz(deklaracje.jpkfa.JPK jpk) {
         List<Dok> dokumenty = new ArrayList<>();
-        
+        CurrCodeType walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty();
+        String waldok = walutapliku.toString();
         if (jpk != null) {
             jpk.getFaktura().forEach((p) -> {
                 deklaracje.jpkfa.JPK.Faktura wiersz = (deklaracje.jpkfa.JPK.Faktura) p;
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
-                    Dok dok = generujdok(p);
+                    Dok dok = generujdok(p, waldok);
                     if (dok!=null) {
                         dokumenty.add(dok);
                     }
@@ -158,7 +166,7 @@ public class ImportFakturyView  implements Serializable {
         return dokumenty;
     }
     
-    private Dok generujdok(Object p) {
+    private Dok generujdok(Object p, String waldok) {
         deklaracje.jpkfa.JPK.Faktura wiersz = (deklaracje.jpkfa.JPK.Faktura) p;
         Dok selDokument = new Dok();
         try {
@@ -181,25 +189,42 @@ public class ImportFakturyView  implements Serializable {
             selDokument.setKontr(pobierzkontrahenta(wiersz, pobierzNIPkontrahenta(wiersz)));
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(wiersz.getP2A());
-            selDokument.setWalutadokumentu(tabeladomyslna.getWaluta());
-            selDokument.setTabelanbp(tabeladomyslna);
+            Tabelanbp innatabela = pobierztabele(waldok, selDokument.getDataWyst());
+            if (waldok.equals("PLN")) {
+                selDokument.setTabelanbp(tabeladomyslna);
+                selDokument.setWalutadokumentu(tabeladomyslna.getWaluta());
+            } else {
+                selDokument.setTabelanbp(innatabela);
+                selDokument.setWalutadokumentu(innatabela.getWaluta());
+            }
             selDokument.setOpis("przychód ze sprzedaży");
             List<KwotaKolumna1> listaX = new ArrayList<>();
             KwotaKolumna1 tmpX = new KwotaKolumna1();
-            tmpX.setNetto(wiersz.getNetto());
-            netto += wiersz.getNetto();
-            tmpX.setVat(wiersz.getVat());
-            vat += wiersz.getVat();
-            tmpX.setNazwakolumny("przych. sprz");
-            tmpX.setDok(selDokument);
-            tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVat())));
+            if (waldok.equals("PLN")) {
+                tmpX.setNetto(wiersz.getNetto());
+                netto += wiersz.getNetto();
+                tmpX.setVat(wiersz.getVat());
+                vat += wiersz.getVat();
+                tmpX.setNazwakolumny("przych. sprz");
+                tmpX.setDok(selDokument);
+                tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVat())));
+            } else {
+                tmpX.setNettowaluta(wiersz.getNetto());
+                netto += wiersz.getNetto();
+                vat += wiersz.getVat();
+                tmpX.setVat(przeliczpln(wiersz.getVat(), innatabela));
+                tmpX.setNetto(przeliczpln(wiersz.getNetto(), innatabela));
+                tmpX.setNazwakolumny("przych. sprz");
+                tmpX.setDok(selDokument);
+                tmpX.setBrutto(Z.z(Z.z(przeliczpln(wiersz.getVat(), innatabela)+przeliczpln(wiersz.getNetto(), innatabela))));
+            }
             listaX.add(tmpX);
             selDokument.setListakwot1(listaX);
             selDokument.setNetto(tmpX.getNetto());
             selDokument.setBrutto(tmpX.getBrutto());
             selDokument.setRozliczony(true);
             List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
-            EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), wiersz.getNetto(), wiersz.getVat(), "sprz.op", miesiac, rok);
+            EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), przeliczpln(wiersz.getNetto(), innatabela), przeliczpln(wiersz.getVat(), innatabela), "sprz.op", miesiac, rok);
             eVatwpis1.setDok(selDokument);
             ewidencjaTransformowana.add(eVatwpis1);
             selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
@@ -321,7 +346,14 @@ public class ImportFakturyView  implements Serializable {
         }
     }
     
+    private Tabelanbp pobierztabele(String waldok, String dataWyst) {
+        DateTime dzienposzukiwany = new DateTime(dataWyst);
+        return TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, waldok);
+    }
     
+    private Double przeliczpln(double vat, Tabelanbp innatabela) {
+        return Z.z4((vat*innatabela.getKurssredniPrzelicznik()));
+    }
     
     public void drukuj() {
         try {
@@ -383,6 +415,10 @@ public class ImportFakturyView  implements Serializable {
     public double getBrutto() {
         return Z.z(this.netto+this.vat);
     }
+
+    
+
+    
 
     
     
