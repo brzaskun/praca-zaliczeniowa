@@ -81,8 +81,7 @@ public class ImportSprzedazyView  implements Serializable {
             klienci = new ArrayList<>();
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
-            InputStream is = uploadedFile.getInputstream();
-            JPKSuper jpk = pobierzJPK(is);
+            JPKSuper jpk = pobierzJPK(uploadedFile);
             dokumenty = stworzdokumenty(jpk);
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
         } catch (Exception ex) {
@@ -92,14 +91,16 @@ public class ImportSprzedazyView  implements Serializable {
         RequestContext.getCurrentInstance().execute("PF('dialogAjaxCzekaj').hide()");
     }
     
-    private JPKSuper pobierzJPK(InputStream is) {
+    private JPKSuper pobierzJPK(UploadedFile uploadedFile) {
        JPKSuper zwrot = null;
        try {
+           InputStream is = uploadedFile.getInputstream();
            JAXBContext context = JAXBContext.newInstance(jpk201701.JPK.class);
            Unmarshaller unmarshaller = context.createUnmarshaller();
            zwrot = (jpk201701.JPK) unmarshaller.unmarshal(is);
        } catch (Exception ex) {}
        try {
+           InputStream is = uploadedFile.getInputstream();
            JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);
            Unmarshaller unmarshaller = context.createUnmarshaller();
            zwrot = (jpk201801.JPK) unmarshaller.unmarshal(is);
