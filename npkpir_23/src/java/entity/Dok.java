@@ -593,6 +593,18 @@ public class Dok extends DokSuper implements Serializable {
         }
         return suma;
     }
+    
+    public Double getVatWaluta() {
+        double suma = 0.0;
+        for (KwotaKolumna1 p : this.listakwot1) {
+            if (p.getNettowaluta() != null) {
+                suma += p.getVat();
+            }
+        }
+        double kurs = this.tabelanbp.getKurssredniPrzelicznik();
+        suma = Z.z4(suma*kurs);
+        return suma;
+    }
 
     public int getSprawdzony() {
         return sprawdzony;

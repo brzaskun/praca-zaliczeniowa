@@ -14,6 +14,9 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -402,6 +405,28 @@ public class Data implements Serializable {
             Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+   }
+   
+   public static XMLGregorianCalendar XMLGCinitRok(String rok) {
+       XMLGregorianCalendar newXMLGregorianCalendar = null;
+        try {
+            newXMLGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+            newXMLGregorianCalendar.setYear(Integer.parseInt(rok));
+        } catch (DatatypeConfigurationException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return newXMLGregorianCalendar;
+   }
+   
+   public static XMLGregorianCalendar XMLGCinitMc(String mc) {
+       XMLGregorianCalendar newXMLGregorianCalendar = null;
+        try {
+            newXMLGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+            newXMLGregorianCalendar.setMonth(Integer.parseInt(mc));
+        } catch (DatatypeConfigurationException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return newXMLGregorianCalendar;
    }
    
     public static void main(String[] args) {

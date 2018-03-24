@@ -32,6 +32,7 @@ public class Vatpoz implements Serializable {
     private List<DeklaracjaVatPozycjeKoncowe> pozycjekoncowe;
     private String rok;
     private String regon;
+    private boolean firma1osobafiz0;
 
     public Vatpoz() {
         this.pozycjekoncowe = new ArrayList<>();
@@ -145,6 +146,14 @@ public class Vatpoz implements Serializable {
 
     public void setRegon(String regon) {
         this.regon = regon;
+    }
+
+    public boolean isFirma1osobafiz0() {
+        return firma1osobafiz0;
+    }
+
+    public void setFirma1osobafiz0(boolean firma1osobafiz0) {
+        this.firma1osobafiz0 = firma1osobafiz0;
     }
     
     

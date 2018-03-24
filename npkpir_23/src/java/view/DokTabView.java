@@ -486,11 +486,13 @@ public class DokTabView implements Serializable {
         return "500px";
     }
 
+    
+    
     public void drukujdokumentyuproszczona() {
         if (dokumentyFiltered != null && dokumentyFiltered.size()>0) {
-            PdfDok.drukujDok(dokumentyFiltered, wpisView);
+            PdfDok.drukujDok(dokumentyFiltered, wpisView,0);
         } else {
-            PdfDok.drukujDok(dokumentylista, wpisView);
+            PdfDok.drukujDok(dokumentylista, wpisView,0);
         }
     }
     

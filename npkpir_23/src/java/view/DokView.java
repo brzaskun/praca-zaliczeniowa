@@ -40,6 +40,7 @@ import entity.Evewidencja;
 import entity.Inwestycje;
 import entity.Inwestycje.Sumazalata;
 import entity.Klienci;
+import entity.KlienciSuper;
 import entity.Kolumna1Rozbicie;
 import entity.KwotaKolumna1;
 import entity.Ostatnidokument;
@@ -1359,6 +1360,8 @@ public class DokView implements Serializable {
     }
 
     public void dodajKlienta() {
+        KlienciSuper tmpk = (KlienciSuper) selectedKlient;
+
         try {
             if (selectedKlient.getNip().isEmpty()) {
                 wygenerujnip();
@@ -1605,17 +1608,7 @@ public class DokView implements Serializable {
 //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
 //                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
 //                }
-                Tabelanbp tabelanbpPLN = null;
-                try {
-                    tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
-                    if (tabelanbpPLN == null) {
-                        tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01", 1.0);
-                        tabelanbpDAO.dodaj(tabelanbpPLN);
-                    }
-                } catch (Exception e) {
-                    E.e(e);
-                }
-                selDokument.setTabelanbp(tabelanbpPLN);
+                selDokument.setTabelanbp(domyslatabela);
                 symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
                 //ukryjEwiencjeVAT = false;
                 //selDokument.setDokumentProsty(false);

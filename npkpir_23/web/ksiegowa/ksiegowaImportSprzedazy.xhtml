@@ -17,6 +17,7 @@
                     <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                         <bcf:ajaxs/>
+                        <h:outputText value="import dokumentów z pliku JPK"/>
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
                             <p:fileUpload fileUploadListener="#{importSprzedazyView.importujsprzedaz}" 

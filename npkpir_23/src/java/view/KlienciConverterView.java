@@ -68,11 +68,11 @@ public class KlienciConverterView implements Serializable{
             m = pattern.matcher(query);
             boolean czytopolskinip  = m.matches();
             if (czytopolskinip) {
-                klientautomat = new Klienci("dodaj klienta automatycznie", "", query, "", "", "", "", "", "", "");
+                klientautomat = new Klienci("dodaj klienta automatycznie", "", query, "", "", "", "", "");
                 results.add(klientautomat);
                 
             }
-            results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
+            results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
         }
         return results;
     }

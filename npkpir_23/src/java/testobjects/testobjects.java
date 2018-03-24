@@ -269,6 +269,24 @@ public class testobjects {
        return tabela;
    }
     
+    public static List[] getListaDokImport(List<Dok> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("data wystawienia");
+       n.add("kontrahent");
+       n.add("adres");
+       n.add("nr własny");
+       n.add("netto");
+       n.add("vat");  
+       n.add("netto wal.");
+       n.add("vat wal.");
+       n.add("tab/kurs");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
     public static List[] getTabelaWierszeDokfk(List<Wiersz> wiersze) {
        List n = new ArrayList();
        n.add("data dok.");

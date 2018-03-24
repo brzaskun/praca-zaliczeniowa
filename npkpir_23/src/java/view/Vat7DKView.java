@@ -15,6 +15,7 @@ import dao.EvpozycjaDAO;
 import dao.PodatnikDAO;
 import dao.SchemaEwidencjaDAO;
 import deklaracjaVAT7_13.VAT713;
+import deklaracje.vat7_17.Deklaracja;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Mce;
@@ -365,6 +366,7 @@ public class Vat7DKView implements Serializable {
             Msg.msg("i", wpisView.getPodatnikWpisu() + "Usunięto poprzednią niewysłaną deklarację VAT za " + rok + "-" + mc,"form:messages");
         }
         if (flaga != 1) {
+            pozycjeDeklaracjiVAT.setFirma1osobafiz0(wpisView.isKsiegirachunkowe());
             uzupelnijPozycjeDeklaracji(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
             nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema);
             nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
@@ -826,15 +828,8 @@ public class Vat7DKView implements Serializable {
         String wiersz = null;
         byte[] deklaracjapodpisana = null;
         try {
-//            if (ObslugaPodpisuBean.moznaPodpisac() && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
             if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
                 VAT713 vat713 = new VAT713(pozycje, schema, true);
-//                stary modul do podpisywania w momencie zapisu
-//                FacesContext context = FacesContext.getCurrentInstance();
-//                PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
-//                Object[] deklaracje = podpisView.podpiszDeklaracje(vat713.getWiersz());
-//                deklaracjapodpisana = (byte[]) deklaracje[0];
-//                wiersz = (String) deklaracje[1];
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(true);
             } else {
@@ -842,6 +837,9 @@ public class Vat7DKView implements Serializable {
                 //to jest wygenerowana dekalracjia w xml
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(false);
+            }
+            if (schema.getNazwaschemy().equals("M-17")) {
+                deklaracje.vat7_17.Deklaracja deklaracjaxml = new Deklaracja(pozycje, schema, false);
             }
         } catch (Exception ex) {
             Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");

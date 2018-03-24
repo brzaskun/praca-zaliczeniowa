@@ -8,16 +8,12 @@ import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import error.E;
 import gus.GUSView;
-import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -116,6 +112,7 @@ public class KlView implements Serializable {
 
     public void dodajKlienta() {
         try {
+            Klienci selected = (Klienci) this.selected;
             if (selected.getNip().isEmpty()) {
                 wygenerujnip();
             }
@@ -203,103 +200,99 @@ public class KlView implements Serializable {
         RequestContext.getCurrentInstance().update("formXNowyKlient");
     }
 
-    public void pobierzklientazPliku() throws IOException {
-        readLargerTextFile(FILE_NAME);
+//    public void pobierzklientazPliku() throws IOException {
+//        readLargerTextFile(FILE_NAME);
+//
+//    }
 
-    }
-
-    public void readLargerTextFile(String aFileName) throws IOException {
-        Path path = Paths.get(aFileName);
-        try (Scanner scanner = new Scanner(path, "Windows-1250")) {
-            int i = 0;
-            while (scanner.hasNextLine()) {
-                String tmp = String.valueOf(scanner.nextLine());
-                while (i < 28) {
-                    if (tmp.contains("bnazwa")) {
-                        while (!tmp.contains("Kontrahent")) {
-                            tmp = String.valueOf(scanner.nextLine());
-                        }
-                        i = 27;
-                        break;
-                    } else if (tmp.contains("nazwa")) {
-                        i++;
-                        tmp = tmp.replace("\"", "");
-                        tmp = tmp.replace("'", "");
-                        selected.setNpelna(tmp.substring(8));
-                        break;
-                    } else if (tmp.contains("miejscowosc")) {
-                        i++;
-                        selected.setMiejscowosc(tmp.substring(14));
-                        break;
-                    } else if (tmp.contains("ulica")) {
-                        i++;
-                        selected.setUlica(tmp.substring(8));
-                        break;
-                    } else if (tmp.contains("dom")) {
-                        i++;
-                        selected.setDom(tmp.substring(6));
-                        break;
-                    } else if (tmp.contains("lokal")) {
-                        i++;
-                        selected.setLokal(tmp.substring(8));
-                        break;
-                    } else if (tmp.contains("kodPocztowy")) {
-                        i++;
-                        selected.setKodpocztowy(tmp.substring(14));
-                        break;
-                    } else if (tmp.contains("kod")) {
-                        i++;
-                        tmp = tmp.replace("\"", "");
-                        tmp = tmp.replace("'", "");
-                        selected.setNskrocona(tmp.substring(6));
-                        break;
-                    } else if (tmp.contains("NIP")) {
-                        i++;
-                        tmp = tmp.replace("-", "");
-                        selected.setNip(tmp.substring(6));
-                        break;
-                    } else if (tmp.contains("pesel")) {
-                        i++;
-                        selected.setPesel(tmp.substring(8));
-                        break;
-                    } else if (tmp.contains("krajKod")) {
-                        i++;
-                        selected.setKrajkod(tmp.substring(10));
-                        break;
-                    } else if (tmp.contains("krajNazwa")) {
-                        i++;
-                        selected.setKrajnazwa(tmp.substring(12));
-                        break;
-                    } else {
-                        i++;
-                        break;
-                    }
-                }
-                if (i == 27) {
-                    Klienci knazwa = null;
-                    try {
-                        knazwa = klDAO.findKlientByNazwa(selected.getNpelna());
-                    } catch (Exception e1) {
-
-                    }
-                    Klienci knip = null;
-                    try {
-                        knip = klDAO.findKlientByNip(selected.getNip());
-                    } catch (Exception e1) {
-
-                    }
-                    try {
-                        if (knazwa == null && knip == null) {
-                            klDAO.dodaj(selected);
-                        }
-                    } catch (Exception es) {
-                    }
-                    i = 0;
-                }
-            }
-            Msg.msg("Skonczylem import");
-        }
-    }
+//    public void readLargerTextFile(String aFileName) throws IOException {
+//        Path path = Paths.get(aFileName);
+//        try (Scanner scanner = new Scanner(path, "Windows-1250")) {
+//            int i = 0;
+//            while (scanner.hasNextLine()) {
+//                String tmp = String.valueOf(scanner.nextLine());
+//                while (i < 28) {
+//                    if (tmp.contains("bnazwa")) {
+//                        while (!tmp.contains("Kontrahent")) {
+//                            tmp = String.valueOf(scanner.nextLine());
+//                        }
+//                        i = 27;
+//                        break;
+//                    } else if (tmp.contains("nazwa")) {
+//                        i++;
+//                        tmp = tmp.replace("\"", "");
+//                        tmp = tmp.replace("'", "");
+//                        selected.setNpelna(tmp.substring(8));
+//                        break;
+//                    } else if (tmp.contains("miejscowosc")) {
+//                        i++;
+//                        selected.setMiejscowosc(tmp.substring(14));
+//                        break;
+//                    } else if (tmp.contains("ulica")) {
+//                        i++;
+//                        selected.setUlica(tmp.substring(8));
+//                        break;
+//                    } else if (tmp.contains("dom")) {
+//                        i++;
+//                        selected.setDom(tmp.substring(6));
+//                        break;
+//                    } else if (tmp.contains("lokal")) {
+//                        i++;
+//                        selected.setLokal(tmp.substring(8));
+//                        break;
+//                    } else if (tmp.contains("kodPocztowy")) {
+//                        i++;
+//                        selected.setKodpocztowy(tmp.substring(14));
+//                        break;
+//                    } else if (tmp.contains("kod")) {
+//                        i++;
+//                        tmp = tmp.replace("\"", "");
+//                        tmp = tmp.replace("'", "");
+//                        selected.setNskrocona(tmp.substring(6));
+//                        break;
+//                    } else if (tmp.contains("NIP")) {
+//                        i++;
+//                        tmp = tmp.replace("-", "");
+//                        selected.setNip(tmp.substring(6));
+//                        break;
+//                    } else if (tmp.contains("krajKod")) {
+//                        i++;
+//                        selected.setKrajkod(tmp.substring(10));
+//                        break;
+//                    } else if (tmp.contains("krajNazwa")) {
+//                        i++;
+//                        selected.setKrajnazwa(tmp.substring(12));
+//                        break;
+//                    } else {
+//                        i++;
+//                        break;
+//                    }
+//                }
+//                if (i == 27) {
+//                    Klienci knazwa = null;
+//                    try {
+//                        knazwa = klDAO.findKlientByNazwa(selected.getNpelna());
+//                    } catch (Exception e1) {
+//
+//                    }
+//                    Klienci knip = null;
+//                    try {
+//                        knip = klDAO.findKlientByNip(selected.getNip());
+//                    } catch (Exception e1) {
+//
+//                    }
+//                    try {
+//                        if (knazwa == null && knip == null) {
+//                            klDAO.dodaj(selected);
+//                        }
+//                    } catch (Exception es) {
+//                    }
+//                    i = 0;
+//                }
+//            }
+//            Msg.msg("Skonczylem import");
+//        }
+//    }
 
     public List<Klienci> complete(String query) {
         List<Klienci> results = new ArrayList<>();
@@ -318,7 +311,7 @@ public class KlView implements Serializable {
                 }
             }
         }
-        results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
+        results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
         return results;
     }
 
@@ -369,12 +362,12 @@ public class KlView implements Serializable {
     }
 
     public void dodajpustegomaila() {
-        selected.setEmail("niema@maila.pl");
+        ((Klienci) selected).setEmail("niema@maila.pl");
         RequestContext.getCurrentInstance().update("formX:emailpole");
     }
 
     private void poszukajDuplikatNip() throws Exception {
-        String nippoczatkowy = selected.getNip();
+        String nippoczatkowy = ((Klienci) selected).getNip();
         if (!nippoczatkowy.equals("0000000000")) {
             List<String> kliencitmp = klDAO.findNIP();
             if (!kliencitmp.isEmpty()) {
@@ -451,7 +444,7 @@ public class KlView implements Serializable {
     
     public void znajdzdaneregon(String formularz) {
         try {
-            SzukajDaneBean.znajdzdaneregon(formularz, selected, gUSView);
+            SzukajDaneBean.znajdzdaneregon(formularz, (Klienci) selected, gUSView);
         } catch (Exception e) {
             E.e(e);
         }

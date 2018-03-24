@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -35,85 +36,46 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Klienci.findById", query = "SELECT k FROM Klienci k WHERE k.id = :id"),
     @NamedQuery(name = "Klienci.findByNip", query = "SELECT k FROM Klienci k WHERE k.nip = :nip"),
     @NamedQuery(name = "Klienci.findKlienciNip", query = "SELECT k.nip FROM Klienci k WHERE k.nip != '0000000000'"),
-    @NamedQuery(name = "Klienci.findByPesel", query = "SELECT k FROM Klienci k WHERE k.pesel = :pesel"),
     @NamedQuery(name = "Klienci.findByDom", query = "SELECT k FROM Klienci k WHERE k.dom = :dom"),
     @NamedQuery(name = "Klienci.findByEmail", query = "SELECT k FROM Klienci k WHERE k.email = :email"),
-    @NamedQuery(name = "Klienci.findByEvat", query = "SELECT k FROM Klienci k WHERE k.evat = :evat"),
     @NamedQuery(name = "Klienci.findByKodpocztowy", query = "SELECT k FROM Klienci k WHERE k.kodpocztowy = :kodpocztowy"),
-    @NamedQuery(name = "Klienci.findByKontobank", query = "SELECT k FROM Klienci k WHERE k.kontobank = :kontobank"),
     @NamedQuery(name = "Klienci.findByKrajkod", query = "SELECT k FROM Klienci k WHERE k.krajkod = :krajkod"),
     @NamedQuery(name = "Klienci.findByKrajnazwa", query = "SELECT k FROM Klienci k WHERE k.krajnazwa = :krajnazwa"),
     @NamedQuery(name = "Klienci.findByLokal", query = "SELECT k FROM Klienci k WHERE k.lokal = :lokal"),
     @NamedQuery(name = "Klienci.findByMiejscowosc", query = "SELECT k FROM Klienci k WHERE k.miejscowosc = :miejscowosc"),
     @NamedQuery(name = "Klienci.findByNpelna", query = "SELECT k FROM Klienci k WHERE k.npelna = :npelna"),
     @NamedQuery(name = "Klienci.findByNskrocona", query = "SELECT k FROM Klienci k WHERE k.nskrocona = :nskrocona"),
-    @NamedQuery(name = "Klienci.findByPkpirKolumna", query = "SELECT k FROM Klienci k WHERE k.pkpirKolumna = :pkpirKolumna"),
-    @NamedQuery(name = "Klienci.findByUlica", query = "SELECT k FROM Klienci k WHERE k.ulica = :ulica"),
-    @NamedQuery(name = "Klienci.findByZnacznik1", query = "SELECT k FROM Klienci k WHERE k.znacznik1 = :znacznik1"),
-    @NamedQuery(name = "Klienci.findByZnacznik2", query = "SELECT k FROM Klienci k WHERE k.znacznik2 = :znacznik2"),
-    @NamedQuery(name = "Klienci.findByZnacznik3", query = "SELECT k FROM Klienci k WHERE k.znacznik3 = :znacznik3")})
+    @NamedQuery(name = "Klienci.findByUlica", query = "SELECT k FROM Klienci k WHERE k.ulica = :ulica")
+   })
 @Cacheable
-public class Klienci implements Serializable {
+public class Klienci extends KlienciSuper implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Size(max = 20)
     @Column(name = "NIP")
     private String nip;
-    @Size(max = 255)
-    @Column(name = "Pesel")
+    @Transient
     private String pesel;
-    @Size(max = 255)
-    @Column(name = "dom")
-    private String dom;
     //@Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 255)
     @Column(name = "email")
     private String email;
-    @Size(max = 255)
-    @Column(name = "evat")
+    @Transient
     private String evat;
-    @Size(max = 255)
-    @Column(name = "kodpocztowy")
-    private String kodpocztowy;
-    @Size(max = 255)
-    @Column(name = "kontobank")
+    @Transient
     private String kontobank;
-    @Size(max = 255)
-    @Column(name = "krajkod")
-    private String krajkod;
-    @Size(max = 255)
-    @Column(name = "krajnazwa")
-    private String krajnazwa;
-    @Size(max = 255)
-    @Column(name = "lokal")
-    private String lokal;
-    @Size(max = 255)
-    @Column(name = "miejscowosc")
-    private String miejscowosc;
-    @Size(max = 255)
-    @Column(name = "npelna")
-    private String npelna;
     @Size(max = 255)
     @Column(name = "nskrocona")
     private String nskrocona;
-    @Size(max = 255)
-    @Column(name = "pkpirKolumna")
+    @Transient
     private String pkpirKolumna;
     @Size(max = 255)
     @Column(name = "ulica")
     private String ulica;
-    @Size(max = 255)
-    @Column(name = "znacznik1")
+    @Transient
     private String znacznik1;
-    @Size(max = 255)
-    @Column(name = "znacznik2")
+    @Transient
     private String znacznik2;
-    @Size(max = 255)
-    @Column(name = "znacznik3")
+    @Transient
     private String znacznik3;
     @OneToMany(mappedBy = "kontr1", fetch = FetchType.LAZY)
     private List<Dok> dokumenty;
@@ -121,6 +83,8 @@ public class Klienci implements Serializable {
     private List<Dokfk> dokumentyfk;
     @Column(name = "aktywnydlafaktrozrachunki")
     private boolean aktywnydlafaktrozrachunki;
+    @Transient
+    private String adresincydentalny;
     
 
     public Klienci() {
@@ -161,7 +125,7 @@ public class Klienci implements Serializable {
         this.znacznik3 = klienci.znacznik3;
     }
 
-    public Klienci(String npelna, String nskrocona, String nip, String kodpocztowy, String miejscowosc, String ulica, String dom, String lokal, String evat, String pkpirKolumna) {
+    public Klienci(String npelna, String nskrocona, String nip, String kodpocztowy, String miejscowosc, String ulica, String dom, String lokal) {
         this.npelna = npelna;
         this.nskrocona = nskrocona;
         this.nip = nip;
@@ -360,6 +324,14 @@ public class Klienci implements Serializable {
     public String getAdres() {
         return this.kodpocztowy+" "+this.miejscowosc+", ul. "+this.ulica+" "+this.dom+"/"+this.lokal;
     }
+
+    public String getAdresincydentalny() {
+        return adresincydentalny;
+    }
+
+    public void setAdresincydentalny(String adresincydentalny) {
+        this.adresincydentalny = adresincydentalny;
+    }
     
     
 
@@ -388,7 +360,19 @@ public class Klienci implements Serializable {
     }
 
     public String toString3() {
-        return getNpelna()+" "+getMiejscowosc()+" "+getNip();
+        if (this.nip!=null) {
+            return getNpelna()+" "+getMiejscowosc()+" "+getNip();
+        } else {
+            return this.adresincydentalny;
+        }
+    }
+    
+    public String toString4() {
+        if (this.nip!=null) {
+            return getAdres()+" "+getNip();
+        } else {
+            return this.adresincydentalny;
+        }
     }
     
     @Override
@@ -396,5 +380,19 @@ public class Klienci implements Serializable {
         return npelna;
     }
     
+    public String getNazwaAdres() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.npelna);
+        sb.append(" ");
+        if (this.adresincydentalny!=null) {
+            sb.append(adresincydentalny);
+        } else {
+            sb.append("NIP ");
+            sb.append(this.nip);
+            sb.append(" ");
+            sb.append(this.miejscowosc);
+        }
+        return sb.toString();
+    }
     
 }
