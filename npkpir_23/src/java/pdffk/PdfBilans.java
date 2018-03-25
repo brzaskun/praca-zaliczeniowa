@@ -52,7 +52,7 @@ public class PdfBilans {
             document.newPage();
             PdfMain.dodajLinieOpisu(document, "Strona pasywów");
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjektP),75,0);
-            PdfMain.dodajpodpis(document);
+            PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
             finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             f = "pokazwydruk('"+nazwa+"');";
@@ -86,7 +86,7 @@ public class PdfBilans {
                 dodajOpisWstepny(document, B.b("BilansPasywafirmy"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjekt),75,0);
-            PdfMain.dodajpodpis(document);
+            PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
             finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             if (ap.equals("a")) {
@@ -120,7 +120,7 @@ public class PdfBilans {
             document.newPage();
             PdfMain.dodajLinieOpisu(document, "Strona pasywów");
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjektP),75,5);
-            PdfMain.dodajpodpis(document);
+            PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
             finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             f = "pokazwydruk('"+nazwa+"');";
@@ -154,7 +154,7 @@ public class PdfBilans {
                 dodajOpisWstepny(document, B.b("BilansPasywafirmy"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjekt),75,5);
-            PdfMain.dodajpodpis(document);
+            PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
             finalizacjaDokumentuQR(document,nazwa);
             String f = null;
             if (ap.equals("a")) {
