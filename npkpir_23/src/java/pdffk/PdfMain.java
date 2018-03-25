@@ -521,14 +521,22 @@ public class PdfMain {
         }
     }
     
-    public static void dodajpodpis(Document document) {
+    public static void dodajpodpis(Document document, String formaprawna) {
         try {
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
             Paragraph opiswstepny = new Paragraph(new Phrase(".....................................                                            .......................................", ft[1]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
-            opiswstepny = new Paragraph(new Phrase("sporządzający                                                           za spółkę", ft[1]));
+            if (formaprawna.equals("STOWARZYSZENIE")) {
+                opiswstepny = new Paragraph(new Phrase("sporządzający                                                           za stowarzyszenie", ft[1]));
+            } else if (formaprawna.equals("FEDERACJA")) {
+                opiswstepny = new Paragraph(new Phrase("sporządzający                                                           za federację", ft[1]));
+            } else if (formaprawna.equals("FUNDACJA")) {
+                opiswstepny = new Paragraph(new Phrase("sporządzający                                                           za fundację", ft[1]));
+            } else {
+                opiswstepny = new Paragraph(new Phrase("sporządzający                                                           za spółkę", ft[1]));
+            }
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
@@ -1646,6 +1654,14 @@ public class PdfMain {
                     }
                 }
                 if (modyfikator != 0 && modyfikator != 3) {
+                    if (p.getPrzyporzadkowanekonta()!=null) {
+                        for (Iterator<KontoKwota> itp = p.getPrzyporzadkowanekonta().iterator(); itp.hasNext();) {
+                            KontoKwota kk = itp.next();
+                            if (Z.z(kk.getKwota())==0.0) {
+                                it.remove();
+                            }
+                        }
+                    }
                     String konta = p.getPrzyporzadkowanekonta() != null ? p.getPrzyporzadkowanekonta().toString() : "";
                     table.addCell(ustawfrazeAlign(konta, "left", 7));
                 }
