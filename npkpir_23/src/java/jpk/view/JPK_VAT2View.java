@@ -150,7 +150,12 @@ public class JPK_VAT2View implements Serializable {
         if (bledy.size()==0) {
             generujXMLPodglad(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
         } else {
-            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            for (EVatwpisSuper p : bledy) {
+                String data = p.getDokfk().getDatadokumentu() != null ? p.getDokfk().getDatadokumentu() : "brak daty";
+                String nr = p.getNrWlDk() != null ? p.getNrWlDk() : "brak numeru";
+                Msg.msg("e","Dokumant z "+data+" nr "+p.getNrWlDk()+"kwota "+p.getNetto());
+            }
         }
     }
     
