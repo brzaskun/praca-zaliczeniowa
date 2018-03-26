@@ -215,6 +215,7 @@ public class ImportSprzedazyView  implements Serializable {
         for (Evewidencja p : this.evewidencje) {
             if (p.getStawkavat()==stawka) {
                 zwrot = p;
+                break;
             }
         }
         return zwrot;

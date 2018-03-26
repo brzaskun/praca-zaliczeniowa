@@ -292,6 +292,7 @@ public class ImportFakturyView  implements Serializable {
         for (Evewidencja p : this.evewidencje) {
             if (p.getStawkavat()==stawka) {
                 zwrot = p;
+                break;
             }
         }
         return zwrot;
@@ -352,7 +353,11 @@ public class ImportFakturyView  implements Serializable {
     }
     
     private Double przeliczpln(double vat, Tabelanbp innatabela) {
-        return Z.z4((vat*innatabela.getKurssredniPrzelicznik()));
+        if (innatabela!=null) {
+            return Z.z4((vat*innatabela.getKurssredniPrzelicznik()));
+        } else {
+            return vat;
+        }
     }
     
     public void drukuj() {
