@@ -133,12 +133,14 @@ public class PlanKontView implements Serializable {
     private List<UkladBR> listaukladowwzorcowy;
     private UkladBR wybranyukladwzorcowy;
     private String wybranapozycja_wiersz;
+    private int wybranaseriakont;
     
 
     public PlanKontView() {
         bezslownikowych = true;
         kontadowyswietlenia = "wszystkie";
-         E.m(this);
+        E.m(this);
+        wybranaseriakont = 9;
     }
 
     @PostConstruct
@@ -192,6 +194,7 @@ public class PlanKontView implements Serializable {
     }
     
         public void pobierzlista(int numkont) {
+        wybranaseriakont = numkont;
         switch(numkont) {
             case 0:
                 wykazkont = kontoDAOfk.findKontaGrupa0(wpisView);
@@ -228,6 +231,7 @@ public class PlanKontView implements Serializable {
     }
     
     public void pobierzwszystkie() {
+        wybranaseriakont = 9;
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
         wykazkontlazy = new LazyKontoDataModel(wykazkont);
@@ -265,7 +269,9 @@ public class PlanKontView implements Serializable {
     }
     
     public void planBezSlownikowychSyntetyczne() {
-        if (bezslownikowych == true && tylkosyntetyka == true) {
+        if (wybranaseriakont!=9) {
+            pobierzlista(wybranaseriakont);
+        } else if (bezslownikowych == true && tylkosyntetyka == true) {
             wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
         } else if (bezslownikowych == true) {
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -291,7 +297,7 @@ public class PlanKontView implements Serializable {
             }
         }
         Collections.sort(wykazkont, new Kontocomparator());
-         wykazkontlazy = new LazyKontoDataModel(wykazkont);
+        //wykazkontlazy = new LazyKontoDataModel(wykazkont);
         styltabeliplankont = opracujstylwierszatabeli();
     }
     
@@ -1739,6 +1745,14 @@ public class PlanKontView implements Serializable {
 
     public void setSelectednodekonto(Konto selectednodekonto) {
         this.selectednodekonto = selectednodekonto;
+    }
+
+    public int getWybranaseriakont() {
+        return wybranaseriakont;
+    }
+
+    public void setWybranaseriakont(int wybranaseriakont) {
+        this.wybranaseriakont = wybranaseriakont;
     }
 
     public KontoConv getKontoConv() {
