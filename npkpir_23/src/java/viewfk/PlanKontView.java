@@ -533,7 +533,11 @@ public class PlanKontView implements Serializable {
                     wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaKontrahenci(wykazkont, kontomacierzyste, kontoDAOfk, kliencifkDAO, wpisView, kontopozycjaZapisDAO, wybranyuklad);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        if (wybranaseriakont!=9) {
+                           pobierzlista(wybranaseriakont);
+                        } else {
+                            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        }
                         Msg.msg("Dodano elementy słownika kontrahentów");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika kontrahentów");
@@ -552,7 +556,11 @@ public class PlanKontView implements Serializable {
                     wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaKosztow(wykazkont, kontomacierzyste, kontoDAOfk, miejsceKosztowDAO, wpisView, kontopozycjaZapisDAO, wybranyuklad);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        if (wybranaseriakont!=9) {
+                           pobierzlista(wybranaseriakont);
+                        } else {
+                            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        }
                         Msg.msg("Dodano elementy słownika miejsc powstawania kosztów");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania kosztów");
@@ -571,7 +579,11 @@ public class PlanKontView implements Serializable {
                     wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaPojazdy(wykazkont, kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView, kontopozycjaZapisDAO, wybranyuklad);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        if (wybranaseriakont!=9) {
+                           pobierzlista(wybranaseriakont);
+                        } else {
+                            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        }
                         Msg.msg("Dodano elementy słownika miejsc powstawania kosztów");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania kosztów");
@@ -590,7 +602,11 @@ public class PlanKontView implements Serializable {
                     wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiesiace(wykazkont, kontomacierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO, wybranyuklad);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        if (wybranaseriakont!=9) {
+                           pobierzlista(wybranaseriakont);
+                        } else {
+                            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        }
                         Msg.msg("Dodano elementy słownika miesiące");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miesięcy");
@@ -609,7 +625,11 @@ public class PlanKontView implements Serializable {
                     wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(wykazkont, kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, false, kontopozycjaZapisDAO, wybranyuklad);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        if (wybranaseriakont!=9) {
+                           pobierzlista(wybranaseriakont);
+                        } else {
+                            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        }
                         Msg.msg("Dodano elementy słownika delegacji krajowych");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika delegacji krajowych");
@@ -628,7 +648,11 @@ public class PlanKontView implements Serializable {
                     wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(wykazkont, kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, true, kontopozycjaZapisDAO, wybranyuklad);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        if (wybranaseriakont!=9) {
+                           pobierzlista(wybranaseriakont);
+                        } else {
+                            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        }
                         Msg.msg("Dodano elementy słownika delegacji zagranicznych");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika delegacji zagranicznych");
@@ -647,7 +671,11 @@ public class PlanKontView implements Serializable {
                     wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaPrzychodow(wykazkont, kontomacierzyste, kontoDAOfk, miejscePrzychodowDAO, wpisView, kontopozycjaZapisDAO, wybranyuklad);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        if (wybranaseriakont!=9) {
+                           pobierzlista(wybranaseriakont);
+                        } else {
+                            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        }
                         Msg.msg("Dodano elementy słownika miejsc powstawania przychodów");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania przychodów");
