@@ -244,7 +244,7 @@ public class JPK_VAT3_Bean {
             w.setDowodZakupu(ev.getDok().getNrWlDk());
             dodajkwotydowierszaZakupu(w,ev, zakupCtrl);
         } catch (Exception ex) {
-
+            
         }
         return w;
     }

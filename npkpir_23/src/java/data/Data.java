@@ -7,6 +7,7 @@ package data;
 import embeddable.Mce;
 import entity.UmorzenieN;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Year;
@@ -428,6 +429,18 @@ public class Data implements Serializable {
         }
         return newXMLGregorianCalendar;
    }
+   
+   public static boolean sprawdzpoprawnoscdaty(String data) {
+        boolean zwrot=true;
+        try {
+            String f = "yyyy-MM-dd";
+            DateFormat format = new SimpleDateFormat(f);
+            DatatypeFactory.newInstance().newXMLGregorianCalendar(f.format(data));
+        } catch (Exception e) {
+            zwrot=false;
+        }
+        return zwrot;
+    }
    
     public static void main(String[] args) {
         try {

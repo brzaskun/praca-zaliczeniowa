@@ -151,10 +151,15 @@ public class JPK_VAT2View implements Serializable {
             generujXMLPodglad(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
         } else {
             Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            String data = "brak daty";
             for (EVatwpisSuper p : bledy) {
-                String data = p.getDokfk().getDatadokumentu() != null ? p.getDokfk().getDatadokumentu() : "brak daty";
+                if (p instanceof EVatwpis1) {
+                    data = ((EVatwpis1) p).getDataWyst() != null ? ((EVatwpis1) p).getDataWyst() : "brak daty";
+                } else {
+                    data = p.getDokfk().getDatadokumentu() != null ? p.getDokfk().getDatadokumentu() : "brak daty";
+                }
                 String nr = p.getNrWlDk() != null ? p.getNrWlDk() : "brak numeru";
-                Msg.msg("e","Dokumant z "+data+" nr "+p.getNrWlDk()+"kwota "+p.getNetto());
+                Msg.msg("e","Wadliwy dokument: data "+data+" nr "+p.getNrWlDk()+" kwota "+p.getNetto(), "form_dialog_jpk_vat:wiadomoscjpk");
             }
         }
     }
@@ -641,11 +646,11 @@ public class JPK_VAT2View implements Serializable {
         for (EVatwpisSuper p : wiersze) {
             if (p instanceof EVatwpisFK) {
                 EVatwpisFK pf = (EVatwpisFK) p;
-                if (pf.getDataSprz()==null || p.getDataSprz().equals("")) {
+                if (pf.getDataSprz()==null || p.getDataSprz().equals("") || !Data.sprawdzpoprawnoscdaty(p.getDataSprz())) {
                     zwrot.add(p);
                     break;
                 }
-                if (pf.getDataWyst()==null || pf.getDataWyst().equals("")) {
+                if (pf.getDataWyst()==null || pf.getDataWyst().equals("") || !Data.sprawdzpoprawnoscdaty(p.getDataWyst())) {
                     zwrot.add(p);
                     break;
                 }
@@ -660,11 +665,11 @@ public class JPK_VAT2View implements Serializable {
             }
             if (p instanceof EVatwpis1) {
                 EVatwpis1 pf = (EVatwpis1) p;
-                if (pf.getDok().getDataWyst()==null || pf.getDok().getDataWyst().equals("")) {
+                if (pf.getDok().getDataWyst()==null || pf.getDok().getDataWyst().equals("") || !Data.sprawdzpoprawnoscdaty(pf.getDok().getDataWyst())) {
                     zwrot.add(p);
                     break;
                 }
-                if (pf.getDok().getDataSprz()==null || pf.getDok().getDataSprz().equals("")) {
+                if (pf.getDok().getDataSprz()==null || pf.getDok().getDataSprz().equals("") || !Data.sprawdzpoprawnoscdaty(pf.getDok().getDataSprz())) {
                     zwrot.add(p);
                     break;
                 }
@@ -686,11 +691,11 @@ public class JPK_VAT2View implements Serializable {
         for (EVatwpisDedra p : wiersze) {
             if (p instanceof EVatwpisDedra) {
                 EVatwpisDedra pf = p;
-                if (pf.getDataoperacji()==null || p.getDataoperacji().equals("")) {
+                if (pf.getDataoperacji()==null || p.getDataoperacji().equals("") || !Data.sprawdzpoprawnoscdaty(p.getDataoperacji())) {
                     zwrot.add(p);
                     break;
                 }
-                if (pf.getDatadokumentu()==null || pf.getDatadokumentu().equals("")) {
+                if (pf.getDatadokumentu()==null || pf.getDatadokumentu().equals("") || !Data.sprawdzpoprawnoscdaty(p.getDatadokumentu())) {
                     zwrot.add(p);
                     break;
                 }

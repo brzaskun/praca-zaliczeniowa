@@ -7,6 +7,7 @@ package view;
 
 import dao.KlienciDAO;
 import daoFK.DokDAOfk;
+import data.Data;
 import embeddable.Mce;
 import entity.Klienci;
 import entityfk.Dokfk;
@@ -49,6 +50,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         List<Dokfk> listabrakiKonto = new ArrayList<>();
         List<Dokfk> listabrakiPozycji = new ArrayList<>();
         List<Dokfk> listabrakivat = new ArrayList<>();
+        List<Dokfk> listabrakidaty = new ArrayList<>();
         List<Dokfk> listapustaewidencja = new ArrayList<>();
         List<Dokfk> listaniezgodnoscvatkonto = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
@@ -56,6 +58,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             boolean skorygowanokontrahenta = korekcjakontrahenta(p);
             boolean usunietopusteewidencje = usunpusteewidencje(p, listapustaewidencja);
             boolean ustawionookresyvat = ustawokresyvat(p);
+            boolean zledaty = sprawdzdaty(p,listabrakidaty);
             boolean sprawdzonokontavat = sprawdzkontavat(p, listabrakivat);
             boolean pozostaletrzybraki = sprawdzpozostaletrzybraki(p, listabraki, listabrakiPozycji, listabrakiKontaAnalityczne, listabrakiKontaAnalityczne_nr, listaRozniceWnMa, listabrakiKonto);
             boolean porownanoewidencjakonto = porownajewidencjakonto(p,listaniezgodnoscvatkonto);
@@ -121,6 +124,12 @@ public class DokfkWeryfikacjaView implements Serializable {
         if (listabrakivat.size() > 0) {
             main = "Niezgodność między miesiącem ewidencji vat a typem konta vat w " + listabrakivat.size() + " dokumentach: ";
             b = pobierzbledy(listabrakivat, main);
+            czysto = false;
+            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+        }
+        if (listabrakidaty.size() > 0) {
+            main = "Złe daty w następujących w " + listabrakivat.size() + " dokumentach: ";
+            b = pobierzbledy(listabrakidaty, main);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
@@ -515,6 +524,19 @@ public class DokfkWeryfikacjaView implements Serializable {
         if (p.getKontr() == null) {
             zwrot = false;
             listabrakkontrahenta.add(p);
+        }
+        return zwrot;
+    }
+
+    private boolean sprawdzdaty(Dokfk p, List<Dokfk> listabrakidaty) {
+        boolean zwrot = true;
+        if (p.getDatadokumentu() == null || !Data.sprawdzpoprawnoscdaty(p.getDatadokumentu())) {
+            zwrot = false;
+            listabrakidaty.add(p);
+        }
+        if (p.getDataoperacji() == null || !Data.sprawdzpoprawnoscdaty(p.getDataoperacji())) {
+            zwrot = false;
+            listabrakidaty.add(p);
         }
         return zwrot;
     }

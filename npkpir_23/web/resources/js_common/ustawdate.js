@@ -20,6 +20,14 @@ function ustawDate(rok,mc){
      var testw = dataWyst.value;
      if (!testw.match(re)){
          dataWyst.value = "b\u0142ędna data";
+     } else if (testw==="2019-02-29") {
+         dataWyst.value = "b\u0142ędna data";
+     } else if (testw==="2021-02-29") {
+         dataWyst.value = "b\u0142ędna data";
+     } else if (testw==="2022-02-29") {
+         dataWyst.value = "b\u0142ędna data";
+     } else if (testw==="2023-02-29") {
+         dataWyst.value = "b\u0142ędna data";
      } else {
          var dataplatnosc = document.getElementById("dodWiad:dataTPole");
          var datasprzedazy = document.getElementById("dodWiad:dataSPole");
@@ -158,9 +166,17 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
                 }
              var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
              var testw = dataWyst.value;
-             if (!testw.match(re)){
-                 dataWyst.value = "b\u0142ędna data";
-             } else {
+              if (!testw.match(re)){
+                    dataWyst.value = "b\u0142ędna data";
+                } else if (testw==="2019-02-29") {
+                    dataWyst.value = "b\u0142ędna data";
+                } else if (testw==="2021-02-29") {
+                    dataWyst.value = "b\u0142ędna data";
+                } else if (testw==="2022-02-29") {
+                    dataWyst.value = "b\u0142ędna data";
+                } else if (testw==="2023-02-29") {
+                    dataWyst.value = "b\u0142ędna data";
+                } else {
         //         var dataplatnosc = document.getElementById("formwpisdokument:dataTPole");
         //         var datasprzedazy = document.getElementById("formwpisdokument:dataSPole");
         //         var rozliczony = document.getElementById("formwpisdokument:rozliczony");

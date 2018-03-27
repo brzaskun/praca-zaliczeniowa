@@ -18,7 +18,7 @@
             <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujDedra()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodgladDedra()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
         </p:panelGrid>
-        
+        <p:messages id="wiadomoscjpk"/>
         <p:dataTable value="#{jPK_VAT2View.bledy}" var="itemblad" rowIndexVar="index" id="tabelablad" style="width: 1250px; margin-top: 10px;"
                      sortBy="#{itemblad.miesiac}" rendered="#{jPK_VAT2View.bledy ne null and jPK_VAT2View.bledy.size() gt 0}"
                      selection="#{jPK_VAT2View.selected}" selectionMode="single" rowKey="#{itemblad.hash()}"
