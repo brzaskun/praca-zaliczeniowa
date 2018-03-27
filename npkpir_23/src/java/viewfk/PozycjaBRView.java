@@ -401,7 +401,7 @@ public class PozycjaBRView implements Serializable {
     }
      
      
-     public void obliczBilansOtwarciaBilansData() {
+        public void obliczBilansOtwarciaBilansData() {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
@@ -440,6 +440,9 @@ public class PozycjaBRView implements Serializable {
         List<Object> listazwrotnapozycji = new ArrayList<>();
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
         PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 1);
+        if (Z.z(pozycjawynikfin.getKwota())==0.0) {
+            pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 2);
+        }
         double wynikfinansowy = pozycjawynikfin.getKwota();
         double wf = Z.z(Math.abs(wynikfinansowy));
         if (wynikfinansowy > 0) {//zysk
@@ -460,6 +463,9 @@ public class PozycjaBRView implements Serializable {
         List<Object> listazwrotnapozycji = new ArrayList<>();
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
         PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 1);
+        if (Z.z(pozycjawynikfin.getKwota())==0.0) {
+            pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 2);
+        }
         double wynikfinansowy = pozycjawynikfin.getKwota();
         double wf = Z.z(Math.abs(wynikfinansowy));
         if (wynikfinansowy > 0) {//zysk
