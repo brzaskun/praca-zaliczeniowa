@@ -1658,7 +1658,7 @@ public class PdfMain {
                         for (Iterator<KontoKwota> itp = p.getPrzyporzadkowanekonta().iterator(); itp.hasNext();) {
                             KontoKwota kk = itp.next();
                             if (Z.z(kk.getKwota())==0.0) {
-                                it.remove();
+                                itp.remove();
                             }
                         }
                     }
