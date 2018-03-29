@@ -1159,6 +1159,7 @@ public class FakturaView implements Serializable {
             nowa.setDatazaplaty(null);
             nowa.setZaksiegowana(false);
             nowa.setZatwierdzona(false);
+            nowa.setTylkodlaokresowej(false);
             nowa.setAutor(wpisView.getWprowadzil().getLogin());
             int fakturanowyrok = 0;
             boolean istnieje = true;
