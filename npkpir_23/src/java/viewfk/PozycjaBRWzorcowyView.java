@@ -12,7 +12,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
-import embeddablefk.StronaWierszaKwota;
+
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
@@ -62,7 +62,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     private PozycjaBilans nowyelementBilans;
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
-    private List<StronaWierszaKwota> podpieteStronyWiersza;
+    private List<StronaWiersza> podpieteStronyWiersza;
     private List<Konto> sumaPodpietychKont;
     private boolean pokazaktywa;
     private boolean dodawanieformuly;
@@ -620,8 +620,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
             }
         }
         List<Konto> konta = new ArrayList<>();
-        for (StronaWierszaKwota p : podpieteStronyWiersza) {
-            Konto k = p.getStronaWiersza().getKonto();
+        for (StronaWiersza p : podpieteStronyWiersza) {
+            Konto k = p.getKonto();
             if (!konta.contains(k)) {
                 konta.add(k);
                 k.setKwota(p.getKwota());
@@ -662,7 +662,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
         for (Konto p : sumaPodpietychKont) {
             List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt());
             for (StronaWiersza r : stronywiersza) {
-                podpieteStronyWiersza.add(new StronaWierszaKwota(r, r.getKwotaPLN()));
+                podpieteStronyWiersza.add(r);
             }
         }
     }
@@ -720,11 +720,11 @@ public class PozycjaBRWzorcowyView implements Serializable {
     
     
 
-    public List<StronaWierszaKwota> getPodpieteStronyWiersza() {
+    public List<StronaWiersza> getPodpieteStronyWiersza() {
         return podpieteStronyWiersza;
     }
 
-    public void setPodpieteStronyWiersza(List<StronaWierszaKwota> podpieteStronyWiersza) {
+    public void setPodpieteStronyWiersza(List<StronaWiersza> podpieteStronyWiersza) {
         this.podpieteStronyWiersza = podpieteStronyWiersza;
     }
 

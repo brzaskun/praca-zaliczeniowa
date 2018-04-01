@@ -87,13 +87,23 @@ public class StronaWierszaBean {
             }
             return zwrot;
         }
+   
+     public static void pobraniegranica(List<StronaWiersza> lista, String mc) {
+        int granicagorna = Mce.getMiesiacToNumber().get(mc) == 1 ? 13 : Mce.getMiesiacToNumber().get(mc);
+            for (Iterator<StronaWiersza> it = lista.iterator(); it.hasNext();) {
+                StronaWiersza p = it.next();
+                if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna) {
+                    it.remove();
+                }
+            }
+    }
      
     public static List<StronaWiersza> pobraniezapisowwynikoweRokPop(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
         return stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
     }
      
     public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
-        int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu()) == 1 ? 13 :Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (granicagorna < 12) {
             for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext();) {
@@ -112,7 +122,7 @@ public class StronaWierszaBean {
     }
     
     public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, String mc, String rok, Podatnik podatnik) {
-        int granicagorna = Mce.getMiesiacToNumber().get(mc);
+        int granicagorna = Mce.getMiesiacToNumber().get(mc) == 1 ? 13 :Mce.getMiesiacToNumber().get(mc);
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(podatnik, rok);
         if (granicagorna < 12) {
             for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext();) {
@@ -156,7 +166,7 @@ public class StronaWierszaBean {
 //    }
      
      public static List<StronaWiersza> pobraniezapisowbilansowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
-        int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu()) == 1 ? 13 :Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         StronaWiersza p = null;
         try {
@@ -173,7 +183,7 @@ public class StronaWierszaBean {
     }
      
      public static List<StronaWiersza> pobraniezapisowbilansowe(StronaWierszaDAO stronaWierszaDAO, String mc, String rok, Podatnik podatnik) {
-        int granicagorna = Mce.getMiesiacToNumber().get(mc);
+        int granicagorna = Mce.getMiesiacToNumber().get(mc) == 1 ? 13 :Mce.getMiesiacToNumber().get(mc);
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokBilans(podatnik, rok);
         StronaWiersza p = null;
         try {

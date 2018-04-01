@@ -4,7 +4,7 @@
  */
 package entityfk;
 
-import embeddablefk.StronaWierszaKwota;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -232,12 +232,12 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
     }
 
     @Override
-     public List<StronaWierszaKwota> getPrzyporzadkowanestronywiersza() {
+     public List<StronaWiersza> getPrzyporzadkowanestronywiersza() {
         return przyporzadkowanestronywiersza;
     }
 
     @Override
-    public void setPrzyporzadkowanestronywiersza(List<StronaWierszaKwota> przyporzadkowanestronywiersza) {
+    public void setPrzyporzadkowanestronywiersza(List<StronaWiersza> przyporzadkowanestronywiersza) {
         this.przyporzadkowanestronywiersza = przyporzadkowanestronywiersza;
     }
 

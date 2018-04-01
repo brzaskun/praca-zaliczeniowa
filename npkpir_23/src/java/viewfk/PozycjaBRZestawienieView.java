@@ -18,7 +18,7 @@ import daoFK.UkladBRDAO;
 import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Mce;
-import embeddablefk.StronaWierszaKwota;
+
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Konto;
@@ -72,7 +72,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     private PozycjaBilans nowyelementBilans;
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
-    private List<StronaWierszaKwota> podpieteStronyWiersza;
+    private List<StronaWiersza> podpieteStronyWiersza;
     private List<Konto> sumaPodpietychKont;
     private boolean pokazaktywa;
     private double sumabilansowaaktywa;
@@ -727,8 +727,8 @@ public class PozycjaBRZestawienieView implements Serializable {
                 }
             }
             List<Konto> konta = new ArrayList<>();
-            for (StronaWierszaKwota p : podpieteStronyWiersza) {
-                Konto k = p.getStronaWiersza().getKonto();
+            for (StronaWiersza p : podpieteStronyWiersza) {
+                Konto k = p.getKonto();
                 if (!konta.contains(k)) {
                     konta.add(k);
                     k.setKwota(p.getKwota());
@@ -769,12 +769,18 @@ public class PozycjaBRZestawienieView implements Serializable {
                 }
             }
             List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny()) == 1 ? 13 : Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny());
+            for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {   
+                    StronaWiersza r = (StronaWiersza) it.next();
+                    if (Mce.getMiesiacToNumber().get(r.getDokfk().getMiesiac()) >= granicagorna) {
+                        it.remove();
+                    }
+                }
             for (Konto p : sumaPodpietychKont) {
-                int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny());
                 for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {   
                     StronaWiersza r = (StronaWiersza) it.next();
                     if (Mce.getMiesiacToNumber().get(r.getDokfk().getMiesiac()) < granicagorna && r.getKonto().equals(p)) {
-                        podpieteStronyWiersza.add(new StronaWierszaKwota(r, r.getKwotaPLN()));
+                        podpieteStronyWiersza.add(r);
                     }
                 }
             }
@@ -845,11 +851,11 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     
 
-    public List<StronaWierszaKwota> getPodpieteStronyWiersza() {
+    public List<StronaWiersza> getPodpieteStronyWiersza() {
         return podpieteStronyWiersza;
     }
 
-    public void setPodpieteStronyWiersza(List<StronaWierszaKwota> podpieteStronyWiersza) {
+    public void setPodpieteStronyWiersza(List<StronaWiersza> podpieteStronyWiersza) {
         this.podpieteStronyWiersza = podpieteStronyWiersza;
     }
 

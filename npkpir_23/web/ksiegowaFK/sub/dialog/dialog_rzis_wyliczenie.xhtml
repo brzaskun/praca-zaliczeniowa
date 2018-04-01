@@ -94,24 +94,24 @@
                             </p:column>
                         </p:dataTable>
                         <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
-                                     style="height: 400px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.stronaWiersza.konto.pelnynumer}">
+                                     style="height: 400px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
                             <f:facet  name="header">
                                 <h:outputText value="#{mgs.podpiętezapisy}"/>
                             </f:facet>
                             <p:column width="30">
-                                <h:outputText value="#{loop.stronaWiersza.konto.pelnynumer}"/>
+                                <h:outputText value="#{loop.konto.pelnynumer}"/>
                             </p:column>
                             <p:column width="50">
-                                <h:outputText value="#{loop.stronaWiersza.wiersz.dataksiegowania}"/>
+                                <h:outputText value="#{loopr.wiersz.dataksiegowania}"/>
                             </p:column>
                             <p:column width="180">
-                                <h:outputText value="#{loop.stronaWiersza.wiersz.opisWiersza.length() gt 38 ? loop.stronaWiersza.wiersz.opisWiersza.subSequence(0, 38) : loop.stronaWiersza.wiersz.opisWiersza}"/>
+                                <h:outputText value="#{loop.wiersz.opisWiersza.length() gt 38 ? loop.wiersz.opisWiersza.subSequence(0, 38) : loop.wiersz.opisWiersza}"/>
                             </p:column>
                             <p:column width="50">
-                                <bcf:outputpl value="#{loop.kwota}" />
+                                <bcf:outputpl value="#{loop.kwotaPLN}" />
                             </p:column>
                             <p:column style="text-align: center;" width="40">
-                                <h:outputText value="#{loop.stronaWiersza.wiersz.dokfk.seriadokfk}/#{loop.stronaWiersza.wiersz.dokfk.nrkolejnywserii} z #{loop.stronaWiersza.wiersz.dokfk.miesiac}"/>
+                                <h:outputText value="#{loop.wiersz.dokfk.seriadokfk}/#{loop.wiersz.dokfk.nrkolejnywserii} z #{loop.wiersz.dokfk.miesiac}"/>
                             </p:column>
                         </p:dataTable>
                     </p:panelGrid>

@@ -5,7 +5,6 @@
 package entityfk;
 
 import abstractClasses.ToBeATreeNodeObject;
-import embeddablefk.StronaWierszaKwota;
 import format.F;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -61,9 +60,8 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     protected boolean przychod0koszt1;
     @Transient
     protected List<Konto> przyporzadkowanekonta;
-    @Lob
-    @Column(length=1048576)
-    protected List<StronaWierszaKwota> przyporzadkowanestronywiersza;
+    @Transient
+    protected List<StronaWiersza> przyporzadkowanestronywiersza;
     @Size(max = 4)
     @Column(length = 4)
     protected String rok;
@@ -82,7 +80,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
             przyporzadkowanestronywiersza = new ArrayList<>();
         }
         if (kwota != 0.0) {
-            przyporzadkowanestronywiersza.add(new StronaWierszaKwota(stronawiersza, kwota));
+            przyporzadkowanestronywiersza.add(stronawiersza);
         }
     }
     
@@ -231,11 +229,11 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
 
-    public List<StronaWierszaKwota> getPrzyporzadkowanestronywiersza() {
+    public List<StronaWiersza> getPrzyporzadkowanestronywiersza() {
         return przyporzadkowanestronywiersza;
     }
 
-    public void setPrzyporzadkowanestronywiersza(List<StronaWierszaKwota> przyporzadkowanestronywiersza) {
+    public void setPrzyporzadkowanestronywiersza(List<StronaWiersza> przyporzadkowanestronywiersza) {
         this.przyporzadkowanestronywiersza = przyporzadkowanestronywiersza;
     }
 
