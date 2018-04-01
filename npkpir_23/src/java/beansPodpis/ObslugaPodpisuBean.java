@@ -33,24 +33,30 @@ public class ObslugaPodpisuBean {
     public static boolean moznapodpisacjpk() {
         boolean zwrot = false;
         Provider provider = ObslugaPodpisuBean.jestDriver();
-        KeyStore keyStore = ObslugaPodpisuBean.jestKarta(HASLO);
-        if (provider != null && keyStore != null) {
-            zwrot = true;
+        if (provider!=null) {
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(HASLO);
+            if (provider != null && keyStore != null) {
+                zwrot = true;
+            }
         }
         return zwrot;
     }
     
     public static Provider jestDriver() {
         Provider pkcs11Provider = null;
+        int proba = 0;
         try {
-            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String realPath = ctx.getRealPath("/")+DRIVER;
-            String pkcs11config = "name=SmartCardn"+"\r"
-                    + "library="+realPath;
-            byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
-            ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
-            Security.addProvider(pkcs11Provider);
+            do {
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                String realPath = ctx.getRealPath("/")+DRIVER;
+                String pkcs11config = "name=SmartCardn"+"\r"
+                        + "library="+realPath;
+                byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
+                ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
+                pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+                Security.addProvider(pkcs11Provider);
+                proba++;
+            } while (proba < 3 && pkcs11Provider==null);
         } catch (Exception e) {
             E.e(e);
         }
