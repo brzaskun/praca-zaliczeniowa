@@ -11,7 +11,6 @@ import embeddable.SchemaEwidencjaSuma;
 import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoBO;
-import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
@@ -458,7 +457,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        return tabela;
    }
      
-     public static List[] getTabelaBilansKonta(List<KontoKwota> wiersze) {
+     public static List[] getTabelaBilansKonta(List<Konto> wiersze) {
        List n = new ArrayList();
        n.add(B.b("numerkonta"));
        n.add(B.b("nazwapełna"));

@@ -79,15 +79,15 @@
                 <p:column>
                     <p:panelGrid columns="1" >
                         <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
-                                     style="height: 200px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
+                                     style="height: 200px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}">
                             <f:facet  name="header">
                                 <h:outputText value="#{mgs.podpiętesaldakont}"/>
                             </f:facet>
                             <p:column width="60">
-                                <h:outputText value="#{loop.konto.pelnynumer}"/>
+                                <h:outputText value="#{loop.pelnynumer}"/>
                             </p:column>
                             <p:column width="300">
-                                <h:outputText value="#{loop.konto.nazwapelna}"/>
+                                <h:outputText value="#{loop.nazwapelna}"/>
                             </p:column>
                             <p:column width="90" >
                                 <bcf:outputpl value="#{loop.kwota}" />

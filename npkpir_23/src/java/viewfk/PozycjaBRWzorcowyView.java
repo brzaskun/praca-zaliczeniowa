@@ -12,7 +12,6 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
-import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
@@ -64,7 +63,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
     private List<StronaWierszaKwota> podpieteStronyWiersza;
-    private List<KontoKwota> sumaPodpietychKont;
+    private List<Konto> sumaPodpietychKont;
     private boolean pokazaktywa;
     private boolean dodawanieformuly;
     
@@ -625,10 +624,11 @@ public class PozycjaBRWzorcowyView implements Serializable {
             Konto k = p.getStronaWiersza().getKonto();
             if (!konta.contains(k)) {
                 konta.add(k);
-                sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
+                k.setKwota(p.getKwota());
+                sumaPodpietychKont.add(k);
             } else {
-                for (KontoKwota r : sumaPodpietychKont) {
-                    if (r.getKonto().equals(k)) {
+                for (Konto r : sumaPodpietychKont) {
+                    if (r.equals(k)) {
                         r.setKwota(r.getKwota()+p.getKwota());
                     }
                 }
@@ -639,7 +639,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     public void wyluskajStronyzPozycjiBilans() {
         podpieteStronyWiersza = new ArrayList<>();
         sumaPodpietychKont = new ArrayList<>();
-        List<KontoKwota> podpieteKonta = new ArrayList<>();
+        List<Konto> podpieteKonta = new ArrayList<>();
         for (TreeNode p : selectedNodes) {
             PozycjaRZiSBilans r = (PozycjaRZiSBilans) p.getData();
             if (r.getPrzyporzadkowanekonta() != null) {
@@ -647,21 +647,20 @@ public class PozycjaBRWzorcowyView implements Serializable {
             }
         }
         List<Konto> konta = new ArrayList<>();
-        for (KontoKwota p : podpieteKonta) {
-            Konto k = p.getKonto();
-            if (!konta.contains(k)) {
-                konta.add(k);
-                sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
+        for (Konto p : podpieteKonta) {
+            if (!konta.contains(p)) {
+                konta.add(p);
+                sumaPodpietychKont.add(p);
             } else {
-                for (KontoKwota r : sumaPodpietychKont) {
-                    if (r.getKonto().equals(k)) {
+                for (Konto r : sumaPodpietychKont) {
+                    if (r.equals(p)) {
                         r.setKwota(r.getKwota()+p.getKwota());
                     }
                 }
             }
         }
-        for (KontoKwota p : sumaPodpietychKont) {
-            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p.getKonto(), wpisView.getRokWpisuSt());
+        for (Konto p : sumaPodpietychKont) {
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt());
             for (StronaWiersza r : stronywiersza) {
                 podpieteStronyWiersza.add(new StronaWierszaKwota(r, r.getKwotaPLN()));
             }
@@ -729,11 +728,11 @@ public class PozycjaBRWzorcowyView implements Serializable {
         this.podpieteStronyWiersza = podpieteStronyWiersza;
     }
 
-    public List<KontoKwota> getSumaPodpietychKont() {
+    public List<Konto> getSumaPodpietychKont() {
         return sumaPodpietychKont;
     }
 
-    public void setSumaPodpietychKont(List<KontoKwota> sumaPodpietychKont) {
+    public void setSumaPodpietychKont(List<Konto> sumaPodpietychKont) {
         this.sumaPodpietychKont = sumaPodpietychKont;
     }
 

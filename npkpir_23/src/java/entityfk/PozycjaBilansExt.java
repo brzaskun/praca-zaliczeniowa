@@ -4,7 +4,6 @@
  */
 package entityfk;
 
-import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
 import java.io.Serializable;
 import java.util.List;
@@ -167,11 +166,11 @@ public class PozycjaBilansExt extends PozycjaRZiSBilans implements Serializable 
         this.przychod0koszt1 = przychod0koszt1;
     }
 
-    public List<KontoKwota> getPrzyporzadkowanekonta() {
+    public List<Konto> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
     }
 
-    public void setPrzyporzadkowanekonta(List<KontoKwota> przyporzadkowanekonta) {
+    public void setPrzyporzadkowanekonta(List<Konto> przyporzadkowanekonta) {
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
 

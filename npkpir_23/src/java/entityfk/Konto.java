@@ -24,6 +24,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -256,6 +257,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private boolean zaksiegowane;
     @Column(name = "niewidoczne")
     private boolean niewidoczne;
+    @Transient
+    private double kwota;
+    
     
 //    @OneToMany(mappedBy = "konto")
 //    private List<StronaWiersza> stronaWiersza;
@@ -702,6 +706,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public void setDe(String de) {
         this.de = de;
+    }
+
+    public double getKwota() {
+        return kwota;
+    }
+
+    public void setKwota(double kwota) {
+        this.kwota = kwota;
     }
 
     public Konto getKontomacierzyste() {

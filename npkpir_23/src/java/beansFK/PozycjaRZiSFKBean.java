@@ -13,7 +13,6 @@ import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
-import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Konto;
@@ -267,12 +266,12 @@ public class PozycjaRZiSFKBean {
         } else {
             lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "bilansowe", wpisView, aktywa0pasywa1);
         }
-        List<KontoKwota> kontokwotalist = new ArrayList<>();
+        List<Konto> kontokwotalist = new ArrayList<>();
         for (Konto p : lista) {
             try {
                 if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                    KontoKwota t = new KontoKwota(p,0.0);
-                    kontokwotalist.add(t);
+                    p.setKwota(0.0);
+                    kontokwotalist.add(p);
                 }
             } catch (Exception e) {
                 E.e(e);
@@ -292,12 +291,12 @@ public class PozycjaRZiSFKBean {
         }
         if (lista.size() > 1) {
         }
-        List<KontoKwota> kontokwotalist = new ArrayList<>();
+        List<Konto> kontokwotalist = new ArrayList<>();
         if (lista != null) {
             for (Konto p : lista) {
                 if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                    KontoKwota t = new KontoKwota(p,0.0);
-                    kontokwotalist.add(t);
+                    p.setKwota(0.0);
+                    kontokwotalist.add(p);
                 }
             }
         }

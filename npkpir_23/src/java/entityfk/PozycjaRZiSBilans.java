@@ -5,8 +5,8 @@
 package entityfk;
 
 import abstractClasses.ToBeATreeNodeObject;
-import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
+import format.F;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 /**
@@ -58,9 +59,8 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
 //    //aktywa 2 pasywa 3
 //    protected int bilanslubrzis;
     protected boolean przychod0koszt1;
-    @Lob
-    @Column(length=1048576)
-    protected List<KontoKwota> przyporzadkowanekonta;
+    @Transient
+    protected List<Konto> przyporzadkowanekonta;
     @Lob
     @Column(length=1048576)
     protected List<StronaWierszaKwota> przyporzadkowanestronywiersza;
@@ -91,7 +91,8 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
             przyporzadkowanekonta = new ArrayList<>();
         }
         if (kwota != 0.0) {
-            przyporzadkowanekonta.add(new KontoKwota(konto, kwota));
+            konto.setKwota(kwota);
+            przyporzadkowanekonta.add(konto);
         }
     }
     
@@ -101,15 +102,16 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         }
         if (kwota != 0.0) {
             boolean nowe = true;
-            for (KontoKwota p : przyporzadkowanekonta) {
-                if (p.getKonto().equals(konto)) {
+            for (Konto p : przyporzadkowanekonta) {
+                if (p.equals(konto)) {
                     p.setKwota(p.getKwota()+kwota);
                     nowe = false;
                     break;
                 }
             }
             if (nowe) {
-                przyporzadkowanekonta.add(new KontoKwota(konto, kwota));
+                konto.setKwota(kwota);
+                przyporzadkowanekonta.add(konto);
             }
         }
     }
@@ -208,11 +210,24 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         this.przychod0koszt1 = przychod0koszt1;
     }
 
-    public List<KontoKwota> getPrzyporzadkowanekonta() {
+    public List<Konto> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
     }
+    
+    public String getPrzyporzadkowanekontaString() {
+        StringBuilder sb = new StringBuilder();
+        if (this.przyporzadkowanekonta!=null) {
+            for (Konto p: przyporzadkowanekonta) {
+                sb.append(p.getPelnynumer());
+                sb.append(": ");
+                sb.append(F.curr(p.getKwota()));
+                sb.append("; ");
+            }
+        }
+        return sb.toString();
+    }
 
-    public void setPrzyporzadkowanekonta(List<KontoKwota> przyporzadkowanekonta) {
+    public void setPrzyporzadkowanekonta(List<Konto> przyporzadkowanekonta) {
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
 

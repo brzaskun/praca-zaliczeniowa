@@ -35,7 +35,6 @@ import embeddable.SchemaEwidencjaSuma;
 import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoBO;
-import embeddablefk.KontoKwota;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
 import entity.Faktura;
@@ -1655,14 +1654,14 @@ public class PdfMain {
                 }
                 if (modyfikator != 0 && modyfikator != 3) {
                     if (p.getPrzyporzadkowanekonta()!=null) {
-                        for (Iterator<KontoKwota> itp = p.getPrzyporzadkowanekonta().iterator(); itp.hasNext();) {
-                            KontoKwota kk = itp.next();
+                        for (Iterator<Konto> itp = p.getPrzyporzadkowanekonta().iterator(); itp.hasNext();) {
+                            Konto kk = itp.next();
                             if (Z.z(kk.getKwota())==0.0) {
                                 itp.remove();
                             }
                         }
                     }
-                    String konta = p.getPrzyporzadkowanekonta() != null ? p.getPrzyporzadkowanekonta().toString() : "";
+                    String konta = p.getPrzyporzadkowanekontaString();
                     table.addCell(ustawfrazeAlign(konta, "left", 7));
                 }
             }
@@ -1730,9 +1729,9 @@ public class PdfMain {
                 if (modyfikator == 1 || modyfikator == 2) {
                     if (modyfikator != 0) {
                     if (p.getPrzyporzadkowanekonta() != null && p.getPrzyporzadkowanekonta().size() > 0) {
-                        List<KontoKwota> k = p.getPrzyporzadkowanekonta();
-                        for (Iterator<KontoKwota> itr = k.iterator(); itr.hasNext();) {
-                            KontoKwota k1 = itr.next();
+                        List<Konto> k = p.getPrzyporzadkowanekonta();
+                        for (Iterator<Konto> itr = k.iterator(); itr.hasNext();) {
+                            Konto k1 = itr.next();
                             if (Z.z(k1.getKwota()) == 0.0) {
                                 itr.remove();
                             }
@@ -2079,12 +2078,12 @@ public class PdfMain {
                 }
             }
             if (nazwaklasy.equals("embeddablefk.KontoKwota")) {
-                KontoKwota p = (KontoKwota) it.next();
-                table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer(), "left", 7));
+                Konto p = (Konto) it.next();
+                table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 7));
                 if (l.equals("pl")) {
-                    table.addCell(ustawfrazeAlign(p.getKonto().getNazwapelna(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 7));
                 } else {
-                    table.addCell(ustawfrazeAlign(p.getKonto().getDe(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
                 }
                 
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));

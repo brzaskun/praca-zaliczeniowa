@@ -4,7 +4,6 @@
  */
 package entityfk;
 
-import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
 import java.io.Serializable;
 import java.util.List;
@@ -43,7 +42,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PozycjaRZiS.findByPozycjaSymbol", query = "SELECT p FROM PozycjaRZiS p WHERE p.pozycjaSymbol = :pozycjaSymbol"),
     @NamedQuery(name = "PozycjaRZiS.findByPozycjanr", query = "SELECT p FROM PozycjaRZiS p WHERE p.pozycjanr = :pozycjanr"),
     @NamedQuery(name = "PozycjaRZiS.findByPrzychod0koszt1", query = "SELECT p FROM PozycjaRZiS p WHERE p.przychod0koszt1 = :przychod0koszt1"),
-    @NamedQuery(name = "PozycjaRZiS.findByPrzyporzadkowanekonta", query = "SELECT p FROM PozycjaRZiS p WHERE p.przyporzadkowanekonta = :przyporzadkowanekonta"),
     @NamedQuery(name = "PozycjaRZiS.findByRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.rok = :rok"),
     @NamedQuery(name = "PozycjaRZiS.findByUkladPodRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
     @NamedQuery(name = "PozycjaRZiS.findByUklad", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad")})
@@ -224,12 +222,12 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
     }
 
     @Override
-    public List<KontoKwota> getPrzyporzadkowanekonta() {
+    public List<Konto> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
     }
 
     @Override
-    public void setPrzyporzadkowanekonta(List<KontoKwota> przyporzadkowanekonta) {
+    public void setPrzyporzadkowanekonta(List<Konto> przyporzadkowanekonta) {
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
 

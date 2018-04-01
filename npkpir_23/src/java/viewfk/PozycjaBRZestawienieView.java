@@ -18,7 +18,6 @@ import daoFK.UkladBRDAO;
 import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Mce;
-import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
@@ -74,7 +73,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
     private List<StronaWierszaKwota> podpieteStronyWiersza;
-    private List<KontoKwota> sumaPodpietychKont;
+    private List<Konto> sumaPodpietychKont;
     private boolean pokazaktywa;
     private double sumabilansowaaktywa;
     private double sumabilansowapasywa;
@@ -732,10 +731,11 @@ public class PozycjaBRZestawienieView implements Serializable {
                 Konto k = p.getStronaWiersza().getKonto();
                 if (!konta.contains(k)) {
                     konta.add(k);
-                    sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
+                    k.setKwota(p.getKwota());
+                    sumaPodpietychKont.add(k);
                 } else {
-                    for (KontoKwota r : sumaPodpietychKont) {
-                        if (r.getKonto().equals(k)) {
+                    for (Konto r : sumaPodpietychKont) {
+                        if (r.equals(k)) {
                             r.setKwota(r.getKwota()+p.getKwota());
                         }
                     }
@@ -747,7 +747,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     public void wyluskajStronyzPozycjiBilans() {
         podpieteStronyWiersza = new ArrayList<>();
         sumaPodpietychKont = new ArrayList<>();
-        List<KontoKwota> podpieteKonta = new ArrayList<>();
+        List<Konto> podpieteKonta = new ArrayList<>();
         if (selectedNodes != null && selectedNodes.length > 0) {
             for (TreeNode p : selectedNodes) {
                 PozycjaRZiSBilans r = (PozycjaRZiSBilans) p.getData();
@@ -756,25 +756,24 @@ public class PozycjaBRZestawienieView implements Serializable {
                 }
             }
             List<Konto> konta = new ArrayList<>();
-            for (KontoKwota p : podpieteKonta) {
-                Konto k = p.getKonto();
-                if (!konta.contains(k)) {
-                    konta.add(k);
-                    sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
+            for (Konto p : podpieteKonta) {
+                if (!konta.contains(p)) {
+                    konta.add(p);
+                    sumaPodpietychKont.add(p);
                 } else {
-                    for (KontoKwota r : sumaPodpietychKont) {
-                        if (r.getKonto().equals(k)) {
+                    for (Konto r : sumaPodpietychKont) {
+                        if (r.equals(p)) {
                             r.setKwota(r.getKwota()+p.getKwota());
                         }
                     }
                 }
             }
             List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            for (KontoKwota p : sumaPodpietychKont) {
+            for (Konto p : sumaPodpietychKont) {
                 int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny());
                 for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {   
                     StronaWiersza r = (StronaWiersza) it.next();
-                    if (Mce.getMiesiacToNumber().get(r.getDokfk().getMiesiac()) < granicagorna && r.getKonto().equals(p.getKonto())) {
+                    if (Mce.getMiesiacToNumber().get(r.getDokfk().getMiesiac()) < granicagorna && r.getKonto().equals(p)) {
                         podpieteStronyWiersza.add(new StronaWierszaKwota(r, r.getKwotaPLN()));
                     }
                 }
@@ -878,11 +877,11 @@ public class PozycjaBRZestawienieView implements Serializable {
         this.sumabilansowapasywa = sumabilansowapasywa;
     }
 
-    public List<KontoKwota> getSumaPodpietychKont() {
+    public List<Konto> getSumaPodpietychKont() {
         return sumaPodpietychKont;
     }
 
-    public void setSumaPodpietychKont(List<KontoKwota> sumaPodpietychKont) {
+    public void setSumaPodpietychKont(List<Konto> sumaPodpietychKont) {
         this.sumaPodpietychKont = sumaPodpietychKont;
     }
 
