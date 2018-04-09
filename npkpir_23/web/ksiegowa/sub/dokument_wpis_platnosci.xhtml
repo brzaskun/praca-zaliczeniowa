@@ -51,7 +51,7 @@
                     </p:selectBooleanCheckbox>
                 </p:outputPanel>
                 <p:dataTable  var="wpis" value="#{platnosciWalutyView.dokumenty}" id="dokumentyLista"  filteredValue="#{platnosciWalutyView.dokumentyFiltered}" rowIndexVar="index"
-                              style="width: 1200px; margin-top: 10px; overflow-y: scroll; height: 400px;" rowKey="#{wpis.idDok}" selection="#{platnosciWalutyView.selected}" widgetVar="dokTable"
+                              style="width: 1200px; margin-top: 10px; overflow-y: scroll; height: 400px;" rowKey="#{wpis.id}" selection="#{platnosciWalutyView.selected}" widgetVar="dokTable"
                               emptyMessage="W danym miesiącu nie było żadnych zapisów"
                               selectionMode="single" styleClass="grid" 
                               >

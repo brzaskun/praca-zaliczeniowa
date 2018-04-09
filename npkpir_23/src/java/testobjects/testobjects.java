@@ -8,7 +8,7 @@ package testobjects;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
-import embeddable.VatUe;
+
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoBO;
 import embeddablefk.TreeNodeExtended;
@@ -23,6 +23,9 @@ import entity.Ryczpoz;
 import entity.SrodekTrw;
 import entity.Statystyka;
 import entity.UmorzenieN;
+import entity.Vat27;
+import entity.VatSuper;
+import entity.VatUe;
 import entityfk.Dokfk;
 import entityfk.EVatwpisDedra;
 import entityfk.Konto;
@@ -511,6 +514,21 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        return tabela;
    }
     
+    public static List[] getEwidencjaVAT27(List<Vat27> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("transakcja");
+       n.add("kod kraju");
+       n.add("NIP");
+       n.add("kontrahent");
+       n.add("netto");
+       n.add("ilość dok");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
      public static List[] getSchemaEwidencjaSuma(List<SchemaEwidencjaSuma> wiersze) {
        List n = new ArrayList();
        n.add("lp");
@@ -875,7 +893,8 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        return tabela;
    }
     
-    public static List[] getPozycje(List<VatUe> pozycje) {
+    //<VATSuper>
+    public static List[] getPozycje(List pozycje) {
        List n = new ArrayList();
        n.add("");
        n.add("typ");

@@ -112,7 +112,6 @@ public class KlView implements Serializable {
 
     public void dodajKlienta() {
         try {
-            Klienci selected = (Klienci) this.selected;
             if (selected.getNip().isEmpty()) {
                 wygenerujnip();
             }

@@ -45,7 +45,7 @@
                             </p:panelGrid>
                             <p:dataTable  var="wpis" value="#{importFakturyView.dokumenty}" id="dokumentyLista" 
                                           rowIndexVar="index" 
-                                          style="width: 1400px; margin-top: 10px; height: 600px; overflow-y: scroll;" rowKey="#{wpis.idDok}" 
+                                          style="width: 1400px; margin-top: 10px; height: 600px; overflow-y: scroll;" rowKey="#{wpis.id}" 
                                           widgetVar="dokTable" 
                                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
                                           emptyMessage="Nie pobrano jeszcze żadnych danych z pliku jpk"

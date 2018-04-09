@@ -6,7 +6,9 @@
 package deklaracje.vat272;
 
 import deklaracje.vat272.Deklaracja.Podmiot1;
-import embeddable.VatUe;
+
+import entity.Vat27;
+import entity.VatUe;
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -179,6 +181,38 @@ public class VAT27Bean {
         return poz;
     }
     
+    public static PozycjeSzczegolowe pozycjeszczegolowe27(List<Vat27> lista) {
+        deklaracje.vat272.PozycjeSzczegolowe poz = new PozycjeSzczegolowe();
+        Double sumaC = 0.0;
+        Double sumaD = 0.0;
+        if (lista != null) {
+            for (Vat27 p : lista) {
+                if (p.getKontrahent() != null) {
+                    switch (p.getTransakcja()) {
+                        case "RVC":
+                            sumaC = Z.z(sumaC +p.getNetto());
+                            poz.getGrupaC().add(grupaC27(p));
+                            break;
+                    }
+                }
+            }
+            poz.setP10(new BigDecimal(sumaC));
+            for (Vat27 p : lista) {
+                if (p.getKontrahent() != null) {
+                    switch (p.getTransakcja()) {
+                        case "RVCS":
+                            sumaD = Z.z(sumaD +p.getNetto());
+                            poz.getGrupaD().add(grupaD27(p));
+                            break;
+                    }
+                }
+            }
+            poz.setP10(Z.zBD2(sumaC));
+            poz.setP11(Z.zBD2(sumaD));
+        }
+        return poz;
+    }
+    
     
 
     private static GrupaC grupaC(VatUe p) {
@@ -194,6 +228,30 @@ public class VAT27Bean {
     }
 
     private static GrupaD grupaD(VatUe p) {
+        GrupaD g = new GrupaD();
+        if (p.isKorekta()) {
+            g.setPD1(1);
+        }
+        g.setTyp(g.getTyp());
+        g.setPD2("USŁUGA");
+        g.setPD3(przetworznip(p.getKontrahent().getNip()));
+        g.setPD4(Z.zBD2(p.getNetto()));
+        return g;
+    }
+    
+     private static GrupaC grupaC27(Vat27 p) {
+        GrupaC g = new GrupaC();
+        g.setTyp(g.getTyp());
+        if (p.isKorekta()) {
+            g.setPC1(1);
+        }
+        g.setPC2("DOSTAWA1");
+        g.setPC3(przetworznip(p.getKontrahent().getNip()));
+        g.setPC4(Z.zBD2(p.getNetto()));
+        return g;
+    }
+
+    private static GrupaD grupaD27(Vat27 p) {
         GrupaD g = new GrupaD();
         if (p.isKorekta()) {
             g.setPD1(1);

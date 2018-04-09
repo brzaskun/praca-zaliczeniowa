@@ -4,7 +4,8 @@
  */
 package entityfk;
 
-import embeddable.VatUe;
+
+import entity.VatUe;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EmbeddedId;
@@ -36,7 +37,7 @@ public class Vatuepodatnik implements Serializable {
     @EmbeddedId
     protected VatuepodatnikPK vatuepodatnikPK;
     @Lob
-    private List<VatUe> klienciwdtwnt;
+    private List klienciwdtwnt;
     private Boolean mc0kw1;
     private Boolean rozliczone;
 
@@ -59,13 +60,14 @@ public class Vatuepodatnik implements Serializable {
         this.vatuepodatnikPK = vatuepodatnikPK;
     }
 
-    public List<VatUe> getKlienciwdtwnt() {
+    public List getKlienciwdtwnt() {
         return klienciwdtwnt;
     }
 
-    public void setKlienciwdtwnt(List<VatUe> klienciwdtwnt) {
+    public void setKlienciwdtwnt(List klienciwdtwnt) {
         this.klienciwdtwnt = klienciwdtwnt;
     }
+
 
     public Boolean getMc0kw1() {
         return mc0kw1;

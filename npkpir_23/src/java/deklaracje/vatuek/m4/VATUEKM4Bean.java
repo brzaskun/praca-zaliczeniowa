@@ -6,7 +6,8 @@
 package deklaracje.vatuek.m4;
 
 import deklaracje.vatuek.m4.Deklaracja.Podmiot1;
-import embeddable.VatUe;
+import entity.VatUe;
+
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;

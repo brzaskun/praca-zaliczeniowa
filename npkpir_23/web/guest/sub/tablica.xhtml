@@ -44,7 +44,7 @@
                 });
             </script>
             <p:dataTable  var="wpis" value="#{DokTabGuestView.pobranedokumenty}" id="dokumentyLista" editable="true" 
-                          style="max-width: 1650px; height: 850px; overflow: scroll" rowKey="#{wpis.idDok}" selection="#{DokTabGuestView.selected}" widgetVar="dokTable"
+                          style="max-width: 1650px; height: 850px; overflow: scroll" rowKey="#{wpis.id}" selection="#{DokTabGuestView.selected}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" filteredValue="#{DokTabGuestView.pobranedokumentyFiltered}"
                           > 

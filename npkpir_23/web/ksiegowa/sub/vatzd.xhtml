@@ -16,7 +16,7 @@
                 </p:contextMenu>
                 <p:outputPanel id="kontenertabeli" deferred="true">
                     <p:dataTable  var="wpis" value="#{vATZDView.dokumentykp}" id="dokumentyLista" rowIndexVar="index"
-                                  style="width: 1400px; margin-top: 10px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+                                  style="width: 1400px; margin-top: 10px;" rowKey="#{wpis.id}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                                   rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                                   selectionMode="multiple" styleClass="grid" 
                                   >

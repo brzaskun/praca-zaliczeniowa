@@ -11,6 +11,8 @@ import entity.DokSuper;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entity.Vat27;
+import entity.VatUe;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +35,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -206,6 +209,12 @@ public class Dokfk extends DokSuper implements Serializable {
     @Column(name = "dataujecia")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataujecia;
+    @JoinColumn(name = "vatue", referencedColumnName = "id")
+    @OneToOne
+    private VatUe vatUe;
+    @JoinColumn(name = "vat27", referencedColumnName = "id")
+    @OneToOne
+    private Vat27 vat27;
 
 
 
@@ -285,6 +294,14 @@ public class Dokfk extends DokSuper implements Serializable {
 
     public void setNrdziennika(String nrdziennika) {
         this.nrdziennika = nrdziennika;
+    }
+
+    public VatUe getVatUe() {
+        return vatUe;
+    }
+
+    public void setVatUe(VatUe vatUe) {
+        this.vatUe = vatUe;
     }
 
     public int getId() {

@@ -7,12 +7,16 @@ package vies;
 
 import entity.Podatnik;
 import entity.Uz;
+import entity.VatSuper;
+import entity.VatUe;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -66,6 +71,10 @@ public class Vies implements Serializable {
     private Uz wprowadzil;
     @Transient
     private String uwagi;
+    @JoinColumn(name = "vatue", referencedColumnName = "id")
+    @OneToOne
+    private VatUe vatue;
+    
 
     @Override
     public int hashCode() {
@@ -184,6 +193,18 @@ public class Vies implements Serializable {
     public void setUwagi(String uwagi) {
         this.uwagi = uwagi;
     }
+
+    public VatUe getVatue() {
+        return vatue;
+    }
+
+    public void setVatue(VatUe vatue) {
+        this.vatue = vatue;
+    }
+
+ 
+    
+    
     
     public String getWynikVies() {
         String zwrot = "nieaktywny";

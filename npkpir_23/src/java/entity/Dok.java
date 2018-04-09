@@ -30,6 +30,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -230,6 +231,12 @@ public class Dok extends DokSuper implements Serializable {
     @ManyToOne
     @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnik;
+    @JoinColumn(name = "vatue", referencedColumnName = "id")
+    @OneToOne
+    private VatUe vatUe;
+    @JoinColumn(name = "vat27", referencedColumnName = "id")
+    @OneToOne
+    private Vat27 vat27;
     
     public Dok() {
         this.listakwot1 = new ArrayList<>();
@@ -560,7 +567,13 @@ public class Dok extends DokSuper implements Serializable {
         this.rodzajedok = rodzajedok;
     }
     
+    public VatUe getVatUe() {
+        return vatUe;
+    }
     
+    public void setVatUe(VatUe vatUe) {
+        this.vatUe = vatUe;
+    }
     
     public String getSymbolWaluty() {
         String zwrot = "PLN";

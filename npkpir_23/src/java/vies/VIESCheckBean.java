@@ -6,10 +6,12 @@
 package vies;
 
 import daoFK.ViesDAO;
-import embeddable.VatUe;
+
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Uz;
+import entity.VatSuper;
+import entity.VatUe;
 import error.E;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -18,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,32 +38,31 @@ import org.jsoup.select.Elements;
  */
 public class VIESCheckBean {
     
-    public static void sprawdz(List<VatUe> klienciWDTWNT, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil)  {
+    public static void sprawdz(List klienciWDTWNT, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil)  {
          if (klienciWDTWNT != null) {
             List<Vies> viesy = new ArrayList<>();
-            for (VatUe p : klienciWDTWNT) {
-                if (p.getKontrahent() != null && p.getVies() == null) {
-                    String kraj = p.getKontrahent().getKrajkod();
-                    String nip = p.getKontrahent().getNip();
-                    boolean jestprefix = sprawdznip(p.getKontrahent().getNip());
-                    if (jestprefix) {
-                        nip = p.getKontrahent().getNip().substring(2);
-                    }
-                    Vies v = null;
-                    try {
-                        v = VIESCheckBean.pobierz(kraj, nip, p.getKontrahent(), podatnik, wprowadzil);
-                        p.setVies(v);
-                    } catch (SocketTimeoutException se) {
-                        E.e(se);
-                    }
-                    if (v != null) {
-                        viesy.add(v);
-                    }
-                }
-            }
-            if (viesy.size() > 0) {
-                viesDAO.editList(viesy);
-            }
+             for (Iterator it = klienciWDTWNT.iterator(); it.hasNext();) {
+                 VatUe p = (VatUe) it.next();
+                 if (p.getKontrahent() != null && p.getVies() == null) {
+                     String kraj = p.getKontrahent().getKrajkod();
+                     String nip = p.getKontrahent().getNip();
+                     boolean jestprefix = sprawdznip(p.getKontrahent().getNip());
+                     if (jestprefix) {
+                         nip = p.getKontrahent().getNip().substring(2);
+                     }
+                     Vies v = null;
+                     try {
+                         v = VIESCheckBean.pobierz(kraj, nip, p.getKontrahent(), podatnik, wprowadzil);
+                         p.setVies(v);
+                         v.setVatue(p);
+                     } catch (SocketTimeoutException se) {
+                         E.e(se);
+                     }
+                     if (v != null) {
+                         viesy.add(v);
+                     }
+                 }
+             }
         }
     }
     
@@ -91,12 +93,12 @@ public class VIESCheckBean {
             }
             Document doc = res.parse();
             Element table = doc.getElementById("vatResponseFormTable");
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             if (table != null) {
                 Elements tds = table.getElementsByTag("td");
                 String data = tds.get(8).text() != null ? tds.get(8).text().substring(0,10) : "";
                 if (data.contains("/")) {
-                    formatter = new SimpleDateFormat("yyyy/MM/dd");
+                    data.replace("/", "-");
                 }
                 if (tds != null && tds.size() < 26) {
                     if (tds.get(0).text().contains("Yes, valid VAT number")) {

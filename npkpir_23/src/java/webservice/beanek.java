@@ -9,9 +9,13 @@ import com.sun.xml.ws.client.ClientTransportException;
 import dao.Deklaracjavat27DAO;
 import dao.DeklaracjavatUEDAO;
 import dao.DeklaracjevatDAO;
+import dao.DokDAO;
+import daoFK.DokDAOfk;
 import entity.Deklaracjavat27;
 import entity.DeklaracjavatUE;
 import entity.Deklaracjevat;
+import entity.Dok;
+import entityfk.Dokfk;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -113,6 +117,10 @@ public class beanek  implements Serializable {
     private DeklaracjavatUEDAO deklaracjavatUEDAO;
     @Inject
     private Deklaracjavat27DAO deklaracjavat27DAO;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    @Inject
+    private DokDAO dokDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @ManagedProperty(value="#{deklaracjevatView}")
@@ -220,10 +228,10 @@ public class beanek  implements Serializable {
 
     }
     
-    public void robUE(DeklaracjavatUE wysylanaDeklaracja) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+    public void robUE(DeklaracjavatUE wysylanaDeklaracja, List<Dok> listadok, List<Dokfk> listadokfk) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         try {
             dok = wysylanaDeklaracja.getDeklaracjapodpisana();
-            sendSignDocument(dok, id, stat, opis);
+            //sendSignDocument(dok, id, stat, opis);
             idMB = id.value;
             idpobierz = id.value;
             List<String> komunikat = null;
@@ -241,12 +249,22 @@ public class beanek  implements Serializable {
             wysylanaDeklaracja.setDatazlozenia(new Date());
             wysylanaDeklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
             wysylanaDeklaracja.setTestowa(false);
-            deklaracjavatUEDAO.edit(wysylanaDeklaracja);
+            deklaracjavatUEDAO.dodaj(wysylanaDeklaracja);
+            edytujdok(listadok, listadokfk);
             Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
         }
-
+    }
+    
+     private void edytujdok(List<Dok> listadok, List<Dokfk> listadokfk) {
+        if(listadok!= null && listadok.size()>0) {
+            if (listadok!=null && listadok.size()>0) {
+                dokDAO.editList(listadok);
+            } else if (listadokfk !=null && listadokfk.size()>0) {
+                dokDAOfk.editList(listadokfk);
+            }
+        }
     }
     
     public void rob(List<Deklaracjevat> deklaracje) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {

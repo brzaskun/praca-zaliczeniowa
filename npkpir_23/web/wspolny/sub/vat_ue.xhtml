@@ -26,9 +26,9 @@
             <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfkTabela()}"/>
             <p:commandButton value="rozwiń/zwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
             <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" id="deklbutton"
-                             actionListener="#{vATUEDeklaracjaView.tworzdeklaracje(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
+                             actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT)}" update="@(.upd3) @(.upd)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px;"  id="deklbutton2"
-                             actionListener="#{vATUEDeklaracjaView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
+                             actionListener="#{vatUeFKView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT)}" update="@(.upd3)" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.sprawdzVIES}"
                              update="@(.upd1)" oncomplete="r('form:akordeon:drukviesbutton').show();pokazbutony();"/>
             <p:commandButton value="druk VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;" id="drukviesbutton"
@@ -164,7 +164,7 @@
                 <p:messages id="mesydzue" autoUpdate="true"/>
                 <p:separator/>
                 <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1410px;" styleClass="upd3"
-                             selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.id}">
+                             selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.hashCode()}">
                     <p:column style="width: 3%;">
                         <p:rowToggler/>
                     </p:column>
@@ -194,10 +194,10 @@
                         <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
-                        <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row, vatUeFKView.listaDok,  vatUeFKView.listaDokfk)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
-                        <p:commandButton value="usuń" actionListener="#{vatUeFKView.usundekl(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator eq null or row.status.startsWith('4')}"/>
+                        <p:commandButton value="usuń" actionListener="#{vatUeFKView.usundekl(row)}" update="@form @(.upd)" style="width: 80px;" rendered="#{row.identyfikator eq null or row.status.startsWith('4')}"/>
                         <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator ne null and !row.status.startsWith('4')}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">

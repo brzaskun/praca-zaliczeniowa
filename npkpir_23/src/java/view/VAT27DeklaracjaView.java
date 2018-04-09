@@ -11,8 +11,9 @@ import deklaracje.vat272.Deklaracja;
 import deklaracje.vat272.VAT27Bean;
 import embeddable.Kwartaly;
 import embeddable.TKodUS;
-import embeddable.VatUe;
 import entity.Deklaracjavat27;
+import entity.Vat27;
+import entity.VatUe;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -44,16 +45,16 @@ public class VAT27DeklaracjaView implements Serializable {
     @Inject
     private Deklaracjavat27DAO deklaracjavat27DAO;
     
-    public void tworzdeklaracjekorekta(List<VatUe> lista) {
+    public void tworzdeklaracjekorekta(List<Vat27> lista) {
         Deklaracjavat27 stara = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
         if (stara.getDatazlozenia() == null) {
             Msg.msg("e", "Pierwotna deklaracja nie została wysłana, nie można zrobić korekty");
         } else {
-            List<VatUe> staralista = stara.getPozycje();
+            List<Vat27> staralista = stara.getPozycje();
             boolean robickorekte = false;
             int nrkolejny = 0;
-            for (VatUe s : staralista) {
-                for (VatUe t : lista) {
+            for (Vat27 s : staralista) {
+                for (Vat27 t : lista) {
                     if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
                         if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
                             t.setKorekta(true);
@@ -80,16 +81,16 @@ public class VAT27DeklaracjaView implements Serializable {
         }
     }
     
-     public void tworzdeklaracjekorektaFK(List<VatUe> lista) {
+     public void tworzdeklaracjekorektaFK(List<Vat27> lista) {
         Deklaracjavat27 stara = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
         if (stara.getDatazlozenia() == null) {
             Msg.msg("e", "Pierwotna deklaracja nie została wysłana, nie można zrobić korekty");
         } else {
-            List<VatUe> staralista = stara.getPozycje();
+            List<Vat27> staralista = stara.getPozycje();
             boolean robickorekte = false;
             int nrkolejny = 0;
-            for (VatUe s : staralista) {
-                for (VatUe t : lista) {
+            for (Vat27 s : staralista) {
+                for (Vat27 t : lista) {
                     if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
                         if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
                             t.setKorekta(true);
@@ -116,7 +117,7 @@ public class VAT27DeklaracjaView implements Serializable {
         }
     }
     
-    public void tworzdeklaracje(List<VatUe> lista) {
+    public void tworzdeklaracje(List<Vat27> lista) {
         if (!lista.isEmpty() && lista.get(0).getKontrahent() != null) {
             robdeklaracje(lista, false, 0);
         } else {
@@ -124,7 +125,7 @@ public class VAT27DeklaracjaView implements Serializable {
         }
     }
     
-    public void tworzdeklaracjeFK(List<VatUe> lista) {
+    public void tworzdeklaracjeFK(List<Vat27> lista) {
         if (!lista.isEmpty() && lista.get(0).getKontrahent() != null) {
             robdeklaracjeFK(lista, false, 0);
         } else {
@@ -132,13 +133,16 @@ public class VAT27DeklaracjaView implements Serializable {
         }
     }
     
-    public void robdeklaracje(List<VatUe> lista, boolean korekta, int nrkolejny) {
+    public void robdeklaracje(List<Vat27> lista, boolean korekta, int nrkolejny) {
         try {
             String deklaracja = sporzadz(lista, korekta);
             Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
             if (podpisanadeklaracja != null) {
                 Deklaracjavat27 deklaracjavat27 = generujdeklaracje(podpisanadeklaracja);
                 deklaracjavat27.setNrkolejny(nrkolejny);
+                for (Vat27 p : lista) {
+                    p.setDeklaracjavat27(deklaracjavat27);
+                }
                 deklaracjavat27.setPozycje(lista);
                 deklaracjavat27DAO.dodaj(deklaracjavat27);
                 vat27View.getDeklaracjevat27().add(deklaracjavat27);
@@ -152,13 +156,16 @@ public class VAT27DeklaracjaView implements Serializable {
         }
     }
     
-    public void robdeklaracjeFK(List<VatUe> lista, boolean korekta, int nrkolejny) {
+    public void robdeklaracjeFK(List<Vat27> lista, boolean korekta, int nrkolejny) {
         try {
             String deklaracja = sporzadz(lista, korekta);
             Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
             if (podpisanadeklaracja != null) {
                 Deklaracjavat27 deklaracjavat27 = generujdeklaracje(podpisanadeklaracja);
                 deklaracjavat27.setNrkolejny(nrkolejny);
+                for (Vat27 p : lista) {
+                    p.setDeklaracjavat27(deklaracjavat27);
+                }
                 deklaracjavat27.setPozycje(lista);
                 deklaracjavat27DAO.dodaj(deklaracjavat27);
                 vat27FKView.getDeklaracjevat27().add(deklaracjavat27);
@@ -172,7 +179,7 @@ public class VAT27DeklaracjaView implements Serializable {
         }
     }
     
-    private String sporzadz(List<VatUe> lista, boolean korekta) {
+    private String sporzadz(List<Vat27> lista, boolean korekta) {
         deklaracje.vat272.Deklaracja deklaracja = new Deklaracja();
         String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
         if (korekta) {
@@ -181,7 +188,7 @@ public class VAT27DeklaracjaView implements Serializable {
             deklaracja.setNaglowek(VAT27Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
         }
         deklaracja.setPodmiot1(VAT27Bean.podmiot1(wpisView));
-        deklaracja.setPozycjeSzczegolowe(VAT27Bean.pozycjeszczegolowe(lista));
+        deklaracja.setPozycjeSzczegolowe(VAT27Bean.pozycjeszczegolowe27(lista));
         deklaracja.setPouczenie(BigDecimal.ONE);
         //VAT27Bean.marszajuldoplikuxml(deklaracja, wpisView);
         return VAT27Bean.marszajuldoStringu(deklaracja, wpisView);

@@ -8,9 +8,10 @@ import comparator.Dokcomparator;
 import dao.Deklaracjavat27DAO;
 import dao.DokDAO;
 import dao.PodatnikDAO;
-import embeddable.VatUe;
+
 import entity.Deklaracjavat27;
 import entity.Dok;
+import entity.Vat27;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
 import error.E;
@@ -28,6 +29,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import pdf.PdfVAT27dekl;
+import pdf.PdfVat27;
 import pdf.PdfVatUE;
 
 /**
@@ -39,8 +41,8 @@ import pdf.PdfVatUE;
 public class Vat27View implements Serializable {
 
     //lista gdzie beda podsumowane wartosci
-    private List<VatUe> klienciWDTWNT;
-    private List<VatUe> listawybranych;
+    private List<Vat27> klienciWDTWNT;
+    private List<Vat27> listawybranych;
     private List<Deklaracjavat27> deklaracjevat27;
     @Inject
     private Deklaracjavat27 dekl27selected;
@@ -79,7 +81,7 @@ public class Vat27View implements Serializable {
             //a teraz podsumuj klientów
             double sumanettovatue = 0.0;
             for (Dok p : dokvatmc) {
-                for (VatUe s : klienciWDTWNT) {
+                for (Vat27 s : klienciWDTWNT) {
                     if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getRodzajedok().getSkrot().equals(s.getTransakcja())) {
                         s.setNetto(p.getNetto() + s.getNetto());
                         s.setLiczbadok(s.getLiczbadok() + 1);
@@ -89,7 +91,7 @@ public class Vat27View implements Serializable {
                     }
                 }
             }
-            VatUe rzadpodsumowanie = new VatUe("podsum.", null, sumanettovatue, 0, null);
+            Vat27 rzadpodsumowanie = new Vat27("podsum.", null, sumanettovatue, 0, null);
             klienciWDTWNT.add(rzadpodsumowanie);
             //zachowajwbazie(String.valueOf(rok), mc, podatnik);
            try {
@@ -151,9 +153,9 @@ public class Vat27View implements Serializable {
     public void drukujewidencjeTabela() {
         try {
             if (listawybranych != null && !listawybranych.isEmpty()) {
-                PdfVatUE.drukujewidencjeTabela(listawybranych, wpisView, "VAT-27");
+                PdfVat27.drukujewidencjeTabela(listawybranych, wpisView, "VAT-27");
             } else {
-                PdfVatUE.drukujewidencjeTabela(klienciWDTWNT, wpisView, "VAT-27");
+                PdfVat27.drukujewidencjeTabela(klienciWDTWNT, wpisView, "VAT-27");
             }
         } catch (Exception e) {
             E.e(e);
@@ -161,12 +163,12 @@ public class Vat27View implements Serializable {
         }
     }
     
-     private Collection<? extends VatUe> kontrahenciUE(List<Dok> dokvatmc) {
-        Set<VatUe> klienty = new HashSet<>();
+     private Collection<? extends Vat27> kontrahenciUE(List<Dok> dokvatmc) {
+        Set<Vat27> klienty = new HashSet<>();
         for (Dok p : dokvatmc) {
             if (warunekkontrahenci(p)) {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                VatUe veu = new VatUe(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
+                Vat27 veu = new Vat27(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
                 veu.setZawiera(new ArrayList<>());
                 klienty.add(veu);
             }
@@ -230,19 +232,19 @@ public class Vat27View implements Serializable {
         this.wpisView = wpisView;
     }
     
-    public List<VatUe> getKlienciWDTWNT() {
+    public List<Vat27> getKlienciWDTWNT() {
         return klienciWDTWNT;
     }
     
-    public void setKlienciWDTWNT(List<VatUe> klienciWDTWNT) {
+    public void setKlienciWDTWNT(List<Vat27> klienciWDTWNT) {
         this.klienciWDTWNT = klienciWDTWNT;
     }
     
-    public List<VatUe> getListawybranych() {
+    public List<Vat27> getListawybranych() {
         return listawybranych;
     }
     
-    public void setListawybranych(List<VatUe> listawybranych) {
+    public void setListawybranych(List<Vat27> listawybranych) {
         this.listawybranych = listawybranych;
     }
 

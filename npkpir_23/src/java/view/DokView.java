@@ -500,7 +500,7 @@ public class DokView implements Serializable {
                         sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                     }
                 } else {
-                    if (stawkaVATwPoprzednimDok > 0.0 && typdokumentu.equals(typpoprzedniegodokumentu)) {
+                    if (stawkaVATwPoprzednimDok > 0.0 && selDokument.getRodzajedok().getSkrot().equals(typpoprzedniegodokumentu)) {
                         ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * stawkaVATwPoprzednimDok));
                     } else {
                         ewidencjaAddwiad.get(0).setVat(Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23));
@@ -1503,7 +1503,7 @@ public class DokView implements Serializable {
     private double obliczstawke(EVatwpis1 p) {
         double zwrot = 0.23;
         if (p != null) {
-            zwrot = Z.z(p.getVat()/p.getNetto());
+            zwrot = Z.z4(p.getVat()/p.getNetto());
         }
         return zwrot;
     }

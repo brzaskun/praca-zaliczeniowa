@@ -20,6 +20,7 @@ import embeddable.Parametr;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Uz;
+import entity.Vat27;
 import entity.VatSuper;
 import entity.VatUe;
 import entityfk.Dokfk;
@@ -48,7 +49,7 @@ import view.WpisView;
  * @author Osito
  */
 
-public class PdfVatUE {
+public class PdfVat27 {
 
 
     public static void drukujewidencje(List lista, WpisView wpisView, String nazwa) throws DocumentException, FileNotFoundException, IOException {
@@ -338,7 +339,7 @@ public class PdfVatUE {
     //    }
     //</editor-fold>
 
-    public static void drukujewidencjeTabela(List<VatUe> listawybranych, WpisView wpisView, String nazwa1) {
+    public static void drukujewidencjeTabela(List<Vat27> listawybranych, WpisView wpisView, String nazwa1) {
         Document document = inicjacjaA4Portrait();
         try {
             String nazwa = wpisView.getPodatnikObiekt().getNip() + "vateutabela";
@@ -351,7 +352,7 @@ public class PdfVatUE {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Ewidencja dokumentów "+nazwa1, wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             czyjestpodsumowanie(listawybranych);
-            dodajTabele(document, testobjects.testobjects.getEwidencjaVATUE(listawybranych), 100, 0);
+            dodajTabele(document, testobjects.testobjects.getEwidencjaVAT27(listawybranych), 100, 0);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('" + nazwa + "');";
             RequestContext.getCurrentInstance().execute(f);
@@ -361,10 +362,10 @@ public class PdfVatUE {
         }
     }
 
-    private static void czyjestpodsumowanie(List<VatUe> listawybranych) {
+    private static void czyjestpodsumowanie(List<Vat27> listawybranych) {
         boolean czyjest = false;
         double suma = 0.0;
-        for (VatUe p : listawybranych) {
+        for (Vat27 p : listawybranych) {
             if (p.getTransakcja().equals("podsum.")) {
                 czyjest = true;
             } else {
@@ -372,7 +373,7 @@ public class PdfVatUE {
             }
         }
         if (czyjest == false) {
-            VatUe v = new VatUe();
+            Vat27 v = new Vat27();
             v.setTransakcja("podsum.");
             v.setNetto(suma);
             listawybranych.add(v);

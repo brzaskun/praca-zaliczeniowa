@@ -32,7 +32,7 @@ import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
-import embeddable.VatUe;
+
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoBO;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -45,6 +45,7 @@ import entity.Ryczpoz;
 import entity.SrodekTrw;
 import entity.Statystyka;
 import entity.UmorzenieN;
+import entity.VatSuper;
 import entityfk.Dokfk;
 import entityfk.EVatwpisDedra;
 import entityfk.Konto;
@@ -1297,7 +1298,8 @@ public class PdfMain {
                     col14[6] = 3;
                     return col14;
                 }
-            case "embeddable.VatUe":
+            case "entity.VatUe":
+            case "entity.Vat27":
                 if (modyfikator==1) {
                     int[] col14 = new int[size];
                     col14[0] = 1;
@@ -1927,8 +1929,8 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNaleznazal())), "right", 8));
                 }
             }
-            if (nazwaklasy.equals("embeddable.VatUe")) {
-                VatUe p = (VatUe) it.next();
+            if (nazwaklasy.equals("entity.VatUe")||nazwaklasy.equals("entity.Vat27")) {
+                VatSuper p = (VatSuper) it.next();
                 if (modyfikator == 1) {
                     if (p.getTransakcja().equals("podsum.")) {
                         table.addCell(ustawfrazeAlign("", "center", 8));
