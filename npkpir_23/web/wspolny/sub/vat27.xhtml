@@ -8,15 +8,15 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <bcf:ajaxs rendered="#{!WpisView.ksiegirachunkowe}"/>
     <h:form id="form">
-        <p:outputPanel id="wrapper" deferred="true"> 
+        <p:outputPanel id="wrapper" deferred="true"  styleClass="upd1"> 
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vat27View.drukujewidencje()}"
                              >
             </p:commandButton>
             <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vat27View.drukujewidencjeTabela()}"/>
             <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" id="deklbutton"
-                             actionListener="#{vAT27DeklaracjaView.tworzdeklaracje(vat27View.klienciWDTWNT)}" update="@(.upd3)" rendered="#{!vat27View.deklaracja0korekta1}"/>
+                             actionListener="#{vAT27DeklaracjaView.tworzdeklaracje(vat27View.klienciWDTWNT)}" update="@(.upd3) @(.upd1)" rendered="#{!vat27View.deklaracja0korekta1}"/>
             <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px;"  id="deklbutton2"
-                             actionListener="#{vAT27DeklaracjaView.tworzdeklaracjekorekta(vat27View.klienciWDTWNT)}" update="@(.upd3)" rendered="#{vat27View.deklaracja0korekta1}"/>
+                             actionListener="#{vAT27DeklaracjaView.tworzdeklaracjekorekta(vat27View.klienciWDTWNT)}" update="@(.upd3) @(.upd1)" rendered="#{vat27View.deklaracja0korekta1}"/>
             <p:commandButton value="rozwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
             <h:outputText value="#{vat27View.brakustawienUE}"
                           style="color: red;"/>
@@ -88,7 +88,7 @@
             <p:messages id="mesydzue" autoUpdate="true" styleClass="upd3"/>
                 <p:separator/>
                 <p:dataTable value="#{vat27View.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1410px;" styleClass="upd3"
-                             selection="#{vat27View.dekl27selected}" selectionMode="single" rowKey="#{row.id}">
+                             selection="#{vat27View.dekl27selected}" selectionMode="single" rowKey="#{row.hashCode()}">
                     <p:column style="width: 3%;">
                         <p:rowToggler/>
                     </p:column>
@@ -118,7 +118,7 @@
                         <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
-                        <p:commandButton value="wysyłka" actionListener="#{beanek.rob27(row)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.rob27(row, vat27View.listaDok, vat27FKView.listaDokfk)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
                       
                     </p:column>
                     <p:column style="text-align: center;" width="85">

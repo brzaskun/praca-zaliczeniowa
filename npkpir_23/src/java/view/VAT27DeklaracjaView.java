@@ -47,7 +47,7 @@ public class VAT27DeklaracjaView implements Serializable {
     
     public void tworzdeklaracjekorekta(List<Vat27> lista) {
         Deklaracjavat27 stara = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
-        if (stara.getDatazlozenia() == null) {
+        if (stara == null || stara.getDatazlozenia() == null) {
             Msg.msg("e", "Pierwotna deklaracja nie została wysłana, nie można zrobić korekty");
         } else {
             List<Vat27> staralista = stara.getPozycje();
@@ -83,7 +83,7 @@ public class VAT27DeklaracjaView implements Serializable {
     
      public void tworzdeklaracjekorektaFK(List<Vat27> lista) {
         Deklaracjavat27 stara = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
-        if (stara.getDatazlozenia() == null) {
+        if (stara == null || stara.getDatazlozenia() == null) {
             Msg.msg("e", "Pierwotna deklaracja nie została wysłana, nie można zrobić korekty");
         } else {
             List<Vat27> staralista = stara.getPozycje();
@@ -120,6 +120,7 @@ public class VAT27DeklaracjaView implements Serializable {
     public void tworzdeklaracje(List<Vat27> lista) {
         if (!lista.isEmpty() && lista.get(0).getKontrahent() != null) {
             robdeklaracje(lista, false, 0);
+            vat27View.init3();
         } else {
             Msg.msg("w", "Lista dokumentów jest pusta");
         }
@@ -128,6 +129,7 @@ public class VAT27DeklaracjaView implements Serializable {
     public void tworzdeklaracjeFK(List<Vat27> lista) {
         if (!lista.isEmpty() && lista.get(0).getKontrahent() != null) {
             robdeklaracjeFK(lista, false, 0);
+            vat27FKView.init3();
         } else {
             Msg.msg("w", "Lista dokumentów jest pusta");
         }
@@ -144,7 +146,6 @@ public class VAT27DeklaracjaView implements Serializable {
                     p.setDeklaracjavat27(deklaracjavat27);
                 }
                 deklaracjavat27.setPozycje(lista);
-                deklaracjavat27DAO.dodaj(deklaracjavat27);
                 vat27View.getDeklaracjevat27().add(deklaracjavat27);
                 Msg.msg("Sporządzono deklarację VAT-27");
             } else {
@@ -167,7 +168,6 @@ public class VAT27DeklaracjaView implements Serializable {
                     p.setDeklaracjavat27(deklaracjavat27);
                 }
                 deklaracjavat27.setPozycje(lista);
-                deklaracjavat27DAO.dodaj(deklaracjavat27);
                 vat27FKView.getDeklaracjevat27().add(deklaracjavat27);
                 Msg.msg("Sporządzono deklarację VAT-27");
             } else {

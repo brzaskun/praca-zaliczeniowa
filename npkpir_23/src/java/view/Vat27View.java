@@ -10,8 +10,11 @@ import dao.DokDAO;
 import dao.PodatnikDAO;
 
 import entity.Deklaracjavat27;
+import entity.DeklaracjavatUE;
 import entity.Dok;
 import entity.Vat27;
+import entity.VatUe;
+import entityfk.Dokfk;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
 import error.E;
@@ -43,6 +46,7 @@ public class Vat27View implements Serializable {
     //lista gdzie beda podsumowane wartosci
     private List<Vat27> klienciWDTWNT;
     private List<Vat27> listawybranych;
+    private List<Dok> listaDok;
     private List<Deklaracjavat27> deklaracjevat27;
     @Inject
     private Deklaracjavat27 dekl27selected;
@@ -61,6 +65,7 @@ public class Vat27View implements Serializable {
 
     public Vat27View() {
         klienciWDTWNT = new ArrayList<>();
+        listaDok = new ArrayList<>();
     }
 
     @PostConstruct
@@ -86,6 +91,8 @@ public class Vat27View implements Serializable {
                         s.setNetto(p.getNetto() + s.getNetto());
                         s.setLiczbadok(s.getLiczbadok() + 1);
                         s.getZawiera().add(p);
+                        p.setVat27(s);
+                        listaDok.add(p);
                         sumanettovatue += (double) Math.round(p.getNetto());
                         break;
                     }
@@ -118,6 +125,24 @@ public class Vat27View implements Serializable {
             }
         } catch (Exception e) {
             E.e(e);
+        }
+    }
+    
+    public void init3() {
+        try {
+            Deklaracjavat27 d = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
+            if (d != null) {
+                deklaracja0korekta1 = true;
+            } else {
+                deklaracja0korekta1 = false;
+            }
+            for (Deklaracjavat27 dek : deklaracjevat27) {
+                if (dek.getRok().equals(wpisView.getRokWpisuSt()) && dek.getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                    deklaracja0korekta1 = true;
+                }
+            }
+        } catch (Exception e) { 
+            E.e(e); 
         }
     }
 
@@ -186,6 +211,14 @@ public class Vat27View implements Serializable {
         try {
             deklaracjavat27DAO.destroy(d);
             deklaracjevat27.remove(d);
+            for (Vat27 p : d.getPozycje()) {
+                if (!p.getZawiera().isEmpty()) {
+                    for (Dok dok:p.getZawiera()) {
+                        dok.setVat27(null);
+                    }
+                    dokDAO.editList(p.getZawiera());
+                }
+            }
             Msg.dP();
             init2();
         } catch (Exception e) {
@@ -214,6 +247,14 @@ public class Vat27View implements Serializable {
     
     public void setOpisvatuepkpir(String opisvatuepkpir) {
         this.opisvatuepkpir = opisvatuepkpir;
+    }
+
+    public List<Dok> getListaDok() {
+        return listaDok;
+    }
+
+    public void setListaDok(List<Dok> listaDok) {
+        this.listaDok = listaDok;
     }
 
     public List<Deklaracjavat27> getDeklaracjevat27() {

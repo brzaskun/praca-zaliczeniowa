@@ -296,6 +296,14 @@ public class Dokfk extends DokSuper implements Serializable {
         this.nrdziennika = nrdziennika;
     }
 
+    public Vat27 getVat27() {
+        return vat27;
+    }
+
+    public void setVat27(Vat27 vat27) {
+        this.vat27 = vat27;
+    }
+
     public VatUe getVatUe() {
         return vatUe;
     }

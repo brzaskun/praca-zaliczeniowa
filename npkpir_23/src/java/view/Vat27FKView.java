@@ -11,6 +11,7 @@ import daoFK.DokDAOfk;
 import daoFK.VatuepodatnikDAO;
 
 import entity.Deklaracjavat27;
+import entity.Dok;
 import entity.Vat27;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
@@ -45,6 +46,7 @@ public class Vat27FKView implements Serializable {
     //lista gdzie beda podsumowane wartosci
     private List<Vat27> klienciWDTWNT;
     private List<Vat27> listawybranych;
+    private List<Dokfk> listaDokfk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -65,6 +67,7 @@ public class Vat27FKView implements Serializable {
 
     public Vat27FKView() {
         klienciWDTWNT = new ArrayList<>();
+        listaDokfk = new ArrayList<>();
     }
 
     @PostConstruct
@@ -98,6 +101,8 @@ public class Vat27FKView implements Serializable {
                             s.setLiczbadok(s.getLiczbadok() + 1);
                             s.getZawierafk().add(p);
                             s.setNazwawaluty(p.getWalutadokumentu());
+                            p.setVat27(s);
+                            listaDokfk.add(p);
                             sumanettovatue += netto;
                             sumanettovatuewaluta += nettowaluta;
                             break;
@@ -118,6 +123,36 @@ public class Vat27FKView implements Serializable {
                 E.e(e);
             }
             //zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), podatnik);
+        }
+    }
+    
+    private void init2() {
+        try {
+            pobierzdeklaracje27();
+            Deklaracjavat27 d = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
+            if (d != null) {
+                deklaracja0korekta1 = true;
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    public void init3() {
+        try {
+            Deklaracjavat27 d = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
+            if (d != null) {
+                deklaracja0korekta1 = true;
+            } else {
+                deklaracja0korekta1 = false;
+            }
+            for (Deklaracjavat27 dek : deklaracjevat27) {
+                if (dek.getRok().equals(wpisView.getRokWpisuSt()) && dek.getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                    deklaracja0korekta1 = true;
+                }
+            }
+        } catch (Exception e) { 
+            E.e(e); 
         }
     }
         
@@ -222,6 +257,14 @@ public class Vat27FKView implements Serializable {
         try {
             deklaracjavat27DAO.destroy(d);
             deklaracjevat27.remove(d);
+            for (Vat27 p : d.getPozycje()) {
+                if (!p.getZawierafk().isEmpty()) {
+                    for (Dokfk dok:p.getZawierafk()) {
+                        dok.setVat27(null);
+                    }
+                    dokDAOfk.editList(p.getZawierafk());
+                }
+            }
             try {
                 pobierzdeklaracje27();
                 Deklaracjavat27 d2 = deklaracjavat27DAO.findbyPodatnikRokMc(wpisView);
@@ -260,6 +303,14 @@ public class Vat27FKView implements Serializable {
     
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public List<Dokfk> getListaDokfk() {
+        return listaDokfk;
+    }
+
+    public void setListaDokfk(List<Dokfk> listaDokfk) {
+        this.listaDokfk = listaDokfk;
     }
 
     public String getOpisvatuepkpir() {

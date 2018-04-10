@@ -15,6 +15,7 @@ import entity.Deklaracjavat27;
 import entity.DeklaracjavatUE;
 import entity.Deklaracjevat;
 import entity.Dok;
+import entity.Vat27;
 import entityfk.Dokfk;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -26,6 +27,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -199,10 +201,10 @@ public class beanek  implements Serializable {
         port2.sendDocument(dok, id, stat, opis);
     }
 
-    public void rob27(Deklaracjavat27 deklaracja) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+    public void rob27(Deklaracjavat27 deklaracja, List<Dok> listadok, List<Dokfk> listadokfk) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         try {
             dok = deklaracja.getDeklaracjapodpisana();
-            sendSignDocument(dok, id, stat, opis);
+            //sendSignDocument(dok, id, stat, opis);
             idMB = id.value;
             idpobierz = id.value;
             List<String> komunikat = null;
@@ -220,7 +222,13 @@ public class beanek  implements Serializable {
             deklaracja.setDatazlozenia(new Date());
             deklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
             deklaracja.setTestowa(false);
-            deklaracjavat27DAO.edit(deklaracja);
+            for (Iterator<Vat27> it  = deklaracja.getPozycje().iterator(); it.hasNext();) {
+                if (it.next().getKontrahent()==null) {
+                    it.remove();
+                }
+            }
+            deklaracjavat27DAO.dodaj(deklaracja);
+            edytujdok(listadok, listadokfk);
             Msg.msg("i", "Wypuszczono testowego gołębia z deklaracja podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
@@ -231,7 +239,7 @@ public class beanek  implements Serializable {
     public void robUE(DeklaracjavatUE wysylanaDeklaracja, List<Dok> listadok, List<Dokfk> listadokfk) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         try {
             dok = wysylanaDeklaracja.getDeklaracjapodpisana();
-            //sendSignDocument(dok, id, stat, opis);
+            sendSignDocument(dok, id, stat, opis);
             idMB = id.value;
             idpobierz = id.value;
             List<String> komunikat = null;

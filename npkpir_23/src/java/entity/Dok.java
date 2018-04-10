@@ -595,6 +595,14 @@ public class Dok extends DokSuper implements Serializable {
         this.tabelanbp = tabelanbp;
     }
 
+    public Vat27 getVat27() {
+        return vat27;
+    }
+
+    public void setVat27(Vat27 vat27) {
+        this.vat27 = vat27;
+    }
+
     
     
     public Double getNettoWaluta() {
