@@ -204,7 +204,7 @@ public class beanek  implements Serializable {
     public void rob27(Deklaracjavat27 deklaracja, List<Dok> listadok, List<Dokfk> listadokfk) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         try {
             dok = deklaracja.getDeklaracjapodpisana();
-            //sendSignDocument(dok, id, stat, opis);
+            sendSignDocument(dok, id, stat, opis);
             idMB = id.value;
             idpobierz = id.value;
             List<String> komunikat = null;

@@ -10,12 +10,14 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:tab  title="Aktywacja kontrahentów" >
+        <h:form>
         <p:dataTable value="#{fakturaRozrachunkiAnalizaView.klienciaktywowanie}" var="wpis"
                      style="width: 550px;">
+            <p:ajax event="filter" global="false"/>
             <f:facet name="header">
                 <h:outputText value="aktywacja kklientów"/>
             </f:facet>
-            <p:column width="400">
+            <p:column width="400"  filterBy="#{wpis.npelna}" filterMatchMode="contains" filterStyle="width:250px;">
                 <h:outputText value="#{wpis.npelna}"/>
             </p:column>
             <p:column>
@@ -25,5 +27,6 @@
                  <p:commandButton value="+-" actionListener="#{fakturaRozrachunkiAnalizaView.aktywacjakontrahenta(wpis)}" update="@parent:@parent" global="false"/>
             </p:column>
         </p:dataTable>
+            </h:form>
     </p:tab>
 </ui:composition> 

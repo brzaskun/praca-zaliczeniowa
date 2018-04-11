@@ -31,18 +31,18 @@
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
                 </p:column>
-                <p:column width="280" sortable="true" sortBy="#{item.kontrahent.npelna}">
+                <p:column width="280" sortable="true" sortBy="#{item.kontrahent.npelna}" filterBy="#{item.kontrahent.npelna}" filterMatchMode="contains" filterStyle="width:250px;">
                     <f:facet name="header">
                         <h:outputText value="kontrahent"/>
                     </f:facet>
                     <h:outputText value="#{item.kontrahent.npelna}"/>
                 </p:column>
-                <p:column width="40">
+<!--                <p:column width="40">
                     <f:facet name="header">
                         <h:outputText value="wprow."/>
                     </f:facet>
                     <h:outputText value="#{item.wprowadzil.login}"/>
-                </p:column>
+                </p:column>-->
                 <p:column width="70" style="text-align: center;" sortable="true" sortBy="#{item.data}">
                     <f:facet name="header">
                         <h:outputText value="data"/>

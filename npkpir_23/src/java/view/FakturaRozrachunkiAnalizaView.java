@@ -380,8 +380,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
-    public void mailKlienci(FakturaPodatnikRozliczenie p) {
+    public void mailKlienci() {
         if (szukanyklient != null && !nowepozycje.isEmpty()) {
+            FakturaPodatnikRozliczenie p = nowepozycje.get(nowepozycje.size()-1);
             FakturaRozrachunki r = p.getRozliczenie();
             Faktura f = p.getFaktura();
             double saldo = p.getSaldo();
@@ -399,13 +400,16 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     p.setDataupomnienia(new Date());
                     fakturaDAO.edit(f);
                 }
+                Msg.msg("Wysłano upomnienie do klienta");
+            } else {
+                Msg.msg("e", "Saldo zerowe, nie ma po co wysyłac maila");
             }
-            Msg.msg("Wysłano upomnienie do klienta");
         }
     }
     
-    public void telefonKlienci(FakturaPodatnikRozliczenie p) {
+    public void telefonKlienci() {
         if (szukanyklient != null && !nowepozycje.isEmpty()) {
+            FakturaPodatnikRozliczenie p = nowepozycje.get(nowepozycje.size()-1);
             FakturaRozrachunki r = p.getRozliczenie();
             Faktura f = p.getFaktura();
             double saldo = p.getSaldo();
@@ -419,8 +423,10 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     p.setDatatelefon(new Date());
                     fakturaDAO.edit(f);
                 }
+                Msg.msg("Naniesiono informacje o rozmowie z klientem");
+            } else {
+                Msg.msg("e", "Saldo zerowe, nie ma po co dzwonić");
             }
-            Msg.msg("Naniesiono informacje o rozmowie z klientem");
         }
     }
     
