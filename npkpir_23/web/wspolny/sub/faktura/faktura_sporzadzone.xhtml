@@ -173,22 +173,22 @@
                         </p:panelGrid>
                         </p:column>
                         <p:column>
-                        <p:panelGrid>
+                        <p:panelGrid columns="1">
                             <p:dataTable id="tabeladuplikatow" value="#{wpis.duplikaty}"
                                          var="loopdupl" emptyMessage="nie wystawiono duplikatów" >
                                 <f:facet name="header">
                                     <h:outputText value="duplikaty"/>
                                 </f:facet>
                                 <p:column headerText="id" width="30" style="text-align: center;" >
-                                    <h:outputText value="#{loopdupl.id}"/>
+                                    <h:outputText value="#{loopdupl.lp}"/>
                                 </p:column>
                                 <p:column headerText="data wystawienia" width="100" style="text-align: center;" >
                                     <h:outputText value="#{loopdupl.datawystawienia}"/>
                                 </p:column>
-                                <p:column  headerText="pdf" style="text-align: center;"  width="70">
+                                <p:column  headerText="pdf" style="text-align: center;"  width="40">
                                     <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukujDuplikat(wpis, loopdupl, WpisView)}" icon="ui-icon-print" />
                                 </p:column>
-                                <p:column  headerText="usuń" style="text-align: center;"  width="70">
+                                <p:column  headerText="usuń" style="text-align: center;"  width="40">
                                     <p:commandButton  update=":form1:messages @parent:@parent:@parent:@parent" actionListener="#{fakturaDuplikatView.usunDuplikat(wpis, loopdupl)}" icon="ui-icon-trash"/>
                                 </p:column>
                             </p:dataTable>

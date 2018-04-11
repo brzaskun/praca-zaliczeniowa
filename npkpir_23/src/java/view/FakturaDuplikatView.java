@@ -39,7 +39,7 @@ public class FakturaDuplikatView  implements Serializable {
             fakturaDuplikatDAO.dodaj(duplikat);
             f.getDuplikaty().add(duplikat);
             fakturaDAO.edit(f);
-            msg.Msg.msg("Wygenerowano duplikat do faktury "+f.getFakturaPK().getNumerkolejny());
+            msg.Msg.msg("Wygenerowano duplikat do faktury. Kliknij na strzałkę przy fakturze "+f.getFakturaPK().getNumerkolejny());
         }
     }
     
