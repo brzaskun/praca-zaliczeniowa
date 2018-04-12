@@ -121,6 +121,7 @@
                              emptyMessage="niczego dzisiaj nie zaksięgowano"  sortBy="#{item.lp}" sortOrder="descending"
                              editable="true" widgetVar="form_wprowadzoneplatnosci">
                     <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
+                    <p:ajax event="filter" global="false"/>
                     <p:column width="30" sortBy="#{item.lp}" sortable="true">
                         <f:facet name="header">
                             <h:outputText value="lp"/>
@@ -133,7 +134,7 @@
                         </f:facet>
                         <h:outputText value="#{item.wystawca.nazwapelna}"/>
                     </p:column>
-                    <p:column width="280" sortable="true" sortBy="#{item.kontrahent}">
+                    <p:column width="280" sortable="true" sortBy="#{item.kontrahent}"  filterBy="#{item.kontrahent.npelna}" filterMatchMode="contains" filterStyle="width:250px;">
                         <f:facet name="header">
                             <h:outputText value="kontrahent"/>
                         </f:facet>

@@ -24,7 +24,8 @@
                          sortBy="#{item.nrdokumentu}" sortFunction="#{fakturaRozrachunkiRozlView.sortujfaktrozrach}" sortOrder="descending"
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
                          widgetVar="fakturarozliczenia_tablica" editable="true">
-                <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
+                <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}"/>
+                <p:ajax event="filter" global="false"/>
                 <p:column width="30" sortBy="#{item.lp}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="lp"/>

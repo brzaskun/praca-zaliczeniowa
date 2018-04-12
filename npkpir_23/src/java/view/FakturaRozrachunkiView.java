@@ -9,6 +9,7 @@ import comparator.FakturaRozrachunkicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.WpisDAO;
+import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
@@ -30,6 +31,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import msg.Msg;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -186,6 +188,17 @@ public class FakturaRozrachunkiView  implements Serializable {
             wprowadzoneplatnosci.remove(p);
         } catch (Exception e) {
             E.e(e);
+        }
+    }
+    
+    public void onRowEditAnaliza(RowEditEvent event) {
+        FakturaPodatnikRozliczenie fr = (FakturaPodatnikRozliczenie) event.getObject();
+        if (fr !=null && fr.getRozliczenie()!=null) {
+            fr.getRozliczenie().setKwota(fr.getKwota());
+            fakturaRozrachunkiDAO.edit(fr.getRozliczenie());
+            Msg.msg("Naniesiono zmiany");
+        } else {
+            Msg.msg("e","Zmienić można jedynie płatności");
         }
     }
     
