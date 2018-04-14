@@ -5,14 +5,25 @@
  */
 package pdffk;
 
+import static beansPdf.PdfFont.formatujLiczba;
+import static beansPdf.PdfFont.formatujWaluta;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import entity.Dok;
 import entity.Uz;
+import entityfk.Cechazapisu;
 import java.io.File;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.Table;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
@@ -89,6 +100,83 @@ public class PdfCechyZapisow {
         return zwrot;
     }
 
+    
+      public static void drukujcechy(WpisView wpisView, List<Cechazapisu> wiersze) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentcechyzapisuzest";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (wiersze != null && wiersze.size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajLinieOpisu(document, "Zestawienie przychodów i kosztów wg cech "+wpisView.getPrintNazwa()+" za okres "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
+            dodajTabele(document, testobjects.testobjects.getTabelaCechyZapisowZest(wiersze),100,0);
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano wierszy do wydruku");
+        }
+    }
       
+      public static void drukujcechyszczegoly(WpisView wpisView, List<Cechazapisu> wiersze) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentcechyzapisuzest";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (wiersze != null && wiersze.size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajLinieOpisu(document, "Zestawienie przychodów i kosztów wg cech "+wpisView.getPrintNazwa()+" za okres "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
+            dodajTabele(document, testobjects.testobjects.getTabelaCechyZapisowZest(wiersze),100,1);
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano wierszy do wydruku");
+        }
+    }
+
+    static PdfPTable tabeladokumenty(Cechazapisu p) {
+        PdfPTable table = new PdfPTable(9);
+        try {
+            table.setWidthPercentage(95);
+            table.setWidths(new int[]{1, 2, 5, 2, 1, 2, 2, 2, 2});
+            PdfPCell cell = new PdfPCell();
+            table.addCell(ustawfrazeAlign("nr kolejny", "center",8));
+            table.addCell(ustawfrazeAlign("data wystawienia", "center",8));
+            table.addCell(ustawfrazeAlign("kontrahent", "center",8));
+            table.addCell(ustawfrazeAlign("transakcja", "center",8));
+            table.addCell(ustawfrazeAlign("symb. dok.", "center",8));
+            table.addCell(ustawfrazeAlign("nr własny", "center",8));
+            table.addCell(ustawfrazeAlign("opis", "center",8));
+            table.addCell(ustawfrazeAlign("netto", "center",8));
+            table.addCell(ustawfrazeAlign("brutto", "center",8));
+            table.setHeaderRows(1);
+            int i = 1;
+            for (Dok rs : p.getDokLista()) {
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center",8));
+                table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left",8));
+                table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left",8));
+                table.addCell(ustawfrazeAlign(rs.getRodzajedok() != null ? rs.getRodzajedok().getSkrot():"", "center",8));
+                table.addCell(ustawfrazeAlign(rs.getRodzajedok() != null ? rs.getRodzajedok().getRodzajtransakcji():"", "center",8));
+                table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left",8));
+                table.addCell(ustawfrazeAlign(rs.getOpis(), "left",8));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right",8));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getBrutto()), "right",8));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(PdfCechyZapisow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return table;
+    }
     
 }

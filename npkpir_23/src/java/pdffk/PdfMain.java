@@ -46,6 +46,7 @@ import entity.SrodekTrw;
 import entity.Statystyka;
 import entity.UmorzenieN;
 import entity.VatSuper;
+import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.EVatwpisDedra;
 import entityfk.Konto;
@@ -793,6 +794,15 @@ public class PdfMain {
                 col[3] = 3;
                 col[4] = 3;
                 return col;
+            case "entityfk.Cechazapisu":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 9;
+                col[2] = 2;
+                col[3] = 4;
+                col[4] = 4;
+                col[5] = 4;
+                return col;
             case "jpk201701.JPK$SprzedazWiersz":
             case "jpk201801.JPK$SprzedazWiersz":
                 col = new int[size];
@@ -1534,6 +1544,28 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getAdresfirmy(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getIdentyfikatorsprawdzenia(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getWynikVies(), "center", 7));
+            }
+            if (nazwaklasy.equals("entityfk.Cechazapisu")) {
+                if (modyfikator==0) {
+                    Cechazapisu p = (Cechazapisu) it.next();
+                    table.addCell(ustawfrazeAlign(i++, "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getNazwacechy(), "left", 9, 15f));
+                    table.addCell(ustawfrazeAlign(p.getDokLista().size(), "center", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSumaprzychodow())), "right", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSumakosztow())), "right", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWynik())), "right", 9));
+                } else if (modyfikator==1) {
+                    Cechazapisu p = (Cechazapisu) it.next();
+                    table.addCell(ustawfrazeAlign(i++, "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getNazwacechy(), "left", 9, 15f));
+                    table.addCell(ustawfrazeAlign(p.getDokLista().size(), "center", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSumaprzychodow())), "right", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSumakosztow())), "right", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWynik())), "right", 9));
+                    PdfPCell cell = new PdfPCell(PdfCechyZapisow.tabeladokumenty(p));
+                    cell.setColspan(6);
+                    table.addCell(cell);
+                }
             }
             if (nazwaklasy.equals("entity.Podatnik")) {
                 Podatnik p = (Podatnik) it.next();

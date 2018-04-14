@@ -26,6 +26,7 @@ import entity.UmorzenieN;
 import entity.Vat27;
 import entity.VatSuper;
 import entity.VatUe;
+import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.EVatwpisDedra;
 import entityfk.Konto;
@@ -200,6 +201,19 @@ public class testobjects {
        return tabela;
    }
    
+   public static List[] getTabelaCechyZapisowZest(List<Cechazapisu> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("nazwa cechy");
+       n.add("il.dok.");
+       n.add("przychód");
+       n.add("koszt");
+       n.add("wynik");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
    public static List[] getTabelaCechyZapisow(List<CechaStronaWiersza> wiersze) {
        List n = new ArrayList();
        n.add("lp");

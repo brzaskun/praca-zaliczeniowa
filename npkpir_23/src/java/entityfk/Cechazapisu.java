@@ -25,10 +25,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import waluty.Z;
 
 /**
  *
@@ -42,6 +44,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Cechazapisu.findAll", query = "SELECT c FROM Cechazapisu c"),
     @NamedQuery(name = "Cechazapisu.findByPodatnikOnly", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik = :podatnik"),
+    @NamedQuery(name = "Cechazapisu.findByPodatnikOnlyStatystyczne", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik = :podatnik AND c.charaktercechy='1'"),
     @NamedQuery(name = "Cechazapisu.findByPodatnik", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik IS NULL OR c.podatnik = :podatnik"),
     @NamedQuery(name = "Cechazapisu.findByPodatnikNKUP", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik IS NULL AND c.nazwacechy = :nazwacechy"),
     @NamedQuery(name = "Cechazapisu.findByNazwacechy", query = "SELECT c FROM Cechazapisu c WHERE c.nazwacechy = :nazwacechy"),
@@ -77,6 +80,12 @@ public class Cechazapisu implements Serializable {
     @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
+    @Transient
+    private double sumaprzychodow;
+    @Transient
+    private double sumakosztow;
+    
+    
 
     
     
@@ -109,6 +118,22 @@ public class Cechazapisu implements Serializable {
 
     public void setDokLista(List<Dok> dokLista) {
         this.dokLista = dokLista;
+    }
+
+    public double getSumaprzychodow() {
+        return sumaprzychodow;
+    }
+
+    public void setSumaprzychodow(double sumaprzychodow) {
+        this.sumaprzychodow = sumaprzychodow;
+    }
+
+    public double getSumakosztow() {
+        return sumakosztow;
+    }
+
+    public void setSumakosztow(double sumakosztow) {
+        this.sumakosztow = sumakosztow;
     }
 
     public Podatnik getPodatnik() {
@@ -175,7 +200,9 @@ public class Cechazapisu implements Serializable {
         this.id = id;
     }
     
-    
+    public double getWynik() {
+        return Z.z(this.sumaprzychodow-this.sumakosztow);
+    }
     
 //</editor-fold>
 
