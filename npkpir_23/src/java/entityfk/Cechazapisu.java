@@ -91,14 +91,6 @@ public class Cechazapisu implements Serializable {
         this.charaktercechy = -1;
     }
 
-    public Cechazapisu(CechazapisuPK cechazapisuPK) {
-        this.nazwacechy = nazwacechy;
-        this.rodzajcechy = rodzajcechy;
-        this.dokfkLista = new ArrayList<>();
-        this.dokLista = new ArrayList<>();
-        this.stronaWierszaLista = new ArrayList<>();
-        this.charaktercechy = -1;
-    }
 
     public Cechazapisu(String nazwacechy, String rodzajcechy) {
         this.nazwacechy = nazwacechy;

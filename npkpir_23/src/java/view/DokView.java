@@ -150,6 +150,7 @@ public class DokView implements Serializable {
     private boolean pokazEST;//pokazuje wykaz srodkow dla sprzedazy
     private List<Cechazapisu> pobranecechypodatnik;
     private Cechazapisu cechadomyslna;
+    private Cechazapisu cechastala;
     @Inject
     private Srodkikst srodekkategoriawynik;
     //automatyczne ksiegowanie Storna
@@ -771,6 +772,9 @@ public class DokView implements Serializable {
             Rodzajedok rodzajdokdoprzeniesienia = selDokument.getRodzajedok();
             if (rodzajdodawania == 1) {
                 sprawdzCzyNieDuplikat(selDokument);
+                if (cechastala != null) {
+                    dodajcechedodokumentu(cechastala);
+                }
                 dokDAO.dodaj(selDokument);
                 //wpisywanie do bazy ostatniego dokumentu
                 Ostatnidokument temp = new Ostatnidokument();
@@ -1934,6 +1938,16 @@ public class DokView implements Serializable {
     public void setCechadomyslna(Cechazapisu cechadomyslna) {
         this.cechadomyslna = cechadomyslna;
     }
+
+    public Cechazapisu getCechastala() {
+        return cechastala;
+    }
+
+    public void setCechastala(Cechazapisu cechastala) {
+        this.cechastala = cechastala;
+    }
+    
+    
 
     //<editor-fold defaultstate="collapsed" desc="comment">
 //   public DokTabView getDokTabView() {

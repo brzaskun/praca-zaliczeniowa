@@ -81,12 +81,12 @@
                     <p:column>
                         <p:selectOneMenu value="#{cechazapisuView.selected.rodzajcechy}" style="width: 300px;" requiredMessage="Wybierz rodzaj cechy" required="true">
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="statystyczna" itemValue="statystyczna"/>
                             <f:selectItem itemLabel="nie stanowi k.u.p." itemValue="nkup"/>
                             <f:selectItem itemLabel="stanowi k.u.p. w m-c następnym" itemValue="kupmn"/>
                             <f:selectItem itemLabel="nie stanowi przychodu" itemValue="np"/>
                             <f:selectItem itemLabel="stanowi przychód w m-c następnym" itemValue="pmn"/>
                             <f:selectItem itemLabel="rmk" itemValue="rmk"/>
-                            <f:selectItem itemLabel="statystyczna" itemValue="statystyczna"/>
                         </p:selectOneMenu>
                     </p:column>
                     <p:column>
@@ -102,8 +102,8 @@
                     </p:column>
                      <p:column>
                          <p:selectOneMenu id="podatnikWpisu" value="#{cechazapisuView.selected.podatnik}" style="width: 280px;" converter="#{podatConv}">
+                             <f:selectItem itemLabel="#{WpisView.podatnikObiekt.printnazwa}" itemValue="#{WpisView.podatnikObiekt}"/>
                              <f:selectItem itemLabel="wszyscy" itemValue=""/>
-                            <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
                          </p:selectOneMenu>
                     </p:column>
                 </p:row>
