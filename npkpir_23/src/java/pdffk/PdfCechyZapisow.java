@@ -136,7 +136,12 @@ public class PdfCechyZapisow {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajLinieOpisu(document, "Zestawienie przychodów i kosztów wg cech "+wpisView.getPrintNazwa()+" za okres "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
-            dodajTabele(document, testobjects.testobjects.getTabelaCechyZapisowZest(wiersze),100,1);
+            for (Cechazapisu cz : wiersze) {
+                List<Cechazapisu> nowa = new ArrayList<>();
+                nowa.add(cz);
+                dodajTabele(document, testobjects.testobjects.getTabelaCechyZapisowZest(nowa),100,1);
+                dodajLinieOpisu(document, "");
+            }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
