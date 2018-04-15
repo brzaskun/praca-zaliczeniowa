@@ -273,6 +273,9 @@ public class DokFKTransakcjeBean implements Serializable{
             } else if (p.getTypWiersza() == 2) {
                 iloscrozliczonychwierszy += p.getStronaMa().getTypStronaWiersza();
             }
+            if (iloscrozliczonychwierszy > 0) {
+                break;
+            }
         }
         return iloscrozliczonychwierszy;
     }

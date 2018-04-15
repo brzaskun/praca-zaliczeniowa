@@ -23,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import waluty.Z;
 
 /**
  *
@@ -83,6 +84,14 @@ public class Transakcja  implements Serializable {
    public String getOpisWiersza() {
        String zwrot = this.nowaTransakcja.getWiersz() != null ? this.nowaTransakcja.getWiersz().getOpisWiersza() : this.nowaTransakcja.getOpisBO();
        return  zwrot.length() > 40 ? zwrot.substring(0, 39) : zwrot;
+   }
+   
+   public boolean czymoznaedytowac() {
+       boolean zwrot = false;
+       if (Z.z(this.nowaTransakcja.getPozostalo())==0.0 && Z.z(this.kwotatransakcji)==0.0) {
+           zwrot = true;
+       }
+       return zwrot;
    }
 
    //<editor-fold defaultstate="collapsed" desc="comment">

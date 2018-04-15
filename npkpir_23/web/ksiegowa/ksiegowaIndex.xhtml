@@ -56,8 +56,9 @@
                                                      rendered="#{DokumentView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
                                         <f:selectItem itemValue="" itemLabel="wybierz trwałą cechę" noSelectionOption="true"/>
                                         <f:selectItems value="#{DokumentView.pobranecechypodatnik}" var="p" itemValue="#{p}" itemDescription="#{p.nazwacechy}" itemLabel="#{p.nazwacechy}"/>
-                                        <p:ajax event="change" partialSubmit="true"/>
+                                        <p:ajax event="change" partialSubmit="true" update="auto"/>
                                     </p:selectOneMenu>
+                                    <h:outputText value="wpisy z cechą!" style="color: red; margin-left: 10px;" rendered="#{DokumentView.cechastala ne null}"/>
                                </h:form>
                             </p:panel>
                                 <ui:include src="sub/dialog_cechy_zapisu.xhtml" />

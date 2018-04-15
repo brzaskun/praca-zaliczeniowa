@@ -172,11 +172,12 @@
                                 <h:outputText value="kwota rozlicz. - bieżący dok." />
                             </f:facet>
                             <pe:inputNumber id="kwotarozliczenia" value="#{iteracja.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
-                                            decimalPlaces="2" minValue="-10000000" emptyValue="sign" 
+                                            decimalPlaces="2" minValue="-10000000" emptyValue="sign"  readonly="#{iteracja.czymoznaedytowac()}"
                                             styleClass="kwotarozrachunku">
                                 <p:ajax event="blur" listener="#{dokfkView.przetworzwprowadzonakwote(iteracja, row)}" partialSubmit="true" global="false"
                                         update=":rozrachunki:dataList:#{row}:pozostaloWn :rozrachunki:dataList:#{row}:roznicakursowa :rozrachunki:juzrozliczono :rozrachunki:pozostalodorozliczenia"/>
                                 <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzlimity(iteracja, row)}"/>
+                                <p:ajax event="change" global="false" listener="#{dokfkView.przetworzwprowadzonakwoteOpis(iteracja, row)}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="nr własny dokumentu"  filterBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"

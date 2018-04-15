@@ -7,11 +7,13 @@ package entityfk;
 
 import embeddable.Mce;
 import embeddablefk.ListaSum;
+import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -29,6 +31,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import view.WpisView;
 import waluty.Z;
@@ -135,6 +138,10 @@ public class StronaWiersza implements Serializable {
     @JoinColumn(name = "wierszbo_id", referencedColumnName = "id")
     @ManyToOne
     private WierszBO wierszbo;
+    @Transient
+    private Set<String> opis;
+    @Transient
+    private String kontr;
     
    
 
@@ -274,6 +281,14 @@ public class StronaWiersza implements Serializable {
         this.kursBO = kursBO;
     }
 
+    public Set<String> getOpis() {
+        return opis;
+    }
+
+    public void setOpis(Set<String> opis) {
+        this.opis = opis;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -289,6 +304,18 @@ public class StronaWiersza implements Serializable {
     public void setWnma(String wnma) {
         this.wnma = wnma;
     }
+
+    public String getKontr() {
+        return kontr;
+    }
+
+    public void setKontr(String kontr) {
+        this.kontr = kontr;
+    }
+
+  
+
+    
 
     public double getRozliczono() {
         this.rozliczono = 0.0;
@@ -730,8 +757,7 @@ public class StronaWiersza implements Serializable {
         return this.getDokfk().getMcRok();
     }
     
-
-    
+        
     
     @Override
     public int hashCode() {

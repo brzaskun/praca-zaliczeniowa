@@ -2237,6 +2237,16 @@ public class DokfkView implements Serializable {
         }
         if (aktualnyWierszDlaRozrachunkow.getNowetransakcje().isEmpty()) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
+        } else {
+            if (aktualnyWierszDlaRozrachunkow.getOpis()!=null) {
+                List<String> op = new ArrayList<>(aktualnyWierszDlaRozrachunkow.getOpis());
+                String opislinia = "płatnośc "+aktualnyWierszDlaRozrachunkow.getKontr()+" rach: ";
+                for (String p : op) {
+                    opislinia = opislinia+p+";";
+                }
+                aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza(opislinia);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
+            }
         }
         selected.setLiczbarozliczonych(DokFKTransakcjeBean.sprawdzrozliczoneWiersze(selected.getListawierszy()));
         if (selected.getLiczbarozliczonych() > 0) {
@@ -2249,6 +2259,7 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":wn");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":ma");
+        
         //RequestContext.getCurrentInstance().execute("wybierzWierszPoZmianieWaluty();");
     }
 
@@ -2355,6 +2366,25 @@ public class DokfkView implements Serializable {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd podczas pobierania tabel NBP. Nie obliczono różnic kursowych");
         }
+    }
+    
+    public void przetworzwprowadzonakwoteOpis(Transakcja loop, int row) {
+        try {
+            if (Z.z(loop.getKwotatransakcji())!=0.0) {
+                pobierzopis(aktualnyWierszDlaRozrachunkow, loop);
+                aktualnyWierszDlaRozrachunkow.setKontr(loop.getNowaTransakcja().getKontrahent());
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd podczas pobierania tabel NBP. Nie obliczono różnic kursowych");
+        }
+    }
+    
+    private void pobierzopis(StronaWiersza aktualnyWierszDlaRozrachunkow, Transakcja loop) {
+        if (aktualnyWierszDlaRozrachunkow.getOpis()==null) {
+            aktualnyWierszDlaRozrachunkow.setOpis(new HashSet<>());
+        }
+        aktualnyWierszDlaRozrachunkow.getOpis().add(loop.getNowaTransakcja().getNumerwlasnydokfk());
     }
     
     public void sprawdzlimity(Transakcja loop, int row) {
@@ -3909,6 +3939,8 @@ public class DokfkView implements Serializable {
             }
         }
     }
+
+    
 
     
     
