@@ -657,18 +657,18 @@ public class SaldoAnalitykaView implements Serializable {
     public void zaksiegujsaldakont() {
         try {
             kontoDAOfk.zerujsaldazaksiegowane(wpisView);
-            listaSaldoKonto.forEach((p) -> {
+            for (SaldoKonto p : listaSaldoKonto) {
                 Konto anal = p.getKonto();
                 if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                     anal.setZaksiegowane(true);
-                    anal.setSaldoWnksiegi(p.getSaldoWn());
-                    anal.setSaldoMaksiegi(p.getSaldoMa());
+                    anal.setSaldoWnksiegi(Z.z(p.getSaldoWn()));
+                    anal.setSaldoMaksiegi(Z.z(p.getSaldoMa()));
                     kontoDAOfk.edit(anal);
-                    if (anal.getKontomacierzyste() != null) {
+                    if (anal.getKontomacierzyste() != null && !anal.isMapotomkow()) {
                         obsluzmacierzyste(anal, anal.getSaldoWnksiegi(), anal.getSaldoMaksiegi());
                     }
                 }
-            });
+            }
             Msg.dP();
         } catch (Exception e) {
             E.e(e);
@@ -677,7 +677,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
     
     private void obsluzmacierzyste(Konto p, double saldoWnksiegi, double saldoMaksiegi) {
-        Konto mac = p.getKontomacierzyste();
+        Konto mac = kontoDAOfk.findKonto(p.getKontomacierzyste().getId());
         if (mac != null) {
             mac.setSaldoWnksiegi(Z.z(mac.getSaldoWnksiegi()+saldoWnksiegi));
             mac.setSaldoMaksiegi(Z.z(mac.getSaldoMaksiegi()+saldoMaksiegi));

@@ -28,7 +28,7 @@
                 <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukuj}" style="width: 120px;"/>
                 <p:commandButton value="#{mgs.drukuj} synt" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(false)}" style="width: 120px; margin-left: 10px;"/>
                 <p:commandButton value="#{mgs.drukuj} analit" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(true)}" style="width: 120px; margin-left: 10px;"/>
-                <p:commandButton value="usuń niezerowe" actionListener="#{bilansPodgladView.usunzeroweRoznicaBO}" style="width: 120px; margin-left: 10px;" update="formbilans:dataList"/>
+                <p:commandButton value="usuń zerowe" actionListener="#{bilansPodgladView.usunzeroweRoznicaBO}" style="width: 120px; margin-left: 10px;" update="formbilans:dataList"/>
                 <p:selectBooleanCheckbox value="#{bilansPodgladView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:selectBooleanCheckbox>
