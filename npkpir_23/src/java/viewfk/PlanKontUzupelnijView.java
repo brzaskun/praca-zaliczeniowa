@@ -97,7 +97,7 @@ public class PlanKontUzupelnijView implements Serializable {
             List<KontopozycjaZapis> nowekontopozycjazapis = new ArrayList<>();
             for (KontopozycjaZapis r : zapisanePOzycjezUkladuWzorcowego) {
                 UkladBR uklad = odnajdzuklad(ukladBRDAO, r.getUkladBR(), wpisView.getRokWpisuSt());
-                if (uklad == null) {
+                if (uklad.getUklad() == null) {
                     break;
                 }
                 Konto starekonto = pobierzkontozlisty(brakujacekonta, r);

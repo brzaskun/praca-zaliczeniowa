@@ -187,7 +187,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     
     public void obliczRZiSOtwarciaRZiSData() {
-        if (uklad == null) {
+        if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
         ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
@@ -251,7 +251,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     }
     
     public void pobierzukladprzegladRZiSDwaLata() {
-        if (uklad == null) {
+        if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
         ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
@@ -277,7 +277,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     
     public void pobierzukladprzegladRZiS() {
-        if (uklad == null) {
+        if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
         ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();

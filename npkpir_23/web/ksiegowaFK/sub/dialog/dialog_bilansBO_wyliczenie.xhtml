@@ -80,7 +80,10 @@
                     </h:outputText>
                     </p:column>
                     <p:column style="width: 200px;">
-                        <h:outputText value="#{loop.przyporzadkowanekonta}" rendered="#{loop.przyporzadkowanekonta.size() gt 0}"/>
+                        <p:dataGrid value="#{loop.przyporzadkowanekonta}" var="poz" columns="5" rows="5" rendered="#{loop.przyporzadkowanekonta.size() gt 0}">
+                            #{poz.pelnynumer}
+                        </p:dataGrid>
+                        
                     </p:column>
                 </p:treeTable>
                     </p:column>
@@ -105,7 +108,9 @@
                     </h:outputText>
                     </p:column>
                     <p:column style="width: 200px;">
-                        <h:outputText value="#{loop.przyporzadkowanekonta}" rendered="#{loop.przyporzadkowanekonta.size() gt 0}"/>
+                        <p:dataGrid value="#{loop.przyporzadkowanekonta}" var="poz" columns="5" rows="5" rendered="#{loop.przyporzadkowanekonta.size() gt 0}">
+                            #{poz.pelnynumer}
+                        </p:dataGrid>
                     </p:column>
                 </p:treeTable>
                     </p:column>

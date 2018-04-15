@@ -1771,11 +1771,13 @@ public class PdfMain {
                             }
                         }
                         if (k.size() > 0) {
-                            PdfPTable subtable = dodajSubTabele(testobjects.testobjects.getTabelaBilansKonta(k), 95, 1, 7);
-                            if (subtable != null) {
-                                PdfPCell r = new PdfPCell(subtable);
-                                table.addCell(r);
-                            }
+                            String konta = p.getPrzyporzadkowanekontaString();
+                            table.addCell(ustawfrazeAlign(konta, "left", 7));
+//                            PdfPTable subtable = dodajSubTabele(testobjects.testobjects.getTabelaBilansKonta(k), 95, 1, 7);
+//                            if (subtable != null) {
+//                                PdfPCell r = new PdfPCell(subtable);
+//                                table.addCell(r);
+//                            }
                         } else {
                             String konta = "";
                             table.addCell(ustawfrazeAlign(konta, "just", 7));
