@@ -681,6 +681,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania przychodów");
                     }
                 }
+            Collections.sort(wykazkont, new Kontocomparator());
             } catch (Exception e) {
                 E.e(e);
             }
