@@ -15,11 +15,13 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.xml.parsers.ParserConfigurationException;
 import msg.Msg;
 import org.xml.sax.SAXException;
+import view.WpisView;
 import waluty.WalutyNBP;
 
 /**
@@ -34,6 +36,8 @@ public class WalutyKursRecznieView implements Serializable{
     private TabelanbpDAO tabelanbpDAO;
     @Inject
     private WalutyNBP walutyNBP;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
       public void pobierzkursyNowaWaluta(Waluty w) {
            E.m(this);
@@ -41,7 +45,7 @@ public class WalutyKursRecznieView implements Serializable{
         Integer numertabeli;
 //        datawstepna = "2013-12-30";
 //        numertabeli = 250;
-        datawstepna = "2012-12-31";
+        datawstepna = wpisView.getRokWpisuSt()+"-01-01";
         numertabeli = 252;
         List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
         try {
@@ -64,6 +68,14 @@ public class WalutyKursRecznieView implements Serializable{
         } catch (Exception e) { 
             E.e(e);
         }
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
 
     
