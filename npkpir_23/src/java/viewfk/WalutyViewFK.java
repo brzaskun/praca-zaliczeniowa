@@ -75,7 +75,7 @@ public class WalutyViewFK implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         pobraneRodzajeWalut = walutyDAOfk.findAll();
         pobranekursyRok = tabelanbpDAO.findKursyRokNBP(wpisView.getRokWpisuSt());
         wprowadzonekursyRok = tabelanbpDAO.findKursyRokNieNBP(wpisView.getRokWpisuSt());

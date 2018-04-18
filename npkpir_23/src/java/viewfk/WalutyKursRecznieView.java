@@ -38,28 +38,37 @@ public class WalutyKursRecznieView implements Serializable{
     private WalutyNBP walutyNBP;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{walutyViewFK}")
+    private WalutyViewFK walutyViewFK;
+    
     
       public void pobierzkursyNowaWaluta(Waluty w) {
-           E.m(this);
-        String datawstepna;
-        Integer numertabeli;
-//        datawstepna = "2013-12-30";
-//        numertabeli = 250;
-        datawstepna = wpisView.getRokWpisuSt()+"-01-01";
-        numertabeli = 252;
-        List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
         try {
-            Tabelanbp ostatniatabela = tabelanbpDAO.findOstatniaTabela(w.getSymbolwaluty());
-            if (ostatniatabela != null) {
-                datawstepna = ostatniatabela.getDatatabeli();
-                numertabeli = Integer.parseInt(ostatniatabela.getNrtabeli().substring(0, 3));
+            E.m(this);
+            String datawstepna;
+            Integer numertabeli;
+    //        datawstepna = "2013-12-30";
+    //        numertabeli = 250;
+            datawstepna = wpisView.getRokUprzedniSt()+"-12-31";
+            numertabeli = 252;
+            List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
+            try {
+                Tabelanbp ostatniatabela = tabelanbpDAO.findOstatniaTabela(w.getSymbolwaluty());
+                if (ostatniatabela != null) {
+                    datawstepna = ostatniatabela.getDatatabeli();
+                    numertabeli = Integer.parseInt(ostatniatabela.getNrtabeli().substring(0, 3));
+                }
+                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
+            } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
+                //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
             }
-            wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
-        } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
-            //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
+            Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
+            zachowajwiersze(wierszepobranezNBP);
+            walutyViewFK.init();
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
         }
-        Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
-        zachowajwiersze(wierszepobranezNBP);
     }
     
     private void zachowajwiersze (List<Tabelanbp> wierszepobranezNBP) {
@@ -78,5 +87,14 @@ public class WalutyKursRecznieView implements Serializable{
         this.wpisView = wpisView;
     }
 
+    public WalutyViewFK getWalutyViewFK() {
+        return walutyViewFK;
+    }
+
+    public void setWalutyViewFK(WalutyViewFK walutyViewFK) {
+        this.walutyViewFK = walutyViewFK;
+    }
+
+    
     
 }
