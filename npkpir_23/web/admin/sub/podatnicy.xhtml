@@ -11,7 +11,7 @@
         <p:commandButton value="zapisz" style="width: 120px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>
         <p:dataTable value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 500px;">
             <p:column headerText="podatnik" width="300">
-                <h:outputText value="#{item.nazwapelna}"/>
+                <h:outputText value="#{item.printnazwa}"/>
             </p:column>
             <p:column headerText="księgowa">
                 <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;" converter="#{uzConv}">

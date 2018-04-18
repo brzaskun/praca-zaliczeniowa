@@ -49,7 +49,7 @@ public class PdfUPO extends Pdf implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Plik JPK zestawienie", upo.getPodatnik(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Plik JPK zestawienie", upo.getPodatnik(), upo.getMiesiac(), upo.getRok());
             JPKSuper jpk = upo.getJpk();
             List<jpk201701.JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK2SprzedazWierszcomparator());
@@ -123,7 +123,7 @@ public class PdfUPO extends Pdf implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Plik JPK zestawienie", upo.getPodatnik(),wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Plik JPK zestawienie", upo.getPodatnik(), upo.getMiesiac(), upo.getRok());
             JPKSuper jpk = upo.getJpk();
             List<jpk201801.JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK3SprzedazWierszcomparator());
