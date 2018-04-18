@@ -5,6 +5,7 @@
 package view;
 
 import beansRegon.SzukajDaneBean;
+import comparator.Kontocomparator;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
@@ -33,6 +34,8 @@ import error.E;
 import gus.GUSView;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -1162,6 +1165,10 @@ public class PodatnikView implements Serializable {
         listakontoRZiS = kontoDAOfk.findKontaRZiS(wpisView);
         listakontoRZiS.addAll(kontoDAOfk.findKontaGrupa3(wpisView));
         listaKontKasaBank = kontoDAOfk.findlistaKontKasaBank(wpisView);
+        Collections.sort(listaKontRozrachunkowych, new Kontocomparator());
+        Collections.sort(listaKontVAT, new Kontocomparator());
+        Collections.sort(listakontoRZiS, new Kontocomparator());
+        Collections.sort(listaKontKasaBank, new Kontocomparator());
     }
     
     public void naniesKontaNaDokumentRozrachunki(ValueChangeEvent e) {

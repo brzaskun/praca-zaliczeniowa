@@ -2240,7 +2240,8 @@ public class DokfkView implements Serializable {
         } else {
             if (aktualnyWierszDlaRozrachunkow.getOpis()!=null) {
                 List<String> op = new ArrayList<>(aktualnyWierszDlaRozrachunkow.getOpis());
-                String opislinia = "płatnośc "+aktualnyWierszDlaRozrachunkow.getKontr()+" rach: ";
+                String kontrahent = aktualnyWierszDlaRozrachunkow.getKonto().getNazwapelna();
+                String opislinia = "płatność: "+kontrahent+" rach: ";
                 for (String p : op) {
                     opislinia = opislinia+p+";";
                 }
