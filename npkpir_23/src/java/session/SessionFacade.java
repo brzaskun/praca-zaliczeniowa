@@ -1974,7 +1974,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<String> znajdzDokumentPodatnikWprFK(String wpr) {
-        return em.createNamedQuery("Dok.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList();
+        return em.createNamedQuery("Dokfk.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList();
     }
 
     public List<String> findUzByUprawnienia(String uprawnienia) {

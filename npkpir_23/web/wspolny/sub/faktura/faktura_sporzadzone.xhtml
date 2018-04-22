@@ -175,7 +175,7 @@
                         </p:column>
                         <p:column>
                         <p:panelGrid columns="1">
-                            <p:dataTable id="tabeladuplikatow" value="#{wpis.duplikaty}"
+                            <p:dataTable id="tabeladuplikatow" value="#{wpis.duplikaty}" styleClass="tabduplikaty"
                                          var="loopdupl" emptyMessage="nie wystawiono duplikatów" >
                                 <f:facet name="header">
                                     <h:outputText value="duplikaty"/>
@@ -190,7 +190,7 @@
                                     <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukujDuplikat(wpis, loopdupl, WpisView)}" icon="ui-icon-print" />
                                 </p:column>
                                 <p:column  headerText="usuń" style="text-align: center;"  width="40">
-                                    <p:commandButton  update=":form1:messages @parent:@parent:@parent:@parent" actionListener="#{fakturaDuplikatView.usunDuplikat(wpis, loopdupl)}" icon="ui-icon-trash"/>
+                                    <p:commandButton  update=":form1:messages @(.tabduplikaty)" actionListener="#{fakturaDuplikatView.usunDuplikat(wpis, loopdupl)}" icon="ui-icon-trash"/>
                                 </p:column>
                             </p:dataTable>
                         </p:panelGrid>

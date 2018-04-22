@@ -87,13 +87,13 @@
                 <p:column headerText="suma" style="width: 70px;">
                     <bcf:outputpl value="#{wpis.suma}"/>
                 </p:column>
-                <p:column  headerText="zaksięguj" style="text-align: center; width: 90px;" >
+                <p:column  headerText="zaksięguj" style="text-align: center; width: 90px;" rendered="#{WpisView.ksiegirachunkowe}">
                     <h:outputText value="mc inny od bieżącego" rendered="#{wpis.amodokPK.mcString ne WpisView.miesiacWpisu}" style="color: red;"/>
                     <p:commandButton value="zaksięguj" actionListener="#{amodokView.ksiegujUmorzenieFK(wpis)}" update=":formSTRUmorzenie" 
-                                     rendered="#{wpis.planumorzen.size() gt 0}"/>
+                                     rendered="#{wpis.planumorzen.size() gt 0 and WpisView.ksiegirachunkowe}"/>
                 </p:column>
                 <p:column id="Column5" headerText="zaksięgowane" filterBy="#{wpis.zaksiegowane}" filterMatchMode="contains" sortBy="#{wpis.zaksiegowane}" 
-                          styleClass="dokumorzeniowe" style="width: 80px;">  
+                          styleClass="dokumorzeniowe" style="width: 80px;"  rendered="#{WpisView.ksiegirachunkowe}">  
                     <h:outputText value="#{wpis.zaksiegowane eq true ? 'dokument zaksięgowany' : ''}"  rendered="#{wpis.planumorzen.size() gt 0}"/>
                 </p:column>
             </p:dataTable>

@@ -546,6 +546,7 @@ public class DokView implements Serializable {
         RequestContext.getCurrentInstance().update(update);
         String activate = "document.getElementById('dodWiad:tablicavat:" + lp + ":vat_input').select();";
         RequestContext.getCurrentInstance().execute(activate);
+        Msg.msg("Przeliczono vat");
     }
 
     public void updatevat(EwidencjaAddwiad e) {
@@ -598,6 +599,7 @@ public class DokView implements Serializable {
                 RequestContext.getCurrentInstance().update(update);
                 update = "dodWiad:sumbrutto";
                 RequestContext.getCurrentInstance().update(update);
+                Msg.msg("Przeliczono brutto");
             }
         } catch (Exception ex) {
         }

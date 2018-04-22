@@ -546,6 +546,8 @@ public class DokfkView implements Serializable {
         } else {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
                 selected.setEwidencjaVAT(null);
+            } else {
+                podepnijEwidencjeVat(rodzaj);
             }
         }
     }

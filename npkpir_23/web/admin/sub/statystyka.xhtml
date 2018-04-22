@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     
     <p:outputPanel id="wrapper">
-        <p:dataTable  var="wpis" value="#{statisticAdminView.statystyka}" id="lista" 
+        <p:dataTable  var="wpis" value="#{statisticAdminView.statystyka}" id="lista" style="width: 1200px;"
                       paginator="true" paginatorAlwaysVisible="true" rows="20"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="20,50,100" 
@@ -17,17 +17,17 @@
             <f:facet name="header">  
                 <h:outputText value="Statystyka księgowych" />  
             </f:facet>
-            <p:column headerText="nr sesji" filterBy="#{wpis.ksiegowa}" sortBy="#{wpis.ksiegowa}">  
+            <p:column headerText="nr sesji" filterBy="#{wpis.ksiegowa}" sortBy="#{wpis.ksiegowa}" width="120">  
                 <h:outputText value="#{wpis.ksiegowa}" />
             </p:column>
-            <p:column headerText="sesje" filterBy="#{wpis.iloscsesji}" filterMatchMode="contains" sortBy="#{wpis.iloscsesji}">  
-                <h:outputText value="#{wpis.iloscsesji}" />
+            <p:column headerText="sesje" filterBy="#{wpis.iloscsesji}" filterMatchMode="contains" sortBy="#{wpis.iloscsesji}" width="120">  
+                <bcf:outputpl0 value="#{wpis.iloscsesji}" />
             </p:column>
-            <p:column headerText="#{mgs.dokumenty}" filterBy="#{wpis.iloscdokumentow}" filterMatchMode="contains" sortBy="#{wpis.iloscdokumentow}">  
-                <h:outputText value="#{wpis.iloscdokumentow}" />
+            <p:column headerText="#{mgs.dokumenty}" filterBy="#{wpis.iloscdokumentow}" filterMatchMode="contains" sortBy="#{wpis.iloscdokumentow}" width="120">  
+                <bcf:outputpl0 value="#{wpis.iloscdokumentow}" />
             </p:column>
-            <p:column headerText="wydruki" filterBy="#{wpis.iloscwydrukow}" filterMatchMode="contains" sortBy="#{wpis.iloscwydrukow}">  
-                <h:outputText value="#{wpis.iloscwydrukow}" />
+            <p:column headerText="wydruki" filterBy="#{wpis.iloscwydrukow}" filterMatchMode="contains" sortBy="#{wpis.iloscwydrukow}" width="120">  
+                <bcf:outputpl0 value="#{wpis.iloscwydrukow}" />
             </p:column>
             <p:column headerText="czas" filterBy="#{wpis.spedzonyczas}" filterMatchMode="contains" sortBy="#{wpis.spedzonyczas}">  
                 <h:outputText value="#{wpis.spedzonyczas}" />
@@ -35,7 +35,7 @@
         </p:dataTable>
     </p:outputPanel>
     <p:outputPanel id="wrapper2">
-        <p:dataTable  var="wpis" value="#{statisticAdminView.obrabiani}" id="lista2" 
+        <p:dataTable  var="wpis" value="#{statisticAdminView.obrabiani}" id="lista2"  style="width: 300px;" 
                       paginator="true" paginatorAlwaysVisible="true" rows="20"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="20,50,100" 

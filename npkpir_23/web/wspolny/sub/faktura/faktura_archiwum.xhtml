@@ -140,7 +140,7 @@
                              <bcf:outputpl value="#{wpis.brutto}"/>
                          </p:panelGrid>
                          <p:panelGrid columns="1">
-                         <p:dataTable id="tabeladuplikatow" value="#{wpis.duplikaty}" var="loopdupz" emptyMessage="nie wystawiono duplikatów" >
+                         <p:dataTable id="tabeladuplikatow" value="#{wpis.duplikaty}" var="loopdupz" emptyMessage="nie wystawiono duplikatów" styleClass="tabduplikaty1">
                              <f:facet name="header">
                                  <h:outputText value="duplikaty"/>
                              </f:facet>
@@ -154,7 +154,7 @@
                                 <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukujDuplikat(wpis, loopdupz, WpisView)}" icon="ui-icon-print" />
                              </p:column>
                              <p:column  headerText="usuń" style="text-align: center;"  width="40">
-                                  <p:commandButton  update=":form1:messages @parent:@parent:@parent:@parent" actionListener="#{fakturaDuplikatView.usunDuplikat(wpis, loopdupz)}" icon="ui-icon-trash"/>
+                                  <p:commandButton  update=":form1:messages @(.tabduplikaty1)" actionListener="#{fakturaDuplikatView.usunDuplikat(wpis, loopdupz)}" icon="ui-icon-trash"/>
                              </p:column>
                          </p:dataTable>
                          </p:panelGrid>
