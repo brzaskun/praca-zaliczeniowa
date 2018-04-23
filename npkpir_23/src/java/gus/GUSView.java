@@ -38,7 +38,7 @@ public class GUSView implements Serializable {
     private String nip;
     private String danefirmy;
     
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/GUS/UslugaBIRzewnPubl.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/UslugaBIRzewnPubl.wsdl")
     private UslugaBIRzewnPubl service;
 
     public Map<String, String> pobierzDane(String nip) {
