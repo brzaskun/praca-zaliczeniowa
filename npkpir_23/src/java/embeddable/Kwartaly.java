@@ -157,22 +157,24 @@ public class Kwartaly implements Serializable{
         } else if (kwInt <= 4) {
             nowedane[0] = rok;
             nowedane[1] = kwToostMc.get(kwInt);
-        } else if (kwInt <= 8) {
+        } else if (kwInt > 4) {
             int rokInt = Integer.parseInt(rok);
             nowedane[0] = String.valueOf(++rokInt);
-            nowedane[1] = kwToostMc.get(kwInt-8);
-        } else if (kwInt <= 12) {
-            int rokInt = Integer.parseInt(rok)+2;
-            nowedane[0] = String.valueOf(rokInt);
-            nowedane[1] = kwToostMc.get(kwInt-12);
-        } else if (kwInt <= 16) {
-            int rokInt = Integer.parseInt(rok)+3;
-            nowedane[0] = String.valueOf(rokInt);
-            nowedane[1] = kwToostMc.get(kwInt-16);
+            nowedane[1] = kwToostMc.get(kwInt-4);
         }
         return nowedane;
     }
-        
+    
+    public static void main(String[] args) {
+        String rok = "2017";
+        String miesiac = "04";
+        int oilezwiekszyc = 5;
+        String[] nowedane = zwiekszkwartal(rok, miesiac, oilezwiekszyc);
+        System.out.println("rok "+nowedane[0]);
+        System.out.println("mc "+nowedane[1]);
+    }
+     
+            
     public static List<String> getKwList() {
         return kwList;
     }

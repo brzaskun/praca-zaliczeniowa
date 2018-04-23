@@ -448,7 +448,7 @@
                                     <f:validateDoubleRange minimum="-3" maximum="3"/>
                                     <p:ajax global="false" event="keyup" partialSubmit="true"/>
                                     <p:ajax global="false" event="change" listener="#{dokfkView.zmienmiesiac(item.innyokres)}" 
-                                            update="formwpisdokument:dataList formwpisdokument:miesiacVAT"/>
+                                            update="formwpisdokument:dataList formwpisdokument:miesiacVAT formwpisdokument:rokVAT"/>
                                 </p:inputText>
                             </p:column>
                             <p:column style="width: 20px; text-align: center;" rendered="#{!item.nieduplikuj}">
