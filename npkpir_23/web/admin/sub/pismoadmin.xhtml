@@ -22,7 +22,7 @@
         </h:form>
       
         <h:form id="wykazpism">
-            <p:dataTable value="#{pismoAdminView.listapismwszytskie}" var="item" style="width: 80%; margin-top: 2%;" id="dokLista"
+            <p:dataTable value="#{pismoAdminView.listapismwszytskie}" var="item" style="width: 1200px; margin-top: 2%;" id="dokLista"
                          widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina" filterDelay="600"
                          paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="12,16,20,50" sortBy="#{item.datawiadomosci}" sortOrder="descending" 
@@ -50,18 +50,13 @@
                     </f:facet>
                     <h:outputText value="#{item.menulink}"/>
                 </p:column>
-                <p:column filterBy="#{item.tresc}" filterMatchMode="contains"  >
+                <p:column width="180" filterBy="#{item.tresc}" filterMatchMode="contains"  >
                     <f:facet name="header">
                         <h:outputText value="Treść"/>
                     </f:facet>
                     <h:outputText value="#{item.tresc}"/>
                 </p:column>
-                <p:column width="80">
-                    <f:facet name="header">
-                        <h:outputText value="Ważność"/>
-                    </f:facet>
-                    <h:outputText value="#{item.waznosc}"/>
-                </p:column>
+
                 <p:column width="100" filterMatchMode="contains" filterBy="#{item.nadawca}">
                     <f:facet name="header">
                         <h:outputText value="Nadawca"/>

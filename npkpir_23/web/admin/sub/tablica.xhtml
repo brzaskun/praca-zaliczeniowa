@@ -57,7 +57,8 @@
                     </f:facet>
                 </p:cellEditor>
             </p:column>
-            <p:column id="locale" headerText="locale" filterBy="#{wpis.locale}" filterMatchMode="contains" sortBy="#{wpis.locale}">  
+            <p:column id="locale" headerText="locale" filterBy="#{wpis.locale}" filterMatchMode="contains" sortBy="#{wpis.locale}"
+                      style="text-align: center;">  
                 <f:facet name="header">  
                     <h:outputText value="locale" />  
                 </f:facet> 
@@ -89,10 +90,10 @@
                     </f:facet>
                 </p:cellEditor>
             </p:column>
-            <p:column id="editColumn" headerText="edytuj">
+            <p:column id="editColumn" headerText="edytuj" style="text-align: center;">
                 <p:rowEditor />  
             </p:column>
-            <p:column id="deleteColumn" headerText="usuń">
+            <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                 <p:commandButton  action="#{UzView.destroy(wpis)}" value="Usuń"  update="@(form)"/>
             </p:column>
         </p:dataTable>
