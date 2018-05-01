@@ -412,7 +412,7 @@ public class SymulacjaWynikuView implements Serializable {
     private List<SaldoKonto> zredukuj(List<SaldoKonto> lista) {
         List<SaldoKonto> macierzyste = new ArrayList<>();
         for (SaldoKonto p : lista) {
-            SaldoKonto macierzystewiersz = jestmacierzyste(macierzyste,p.getKonto().getKontomacierzyste());
+            SaldoKonto macierzystewiersz = jestmacierzyste(macierzyste,p.getTopKonto());
             if (macierzystewiersz != null) {
                 naniesnamacierzyste(macierzystewiersz,p);
             } else {
@@ -433,16 +433,18 @@ public class SymulacjaWynikuView implements Serializable {
         macierzystewiersz.setObrotyMa(macierzystewiersz.getObrotyMa()+p.getObrotyBoMa());
         macierzystewiersz.setObrotyBoWn(macierzystewiersz.getObrotyBoWn()+p.getObrotyBoWn());
         macierzystewiersz.setObrotyBoMa(macierzystewiersz.getObrotyBoMa()+p.getObrotyBoMa());
+        macierzystewiersz.getZapisy().addAll(p.getZapisy());
     }
 
     private SaldoKonto stworzmacierzyste(SaldoKonto p) {
         SaldoKonto macierzystewiersz = new SaldoKonto();
-        Konto mac = p.getKonto().getKontomacierzyste() != null ? p.getKonto().getKontomacierzyste() : p.getKonto();
+        Konto mac = p.getTopKonto();
         macierzystewiersz.setKonto(mac);
         macierzystewiersz.setObrotyWn(macierzystewiersz.getObrotyWn()+p.getObrotyBoWn());
         macierzystewiersz.setObrotyMa(macierzystewiersz.getObrotyMa()+p.getObrotyBoMa());
         macierzystewiersz.setObrotyBoWn(macierzystewiersz.getObrotyBoWn()+p.getObrotyBoWn());
         macierzystewiersz.setObrotyBoMa(macierzystewiersz.getObrotyBoMa()+p.getObrotyBoMa());
+        macierzystewiersz.setZapisy(p.getZapisy());
         return macierzystewiersz;
     }
 

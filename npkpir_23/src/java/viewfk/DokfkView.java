@@ -850,19 +850,22 @@ public class DokfkView implements Serializable {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 int index = selected.getListawierszy().size() - 1;
                 rozliczsaldoWBRK(index);
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + index + ":saldo");
+                //RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + index + ":saldo");
                 selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size() - 1).getSaldoWBRK());
 
+            }
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0 && !selected.getWalutadokumentu().getSymbolwaluty().equals("PLN")) {
+                
             }
             try {
                 selected.setLp(selected.getNrkolejnywserii());
                 selected.setPodatnikObj(wpisView.getPodatnikObiekt());
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
-                //nanosimy zapisy na kontach
-                if (selected.sprawdzczynaniesionorozrachunki() == 1) {
-                    komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
-                    RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
-                }
+                //mialo sprawdzac czy sa rozrachunki, ale jak ich nie ma to wywala komunikat, ktory i tak nie jest wyswietlany...
+//                if (selected.sprawdzczynaniesionorozrachunki() == 1) {
+//                    komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
+//                    RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
+//                }
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
                 }
@@ -877,10 +880,10 @@ public class DokfkView implements Serializable {
                 //nanieswierszeRRK(selected);
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 selected.setDataujecia(new Date());
-                dokDAOfk.edit(selected);
+                dokDAOfk.dodaj(selected);
                 biezacetransakcje = null;
-                Dokfk dodany = dokDAOfk.findDokfkObj(selected);
-                wykazZaksiegowanychDokumentow.add(dodany);
+                //Dokfk dodany = dokDAOfk.findDokfkObj(selected);
+                wykazZaksiegowanychDokumentow.add(selected);
                 resetujDokument();
                 Msg.msg("i", "Dokument dodany");
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
@@ -1022,7 +1025,6 @@ public class DokfkView implements Serializable {
                 if (selected.getSeriadokfk().equals("BO")) {
                     selected.przepiszWierszeBO();
                 }
-                selected.przeliczKwotyWierszaDoSumyDokumentu();
                 selected.setwTrakcieEdycji(false);
                 selected.setImportowany(false);
                 for (Wiersz p : selected.getListawierszy()) {
@@ -1032,6 +1034,10 @@ public class DokfkView implements Serializable {
                 selected.oznaczVATdokument(sprawdzjakiokresvat());
                 oznaczdokumentSTRMK(selected, "0");
                 oznaczdokumentSTRMK(selected, "64");
+                //dodaje roznice kursowa w dokumencie
+                oznaczdokumentRozKurs(selected);
+                //nanieswierszeRRK(selected);
+                selected.przeliczKwotyWierszaDoSumyDokumentu();
                 selected.setDataujecia(new Date());
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.remove(selected);

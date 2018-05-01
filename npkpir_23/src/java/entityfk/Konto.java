@@ -840,6 +840,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.setBoMa(this.getBoMa() + k.getBoMa());
     }
 
+    public Konto getTopKonto() {
+        Konto zwrot = this;
+       if (this.getKontomacierzyste()!=null) {
+           zwrot = this.getKontomacierzyste().getTopKonto();
+       }
+       return zwrot;
+    }
+
    
     
     

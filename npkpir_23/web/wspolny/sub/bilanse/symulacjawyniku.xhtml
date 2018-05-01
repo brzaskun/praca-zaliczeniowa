@@ -52,22 +52,20 @@
                                 style="width: 120px; " update="akordeon:formsymulacjanarastajaco"/>
                 <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)"/>
                 <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>
-                <h:outputText id="tylkosyntopis" value="tylko konta syntetyczne" style="margin-left: 15px; display: none;"/>
-                <p:selectBooleanCheckbox  id="tylkosyntcheck" value="#{symulacjaWynikuView.tylkokontasyntetyczne}"  style="margin-left: 15px; display: none;">
+                <p:selectBooleanCheckbox  id="tylkosyntcheck" value="#{symulacjaWynikuView.tylkokontasyntetyczne}"  style="margin-left: 5px; display: none;" itemLabel="tylko konta syntetyczne"  >
                     <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" partialSubmit="true" update="akordeon:formsymulacja akordeon:formsymulacjankup"
                             oncomplete="pokazprzyciski();"/>
                 </p:selectBooleanCheckbox>
-                <h:outputText value="księgowania z cechami"/>
-                            <p:selectOneMenu value="#{symulacjaWynikuView.wybranacechadok}" id="cechydokuk"
+                                 <p:selectOneMenu value="#{symulacjaWynikuView.wybranacechadok}" id="cechydokuk"
                                          style="width: 200px;" >
                             <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
                                     update="akordeon:formsymulacja akordeon:formsymulacjankup"  oncomplete="pokazprzyciski();"/>
-                            <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
+                            <f:selectItem itemLabel="wybierz cechę" itemValue="" />
                             <f:selectItems value="#{symulacjaWynikuView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.nazwacechy}" itemValue="#{item1.nazwacechy}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
             
-
+            <p:panelGrid columns="2">
             <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
                          styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1000px; height: 400px; overflow-y: scroll;"
@@ -115,7 +113,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.kontosyntetyczne}" width="110" >
-                    <h:outputText value="#{loop.konto.kontomacierzyste.nazwaKontaInt}" />
+                    <h:outputText value="#{loop.getTopKontoOpis()}" />
                 </p:column>
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
@@ -143,6 +141,11 @@
                     </p:dataTable>
                 </p:rowExpansion>
             </p:dataTable>
+                <p:panelGrid columns="1" style="width: 190px;">
+                    <h:outputText value="brak dokumentu ASR - nie rozliczono różnic kursowych od środków własnych" rendered="#{zestawienieBrakiView.jestASR eq false}"/>
+                    <h:outputText value="brak dokumentu AMO - nie naliczono odpisów amortyzacyjnych" rendered="#{zestawienieBrakiView.jestAMO eq false}"/>
+                </p:panelGrid>
+                </p:panelGrid>
             <p:dataTable id="tablicasymulacjaK" value="#{symulacjaWynikuView.listakontakoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoKoszty}" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1000px; height: 500px; overflow-y: scroll;" widgetVar="tablicasymulacjaK"
@@ -189,7 +192,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.konto}" width="110" >
-                    <h:outputText value="#{loop.konto.kontomacierzyste.nazwaKontaInt}" />
+                    <h:outputText value="#{loop.getTopKontoOpis()}" />
                 </p:column>
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">

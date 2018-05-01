@@ -137,11 +137,7 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujWaluta(rs.getObrotyMa()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujWaluta(rs.getSaldoWn()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujWaluta(rs.getSaldoMa()) : "", "right", 7));
-            if (rs.getKonto().getKontomacierzyste() != null) {
-                table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwaKontaInt(), "left", 7));
-            } else {
-                table.addCell(ustawfrazeAlign("", "right", 7));
-            }
+            table.addCell(ustawfrazeAlign(rs.getTopKontoOpis(), "left", 7));
             if (rodzajdruku==2) {
                 PdfPTable p = subtable(rs.getZapisy());
                 PdfPCell r = new PdfPCell(p);
@@ -170,20 +166,20 @@ public class PdfSymulacjaWyniku {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (StronaWiersza rs : stronywiersza) {
-            table.addCell(ustawfrazeAlign("", "left", 6));
-            table.addCell(ustawfrazeAlign(rs.getDokfkS(), "center", 6));
-            table.addCell(ustawfrazeAlign(rs.getDokfk().getDatadokumentu(), "left", 6));
-            table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 6));
+            table.addCell(ustawfrazeAlign("", "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getDokfkS(), "center", 7));
+            table.addCell(ustawfrazeAlign(rs.getDokfk().getDatadokumentu(), "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 7));
             Klienci klient = (rs.getWiersz().geteVatwpisFK() == null && rs.getDokfk().getKontr() != null) ? rs.getDokfk().getKontr() : rs.getWiersz().geteVatwpisFK() != null && rs.getWiersz().geteVatwpisFK().getKlient() != null ? rs.getWiersz().geteVatwpisFK().getKlient() : null;
             String kontr = klient != null ? klient.getNpelna() : "brak kontrakhenta!";
-            table.addCell(ustawfrazeAlign(kontr, "left", 6));
-            table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
+            table.addCell(ustawfrazeAlign(kontr, "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 7));
             if (rs.getWnma().equals("Wn")) {
-                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 6));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
                 table.addCell(ustawfrazeAlign("", "right", 6));
             } else {
                 table.addCell(ustawfrazeAlign("", "right", 6));
-                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 6));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
             }
         }
         return table;
