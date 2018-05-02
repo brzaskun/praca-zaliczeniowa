@@ -24,7 +24,7 @@
         
         <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" 
                       selection="#{obrotyView.goscwybral}"  widgetVar="dokTable"
-                      rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.id}"
+                      rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
                       style="width: 85%;" > 
             <p:ajax event="rowSelectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <p:ajax event="rowUnselectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>                <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>      
@@ -33,7 +33,7 @@
             </f:facet>
             <p:column selectionMode="multiple"  width="40" >
             </p:column>
-            <p:column id="idColumn" headerText="nr kolejny"  sortBy="#{wpis.idDid width="60">  
+            <p:column id="idColumn" headerText="nr kolejny"  sortBy="#{wpis.id}" width="60">  
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" >  

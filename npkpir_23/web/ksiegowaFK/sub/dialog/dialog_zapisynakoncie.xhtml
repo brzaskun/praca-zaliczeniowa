@@ -75,7 +75,7 @@
                             </p:column>
                             <p:splitButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" icon="fa fa-print" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieKompakt}"  >
                                 <p:menuitem global="false" value="druk poziomy" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
-                                <p:menuitem global="false" value="druk poziomy" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
+                                <p:menuitem global="false" value="druk poziomy duży" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                             </p:splitButton>
                             
                             <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" 

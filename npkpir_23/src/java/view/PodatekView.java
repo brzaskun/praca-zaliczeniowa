@@ -36,7 +36,7 @@ import msg.Msg;
 @RequestScoped
 public class PodatekView implements Serializable{
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value="#{DokTabView.obiektDOKmrjsfSel}")
+    @ManagedProperty(value="#{DokTabView.dokumentypodatnika}")
     private ArrayList<Dok> oDOK;
     @Inject
     PodatnikDAO podatnikDAO;
