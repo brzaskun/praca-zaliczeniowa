@@ -23,12 +23,12 @@
                     <p:ajax event="keyup" listener="#{KlView.znajdzdaneregon('formX')}" partialSubmit="true" global="false"/>
                 </p:inputText>
 
-                <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="s" title="pełna nazwa kontrahenta" maxlength="55" style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste" 
+                <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="s" title="pełna nazwa kontrahenta" maxlength="80" style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste" 
                              onblur="kopiujnazwepelnakontrahenci();" >
-                    <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 55znakow" />
+                    <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 80znakow" />
                     <p:ajax event="blur" partialSubmit="true" global="false" listener="#{KlView.wyszukajduplikatkontrahent}"/>
                 </p:inputText>
-                <p:inputText id="symbolPole" value="#{KlView.selected.nskrocona}" maxlength="20" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
+                <p:inputText id="symbolPole" value="#{KlView.selected.nskrocona}" maxlength="55" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
                     <p:watermark for="symbolPole" value="hasłowo, np:FORTEX" /> 
                 </p:inputText>
                 <p:inputText id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="9" style="width: 200px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste" />
@@ -61,11 +61,9 @@
                 <p:inputText id="emailPole" value="#{KlView.selected.email}" style="width: 200px" >
                     <p:ajax event="focus" listener="#{KlView.dodajpustegomaila}"/>
                 </p:inputText>
-                
-                <p:splitButton value="Dodaj" actionListener="#{KlView.dodajKlienta()}" update=":formX :formY" icon="ui-icon-disk">  
-                    <p:menuitem value="Edytuj" actionListener="#{KlView.edit()}" update=":formX :formY" icon="ui-icon-arrowrefresh-1-w"/>  
-                </p:splitButton>  
-              
+                <p:commandButton value="Dodaj" actionListener="#{KlView.dodajKlienta()}" update=":formX :formY" icon="ui-icon-disk"
+                                 rendered="#{KlView.selected.id eq null}" style="width: 120px; margin-top: 5px;"/>
+                <p:commandButton value="Edytuj" actionListener="#{KlView.edit()}" update=":formX :formY" icon="ui-icon-arrowrefresh-1-w" rendered="#{KlView.selected.id ne null}" style="width: 120px; margin-top: 5px;"/>
             </p:panelGrid>
            
         </p:panel>
@@ -79,7 +77,7 @@
                  paginator="true" paginatorAlwaysVisible="true" rows="20"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  rowsPerPageTemplate="20,28,36,50" filteredValue="#{KlView.klienciFiltered}"
-                 rowKey="#{wpis}" selection="#{KlView.selectedtablica}" 
+                 rowKey="#{wpis}" selection="#{KlView.selected}" 
                  emptyMessage="Nie ma klientów" style="margin-left: 2%; max-width: 1200px;">
             <p:ajax event="rowSelectRadio" listener="#{KlView.wybranodoedycji}" update=":formY :formX" global="false"/>
             <p:ajax event="filter" global="false"/>

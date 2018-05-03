@@ -168,8 +168,8 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="syntetyka" width="140" >
-                    <h:outputText id="pol12" value="#{loop.konto.kontomacierzyste.getNazwaObcieta(40)}"/>
-                    <p:tooltip for="pol12" value="#{loop.konto.kontomacierzyste.pelnynumer} #{loop.konto.kontomacierzyste.nazwapelna}" />
+                    <h:outputText id="pol12" value="#{loop.getTopKonto().getNazwaObcieta(40)}"/>
+                    <p:tooltip for="pol12" value="#{loop.getTopKonto().pelnynumer} #{loop.getTopKonto().nazwapelna}" />
                 </p:column>
                 <p:rowExpansion rendered="#{saldoAnalitykaView.zzapisami}">
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" rowKey="#{loopik.hashCode()}"

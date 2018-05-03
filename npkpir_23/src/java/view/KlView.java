@@ -61,8 +61,8 @@ public class KlView implements Serializable {
     private KlienciDAO klDAO;
     @Inject
     private Klienci selected;
-    @Inject
-    private Klienci selectedtablica;
+//    @Inject
+//    private Klienci selectedtablica;
     @Inject
     PanstwaMap ps1;
     private Integer ilesrodkow;
@@ -323,8 +323,9 @@ public class KlView implements Serializable {
             klDAO.edit(selected);
             edycja = false;
             //refresh();
-            kl1 = new ArrayList<>();
-            kl1.addAll(klDAO.findAll());
+            //kl1 = new ArrayList<>();
+            //kl1.addAll(klDAO.findAll());
+            selected = new Klienci();
             FacesMessage msg = new FacesMessage("Zapisano zmienione dane klienta", selected.getNpelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
@@ -336,7 +337,7 @@ public class KlView implements Serializable {
 
     public void wybranodoedycji(SelectEvent ex) {
         edycja = true;
-        selected = (Klienci) ex.getObject();
+        //selected = (Klienci) ex.getObject();
         Msg.msg("Wybrano klienta do edycji: " + selected.getNpelna());
     }
 
@@ -378,16 +379,18 @@ public class KlView implements Serializable {
     }
 
     public void poszukajDuplikatNipWTrakcie() throws Exception {
-        String nippoczatkowy = (String) Params.params("formX:nipPole");
-        if (!nippoczatkowy.equals("0000000000") && !nippoczatkowy.equals("")) {
-            List<String> kliencitmp = klDAO.findNIP();
-            if (!kliencitmp.isEmpty()) {
-                if (kliencitmp.contains(nippoczatkowy)) {
-                    if (edycja) {
-                        Msg.msg("w", "Klient o takim numerze NIP juz istnieje!");
-                    } else {
-                        RequestContext.getCurrentInstance().execute("rj('formX:nipPole').value = 'taki nip jest już w bazie';");
-                        Msg.msg("e", "Klient o takim numerze NIP juz istnieje!");
+        if (selected.getId()==null) {
+            String nippoczatkowy = selected.getNip();
+            if (!nippoczatkowy.equals("0000000000") && !nippoczatkowy.equals("")) {
+                List<String> kliencitmp = klDAO.findNIP();
+                if (!kliencitmp.isEmpty()) {
+                    if (kliencitmp.contains(nippoczatkowy)) {
+                        if (edycja) {
+                            Msg.msg("w", "Klient o takim numerze NIP juz istnieje!");
+                        } else {
+                            RequestContext.getCurrentInstance().execute("rj('formX:nipPole').value = 'taki nip jest już w bazie';");
+                            Msg.msg("e", "Klient o takim numerze NIP juz istnieje!");
+                        }
                     }
                 }
             }
@@ -514,16 +517,7 @@ public class KlView implements Serializable {
     }
 
     
-    public Klienci getSelectedtablica() {
-        return selectedtablica;
-    }
-
-    public void setSelectedtablica(Klienci selectedtablica) {
-        this.selectedtablica = selectedtablica;
-    }
-
-
-    public KliencifkView getKliencifkView() {
+        public KliencifkView getKliencifkView() {
         return kliencifkView;
     }
 

@@ -274,6 +274,7 @@ public class SaldoKonto implements Serializable {
         return zwrot != null ? zwrot.getNazwaKontaInt() : "";
     }
     
+    
     public Konto getTopKonto() {
         Konto zwrot = this.konto.getTopKonto();
         return zwrot;
