@@ -19,6 +19,7 @@ public class PozycjeSymulacjiNowe  implements Serializable{
     private int id;
     private Podatnik podatnik;
     private String udzialowiec;
+    private String udzialowiecid;
     private double udzial;
     private String rok;
     private String mc;
@@ -201,6 +202,14 @@ public class PozycjeSymulacjiNowe  implements Serializable{
 
     public void setUdzial(double udzial) {
         this.udzial = udzial;
+    }
+
+    public String getUdzialowiecid() {
+        return udzialowiecid;
+    }
+
+    public void setUdzialowiecid(String udzialowiecid) {
+        this.udzialowiecid = udzialowiecid;
     }
     
     
