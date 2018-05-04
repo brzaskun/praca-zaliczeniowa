@@ -9,10 +9,10 @@
               resizable="false" onShow="ustawdialog('dialog_bilans_projekt_wzorcowy_inter','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_projekt_wzorcowy_inter');"  >
         <h:form id="form_dialog_bilans_projekt_wzorcowy_inter">
             <p:panelGrid columns="7" >
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRWzorcowyView.rozwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_wzorcowy_inter:dataList" style="float: left;" />
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRWzorcowyView.rozwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_wzorcowy_inter:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRWzorcowyView.rozwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_wzorcowy_inter:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRWzorcowyView.zwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_wzorcowy_inter:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRWzorcowyView.zwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_wzorcowy_inter:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRWzorcowyView.zwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_wzorcowy_inter:dataList" style="float: left;" />-->
                 <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{pozycjaBRWzorcowyView.zachowajInt(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_wzorcowy_inter:dataList" style="float: left; margin-left: 100px; width: 120px;" />
                 <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSBilansView.zachowajBilanswXLS(pozycjaBRWzorcowyView.rootProjektRZiS)}" style=" margin-left: 5px;" global="false" ajax="false"/>
                 <p:commandButton id="xlsbutton2" value="pobierz dane z pliku" actionListener="#{pozycjaBRWzorcowyView.pobierzdanezplikuBilans()}" style=" margin-left: 5px;" global="false" update=":form_dialog_bilans_projekt_wzorcowy_inter"/>

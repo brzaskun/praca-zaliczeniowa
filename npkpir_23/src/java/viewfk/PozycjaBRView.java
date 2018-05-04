@@ -123,7 +123,7 @@ public class PozycjaBRView implements Serializable {
     @PostConstruct
     private void init() {
         try {
-            if (uklad.getUklad() == null) {
+            if (uklad == null || uklad.getUklad() == null) {
                 uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             }
             bilansnadzien = Data.dzienostatni(wpisView);
@@ -503,40 +503,40 @@ public class PozycjaBRView implements Serializable {
     }
 
 
-    public void rozwinwszystkie() {
-        root.createTreeNodesForElement(pozycje);
-        level = root.ustaldepthDT(pozycje) - 1;
-        root.expandAll();
-    }
-
-    public void rozwin() {
-        int maxpoziom = root.ustaldepthDT(pozycje);
-        if (level < --maxpoziom) {
-            root.expandLevel(level++);
-        }
-    }
-
-    public void zwinwszystkie(TreeNodeExtended root) {
-        root.foldAll();
-        level = 0;
-    }
-
-    public void zwin(TreeNodeExtended root) {
-        root.foldLevel(--level);
-    }
-    
-    public void rozwinwszystkie(TreeNodeExtended root) {
-        level = root.ustaldepthDT(pozycje) - 1;
-        root.expandAll();
-    }
-
-    public void rozwin(TreeNodeExtended root) {
-        int maxpoziom = root.ustaldepthDT(pozycje);
-        if (level < --maxpoziom) {
-            root.expandLevel(level++);
-        }
-    }
-    
+//    public void rozwinwszystkie() {
+//        root.createTreeNodesForElement(pozycje);
+//        level = root.ustaldepthDT(pozycje) - 1;
+//        root.expandAll();
+//    }
+//
+//    public void rozwin() {
+//        int maxpoziom = root.ustaldepthDT(pozycje);
+//        if (level < --maxpoziom) {
+//            root.expandLevel(level++);
+//        }
+//    }
+//
+//    public void zwinwszystkie(TreeNodeExtended root) {
+//        root.foldAll();
+//        level = 0;
+//    }
+//
+//    public void zwin(TreeNodeExtended root) {
+//        root.foldLevel(--level);
+//    }
+//    
+//    public void rozwinwszystkie(TreeNodeExtended root) {
+//        level = root.ustaldepthDT(pozycje) - 1;
+//        root.expandAll();
+//    }
+//
+//    public void rozwin(TreeNodeExtended root) {
+//        int maxpoziom = root.ustaldepthDT(pozycje);
+//        if (level < --maxpoziom) {
+//            root.expandLevel(level++);
+//        }
+//    }
+//    
     public void zmianaukladprzegladBilansBO() {
         bilansnadzien = Data.dzienostatni(wpisView);
         PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);

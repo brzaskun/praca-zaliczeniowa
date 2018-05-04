@@ -9,10 +9,10 @@
               resizable="false" onShow="ustawdialog('dialog_bilans_projekt_inter','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_projekt_inter');"  >
         <h:form id="form_dialog_bilans_projekt_inter">
             <p:panelGrid columns="6" >
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />-->
                 <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{pozycjaBRView.zachowajTlumaczenie(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left; margin-left: 100px; width: 120px;" />
                 <p:commandButton id="implementuj" value="implementuj" actionListener="#{pozycjaBRImplView.implementujBilans(pozycjaBRView.rootProjektRZiS, pozycjaBRView.uklad)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left; margin-left: 10px; width: 120px;" />
             </p:panelGrid>

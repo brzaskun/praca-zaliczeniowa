@@ -16,10 +16,10 @@
                 <p:menuitem value="nie można modyfikować importowanego układu" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'false' : 'true'}"/>
             </p:contextMenu>
             <p:panelGrid columns="4" >
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />-->
             </p:panelGrid>
             <p:panelGrid columns="3" style="width: 1020px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
