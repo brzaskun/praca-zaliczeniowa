@@ -134,7 +134,7 @@ function ustawDateSprzedazy(rok,mc){
 
 function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
     var coswpisanowpoledaty;
-    var adres = "formwpisdokument:data1DialogWpisywanie";
+    var adres = "formwpisdokument:data2DialogWpisywanie";
     var dataWyst = document.getElementById(adres);
     if (dataWyst.value !== "") {
         coswpisanowpoledaty = true;

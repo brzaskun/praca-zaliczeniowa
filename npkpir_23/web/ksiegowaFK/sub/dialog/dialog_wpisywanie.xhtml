@@ -500,28 +500,28 @@
                                 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{wploop.idporzadkowy}');" -->
                                 <p:ajax global="false" event="focus" onstart="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.setLpwierszaRK(index+1)}"/>
                                 <p:ajax global="false" event="focus" listener="#{dokfkView.sprawdzwartoscigrupy(wploop)}"/>
-<!--                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy})"/>-->
+                                
                                 <p:ajax global="false" event="blur" oncomplete="skopiujopis(#{wploop.idporzadkowy});" partialSubmit="true" />
                             </p:inputText>
                         </p:column>
                         <p:column headerText="ilość kg" style="width: 30px;" rendered="#{dokfkView.selected.rodzajedok.pokazkg}" >
                             <pe:inputNumber   id="ilosckg" value="#{wploop.ilosc_kg}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
                                             decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" >
-                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy})"/>
+                                
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="ilość szt" style="width: 30px;" rendered="#{dokfkView.selected.rodzajedok.pokazszt}" >
                             <pe:inputNumber    id="iloscszt" value="#{wploop.ilosc_szt}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
                                              decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000">
-                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy})"/>
+                                
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="#{mgs.data}" style="text-align: center; width: 20px;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}" >
                             <p:inputText id="dataWiersza" value="#{wploop.dataWalutyWiersza}" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}" onblur="kopiujdatedialogwpis();"
                                          style="width: 20px;" maxlength="2" >
-                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy})"/>
+                                
                                 <p:ajax global="false" event="change" partialSubmit="true" onstart="obsluzDateWiersza(#{wploop.idporzadkowy-1});" listener="#{dokfkView.obsluzDataWiersza(wploop)}"/>
                             </p:inputText>
                         </p:column>
@@ -541,7 +541,7 @@
                                             decimalPlaces="2" minValue="-10000000" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}"
                                             readonly="#{wploop.stronaWn.typStronaWiersza ne 0}"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
-                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy})"/>
+                                
                                 <p:ajax global="false" event="blur" onstart="skopiujKwoteZWierszaWyzej(#{wploop.idporzadkowy-1}, 'Wn');"  partialSubmit="true"/>
                             </pe:inputNumber>
                         </p:column>
@@ -551,7 +551,7 @@
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                             
                                             >
-                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy})"/>
+                                
                             </pe:inputNumber>
                         </p:column>
                         <!--                    <p:column width="12" style="text-align: center" rendered="{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
@@ -590,7 +590,7 @@
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                                 <p:ajax global="false" event="change" partialSubmit="true"  />
                                 <p:ajax global="false" event="blur" partialSubmit="true"  onstart="skopiujKwoteZeStronaWn(#{wploop.idporzadkowy-1}, 'Wn');"/>
-                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy})"/>
+                                
                             </pe:inputNumber> 
                         </p:column>
                         <p:column headerText="kwota PLN" style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
@@ -600,7 +600,7 @@
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                             
                                             >
-                                <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy})"/>
+                                
                             </pe:inputNumber> 
                         </p:column>
                         <p:column headerText="konto Ma" style="text-align: center; width: 100px;">
@@ -718,8 +718,7 @@
             <h:form id="wpisywaniefooter">
                 <p:commandButton id="vatRK" value="+" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" 
                                  style="width: 30px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
-                <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
-                                     global="false" update=":formwpisdokument:dataList" style="display: none;" />
+                <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}" global="false" update=":formwpisdokument:dataList" style="display: none;" />
                 <p:commandButton id="buttonusun" value="(U)suń" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
                                  styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument" oncomplete="focusNaOstatnimWierszu();"/>
                 <p:commandButton id="uruchomrozrachunki" value="(R)ozrachunki" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
