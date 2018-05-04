@@ -142,6 +142,7 @@ public class PismoAdminView implements Serializable{
     
      public void molestujadmina() {
          try {
+             pismoadmin.setMenulink(wpisView.getPodatnikObiekt().getPrintnazwa());
              pismoadmin.setDatawiadomosci(new Date());
              pismoadmin.setNadawca(wpisView.getWprowadzil().getLogin());
              pismoadmin.setStatus("wysłana");

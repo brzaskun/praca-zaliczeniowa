@@ -10,17 +10,7 @@
             <f:facet name="header">
                 <h:outputText value="Treść wiadomości"/>
             </f:facet>
-            <h:outputLabel for="menulink" value="gdzie wystąpił problem?" />
-             <p:selectOneMenu id="menulink" value="#{pismoAdminView.pismoadmin.menulink}" style="width: 200px;" validator="#{pismoAdminView.walidacjaobszaru}"
-                             rendered="#{facesContext.externalContext.isUserInRole('Bookkeeper')}">
-                <f:selectItem itemLabel="wybierz obszar" itemValue="wybierz obszar" noSelectionOption="true"/>
-                <f:selectItems value="#{pismoAdminView.listamenu}"/>
-            </p:selectOneMenu>
-            <p:selectOneMenu id="menulink2" value="#{pismoAdminView.pismoadmin.menulink}" style="width: 200px;" validator="#{pismoAdminView.walidacjaobszaru}"
-                             rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}">
-                <f:selectItem itemLabel="wybierz obszar" itemValue="wybierz obszar"/>
-                <f:selectItems value="#{pismoAdminView.listamenuFK}"/>
-            </p:selectOneMenu>
+            
             <h:outputLabel for="problem" value="na czym polega problem?"/>
             <p:inputTextarea id="problem" value="#{pismoAdminView.pismoadmin.tresc}" rows="9" autoResize="false" cols="80" validatorMessage="Rozpisz się bardziej. Napisz na czym dokłanie polega problem."/>
              <p:commandButton value="napisz do admina" actionListener="#{pismoAdminView.molestujadmina}" style="width: 150px;" update=":wykazpism @form"/>
