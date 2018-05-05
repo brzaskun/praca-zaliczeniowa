@@ -46,7 +46,7 @@
             </p:panelGrid>
             <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop_wyn" rowKey="#{loop_wyn.id}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 950px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1200px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.pobraniewynikow}"/>
@@ -71,6 +71,12 @@
                 </p:column>
                 <p:column headerText="#{mgs.nkup}" width="60" >
                     <bcf:outputpl value="#{loop_wyn.nkup}"/>
+                </p:column>
+                <p:column headerText="przychody podatkowe" width="60" >
+                    <bcf:outputpl value="#{loop_wyn.getPrzychodyPodatkowe()}"/>
+                </p:column>
+                <p:column headerText="koszty podatkowe" width="60" >
+                    <bcf:outputpl value="#{loop_wyn.getKosztyPodatkowe()}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wynikpodatkowy}" width="60" >
                     <bcf:outputpl value="#{loop_wyn.wynikpodatkowy}"/>
@@ -99,8 +105,8 @@
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.obliczeniewyniku}"/>
-                    <h:outputText value=" podatek stawka"/>
-                    <h:outputText value="#{WpisView.stawkapodatkuospr}">
+                    <h:outputText value=" podatek stawka " rendered="#{WpisView.formaprawna.toString() eq 'SPOLKA_Z_O_O'}"/>
+                    <h:outputText value="#{WpisView.stawkapodatkuospr}" rendered="#{WpisView.formaprawna.toString() eq 'SPOLKA_Z_O_O'}">
                         <f:convertNumber type="percent"/>
                     </h:outputText>
                 </f:facet>
@@ -152,6 +158,12 @@
                 </p:column>
                 <p:column headerText="#{mgs.nkup}" width="100">
                     <bcf:outputpl value="#{loop1.nkup}" />  
+                </p:column>
+                 <p:column headerText="przychody podatkowe" width="60" >
+                    <bcf:outputpl value="#{loop1.getPrzychodyPodatkowe()}"/>
+                </p:column>
+                <p:column headerText="koszty podatkowe" width="60" >
+                    <bcf:outputpl value="#{loop1.getKosztyPodatkowe()}"/>
                 </p:column>
                 <p:column headerText="#{mgs.podstawaopodatkowania}" width="100" >
                     <bcf:outputpl value="#{loop1.wynikpodatkowy}"/>

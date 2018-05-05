@@ -26,6 +26,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import waluty.Z;
 
 /**
  *
@@ -275,6 +276,13 @@ public class WynikFKRokMc implements Serializable {
         this.data = data;
     }
     
+    public double getPrzychodyPodatkowe() {
+        return Z.z(this.przychody-npup);
+    }
+    
+    public double getKosztyPodatkowe() {
+        return Z.z(this.koszty-nkup);
+    }
     
 //    public List<SaldoKonto> getListaprzychody() {
 //        return listaprzychody;
