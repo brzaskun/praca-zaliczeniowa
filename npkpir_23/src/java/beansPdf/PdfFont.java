@@ -153,13 +153,33 @@ public class PdfFont {
     public static PdfPCell emptyCell() {
         return new PdfPCell();
     }
-    
     public static PdfPCell ustawfrazeAlign(String fraza, String orient, int fontsize) {
         PdfPCell cell = null;
         try {
             String fraza2 = fraza != null ? fraza : "";
             cell = new PdfPCell(new Phrase(fraza2,PF.getFont(Fonty.CALIBRI, fontsize)));
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            getOrient(cell, orient);
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return cell;
+    }
+    
+    public static PdfPCell ustawfrazeAlignLevel(String fraza, String orient, int fontsize, int level) {
+        PdfPCell cell = null;
+        try {
+            String fraza2 = fraza != null ? fraza : "";
+            cell = new PdfPCell(new Phrase(fraza2,PF.getFont(Fonty.CALIBRI, fontsize)));
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            if (level==0) {
+                cell.setBorderWidthTop(1f);
+                cell.setBorderWidthBottom(1f);
+            }
+            if (level==1) {
+                cell.setBorderWidthTop(0.8f);
+                cell.setBorderWidthBottom(0.8f);
+            }
             getOrient(cell, orient);
         } catch (Exception ex) {
             E.e(ex);
