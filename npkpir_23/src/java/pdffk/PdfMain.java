@@ -7,6 +7,7 @@ package pdffk;
 
 import static beansPdf.PdfFont.emptyCell;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlignLevel;
 import static beansPdf.PdfFont.ustawfrazeAlignNOBorder;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
@@ -1715,50 +1716,51 @@ public class PdfMain {
                         pozycja.append("  ");
                     }
                 }
+                int lev = p.getLevel();
                 pozycja.append(p.getPozycjaSymbol());
-                table.addCell(ustawfrazeAlign(pozycja.toString(), "left", 8));
+                table.addCell(ustawfrazeAlignLevel(pozycja.toString(), "left", 8, lev));
                 if (p.getLevel() == 0) {
                     if (l.equals("pl")) {
-                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                        table.addCell(ustawfrazeAlignLevel(p.getNazwa(), "left", 9, lev));
                     } else {
-                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 9));
+                        table.addCell(ustawfrazeAlignLevel(p.getDe(), "left", 9, lev));
                     }
                 } else if (p.getLevel() == 1) {
                     if (l.equals("pl")) {
-                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
+                        table.addCell(ustawfrazeAlignLevel(p.getNazwa(), "left", 8, lev));
                     } else {
-                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
+                        table.addCell(ustawfrazeAlignLevel(p.getDe(), "left", 8, lev));
                     }
                 } else {
                     if (l.equals("pl")) {
-                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
+                        table.addCell(ustawfrazeAlignLevel(p.getNazwa(), "left", 8, lev));
                     } else {
-                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
+                        table.addCell(ustawfrazeAlignLevel(p.getDe(), "left", 8, lev));
                     }
                 }
                 if (modyfikator == 5) {
                     if (p.getKwotabo() != 0.0) {
                        if (p.getLevel() == 0) {
-                           table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 9));
+                           table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwotabo())), "right", 9, lev));
                        } else if (p.getLevel() == 1) {
-                           table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 8));
+                           table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwotabo())), "right", 8, lev));
                        } else {
-                           table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 7));
+                           table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwotabo())), "right", 7, lev));
                        }
                    } else {
-                       table.addCell(ustawfrazeAlign("", "right", 7));
+                       table.addCell(ustawfrazeAlignLevel("", "right", 7, lev));
                    }   
                 }
                 if (p.getKwota() != 0.0) {
                     if (p.getLevel() == 0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
+                        table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 9, lev));
                     } else if (p.getLevel() == 1) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                        table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 8, lev));
                     } else {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
+                        table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 7, lev));
                     }
                 } else {
-                    table.addCell(ustawfrazeAlign("", "right", 7));
+                    table.addCell(ustawfrazeAlignLevel("", "right", 7, lev));
                 }
                 if (modyfikator == 1 || modyfikator == 2) {
                     if (modyfikator != 0) {
