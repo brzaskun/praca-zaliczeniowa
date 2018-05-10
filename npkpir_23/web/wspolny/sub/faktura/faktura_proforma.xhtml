@@ -72,9 +72,9 @@
                 <h:inputText value="#{fakturaView.wiadomoscdodatkowa}" style="width: 800px;"/>
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
             </p:panel>
-            <p:dataTable id="dokumentyLista" value="#{fakturaView.fakturypro}" var="wpis" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFilteredpro}" 
-                         selection="#{fakturaView.gosciwybralpro}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1400px;"
-                         sortBy="#{wpis.fakturaPK.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
+            <p:dataTable id="dokumentyLista" value="#{fakturaView.fakturypro}" var="wpispro" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFilteredpro}" 
+                         selection="#{fakturaView.gosciwybralpro}" rowKey="#{wpispro.fakturaPK.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1400px;"
+                         sortBy="#{wpispro.fakturaPK.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowanych faktur proforma w mc #{WpisView.miesiacWpisu} " />  
                     <!--                    <h:outputText value="- wyszukiwanie: " />  
@@ -89,78 +89,78 @@
                 <p:column width="20">
                     <p:rowToggler />
                 </p:column>
-                <p:column styleClass="nrkolejny" headerText="nr kolejny" width="90" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" 
+                <p:column styleClass="nrkolejny" headerText="nr kolejny" width="90" sortBy="#{wpispro.fakturaPK.numerkolejny}" filterBy="#{wpispro.fakturaPK.numerkolejny}" 
                           filterMatchMode="contains" >
-                    <h:outputText value="#{wpis.fakturaPK.numerkolejny}" style="line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
+                    <h:outputText value="#{wpispro.fakturaPK.numerkolejny}" style="line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column headerText="#{mgs.kontrahent}" width="120" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" 
+                <p:column headerText="#{mgs.kontrahent}" width="120" sortBy="#{wpispro.kontrahent.npelna}" filterBy="#{wpispro.kontrahent.npelna}" filterMatchMode="contains" 
                           >
-                    <h:outputText value="#{wpis.kontrahent.npelna}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
+                    <h:outputText value="#{wpispro.kontrahent.npelna}" style="#{wpispro.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column styleClass="opis" headerText="#{mgs.opis}" filterBy="#{wpis.opisFaktury}" filterMatchMode="contains"  width="250" 
+                <p:column styleClass="opis" headerText="#{mgs.opis}" filterBy="#{wpispro.opisFaktury}" filterMatchMode="contains"  width="250" 
                           >
-                    <h:outputText value="#{wpis.opisFaktury}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
+                    <h:outputText value="#{wpispro.opisFaktury}" style="#{wpispro.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column styleClass="data1" headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 
+                <p:column styleClass="data1" headerText="data wyst." sortBy="#{wpispro.datawystawienia}" filterBy="#{wpispro.datawystawienia}" 
                           filterMatchMode="contains"  width="60">
-                    <h:outputText value="#{wpis.datawystawienia.substring(2)}"/>
+                    <h:outputText value="#{wpispro.datawystawienia.substring(2)}"/>
                 </p:column>
-                <p:column styleClass="data1" headerText="termin płatności" sortBy="#{wpis.terminzaplaty}" filterBy="#{wpis.terminzaplaty}" 
+                <p:column styleClass="data1" headerText="termin płatności" sortBy="#{wpispro.terminzaplaty}" filterBy="#{wpispro.terminzaplaty}" 
                           filterMatchMode="contains"  width="60">
-                    <h:outputText value="#{wpis.terminzaplaty.substring(2)}"/>
+                    <h:outputText value="#{wpispro.terminzaplaty.substring(2)}"/>
                 </p:column>
-                <p:column styleClass="data2" headerText="netto"  sortBy="#{wpis.nettoFaktura}" filterBy="#{wpis.nettoFaktura}" filterMatchMode="contains"   width="70">
-                    <bcf:outputpl value="#{wpis.nettoFaktura}"/>
+                <p:column styleClass="data2" headerText="netto"  sortBy="#{wpispro.nettoFaktura}" filterBy="#{wpispro.nettoFaktura}" filterMatchMode="contains"   width="70">
+                    <bcf:outputpl value="#{wpispro.nettoFaktura}"/>
                 </p:column>
-                <p:column styleClass="data2" headerText="brutto"  sortBy="#{wpis.bruttoFaktura}" filterBy="#{wpis.bruttoFaktura}" filterMatchMode="contains"   width="70">
-                    <bcf:outputpl value="#{wpis.bruttoFaktura}"/>
+                <p:column styleClass="data2" headerText="brutto"  sortBy="#{wpispro.bruttoFaktura}" filterBy="#{wpispro.bruttoFaktura}" filterMatchMode="contains"   width="70">
+                    <bcf:outputpl value="#{wpispro.bruttoFaktura}"/>
                 </p:column>
-                <p:column styleClass="data3" headerText="wys." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains"  
+                <p:column styleClass="data3" headerText="wys." sortBy="#{wpispro.wyslana}" filterBy="#{wpispro.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains"  
                           style="text-align: center;"  width="40">
-                    <h:outputText value="#{wpis.datawysylki}" rendered="#{wpis.wyslana}">
+                    <h:outputText value="#{wpispro.datawysylki}" rendered="#{wpispro.wyslana}">
                         <f:convertDateTime  pattern="dd-MM"/>
                     </h:outputText>
-                    <h:outputText value="nie" rendered="#{!wpis.wyslana}" style="color: green;"/>
+                    <h:outputText value="nie" rendered="#{!wpispro.wyslana}" style="color: green;"/>
                 </p:column>
-                <p:column styleClass="data1" headerText="typ" sortBy="#{wpis.rodzajdokumentu}" filterBy="#{wpis.rodzajdokumentu}" filterMatchMode="contains" 
+                <p:column styleClass="data1" headerText="typ" sortBy="#{wpispro.rodzajdokumentu}" filterBy="#{wpispro.rodzajdokumentu}" filterMatchMode="contains" 
                           style="text-align: center;" width="60">
-                    <h:outputText value="#{wpis.rodzajdokumentu}" style="#{wpis.pozycjepokorekcie.size() gt 0  or wpis.gutschrift ? 'color:red;' : null}"/>
-                    <h:outputText value=" korekta" rendered="#{wpis.pozycjepokorekcie.size() gt 0 or wpis.gutschrift}" style="color: red;"/>
-                    <h:outputText value=" +duplikaty" rendered="#{wpis.duplikaty.size() gt 0}" style="color: green;"/>
+                    <h:outputText value="#{wpispro.rodzajdokumentu}" style="#{wpispro.pozycjepokorekcie.size() gt 0  or wpispro.gutschrift ? 'color:red;' : null}"/>
+                    <h:outputText value=" korekta" rendered="#{wpispro.pozycjepokorekcie.size() gt 0 or wpispro.gutschrift}" style="color: red;"/>
+                    <h:outputText value=" +duplikaty" rendered="#{wpispro.duplikaty.size() gt 0}" style="color: green;"/>
                 </p:column>
                 <p:column  headerText="edytuj" style="text-align: center;"  width="40">
-                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycjiZwykla(wpis)}" 
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycjiZwykla(wpispro)}" 
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                 <p:column  headerText="PDF" style="text-align: center;"  width="40">
-                    <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
+                    <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpispro, row, WpisView)}" icon="ui-icon-print" />
                 </p:column>
                 <p:column  headerText="korekta" style="text-align: center;"  width="45">
-                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpis)}" 
-                                      icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" rendered="#{!wpis.fakturaniemiecka13b}"/>
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpispro)}" 
+                                      icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" rendered="#{!wpispro.fakturaniemiecka13b}"/>
                 </p:column>
                 <p:rowExpansion>
                     <p:panelGrid  columns="3"  style="width: 1100px" columnClasses="forty-percent, twenty-percent, forty-percent">
                         <p:column>
                         <p:panelGrid  columns="2"  columnClasses="forty-percent, sixty-percent">
                             <h:outputText value="email kontrahenta"/>
-                            <h:outputText value="#{wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
+                            <h:outputText value="#{wpispro.kontrahent.email ne '' ? wpispro.kontrahent.email : 'brak email'}"/>
                             <h:outputText value="konto bankowe"/>
-                            <h:outputText value="#{wpis.nrkontabankowego}"/>
+                            <h:outputText value="#{wpispro.nrkontabankowego}"/>
                             <h:outputText value="kwota netto"/>
-                            <bcf:outputpl value="#{wpis.netto}"/>
+                            <bcf:outputpl value="#{wpispro.netto}"/>
                             <h:outputText value="kwota vat"/>
-                            <bcf:outputpl value="#{wpis.vat}"/>
+                            <bcf:outputpl value="#{wpispro.vat}"/>
                             <h:outputText value="kwota brutto"/>
-                            <bcf:outputpl value="#{wpis.brutto}"/>
+                            <bcf:outputpl value="#{wpispro.brutto}"/>
                         </p:panelGrid>
                         </p:column>
                         <p:column>
                         <p:panelGrid  columns="2" >
                             <h:outputText value="okres pod doch"/>
-                            <h:outputText value="#{wpis.okresCit}"/>
+                            <h:outputText value="#{wpispro.okresCit}"/>
                             <h:outputText value="okres vat"/>
-                            <h:outputText value="#{wpis.okresVat}"/>
+                            <h:outputText value="#{wpispro.okresVat}"/>
                         </p:panelGrid>
                         </p:column>
                     </p:panelGrid>
