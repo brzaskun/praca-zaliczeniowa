@@ -100,6 +100,8 @@ public class FakturaView implements Serializable {
     private static final long serialVersionUID = 1L;
     //faktury wybrane z listy
     private List<Faktura> gosciwybral;
+    //faktury wybrane z listy proforma
+    private List<Faktura> gosciwybralpro;
     //faktury wybrane z listy
     private List<Faktura> gosciwybralarchiuwm;
     //faktury okresowe wybrane z listy
@@ -134,6 +136,10 @@ public class FakturaView implements Serializable {
     private List<Faktura> faktury;
     //faktury z bazy danych przefiltrowane
     private List<Faktura> fakturyFiltered;
+    //faktury z bazy danych proforma
+    private List<Faktura> fakturypro;
+    //faktury z bazy danych przefiltrowane profotma
+    private List<Faktura> fakturyFilteredpro;
     //faktury z bazy danych przefiltrowane
     private List<Faktura> fakturyFilteredarchiwum;
     //faktury z bazy danych
@@ -202,6 +208,7 @@ public class FakturaView implements Serializable {
         waloryzajca = 0.0;
         kwotaprzedwaloryzacja = 0.0;
         faktury = new ArrayList<>();
+        fakturypro = new ArrayList<>();
         fakturyarchiwum = new ArrayList<>();
         fakturyokresoweFiltered = null;
         fakturyFiltered = null;
@@ -211,7 +218,9 @@ public class FakturaView implements Serializable {
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
         for (Faktura fakt : fakturytmp) {
             if (!fakt.isTylkodlaokresowej()) {
-                if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
+                if (fakt.isProforma()) {
+                    fakturypro.add(fakt);
+                } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
                     fakturyarchiwum.add(fakt);
                 } else {
                     faktury.add(fakt);
@@ -1697,6 +1706,17 @@ public class FakturaView implements Serializable {
         }
     }
     
+    public void oznaczproforma() {
+        if (selected.getFakturaPK().getNumerkolejny() != null && selected.getFakturaPK().getNumerkolejny().length() > 1 && !selected.getFakturaPK().getNumerkolejny().equals("wpisz numer")) {
+            selected.getFakturaPK().setNumerkolejny(selected.getFakturaPK().getNumerkolejny()+"/PROFORMA");
+            Msg.msg("Oznaczono fakturę jako PROFORMA Zmieniono numer faktury.");
+        } else {
+            Msg.msg("e","Nie można oznaczyć faktury jako proforma. Brak wprowadzonego numeru faktury");
+            selected.setProforma(false);
+            RequestContext.getCurrentInstance().update("akordeon:formstworz:proformacheck");
+        }
+    }
+    
 //    public void naprawCarrefour() {
 //        Klienci k = klienciDAO.findKlientById(4994);
 //        for (Faktura f : gosciwybral) {
@@ -1825,6 +1845,30 @@ public class FakturaView implements Serializable {
 
     public void setGosciwybralokres(List<Fakturywystokresowe> gosciwybralokres) {
         this.gosciwybralokres = gosciwybralokres;
+    }
+
+    public List<Faktura> getGosciwybralpro() {
+        return gosciwybralpro;
+    }
+
+    public void setGosciwybralpro(List<Faktura> gosciwybralpro) {
+        this.gosciwybralpro = gosciwybralpro;
+    }
+
+    public List<Faktura> getFakturypro() {
+        return fakturypro;
+    }
+
+    public void setFakturypro(List<Faktura> fakturypro) {
+        this.fakturypro = fakturypro;
+    }
+
+    public List<Faktura> getFakturyFilteredpro() {
+        return fakturyFilteredpro;
+    }
+
+    public void setFakturyFilteredpro(List<Faktura> fakturyFilteredpro) {
+        this.fakturyFilteredpro = fakturyFilteredpro;
     }
 
   

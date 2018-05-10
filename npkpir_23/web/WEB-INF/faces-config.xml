@@ -230,6 +230,10 @@
             <to-view-id>/ksiegowa/ksiegowaImportSprzedazy.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>importcsv</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaImportCSV.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>importfaktury</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaImportFaktury.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

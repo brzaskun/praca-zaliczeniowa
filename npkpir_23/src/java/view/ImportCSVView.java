@@ -46,7 +46,7 @@ import waluty.Z;
  */
 @ManagedBean
 @ViewScoped
-public class ImportSprzedazyView  implements Serializable {
+public class ImportCSVView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Dok> dokumenty;
     private List<Klienci> klienci;

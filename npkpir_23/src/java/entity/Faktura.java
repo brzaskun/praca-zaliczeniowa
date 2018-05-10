@@ -246,6 +246,8 @@ public class Faktura implements Serializable {
     private boolean samochodtablicezwrocone;
     @Column(name = "liczodwartoscibrutto")
     private boolean liczodwartoscibrutto;
+    @Column(name = "proforma")
+    private boolean proforma;
     @Column(name = "gutschrift")
     private boolean gutschrift;
     @Column(name = "zaplacona")
@@ -444,6 +446,14 @@ public class Faktura implements Serializable {
 
     public void setSamochodtablicezwrocone(boolean samochodtablicezwrocone) {
         this.samochodtablicezwrocone = samochodtablicezwrocone;
+    }
+
+    public boolean isProforma() {
+        return proforma;
+    }
+
+    public void setProforma(boolean proforma) {
+        this.proforma = proforma;
     }
 
     public String getOpisFaktury() {

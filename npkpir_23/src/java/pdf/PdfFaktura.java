@@ -236,6 +236,9 @@ public class PdfFaktura extends Pdf implements Serializable {
                 if (duplikat) {
                     PdfFP.dodajoznaczenieduplikat(writer, duplikatobj);
                 }
+                if (selected.isProforma()) {
+                    PdfFP.dodajoznaczenieproforma(writer);
+                }
                 PdfFP.dodajnaglowekstopka(writer, elementydod);
                 Image logo = PdfFP.dolaczpozycjedofakturydlugaczlogo(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                 if (logo != null) {
@@ -309,6 +312,9 @@ public class PdfFaktura extends Pdf implements Serializable {
                 document.setMargins(0, 0, 20, 20);
                 if (duplikat) {
                     PdfFP.dodajoznaczenieduplikat(writer, duplikatobj);
+                }
+                if (selected.isProforma()) {
+                    PdfFP.dodajoznaczenieproforma(writer);
                 }
                 if (czyjeststopkaniemiecka(elementydod)) {
                     PdfFP.dodajnaglowek(writer, elementydod);

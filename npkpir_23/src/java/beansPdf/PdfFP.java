@@ -91,6 +91,12 @@ public class PdfFP {
         absText(writer, "DUPLIKAT wystawiony dnia " + duplikatobj.getDatawystawienia(), 300, 780, 12);
         //prost(writer.getDirectContent(), 295, 777, 280, 30);
     }
+    
+    public static void dodajoznaczenieproforma(PdfWriter writer) {
+        //naglowek
+        absText(writer, "Dokument nie będący fakturą w rozumieniu ustawy o podatku od towarów i usług / Nie kięgować! " , 200, 780, 9);
+        //prost(writer.getDirectContent(), 295, 777, 280, 30);
+    }
 
     public static boolean czydodatkowyelementjestAktywny(String element, List<Fakturadodelementy> fdod) {
         for (Fakturadodelementy p : fdod) {
