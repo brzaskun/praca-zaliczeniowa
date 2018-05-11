@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.datatype.XMLGregorianCalendar;
+import waluty.Z;
 
 
 /**
@@ -748,6 +749,7 @@ public class JPK {
         @XmlSchemaType(name = "anySimpleType")
         protected String typ;
         
+        private static final List SPRZEDAZNIEMCY;
         private static final List SPRZEDAZWIERSZENETTO;
         private static final List SPRZEDAZWIERSZEVAT;
         static {
@@ -765,6 +767,8 @@ public class JPK {
             SPRZEDAZWIERSZEVAT.add("getP143");
             SPRZEDAZWIERSZEVAT.add("getP144");
             SPRZEDAZWIERSZEVAT.add("getP145");
+            SPRZEDAZNIEMCY = new ArrayList();
+            SPRZEDAZNIEMCY.add("getP15");
         };
         
         public double getNetto() {
@@ -772,10 +776,31 @@ public class JPK {
             if (this != null) {
                 try {
                     for (Method p : this.getClass().getMethods()) {
-                        if (SPRZEDAZWIERSZENETTO.contains(p.getName())) {
+                        //sprawdza czy jest to jpk_fa cieslaka
+                    if (SPRZEDAZWIERSZENETTO.contains(p.getName())) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
                                 zwrot = pole.doubleValue();
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+        public double getNettoDE() {
+            double zwrot = 0.0;
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        //sprawdza czy jest to jpk_fa cieslaka
+                        if (SPRZEDAZNIEMCY.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = Z.z(pole.doubleValue()-Z.z(pole.doubleValue()*19/119));
                                 break;
                             }
                         }
@@ -792,10 +817,29 @@ public class JPK {
             if (this != null) {
                 try {
                     for (Method p : this.getClass().getMethods()) {
-                        if (SPRZEDAZWIERSZEVAT.contains(p.getName())) {
+                    if (SPRZEDAZWIERSZEVAT.contains(p.getName())) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
                                 zwrot = pole.doubleValue();
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+        public double getVatDE() {
+            double zwrot = 0.0;
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (SPRZEDAZNIEMCY.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = Z.z(pole.doubleValue()*19/119);
                                 break;
                             }
                         }

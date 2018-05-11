@@ -18,9 +18,12 @@
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                         <bcf:ajaxs/>
                         <h:form>
-                            <p:panelGrid columns="2">
+                            <p:panelGrid columns="4">
                                 <h:outputText value="import dokumentów z pliku JPK_FA"/>
                                 <p:selectBooleanCheckbox label="wybierz osoby fizyczne" value="#{importFakturyView.wybierzosobyfizyczne}" itemLabel="wybierz tylko osoby fizyczne">
+                                    <p:ajax event="change" partialSubmit="true" update="importtabela"/>
+                                </p:selectBooleanCheckbox>
+                                <p:selectBooleanCheckbox label="dla deklaracji niemieckiej" value="#{importFakturyView.deklaracjaniemiecka}" itemLabel="dla deklaracji niemieckiej">
                                     <p:ajax event="change" partialSubmit="true" update="importtabela"/>
                                 </p:selectBooleanCheckbox>
                             </p:panelGrid>
@@ -89,8 +92,8 @@
                                           filterBy="#{wpis.symbolWaluty}" filterMatchMode="contains"  sortBy="#{wpis.symbolWaluty}"  style="width: 60px;">  
                                     <bcf:outputpl value="#{wpis.netto}"/>
                                     <br/>
-                                    <bcf:outputpl value="#{wpis.nettoWaluta}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/> 
-                                    <h:outputText value="#{wpis.symbolWaluty}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/>
+                                    <bcf:outputpl value="#{wpis.nettoWaluta}" rendered="#{wpis.symbolWaluty ne 'PLN' and  !importFakturyView.deklaracjaniemiecka}"/> 
+                                    <h:outputText value="#{wpis.symbolWaluty}" rendered="#{wpis.symbolWaluty ne 'PLN' or  importFakturyView.deklaracjaniemiecka}"/>
                                 </p:column>
                                 <p:column id="nettoColumn1" headerText="#{mgs.vat}" styleClass="filter40" rendered="#{WpisView.vatowiec}"
                                           filterBy="#{wpis.vat}" filterMatchMode="contains"  sortBy="#{wpis.vat}"  style="width: 60px;">  
@@ -163,7 +166,7 @@
                             <p:growl life="3600"  id="messages2" autoUpdate="true"/>
                             <p:panelGrid columns="2">
                                 <p:commandButton value="zaksięguj" actionListener="#{importFakturyView.zaksieguj}" id="ksiegujbutton"
-                                             style="margin-top: 20px; width: 120px;" update="@form" rendered="#{importFakturyView.dokumenty.size() gt 0 and !importFakturyView.wybierzosobyfizyczne}"/>
+                                                 style="margin-top: 20px; width: 120px;" update="@form" rendered="#{importFakturyView.dokumenty.size() gt 0 and !importFakturyView.wybierzosobyfizyczne and !importFakturyView.deklaracjaniemiecka}"/>
                                 <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importFakturyView.drukuj()}" global="false" rendered="#{importFakturyView.dokumenty.size() gt 0}"/>
                             </p:panelGrid>
                         </h:form>

@@ -75,6 +75,7 @@ public class ImportFakturyView  implements Serializable {
     @Inject
     private KlienciDAO klDAO;
     private boolean wybierzosobyfizyczne;
+    private boolean deklaracjaniemiecka;
     private double netto;
     private double vat;
     private Tabelanbp tabeladomyslna;
@@ -96,7 +97,9 @@ public class ImportFakturyView  implements Serializable {
             String filename = uploadedFile.getFileName();
             InputStream is = uploadedFile.getInputstream();
             deklaracje.jpkfa.JPK jpk = pobierzJPK(is);
-            if (wybierzosobyfizyczne) {
+            if (deklaracjaniemiecka) {
+                dokumenty = stworzdokumentyde(jpk);
+            } else if (wybierzosobyfizyczne) {
                 dokumenty = stworzdokumentyfiz(jpk);
             } else {
                 dokumenty = stworzdokumenty(jpk);
@@ -149,6 +152,24 @@ public class ImportFakturyView  implements Serializable {
                 deklaracje.jpkfa.JPK.Faktura wiersz = (deklaracje.jpkfa.JPK.Faktura) p;
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
                     Dok dok = generujdok(p, waldok);
+                    if (dok!=null) {
+                        dokumenty.add(dok);
+                    }
+                }
+            });
+        }
+        return dokumenty;
+    }
+    
+    private List<Dok> stworzdokumentyde(deklaracje.jpkfa.JPK jpk) {
+        List<Dok> dokumenty = new ArrayList<>();
+        CurrCodeType walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty();
+        String waldok = walutapliku.toString();
+        if (jpk != null) {
+            jpk.getFaktura().forEach((p) -> {
+                deklaracje.jpkfa.JPK.Faktura wiersz = (deklaracje.jpkfa.JPK.Faktura) p;
+                if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
+                    Dok dok = generujdokde(p, waldok);
                     if (dok!=null) {
                         dokumenty.add(dok);
                     }
@@ -212,8 +233,79 @@ public class ImportFakturyView  implements Serializable {
             }
             listaX.add(tmpX);
             selDokument.setListakwot1(listaX);
-            selDokument.setNetto(tmpX.getNetto());
-            selDokument.setBrutto(tmpX.getBrutto());
+            selDokument.setNetto(Z.z(tmpX.getNetto()));
+            selDokument.setBrutto(Z.z(tmpX.getBrutto()));
+            selDokument.setRozliczony(true);
+            List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
+            EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), przeliczpln(wiersz.getNetto(), innatabela), przeliczpln(wiersz.getVat(), innatabela), "sprz.op", miesiac, rok);
+            eVatwpis1.setDok(selDokument);
+            ewidencjaTransformowana.add(eVatwpis1);
+            selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
+            if (selDokument.getKontr()!=null && sprawdzCzyNieDuplikat(selDokument)!=null) {
+                selDokument = null;
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return selDokument;
+    }
+    
+    private Dok generujdokde(Object p, String waldok) {
+        deklaracje.jpkfa.JPK.Faktura wiersz = (deklaracje.jpkfa.JPK.Faktura) p;
+        Dok selDokument = new Dok();
+        try {
+            HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            selDokument.setWprowadzil(principal.getName());
+            String datawystawienia = wiersz.getP1().toString();
+            String miesiac = datawystawienia.substring(5, 7);
+            String rok = datawystawienia.substring(0, 4);
+            selDokument.setPkpirM(miesiac);
+            selDokument.setPkpirR(rok);
+            selDokument.setVatM(miesiac);
+            selDokument.setVatR(rok);
+            selDokument.setPodatnik(wpisView.getPodatnikObiekt());
+            selDokument.setStatus("bufor");
+            selDokument.setUsunpozornie(false);
+            selDokument.setDataWyst(wiersz.getP1().toString());
+            selDokument.setDataSprz(wiersz.getP6().toString());
+            selDokument.setKontr(pobierzkontrahenta(wiersz, pobierzNIPkontrahenta(wiersz)));
+            selDokument.setRodzajedok(rodzajedok);
+            selDokument.setNrWlDk(wiersz.getP2A());
+            Tabelanbp innatabela = pobierztabele(waldok, selDokument.getDataWyst());
+            if (waldok.equals("PLN")) {
+                selDokument.setTabelanbp(tabeladomyslna);
+                selDokument.setWalutadokumentu(tabeladomyslna.getWaluta());
+            } else {
+                selDokument.setTabelanbp(innatabela);
+                selDokument.setWalutadokumentu(innatabela.getWaluta());
+            }
+            selDokument.setOpis("przychód ze sprzedaży");
+            List<KwotaKolumna1> listaX = new ArrayList<>();
+            KwotaKolumna1 tmpX = new KwotaKolumna1();
+            if (waldok.equals("PLN")) {
+                tmpX.setNetto(wiersz.getNetto());
+                netto += wiersz.getNetto();
+                tmpX.setVat(wiersz.getVat());
+                vat += wiersz.getVat();
+                tmpX.setNazwakolumny("przych. sprz");
+                tmpX.setDok(selDokument);
+                tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVat())));
+            } else {
+                tmpX.setNettowaluta(wiersz.getNettoDE());
+                netto += wiersz.getNettoDE();
+                vat += wiersz.getVatDE();
+                tmpX.setVat(wiersz.getVatDE());
+                tmpX.setNetto(wiersz.getNettoDE());
+                tmpX.setNazwakolumny("przych. sprz");
+                tmpX.setDok(selDokument);
+                tmpX.setBrutto(Z.z(Z.z(wiersz.getVatDE()+wiersz.getNettoDE())));
+            }
+            listaX.add(tmpX);
+            selDokument.setListakwot1(listaX);
+            selDokument.setNetto(Z.z(tmpX.getNetto()));
+            selDokument.setBrutto(Z.z(tmpX.getBrutto()));
             selDokument.setRozliczony(true);
             List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
             EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), przeliczpln(wiersz.getNetto(), innatabela), przeliczpln(wiersz.getVat(), innatabela), "sprz.op", miesiac, rok);
@@ -239,7 +331,7 @@ public class ImportFakturyView  implements Serializable {
     }
     
     private Klienci pobierzkontrahenta(deklaracje.jpkfa.JPK.Faktura wiersz, String nrKontrahenta) {
-        if (wybierzosobyfizyczne) {
+        if (wybierzosobyfizyczne||deklaracjaniemiecka) {
            Klienci inc = new Klienci();
            inc.setNpelna(wiersz.getP3A()!=null ? wiersz.getP3A(): "brak nazwy indycentalnego");
            inc.setAdresincydentalny(wiersz.getP3B()!=null ? wiersz.getP3B(): "brak adresu indycentalnego");
@@ -411,6 +503,14 @@ public class ImportFakturyView  implements Serializable {
 
     public double getBrutto() {
         return Z.z(this.netto+this.vat);
+    }
+
+    public boolean isDeklaracjaniemiecka() {
+        return deklaracjaniemiecka;
+    }
+
+    public void setDeklaracjaniemiecka(boolean deklaracjaniemiecka) {
+        this.deklaracjaniemiecka = deklaracjaniemiecka;
     }
 
     
