@@ -34,6 +34,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdf.PdfKonta;
+import pdf.PdfKontaPorownanie;
 import sortfunction.KontoSortBean;
 import view.WpisView;
 import waluty.Z;
@@ -632,6 +633,18 @@ public class SaldoAnalitykaView implements Serializable {
             PdfKonta.drukuj(listaSaldoKontowybrane, wpisView, i, 0, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
         }
     }
+    
+     public void drukujporownanie(int i) {
+        if (listaSaldoKontofilter == null && listaSaldoKontowybrane.size() == 0) {
+            PdfKontaPorownanie.drukuj(listaSaldoKonto, wpisView, i, 0, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
+        }
+        if (listaSaldoKontofilter != null && listaSaldoKontowybrane.size() == 0) {
+            PdfKontaPorownanie.drukuj(listaSaldoKontofilter, wpisView, i, 0, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
+        }
+        if (listaSaldoKontowybrane.size() > 0) {
+            PdfKontaPorownanie.drukuj(listaSaldoKontowybrane, wpisView, i, 0, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
+        }
+    }
 
     public int compare(Object o1, Object o2) {
         try {
@@ -712,6 +725,7 @@ public class SaldoAnalitykaView implements Serializable {
 //
 
     private void przygotowanalistasaldbo(List<Konto> kontaklienta, List<Konto> kontaklientarokpop, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String wybranyRodzajKonta) {
+
         List<StronaWiersza> zapisyRok = pobierzzapisy(wybranyRodzajKonta);
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
@@ -735,6 +749,15 @@ public class SaldoAnalitykaView implements Serializable {
         }).forEachOrdered((s) -> {
             s.wyliczSaldo();
         });
+        for (SaldoKonto k : przygotowanalista.values()) {
+            for (Konto l : kontaklientarokpop) {
+                if (k.getKonto().equals(l)) {
+                    k.setBoWn(Z.z(l.getSaldoWnksiegi()));
+                    k.setBoMa(Z.z(l.getSaldoMaksiegi()));
+                    break;
+                }
+            }
+        }
 //        for (int i = 1; i < przygotowanalista.size()+1; i++) {
 //            przygotowanalista.get(i-1).setId(i);
 //        }

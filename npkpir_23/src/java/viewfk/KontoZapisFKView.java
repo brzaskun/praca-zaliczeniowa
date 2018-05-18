@@ -121,8 +121,8 @@ public class KontoZapisFKView implements Serializable{
 
     public void init() {
         ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
-        //wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        //wszystkiekonta = new ArrayList<>(wykazkont);
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        wszystkiekonta = new ArrayList<>(wykazkont);
         pobierzzapisy(wpisView.getRokWpisuSt());
         usunkontabezsald();
         wybierzgrupekont();
@@ -1444,116 +1444,116 @@ public class KontoZapisFKView implements Serializable{
         }
         return null;
     }
-//    
-//    public List<Konto> completeWszystkieKonta(String qr) {
-//        if (qr != null) {
-//            String query = null;
-//            List<Konto> results = new ArrayList<>();
-//            if (wszystkiekonta != null) {
-//                String nazwa = null;
-//                if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {
-//                    String[] pola = qr.split(" ");
-//                    if (pola.length > 1) {
-//                        query = pola[0];
-//                        nazwa = pola[1];
-//                    } else {
-//                        query = qr;
-//                    }
-//                } else {
-//                    query = qr.trim();
-//                }
-//                try {
-//                    String q = query.substring(0, 1);
-//                    int i = Integer.parseInt(q);
-//                    if (query.length() == 4 && !query.contains("-")) {
-//                        //wstawia - do ciagu konta
-//                        query = query.substring(0, 3) + "-" + query.substring(3, 4);
-//                    }
-//                    for (Konto p : wszystkiekonta) {
-//                        if (p.getPelnynumer().startsWith(query)) {
-//                            results.add(p);
-//                        }
-//                    }
-//                    //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
-//                    if (nazwa != null && nazwa.length() > 2) {
-//                        for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
-//                            Konto r = it.next();
-//                            if (!r.getNazwapelna().toLowerCase().contains(nazwa.toLowerCase())) {
-//                                it.remove();
-//                            }
-//                        }
-//                    }
-//                } catch (NumberFormatException e) {
-//                    for (Konto p : wszystkiekonta) {
-//                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
-//                            results.add(p);
-//                        }
-//                    }
-//                } catch (Exception e) {
-//                    E.e(e);
-//                }
-//            }
-//            Collections.sort(results, new Kontocomparator());
-//            return results;
-//        }
-//        return null;
-//    }
-//    
-//    public List<Konto> completeOstAnal(String qr) {
-//        if (qr != null) {
-//            String query = null;
-//            List<Konto> results = new ArrayList<>();
-//            if (ostatniaanalityka != null) {
-//                String nazwa = null;
-//                if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {
-//                    String[] pola = qr.split(" ");
-//                    if (pola.length > 1) {
-//                        query = pola[0];
-//                        nazwa = pola[1];
-//                    } else {
-//                        query = qr;
-//                    }
-//                } else {
-//                    query = qr.trim();
-//                }
-//                try {
-//                    String q = query.substring(0, 1);
-//                    int i = Integer.parseInt(q);
-//                    if (query.length() == 4 && !query.contains("-")) {
-//                        //wstawia - do ciagu konta
-//                        query = query.substring(0, 3) + "-" + query.substring(3, 4);
-//                    }
-//                    for (Konto p : ostatniaanalityka) {
-//                        if (p.getPelnynumer().startsWith(query)) {
-//                            results.add(p);
-//                        }
-//                    }
-//                    //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
-//                    if (nazwa != null && nazwa.length() > 2) {
-//                        for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
-//                            Konto r = it.next();
-//                            if (!r.getNazwapelna().toLowerCase().contains(nazwa.toLowerCase())) {
-//                                it.remove();
-//                            }
-//                        }
-//                    }
-//                } catch (NumberFormatException e) {
-//                    for (Konto p : ostatniaanalityka) {
-//                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
-//                            results.add(p);
-//                        }
-//                    }
-//                } catch (Exception e) {
-//                    E.e(e);
-//                }
-//            }
-//            Collections.sort(results, new Kontocomparator());
-//            return results;
-//        }
-//        return null;
-//    }
-//
-//    
+    
+    public List<Konto> completeWszystkieKonta(String qr) {
+        if (qr != null) {
+            String query = null;
+            List<Konto> results = new ArrayList<>();
+            if (wszystkiekonta != null) {
+                String nazwa = null;
+                if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {
+                    String[] pola = qr.split(" ");
+                    if (pola.length > 1) {
+                        query = pola[0];
+                        nazwa = pola[1];
+                    } else {
+                        query = qr;
+                    }
+                } else {
+                    query = qr.trim();
+                }
+                try {
+                    String q = query.substring(0, 1);
+                    int i = Integer.parseInt(q);
+                    if (query.length() == 4 && !query.contains("-")) {
+                        //wstawia - do ciagu konta
+                        query = query.substring(0, 3) + "-" + query.substring(3, 4);
+                    }
+                    for (Konto p : wszystkiekonta) {
+                        if (p.getPelnynumer().startsWith(query)) {
+                            results.add(p);
+                        }
+                    }
+                    //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
+                    if (nazwa != null && nazwa.length() > 2) {
+                        for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
+                            Konto r = it.next();
+                            if (!r.getNazwapelna().toLowerCase().contains(nazwa.toLowerCase())) {
+                                it.remove();
+                            }
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    for (Konto p : wszystkiekonta) {
+                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                            results.add(p);
+                        }
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            Collections.sort(results, new Kontocomparator());
+            return results;
+        }
+        return null;
+    }
+    
+    public List<Konto> completeOstAnal(String qr) {
+        if (qr != null) {
+            String query = null;
+            List<Konto> results = new ArrayList<>();
+            if (ostatniaanalityka != null) {
+                String nazwa = null;
+                if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {
+                    String[] pola = qr.split(" ");
+                    if (pola.length > 1) {
+                        query = pola[0];
+                        nazwa = pola[1];
+                    } else {
+                        query = qr;
+                    }
+                } else {
+                    query = qr.trim();
+                }
+                try {
+                    String q = query.substring(0, 1);
+                    int i = Integer.parseInt(q);
+                    if (query.length() == 4 && !query.contains("-")) {
+                        //wstawia - do ciagu konta
+                        query = query.substring(0, 3) + "-" + query.substring(3, 4);
+                    }
+                    for (Konto p : ostatniaanalityka) {
+                        if (p.getPelnynumer().startsWith(query)) {
+                            results.add(p);
+                        }
+                    }
+                    //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
+                    if (nazwa != null && nazwa.length() > 2) {
+                        for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
+                            Konto r = it.next();
+                            if (!r.getNazwapelna().toLowerCase().contains(nazwa.toLowerCase())) {
+                                it.remove();
+                            }
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    for (Konto p : ostatniaanalityka) {
+                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                            results.add(p);
+                        }
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            Collections.sort(results, new Kontocomparator());
+            return results;
+        }
+        return null;
+    }
+
+    
     
     
 
