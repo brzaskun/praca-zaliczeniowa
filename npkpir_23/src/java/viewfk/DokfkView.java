@@ -51,6 +51,7 @@ import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
+import embeddable.Roki;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Klienci;
@@ -630,16 +631,18 @@ public class DokfkView implements Serializable {
     private String[] rokmiesiacduplikatu() {
         String[] zwrot = new String[2];
         String dzienwplywu = Data.getDzien(selected.getDatawplywu());
+        String miesiacwplywu = Data.getMc(selected.getDatawplywu());
+        String rokwplywu = Data.getRok(selected.getDatawplywu());
         if (Integer.valueOf(dzienwplywu) < 25) {
-                if (wpisView.getMiesiacWpisu().equals("01")) {
-                    zwrot[0] = wpisView.getRokUprzedniSt();
+                if (miesiacwplywu.equals("01")) {
+                    zwrot[0] = Roki.rokPoprzedni(rokwplywu);
                 } else {
-                    zwrot[0] = wpisView.getRokWpisuSt();
+                    zwrot[0] = rokwplywu;
                 }
-                zwrot[1] = wpisView.getMiesiacUprzedni();
+                zwrot[1] = Mce.zmniejszmiesiac(rokwplywu, miesiacwplywu)[1];
         } else {
-                zwrot[0] = wpisView.getRokWpisuSt();
-                zwrot[1] = wpisView.getMiesiacWpisu();
+                zwrot[0] = rokwplywu;
+                zwrot[1] = miesiacwplywu;
         }
         return zwrot;
     }
