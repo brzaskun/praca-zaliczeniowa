@@ -10,6 +10,8 @@ import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
+import daoFK.WalutyDAOfk;
+import embeddable.AmazonCSV;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
@@ -17,9 +19,14 @@ import entity.JPKSuper;
 import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Rodzajedok;
+import entityfk.Waluty;
 import error.E;
 import gus.GUSView;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -38,6 +45,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import pdf.PdfDok;
 import waluty.Z;
 
 /**
@@ -64,11 +72,23 @@ public class ImportCSVView  implements Serializable {
     private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private KlienciDAO klDAO;
+    @Inject
+    private WalutyDAOfk walutyDAOfk;
+    private List<Waluty> listaWalut;
+    private Waluty walutapln;
         
     @PostConstruct
     private void init() {
         rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt());
         evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");
+        listaWalut = walutyDAOfk.findAll();
+        if (listaWalut!=null) {
+            listaWalut.forEach((p)->{
+              if (p.getSymbolwaluty().equals("PLN")) {
+                  walutapln = p;
+              }
+            });
+        }
     }
     
     public void importujsprzedaz(FileUploadEvent event) {
@@ -77,8 +97,8 @@ public class ImportCSVView  implements Serializable {
             klienci = new ArrayList<>();
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
-            JPKSuper jpk = pobierzJPK(uploadedFile);
-            dokumenty = stworzdokumenty(jpk);
+            List<AmazonCSV> amazonCSV = pobierzJPK(uploadedFile);
+            dokumenty = stworzdokumenty(amazonCSV);
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
         } catch (Exception ex) {
             E.e(ex);
@@ -87,30 +107,37 @@ public class ImportCSVView  implements Serializable {
         RequestContext.getCurrentInstance().execute("PF('dialogAjaxCzekaj').hide()");
     }
     
-    private JPKSuper pobierzJPK(UploadedFile uploadedFile) {
-       JPKSuper zwrot = null;
-       try {
-           InputStream is = uploadedFile.getInputstream();
-           JAXBContext context = JAXBContext.newInstance(jpk201701.JPK.class);
-           Unmarshaller unmarshaller = context.createUnmarshaller();
-           zwrot = (jpk201701.JPK) unmarshaller.unmarshal(is);
-       } catch (Exception ex) {}
-       try {
-           InputStream is = uploadedFile.getInputstream();
-           JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);
-           Unmarshaller unmarshaller = context.createUnmarshaller();
-           zwrot = (jpk201801.JPK) unmarshaller.unmarshal(is);
-       } catch (Exception ex) {}
-       return zwrot;
+    private List<AmazonCSV> pobierzJPK(UploadedFile uploadedFile) {
+        List<AmazonCSV> zwrot = new ArrayList<>();
+        AmazonCSV tmpzwrot = null;
+        String line = "";
+        String cvsSplitBy = ",";
+        try {
+            InputStream is = uploadedFile.getInputstream();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "windows-1252"))) {
+                while ((line = br.readLine()) != null) {
+                    try {
+                        // use comma as separator
+                        String[] tmpline = line.split(cvsSplitBy);
+                        tmpzwrot = new AmazonCSV(tmpline);
+                        zwrot.add(tmpzwrot);
+                    } catch (Exception ex) {
+                    }
+                }
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception ex) {
+        }
+        return zwrot;
     }
     
-    private List<Dok> stworzdokumenty(JPKSuper jpk) {
+    private List<Dok> stworzdokumenty(List<AmazonCSV> lista) {
         List<Dok> dokumenty = new ArrayList<>();
-        
-        if (jpk != null) {
-            jpk.getSprzedazWiersz().forEach((p) -> {
-                SprzedazWierszA wiersz = (SprzedazWierszA) p;
-                if (wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()==10) {
+        if (lista != null) {
+            lista.forEach((p) -> {
+                if (p.getOrderID() != null) {
                     Dok dok = generujdok(p);
                     if (dok!=null) {
                         dokumenty.add(dok);
@@ -122,14 +149,14 @@ public class ImportCSVView  implements Serializable {
     }
     
     private Dok generujdok(Object p) {
-        SprzedazWierszA wiersz = (SprzedazWierszA) p;
+        AmazonCSV wiersz = (AmazonCSV) p;
         Dok selDokument = new Dok();
         try {
             HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
             selDokument.setWprowadzil(principal.getName());
-            String datawystawienia = wiersz.getDataWystawienia().toString();
+            String datawystawienia = wiersz.getData();
             String miesiac = datawystawienia.substring(5, 7);
             String rok = datawystawienia.substring(0, 4);
             selDokument.setPkpirM(miesiac);
@@ -139,20 +166,23 @@ public class ImportCSVView  implements Serializable {
             selDokument.setPodatnik(wpisView.getPodatnikObiekt());
             selDokument.setStatus("bufor");
             selDokument.setUsunpozornie(false);
-            selDokument.setDataWyst(wiersz.getDataWystawienia().toString());
-            selDokument.setDataSprz(wiersz.getDataSprzedazy().toString());
-            selDokument.setKontr(pobierzkontrahenta(wiersz.getNrKontrahenta()));
+            selDokument.setDataWyst(wiersz.getData());
+            selDokument.setDataSprz(wiersz.getData());
+            selDokument.setKontr(pobierzkontrahenta(wiersz));
             selDokument.setRodzajedok(rodzajedok);
-            selDokument.setNrWlDk(wiersz.getDowodSprzedazy());
+            selDokument.setNrWlDk(wiersz.getShipmentID());
             selDokument.setOpis("przychód ze sprzedaży");
             List<KwotaKolumna1> listaX = new ArrayList<>();
             KwotaKolumna1 tmpX = new KwotaKolumna1();
             tmpX.setNetto(wiersz.getNetto());
             tmpX.setVat(wiersz.getVat());
+            tmpX.setNettowaluta(wiersz.getNettowaluta());
+            tmpX.setVatwaluta(wiersz.getVatWaluta());
             tmpX.setNazwakolumny("przych. sprz");
             tmpX.setDok(selDokument);
             tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVat())));
             listaX.add(tmpX);
+            selDokument.setWalutadokumentu(wiersz.getWaluta(listaWalut, walutapln));
             selDokument.setListakwot1(listaX);
             selDokument.setNetto(tmpX.getNetto());
             selDokument.setBrutto(tmpX.getBrutto());
@@ -180,32 +210,14 @@ public class ImportCSVView  implements Serializable {
         return tmp;
     }
     
-    private Klienci pobierzkontrahenta(String nrKontrahenta) {
-        if (nrKontrahenta.equals("9720927876")) {
-            System.out.println("");
-        }
-        Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
-        if (klientznaleziony==null) {
-            klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta, gUSView);
-            if (klientznaleziony!=null && klientznaleziony.getNip()!=null) {
-                boolean juzjest = false;
-                for (Klienci p : klienci) {
-                    if (p.getNip().equals(klientznaleziony.getNip())) {
-                        juzjest = true;
-                        break;
-                    }
-                }
-                if (juzjest==false && !klientznaleziony.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                    klienci.add(klientznaleziony);
-                }
-            }
-        } else if (klientznaleziony.getNpelna()==null) {
-            klientznaleziony.setNpelna("istnieje wielu kontrahentów o tym samym numerze NIP! "+nrKontrahenta);
-        }
-        return klientznaleziony;
+    private Klienci pobierzkontrahenta(AmazonCSV wiersz) {
+        Klienci inc = new Klienci();
+        inc.setNpelna(wiersz.getOrderID()!=null ? wiersz.getOrderID(): "brak nazwy indycentalnego");
+        inc.setAdresincydentalny(wiersz.getAdress()!=null ? wiersz.getAdress(): "brak adresu indycentalnego");
+        return inc;
     }
     
-    private Evewidencja pobierzewidencje(SprzedazWierszA wiersz, List<Evewidencja> evewidencje) {
+    private Evewidencja pobierzewidencje(AmazonCSV wiersz, List<Evewidencja> evewidencje) {
         Evewidencja zwrot = null;
         double stawka = obliczstawke(wiersz);
         for (Evewidencja p : this.evewidencje) {
@@ -217,20 +229,8 @@ public class ImportCSVView  implements Serializable {
         return zwrot;
     }
     
-    private double obliczstawke(SprzedazWierszA wiersz) {
-        double stawka = 23;
-        double netto = wiersz.getNetto();
-        double vat = wiersz.getVat();
-        double procent = Z.z4(vat/netto);
-        if (procent>0.18) {
-            stawka = 23;
-        } else if (procent>0.07) {
-            stawka = 8;
-        }  else if (procent>0.04) {
-            stawka = 5;
-        } else {
-            stawka = 0;
-        }
+    private double obliczstawke(AmazonCSV wiersz) {
+        double stawka = Double.valueOf(wiersz.getTaxRate())*100;
         return stawka;
     }
     
@@ -265,7 +265,14 @@ public class ImportCSVView  implements Serializable {
             Msg.msg("Zaksiowano zaimportowane dokumenty");
         }
     }
-    
+    public void drukuj() {
+        try {
+            PdfDok.drukujDokCSV(dokumenty, wpisView, 1);
+            Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
+        } catch (Exception e) {
+            
+        }
+    }
     public List<Dok> getDokumenty() {
         return dokumenty;
     }

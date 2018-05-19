@@ -5,10 +5,15 @@
  */
 package embeddable;
 
+import data.Data;
+import entityfk.Waluty;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
+import java.util.List;
+import waluty.Z;
 
 /**
  *
@@ -86,6 +91,58 @@ public class AmazonCSV {
         this.ShipToPostalCode = tmpline[57];
     }
     
+    public String getData() {
+        String d2 = "blad konwersji daty";
+        if (this.ShipmentDate!=null) {
+            String strypdate = this.ShipmentDate.subSequence(1, this.ShipmentDate.length()-1).toString();
+            Date date = new Date(strypdate);
+            d2 = Data.data_yyyyMMdd(date);
+        }
+        return d2;
+    }
+    public Waluty getWaluta(List<Waluty> listaWalut, Waluty walutapln) {
+        Waluty waluta = walutapln;
+        for (Waluty p : listaWalut) {
+            if (this.Currency.equals(p.getSymbolwaluty())) {
+                waluta = p;
+            }
+        };
+        return waluta;
+    }
+    
+    public String getAdress() {
+        return this.ShipToCountry+", "+this.ShipToPostalCode+" "+this.ShipToCity;
+    }
+    
+    public double getNetto() {
+        double netto = 0.0;
+        netto += this.getOUR_PRICETaxExclusiveSellingPrice()+this.getSHIPPINGTaxExclusiveSellingPrice();
+        if (this.InvoiceLevelExchangeRate!=0.0) {
+            netto = Z.z(this.InvoiceLevelExchangeRate*netto);
+        }
+        return Z.z(netto);
+    }
+    
+    public Double getNettowaluta() {
+        double netto = 0.0;
+        netto += this.getOUR_PRICETaxExclusiveSellingPrice()+this.getSHIPPINGTaxExclusiveSellingPrice();
+        return Z.z(netto);
+    }
+    
+    public double getVat() {
+        double netto = 0.0;
+        netto += this.getOUR_PRICETaxAmount()+this.getSHIPPINGTaxAmount();
+        return Z.z(netto);
+    }
+    
+    public double getVatWaluta() {
+        double netto = 0.0;
+        netto += this.getOUR_PRICETaxAmount()+this.getSHIPPINGTaxAmount();
+        if (this.InvoiceLevelExchangeRate!=0.0) {
+            netto = Z.z(this.InvoiceLevelExchangeRate*netto);
+        }
+        return Z.z(netto);
+    }
 
     public String getMerchantID() {
         return MerchantID;
@@ -343,28 +400,37 @@ public class AmazonCSV {
     
     
 public static void main(String[] args) {
-    
-        String csvFile = "E:\\Biuro\\Firmy\\_MAŁGOSIA\\Cieślak Paweł\\amazonVAT.csv";
-        String line = "";
-        String cvsSplitBy = ",";
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(csvFile), "windows-1252"))) {
-            while ((line = br.readLine()) != null) {
-                try {
-                    // use comma as separator
-                    String[] tmpline = line.split(cvsSplitBy);
-                    AmazonCSV amazonCSV = new AmazonCSV(tmpline);
-                    System.out.println(amazonCSV.toString());
-                } catch (Exception ex){
-                }
-            }
-            br.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    String data = "21-Apr-2018 UTC";
+    Date date = new Date(data);
+    String d2 = Data.data_yyyyMMdd(date);
+    System.out.println("data "+d2);
+//        String csvFile = "E:\\Biuro\\Firmy\\_MAŁGOSIA\\Cieślak Paweł\\amazonVAT.csv";
+//        String line = "";
+//        String cvsSplitBy = ",";
+//
+//        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(csvFile), "windows-1252"))) {
+//            while ((line = br.readLine()) != null) {
+//                try {
+//                    // use comma as separator
+//                    String[] tmpline = line.split(cvsSplitBy);
+//                    AmazonCSV amazonCSV = new AmazonCSV(tmpline);
+//                    System.out.println(amazonCSV.toString());
+//                } catch (Exception ex){
+//                }
+//            }
+//            br.close();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
   }
+
+    
+
+    
+
+    
     
     
 }

@@ -2099,19 +2099,33 @@ public class PdfMain {
                     }
                 } else {
                     Dok p = (Dok) it.next();
-                    table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 25f));
-                    table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getKontr1().getNpelna(), "left", 8));
-                    table.addCell(ustawfrazeAlign(p.getKontr1().toString4(), "left", 8));
-                    table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
-                    table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getNettoWaluta())), "right", 8));
-                    table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getVatWaluta())), "right", 8));
-                    if (p.getTabelanbp()==null || p.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
-                        table.addCell(ustawfrazeAlign("", "left", 8));
-                    } else {
-                        table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik(), "just", 8));
+                    try {
+                        System.out.println(""+p.toString());
+                        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 25f));
+                        table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontr1().getNpelna(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontr1().toString4(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                        if (p.getWalutadokumentu()!=null) {
+                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getNettoWaluta())), "right", 8));
+                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getVatWaluta())), "right", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "center", 8));
+                            table.addCell(ustawfrazeAlign("", "center", 8));
+                        }
+                        if (p.getTabelanbp()==null || p.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
+                            if (p.getWalutadokumentu()!=null) {
+                                table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty(), "left", 8));
+                            } else {
+                                table.addCell(ustawfrazeAlign("", "left", 8));
+                            }
+                        } else {
+                            table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik(), "just", 8));
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
                     }
                 }
             }

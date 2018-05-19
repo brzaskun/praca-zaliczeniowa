@@ -444,14 +444,7 @@ public class ImportFakturyView  implements Serializable {
         }
     }
     
-    public void drukuj() {
-        try {
-            PdfDok.drukujDokImport(dokumenty, wpisView, 1);
-            Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
-        } catch (Exception e) {
-            
-        }
-    }
+    
     
     public List<Dok> getDokumenty() {
         return dokumenty;

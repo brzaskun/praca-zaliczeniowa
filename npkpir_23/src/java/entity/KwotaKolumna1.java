@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 /**
  *
@@ -38,6 +39,8 @@ public class KwotaKolumna1 implements Serializable{
     private Double netto;
     private Double nettowaluta;
     private Double vat;
+    @Transient
+    private double vatwaluta;
     private Double brutto;
     private String nazwakolumny;
     private String dowykorzystania;
@@ -93,7 +96,13 @@ public class KwotaKolumna1 implements Serializable{
         return "KwotaKolumna1{" + "netto=" + netto + ", vat=" + vat + ", brutto=" + brutto + ", nazwakolumny=" + nazwakolumny + ", dok=" + dok + '}';
     }
 
-    
+    public double getVatwaluta() {
+        return vatwaluta;
+    }
+
+    public void setVatwaluta(double vatwaluta) {
+        this.vatwaluta = vatwaluta;
+    }
     
     
     public Double getNetto() {

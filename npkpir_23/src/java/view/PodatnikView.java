@@ -159,6 +159,7 @@ public class PodatnikView implements Serializable {
    
     @PostConstruct
     public void init() {
+        selectedDod.setFax("000000000");
         nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
         try {
             selected = wpisView.getPodatnikObiekt();
