@@ -500,9 +500,9 @@
                                 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{wploop.idporzadkowy}');" -->
                                 <p:ajax global="false" event="focus" onstart="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.setLpwierszaRK(index+1)}"/>
                                 <p:ajax global="false" event="focus" listener="#{dokfkView.sprawdzwartoscigrupy(wploop)}"/>
-                                
                                 <p:ajax global="false" event="blur" oncomplete="skopiujopis(#{wploop.idporzadkowy});" partialSubmit="true" />
                             </p:inputText>
+                            <p:tooltip value="#{wploop.opisWiersza}" for="formwpisdokument:dataList:#{index}:opisdokwpis" trackMouse="true"/>
                         </p:column>
                         <p:column headerText="ilość kg" style="width: 30px;" rendered="#{dokfkView.selected.rodzajedok.pokazkg}" >
                             <pe:inputNumber   id="ilosckg" value="#{wploop.ilosc_kg}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"

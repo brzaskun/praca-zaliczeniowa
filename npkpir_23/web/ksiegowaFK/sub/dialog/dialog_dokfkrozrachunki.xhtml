@@ -24,7 +24,7 @@
 
     <p:dialog id="dialogdrugi" header="Rozrachunkia" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
               resizable="false" dynamic="true"
-              onShow="rozrachunkiOnShow(1100,650);setTimeout(znadzpasujacepolerozrachunku2('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}'),5000);" 
+              onShow="rozrachunkiOnShow(1100,650);setTimeout(znadzpasujacepolerozrachunku2(),1000);" 
               closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki:dataList" closable="true"
               >
         <p:outputPanel style="height: 630px;">

@@ -85,7 +85,8 @@ var powrotDoStronyPoWyborzeRachunekPlatnosc = function () {
 //    setTimeout(znadzpasujacepolerozrachunku2(kwota), 1000);
 //};
 
-var znadzpasujacepolerozrachunku2 = function (kwota) {
+var znadzpasujacepolerozrachunku2 = function () {
+    var kwota = zrobFloat(r("rozrachunki:pozostalodorozliczenia")[0].innerText);
     var wiersze = $(document.getElementById("rozrachunki:dataList_data")).children("tr");
     var opisy = new Array();
     var sumarozliczonych = 0.0;
