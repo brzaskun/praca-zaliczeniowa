@@ -46,9 +46,13 @@
                     <p:column headerText="zamkniety" width="60" style="text-align: center;">
                         <h:outputText value="#{loop.zamkniety ? 'tak': 'nie'}" style="#{loop.zamkniety ? 'color: red;': 'color: green;'}"/>
                     </p:column>
-                    <p:column  width="60" style="text-align: center;">
+                <p:column  width="60" style="text-align: center;" headerText="zamk.">
                         <p:commandButton icon="fa fa-lock" actionListener="#{podatnikView.zamknijrok(loop)}" global="true" update="@parent:@parent"
                                          style="#{loop.zamkniety ? 'color: green;': 'color: red;'}"/>
+                    </p:column>
+                <p:column  width="60" style="text-align: center;" headerText="odksięg.">
+                        <p:commandButton icon="fa fa-book" actionListener="#{podatnikView.odksiegujdokumenty}" global="true" update="@parent:@parent"
+                                         rendered="#{loop.zamkniety eq false and loop.symbolroku eq WpisView.rokWpisuSt}"/>
                     </p:column>
             </p:dataTable>
             <h:outputText value="wybierz parametry aktualne"/><br/>

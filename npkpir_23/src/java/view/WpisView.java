@@ -292,7 +292,7 @@ public class WpisView implements Serializable {
         try {
             pobierzOpodatkowanie();
         } catch (Exception e1) {
-            E.e(e1);
+           // E.e(e1);
         }
     }
 
@@ -368,7 +368,7 @@ public class WpisView implements Serializable {
             }
         } catch (Exception e) {
             czegosbrakuje = true;
-            E.e(e);
+            //E.e(e);
         }
     }
     
