@@ -43,7 +43,7 @@
                 <f:selectItems value="#{stowNaliczenieView.konta}" var="loop" itemLabel="#{loop.pelnynumer } - #{loop.nazwapelna}" itemValue="#{loop}"/>
             </p:selectOneMenu>
             </p:panelGrid>
-            <p:dataTable value="#{stowNaliczenieView.lista}" var="wpisstow" scrollable="true" scrollHeight="500" style="width: 600px;"
+            <p:dataTable value="#{stowNaliczenieView.lista}" var="wpisstow"  style="width: 900px; height: 500px; overflow-y: scroll"
                          sortBy="#{wpisstow.miejsce.opismiejsca}" rowKey="#{wpisstow.hashCode()}" rowSelectMode="add"
                          selection="#{stowNaliczenieView.listaselected}" rowIndexVar="index" id="tabela">
                 <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
@@ -52,6 +52,15 @@
                 </p:column>
                 <p:column headerText="nazwisko i imię" width="250">
                     <h:outputText value="#{wpisstow.miejsce.opismiejsca}"/>
+                </p:column>
+                <p:column headerText="legit." width="60" style="text-align: center;">
+                    <h:outputText value="#{wpisstow.miejsce.nrlegitymacji}"/>
+                </p:column>
+                 <p:column headerText="aktywne od" style="text-align: center;" sortBy="#{wpisstow.miejsce.poczatek}">
+                     <h:outputText value="#{wpisstow.miejsce.poczatek}"/>
+                </p:column>
+                <p:column headerText="aktywne do" style="text-align: center;" sortBy="#{wpisstow.miejsce.koniec}">
+                    <h:outputText value="#{wpisstow.miejsce.koniec}"/>
                 </p:column>
                 <p:column width="90" headerText="kwota">
                     <pe:inputNumber id="vat" value="#{wpisstow.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 

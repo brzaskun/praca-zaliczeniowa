@@ -49,12 +49,12 @@
             <p:column headerText="nr konta" style="text-align: center; width: 40px;">
                 <h:outputText value="#{item.nrkonta}"/>
             </p:column>
-            <p:column headerText="aktywne od" style="text-align: center;">
+            <p:column headerText="aktywne od" style="text-align: center;" sortBy="#{item.poczatek}">
                 <p:inputMask value="#{item.poczatek}" mask="9999-99-99" maxlength="10" size="10" slotChar="____-__-__">
                     <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.poczatek, 0)}"/>
                 </p:inputMask>
             </p:column>
-            <p:column headerText="aktywne do" style="text-align: center;">
+            <p:column headerText="aktywne do" style="text-align: center;" sortBy="#{item.koniec}">
                 <p:inputMask value="#{item.koniec}" mask="9999-99-99" maxlength="10" size="10" slotChar="____-__-__">
                     <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.koniec, 0)}"/>
                 </p:inputMask>

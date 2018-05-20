@@ -226,7 +226,8 @@ public class StowNaliczenieView  implements Serializable {
             Msg.dP();
         } catch (Exception e) {
             E.e(e);
-            Msg.dPe();
+            Msg.msg("e","Wystąpuł błąd, sprawdź czy zdefiniowano składki");
+           
         }
     }
     
