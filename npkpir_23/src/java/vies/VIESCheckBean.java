@@ -96,9 +96,9 @@ public class VIESCheckBean {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             if (table != null) {
                 Elements tds = table.getElementsByTag("td");
-                String data = tds.get(8).text() != null ? tds.get(8).text().substring(0,10) : "";
+                String data = tds.get(8).text() != null ? tds.get(8).text() : "";
                 if (data.contains("/")) {
-                    data.replace("/", "-");
+                    data = data.replace("/", "-");
                 }
                 if (tds != null && tds.size() < 26) {
                     if (tds.get(0).text().contains("Yes, valid VAT number")) {
@@ -115,7 +115,7 @@ public class VIESCheckBean {
                         zwrot.setUwagi(null);
                     } else if (tds.get(0).text().contains("Member State service unavailable. Please re-submit your request later.")) {
                         zwrot.setPodatnik(podatnik);
-                        Date datawystawienia = formatter.parse(tds.get(8).text());
+                        Date datawystawienia = formatter.parse(data);
                         zwrot.setData(datawystawienia);
                         zwrot.setWynik(false);
                         zwrot.setKraj(kraj);
@@ -143,11 +143,13 @@ public class VIESCheckBean {
                     }
                 }
             } else {
-                zwrot =  new Vies();
+                zwrot =  null;
             }
         } catch (IOException ex) {
+            zwrot = null;
             Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
+            zwrot = null;
             Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return zwrot;
