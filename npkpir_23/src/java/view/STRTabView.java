@@ -760,6 +760,54 @@ public class STRTabView implements Serializable {
         }
     }
     
+    public void drukowanietabeliPlan(List<SrodekTrw> l, String nazwapliku, int modyfikator) {
+        try {
+            double netto = 0.0;
+            double vat = 0.0;
+            double umorzeniepocz = 0.0;
+            double odpisrocz = 0.0;
+            double odpismc = 0.0;
+            double strnetto = 0.0;
+            if (filtrowaneposiadane != null) {
+                l = filtrowaneposiadane;
+            }
+            for (Iterator<SrodekTrw> it = l.iterator(); it.hasNext();) {
+                SrodekTrw p = it.next();
+                if (p.getNrsrodka() == 999999) {
+                    it.remove();
+                } else {
+                    netto += p.getNetto();
+                    vat += p.getVat();
+                    umorzeniepocz += p.getUmorzeniepoczatkowe();
+                    if (p.getOdpisrok() != null) {
+                        odpisrocz += p.getOdpisrok();
+                        odpismc += p.getOdpismc();
+                    }
+                    strnetto += p.getStrNetto();
+                }
+            }
+            SrodekTrw suma = new SrodekTrw();
+            suma.setNrsrodka(999999);
+            suma.setNetto(Z.z(netto));
+            if (modyfikator == 0) {
+                suma.setVat(Z.z(vat));
+            } else {
+                suma.setVat(Z.z(strnetto));
+            }
+            suma.setUmorzeniepoczatkowe(Z.z(umorzeniepocz));
+            suma.setOdpisrok(Z.z(odpisrocz));
+            suma.setOdpismc(Z.z(odpismc));
+            l.add(suma);
+            PdfSTRtabela.drukujSTRtabela(wpisView, l, nazwapliku, modyfikator);
+        } catch (DocumentException ex) {
+            E.e(ex);
+            Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
+        } catch (IOException ex) {
+            E.e(ex);
+            Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
+        }
+    }
+    
     public void drukujsrodek() {
         if (wybranysrodektrwalyPosiadane != null) {
             try {

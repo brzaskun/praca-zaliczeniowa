@@ -10,6 +10,7 @@ import data.Data;
 import embeddable.Umorzenie;
 import entityfk.Dokfk;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,10 +33,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -178,17 +181,117 @@ public class SrodekTrw implements Serializable {
         double zwrot = 0.0;
         try {
             FacesContext context = FacesContext.getCurrentInstance();
-            WpisView bean = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
+            WpisView wpisView = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
             zwrot = this.netto - this.umorzeniepoczatkowe;
             if (this.getNazwa().equals("ładowarka job 525-67")) {
             }
             for (UmorzenieN p : this.planumorzen) {
-                if (Data.compare(p, bean) != 1) {
-                    zwrot -= p.getAmodok() != null && p.getAmodok().getZaksiegowane() ? p.getKwota() : 0.0;
+                if (Data.compare(p, wpisView) != 1) {
+                    //zwrot -= p.getAmodok() != null && p.getAmodok().getZaksiegowane() ? p.getKwota() : 0.0;
+                    zwrot -= p.getKwota();
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(SrodekTrw.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
+        }
+        return zwrot;
+    }
+    
+    public double getStrOdpisy() {
+        double zwrot = 0.0;
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            WpisView wpisView = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
+            zwrot = this.umorzeniepoczatkowe;
+            if (this.getNazwa().equals("ładowarka job 525-67")) {
+            }
+            for (UmorzenieN p : this.planumorzen) {
+                if (Data.compare(p, wpisView) != 1) {
+                    zwrot += p.getKwota();
+                }
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return zwrot;
+    }
+    
+    public int getStrMce() {
+        int zwrot = 0;
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            WpisView wpisView = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
+            if (this.getNazwa().equals("ładowarka job 525-67")) {
+            }
+            for (UmorzenieN p : this.planumorzen) {
+                if (Data.compare(p, wpisView) != 1) {
+                    zwrot++;
+                }
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return zwrot;
+    }
+    
+    public double getStrNettoPlan() {
+        double zwrot = 0.0;
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            WpisView wpisView = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
+            zwrot = this.netto-this.umorzeniepoczatkowe;
+            String mc = Data.getMc(this.dataprzek);
+            String rok = Data.getRok(this.dataprzek);
+            String[] data = Data.nastepnyOkres(mc, rok);
+            for (Double p : this.umorzPlan) {
+                if (Data.compare(data, wpisView) != 1) {
+                    zwrot -= p;
+                    data = Data.nastepnyOkres(data[0], data[1]);
+                }
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return Z.z(zwrot);
+    }
+    
+    public double getStrOdpisyPlan() {
+        double zwrot = 0.0;
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            WpisView wpisView = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
+            zwrot = this.umorzeniepoczatkowe;
+            String mc = Data.getMc(this.dataprzek);
+            String rok = Data.getRok(this.dataprzek);
+            String[] data = Data.nastepnyOkres(mc, rok);
+            for (Double p : this.umorzPlan) {
+                if (Data.compare(data, wpisView) != 1) {
+                    zwrot += p;
+                    data = Data.nastepnyOkres(data[0], data[1]);
+                }
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return Z.z(zwrot);
+    }
+    
+    public int getStrMcePlan() {
+        int zwrot = 0;
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            WpisView wpisView = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
+            String mc = Data.getMc(this.dataprzek);
+            String rok = Data.getRok(this.dataprzek);
+            String[] data = Data.nastepnyOkres(mc, rok);
+            for (Double p : this.umorzPlan) {
+                if (Data.compare(data, wpisView) != 1) {
+                    zwrot++;
+                    data = Data.nastepnyOkres(data[0], data[1]);
+                }
+            }
+        } catch (Exception ex) {
+            E.e(ex);
         }
         return zwrot;
     }
@@ -202,6 +305,7 @@ public class SrodekTrw implements Serializable {
     public void setDatawy(Double datawy) {
         this.datawy = datawy;
     }
+
 
     public String getSymbolinwentarzowy() {
         return symbolinwentarzowy;

@@ -144,6 +144,14 @@ public class Data implements Serializable {
         return doCompare(rokP, mcP, rokW, mcW);
     }
     
+    public static int compare(String[] um, WpisView wpisView) {
+        int rokP = Integer.parseInt(um[1]);
+        int mcP = Integer.parseInt(um[0]);
+        int rokW = wpisView.getRokWpisu();
+        int mcW = Integer.parseInt(wpisView.getMiesiacWpisu());
+        return doCompare(rokP, mcP, rokW, mcW);
+    }
+    
     public static String aktualnaData() {
         DateTime dt = new DateTime();
         LocalDate dataRozrachunku = dt.toLocalDate();
@@ -219,6 +227,20 @@ public class Data implements Serializable {
             poprzedniOkres[1] = rok;
         }
         return poprzedniOkres;
+    }
+    
+    public static String[] nastepnyOkres (String mc, String rok) {
+        String[] nastepnyOkres = new String[2];
+        if (mc.equals("12")) {
+            nastepnyOkres[0] = "01";
+            Integer rokInt = Integer.parseInt(rok);
+            nastepnyOkres[1] = String.valueOf(rokInt+1);
+        } else {
+            Integer mcInt = Integer.parseInt(mc);
+            nastepnyOkres[0] = String.valueOf(Mce.getNumberToMiesiac().get(mcInt+1));
+            nastepnyOkres[1] = rok;
+        }
+        return nastepnyOkres;
     }
     
     public static String data_ddMMMMyyyy(Date date) {

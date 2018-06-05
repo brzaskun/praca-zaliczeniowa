@@ -9,10 +9,10 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
     
-            <p:tab id="zestawieniestr1" title="umarzane miesięcznie">
-                <h:form id="str_umorzenia">
-                <p:dataTable  var="wpis" value="#{STRTableView.planUmorzen}" id="srodkiLista1" editable="true" 
-                              style="width: 1300px; overflow-y: scroll; height: 390px;" emptyMessage="Nie naliczono umorzeń"
+            <p:tab id="zestawieniestr1Plan" title="umorzenia plan">
+                <h:form id="str_umorzeniaPlan">
+                    <p:dataTable  var="wpis" value="#{STRTableView.posiadane}" id="srodkiLista1Plan" editable="true" 
+                              style="width: 1400px; overflow-y: scroll; height: 390px;" emptyMessage="Nie naliczono umorzeń"
                               rowKey="#{wpis.id}" selectionMode="single"> 
 
                     <f:facet name="header">  
@@ -43,16 +43,27 @@
 
                         <bcf:outputpl value="#{wpis.netto}"/>
                     </p:column>
-                    <p:column  headerText="umorzenia mc" filterBy="#{wpis.strMce}" filterMatchMode="contains"
-                              filterStyle="display : none;" sortBy="#{wpis.strMce}"  style="width: 80px;">  
-                        <h:outputText value="#{wpis.strMce}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                     <p:column id="umoColumnpocz" headerText="umorzenie począt." filterBy="#{wpis.umorzeniepoczatkowe}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.umorzeniepoczatkowe}" style="width: 60px;">  
+                        <h:outputText value="#{wpis.umorzeniepoczatkowe}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="umorzenia mc" filterBy="#{wpis.strMcePlan}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpis.strMcePlan}"  style="width: 80px;">  
+                        <h:outputText value="#{wpis.strMcePlan}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                            
                         </h:outputText>
                     </p:column>
-                    <p:column  headerText="umorzenia nar" filterBy="#{wpis.strOdpisy}" filterMatchMode="contains"
-                              filterStyle="display : none;" sortBy="#{wpis.strOdpisy}"  style="width: 80px;">  
-                        <h:outputText value="#{wpis.strOdpisy}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                    <p:column  headerText="umorzenia nar" filterBy="#{wpis.strOdpisyPlan}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpis.strOdpisyPlan}"  style="width: 80px;">  
+                        <h:outputText value="#{wpis.strOdpisyPlan}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                              <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                     <p:column  headerText="wartość netto" filterBy="#{wpis.strNettoPlan}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpis.strNettoPlan}"  style="width: 80px;">  
+                        <h:outputText value="#{wpis.strNettoPlan}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column id="stawkaColumn" headerText="odpis staw." filterBy="#{wpis.stawka}" filterMatchMode="contains" filterStyle="display : none;" 
