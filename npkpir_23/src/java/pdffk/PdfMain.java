@@ -1007,6 +1007,21 @@ public class PdfMain {
                     col[10] = 2;
                     col[11] = 2;
                     return col;
+                } else if (modyfikator == 2) {
+                    col = new int[size];
+                    col[0] = 1;
+                    col[1] = 2;
+                    col[2] = 5;
+                    col[3] = 2;
+                    col[4] = 2;
+                    col[5] = 2;
+                    col[6] = 2;
+                    col[7] = 2;
+                    col[8] = 2;
+                    col[9] = 2;
+                    col[10] = 2;
+                    col[11] = 2;
+                    return col;
                 } else {
                     col = new int[size];
                     col[0] = 1;
@@ -1841,6 +1856,34 @@ public class PdfMain {
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
                     }
+                } else if (modyfikator == 2) {
+                     if (p.getNrsrodka() == 999999) {
+                        table.addCell(ustawfrazeAlign(i++, "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("suma", "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getUmorzeniepoczatkowe())), "right", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc())), "right", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                     } else {
+                        table.addCell(ustawfrazeAlign(i++, "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getDataprzek(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getUmorzeniepoczatkowe())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStrMcePlan())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStrOdpisyPlan())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStrNettoPlan())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStawka().doubleValue())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc())), "right", 8));
+                        table.addCell(ustawfrazeAlign(p.getUmarzanyDoRokMc(), "right", 8));
+                     }
                 } else {
                     if (p.getNrsrodka() == 999999) {
                         table.addCell(ustawfrazeAlign("", "center", 8));

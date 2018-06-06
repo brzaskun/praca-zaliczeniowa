@@ -602,6 +602,24 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
             tabela[0] = n;
             tabela[1] = wiersze;
             return tabela;
+        } else if (modyfikator == 2) {
+            List n = new ArrayList();
+            n.add("nr kol.");
+            n.add("data przekazania");
+            n.add("nazwa środka trwałego");
+            n.add("cena zak.netto");
+            n.add("umorzenie począt.");
+            n.add("umorzenie mc");
+            n.add("umorzenie narast.");
+            n.add("wartośc netto");
+            n.add("odpis staw.");
+            n.add("odpis za rok");
+            n.add("odpis za mc");
+            n.add("umarzany do");
+            List[] tabela = new List[2];
+            tabela[0] = n;
+            tabela[1] = wiersze;
+            return tabela;
         } else {
             List n = new ArrayList();
             n.add("nr kol.");

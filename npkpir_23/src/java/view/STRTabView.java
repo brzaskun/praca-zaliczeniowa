@@ -763,11 +763,9 @@ public class STRTabView implements Serializable {
     public void drukowanietabeliPlan(List<SrodekTrw> l, String nazwapliku, int modyfikator) {
         try {
             double netto = 0.0;
-            double vat = 0.0;
             double umorzeniepocz = 0.0;
-            double odpisrocz = 0.0;
-            double odpismc = 0.0;
-            double strnetto = 0.0;
+            double odpisplan = 0.0;
+            double nettoplan = 0.0;
             if (filtrowaneposiadane != null) {
                 l = filtrowaneposiadane;
             }
@@ -777,26 +775,17 @@ public class STRTabView implements Serializable {
                     it.remove();
                 } else {
                     netto += p.getNetto();
-                    vat += p.getVat();
                     umorzeniepocz += p.getUmorzeniepoczatkowe();
-                    if (p.getOdpisrok() != null) {
-                        odpisrocz += p.getOdpisrok();
-                        odpismc += p.getOdpismc();
-                    }
-                    strnetto += p.getStrNetto();
+                    odpisplan += p.getStrOdpisyPlan();
+                    nettoplan += p.getStrNettoPlan();
                 }
             }
             SrodekTrw suma = new SrodekTrw();
             suma.setNrsrodka(999999);
             suma.setNetto(Z.z(netto));
-            if (modyfikator == 0) {
-                suma.setVat(Z.z(vat));
-            } else {
-                suma.setVat(Z.z(strnetto));
-            }
             suma.setUmorzeniepoczatkowe(Z.z(umorzeniepocz));
-            suma.setOdpisrok(Z.z(odpisrocz));
-            suma.setOdpismc(Z.z(odpismc));
+            suma.setOdpisrok(Z.z(odpisplan));
+            suma.setOdpismc(Z.z(nettoplan));
             l.add(suma);
             PdfSTRtabela.drukujSTRtabela(wpisView, l, nazwapliku, modyfikator);
         } catch (DocumentException ex) {
