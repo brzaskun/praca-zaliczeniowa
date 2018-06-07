@@ -66,6 +66,7 @@ public class JPK_VAT2View implements Serializable {
     @Inject
     private EVatwpisDedraDAO eVatwpisDedraDAO;
     List<EVatwpisSuper> bledy;
+    private int werjsajpkrecznie;
     
     public void init() {
         try {
@@ -74,8 +75,10 @@ public class JPK_VAT2View implements Serializable {
                 lista = new ArrayList<>();
             } else {
                 for (UPO p : lista) {
+                    werjsajpkrecznie = 0;
                     if (p.getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                         nowa0korekta1 = true;
+                        werjsajpkrecznie = pobierznumerkorekty();
                         break;
                     }
                 }
@@ -117,7 +120,7 @@ public class JPK_VAT2View implements Serializable {
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0) {
             generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
-                UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
+            UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
             if (upo != null && upo.getReferenceNumber() != null) {
                 this.lista.add(upo);
             }
@@ -208,6 +211,16 @@ public class JPK_VAT2View implements Serializable {
             generujXMLPodglad(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
         } else {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            String data = "brak daty";
+            for (EVatwpisSuper p : bledy) {
+                if (p instanceof EVatwpis1) {
+                    data = ((EVatwpis1) p).getDataWyst() != null ? ((EVatwpis1) p).getDataWyst() : "brak daty";
+                } else {
+                    data = p.getDokfk().getDatadokumentu() != null ? p.getDokfk().getDatadokumentu() : "brak daty";
+                }
+                String nr = p.getNrWlDk() != null ? p.getNrWlDk() : "brak numeru";
+                Msg.msg("e","Wadliwy dokument: data "+data+" nr "+p.getNrWlDk()+" kwota "+p.getNetto());
+            }
         }
     }
     
@@ -242,7 +255,7 @@ public class JPK_VAT2View implements Serializable {
                 List<jpk201801.JPK.ZakupWiersz> listaz = (List<jpk201801.JPK.ZakupWiersz>) zakup[0];
                 jpk201801.JPK.ZakupCtrl zakupCtrl = (jpk201801.JPK.ZakupCtrl) zakup[1];
                 jpk.setNaglowek(JPK_VAT3_Bean.naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView)));
-                int cel = nowa0korekta1 ? pobierznumerkorekty() : 0;
+                int cel = werjsajpkrecznie;
                 jpk.getNaglowek().setCelZlozenia(cel);
                 jpk.setPodmiot1(JPK_VAT3_Bean.podmiot1(podatnik));
                 jpk.getSprzedazWiersz().addAll(listas);
@@ -581,6 +594,14 @@ public class JPK_VAT2View implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public int getWerjsajpkrecznie() {
+        return werjsajpkrecznie;
+    }
+
+    public void setWerjsajpkrecznie(int werjsajpkrecznie) {
+        this.werjsajpkrecznie = werjsajpkrecznie;
     }
 
      

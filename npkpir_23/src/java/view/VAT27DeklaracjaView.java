@@ -76,7 +76,7 @@ public class VAT27DeklaracjaView implements Serializable {
                 }
                 robdeklaracje(lista, true, nrkolejny);
             } else {
-                Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
+                Msg.msg("w","Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
             }
         }
     }
@@ -112,7 +112,7 @@ public class VAT27DeklaracjaView implements Serializable {
                 }
                 robdeklaracjeFK(lista, true, nrkolejny);
             } else {
-                Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
+                Msg.msg("w","Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
             }
         }
     }

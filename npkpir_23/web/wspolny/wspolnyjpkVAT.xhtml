@@ -18,6 +18,18 @@
             <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujDedra()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodgladDedra()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
         </p:panelGrid>
+        <p:panelGrid columns="3">
+            <h:outputText value="wersja jpk"/>
+            <p:selectOneMenu value="#{jPK_VAT2View.werjsajpkrecznie}" label="wersja jpk">
+                <f:selectItem itemValue="0" itemLabel="0"/>
+                <f:selectItem itemValue="1" itemLabel="1"/>
+                <f:selectItem itemValue="2" itemLabel="2"/>
+                <f:selectItem itemValue="3" itemLabel="3"/>
+                <f:selectItem itemValue="4" itemLabel="4"/>
+                <f:selectItem itemValue="5" itemLabel="5"/>
+                <p:ajax event="change" partialSubmit="true"/>
+            </p:selectOneMenu>
+        </p:panelGrid>
         <p:messages id="wiadomoscjpk"/>
         <p:dataTable value="#{jPK_VAT2View.bledy}" var="itemblad" rowIndexVar="index" id="tabelablad" style="width: 1250px; margin-top: 10px;"
                      sortBy="#{itemblad.miesiac}" rendered="#{jPK_VAT2View.bledy ne null and jPK_VAT2View.bledy.size() gt 0}"
@@ -166,7 +178,6 @@
                             <h:outputText value="#{itemik.potwierdzenie.toString()}"/>
                         </p:column>
                  </p:dataTable>
-                
                 </p:panelGrid>
             </p:rowExpansion>
         </p:dataTable>

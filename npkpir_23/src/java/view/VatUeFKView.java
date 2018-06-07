@@ -453,7 +453,7 @@ public class VatUeFKView implements Serializable {
                 boolean ok = robdeklaracjekorekta(lista, staralista, true, nrkolejny);
                 init3();
             } else {
-                Msg.msg("Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
+                Msg.msg("w","Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
             }
         }
     }
