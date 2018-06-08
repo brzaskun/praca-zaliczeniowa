@@ -674,7 +674,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>Guest</from-outcome>
-            <to-view-id>/guest/guestIndex.xhtml</to-view-id>
+            <to-view-id>/guest/guestTablica.xhtml</to-view-id>
             <redirect></redirect>
         </navigation-case>
         <navigation-case>

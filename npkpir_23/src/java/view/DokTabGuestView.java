@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansDok.CechaBean;
 import comparator.Dokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
@@ -11,7 +12,9 @@ import dao.PodatnikDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
 import entity.Dok;
+import entity.Podatnik;
 import entity.Wpis;
+import entityfk.Cechazapisu;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -50,27 +53,58 @@ public class DokTabGuestView implements Serializable {
     private UzDAO uzDAO;
     @Inject
     private AmoDokDAO amoDokDAO;
+    private double sumanetto;
+     private double sumavat;
+     private double sumabrutto;
+     //tablica obiektów danego klienta z określonego roku i miesiąca
+    private List<Dok> dokumentyFiltered;
+    private List<String> cechydokzlisty;
+    private String wybranacechadok;
+    
 
     @PostConstruct
-    private void init() {
+    public void init() {
         selected = new ArrayList<>();
         pobranedokumenty = new ArrayList<>();
         pobranedokumentyFiltered = null;
+        List<Dok> dokumentypobrane = new ArrayList<>();
+        Integer rok = wpisView.getRokWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        Podatnik podatnik = wpisView.getPodatnikObiekt();
         try {
-            pobranedokumenty.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikObiekt(), String.valueOf(wpisView.getRokWpisu()), wpisView.getMiesiacWpisu()));
-            Collections.sort(pobranedokumenty, new Dokcomparator());
-        } catch (Exception e) { E.e(e); 
+            dokumentypobrane.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc));
+            //sortowanie dokumentów
+            Collections.sort(dokumentypobrane, new Dokcomparator());
+        } catch (Exception e) {
+            E.e(e);
         }
-        //pobranie pierwszego numeru jezeli jest w trakcie roku
-        int numerkolejny = 1;
-        try {
-            String wartosc = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getNumerpkpir(), wpisView.getRokWpisu(), Integer.parseInt(wpisView.getMiesiacWpisu()));
-            numerkolejny = Integer.parseInt(wartosc);
-        } catch (Exception e) { E.e(e); 
+         if (dokumentypobrane != null) {
+            cechydokzlisty = CechaBean.znajdzcechy(dokumentypobrane);
         }
-        numerkolejny = dokDAO.liczdokumenty(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikObiekt()) + 1;
-        for (Dok tmpx : pobranedokumenty) {
-            tmpx.setNrWpkpir(numerkolejny++);
+        int numerkolejny = dokDAO.liczdokumenty(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikObiekt()) + 1;
+        for (Dok tmpx : dokumentypobrane) {
+            boolean dodaj = false;
+            if (tmpx.getPkpirM().equals(mc)) {
+                if (wybranacechadok == null) {
+                    dodaj = true;
+                } else if (!tmpx.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
+                    for (Cechazapisu cz : tmpx.getCechadokumentuLista()) {
+                        if (cz.getNazwacechy().equals(wybranacechadok)) {
+                            dodaj = true;
+                            break;
+                        }
+                    }
+                } else if (wybranacechadok.equals("bezcechy") && (tmpx.getCechadokumentuLista() == null || tmpx.getCechadokumentuLista().isEmpty())){
+                    dodaj = true;
+                }
+                if (dodaj) {
+                    pobranedokumenty.add(tmpx);
+                    sumujdokumentydodane(tmpx);
+                }
+            }
+        }
+        for (Dok tmpxa : pobranedokumenty) {
+            tmpxa.setNrWpkpir(numerkolejny++);
         }
     }
     
@@ -110,7 +144,28 @@ public class DokTabGuestView implements Serializable {
              
          }
      }
-    
+     
+     public void sumujwybrane() {
+        sumanetto = 0.0;
+        sumavat = 0.0;
+        sumabrutto = 0.0;
+        if (pobranedokumentyFiltered != null) {
+            for (Dok p : pobranedokumentyFiltered) {
+                sumujdokumentydodane(p);
+            }
+        } else {
+            for (Dok p : pobranedokumenty) {
+                sumujdokumentydodane(p);
+            }
+        }
+    }
+    private void sumujdokumentydodane(Dok tmpx) {
+        sumanetto = sumanetto + tmpx.getNetto();
+        sumabrutto = sumabrutto + tmpx.getBrutto();
+        if (tmpx.getBrutto() != 0.0) {
+            sumavat = sumavat + (tmpx.getBrutto()-tmpx.getNetto());
+        }
+    }
 
     public List<Dok> getPobranedokumenty() {
         return pobranedokumenty;
@@ -136,6 +191,38 @@ public class DokTabGuestView implements Serializable {
         this.selected = selected;
     }
 
+    public double getSumanetto() {
+        return sumanetto;
+    }
+
+    public void setSumanetto(double sumanetto) {
+        this.sumanetto = sumanetto;
+    }
+
+    public double getSumavat() {
+        return sumavat;
+    }
+
+    public void setSumavat(double sumavat) {
+        this.sumavat = sumavat;
+    }
+
+    public double getSumabrutto() {
+        return sumabrutto;
+    }
+
+    public void setSumabrutto(double sumabrutto) {
+        this.sumabrutto = sumabrutto;
+    }
+
+    public List<Dok> getDokumentyFiltered() {
+        return dokumentyFiltered;
+    }
+
+    public void setDokumentyFiltered(List<Dok> dokumentyFiltered) {
+        this.dokumentyFiltered = dokumentyFiltered;
+    }
+
    
     public List<Dok> getPobranedokumentyFiltered() {
         return pobranedokumentyFiltered;
@@ -143,6 +230,22 @@ public class DokTabGuestView implements Serializable {
 
     public void setPobranedokumentyFiltered(List<Dok> pobranedokumentyFiltered) {
         this.pobranedokumentyFiltered = pobranedokumentyFiltered;
+    }
+
+    public List<String> getCechydokzlisty() {
+        return cechydokzlisty;
+    }
+
+    public void setCechydokzlisty(List<String> cechydokzlisty) {
+        this.cechydokzlisty = cechydokzlisty;
+    }
+
+    public String getWybranacechadok() {
+        return wybranacechadok;
+    }
+
+    public void setWybranacechadok(String wybranacechadok) {
+        this.wybranacechadok = wybranacechadok;
     }
     
     

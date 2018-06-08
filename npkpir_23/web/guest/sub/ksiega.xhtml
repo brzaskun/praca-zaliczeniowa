@@ -18,7 +18,7 @@
             <p:dataTable  var="wpis" value="#{ksiegaView.lista}" id="dokumentyKsiega" 
                           rowKey="#{wpis.idDok}" selection="#{ksiegaView.selDokument}" selectionMode="single"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          style="width: 110%;" widgetVar="dokKsiega"
+                          style="max-width: 1700px;" widgetVar="dokKsiega"
                           > 
                 <f:facet name="header">  
                     <h:outputText value="Podatkowa księga przychodów i rozchodów" />
