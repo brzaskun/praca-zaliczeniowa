@@ -11,13 +11,13 @@
                     <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{DokTabGuestView.aktualizujGuest('guestTablica.xhtml')}" update="form:dokumentyLista"/>
+                    <p:ajax event="change" listener="#{DokTabGuestView.aktualizujGuest('guestTablica.xhtml')}" update="@(form)"/>
                 </p:selectOneMenu>
                   </p:column>
                     <p:column>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabGuestView.aktualizujGuest('guestTablica.xhtml')}"  update="form:dokumentyLista"/>
+                    <p:ajax event="change" listener="#{DokTabGuestView.aktualizujGuest('guestTablica.xhtml')}"  update="@(form)"/>
                 </p:selectOneMenu>
                     </p:column>
             </p:panelGrid>

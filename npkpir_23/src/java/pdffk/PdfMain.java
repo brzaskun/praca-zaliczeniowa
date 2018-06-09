@@ -2126,46 +2126,46 @@ public class PdfMain {
             if (nazwaklasy.equals("entity.Dok")) {
                 if (modyfikator==0) {
                     Dok p = (Dok) it.next();
-                    table.addCell(ustawfrazeAlign(String.valueOf(p.getNrWpkpir()), "center", 8, 25f));
-                    table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getKontr1().toString3(), "left", 8));
-                    table.addCell(ustawfrazeAlign(p.getRodzajedok().getSkrot(), "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getNrWpkpir()), "center", 9, 25f));
+                    table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getKontr1().toString3(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getRodzajedok().getSkrot(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
                     tablicaWkomorce(table, p, "entity.Dok", 0);
                     tablicaWkomorce(table, p, "entity.Dok", 1);
-                    table.addCell(ustawfrazeAlign(p.getVatM(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getVatM(), "center", 9));
                     if (p.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
-                        table.addCell(ustawfrazeAlign("", "left", 8));
+                        table.addCell(ustawfrazeAlign("", "left", 9));
                     } else {
-                        table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik(), "just", 8));
+                        table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik(), "just", 9));
                     }
                 } else {
                     Dok p = (Dok) it.next();
                     try {
                         System.out.println(""+p.toString());
-                        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 25f));
-                        table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 8));
-                        table.addCell(ustawfrazeAlign(p.getKontr1().getNpelna(), "left", 8));
-                        table.addCell(ustawfrazeAlign(p.getKontr1().toString4(), "left", 8));
-                        table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 9, 25f));
+                        table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 9));
+                        table.addCell(ustawfrazeAlign(p.getKontr1().getNpelna(), "left", 9));
+                        table.addCell(ustawfrazeAlign(p.getKontr1().toString4(), "left", 9));
+                        table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 9));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 9));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 9));
                         if (p.getWalutadokumentu()!=null) {
-                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getNettoWaluta())), "right", 8));
-                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getVatWaluta())), "right", 8));
+                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getNettoWaluta())), "right", 9));
+                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getVatWaluta())), "right", 9));
                         } else {
-                            table.addCell(ustawfrazeAlign("", "center", 8));
-                            table.addCell(ustawfrazeAlign("", "center", 8));
+                            table.addCell(ustawfrazeAlign("", "center", 9));
+                            table.addCell(ustawfrazeAlign("", "center", 9));
                         }
                         if (p.getTabelanbp()==null || p.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
                             if (p.getWalutadokumentu()!=null) {
-                                table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty(), "left", 8));
+                                table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty(), "left", 9));
                             } else {
-                                table.addCell(ustawfrazeAlign("", "left", 8));
+                                table.addCell(ustawfrazeAlign("", "left", 9));
                             }
                         } else {
-                            table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik(), "just", 8));
+                            table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik(), "just", 9));
                         }
                     } catch (Exception e) {
                         E.e(e);
@@ -2649,7 +2649,7 @@ public class PdfMain {
                     NumberFormat number = getNumberFormater();
                     Dok d = (Dok) p;
                     if (d.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(d.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(d.getNetto())), "right", 9));
                     } else {
                         PdfPTable t = new PdfPTable(1);
                         t.getDefaultCell().setBorderWidth(0f);
@@ -2657,8 +2657,8 @@ public class PdfMain {
                         col[0] = 2;
                         t.setWidths(col);
                         t.setWidthPercentage(100);
-                        t.addCell(ustawfrazeAlignNOBorder(String.valueOf(number.format(d.getNetto())), "right", 8));
-                        t.addCell(ustawfrazeAlignNOBorder(d.getTabelanbp().getWaluta().getSkrotsymbolu()+" "+String.valueOf(number.format(d.getNettoWaluta())), "right", 8));
+                        t.addCell(ustawfrazeAlignNOBorder(String.valueOf(number.format(d.getNetto())), "right", 9));
+                        t.addCell(ustawfrazeAlignNOBorder(d.getTabelanbp().getWaluta().getSkrotsymbolu()+" "+String.valueOf(number.format(d.getNettoWaluta())), "right", 9));
                         table.addCell(t);
                     }
                 } catch (Exception e) {
@@ -2676,8 +2676,8 @@ public class PdfMain {
                     t.setWidths(col);
                     t.setWidthPercentage(100);
                     for (KwotaKolumna1 r : d.getListakwot1()) {
-                        t.addCell(ustawfrazeAlignNOBorder(r.getNazwakolumny(), "left", 8));
-                        t.addCell(ustawfrazeAlignNOBorder(String.valueOf(number.format(r.getNetto())), "right", 8));
+                        t.addCell(ustawfrazeAlignNOBorder(r.getNazwakolumny(), "left", 9));
+                        t.addCell(ustawfrazeAlignNOBorder(String.valueOf(number.format(r.getNetto())), "right", 9));
                     }
                     table.addCell(t);
                 } catch (Exception e) {

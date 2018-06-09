@@ -46,7 +46,7 @@ public class PdfDok extends Pdf implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma -  ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma  - "+wpisView.getPrintNazwa(), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getListaDok(lista),100,modyfikator);
             double netto = 0.0;
             double vat = 0.0;
@@ -58,6 +58,46 @@ public class PdfDok extends Pdf implements Serializable {
             String opis = "Razem wartość wybranych dokumentów";
             PdfMain.dodajLinieOpisu(document, opis);
             opis = "netto: "+F.curr(netto)+" vat: "+F.curr(vat)+" brutto: "+F.curr(brutto);
+            PdfMain.dodajLinieOpisu(document, opis);
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } catch (Exception e) {
+            E.e(e);
+        } finally {
+            finalizacjaDokumentuQR(document,nazwa);
+        }
+    }
+    
+    public static void drukujDokGuest(List<Dok> lista, WpisView wpisView, int modyfikator, String cecha) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"listadok";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        Document document = inicjacjaA4Landscape();
+        try {
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma - "+wpisView.getPrintNazwa(), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            if (cecha!=null) {
+                PdfMain.dodajLinieOpisu(document, "Cecha: "+cecha);
+            }
+            dodajTabele(document, testobjects.testobjects.getListaDok(lista),100,modyfikator);
+            double przychody = 0.0;
+            double koszty = 0.0;
+            for (Dok p : lista) {
+                if (p.getRodzajedok().getKategoriadokumentu() == 2 || p.getRodzajedok().getKategoriadokumentu() == 4) {
+                    przychody = przychody+p.getNetto();
+                } else {
+                    koszty = koszty+p.getNetto();
+                }
+            }
+            double roznica = Z.z(przychody+koszty);
+            String opis = "Razem wartość wybranych dokumentów";
+            PdfMain.dodajLinieOpisu(document, opis);
+            opis = "przychody: "+F.curr(przychody)+" koszty: "+F.curr(koszty)+" różnica: "+F.curr(roznica);
             PdfMain.dodajLinieOpisu(document, opis);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";

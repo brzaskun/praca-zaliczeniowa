@@ -28,7 +28,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import pdf.PdfDok;
 import pdf.PdfPK;
+import waluty.Z;
 
 /**
  *
@@ -53,9 +55,9 @@ public class DokTabGuestView implements Serializable {
     private UzDAO uzDAO;
     @Inject
     private AmoDokDAO amoDokDAO;
-    private double sumanetto;
-     private double sumavat;
-     private double sumabrutto;
+    private double przychody;
+     private double koszty;
+     private double roznica;
      //tablica obiektów danego klienta z określonego roku i miesiąca
     private List<Dok> dokumentyFiltered;
     private List<String> cechydokzlisty;
@@ -99,10 +101,10 @@ public class DokTabGuestView implements Serializable {
                 }
                 if (dodaj) {
                     pobranedokumenty.add(tmpx);
-                    sumujdokumentydodane(tmpx);
                 }
             }
         }
+        sumujwybrane();
         for (Dok tmpxa : pobranedokumenty) {
             tmpxa.setNrWpkpir(numerkolejny++);
         }
@@ -146,9 +148,9 @@ public class DokTabGuestView implements Serializable {
      }
      
      public void sumujwybrane() {
-        sumanetto = 0.0;
-        sumavat = 0.0;
-        sumabrutto = 0.0;
+        przychody = 0.0;
+        koszty = 0.0;
+        roznica = 0.0;
         if (pobranedokumentyFiltered != null) {
             for (Dok p : pobranedokumentyFiltered) {
                 sumujdokumentydodane(p);
@@ -160,10 +162,18 @@ public class DokTabGuestView implements Serializable {
         }
     }
     private void sumujdokumentydodane(Dok tmpx) {
-        sumanetto = sumanetto + tmpx.getNetto();
-        sumabrutto = sumabrutto + tmpx.getBrutto();
-        if (tmpx.getBrutto() != 0.0) {
-            sumavat = sumavat + (tmpx.getBrutto()-tmpx.getNetto());
+        if (tmpx.getRodzajedok().getKategoriadokumentu() == 2 ||tmpx.getRodzajedok().getKategoriadokumentu() == 4) {
+            przychody = przychody + tmpx.getNetto();
+        } else {
+            koszty = koszty + tmpx.getNetto();
+        }
+    }
+    
+    public void drukujdokumentyuproszczona() {
+        if (dokumentyFiltered != null && dokumentyFiltered.size()>0) {
+            PdfDok.drukujDokGuest(pobranedokumentyFiltered, wpisView,0, wybranacechadok);
+        } else {
+            PdfDok.drukujDokGuest(pobranedokumenty, wpisView,0, wybranacechadok);
         }
     }
 
@@ -191,28 +201,28 @@ public class DokTabGuestView implements Serializable {
         this.selected = selected;
     }
 
-    public double getSumanetto() {
-        return sumanetto;
+    public double getPrzychody() {
+        return przychody;
     }
 
-    public void setSumanetto(double sumanetto) {
-        this.sumanetto = sumanetto;
+    public void setPrzychody(double przychody) {
+        this.przychody = przychody;
     }
 
-    public double getSumavat() {
-        return sumavat;
+    public double getKoszty() {
+        return koszty;
     }
 
-    public void setSumavat(double sumavat) {
-        this.sumavat = sumavat;
+    public void setKoszty(double koszty) {
+        this.koszty = koszty;
     }
 
-    public double getSumabrutto() {
-        return sumabrutto;
+    public double getRoznica() {
+        return Z.z(this.przychody-this.koszty);
     }
 
-    public void setSumabrutto(double sumabrutto) {
-        this.sumabrutto = sumabrutto;
+    public void setRoznica(double roznica) {
+        this.roznica = roznica;
     }
 
     public List<Dok> getDokumentyFiltered() {

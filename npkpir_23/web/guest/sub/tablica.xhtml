@@ -12,28 +12,31 @@
               <f:facet name="header">
                   <p:row>
                       <p:column>
-                          <h:outputText value="netto"/>
+                          <h:outputText value="przychody"/>
                       </p:column>
                        <p:column>
-                          <h:outputText value="vat"/>
+                          <h:outputText value="koszty"/>
                       </p:column>
                        <p:column>
-                          <h:outputText value="brutto"/>
+                          <h:outputText value="różnica"/>
                       </p:column>
                   </p:row>
               </f:facet>
              <p:row>
                  <p:column width="70">
-                 <bcf:outputpl value="#{DokTabGuestView.sumanetto}"/>
+                 <bcf:outputpl value="#{DokTabGuestView.przychody}"/>
              </p:column>
              <p:column width="70">
-                 <bcf:outputpl value="#{DokTabGuestView.sumavat}"/>
+                 <bcf:outputpl value="#{DokTabGuestView.koszty}"/>
              </p:column>
              <p:column width="70">
-                 <bcf:outputpl value="#{DokTabGuestView.sumabrutto}"/>
+                 <bcf:outputpl value="#{DokTabGuestView.roznica}" stylePlus="#{DokTabGuestView.roznica lt 0 ? 'color:red':''}"/>
              </p:column>
                  <p:column>
                      <p:commandButton  global="false" value="sumuj" actionListener="#{DokTabGuestView.sumujwybrane}" update=":form:dokumentyLista :form:sumawybranychpanel" style="width: 120px;"/>
+                 </p:column>
+                 <p:column>
+                 <p:commandButton  icon="fa fa-print" style="width: 120px;" actionListener="#{DokTabGuestView.drukujdokumentyuproszczona()}" global="false"/>
                  </p:column>
                  </p:row>
          </p:panelGrid>
@@ -43,7 +46,7 @@
                              style="width: 200px; margin-left: 10px;" >
                 <p:ajax event="itemSelect" listener="#{DokTabGuestView.init()}" 
                         onstart="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
-                        update="form:dokumentyLista"/>
+                        update="form:dokumentyLista form:sumawybranychpanel"/>
                 <f:selectItem itemLabel="wszystkie" itemValue="" noSelectionOption="true"/>
                 <f:selectItem itemLabel="dokumenty bez cechy" itemValue="bezcechy" />
                 <f:selectItems value="#{DokTabGuestView.cechydokzlisty}" />
