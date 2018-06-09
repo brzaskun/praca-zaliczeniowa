@@ -2252,10 +2252,11 @@ public class DokfkView implements Serializable {
             if (aktualnyWierszDlaRozrachunkow.getOpis()!=null) {
                 List<String> op = new ArrayList<>(aktualnyWierszDlaRozrachunkow.getOpis());
                 String kontrahent = aktualnyWierszDlaRozrachunkow.getKonto().getNazwapelna();
-                String opislinia = "płatność: "+kontrahent+" rach: ";
+                String opislinia = "f: ";
                 for (String p : op) {
                     opislinia = opislinia+p+";";
                 }
+                opislinia = opislinia+" "+kontrahent;
                 aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza(opislinia);
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
             }
