@@ -163,7 +163,7 @@
                 </p:dataTable>
                 <p:messages id="mesydzue" autoUpdate="true"/>
                 <p:separator/>
-                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1410px;" styleClass="upd3"
+                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1210px;" styleClass="upd3"
                              selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.hashCode()}">
                     <p:column style="width: 3%;">
                         <p:rowToggler/>
@@ -186,13 +186,10 @@
                     <p:column headerText="sporządził" style="text-align: center;" width="90">
                         <h:outputText value="#{row.sporzadzil}"/>
                     </p:column>
-                    <p:column headerText="status" width="250">
+                    <p:column headerText="status" width="50">
                         <h:outputText value="#{row.status}" />
                     </p:column>
-                    <p:column headerText="opis/id" width="300">
-                        <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
-                        <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
-                    </p:column>
+                   
                     <p:column style="text-align: center;" width="85">
                         <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row, vatUeFKView.listaDok,  vatUeFKView.listaDokfk)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
                     </p:column>
@@ -204,9 +201,11 @@
                         <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
                     <p:rowExpansion>
-                        <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >
+                        <p:panelGrid columns="3">
+                            <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
+                            <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                             <h:outputText value="#{row.deklaracja}"/>
-                        </p:column>
+                        </p:panelGrid>
                     </p:rowExpansion>
                 </p:dataTable>
             </p:outputPanel>

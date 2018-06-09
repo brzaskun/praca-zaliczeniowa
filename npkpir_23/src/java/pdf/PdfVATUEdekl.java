@@ -104,7 +104,7 @@ public class PdfVATUEdekl {
             for (VatUe p : d.getPozycje()) {
                 PdfPTable table = new PdfPTable(7);
                 table.setWidthPercentage(95);
-                if (!p.getTransakcja().equals("podsumowanie")) {
+                if (!p.getTransakcja().equals("podsumowanie") && p.getKontrahent()!=null) {
                     table.setWidths(new int[]{1, 2, 2, 3, 5, 3, 2});
                     table.addCell(ustawfraze("lp", 0, 1));
                     table.addCell(ustawfraze("Transakcja", 0, 1));
