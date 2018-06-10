@@ -1731,24 +1731,7 @@ public class DokfkView implements Serializable {
 //    //</editor-fold>
    
     
-    public void vatzd() {
-        try {
-            WniosekVATZD dek = null;
-            if (selectedlist!=null) {
-                dek = VATZDBean.createVATZD(selectedlist);
-            } else if (filteredValue!=null) {
-                dek = VATZDBean.createVATZD(filteredValue);
-            } else {
-                dek = VATZDBean.createVATZD(wykazZaksiegowanychDokumentow);
-            }
-            String zalacznik = VATZDBean.marszajuldoStringu(dek);
-            System.out.println(zalacznik);
-            Msg.dP();
-        } catch (Exception e) {
-            E.e(e);
-            Msg.dPe();
-        }
-    }
+    
 
     public void sprawdzsalda(String wybranakategoriadok) {
         if (wybranakategoriadok.startsWith("RK") || wybranakategoriadok.startsWith("WB")) {
