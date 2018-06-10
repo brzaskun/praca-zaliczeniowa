@@ -135,6 +135,9 @@ public class Dokfk extends DokSuper implements Serializable {
     @NotNull
     @Column(name = "datawplywu", length = 10)
     private String datawplywu;
+    @Size(max = 10)
+    @Column(name = "termin_platnosci")
+    private String terminPlatnosci;
     @Basic(optional = false)
     @NotNull
     @Column(name = "numerwlasnydokfk", nullable = false, length = 255)
@@ -294,6 +297,14 @@ public class Dokfk extends DokSuper implements Serializable {
 
     public void setNrdziennika(String nrdziennika) {
         this.nrdziennika = nrdziennika;
+    }
+
+    public String getTerminPlatnosci() {
+        return terminPlatnosci;
+    }
+
+    public void setTerminPlatnosci(String terminPlatnosci) {
+        this.terminPlatnosci = terminPlatnosci;
     }
 
     public Vat27 getVat27() {
@@ -1069,6 +1080,26 @@ public class Dokfk extends DokSuper implements Serializable {
         }
         popo.setLista(nowe);
         
+    }
+
+    public double getNettoVAT() {
+        double zwrot = 0.0;
+        if (this.ewidencjaVAT!=null) {
+            for (EVatwpisFK p : this.ewidencjaVAT) {
+                zwrot += p.getNetto();
+            }
+        }
+        return zwrot;
+    }
+
+    public double getVATVAT() {
+        double zwrot = 0.0;
+        if (this.ewidencjaVAT!=null) {
+            for (EVatwpisFK p : this.ewidencjaVAT) {
+                zwrot += p.getVat();
+            }
+        }
+        return zwrot;
     }
     
     private static class Popo {

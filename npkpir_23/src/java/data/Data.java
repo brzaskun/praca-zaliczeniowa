@@ -325,6 +325,20 @@ public class Data implements Serializable {
         return zwrot;
     }
 
+    public static String[] getSplitted(String dataWyst) {
+        String[] zwrot = new String[3];
+        if (dataWyst!=null) {
+            zwrot[0] = getRok(dataWyst);
+            zwrot[1] = getMc(dataWyst);
+            zwrot[2] = getDzien(dataWyst);
+        } else {
+            zwrot[0] = getRok("2018-05-01");
+            zwrot[1] = getMc("2018-05-01");
+            zwrot[2] = getDzien("2018-05-01");
+        }
+        return zwrot;
+    }
+    
     public static String getRok(String data) {
         String zwrot = "";
         if (data != null) {
@@ -524,4 +538,6 @@ public class Data implements Serializable {
 //  public static LocalDateTime asLocalDateTime(Date date) {
 //    return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
 //  }
+
+    
 }

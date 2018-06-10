@@ -8,7 +8,11 @@
 
 package deklaracje.vatzd;
 
+import static beansVAT.VATZDBean.data;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -121,7 +125,10 @@ public class ObjectFactory {
      * 
      */
     public TNaglowekVATZD createTNaglowekVATZD() {
-        return new TNaglowekVATZD();
+        TNaglowekVATZD tn = new TNaglowekVATZD();
+        tn.setKodFormularza(createTNaglowekVATZDKodFormularza());
+        tn.setWariantFormularza((byte)1);
+        return tn;
     }
 
     /**
@@ -304,8 +311,17 @@ public class ObjectFactory {
      * Create an instance of {@link WniosekVATZD.PozycjeSzczegolowe.PB }
      * 
      */
-    public WniosekVATZD.PozycjeSzczegolowe.PB createWniosekVATZDPozycjeSzczegolowePB() {
-        return new WniosekVATZD.PozycjeSzczegolowe.PB();
+    public WniosekVATZD.PozycjeSzczegolowe.PB createWniosekVATZDPozycjeSzczegolowePB(String nazwa, String nip, String numerfaktury, XMLGregorianCalendar datawystawienia, XMLGregorianCalendar dataplatnosci, BigDecimal netto, BigDecimal vat ) {
+        WniosekVATZD.PozycjeSzczegolowe.PB pb = new WniosekVATZD.PozycjeSzczegolowe.PB();
+        pb.setPBB(nazwa);
+        pb.setPBC(nip);
+        pb.setPBD1(numerfaktury);
+        pb.setPBD2(datawystawienia);
+        pb.setPBE(dataplatnosci);
+        pb.setPBF(netto);
+        pb.setPBG(vat);
+        pb.setTyp("G");
+        return pb;
     }
 
     /**
@@ -313,7 +329,11 @@ public class ObjectFactory {
      * 
      */
     public TNaglowekVATZD.KodFormularza createTNaglowekVATZDKodFormularza() {
-        return new TNaglowekVATZD.KodFormularza();
+        TNaglowekVATZD.KodFormularza kf = new TNaglowekVATZD.KodFormularza();
+        kf.setWersjaSchemy(kf.getWersjaSchemy());
+        kf.setKodSystemowy(kf.getKodSystemowy());
+        kf.setValue(TKodFormularzaVATZD.VAT_ZD);
+        return kf;
     }
 
 }

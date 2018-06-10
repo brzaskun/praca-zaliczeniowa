@@ -12,6 +12,9 @@ import deklaracje.vatzd.ObjectFactory;
 import deklaracje.vatzd.TKodFormularzaVATZD;
 import deklaracje.vatzd.TNaglowekVATZD;
 import deklaracje.vatzd.WniosekVATZD;
+import entity.Dok;
+import entity.DokSuper;
+import entityfk.Dokfk;
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,6 +23,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
@@ -37,47 +42,48 @@ import javax.xml.transform.stream.StreamResult;
 import static org.jsoup.nodes.Document.OutputSettings.Syntax.xml;
 import org.w3c.dom.Document;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
  * @author Osito
  */
 public class VATZDBean {
-    public static WniosekVATZD createVATZD() {
+    
+    public static WniosekVATZD createVATZD(List dok) {
         ObjectFactory of = new ObjectFactory();
         WniosekVATZD vatzd = of.createWniosekVATZD();
         TNaglowekVATZD tn = of.createTNaglowekVATZD();
-        TNaglowekVATZD.KodFormularza kf = of.createTNaglowekVATZDKodFormularza();
-        kf.setWersjaSchemy(kf.getWersjaSchemy());
-        kf.setKodSystemowy(kf.getKodSystemowy());
-        kf.setValue(TKodFormularzaVATZD.VAT_ZD);
-        tn.setKodFormularza(kf);
-        tn.setWariantFormularza((byte)1);
         vatzd.setNaglowek(tn);
         WniosekVATZD.PozycjeSzczegolowe ps = of.createWniosekVATZDPozycjeSzczegolowe();
-        WniosekVATZD.PozycjeSzczegolowe.PB pb = of.createWniosekVATZDPozycjeSzczegolowePB();
-        pb.setPBB("nazwa podatnika");
-        pb.setPBC("8511005008");
-        pb.setPBD1("numer faktury");
-        pb.setPBD2(data());
-        pb.setPBE(data());
-        pb.setPBF(BigDecimal.ONE);
-        pb.setPBG(BigDecimal.ONE);
-        pb.setTyp("G");
-        ps.getPB().add(pb);
-        ps.setP10(BigInteger.TEN);
-        ps.setP11(BigInteger.ONE);
+        double sumanetto = 0.0;
+        double sumavat = 0.0;
+        for (Object apsik : dok) {
+            DokSuper d = (DokSuper) apsik;
+            String nrfaktury = d.getClass().equals(Dok.class) ? ((Dok) d).getNrWlDk() : ((Dokfk) d).getNumerwlasnydokfk();
+            String[] datawyst = d.getClass().equals(Dok.class) ? Data.getSplitted(((Dok) d).getDataWyst()) : Data.getSplitted(((Dokfk) d).getDatadokumentu());
+            String[] terminpl = Data.getSplitted(d.getTerminPlatnosci());
+            double netto = d.getClass().equals(Dok.class) ? ((Dok) d).getNetto() : ((Dokfk) d).getNettoVAT();
+            double vat = d.getClass().equals(Dok.class) ? ((Dok) d).getVat() : ((Dokfk) d).getVATVAT();
+            WniosekVATZD.PozycjeSzczegolowe.PB pb = of.createWniosekVATZDPozycjeSzczegolowePB(d.getKontr().getNpelna(),d.getKontr().getNip(), nrfaktury, data(datawyst), data(terminpl), new BigDecimal(Z.z(netto)).setScale(2, RoundingMode.HALF_EVEN), new BigDecimal(Z.z(vat)).setScale(2, RoundingMode.HALF_EVEN));
+            ps.getPB().add(pb);
+            sumanetto += Z.z(netto);
+            sumavat += Z.z(vat);
+        }
+        ps.setP10(new BigDecimal(Z.z(sumanetto)).setScale(0, RoundingMode.HALF_EVEN).toBigInteger());
+        ps.setP11(new BigDecimal(Z.z(sumavat)).setScale(0, RoundingMode.HALF_EVEN).toBigInteger());
         vatzd.setPozycjeSzczegolowe(ps);
+        //marszajuldoplikuxml(vatzd);
         return vatzd;
     }
     
-    public static XMLGregorianCalendar data() {
+    public static XMLGregorianCalendar data(String[] data) {
          XMLGregorianCalendar newXMLGregorianCalendar = null;
         try {
             newXMLGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
-            newXMLGregorianCalendar.setYear(Integer.parseInt("2018"));
-            newXMLGregorianCalendar.setMonth(Integer.parseInt("05"));
-            newXMLGregorianCalendar.setDay(Integer.parseInt("25"));
+            newXMLGregorianCalendar.setYear(Integer.parseInt(data[0]));
+            newXMLGregorianCalendar.setMonth(Integer.parseInt(data[1]));
+            newXMLGregorianCalendar.setDay(Integer.parseInt(data[2]));
         } catch (DatatypeConfigurationException ex) {
             Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -118,8 +124,8 @@ public class VATZDBean {
      
     
     public static void main(String[] args) {
-        WniosekVATZD wn = createVATZD();
-        marszajuldoplikuxml(wn);
+        //WniosekVATZD wn = createVATZD();
+        //marszajuldoplikuxml(wn);
         //System.out.println(marszajuldoStringu(wn));
     }
 }

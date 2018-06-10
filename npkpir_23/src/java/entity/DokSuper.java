@@ -9,8 +9,10 @@ import entityfk.EVatwpisFK;
 import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -33,6 +35,8 @@ public class DokSuper  implements Serializable {
     private List<EVatwpisFK> ewidencjaVAT;
     @Transient
     private Waluty walutadokumentu;
+    @Transient
+    private String terminPlatnosci;
     
 
     public String getTypdokumentu() {
@@ -67,6 +71,15 @@ public class DokSuper  implements Serializable {
     public void setRodzajedok(Rodzajedok rodzajedok) {
         this.rodzajedok = rodzajedok;
     }
+
+    public String getTerminPlatnosci() {
+        return terminPlatnosci;
+    }
+
+    public void setTerminPlatnosci(String terminPlatnosci) {
+        this.terminPlatnosci = terminPlatnosci;
+    }
    
+    
     
 }

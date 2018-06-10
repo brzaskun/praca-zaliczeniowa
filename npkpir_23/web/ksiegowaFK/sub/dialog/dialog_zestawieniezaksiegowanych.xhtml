@@ -114,6 +114,12 @@
                                          />
                     </p:column>
                     <p:column>
+                        <p:commandButton id="vatzd" value="vatzd" actionListener="#{dokfkView.vatzd()}" 
+                                         style="width: 120px; margin-left: 10px;"
+                                         update=":zestawieniedokumentow:dataList"
+                                         />
+                    </p:column>
+                    <p:column>
                         <p:outputLabel for="pokazwszystkiedokumenty" value="pokaż wszystkie" style="margin-left: 10px;"/>
                         <p:selectBooleanCheckbox id="pokazwszystkiedokumenty" value="#{dokfkView.pokazwszystkiedokumenty}">
                             <p:ajax event="change" global="false" partialSubmit="tue"/>

@@ -26,6 +26,7 @@ import beansFK.StronaWierszaBean;
 import beansFK.TabelaNBPBean;
 import beansPdf.PdfDokfk;
 import beansRegon.SzukajDaneBean;
+import beansVAT.VATZDBean;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.DokfkLPcomparator;
@@ -49,6 +50,7 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
+import deklaracje.vatzd.WniosekVATZD;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Roki;
@@ -1728,6 +1730,25 @@ public class DokfkView implements Serializable {
 
 //    //</editor-fold>
    
+    
+    public void vatzd() {
+        try {
+            WniosekVATZD dek = null;
+            if (selectedlist!=null) {
+                dek = VATZDBean.createVATZD(selectedlist);
+            } else if (filteredValue!=null) {
+                dek = VATZDBean.createVATZD(filteredValue);
+            } else {
+                dek = VATZDBean.createVATZD(wykazZaksiegowanychDokumentow);
+            }
+            String zalacznik = VATZDBean.marszajuldoStringu(dek);
+            System.out.println(zalacznik);
+            Msg.dP();
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
+        }
+    }
 
     public void sprawdzsalda(String wybranakategoriadok) {
         if (wybranakategoriadok.startsWith("RK") || wybranakategoriadok.startsWith("WB")) {
