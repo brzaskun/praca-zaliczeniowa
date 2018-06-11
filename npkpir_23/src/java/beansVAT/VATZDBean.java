@@ -14,6 +14,8 @@ import deklaracje.vatzd.TNaglowekVATZD;
 import deklaracje.vatzd.WniosekVATZD;
 import entity.Dok;
 import entity.DokSuper;
+import entity.VATZDpozycja;
+import entity.VATZDpozycja_;
 import entityfk.Dokfk;
 import error.E;
 import java.io.File;
@@ -59,7 +61,8 @@ public class VATZDBean {
         double sumanetto = 0.0;
         double sumavat = 0.0;
         for (Object apsik : dok) {
-            DokSuper d = (DokSuper) apsik;
+            VATZDpozycja poz = (VATZDpozycja) apsik;
+            DokSuper d = poz.getDokfk() !=null ? (DokSuper)poz.getDokfk() : (DokSuper)poz.getDok();
             String nrfaktury = d.getClass().equals(Dok.class) ? ((Dok) d).getNrWlDk() : ((Dokfk) d).getNumerwlasnydokfk();
             String[] datawyst = d.getClass().equals(Dok.class) ? Data.getSplitted(((Dok) d).getDataWyst()) : Data.getSplitted(((Dokfk) d).getDatadokumentu());
             String[] terminpl = Data.getSplitted(d.getTerminPlatnosci());

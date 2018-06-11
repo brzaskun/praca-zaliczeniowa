@@ -15,10 +15,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
+import view.WpisView;
 
 /**
  *
@@ -28,6 +31,9 @@ import javax.validation.constraints.Size;
 @Table(name = "VATZDpozycja", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"dok", "dokid", "deklaracjevat"})}
 )
+@NamedQueries({
+    @NamedQuery(name = "VATZDpozycja.findByPodatnikRokMcFK", query = "SELECT d FROM VATZDpozycja d WHERE d.rokZD = :rok AND d.mcZD = :mc AND d.dokfk.podatnikObj = :podatnik")
+})
 public class VATZDpozycja implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,12 +57,25 @@ public class VATZDpozycja implements Serializable {
     @Column(name = "mcZD")
     private String mcZD;
     @Size(max = 10)
-    @Column(name = "terminplatnosci")//dd-mm-yyyy
+    @Column(name = "terminplatnosci")//yyyy-mm-dd
     private String terminplatnosci;
     @Column(name = "korektapodstawa")
     private double korektapodstawa;
     @Column(name = "korektapodatek")
     private double korektapodatek;
+    
+    
+    public VATZDpozycja() {
+    }
+
+    public VATZDpozycja(Dokfk dok, WpisView wpisView) {
+        this.dokfk = dok;
+        this.rokZD = wpisView.getRokWpisuSt();
+        this.mcZD = wpisView.getMiesiacWpisu();
+        this.terminplatnosci = dok.getTerminPlatnosci();
+        this.korektapodstawa = dok.getNettoVAT();
+        this.korektapodatek = dok.getVATVAT();
+    }
 
     @Override
     public int hashCode() {

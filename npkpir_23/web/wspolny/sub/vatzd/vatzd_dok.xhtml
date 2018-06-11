@@ -8,7 +8,15 @@
 
     
     <p:tab title="dokumenty">
-        <p:panelGrid columns="2">
+        <p:panelGrid columns="3">
+            <p:column>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 60px;">
+                            <p:ajax event="change" listener="#{vATZDView.rokinit}" partialSubmit="true"
+                                    onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                    update="form_dialog_vatzd:akordeon:dataList" />
+                            <f:selectItems value="#{Roki.rokiList}"/>
+                        </p:selectOneMenu>
+            </p:column>
             <p:column>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 60px;">
                             <p:ajax event="change" listener="#{vATZDView.init}" partialSubmit="true"
@@ -18,9 +26,9 @@
                             <f:selectItems value="#{Mce.mceList}"/>
                         </p:selectOneMenu>
                     </p:column>
-                <p:commandButton id="vatzd" value="vatzd" actionListener="#{vATZDView.vatzd()}" 
+                <p:commandButton id="wybierzdok" value="wybierz" actionListener="#{vATZDView.wybierzdokumentyfk()}" 
                                  style="width: 120px; margin-left: 10px;"
-                                 update="form_dialog_vatzd:akordeon:dataList"
+                                 update="form_dialog_vatzd:akordeon:dataList form_dialog_vatzd:akordeon:tabelawybrane"
                                  />
         </p:panelGrid>
          <p:dataTable id="dataList" value="#{vATZDView.dokumentyfk}" var="itemzd" rowIndexVar="row" widgetVar="tablicadokumenty" 

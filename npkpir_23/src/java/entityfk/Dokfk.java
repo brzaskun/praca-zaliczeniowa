@@ -721,6 +721,10 @@ public class Dokfk extends DokSuper implements Serializable {
     public String toString2() {
         return seriadokfk + "/" + nrkolejnywserii + "/" + rok;
     }
+    
+    public String stringdlavatzd() {
+        return seriadokfk + "/" + nrkolejnywserii + "/" + rok+" "+numerwlasnydokfk+" "+kontr.getNpelna();
+    }
 
     public String getMcRok() {
         return this.miesiac + "/" + this.getRok();

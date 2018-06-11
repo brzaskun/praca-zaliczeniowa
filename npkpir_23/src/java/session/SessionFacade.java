@@ -4,6 +4,7 @@
  */
 package session;
 
+import dao.VATZDDAO;
 import embeddable.Mce;
 import entity.Amodok;
 import entity.DeklaracjaVatSchema;
@@ -53,6 +54,7 @@ import entity.Sumypkpir;
 import entity.UPO;
 import entity.UmorzenieN;
 import entity.Uz;
+import entity.WniosekVATZDEntity;
 import entity.Wpis;
 import entity.ZamkniecieRokuEtap;
 import entity.ZamkniecieRokuRozliczenie;
@@ -2201,6 +2203,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<KontopozycjaZapis> findByKontoOnly(Konto konto) {
         return em.createNamedQuery("KontopozycjaZapis.findByKontoOnly").setParameter("konto", konto).getResultList();
                 
+    }
+
+    public List<VATZDDAO> findVATPozycjaByPodatnikRokMcFK(WpisView wpisView) {
+        return em.createNamedQuery("VATZDpozycja.findByPodatnikRokMcFK").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+    }
+
+    public List<WniosekVATZDEntity> findWniosekZDByPodatnikRokMcFK(WpisView wpisView) {
+        return em.createNamedQuery("WniosekVATZDEntity.findByPodatnikRokMcFK").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
 
     

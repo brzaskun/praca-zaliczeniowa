@@ -6,7 +6,66 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
 <p:tab title="wybrane">
-    
+    <p:panelGrid columns="2">
+     <p:commandButton id="vatzd" value="vatzd" actionListener="#{vATZDView.vatzd()}" 
+                                 style="width: 120px; margin-left: 10px;"
+                                 update="form_dialog_vatzd:akordeon:dataList"/>
+     </p:panelGrid>
+                <p:dataTable value="#{vATZDView.pozycje}" var="itemwybr" rowIndexVar="indexw" id="tabelawybrane"
+                             style="width: 1260px; height: 450px; overflow-y: scroll;" >
+                    <p:column width="30" style="text-align: center;">
+                     <f:facet name="header">
+                         <h:outputText value="Id"/>
+                     </f:facet>
+                     <h:outputText value="#{indexw+1}"/>
+                 </p:column>
+                 <p:column width="400">
+                     <f:facet name="header">
+                         <h:outputText value="dokument"/>
+                     </f:facet>
+                     <h:outputText value="#{itemwybr.dokfk.stringdlavatzd()}"/>
+                 </p:column>
+                 <p:column>
+                     <f:facet name="header">
+                         <h:outputText value="Deklaracjavat"/>
+                     </f:facet>
+                     <h:outputText value="#{itemwybr.deklaracjavat.identyfikator}"/>
+                 </p:column>
+                    <p:column width="30" style="text-align: center;">
+                     <f:facet name="header">
+                         <h:outputText value="rok"/>
+                     </f:facet>
+                     <h:outputText value="#{itemwybr.rokZD}"/>
+                 </p:column>
+                    <p:column width="30" style="text-align: center;">
+                     <f:facet name="header">
+                         <h:outputText value="mc"/>
+                     </f:facet>
+                     <h:outputText value="#{itemwybr.mcZD}"/>
+                 </p:column>
+                    <p:column width="90"  style="text-align: center;">
+                     <f:facet name="header">
+                         <h:outputText value="termin platnosci"/>
+                     </f:facet>
+                     <h:outputText value="#{itemwybr.terminplatnosci}"/>
+                 </p:column>
+                <p:column width="80">
+                     <f:facet name="header">
+                         <h:outputText value="korekta netto"/>
+                     </f:facet>
+                     <bcf:outputpl value="#{itemwybr.korektapodstawa}"/>
+                 </p:column>
+                    <p:column width="80">
+                     <f:facet name="header">
+                         <h:outputText value="korekta vat"/>
+                     </f:facet>
+                     <bcf:outputpl value="#{itemwybr.korektapodatek}"/>
+                 </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <p:commandButton icon="fa fa-trash-o" actionListener="#{vATZDView.usunfk(itemwybr)}" update="form_dialog_vatzd:akordeon:tabelawybrane"/>
+                 </p:column>
+             </p:dataTable>
+     
     </p:tab>
 </ui:composition>   
 

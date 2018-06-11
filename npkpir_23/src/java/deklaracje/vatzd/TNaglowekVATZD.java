@@ -8,6 +8,7 @@
 
 package deklaracje.vatzd;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -58,7 +59,8 @@ import javax.xml.bind.annotation.XmlValue;
     "kodFormularza",
     "wariantFormularza"
 })
-public class TNaglowekVATZD {
+public class TNaglowekVATZD implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "KodFormularza", required = true)
     protected TNaglowekVATZD.KodFormularza kodFormularza;
@@ -128,7 +130,8 @@ public class TNaglowekVATZD {
     @XmlType(name = "", propOrder = {
         "value"
     })
-    public static class KodFormularza {
+    public static class KodFormularza implements Serializable {
+        private static final long serialVersionUID = 1L;
 
         @XmlValue
         protected TKodFormularzaVATZD value;

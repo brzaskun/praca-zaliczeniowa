@@ -6,14 +6,19 @@
 package view;
 
 import beansVAT.VATZDBean;
+import dao.VATZDDAO;
+import dao.WniosekVATZDEntityDAO;
 import daoFK.DokDAOfk;
 import data.Data;
 import deklaracje.vatzd.WniosekVATZD;
+import deklaracje.vatzd.WniosekVATZDSuper;
 import entity.Dok;
 import entity.VATZDpozycja;
+import entity.WniosekVATZDEntity;
 import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -38,14 +43,29 @@ public class VATZDView implements Serializable {
     private List<Dokfk> dokumentyfkselected;
     private List<Dokfk> dokumentyfkfiltered;
     private List<VATZDpozycja> wykazdovatzd;
+    private List<VATZDpozycja> pozycje;
+    private List<WniosekVATZDEntity> wniosekVATZDEntityList;
     @Inject
     private DokDAOfk dokDAOfk;
+    @Inject
+    private VATZDDAO vatzddao;
+    @Inject
+    private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private WniosekVATZD wniosekVATZD;
+
+    public VATZDView() {
+        this.pozycje  = new ArrayList<>();
+    }
+
+
     
     @PostConstruct
     public void init() {
+        pozycje.addAll(vatzddao.findByPodatnikRokMcFK(wpisView));
         dokumentyfk = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+        wniosekVATZDEntityList = wniosekVATZDEntityDAO.findByPodatnikRokMcFK(wpisView);
         for (Iterator<Dokfk> it = dokumentyfk.iterator(); it.hasNext(); ) {
             Dokfk dok = it.next();
             if (dok.getEwidencjaVAT()==null || dok.getEwidencjaVAT().size()==0) {
@@ -54,6 +74,11 @@ public class VATZDView implements Serializable {
                 it.remove();
             }
         }
+    }
+    
+    public void rokinit() {
+        wpisView.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        init();
     }
 
     public void edytujtermin(Dokfk dok) {
@@ -81,22 +106,64 @@ public class VATZDView implements Serializable {
         }
     }
 
+    public void wybierzdokumentyfk() {
+        if (!dokumentyfkselected.isEmpty()) {
+            for (Dokfk dok : dokumentyfkselected) {
+                if(niemanalisciefk(dok)) {
+                    VATZDpozycja poz = new VATZDpozycja(dok, wpisView);
+                    vatzddao.dodaj(poz);
+                    pozycje.add(poz);
+                } else {
+                    Msg.msg("w","Niektóre wybrane dokumenty są już na liście");
+                }
+            }
+            Msg.msg("Zachowano wybrane dokumenty dokumenty");
+        } else {
+            Msg.msg("e", "Nie wybrano dokumentów");
+        }
+    }
+    
     public void vatzd() {
         try {
-            WniosekVATZD dek = null;
-            if (dokumentyfkselected!=null) {
-                dek = VATZDBean.createVATZD(dokumentyfkselected);
-            } else if (dokumentyfkfiltered!=null) {
-                dek = VATZDBean.createVATZD(dokumentyfkfiltered);
-            } else {
-                dek = VATZDBean.createVATZD(dokumentyfk);
+            WniosekVATZD wniosekVATZD = null;
+            if (pozycje!=null) {
+                wniosekVATZD = VATZDBean.createVATZD(pozycje);
             }
-            String zalacznik = VATZDBean.marszajuldoStringu(dek);
+            WniosekVATZDEntity wniosekVATZDEntity = new WniosekVATZDEntity();
+            String zalacznik = VATZDBean.marszajuldoStringu(wniosekVATZD);
+            wniosekVATZDEntity.setWniosek(wniosekVATZD);
+            wniosekVATZDEntity.setZalacznik(zalacznik);
+            wniosekVATZDEntity.setPodatnik(wpisView.getPodatnikObiekt());
+            wniosekVATZDEntity.setRok(wpisView.getRokWpisuSt());
+            wniosekVATZDEntity.setMc(wpisView.getMiesiacWpisu());
+            wniosekVATZDEntityDAO.dodaj(this.wniosekVATZDEntityList);
+            this.wniosekVATZDEntityList.add(wniosekVATZDEntity);
             System.out.println(zalacznik);
             Msg.dP();
         } catch (Exception e) {
             E.e(e);
             Msg.dPe();
+        }
+    }
+    
+    private boolean niemanalisciefk(Dokfk dok) {
+        boolean zwrot = true;
+        for(VATZDpozycja p : pozycje) {
+            if (p.getDokfk().equals(dok)) {
+                zwrot = false;
+                break;
+            }
+        }
+        return zwrot;
+    }
+    
+    public void usunfk(VATZDpozycja poz) {
+        if (poz.getDeklaracjavat()==null) {
+            vatzddao.destroy(poz);
+            pozycje.remove(poz);
+            Msg.msg("Usunięto pozycję");
+        } else {
+            Msg.msg("e","Załącznik wysłany nie można usunąć");
         }
     }
     
@@ -147,6 +214,33 @@ public class VATZDView implements Serializable {
     public void setDokumentyfkfiltered(List<Dokfk> dokumentyfkfiltered) {
         this.dokumentyfkfiltered = dokumentyfkfiltered;
     }
+
+    public List<VATZDpozycja> getPozycje() {
+        return pozycje;
+    }
+
+    public void setPozycje(List<VATZDpozycja> pozycje) {
+        this.pozycje = pozycje;
+    }
+
+    public List<WniosekVATZDEntity> getWniosekVATZDEntityList() {
+        return wniosekVATZDEntityList;
+    }
+
+    public void setWniosekVATZDEntityList(List<WniosekVATZDEntity> wniosekVATZDEntityList) {
+        this.wniosekVATZDEntityList = wniosekVATZDEntityList;
+    }
+
+
+    public WniosekVATZD getWniosekVATZD() {
+        return wniosekVATZD;
+    }
+
+    public void setWniosekVATZD(WniosekVATZD wniosekVATZD) {
+        this.wniosekVATZD = wniosekVATZD;
+    }
+
+    
     
     
     

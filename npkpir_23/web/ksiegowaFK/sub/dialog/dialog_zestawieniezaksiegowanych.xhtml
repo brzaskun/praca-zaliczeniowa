@@ -67,6 +67,14 @@
                         </p:selectOneMenu>
                     </p:column>
                     <p:column>
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 60px;">
+                                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneRok}" partialSubmit="true"
+                                            onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                    update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
+                                    <f:selectItems value="#{Roki.rokiList}"/>
+                                </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
                         <p:commandButton id="pobierzzaksiegowane" value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" 
                                          update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu  :menubarnorth"
                                          onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"

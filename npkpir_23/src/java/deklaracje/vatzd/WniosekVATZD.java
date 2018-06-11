@@ -8,6 +8,7 @@
 
 package deklaracje.vatzd;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -91,7 +92,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "pozycjeSzczegolowe"
 })
 @XmlRootElement(name = "Wniosek_VAT-ZD", namespace = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/07/29/eD/VATZD/")
-public class WniosekVATZD {
+public class WniosekVATZD extends WniosekVATZDSuper implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "Naglowek", namespace = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/07/29/eD/VATZD/", required = true)
     protected TNaglowekVATZD naglowek;
@@ -203,7 +205,8 @@ public class WniosekVATZD {
         "p10",
         "p11"
     })
-    public static class PozycjeSzczegolowe {
+    public static class PozycjeSzczegolowe implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "P_B", namespace = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/07/29/eD/VATZD/")
         protected List<WniosekVATZD.PozycjeSzczegolowe.PB> pb;
@@ -338,7 +341,8 @@ public class WniosekVATZD {
             "pbf",
             "pbg"
         })
-        public static class PB {
+        public static class PB implements Serializable {
+            private static final long serialVersionUID = 1L;
 
             @XmlElement(name = "P_BB", namespace = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/07/29/eD/VATZD/", required = true)
             @XmlJavaTypeAdapter(CollapsedStringAdapter.class)

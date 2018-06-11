@@ -1781,6 +1781,11 @@ public class DokfkView implements Serializable {
         miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
     }
 
+    public void odswiezzaksiegowaneRok() {
+        wpisView.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        odswiezzaksiegowane();
+    }
+    
     public void odswiezzaksiegowane() {
         try {
             if (pokazwszystkiedokumenty) {
