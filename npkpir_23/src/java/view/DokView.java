@@ -323,12 +323,10 @@ public class DokView implements Serializable {
     }
     
     public void dodajcechedodokumentu(Cechazapisu c) {
-        pobranecechypodatnik.remove(c);
         selDokument.getCechadokumentuLista().add(c);
         c.getDokLista().add(selDokument);
     }
     public void usuncechedodokumentu(Cechazapisu c) {
-        pobranecechypodatnik.add(c);
         selDokument.getCechadokumentuLista().remove(c);
         c.getDokfkLista().remove(selDokument);
     }
