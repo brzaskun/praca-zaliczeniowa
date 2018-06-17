@@ -63,6 +63,15 @@ public class UPODAO extends DAO implements Serializable{
             return null;
         }
     }
+    
+    public List<UPO> findUPOBez200() {
+        try {
+            List<UPO> lista = sessionFacade.findUPOBez200();
+            return lista;
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
 
    
     

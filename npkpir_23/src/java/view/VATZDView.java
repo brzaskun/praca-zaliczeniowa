@@ -39,9 +39,9 @@ import msg.Msg;
 public class VATZDView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Dok> dokumentykp;
-    private List<Dokfk> dokumentyfk;
-    private List<Dokfk> dokumentyfkselected;
-    private List<Dokfk> dokumentyfkfiltered;
+    private List<Dokfk> dokumentyfksprzedaz;
+    private List<Dokfk> dokumentyfksprzedazselected;
+    private List<Dokfk> dokumentyfksprzedazfiltered;
     private List<VATZDpozycja> wykazdovatzd;
     private List<VATZDpozycja> pozycje;
     private List<WniosekVATZDEntity> wniosekVATZDEntityList;
@@ -64,11 +64,13 @@ public class VATZDView implements Serializable {
     @PostConstruct
     public void init() {
         pozycje.addAll(vatzddao.findByPodatnikRokMcFK(wpisView));
-        dokumentyfk = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+        dokumentyfksprzedaz = dokDAOfk.findDokfkPodatnikRokMcVAT(wpisView);
         wniosekVATZDEntityList = wniosekVATZDEntityDAO.findByPodatnikRokMcFK(wpisView);
-        for (Iterator<Dokfk> it = dokumentyfk.iterator(); it.hasNext(); ) {
+        for (Iterator<Dokfk> it = dokumentyfksprzedaz.iterator(); it.hasNext(); ) {
             Dokfk dok = it.next();
-            if (dok.getEwidencjaVAT()==null || dok.getEwidencjaVAT().size()==0) {
+            if (dok.getRodzajedok().getKategoriadokumentu()!=2) {
+                it.remove();
+            } else if (dok.getEwidencjaVAT()==null || dok.getEwidencjaVAT().size()==0) {
                 it.remove();
             } else if (dok.getVATVAT()==0.0) {
                 it.remove();
@@ -107,9 +109,9 @@ public class VATZDView implements Serializable {
     }
 
     public void wybierzdokumentyfk() {
-        if (!dokumentyfkselected.isEmpty()) {
-            for (Dokfk dok : dokumentyfkselected) {
-                if(niemanalisciefk(dok)) {
+        if (!dokumentyfksprzedazselected.isEmpty()) {
+            for (Dokfk dok : dokumentyfksprzedazselected) {
+                if(niemanalisciefk(dok) && wpisanotermin(dok)) {
                     VATZDpozycja poz = new VATZDpozycja(dok, wpisView);
                     vatzddao.dodaj(poz);
                     pozycje.add(poz);
@@ -167,6 +169,14 @@ public class VATZDView implements Serializable {
         }
     }
     
+    private boolean wpisanotermin(Dokfk dok) {
+        boolean zwrot = false;
+        if (dok.getTerminPlatnosci()!=null && (!dok.getTerminPlatnosci().equals("") && dok.getTerminPlatnosci().length()==10)) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+    
     public List<Dok> getDokumentykp() {
         return dokumentykp;
     }
@@ -175,12 +185,12 @@ public class VATZDView implements Serializable {
         this.dokumentykp = dokumentykp;
     }
 
-    public List<Dokfk> getDokumentyfk() {
-        return dokumentyfk;
+    public List<Dokfk> getDokumentyfksprzedaz() {
+        return dokumentyfksprzedaz;
     }
 
-    public void setDokumentyfk(List<Dokfk> dokumentyfk) {
-        this.dokumentyfk = dokumentyfk;
+    public void setDokumentyfksprzedaz(List<Dokfk> dokumentyfksprzedaz) {
+        this.dokumentyfksprzedaz = dokumentyfksprzedaz;
     }
 
     public List<VATZDpozycja> getWykazdovatzd() {
@@ -199,20 +209,20 @@ public class VATZDView implements Serializable {
         this.wpisView = wpisView;
     }
 
-    public List<Dokfk> getDokumentyfkselected() {
-        return dokumentyfkselected;
+    public List<Dokfk> getDokumentyfksprzedazselected() {
+        return dokumentyfksprzedazselected;
     }
 
-    public void setDokumentyfkselected(List<Dokfk> dokumentyfkselected) {
-        this.dokumentyfkselected = dokumentyfkselected;
+    public void setDokumentyfksprzedazselected(List<Dokfk> dokumentyfksprzedazselected) {
+        this.dokumentyfksprzedazselected = dokumentyfksprzedazselected;
     }
 
-    public List<Dokfk> getDokumentyfkfiltered() {
-        return dokumentyfkfiltered;
+    public List<Dokfk> getDokumentyfksprzedazfiltered() {
+        return dokumentyfksprzedazfiltered;
     }
 
-    public void setDokumentyfkfiltered(List<Dokfk> dokumentyfkfiltered) {
-        this.dokumentyfkfiltered = dokumentyfkfiltered;
+    public void setDokumentyfksprzedazfiltered(List<Dokfk> dokumentyfksprzedazfiltered) {
+        this.dokumentyfksprzedazfiltered = dokumentyfksprzedazfiltered;
     }
 
     public List<VATZDpozycja> getPozycje() {
@@ -239,6 +249,8 @@ public class VATZDView implements Serializable {
     public void setWniosekVATZD(WniosekVATZD wniosekVATZD) {
         this.wniosekVATZD = wniosekVATZD;
     }
+
+    
 
     
     

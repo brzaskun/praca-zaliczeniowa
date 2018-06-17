@@ -2213,6 +2213,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("WniosekVATZDEntity.findByPodatnikRokMcFK").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
 
+    public List<UPO> findUPOBez200() {
+         return em.createNamedQuery("UPO.findUPOBez200").getResultList();
+    }
+
     
 
     

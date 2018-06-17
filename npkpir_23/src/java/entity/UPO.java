@@ -41,7 +41,8 @@ import view.WpisView;
 @Table(name = "upo")
 @NamedQueries({
     @NamedQuery(name = "UPO.findUPOPodatnikRok", query = "SELECT a FROM UPO a WHERE a.podatnik = :podatnik AND a.rok = :rok"),
-    @NamedQuery(name = "UPO.findUPORokMc", query = "SELECT a FROM UPO a WHERE a.rok = :rok AND a.miesiac =:mc")
+    @NamedQuery(name = "UPO.findUPORokMc", query = "SELECT a FROM UPO a WHERE a.rok = :rok AND a.miesiac =:mc"),
+    @NamedQuery(name = "UPO.findUPOBez200", query = "SELECT a FROM UPO a WHERE a.code != 200")
 })
 public class UPO  implements Serializable {
     private static final long serialVersionUID = 1L;

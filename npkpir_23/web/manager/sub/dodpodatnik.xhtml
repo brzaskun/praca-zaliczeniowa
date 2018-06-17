@@ -113,13 +113,14 @@
                     <h:outputLabel value="kod ubezpieczenia ZUS"/>
                     <h:selectOneMenu value="#{podatnikView.selectedDod.kodubezpieczeniaZUS}">
                         <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                        <f:selectItem itemLabel="05 10 00" itemValue="051000"/>
-                        <f:selectItem itemLabel="05 11 00" itemValue="051100"/>
-                        <f:selectItem itemLabel="05 12 00" itemValue="051200"/>
-                        <f:selectItem itemLabel="05 13 00" itemValue="051300"/>
-                        <f:selectItem itemLabel="05 43 00" itemValue="054300"/>
-                        <f:selectItem itemLabel="05 70 00" itemValue="054300"/>
-                        <f:selectItem itemLabel="05 72 00" itemValue="054300"/>
+                        <f:selectItem itemLabel="05 10" itemValue="051000"/>
+                        <f:selectItem itemLabel="05 11" itemValue="051100"/>
+                        <f:selectItem itemLabel="05 12" itemValue="051200"/>
+                        <f:selectItem itemLabel="05 13" itemValue="051300"/>
+                        <f:selectItem itemLabel="05 40" itemValue="054000"/>
+                        <f:selectItem itemLabel="05 43" itemValue="054300"/>
+                        <f:selectItem itemLabel="05 70" itemValue="057000"/>
+                        <f:selectItem itemLabel="05 72" itemValue="057200"/>
                     </h:selectOneMenu>
                     <h:outputLabel value="podatnik tylko dla ZUS"/>
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.tylkodlaZUS}">

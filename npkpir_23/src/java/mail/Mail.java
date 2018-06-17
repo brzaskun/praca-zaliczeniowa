@@ -10,7 +10,10 @@ package mail;
  */
 import beansMail.SMTPBean;
 import entity.SMTPSettings;
+import entity.UPO;
+import entity.Uz;
 import error.E;
+import java.util.List;
 import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.Transport;
@@ -143,6 +146,41 @@ public class Mail {
                     + stopka,  "text/html; charset=utf-8");
             message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);
+        } catch (Exception e) {
+            E.e(e);
+            throw new RuntimeException(e);
+        }
+    }
+       
+       public static void brakiwJPK(Uz wprowadzil, String opis, List<UPO> upolista, SMTPSettings settings, SMTPSettings ogolne) {
+        try {
+            if (upolista.size()>0) {
+                String upolstring = "";
+                int znalazlem = 0;
+                for (UPO p : upolista) {
+                    if (p.getWprowadzil().equals(wprowadzil)) {
+                        upolstring = upolstring+"<p>"+p.getPodatnik().getPrintnazwa()+" "+p.getRok()+"/"+p.getMiesiac()+"</p>";
+                        znalazlem++;
+                    }
+                }
+                if (znalazlem > 0) {
+                    MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+                    message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
+                    message.setRecipients(Message.RecipientType.TO,
+                            InternetAddress.parse(wprowadzil.getEmail()));
+                    message.setRecipients(Message.RecipientType.BCC,
+                            InternetAddress.parse("brzaskun@o2.pl"));
+                    message.setSubject("Informacja o plikach JPK");
+                    message.setContent("Szanowny Użytkowniku,"
+                            + "<p>"+opis+"</p>"
+                            + "<br/>"
+                            + upolstring
+                            + "<br/>"
+                            + stopka,  "text/html; charset=utf-8");
+                    message.setHeader("Content-Type", "text/html; charset=utf-8");
+                    Transport.send(message);
+                }
+            }
         } catch (Exception e) {
             E.e(e);
             throw new RuntimeException(e);
