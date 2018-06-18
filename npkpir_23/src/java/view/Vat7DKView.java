@@ -672,7 +672,8 @@ public class Vat7DKView implements Serializable {
                     } else if (badana.getStatus().startsWith("200") && pierwotnazamiastkorekty == false) {
                         nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                         pozycjeDeklaracjiVAT.setCelzlozenia("2");
-                        Msg.msg("w", "Przygotowano do zachowania korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc,"form:messages");                    } else if (badana.getStatus().startsWith("200") && pierwotnazamiastkorekty == true) {
+                        Msg.msg("w", "Przygotowano do zachowania korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc,"form:messages");                    
+                    } else if (badana.getStatus().startsWith("200") && pierwotnazamiastkorekty == true) {
                         nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                         pozycjeDeklaracjiVAT.setCelzlozenia("1");
                         Msg.msg("w", "Wysłano już deklarację za ten okres. Jednakże w opcjach ustawiono wymuszenie deklaracji pierwotnej","form:messages");

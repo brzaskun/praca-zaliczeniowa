@@ -781,6 +781,10 @@ public class DokView implements Serializable {
                 temp.setUzytkownik(wpisView.getWprowadzil().getLogin());
                 temp.setDokument(selDokument);
                 ostatnidokumentDAO.edit(temp);
+                pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
+                if (pobranecechypodatnik != null && pobranecechypodatnik.size() ==1) {
+                    cechadomyslna = pobranecechypodatnik.get(0);
+                }
                 try {
                     String probsymbolu = selDokument.getSymbolinwestycji();
                     if (probsymbolu != null && !probsymbolu.equals("wybierz")) {

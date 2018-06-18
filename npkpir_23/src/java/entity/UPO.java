@@ -108,6 +108,12 @@ public class UPO  implements Serializable {
         }
     }
 
+    public UPO(Podatnik p, String mcpop, String rokpop) {
+        this.podatnik = p;
+        this.miesiac = mcpop;
+        this.rok = rokpop;
+    }
+
     public int getId() {
         return id;
     }
