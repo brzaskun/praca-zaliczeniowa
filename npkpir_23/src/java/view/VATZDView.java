@@ -53,7 +53,7 @@ public class VATZDView implements Serializable {
     private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    private WniosekVATZD wniosekVATZD;
+    private WniosekVATZDEntity wniosekVATZDEntity;
 
     public VATZDView() {
         this.pozycje  = new ArrayList<>();
@@ -66,6 +66,9 @@ public class VATZDView implements Serializable {
         pozycje.addAll(vatzddao.findByPodatnikRokMcFK(wpisView));
         dokumentyfksprzedaz = dokDAOfk.findDokfkPodatnikRokMcVAT(wpisView);
         wniosekVATZDEntityList = wniosekVATZDEntityDAO.findByPodatnikRokMcFK(wpisView);
+        if(wniosekVATZDEntityList!=null && wniosekVATZDEntityList.size()>0) {
+            wniosekVATZDEntity = wniosekVATZDEntityList.get(0);
+        }
         for (Iterator<Dokfk> it = dokumentyfksprzedaz.iterator(); it.hasNext(); ) {
             Dokfk dok = it.next();
             if (dok.getRodzajedok().getKategoriadokumentu()!=2) {
@@ -111,7 +114,9 @@ public class VATZDView implements Serializable {
     public void wybierzdokumentyfk() {
         if (!dokumentyfksprzedazselected.isEmpty()) {
             for (Dokfk dok : dokumentyfksprzedazselected) {
-                if(niemanalisciefk(dok) && wpisanotermin(dok)) {
+                if (!wpisanotermin(dok)) {
+                    Msg.msg("w","Brak terminu płatności na niektórych dok.");
+                } else if(niemanalisciefk(dok)) {
                     VATZDpozycja poz = new VATZDpozycja(dok, wpisView);
                     vatzddao.dodaj(poz);
                     pozycje.add(poz);
@@ -119,7 +124,11 @@ public class VATZDView implements Serializable {
                     Msg.msg("w","Niektóre wybrane dokumenty są już na liście");
                 }
             }
-            Msg.msg("Zachowano wybrane dokumenty dokumenty");
+            if (pozycje.size()>0) {
+                Msg.msg("Zachowano wybrane dokumenty dokumenty");
+            } else {
+                Msg.msg("e","Nie zachowano/wybrano ani jednego dokumentu");
+            }
         } else {
             Msg.msg("e", "Nie wybrano dokumentów");
         }
@@ -127,24 +136,44 @@ public class VATZDView implements Serializable {
     
     public void vatzd() {
         try {
-            WniosekVATZD wniosekVATZD = null;
+            WniosekVATZD wniosekVATZDsprzedaz = null;
             if (pozycje!=null) {
-                wniosekVATZD = VATZDBean.createVATZD(pozycje);
+                wniosekVATZDsprzedaz = VATZDBean.createVATZD(pozycje);
             }
-            WniosekVATZDEntity wniosekVATZDEntity = new WniosekVATZDEntity();
-            String zalacznik = VATZDBean.marszajuldoStringu(wniosekVATZD);
-            wniosekVATZDEntity.setWniosek(wniosekVATZD);
+            wniosekVATZDEntity = new WniosekVATZDEntity();
+            String zalacznik = VATZDBean.marszajuldoStringu(wniosekVATZDsprzedaz);
+            wniosekVATZDEntity.setWniosek(wniosekVATZDsprzedaz);
             wniosekVATZDEntity.setZalacznik(zalacznik);
             wniosekVATZDEntity.setPodatnik(wpisView.getPodatnikObiekt());
             wniosekVATZDEntity.setRok(wpisView.getRokWpisuSt());
             wniosekVATZDEntity.setMc(wpisView.getMiesiacWpisu());
-            wniosekVATZDEntityDAO.dodaj(this.wniosekVATZDEntityList);
             this.wniosekVATZDEntityList.add(wniosekVATZDEntity);
             System.out.println(zalacznik);
             Msg.dP();
         } catch (Exception e) {
             E.e(e);
             Msg.dPe();
+        }
+    }
+    
+    public void zachowajwniosek() {
+        try {
+            wniosekVATZDEntityDAO.dodaj(wniosekVATZDEntity);
+            Msg.msg("Zachowano wniosek");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Nie udało się zachować wniosku");
+        }
+    }
+    
+    public void usunwniosek() {
+        try {
+            wniosekVATZDEntityDAO.destroy(wniosekVATZDEntity);
+            wniosekVATZDEntity = null;
+            Msg.msg("Usunięto wniosek");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Nie usunięto wniosku");
         }
     }
     
@@ -241,17 +270,16 @@ public class VATZDView implements Serializable {
         this.wniosekVATZDEntityList = wniosekVATZDEntityList;
     }
 
-
-    public WniosekVATZD getWniosekVATZD() {
-        return wniosekVATZD;
+    public WniosekVATZDEntity getWniosekVATZDEntity() {
+        return wniosekVATZDEntity;
     }
 
-    public void setWniosekVATZD(WniosekVATZD wniosekVATZD) {
-        this.wniosekVATZD = wniosekVATZD;
+    public void setWniosekVATZDEntity(WniosekVATZDEntity wniosekVATZDEntity) {
+        this.wniosekVATZDEntity = wniosekVATZDEntity;
     }
 
-    
 
+   
     
     
     

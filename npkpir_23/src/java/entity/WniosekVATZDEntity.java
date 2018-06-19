@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -43,7 +44,7 @@ public class WniosekVATZDEntity implements Serializable {
     private Integer id;
     @Column(name = "wniosek")
     private WniosekVATZDSuper  wniosek;
-    @Column(name = "zalacznik")
+    @Column(name = "zalacznik", length = 8192)
     private String  zalacznik;
     @Size(max = 4)
     @Column(name = "rok")
@@ -156,6 +157,21 @@ public class WniosekVATZDEntity implements Serializable {
         return "WniosekVATZDEntity{" + "wniosek=" + wniosek + ", rok=" + rok + ", mc=" + mc + ", podatnik=" + podatnik.getPrintnazwa() + '}';
     }
     
+    public int getNetto() {
+        int zwrot = 0;
+        if (this.wniosek.getClass().equals(deklaracje.vatzd.WniosekVATZD.class)) {
+            zwrot = ((deklaracje.vatzd.WniosekVATZD)this.wniosek).getPozycjeSzczegolowe().getP10().intValue();
+        }
+        return zwrot;
+    }
+    
+    public int getVat() {
+        int zwrot = 0;
+        if (this.wniosek.getClass().equals(deklaracje.vatzd.WniosekVATZD.class)) {
+            zwrot = ((deklaracje.vatzd.WniosekVATZD)this.wniosek).getPozycjeSzczegolowe().getP11().intValue();
+        }
+        return zwrot;
+    }
     
     
 }

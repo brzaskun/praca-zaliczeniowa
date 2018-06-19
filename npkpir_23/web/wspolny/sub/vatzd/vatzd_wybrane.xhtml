@@ -6,10 +6,10 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
 <p:tab title="wybrane">
-    <p:panelGrid columns="2">
-     <p:commandButton id="vatzd" value="vatzd" actionListener="#{vATZDView.vatzd()}" 
-                                 style="width: 120px; margin-left: 10px;"
-                                 update="form_dialog_vatzd:akordeon:dataList"/>
+    <p:panelGrid columns="2" styleClass="panelvazd">
+        <p:commandButton id="vatzd" value="vatzd" actionListener="#{vATZDView.vatzd()}"
+                      style="width: 120px; margin-left: 10px;" rendered="#{vATZDView.wniosekVATZDEntity eq null}"
+                                 update="form_dialog_vatzd:akordeon:dataList @(.panelvazd)"/>
      </p:panelGrid>
                 <p:dataTable value="#{vATZDView.pozycje}" var="itemwybr" rowIndexVar="indexw" id="tabelawybrane"
                              style="width: 1260px; height: 450px; overflow-y: scroll;" >
