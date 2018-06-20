@@ -147,20 +147,21 @@ public class VatSuper implements Serializable{
     }
 
     public List<Dok> getZawiera() {
-        return zawiera;
-    }
-
-    public void setZawiera(List<Dok> zawiera) {
-        this.zawiera = zawiera;
+        if (this instanceof entity.VatUe)  {
+            return ((entity.VatUe)this).getZawiera();
+        } else {
+            return null;
+        }
     }
 
     public List<Dokfk> getZawierafk() {
-        return zawierafk;
+        if (this instanceof entity.VatUe)  {
+            return ((entity.VatUe)this).getZawierafk();
+        } else {
+            return null;
+        }
     }
 
-    public void setZawierafk(List<Dokfk> zawierafk) {
-        this.zawierafk = zawierafk;
-    }
 
     public double getNettowaluta() {
         return nettowaluta;
