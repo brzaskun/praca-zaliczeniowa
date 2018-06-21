@@ -217,7 +217,9 @@ public class PdfFP {
                     if (selected.isGutschrift()) {
                         text = "Gutschrift Nr "+ selected.getFakturaPK().getNumerkolejny();
                     } else {
-                        if (selected.isZaliczkowa()) {
+                        if (selected.getRodzajdokumentu().equals("rachunek baz VAT")) {
+                            text = B.b("rachuneknr")+" "+ selected.getFakturaPK().getNumerkolejny();
+                        } else if (selected.isZaliczkowa()) {
                             text = B.b("fakturazaliczkowanr")+" "+ selected.getFakturaPK().getNumerkolejny();
                         } else {
                             text = B.b("fakturanr")+" "+ selected.getFakturaPK().getNumerkolejny();
@@ -413,7 +415,11 @@ public class PdfFP {
                     String podpis = selected.getPodpis() == null ? "" : selected.getPodpis();
                     absText(writer, podpis, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:podpis"), 8);
                     absText(writer, "..........................................", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:podpis") - 20, 8);
-                    absText(writer, B.b("wystawcafaktury"), (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 8);
+                    if (selected.getRodzajdokumentu().equals("rachunek baz VAT")) {
+                        absText(writer, B.b("wystawcarachunku"), (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 8);
+                    } else {
+                        absText(writer, B.b("wystawcafaktury"), (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 8);
+                    }
                     break;
             }
         }
