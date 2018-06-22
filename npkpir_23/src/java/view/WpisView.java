@@ -94,6 +94,13 @@ public class WpisView implements Serializable {
             podatnikWpisu = wpis.getPodatnikWpisu();
             if (wpis.getPodatnikWpisu() == null) {
                 inicjacjaUz(wpis);
+            } else if (wpis.getMiesiacWpisu()==null || wpis.getRokWpisu()==null) {
+                miesiacWpisu = Data.aktualnyMc();
+                zmianaokresuMc =  Data.aktualnyMc();
+                miesiacWpisuArchiwum = Data.aktualnyMc();
+                rokWpisu = Integer.parseInt(Data.aktualnyRok());
+                zmianaokresuRok =  Integer.parseInt(Data.aktualnyRok());
+                inicjacjaUzDaty(wpis);
             } else {
                 miesiacWpisu = wpis.getMiesiacWpisu();
                 zmianaokresuMc =  wpis.getMiesiacWpisu();
@@ -153,6 +160,16 @@ public class WpisView implements Serializable {
         podatnikWpisu = nazwapodatnika;
         wpis.setPodatnikWpisu(nazwapodatnika);
         wpis.setMiesiacWpisu(miesiacWpisu);
+        wpisDAO.edit(wpis);
+    }
+    
+     private void inicjacjaUzDaty(Wpis wpis) {
+        miesiacWpisu = Data.aktualnyMc();
+        wpis.setMiesiacWpisu(Data.aktualnyMc());
+        wpis.setMiesiacOd(Data.aktualnyMc());
+        wpis.setMiesiacDo(Data.aktualnyMc());
+        miesiacWpisuArchiwum = Data.aktualnyMc();
+        wpis.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size() - 1));
         wpisDAO.edit(wpis);
     }
     private Wpis pobierzWpisBD() {
