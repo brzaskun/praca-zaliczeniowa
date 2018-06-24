@@ -14,6 +14,7 @@ import dao.DeklaracjevatDAO;
 import dao.EvpozycjaDAO;
 import dao.PodatnikDAO;
 import dao.SchemaEwidencjaDAO;
+import dao.WniosekVATZDEntityDAO;
 import deklaracjaVAT7_13.VAT713;
 import deklaracje.vat7_17.Deklaracja;
 import embeddable.EVatwpisSuma;
@@ -32,6 +33,7 @@ import entity.Deklaracjevat;
 import entity.Evewidencja;
 import entity.Podatnik;
 import entity.SchemaEwidencja;
+import entity.WniosekVATZDEntity;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -111,6 +113,9 @@ public class Vat7DKView implements Serializable {
     private boolean flagazt;
     private boolean pokazuproszczona;
     private boolean pokazpelna;
+    @Inject
+    private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
+    private WniosekVATZDEntity wniosekVATZDEntity;
    
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -124,6 +129,10 @@ public class Vat7DKView implements Serializable {
         podatnik = wpisView.getPodatnikWpisu();
         pokazuproszczona = czypokazurproszczona();
         pokazpelna = czypokazpelna();
+        List<WniosekVATZDEntity> wniosekVATZDEntityList = wniosekVATZDEntityDAO.findByPodatnikRokMcFK(wpisView);
+        if(wniosekVATZDEntityList!=null && wniosekVATZDEntityList.size()>0) {
+            wniosekVATZDEntity = wniosekVATZDEntityList.get(0);
+        }
     }
 
     //to bylo w starej wersji strony
@@ -203,7 +212,7 @@ public class Vat7DKView implements Serializable {
         obliczNowa();
     }
     public void obliczNowaFK() {
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt());
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), wniosekVATZDEntity);
         mapaewidencji =  ewidencjaVatView.getSumaewidencji();
         obliczNowa();
     }
@@ -365,10 +374,11 @@ public class Vat7DKView implements Serializable {
             deklaracjakorygowana = null;
             Msg.msg("i", wpisView.getPodatnikWpisu() + "Usunięto poprzednią niewysłaną deklarację VAT za " + rok + "-" + mc,"form:messages");
         }
+        boolean vatzd = wniosekVATZDEntity!=null;
         if (flaga != 1) {
             pozycjeDeklaracjiVAT.setFirma1osobafiz0(wpisView.isKsiegirachunkowe());
             uzupelnijPozycjeDeklaracji(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
-            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema);
+            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema, vatzd);
             nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
             nowadeklaracja.setPodsumowanieewidencji(mapaewidencji);
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
@@ -378,14 +388,51 @@ public class Vat7DKView implements Serializable {
         if (flaga == 1) {
             Msg.msg("e", wpisView.getPodatnikWpisu() + " Deklaracja nie zachowana","form:messages");
         } else {
+            if (vatzd) {
+                dodajzalacznikVATZD(nowadeklaracja);
+                wniosekVATZDEntity.setDeklaracjevat(nowadeklaracja);
+                nowadeklaracja.setWniosekVATZDEntity(wniosekVATZDEntity);
+            }
             nowadeklaracja.setDatasporzadzenia(new Date());
             deklaracjevatDAO.dodaj(nowadeklaracja);
+            if (vatzd) {
+                wniosekVATZDEntityDAO.edit(wniosekVATZDEntity);
+            }
             Msg.msg("i", wpisView.getPodatnikWpisu() + " - zachowano nową deklaracje VAT za " + rok + "-" + mc,"form:messages");
         }
         //pobieranie potwierdzenia
         nowadeklaracja = null;
         flaga = 1;
         zachowaj = false;
+    }
+    
+    public void dodajzalacznikVATZD(Deklaracjevat temp) {
+        String podatnik = wpisView.getPodatnikWpisu();
+        String zalacznik;
+        String trescdeklaracji = temp.getDeklaracja();
+        //pozbywamy sie koncowki </ns:Deklaracja> ale szukamy wpierw czy isteje juz inny zalacznik
+        int lastIndexOf = trescdeklaracji.lastIndexOf("</Zalaczniki>");
+        if (lastIndexOf == -1) {
+            zalacznik = "<Zalaczniki>"+wniosekVATZDEntity.getZalacznik()+"</Zalaczniki>";
+            lastIndexOf = trescdeklaracji.lastIndexOf("<podp:DaneAutoryzujace");
+            if (lastIndexOf==-1) {
+                lastIndexOf = trescdeklaracji.lastIndexOf("</Deklaracja>");
+            }
+        } else {
+            zalacznik = wniosekVATZDEntity.getZalacznik();
+        }
+        String koncowka = trescdeklaracji.substring(lastIndexOf);
+        trescdeklaracji = trescdeklaracji.substring(0, lastIndexOf);
+        //zalaczamy zalacznik
+        trescdeklaracji = trescdeklaracji+zalacznik;
+        //dodajemy usuniete zakonczenie
+        trescdeklaracji = trescdeklaracji+koncowka;
+        temp.setDeklaracja(trescdeklaracji);
+        try{
+            Msg.msg("i","Sukces, załączono VAT-ZD.");
+        } catch (Exception e) { E.e(e); 
+            Msg.msg("e","Wystapil błąd. Nie udało się załączyć VAT-ZD.");
+        }
     }
     
     private void wygenerujwierszesumaryczne(List<SchemaEwidencja> schemaewidencjalista, ArrayList<EVatwpisSuma> pobraneewidencje, List<DeklaracjaVatSchemaWierszSum> schemawierszsumzbazy) {
@@ -824,17 +871,17 @@ public class Vat7DKView implements Serializable {
         return uzupelnionewiersze;
     }
     
-    private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema) {
+    private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema, boolean vatzd) {
         Deklaracjevat nowadekl = new Deklaracjevat();
         String wiersz = null;
         byte[] deklaracjapodpisana = null;
         try {
             if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-                VAT713 vat713 = new VAT713(pozycje, schema, true);
+                VAT713 vat713 = new VAT713(pozycje, schema, true, vatzd);
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(true);
             } else {
-                VAT713 vat713 = new VAT713(pozycje, schema, false);
+                VAT713 vat713 = new VAT713(pozycje, schema, false, vatzd);
                 //to jest wygenerowana dekalracjia w xml
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(false);
@@ -1141,6 +1188,14 @@ public class Vat7DKView implements Serializable {
 
     public void setEwidencjaVatView(EwidencjaVatView ewidencjaVatView) {
         this.ewidencjaVatView = ewidencjaVatView;
+    }
+
+    public WniosekVATZDEntity getWniosekVATZDEntity() {
+        return wniosekVATZDEntity;
+    }
+
+    public void setWniosekVATZDEntity(WniosekVATZDEntity wniosekVATZDEntity) {
+        this.wniosekVATZDEntity = wniosekVATZDEntity;
     }
 
     

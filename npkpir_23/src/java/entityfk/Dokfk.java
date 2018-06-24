@@ -13,6 +13,7 @@ import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.Vat27;
 import entity.VatUe;
+import entity.WniosekVATZDEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -218,6 +219,9 @@ public class Dokfk extends DokSuper implements Serializable {
     @JoinColumn(name = "vat27", referencedColumnName = "id")
     @OneToOne
     private Vat27 vat27;
+    @JoinColumn(name = "wniosekVATZDEntity", referencedColumnName = "id")
+    @OneToOne
+    private WniosekVATZDEntity wniosekVATZDEntity;
 
 
 
@@ -305,6 +309,14 @@ public class Dokfk extends DokSuper implements Serializable {
 
     public void setTerminPlatnosci(String terminPlatnosci) {
         this.terminPlatnosci = terminPlatnosci;
+    }
+
+    public WniosekVATZDEntity getWniosekVATZDEntity() {
+        return wniosekVATZDEntity;
+    }
+
+    public void setWniosekVATZDEntity(WniosekVATZDEntity wniosekVATZDEntity) {
+        this.wniosekVATZDEntity = wniosekVATZDEntity;
     }
 
     public Vat27 getVat27() {

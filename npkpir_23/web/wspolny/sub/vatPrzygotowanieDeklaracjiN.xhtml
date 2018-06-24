@@ -11,6 +11,13 @@
     >
 <!--     <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>-->
             <h:form id="formdekl">
+                <p:panelGrid columns="8" id="panelzalacznisprzedaz2" styleClass="panelvazd" rendered="#{vat7DKView.wniosekVATZDEntity ne null}" style="padding-bottom: 10px;">
+                    <h:outputText value="Jest przygotowana korekta sprzedaży VAT-ZD:" style="color: red;"/>
+                <h:outputText value=" korekta netto:" style="color: red;"/>
+                <bcf:outputpl0 value="#{vat7DKView.wniosekVATZDEntity.netto}" style="color: red;"/>
+                <h:outputText value=" korekta vat:" style="color: red;"/>
+                <bcf:outputpl0 value="#{vat7DKView.wniosekVATZDEntity.vat}" style="color: red;"/>
+            </p:panelGrid>
             <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
                 <p:commandButton id="przycisk2d" value="oblicz"  actionListener="#{vat7DKView.obliczNowaDedra()}" update="@form deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
                                  rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}"/>

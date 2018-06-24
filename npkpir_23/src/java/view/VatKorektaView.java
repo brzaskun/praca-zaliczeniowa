@@ -18,6 +18,7 @@ import dao.EvpozycjaDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.VATDeklaracjaKorektaDokDAO;
+import dao.WniosekVATZDEntityDAO;
 import deklaracjaVAT7_13.VAT713;
 import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
@@ -35,6 +36,7 @@ import entity.Evpozycja;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.VATDeklaracjaKorektaDok;
+import entity.WniosekVATZDEntity;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -99,6 +101,9 @@ public class VatKorektaView implements Serializable {
     private VatKorektaDok vatKorektaDok;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @Inject
+    private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
+    private WniosekVATZDEntity wniosekVATZDEntity;
 
     public VatKorektaView() {
         deklaracjeWyslane = new ArrayList<>();
@@ -125,6 +130,10 @@ public class VatKorektaView implements Serializable {
         } catch (Exception e) { E.e(e); 
         }
         Collections.sort(deklaracjeWyslane, new Vatcomparator());
+        List<WniosekVATZDEntity> wniosekVATZDEntityList = wniosekVATZDEntityDAO.findByPodatnikRokMcFK(wpisView);
+        if(wniosekVATZDEntityList!=null && wniosekVATZDEntityList.size()>0) {
+            wniosekVATZDEntity = wniosekVATZDEntityList.get(0);
+        }
     }
 
     public void podepnijEwidencjeVat() {
@@ -272,17 +281,56 @@ public class VatKorektaView implements Serializable {
         }
         List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
         DeklaracjaVatSchema pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, wpisView.getRokWpisuSt(), mckw, schemyLista);
-        stworzdeklaracje(pozycjeDeklaracjiVAT, deklaracjaVATPoKorekcie, pasujacaSchema);
+        boolean vatzd = wniosekVATZDEntity!=null;
+        stworzdeklaracje(pozycjeDeklaracjiVAT, deklaracjaVATPoKorekcie, pasujacaSchema, vatzd);
         int czyjestcosdowysylki = czynieczekajuzcosdowyslania();
         if (czyjestcosdowysylki == 0) {
+            if (vatzd) {
+                dodajzalacznikVATZD(deklaracjaVATPoKorekcie);
+                wniosekVATZDEntity.setDeklaracjevat(deklaracjaVATPoKorekcie);
+                deklaracjaVATPoKorekcie.setWniosekVATZDEntity(wniosekVATZDEntity);
+            }
             deklaracjevatDAO.dodaj(deklaracjaVATPoKorekcie);
             vATDeklaracjaKorektaDok.setDeklaracjaKorekta(deklaracjaVATPoKorekcie);
             vATDeklaracjaKorektaDokDAO.dodaj(vATDeklaracjaKorektaDok);
+            if (vatzd) {
+                wniosekVATZDEntityDAO.edit(wniosekVATZDEntity);
+            }
             deklaracjaVATPoKorekcie.setVatDeklaracjaKorektaDokWykaz(vATDeklaracjaKorektaDok);
             deklaracjevatDAO.edit(deklaracjaVATPoKorekcie);
             Msg.msg("i", "Zachowano nową deklaracje VAT");
         }
     }
+    
+    public void dodajzalacznikVATZD(Deklaracjevat temp) {
+        String podatnik = wpisView.getPodatnikWpisu();
+        String zalacznik;
+        String trescdeklaracji = temp.getDeklaracja();
+        //pozbywamy sie koncowki </ns:Deklaracja> ale szukamy wpierw czy isteje juz inny zalacznik
+        int lastIndexOf = trescdeklaracji.lastIndexOf("</Zalaczniki>");
+        if (lastIndexOf == -1) {
+            zalacznik = "<Zalaczniki>"+wniosekVATZDEntity.getZalacznik()+"</Zalaczniki>";
+            lastIndexOf = trescdeklaracji.lastIndexOf("<podp:DaneAutoryzujace");
+            if (lastIndexOf==-1) {
+                lastIndexOf = trescdeklaracji.lastIndexOf("</Deklaracja>");
+            }
+        } else {
+            zalacznik = wniosekVATZDEntity.getZalacznik();
+        }
+        String koncowka = trescdeklaracji.substring(lastIndexOf);
+        trescdeklaracji = trescdeklaracji.substring(0, lastIndexOf);
+        //zalaczamy zalacznik
+        trescdeklaracji = trescdeklaracji+zalacznik;
+        //dodajemy usuniete zakonczenie
+        trescdeklaracji = trescdeklaracji+koncowka;
+        temp.setDeklaracja(trescdeklaracji);
+        try{
+            Msg.msg("i","Sukces, załączono VAT-ZD.");
+        } catch (Exception e) { E.e(e); 
+            Msg.msg("e","Wystapil błąd. Nie udało się załączyć VAT-ZD.");
+        }
+    }
+    
     private String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
@@ -302,13 +350,13 @@ public class VatKorektaView implements Serializable {
         return 0;
     }
     
-    private void stworzdeklaracje(Vatpoz pozycje, Deklaracjevat nowadeklaracja, DeklaracjaVatSchema schema) {
+    private void stworzdeklaracje(Vatpoz pozycje, Deklaracjevat nowadeklaracja, DeklaracjaVatSchema schema, boolean vatzd) {
         VAT713 vat713 = null;
         try {
             if (ObslugaPodpisuBean.moznaPodpisac()) {
-                vat713 = new VAT713(pozycje, schema, true);
+                vat713 = new VAT713(pozycje, schema, true, vatzd);
             } else {
-                vat713 = new VAT713(pozycje, schema, false);
+                vat713 = new VAT713(pozycje, schema, false, vatzd);
             }
             String wiersz = vat713.getWiersz();
             nowadeklaracja.setDeklaracja(wiersz);

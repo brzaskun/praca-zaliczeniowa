@@ -134,7 +134,7 @@ public class JPK_VAT2View implements Serializable {
         if (podatnik.getFormaPrawna()==null) {
             ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik);
         } else {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
         }
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         generujXML(wiersze, podatnik, nowa0korekta1);
@@ -182,7 +182,7 @@ public class JPK_VAT2View implements Serializable {
         if (podatnik.getFormaPrawna()==null) {
             ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik);
         } else {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
         }
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         generujXMLPodglad(wiersze, podatnik, nowa0korekta1);
@@ -190,7 +190,7 @@ public class JPK_VAT2View implements Serializable {
     
     public void przygotujXMLFK() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt());
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0) {
@@ -204,7 +204,7 @@ public class JPK_VAT2View implements Serializable {
     
     public void przygotujXMLFKPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt());
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0) {

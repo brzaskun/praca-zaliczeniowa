@@ -83,8 +83,12 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
     @Lob
     @Column(name = "schemawierszsumarycznylista")
     private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
+    @OneToOne
+    @JoinColumn(name = "wniosekVATZDEntity", referencedColumnName = "id")
+    private WniosekVATZDEntity wniosekVATZDEntity;
     @Transient
     private String kwotaautoryzacja;  
+    
     
     
     public Deklaracjevat() {
@@ -370,6 +374,14 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
 
     public void setKwotaautoryzacja(String kwotaautoryzacja) {
         this.kwotaautoryzacja = kwotaautoryzacja;
+    }
+
+    public WniosekVATZDEntity getWniosekVATZDEntity() {
+        return wniosekVATZDEntity;
+    }
+
+    public void setWniosekVATZDEntity(WniosekVATZDEntity wniosekVATZDEntity) {
+        this.wniosekVATZDEntity = wniosekVATZDEntity;
     }
 
     

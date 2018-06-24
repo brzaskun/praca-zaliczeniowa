@@ -237,6 +237,9 @@ public class Dok extends DokSuper implements Serializable {
     @JoinColumn(name = "vat27", referencedColumnName = "id")
     @OneToOne
     private Vat27 vat27;
+    @JoinColumn(name = "wniosekVATZDEntity", referencedColumnName = "id")
+    @OneToOne
+    private WniosekVATZDEntity wniosekVATZDEntity;
     
     public Dok() {
         this.listakwot1 = new ArrayList<>();
@@ -601,6 +604,14 @@ public class Dok extends DokSuper implements Serializable {
 
     public void setVat27(Vat27 vat27) {
         this.vat27 = vat27;
+    }
+
+    public WniosekVATZDEntity getWniosekVATZDEntity() {
+        return wniosekVATZDEntity;
+    }
+
+    public void setWniosekVATZDEntity(WniosekVATZDEntity wniosekVATZDEntity) {
+        this.wniosekVATZDEntity = wniosekVATZDEntity;
     }
 
     

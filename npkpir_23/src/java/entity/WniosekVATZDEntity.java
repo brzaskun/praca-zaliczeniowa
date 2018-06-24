@@ -6,12 +6,16 @@
 package entity;
 
 import deklaracje.vatzd.WniosekVATZDSuper;
+import entityfk.Dokfk;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +24,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
@@ -55,6 +61,13 @@ public class WniosekVATZDEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnik;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "wniosekVATZDEntity")
+    private List<Dok> zawiera;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "wniosekVATZDEntity")
+    private List<Dokfk> zawierafk;
+    @OneToOne
+    @JoinColumn(name = "deklaracjevat", referencedColumnName = "id")
+    private Deklaracjevat deklaracjevat;
 
     public WniosekVATZDEntity() {
     }
@@ -106,6 +119,31 @@ public class WniosekVATZDEntity implements Serializable {
     public void setZalacznik(String zalacznik) {
         this.zalacznik = zalacznik;
     }
+
+    public List<Dok> getZawiera() {
+        return zawiera;
+    }
+
+    public void setZawiera(List<Dok> zawiera) {
+        this.zawiera = zawiera;
+    }
+
+    public List<Dokfk> getZawierafk() {
+        return zawierafk;
+    }
+
+    public void setZawierafk(List<Dokfk> zawierafk) {
+        this.zawierafk = zawierafk;
+    }
+
+    public Deklaracjevat getDeklaracjevat() {
+        return deklaracjevat;
+    }
+
+    public void setDeklaracjevat(Deklaracjevat deklaracjevat) {
+        this.deklaracjevat = deklaracjevat;
+    }
+    
 
     @Override
     public int hashCode() {

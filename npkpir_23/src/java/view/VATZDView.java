@@ -27,6 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 
@@ -54,6 +55,7 @@ public class VATZDView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private WniosekVATZDEntity wniosekVATZDEntity;
+    private boolean tylkowybrane;
 
     public VATZDView() {
         this.pozycje  = new ArrayList<>();
@@ -141,6 +143,11 @@ public class VATZDView implements Serializable {
                 wniosekVATZDsprzedaz = VATZDBean.createVATZD(pozycje);
             }
             wniosekVATZDEntity = new WniosekVATZDEntity();
+            wniosekVATZDEntity.setZawierafk(new ArrayList<>());
+            for (VATZDpozycja p : pozycje) {
+                p.getDokfk().setWniosekVATZDEntity(wniosekVATZDEntity);
+                wniosekVATZDEntity.getZawierafk().add(p.getDokfk());
+            }
             String zalacznik = VATZDBean.marszajuldoStringu(wniosekVATZDsprzedaz);
             wniosekVATZDEntity.setWniosek(wniosekVATZDsprzedaz);
             wniosekVATZDEntity.setZalacznik(zalacznik);
@@ -159,6 +166,7 @@ public class VATZDView implements Serializable {
     public void zachowajwniosek() {
         try {
             wniosekVATZDEntityDAO.dodaj(wniosekVATZDEntity);
+            dokDAOfk.editList(wniosekVATZDEntity.getZawierafk());
             Msg.msg("Zachowano wniosek");
         } catch (Exception e) {
             E.e(e);
@@ -168,7 +176,11 @@ public class VATZDView implements Serializable {
     
     public void usunwniosek() {
         try {
+            for (Dokfk d : wniosekVATZDEntity.getZawierafk()) {
+                d.setWniosekVATZDEntity(null);
+            }
             wniosekVATZDEntityDAO.destroy(wniosekVATZDEntity);
+            dokDAOfk.editList(wniosekVATZDEntity.getZawierafk());
             wniosekVATZDEntity = null;
             Msg.msg("Usunięto wniosek");
         } catch (Exception e) {
@@ -204,6 +216,30 @@ public class VATZDView implements Serializable {
             zwrot = true;
         }
         return zwrot;
+    }
+    
+    public void wybierzwybrane(ValueChangeEvent e) {
+        boolean wart = (boolean) e.getNewValue();
+        if (wart) {
+            for (Iterator<Dokfk> it = dokumentyfksprzedaz.iterator(); it.hasNext();) {
+                if (it.next().getWniosekVATZDEntity()==null) {
+                    it.remove();
+                }
+            }
+        } else {
+            dokumentyfksprzedaz = dokDAOfk.findDokfkPodatnikRokMcVAT(wpisView);
+            for (Iterator<Dokfk> it = dokumentyfksprzedaz.iterator(); it.hasNext(); ) {
+                Dokfk dok = it.next();
+                if (dok.getRodzajedok().getKategoriadokumentu()!=2) {
+                    it.remove();
+                } else if (dok.getEwidencjaVAT()==null || dok.getEwidencjaVAT().size()==0) {
+                    it.remove();
+                } else if (dok.getVATVAT()==0.0) {
+                    it.remove();
+                }
+            }
+        }
+        Msg.dP();
     }
     
     public List<Dok> getDokumentykp() {
@@ -276,6 +312,14 @@ public class VATZDView implements Serializable {
 
     public void setWniosekVATZDEntity(WniosekVATZDEntity wniosekVATZDEntity) {
         this.wniosekVATZDEntity = wniosekVATZDEntity;
+    }
+
+    public boolean isTylkowybrane() {
+        return tylkowybrane;
+    }
+
+    public void setTylkowybrane(boolean tylkowybrane) {
+        this.tylkowybrane = tylkowybrane;
     }
 
 

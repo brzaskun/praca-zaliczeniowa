@@ -58,6 +58,9 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
         if (lastIndexOf == -1) {
             zalacznik = new VATZT(zal,kwota,informacja,0).getVatzt();
             lastIndexOf = trescdeklaracji.lastIndexOf("<podp:DaneAutoryzujace");
+            if (lastIndexOf==-1) {
+                lastIndexOf = trescdeklaracji.lastIndexOf("</Deklaracja>");
+            }
         } else {
             zalacznik = new VATZT(zal,kwota,informacja,1).getVatzt();
         }

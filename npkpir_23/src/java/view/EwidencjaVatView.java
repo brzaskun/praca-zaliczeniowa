@@ -14,6 +14,7 @@ import dao.WpisDAO;
 import daoFK.EVatwpisDedraDAO;
 import daoFK.EVatwpisFKDAO;
 import data.Data;
+import deklaracje.vatzd.WniosekVATZD;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
@@ -22,7 +23,9 @@ import entity.EVatwpis1;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Podatnik;
+import entity.WniosekVATZDEntity;
 import entity.Wpis;
+import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import error.E;
 import java.io.IOException;
@@ -271,7 +274,7 @@ public class EwidencjaVatView implements Serializable {
     }
 
   
-    public void stworzenieEwidencjiZDokumentowFK(Podatnik podatnik) {
+    public void stworzenieEwidencjiZDokumentowFK(Podatnik podatnik, WniosekVATZDEntity wniosekVATZDEntity) {
         try {
             listadokvatprzetworzona = new ArrayList<>();
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
@@ -295,6 +298,7 @@ public class EwidencjaVatView implements Serializable {
             wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
             sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
             przejrzyjEVatwpis1Lista();
+            dodajwierszeVATZDsprzedaz(wniosekVATZDEntity);
             stworzenieEwidencjiCzescWspolnaFK();
             for (String k : listaewidencji.keySet()) {
                 nazwyewidencji.add(k);
@@ -393,6 +397,24 @@ public class EwidencjaVatView implements Serializable {
         //drukuj ewidencje
     }
 
+    private void dodajwierszeVATZDsprzedaz(WniosekVATZDEntity wniosekVATZDEntity) {
+        List<EVatwpisSuper> nowa = new ArrayList<>();
+        if (wniosekVATZDEntity != null) {
+            for (Dokfk d : wniosekVATZDEntity.getZawierafk()) {
+                List<EVatwpisFK> poz = d.getEwidencjaVAT();
+                for (EVatwpisFK e : poz) {
+                    e.setNetto(-e.getNetto());
+                    e.setVat(-e.getVat());
+                    e.setBrutto(-e.getBrutto());
+                    e.setMcEw(wpisView.getMiesiacWpisu());
+                    e.setRokEw(wpisView.getRokWpisuSt());
+                    nowa.add(e);
+                }
+            }
+        }
+        listadokvatprzetworzona.addAll(nowa);
+    }
+    
     private void obliczwynikokresu() {
         wynikOkresu = new BigDecimal(BigInteger.ZERO);
         for (EVatwpisSuma p : sumaewidencji.values()) {
@@ -1170,6 +1192,8 @@ public class EwidencjaVatView implements Serializable {
     public void setPobierzmiesiacdlajpk(boolean pobierzmiesiacdlajpk) {
         this.pobierzmiesiacdlajpk = pobierzmiesiacdlajpk;
     }
+
+   
 
     
 

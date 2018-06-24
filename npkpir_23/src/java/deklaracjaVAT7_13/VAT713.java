@@ -19,13 +19,13 @@ public class VAT713 implements Serializable{
     private final String wiersz;
 
    
-    public VAT713(Vatpoz vatpoz, DeklaracjaVatSchema schema, boolean cert) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public VAT713(Vatpoz vatpoz, DeklaracjaVatSchema schema, boolean cert, boolean vatzd) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         String wstep = schema.getWstep();
         Naglowek naglowek = new Naglowek(vatpoz, schema);
         Podmiot podmiot = new Podmiot(vatpoz);
         PodmiotFirma podmiotfirma = new PodmiotFirma(vatpoz);
         PozycjeSzczegolowe pozycjeSzczegolowe = new PozycjeSzczegolowe(vatpoz, schema);
-        KwadracikiNaDole kwadracikiNaDole = new KwadracikiNaDole(vatpoz, schema);
+        KwadracikiNaDole kwadracikiNaDole = new KwadracikiNaDole(vatpoz, schema, vatzd);
         String oswiadczenie = schema.getOswiadczenie();
         String pouczenie = schema.getPouczenie();
         if (cert) {

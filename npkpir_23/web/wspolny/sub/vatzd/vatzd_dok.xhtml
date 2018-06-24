@@ -8,7 +8,7 @@
 
     
     <p:tab title="sprzedaż">
-        <p:panelGrid columns="3">
+        <p:panelGrid columns="5">
             <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 60px;">
                             <p:ajax event="change" listener="#{vATZDView.rokinit}" partialSubmit="true"
@@ -30,6 +30,12 @@
                                  style="width: 120px; margin-left: 10px;"
                                  update="form_dialog_vatzd:akordeon:dataList form_dialog_vatzd:akordeon:tabelawybrane"
                                  />
+                <h:outputText value="tylko wybrane"/>
+                              <p:selectBooleanCheckbox  valueChangeListener="#{vATZDView.wybierzwybrane}" 
+                                                       style="width: 120px; margin-left: 10px;" value="#{vATZDView.tylkowybrane}"
+                                 >
+                                  <p:ajax event="change" partialSubmit="true" update="form_dialog_vatzd:akordeon:dataList"/>
+                    </p:selectBooleanCheckbox>
         </p:panelGrid>
          <p:dataTable id="dataList" value="#{vATZDView.dokumentyfksprzedaz}" var="itemzd" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{vATZDView.dokumentyfksprzedazselected}" rowKey="#{itemzd.dokfkSN}"
@@ -47,7 +53,9 @@
                 <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center; height: 32px;">
                     <h:outputText styleClass="lpwierszaZaksiegowane lpwiersza" value="#{row+1}"/>
                 </p:column>
-                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;">
+                    
+                </p:column>
                 <p:column styleClass="kolwi" width="10" style="height: 40px; text-align: center;" >
                     <p:rowToggler rendered="#{itemzd.ewidencjaVAT.size() gt 0}" id="roe"/>
                 </p:column>
@@ -60,7 +68,8 @@
                 <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzd.dokfkSN}" 
                           sortFunction="#{vATZDView.sortujzaksiegowane}"
                           filterBy="#{itemzd.dokfkSN}" filterMatchMode="contains">
-                    <h:outputText value="#{itemzd.dokfkSN}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
+                    <h:outputText value="#{itemzd.dokfkSN}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;" rendered="#{itemzd.wniosekVATZDEntity eq null}"/>
+                    <h:outputText value="dokument ujęty w VATZD" rendered="#{itemzd.wniosekVATZDEntity ne null}" style="color:red;"/>
                 </p:column>
                 <p:column headerText="#{mgs.kontrahent}" styleClass="zaksiegowanekontr" width="140" sortBy="#{itemzd.kontr.npelna}" filterBy="#{itemzd.kontr.npelna}" >
                     <h:outputText value="#{itemzd.kontr.npelna}"/>
@@ -80,7 +89,7 @@
                 </p:column>
                 <p:column headerText="#{mgs.wartość}" 
                           styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzd.wartoscdokumentu}" filterBy="#{itemzd.wartoscdokumentu}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemzd.wartoscdokumentu}" style="float: right;" id="wartoscdokumentuzest">
+                    <h:outputText value="#{itemzd.wartoscdokumentu}" style="float: right; " id="wartoscdokumentuzest">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
