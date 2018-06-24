@@ -1968,7 +1968,12 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
     
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRokPoprzedni(WpisView wpisView) {
-        return (PodatnikOpodatkowanieD) em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokUprzedniSt()).getSingleResult();
+        PodatnikOpodatkowanieD zwrot = null;
+        try {
+            zwrot = (PodatnikOpodatkowanieD) em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokUprzedniSt()).getSingleResult();
+        } catch (Exception e) {
+        }
+        return zwrot;
     }
 
     public List<String> znajdzDokumentPodatnikWpr(String wpr) {

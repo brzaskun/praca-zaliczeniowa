@@ -6,44 +6,31 @@
 package beansVAT;
 
 import data.Data;
-import deklaracje.vat272.Deklaracja;
 import static deklaracje.vat272.VAT27Bean.StringToDocument;
 import deklaracje.vatzd.ObjectFactory;
-import deklaracje.vatzd.TKodFormularzaVATZD;
 import deklaracje.vatzd.TNaglowekVATZD;
 import deklaracje.vatzd.WniosekVATZD;
 import entity.Dok;
 import entity.DokSuper;
 import entity.VATZDpozycja;
-import entity.VATZDpozycja_;
 import entityfk.Dokfk;
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import static org.jsoup.nodes.Document.OutputSettings.Syntax.xml;
 import org.w3c.dom.Document;
-import view.WpisView;
 import waluty.Z;
 
 /**

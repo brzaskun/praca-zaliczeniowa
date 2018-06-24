@@ -40,11 +40,12 @@ public class PodatnikOpodatkowanieDDAO extends DAO implements Serializable{
     }
     
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRokPoprzedni(WpisView wpisView) {
+        PodatnikOpodatkowanieD zwrot = null;
         try {
-            return sessionFacade.findOpodatkowaniePodatnikRokPoprzedni(wpisView);
+            zwrot = sessionFacade.findOpodatkowaniePodatnikRokPoprzedni(wpisView);
         } catch (Exception e) {
         }
-        return null;
+        return zwrot;
     }
 
     public List<PodatnikOpodatkowanieD> findAll() {

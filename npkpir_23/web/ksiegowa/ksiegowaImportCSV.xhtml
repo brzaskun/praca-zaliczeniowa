@@ -17,12 +17,12 @@
                     <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                         <bcf:ajaxs/>
-                        <h:outputText value="import dokumentów z pliku CSV AMAZON"/>
+                        <h:outputText value="import dokumentów z pliku TXT z AMAZON"/>
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
                             <p:fileUpload fileUploadListener="#{importCSVView.importujsprzedaz}" 
                                           mode="advanced" dragDropSupport="true" fileLimit="1"
-                                          update="messages1 importtabela" sizeLimit="2000000"  allowTypes="/(\.|\/)(csv)$/" 
+                                          update="messages1 importtabela" sizeLimit="2000000"  allowTypes="/(\.|\/)(txt)$/" 
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                                           fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
                                           uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" onstart="PF('dialogAjaxCzekaj').show();"
@@ -35,13 +35,13 @@
                                           style="width: 1400px; margin-top: 10px; height: 600px; overflow-y: scroll;" rowKey="#{wpis.id}" 
                                           widgetVar="dokTable" 
                                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
-                                          emptyMessage="Nie pobrano jeszcze żadnych danych z pliku jpk"
+                                          emptyMessage="Nie pobrano jeszcze żadnych danych z pliku txt"
                                           styleClass="grid" 
                                           >
                                 <p:ajax event="filter" global="false" />
 
                                 <f:facet name="header">  
-                                    <h:outputText value="Zestawienie #{importCSVView.dokumenty.size()} zaimportowanych dokumentów z pliku jpk" />  
+                                    <h:outputText value="Zestawienie #{importCSVView.dokumenty.size()} zaimportowanych dokumentów z pliku tzt" />  
                                     <h:outputText value="- wyszukiwanie: " />  
                                     <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
                                     <!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
@@ -56,7 +56,7 @@
                                     <h:outputText styleClass="lpwiersza" value="#{index+1}" />
                                 </p:column>
                                 <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dataWyst}"  style="width: 50px; min-width: 70px;">  
-                                    <h:outputText value="#{wpis.dataWyst.substring(2)}"/>
+                                    <h:outputText value="#{wpis.dataWyst}"/>
                                 </p:column>
                                 <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" width="220"
                                           filterStyle="width:180px;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
