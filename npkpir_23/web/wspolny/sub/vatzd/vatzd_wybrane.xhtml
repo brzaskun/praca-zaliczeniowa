@@ -62,7 +62,7 @@
                      <bcf:outputpl value="#{itemwybr.korektapodatek}"/>
                  </p:column>
                     <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="fa fa-trash-o" actionListener="#{vATZDView.usunfk(itemwybr)}" update="form_dialog_vatzd:akordeon:tabelawybrane"/>
+                        <p:commandButton icon="fa fa-trash-o" actionListener="#{vATZDView.usunfk(itemwybr)}" update="form_dialog_vatzd:akordeon:tabelawybrane"  rendered="#{vATZDView.wniosekVATZDEntity ne null and vATZDView.wniosekVATZDEntity.id eq null}"/>
                  </p:column>
              </p:dataTable>
      
