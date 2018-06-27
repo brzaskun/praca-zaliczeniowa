@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-    <!--ABY TO DZIAŁAŁO NALEŻY ODZNACZYC WE WLASCIWOSCIACH PROJEKTU - COMPILE ON SAVE!!!!!-->
+  <!--ABY TO DZIAŁAŁO NALEŻY ODZNACZYC WE WLASCIWOSCIACH PROJEKTU - COMPILE ON SAVE!!!!!-->
   <persistence-unit name="npkpir_22PU" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>pkpirNew</jta-data-source>
@@ -8,12 +8,12 @@
     <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
-<!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
+      <!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
       <property name="eclipselink.ddl-generation" value="none"/>
-    </properties> 
- </persistence-unit>
+    </properties>
+  </persistence-unit>
   <!--ABY TO DZIAŁAŁO NALEŻY ZAZNACZYC WE WLASCIWOSCIACH PROJEKTU - COMPILE ON SAVE!!!!!-->
-<!--    <persistence-unit name="fkKonto1">
+  <!--    <persistence-unit name="fkKonto1">
     <description>JPA Test</description>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>
