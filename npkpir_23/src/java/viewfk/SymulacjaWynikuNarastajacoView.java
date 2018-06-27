@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -72,7 +73,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
     
-    
+    @PostConstruct
     public void init() {
         this.listamiesiecy = new ArrayList<>();
         this.listamiesiecypoprzednich = new ArrayList<>();

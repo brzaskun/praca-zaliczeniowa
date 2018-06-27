@@ -21,18 +21,16 @@
 
         </style>
         <h:form id="formsymulacjankup">
-            <p:panelGrid columns="4" style="margin-left: 2%;" >
-                <p:outputPanel style="padding: 10px;">
+            <p:panelGrid columns="4" >
                     <h:outputText value="rok" style="margin-right: 10px;"/>
                     <h:outputText value="#{WpisView.rokWpisuSt}" style="margin-right: 10px;"/>
                     <h:outputText value="m-c" style="margin-right: 10px;"/>
                     <h:outputText value="#{WpisView.miesiacWpisu}" style="margin-right: 10px;"/>
-                </p:outputPanel>
             </p:panelGrid>
-            <p:dataTable id="tabelacechyzapisow" var="wpis" value="#{symulacjaWynikuView.zapisyZCecha}" editable="true" rowKey="#{wpis.id}"
+            <p:dataTable id="tabelacechyzapisow" var="wpis1" value="#{symulacjaWynikuView.zapisyZCecha}"  rowKey="#{wpis1.id}"
                          filteredValue="#{symulacjaWynikuView.zapisyZCechafiltered}"
                          emptyMessage="Nie ma cech zapisów kosztowych w danym miesiącu rozliczeniowym" 
-                         style="width: 900px; height: 350px; overflow-y: scroll;padding: 10px;"  scrollable="true"
+                         style="width: 1050px; height: 350px; overflow-y: scroll;padding: 10px;" 
                           widgetVar="tabelacechyzapisow" rowIndexVar="index">
                 <p:ajax event="filter" global="false"/>
                 <f:facet name="header">  
@@ -40,30 +38,30 @@
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('tabelacechyzapisow').filter();" style="width:150px" />  
                 </f:facet>
-                <p:column headerText="nazwa cechy" style="width:60px;" sortBy="#{wpis.cechazapisu.nazwacechy}"
-                          filterBy="#{wpis.cechazapisu.nazwacechy}" filterMatchMode="contains" filterStyle="display: none;">
-                    <h:outputText value="#{wpis.cechazapisu.nazwacechy}"/>
+                <p:column headerText="nazwa cechy" style="width:60px;" sortBy="#{wpis1.cechazapisu.nazwacechy}"
+                          filterBy="#{wpis1.cechazapisu.nazwacechy}" filterMatchMode="contains" filterStyle="display: none;">
+                    <h:outputText value="#{wpis1.cechazapisu.nazwacechy}"/>
                 </p:column>
                 <p:column headerText="#{mgs.dokument}" style="width:60px;"
-                          filterBy="#{wpis.stronaWiersza.dokfkS}" filterMatchMode="contains" filterStyle="display: none;">
-                    <h:outputText value="#{wpis.stronaWiersza.dokfkS}"/>
+                          filterBy="#{wpis1.stronaWiersza.dokfkS}" filterMatchMode="contains" filterStyle="display: none;">
+                    <h:outputText value="#{wpis1.stronaWiersza.dokfkS}"/>
                 </p:column>
                 <p:column headerText="#{mgs.datadok}" style="width:80px;">
-                    <h:outputText value="#{wpis.stronaWiersza.dokfk.datawystawienia}"/>
+                    <h:outputText value="#{wpis1.stronaWiersza.dokfk.datawystawienia}"/>
                 </p:column>
                 <p:column headerText="#{mgs.miesiąc}" style="width:40px;">
-                    <h:outputText value="#{wpis.stronaWiersza.dokfk.miesiac}"/>
+                    <h:outputText value="#{wpis1.stronaWiersza.dokfk.miesiac}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wiersz}" style="width:350px;"
-                          filterBy="#{wpis.stronaWiersza.wiersz.opisWiersza}" filterMatchMode="contains" filterStyle="display: none;">
-                    <h:outputText value="#{wpis.stronaWiersza.wiersz.opisWiersza}"/>
+                          filterBy="#{wpis1.stronaWiersza.wiersz.opisWiersza}" filterMatchMode="contains" filterStyle="display: none;">
+                    <h:outputText value="#{wpis1.stronaWiersza.wiersz.opisWiersza}"/>
                 </p:column>
                 <p:column headerText="#{mgs.konto}" style="width:70px;"
-                          filterBy="#{wpis.stronaWiersza.konto.pelnynumer}" filterMatchMode="startsWith" filterStyle="display: none;">
-                    <h:outputText value="#{wpis.stronaWiersza.konto.pelnynumer}"/>
+                          filterBy="#{wpis1.stronaWiersza.konto.pelnynumer}" filterMatchMode="startsWith" filterStyle="display: none;">
+                    <h:outputText value="#{wpis1.stronaWiersza.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.kwota}" style="width:70px;">
-                    <bcf:outputpl value="#{wpis.stronaWiersza.kwotaPLN}"/>
+                    <bcf:outputpl value="#{wpis1.stronaWiersza.kwotaPLN}"/>
                 </p:column>
             </p:dataTable>
             <p:panelGrid columns="4" style="padding: 10xp;">
@@ -72,10 +70,10 @@
                 <h:outputText value="Razem KUPMN"/>
                 <bcf:outputpl value="#{symulacjaWynikuView.kupmn_mc}"/>
             </p:panelGrid>
-            <p:dataTable id="tabelacechyzapisow1" var="wpis" value="#{symulacjaWynikuView.zapisyZCechaP}" editable="true" rowKey="#{wpis.id}"
+            <p:dataTable id="tabelacechyzapisow1" var="wpis" value="#{symulacjaWynikuView.zapisyZCechaP}" rowKey="#{wpis.id}"
                          filteredValue="#{symulacjaWynikuView.zapisyZCechafilteredP}"
                          emptyMessage="Nie ma cech zapisów przychodowych w danym miesiącu rozliczeniowym" 
-                         style="width: 900px; height: 350px; overflow-y: scroll;padding: 10px;"  scrollable="true"
+                         style="width: 1050px; height: 350px; overflow-y: scroll;padding: 10px;" 
                           widgetVar="tabelacechyzapisow1" rowIndexVar="index">
                 <p:ajax event="filter" global="false"/>
                 <f:facet name="header">  
