@@ -39,14 +39,14 @@
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
-                                update="akordeon:formsymulacja akordeon:formsymulacja:tabelapodsumowanienowa akordeon:formsymulacjankup" oncomplete="pokazprzyciski();"/>
+                                update="akordeon" oncomplete="pokazprzyciski();"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" 
                                      oncomplete="pokazprzyciski();"
-                                     style="width: 120px; margin-left: 20px;" update="akordeon:formsymulacja akordeon:formsymulacja:tabelapodsumowanienowa akordeon:formsymulacjankup"/>
+                                     style="width: 120px; margin-left: 20px;" update="akordeon"/>
                 </p:column>
                 <p:commandButton value="zaksięguj" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"
                                 style="width: 120px; " update="akordeon:formsymulacjanarastajaco"/>
