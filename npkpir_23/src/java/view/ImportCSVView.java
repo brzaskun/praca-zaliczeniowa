@@ -111,7 +111,7 @@ public class ImportCSVView  implements Serializable {
         List<AmazonCSV> zwrot = new ArrayList<>();
         AmazonCSV tmpzwrot = null;
         String line = "";
-        String cvsSplitBy = "\t";
+        String cvsSplitBy = ",";
         try {
             InputStream is = uploadedFile.getInputstream();
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "windows-1252"))) {

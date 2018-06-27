@@ -82,9 +82,9 @@ public class AmazonCSV {
         this.BuyerTaxRegistration = tmpline[40];
         this.BuyerTaxRegistrationJurisdiction = tmpline[41];
         this.InvoiceLevelCurrencyCode = tmpline[42];
-        this.InvoiceLevelExchangeRate = Double.valueOf(tmpline[43].replace(",", "."));
+        this.InvoiceLevelExchangeRate = tmpline[43].equals("") ? 0.0 :Double.valueOf(tmpline[43].replace(",", "."));
         this.InvoiceLevelExchangeRateDate = tmpline[44];
-        this.ConvertedTaxAmount = Double.valueOf(tmpline[45].replace(",", "."));
+        this.ConvertedTaxAmount = tmpline[45].equals("") ? 0.0 : Double.valueOf(tmpline[45].replace(",", "."));
         this.VATInvoiceNumber = tmpline[46];
         this.ShipToCity = tmpline[54];
         this.ShipToCountry = tmpline[56];
