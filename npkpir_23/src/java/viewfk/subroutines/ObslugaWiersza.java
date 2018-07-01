@@ -353,8 +353,8 @@ public class ObslugaWiersza {
                 break;
             }
         } while(true);
-        double roznica = Z.z(sumaWn) - Z.z(sumaMa) > 0 ? Z.z(sumaWn) - Z.z(sumaMa) : Z.z(sumaWn) - Z.z(sumaMa) < 0 ? Z.z(sumaMa) - Z.z(sumaWn) : 0;
-        return roznica;
+        //double roznica = Z.z(sumaWn) - Z.z(sumaMa) > 0 ? Z.z(sumaWn) - Z.z(sumaMa) : Z.z(sumaWn) - Z.z(sumaMa) < 0 ? Z.z(sumaMa) - Z.z(sumaWn) : 0;
+        return Z.z(sumaWn) - Z.z(sumaMa);
     }
         
     
@@ -624,69 +624,60 @@ public class ObslugaWiersza {
                     double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
                     try {
                         Wiersz wiersznastepny = selected.nastepnyWiersz(wierszbiezacy);
-                        int typnastepnego = wiersznastepny.getTypWiersza();
-                        if (roznica != 0) {//bo tyko wtedy ma sens dodawanie czegos, inaczej znaczy to ze cala kwto a jets wyczerpana i nie trzeba dodawac
-                            if (typnastepnego == 0) {
-                                if (kwotaWn > kwotaMa) {
+                        if (wiersznastepny==null) {
+                            if (roznica == 0) {
+                            //ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                            } else if (kwotaWn > kwotaMa) {
+                                ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, Math.abs(roznica), 2);
+                            } else if (kwotaMa > kwotaWn) {
+                                ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, Math.abs(roznica), 1);
+                            }
+                        } else {
+                            int typnastepnego = wiersznastepny.getTypWiersza();
+                            if (roznica != 0) {//bo tyko wtedy ma sens dodawanie czegos, inaczej znaczy to ze cala kwto a jets wyczerpana i nie trzeba dodawac
+                                if (typnastepnego == 0) {
+                                    if (kwotaWn > kwotaMa) {
+                                        ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 2);
+                                    } else if (kwotaWn < kwotaMa) {
+                                        ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 1);
+                                    } else {
+                                        //wywalam dodawanie nowego wiersza jak sa nastepne
+                                        //ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, liczbawierszyWDokumencie, wierszbiezacy, przenumeruj, roznica, 0);
+                                    }
+                                } else if (typnastepnego == 2) {
                                     ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 2);
-                                } else if (kwotaWn < kwotaMa) {
+                                } else if (typnastepnego == 1) {
                                     ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 1);
-                                } else {
-                                    //wywalam dodawanie nowego wiersza jak sa nastepne
-                                    //ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, liczbawierszyWDokumencie, wierszbiezacy, przenumeruj, roznica, 0);
-                                }
-                            } else if (typnastepnego == 2) {
-                                ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 2);
-                            } else if (typnastepnego == 1) {
-                                ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 1);
-                            } else if (typnastepnego == 5) {
-                                int nowyindexzpiatkami = wierszbiezacy.getIdwiersza() + wierszbiezacy.getPiatki().size();
-                                if (kwotaWn > kwotaMa) {
-                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, nowyindexzpiatkami, przenumeruj, roznica, 2);
-                                } else if (kwotaWn < kwotaMa) {
-                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, nowyindexzpiatkami, przenumeruj, roznica, 1);
+                                } else if (typnastepnego == 5) {
+                                    int nowyindexzpiatkami = wierszbiezacy.getIdwiersza() + wierszbiezacy.getPiatki().size();
+                                    if (kwotaWn > kwotaMa) {
+                                        ObslugaWiersza.wygenerujiDodajWiersz(selected, nowyindexzpiatkami, przenumeruj, roznica, 2);
+                                    } else if (kwotaWn < kwotaMa) {
+                                        ObslugaWiersza.wygenerujiDodajWiersz(selected, nowyindexzpiatkami, przenumeruj, roznica, 1);
+                                    }
                                 }
                             }
                         }
                     } catch (Exception e1) {
                         E.e(e1);
                         //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
-                        if (roznica == 0) {
-                            //ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
-                        } else if (kwotaWn > kwotaMa) {
-                            ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 2);
-                        } else if (kwotaMa > kwotaWn) {
-                            ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 1);
-                        }
 //                    }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 2) {
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();
                 if (kontoMa instanceof Konto) {
                     double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
-                    if (roznica > 0.0) {
+                    if (roznica != 0.0) {
                         ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 2);
-                    } else {
-                        try {
-                            Wiersz wiersznastepny = selected.nastepnyWiersz(wierszbiezacy);
-                        } catch (Exception e) {  E.e(e);
-                            //ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
-                        }
                     }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 1) {
                 kontoWn = wierszbiezacy.getStronaWn().getKonto();
                 if (kontoWn instanceof Konto) {
                     double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
-                    if (roznica > 0.0) {
-                        ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 1);
-                    } else {
-                        try {
-                            Wiersz wiersznastepny = selected.nastepnyWiersz(wierszbiezacy);
-                        } catch (Exception e) {  E.e(e);
-                            //ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                        if (roznica != 0.0) {
+                            ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, -roznica, 1);
                         }
-                    }
                 }
             }
         } catch (Exception e) {  

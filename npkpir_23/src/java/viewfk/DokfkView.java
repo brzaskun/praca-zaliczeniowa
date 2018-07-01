@@ -326,11 +326,17 @@ public class DokfkView implements Serializable {
         String symbolPoprzedniegoDokumentu = null;
         Rodzajedok rodzajDokPoprzedni = null;
         Klienci ostatniklient = null;
+        String datadokumentu = null;
+        String dataoperacji = null;
         komunikatywpisdok = null;
         if (selected != null) {
             symbolPoprzedniegoDokumentu = selected.pobierzSymbolPoprzedniegoDokfk();
             rodzajDokPoprzedni = selected.getRodzajedok();
             ostatniklient = selected.getKontr();
+            if (selected.getDatadokumentu()!=null) {
+                datadokumentu = selected.getDatadokumentu();
+                dataoperacji = selected.getDataoperacji();
+            }
             //RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             //RequestContext.getCurrentInstance().update("zestawieniedokumentowimport:dataListImport");
         } else {
@@ -350,6 +356,10 @@ public class DokfkView implements Serializable {
         }
         //tworze nowy dokument
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView, ostatniklient);
+        if (datadokumentu!=null) {
+            selected.setDatadokumentu(datadokumentu);
+            selected.setDataoperacji(dataoperacji);
+        }
         selected.setWprowadzil(wpisView.getWprowadzil().getLogin());
         selected.setwTrakcieEdycji(false);
         //po co to na dziendobry?
@@ -2795,8 +2805,10 @@ public class DokfkView implements Serializable {
                 return;
             }
             Wiersz wierszpodstawowy = selected.poprzedniWiersz(wiersznastepny);
-            if (wierszpodstawowy.getLpmacierzystego() != 0) {
+            if (wierszpodstawowy!= null && wierszpodstawowy.getLpmacierzystego() != 0) {
                 wierszpodstawowy = selected.getListawierszy().get(wierszpodstawowy.getLpmacierzystego()-1);
+            } else {
+                wierszpodstawowy = wiersznastepny;
             }
             int nrgr = wierszpodstawowy.getLpmacierzystego() == 0 ? wierszpodstawowy.getIdporzadkowy() : wierszpodstawowy.getLpmacierzystego();
             double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
