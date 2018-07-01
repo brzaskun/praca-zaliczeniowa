@@ -36,6 +36,7 @@ import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import pdf.PdfUPO;
 import view.EwidencjaVatView;
 import view.WpisView;
@@ -310,6 +311,34 @@ public class JPK_VAT2View implements Serializable {
             E.e(e);
             Msg.msg("e", "Nie udało się pobrać wiadomości");
         }
+    }
+    
+    public String zachowajJPK(UPO selected) {
+        String nazwa = "brak";
+        try {
+            if (selected.getJpk()!=null) {
+                JPKSuper jpk = selected.getJpk();
+                JAXBContext context = JAXBContext.newInstance(jpk.getClass());
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+                String mainfilename = "jpk"+wpisView.getPodatnikObiekt().getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                String realPath = ctx.getRealPath("/")+"resources\\xml\\";
+                FileOutputStream fileStream = new FileOutputStream(new File(realPath+mainfilename));
+                OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
+                marshaller.marshal(jpk, writer);
+                writer.close();
+                nazwa = mainfilename;
+                Msg.msg("Zachowano JPK");
+                String exec = "wydrukJPK('"+mainfilename+"')";
+                RequestContext.getCurrentInstance().execute(exec);
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie udało się pobrać wiadomości");
+        }
+        return nazwa;
     }
     
     

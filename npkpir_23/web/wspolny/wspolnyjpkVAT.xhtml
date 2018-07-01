@@ -153,6 +153,12 @@
             </p:column>
             <p:column style="width: 40px; text-align: center;">
                 <f:facet name="header">
+                    <h:outputText value="zachowaj"/>
+                </f:facet>
+                <p:commandButton icon="fa fa-save" actionListener="#{jPK_VAT2View.zachowajJPK(item)}"  global="false" />
+            </p:column>
+            <p:column style="width: 40px; text-align: center;">
+                <f:facet name="header">
                     <h:outputText value="usuń"/>
                 </f:facet>
                 <p:commandButton icon="fa fa-trash" onclick="PF('confirmation').show()" update="@form" global="false" rendered="#{item.code gt 399}"/>
