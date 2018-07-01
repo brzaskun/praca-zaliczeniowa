@@ -2153,7 +2153,7 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 9));
                         if (p.getWalutadokumentu()!=null) {
                             table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getNettoWaluta())), "right", 9));
-                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getVatWaluta())), "right", 9));
+                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getVatWalutaCSV())), "right", 9));
                         } else {
                             table.addCell(ustawfrazeAlign("", "center", 9));
                             table.addCell(ustawfrazeAlign("", "center", 9));

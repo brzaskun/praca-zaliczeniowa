@@ -223,6 +223,7 @@ public class ImportFakturyView  implements Serializable {
                 tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVat())));
             } else {
                 tmpX.setNettowaluta(wiersz.getNetto());
+                tmpX.setVatwaluta(wiersz.getVat());
                 netto += wiersz.getNetto();
                 vat += wiersz.getVat();
                 tmpX.setVat(przeliczpln(wiersz.getVat(), innatabela));
@@ -294,6 +295,7 @@ public class ImportFakturyView  implements Serializable {
                 tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVat())));
             } else {
                 tmpX.setNettowaluta(wiersz.getNettoDE());
+                tmpX.setVatwaluta(wiersz.getVatDE());
                 netto += wiersz.getNettoDE();
                 vat += wiersz.getVatDE();
                 tmpX.setVat(wiersz.getVatDE());
@@ -444,7 +446,14 @@ public class ImportFakturyView  implements Serializable {
         }
     }
     
-    
+    public void drukuj() {
+        try {
+            PdfDok.drukujDokCSV(dokumenty, wpisView, 1, deklaracjaniemiecka);
+            Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
+        } catch (Exception e) {
+            
+        }
+    }
     
     public List<Dok> getDokumenty() {
         return dokumenty;

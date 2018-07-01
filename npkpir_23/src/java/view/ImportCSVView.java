@@ -269,7 +269,7 @@ public class ImportCSVView  implements Serializable {
     }
     public void drukuj() {
         try {
-            PdfDok.drukujDokCSV(dokumenty, wpisView, 1);
+            PdfDok.drukujDokCSV(dokumenty, wpisView, 1, false);
             Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
         } catch (Exception e) {
             

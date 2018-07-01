@@ -20,19 +20,19 @@
                         <h:outputText value="import dokumentów z pliku JPK"/>
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
-                            <p:fileUpload fileUploadListener="#{importSprzedazyView.importujsprzedaz}" 
+                            <p:fileUpload fileUploadListener="#{importSprzedazyView.importujsprzedaz}"
                                           mode="advanced" dragDropSupport="true" fileLimit="1"
-                                          update="messages1 importtabela" sizeLimit="2000000"  allowTypes="/(\.|\/)(xml)$/" 
+                                          update="messages1 importtabela:dokumentyLista" sizeLimit="2000000"  allowTypes="/(\.|\/)(xml)$/" 
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                                           fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
-                                          uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" onstart="PF('dialogAjaxCzekaj').show();"
+                                          uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
                                           style="height: 100px;">
                             </p:fileUpload>
                         </h:form>
                         <h:form id="importtabela">
                             <p:dataTable  var="wpis" value="#{importSprzedazyView.dokumenty}" id="dokumentyLista" 
                                           rowIndexVar="index" 
-                                          style="width: 1400px; margin-top: 10px; height: 600px; overflow-y: scroll;" rowKey="#{wpis.id}" 
+                                          style="width: 1400px; margin-top: 10px; height: 600px; overflow-y: scroll;" 
                                           widgetVar="dokTable" 
                                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
                                           emptyMessage="Nie pobrano jeszcze żadnych danych z pliku jpk"

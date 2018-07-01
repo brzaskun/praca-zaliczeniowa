@@ -750,6 +750,8 @@ public class JPK {
         protected String typ;
         
         private static final List SPRZEDAZNIEMCY;
+        private static final List SPRZEDAZNIEMCYVAT;
+        
         private static final List SPRZEDAZWIERSZENETTO;
         private static final List SPRZEDAZWIERSZEVAT;
         static {
@@ -768,7 +770,9 @@ public class JPK {
             SPRZEDAZWIERSZEVAT.add("getP144");
             SPRZEDAZWIERSZEVAT.add("getP145");
             SPRZEDAZNIEMCY = new ArrayList();
-            SPRZEDAZNIEMCY.add("getP15");
+            SPRZEDAZNIEMCY.add("getP134");
+            SPRZEDAZNIEMCYVAT = new ArrayList();
+            SPRZEDAZNIEMCYVAT.add("getP144");
         };
         
         public double getNetto() {
@@ -800,7 +804,7 @@ public class JPK {
                         if (SPRZEDAZNIEMCY.contains(p.getName())) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
-                                zwrot = Z.z(pole.doubleValue()-Z.z(pole.doubleValue()*19/119));
+                                zwrot = Z.z(pole.doubleValue());
                                 break;
                             }
                         }
@@ -836,10 +840,10 @@ public class JPK {
             if (this != null) {
                 try {
                     for (Method p : this.getClass().getMethods()) {
-                        if (SPRZEDAZNIEMCY.contains(p.getName())) {
+                        if (SPRZEDAZNIEMCYVAT.contains(p.getName())) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
-                                zwrot = Z.z(pole.doubleValue()*19/119);
+                                zwrot = pole.doubleValue();
                                 break;
                             }
                         }
