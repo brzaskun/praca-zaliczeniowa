@@ -154,7 +154,15 @@
                         <p:column>
                         <p:panelGrid  columns="2"  columnClasses="forty-percent, sixty-percent">
                             <h:outputText value="email kontrahenta"/>
-                            <h:outputText value="#{wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
+                            <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
+                                <p:ajax event="save" listener="#{fakturaView.edytujemail(wpis.kontrahent)}" global="false"/>
+                                <f:facet name="output">
+                                    <h:outputText value="#{wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{wpis.kontrahent.email}"  style="width: 180px;"/>
+                                </f:facet>
+                            </p:inplace>
                             <h:outputText value="konto bankowe"/>
                             <h:outputText value="#{wpis.nrkontabankowego}"/>
                             <h:outputText value="kwota netto"/>

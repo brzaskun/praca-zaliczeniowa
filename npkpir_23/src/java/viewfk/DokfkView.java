@@ -2268,7 +2268,7 @@ public class DokfkView implements Serializable {
         if (aktualnyWierszDlaRozrachunkow.getNowetransakcje().isEmpty()) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
         } else {
-            if (aktualnyWierszDlaRozrachunkow.getOpis()!=null) {
+            if (aktualnyWierszDlaRozrachunkow.getOpis()!=null && aktualnyWierszDlaRozrachunkow.getOpis().size() > 0) {
                 List<String> op = new ArrayList<>(aktualnyWierszDlaRozrachunkow.getOpis());
                 String kontrahent = aktualnyWierszDlaRozrachunkow.getKonto().getNazwapelna();
                 String opislinia = "f: ";
@@ -2405,6 +2405,10 @@ public class DokfkView implements Serializable {
             if (Z.z(loop.getKwotatransakcji())!=0.0) {
                 pobierzopis(aktualnyWierszDlaRozrachunkow, loop);
                 aktualnyWierszDlaRozrachunkow.setKontr(loop.getNowaTransakcja().getKontrahent());
+            } else {
+                if (aktualnyWierszDlaRozrachunkow.getOpis()!=null && aktualnyWierszDlaRozrachunkow.getOpis().size()>0) {
+                    aktualnyWierszDlaRozrachunkow.getOpis().remove(loop.getNowaTransakcja().getNumerwlasnydokfk());
+                }
             }
         } catch (Exception e) {
             E.e(e);

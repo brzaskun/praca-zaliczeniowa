@@ -2015,7 +2015,17 @@ public class FakturaView implements Serializable {
     
 //</editor-fold>
 
-    
+  public void edytujemail(Klienci k) {
+    if (k.getEmail() != null) {
+        try {
+            klienciDAO.edit(k);
+            Msg.msg("Zmieniono email kontrahenta");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd. Nie zmieniono emaila kontrahenta");
+        }
+    }
+  }
    
 
    static public class ColumnModel implements Serializable {

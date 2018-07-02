@@ -285,11 +285,11 @@ public class DeklaracjevatView implements Serializable {
             Integer mc = Integer.parseInt(pasujacaSchema.getMcOd());
             if (rok <= 2015 && mc <= 7) {
                 PdfVAT7.drukuj(dkl, wiersz, podatnikDAO);
-                String f = "document.getElementById('formX:akordeon:dataList:"+wiersz+":mailbutton').style.display='inline';";
+                String f = "document.getElementById('formwyslane:akordeon:dataList:"+wiersz+":mailbutton').style.display='inline';";
                 RequestContext.getCurrentInstance().execute(f);
             } else {
                 PdfVAT7new.drukujNowaVAT7(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO, wpisView);
-                String f = "document.getElementById('formX:akordeon:dataList:"+wiersz+":mailbuttonN').style.display='inline';";
+                String f = "document.getElementById('formwyslane:akordeon:dataList:"+wiersz+":mailbuttonN').style.display='inline';";
                 RequestContext.getCurrentInstance().execute(f);
             }
         } catch (Exception e) { 
