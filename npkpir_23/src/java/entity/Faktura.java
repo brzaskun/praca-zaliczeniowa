@@ -258,6 +258,8 @@ public class Faktura implements Serializable {
     private boolean przeniesionosaldo;
     @Column(name = "tylkodlaokresowej")
     private boolean tylkodlaokresowej;
+    @Column(name="swift", length = 12)
+    private  String swift;
   
 
     public Faktura() {
@@ -295,6 +297,7 @@ public class Faktura implements Serializable {
         this.fakturaniemiecka13b = stara.fakturaniemiecka13b;
         this.fakturavatmarza = stara.fakturavatmarza;
         this.datawysylki = null;
+        this.swift = stara.swift;
         this.duplikaty = new ArrayList<>();
     }
 
@@ -308,7 +311,7 @@ public class Faktura implements Serializable {
             String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, 
             String nrkontabankowego, String walutafaktury, String podpis, List<Pozycjenafakturzebazadanych> pozycjenafakturze, 
             boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor, double netto, double vat, double brutto, 
-            List<EVatwpis> ewidencjavat, String rok, String mc, String numerzamowienia) {
+            List<EVatwpis> ewidencjavat, String rok, String mc, String numerzamowienia, String swift) {
         this.fakturaPK = fakturaPK;
         this.wystawca = wystawca;
         this.rodzajdokumentu = rodzajdokumentu;
@@ -320,6 +323,7 @@ public class Faktura implements Serializable {
         this.terminzaplaty = terminzaplaty;
         this.sposobzaplaty = sposobzaplaty;
         this.nrkontabankowego = nrkontabankowego;
+        this.swift = swift;
         this.walutafaktury = walutafaktury;
         this.podpis = podpis;
         this.pozycjenafakturze = pozycjenafakturze;
@@ -358,6 +362,14 @@ public class Faktura implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public String getSwift() {
+        return swift;
+    }
+
+    public void setSwift(String swift) {
+        this.swift = swift;
     }
 
     public boolean isPrzeniesionosaldo() {

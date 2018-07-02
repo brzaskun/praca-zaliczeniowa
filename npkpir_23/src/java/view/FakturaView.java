@@ -364,7 +364,7 @@ public class FakturaView implements Serializable {
         selected.setMiejscewystawienia(FakturaBean.pobierzmiejscewyst(podatnikobiekt));
         selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(podatnikobiekt, pelnadata));
         selected.setNrkontabankowego(FakturaBean.pobierznumerkonta(podatnikobiekt));
-        zmienkonto();
+        wielekont();
         selected.setPodpis(FakturaBean.pobierzpodpis(wpisView));
         selected.setAutor(wpisView.getWprowadzil().getLogin());
         setPokazfakture(true);
@@ -475,13 +475,14 @@ public class FakturaView implements Serializable {
         }
     }
 
-    public void zmienkonto() {
+    public void wielekont() {
         String waluta = selected.getWalutafaktury();
         List<FakturaWalutaKonto> konta = fakturaWalutaKontoView.getListakontaktywne();
         if (konta != null) {
             for (FakturaWalutaKonto p : konta) {
                 if (p.getWaluta().getSymbolwaluty().equals(waluta)) {
                    selected.setNrkontabankowego(p.getNrkonta());
+                   selected.setSwift(p.getSwift());
                    try {
                         FakturaStopkaNiemiecka fakturaStopkaNiemiecka = fakturaStopkaNiemieckaDAO.findByPodatnik(wpisView.getPodatnikObiekt());
                         if (fakturaStopkaNiemiecka != null) {

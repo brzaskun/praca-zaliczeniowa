@@ -366,7 +366,7 @@ public class PdfFP {
                 case "akordeon:formwzor:platnosc":
                     //Dane do modulu platnosc
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "platnosc");
-                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:platnosc") - 25, 250, 35);
+                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:platnosc") - 35, 250, 45);
                     String sposobzaplaty = selected.getSposobzaplaty();
                     boolean zaplacono = selected.isZaplacona();
                     if (zaplacono) {
@@ -385,6 +385,12 @@ public class PdfFP {
                         text = B.b("nrkontabankowego")+": " + selected.getNrkontabankowego();
                         if (selected.getSposobzaplaty().equals("przelew") && selected.getNrkontabankowego() != null) {
                             absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 20, 8);
+                            text = "SWIFT: " + selected.getSwift();
+                            absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 30, 8);
+                        }
+                        if (selected.getSposobzaplaty().equals("przelew") && selected.getSwift() != null) {
+                            text = "SWIFT: " + selected.getSwift();
+                            absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 30, 8);
                         }
                     }
                     break;

@@ -54,6 +54,7 @@ public class FakturaWalutaKonto  implements Serializable{
     private  String iban;
     @Column(name="nieaktywny")
     private  boolean nieaktywny;
+    
 
     
     @Override

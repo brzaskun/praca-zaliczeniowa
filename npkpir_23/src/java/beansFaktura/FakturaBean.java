@@ -249,6 +249,8 @@ public class FakturaBean {
             return "brak numeru konta bankowego";
         }
     }
+    
+    
 
     public static String pobierzpodpis(WpisView wpisView) {
         if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {

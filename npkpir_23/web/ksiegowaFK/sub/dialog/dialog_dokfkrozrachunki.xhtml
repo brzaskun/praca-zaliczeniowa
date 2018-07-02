@@ -157,7 +157,7 @@
                                  styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
 
                                   sortBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
-                                 style="width: 1050px;"
+                                 style="width: 1050px; height: 445px; overflow-y: scroll"
                                  >
 <!--                                 scrollRows="22" scrollable="true" scrollHeight="370" -->
                         <p:ajax event="sort" oncomplete="doklejsumowaniewprowadzonych();" global="false"/>
@@ -234,7 +234,7 @@
                 </p:outputPanel>
                 <p:remoteCommand name="rozliczplatnoscspacja" actionListener="#{dokfkView.rozliczplatnoscspacja}"/>
             </h:form>
-            <div style="padding: 5px; margin-left: auto; margin-right: auto; margin-bottom: 30px; margin-top: 20px; text-align: center;">
+            <div style="padding: 5px; margin-left: auto; margin-right: auto; margin-bottom: 20px; margin-top: 20px; text-align: center;">
                 <h:form id="formcheckbox">
                     <p:selectBooleanCheckbox id="znaczniktransakcji" 
                                              value="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" 
