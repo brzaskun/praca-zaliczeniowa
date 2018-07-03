@@ -3055,6 +3055,19 @@ public class DokfkView implements Serializable {
             }
         }
     }
+    
+    public void odksiegujdokumenty() {
+            try {
+                for (Dokfk p : selectedlist) {
+                    p.setDataksiegowania(null);
+                }
+                dokDAOfk.editList(selectedlist);
+                Msg.msg("Odksięgowane wybrane dokumenty w liczbie: "+selectedlist.size());
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd podczas odksięgowania dokumentów.");
+            }
+        }
 
     public void drukujzaksiegowanydokument() {
         if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0 && filteredValue.size() == 0) {

@@ -150,8 +150,8 @@
                 <p:menuitem value="dodaj środek trw." icon="fa fa-truck" actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyDokfk(dokfkView.selectedlist)}" update="dialogwpissrodkitrwale"/>
                 <p:menuitem value="dodaj rmk" icon="fa fa-clock-o" actionListener="#{rMKView.dodajNoweRMKDokfk(dokfkView.selectedlist)}" update="formrmk"
                             oncomplete="PF('dialogwpisrmk').show();"/>
-                <p:menuitem value="zaksięguj dokfk" icon="fa fa-book"
-                            actionListener="#{dokfkView.zaksiegujdokumenty()}" update=":zestawieniedokumentow:dataList"/>
+                <p:menuitem value="odksieguj dokfk" icon="fa fa-book"
+                            actionListener="#{dokfkView.odksiegujdokumenty()}" update=":zestawieniedokumentow:dataList"/>
                  <p:menuitem value="sortuj wiersze" icon="fa fa-exchange"
                             actionListener="#{dokfkView.sortujwiersze}"/>
                 <p:separator/>
