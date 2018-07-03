@@ -1126,16 +1126,24 @@ public class KontoZapisFKView implements Serializable{
     
     private void przeksiegujanalityke() {
         int rozrachunkowe = 0;
+        int bo = 0;
         for (StronaWiersza p : wybranezapisydosumowania) {
-            if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
-                p.setKonto(kontodoprzeksiegowania);
-                stronaWierszaDAO.edit(p);
+            if (p.getWierszbo()==null) {
+                if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
+                    p.setKonto(kontodoprzeksiegowania);
+                    stronaWierszaDAO.edit(p);
+                } else {
+                    rozrachunkowe++;
+                }
             } else {
-                rozrachunkowe++;
+              bo++;  
             }
         }
         if (rozrachunkowe > 0) {
             Msg.msg("w", "Nie przeksiegowano pozycji z rozrachunkami w liczbie " + rozrachunkowe);
+        }
+        if (bo > 0) {
+            Msg.msg("w", "Nie przeksiegowano pozycji z zapisami BO w liczbie " + bo);
         }
         kontodoprzeksiegowania = null;
         pobierzzapisy(wpisView.getRokWpisuSt());
@@ -1146,6 +1154,7 @@ public class KontoZapisFKView implements Serializable{
     
     private void przeksiegujslownikowe() {
         int rozrachunkowe = 0;
+        int bo = 0;
         List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontodoprzeksiegowania.getPelnynumer());
         if (potomne == null || potomne.size() == 0) {
             Msg.msg("e", "Konto docelowe nie zawiera podłączonego słownika. Nie można przeksięgować");
@@ -1153,16 +1162,31 @@ public class KontoZapisFKView implements Serializable{
         }
         int brakkonta = 0;
         for (StronaWiersza p : wybranezapisydosumowania) {
-            Konto kontodocelowe = znajdzpotomne(potomne,p.getKonto());
-            if (kontodocelowe != null) {
-                    p.setKonto(kontodocelowe);
-                    stronaWierszaDAO.edit(p);
+            if (p.getWierszbo()==null) {
+                if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
+                    Konto kontodocelowe = znajdzpotomne(potomne,p.getKonto());
+                    if (kontodocelowe != null) {
+                            p.setKonto(kontodocelowe);
+                            stronaWierszaDAO.edit(p);
+                    } else {
+                        brakkonta++;
+                    }
+                } else {
+                    rozrachunkowe++;
+                }
+
             } else {
-                brakkonta++;
+              bo++;  
             }
         }
-        if (brakkonta > 0) {
+        if (rozrachunkowe > 0) {
             Msg.msg("w", "Nie przeksiegowano pozycji z rozrachunkami w liczbie " + rozrachunkowe);
+        }
+        if (brakkonta > 0) {
+            Msg.msg("w", "Nie przeksiegowano pozycji bo brakuje pozycji w słowniku " + brakkonta);
+        }
+        if (bo > 0) {
+            Msg.msg("w", "Nie przeksiegowano pozycji z zapisami BO w liczbie " + bo);
         }
         kontodoprzeksiegowania = null;
         pobierzzapisy(wpisView.getRokWpisuSt());

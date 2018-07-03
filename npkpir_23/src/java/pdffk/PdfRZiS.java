@@ -17,6 +17,7 @@ import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepnySF;
 import static pdffk.PdfMain.dodajOpisWstepnySFRZIS;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.dodajTabeleNar;
@@ -35,7 +36,7 @@ import view.WpisView;
 
 public class PdfRZiS {
 
-    public static void drukujRZiS(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
+    public static void drukujRZiS(TreeNodeExtended rootProjektRZiS, WpisView wpisView, String bilansnadzien, String bilansoddnia, boolean laczlata) {
             String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -47,7 +48,11 @@ public class PdfRZiS {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+             if (laczlata) {
+                dodajOpisWstepnySF(document, "Rachunek Zysków i Strat firmy - wydłużony rok obrotowy ",wpisView.getPodatnikObiekt(), bilansoddnia, bilansnadzien);
+            } else {
+                dodajOpisWstepnySF(document, "Rachunek Zysków i Strat ",wpisView.getPodatnikObiekt(), bilansoddnia, bilansnadzien);
+            }
             dodajTabele(document, testobjects.testobjects.getTabelaRZiS(rootProjektRZiS),75,0);
             PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
             finalizacjaDokumentuQR(document,nazwa);

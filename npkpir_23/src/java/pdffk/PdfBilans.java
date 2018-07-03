@@ -100,7 +100,7 @@ public class PdfBilans {
         }
     }
     
-    public static void drukujBilansBODataAP(TreeNodeExtended rootProjektA, TreeNodeExtended rootProjektP,WpisView wpisView, String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP, String bilansnadzien, String bilansoddnia) {
+    public static void drukujBilansBODataAP(TreeNodeExtended rootProjektA, TreeNodeExtended rootProjektP,WpisView wpisView, String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP, String bilansnadzien, String bilansoddnia, boolean laczlata) {
         String nazwa = null;
         nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansObliczenieAktywaPasywaBOData-"+wpisView.getRokWpisuSt();
         File file = Plik.plik(nazwa, true);
@@ -114,7 +114,11 @@ public class PdfBilans {
             otwarcieDokumentu(document, nazwa);
             dodajsuma(rootProjektA, "a", sumabilansowaBO, sumabilansowaA);
             dodajsuma(rootProjektP, "p", sumabilansowaBO, sumabilansowaP);
-            dodajOpisWstepnySF(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia);
+            if (laczlata) {
+                dodajOpisWstepnySF(document, B.b("Bilans")+" - wydłużony rok obrotowy ",wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia);
+            } else {
+                dodajOpisWstepnySF(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia);
+            }
             PdfMain.dodajLinieOpisu(document, "Strona aktywów");
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjektA),75,5);
             document.newPage();

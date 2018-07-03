@@ -882,7 +882,7 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void drukujRZiS() {
-        PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView);
+        PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView, bilansoddnia, bilansnadzien, laczlata);
     }
     
     public void drukujRZiSPozycje() {
@@ -903,7 +903,7 @@ public class PozycjaBRView implements Serializable {
     
     public void drukujBilansBODataAP(String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP) {
         if (ap.equals("x")) {
-            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, ap, sumabilansowaBO, sumabilansowaA, sumabilansowaP, bilansnadzien, bilansoddnia);
+            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, ap, sumabilansowaBO, sumabilansowaA, sumabilansowaP, bilansnadzien, bilansoddnia, laczlata);
         }
     }
     

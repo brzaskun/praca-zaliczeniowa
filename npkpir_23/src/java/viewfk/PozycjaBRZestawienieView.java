@@ -803,7 +803,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     }
     
     public void drukujRZiS() {
-        PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView);
+        PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView, bilansoddnia, bilansnadzien, laczlata);
     }
     
     public void drukujRZiSBO() {
