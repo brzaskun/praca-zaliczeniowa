@@ -5,11 +5,13 @@
  */
 package view;
 
+import beansFK.TabelaNBPBean;
 import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
+import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import embeddable.AmazonCSV;
 import entity.Dok;
@@ -19,6 +21,7 @@ import entity.JPKSuper;
 import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Rodzajedok;
+import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
 import gus.GUSView;
@@ -42,6 +45,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import jpkabstract.SprzedazWierszA;
 import msg.Msg;
+import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -66,6 +70,8 @@ public class ImportCSVView  implements Serializable {
     private RodzajedokDAO rodzajedokDAO;
     @Inject
     private DokDAO dokDAO;
+    @Inject
+    private TabelanbpDAO tabelanbpDAO;
     private Rodzajedok rodzajedok;
     private List<Evewidencja> evewidencje;
     @Inject
@@ -184,7 +190,10 @@ public class ImportCSVView  implements Serializable {
             tmpX.setDok(selDokument);
             tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVat())));
             listaX.add(tmpX);
-            selDokument.setWalutadokumentu(wiersz.getWaluta(listaWalut, walutapln));
+            Tabelanbp innatabela = pobierztabele("EUR", selDokument.getDataWyst());
+            selDokument.setTabelanbp(innatabela);
+            Tabelanbp walutadok = pobierztabele(wiersz.getCurrency(), selDokument.getDataWyst());
+            selDokument.setWalutadokumentu(walutadok.getWaluta());
             selDokument.setListakwot1(listaX);
             selDokument.setNetto(tmpX.getNetto());
             selDokument.setBrutto(tmpX.getBrutto());
@@ -201,6 +210,11 @@ public class ImportCSVView  implements Serializable {
             E.e(e);
         }
         return selDokument;
+    }
+    
+    private Tabelanbp pobierztabele(String waldok, String dataWyst) {
+        DateTime dzienposzukiwany = new DateTime(dataWyst);
+        return TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, waldok);
     }
     
     public Dok sprawdzCzyNieDuplikat(Dok selD) {
@@ -269,7 +283,7 @@ public class ImportCSVView  implements Serializable {
     }
     public void drukuj() {
         try {
-            PdfDok.drukujDokCSV(dokumenty, wpisView, 1, false);
+            PdfDok.drukujDokAmazon(dokumenty, wpisView, 1);
             Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
         } catch (Exception e) {
             

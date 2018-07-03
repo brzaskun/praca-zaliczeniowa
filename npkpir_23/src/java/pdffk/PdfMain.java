@@ -2165,7 +2165,7 @@ public class PdfMain {
                                 table.addCell(ustawfrazeAlign("", "left", 9));
                             }
                         } else {
-                            table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik(), "just", 9));
+                            table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik()+" / "+p.getWalutadokumentu().getSymbolwaluty(), "just", 9));
                         }
                     } catch (Exception e) {
                         E.e(e);

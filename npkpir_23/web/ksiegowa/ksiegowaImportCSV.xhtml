@@ -32,7 +32,10 @@
                         <h:form id="importtabela">
                             <p:dataTable  var="wpis" value="#{importCSVView.dokumenty}" id="dokumentyLista" 
                                           rowIndexVar="index" 
-                                          style="width: 1400px; margin-top: 10px; height: 600px; overflow-y: scroll;" rowKey="#{wpis.id}" 
+                                          style="width: 1400px; margin-top: 10px;" rowKey="#{wpis.id}" 
+                                          paginator="true" paginatorAlwaysVisible="true" rows="12"
+                                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                                          rowsPerPageTemplate="12,48,96,182,364" 
                                           widgetVar="dokTable" 
                                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
                                           emptyMessage="Nie pobrano jeszcze żadnych danych z pliku csv"

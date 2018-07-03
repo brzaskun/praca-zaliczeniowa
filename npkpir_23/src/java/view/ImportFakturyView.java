@@ -448,7 +448,7 @@ public class ImportFakturyView  implements Serializable {
     
     public void drukuj() {
         try {
-            PdfDok.drukujDokCSV(dokumenty, wpisView, 1, deklaracjaniemiecka);
+            PdfDok.drukujJPK_FA(dokumenty, wpisView, 1, deklaracjaniemiecka);
             Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
         } catch (Exception e) {
             

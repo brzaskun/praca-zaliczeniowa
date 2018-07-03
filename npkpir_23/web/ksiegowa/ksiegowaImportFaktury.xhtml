@@ -32,7 +32,7 @@
                                           mode="advanced" dragDropSupport="true" fileLimit="1"
                                           update="messages1 importtabela" sizeLimit="2000000"  allowTypes="/(\.|\/)(xml)$/" 
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
-                                          fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                          fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"  onstart="PF('dialogAjaxCzekaj').show();"
                                           uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
                                           style="height: 100px;">
                             </p:fileUpload>
@@ -48,7 +48,10 @@
                             </p:panelGrid>
                             <p:dataTable  var="wpis" value="#{importFakturyView.dokumenty}" id="dokumentyLista" 
                                           rowIndexVar="index" 
-                                          style="width: 1400px; margin-top: 10px; height: 600px; overflow-y: scroll;" 
+                                          style="width: 1400px; margin-top: 10px;" 
+                                          paginator="true" paginatorAlwaysVisible="true" rows="12"
+                                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                                          rowsPerPageTemplate="12,48,96,182,364" 
                                           widgetVar="dokTable" 
                                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
                                           emptyMessage="Nie pobrano jeszcze żadnych danych z pliku jpk"
