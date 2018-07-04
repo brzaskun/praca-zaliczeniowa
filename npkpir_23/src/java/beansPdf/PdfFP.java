@@ -385,8 +385,6 @@ public class PdfFP {
                         text = B.b("nrkontabankowego")+": " + selected.getNrkontabankowego();
                         if (selected.getSposobzaplaty().equals("przelew") && selected.getNrkontabankowego() != null) {
                             absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 20, 8);
-                            text = "SWIFT: " + selected.getSwift();
-                            absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 30, 8);
                         }
                         if (selected.getSposobzaplaty().equals("przelew") && selected.getSwift() != null) {
                             text = "SWIFT: " + selected.getSwift();
