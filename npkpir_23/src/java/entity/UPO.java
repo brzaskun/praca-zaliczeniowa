@@ -331,6 +331,7 @@ public class UPO  implements Serializable {
 
     @Override
     public String toString() {
+        String deklaracja = this.deklaracja!=null ? this.deklaracja.toString() : "";
         return "UPO{" + "podatnik=" + podatnik.getPrintnazwa() + ", rok=" + rok + ", miesiac=" + miesiac + ", potwierdzenie=" + potwierdzenie.getKodFormularza() + ", jpk=" + jpk + ", deklaracja=" + deklaracja + ", wersja=" + wersja + '}';
     }
 
