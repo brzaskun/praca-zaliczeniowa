@@ -38,6 +38,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import pdf.PdfDok;
 import waluty.Z;
 
 /**
@@ -122,7 +123,7 @@ public class ImportSprzedazyView  implements Serializable {
     }
     
     private Dok generujdok(Object p) {
-        SprzedazWierszA wiersz = (SprzedazWierszA) p;
+        jpk201801.JPK.SprzedazWiersz wiersz = (jpk201801.JPK.SprzedazWiersz) p;
         Dok selDokument = new Dok();
         try {
             HttpServletRequest request;
@@ -263,6 +264,15 @@ public class ImportSprzedazyView  implements Serializable {
             }
             dokumenty = new ArrayList<>();
             Msg.msg("Zaksiowano zaimportowane dokumenty");
+        }
+    }
+    
+     public void drukuj() {
+        try {
+            PdfDok.drukujJPK_FA(dokumenty, wpisView, 1, false);
+            Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
+        } catch (Exception e) {
+            
         }
     }
     
