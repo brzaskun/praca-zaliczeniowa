@@ -133,7 +133,10 @@ public class PlanKontKopiujView implements Serializable {
                 try {
                     if (!podatnikzrodlowy.equals(podatnikDocelowy) && p.isSlownikowe()) {
                     } else if (p.isSlownikowe() == true && kopiujSlownikowe) {
-                        nowemacierzyste.add(kopiujKonto(p, macierzystelista, podatnikDocelowy, true));
+                        Konto noweslownikowe = kopiujKonto(p, macierzystelista, podatnikDocelowy, true);
+                        if (noweslownikowe!=null) {
+                            nowemacierzyste.add(noweslownikowe);
+                        }
                     } else if (p.isSlownikowe() == false) {
                         nowemacierzyste.add(kopiujKonto(p, macierzystelista, podatnikDocelowy, false));
                     }
@@ -158,18 +161,20 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     private Konto kopiujKonto(Konto p, List<Konto> macierzystelista, Podatnik podatnikDocelowy, boolean slownikowe) {
-        if (p.getPelnynumer().equals("010-5")) {
-        }
         Konto r = serialclone.SerialClone.clone(p);
-        zeruDanekontaBO(r);
-        r.setKontopozycjaID(null);
-        r.setPodatnik(podatnikDocelowy);
-        r.setRok(Integer.parseInt(rokdocelowy));
-        r.setSlownikowe(slownikowe);
         Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
-        r.setMacierzyste(macierzyste.getPelnynumer());
-        r.setMacierzysty(macierzyste.getId());
-        r.setKontomacierzyste(macierzyste);
+        if (macierzyste.getIdslownika()!= 5 && macierzyste.getIdslownika()!= 6) {
+            zeruDanekontaBO(r);
+            r.setKontopozycjaID(null);
+            r.setPodatnik(podatnikDocelowy);
+            r.setRok(Integer.parseInt(rokdocelowy));
+            r.setSlownikowe(slownikowe);
+            r.setMacierzyste(macierzyste.getPelnynumer());
+            r.setMacierzysty(macierzyste.getId());
+            r.setKontomacierzyste(macierzyste);
+        } else {
+            r=null;
+        }
         return r;
     }
 

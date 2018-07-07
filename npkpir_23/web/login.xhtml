@@ -12,7 +12,6 @@
             <meta http-equiv="Accept-Encoding" content="gzip"/>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <meta http-equiv="Pragma" content="no-cache"/>
-            <meta http-equiv="Accept-Encoding" content="gzip"/>
             <meta http-equiv="Expires" content="0" />
             <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
             <h:outputStylesheet id="template" name="css/style.css"/>
@@ -86,7 +85,7 @@
                         <h:outputText id="loginnazwa" value="#{mgs.login}"/>
                         <h:inputText value="#{logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
                                       >
-                            <p:ajax event="change" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false"  
+                            <p:ajax event="blur" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false"  
                                     oncomplete="r('formlog1:haslo').focus();" 
                                     update="formlog1:loginnazwa formlog1:loginhaslo formlog1:logowaniebutton infologowanie logowanieprzyciskigorne"/>
                         </h:inputText>
