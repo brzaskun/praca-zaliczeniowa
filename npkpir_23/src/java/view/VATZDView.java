@@ -30,6 +30,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
+import waluty.Z;
 
 /**
  *
@@ -116,7 +117,9 @@ public class VATZDView implements Serializable {
     public void wybierzdokumentyfk() {
         if (!dokumentyfksprzedazselected.isEmpty()) {
             for (Dokfk dok : dokumentyfksprzedazselected) {
-                if (!wpisanotermin(dok)) {
+                if (Z.z(dok.getNiezaplacone()) == 0.0 ) {
+                    Msg.msg("w","Niektóre dokumenty są spłacone w całości. Nie można ich korygować.");
+                } else if (!wpisanotermin(dok)) {
                     Msg.msg("w","Brak terminu płatności na niektórych dok.");
                 } else if(niemanalisciefk(dok)) {
                     VATZDpozycja poz = new VATZDpozycja(dok, wpisView);

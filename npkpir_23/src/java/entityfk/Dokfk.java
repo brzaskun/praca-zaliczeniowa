@@ -722,6 +722,16 @@ public class Dokfk extends DokSuper implements Serializable {
         return ew;
     }
     
+    public double getNiezaplacone() {
+        double suma = 0.0;
+        for (StronaWiersza p : this.getStronyWierszy()) {
+            if (p.isNowatransakcja()) {
+                suma = Z.z(p.getPozostalo());
+            }
+        }
+        return suma;
+    }
+    
     public String getOpisDokfkUsun() {
         return this.toString2()+" "+this.numerwlasnydokfk+" "+this.kontr.getNpelna();
     }
