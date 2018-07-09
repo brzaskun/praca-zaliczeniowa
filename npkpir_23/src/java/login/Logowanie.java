@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -158,25 +159,31 @@ public class Logowanie implements Serializable {
     }
 
     public void ustawLocale(String uzytk) {
-        Uz uz = uzDAO.findUzByLogin(uzytk);
-        if (uz != null) {
-            switch (uz.getLocale()) {
-                default:
-                case "pl":
-                    localeChanger.polishAction();
-                    break;
-                case "de":
-                    localeChanger.deutschAction();
-                    break;
-                case "en":
-                    localeChanger.englishAction();
-                    break;
-                case "cz":
-                    localeChanger.czechAction();
-                    break;
+        try {
+            Uz uz = uzDAO.findUzByLogin(uzytk);
+            if (uz != null) {
+                switch (uz.getLocale()) {
+                    default:
+                    case "pl":
+                        localeChanger.polishAction();
+                        break;
+                    case "de":
+                        localeChanger.deutschAction();
+                        break;
+                    case "en":
+                        localeChanger.englishAction();
+                        break;
+                    case "cz":
+                        localeChanger.czechAction();
+                        break;
+                }
+            } else {
+                localeChanger.polishAction();
             }
-        } else {
-            localeChanger.polishAction();
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.getViewRoot().setLocale(new Locale("pl"));
+            E.e(e);
         }
     }
 
