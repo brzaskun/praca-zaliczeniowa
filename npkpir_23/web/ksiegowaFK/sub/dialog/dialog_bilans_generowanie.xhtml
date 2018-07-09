@@ -69,11 +69,13 @@
             </p:panelGrid>
             <p:commandButton value="generuj bilans" actionListener="#{bilansGenerowanieView.generuj()}" style="width: 120px;"
                              update="form_dialog_bilans_generowanie formbilanswprowadzanie3:kwotysum"/>
-            <p:commandButton value="zamknij" style="margin-left: 40px; width: 120px;" global="false"
-                             onclick="PF('dialog_bilans_generowanie').hide();"/>
-            <p:commandButton value="drukuj" style="margin-left: 40px; width: 120px;" actionListener="#{bilansGenerowanieView.drukuj()}" 
+            <p:commandButton value="nanieś różnice" actionListener="#{bilansGenerowanieView.naniesroznice()}" style="width: 120px; margin-left: 20px;"
+                             oncomplete="r('form_dialog_bilans_generowanie:buttonroznice').hide()"  id="buttonroznice"/>
+            <p:commandButton value="drukuj" style="margin-left: 20px; width: 120px;" actionListener="#{bilansGenerowanieView.drukuj()}"
                              action="#{sesjaView.dodajwydruk()}" global="false" oncomplete="pokazwydruk('bogenerr#{WpisView.getPodatnikObiekt().getNip()}')"
                              />
+            <p:commandButton value="zamknij" style="margin-left: 60px; width: 120px;" global="false"
+                             onclick="PF('dialog_bilans_generowanie').hide();"/>
         </h:form>
     </p:dialog>
 </ui:composition>

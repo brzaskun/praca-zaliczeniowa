@@ -57,6 +57,7 @@ public class WierszBO implements Serializable {
     private Konto konto;
     private String rok;
     private String mc;
+    @Column(length = 1024)
     private String opis;
     private double kwotaWn;
     private double kwotaMa;

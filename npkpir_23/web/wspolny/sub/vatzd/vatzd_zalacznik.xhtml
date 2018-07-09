@@ -29,17 +29,22 @@
             <h:outputText value="korekta vat: "/>
             <bcf:outputpl0 value="#{vATZDView.wniosekVATZDEntity.vat}"/>
         </p:panelGrid>
-        <p:panelGrid columns="2" rendered="#{vATZDView.wniosekVATZDEntity.deklaracjevat ne null}"  layout="grid" style="width: 300px;" columnClasses="seventy-percent thirty-percent">
-                <h:outputText value="załączony do deklaracji: "/>
-                <h:outputText value="#{vATZDView.wniosekVATZDEntity.deklaracjevat.wzorschemy}"/>
-                <h:outputText value="data sporządzenia: "/>
-                <h:outputText value="#{vATZDView.wniosekVATZDEntity.deklaracjevat.datasporzadzenia}">
+        <p:panelGrid columns="1" rendered="#{vATZDView.wniosekVATZDEntity.deklaracjevat ne null}"  layout="grid" style="width: 500px;" columnClasses="seventy-percent thirty-percent">
+            <p:dataTable value="#{vATZDView.wniosekVATZDEntity.deklaracjevat}" var="wpisl">
+                <p:column headerText="załączony do deklaracji">
+                <h:outputText value="#{wpisl.wzorschemy}"/>
+                </p:column>
+                <p:column headerText="data sporządzenia">
+                <h:outputText value="#{wpisl.datasporzadzenia}">
                     <f:convertDateTime pattern="yyyy-mm-dd"/>
                 </h:outputText>
-                <h:outputText value="data wysłania: "/>
-                <h:outputText value="#{vATZDView.wniosekVATZDEntity.deklaracjevat.datazlozenia}">
+                </p:column>
+                <p:column headerText="data wysłania">
+                <h:outputText value="#{wpisl.datazlozenia}">
                     <f:convertDateTime pattern="yyyy-mm-dd"/>
                 </h:outputText>
+                </p:column>
+            </p:dataTable>
          </p:panelGrid>
          <p:panelGrid columns="1" id="panelzalacznisprzedaz" styleClass="panelvazd"  layout="grid" style="width: 1200px;" >
              <h:outputText value="#{vATZDView.wniosekVATZDEntity.zalacznik}"/>

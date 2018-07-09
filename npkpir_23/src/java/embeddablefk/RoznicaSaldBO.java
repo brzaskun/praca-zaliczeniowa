@@ -17,14 +17,58 @@ public class RoznicaSaldBO  implements Serializable{
     
     private Konto konto;
     private double kwotaroznicy;
+    private double jest;
+    private String jestStrona;
+    private double winnobyc;
+    private String winnobycStrona;
 
     public RoznicaSaldBO() {
     }
 
-    public RoznicaSaldBO(Konto konto, double kwotaroznicy) {
+    public RoznicaSaldBO(Konto konto, double kwotaroznicy, double jest, String jestStrona, double winnobyc, String winnobycStrona) {
         this.konto = konto;
         this.kwotaroznicy = kwotaroznicy;
+        this.jest = jest;
+        this.jestStrona = jestStrona;
+        this.winnobyc = winnobyc;
+        this.winnobycStrona = winnobycStrona;
     }
+
+    
+    
+    public double getJest() {
+        return jest;
+    }
+
+    public void setJest(double jest) {
+        this.jest = jest;
+    }
+
+    public String getJestStrona() {
+        return jestStrona;
+    }
+
+    public void setJestStrona(String jestStrona) {
+        this.jestStrona = jestStrona;
+    }
+
+    public double getWinnobyc() {
+        return winnobyc;
+    }
+
+    public void setWinnobyc(double winnobyc) {
+        this.winnobyc = winnobyc;
+    }
+
+    public String getWinnobycStrona() {
+        return winnobycStrona;
+    }
+
+    public void setWinnobycStrona(String winnobycStrona) {
+        this.winnobycStrona = winnobycStrona;
+    }
+
+    
 
     @Override
     public String toString() {

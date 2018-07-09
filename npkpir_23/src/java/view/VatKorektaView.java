@@ -287,7 +287,7 @@ public class VatKorektaView implements Serializable {
         if (czyjestcosdowysylki == 0) {
             if (vatzd) {
                 dodajzalacznikVATZD(deklaracjaVATPoKorekcie);
-                wniosekVATZDEntity.setDeklaracjevat(deklaracjaVATPoKorekcie);
+                wniosekVATZDEntity.getDeklaracjevat().add(deklaracjaVATPoKorekcie);
                 deklaracjaVATPoKorekcie.setWniosekVATZDEntity(wniosekVATZDEntity);
             }
             deklaracjevatDAO.dodaj(deklaracjaVATPoKorekcie);

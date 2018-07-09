@@ -6,6 +6,7 @@
 package viewfk;
 
 import beansFK.PlanKontFKBean;
+import comparator.RoznicaSaldBOcomparator;
 import comparator.StronaWierszacomparatorBO;
 import daoFK.KontoDAOfk;
 import daoFK.UkladBRDAO;
@@ -75,6 +76,7 @@ public class BilansGenerowanieView implements Serializable {
     private boolean sabledy2;
     private boolean przeniestylkosalda;
     private boolean tojestbilanslikwidacyjny;
+    private List<RoznicaSaldBO> kontainnesaldo;
 
     public BilansGenerowanieView() {
         E.m(this);
@@ -242,11 +244,18 @@ public class BilansGenerowanieView implements Serializable {
                 zapiszBOnaKontach(wierszeBO, kontaNowyRok);
                 obliczsaldoBOkonta(kontaNowyRok);
                 kontoDAO.editList(kontaNowyRok);
-                List<RoznicaSaldBO> kontainnesaldo = znajdzroznicesald(listaSaldoKontoRokPop, kontaNowyRok);
+                kontainnesaldo = znajdzroznicesald(listaSaldoKontoRokPop, kontaNowyRok);
                 if (!kontainnesaldo.isEmpty()) {
                     komunikatyerror3.add("Po generacji jest różnica sald z BO. Sprawdź w poprzednim roku wiersze BO z dokumentem BO: ");
                     for (RoznicaSaldBO p : kontainnesaldo) {
-                        komunikatyerror3.add(p.getKonto().getPelnynumer() + " " + p.getKwotaroznicy());
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(p.getKonto().getPelnynumer() + " winno być ");
+                        sb.append(format.F.curr(p.getWinnobyc()) + " strona ");
+                        sb.append(p.getWinnobycStrona() + " jest ");
+                        sb.append(format.F.curr(p.getJest()) + " strona ");
+                        sb.append(p.getJestStrona() + " roznica ");
+                        sb.append(p.getKwotaroznicy());
+                        komunikatyerror3.add(sb.toString());
                     }
                 }
                 bilansWprowadzanieView.init();
@@ -256,6 +265,24 @@ public class BilansGenerowanieView implements Serializable {
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e","Wystąpił błąd podczas generowania bilansu otwarcia "+e);
+        }
+    }
+    
+    public void naniesroznice() {
+        try {
+            Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+            List<WierszBO> wierszeBO = new ArrayList<>();
+            for (RoznicaSaldBO p : kontainnesaldo) {
+                if (Math.abs(p.getKwotaroznicy()) < 1) {
+                    SaldoKonto sk = new SaldoKonto(p, walpln);
+                    wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), sk, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), p.getKonto(), walpln, wpisView.getWprowadzil()));
+                }
+            }
+            wierszBODAO.dodaj(wierszeBO);
+            Msg.msg("Naniesiono wiersze różnicowe");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił błąd podczas nanoszenia wierszy różnicowych "+e);
         }
     }
 
@@ -276,16 +303,17 @@ public class BilansGenerowanieView implements Serializable {
                 if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
                     Konto nowe = kontaNowyRok.get(kontaNowyRok.indexOf(p.getKonto()));
                     if (Z.zAbs(p.getSaldoWn()) != Z.zAbs(nowe.getBoWn())) {
-                       listaroznic.add(new RoznicaSaldBO(nowe, Z.zAbs(nowe.getBoWn()-p.getSaldoWn())));
+                       listaroznic.add(new RoznicaSaldBO(nowe, Z.z(nowe.getBoWn()-p.getSaldoWn()), nowe.getBoWn(), "Wn", p.getSaldoWn(), "Wn"));
                     } 
                     if (Z.zAbs(p.getSaldoMa()) != Z.zAbs(nowe.getBoMa())) {
-                       listaroznic.add(new RoznicaSaldBO(nowe, Z.zAbs(nowe.getBoMa()-p.getSaldoMa())));
+                        listaroznic.add(new RoznicaSaldBO(nowe, Z.z(nowe.getBoMa()-p.getSaldoMa()), nowe.getBoMa(), "Ma", p.getSaldoMa(), "Ma"));
                     }
                 }
             } catch (Exception e) {
                 E.e(e);
             }
         }
+        Collections.sort(listaroznic, new RoznicaSaldBOcomparator());
         return listaroznic;
     }
     

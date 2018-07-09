@@ -390,7 +390,7 @@ public class Vat7DKView implements Serializable {
         } else {
             if (vatzd) {
                 dodajzalacznikVATZD(nowadeklaracja);
-                wniosekVATZDEntity.setDeklaracjevat(nowadeklaracja);
+                wniosekVATZDEntity.getDeklaracjevat().add(nowadeklaracja);
                 nowadeklaracja.setWniosekVATZDEntity(wniosekVATZDEntity);
             }
             nowadeklaracja.setDatasporzadzenia(new Date());

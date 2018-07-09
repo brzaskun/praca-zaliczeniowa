@@ -175,14 +175,34 @@ public class SaldoKonto implements Serializable {
             this.saldoMa = 0.0;
             this.saldoMaPLN = 0.0;
         } else {
-            this.saldoMa = 0.0;
-            this.saldoMaPLN = 0.0;
-            this.saldoWn = kwota;
-            this.saldoWnPLN = kwota;
+            this.saldoMa = kwota;
+            this.saldoMaPLN = kwota;
+            this.saldoWn = 0.0;
+            this.saldoWnPLN = 0.0;
         }
         this.zapisy = new ArrayList<>();
         this.walutadlabo = walutapln;
         this.opisdlabo = "konto: "+t.getKonto().getPelnynumer()+" nierozliczone różnice kursowe";
+    }
+
+    public SaldoKonto(RoznicaSaldBO p, Waluty walutapln) {
+        this.konto = p.getKonto();
+        this.kursdlaBO = 0.0;
+        double roznica = p.getKwotaroznicy();
+        if (p.getJestStrona().equals("Wn")) {
+            this.saldoWn = 0.0;
+            this.saldoWnPLN = 0.0;
+            this.saldoMa = roznica;
+            this.saldoMaPLN = roznica;
+        } else {
+            this.saldoMa = 0.0;
+            this.saldoMaPLN = 0.0;
+            this.saldoWn = roznica;
+            this.saldoWnPLN = roznica;
+        }
+        this.zapisy = new ArrayList<>();
+        this.walutadlabo = walutapln;
+        this.opisdlabo = "konto: "+p.getKonto().getPelnynumer()+" automatyczny wiersz różnicowy";
     }
     
      public String getStyleWn() {

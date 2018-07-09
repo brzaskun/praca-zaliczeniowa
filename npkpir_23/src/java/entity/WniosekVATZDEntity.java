@@ -65,11 +65,11 @@ public class WniosekVATZDEntity implements Serializable {
     private List<Dok> zawiera;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "wniosekVATZDEntity")
     private List<Dokfk> zawierafk;
-    @OneToOne
-    @JoinColumn(name = "deklaracjevat", referencedColumnName = "id")
-    private Deklaracjevat deklaracjevat;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "wniosekVATZDEntity")
+    private List<Deklaracjevat> deklaracjevat;
 
     public WniosekVATZDEntity() {
+        this.deklaracjevat = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -136,13 +136,15 @@ public class WniosekVATZDEntity implements Serializable {
         this.zawierafk = zawierafk;
     }
 
-    public Deklaracjevat getDeklaracjevat() {
+    public List<Deklaracjevat> getDeklaracjevat() {
         return deklaracjevat;
     }
 
-    public void setDeklaracjevat(Deklaracjevat deklaracjevat) {
+    public void setDeklaracjevat(List<Deklaracjevat> deklaracjevat) {
         this.deklaracjevat = deklaracjevat;
     }
+
+    
     
 
     @Override
