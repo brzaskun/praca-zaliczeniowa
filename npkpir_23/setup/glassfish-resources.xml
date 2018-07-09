@@ -22,8 +22,6 @@
         <property name="Password" value="pufikun"/>
         <property name="URL" value="jdbc:mysql://localhost:3306/pkpir?useUnicode=true&amp;characterEncoding=UTF-8"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="fish.payara.is-connection-validation-required" value="true"/>
-        <property name="fish.payara.ping" value="true"/>
-        
+       
     </jdbc-connection-pool>
 </resources>
