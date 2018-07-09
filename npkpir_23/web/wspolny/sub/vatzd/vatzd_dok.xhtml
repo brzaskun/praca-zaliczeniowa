@@ -93,14 +93,22 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{itemzd.walutadokumentu.symbolwaluty}" filterBy="#{itemzd.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                <p:column headerText="nierozlicz." 
+                          styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzd.niezaplacone}" filterBy="#{itemzd.niezaplacone}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemzd.niezaplacone}" style="float: right; " rendered="#{itemzd.niezaplacone gt 0.0}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    <h:outputText value="zapłacone w 100%" style="float: right; " rendered="#{itemzd.niezaplacone eq 0.0}">
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{itemzd.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{itemzd.walutadokumentu.symbolwaluty ne 'PLN' ? itemzd.walutadokumentu.symbolwaluty : null}" id="walutadokumentuzest"/>
                 </p:column>
-                <p:column headerText="#{mgs.VAT}" styleClass="vatzak" width="30" sortBy="#{itemzd.vatM}" filterBy="#{itemzd.vatM}" style="text-align: center;">
+                <p:column headerText="#{mgs.VAT}" styleClass="vatzak" width="30" sortBy="#{itemzd.vatM}" style="text-align: center;">
                     <h:outputText value="#{itemzd.ewidencjaVAT.size() gt 0 ? itemzd.vatM : null}" style="color: #{itemzd.vatM ne itemzd.miesiac ? 'red' : null}" id="vatdokumentuzest"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;" >
-                    <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
+                    <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(itemzd)}" styleClass="fkbutton"
                                      update=":formwpisdokument" style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
                 </p:column>
                 <p:rowExpansion>

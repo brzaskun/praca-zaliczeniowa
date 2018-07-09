@@ -14,12 +14,12 @@
          <p:commandButton value="usuń" actionListener="#{vATZDView.usunwniosek()}"
                                  style="width: 120px; margin-left: 10px;"
                                  update="@(.panelvazd) @parent form_dialog_vatzd:akordeon:dataList" rendered="#{vATZDView.wniosekVATZDEntity.id ne null and vATZDView.wniosekVATZDEntity.deklaracjevat eq null}"/>
-         <h:outputText value="Aby usunąć wniosek załączony do deklaracji trzeba najpierw usunąć deklarację" rendered="#{vATZDView.wniosekVATZDEntity.deklaracjevat ne null}" style="color: #0066ff"/>
+         <p:panelGrid columns="1" styleClass="panelvazd"  layout="grid" style="width: 1000px;" >
+            <h:outputText value="Aby usunąć wniosek załączony do deklaracji trzeba najpierw usunąć deklarację" rendered="#{vATZDView.wniosekVATZDEntity.deklaracjevat ne null}" style="color: #0066ff"/>
+         </p:panelGrid>
      `  </p:panelGrid>
-         <p:panelGrid columns="1" id="panelzalacznisprzedaz" styleClass="panelvazd">
-             <h:outputText value="#{vATZDView.wniosekVATZDEntity.zalacznik}"/>
-        </p:panelGrid>
-        <p:panelGrid columns="2" id="panelzalacznisprzedaz2" styleClass="panelvazd">
+         
+         <p:panelGrid columns="2" id="panelzalacznisprzedaz2" styleClass="panelvazd" layout="grid" style="width: 300px;" columnClasses="seventy-percent thirty-percent">
             <h:outputText value="rok: "/>
             <h:outputText value="#{vATZDView.wniosekVATZDEntity.rok}"/>
             <h:outputText value="mc: "/>
@@ -29,7 +29,7 @@
             <h:outputText value="korekta vat: "/>
             <bcf:outputpl0 value="#{vATZDView.wniosekVATZDEntity.vat}"/>
         </p:panelGrid>
-        <p:panelGrid columns="2" rendered="#{vATZDView.wniosekVATZDEntity.deklaracjevat ne null}">
+        <p:panelGrid columns="2" rendered="#{vATZDView.wniosekVATZDEntity.deklaracjevat ne null}"  layout="grid" style="width: 300px;" columnClasses="seventy-percent thirty-percent">
                 <h:outputText value="załączony do deklaracji: "/>
                 <h:outputText value="#{vATZDView.wniosekVATZDEntity.deklaracjevat.wzorschemy}"/>
                 <h:outputText value="data sporządzenia: "/>
@@ -41,6 +41,9 @@
                     <f:convertDateTime pattern="yyyy-mm-dd"/>
                 </h:outputText>
          </p:panelGrid>
+         <p:panelGrid columns="1" id="panelzalacznisprzedaz" styleClass="panelvazd"  layout="grid" style="width: 1200px;" >
+             <h:outputText value="#{vATZDView.wniosekVATZDEntity.zalacznik}"/>
+        </p:panelGrid>
     </p:tab>
 </ui:composition>   
 
