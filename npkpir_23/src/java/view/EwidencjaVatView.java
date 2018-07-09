@@ -10,6 +10,7 @@ import dao.EVatwpis1DAO;
 import dao.EvewidencjaDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
+import dao.WniosekVATZDEntityDAO;
 import dao.WpisDAO;
 import daoFK.EVatwpisDedraDAO;
 import daoFK.EVatwpisFKDAO;
@@ -17,6 +18,7 @@ import data.Data;
 import deklaracje.vatzd.WniosekVATZD;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
+import embeddable.Mce;
 import embeddable.Parametr;
 import entity.Dok;
 import entity.EVatwpis1;
@@ -118,6 +120,8 @@ public class EwidencjaVatView implements Serializable {
     private boolean pobierzmiesiacdlajpk;
     @Inject
     private EVatwpisDedraDAO eVatwpisDedraDAO;
+    @Inject
+    private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
 
     public EwidencjaVatView() {
         nazwyewidencji = new ArrayList<>();
@@ -283,7 +287,7 @@ public class EwidencjaVatView implements Serializable {
             if (pobierzmiesiacdlajpk) {
                 vatokres = "miesięczne";
             }
-            listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres));
+            listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
             listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
             wyluskajzlisty(listaprzesunietychKoszty, "koszty");
@@ -485,18 +489,18 @@ public class EwidencjaVatView implements Serializable {
 
 
 
-    private List<EVatwpisFK> pobierzEVatRokFK(Podatnik podatnik, String vatokres) {
+    private List<EVatwpisFK> pobierzEVatRokFK(Podatnik podatnik, String vatokres, String rok, String mc) {
         try {
             switch (vatokres) {
                 case "blad":
                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne": 
-                    return eVatwpisFKDAO.findPodatnikMc(podatnik, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
+                    return eVatwpisFKDAO.findPodatnikMc(podatnik, rok, mc, mc);
                 default:
-                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(mc)));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                    return eVatwpisFKDAO.findPodatnikMc(podatnik, wpisView.getRokWpisuSt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+                    return eVatwpisFKDAO.findPodatnikMc(podatnik, rok, miesiacewkwartale.get(0), miesiacewkwartale.get(2));
             }
         } catch (Exception e) { E.e(e); 
             return null;
@@ -853,9 +857,64 @@ public class EwidencjaVatView implements Serializable {
         zachowanewybranewierszeewidencji.add(dodajsumyDoEwidencji(Z.z(netto), Z.z(vat)));
     }
     
+    private void ewidencjazamc (Podatnik podatnik, String rok, String mc) {
+        listadokvatprzetworzona = new ArrayList<>();
+        ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
+        zerujListy();
+        String vatokres = sprawdzjakiokresvat();
+        listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, rok, mc));
+        Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
+        listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
+        wyluskajzlisty(listaprzesunietychKoszty, "koszty");
+        sumaprzesunietych = sumujprzesuniete(listaprzesunietychKoszty);
+        listaprzesunietychBardziej = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+        wyluskajzlisty(listaprzesunietychBardziej, "koszty");
+        sumaprzesunietychBardziej = sumujprzesuniete(listaprzesunietychBardziej);
+        listaprzesunietychPrzychody = pobierzEVatRokFKNastepnyOkres(vatokres);
+        wyluskajzlisty(listaprzesunietychPrzychody, "przychody");
+        sumaprzesunietychprzychody = sumujprzesuniete(listaprzesunietychPrzychody);
+        listaprzesunietychBardziejPrzychody = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+        wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
+        sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
+        przejrzyjEVatwpis1Lista();
+        List<WniosekVATZDEntity> wniosekVATZDEntity = wniosekVATZDEntityDAO.findByPodatnikRokMcFK(podatnik, rok, mc);
+        if (wniosekVATZDEntity!=null && wniosekVATZDEntity.size()>0) {
+            dodajwierszeVATZDsprzedaz(wniosekVATZDEntity.get(0));
+        }
+        stworzenieEwidencjiCzescWspolnaFK();
+        
+    }
+    
+    public void drukujPdfWszystkieRok() {
+        try {
+            String vatokres = sprawdzjakiokresvat();
+            List<String> mnce = null;
+            if (vatokres.equals("miesięczne")) {
+                mnce = Mce.getMceListS();
+            } else {
+                mnce = Mce.getMceListKW();
+            }
+            for (String mc : mnce) {
+                ewidencjazamc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc);
+                if (listaewidencji!=null && listaewidencji.size() > 0) {
+                    String nazwa = "vatcalyrok"+wpisView.getPodatnikObiekt().getNip()+mc+wpisView.getRokWpisuSt();
+                    String plik = nazwa+ ".pdf";
+                    PdfVAT.drukujewidencjenajednejkartce(plik, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc, listaewidencji, false);
+                    String co = "pokazwydruk('"+nazwa+"')";
+                    RequestContext.getCurrentInstance().execute(co);
+                } else {
+                    break;
+                }
+            }
+        } catch (Exception e) { 
+            E.e(e); 
+
+        }
+    }
+    
     public void drukujPdfWszystkie() {
         try {
-            PdfVAT.drukujewidencjenajednejkartce(wpisView, listaewidencji, false);
+            PdfVAT.drukujewidencjenajednejkartce(null, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), listaewidencji, false);
         } catch (Exception e) { 
             E.e(e); 
 
@@ -864,7 +923,7 @@ public class EwidencjaVatView implements Serializable {
     
      public void drukujPdfWszystkieWartosc() {
         try {
-            PdfVAT.drukujewidencjenajednejkartce(wpisView, listaewidencji, true);
+            PdfVAT.drukujewidencjenajednejkartce(null, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), listaewidencji, true);
         } catch (Exception e) { E.e(e); 
 
         }

@@ -42,6 +42,14 @@ public class WniosekVATZDEntityDAO extends DAO implements Serializable{
             return null;
         }
    }
+    
+    public  List<WniosekVATZDEntity> findByPodatnikRokMcFK(Podatnik podatnik, String rok, String mc){
+        try {
+            return wierszeFacade.findWniosekZDByPodatnikRokMcFK(podatnik, rok, mc);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+   }
 
     
    

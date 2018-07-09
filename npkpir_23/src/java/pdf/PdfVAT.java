@@ -391,17 +391,16 @@ pdffk.PdfMain.dodajQR(nazwapliku);
     }
     
     
-    public static void drukujewidencjenajednejkartce(WpisView wpisView, HashMap<String, List<EVatwpisSuper>> mapa, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
-        Podatnik pod = wpisView.getPodatnikObiekt();
+    public static void drukujewidencjenajednejkartce(String nazwapliku, Podatnik pod, String rok, String mc, HashMap<String, List<EVatwpisSuper>> mapa, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 25);
         try {
             List<String> nazwy = new ArrayList<>();
             nazwy.addAll(mapa.keySet());
-            String nazwapliku = null;
             if (wartosc) {
-                nazwapliku = "vat-wszystko-wartosc-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
-            } else {
-                nazwapliku = "vat-wszystko-" + wpisView.getPodatnikObiekt().getNip()+ ".pdf";
+                nazwapliku = "vat-wszystko-wartosc-" + pod.getNip() + ".pdf";
+            } 
+            if (!wartosc && nazwapliku==null) {
+                nazwapliku = "vat-wszystko-" + pod.getNip()+ ".pdf";
             }
                 File file = Plik.plik(nazwapliku, true);
                 if (file.isFile()) {
@@ -438,7 +437,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
                 Collections.sort(nazwy);
                 for (Iterator<String> nazwa = nazwy.iterator(); nazwa.hasNext();) {
                   String p = nazwa.next();
-                  pdf.add(stworztabele(mapa, p, wpisView, wartosc));
+                  pdf.add(stworztabele(mapa, p, pod, rok, mc, wartosc));
                   if (nazwa.hasNext()) {
                     Paragraph parag = new Paragraph();
                     parag.setLeading(20);
@@ -455,7 +454,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
         }
     }
     
-    private static PdfPTable stworztabele(HashMap<String, List<EVatwpisSuper>> mapa, String nazwaewidencji, WpisView wpisView, boolean wartosc) {
+    private static PdfPTable stworztabele(HashMap<String, List<EVatwpisSuper>> mapa, String nazwaewidencji, Podatnik pod, String rok, String mc, boolean wartosc) {
         try {
             PdfPTable table = new PdfPTable(12);
             table.setWidthPercentage(95);
@@ -463,8 +462,8 @@ pdffk.PdfMain.dodajQR(nazwapliku);
             PdfPCell cell = new PdfPCell();
             table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
             table.addCell(ustawfraze("wydruk ewidencji vat " + nazwaewidencji, 3, 0));
-            table.addCell(ustawfraze("firma: " + wpisView.getPodatnikObiekt().podatnikDaneWydruk(), 5, 0));
-            table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
+            table.addCell(ustawfraze("firma: " + pod.podatnikDaneWydruk(), 5, 0));
+            table.addCell(ustawfraze("za okres: " + rok + "/" + mc, 2, 0));
 
             table.addCell(ustawfraze("lp", 0, 2));
             table.addCell(ustawfraze("Data zdarzenia goswp.", 0, 2));

@@ -24,6 +24,7 @@ import view.WpisView;
 public class Mce implements Serializable{
     
     private static final List<String> mceList;
+    private static final List<String> mceListKW;
     private static final List<String> mceListOdKonca;
     private static final List<String> mcenazwaList;
     private static final List<String> mcenazwaListSlownik;
@@ -49,6 +50,12 @@ public class Mce implements Serializable{
         mceList.add("10");
         mceList.add("11");
         mceList.add("12");
+        
+        mceListKW = new ArrayList<>();
+        mceListKW.add("03");
+        mceListKW.add("06");
+        mceListKW.add("09");
+        mceListKW.add("12");
         
         mceListOdKonca = new ArrayList<>();
         mceListOdKonca.add("12");
@@ -483,6 +490,10 @@ public class Mce implements Serializable{
 
     public static Map<String, String> getStringToNazwamiesiaca() {
         return stringToNazwamiesiaca;
+    }
+
+    public static List<String> getMceListKW() {
+        return mceListKW;
     }
     
     public static List<String> getMcenazwaList() {
