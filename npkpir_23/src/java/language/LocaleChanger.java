@@ -6,6 +6,7 @@ package language;
 
 import dao.UzDAO;
 import entity.Uz;
+import error.E;
 import java.io.Serializable;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
@@ -50,25 +51,29 @@ public class LocaleChanger implements Serializable{
     }
     
     private void ustawLocale(String uzytk) {
-        Uz uz = uzDAO.findUzByLogin(uzytk);
-        if (uz != null) {
-            switch (uz.getLocale()) {
-                default:
-                case "pl":
-                    polishAction();
-                    break;
-                case "de":
-                    deutschAction();
-                    break;
-                case "en":
-                    englishAction();
-                    break;
-                case "cz":
-                    czechAction();
-                    break;
+        try {
+            Uz uz = uzDAO.findUzByLogin(uzytk);
+            if (uz != null) {
+                switch (uz.getLocale()) {
+                    default:
+                    case "pl":
+                        polishAction();
+                        break;
+                    case "de":
+                        deutschAction();
+                        break;
+                    case "en":
+                        englishAction();
+                        break;
+                    case "cz":
+                        czechAction();
+                        break;
+                }
+            } else {
+                polishAction();
             }
-        } else {
-            polishAction();
+        } catch (Exception e) {
+            E.e(e);
         }
     }
 

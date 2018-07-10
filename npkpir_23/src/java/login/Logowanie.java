@@ -181,8 +181,6 @@ public class Logowanie implements Serializable {
                 localeChanger.polishAction();
             }
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.getViewRoot().setLocale(new Locale("pl"));
             E.e(e);
         }
     }
