@@ -427,7 +427,7 @@ public class BilansGenerowanieView implements Serializable {
     private List<SaldoKonto> przetwarzajSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
         List<SaldoKonto> nowalista = new ArrayList<>();
         for (SaldoKonto p : listaSaldoKonto) {
-            if (p.getKonto().getPelnynumer().equals("201-2-133")) {
+            if (p.getKonto().getPelnynumer().equals("201-2")) {
                 System.out.println("");
             }
             if (p.getKonto().getPelnynumer().startsWith("149")) {

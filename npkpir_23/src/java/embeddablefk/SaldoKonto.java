@@ -72,18 +72,22 @@ public class SaldoKonto implements Serializable {
                 this.saldoWn = -t.getPozostalo();
                 this.saldoWnPLN = -t.getPozostaloPLN();
                 this.saldoMa = 0.0;
+                this.saldoMaPLN = 0.0;
             } else {
                 this.saldoWn = t.getPozostalo();
                 this.saldoWnPLN = t.getPozostaloPLN();
                 this.saldoMa = 0.0;
+                this.saldoMaPLN = 0.0;
             }
         } else {
             if (mniejszeodzera) {
                 this.saldoWn = 0.0;
+                this.saldoWnPLN = 0.0;
                 this.saldoMa = -t.getPozostalo();
                 this.saldoMaPLN = -t.getPozostaloPLN();
             } else {
                 this.saldoWn = 0.0;
+                this.saldoWnPLN = 0.0;
                 this.saldoMa = t.getPozostalo();
                 this.saldoMaPLN = t.getPozostaloPLN();
             }
