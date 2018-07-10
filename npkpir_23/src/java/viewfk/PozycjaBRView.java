@@ -98,6 +98,7 @@ public class PozycjaBRView implements Serializable {
     private boolean laczlata;
     private String bilansnadzien;
     private String bilansoddnia;
+    private String opisdodatkowy;
     
     
     @ManagedProperty(value = "#{WpisView}")
@@ -903,7 +904,7 @@ public class PozycjaBRView implements Serializable {
     
     public void drukujBilansBODataAP(String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP) {
         if (ap.equals("x")) {
-            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, ap, sumabilansowaBO, sumabilansowaA, sumabilansowaP, bilansnadzien, bilansoddnia, laczlata);
+            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, opisdodatkowy, ap, sumabilansowaBO, sumabilansowaA, sumabilansowaP, bilansnadzien, bilansoddnia, laczlata);
         }
     }
     
@@ -941,6 +942,14 @@ public class PozycjaBRView implements Serializable {
    
        
     //<editor-fold defaultstate="collapsed" desc="comment">
+
+    public String getOpisdodatkowy() {
+        return opisdodatkowy;
+    }
+
+    public void setOpisdodatkowy(String opisdodatkowy) {
+        this.opisdodatkowy = opisdodatkowy;
+    }
     
     
 
