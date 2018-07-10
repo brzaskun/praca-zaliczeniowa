@@ -185,7 +185,7 @@
            
         </h:form>
         <h:form>
-            <p:commandButton id="nowesyntetycznejakniema" value="pierwsze syntetyczne" icon="ui-icon-circle-plus" onclick="PF('nowekontosyntetyczne').show();" global="false" rendered="#{planKontView.wykazkontlazy.rowCount eq 0}"/>
+            <p:commandButton id="nowesyntetycznejakniema" value="pierwsze syntetyczne" icon="ui-icon-circle-plus" onclick="PF('nowekontosyntetyczne').show();" global="false" rendered="#{planKontView.wykazkont.size() eq 0}"/>
         </h:form>
         </p:outputPanel>
 </ui:composition>

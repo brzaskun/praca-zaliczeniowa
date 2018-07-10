@@ -295,35 +295,39 @@ public class KontoZapisFKView implements Serializable{
     
     
     public void pobierzZapisyZmianaWaluty() {
-        kontozapisy = new ArrayList<>();
-        List<Konto> kontapotomnetmp = new ArrayList<>();
-        List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
-        kontapotomnetmp.add(wybranekonto);
-        KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
-        int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
-        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-        for (StronaWiersza r : zapisyRok) {
-            if (kontapotomneListaOstateczna.contains(r.getKonto())) {
-                if (!r.getSymbolWalutBOiSW().equals("PLN")) {
-                        nierenderujkolumnnywalut = false;
-                }
-                if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                    if (mc >= granicaDolna && mc <= granicaGorna) {
-                        kontozapisy.add(r);
+        if (wybranekonto!=null) {
+            kontozapisy = new ArrayList<>();
+            List<Konto> kontapotomnetmp = new ArrayList<>();
+            List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+            kontapotomnetmp.add(wybranekonto);
+            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+            int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+            for (StronaWiersza r : zapisyRok) {
+                if (kontapotomneListaOstateczna.contains(r.getKonto())) {
+                    if (!r.getSymbolWalutBOiSW().equals("PLN")) {
+                            nierenderujkolumnnywalut = false;
                     }
-                } else {
-                    if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
+                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                         if (mc >= granicaDolna && mc <= granicaGorna) {
                             kontozapisy.add(r);
                         }
+                    } else {
+                        if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
+                            int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                            if (mc >= granicaDolna && mc <= granicaGorna) {
+                                kontozapisy.add(r);
+                            }
+                        }
                     }
                 }
             }
+            sumazapisow();
+            sumazapisowpln();
+        } else {
+            Msg.msg("w", "Nie wybrano konta");
         }
-        sumazapisow();
-        sumazapisowpln();
         //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
     }
     

@@ -1482,6 +1482,7 @@ public class PlanKontView implements Serializable {
             nrkonta++;
         }
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        Collections.sort(wykazkont, new Kontocomparator());
         Msg.msg("Zakonczono aktualizowanie słowników");
     }
 

@@ -576,7 +576,7 @@ public class BilansGenerowanieView implements Serializable {
             double sumasaldokont = obliczsaldoplnsaldokont(kwotywpln);
             double roznicekursowe = 0.0;
             if ((saldopln > 0 && sumasaldokont > 0) || (saldopln < 0 && sumasaldokont < 0)) {
-                roznicekursowe = Z.z(saldopln - sumasaldokont);
+                roznicekursowe = Z.z(sumasaldokont-saldopln);
             } else {
                 if (saldopln < 0) {
                     roznicekursowe = Z.z(saldopln - sumasaldokont);

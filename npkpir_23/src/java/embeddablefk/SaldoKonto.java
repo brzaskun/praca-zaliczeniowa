@@ -169,7 +169,7 @@ public class SaldoKonto implements Serializable {
     public SaldoKonto(SaldoKonto t, double kwota, Waluty walutapln) {
         this.konto = t.getKonto();
         this.kursdlaBO = t.getKursdlaBO();
-        if (kwota > 0.0) {
+        if (kwota < 0.0) {
             this.saldoWn = kwota;
             this.saldoWnPLN = kwota;
             this.saldoMa = 0.0;
