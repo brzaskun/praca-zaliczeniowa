@@ -555,7 +555,7 @@ public class KontoZapisFKView implements Serializable{
             });
         } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
             kontozapisyfiltered.parallelStream().forEach((p) -> {
-                double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
+                double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLN() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
@@ -564,7 +564,7 @@ public class KontoZapisFKView implements Serializable{
             });
         }  else {
             kontozapisy.parallelStream().forEach((p) -> {
-                double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
+                double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLN() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
