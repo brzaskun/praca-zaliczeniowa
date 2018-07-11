@@ -236,31 +236,31 @@
                             <p:tooltip value="#{loop.wiersz.tabelanbp.nrtabeli}" for="kurswierszazapisy"/>
                         </p:column>
                         <p:column headerText="Wn" width="40" style="background-color: #e6f2ff;" sortBy="#{loop.kwota}"   filterBy="#{loop.kwota}" filterMatchMode="contains"
-                                  rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false or kontoZapisFKView.pokaztransakcje eq true}">
+                                  rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false or kontoZapisFKView.pokaztransakcje eq true}" filterStyle="width:60px;">
                             <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
-                            <h:outputText id="kwotawnwiersztr" value="#{loop.wnma eq 'Wn' ? loop.pozostalo : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
+                            <h:outputText id="kwotawnwiersztr" value="#{loop.wnma eq 'Wn' ? loop.pozostalo : null}" style="float: right;#{loop.isNowatransakcja() and kontoZapisFKView.pokaztransakcje ? 'color: green': 'color: blue'}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Wn PLN" width="50" sortBy="#{loop.kwotaPLN}"   filterBy="#{loop.kwotaPLN}" filterMatchMode="contains"
-                                  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.pokaztransakcje eq false}">
+                                  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.pokaztransakcje eq false}" filterStyle="width:60px;">
                             <h:outputText id="kwotawnwierszPLN" value="#{loop.wnma eq 'Wn' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Ma" width="40" style="background-color: #e6f2ff;" sortBy="#{loop.kwota}"   filterBy="#{loop.kwota}" filterMatchMode="contains"
-                                  rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false or kontoZapisFKView.pokaztransakcje eq true}">
+                                  rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false or kontoZapisFKView.pokaztransakcje eq true}" filterStyle="width:60px;">
                             <h:outputText id="kwotamawiersz" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
-                            <h:outputText id="kwotamawiersztr" value="#{loop.wnma eq 'Ma' ? loop.pozostalo : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
+                            <h:outputText id="kwotamawiersztr" value="#{loop.wnma eq 'Ma' ? loop.pozostalo : null}" style="float: right;#{loop.isNowatransakcja() and kontoZapisFKView.pokaztransakcje ? 'color: green': 'color: blue'}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Ma PLN" width="50" sortBy="#{loop.kwotaPLN}"  filterBy="#{loop.kwotaPLN}" filterMatchMode="contains"
-                                  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.pokaztransakcje eq false}" >
+                                  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.pokaztransakcje eq false}"  filterStyle="width:60px;">
                             <h:outputText id="kwotamawierszPLN" value="#{loop.wnma eq 'Ma' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -268,12 +268,22 @@
                         <p:column headerText="#{mgs.waluta}" width="20" sortBy="#{loop.getSymbolInnychWalutBOiSW()}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText id="waluta" value="#{loop.getSymbolInnychWalutBOiSW()}"/>
                         </p:column>
-                        <p:column headerText="przec." width="40" sortBy="#{loop.kontoPrzeciwstawne.pelnynumer}">
+                        <p:column headerText="przec." width="40" sortBy="#{loop.kontoPrzeciwstawne.pelnynumer}"  rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
                             <h:outputText id="kontonr" value="#{loop.kontoPrzeciwstawne.pelnynumer}"/>
                             <p:tooltip value="#{loop.kontoPrzeciwstawne.nazwapelna}" for="kontonr"/>
                         </p:column>
+                        <p:column headerText="wart.pierw." width="40" sortBy="#{loop.kontoPrzeciwstawne.pelnynumer}"  rendered="#{kontoZapisFKView.pokaztransakcje}">
+                             <h:outputText id="kwotawnwierszwn" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                             <h:outputText id="kwotamawierszma" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+
+                        </p:column>
                         <p:column width="10" style="text-align: center;">
-                            <h:outputText value="r" style="#{loop.saRozrachunki ? 'color: blue': null}" rendered="#{loop.saRozrachunki}"/>
+                            <h:outputText value="r" style="#{loop.saRozrachunki ? 'color: blue': null}" rendered="#{loop.saRozrachunki  and !kontoZapisFKView.pokaztransakcje}"/>
+                            <h:outputText value="nowa tr." style="#{loop.saRozrachunki ? 'color: green': null}" rendered="#{loop.isNowatransakcja() and kontoZapisFKView.pokaztransakcje}"/>
                         </p:column>
                         <!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
                                                     <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
