@@ -29,7 +29,7 @@
 doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               minimizable="true"
               >
-        <p:layout fullPage="false" style="width: 1000px; height: 700px;" >  
+        <p:layout fullPage="false" style="width: 350px; height: 700px;" >  
             <p:layoutUnit position="north" >
                 <p:panelGrid columns="4" columnClasses="kontaGrid1, kontaGrid2" >
                     <h:form id="formwpisrozrachunki">
@@ -153,7 +153,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                 </h:form>
             </p:layoutUnit>  
 
-            <p:layoutUnit position="center" style="min-width: 1050px;">
+            <p:layoutUnit position="center" style="width: 650px;">
                 <h:form id="tabelanowerozrachunki">
                      <p:contextMenu for="tabela" style="width: 200px;">
                          <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{rozrachunkiPrzegladView.rozliczzaznaczone()}" update="tabelanowerozrachunki:tabela" global="false"/>
@@ -178,7 +178,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}" style="width: 20px;"/>
                         </p:column>
                         <p:column headerText="waluta" sortBy="#{loop.symbolWalutBOiSW}" width="40">
-                            <h:outputText value="#{symbolWalutBOiSWWalut}"
+                            <h:outputText value="#{loop.symbolWalutBOiSW}"
                                           style="width: 30px;"/>
                         </p:column>
                         <p:column headerText="kurs" sortBy="#{loop.kursWalutyBOSW}" width="40">
@@ -209,7 +209,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                             <bcf:outputpl value="#{loop.pozostaloPLN}" rendered="#{loop.pozostaloPLN ne 0.0}"/>
                         </p:column>
                         <p:rowExpansion>
-                            <p:column  headerText="wykaz transakcji" width="500" resizable="true" rendered="#{loop.platnosci.size() gt 0 or loop.nowetransakcje.size() gt 0}">
+                            <p:column  headerText="wykaz transakcji" resizable="true" rendered="#{loop.platnosci.size() gt 0 or loop.nowetransakcje.size() gt 0}">
                                 <style>
                                     .dokumentyZestawienie tr td {
                                         padding: 0px !important;
@@ -242,8 +242,10 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                                     <p:column headerText="nr dok rozl." style="text-align: center;">
                                         <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfkS}"/>
                                     </p:column>
-                                    <p:column headerText="lp wiersza" style="text-align: center;">
-                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.idporzadkowy}"/>
+                                    <p:column headerText="w wal.rach." style="text-align: center;">
+                                        <h:outputText value="#{subwpis.kwotawwalucierachunku}" style="float: right;">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
                                     </p:column>
                                     <p:column headerText="nr wlasny">
                                         <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}"/>
