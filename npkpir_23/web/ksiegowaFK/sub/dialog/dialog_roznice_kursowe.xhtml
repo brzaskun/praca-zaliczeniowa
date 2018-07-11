@@ -36,15 +36,15 @@
                 </p:selectOneMenu>
             <h:outputText value="zmień miesiąc"/>
             <p:dataTable id="tabelaroznicekursowe" var="wpis" value="#{rozniceKursoweFKView.pobranetransakcje}" editable="true" 
-                         emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym" scrollable="true" scrollHeight="450"
-                          style="width: 1350px;"  widgetVar="tabelaroznicekursowe" rowIndexVar="index">
+                         emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym"
+                          style="width: 1350px;height: 550px;overflow-y: scroll"  widgetVar="tabelaroznicekursowe" rowIndexVar="index">
                 <p:ajax event="filter" global="false"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych transakcji walutowych " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('tabelaroznicekursowe').filter();" style="width:150px" />  
                 </f:facet>
-                <p:column headerText="#{mgs.numerkolejny}" width="30"  style="text-align: center;">
+                <p:column headerText="#{mgs.numerkolejny}" width="20"  style="text-align: center;">
                     <h:outputText value="#{index+1}" />
                 </p:column>
                 <p:column headerText="data rozr." width="80" filterBy="#{wpis.datarozrachunku}" sortBy="#{wpis.datarozrachunku}" styleClass="dataroznice" style="text-align: center;">
@@ -56,7 +56,7 @@
                 <p:column headerText="rachunek" width="100" filterBy="#{wpis.nowaTransakcja.wiersz.dokfk.toString2()}" filterMatchMode="contains" styleClass="rachunekroznice" style="text-align: center;">
                     <h:outputText value="#{wpis.nowaTransakcja.wiersz.dokfk.toString2()}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
-                <p:column headerText="opis" width="200" filterBy="#{wpis.nowaTransakcja.wiersz.opisWiersza}" filterMatchMode="contains" styleClass="firmaopis">
+                <p:column headerText="opis" width="180" filterBy="#{wpis.nowaTransakcja.wiersz.opisWiersza}" filterMatchMode="contains" styleClass="firmaopis">
                     <h:outputText value="#{wpis.nowaTransakcja.wiersz.opisWiersza}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
                 <p:column headerText="kurs rach." width="40">
