@@ -50,7 +50,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Wiersz.findByPodatnikRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok"),
     @NamedQuery(name = "Wiersz.findByPodatnikRokTabela", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.tabelanbp = :tabelanbp")
 })
-@Cacheable
 public class Wiersz implements Serializable {
 
     private static final long serialVersionUID = 1L;

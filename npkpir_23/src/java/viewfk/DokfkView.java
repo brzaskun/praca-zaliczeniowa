@@ -2295,6 +2295,8 @@ public class DokfkView implements Serializable {
         //RequestContext.getCurrentInstance().execute("wybierzWierszPoZmianieWaluty();");
     }
 
+    
+    
     private String ustawdatetransakcji() {
         String datawiersza;
         if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza().length() == 1) {

@@ -69,13 +69,13 @@ public class SaldoKonto implements Serializable {
         boolean mniejszeodzera = t.getKwota() < 0.0;
         if (t.getWnma().equals("Wn")) {
             if (mniejszeodzera) {
-                this.saldoWn = -t.getPozostalo();
-                this.saldoWnPLN = -t.getPozostaloPLN();
+                this.saldoWn = -Z.z(t.getPozostalo());
+                this.saldoWnPLN = -Z.z(t.getPozostaloPLN());
                 this.saldoMa = 0.0;
                 this.saldoMaPLN = 0.0;
             } else {
-                this.saldoWn = t.getPozostalo();
-                this.saldoWnPLN = t.getPozostaloPLN();
+                this.saldoWn = Z.z(t.getPozostalo());
+                this.saldoWnPLN = Z.z(t.getPozostaloPLN());
                 this.saldoMa = 0.0;
                 this.saldoMaPLN = 0.0;
             }
@@ -83,13 +83,13 @@ public class SaldoKonto implements Serializable {
             if (mniejszeodzera) {
                 this.saldoWn = 0.0;
                 this.saldoWnPLN = 0.0;
-                this.saldoMa = -t.getPozostalo();
-                this.saldoMaPLN = -t.getPozostaloPLN();
+                this.saldoMa = -Z.z(t.getPozostalo());
+                this.saldoMaPLN = -Z.z(t.getPozostaloPLN());
             } else {
                 this.saldoWn = 0.0;
                 this.saldoWnPLN = 0.0;
-                this.saldoMa = t.getPozostalo();
-                this.saldoMaPLN = t.getPozostaloPLN();
+                this.saldoMa = Z.z(t.getPozostalo());
+                this.saldoMaPLN = Z.z(t.getPozostaloPLN());
             }
         }
         this.zapisy = new ArrayList<>();
