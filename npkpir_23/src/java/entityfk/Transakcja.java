@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -49,11 +50,11 @@ public class Transakcja  implements Serializable {
     private TransakcjaPK transakcjaPK;
     @MapsId("rozliczajacyPK")
     @JoinColumn(name="rozliczajacy_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private StronaWiersza rozliczajacy;
     @MapsId("nowaTransakcjaPK")
     @JoinColumn(name="nowaTransakcja_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private StronaWiersza nowaTransakcja;
     @Basic(optional = false)
     @NotNull
