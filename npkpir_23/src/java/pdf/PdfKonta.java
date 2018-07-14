@@ -39,6 +39,7 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import msg.B;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.inicjacjaA4Landscape;
 import plik.Plik;
 import view.WpisView;
@@ -54,17 +55,35 @@ public class PdfKonta {
     public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto) {
         try {
             //Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
-            String nazwapliku = "konta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+            String nazwapliku=null;
+            if (analit0synt1==0) {
+                nazwapliku = "konta_analityczne-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                if (rodzajdruku==4) {
+                    nazwapliku = "konta_analityczne_saldaniezerowe-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                }
+                if (rodzajdruku==2) {
+                    nazwapliku = "zapisy_na_analityce-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                }
+            } else {
+                nazwapliku = "konta_syntetyczne-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                if (rodzajdruku==4) {
+                    nazwapliku = "konta_syntetyczne_saldaniezerowe-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                }
+                if (rodzajdruku==2) {
+                    nazwapliku = "zapisy_na_syntetyce-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                }
+            }
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }
             if (rodzajdruku == 5) {
-                drukujcdWal(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc, sumaSaldoKonto);
+                drukujcdWal(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc, sumaSaldoKonto, nazwapliku);
             } else {
-                drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc, sumaSaldoKonto);
+                drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc, sumaSaldoKonto, nazwapliku);
             }
             pdffk.PdfMain.dodajQR(nazwapliku);
+            RequestContext.getCurrentInstance().execute("pokazwydrukpdf('"+nazwapliku+"')");
             Msg.msg("Wydruk zestawienia obrotów sald");
         } catch (Exception e) {
             E.e(e);
@@ -73,9 +92,9 @@ public class PdfKonta {
         }
     }
 
-    private static void drukujcd(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto)  throws DocumentException, FileNotFoundException, IOException {
+    private static void drukujcd(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto, String nazwapliku)  throws DocumentException, FileNotFoundException, IOException {
         Document document = inicjacjaA4Landscape();
-        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(595, 842, 0, 0));
@@ -130,9 +149,9 @@ public class PdfKonta {
         document.close();
     }
     
-    private static void drukujcdWal(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto)  throws DocumentException, FileNotFoundException, IOException {
+    private static void drukujcdWal(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto, String nazwapliku)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 20,20,40,30);
-        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(595, 842, 0, 0));
@@ -308,7 +327,7 @@ public class PdfKonta {
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 5, 0));
             if (analit0synt1==1) {
-                table.addCell(ustawfraze(B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 8, 0));
+                table.addCell(ustawfraze(B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
             } else {
                 table.addCell(ustawfraze(B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
             }

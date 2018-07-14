@@ -65,8 +65,8 @@
                 </p:column>
                 
                     <h:outputText value="#{mgs.przetwarzanie}"/>
-                    <p:commandButton value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{saldoSyntetykaView.drukujS(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
-                    <p:commandButton value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{saldoSyntetykaView.drukujS(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
+                    <p:commandButton value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{saldoSyntetykaView.drukujS(1)}" style="width: 120px; margin-left: 20px;" />
+                    <p:commandButton value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{saldoSyntetykaView.drukujS(2)}" style="width: 120px; margin-left: 20px;" />
 <!--                     <p:commandLink id="pdf" ajax="false"> 
         <p:graphicImage name="/demo/images/pdf.png" />
         <pe:exporter type="pdf" target="tablicasaldasyntetyczne" fileName="obrotykont"  orientation="Landscape"  

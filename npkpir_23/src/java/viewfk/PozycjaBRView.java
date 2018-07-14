@@ -122,7 +122,7 @@ public class PozycjaBRView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         try {
             if (uklad == null || uklad.getUklad() == null) {
                 uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -904,7 +904,7 @@ public class PozycjaBRView implements Serializable {
     
     public void drukujBilansBODataAP(String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP) {
         if (ap.equals("x")) {
-            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, opisdodatkowy, ap, sumabilansowaBO, sumabilansowaA, sumabilansowaP, bilansnadzien, bilansoddnia, laczlata);
+            PdfBilans.drukujBilansBODataAP(rootBilansAktywa, rootBilansPasywa, wpisView, opisdodatkowy, sumabilansowaBO, sumabilansowaA, sumabilansowaP, bilansnadzien, bilansoddnia, laczlata);
         }
     }
     

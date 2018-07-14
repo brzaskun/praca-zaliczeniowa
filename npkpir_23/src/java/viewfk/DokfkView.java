@@ -277,7 +277,7 @@ public class DokfkView implements Serializable {
 
     //to zostaje bo tu i tak nie pobiera dokumentow
     @PostConstruct
-    private void init() {
+    public void init() {
         try {
             if (wpisView.isKsiegirachunkowe()) {
                 //resetujDokument(); //to jest chyba niepotrzebne bo ta funkcja jest wywolywana jak otwieram okienko wpisu i potem po kazdym zachowaniu

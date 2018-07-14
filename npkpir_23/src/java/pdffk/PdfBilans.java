@@ -100,7 +100,7 @@ public class PdfBilans {
         }
     }
     
-    public static void drukujBilansBODataAP(TreeNodeExtended rootProjektA, TreeNodeExtended rootProjektP,WpisView wpisView,String opisdodatkowy, String ap, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP, String bilansnadzien, String bilansoddnia, boolean laczlata) {
+    public static void drukujBilansBODataAP(TreeNodeExtended rootProjektA, TreeNodeExtended rootProjektP,WpisView wpisView,String opisdodatkowy, double sumabilansowaBO, double sumabilansowaA, double sumabilansowaP, String bilansnadzien, String bilansoddnia, boolean laczlata) {
         String nazwa = null;
         nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansObliczenieAktywaPasywaBOData-"+wpisView.getRokWpisuSt();
         File file = Plik.plik(nazwa, true);

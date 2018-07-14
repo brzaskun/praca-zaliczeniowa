@@ -38,7 +38,7 @@ public class PdfZaksiegowaneView implements Serializable {
     private UzDAO uzDAO;
     
     public void drukujzaksiegowanydokument(List<Dokfk> wiersze,List<Dokfk> selecteddokfk) {
-        if (wiersze != null && wiersze.size() > 0 && (selecteddokfk == null || selecteddokfk.isEmpty())) {
+        if ((wiersze != null && wiersze.size() > 0) && (selecteddokfk == null || selecteddokfk.isEmpty())) {
             String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane";
             File file = Plik.plik(nazwa, true);
             if (file.isFile()) {
@@ -48,7 +48,7 @@ public class PdfZaksiegowaneView implements Serializable {
         } else {
             Msg.msg("w", "Nie wybrano wierszy do wydruku");
         }
-        if (selecteddokfk != null && selecteddokfk.size() > 0) {
+        if ((wiersze == null || wiersze.isEmpty()) && (selecteddokfk != null && selecteddokfk.size() > 0)) {
             for (Dokfk p : selecteddokfk) {
                 String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane"+p.getNrkolejnywserii();
                 File file = Plik.plik(nazwa, true);

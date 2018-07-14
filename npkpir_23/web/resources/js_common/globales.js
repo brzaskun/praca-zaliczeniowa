@@ -169,3 +169,11 @@ var coff = function() {
 var wydrukJPK = function(nazwa){
     window.open('../resources/xml/'+nazwa,'','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
+
+var pokazwydruk = function(ktoco){
+    window.open('../wydruki/'+ktoco+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+};
+
+var pokazwydrukpdf = function(ktoco){
+    window.open('../wydruki/'+ktoco,'','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+};
