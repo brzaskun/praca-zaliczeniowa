@@ -621,6 +621,15 @@ public class KontoDAOfk extends DAO implements Serializable {
             return null;
         }
     }
+    
+    public List<Konto> findWszystkieKontaWzorcowy(Integer rok) {
+        try {
+            return kontoFacade.findKontaWzorcowy(rok);
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
 
     public List<Konto> findWszystkieKontaPodatnikaBez0(Podatnik podatnikWpisu, String rokWpisuSt) {
         try {

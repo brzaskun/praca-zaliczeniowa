@@ -1732,6 +1732,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Konto> findKontaWzorcowy(WpisView wpisView) {
         return em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
+    
+    public List<Konto> findKontaWzorcowy(Integer rok) {
+        return em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", rok).getResultList();
+    }
 
     public List<RMK> findRMKByPodatnikRok(WpisView wpisView) {
         return em.createNamedQuery("RMK.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();

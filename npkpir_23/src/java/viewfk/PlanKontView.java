@@ -26,6 +26,7 @@ import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
+import embeddable.Roki;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -1956,7 +1957,37 @@ public class PlanKontView implements Serializable {
 
 
     
-    
+ public void implementujwmma0mn1ma0Wszystkie() {
+        try {
+            List<Podatnik> podatnicy = podatnikDAO.findPodatnikFK();
+            List<Integer> lata = Roki.getRokiListS();
+            for (Integer rok : lata) {
+                wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(rok);
+                if (rok!=null && rok > 2015) {
+                    for (Podatnik pod : podatnicy) {
+                        List<Konto> kontapodatnika = kontoDAOfk.findWszystkieKontaPodatnika(pod, String.valueOf(rok));
+                        if (kontapodatnika!=null && kontapodatnika.size()>0) {
+                            for (Konto p : wykazkontwzor) {
+                                if (p.getKontomacierzyste() == null) {
+                                    Konto r = pobierzkontopodatnika(kontapodatnika,p);
+                                    if (r != null) {
+                                        nanieswnmaImpl(r, p.getWnma0wm1ma2(), kontapodatnika);
+                                    }
+                                }
+                            }
+                            kontoDAOfk.editList(kontapodatnika);
+
+                        }
+                    }
+                }
+            }
+            Msg.dP();
+            System.out.println("koniec implementujwmma0mn1ma0Wszystkie");
+        } catch (Exception e) {
+            Msg.dPe();
+            System.out.println("BLAD implementujwmma0mn1ma0Wszystkie");
+        }
+    }    
 
     
 

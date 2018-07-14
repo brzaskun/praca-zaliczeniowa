@@ -2281,6 +2281,7 @@ public class DokfkView implements Serializable {
                     opislinia = opislinia+p+";";
                 }
                 opislinia = opislinia+" "+kontrahent;
+                opislinia = opislinia.length() >767 ? opislinia.substring(0, 766) : opislinia;
                 aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza(opislinia);
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
             }
