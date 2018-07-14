@@ -1153,6 +1153,7 @@ public class DokfkView implements Serializable {
                 if (wierszDoUsuniecia.getTypWiersza() == 5) {
                     Msg.msg("e", "Usuń najpierw wiersz z 4.");
                 } else {
+                    usunrozrachunki(liczbawierszyWDokumencie);
                     liczbawierszyWDokumencie--;
                     selected.getListawierszy().remove(liczbawierszyWDokumencie);
                     Msg.msg("Wiersz usunięty.");
@@ -1167,9 +1168,11 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(0);
                 try {
                     if (wiersz.getIdporzadkowy() != null) {
+                        usunrozrachunki(liczbawierszyWDokumencie);
                         selected.setListawierszy(new ArrayList<Wiersz>());
                         liczbawierszyWDokumencie--;
                     } else {
+                        usunrozrachunki(liczbawierszyWDokumencie);
                         selected.getListawierszy().remove(0);
                         liczbawierszyWDokumencie--;
                     }
@@ -1504,10 +1507,12 @@ public class DokfkView implements Serializable {
                     for (Wiersz p : dolaczonePiatki) {
                         selected.getListawierszy().remove(p);
                     }
+                    usunrozrachunki(wybranyWiersz);
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujSelected(selected);
                     break;
                 default:
+                    usunrozrachunki(wybranyWiersz);
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujSelected(selected);
                     break;
@@ -3992,6 +3997,72 @@ public class DokfkView implements Serializable {
             }
         }
     }
+
+    private void usunrozrachunki(int liczbawierszyWDokumencie) {
+        List<StronaWiersza> strony = new ArrayList<>();
+        int rowid = liczbawierszyWDokumencie-1;
+        Wiersz w = selected.getListawierszy().get(rowid);
+        for (StronaWiersza sw : w.getStronyWiersza()) {
+            if (sw.getNowetransakcje()!=null) {
+                for (Transakcja t : sw.getNowetransakcje()) {
+                    StronaWiersza drugastrona = t.getNowaTransakcja();
+                    for (Iterator<Transakcja> itt1 = drugastrona.getPlatnosci().iterator();itt1.hasNext();) {
+                        if (itt1.next().getRozliczajacy().equals(sw)) {
+                            itt1.remove();
+                            strony.add(drugastrona);
+                        }
+                    }
+                }
+            }
+            if (sw.getPlatnosci()!=null) {
+                for (Transakcja t : sw.getPlatnosci()) {
+                    StronaWiersza drugastrona = t.getRozliczajacy();
+                    for (Iterator<Transakcja> itt1 = drugastrona.getNowetransakcje().iterator();itt1.hasNext();) {
+                        if (itt1.next().getNowaTransakcja().equals(sw)) {
+                            itt1.remove();
+                            strony.add(drugastrona);
+                        }
+                    }
+                }
+            }
+        }
+        if (strony.size()>0) {
+           stronaWierszaDAO.editList(strony);
+        }
+    }
+
+    private void usunrozrachunki(Wiersz w) {
+        List<StronaWiersza> strony = new ArrayList<>();
+        for (StronaWiersza sw : w.getStronyWiersza()) {
+            if (sw.getNowetransakcje()!=null) {
+                for (Transakcja t : sw.getNowetransakcje()) {
+                    StronaWiersza drugastrona = t.getNowaTransakcja();
+                    for (Iterator<Transakcja> itt1 = drugastrona.getPlatnosci().iterator();itt1.hasNext();) {
+                        if (itt1.next().getRozliczajacy().equals(sw)) {
+                            itt1.remove();
+                            strony.add(drugastrona);
+                        }
+                    }
+                }
+            }
+            if (sw.getPlatnosci()!=null) {
+                for (Transakcja t : sw.getPlatnosci()) {
+                    StronaWiersza drugastrona = t.getRozliczajacy();
+                    for (Iterator<Transakcja> itt1 = drugastrona.getNowetransakcje().iterator();itt1.hasNext();) {
+                        if (itt1.next().getNowaTransakcja().equals(sw)) {
+                            itt1.remove();
+                            strony.add(drugastrona);
+                        }
+                    }
+                }
+            }
+        }
+        if (strony.size()>0) {
+           stronaWierszaDAO.editList(strony);
+        }
+    }
+        
+      
 
     
 

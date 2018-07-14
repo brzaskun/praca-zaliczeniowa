@@ -16,12 +16,16 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import waluty.Z;
@@ -31,7 +35,9 @@ import waluty.Z;
  * @author Osito
  */
 @Entity
-@Table(name = "transakcja", catalog = "pkpir", schema = "")
+@Table(name = "transakcja", catalog = "pkpir", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"rozliczajacy_id, nowaTransakcja_id"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Transakcja.findByNowaTransakcja", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja = :nowatransakcja"),
@@ -46,15 +52,18 @@ import waluty.Z;
 public class Transakcja  implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @EmbeddedId 
-    private TransakcjaPK transakcjaPK;
-    @MapsId("rozliczajacyPK")
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    //to jest id generowany przez serwer
+    private Integer id;
     @JoinColumn(name="rozliczajacy_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private StronaWiersza rozliczajacy;
-    @MapsId("nowaTransakcjaPK")
     @JoinColumn(name="nowaTransakcja_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private StronaWiersza nowaTransakcja;
     @Basic(optional = false)
     @NotNull
@@ -128,14 +137,7 @@ public class Transakcja  implements Serializable {
        this.poprzedniakwota = poprzedniakwota;
    }
    
-   public TransakcjaPK getTransakcjaPK() {
-       return transakcjaPK;
-   }
-   
-   public void setTransakcjaPK(TransakcjaPK transakcjaPK) {
-       this.transakcjaPK = transakcjaPK;
-   }
-   
+  
    public double getRoznicekursowe() {
        return roznicekursowe;
    }
@@ -151,6 +153,14 @@ public class Transakcja  implements Serializable {
    public void setDatarozrachunku(String datarozrachunku) {
        this.datarozrachunku = datarozrachunku;
    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
    
    public double getKwotawwalucierachunku() {
        return kwotawwalucierachunku;
@@ -161,20 +171,20 @@ public class Transakcja  implements Serializable {
    }
 //</editor-fold>
 
-    
-   
-    
-    
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 89 * hash + Objects.hashCode(this.transakcjaPK);
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.rozliczajacy);
+        hash = 71 * hash + Objects.hashCode(this.nowaTransakcja);
         return hash;
     }
-    
-    
+
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -182,16 +192,29 @@ public class Transakcja  implements Serializable {
             return false;
         }
         final Transakcja other = (Transakcja) obj;
-        if (!Objects.equals(this.transakcjaPK, other.transakcjaPK)) {
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.rozliczajacy, other.rozliczajacy)) {
+            return false;
+        }
+        if (!Objects.equals(this.nowaTransakcja, other.nowaTransakcja)) {
             return false;
         }
         return true;
     }
 
+    
+
     @Override
     public String toString() {
-        return "Transakcja{" + "transakcjaPK=" + transakcjaPK + ", kwotatransakcji=" + kwotatransakcji + ", poprzedniakwota=" + poprzedniakwota + ", roznicekursowe=" + roznicekursowe + '}';
+        return "Transakcja{" + "rozliczajacy=" + rozliczajacy.getId() + ", nowaTransakcja=" + nowaTransakcja.getId() + ", kwotatransakcji=" + kwotatransakcji + ", poprzedniakwota=" + poprzedniakwota + ", roznicekursowe=" + roznicekursowe + ", datarozrachunku=" + datarozrachunku + ", kwotawwalucierachunku=" + kwotawwalucierachunku + '}';
     }
+
+    
+   
+    
+    
 
     
 

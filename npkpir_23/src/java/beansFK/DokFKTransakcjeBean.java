@@ -233,7 +233,7 @@ public class DokFKTransakcjeBean implements Serializable{
         for (StronaWiersza r : pobraneStronyWiersza) {
             if (r != null) {
                 for (Transakcja u : r.getNowetransakcje()) {
-                    if (u.getTransakcjaPK() == null) {
+                    if (u.getId() == null) {
                         transakcjeWPowietrzu.add(u);   
                     }
                 }
@@ -254,7 +254,6 @@ public class DokFKTransakcjeBean implements Serializable{
                     Transakcja sa = serialclone.SerialClone.clone(s);
                     sa.setRozliczajacy(null);
                     sa.setNowaTransakcja(null);
-                    sa.setTransakcjaPK(null);
                     t.getNowaTransakcja().getPlatnosci().add(sa);
                 }
             }

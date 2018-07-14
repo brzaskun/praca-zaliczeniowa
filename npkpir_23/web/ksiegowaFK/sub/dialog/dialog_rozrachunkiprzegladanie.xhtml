@@ -216,7 +216,8 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                                         margin: 0px !important;
                                     }
                                 </style>
-                                    <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci.size() gt 0 ? loop.platnosci : loop.nowetransakcje}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 90%; float: right;">
+                                    <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci.size() gt 0 ? loop.platnosci : loop.nowetransakcje}" emptyMessage="brak transakcji"
+                                                 resizableColumns="true" style="width: 90%; float: right;">
                                     <p:column headerText="kwota trans." >
                                         <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
                                             <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -264,6 +265,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                     <h:form >
                         <p:selectOneMenu label="stan" value="#{rozrachunkiPrzegladView.coWyswietlacRozrachunkiPrzeglad}" style="width: 200px; float: left; margin-left: 30px;" >
                             <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaZakresu}" update=":tabelanowerozrachunki:tabela" partialSubmit="true"/>
+                            <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                             <f:selectItem itemLabel="nowe" itemValue="nowe"/>
                             <f:selectItem itemLabel="częściowo" itemValue="częściowo"/>
                             <f:selectItem itemLabel="rozliczone" itemValue="rozliczone"/>
