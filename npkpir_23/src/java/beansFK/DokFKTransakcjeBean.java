@@ -83,7 +83,7 @@ public class DokFKTransakcjeBean implements Serializable{
                     }
                 }
             } catch (ParseException ex) {
-
+                E.e(ex);
             }
         }
         List<StronaWiersza> stronywierszaBO = stronaWierszaDAO.findStronaByKontoWnMaBO(stronaWiersza.getKonto(), stronaWiersza.getWnma());

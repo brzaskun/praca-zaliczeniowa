@@ -1609,10 +1609,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Transakcja> findByNowaTransakcja(StronaWiersza s) {
+        List lista = em.createNamedQuery("Transakcja.findByNowaTransakcja").setParameter("nowatransakcja", s).getResultList();
+        this.refresh(lista);
         return em.createNamedQuery("Transakcja.findByNowaTransakcja").setParameter("nowatransakcja", s).getResultList();
     }
 
     public List<Transakcja> findByRozliczajacy(StronaWiersza s) {
+        List lista = em.createNamedQuery("Transakcja.findByRozliczajacy").setParameter("rozliczajacy", s).getResultList();
+        this.refresh(lista);
         return em.createNamedQuery("Transakcja.findByRozliczajacy").setParameter("rozliczajacy", s).getResultList();
     }
 
