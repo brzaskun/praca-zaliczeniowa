@@ -8,6 +8,8 @@ import entity.DeklaracjaVatPozycjeKoncowe;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 import javax.persistence.Lob;
 
@@ -131,7 +133,6 @@ public class Vatpoz implements Serializable {
     public void setRodzajdeklaracji(String rodzajdeklaracji) {
         this.rodzajdeklaracji = rodzajdeklaracji;
     }
-    @Lob
     public List<DeklaracjaVatPozycjeKoncowe> getPozycjekoncowe() {
         return pozycjekoncowe;
     }

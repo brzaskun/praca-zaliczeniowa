@@ -45,10 +45,7 @@ public class PdfZaksiegowaneView implements Serializable {
                 file.delete();
             }
             wydrukujzestawieniedok(nazwa, wiersze);
-        } else {
-            Msg.msg("w", "Nie wybrano wierszy do wydruku");
-        }
-        if ((wiersze == null || wiersze.isEmpty()) && (selecteddokfk != null && selecteddokfk.size() > 0)) {
+        } else if ((wiersze == null || wiersze.isEmpty()) && (selecteddokfk != null && selecteddokfk.size() > 0)) {
             for (Dokfk p : selecteddokfk) {
                 String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane"+p.getNrkolejnywserii();
                 File file = Plik.plik(nazwa, true);
