@@ -363,7 +363,7 @@ public class PozycjaBRView implements Serializable {
      }
      
      public void obliczBilansOtwarciaBilansDataDwaLata() {
-        if (uklad.getUklad() == null) {
+        if (uklad==null || uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
         ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();
@@ -402,7 +402,7 @@ public class PozycjaBRView implements Serializable {
      
      
         public void obliczBilansOtwarciaBilansData() {
-        if (uklad.getUklad() == null) {
+        if (uklad==null || uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
         ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();

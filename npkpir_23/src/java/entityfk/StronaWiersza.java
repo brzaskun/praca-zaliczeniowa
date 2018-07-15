@@ -84,7 +84,7 @@ import waluty.Z;
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokWalutaBilansBO", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'bilansowe' AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.typStronaWiersza = 9"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokBilansBO", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'bilansowe' AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.typStronaWiersza = 9")
 })
-@Cacheable
+@Cacheable(true)
 public class StronaWiersza implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -115,7 +115,7 @@ public class StronaWiersza implements Serializable {
     @Column(name = "nowatransakcja")
     private boolean nowatransakcja;
     @JoinColumn(name = "idkonto", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Konto konto;
     @Column(name = "wnma")
     private String wnma;
@@ -630,6 +630,7 @@ public class StronaWiersza implements Serializable {
 //        }
 //        this.pozostalo = this.kwota - this.rozliczono;
 //    }
+    
     public List<Transakcja> getNowetransakcje() {
         return nowetransakcje;
     }
