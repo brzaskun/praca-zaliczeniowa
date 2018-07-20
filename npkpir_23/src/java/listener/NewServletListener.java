@@ -26,8 +26,7 @@ public class NewServletListener implements HttpSessionListener {
     private Sesja sesja;
     @Inject
     private SesjaDAO sesjaDAO;
-    @Inject
-    private SesjaView sesjaView;
+
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
