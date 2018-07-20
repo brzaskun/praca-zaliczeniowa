@@ -102,9 +102,9 @@ import view.WpisView;
  * @param <T>
  */
 @Stateless
-public class SessionFacade<T> implements Serializable {
+public class SessionFacade<T>  {
 
-    private static final long serialVersionUID = 1L;
+
 
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;

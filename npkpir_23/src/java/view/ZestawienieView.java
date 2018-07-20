@@ -155,7 +155,7 @@ public class ZestawienieView implements Serializable {
 
     @PostConstruct
     public void init() {
-        if (wpisView.getPodatnikWpisu() != null) {
+        if (wpisView.getPodatnikWpisu() != null && wpisView.isKsiegaryczalt()) {
             Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
             try {
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
@@ -196,6 +196,9 @@ public class ZestawienieView implements Serializable {
                             for (KwotaKolumna1 tmp : szczegol) {
                                 String selekcja = dokument.getPkpirM();
                                 String selekcja2 = tmp.getNazwakolumny();
+                                if (selekcja2==null) {
+                                    System.out.println("");
+                                }
                                 Double kwota = tmp.getNetto();
                                 Double temp = 0.0;
                                 switch (selekcja) {
@@ -647,7 +650,6 @@ public class ZestawienieView implements Serializable {
                             rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
                         }
                     }catch (Exception e) {
-                        Dok t = dokument;
                         E.e(e);
                     }
                 }

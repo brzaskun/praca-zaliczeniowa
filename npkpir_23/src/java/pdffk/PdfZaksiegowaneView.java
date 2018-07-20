@@ -63,16 +63,18 @@ public class PdfZaksiegowaneView implements Serializable {
     }
     
     private void wydrukujzestawieniedok(String nazwa, List<Dokfk> wiersze) {
-        Uz uz = wpisView.getWprowadzil();
-        Document document = inicjacjaA4Portrait();
-        PdfWriter writer = inicjacjaWritera(document, nazwa);
-        naglowekStopkaP(writer);
-        otwarcieDokumentu(document, nazwa);
-        dodajOpisWstepny(document, B.b("zestawieniezaksięgowanychdokumentów"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-        dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze), 100,0);
-        finalizacjaDokumentuQR(document, Plik.getKatalog()+nazwa+".pdf");
-        String f = "wydrukZaksiegowaneLista('"+wpisView.getPodatnikObiekt().getNip()+"');";
-        RequestContext.getCurrentInstance().execute(f);
+        try {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, B.b("zestawieniezaksięgowanychdokumentów"), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze), 100,0);
+            finalizacjaDokumentuQR(document, Plik.getKatalog()+nazwa+".pdf");
+            String f = "wydrukZaksiegowaneLista('"+wpisView.getPodatnikObiekt().getNip()+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } catch (Exception e) {}
     }
 
     public WpisView getWpisView() {

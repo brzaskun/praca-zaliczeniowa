@@ -51,12 +51,13 @@
     <principal-name>Multiuser</principal-name>
     <group-name>Multiuser</group-name>
   </security-role-mapping>
-  <class-loader delegate="true"/>
-    <jsp-config>
+  <class-loader delegate="false"/>
+  <context-root>/npkpir_23</context-root>
+<!--    <jsp-config>
     <property name="keepgenerated" value="true">
       <description>Keep a copy of the generated servlet class' java code.</description>
     </property>
-  </jsp-config>
+  </jsp-config>-->
   <!-- Change the default character encoding from ISO-8859-1 to UTF-8 -->
   <parameter-encoding default-charset="UTF-8"/>
   </glassfish-web-app>

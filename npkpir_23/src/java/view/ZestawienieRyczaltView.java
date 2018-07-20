@@ -130,7 +130,7 @@ public class ZestawienieRyczaltView implements Serializable {
 
     @PostConstruct
     public void init() {
-        if (wpisView.getPodatnikWpisu() != null) {
+        if (wpisView.getPodatnikWpisu() != null && !wpisView.isKsiegaryczalt()) {
             Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             try {
@@ -164,278 +164,285 @@ public class ZestawienieRyczaltView implements Serializable {
                 lista = new ArrayList<>();
                 lista.addAll(c);
                 for (Dok dokument : lista) {
-                    List<KwotaKolumna1> szczegol = dokument.getListakwot1();
-                    for (KwotaKolumna1 tmp : szczegol) {
-                        String selekcja = dokument.getPkpirM();
-                        String selekcja2 = tmp.getNazwakolumny();
-                        Double kwota = tmp.getNetto();
-                        Double temp = 0.0;
-                        switch (selekcja) {
-                            case "01":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = styczen.get(0) + kwota;
-                                        styczen.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = styczen.get(1) + kwota;
-                                        styczen.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = styczen.get(2) + kwota;
-                                        styczen.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = styczen.get(3) + kwota;
-                                        styczen.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "02":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = luty.get(0) + kwota;
-                                        luty.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = luty.get(1) + kwota;
-                                        luty.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = luty.get(2) + kwota;
-                                        luty.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = luty.get(3) + kwota;
-                                        luty.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "03":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = marzec.get(0) + kwota;
-                                        marzec.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = marzec.get(1) + kwota;
-                                        marzec.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = marzec.get(2) + kwota;
-                                        marzec.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = marzec.get(3) + kwota;
-                                        marzec.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "04":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = kwiecien.get(0) + kwota;
-                                        kwiecien.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = kwiecien.get(1) + kwota;
-                                        kwiecien.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = kwiecien.get(2) + kwota;
-                                        kwiecien.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = kwiecien.get(3) + kwota;
-                                        kwiecien.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "05":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = maj.get(0) + kwota;
-                                        maj.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = maj.get(1) + kwota;
-                                        maj.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = maj.get(2) + kwota;
-                                        maj.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = maj.get(3) + kwota;
-                                        maj.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "06":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = czerwiec.get(0) + kwota;
-                                        czerwiec.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = czerwiec.get(1) + kwota;
-                                        czerwiec.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = czerwiec.get(2) + kwota;
-                                        czerwiec.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = czerwiec.get(3) + kwota;
-                                        czerwiec.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "07":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = lipiec.get(0) + kwota;
-                                        lipiec.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = lipiec.get(1) + kwota;
-                                        lipiec.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = lipiec.get(2) + kwota;
-                                        lipiec.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = lipiec.get(3) + kwota;
-                                        lipiec.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "08":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = sierpien.get(0) + kwota;
-                                        sierpien.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = sierpien.get(1) + kwota;
-                                        sierpien.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = sierpien.get(2) + kwota;
-                                        sierpien.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = sierpien.get(3) + kwota;
-                                        sierpien.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "09":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = wrzesien.get(0) + kwota;
-                                        wrzesien.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = wrzesien.get(1) + kwota;
-                                        wrzesien.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = wrzesien.get(2) + kwota;
-                                        wrzesien.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = wrzesien.get(3) + kwota;
-                                        wrzesien.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "10":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = pazdziernik.get(0) + kwota;
-                                        pazdziernik.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = pazdziernik.get(1) + kwota;
-                                        pazdziernik.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = pazdziernik.get(2) + kwota;
-                                        pazdziernik.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = pazdziernik.get(3) + kwota;
-                                        pazdziernik.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "11":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = listopad.get(0) + kwota;
-                                        listopad.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = listopad.get(1) + kwota;
-                                        listopad.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = listopad.get(2) + kwota;
-                                        listopad.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = listopad.get(3) + kwota;
-                                        listopad.set(3, temp);
-                                        break;
-                                }
-                                break;
-                            case "12":
-                                switch (selekcja2) {
-                                    case "17%":
-                                        temp = grudzien.get(0) + kwota;
-                                        grudzien.set(0, temp);
-                                        break;
-                                    case "8.5%":
-                                        temp = grudzien.get(1) + kwota;
-                                        grudzien.set(1, temp);
-                                        break;
-                                    case "5.5%":
-                                        temp = grudzien.get(2) + kwota;
-                                        grudzien.set(2, temp);
-                                        break;
-                                   case "3%":
-                                        temp = grudzien.get(3) + kwota;
-                                        grudzien.set(3, temp);
-                                        break;
-                                }
-                                break;
+                    try {
+                        List<KwotaKolumna1> szczegol = dokument.getListakwot1();
+                        for (KwotaKolumna1 tmp : szczegol) {
+                            String selekcja = dokument.getPkpirM();
+                            String selekcja2 = tmp.getNazwakolumny();
+                            if (selekcja2==null) {
+                                System.out.println("");
+                            }
+                            Double kwota = tmp.getNetto();
+                            Double temp = 0.0;
+                            switch (selekcja) {
+                                case "01":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = styczen.get(0) + kwota;
+                                            styczen.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = styczen.get(1) + kwota;
+                                            styczen.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = styczen.get(2) + kwota;
+                                            styczen.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = styczen.get(3) + kwota;
+                                            styczen.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "02":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = luty.get(0) + kwota;
+                                            luty.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = luty.get(1) + kwota;
+                                            luty.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = luty.get(2) + kwota;
+                                            luty.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = luty.get(3) + kwota;
+                                            luty.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "03":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = marzec.get(0) + kwota;
+                                            marzec.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = marzec.get(1) + kwota;
+                                            marzec.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = marzec.get(2) + kwota;
+                                            marzec.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = marzec.get(3) + kwota;
+                                            marzec.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "04":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = kwiecien.get(0) + kwota;
+                                            kwiecien.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = kwiecien.get(1) + kwota;
+                                            kwiecien.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = kwiecien.get(2) + kwota;
+                                            kwiecien.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = kwiecien.get(3) + kwota;
+                                            kwiecien.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "05":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = maj.get(0) + kwota;
+                                            maj.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = maj.get(1) + kwota;
+                                            maj.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = maj.get(2) + kwota;
+                                            maj.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = maj.get(3) + kwota;
+                                            maj.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "06":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = czerwiec.get(0) + kwota;
+                                            czerwiec.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = czerwiec.get(1) + kwota;
+                                            czerwiec.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = czerwiec.get(2) + kwota;
+                                            czerwiec.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = czerwiec.get(3) + kwota;
+                                            czerwiec.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "07":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = lipiec.get(0) + kwota;
+                                            lipiec.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = lipiec.get(1) + kwota;
+                                            lipiec.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = lipiec.get(2) + kwota;
+                                            lipiec.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = lipiec.get(3) + kwota;
+                                            lipiec.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "08":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = sierpien.get(0) + kwota;
+                                            sierpien.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = sierpien.get(1) + kwota;
+                                            sierpien.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = sierpien.get(2) + kwota;
+                                            sierpien.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = sierpien.get(3) + kwota;
+                                            sierpien.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "09":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = wrzesien.get(0) + kwota;
+                                            wrzesien.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = wrzesien.get(1) + kwota;
+                                            wrzesien.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = wrzesien.get(2) + kwota;
+                                            wrzesien.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = wrzesien.get(3) + kwota;
+                                            wrzesien.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "10":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = pazdziernik.get(0) + kwota;
+                                            pazdziernik.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = pazdziernik.get(1) + kwota;
+                                            pazdziernik.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = pazdziernik.get(2) + kwota;
+                                            pazdziernik.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = pazdziernik.get(3) + kwota;
+                                            pazdziernik.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "11":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = listopad.get(0) + kwota;
+                                            listopad.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = listopad.get(1) + kwota;
+                                            listopad.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = listopad.get(2) + kwota;
+                                            listopad.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = listopad.get(3) + kwota;
+                                            listopad.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                                case "12":
+                                    switch (selekcja2) {
+                                        case "17%":
+                                            temp = grudzien.get(0) + kwota;
+                                            grudzien.set(0, temp);
+                                            break;
+                                        case "8.5%":
+                                            temp = grudzien.get(1) + kwota;
+                                            grudzien.set(1, temp);
+                                            break;
+                                        case "5.5%":
+                                            temp = grudzien.get(2) + kwota;
+                                            grudzien.set(2, temp);
+                                            break;
+                                       case "3%":
+                                            temp = grudzien.get(3) + kwota;
+                                            grudzien.set(3, temp);
+                                            break;
+                                    }
+                                    break;
+                            }
                         }
+                    }   catch (Exception e) {
+                        E.e(e);
                     }
-                }
-                //pobierzPity();
-                    zebranieMcy.add(styczen);
-                    zebranieMcy.add(luty);
-                    zebranieMcy.add(marzec);
-                    zebranieMcy.add(kwiecien);
-                    zebranieMcy.add(maj);
-                    zebranieMcy.add(czerwiec);
-                    zebranieMcy.add(lipiec);
-                    zebranieMcy.add(sierpien);
-                    zebranieMcy.add(wrzesien);
-                    zebranieMcy.add(pazdziernik);
-                    zebranieMcy.add(listopad);
-                    zebranieMcy.add(grudzien);
+                    //pobierzPity();
+                        zebranieMcy.add(styczen);
+                        zebranieMcy.add(luty);
+                        zebranieMcy.add(marzec);
+                        zebranieMcy.add(kwiecien);
+                        zebranieMcy.add(maj);
+                        zebranieMcy.add(czerwiec);
+                        zebranieMcy.add(lipiec);
+                        zebranieMcy.add(sierpien);
+                        zebranieMcy.add(wrzesien);
+                        zebranieMcy.add(pazdziernik);
+                        zebranieMcy.add(listopad);
+                        zebranieMcy.add(grudzien);
 
-                Ipolrocze = new ArrayList<>();
-                IIpolrocze = new ArrayList<>();
-                rok = new ArrayList<>();
+                    Ipolrocze = new ArrayList<>();
+                    IIpolrocze = new ArrayList<>();
+                    rok = new ArrayList<>();
 
-                for (int i = 0; i < 4; i++) {
-                    Ipolrocze.add(styczen.get(i) + luty.get(i) + marzec.get(i) + kwiecien.get(i) + maj.get(i) + czerwiec.get(i));
-                    IIpolrocze.add(lipiec.get(i) + sierpien.get(i) + wrzesien.get(i) + pazdziernik.get(i) + listopad.get(i) + grudzien.get(i));
-                    rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
+                    for (int i = 0; i < 4; i++) {
+                        Ipolrocze.add(styczen.get(i) + luty.get(i) + marzec.get(i) + kwiecien.get(i) + maj.get(i) + czerwiec.get(i));
+                        IIpolrocze.add(lipiec.get(i) + sierpien.get(i) + wrzesien.get(i) + pazdziernik.get(i) + listopad.get(i) + grudzien.get(i));
+                        rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
+                    }
                 }
             }
         }
