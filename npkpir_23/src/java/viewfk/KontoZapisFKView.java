@@ -210,7 +210,7 @@ public class KontoZapisFKView implements Serializable{
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
             
-            zapisyRok.parallelStream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).map((r) -> {
+            zapisyRok.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).map((r) -> {
                 if (!r.getSymbolWalutBOiSW().equals("PLN")) {
                     nierenderujkolumnnywalut = false;
                 }

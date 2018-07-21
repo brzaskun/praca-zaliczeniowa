@@ -91,7 +91,7 @@ import waluty.Z;
     @NamedQuery(name = "Dokfk.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.podatnikObj.nazwapelna FROM Dokfk d WHERE d.wprowadzil = :wprowadzil"),
     @NamedQuery(name = "Dokfk.znajdzSeriePodatnik", query = "SELECT DISTINCT d.seriadokfk FROM Dokfk d WHERE d.rok = :rok AND d.podatnikObj = :podatnik")
 })
-@Cacheable(true)
+@Cacheable
 public class Dokfk extends DokSuper implements Serializable {
 
     private static final long serialVersionUID = 1L; //dd

@@ -23,6 +23,7 @@ package themes;
 
 import dao.UzDAO;
 import entity.Uz;
+import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import javax.faces.bean.ManagedBean;
@@ -51,7 +52,9 @@ public class GuestPreferences implements Serializable {
                 String kto  = principal.getName();
                 Uz ktoUz = uzDAO.findUzByLogin(kto);
                 theme = ktoUz.getTheme();
-                } catch (Exception e){}
+                } catch (Exception e){
+                    E.e(e);
+                }
                 return theme;
         }
 
