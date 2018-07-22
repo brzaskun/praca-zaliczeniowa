@@ -28,6 +28,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import waluty.Z;
 
 /**
  *
@@ -543,12 +544,12 @@ public class Wiersz implements Serializable {
     public boolean isWypelniony() {
         boolean zwrot = true;
         if (this.getStronaWn() != null) {
-            if (this.getStronaWn().getKonto()==null) {
+            if (Z.z(this.getStronaWn().getKwota())==0.0 || this.getStronaWn().getKonto()==null) {
                 zwrot = false;
             }
         }
         if (this.getStronaMa() != null) {
-            if (this.getStronaMa().getKonto()==null) {
+            if (Z.z(this.getStronaMa().getKwota())==0.0 || this.getStronaMa().getKonto()==null) {
                 zwrot = false;
             }
         }
