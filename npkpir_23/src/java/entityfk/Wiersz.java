@@ -539,4 +539,19 @@ public class Wiersz implements Serializable {
     public Konto getKontoMa() {
         return this.getStronaMa() != null ? this.getStronaMa().getKonto()  : null;
     }
+
+    public boolean isWypelniony() {
+        boolean zwrot = true;
+        if (this.getStronaWn() != null) {
+            if (this.getStronaWn().getKonto()==null) {
+                zwrot = false;
+            }
+        }
+        if (this.getStronaMa() != null) {
+            if (this.getStronaMa().getKonto()==null) {
+                zwrot = false;
+            }
+        }
+        return zwrot;
+    }
 }

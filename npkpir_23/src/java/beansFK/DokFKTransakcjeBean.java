@@ -39,6 +39,7 @@ public class DokFKTransakcjeBean implements Serializable{
 //      listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
 // nowe pobiera wszystkie waluty        
         listaStronaWierszazBazy = stronaWierszaDAO.findStronaByKontoWnMa(stronaWiersza.getKonto(), wnma);
+        stronaWierszaDAO.refresh(listaStronaWierszazBazy);
         if (listaStronaWierszazBazy != null && !listaStronaWierszazBazy.isEmpty()) {
             try {
                 DateFormat formatter;

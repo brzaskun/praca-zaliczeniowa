@@ -1056,7 +1056,7 @@ public class DokfkView implements Serializable {
                 selected.setDataujecia(new Date());
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.remove(selected);
-                wykazZaksiegowanychDokumentow.add(selected);
+                wykazZaksiegowanychDokumentow.add(dokDAOfk.findDokfkObj(selected));
                 Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
                 resetujDokument();
                 if (totylkoedycjazapis) {
@@ -2822,41 +2822,44 @@ public class DokfkView implements Serializable {
             } else {
                 wierszpodstawowy = wiersznastepny;
             }
-            int nrgr = wierszpodstawowy.getLpmacierzystego() == 0 ? wierszpodstawowy.getIdporzadkowy() : wierszpodstawowy.getLpmacierzystego();
-            double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
-            double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
-            do {
-                wiersznastepny = selected.nastepnyWiersz(wierszpodstawowy);
-                if (wiersznastepny != null) {
-                    if (wiersznastepny.getTypWiersza() == 1) {
-                        wierszpodstawowy = wiersznastepny;
-                        sumaWn += wiersznastepny.getStronaWn().getKwota();
-                        typwiersza = 1;
-                    } else if (wiersznastepny.getTypWiersza() == 2) {
-                        wierszpodstawowy = wiersznastepny;
-                        sumaMa += wiersznastepny.getStronaMa().getKwota();
-                        typwiersza = 2;
+            boolean wypelniony = wierszpodstawowy.isWypelniony();
+            if (wypelniony) {
+                int nrgr = wierszpodstawowy.getLpmacierzystego() == 0 ? wierszpodstawowy.getIdporzadkowy() : wierszpodstawowy.getLpmacierzystego();
+                double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
+                double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
+                do {
+                    wiersznastepny = selected.nastepnyWiersz(wierszpodstawowy);
+                    if (wiersznastepny != null) {
+                        if (wiersznastepny.getTypWiersza() == 1) {
+                            wierszpodstawowy = wiersznastepny;
+                            sumaWn += wiersznastepny.getStronaWn().getKwota();
+                            typwiersza = 1;
+                        } else if (wiersznastepny.getTypWiersza() == 2) {
+                            wierszpodstawowy = wiersznastepny;
+                            sumaMa += wiersznastepny.getStronaMa().getKwota();
+                            typwiersza = 2;
+                        }
+                    } else {
+                        wiersznastepny = wierszpodstawowy;
+                        break;
                     }
-                } else {
-                    wiersznastepny = wierszpodstawowy;
-                    break;
+                    if (wiersznastepny.getTypWiersza() == 0) {
+                        break;
+                    }
+                } while (true);
+                if (Z.z(sumaWn) != Z.z(sumaMa)) {
+                    Wiersz wierszpoprzedni = selected.poprzedniWiersz(wiersznastepny);
+                    if (wiersznastepny != null) {
+                        ObslugaWiersza.wygenerujWierszRoznicowy(wierszpoprzedni, true, nrgr, selected);
+                        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                    } else {
+                        ObslugaWiersza.wygenerujWierszRoznicowy(wierszpoprzedni, false, nrgr, selected);
+                        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                    }
+                    selected.przeliczKwotyWierszaDoSumyDokumentu();
                 }
-                if (wiersznastepny.getTypWiersza() == 0) {
-                    break;
-                }
-            } while (true);
-            if (Z.z(sumaWn) != Z.z(sumaMa)) {
-                Wiersz wierszpoprzedni = selected.poprzedniWiersz(wiersznastepny);
-                if (wiersznastepny != null) {
-                    ObslugaWiersza.wygenerujWierszRoznicowy(wierszpoprzedni, true, nrgr, selected);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-                } else {
-                    ObslugaWiersza.wygenerujWierszRoznicowy(wierszpoprzedni, false, nrgr, selected);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-                }
-                selected.przeliczKwotyWierszaDoSumyDokumentu();
+                rozliczsaldoWBRK(wierszpodstawowy.getIdporzadkowy() - 1);
             }
-            rozliczsaldoWBRK(wierszpodstawowy.getIdporzadkowy() - 1);
         } catch (Exception e) {
             E.e(e);
         }

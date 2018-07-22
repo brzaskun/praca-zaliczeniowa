@@ -758,7 +758,7 @@
                 
             </h:form>
             <h:form id="wpisywaniegrupa">
-                <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy}" 
+                <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy(dokfkView.selected.listawierszy.get(dokfkView.selected.listawierszy.size()))}" 
                                  global="false" style="display: none;" />
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
