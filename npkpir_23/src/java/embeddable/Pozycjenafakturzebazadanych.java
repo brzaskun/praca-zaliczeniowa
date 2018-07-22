@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;
+import waluty.Z;
 
 /**
  *
@@ -191,6 +192,15 @@ public class Pozycjenafakturzebazadanych implements Serializable{
     @Override
     public String toString() {
         return "Pozycjenafakturzebazadanych{" + "lp=" + lp + ", nazwa=" + nazwa + ", PKWiU=" + PKWiU + ", jednostka=" + jednostka + ", ilosc=" + ilosc + ", cena=" + cena + ", netto=" + netto + ", podatek=" + podatek + ", podatekkwota=" + podatekkwota + ", brutto=" + brutto + '}';
+    }
+
+
+    public Object getCena(boolean liczodwartoscibrutto, double podatek) {
+        double zwrot = this.cena;
+        if (liczodwartoscibrutto && Z.z(podatek) != 0.0) {
+            zwrot = Z.z(this.cena-Z.z(this.cena*podatek/(100+podatek)));
+        }
+        return zwrot;
     }
  
         

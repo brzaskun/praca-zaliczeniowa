@@ -288,14 +288,16 @@ public class KontoZapisFKView implements Serializable{
     
     public void zapisykontmiesiace() {
          wpisView.wpisAktualizuj();
-         pobierzZapisyZmianaWaluty();
-         sumazapisow();
-         sumazapisowpln();
+         if (wybranekonto!=null && wybranekonto.getPodatnik()!=null) {
+            pobierzZapisyZmianaWaluty();
+            sumazapisow();
+            sumazapisowpln();
+         }
     }
     
     
     public void pobierzZapisyZmianaWaluty() {
-        if (wybranekonto!=null) {
+        if (wybranekonto!=null && wybranekonto.getPodatnik()!=null) {
             kontozapisy = new ArrayList<>();
             List<Konto> kontapotomnetmp = new ArrayList<>();
             List<Konto> kontapotomneListaOstateczna = new ArrayList<>();

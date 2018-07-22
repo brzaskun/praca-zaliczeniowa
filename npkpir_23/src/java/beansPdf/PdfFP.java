@@ -777,7 +777,7 @@ public class PdfFP {
             table.addCell(ustawfrazeAlign(pozycje.getPKWiU(), "center", 8));
             table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 8));
             table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCena())), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCena(selected.isLiczodwartoscibrutto(),pozycje.getPodatek()))), "right", 8));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getNetto())), "right", 8));
             if (pozycje.getPodatek() == -1) {
                 table.addCell(ustawfrazeAlign(B.b("niepodlega"), "center", 8));
