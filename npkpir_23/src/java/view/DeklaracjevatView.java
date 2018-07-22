@@ -109,7 +109,7 @@ public class DeklaracjevatView implements Serializable {
                 DeklaracjaVatSchemaWierszSum sumasprzedazy = VATDeklaracja.pobierzschemawiersz(p.getSchemawierszsumarycznylista(),"Razem (suma przychodów)");
                 int vatkwota = sumasprzedazy.getDeklaracjaVatWierszSumaryczny().getSumavat();
 //                if ((kwota60 > 0 || kwota180 > 0) && vatkwota == 0) {
-                if ((kwota60 > 0 || kwota180 > 0)) {
+                if (kwota60 > 0 || kwota180 > 0) {
                     pokazZZ = true;
                 }
                 if (kwota25 > 0 && p.getVatzt() == null) {

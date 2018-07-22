@@ -252,14 +252,14 @@ public class ImportFakturyView  implements Serializable {
     }
     
     private Dok generujdokde(Object p, String waldok) {
-        deklaracje.jpkfa.JPK.Faktura wiersz = (deklaracje.jpkfa.JPK.Faktura) p;
+        deklaracje.jpkfa.JPK.Faktura faktura = (deklaracje.jpkfa.JPK.Faktura) p;
         Dok selDokument = new Dok();
         try {
             HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
             selDokument.setWprowadzil(principal.getName());
-            String datawystawienia = wiersz.getP1().toString();
+            String datawystawienia = faktura.getP1().toString();
             String miesiac = datawystawienia.substring(5, 7);
             String rok = datawystawienia.substring(0, 4);
             selDokument.setPkpirM(miesiac);
@@ -269,11 +269,11 @@ public class ImportFakturyView  implements Serializable {
             selDokument.setPodatnik(wpisView.getPodatnikObiekt());
             selDokument.setStatus("bufor");
             selDokument.setUsunpozornie(false);
-            selDokument.setDataWyst(wiersz.getP1().toString());
-            selDokument.setDataSprz(wiersz.getP6().toString());
-            selDokument.setKontr(pobierzkontrahenta(wiersz, pobierzNIPkontrahenta(wiersz)));
+            selDokument.setDataWyst(faktura.getP1().toString());
+            selDokument.setDataSprz(faktura.getP6().toString());
+            selDokument.setKontr(pobierzkontrahenta(faktura, pobierzNIPkontrahenta(faktura)));
             selDokument.setRodzajedok(rodzajedok);
-            selDokument.setNrWlDk(wiersz.getP2A());
+            selDokument.setNrWlDk(faktura.getP2A());
             Tabelanbp innatabela = pobierztabele(waldok, selDokument.getDataWyst());
             if (waldok.equals("PLN")) {
                 selDokument.setTabelanbp(tabeladomyslna);
@@ -285,32 +285,22 @@ public class ImportFakturyView  implements Serializable {
             selDokument.setOpis("przychód ze sprzedaży");
             List<KwotaKolumna1> listaX = new ArrayList<>();
             KwotaKolumna1 tmpX = new KwotaKolumna1();
-            if (waldok.equals("PLN")) {
-                tmpX.setNetto(wiersz.getNetto());
-                netto += wiersz.getNetto();
-                tmpX.setVat(wiersz.getVat());
-                vat += wiersz.getVat();
-                tmpX.setNazwakolumny("przych. sprz");
-                tmpX.setDok(selDokument);
-                tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVat())));
-            } else {
-                tmpX.setNettowaluta(wiersz.getNettoDE());
-                tmpX.setVatwaluta(wiersz.getVatDE());
-                netto += wiersz.getNettoDE();
-                vat += wiersz.getVatDE();
-                tmpX.setVat(wiersz.getVatDE());
-                tmpX.setNetto(wiersz.getNettoDE());
-                tmpX.setNazwakolumny("przych. sprz");
-                tmpX.setDok(selDokument);
-                tmpX.setBrutto(Z.z(Z.z(wiersz.getVatDE()+wiersz.getNettoDE())));
-            }
+            tmpX.setNettowaluta(faktura.getNettoDE());
+            tmpX.setVatwaluta(faktura.getVatDE());
+            netto += faktura.getNettoDE();
+            vat += faktura.getVatDE();
+            tmpX.setVat(faktura.getVatDE());
+            tmpX.setNetto(faktura.getNettoDE());
+            tmpX.setNazwakolumny("przych. sprz");
+            tmpX.setDok(selDokument);
+            tmpX.setBrutto(Z.z(Z.z(faktura.getVatDE()+faktura.getNettoDE())));
             listaX.add(tmpX);
             selDokument.setListakwot1(listaX);
             selDokument.setNetto(Z.z(tmpX.getNetto()));
             selDokument.setBrutto(Z.z(tmpX.getBrutto()));
             selDokument.setRozliczony(true);
             List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
-            EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), przeliczpln(wiersz.getNetto(), innatabela), przeliczpln(wiersz.getVat(), innatabela), "sprz.op", miesiac, rok);
+            EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(faktura,evewidencje), przeliczpln(faktura.getNetto(), innatabela), przeliczpln(faktura.getVat(), innatabela), "sprz.op", miesiac, rok);
             eVatwpis1.setDok(selDokument);
             ewidencjaTransformowana.add(eVatwpis1);
             selDokument.setEwidencjaVAT1(ewidencjaTransformowana);

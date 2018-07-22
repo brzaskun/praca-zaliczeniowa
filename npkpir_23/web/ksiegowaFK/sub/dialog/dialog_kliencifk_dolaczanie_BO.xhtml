@@ -72,7 +72,7 @@
         </p:dataTable>
             <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokontaBO()}" style="margin: 2%;" rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}" 
                              update=":kliencifk :kontoformV :kontoformE :formbilanswprowadzanie2_wiersz" 
-                             oncomplete="PF('dialog_kliencifk_dolaczanie_BO').hide();"/>
+                             oncomplete="PF('dialog_kliencifk_dolaczanie_BO').hide();r('formbilanswprowadzanie2:buttondwojek').click();"/>
          </h:form>
     </p:dialog>
 </ui:composition>

@@ -519,6 +519,9 @@ public class PlanKontView implements Serializable {
         } else {
             //jezeli to nie slownik to wyrzuca blad i dodaje analityke
             try {
+                if (wybranyuklad==null) {
+                    wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
+                }
                 //oznaczenie okntr - znacdzy ze dodajemy slownik z kontrahentami
                 if (noweKonto.getNrkonta().equals("kontr")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
