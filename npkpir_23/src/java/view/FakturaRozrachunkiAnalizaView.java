@@ -279,6 +279,13 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             if (nowepozycje.size() > 0) {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
                 if (r.getSaldo() != 0.0) {
+                    if (r.getMc().equals(wpisView.getMiesiacWpisu())) {
+                        if (r.getDataupomnienia()!=null || r.getDatatelefon()!=null) {
+                            r.setColor("blue");
+                        } else {
+                            r.setColor("initial");
+                        }
+                    }
                     r.setLp(i++);
                     if (pokaznadplaty == true) {
                         saldanierozliczone.add(r);

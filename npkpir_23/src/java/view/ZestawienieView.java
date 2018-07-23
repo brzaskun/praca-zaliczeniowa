@@ -156,6 +156,22 @@ public class ZestawienieView implements Serializable {
     @PostConstruct
     public void init() {
         if (wpisView.getPodatnikWpisu() != null && wpisView.isKsiegaryczalt()) {
+            styczen = Arrays.asList(new Double[10]);
+            luty = Arrays.asList(new Double[10]);
+            marzec = Arrays.asList(new Double[10]);
+            kwiecien = Arrays.asList(new Double[10]);
+            maj = Arrays.asList(new Double[10]);
+            czerwiec = Arrays.asList(new Double[10]);
+            lipiec = Arrays.asList(new Double[10]);
+            sierpien = Arrays.asList(new Double[10]);
+            wrzesien = Arrays.asList(new Double[10]);
+            pazdziernik = Arrays.asList(new Double[10]);
+            listopad = Arrays.asList(new Double[10]);
+            grudzien = Arrays.asList(new Double[10]);
+            pobierzPity = new ArrayList<>();
+            zebranieMcy = new ArrayList<>();
+            listapit = new ArrayList<>();
+            listawybranychudzialowcow = new ArrayList<>();
             Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
             try {
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
@@ -1045,7 +1061,7 @@ public class ZestawienieView implements Serializable {
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
                 }
-
+                Msg.msg("Przeliczono PIT");
             }
         }
     }

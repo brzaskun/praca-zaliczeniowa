@@ -110,7 +110,6 @@ public class ZestawienieRyczaltView implements Serializable {
 
     public ZestawienieRyczaltView() {
         styczen = Arrays.asList(new Double[4]);
-        styczen = Arrays.asList(new Double[4]);
         luty = Arrays.asList(new Double[4]);
         marzec = Arrays.asList(new Double[4]);
         kwiecien = Arrays.asList(new Double[4]);
@@ -131,6 +130,22 @@ public class ZestawienieRyczaltView implements Serializable {
     @PostConstruct
     public void init() {
         if (wpisView.getPodatnikWpisu() != null && !wpisView.isKsiegaryczalt()) {
+            styczen = Arrays.asList(new Double[4]);
+            luty = Arrays.asList(new Double[4]);
+            marzec = Arrays.asList(new Double[4]);
+            kwiecien = Arrays.asList(new Double[4]);
+            maj = Arrays.asList(new Double[4]);
+            czerwiec = Arrays.asList(new Double[4]);
+            lipiec = Arrays.asList(new Double[4]);
+            sierpien = Arrays.asList(new Double[4]);
+            wrzesien = Arrays.asList(new Double[4]);
+            pazdziernik = Arrays.asList(new Double[4]);
+            listopad = Arrays.asList(new Double[4]);
+            grudzien = Arrays.asList(new Double[4]);
+            pobierzPity = new ArrayList<>();
+            zebranieMcy = new ArrayList<>();
+            listapit = new ArrayList<>();
+            listawybranychudzialowcow = new ArrayList<>();
             Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             try {
@@ -534,6 +549,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 biezacyPit = new Ryczpoz();
                 wybranyudzialowiec = "wybierz osobe";
             }
+            Msg.msg("Przeliczono PIT");
         }
     }
 

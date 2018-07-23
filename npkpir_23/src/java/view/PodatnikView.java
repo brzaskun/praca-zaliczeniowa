@@ -1043,7 +1043,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void dodajDokKsi() {
-        if (selectedDokKsi.getNazwa() != null && selectedDokKsi.getSkrotNazwyDok() != null) {
+        if (selectedDokKsi.getNazwa() != null && !selectedDokKsi.getNazwa().equals("") && selectedDokKsi.getSkrotNazwyDok() != null && !selectedDokKsi.getSkrotNazwyDok().equals("")) {
             try {
                 selectedDokKsi.setPodatnikObj(wpisView.getPodatnikObiekt());
                 selectedDokKsi.setSkrot(selectedDokKsi.getSkrotNazwyDok().toUpperCase(new Locale("pl")));

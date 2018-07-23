@@ -187,6 +187,7 @@ public class KliencifkView implements Serializable {
         przyporzadkujdokonta();
         planKontCompleteView.init();
         planKontBOView.init();
+        kontoConv.init();
     }
     
     public void kopiujwybranyklient(ValueChangeEvent e) {

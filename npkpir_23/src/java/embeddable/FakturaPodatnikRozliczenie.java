@@ -35,6 +35,7 @@ import waluty.Z;
     private String ostatniaplatnoscdata;
     private double ostatniaplatnosckwota;
     private boolean przeniesionosaldo;
+    private String color;
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
         this.rozliczenie = p;
@@ -273,6 +274,14 @@ import waluty.Z;
 
     public void setOstatniaplatnosckwota(double ostatniaplatnosckwota) {
         this.ostatniaplatnosckwota = ostatniaplatnosckwota;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
     
     
