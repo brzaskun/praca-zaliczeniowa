@@ -200,10 +200,10 @@
                 </p:column>
                 <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;" resizable="true" >
                     <ui:repeat value="#{wpis.listakwot1}" var="item" varStatus="nr">
-                        <h:outputText value="#{wpis.listakwot1.get(nr.index).netto}" style="float: right;">
+                        <h:outputText value="#{wpis.listakwot1.get(nr.index).netto}" style="float: right;color: #{wpis.listakwot1.get(nr.index).netto ne 0.0 ? 'initial':'red'};">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="#{wpis.listakwot1.get(nr.index).nazwakolumny}" style="float: left;">
+                        <h:outputText value="#{wpis.listakwot1.get(nr.index).nazwakolumny}" style="float: left;color: #{wpis.listakwot1.get(nr.index).netto ne 0.0 ? 'initial':'red'};">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText><br/>
                     </ui:repeat>

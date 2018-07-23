@@ -738,7 +738,7 @@ public class DokView implements Serializable {
             double kwotanetto = 0.0;
             for (Iterator<KwotaKolumna1> it = selDokument.getListakwot1().iterator();it.hasNext();) {
                 KwotaKolumna1 p = it.next();
-                if (p.getNetto() == 0.0) {
+                if (p.getNetto() == 0.0 && selDokument.getListakwot1().size()>1) {
                     it.remove();
                 } else {
                     p.setDok(selDokument);
