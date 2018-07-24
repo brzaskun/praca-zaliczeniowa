@@ -114,6 +114,13 @@
         </attribute>
     </tag>
     <tag>
+        <tag-name>ajaxm</tag-name>
+        <source>tags/ajaxM.xhtml</source>
+        <attribute>
+            <name>value</name>
+        </attribute>
+    </tag>
+    <tag>
         <tag-name>confirm</tag-name>
         <source>tags/confirm.xhtml</source>
         <attribute>

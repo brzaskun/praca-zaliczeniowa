@@ -177,3 +177,11 @@ var pokazwydruk = function(ktoco){
 var pokazwydrukpdf = function(ktoco){
     window.open('../wydruki/'+ktoco,'','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
+
+var startajaxm = function() {
+  PF('ajaxm').renderMessage({summary:'Trwa szukanie', detail: 'proszę czekać', severity: 'info'});  
+};
+
+var stopajaxm = function() {
+  PF('ajaxm').renderMessage({summary:'Zakończono szukanie', detail: 'można przeglądać', severity: 'info'});  
+};
