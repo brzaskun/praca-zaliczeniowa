@@ -112,6 +112,9 @@
         <attribute>
             <name>value</name>
         </attribute>
+        <attribute>
+            <name>modal</name>
+        </attribute>
     </tag>
     <tag>
         <tag-name>ajaxm</tag-name>

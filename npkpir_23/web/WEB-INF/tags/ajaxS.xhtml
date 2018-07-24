@@ -10,7 +10,7 @@
        <ui:composition>
            <f:view >
                <p:dialog closable="false" height="140" width="170" position="center" widgetVar="dialogAjaxCzekaj" appendTo="@(body)"
-                         showHeader="false" draggable="false" modal="true" style="text-align: center;" resizable="false"
+                         showHeader="false" draggable="false" modal="#{modal != null ? modal : 'true'}" style="text-align: center;" resizable="false"
                          onShow="con();" onHide="coff();">
                 <p:panelGrid columns="1" style="margin-left: auto; margin-right: auto; margin-top: 10px;">
                     <p:graphicImage url="/resources/images/wait4.gif" style="margin-left: auto; margin-right: auto; width: 42px; height: 42px;" />
