@@ -161,17 +161,18 @@ public class KontoZapisFKView implements Serializable{
     
     private void usunkontabezsald() {
         List<Konto> konta = new ArrayList<>();
-        zapisyRok.stream().filter((p) -> (p.getKonto() != null)).forEach((p) -> {
-            konta.add(p.getKonto());
-        });
-        Set<Konto> listakont = konta.stream().collect(Collectors.toCollection(HashSet::new));
+        
+//        zapisyRok.stream().filter((p) -> (p.getKonto() != null)).forEach((p) -> {
+//            konta.add(p.getKonto());
+//        });
+        List<Konto> listakont = pobierzkontazsaldem(wpisView.getRokWpisuSt());
         Set<Konto> listamacierzyste = wyluskajmacierzyste(listakont);
         wykazkont = new ArrayList<>();
         wykazkont.addAll(listakont);
         wykazkont.addAll(listamacierzyste);
     }
     
-    private Set<Konto> wyluskajmacierzyste(Set<Konto> listakont) {
+    private Set<Konto> wyluskajmacierzyste(List<Konto> listakont) {
         Set<Konto> listamacierzyste = new HashSet<>();
         listakont.parallelStream().map((p) -> p.getKontomacierzyste()).forEachOrdered((m) -> {
             while (m != null) {
@@ -192,6 +193,16 @@ public class KontoZapisFKView implements Serializable{
         zapisyRok = zapisy;
     }
     
+     public List<Konto> pobierzkontazsaldem(String rok) {
+        List<Konto> zapisy = new ArrayList<>();
+        try {
+            zapisy = stronaWierszaDAO.findStronaByPodatnikRokKontoDist(wpisView.getPodatnikObiekt(), rok);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zapisy;
+    }
+    
     
     
     
@@ -203,14 +214,14 @@ public class KontoZapisFKView implements Serializable{
             kontozapisyfiltered = null;
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
             kontozapisy = new ArrayList<>();
+            List<StronaWiersza> zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
             List<Konto> kontapotomnetmp = new ArrayList<>();
             List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
             kontapotomnetmp.add(wybranekonto);
             KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-            
-            zapisyRok.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).map((r) -> {
+            zapisyshort.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).map((r) -> {
                 if (!r.getSymbolWalutBOiSW().equals("PLN")) {
                     nierenderujkolumnnywalut = false;
                 }

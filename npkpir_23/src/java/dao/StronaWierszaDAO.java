@@ -170,6 +170,10 @@ public class StronaWierszaDAO extends DAO implements Serializable {
      public List<StronaWiersza> findStronaByPodatnikRok(Podatnik podatnik, String rok) {
         return sessionFacade.findStronaByPodatnikRok(podatnik, rok);
     }
+     
+    public List<Konto> findStronaByPodatnikRokKontoDist(Podatnik podatnik, String rok) {
+        return sessionFacade.findStronaByPodatnikRokKontoDist(podatnik, rok);
+    }
     
     public List<StronaWiersza> findStronaByPodatnikRokWalutaBilans(Podatnik podatnik, String rok, String skrotWaluty) {
         return sessionFacade.findStronaByPodatnikRokWalutaBilans(podatnik, rok, skrotWaluty);
@@ -203,6 +207,12 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
         return sessionFacade.findStronaByPodatnikKontoRokWalutyWszystkie(podatnikObiekt, konto, rokWpisuSt);
     }
+    
+    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
+        String like = konto.getPelnynumer().substring(0, 3)+"%";
+        return sessionFacade.findStronaByPodatnikKontoStartRokWalutyWszystkie(podatnikObiekt, like, rokWpisuSt);
+    }
+    
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
         return sessionFacade.findStronaByPodatnikKontoRokMcWalutyWszystkie(podatnikObiekt, konto, rokWpisuSt, mc);
     }

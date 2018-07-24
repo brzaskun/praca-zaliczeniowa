@@ -231,7 +231,7 @@ public class KontaFKBean implements Serializable{
 
     public static void pobierzKontaPotomne(List<Konto> kontamacierzyste, List<Konto> kontaostateczna, List<Konto> wykazkont) {
         List<Konto> nowepotomne = new ArrayList<>();
-        kontamacierzyste.stream().forEach((p)->{
+        kontamacierzyste.parallelStream().forEach((p)->{
             if (p.isMapotomkow()==true) {
                 wykazkont.parallelStream().filter((r) -> (r.getKontomacierzyste() != null && r.getKontomacierzyste().equals(p))).forEachOrdered((r) -> {
                     nowepotomne.add(r);
