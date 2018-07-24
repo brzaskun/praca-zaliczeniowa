@@ -117,7 +117,7 @@ public class StronaWiersza implements Serializable {
     @Column(name = "nowatransakcja")
     private boolean nowatransakcja;
     @JoinColumn(name = "idkonto", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Konto konto;
     @Column(name = "wnma")
     private String wnma;
