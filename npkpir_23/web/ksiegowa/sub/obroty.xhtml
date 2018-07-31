@@ -32,12 +32,14 @@
     <p:outputPanel id="wrapper" deferred="true">
 
         <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" filteredValue="#{obrotyView.dokumentyFiltered}"
+                      filterDelay="1800"
                       selection="#{obrotyView.goscwybral}"  widgetVar="dokTable" 
                       rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
-                      style="max-width: 1400px;"  >
-            <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
-            <p:ajax event="rowSelectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
-            <p:ajax event="rowUnselectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
+                      style="max-width: 1400px;height: 600px;overflow-y: scroll;"  >
+            <p:ajax event="toggleSelect" global="false"  listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
+            <p:ajax event="rowSelectCheckbox" global="false"  listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
+            <p:ajax event="rowUnselectCheckbox" global="false"  listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
+            <p:ajax event="filter" global="false" />
             <f:facet name="header">  
                 <h:outputText value="Wykaz obrotow z kontrahentem" />
                 <h:outputText value="- wyszukiwanie: " />  

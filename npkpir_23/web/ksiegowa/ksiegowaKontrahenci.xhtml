@@ -2,7 +2,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
     <ui:composition template="/template.xhtml">
         
         <ui:define name="title">
@@ -35,6 +36,7 @@
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/obroty.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form>
+                            <bcf:ajaxs/>
                         </p:layoutUnit>
                         
                     </p:layout>

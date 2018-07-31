@@ -101,14 +101,15 @@ public class ObrotyView implements Serializable{
                 String mDo = wpisView.getMiesiacDo();
                 Integer mDoI = Integer.parseInt(mDo);
                 List<String> zakres = new ArrayList<>();
-                for(int i = mOdI; i <= mDoI; i++){
-                    zakres.add(Mce.getNumberToMiesiac().get(i));
-                }
+//                for(int i = mOdI; i <= mDoI; i++){
+//                    zakres.add(Mce.getNumberToMiesiac().get(i));
+//                }
                 Set<String> dokumentyl = new HashSet<>();
                 Set<String> kontrahenty = new HashSet<>();
                 Set<String> rodzaje = new HashSet<>();
                 for (Dok tmpx : obiektDOKjsfSelRok){
-                    if (zakres.contains(tmpx.getPkpirM())) {
+                    int mcint = Integer.parseInt(tmpx.getPkpirM());
+                    if (mcint>=mOdI && mcint<=mDoI) {
                         obiektDOKmrjsfSelX.add(tmpx);
                         dokumentyl.add(tmpx.getRodzajedok().getSkrot());
                         rodzaje.add(tmpx.getRodzajedok().getRodzajtransakcji());
