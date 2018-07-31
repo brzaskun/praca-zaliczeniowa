@@ -1867,8 +1867,8 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok())), "right", 8));
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc())), "right", 8));
                         table.addCell(ustawfrazeAlign("", "center", 8));
-                        table.addCell(ustawfrazeAlign("", "center", 8));
-                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStawka())), "right", 8));
                         table.addCell(ustawfrazeAlign("", "center", 8));
                      } else {
                         table.addCell(ustawfrazeAlign(i++, "center", 8));

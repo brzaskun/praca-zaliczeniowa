@@ -103,6 +103,12 @@ public class STRTabView implements Serializable {
     private boolean bezcalkowicieumorzonych;
     private boolean zmienilasiedataumorzenia;
     private boolean zmienilasiekwotaumorzenia;
+    private double umplan_zakupnetto;
+    private double umplan_umpocz;
+    private double umplan_narast;
+    private double umplan_wartoscnetto;
+    private double umplan_odpisrok;
+    private double umplan_odpismc;
     
 
     public STRTabView() {
@@ -126,6 +132,12 @@ public class STRTabView implements Serializable {
 
     @PostConstruct
     public void init() {
+        umplan_zakupnetto = 0.0;
+        umplan_umpocz = 0.0;
+        umplan_narast = 0.0;
+        umplan_wartoscnetto = 0.0;
+        umplan_odpisrok = 0.0;
+        umplan_odpismc = 0.0;
         ustawTabele();
         String rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         zakupionewbiezacyrok = 0;
@@ -204,6 +216,7 @@ public class STRTabView implements Serializable {
                                                 posiadane2.add(srodek);
                                             }
                                             posiadane.add(srodek);
+                                            sumujposiadane(srodek);
                                             posiadanesumanetto += srodek.getNetto();
                                         }
                                     } else if (srodek.getRokSprzedazy() <= wpisView.getRokWpisu()){
@@ -215,6 +228,7 @@ public class STRTabView implements Serializable {
                                                 posiadane2.add(srodek);
                                             }
                                             posiadane.add(srodek);
+                                            sumujposiadane(srodek);
                                             posiadanesumanetto += srodek.getNetto();
                                         }
                                     }
@@ -330,6 +344,54 @@ public class STRTabView implements Serializable {
 
     public void setFilteredValues(List<SrodekTrw> filteredValues) {
         this.filteredValues = filteredValues;
+    }
+
+    public double getUmplan_zakupnetto() {
+        return umplan_zakupnetto;
+    }
+
+    public void setUmplan_zakupnetto(double umplan_zakupnetto) {
+        this.umplan_zakupnetto = umplan_zakupnetto;
+    }
+
+    public double getUmplan_umpocz() {
+        return umplan_umpocz;
+    }
+
+    public void setUmplan_umpocz(double umplan_umpocz) {
+        this.umplan_umpocz = umplan_umpocz;
+    }
+
+    public double getUmplan_narast() {
+        return umplan_narast;
+    }
+
+    public void setUmplan_narast(double umplan_narast) {
+        this.umplan_narast = umplan_narast;
+    }
+
+    public double getUmplan_wartoscnetto() {
+        return umplan_wartoscnetto;
+    }
+
+    public void setUmplan_wartoscnetto(double umplan_wartoscnetto) {
+        this.umplan_wartoscnetto = umplan_wartoscnetto;
+    }
+
+    public double getUmplan_odpisrok() {
+        return umplan_odpisrok;
+    }
+
+    public void setUmplan_odpisrok(double umplan_odpisrok) {
+        this.umplan_odpisrok = umplan_odpisrok;
+    }
+
+    public double getUmplan_odpismc() {
+        return umplan_odpismc;
+    }
+
+    public void setUmplan_odpismc(double umplan_odpismc) {
+        this.umplan_odpismc = umplan_odpismc;
     }
 
      public List<SrodekTrw> getListaWyposazenia() {
@@ -766,6 +828,8 @@ public class STRTabView implements Serializable {
             double umorzeniepocz = 0.0;
             double odpisplan = 0.0;
             double nettoplan = 0.0;
+            double odpisrok = 0.0;
+            double odpismc = 0.0;
             if (filtrowaneposiadane != null) {
                 l = filtrowaneposiadane;
             }
@@ -778,12 +842,16 @@ public class STRTabView implements Serializable {
                     umorzeniepocz += p.getUmorzeniepoczatkowe();
                     odpisplan += p.getStrOdpisyPlan();
                     nettoplan += p.getStrNettoPlan();
+                    odpisrok += p.getOdpisrok();
+                    odpismc += p.getOdpismc();
                 }
             }
             SrodekTrw suma = new SrodekTrw();
             suma.setNrsrodka(999999);
             suma.setNetto(Z.z(netto));
             suma.setUmorzeniepoczatkowe(Z.z(umorzeniepocz));
+            suma.setVat(Z.z(odpisrok));
+            suma.setStawka(Z.z(odpismc));
             suma.setOdpisrok(Z.z(odpisplan));
             suma.setOdpismc(Z.z(nettoplan));
             l.add(suma);
@@ -902,6 +970,15 @@ public class STRTabView implements Serializable {
 
     public void kopiujwybrany(SrodekTrw wybrany) {
         edytowanysrodek = wybrany;   
+    }
+
+    private void sumujposiadane(SrodekTrw srodek) {
+        umplan_zakupnetto += srodek.getNetto();
+        umplan_umpocz += srodek.getUmorzeniepoczatkowe();
+        umplan_narast += srodek.getStrOdpisyPlan();
+        umplan_wartoscnetto += srodek.getStrNettoPlan();
+        umplan_odpisrok += srodek.getOdpisrok();
+        umplan_odpismc += srodek.getOdpismc();
     }
 
     

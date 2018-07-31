@@ -13,7 +13,7 @@
                 <h:form id="str_umorzeniaPlan">
                     <p:dataTable  var="wpis" value="#{STRTableView.posiadane}" id="srodkiLista1Plan" editable="true" 
                               style="width: 1400px; overflow-y: scroll; height: 390px;" emptyMessage="Nie naliczono umorzeń"
-                              rowKey="#{wpis.id}" selectionMode="single"> 
+                              rowKey="#{wpis.id}" selectionMode="single"  sortBy="#{wpis.podatnik}"> 
 
                     <f:facet name="header">  
                         <h:outputText value="Plan umorzeń posiadanych środkow trwałych" />  
@@ -126,6 +126,38 @@
                         </p:dataTable>
                     </p:column>
                     </p:rowExpansion>
+                    <p:summaryRow>
+                        <p:column colspan="4">
+                            <h:outputText value="razem"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{STRTableView.umplan_zakupnetto}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{STRTableView.umplan_umpocz}"/>
+                        </p:column>
+                        <p:column>
+                            
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{STRTableView.umplan_narast}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{STRTableView.umplan_wartoscnetto}"/>
+                        </p:column>
+                        <p:column>
+                            
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{STRTableView.umplan_odpisrok}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{STRTableView.umplan_odpismc}"/>
+                        </p:column>
+                        <p:column colspan="3">
+                            
+                        </p:column>
+                    </p:summaryRow>
                 </p:dataTable>
                 </h:form>
             </p:tab>

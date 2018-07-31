@@ -31,6 +31,7 @@ import javax.faces.context.FacesContext;
 import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -50,7 +51,7 @@ import view.ZestawienieView;
 public class PdfZestRok{
     
     public static void drukuj(WpisView wpisView, ZestawienieView zestawienieView) throws DocumentException, FileNotFoundException, IOException {
-        Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
+        Document pdf = PdfMain.inicjacjaA4Landscape();
         PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR("pkpir" + wpisView.getPodatnikWpisu() + ".pdf"));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
@@ -71,6 +72,7 @@ public class PdfZestRok{
         Font font = new Font(helvetica, 8);
         pdf.setPageSize(PageSize.A4);
         PdfPTable table = new PdfPTable(15);
+        table.setWidthPercentage(95);
         //tu sie ustawia szerokosci kolumn
         table.setWidths(new int[]{1, 4, 4, 4, 4, 4, 3, 2, 3, 3, 3, 3, 3, 3, 4});
         PdfPCell cell = new PdfPCell();
@@ -94,43 +96,43 @@ public class PdfZestRok{
         table.addCell(ustawfraze(B.b("towaryhandlowemat"), 0, 2));
         table.addCell(ustawfraze(B.b("kosztyubocznezakupu"), 0, 2));
         table.addCell(ustawfraze(B.b("Wydatki(koszty)"), 4, 0));
-        table.addCell(ustawfrazeAlign(B.b("wartoscsprzedaz"), "center",6));
-        table.addCell(ustawfrazeAlign(B.b("pozostaleprzychody"), "center",6));
-        table.addCell(ustawfrazeAlign(B.b("razemprzychod"), "center",6));
-        table.addCell(ustawfrazeAlign(B.b("wynagrodzeniawgot"), "center",6));
-        table.addCell(ustawfrazeAlign(B.b("pozostalewydatki"), "center",6));
-        table.addCell(ustawfrazeAlign(B.b("razemwydatki"), "center",6));
-        table.addCell(ustawfrazeAlign(B.b("inwestycje"), "center",6));
-        table.addCell(ustawfrazeAlign("1", "center",6));
-        table.addCell(ustawfrazeAlign("2", "center",6));
-        table.addCell(ustawfrazeAlign("3", "center",6));
-        table.addCell(ustawfrazeAlign("4", "center",6));
-        table.addCell(ustawfrazeAlign("5", "center",6));
-        table.addCell(ustawfrazeAlign("6", "center",6));
-        table.addCell(ustawfrazeAlign("7", "center",6));
-        table.addCell(ustawfrazeAlign("8", "center",6));
-        table.addCell(ustawfrazeAlign("9", "center",6));
-        table.addCell(ustawfrazeAlign("10", "center",6));
-        table.addCell(ustawfrazeAlign("11", "center",6));
-        table.addCell(ustawfrazeAlign("12", "center",6));
-        table.addCell(ustawfrazeAlign("13", "center",6));
-        table.addCell(ustawfrazeAlign("14", "center",6));
-        table.addCell(ustawfrazeAlign("15", "center",6));
-        table.addCell(ustawfrazeAlign("1", "center",6));
-        table.addCell(ustawfrazeAlign("2", "center",6));
-        table.addCell(ustawfrazeAlign("3", "center",6));
-        table.addCell(ustawfrazeAlign("4", "center",6));
-        table.addCell(ustawfrazeAlign("5", "center",6));
-        table.addCell(ustawfrazeAlign("6", "center",6));
-        table.addCell(ustawfrazeAlign("7", "center",6));
-        table.addCell(ustawfrazeAlign("8", "center",6));
-        table.addCell(ustawfrazeAlign("9", "center",6));
-        table.addCell(ustawfrazeAlign("10", "center",6));
-        table.addCell(ustawfrazeAlign("11", "center",6));
-        table.addCell(ustawfrazeAlign("12", "center",6));
-        table.addCell(ustawfrazeAlign("13", "center",6));
-        table.addCell(ustawfrazeAlign("14", "center",6));
-        table.addCell(ustawfrazeAlign("15", "center",6));
+        table.addCell(ustawfrazeAlign(B.b("wartoscsprzedaz"), "center",7));
+        table.addCell(ustawfrazeAlign(B.b("pozostaleprzychody"), "center",7));
+        table.addCell(ustawfrazeAlign(B.b("razemprzychod"), "center",7));
+        table.addCell(ustawfrazeAlign(B.b("wynagrodzeniawgot"), "center",7));
+        table.addCell(ustawfrazeAlign(B.b("pozostalewydatki"), "center",7));
+        table.addCell(ustawfrazeAlign(B.b("razemwydatki"), "center",7));
+        table.addCell(ustawfrazeAlign(B.b("inwestycje"), "center",7));
+        table.addCell(ustawfrazeAlign("1", "center",7));
+        table.addCell(ustawfrazeAlign("2", "center",7));
+        table.addCell(ustawfrazeAlign("3", "center",7));
+        table.addCell(ustawfrazeAlign("4", "center",7));
+        table.addCell(ustawfrazeAlign("5", "center",7));
+        table.addCell(ustawfrazeAlign("6", "center",7));
+        table.addCell(ustawfrazeAlign("7", "center",7));
+        table.addCell(ustawfrazeAlign("8", "center",7));
+        table.addCell(ustawfrazeAlign("9", "center",7));
+        table.addCell(ustawfrazeAlign("10", "center",7));
+        table.addCell(ustawfrazeAlign("11", "center",7));
+        table.addCell(ustawfrazeAlign("12", "center",7));
+        table.addCell(ustawfrazeAlign("13", "center",7));
+        table.addCell(ustawfrazeAlign("14", "center",7));
+        table.addCell(ustawfrazeAlign("15", "center",7));
+        table.addCell(ustawfrazeAlign("1", "center",7));
+        table.addCell(ustawfrazeAlign("2", "center",7));
+        table.addCell(ustawfrazeAlign("3", "center",7));
+        table.addCell(ustawfrazeAlign("4", "center",7));
+        table.addCell(ustawfrazeAlign("5", "center",7));
+        table.addCell(ustawfrazeAlign("6", "center",7));
+        table.addCell(ustawfrazeAlign("7", "center",7));
+        table.addCell(ustawfrazeAlign("8", "center",7));
+        table.addCell(ustawfrazeAlign("9", "center",7));
+        table.addCell(ustawfrazeAlign("10", "center",7));
+        table.addCell(ustawfrazeAlign("11", "center",7));
+        table.addCell(ustawfrazeAlign("12", "center",7));
+        table.addCell(ustawfrazeAlign("13", "center",7));
+        table.addCell(ustawfrazeAlign("14", "center",7));
+        table.addCell(ustawfrazeAlign("15", "center",7));
         table.setHeaderRows(5);
         table.setFooterRows(1);
         
@@ -154,39 +156,39 @@ public class PdfZestRok{
         int nrmca = 1;
         Map<String,Integer> mapamcyCalendar = Mce.getMapamcyCalendar();
         for (List<Double> rs : wykaz) {
-            table.addCell(ustawfrazeAlign(String.valueOf(nr), "center",6));
+            table.addCell(ustawfrazeAlign(String.valueOf(nr), "center",7));
             if(nr==15){
-                table.addCell(ustawfrazeAlign(B.b("podsumowaniezarok"), "left",6));
+                table.addCell(ustawfrazeAlign(B.b("podsumowaniezarok"), "left",7));
             } else if (nr==7||nr==14){
-                table.addCell(ustawfrazeAlign(B.b("podsumowaniezapolrocze"), "left",6));
+                table.addCell(ustawfrazeAlign(B.b("podsumowaniezapolrocze"), "left",7));
             } else {
-                table.addCell(ustawfrazeAlign(B.b("sumyzamiesiac"), "left",6));
+                table.addCell(ustawfrazeAlign(B.b("sumyzamiesiac"), "left",7));
             }
             if(nr==15){
-                table.addCell(ustawfrazeAlign(wpisView.getRokWpisu().toString(), "left",6));
+                table.addCell(ustawfrazeAlign(wpisView.getRokWpisu().toString(), "left",7));
             } else if (nr==7){
-                table.addCell(ustawfrazeAlign(B.b("pierwszepolrocze"), "left",6));
+                table.addCell(ustawfrazeAlign(B.b("pierwszepolrocze"), "left",7));
             } else if (nr==14){
-                table.addCell(ustawfrazeAlign(B.b("drugiepolrocze"), "left",6));
+                table.addCell(ustawfrazeAlign(B.b("drugiepolrocze"), "left",7));
             } else {
                 if (FacesContext.getCurrentInstance().getViewRoot().getLocale().toString().equals("en")) {
-                    table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiacaEN().get(nrmca++), "left",6));
+                    table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiacaEN().get(nrmca++), "left",7));
                 } else {
-                    table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiaca().get(nrmca++), "left",6));
+                    table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiaca().get(nrmca++), "left",7));
                 }
             }
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(7)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(8)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(9)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(0)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(1)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(0)+rs.get(1)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(2)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(3)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(4)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(5)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(4)+rs.get(5)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(6)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(7)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(8)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(9)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(0)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(1)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(0)+rs.get(1)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(2)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(3)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(4)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(5)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(4)+rs.get(5)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(6)), "right",7));
             nr++;
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());

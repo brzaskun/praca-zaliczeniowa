@@ -92,11 +92,11 @@
                           filterMatchMode="contains" filterStyle="display : none;" width="60">
                     <h:outputText value="#{wpis.terminzaplaty.substring(2)}"/>
                 </p:column>
-                 <p:column headerText="netto"  sortBy="#{wpis.nettoFaktura}" filterBy="#{wpis.nettoFaktura}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
-                    <bcf:outputpl value="#{wpis.nettoFaktura}"/>
+                 <p:column headerText="netto"  sortBy="#{wpis.nettoFakturaView}" filterBy="#{wpis.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
+                    <bcf:outputpl value="#{wpis.nettoFakturaView}"/>
                 </p:column>
-                <p:column headerText="brutto"  sortBy="#{wpis.bruttoFaktura}" filterBy="#{wpis.bruttoFaktura}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
-                    <bcf:outputpl value="#{wpis.bruttoFaktura}"/>
+                <p:column headerText="brutto"  sortBy="#{wpis.bruttoFakturaView}" filterBy="#{wpis.bruttoFakturaView}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
+                    <bcf:outputpl value="#{wpis.bruttoFakturaView}"/>
                 </p:column>
                 <p:column headerText="wysł." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}"
                           filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;"  width="30">

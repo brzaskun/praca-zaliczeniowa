@@ -115,11 +115,13 @@
                           filterMatchMode="contains"  width="60">
                     <h:outputText value="#{wpis.terminzaplaty.substring(2)}"/>
                 </p:column>
-                <p:column styleClass="data2" headerText="netto"  sortBy="#{wpis.nettoFaktura}" filterBy="#{wpis.nettoFaktura}" filterMatchMode="contains"   width="70">
-                    <bcf:outputpl value="#{wpis.nettoFaktura}"/>
+                <p:column styleClass="data2" headerText="netto"  sortBy="#{wpis.nettoFakturaView}" filterBy="#{wpis.nettoFakturaView}" filterMatchMode="contains"   width="70">
+                    <bcf:outputpl value="#{wpis.nettoFakturaView}"/>
+                    <h:outputText value=" #{wpis.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
                 </p:column>
-                <p:column styleClass="data2" headerText="brutto"  sortBy="#{wpis.bruttoFaktura}" filterBy="#{wpis.bruttoFaktura}" filterMatchMode="contains"   width="70">
-                    <bcf:outputpl value="#{wpis.bruttoFaktura}"/>
+                <p:column styleClass="data2" headerText="brutto"  sortBy="#{wpis.bruttoFakturaView}" filterBy="#{wpis.bruttoFakturaView}" filterMatchMode="contains"   width="70">
+                    <bcf:outputpl value="#{wpis.bruttoFakturaView}"/>
+                    <h:outputText value=" #{wpis.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
                 </p:column>
                 <p:column styleClass="data3" headerText="wys." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains"  
                           style="text-align: center;"  width="40">

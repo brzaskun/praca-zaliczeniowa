@@ -478,10 +478,18 @@ public class Faktura implements Serializable {
         return zwrot;
     }
     
-    public double getNettoFaktura() {
+    public double getNettoFakturaView() {
         double zwrot = this.netto;
         if (this.pozycjepokorekcie != null && this.pozycjepokorekcie.size() > 0) {
             zwrot = this.nettopk-this.netto;
+        }
+        return zwrot;
+    }
+    
+    public double getBruttoFakturaView() {
+        double zwrot = this.brutto;
+        if (this.pozycjepokorekcie != null && this.pozycjepokorekcie.size() > 0) {
+            zwrot = this.bruttopk-this.brutto;
         }
         return zwrot;
     }
