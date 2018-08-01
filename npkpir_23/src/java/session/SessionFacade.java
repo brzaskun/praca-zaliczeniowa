@@ -311,9 +311,8 @@ public class SessionFacade<T> implements Serializable {
     public Dok dokumentDuplicat(Dok selD, String pkpirR) throws Exception {
         Dok wynik = null;
         try {
-            wynik = (Dok) em.createNamedQuery("Dok.findDuplicate").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("netto", selD.getNetto()).setParameter("pkpirR", pkpirR).getSingleResult();
+            wynik = (Dok) em.createNamedQuery("Dok.findDuplicate").setParameter("podatnik", selD.getPodatnik()).setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("netto", selD.getNetto()).setParameter("pkpirR", pkpirR).getSingleResult();
         } catch (Exception e) {
-            E.e(e);
             return null;
         }
         return wynik;

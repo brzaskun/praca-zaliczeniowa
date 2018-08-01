@@ -946,8 +946,9 @@ public class FakturaView implements Serializable {
                 Msg.msg("i", wiadomosc);
                 faktura.setZaksiegowana(true);
                 fakturaDAO.edit(faktura);
-            } catch (Exception e) { E.e(e); 
-                
+            } catch (Exception e) { 
+                E.e(e); 
+                Msg.msg("e","Są zaksięgowane dokumenty o tych samych numerach");
             }
             RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
     }

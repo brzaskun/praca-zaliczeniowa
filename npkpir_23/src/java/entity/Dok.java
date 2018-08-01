@@ -67,7 +67,7 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByVatM", query = "SELECT d FROM Dok d WHERE d.vatM = :vatM"),
     @NamedQuery(name = "Dok.findByVatR", query = "SELECT d FROM Dok d WHERE d.vatR = :vatR"),
     @NamedQuery(name = "Dok.znajdzInwestycja", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.dataWyst = :data AND d.netto = :netto AND d.nrWlDk = :numer"),
-    @NamedQuery(name = "Dok.findDuplicate", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.netto = :netto AND d.pkpirR = :pkpirR"),
+    @NamedQuery(name = "Dok.findDuplicate", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.netto = :netto AND d.pkpirR = :pkpirR"),
     @NamedQuery(name = "Dok.findDuplicateAMO", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.nrWlDk = :nrWlDk AND d.pkpirR = :pkpirR AND d.rodzajedok.skrot = 'AMO'"),
     @NamedQuery(name = "Dok.findDuplicatewTrakcie", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.podatnik = :podatnik AND d.rodzajedok.skrot = :typdokumentu"),
     @NamedQuery(name = "Dok.findStornoDok", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.opis = :opis"),

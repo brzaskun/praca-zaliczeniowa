@@ -214,37 +214,40 @@ public class KontoZapisFKView implements Serializable{
             kontozapisyfiltered = null;
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
             kontozapisy = new ArrayList<>();
-            List<StronaWiersza> zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
-            List<Konto> kontapotomnetmp = new ArrayList<>();
-            List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
-            kontapotomnetmp.add(wybranekonto);
-            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
-            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
-            int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-            zapisyshort.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).map((r) -> {
-                if (!r.getSymbolWalutBOiSW().equals("PLN")) {
-                    nierenderujkolumnnywalut = false;
-                }
-                return r;
-            }).forEachOrdered((r) -> {
-                if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                    if (mc >= granicaDolna && mc <= granicaGorna) {
-                        kontozapisy.add(r);
+            String rok = pobierzrokpoprzedni ? wpisView.getRokUprzedniSt() : wpisView.getRokWpisuSt();
+            List<StronaWiersza> zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, rok);
+            if (zapisyshort!=null) {
+                List<Konto> kontapotomnetmp = new ArrayList<>();
+                List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+                kontapotomnetmp.add(wybranekonto);
+                KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+                int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+                int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+                zapisyshort.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).map((r) -> {
+                    if (!r.getSymbolWalutBOiSW().equals("PLN")) {
+                        nierenderujkolumnnywalut = false;
                     }
-                } else {
-                    if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
+                    return r;
+                }).forEachOrdered((r) -> {
+                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                         if (mc >= granicaDolna && mc <= granicaGorna) {
                             kontozapisy.add(r);
                         }
+                    } else {
+                        if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
+                            int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                            if (mc >= granicaDolna && mc <= granicaGorna) {
+                                kontozapisy.add(r);
+                            }
+                        }
                     }
-                }
-            });
-            sumazapisow();
-            sumazapisowpln();
-            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-            Msg.msg("Pobrano zapisy dla konta "+wybraneKontoNode.getPelnynumer());
+                });
+                sumazapisow();
+                sumazapisowpln();
+                //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+                Msg.msg("Pobrano zapisy dla konta "+wybraneKontoNode.getPelnynumer());
+            }
         } catch (Exception e) {
             E.e(e);
         }
@@ -735,7 +738,7 @@ public class KontoZapisFKView implements Serializable{
                             double ilezostalo = (sumagranica-sumazliczanie);
                             double proporcja = ilezostalo/p.getKwota();
                             sumazliczaniePLN += Z.z(p.getKwotaPLN()*proporcja);
-                            roznicawn = Z.z(saldowalutywnpln-sumazliczaniePLN);
+                            roznicawn = saldowalutywnpln > 0.0 ? Z.z(saldowalutywnpln-sumazliczaniePLN) : -Z.z(saldowalutymapln+sumazliczaniePLN);
                             break;
                         }
 
@@ -750,7 +753,7 @@ public class KontoZapisFKView implements Serializable{
                             double ilezostalo = (sumagranica-sumazliczanie);
                             double proporcja = ilezostalo/p.getKwota();
                             sumazliczaniePLN += Z.z(p.getKwotaPLN()*proporcja);
-                            roznicama = Z.z(saldowalutymapln-sumazliczaniePLN);
+                            roznicama = saldowalutymapln > 0.0 ? Z.z(saldowalutymapln-sumazliczaniePLN) : -Z.z(saldowalutywnpln+sumazliczaniePLN);
                             break;
                         }
 
