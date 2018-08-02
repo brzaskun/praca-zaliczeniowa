@@ -81,7 +81,7 @@ public class WalutyFKBean {
         return wierszepobranezNBP;
     }
     
-    @Schedule(hour = "*", minute = "55", persistent = false)
+    @Schedule(hour = "10,15", persistent = false)
     public void pobierzkursy() {
         String datawstepna;
         Integer numertabeli;
