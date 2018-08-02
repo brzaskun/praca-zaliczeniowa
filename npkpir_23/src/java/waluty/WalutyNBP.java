@@ -125,6 +125,7 @@ public class WalutyNBP implements Serializable {
                 for (Tabelanbp p : wyniktmp) {
                     if (p.getWaluta().getSymbolwaluty().equals(waluta)) {
                         wynik.add(p);
+                        break;
                     }
                 }
                 //System.out.print(wynik.toString());

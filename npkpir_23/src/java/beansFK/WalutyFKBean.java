@@ -81,7 +81,7 @@ public class WalutyFKBean {
         return wierszepobranezNBP;
     }
     
-    @Schedule(hour = "10,15", persistent = false)
+    @Schedule(hour = "*", minute = "10", persistent = false)
     public void pobierzkursy() {
         String datawstepna;
         Integer numertabeli;
@@ -98,9 +98,9 @@ public class WalutyFKBean {
         //WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
         for (Waluty w : pobranewaluty) {
             List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findByWaluta(w);
-            Collections.sort(wierszejuzzapisane, new Tabelanbpcomparator());
             Tabelanbp wiersz = null;
-            if (wierszejuzzapisane.size() > 0) {
+            if (wierszejuzzapisane!= null && wierszejuzzapisane.size() > 0) {
+                Collections.sort(wierszejuzzapisane, new Tabelanbpcomparator());
                 wiersz = wierszejuzzapisane.get(wierszejuzzapisane.size() - 1);
             }
             if (wiersz == null) {
