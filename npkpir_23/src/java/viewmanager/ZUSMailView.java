@@ -138,7 +138,7 @@ public class ZUSMailView implements Serializable {
                     double pit4 = 0;
                     double pit8 = 0;
                     try {
-                        zus51 = zusmail.getZus51ch() != null ? zusmail.getZus51ch() : zusmail.getZus51bch();
+                        zus51 = zusmail.getZus51ch() != null && zusmail.getZus51ch() != 0.0 ? zusmail.getZus51ch() : zusmail.getZus51bch();
                     } catch (Exception e) {
                     }
                     zus52 = zusmail.getZus52() != null ? zusmail.getZus52() : 0;
