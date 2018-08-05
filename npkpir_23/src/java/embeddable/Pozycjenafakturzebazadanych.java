@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import entityfk.Tabelanbp;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
 import waluty.Z;
@@ -199,6 +200,22 @@ public class Pozycjenafakturzebazadanych implements Serializable{
         double zwrot = this.cena;
         if (liczodwartoscibrutto && Z.z(podatek) != 0.0) {
             zwrot = Z.z(this.cena-Z.z(this.cena*podatek/(100+podatek)));
+        }
+        return zwrot;
+    }
+
+    public double getNetto(Tabelanbp tabelanbp) {
+        double zwrot = this.netto;
+        if (tabelanbp!=null) {
+            zwrot = Z.z(this.netto*tabelanbp.getKurssredniPrzelicznik());
+        }
+        return zwrot;
+    }
+
+    public double getPodatekkwota(Tabelanbp tabelanbp) {
+        double zwrot = this.podatekkwota;
+        if (tabelanbp!=null) {
+            zwrot = Z.z(this.podatekkwota*tabelanbp.getKurssredniPrzelicznik());
         }
         return zwrot;
     }

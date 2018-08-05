@@ -231,7 +231,7 @@ public class EwidencjaVatView implements Serializable {
             if (pobierzmiesiacdlajpk) {
                 vatokres = 1;
             }
-            pobierzEVATwpis1zaOkres(podatnik, vatokres);
+            pobierzEVATwpis1zaOkres(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             przejrzyjEVatwpis1Lista();
             stworzenieEwidencjiCzescWspolna();
             for (String k : listaewidencji.keySet()) {
@@ -459,13 +459,13 @@ public class EwidencjaVatView implements Serializable {
         }
     }
     
-    private void pobierzEVATwpis1zaOkres(Podatnik podatnik, int vatokres) {
+    private void pobierzEVATwpis1zaOkres(Podatnik podatnik, int vatokres, String rok, String mc) {
         try {
             listadokvatprzetworzona = new ArrayList<>();
             if (vatokres==1) {
-                listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(podatnik, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(podatnik, rok, mc));
             } else {
-                listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokKW(podatnik, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokKW(podatnik, rok, mc));
             }
             Collections.sort(listadokvatprzetworzona, new EVatwpisSupercomparator());
         } catch (Exception e) { 
@@ -885,6 +885,21 @@ public class EwidencjaVatView implements Serializable {
         
     }
     
+     public void ewidencjazamcPkpir(Podatnik podatnik, String rok, String mc) {
+        try {
+            ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
+            zerujListy();
+            int vatokres = wpisView.getVatokres();
+            pobierzEVATwpis1zaOkres(podatnik, vatokres, rok, mc);
+            przejrzyjEVatwpis1Lista();
+            stworzenieEwidencjiCzescWspolna();
+        } catch (Exception e) { 
+            Msg.dPe();
+            E.e(e);
+        }
+        //drukuj ewidencje
+    }
+    
     public void drukujPdfWszystkieRok() {
         try {
             String vatokres = sprawdzjakiokresvat();
@@ -895,7 +910,11 @@ public class EwidencjaVatView implements Serializable {
                 mnce = Mce.getMceListKW();
             }
             for (String mc : mnce) {
-                ewidencjazamc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc);
+                if (wpisView.isKsiegirachunkowe()) {
+                    ewidencjazamc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc);
+                } else {
+                    ewidencjazamcPkpir(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc);
+                }
                 if (listaewidencji!=null && listaewidencji.size() > 0) {
                     String nazwa = "vatcalyrok"+wpisView.getPodatnikObiekt().getNip()+mc+wpisView.getRokWpisuSt();
                     String plik = nazwa+ ".pdf";
@@ -911,6 +930,8 @@ public class EwidencjaVatView implements Serializable {
 
         }
     }
+    
+    
     
     public void drukujPdfWszystkie() {
         try {

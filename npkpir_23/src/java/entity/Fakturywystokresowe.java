@@ -5,6 +5,7 @@
 package entity;
 
 import data.Data;
+import error.E;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -328,11 +329,16 @@ public class Fakturywystokresowe implements Serializable {
     }
 
     public String getDatawystawieniaOld() {
-        String zwrot = this.dokument.getDatawystawienia();
-        if (datawystawienia!=null) {
-            zwrot = datawystawienia;
+        try {
+            String zwrot = this.dokument.getDatawystawienia();
+            if (datawystawienia!=null) {
+                zwrot = datawystawienia;
+            }
+            return zwrot;
+        } catch (Exception e) {
+            E.e(e);
         }
-        return zwrot;
+        return null; 
     }
     
     public String getStyldaty(String mc) {

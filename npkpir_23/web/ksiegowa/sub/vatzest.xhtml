@@ -26,9 +26,10 @@
                                  onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}');pokazwyslijbutton(this);"  style="width: 120px;"/>
                 <p:commandButton value="Wyślij" id="wyslijvatbutton" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" 
                                  actionListener="#{sesjaView.dodajmail()}" widgetVar="wydrukbuttonvat"
-                                 style="width: 120px; margin-left: 2%; display: none;">
+                                 style="width: 170px; margin-left: 2%; display: none;">
                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji.nazwa))}"/>
                 </p:commandButton>
+                <p:commandButton value="Drukuj wszyst. data - rok" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieRok()}" style="width: 220px; margin-left: 20px;"/>
                 <p:separator/>
                     <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1200px; overflow-y: scroll; height: 500px;" 
                                  

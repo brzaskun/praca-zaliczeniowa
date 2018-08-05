@@ -375,9 +375,10 @@ public class FakturaView implements Serializable {
 
     public void dodaj() {
         try {
-            FakturaBean.ewidencjavat(selected, evewidencjaDAO);
+            FakturaBean.dodajtabelenbp(selected, tabelanbpDAO);
+            FakturaBean.ewidencjavat(selected, evewidencjaDAO, false);
             if (fakturakorekta) {
-                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+                FakturaBean.ewidencjavat(selected, evewidencjaDAO, true);
             }
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
@@ -412,9 +413,9 @@ public class FakturaView implements Serializable {
     
     public void edytuj() {
         try {
-            FakturaBean.ewidencjavat(selected, evewidencjaDAO);
+            FakturaBean.ewidencjavat(selected, evewidencjaDAO, false);
             if (fakturakorekta) {
-                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+                FakturaBean.ewidencjavat(selected, evewidencjaDAO, true);
             }
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
@@ -875,9 +876,9 @@ public class FakturaView implements Serializable {
     
     private void ksiegowanieFK(Faktura p) {
         if (p.getNetto() != p.getBrutto() && (p.getEwidencjavat() == null || p.getEwidencjavat().size() == 0)) {
-            FakturaBean.ewidencjavat(p, evewidencjaDAO);
+            FakturaBean.ewidencjavat(p, evewidencjaDAO, false);
             if (p.getPozycjepokorekcie() != null && !p.getPozycjepokorekcie().isEmpty()) {
-                FakturaBean.ewidencjavatkorekta(p, evewidencjaDAO);
+                FakturaBean.ewidencjavat(p, evewidencjaDAO, true);
             }
         }
         Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, wpisView),p, "SZ", wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO);
@@ -934,8 +935,8 @@ public class FakturaView implements Serializable {
                 eVatwpis1.setDok(selDokument);
                 ewidencjaTransformowana.add(eVatwpis1);
                 if (r.getEwidencja().getNazwa().equals("usługi świad. poza ter.kraju")) {
-                    Rodzajedok rodzajedo = rodzajedokDAO.find("UPTK100", wpisView.getPodatnikObiekt());
-                    selDokument.setRodzajedok(rodzajedok);
+                    Rodzajedok rodzajedok2 = rodzajedokDAO.find("UPTK100", wpisView.getPodatnikObiekt());
+                    selDokument.setRodzajedok(rodzajedok2);
                 }
             }
             selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
@@ -1136,7 +1137,7 @@ public class FakturaView implements Serializable {
                 }
             } else if (waloryzajca == -1) {
                 try {
-                    FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
+                    FakturaBean.ewidencjavat(nowa, evewidencjaDAO, false);
                     Msg.msg("i", "Generowanie nowej ewidencji vat");
                 } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:wygenerujzokresowych");

@@ -51,7 +51,7 @@
     <principal-name>Multiuser</principal-name>
     <group-name>Multiuser</group-name>
   </security-role-mapping>
-  <class-loader delegate="false"/>
+  <class-loader delegate="trtu"/>
   <context-root>/npkpir_23</context-root>
 <!--    <jsp-config>
     <property name="keepgenerated" value="true">

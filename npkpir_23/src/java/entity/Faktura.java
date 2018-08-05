@@ -7,6 +7,7 @@ package entity;
 import data.Data;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
+import entityfk.Tabelanbp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -180,6 +181,18 @@ public class Faktura implements Serializable {
     private double vatpk;
     @Column
     private double bruttopk;
+    @Column (name = "nettopln")
+    private double nettopln;
+    @Column (name = "vatpln")
+    private double vatpln;
+    @Column (name = "bruttopln")
+    private double bruttopln;
+    @Column (name = "nettopkpln")
+    private double nettopkpln;
+    @Column (name = "vatpkpln")
+    private double vatpkpln;
+    @Column (name = "bruttopkpln")
+    private double bruttopkpln;
     @Basic(optional = false)
     @NotNull
     @Lob
@@ -260,6 +273,9 @@ public class Faktura implements Serializable {
     private boolean tylkodlaokresowej;
     @Column(name="swift", length = 12)
     private  String swift;
+    @JoinColumn(name = "tabelanbp", referencedColumnName = "idtabelanbp")
+    @ManyToOne
+    private Tabelanbp tabelanbp;
   
 
     public Faktura() {
@@ -819,15 +835,24 @@ public class Faktura implements Serializable {
     }
     
     public double getNetto() {
-        return netto;
+        double zwrot = this.netto;
+        if (this.getTabelanbp()!=null) {
+            zwrot = this.nettopln;
+        }
+        return zwrot;
     }
+    
     
     public void setNetto(double netto) {
         this.netto = netto;
     }
     
     public double getVat() {
-        return vat;
+        double zwrot = this.vat;
+        if (this.getTabelanbp()!=null) {
+            zwrot = this.vatpln;
+        }
+        return zwrot;
     }
     
     public void setVat(double vat) {
@@ -835,7 +860,11 @@ public class Faktura implements Serializable {
     }
     
     public double getBrutto() {
-        return brutto;
+        double zwrot = this.brutto;
+        if (this.getTabelanbp()!=null) {
+            zwrot = this.bruttopln;
+        }
+        return zwrot;
     }
     
     public void setBrutto(double brutto) {
@@ -923,6 +952,63 @@ public class Faktura implements Serializable {
     public String getOkresVat() {
         return Data.getRok(this.datasprzedazy)+" "+Data.getMc(this.datasprzedazy);
     }
+
+    public double getNettopln() {
+        return nettopln;
+    }
+
+    public void setNettopln(double nettopln) {
+        this.nettopln = nettopln;
+    }
+
+    public double getVatpln() {
+        return vatpln;
+    }
+
+    public void setVatpln(double vatpln) {
+        this.vatpln = vatpln;
+    }
+
+    public double getBruttopln() {
+        return bruttopln;
+    }
+
+    public void setBruttopln(double bruttopln) {
+        this.bruttopln = bruttopln;
+    }
+
+    public double getNettopkpln() {
+        return nettopkpln;
+    }
+
+    public void setNettopkpln(double nettopkpln) {
+        this.nettopkpln = nettopkpln;
+    }
+
+    public double getVatpkpln() {
+        return vatpkpln;
+    }
+
+    public void setVatpkpln(double vatpkpln) {
+        this.vatpkpln = vatpkpln;
+    }
+
+    public Tabelanbp getTabelanbp() {
+        return tabelanbp;
+    }
+
+    public void setTabelanbp(Tabelanbp tabelanbp) {
+        this.tabelanbp = tabelanbp;
+    }
+
+    public double getBruttopkpln() {
+        return bruttopkpln;
+    }
+
+    public void setBruttopkpln(double bruttopkpln) {
+        this.bruttopkpln = bruttopkpln;
+    }
+    
     
     
 //</editor-fold>
