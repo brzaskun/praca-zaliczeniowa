@@ -840,6 +840,9 @@ public class PdfFP {
         if (korekta) {
             wierszroznicy(selected, table);
         }
+        if (selected.isReversecharge()) {
+            table.addCell(ustawfraze("'reverse charge'/'odwrotne obciążenie - VAT rozlicza nabywca", 11, 0));
+        }
         // complete the table
         table.completeRow();
         return table;

@@ -8,14 +8,18 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:outputPanel rendered="#{fakturaView.fakturazwykla}">
-         <p:panelGrid columns="4">
-            <h:outputText value="licz od wartości brutto "/>
+         <p:panelGrid columns="6">
+            <h:outputText value="licz od wartości brutto " style="color: #{fakturaView.selected.liczodwartoscibrutto ? 'blue':'initial'}"/>
             <p:selectBooleanCheckbox value="#{fakturaView.selected.liczodwartoscibrutto}">
-                <p:ajax event="change" update="akordeon:formstworz:rzadn akordeon:formstworz:rzadkorektyn"/>
+                <p:ajax event="change" update="akordeon:formstworz:rzadn akordeon:formstworz:rzadkorektyn @parent"/>
             </p:selectBooleanCheckbox>
             <h:outputText value="faktura PROFORMA " style="margin-left: 10px; color: #{fakturaView.selected.proforma ? 'blue':'initial'}" />
             <p:selectBooleanCheckbox value="#{fakturaView.selected.proforma}" id="proformacheck">
                 <p:ajax event="change" update="akordeon:formstworz:nrfaktury @parent" listener="#{fakturaView.oznaczproforma}"/>
+            </p:selectBooleanCheckbox>
+            <h:outputText value="reverse charge " style="margin-left: 10px; color: #{fakturaView.selected.reversecharge ? 'blue':'initial'}"/>
+            <p:selectBooleanCheckbox value="#{fakturaView.selected.reversecharge}">
+                <p:ajax event="change" update="@parent"/>
             </p:selectBooleanCheckbox>
         </p:panelGrid>
         <p:outputPanel style="margin-top: 15px;">

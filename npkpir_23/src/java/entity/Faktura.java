@@ -276,6 +276,9 @@ public class Faktura implements Serializable {
     @JoinColumn(name = "tabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne
     private Tabelanbp tabelanbp;
+    @Column(name = "reversecharge")
+    private boolean reversecharge;
+    
   
 
     public Faktura() {
@@ -999,6 +1002,14 @@ public class Faktura implements Serializable {
 
     public void setTabelanbp(Tabelanbp tabelanbp) {
         this.tabelanbp = tabelanbp;
+    }
+
+    public boolean isReversecharge() {
+        return reversecharge;
+    }
+
+    public void setReversecharge(boolean reversecharge) {
+        this.reversecharge = reversecharge;
     }
 
     public double getBruttopkpln() {
