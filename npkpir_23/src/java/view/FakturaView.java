@@ -778,7 +778,7 @@ public class FakturaView implements Serializable {
                 break;
         }
         fakturywystokresoweDAO.edit(fakturaokresowa);
-        fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Msg.msg("i", "Zaktualizowano okresowa");
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
     }
@@ -1076,7 +1076,7 @@ public class FakturaView implements Serializable {
                 fakturatmp.setM1(1);
                 fakturywystokresoweDAO.edit(fakturatmp);
                 fakturyokresowe.clear();
-                fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
                 Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
             } else {
                 throw new Exception();

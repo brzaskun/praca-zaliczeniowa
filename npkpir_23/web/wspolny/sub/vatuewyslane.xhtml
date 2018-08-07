@@ -1,0 +1,80 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <script>
+        var pokazbutony = function() {
+            try {
+                r('formVATUE:deklbutton').show();
+                r('formVATUE:deklbutton2').show();
+            } catch(e){}
+            try {
+                r('form:akordeon:deklbutton').show();
+                r('form:akordeon:deklbutton2').show();
+            } catch(e){}
+            
+        }
+    </script>
+    <h:form>
+            <p:outputPanel id="wrapper"> 
+
+                <p:messages id="mesydzue" autoUpdate="true"/>
+                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1350px;" styleClass="upd3"
+                             selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.hashCode()}">
+                    <p:column style="width: 3%;">
+                        <p:rowToggler/>
+                    </p:column>
+                    <p:column headerText="data złożenia" style="text-align: center;" width="80">
+                        <h:outputText value="#{row.datazlozenia ne null ? row.datazlozenia : 'nie złożono'}">
+                            <f:convertDateTime type="date" parent="dd/MM/yy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="korekta / testowa" style="text-align: center;" width="50">
+                        <h:outputText value="#{row.nrkolejny eq 0 ? '': 'korekta'}" />
+                        <h:outputText value=" testowa" rendered="#{row.testowa}"/>
+                    </p:column>
+                    <p:column headerText="nr" style="text-align: center;" width="40">
+                        <h:outputText value="#{row.nrkolejny}" />
+                    </p:column>
+                    <p:column headerText="mc" style="text-align: center;" width="60">
+                        <h:outputText value="#{row.miesiac}"/>
+                    </p:column>
+                    <p:column headerText="sporządził" style="text-align: center;" width="90">
+                        <h:outputText value="#{row.sporzadzil}"/>
+                    </p:column>
+                    <p:column headerText="data upo" style="text-align: center;word-break: break-all; line-break: loose;" width="90">
+                        <h:outputText value="#{row.dataupo}">
+                            <f:convertDateTime type="date" parent="dd/MM/yy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="status" width="50">
+                        <h:outputText value="#{row.status}" />
+                    </p:column>
+                   
+                    <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row, vatUeFKView.listaDok,  vatUeFKView.listaDokfk)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="usuń" actionListener="#{vatUeFKView.usundekl(row)}" update="@form @(.upd)" style="width: 80px;" rendered="#{row.identyfikator eq null or row.status.startsWith('4')}"/>
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator ne null and !row.status.startsWith('4')}"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:panelGrid columns="3" columnClasses="twenty-percent eighty-percent">
+                            <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
+                            <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
+                            <h:outputText value="#{row.deklaracja}"/>
+                        </p:panelGrid>
+                    </p:rowExpansion>
+                </p:dataTable>
+            </p:outputPanel>
+
+        
+        </h:form>
+</ui:composition>

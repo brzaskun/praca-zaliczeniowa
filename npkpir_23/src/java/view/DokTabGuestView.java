@@ -6,6 +6,7 @@ package view;
 
 import beansDok.CechaBean;
 import comparator.Dokcomparator;
+import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.PodatnikDAO;
@@ -13,6 +14,7 @@ import dao.UzDAO;
 import dao.WpisDAO;
 import entity.Dok;
 import entity.Podatnik;
+import entity.Rodzajedok;
 import entity.Wpis;
 import entityfk.Cechazapisu;
 import error.E;
@@ -20,7 +22,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -62,12 +66,14 @@ public class DokTabGuestView implements Serializable {
     private List<Dok> dokumentyFiltered;
     private List<String> cechydokzlisty;
     private String wybranacechadok;
+    private List<Rodzajedok> dokumentypodatnika;
     
 
     @PostConstruct
     public void init() {
         selected = new ArrayList<>();
         pobranedokumenty = new ArrayList<>();
+        dokumentypodatnika = new ArrayList<>();
         pobranedokumentyFiltered = null;
         List<Dok> dokumentypobrane = new ArrayList<>();
         Integer rok = wpisView.getRokWpisu();
@@ -84,9 +90,11 @@ public class DokTabGuestView implements Serializable {
             cechydokzlisty = CechaBean.znajdzcechy(dokumentypobrane);
         }
         int numerkolejny = dokDAO.liczdokumenty(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikObiekt()) + 1;
+        Set<Rodzajedok> dokumentyl = new HashSet<>();
         for (Dok tmpx : dokumentypobrane) {
             boolean dodaj = false;
             if (tmpx.getPkpirM().equals(mc)) {
+                dokumentyl.add(tmpx.getRodzajedok());
                 if (wybranacechadok == null) {
                     dodaj = true;
                 } else if (!tmpx.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
@@ -104,6 +112,8 @@ public class DokTabGuestView implements Serializable {
                 }
             }
         }
+        dokumentypodatnika.addAll(dokumentyl);
+        Collections.sort(dokumentypodatnika, new Rodzajedokcomparator());
         sumujwybrane();
         for (Dok tmpxa : pobranedokumenty) {
             tmpxa.setNrWpkpir(numerkolejny++);
@@ -256,6 +266,14 @@ public class DokTabGuestView implements Serializable {
 
     public void setWybranacechadok(String wybranacechadok) {
         this.wybranacechadok = wybranacechadok;
+    }
+
+    public List<Rodzajedok> getDokumentypodatnika() {
+        return dokumentypodatnika;
+    }
+
+    public void setDokumentypodatnika(List<Rodzajedok> dokumentypodatnika) {
+        this.dokumentypodatnika = dokumentypodatnika;
     }
     
     

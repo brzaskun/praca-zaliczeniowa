@@ -14,11 +14,12 @@
                             <p:menuitem value="sporządź deklarację VAT" oncomplete="PF('dialog_deklaracje_vat').show();" >
                                 <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt())}"/>
                             </p:menuitem>
-                            <p:menuitem value="wyslij deklarację VAT" oncomplete="PF('dialog_deklaracje_vat_wysylka').show();" >
+                            <p:menuitem value="wyslij deklarację VAT-7" oncomplete="PF('dialog_deklaracje_vat_wysylka').show();" >
                                 
                             </p:menuitem>
-                             <p:menuitem value="przeglądaj wysłane deklaracje" oncomplete="PF('dialog_deklaracje_vat_status').show();" >
-                                
+                             <p:menuitem value="przeglądaj wysłane deklaracje VAT-7" oncomplete="PF('dialog_deklaracje_vat_status').show();" >
+                            </p:menuitem>
+                            <p:menuitem value="przeglądaj wysłane deklaracje VAT-UE" oncomplete="PF('dialog_deklaracje_vatue_status').show();" >
                             </p:menuitem>
 <!--                            <p:menuitem value="sprawdzanie pozycji w ewidencjach" oncomplete="PF('dialog_ewidencjevat_sprawdzanie').show();" >
                                 <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt())}"/>

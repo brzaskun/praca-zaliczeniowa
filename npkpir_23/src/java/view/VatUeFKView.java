@@ -61,6 +61,7 @@ public class VatUeFKView implements Serializable {
     private List<VatUe> klienciWDTWNT;
     private List<VatUe> listawybranych;
     private List<DeklaracjavatUE> deklaracjeUE;
+    private List<DeklaracjavatUE> deklaracjeUE_biezace;
     private List<DokSuper> listadokumentowUE;
     private List<Dok> listaDok;
     private List<Dokfk> listaDokfk;
@@ -299,9 +300,15 @@ public class VatUeFKView implements Serializable {
     
    
     public void pobierzdeklaracjeUE()  {
+       deklaracjeUE_biezace = new ArrayList<>();
        deklaracjeUE = deklaracjavatUEDAO.findbyPodatnikRok(wpisView);
        if (deklaracjeUE == null) {
            deklaracjeUE = new ArrayList<>();
+           for (DeklaracjavatUE p : deklaracjeUE) {
+               if (!p.getStatus().equals("200")) {
+                   deklaracjeUE_biezace.add(p);
+               }
+           }
        }
     }
 
@@ -698,6 +705,14 @@ public class VatUeFKView implements Serializable {
 
     public void setListaDokfk(List<Dokfk> listaDokfk) {
         this.listaDokfk = listaDokfk;
+    }
+
+    public List<DeklaracjavatUE> getDeklaracjeUE_biezace() {
+        return deklaracjeUE_biezace;
+    }
+
+    public void setDeklaracjeUE_biezace(List<DeklaracjavatUE> deklaracjeUE_biezace) {
+        this.deklaracjeUE_biezace = deklaracjeUE_biezace;
     }
 
    

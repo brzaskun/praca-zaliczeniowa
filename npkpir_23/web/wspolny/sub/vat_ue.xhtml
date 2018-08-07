@@ -19,6 +19,7 @@
             
         }
     </script>
+    
     <p:panelGrid id="panelue" columns="8" styleClass="upd">
             <h:outputText value="suma wybranych"/>
             <bcf:outputpl value="#{vatUeFKView.sumawybranych}"/>
@@ -42,7 +43,7 @@
                               rowKey="#{wpis1.hashCode()}" selection="#{vatUeFKView.listawybranych}"
                               emptyMessage="W danym miesiącu nie było żadnych zapisów"
                               sortBy="#{wpis1.kontrahent.npelna}" styleClass="upd1"
-                              style="height: 500px;overflow-y: scroll;width: 1300px;" widgetVar="dokTable" 
+                              style="height: 500px;overflow-y: scroll;width: 1280px;" widgetVar="dokTable" 
                               > 
                     <f:facet name="header">  
                         <h:outputText value="#{vatUeFKView.opisvatuepkpir}" /> 
@@ -62,7 +63,7 @@
                         <h:outputText value="#{wpis1.transakcja}"/>
                     </p:column>
                     <p:column id="krajkodColumn" headerText="kraj" filterBy="#{wpis1.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis1.kontrahent.krajkod}" 
-                              style="width: 15%; text-align: center;" filterStyle="display : none;" >  
+                              style="width: 20px; text-align: center;" filterStyle="display : none;" >  
                         <h:outputText value="#{wpis1.kontrahent.krajkod}"/>
                     </p:column>
                     <p:column id="nipColumn" headerText="nip" filterBy="#{wpis1.kontrahent.nip}" 
@@ -70,7 +71,7 @@
                         <h:outputText value="#{wpis1.kontrahent.nip}" />
                     </p:column>
                     <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis1.kontrahent.npelna}" filterMatchMode="contains" 
-                              sortBy="#{wpis1.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" width="300">  
+                              sortBy="#{wpis1.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" width="370">  
                         <h:outputText value="#{wpis1.kontrahent.npelna}"  />
                     </p:column>
                     <p:column id="nettoColumn" headerText="#{mgs.netto} pln" filterBy="#{wpis1.netto}" filterMatchMode="contains" sortBy="#{wpis1.netto}" style="width: 15%;" filterStyle="display : none;" >  
@@ -83,10 +84,10 @@
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="nettoWaluta" filterBy="#{wpis1.nazwawaluty}" filterMatchMode="contains" sortBy="#{wpis1.nazwawaluty}" style="width: 40px; text-align: center;" filterStyle="display : none;" >  
-                        <h:outputText value="#{wpis1.nazwawaluty}"/>
+                    <p:column id="nettoWaluta" filterBy="#{wpis1.nazwawaluty.symbolwaluty}" filterMatchMode="contains" sortBy="#{wpis1.nazwawaluty.symbolwaluty}" style="width: 40px; text-align: center;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis1.nazwawaluty.symbolwaluty}"/>
                     </p:column>
-                    <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis1.liczbadok}" filterMatchMode="contains" sortBy="#{wpis1.liczbadok}" style="width: 15%;text-align: center;" filterStyle="display : none;" >  
+                    <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis1.liczbadok}" filterMatchMode="contains" sortBy="#{wpis1.liczbadok}" style="width: 30px;text-align: center;" filterStyle="display : none;" >  
                         <h:outputText value="#{wpis1.liczbadok}" rendered="#{wpis1.transakcja eq 'podsum.' ? false : true}">
                             <f:convertNumber minFractionDigits="0" locale="PL"/>
                         </h:outputText>
@@ -163,9 +164,9 @@
                 </p:dataTable>
                 <p:messages id="mesydzue" autoUpdate="true"/>
                 <p:separator/>
-                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1210px;" styleClass="upd3"
+                <p:dataTable value="#{vatUeFKView.deklaracjeUE_biezace}" var="row" emptyMessage="brak błędnych lub niepotwierdzonych/niewysłanych deklaracji za okres" style="width: 1210px;" styleClass="upd3"
                              selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.hashCode()}">
-                    <p:column style="width: 3%;">
+                    <p:column style="width: 3%;" >
                         <p:rowToggler/>
                     </p:column>
                     <p:column headerText="data złożenia" style="text-align: center;" width="80">
