@@ -303,19 +303,31 @@ public class FakturaBean {
             Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
             if (selected.getTabelanbp()==null) {
                 if (selected.isFakturavatmarza() || selected.isRachunek()) {
-                    selected.setEwidencjavat(new ArrayList<>());
+                    if (korekta) {
+                        selected.setEwidencjavatpk(new ArrayList<>());
+                    } else {
+                        selected.setEwidencjavat(new ArrayList<>());
+                    }
                     selected.setNetto(sumy.get("netto"));
                     selected.setVat(0.0);
                     selected.setBrutto(Z.z(sumy.get("netto")));
                 } else {
-                    selected.setEwidencjavat(el);
+                    if (korekta) {
+                        selected.setEwidencjavatpk(el);
+                    } else {
+                        selected.setEwidencjavat(el);
+                    }
                     selected.setNetto(sumy.get("netto"));
                     selected.setVat(Z.z(sumy.get("vat")));
                     selected.setBrutto(Z.z(sumy.get("brutto")));
                 }
             } else {
                 if (selected.isFakturavatmarza() || selected.isRachunek()) {
-                    selected.setEwidencjavat(new ArrayList<>());
+                    if (korekta) {
+                        selected.setEwidencjavatpk(new ArrayList<>());
+                    } else {
+                        selected.setEwidencjavat(new ArrayList<>());
+                    }
                     selected.setNetto(sumy.get("netto"));
                     selected.setVat(0.0);
                     selected.setBrutto(Z.z(sumy.get("netto")));
@@ -323,7 +335,11 @@ public class FakturaBean {
                     selected.setVatpln(0.0);
                     selected.setBruttopln(Z.z(sumy.get("nettopln")));
                 } else {
-                    selected.setEwidencjavat(el);
+                    if (korekta) {
+                        selected.setEwidencjavatpk(el);
+                    } else {
+                        selected.setEwidencjavat(el);
+                    }
                     selected.setNetto(sumy.get("netto"));
                     selected.setVat(Z.z(sumy.get("vat")));
                     selected.setBrutto(Z.z(sumy.get("brutto")));
