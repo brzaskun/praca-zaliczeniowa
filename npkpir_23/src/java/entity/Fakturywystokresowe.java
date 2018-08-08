@@ -305,11 +305,11 @@ public class Fakturywystokresowe implements Serializable {
     }
     
     public double getNetto() {
-        return this.dokument.getNetto();
+        return this.dokument.getNettoPrzelicz();
     }
     
     public double getVat() {
-        return this.dokument.getVat();
+        return this.dokument.getVatPrzelicz();
     }
 
     public boolean isBiezaca0archiwalna1() {

@@ -376,9 +376,9 @@ public class FakturaView implements Serializable {
     public void dodaj() {
         try {
             FakturaBean.dodajtabelenbp(selected, tabelanbpDAO);
-            FakturaBean.ewidencjavat(selected, evewidencjaDAO, false);
+            FakturaBean.ewidencjavat(selected, evewidencjaDAO);
             if (fakturakorekta) {
-                FakturaBean.ewidencjavat(selected, evewidencjaDAO, true);
+                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
             }
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
@@ -413,11 +413,12 @@ public class FakturaView implements Serializable {
     
     public void edytuj() {
         try {
-            FakturaBean.ewidencjavat(selected, evewidencjaDAO, false);
+            FakturaBean.ewidencjavat(selected, evewidencjaDAO);
             if (fakturakorekta) {
-                FakturaBean.ewidencjavat(selected, evewidencjaDAO, true);
+                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e); 
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
             return;
         }
@@ -876,9 +877,9 @@ public class FakturaView implements Serializable {
     
     private void ksiegowanieFK(Faktura p) {
         if (p.getNetto() != p.getBrutto() && (p.getEwidencjavat() == null || p.getEwidencjavat().size() == 0)) {
-            FakturaBean.ewidencjavat(p, evewidencjaDAO, false);
+            FakturaBean.ewidencjavat(p, evewidencjaDAO);
             if (p.getPozycjepokorekcie() != null && !p.getPozycjepokorekcie().isEmpty()) {
-                FakturaBean.ewidencjavat(p, evewidencjaDAO, true);
+                FakturaBean.ewidencjavatkorekta(p, evewidencjaDAO);
             }
         }
         Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, wpisView),p, "SZ", wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO);
@@ -1137,7 +1138,7 @@ public class FakturaView implements Serializable {
                 }
             } else if (waloryzajca == -1) {
                 try {
-                    FakturaBean.ewidencjavat(nowa, evewidencjaDAO, false);
+                    FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
                     Msg.msg("i", "Generowanie nowej ewidencji vat");
                 } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:wygenerujzokresowych");

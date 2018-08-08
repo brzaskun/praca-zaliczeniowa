@@ -24,6 +24,8 @@ public class EVatwpis implements Serializable {
     private double netto;
     private double vat;
     private String estawka;
+    private double nettopln;
+    private double vatpln;
 
     public EVatwpis(Evewidencja ewidencja, double netto, double vat, String estawka) {
         this.ewidencja = ewidencja;
@@ -66,6 +68,22 @@ public class EVatwpis implements Serializable {
 
     public void setEstawka(String estawka) {
         this.estawka = estawka;
+    }
+
+    public double getNettopln() {
+        return nettopln;
+    }
+
+    public void setNettopln(double nettopln) {
+        this.nettopln = nettopln;
+    }
+
+    public double getVatpln() {
+        return vatpln;
+    }
+
+    public void setVatpln(double vatpln) {
+        this.vatpln = vatpln;
     }
 
     @Override

@@ -838,6 +838,10 @@ public class Faktura implements Serializable {
     }
     
     public double getNetto() {
+        return this.netto;
+    }
+    
+    public double getNettoPrzelicz() {
         double zwrot = this.netto;
         if (this.getTabelanbp()!=null) {
             zwrot = this.nettopln;
@@ -851,6 +855,10 @@ public class Faktura implements Serializable {
     }
     
     public double getVat() {
+        return this.vat;
+    }
+    
+    public double getVatPrzelicz() {
         double zwrot = this.vat;
         if (this.getTabelanbp()!=null) {
             zwrot = this.vatpln;
@@ -863,6 +871,10 @@ public class Faktura implements Serializable {
     }
     
     public double getBrutto() {
+        return this.brutto;
+    }
+    
+    public double getBruttoPrzelicz() {
         double zwrot = this.brutto;
         if (this.getTabelanbp()!=null) {
             zwrot = this.bruttopln;

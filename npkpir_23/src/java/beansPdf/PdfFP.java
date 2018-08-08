@@ -407,7 +407,7 @@ public class PdfFP {
                     } else {
                         absText(writer, B.b("dozwrotu")+": " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty"), 8);
                     }
-                    if (FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl")) {
+                    if (FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl_pl")) {
                         absText(writer, B.b("slownie")+": "  + Slownie.slownie(String.valueOf(wynik),selected.getWalutafaktury()), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty") - 20, 8);
                     } else {
                         absText(writer, B.b("slownie")+": "  + SlownieDE.slownie(String.valueOf(wynik),selected.getWalutafaktury()), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty") - 20, 8);
@@ -837,8 +837,22 @@ public class PdfFP {
             }
             
         }
+        if (selected.getTabelanbp()!=null) {
+            if (korekta) {
+                String tabela = "tabela NBP "+selected.getTabelanbp().getNrtabeli()+" z dnia "+selected.getTabelanbp().getDatatabeli()+"; kurs "+selected.getTabelanbp().getKurssredniPrzelicznik()+"; kwota: ";
+                tabela = tabela + F.curr(selected.getVatpln());
+                table.addCell(ustawfraze("kwota podatku VAT w przeliczeniu na PLN: "+tabela, 11, 0));
+            } else {
+                String tabela = "tabela NBP "+selected.getTabelanbp().getNrtabeli()+" z dnia "+selected.getTabelanbp().getDatatabeli()+"; kurs "+selected.getTabelanbp().getKurssredniPrzelicznik()+"; kwota: ";
+                tabela = tabela + F.curr(selected.getVatpkpln());
+                table.addCell(ustawfraze("kwota podatku VAT po korekcie w przeliczeniu na PLN: "+tabela, 11, 0));
+            }
+        }
         if (korekta) {
-                wierszroznicy(selected, table);
+            PdfPCell kom = ustawfraze(" ", 11, 0);
+            kom.setBorder(Rectangle.NO_BORDER);
+            table.addCell(kom);
+            wierszroznicy(selected, table);
         }
         if (selected.isReversecharge()) {
             table.addCell(ustawfraze("'reverse charge'/'odwrotne obciążenie - VAT rozlicza nabywca", 11, 0));
@@ -1361,7 +1375,11 @@ public class PdfFP {
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
-        table.addCell(ustawfraze("Różnica", 6, 0));
+        if (selected.getNettopk() > selected.getNetto()) {
+            table.addCell(ustawfraze("Różnica - zwiększenie", 6, 0));
+        } else {
+            table.addCell(ustawfraze("Różnica - zmniejszenie", 6, 0));
+        }
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk() - selected.getNetto())), "right", 8));
         table.addCell(ustawfrazeAlign("*", "center", 8));
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk() - selected.getVat())), "right", 8));

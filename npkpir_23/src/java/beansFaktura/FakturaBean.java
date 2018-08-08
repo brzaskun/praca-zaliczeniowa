@@ -291,9 +291,9 @@ public class FakturaBean {
         }
     }
     
-    public static void ewidencjavat(Faktura selected, EvewidencjaDAO evewidencjaDAO, boolean korekta) {
+    public static void ewidencjavat(Faktura selected, EvewidencjaDAO evewidencjaDAO) {
         //tu obliczamy wartosc netto wiersza
-        List<Pozycjenafakturzebazadanych> pozycje = korekta ? selected.getPozycjepokorekcie() : selected.getPozycjenafakturze();
+        List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
         if (pozycje != null && !pozycje.isEmpty()) {
             ArrayList<Evewidencja> ew = new ArrayList<>();
             ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
@@ -301,77 +301,48 @@ public class FakturaBean {
             ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
             List<EVatwpis> el = new ArrayList<>();
             Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
-            if (selected.getTabelanbp()==null) {
-                if (selected.isFakturavatmarza() || selected.isRachunek()) {
-                    if (korekta) {
-                        selected.setEwidencjavatpk(new ArrayList<>());
-                    } else {
-                        selected.setEwidencjavat(new ArrayList<>());
-                    }
-                    selected.setNetto(sumy.get("netto"));
-                    selected.setVat(0.0);
-                    selected.setBrutto(Z.z(sumy.get("netto")));
-                } else {
-                    if (korekta) {
-                        selected.setEwidencjavatpk(el);
-                    } else {
-                        selected.setEwidencjavat(el);
-                    }
-                    selected.setNetto(sumy.get("netto"));
-                    selected.setVat(Z.z(sumy.get("vat")));
-                    selected.setBrutto(Z.z(sumy.get("brutto")));
-                }
+            if (selected.isFakturavatmarza() || selected.isRachunek()) {
+                selected.setEwidencjavat(new ArrayList<>());
+                selected.setNetto(sumy.get("netto"));
+                selected.setVat(0.0);
+                selected.setBrutto(Z.z(sumy.get("netto")));
             } else {
-                if (selected.isFakturavatmarza() || selected.isRachunek()) {
-                    if (korekta) {
-                        selected.setEwidencjavatpk(new ArrayList<>());
-                    } else {
-                        selected.setEwidencjavat(new ArrayList<>());
-                    }
-                    selected.setNetto(sumy.get("netto"));
-                    selected.setVat(0.0);
-                    selected.setBrutto(Z.z(sumy.get("netto")));
-                    selected.setNettopln(sumy.get("nettopln"));
-                    selected.setVatpln(0.0);
-                    selected.setBruttopln(Z.z(sumy.get("nettopln")));
-                } else {
-                    if (korekta) {
-                        selected.setEwidencjavatpk(el);
-                    } else {
-                        selected.setEwidencjavat(el);
-                    }
-                    selected.setNetto(sumy.get("netto"));
-                    selected.setVat(Z.z(sumy.get("vat")));
-                    selected.setBrutto(Z.z(sumy.get("brutto")));
-                    selected.setNettopln(sumy.get("nettopln"));
-                    selected.setVatpln(Z.z(sumy.get("vatpln")));
-                    selected.setBruttopln(Z.z(sumy.get("bruttopln")));
-                }
+                selected.setEwidencjavat(el);
+                selected.setNetto(sumy.get("netto"));
+                selected.setVat(Z.z(sumy.get("vat")));
+                selected.setBrutto(Z.z(sumy.get("brutto")));
+                selected.setNettopln(sumy.get("nettopln"));
+                selected.setVatpln(sumy.get("vatpln"));
+                selected.setBruttopln(Z.z(sumy.get("nettopln")));;
             }
         }
     }
     
-//    public static void ewidencjavatkorekta(Faktura selected, EvewidencjaDAO evewidencjaDAO) {
-//        //tu obliczamy wartosc netto wiersza
-//        List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjepokorekcie();
-//        List<Evewidencja> ew = new ArrayList<>();
-//        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
-//        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
-//        ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
-//        List<EVatwpis> el = new ArrayList<>();
-//        Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
-//        if (selected.isFakturavatmarza() || selected.isRachunek()) {
-//            selected.setEwidencjavatpk(new ArrayList<>());
-//            selected.setNettopk(sumy.get("netto"));
-//            selected.setVatpk(0.0);
-//            selected.setBruttopk(Z.z(sumy.get("netto")));
-//        } else {
-//            selected.setEwidencjavatpk(el);
-//            selected.setNettopk(sumy.get("netto"));
-//            selected.setVatpk(Z.z(sumy.get("vat")));
-//            selected.setBruttopk(Z.z(sumy.get("brutto")));
-//        }
-//    }
+   
+    public static void ewidencjavatkorekta(Faktura selected, EvewidencjaDAO evewidencjaDAO) {
+        //tu obliczamy wartosc netto wiersza
+        List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjepokorekcie();
+        List<Evewidencja> ew = new ArrayList<>();
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
+        List<EVatwpis> el = new ArrayList<>();
+        Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
+        if (selected.isFakturavatmarza() || selected.isRachunek()) {
+            selected.setEwidencjavatpk(new ArrayList<>());
+            selected.setNettopk(sumy.get("netto"));
+            selected.setVatpk(0.0);
+            selected.setBruttopk(Z.z(sumy.get("netto")));
+        } else {
+            selected.setEwidencjavatpk(el);
+            selected.setNettopk(sumy.get("netto"));
+            selected.setVatpk(Z.z(sumy.get("vat")));
+            selected.setBruttopk(Z.z(sumy.get("brutto")));
+            selected.setNettopkpln(sumy.get("nettopln"));
+            selected.setVatpkpln(sumy.get("vatpln"));
+            selected.setBruttopkpln(Z.z(sumy.get("nettopln")));;
+        }
+    }
     
     private static Map<String, Double> przetworzpozycje(List<Evewidencja> ew, List<EVatwpis> el, List<Pozycjenafakturzebazadanych> pozycje, 
         Faktura selected) {
@@ -430,13 +401,17 @@ public class FakturaBean {
                 }
                 if (jesttakaewiedencja == false) {
                     eVatwpis.setEwidencja(ewidencja);
-                    eVatwpis.setNetto(Z.z(p.getNetto(selected.getTabelanbp())));
-                    eVatwpis.setVat(Z.z(p.getPodatekkwota(selected.getTabelanbp())));
+                    eVatwpis.setNetto(Z.z(p.getNetto()));
+                    eVatwpis.setVat(Z.z(p.getPodatekkwota()));
+                    eVatwpis.setNettopln(Z.z(p.getNetto(selected.getTabelanbp())));
+                    eVatwpis.setVatpln(Z.z(p.getPodatekkwota(selected.getTabelanbp())));
                     eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
                     el.add(eVatwpis);
                 } else {
-                    eVatwpis.setNetto(Z.z(eVatwpis.getNetto() + p.getNetto(selected.getTabelanbp())));
-                    eVatwpis.setVat(Z.z(eVatwpis.getVat() + p.getPodatekkwota(selected.getTabelanbp())));
+                    eVatwpis.setNetto(Z.z(eVatwpis.getNetto() + p.getNetto()));
+                    eVatwpis.setVat(Z.z(eVatwpis.getVat() + p.getPodatekkwota()));
+                    eVatwpis.setNettopln(Z.z(eVatwpis.getNettopln()+ p.getNetto(selected.getTabelanbp())));
+                    eVatwpis.setVatpln(Z.z(eVatwpis.getVatpln()+ p.getPodatekkwota(selected.getTabelanbp())));
                 }
             }
         if (selected.getTabelanbp()!=null) {
@@ -450,6 +425,9 @@ public class FakturaBean {
             sumy.put("netto", Z.z(netto));
             sumy.put("vat", Z.z(vat));
             sumy.put("brutto", Z.z(brutto));
+            sumy.put("nettopln", Z.z(netto));
+            sumy.put("vatpln", Z.z(vat));
+            sumy.put("bruttopln", Z.z(brutto));
         }
         return sumy;
     }

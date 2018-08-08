@@ -224,7 +224,7 @@ public class Slownie {
         if (skrot.equals("zł")) {
             strKwotaSl = ToWords(liczba_zlotych(kwota)) + " zł " + ToWords(liczba_groszy(kwota)) + " gr.";
         } else {
-            strKwotaSl = ToWords(liczba_zlotych(kwota)) + " " + skrot + " " + ToWords(liczba_groszy(kwota)) + "";
+            strKwotaSl = ToWords(liczba_zlotych(kwota)) + " " + skrot + " " + ToWords(liczba_groszy(kwota)) + "/100";
         }
         return strKwotaSl;
     }
