@@ -895,6 +895,10 @@ public class Vat7DKView implements Serializable {
                 poz.setPoleI61(0);
                 poz.setPole61(null);
             }
+            if (poz.getPoleI62()==0) {
+                poz.setPoleI62(0);
+                poz.setPole62(null);
+            }
         }
         Deklaracjevat nowadekl = new Deklaracjevat();
         String wiersz = null;
