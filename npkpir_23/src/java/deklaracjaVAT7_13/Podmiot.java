@@ -69,11 +69,16 @@ class Podmiot {
                 +"</NIP><ImiePierwsze>"+ImiePierwsze+"</ImiePierwsze><Nazwisko>"
                 +Nazwisko+"</Nazwisko><DataUrodzenia>"+DataUrodzenia
                 +"</DataUrodzenia></OsobaFizyczna></Podmiot1>"; 
-        } else  {
+        } else  if (Rok <= 2018 && Miesiac<7) {
            Podmiot = "<Podmiot1 rola=\"Podatnik\"> <etd:OsobaFizyczna><etd:NIP>"+NIP
                 +"</etd:NIP><etd:ImiePierwsze>"+ImiePierwsze+"</etd:ImiePierwsze><etd:Nazwisko>"
                 +Nazwisko+"</etd:Nazwisko><etd:DataUrodzenia>"+DataUrodzenia
                 +"</etd:DataUrodzenia></etd:OsobaFizyczna></Podmiot1>"; 
+        } else  {
+           Podmiot = "<Podmiot1 rola=\"Podatnik\"> <OsobaFizyczna><etd:NIP>"+NIP
+                +"</etd:NIP><etd:ImiePierwsze>"+ImiePierwsze+"</etd:ImiePierwsze><etd:Nazwisko>"
+                +Nazwisko+"</etd:Nazwisko><etd:DataUrodzenia>"+DataUrodzenia
+                +"</etd:DataUrodzenia></OsobaFizyczna></Podmiot1>"; 
         }
     }
     

@@ -280,9 +280,11 @@ public class beanek  implements Serializable {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Deklaracjevat wysylanaDeklaracja = deklaracje.get(deklaracje.size() - 1);
-        if (wysylanaDeklaracja.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !wysylanaDeklaracja.getDeklaracja().contains("Wniosek_VAT-ZT")) {
-            Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
-            return;
+        if (!wysylanaDeklaracja.getSchemaobj().getNazwaschemy().equals("M-18")) {
+            if (wysylanaDeklaracja.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !wysylanaDeklaracja.getDeklaracja().contains("Wniosek_VAT-ZT")) {
+                Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
+                return;
+            }
         }
 //        if (wysylanaDeklaracja.getSelected().getCelzlozenia().equals("2") && !wysylanaDeklaracja.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
 //            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
@@ -469,9 +471,11 @@ public class beanek  implements Serializable {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Deklaracjevat temp = deklaracje.get(deklaracje.size() - 1);
-        if (temp.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !temp.getDeklaracja().contains("Wniosek_VAT-ZT")) {
-            Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
-            return;
+        if (!temp.getSchemaobj().getNazwaschemy().equals("M-18")) {
+            if (temp.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !temp.getDeklaracja().contains("Wniosek_VAT-ZT")) {
+                Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
+                return;
+            }
         }
         if (temp.getSelected().getCelzlozenia().equals("2") && !temp.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
             Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
