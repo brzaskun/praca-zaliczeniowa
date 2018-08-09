@@ -39,6 +39,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -872,6 +873,25 @@ public class Vat7DKView implements Serializable {
     }
     
     private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema, boolean vatzd) {
+        if (schema.getNazwaschemy().equals("M-18")) {
+            PozycjeSzczegoloweVAT poz  = pozycje.getPozycjeszczegolowe();
+            if (poz.getPoleI58()==0) {
+                poz.setPoleI58(0);
+                poz.setPole58(null);
+            }
+            if (poz.getPoleI59()==0) {
+                poz.setPoleI59(0);
+                poz.setPole59(null);
+            }
+            if (poz.getPoleI60()==0) {
+                poz.setPoleI60(0);
+                poz.setPole60(null);
+            }
+            if (poz.getPoleI61()==0) {
+                poz.setPoleI61(0);
+                poz.setPole61(null);
+            }
+        }
         Deklaracjevat nowadekl = new Deklaracjevat();
         String wiersz = null;
         byte[] deklaracjapodpisana = null;
