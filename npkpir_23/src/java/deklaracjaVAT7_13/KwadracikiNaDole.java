@@ -51,6 +51,10 @@ public class KwadracikiNaDole {
             case "K-11":
                 this.schemaM17K11(pozycjelista, today, vatzd);
                 break;
+            case "M-18":
+            case "K-12":
+                this.schemaM18K12(pozycjelista, today, vatzd);
+                break;
         }
     }
     
@@ -113,6 +117,22 @@ public class KwadracikiNaDole {
         }
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_73>918120976</P_73>");
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_74>"+today+"</P_74>");
+        kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
+    }
+    
+    private void schemaM18K12(PozycjeSzczegoloweVAT pozycjelista, String today, boolean vatzd){
+        if(pozycjelista.getPoleI57()>0 && pozycjelista.getPoleI59()==0){
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_69>1</P_69>");
+        }
+        if(pozycjelista.getPoleI57()>0 && pozycjelista.getPoleI58()>0){
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_69>1</P_69>");
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_70>1</P_70>");
+        }
+        if(vatzd) {
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_71>1</P_71>");
+        }
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_75>918120976</P_75>");
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_76>"+today+"</P_76>");
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
     
