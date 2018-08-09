@@ -838,7 +838,7 @@ public class PdfFP {
             
         }
         if (selected.getTabelanbp()!=null) {
-            if (korekta) {
+            if (korekta==false) {
                 String tabela = "tabela NBP "+selected.getTabelanbp().getNrtabeli()+" z dnia "+selected.getTabelanbp().getDatatabeli()+"; kurs "+selected.getTabelanbp().getKurssredniPrzelicznik()+"; kwota: ";
                 tabela = tabela + F.curr(selected.getVatpln());
                 table.addCell(ustawfraze("kwota podatku VAT w przeliczeniu na PLN: "+tabela, 11, 0));
