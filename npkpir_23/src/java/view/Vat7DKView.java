@@ -875,6 +875,10 @@ public class Vat7DKView implements Serializable {
     private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema, boolean vatzd) {
         if (schema.getNazwaschemy().equals("M-18")) {
             PozycjeSzczegoloweVAT poz  = pozycje.getPozycjeszczegolowe();
+            if (poz.getPoleI57()==0) {
+                poz.setPoleI57(0);
+                poz.setPole57(null);
+            }
             if (poz.getPoleI58()==0) {
                 poz.setPoleI58(0);
                 poz.setPole58(null);
