@@ -27,11 +27,11 @@
         <h:form id="formproforma">
             <p:contextMenu for="dokumentyListaPro" style="width: 250px;">
                 <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{fakturaView.pdffaktura()}" icon="ui-icon-print" />
-                <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formproforma:dokumentyListaPro" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" />
+                <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formproforma:dokumentyListaPro" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura(fakturaView.gosciwybralpro)}" />
                 <p:menuitem value="Usuń wybrane" update="confirmDialog" oncomplete="PF('confirmationFaktura').show();" icon="ui-icon-trash" />
                 <p:separator/>
-                <p:menuitem value="Oznacz jako wysłaną" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formproforma:dokumentyListaPro" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakowyslane()}" />
-                <p:menuitem value="Wymuś usunięcie" update=":akordeon:formproforma:dokumentyListaPro,  :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.wymusdestroysporzadzone()}" icon="ui-icon-trash" />
+                <p:menuitem value="Oznacz jako wysłaną" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formproforma:dokumentyListaPro" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakowyslane(fakturaView.gosciwybralpro)}" />
+                <p:menuitem value="Wymuś usunięcie" update=":akordeon:formproforma:dokumentyListaPro,  :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.wymusdestroysporzadzone(fakturaView.gosciwybralpro)}" icon="ui-icon-trash" />
             </p:contextMenu>
             <p:panelGrid id="panelsumpro" style="height: 40px;">
                 <f:facet name="header">
@@ -109,11 +109,13 @@
                           filterMatchMode="contains"  width="60">
                     <h:outputText value="#{wpispro.terminzaplaty.substring(2)}"/>
                 </p:column>
-                <p:column styleClass="data2" headerText="netto"  sortBy="#{wpispro.nettoFakturaView}" filterBy="#{wpisnettoFakturaViewtura}" filterMatchMode="contains"   width="70">
-                    <bcf:outputpl value="#{nettoFakturaViewoFaktura}"/>
+                <p:column styleClass="data2" headerText="netto"  sortBy="#{wpispro.nettoFakturaView}" filterBy="#{wpispro.nettoFakturaView}" filterMatchMode="contains"   width="70">
+                    <bcf:outputpl value="#{wpispro.nettoFakturaView}"/>
+                    <h:outputText value=" #{wpispro.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
                 </p:column>
-                <p:column styleClass="data2" headerText="brutto"  sortBy="#{wpispro.bruttoFakturaView}" filterBy="#{wpisbruttoFakturaViewtura}" filterMatchMode="contains"   width="70">
-                    <bcf:outputpl value="#{bruttoFakturaViewoFaktura}"/>
+                <p:column styleClass="data2" headerText="brutto"  sortBy="#{wpispro.bruttoFakturaView}" filterBy="#{wpispro.bruttoFakturaView}" filterMatchMode="contains"   width="70">
+                    <bcf:outputpl value="#{wpispro.bruttoFakturaView}"/>
+                    <h:outputText value=" #{wpispro.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
                 </p:column>
                 <p:column styleClass="data3" headerText="wys." sortBy="#{wpispro.wyslana}" filterBy="#{wpispro.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains"  
                           style="text-align: center;"  width="40">

@@ -664,8 +664,8 @@ public class FakturaView implements Serializable {
         }
     }
 
-    public void wymusdestroysporzadzone() {
-        for (Faktura p : gosciwybral) {
+    public void wymusdestroysporzadzone(List<Faktura> wybrane) {
+        for (Faktura p : wybrane) {
             try {
                 List<Fakturywystokresowe> f = fakturywystokresoweDAO.findFakturaOkresowaByFaktura(p);
                 boolean mialokresowo = false;
@@ -1428,14 +1428,26 @@ public class FakturaView implements Serializable {
         if (gosciwybral.size() > 0) {
             iloscwybranych = gosciwybral.size();
             for (Faktura p : gosciwybral) {
-                if (p.getPozycjepokorekcie() == null) {
-                    podsumowaniewybranychnetto += p.getNetto();
-                    podsumowaniewybranychvat += p.getVat();
-                    podsumowaniewybranychbrutto += p.getBrutto();
+                if (p.getTabelanbp()!=null) {
+                    if (p.getPozycjepokorekcie() == null) {
+                        podsumowaniewybranychnetto += p.getNettopln();
+                        podsumowaniewybranychvat += p.getVatpln();
+                        podsumowaniewybranychbrutto += p.getBruttopln();
+                    } else {
+                        podsumowaniewybranychnetto += (p.getNettopkpln()-p.getNettopln());
+                        podsumowaniewybranychvat += (p.getVatpkpln()-p.getVatpln());
+                        podsumowaniewybranychbrutto += (p.getBruttopkpln()-p.getBruttopln());
+                    }
                 } else {
-                    podsumowaniewybranychnetto += (p.getNettopk()-p.getNetto());
-                    podsumowaniewybranychvat += (p.getVatpk()-p.getVat());
-                    podsumowaniewybranychbrutto += (p.getBruttopk()-p.getBrutto());
+                    if (p.getPozycjepokorekcie() == null) {
+                        podsumowaniewybranychnetto += p.getNetto();
+                        podsumowaniewybranychvat += p.getVat();
+                        podsumowaniewybranychbrutto += p.getBrutto();
+                    } else {
+                        podsumowaniewybranychnetto += (p.getNettopk()-p.getNetto());
+                        podsumowaniewybranychvat += (p.getVatpk()-p.getVat());
+                        podsumowaniewybranychbrutto += (p.getBruttopk()-p.getBrutto());
+                    }
                 }
             }
         }
@@ -1448,9 +1460,15 @@ public class FakturaView implements Serializable {
         if (gosciwybralokres.size() > 0) {
             iloscwybranych = gosciwybralokres.size();
             for (Fakturywystokresowe p : gosciwybralokres) {
-                podsumowaniewybranychnetto += p.getNetto();
-                podsumowaniewybranychvat += p.getVat();
-                podsumowaniewybranychbrutto += p.getBrutto();
+                if (p.getDokument().getTabelanbp()!=null) {
+                    podsumowaniewybranychnetto += p.getDokument().getNettopln();
+                    podsumowaniewybranychvat += p.getDokument().getVatpln();
+                    podsumowaniewybranychbrutto += p.getDokument().getBruttopln();
+                } else {
+                    podsumowaniewybranychnetto += p.getDokument().getNetto();
+                    podsumowaniewybranychvat += p.getDokument().getVat();
+                    podsumowaniewybranychbrutto += p.getDokument().getBrutto();
+                }
             }
         }
     }
@@ -1487,11 +1505,11 @@ public class FakturaView implements Serializable {
         wpisDAO.edit(wpistmp);
     }
     
-    public void mailfaktura() {
+    public void mailfaktura(List<Faktura> wybrane) {
         try {
-            pdfFaktura.drukujmail(gosciwybral, wpisView);
+            pdfFaktura.drukujmail(wybrane, wpisView);
             Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-            MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getWprowadzil()), sMTPSettingsDAO.findSprawaByDef());
+            MailOther.faktura(wybrane, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getWprowadzil()), sMTPSettingsDAO.findSprawaByDef());
         } catch (Exception e) { E.e(e); 
             Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
         }
@@ -1517,9 +1535,9 @@ public class FakturaView implements Serializable {
     
     
     
-    public void oznaczonejakowyslane() {
+    public void oznaczonejakowyslane(List<Faktura> wybrane) {
         try {
-            OznaczFaktBean.oznaczonejakowyslane(gosciwybral, fakturaDAO);
+            OznaczFaktBean.oznaczonejakowyslane(wybrane, fakturaDAO);
             Msg.msg("i", "Oznaczono faktury jako wysłane");
         } catch (Exception e) {
             Msg.dPe();
