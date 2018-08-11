@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -57,8 +58,10 @@ public class StatystykaKalkulacjaView  implements Serializable {
     }
     
     public void generuj() {
-        List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
-        List<Podatnik> podatnicyFK = podatnikDAO.findPodatnikFK();
+        List<Podatnik> podatnicytmp = podatnikDAO.findPodatnikNieFK();
+        List<Podatnik> podatnicy = podatnicytmp.stream().filter(p -> p.isPodmiotaktywny()).collect(Collectors.toList());
+        List<Podatnik> podatnicyFKtmp = podatnikDAO.findPodatnikFK();
+        List<Podatnik> podatnicyFK = podatnicyFKtmp.stream().filter(p -> p.isPodmiotaktywny()).collect(Collectors.toList());
         podatnikroklista = stworzliste(podatnicy);
         podatnikroklista.addAll(stworzlistefk(podatnicyFK));
         listadozachowania = new ArrayList<>();

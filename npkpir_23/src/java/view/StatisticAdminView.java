@@ -8,11 +8,15 @@ import dao.DokDAO;
 import dao.SesjaDAO;
 import dao.UzDAO;
 import daoFK.DokDAOfk;
+import daoFK.WierszDAO;
+import entity.Dok;
 import entity.Sesja;
+import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -41,6 +45,7 @@ public class StatisticAdminView implements Serializable {
     @Inject private DokDAO dokDAO;
     @Inject private DokDAOfk dokDAOfk;
     @Inject private UzDAO uzDAO;
+    @Inject private WierszDAO wierszDAO;
 
     public StatisticAdminView() {
         this.sesje = new ArrayList<>();
@@ -53,6 +58,9 @@ public class StatisticAdminView implements Serializable {
        List<String> pracownicy = uzDAO.findUzByUprawnienia("Bookkeeper");
        pracownicy.addAll(uzDAO.findUzByUprawnienia("BookkeeperFK"));
        obliczstatystyki(pracownicy);
+        System.out.println("statystyka inaczej");
+        statystykiinaczej(pracownicy);
+        System.out.println("statystyka inaczej koniec");
        obliczkontrahentow(pracownicy);
     }
     
@@ -78,6 +86,40 @@ public class StatisticAdminView implements Serializable {
             stat.spedzonyczas = String.format(" w minutach: %s, w godzinach: %s, w dniach roboczych: %s", minuty, godziny, dni);
             statystyka.add(stat);
         }
+    }
+    
+    private void statystykiinaczej(List<String> pracownicy) {
+        List<Wiersz> wiersze = wierszDAO.findAll();
+        List<Dok> dok = dokDAO.findAll();
+        System.out.println("pobrano dane");
+        for (String r : pracownicy){
+            double ilosc = 0;
+            for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
+                Wiersz w = it.next();
+                if (w.getDokfk()!=null && w.getDokfk().getWprowadzil()!=null && w.getDokfk().getWprowadzil().equals(r)) {
+                    if (w.getDokfk().getListawierszy().size()<3) {
+                        ilosc= ilosc+0.5;
+                    } else {
+                        ilosc= ilosc+0.2;
+                    }
+                    it.remove();
+                }
+            }
+            for (Iterator<Dok> it = dok.iterator(); it.hasNext();) {
+                Dok d = it.next();
+                if (d.getWprowadzil()!=null && d.getWprowadzil().equals(r)) {
+                    ilosc++;
+                    it.remove();
+                }
+            }
+            for (Statystyka s : statystyka) {
+                if (s.getKsiegowa().equals(r)) {
+                    s.setIloscdokumentow((int)ilosc);
+                }
+            }
+            System.out.println("zliczono dla "+r);
+        }
+        
     }
     
     private void obliczkontrahentow(List<String> pracownicy) {
