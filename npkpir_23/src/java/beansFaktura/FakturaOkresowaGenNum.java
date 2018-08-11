@@ -53,8 +53,9 @@ public class FakturaOkresowaGenNum {
             RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
         } else {
             if (istniejafakturykontrahenta == 0) {
-                int dlugoscnazwy = selected.getKontrahent().getNskrocona().length();
-                String nazwadofaktury = dlugoscnazwy > 4 ? selected.getKontrahent().getNskrocona().substring(0, 4) : selected.getKontrahent().getNskrocona();
+                String nazwaddo = selected.getKontrahent().getNskrocona().replace("\"", "");
+                int dlugoscnazwy = nazwaddo.length();
+                String nazwadofaktury = dlugoscnazwy > 4 ? nazwaddo.substring(0, 4) : nazwaddo;
                 String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
                 numer = sprawdzserie(nazwadofaktury, numer, fakturaDAO, wpisView, selected.getKontrahent().getNskrocona());
                 selected.getFakturaPK().setNumerkolejny(numer);

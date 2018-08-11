@@ -663,6 +663,22 @@ public class FakturaView implements Serializable {
             }
         }
     }
+    
+    public void destroysporzadzonepro() {
+        for (Faktura p : gosciwybralpro) {
+            try {
+                fakturaDAO.destroy(p);
+                fakturypro.remove(p);
+                if (fakturyFilteredpro != null) {
+                    fakturyFilteredpro.remove(p);
+                }
+                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
+            } catch (Exception e) { 
+                E.e(e); 
+                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
+            }
+        }
+    }
 
     public void wymusdestroysporzadzone(List<Faktura> wybrane) {
         for (Faktura p : wybrane) {
