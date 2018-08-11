@@ -16,7 +16,7 @@ import dao.PodatnikDAO;
 import dao.SchemaEwidencjaDAO;
 import dao.WniosekVATZDEntityDAO;
 import deklaracjaVAT7_13.VAT713;
-import deklaracje.vat7_17.Deklaracja;
+import deklaracje.vat18m.Deklaracja;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Mce;
@@ -39,7 +39,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -874,31 +873,7 @@ public class Vat7DKView implements Serializable {
     
     private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema, boolean vatzd) {
         if (schema.getNazwaschemy().equals("M-18")) {
-            PozycjeSzczegoloweVAT poz  = pozycje.getPozycjeszczegolowe();
-            if (poz.getPoleI57()==0) {
-                poz.setPoleI57(0);
-                poz.setPole57(null);
-            }
-            if (poz.getPoleI58()==0) {
-                poz.setPoleI58(0);
-                poz.setPole58(null);
-            }
-            if (poz.getPoleI59()==0) {
-                poz.setPoleI59(0);
-                poz.setPole59(null);
-            }
-            if (poz.getPoleI60()==0) {
-                poz.setPoleI60(0);
-                poz.setPole60(null);
-            }
-            if (poz.getPoleI61()==0) {
-                poz.setPoleI61(0);
-                poz.setPole61(null);
-            }
-            if (poz.getPoleI62()==0) {
-                poz.setPoleI62(0);
-                poz.setPole62(null);
-            }
+            korektaM18(pozycje);
         }
         Deklaracjevat nowadekl = new Deklaracjevat();
         String wiersz = null;
@@ -914,8 +889,8 @@ public class Vat7DKView implements Serializable {
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(false);
             }
-            if (schema.getNazwaschemy().equals("M-17")) {
-                deklaracje.vat7_17.Deklaracja deklaracjaxml = new Deklaracja(pozycje, schema, false);
+            if (schema.getNazwaschemy().equals("M-18")) {
+                deklaracje.vat18m.Deklaracja dekla = new Deklaracja();
             }
         } catch (Exception ex) {
             Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");
@@ -947,7 +922,33 @@ public class Vat7DKView implements Serializable {
         return nowadekl;
     }
     
-  
+  private void korektaM18(Vatpoz pozycje) {
+      PozycjeSzczegoloweVAT poz  = pozycje.getPozycjeszczegolowe();
+            if (poz.getPoleI57()==0) {
+                poz.setPoleI57(0);
+                poz.setPole57(null);
+            }
+            if (poz.getPoleI58()==0) {
+                poz.setPoleI58(0);
+                poz.setPole58(null);
+            }
+            if (poz.getPoleI59()==0) {
+                poz.setPoleI59(0);
+                poz.setPole59(null);
+            }
+            if (poz.getPoleI60()==0) {
+                poz.setPoleI60(0);
+                poz.setPole60(null);
+            }
+            if (poz.getPoleI61()==0) {
+                poz.setPoleI61(0);
+                poz.setPole61(null);
+            }
+            if (poz.getPoleI62()==0) {
+                poz.setPoleI62(0);
+                poz.setPole62(null);
+            }
+  }
     
     private boolean czypokazurproszczona() {
         boolean zwrot = true;
