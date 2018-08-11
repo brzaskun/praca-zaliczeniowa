@@ -119,6 +119,9 @@ public class ImportCSVView  implements Serializable {
                     try {
                         // use comma as separator
                         String[] tmpline = line.split(cvsSplitBy);
+                        if (line.contains("GBP")) {
+                            System.out.println("");
+                        }
                         tmpzwrot = new AmazonCSV(tmpline);
                         zwrot.add(tmpzwrot);
                     } catch (Exception ex) {
