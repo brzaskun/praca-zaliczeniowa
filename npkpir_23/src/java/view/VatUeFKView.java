@@ -305,7 +305,7 @@ public class VatUeFKView implements Serializable {
        if (deklaracjeUE == null) {
            deklaracjeUE = new ArrayList<>();
            for (DeklaracjavatUE p : deklaracjeUE) {
-               if (!p.getStatus().equals("200")) {
+               if (p.getStatus()==null || !p.getStatus().equals("200")) {
                    deklaracjeUE_biezace.add(p);
                }
            }
@@ -486,6 +486,7 @@ public class VatUeFKView implements Serializable {
                 deklaracjavatUE.setPozycje(lista);
                 //deklaracjavatUEDAO.dodaj(deklaracjavatUE); dodamy ja przy wysylce bo wtedy robimy edit dok
                 deklaracjeUE.add(deklaracjavatUE);
+                deklaracjeUE_biezace.add(deklaracjavatUE);
                 Msg.msg("Sporządzono deklarację VAT-UE miesięczną wersja 4");
                 zwrot = true;
             } else {

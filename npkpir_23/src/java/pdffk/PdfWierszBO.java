@@ -12,8 +12,11 @@ import entity.Uz;
 import entityfk.WierszBO;
 import java.io.File;
 import java.text.NumberFormat;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import msg.Msg;
+import org.apache.commons.collections.HashBag;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
 import plik.Plik;
@@ -39,7 +42,11 @@ public class PdfWierszBO {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie wierszy BO w firmie", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaWierszBO(pobranetransakcje),97,0);
-            dodajLinieOpisu(document, obliczsumy(pobranetransakcje));
+            String[] lysta = obliczsumy(pobranetransakcje);
+            int size = lysta.length;
+            for (int i =0; i < size; i++) {
+                dodajLinieOpisu(document, lysta[i]);
+            }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
@@ -62,7 +69,11 @@ public class PdfWierszBO {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie obrotów rozpoczęcia w firmie", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaWierszObrotyRozp(pobranetransakcje),97,2);
-            dodajLinieOpisu(document, obliczsumy(pobranetransakcje));
+            String[] lysta = obliczsumy(pobranetransakcje);
+            int size = lysta.length;
+            for (int i =0; i < size; i++) {
+                dodajLinieOpisu(document, lysta[i]);
+            }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
@@ -85,7 +96,11 @@ public class PdfWierszBO {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie wierszy BO w firmie", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaWierszBOKonsolidacyjna(pobranetransakcje),97,1);
-            dodajLinieOpisu(document, obliczsumy(pobranetransakcje));
+            String[] lysta = obliczsumy(pobranetransakcje);
+            int size = lysta.length;
+            for (int i =0; i < size; i++) {
+                dodajLinieOpisu(document, lysta[i]);
+            }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
@@ -94,18 +109,33 @@ public class PdfWierszBO {
         }
     }
 
-    private static String obliczsumy(List<WierszBO> pobranetransakcje) {
-        double wn = 0.0;
-        double ma = 0.0;
+    private static String[] obliczsumy(List<WierszBO> pobranetransakcje) {
         double wnpln = 0.0;
         double mapln = 0.0;
+        Set<String> waluty = new HashSet<>();
         for (WierszBO p : pobranetransakcje) {
-            wn += p.getKwotaWn();
-            ma += p.getKwotaMa();
             wnpln += p.getKwotaWnPLN();
             mapln += p.getKwotaMaPLN();
+            if (p.getWaluta()!=null && !p.getWaluta().getSymbolwaluty().equals("PLN")) {
+                waluty.add(p.getWaluta().getSymbolwaluty());
+            }
         }
         NumberFormat formatter = getNumberFormater();
-        return "Suma wn: "+formatter.format(wn)+", suma ma: "+formatter.format(ma)+", suma wnpln: "+formatter.format(wnpln)+", suma mapln: "+formatter.format(mapln);
+        String[] zwrot = new String[1+waluty.size()];
+        zwrot[0] = "Suma wnpln: "+formatter.format(wnpln)+", suma mapln: "+formatter.format(mapln);
+        int i =1;
+        for (String w : waluty) {
+            double wn = 0.0;
+            double ma = 0.0;
+            for (WierszBO p : pobranetransakcje) {
+                if (p.getWaluta()!=null && p.getWaluta().getSymbolwaluty().equals(w)) {
+                    wn += p.getKwotaWn(); 
+                    ma += p.getKwotaMa();
+                }
+            }
+            zwrot[i] = "Suma "+w+": wn "+formatter.format(wn)+", ma: "+formatter.format(ma);
+            i++;
+        }
+        return zwrot;
     }
 }

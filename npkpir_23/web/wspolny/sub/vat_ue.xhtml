@@ -162,7 +162,6 @@
                         </p:column>
                     </p:rowExpansion>
                 </p:dataTable>
-                <p:messages id="mesydzue" autoUpdate="true"/>
                 <p:separator/>
                 <p:dataTable value="#{vatUeFKView.deklaracjeUE_biezace}" var="row" emptyMessage="brak błędnych lub niepotwierdzonych/niewysłanych deklaracji za okres" style="width: 1210px;" styleClass="upd3"
                              selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.hashCode()}">
@@ -211,6 +210,6 @@
                 </p:dataTable>
             </p:outputPanel>
 
-        <h:outputText value="Uwaga! Sumowane są zapisy księgowe w danym dokumnecie, jeżeli oprócz kwot bezposrednio z dokumentu dokonano księgowań równoległych sumy w tabeli nie będa prawidłowe"
+        <h:outputText value="Uwaga! Sumowane są zapisy księgowe w danym dokumencie, jeżeli oprócz kwot bezposrednio z dokumentu dokonano księgowań równoległych sumy w tabeli nie będa prawidłowe"
                       style="color: red;"/>
 </ui:composition>

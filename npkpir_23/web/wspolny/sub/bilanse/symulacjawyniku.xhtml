@@ -50,8 +50,8 @@
                 </p:column>
                 <p:commandButton value="zaksięguj" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"
                                 style="width: 120px; " update="akordeon:formsymulacjanarastajaco"/>
-                <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)"/>
-                <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>
+                <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)"/>
+                <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>
                 <p:selectBooleanCheckbox  id="tylkosyntcheck" value="#{symulacjaWynikuView.tylkokontasyntetyczne}"  style="margin-left: 5px; display: none;" itemLabel="tylko konta syntetyczne"  >
                     <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" partialSubmit="true" update="akordeon:formsymulacja akordeon:formsymulacjankup"
                             oncomplete="pokazprzyciski();"/>
