@@ -16,7 +16,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import msg.Msg;
-import org.apache.commons.collections.HashBag;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
 import plik.Plik;
