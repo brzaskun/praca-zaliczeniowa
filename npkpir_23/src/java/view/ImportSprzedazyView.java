@@ -141,7 +141,11 @@ public class ImportSprzedazyView  implements Serializable {
             selDokument.setStatus("bufor");
             selDokument.setUsunpozornie(false);
             selDokument.setDataWyst(wiersz.getDataWystawienia().toString());
-            selDokument.setDataSprz(wiersz.getDataSprzedazy().toString());
+            if (wiersz.getDataSprzedazy()!=null) {
+                selDokument.setDataSprz(wiersz.getDataSprzedazy().toString());
+            } else {
+                selDokument.setDataSprz(wiersz.getDataWystawienia().toString());
+            }
             selDokument.setKontr(pobierzkontrahenta(wiersz.getNrKontrahenta()));
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(wiersz.getDowodSprzedazy());
