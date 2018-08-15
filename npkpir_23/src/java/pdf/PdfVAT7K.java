@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.primefaces.context.RequestContext;
-import plik.Plik;
 import static pdf.PdfVAT7.absText;
+import plik.Plik;
 
 /**
  *

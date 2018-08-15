@@ -10,9 +10,9 @@ import entity.Evpozycja;
 import error.E;
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -42,7 +42,7 @@ public class EvewidencjaDAO extends DAO implements Serializable {
         try {
             List<Evewidencja> pobraneewidencje = findAll();
             Collections.sort(pobraneewidencje, new Evewidencjacomparator());
-            Map<String,Evewidencja> mapaewidencji = new HashMap<>();
+            Map<String,Evewidencja> mapaewidencji = new ConcurrentHashMap<>();
             for (Evewidencja p : pobraneewidencje) {
                 mapaewidencji.put(p.getNazwa(), p);
             }
@@ -56,7 +56,7 @@ public class EvewidencjaDAO extends DAO implements Serializable {
         try {
             List<Evewidencja> pobraneewidencje = findAll();
             Collections.sort(pobraneewidencje, new Evewidencjacomparator());
-            Map<String,Evewidencja> mapaewidencji = new HashMap<>();
+            Map<String,Evewidencja> mapaewidencji = new ConcurrentHashMap<>();
             for (Evewidencja p : pobraneewidencje) {
                 mapaewidencji.put(p.getPole(), p);
             }

@@ -9,9 +9,9 @@ import beansFK.PlanKontTablicaBean;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import error.E;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
@@ -33,7 +33,7 @@ public class PlanKontTablicaView {
 
     public PlanKontTablicaView() {
          E.m(this);
-        leveleKonta = new HashMap<>();
+        leveleKonta = new ConcurrentHashMap<>();
     }
     
     

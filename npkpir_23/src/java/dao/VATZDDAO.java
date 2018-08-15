@@ -4,9 +4,7 @@
  */
 package dao;
 
-import entity.Podatnik;
 import entity.VATZDpozycja;
-import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.List;

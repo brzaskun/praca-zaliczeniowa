@@ -8,9 +8,9 @@ package viewfk;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -41,7 +41,7 @@ public class XLSRodzajeDokView implements Serializable{
     
     public void zachowajwXLS(List rodzajedok) {
         try {
-            Map<String, List> listy = new HashMap<>();
+            Map<String, List> listy = new ConcurrentHashMap<>();
             listy.put("rodzajedok", rodzajedok);
             Workbook workbook = WriteXLSFile.zachowajRodzajedokXLS(listy, wpisView);
             // Prepare response.

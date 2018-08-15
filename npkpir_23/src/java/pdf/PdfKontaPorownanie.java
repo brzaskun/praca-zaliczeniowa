@@ -39,7 +39,6 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import msg.B;
 import msg.Msg;
-import static pdffk.PdfMain.inicjacjaA4Landscape;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
 import plik.Plik;
 import view.WpisView;

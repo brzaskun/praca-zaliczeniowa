@@ -6,27 +6,18 @@ package view;
 
 import dao.DokDAO;
 import daoFK.CechazapisuDAOfk;
-import embeddablefk.MiejsceZest;
-import entity.Adminnews;
 import entity.Dok;
 import entity.KwotaKolumna1;
 import entityfk.Cechazapisu;
-import entityfk.MiejsceKosztow;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
 import pdffk.PdfCechyZapisow;
-import session.SessionFacade;
-import viewfk.MiejsceKosztowView;
 
 /**
  *

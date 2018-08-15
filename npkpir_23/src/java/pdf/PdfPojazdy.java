@@ -6,6 +6,8 @@
 package pdf;
 
 import static beansPdf.PdfFont.formatujWaluta;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeSpanFont;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -26,8 +28,6 @@ import msg.Msg;
 import plik.Plik;
 import view.WpisView;
 import viewfk.PojazdyView;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

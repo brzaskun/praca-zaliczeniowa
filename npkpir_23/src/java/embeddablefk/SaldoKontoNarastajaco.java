@@ -9,10 +9,10 @@ package embeddablefk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.persistence.Embeddable;
 
 /**
@@ -33,7 +33,7 @@ public class SaldoKontoNarastajaco implements Serializable {
     private double saldoMa;
 
     public SaldoKontoNarastajaco() {
-        this.obrotymiesiecy = new HashMap<>();
+        this.obrotymiesiecy = new ConcurrentHashMap<>();
         this.obrotymiesiecy.put("01", new Obrotymca("styczeń"));
         this.obrotymiesiecy.put("02", new Obrotymca("luty"));
         this.obrotymiesiecy.put("03", new Obrotymca("marzec"));
@@ -49,7 +49,7 @@ public class SaldoKontoNarastajaco implements Serializable {
     }
     
     public SaldoKontoNarastajaco (Konto konto, double saldoWn, double saldoMa) {
-        this.obrotymiesiecy = new HashMap<>();
+        this.obrotymiesiecy = new ConcurrentHashMap<>();
         this.obrotymiesiecy.put("01", new Obrotymca("styczeń"));
         this.obrotymiesiecy.put("02", new Obrotymca("luty"));
         this.obrotymiesiecy.put("03", new Obrotymca("marzec"));

@@ -5,11 +5,11 @@
  */
 package view;
 
-import error.E;
 import dao.FakturaDAO;
 import dao.FakturaDuplikatDAO;
 import entity.Faktura;
 import entity.FakturaDuplikat;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;

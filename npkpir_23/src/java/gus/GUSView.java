@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.xml.bind.JAXBElement;
@@ -42,7 +43,7 @@ public class GUSView implements Serializable {
     private UslugaBIRzewnPubl service;
 
     public Map<String, String> pobierzDane(String nip) {
-        Map<String, String> zwrot = new HashMap<>();
+        Map<String, String> zwrot = new ConcurrentHashMap<>();
         try {
             service = new UslugaBIRzewnPubl();
             IUslugaBIRzewnPubl e3 = service.getE3();
@@ -111,7 +112,7 @@ public class GUSView implements Serializable {
                 String typjedn = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportTypJednostki");
                 String rapszcz = null;
                 String prawna = "<Typ>P</Typ>";
-                Map<String, String> zwrot = new HashMap<>();
+                Map<String, String> zwrot = new ConcurrentHashMap<>();
                 zwrot = wyslijdanefirmy(pozycje, res);
                 if (typjedn.contains(prawna)) {
                     rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportPrawna");
@@ -260,7 +261,7 @@ public class GUSView implements Serializable {
     }
     
     private Map<String, String>  wyslijdanefirmy(List<String> pozycje, String rezultat) {
-        Map<String, String> zwrot = new HashMap<>();
+        Map<String, String> zwrot = new ConcurrentHashMap<>();
         if (!rezultat.equals("")) {
             for (String p : pozycje) {
                 int start = rezultat.indexOf("<"+p+">");

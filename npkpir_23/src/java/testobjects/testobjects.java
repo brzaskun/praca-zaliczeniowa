@@ -8,7 +8,6 @@ package testobjects;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
-
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoBO;
 import embeddablefk.TreeNodeExtended;
@@ -24,7 +23,6 @@ import entity.SrodekTrw;
 import entity.Statystyka;
 import entity.UmorzenieN;
 import entity.Vat27;
-import entity.VatSuper;
 import entity.VatUe;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;

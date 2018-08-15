@@ -31,14 +31,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.DoubleAccumulator;
-import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -110,10 +109,10 @@ public class KontoZapisFKView implements Serializable{
 
     public KontoZapisFKView() {
         E.m(this);
-        kontozapisy = new ArrayList<>();
-        wybranezapisydosumowania = new ArrayList<>();
+        kontozapisy = Collections.synchronizedList(new ArrayList<>());
+        wybranezapisydosumowania = Collections.synchronizedList(new ArrayList<>());
         wybranaWalutaDlaKont = "wszystkie";
-        listasum = new ArrayList<>();
+        listasum = Collections.synchronizedList(new ArrayList<>());
         ListaSum l = new ListaSum();
         listasum.add(l);
     }
@@ -160,14 +159,14 @@ public class KontoZapisFKView implements Serializable{
     }
     
     private void usunkontabezsald() {
-        List<Konto> konta = new ArrayList<>();
+        List<Konto> konta = Collections.synchronizedList(new ArrayList<>());
         
 //        zapisyRok.stream().filter((p) -> (p.getKonto() != null)).forEach((p) -> {
 //            konta.add(p.getKonto());
 //        });
         List<Konto> listakont = pobierzkontazsaldem(wpisView.getRokWpisuSt());
         Set<Konto> listamacierzyste = wyluskajmacierzyste(listakont);
-        wykazkont = new ArrayList<>();
+        wykazkont = Collections.synchronizedList(new ArrayList<>());
         wykazkont.addAll(listakont);
         wykazkont.addAll(listamacierzyste);
     }
@@ -184,7 +183,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void pobierzzapisy(String rok) {
-        List<StronaWiersza> zapisy = new ArrayList<>();
+        List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
         try {
             zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), rok);
         } catch (Exception e) {
@@ -194,7 +193,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
      public List<Konto> pobierzkontazsaldem(String rok) {
-        List<Konto> zapisy = new ArrayList<>();
+        List<Konto> zapisy = Collections.synchronizedList(new ArrayList<>());
         try {
             zapisy = stronaWierszaDAO.findStronaByPodatnikRokKontoDist(wpisView.getPodatnikObiekt(), rok);
         } catch (Exception e) {
@@ -210,15 +209,15 @@ public class KontoZapisFKView implements Serializable{
         pokaztransakcje = false;
         nierenderujkolumnnywalut = true;
         try {
-            wybranezapisydosumowania = new ArrayList<>();
+            wybranezapisydosumowania = Collections.synchronizedList(new ArrayList<>());
             kontozapisyfiltered = null;
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
-            kontozapisy = new ArrayList<>();
+            kontozapisy = Collections.synchronizedList(new ArrayList<>());
             String rok = pobierzrokpoprzedni ? wpisView.getRokUprzedniSt() : wpisView.getRokWpisuSt();
             List<StronaWiersza> zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, rok);
             if (zapisyshort!=null) {
-                List<Konto> kontapotomnetmp = new ArrayList<>();
-                List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+                List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
+                List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
                 kontapotomnetmp.add(wybranekonto);
                 KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
                 int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
@@ -272,11 +271,11 @@ public class KontoZapisFKView implements Serializable{
             init();
         }
         try {
-            wybranezapisydosumowania = new ArrayList<>();
+            wybranezapisydosumowania = Collections.synchronizedList(new ArrayList<>());
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
-            kontozapisy = new ArrayList<>();
-            List<Konto> kontapotomnetmp = new ArrayList<>();
-            List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+            kontozapisy = Collections.synchronizedList(new ArrayList<>());
+            List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
+            List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
             kontapotomnetmp.add(wybranekonto);
             KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
@@ -312,9 +311,9 @@ public class KontoZapisFKView implements Serializable{
     
     public void pobierzZapisyZmianaWaluty() {
         if (wybranekonto!=null && wybranekonto.getPodatnik()!=null) {
-            kontozapisy = new ArrayList<>();
-            List<Konto> kontapotomnetmp = new ArrayList<>();
-            List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+            kontozapisy = Collections.synchronizedList(new ArrayList<>());
+            List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
+            List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
             kontapotomnetmp.add(wybranekonto);
             KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
@@ -356,9 +355,9 @@ public class KontoZapisFKView implements Serializable{
     
 //    public void pobierzZapisyNaKoncie() {
 //        if (wybranekonto instanceof Konto) {
-//            kontozapisy = new ArrayList<>();
-//            List<Konto> kontapotomnetmp = new ArrayList<>();
-//            List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+//            kontozapisy = Collections.synchronizedList(new ArrayList<>());
+//            List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
+//            List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
 //            kontapotomnetmp.add(wybranekonto);
 //            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
 //            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
@@ -381,7 +380,7 @@ public class KontoZapisFKView implements Serializable{
     public void reversetoggle(ActionEvent e) {
         DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("tabelazzapisami:tabela");
         List<Object> sel = (List<Object>) d.getSelection();
-        List<StronaWiersza> ko = new ArrayList<>();
+        List<StronaWiersza> ko = Collections.synchronizedList(new ArrayList<>());
         ko.addAll(kontozapisy);
         for (Iterator it = sel.iterator(); it.hasNext();) {
             StronaWiersza n = (StronaWiersza) it.next();
@@ -389,7 +388,7 @@ public class KontoZapisFKView implements Serializable{
                 ko.remove(n);
             }
         }
-        wybranezapisydosumowania = new ArrayList<>();
+        wybranezapisydosumowania = Collections.synchronizedList(new ArrayList<>());
         wybranezapisydosumowania.addAll(ko);
         sumazapisowtotal();
     } 
@@ -400,9 +399,9 @@ public class KontoZapisFKView implements Serializable{
         int selsize = sel.size();
         int kontosize = kontozapisy.size();
         if (selsize==kontosize) {
-            wybranezapisydosumowania = new ArrayList<>();
+            wybranezapisydosumowania = Collections.synchronizedList(new ArrayList<>());
         } else {
-            wybranezapisydosumowania = new ArrayList<>();
+            wybranezapisydosumowania = Collections.synchronizedList(new ArrayList<>());
             wybranezapisydosumowania.addAll(kontozapisy);
         }
         sumazapisowtotal();
@@ -446,7 +445,7 @@ public class KontoZapisFKView implements Serializable{
       }
       
       private void znajdzkontazpotomkami(List<Konto> kontapotomne, List<Konto> kontamacierzyste) {
-          List<Konto> listakontposrednia = new ArrayList<>();
+          List<Konto> listakontposrednia = Collections.synchronizedList(new ArrayList<>());
           Iterator it = kontamacierzyste.iterator();
           while(it.hasNext()) {
               Konto p = (Konto) it.next();
@@ -825,7 +824,7 @@ public class KontoZapisFKView implements Serializable{
             Dokfk nowydok = DokumentFKBean.generujdokumentAutomRozrach(wpisView, klienciDAO, "ARS", "automatyczne rozliczenie salda konta", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, listasum, dokDAOfk, cechazapisuDAOfk);
             dokDAOfk.dodaj(nowydok);
             dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
-            this.listasum = new ArrayList<>();
+            this.listasum = Collections.synchronizedList(new ArrayList<>());
             ListaSum l = new ListaSum();
             this.listasum.add(l);
             sumazapisowAut();
@@ -841,7 +840,7 @@ public class KontoZapisFKView implements Serializable{
             Dokfk nowydok = DokumentFKBean.generujdokumentAutomRozrach(wpisView, klienciDAO, "ARS", "automatyczne rozliczenie salda konta", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, listasum, dokDAOfk, cechazapisuDAOfk);
             dokDAOfk.dodaj(nowydok);
             dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
-            this.listasum = new ArrayList<>();
+            this.listasum = Collections.synchronizedList(new ArrayList<>());
             ListaSum l = new ListaSum();
             this.listasum.add(l);
             sumazapisowAut();
@@ -863,7 +862,7 @@ public class KontoZapisFKView implements Serializable{
                     Dokfk nowydok = DokumentFKBean.generujdokumentAutomSaldo(wpisView, klienciDAO, "ARS", opis, rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, roznicawnroznicama, dokDAOfk);
                     dokDAOfk.dodaj(nowydok);
                     dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
-                    this.listasum = new ArrayList<>();
+                    this.listasum = Collections.synchronizedList(new ArrayList<>());
                     ListaSum l = new ListaSum();
                     this.listasum.add(l);
                     sumazapisowAut();
@@ -879,7 +878,7 @@ public class KontoZapisFKView implements Serializable{
     }
    
    private Map<String, ListaSum> stworzlisteSumwWalutach(List<StronaWiersza> kontozapisy) {
-        Map<String, ListaSum> zbiorcza = new HashMap<>();
+        Map<String, ListaSum> zbiorcza = new ConcurrentHashMap<>();
         Set<String> waluty = new HashSet<>();
         for (StronaWiersza p : kontozapisy) {
             waluty.add(p.getSymbolWalutBOiSW());
@@ -893,7 +892,7 @@ public class KontoZapisFKView implements Serializable{
     }
    
    private Map<String, ListaSum> stworzlisteSumwWalutachPLN(List<StronaWiersza> kontozapisy) {
-        Map<String, ListaSum> zbiorcza = new HashMap<>();
+        Map<String, ListaSum> zbiorcza = new ConcurrentHashMap<>();
         Set<String> waluty = new HashSet<>();
         waluty.add( "PLN");
         for (String r : waluty) {
@@ -920,7 +919,7 @@ public class KontoZapisFKView implements Serializable{
             if (wybranyrozrachunek.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                 List<Transakcja> listytransakcjiNT = transakcjaDAO.findByNowaTransakcja(wybranyrozrachunek);
                 List<Transakcja> listytransakcjiR = transakcjaDAO.findByRozliczajacy(wybranyrozrachunek);
-                zapisydopodswietlenia = new ArrayList<>();
+                zapisydopodswietlenia = Collections.synchronizedList(new ArrayList<>());
                 if (!listytransakcjiNT.isEmpty()) {
                     for (Transakcja p :listytransakcjiNT) {
                         zapisydopodswietlenia.add(p.getRozliczajacy().getId());
@@ -1438,7 +1437,7 @@ public class KontoZapisFKView implements Serializable{
     public List<Konto> complete(String qr) {
         if (qr != null) {
             String query = null;
-            List<Konto> results = new ArrayList<>();
+            List<Konto> results = Collections.synchronizedList(new ArrayList<>());
             if (wykazkont != null) {
                 String nazwa = null;
                 if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {
@@ -1492,7 +1491,7 @@ public class KontoZapisFKView implements Serializable{
     public List<Konto> completeWszystkieKonta(String qr) {
         if (qr != null) {
             String query = null;
-            List<Konto> results = new ArrayList<>();
+            List<Konto> results = Collections.synchronizedList(new ArrayList<>());
             if (wszystkiekonta != null) {
                 String nazwa = null;
                 if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {
@@ -1546,7 +1545,7 @@ public class KontoZapisFKView implements Serializable{
     public List<Konto> completeOstAnal(String qr) {
         if (qr != null) {
             String query = null;
-            List<Konto> results = new ArrayList<>();
+            List<Konto> results = Collections.synchronizedList(new ArrayList<>());
             if (ostatniaanalityka != null) {
                 String nazwa = null;
                 if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {

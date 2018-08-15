@@ -5,11 +5,9 @@
  */
 package pdffk;
 
-import static beansPdf.PdfFont.formatujLiczba;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -23,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.Table;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;

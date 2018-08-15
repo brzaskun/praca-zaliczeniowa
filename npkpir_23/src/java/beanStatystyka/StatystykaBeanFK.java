@@ -5,11 +5,11 @@
  */
 package beanStatystyka;
 
-import entity.Statystyka;
 import dao.FakturaDAO;
 import daoFK.DokDAOfk;
 import entity.Faktura;
 import entity.Podatnik;
+import entity.Statystyka;
 import entityfk.Dokfk;
 import java.util.ArrayList;
 import java.util.List;

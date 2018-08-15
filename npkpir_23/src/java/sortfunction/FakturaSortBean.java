@@ -5,8 +5,8 @@
  */
 package sortfunction;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import view.WpisView;
 
 /**
@@ -67,7 +67,7 @@ public class FakturaSortBean {
     }
     
     private static Map<String, Integer> rozbijwzor(String nrs) {
-        Map<String, Integer> mapa = new HashMap<>();
+        Map<String, Integer> mapa = new ConcurrentHashMap<>();
         String[] rozbicie = nrs.split("/");
         int dl = rozbicie.length;
         for (int i = 0 ; i < dl; i++) {

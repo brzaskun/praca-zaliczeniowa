@@ -7,10 +7,6 @@ package embeddable;
 
 import data.Data;
 import entityfk.Waluty;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.List;
 import waluty.Z;

@@ -11,7 +11,6 @@ import dao.WniosekVATZDEntityDAO;
 import daoFK.DokDAOfk;
 import data.Data;
 import deklaracje.vatzd.WniosekVATZD;
-import deklaracje.vatzd.WniosekVATZDSuper;
 import entity.Dok;
 import entity.VATZDpozycja;
 import entity.WniosekVATZDEntity;

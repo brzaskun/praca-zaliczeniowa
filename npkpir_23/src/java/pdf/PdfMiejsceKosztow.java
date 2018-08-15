@@ -6,7 +6,10 @@
 package pdf;
 
 import static beansPdf.PdfFont.formatujWaluta;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeSpanFont;
+import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -23,14 +26,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import msg.Msg;
+import static pdf.PdfVAT7.absText;
+import static pdffk.PdfMain.dodajOpisWstepny;
 import plik.Plik;
 import view.WpisView;
 import viewfk.MiejsceKosztowView;
-import static beansPdf.PdfGrafika.prost;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static pdf.PdfVAT7.absText;
-import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *

@@ -13,10 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -52,7 +52,7 @@ public class WriteXLSFile {
     }
 
     public static void main(String args[]){
-        Map<String, List> l = new HashMap<>();
+        Map<String, List> l = new ConcurrentHashMap<>();
         l.put("p", listaprzychody());
         l.put("k", listakoszty());
         l.put("w", listawynik());

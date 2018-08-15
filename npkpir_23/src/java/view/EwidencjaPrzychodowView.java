@@ -19,9 +19,9 @@ import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -133,7 +133,7 @@ public class EwidencjaPrzychodowView implements Serializable {
     }
     
     public void generujksiegirok() {
-        ksiegimiesieczne = new HashMap<>();
+        ksiegimiesieczne = new ConcurrentHashMap<>();
         int mcint = Integer.parseInt(wpisView.getMiesiacWpisu());
         for (int i = 1; i <= mcint; i++) {
             lista = new ArrayList<>();

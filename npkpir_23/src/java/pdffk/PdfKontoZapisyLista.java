@@ -6,8 +6,9 @@ package pdffk;
 
 import static beansPdf.PdfFont.formatujKurs;
 import static beansPdf.PdfFont.formatujLiczba;
-import pdf.*;
 import static beansPdf.PdfFont.formatujWaluta;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -32,11 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import pdf.*;
 import plik.Plik;
 import view.WpisView;
 import waluty.Z;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

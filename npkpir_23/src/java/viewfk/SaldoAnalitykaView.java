@@ -23,10 +23,11 @@ import entityfk.Waluty;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -76,7 +77,7 @@ public class SaldoAnalitykaView implements Serializable {
 
     public SaldoAnalitykaView() {
         E.m(this);
-        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         wybranyRodzajKonta = "wszystkie";
     }
 
@@ -98,7 +99,7 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
-        listaSaldoKonto = new ArrayList<>();
+        listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
         przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta);
@@ -122,7 +123,7 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
-        listaSaldoKonto = new ArrayList<>();
+        listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
         List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
@@ -164,7 +165,7 @@ public class SaldoAnalitykaView implements Serializable {
         wpisView.setRokWpisuSt(String.valueOf(rok - 1));
         wpisView.setMiesiacWpisu("12");
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
-        listaSaldoKonto = new ArrayList<>();
+        listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyRok = pobierzzapisy("wszystkie");
 //        for (StronaWiersza p : zapisyRok) {
 //            if (p.getKonto().getPelnynumer().equals("201-2-19") && p.getKwota() == 123.0) {
@@ -258,9 +259,9 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta);
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
-        Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
-        List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
-        kontaklienta.stream().forEach((p) -> {
+        Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
+        List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
+        kontaklienta.parallelStream().forEach((p) -> {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             przygotowanalista.put(p.getPelnynumer(), saldoKonto);
@@ -275,7 +276,7 @@ public class SaldoAnalitykaView implements Serializable {
 //        for (int i = 1; i < przygotowanalista.size()+1; i++) {
 //            przygotowanalista.get(i-1).setId(i);
 //        }
-        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
         for (StronaWiersza t : wierszenieuzupelnione) {
             Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
@@ -290,8 +291,8 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     private void przygotowanalistasaldBO(List<Konto> kontaklienta, List<StronaWiersza> zapisyRok) {
-        Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
-        List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
+        Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
+        List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
         kontaklienta.parallelStream().map((p) -> {
             if (p.getPelnynumer().equals("201-2-34")) {
             }
@@ -312,7 +313,7 @@ public class SaldoAnalitykaView implements Serializable {
 //        for (int i = 1; i < przygotowanalista.size()+1; i++) {
 //            przygotowanalista.get(i-1).setId(i);
 //        }
-        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
         for (StronaWiersza t : wierszenieuzupelnione) {
             Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
@@ -327,7 +328,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     public void sumujwybranekonta() {
-        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         if (listaSaldoKontofilter != null && listaSaldoKontofilter.size() > 0 && (listaSaldoKontowybrane == null || listaSaldoKontowybrane.size() == 0)) {
             sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(listaSaldoKontofilter));
             //Msg.msg("Filter "+listaSaldoKontofilter.size());
@@ -656,7 +657,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     public List<Sprawozdanie_0> kontagrupy_0() {
-        List<Sprawozdanie_0> l = new ArrayList<>();
+        List<Sprawozdanie_0> l = Collections.synchronizedList(new ArrayList<>());
         for (SaldoKonto p : listaSaldoKonto) {
 
         }
@@ -708,7 +709,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     private List<SaldoKonto> pobierzkonta(List<SaldoKonto> listaSaldoKonto, String string, int i) {
-        List<SaldoKonto> l = new ArrayList<>();
+        List<SaldoKonto> l = Collections.synchronizedList(new ArrayList<>());
         for (SaldoKonto p : listaSaldoKonto) {
             if (p.getKonto().getPelnynumer().startsWith(string)) {
                 l.add(p);
@@ -729,8 +730,8 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> zapisyRok = pobierzzapisy(wybranyRodzajKonta);
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
-        Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
-        List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
+        Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
+        List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
         kontaklienta.parallelStream().map((p) -> {
             if (p.getPelnynumer().equals("202-1-5")) {
             }
@@ -761,7 +762,7 @@ public class SaldoAnalitykaView implements Serializable {
 //        for (int i = 1; i < przygotowanalista.size()+1; i++) {
 //            przygotowanalista.get(i-1).setId(i);
 //        }
-        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
         for (StronaWiersza t : wierszenieuzupelnione) {
             Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());

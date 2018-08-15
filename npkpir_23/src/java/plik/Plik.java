@@ -5,6 +5,7 @@
  */
 package plik;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,13 +35,13 @@ public class Plik {
         return file;
     }
     
-    public static FileOutputStream plikR(String nazwa) {
+    public static BufferedOutputStream plikR(String nazwa) {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         String realPath = ctx.getRealPath("/")+"wydruki\\";
-        FileOutputStream fileOutputStream = null;
+        BufferedOutputStream fileOutputStream = null;
         String pelnanazwa = realPath+nazwa;
         try {
-            fileOutputStream = new FileOutputStream(pelnanazwa);
+            fileOutputStream = new BufferedOutputStream(new FileOutputStream(pelnanazwa));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Plik.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

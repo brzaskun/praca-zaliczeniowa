@@ -12,7 +12,6 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
-
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;

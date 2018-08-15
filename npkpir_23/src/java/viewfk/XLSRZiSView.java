@@ -10,9 +10,9 @@ import entityfk.PozycjaRZiS;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -44,7 +44,7 @@ public class XLSRZiSView implements Serializable{
         try {
             ArrayList<PozycjaRZiS> pozycje = new ArrayList<>();
             rootProjektRZiS.getFinallChildren(pozycje);
-            Map<String, List> listy = new HashMap<>();
+            Map<String, List> listy = new ConcurrentHashMap<>();
             listy.put("rzisinter", pozycje);
             Workbook workbook = WriteXLSFile.zachowajRZiSInterXLS(listy, wpisView);
             // Prepare response.

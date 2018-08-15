@@ -10,7 +10,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Dok;
 import entityfk.Tabelanbp;
-import entityfk.Tabelanbp_;
 import error.E;
 import format.F;
 import java.io.File;

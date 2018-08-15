@@ -19,9 +19,9 @@ import entity.Faktura;
 import entity.Podatnik;
 import entityfk.Tabelanbp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
@@ -346,7 +346,7 @@ public class FakturaBean {
     
     private static Map<String, Double> przetworzpozycje(List<Evewidencja> ew, List<EVatwpis> el, List<Pozycjenafakturzebazadanych> pozycje, 
         Faktura selected) {
-        Map<String, Double> sumy = new HashMap<>();
+        Map<String, Double> sumy = new ConcurrentHashMap<>();
         double netto = 0.0;
         double vat = 0.0;
         double brutto = 0.0;

@@ -1,8 +1,7 @@
 package org.json;
 
-import static java.lang.String.format;
-
 import java.io.UnsupportedEncodingException;
+import static java.lang.String.format;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;

@@ -4,9 +4,7 @@
  */
 package converter;
 
-import dao.PodatnikDAO;
 import daoFK.CechazapisuDAOfk;
-import entity.Podatnik;
 import entityfk.Cechazapisu;
 import java.util.List;
 import javax.annotation.PostConstruct;

@@ -5,10 +5,7 @@
  */
 package deklaracje.vatzd;
 
-import entity.Dok;
-import entityfk.Dokfk;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  *

@@ -5,7 +5,6 @@
 package pdf;
 
 import static beansPdf.PdfFont.*;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;

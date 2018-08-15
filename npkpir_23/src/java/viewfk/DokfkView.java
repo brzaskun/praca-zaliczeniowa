@@ -26,7 +26,6 @@ import beansFK.StronaWierszaBean;
 import beansFK.TabelaNBPBean;
 import beansPdf.PdfDokfk;
 import beansRegon.SzukajDaneBean;
-import beansVAT.VATZDBean;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.DokfkLPcomparator;
@@ -50,7 +49,6 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
-import deklaracje.vatzd.WniosekVATZD;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Roki;
@@ -78,12 +76,12 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -272,7 +270,7 @@ public class DokfkView implements Serializable {
         this.pobranecechypodatnikzapas = new ArrayList<>();
         this.dokumentypodatnika = new ArrayList<>();
         this.cechydokzlisty = new ArrayList<>();
-        this.kontadlaewidencji = new HashMap<>();
+        this.kontadlaewidencji = new ConcurrentHashMap<>();
     }
 
     //to zostaje bo tu i tak nie pobiera dokumentow

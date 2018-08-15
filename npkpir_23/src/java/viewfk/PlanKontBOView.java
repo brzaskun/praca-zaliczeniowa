@@ -11,10 +11,10 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -41,13 +41,13 @@ public class PlanKontBOView implements Serializable {
 
     public PlanKontBOView() {
          E.m(this);
-        this.wykazkontGrupa = new HashMap<>();
+        this.wykazkontGrupa = new ConcurrentHashMap<>();
     }
 
     @PostConstruct
     public void init() {
         if (wpisView instanceof WpisView) {
-            this.wykazkontGrupa = new HashMap<>();
+            this.wykazkontGrupa = new ConcurrentHashMap<>();
             List<Konto> wykazkont0 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
             List<Konto> wykazkont1 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "1%");
             List<Konto> wykazkont2 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "2%");

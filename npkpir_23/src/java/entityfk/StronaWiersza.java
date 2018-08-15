@@ -7,7 +7,6 @@ package entityfk;
 
 import embeddable.Mce;
 import embeddablefk.ListaSum;
-import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;

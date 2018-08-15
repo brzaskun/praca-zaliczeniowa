@@ -7,9 +7,9 @@ package embeddable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import msg.Msg;
@@ -100,7 +100,7 @@ public class Mce implements Serializable{
         mcenazwaListSlownik.add("grudzień");
         mcenazwaListSlownik.add("BO");
         
-        numberToMiesiac = new HashMap<>();
+        numberToMiesiac = new ConcurrentHashMap<>();
         numberToMiesiac.put(1, "01");
         numberToMiesiac.put(2, "02");
         numberToMiesiac.put(3, "03");
@@ -115,7 +115,7 @@ public class Mce implements Serializable{
         numberToMiesiac.put(12, "12");
         
         
-        numberToNazwamiesiaca = new HashMap<>();
+        numberToNazwamiesiaca = new ConcurrentHashMap<>();
         numberToNazwamiesiaca.put(1, "styczeń");
         numberToNazwamiesiaca.put(2, "luty");
         numberToNazwamiesiaca.put(3, "marzec");
@@ -129,7 +129,7 @@ public class Mce implements Serializable{
         numberToNazwamiesiaca.put(11, "listopad");
         numberToNazwamiesiaca.put(12, "grudzień");
         
-        numberToNazwamiesiacaEN = new HashMap<>();
+        numberToNazwamiesiacaEN = new ConcurrentHashMap<>();
         numberToNazwamiesiacaEN.put(1, "Jan.");
         numberToNazwamiesiacaEN.put(2, "Feb.");
         numberToNazwamiesiacaEN.put(3, "March");
@@ -143,7 +143,7 @@ public class Mce implements Serializable{
         numberToNazwamiesiacaEN.put(11, "Nov.");
         numberToNazwamiesiacaEN.put(12, "Dec.");
         
-        stringToNazwamiesiaca = new HashMap<>();
+        stringToNazwamiesiaca = new ConcurrentHashMap<>();
         stringToNazwamiesiaca.put("01", "styczeń");
         stringToNazwamiesiaca.put("02", "luty");
         stringToNazwamiesiaca.put("03", "marzec");
@@ -157,7 +157,7 @@ public class Mce implements Serializable{
         stringToNazwamiesiaca.put("11", "listopad");
         stringToNazwamiesiaca.put("12", "grudzień");
         
-        miesiacToNumber = new HashMap<>();
+        miesiacToNumber = new ConcurrentHashMap<>();
         miesiacToNumber.put("01",1);
         miesiacToNumber.put("02",2);
         miesiacToNumber.put("03",3);
@@ -171,7 +171,7 @@ public class Mce implements Serializable{
         miesiacToNumber.put("11",11);
         miesiacToNumber.put("12",12);
         
-        mapamcyCalendar = new HashMap<>();
+        mapamcyCalendar = new ConcurrentHashMap<>();
         mapamcyCalendar.put("01",Calendar.JANUARY);
         mapamcyCalendar.put("02",Calendar.FEBRUARY);
         mapamcyCalendar.put("03",Calendar.MARCH);
@@ -185,7 +185,7 @@ public class Mce implements Serializable{
         mapamcyCalendar.put("11",Calendar.NOVEMBER);
         mapamcyCalendar.put("12",Calendar.DECEMBER);
         
-        mce_pl_de = new HashMap<>();
+        mce_pl_de = new ConcurrentHashMap<>();
         mce_pl_de.put("styczeń","January");
         mce_pl_de.put("luty", "February");
         mce_pl_de.put("marzec", "März");

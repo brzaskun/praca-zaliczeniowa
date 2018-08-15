@@ -13,7 +13,6 @@ import embeddable.Kwartaly;
 import embeddable.TKodUS;
 import entity.Deklaracjavat27;
 import entity.Vat27;
-import entity.VatUe;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;

@@ -4,6 +4,7 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -30,7 +31,6 @@ import java.util.Date;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

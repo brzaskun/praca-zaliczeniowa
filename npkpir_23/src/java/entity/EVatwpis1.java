@@ -4,7 +4,6 @@
  */
 package entity;
 
-import entityfk.Tabelanbp;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.inject.Named;
@@ -15,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import waluty.Z;
 
 /**
  *

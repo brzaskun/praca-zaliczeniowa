@@ -16,10 +16,10 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -123,7 +123,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
 //        sumamiesiecy = sumujmiesiace();
 //        obliczsymulacjepoprzedniemce();
 //        obliczsymulacje();
-//        Map<String, Double> pozycjeDoWyplatyExport = new HashMap<>();
+//        Map<String, Double> pozycjeDoWyplatyExport = new ConcurrentHashMap<>();
 //        obliczkwotydowyplaty(pozycjeDoWyplatyExport);
 //        return pozycjeDoWyplatyExport;
 //    }
@@ -175,7 +175,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
     private void obliczsymulacje() {
-        podatnikkwotarazem = new HashMap<>();
+        podatnikkwotarazem = new ConcurrentHashMap<>();
         pozycjePodsumowaniaWyniku = new ArrayList<>();
         double przychody = sumamiesiecy.getPrzychody();
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("przychody"), przychody));
@@ -256,8 +256,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
      private void obliczsymulacjepoprzedniemce() {
-        zaplaconepodatki = new HashMap<>();
-        wyplaconedywidendy = new HashMap<>();
+        zaplaconepodatki = new ConcurrentHashMap<>();
+        wyplaconedywidendy = new ConcurrentHashMap<>();
         List<WynikFKRokMc> poprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView);
         List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
         for (PodatnikUdzialy p : udzialy) {

@@ -6,7 +6,6 @@
 package view;
 
 import data.Data;
-
 import entity.SrodekTrw;
 import entity.UmorzenieN;
 import error.E;

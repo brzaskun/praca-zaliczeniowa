@@ -6,9 +6,9 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import view.WpisView;
@@ -52,19 +52,19 @@ public class Kwartaly implements Serializable{
         kwList.add("3");
         kwList.add("4");
         
-        numberToKw = new HashMap<>();
+        numberToKw = new ConcurrentHashMap<>();
         numberToKw.put(1, "1");
         numberToKw.put(2, "2");
         numberToKw.put(3, "3");
         numberToKw.put(4, "4");
         
-        kwToostMc = new HashMap<>();
+        kwToostMc = new ConcurrentHashMap<>();
         kwToostMc.put(1,"03");
         kwToostMc.put(2,"06");
         kwToostMc.put(3,"09");
         kwToostMc.put(4,"12");
         
-        mapanrkw = new HashMap<>();
+        mapanrkw = new ConcurrentHashMap<>();
         mapanrkw.put(1, "1");
         mapanrkw.put(2, "1");
         mapanrkw.put(3, "1");
@@ -78,7 +78,7 @@ public class Kwartaly implements Serializable{
         mapanrkw.put(11, "4");
         mapanrkw.put(12, "4");
         
-        mapamckw = new HashMap<>();
+        mapamckw = new ConcurrentHashMap<>();
         mapamckw.put("01", "1");
         mapamckw.put("02", "1");
         mapamckw.put("03", "1");
@@ -92,7 +92,7 @@ public class Kwartaly implements Serializable{
         mapamckw.put("11", "4");
         mapamckw.put("12", "4");
         
-        mapamckwint = new HashMap<>();
+        mapamckwint = new ConcurrentHashMap<>();
         mapamckwint.put("01", 1);
         mapamckwint.put("02", 1);
         mapamckwint.put("03", 1);
@@ -106,7 +106,7 @@ public class Kwartaly implements Serializable{
         mapamckwint.put("11", 4);
         mapamckwint.put("12", 4);
         
-        mapamcMcwkw = new HashMap<>();
+        mapamcMcwkw = new ConcurrentHashMap<>();
         mapamcMcwkw.put("01", "03");
         mapamcMcwkw.put("02", "03");
         mapamcMcwkw.put("03", "03");
@@ -120,7 +120,7 @@ public class Kwartaly implements Serializable{
         mapamcMcwkw.put("11", "12");
         mapamcMcwkw.put("12", "12");
         
-        mapakwnr = new HashMap<>();
+        mapakwnr = new ConcurrentHashMap<>();
         mapakwnr.put(1, Szeregmcy.kwmce1);
         mapakwnr.put(2, Szeregmcy.kwmce2);
         mapakwnr.put(3, Szeregmcy.kwmce3);

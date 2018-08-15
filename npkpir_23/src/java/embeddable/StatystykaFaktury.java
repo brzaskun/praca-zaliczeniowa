@@ -7,8 +7,8 @@ package embeddable;
 
 import entity.Podatnik;
 import entity.Statystyka;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import waluty.Z;
 
 /**
@@ -21,11 +21,11 @@ public class StatystykaFaktury {
     private Map<String, StatFaktRok> statFaktRok;
 
     public StatystykaFaktury() {
-        this.statFaktRok = new HashMap<>();
+        this.statFaktRok = new ConcurrentHashMap<>();
     }
     
     public StatystykaFaktury(Statystyka s) {
-        this.statFaktRok =  new HashMap<>();
+        this.statFaktRok =  new ConcurrentHashMap<>();
         this.podatnik = s.getPodatnik();
         this.statFaktRok.put(s.getRok(), new StatFaktRok(s));
     }

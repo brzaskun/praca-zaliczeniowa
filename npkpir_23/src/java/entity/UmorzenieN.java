@@ -8,7 +8,6 @@ package entity;
 import em.Em;
 import embeddable.Mce;
 import embeddable.Umorzenie;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

@@ -16,6 +16,7 @@ import entityfk.StronaWiersza;
 import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.DoubleAccumulator;
@@ -42,7 +43,7 @@ public class KontaFKBean implements Serializable{
             r.setMapotomkow(false);
             r.setBlokada(false);
         }
-        List<Konto> sprawdzonemacierzyste = new ArrayList<>();
+        List<Konto> sprawdzonemacierzyste = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : wykazkont) {
             if (p.getKontomacierzyste()!=null) {
                 try {
@@ -68,7 +69,7 @@ public class KontaFKBean implements Serializable{
             r.setBlokada(false);
         }
         kontoDAO.editList(wykazkont);
-        List<Konto> sprawdzonemacierzyste = new ArrayList<>();
+        List<Konto> sprawdzonemacierzyste = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : wykazkont) {
              if (p.getKontomacierzyste()!=null) {
                 try {
@@ -230,7 +231,7 @@ public class KontaFKBean implements Serializable{
     }
 
     public static void pobierzKontaPotomne(List<Konto> kontamacierzyste, List<Konto> kontaostateczna, List<Konto> wykazkont) {
-        List<Konto> nowepotomne = new ArrayList<>();
+        List<Konto> nowepotomne = Collections.synchronizedList(new ArrayList<>());
         kontamacierzyste.parallelStream().forEach((p)->{
             if (p.isMapotomkow()==true) {
                 wykazkont.parallelStream().filter((r) -> (r.getKontomacierzyste() != null && r.getKontomacierzyste().equals(p))).forEachOrdered((r) -> {

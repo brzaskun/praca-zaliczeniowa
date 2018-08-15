@@ -6,7 +6,6 @@
 package deklaracje.vat272;
 
 import deklaracje.vat272.Deklaracja.Podmiot1;
-
 import entity.Vat27;
 import entity.VatUe;
 import error.E;

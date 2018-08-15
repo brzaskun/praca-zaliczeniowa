@@ -18,7 +18,6 @@ import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
 import data.Data;
 import embeddable.Mce;
-
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;

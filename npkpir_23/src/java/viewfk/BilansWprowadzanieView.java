@@ -31,13 +31,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -156,9 +156,9 @@ public class BilansWprowadzanieView implements Serializable {
         this.lista6 = new ArrayList<>();
         this.lista7 = new ArrayList<>();
         this.lista8 = new ArrayList<>();
-        this.listaGrupa = new HashMap<>();
+        this.listaGrupa = new ConcurrentHashMap<>();
         this.listaWKonsolidacja = new ArrayList<>();
-        this.listaSumList = new HashMap<>();
+        this.listaSumList = new ConcurrentHashMap<>();
         listaSumList.put(0, new ArrayList());
         listaSumList.put(1, new ArrayList());
         listaSumList.put(2, new ArrayList());
@@ -355,7 +355,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     private void tworzListeZbiorcza() {
-        this.listazbiorcza = new HashMap<>();
+        this.listazbiorcza = new ConcurrentHashMap<>();
         this.listazbiorcza.put(0, lista0);
         this.listazbiorcza.put(1, lista1);
         this.listazbiorcza.put(2, lista2);
@@ -1496,7 +1496,7 @@ public class BilansWprowadzanieView implements Serializable {
 
 //</editor-fold>
     private void usunpodwojnekontawListaW() {
-        Map<String, WierszBO> nowewiersze = new HashMap<>();
+        Map<String, WierszBO> nowewiersze = new ConcurrentHashMap<>();
         for (WierszBO p : listaW) {
             WierszBO w = null;
             if (p.getKonto() != null) {

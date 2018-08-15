@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -89,7 +90,7 @@ public class FakturadodelementyView implements Serializable {
             }
             Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
             if (elementgraficzny != null) {
-                pozycjecss = new HashMap<>();
+                pozycjecss = new ConcurrentHashMap<>();
                 pozycjecss.put("logo", new String[]{elementgraficzny.getSzerokosc(),elementgraficzny.getWysokosc()});
             }
         } catch (Exception e) { 

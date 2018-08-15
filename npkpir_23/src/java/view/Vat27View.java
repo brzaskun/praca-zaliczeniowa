@@ -8,13 +8,9 @@ import comparator.Dokcomparator;
 import dao.Deklaracjavat27DAO;
 import dao.DokDAO;
 import dao.PodatnikDAO;
-
 import entity.Deklaracjavat27;
-import entity.DeklaracjavatUE;
 import entity.Dok;
 import entity.Vat27;
-import entity.VatUe;
-import entityfk.Dokfk;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
 import error.E;

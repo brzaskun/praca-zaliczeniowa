@@ -41,9 +41,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
@@ -179,7 +179,7 @@ public class PdfFP {
     }
 
     public static Map<String, Integer> pobierzwymiarGora(List<Pozycjenafakturze> lista) {
-        Map<String, Integer> wymiary = new HashMap<>();
+        Map<String, Integer> wymiary = new ConcurrentHashMap<>();
         int gornylimit = 836;
         for (Pozycjenafakturze p : lista) {
             int wymiargora = (p.getGora() / 2);

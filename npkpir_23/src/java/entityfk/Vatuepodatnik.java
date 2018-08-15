@@ -5,7 +5,6 @@
 package entityfk;
 
 
-import entity.VatUe;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EmbeddedId;

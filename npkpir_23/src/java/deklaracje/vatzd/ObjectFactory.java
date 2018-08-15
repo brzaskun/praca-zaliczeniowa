@@ -8,9 +8,7 @@
 
 package deklaracje.vatzd;
 
-import static beansVAT.VATZDBean.data;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.datatype.XMLGregorianCalendar;
 

@@ -5,7 +5,6 @@
 package comparator;
 
 import embeddablefk.KontoBO;
-import entityfk.Konto;
 import java.util.Comparator;
 import javax.inject.Named;
 

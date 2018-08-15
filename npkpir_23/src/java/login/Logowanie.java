@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;

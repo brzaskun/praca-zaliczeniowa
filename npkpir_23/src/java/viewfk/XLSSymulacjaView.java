@@ -12,9 +12,9 @@ import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -63,7 +63,7 @@ public class XLSSymulacjaView implements Serializable{
                 Msg.msg("e","Wygeneruj najpierw zestawienie");
                 return;
             }
-            Map<String, List> listy = new HashMap<>();
+            Map<String, List> listy = new ConcurrentHashMap<>();
             listy.put("b", wynikpopmc);
             listy.put("p", przychody);
             listy.put("k", koszty);
@@ -103,7 +103,7 @@ public class XLSSymulacjaView implements Serializable{
                 Msg.msg("e","Wygeneruj najpierw zestawienie");
                 return;
             }
-            Map<String, List> listy = new HashMap<>();
+            Map<String, List> listy = new ConcurrentHashMap<>();
             listy.put("p", przychody);
             listy.put("k", koszty);
             listy.put("w", wynik);

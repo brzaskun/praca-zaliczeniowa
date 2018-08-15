@@ -15,10 +15,10 @@ import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -123,7 +123,7 @@ public class StatisticAdminView implements Serializable {
     }
     
     private void obliczkontrahentow(List<String> pracownicy) {
-        Map<String, String> klienci = new HashMap<>();
+        Map<String, String> klienci = new ConcurrentHashMap<>();
         for (String s :pracownicy) {
             Obrabiani obrab = new Obrabiani();
             if (s!=null) {

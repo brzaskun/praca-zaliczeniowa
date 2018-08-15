@@ -16,7 +16,6 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.Parametr;
-
 import entity.Dok;
 import entity.Podatnik;
 import entity.Uz;

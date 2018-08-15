@@ -3,12 +3,12 @@ package entityfk;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -113,13 +113,13 @@ public class Wiersz implements Serializable {
     
 
     public Wiersz() {
-        this.strona = new HashMap<>();
+        this.strona = new ConcurrentHashMap<>();
         this.piatki = new HashSet<>();
     }
 
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
     public Wiersz(int idporzadkowy, int typwiersza) {
-        this.strona = new HashMap<>();
+        this.strona = new ConcurrentHashMap<>();
         this.idporzadkowy = idporzadkowy;
         this.typWiersza = typwiersza;
         this.piatki = new HashSet<>();

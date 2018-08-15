@@ -18,11 +18,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -63,7 +63,7 @@ public class ZUSMailView implements Serializable {
 
     public ZUSMailView() {
         wykazprzygotowanychmaili = new ArrayList<>();
-        stawkipodatnicy = new HashMap<>();
+        stawkipodatnicy = new ConcurrentHashMap<>();
         wybranemaile = new ArrayList<>();
         numery = new ArrayList<>();
     }

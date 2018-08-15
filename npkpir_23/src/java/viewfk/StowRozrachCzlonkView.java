@@ -15,11 +15,11 @@ import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -142,7 +142,7 @@ public class StowRozrachCzlonkView implements Serializable {
 
     public void drukujwszystkie() {
         try {
-            Map<MiejscePrzychodow, List<Pozycja>> czlonkowie = new HashMap<>();
+            Map<MiejscePrzychodow, List<Pozycja>> czlonkowie = new ConcurrentHashMap<>();
             czlonkowiestowarzyszenia.forEach((t) -> {
                 wybranyczlonek = t;
                 pobierzdane();

@@ -6,11 +6,9 @@
 package vies;
 
 import daoFK.ViesDAO;
-
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Uz;
-import entity.VatSuper;
 import entity.VatUe;
 import error.E;
 import java.io.IOException;

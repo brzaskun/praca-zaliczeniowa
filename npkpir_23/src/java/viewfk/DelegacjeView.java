@@ -20,9 +20,9 @@ import entityfk.Dokfk;
 import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -74,7 +74,7 @@ public class DelegacjeView  implements Serializable{
         } catch (Exception e) {  E.e(e);
             
         }
-        listadelegacja = new HashMap<>();
+        listadelegacja = new ConcurrentHashMap<>();
     }
     
     public void obliczsumymiejsc() {

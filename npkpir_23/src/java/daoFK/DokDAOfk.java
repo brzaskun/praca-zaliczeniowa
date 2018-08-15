@@ -12,6 +12,7 @@ import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -57,7 +58,7 @@ public class DokDAOfk extends DAO implements Serializable {
 
     public List findDokfkPodatnikRokMc(WpisView wpisView) {
         try {
-           return dokFacade.findDokfkPodatnikRokMc(wpisView);
+           return Collections.synchronizedList(dokFacade.findDokfkPodatnikRokMc(wpisView));
        } catch (Exception e ){
            return null;
        }
@@ -65,7 +66,7 @@ public class DokDAOfk extends DAO implements Serializable {
     
     public List findDokfkPodatnikRokMcVAT(WpisView wpisView) {
         try {
-           return dokFacade.findDokfkPodatnikRokMcVAT(wpisView);
+           return Collections.synchronizedList(dokFacade.findDokfkPodatnikRokMcVAT(wpisView));
        } catch (Exception e ){
            return null;
        }
@@ -76,7 +77,7 @@ public class DokDAOfk extends DAO implements Serializable {
         try {
            String mcwpisu = wpisView.getMiesiacWpisu();
            List<String> mcekw = Kwartaly.mctoMcewKw(mcwpisu);
-           zwrot =  dokFacade.findDokfkPodatnikRokKw(wpisView, mcekw);
+           zwrot =  Collections.synchronizedList(dokFacade.findDokfkPodatnikRokKw(wpisView, mcekw));
        } catch (Exception e ){
            
        }
@@ -87,7 +88,7 @@ public class DokDAOfk extends DAO implements Serializable {
         List<Dokfk> zwrot = new ArrayList<>();
         try {
            List<String> mcekw = Kwartaly.mctoMcewKw(mcwpisu);
-           zwrot =  dokFacade.findDokfkPodatnikRokKw(wpisView, mcekw);
+           zwrot =  Collections.synchronizedList(dokFacade.findDokfkPodatnikRokKw(wpisView, mcekw));
        } catch (Exception e ){
            
        }
@@ -96,7 +97,7 @@ public class DokDAOfk extends DAO implements Serializable {
     
     public List<Dokfk> findDokfkPodatnikRok(WpisView wpisView) {
         try {
-           return dokFacade.findDokfkPodatnikRok(wpisView);
+           return Collections.synchronizedList(dokFacade.findDokfkPodatnikRok(wpisView));
        } catch (Exception e ){
            return null;
        }
@@ -104,7 +105,7 @@ public class DokDAOfk extends DAO implements Serializable {
     
     public List<Dokfk> findDokfkPodatnik(WpisView wpisView) {
         try {
-           return dokFacade.findDokfkPodatnik(wpisView);
+           return Collections.synchronizedList(dokFacade.findDokfkPodatnik(wpisView));
        } catch (Exception e ){
            return null;
        }
@@ -120,7 +121,7 @@ public class DokDAOfk extends DAO implements Serializable {
     
     public List<Dokfk> findDokfkPodatnikRokSrodkiTrwale(WpisView wpisView) {
         try {
-           return dokFacade.findDokfkPodatnikRokSrodkiTrwale(wpisView);
+           return Collections.synchronizedList(dokFacade.findDokfkPodatnikRokSrodkiTrwale(wpisView));
        } catch (Exception e ){
            return null;
        }
@@ -128,7 +129,7 @@ public class DokDAOfk extends DAO implements Serializable {
     
     public List<Dokfk> findDokfkPodatnikRokRMK(WpisView wpisView) {
         try {
-           return dokFacade.findDokfkPodatnikRokRMK(wpisView);
+           return Collections.synchronizedList(dokFacade.findDokfkPodatnikRokRMK(wpisView));
        } catch (Exception e ){
            return null;
        }
@@ -144,7 +145,7 @@ public class DokDAOfk extends DAO implements Serializable {
     
     public List<Dokfk> findDokfkPodatnikRokKategoria(WpisView wpisView, String kategoria) {
         try {
-           return dokFacade.findDokfkPodatnikRokKategoria(wpisView, kategoria);
+           return Collections.synchronizedList(dokFacade.findDokfkPodatnikRokKategoria(wpisView, kategoria));
        } catch (Exception e ){
            return null;
        }
@@ -152,7 +153,7 @@ public class DokDAOfk extends DAO implements Serializable {
     
     public List<Dokfk> findDokfkPodatnikRokKategoriaOrderByNo(WpisView wpisView, String kategoria) {
         try {
-           return dokFacade.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, kategoria);
+           return Collections.synchronizedList(dokFacade.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, kategoria));
        } catch (Exception e ){
            return null;
        }
@@ -230,7 +231,7 @@ public class DokDAOfk extends DAO implements Serializable {
     
     public List<Dokfk> findDokfofaTypeKilkaLista(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
         try {
-           List<Dokfk> lista = dokFacade.findDokfofaTypeKontrahentKilka(podatnikWpisu,vat, rokWpisuSt, mc);
+           List<Dokfk> lista = Collections.synchronizedList(dokFacade.findDokfofaTypeKontrahentKilka(podatnikWpisu,vat, rokWpisuSt, mc));
            return lista;
            } catch (Exception e ){
            return null;
@@ -239,7 +240,7 @@ public class DokDAOfk extends DAO implements Serializable {
     
     public Dokfk findDokfofaTypeKilka(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
         try {
-           List<Dokfk> lista = dokFacade.findDokfofaTypeKontrahentKilka(podatnikWpisu,vat, rokWpisuSt, mc);
+           List<Dokfk> lista = Collections.synchronizedList(dokFacade.findDokfofaTypeKontrahentKilka(podatnikWpisu,vat, rokWpisuSt, mc));
            Dokfk d = null;
            int max = 0;
            if (lista != null && lista.size() > 0) {
@@ -266,11 +267,11 @@ public class DokDAOfk extends DAO implements Serializable {
     }
 
     public List<String> znajdzDokumentPodatnikWprFK(String wpr) {
-        return dokFacade.znajdzDokumentPodatnikWprFK(wpr);
+        return Collections.synchronizedList(dokFacade.znajdzDokumentPodatnikWprFK(wpr));
     }
 
     public List<String> findZnajdzSeriePodatnik(WpisView wpisView) {
-        return dokFacade.findZnajdzSeriePodatnik(wpisView);
+        return Collections.synchronizedList(dokFacade.findZnajdzSeriePodatnik(wpisView));
     }
     
 }

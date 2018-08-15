@@ -18,7 +18,6 @@ import daoFK.UkladBRDAO;
 import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Mce;
-
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Konto;

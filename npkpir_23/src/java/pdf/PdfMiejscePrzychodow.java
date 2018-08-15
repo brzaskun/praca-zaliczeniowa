@@ -6,7 +6,10 @@
 package pdf;
 
 import static beansPdf.PdfFont.formatujWaluta;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeSpanFont;
+import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -15,7 +18,9 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddablefk.MiejsceZest;
+import entityfk.MiejscePrzychodow;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,14 +28,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import msg.Msg;
-import plik.Plik;
-import view.WpisView;
-import viewfk.MiejscePrzychodowView;
-import static beansPdf.PdfGrafika.prost;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import entityfk.MiejscePrzychodow;
-import error.E;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
 import pdffk.PdfMain;
@@ -40,6 +37,9 @@ import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
+import plik.Plik;
+import view.WpisView;
+import viewfk.MiejscePrzychodowView;
 
 /**
  *

@@ -17,10 +17,10 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -87,7 +87,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     
      private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp) {
         List<StronaWiersza> zapisyRok = pobierzzapisy();
-        Map<String,SaldoKontoNarastajaco> przygotowanalista = new HashMap<>();
+        Map<String,SaldoKontoNarastajaco> przygotowanalista = new ConcurrentHashMap<>();
         int licznik = 0;
         for (Konto p : kontaklienta) {
             if (p.getPelnynumer().equals("809")) {

@@ -6,10 +6,10 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -27,7 +27,7 @@ public class PanstwaMap implements Serializable {
 private static Map<String,String> wykazPanstwSX;
 
 //    public static void main(String[] args) {
-//        Map<String,String> wykazPanstwS = new HashMap<>();
+//        Map<String,String> wykazPanstwS = new ConcurrentHashMap<>();
 //        List<String> panstwa = new ArrayList<>();
 //        List<String> symbole = new ArrayList<>();
 //        panstwa.addAll(Panstwa.getWykazPanstw());
@@ -47,7 +47,7 @@ private static Map<String,String> wykazPanstwSX;
 //    }
 
 public PanstwaMap(){
-    wykazPanstwSX = new HashMap<>();
+    wykazPanstwSX = new ConcurrentHashMap<>();
 }
 
 

@@ -9,9 +9,7 @@ import dao.Deklaracjavat27DAO;
 import dao.PodatnikDAO;
 import daoFK.DokDAOfk;
 import daoFK.VatuepodatnikDAO;
-
 import entity.Deklaracjavat27;
-import entity.Dok;
 import entity.Vat27;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;

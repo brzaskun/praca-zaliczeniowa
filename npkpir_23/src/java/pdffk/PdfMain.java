@@ -33,7 +33,6 @@ import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
-
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoBO;
 import entity.DeklaracjaVatSchemaWierszSum;

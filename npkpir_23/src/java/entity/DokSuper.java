@@ -9,10 +9,8 @@ import entityfk.EVatwpisFK;
 import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import javax.validation.constraints.Size;
 
 /**
  *

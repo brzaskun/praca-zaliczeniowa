@@ -25,12 +25,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -85,7 +85,7 @@ public class BilansGenerowanieView implements Serializable {
         this.komunikatyerror = new ArrayList<>();
         this.komunikatyerror2 = new ArrayList<>();
         this.komunikatyerror3 = new ArrayList<>();
-        this.listawalut = new HashMap<>();
+        this.listawalut = new ConcurrentHashMap<>();
     }
     
     public void resetlikiwdacja() {
@@ -99,7 +99,7 @@ public class BilansGenerowanieView implements Serializable {
         this.komunikatyerror = new ArrayList<>();
         this.komunikatyerror2 = new ArrayList<>();
         this.komunikatyerror3 = new ArrayList<>();
-        this.listawalut = new HashMap<>();
+        this.listawalut = new ConcurrentHashMap<>();
          List<Waluty> waluty = walutyDAOfk.findAll();
         for (Waluty p : waluty) {
             listawalut.put(p.getSymbolwaluty(), p);

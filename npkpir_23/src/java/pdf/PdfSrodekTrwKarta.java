@@ -17,15 +17,15 @@ import java.io.IOException;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdffk.PdfMain;
+import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
+import static pdffk.PdfMain.dodajpagraf;
+import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
-import static pdffk.PdfMain.dodajpagraf;
 import testobjects.testobjects;
 import view.WpisView;
-import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.finalizacjaDokumentuQR;
 
 /**
  *

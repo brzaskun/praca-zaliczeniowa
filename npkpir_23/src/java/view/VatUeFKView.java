@@ -25,8 +25,6 @@ import entity.Klienci;
 import entity.Podatnik;
 import entity.VatUe;
 import entityfk.Dokfk;
-import entityfk.Vatuepodatnik;
-import entityfk.VatuepodatnikPK;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
