@@ -3668,11 +3668,11 @@ public class DokfkView implements Serializable {
 
     private List znajdzrodzajedokaktualne(List<Dokfk> wykazZaksiegowanychDokumentow) {
         if (wybranakategoriadok == null || wybranakategoriadok.equals("wszystkie")) {
-            Set<Rodzajedok> lista = new HashSet<>();
-            for (Dokfk p : wykazZaksiegowanychDokumentow) {
+            List<Rodzajedok> lista =  Collections.synchronizedList(new ArrayList<>());
+            wykazZaksiegowanychDokumentow.forEach((p) -> {
                 lista.add(p.getRodzajedok());
-            }
-            List<Rodzajedok> t = new ArrayList<>(lista);
+            });
+            List<Rodzajedok> t = new ArrayList<>(new HashSet(lista));
             Collections.sort(t, new Rodzajedokcomparator());
             return t;
         } else {
@@ -3682,15 +3682,13 @@ public class DokfkView implements Serializable {
 
     private List znajdzcechy(List<Dokfk> wykazZaksiegowanychDokumentow) {
         if (wybranacechadok == null || wybranacechadok.equals("")) {
-            Set<String> lista = new HashSet<>();
-            for (Dokfk p : wykazZaksiegowanychDokumentow) {
-                if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
-                    for (Cechazapisu r : p.getCechadokumentuLista()) {
-                        lista.add(r.getNazwacechy());
-                    }
+            List<String> lista =  Collections.synchronizedList(new ArrayList<>());
+            wykazZaksiegowanychDokumentow.parallelStream().filter((p) -> (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
+                for (Cechazapisu r : p.getCechadokumentuLista()) {
+                    lista.add(r.getNazwacechy());
                 }
-            }
-            List<String> t = new ArrayList<>(lista);
+            });
+            List<String> t = new ArrayList<>(new HashSet(lista));
             Collections.sort(t);
             return t;
         } else {

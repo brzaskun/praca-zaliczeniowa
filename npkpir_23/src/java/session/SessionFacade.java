@@ -87,6 +87,7 @@ import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -121,7 +122,7 @@ public class SessionFacade<T> implements Serializable {
     public List<T> findAll(Class<T> entityClass) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq).getResultList();
+        return Collections.synchronizedList(getEntityManager().createQuery(cq).getResultList());
     }
 
     public void create(T entity) {
@@ -207,7 +208,7 @@ public class SessionFacade<T> implements Serializable {
         q = getEntityManager().createQuery(cq);
         q.setMaxResults(ile);
         q.setFirstResult(range[1]);
-        return q.getResultList();
+        return Collections.synchronizedList(q.getResultList());
     }
 
     public Evewidencja findEvewidencjaByName(String nazwa) {
@@ -220,7 +221,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<Pitpoz> findPitpozAll() {
         List<Pitpoz> lista = em.createNamedQuery("Pitpoz.findAll").getResultList();
-        return lista;
+        return Collections.synchronizedList(lista);
     }
     
 
@@ -231,7 +232,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<Pitpoz> findPitpozLista(String rok, String mc, String pod) {
         List<Pitpoz> lista = em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getResultList();
-        return lista;
+        return Collections.synchronizedList(lista);
     }
 
     public Pitpoz findPitpoz(String rok, String mc, String pod, String udzialowiec) {
@@ -241,12 +242,12 @@ public class SessionFacade<T> implements Serializable {
 
     public List<Pitpoz> findPitpodatnik(String rok, String pod) {
         List<Pitpoz> tmp = em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
-        return tmp;
+        return Collections.synchronizedList(tmp);
     }
 
     public List<Ryczpoz> findRyczAll() {
         List<Ryczpoz> lista = em.createNamedQuery("Ryczpoz.findAll").getResultList();
-        return lista;
+        return Collections.synchronizedList(lista);
     }
 
     public Ryczpoz findRycz(String rok, String mc, String pod) {
@@ -261,7 +262,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<Ryczpoz> findRyczpodatnik(String rok, String pod) {
         List<Ryczpoz> tmp = em.createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
-        return tmp;
+        return Collections.synchronizedList(tmp);
     }
 
 
@@ -305,7 +306,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<Platnosci> findPlatnosciPodRok(String rok, String podatnik) throws Exception {
         List<Platnosci> tmp = em.createNamedQuery("Platnosci.findByPodRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
-        return tmp;
+        return Collections.synchronizedList(tmp);
     }
 
     public Dok dokumentDuplicat(Dok selD, String pkpirR) throws Exception {
@@ -366,7 +367,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<StornoDok> findStornoDok(Integer rok, String podatnik) {
         List<StornoDok> tmp = em.createQuery("SELECT p FROM StornoDok p WHERE p.rok = :rok AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("podatnik", podatnik).getResultList();
-        return tmp;
+        return Collections.synchronizedList(tmp);
     }
 
     public Dok poprzednik(Integer rok, Integer mc) throws Exception {
@@ -405,7 +406,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<Amodok> findAmodok(String podatnik) {
         List<Amodok> tmp = em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
-        return tmp;
+        return Collections.synchronizedList(tmp);
     }
 
     public Dok findStornoDok(String rok, String mc, Podatnik podatnik) {
@@ -446,11 +447,11 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Dok> findDokPod(Podatnik pod) {
-        return em.createNamedQuery("Dok.findByPodatnik").setParameter("podatnik", pod).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByPodatnik").setParameter("podatnik", pod).getResultList());
     }
 
     public List<Srodkikst> findSrodekkst(String nazwa) {
-        return em.createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getResultList());
     }
 
     public Srodkikst findSrodekkst1(String nazwa) {
@@ -462,7 +463,7 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Deklaracjevat> findDeklaracjewszystkie(String rok, String mc, String pod) {
-        return em.createNamedQuery("Deklaracjevat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getResultList());
     }
 
     public Deklaracjevat findDeklaracjewysylka(String pod) {
@@ -475,14 +476,14 @@ public class SessionFacade<T> implements Serializable {
 
     public List<Deklaracjevat> findDeklaracjewysylkaLista(String pod) {
         try {
-            return em.createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList());
         } catch (Exception e) {
             return null;
         }
     }
 
     public List<Deklaracjevat> findDeklaracjewyslane(String pod) {
-        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslane").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByPodatnikWyslane").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList());
     }
 
     public Deklaracjevat findDeklaracjaPodatnik(String identyfikator, String podatnik) {
@@ -490,18 +491,18 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Deklaracjevat> findDeklaracjewyslane(String pod, String rok) {
-        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList());
     }
     
     public List<Deklaracjevat> findDeklaracjewyslaneMc(String pod, String rok, String mc) {
-        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRokMc").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRokMc").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).setParameter("mc", mc).getResultList());
     }
 
     public List<Deklaracjevat> findDeklaracjewyslane200(String pod, String rok) {
-        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok200").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok200").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList());
     }
     public List<Deklaracjevat> findDeklaracjewyslane200RokMc(String rok, String mc) {
-        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRokMc200").setParameter("status", "200").setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRokMc200").setParameter("status", "200").setParameter("rok", rok).setParameter("mc", mc).getResultList());
     }
 
     public Srodkikst findSr(Srodkikst srodek) {
@@ -513,27 +514,27 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Dok> findDokBK(Podatnik pod, String rok) {
-        return em.createNamedQuery("Dok.findByBK").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByBK").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList());
     }
 
     public List<Dok> findDokBKPrzychody(Podatnik pod, String rok) {
-        return em.createNamedQuery("Dok.findByBKPrzychody").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByBKPrzychody").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList());
     }
 
     public List<Dok> findDokBKMCPrzychody(Podatnik pod, String rok, String mc) {
-        return em.createNamedQuery("Dok.findByBKMCPrzychody").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByBKMCPrzychody").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList());
     }
 
     public List<Dok> findDokRok(String rok) {
-        return em.createNamedQuery("Dok.findByPkpirR").setParameter("pkpirR", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByPkpirR").setParameter("pkpirR", rok).getResultList());
     }
 
     public List<Dok> findDokBKVAT(Podatnik pod, String rok) {
-        return em.createNamedQuery("Dok.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList());
     }
 
     public List<Dok> findDokfkBKVAT(Podatnik pod, String rok) {
-        return em.createNamedQuery("Dokfk.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList());
     }
 
     public Dok findDokTPR(String typdokumentu, Podatnik pod, String rok) {
@@ -546,15 +547,15 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Dok> findDokBK(Podatnik pod, String rok, String mc) {
-        return em.createNamedQuery("Dok.findByBKM").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByBKM").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList());
     }
     
     public List<Dok> findDokBKWaluta(Podatnik pod, String rok, String mc) {
-        return em.createNamedQuery("Dok.findByBKMWaluta").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByBKMWaluta").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList());
     }
 
     public List<Dok> findDokRokKW(Podatnik pod, String rok, List<String> mce) {
-        return em.createNamedQuery("Dok.findByRokKW").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByRokKW").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList());
     }
 
     public Object findDokBKCount(Podatnik pod, String rok, String mc) {
@@ -562,11 +563,11 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Dok> findDokDuplikat(Podatnik pod, String rok) {
-        return em.createNamedQuery("Dok.findByDuplikat").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByDuplikat").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList());
     }
 
     public List<Sumypkpir> findSumy(String podatnik, String rok) {
-        return em.createNamedQuery("Sumypkpir.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Sumypkpir.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public Amodok findMR(String pod, Integer rok, String mc) {
@@ -575,12 +576,12 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Deklaracjevat> findDeklaracjewysylka(String rok, String mc) {
-        return em.createNamedQuery("Deklaracjevat.findByRokMc").setParameter("rok", rok).setParameter("miesiac", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByRokMc").setParameter("rok", rok).setParameter("miesiac", mc).getResultList());
     }
 
     public List<SrodekTrw> findStrPod(String podatnik) {
         try {
-            return em.createNamedQuery("SrodekTrw.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("SrodekTrw.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -589,7 +590,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<SrodekTrw> findStrPodDokfk(String podatnik, Dokfk dokfk) {
         try {
-            return em.createNamedQuery("SrodekTrw.findByPodatnikDokfk").setParameter("podatnik", podatnik).setParameter("dokfk", dokfk).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("SrodekTrw.findByPodatnikDokfk").setParameter("podatnik", podatnik).setParameter("dokfk", dokfk).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -606,12 +607,12 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Inwestycje> findInwestycje(String podatnik, boolean zakonczona) {
-        return em.createNamedQuery("Inwestycje.findByPodatnikZakonczona").setParameter("podatnik", podatnik).setParameter("zakonczona", zakonczona).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Inwestycje.findByPodatnikZakonczona").setParameter("podatnik", podatnik).setParameter("zakonczona", zakonczona).getResultList());
     }
 
     public List<Amodok> findPod(String podatnik) {
         try {
-            return em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
         } catch (Exception e) {
             return null;
         }
@@ -619,7 +620,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<Amodok> AmoDokPodRok(String podatnik, String rok) {
         try {
-            return em.createNamedQuery("Amodok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Amodok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
         } catch (Exception e) {
             return null;
         }
@@ -635,7 +636,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<Amodok> findAmoDokBiezacy(String podatnik, String mc, String rok) {
         try {
-            return em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
         } catch (Exception e) {
             return null;
         }
@@ -658,35 +659,35 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Konto> findKontaNazwaPodatnik(String nazwaskrocona, WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByNazwaPodatnik").setParameter("nazwaskrocona", nazwaskrocona).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByNazwaPodatnik").setParameter("nazwaskrocona", nazwaskrocona).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findKontaRozrachunkowe(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByRozrachunkowePodatnik").setParameter("zwyklerozrachszczegolne", "rozrachunkowe").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByRozrachunkowePodatnik").setParameter("zwyklerozrachszczegolne", "rozrachunkowe").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findKontaRozrachunkoweZpotomkami(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByRozrachunkowePodatnikZpotomkami").setParameter("zwyklerozrachszczegolne", "rozrachunkowe").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByRozrachunkowePodatnikZpotomkami").setParameter("zwyklerozrachszczegolne", "rozrachunkowe").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findKontaRozrachunkoweWszystkie(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByRozrachunkiPodatnikWszystkie").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByRozrachunkiPodatnikWszystkie").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findKontaVAT(Podatnik podatnik, int rok) {
-        return em.createNamedQuery("Konto.findByVATPodatnik").setParameter("zwyklerozrachszczegolne", "vat").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByVATPodatnik").setParameter("zwyklerozrachszczegolne", "vat").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<Konto> findKontaSrodkiTrw(Podatnik podatnik, int rok) {
-        return em.createNamedQuery("Konto.findBySrodkiTrwPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findBySrodkiTrwPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<Konto> findKontaRMK(Podatnik podatnik, int rok) {
-        return em.createNamedQuery("Konto.findByRMKPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByRMKPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<Konto> findKontaRZiS(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByBilansowewynikowePodatnik").setParameter("bilansowewynikowe", "wynikowe").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByBilansowewynikowePodatnik").setParameter("bilansowewynikowe", "wynikowe").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public Konto findKonto(int id) {
@@ -712,11 +713,11 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Fakturyokresowe> findPodatnik(String podatnik) {
-        return em.createNamedQuery("Fakturyokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Fakturyokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
     }
 
     public List<Fakturywystokresowe> findPodatnikFaktury(String podatnik) {
-        return em.createNamedQuery("Fakturywystokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
     }
 
     public Fakturywystokresowe findFakturaOkresowaById(Integer id) {
@@ -724,17 +725,17 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Fakturywystokresowe> findPodatnikRokFaktury(String podatnik, String rok) {
-        return em.createNamedQuery("Fakturywystokresowe.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, String rok) {
-        return em.createNamedQuery("Fakturywystokresowe.findByPodatnikRokBiezace").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByPodatnikRokBiezace").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
     public List<Pozycjenafakturze> findFakturyPodatnik(String podatnik) {
-        return em.createNamedQuery("Pozycjenafakturze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Pozycjenafakturze.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
     }
 
     public List<Evewidencja> findEvewidencjaByTransakcja(String transakcja) {
-        return em.createNamedQuery("Evewidencja.findByTransakcja").setParameter("transakcja", transakcja).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Evewidencja.findByTransakcja").setParameter("transakcja", transakcja).getResultList());
     }
     
     public Evewidencja findEvewidencjaByPole(Evpozycja macierzysty) {
@@ -742,25 +743,25 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Faktura> findByKontrahent_nip(String kontrahent_nip, String wystawca) {
-        return em.createNamedQuery("Faktura.findByKontrahent").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Faktura.findByKontrahent").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList());
     }
 
     public List<Faktura> findByKontrahentNipRok(String kontrahent_nip, String wystawca, String rok) {
         if (kontrahent_nip.equals("9552379284")) {
         }
-        return em.createNamedQuery("Faktura.findByKontrahentRok").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Faktura.findByKontrahentRok").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).setParameter("rok", rok).getResultList());
     }
     
     public List<Faktura> findByKontrahentNipPo2015(String kontrahent_nip, String wystawca) {
-        return em.createNamedQuery("Faktura.findByKontrahentRokPo2015").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Faktura.findByKontrahentRokPo2015").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList());
     }
 
     public List<Faktura> findFakturyByRok(String rok) {
-        return em.createNamedQuery("Faktura.findByRok").setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Faktura.findByRok").setParameter("rok", rok).getResultList());
     }
 
     public List<Faktura> findFakturyByRokPodatnik(String rok, String wystawcanazwa) {
-        return em.createNamedQuery("Faktura.findByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Faktura.findByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).getResultList());
     }
 
     public Long liczFakturyByRokPodatnik(String rok, String wystawcanazwa) {
@@ -772,7 +773,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik) {
-        return em.createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
     }
 
     public Fakturadodelementy findFaktStopkaPodatnik(String podatnik) {
@@ -780,7 +781,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Faktura> findByPodatnik(String podatnik) {
-        return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList());
     }
 
     public Faktura findByNumerPodatnik(String numerkolejny, String podatnik) {
@@ -788,18 +789,18 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Faktura> findByPodatnikRok(String podatnik, String rok) {
-        return em.createNamedQuery("Faktura.findByWystawcanazwaRok").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Faktura.findByWystawcanazwaRok").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<Faktura> findByPodatnikRokMc(String podatnik, String rok, String mc) {
-        return em.createNamedQuery("Faktura.findByWystawcanazwaRokMc").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Faktura.findByWystawcanazwaRokMc").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
     }
 
     public List<Faktura> findByPodatnikRokMcPlatnosci(String podatnik, String rok, String mc, boolean niezaplacone0zaplacone1) {
         if (niezaplacone0zaplacone1 == false) {
-            return em.createNamedQuery("Faktura.findByWystawcanazwaRokMcNiezaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Faktura.findByWystawcanazwaRokMcNiezaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
         } else {
-            return em.createNamedQuery("Faktura.findByWystawcanazwaRokMcZaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Faktura.findByWystawcanazwaRokMcZaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
         }
     }
 
@@ -812,28 +813,28 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Wiersz> findWierszefkRozrachunki(String podatnik, Konto konto, Dokfk dokfk) {
-        return em.createNamedQuery("Wiersz.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfk", dokfk).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Wiersz.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfk", dokfk).getResultList());
     }
 
     public List<Wiersz> findWierszeZapisy(String podatnik, String konto) {
-        return em.createNamedQuery("Wiersz.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Wiersz.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList());
     }
 
     public List<Wiersz> findWierszePodatnikMcRok(Podatnik podatnik, WpisView wpisView) {
-        return em.createNamedQuery("Wiersz.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Wiersz.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
     }
 
     public List<Wiersz> findWierszePodatnikMcRokWNTWDT(Podatnik podatnik, WpisView wpisView, String wntwdt) {
-        return em.createNamedQuery("Wiersz.findByPodatnikMcRokWNTWDT").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("wntwdt", wntwdt).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Wiersz.findByPodatnikMcRokWNTWDT").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("wntwdt", wntwdt).getResultList());
     }
 
     public List<Wiersz> findWierszePodatnikRok(Podatnik podatnik, WpisView wpisView) {
-        return em.createNamedQuery("Wiersz.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Wiersz.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
 
 //
 //    public List<Wiersze> findWierszefkRozrachunki(String podatnik, String kontonumer) {
-//        return em.createNamedQuery("Wiersz.findByRozrachunki1").setParameter("podatnik", podatnik).getResultList();
+//        return em.createNamedQuery("Wiersz.findByRozrachunki1").setParameter("podatnik", podatnik).getResultList());
 //    }
     public Dokfk findDokfk(Dokfk selected) {
         try {
@@ -865,65 +866,65 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontaOstAlityka(Podatnik podatnik, Integer rok) {
-        return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<Konto> findKontaOstAlitykaWynikowe(Podatnik podatnik, Integer rok) {
-        return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnikWynikowe").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnikWynikowe").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<Konto> findKontaOstAlityka5(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik5").setParameter("mapotomkow", false).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik5").setParameter("mapotomkow", false).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc, String rok) {
         switch (mc) {
             case "01":
-                return em.createNamedQuery("Fakturywystokresowe.findByM1").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM1").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "02":
-                return em.createNamedQuery("Fakturywystokresowe.findByM2").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM2").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "03":
-                return em.createNamedQuery("Fakturywystokresowe.findByM3").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM3").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "04":
-                return em.createNamedQuery("Fakturywystokresowe.findByM4").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM4").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "05":
-                return em.createNamedQuery("Fakturywystokresowe.findByM5").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM5").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "06":
-                return em.createNamedQuery("Fakturywystokresowe.findByM6").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM6").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "07":
-                return em.createNamedQuery("Fakturywystokresowe.findByM7").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM7").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "08":
-                return em.createNamedQuery("Fakturywystokresowe.findByM8").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM8").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "09":
-                return em.createNamedQuery("Fakturywystokresowe.findByM9").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM9").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "10":
-                return em.createNamedQuery("Fakturywystokresowe.findByM10").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM10").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "11":
-                return em.createNamedQuery("Fakturywystokresowe.findByM11").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM11").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
             case "12":
-                return em.createNamedQuery("Fakturywystokresowe.findByM12").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByM12").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
         }
         return null;
     }
 
     public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, Integer rok, String macierzyste) {
         if (podatnik==null) {
-            return em.createNamedQuery("Konto.findByMacierzysteBOPodatnikWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteBOPodatnikWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList());
         } else {
-            return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
         }
     }
 
     public List<Konto> findKontaPotomneWzorcowy(Integer rok, String macierzyste) {
-        return em.createNamedQuery("Konto.findByMacierzysteBOPodatnikWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteBOPodatnikWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList());
     }
 
     public List<Konto> findKontaSiostrzanePodatnik(WpisView wpisView, String macierzyste) {
-        return em.createNamedQuery("Konto.findBySiostrzaneBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findBySiostrzaneBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findKontaSiostrzaneWzorcowy(WpisView wpisView, String macierzyste) {
-        return em.createNamedQuery("Konto.findBySiostrzaneBOPodatnikWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findBySiostrzaneBOPodatnikWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public Object findKontaPotomnePodatnikCount(WpisView wpisView, String macierzyste) {
@@ -935,38 +936,38 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontaMaSlownik(Podatnik podatnik, Integer rok, int idslownika) {
-        return em.createNamedQuery("Konto.findByMaSlownik").setParameter("idslownika", idslownika).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByMaSlownik").setParameter("idslownika", idslownika).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<Konto> findKontaPotomne(WpisView wpisView, String macierzyste, String bilansowewynikowe) {
         if (bilansowewynikowe.equals("bilansowe")) {
-            return em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
         } else {
-            return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
         }
     }
 
     public List<Konto> findKontaPotomneWzorcowy(Integer rok, String macierzyste, String bilansowewynikowe) {
         if (bilansowewynikowe.equals("bilansowe")) {
-            return em.createNamedQuery("Konto.findByMacierzysteBilansoweWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteBilansoweWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList());
         } else {
-            return em.createNamedQuery("Konto.findByMacierzysteWynikoweWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteWynikoweWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", rok).getResultList());
         }
     }
 
     public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe, WpisView wpisView, String aktywa0pasywa1) {
         if (bilansowewynikowe.equals("bilansowe")) {
-            return em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
         } else {
-            return em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
         }
     }
 
     public List<Konto> findKontaPrzyporzadkowaneWzorcowy(String pozycja, String bilansowewynikowe, int rok, String aktywa0pasywa1) {
         if (bilansowewynikowe.equals("bilansowe")) {
-            return em.createNamedQuery("Konto.findByPozycjaBilansoweWZOR").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("rok", rok).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaBilansoweWZOR").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("rok", rok).getResultList());
         } else {
-            return em.createNamedQuery("Konto.findByPozycjaWynikoweWZOR").setParameter("pozycja", pozycja).setParameter("rok", rok).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaWynikoweWZOR").setParameter("pozycja", pozycja).setParameter("rok", rok).getResultList());
         }
     }
 
@@ -1015,11 +1016,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Tabelanbp> findByWaluta(Waluty waluta) {
-        return em.createNamedQuery("Tabelanbp.findByWaluta").setParameter("waluta", waluta).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Tabelanbp.findByWaluta").setParameter("waluta", waluta).getResultList());
     }
 
     public List<Tabelanbp> findByDateWalutaLista(String datatabeli, String nazwawaluty) {
-        return em.createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getResultList());
     }
 
     public Tabelanbp findTabelaPLN() {
@@ -1040,70 +1041,70 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Sesja> findUser(String user) {
-        return em.createNamedQuery("Sesja.findByUzytkownik").setParameter("uzytkownik", user).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Sesja.findByUzytkownik").setParameter("uzytkownik", user).getResultList());
     }
 
     public Collection<? extends Dokfk> findDokByTypeYear(String BO, String rok) {
-        return em.createNamedQuery("Dokfk.findBySeriaRokdokfk").setParameter("seriadokfk", BO).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findBySeriaRokdokfk").setParameter("seriadokfk", BO).setParameter("rok", rok).getResultList());
     }
 
     public List<PozycjaRZiS> findUkladBR(UkladBR u) {
         String uklad = u.getUklad();
         String podatnik = u.getPodatnik();
         String rok = u.getRok();
-        return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<PozycjaRZiS> findUkladBR(String uklad, String podatnik, String rok) {
-        return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<PozycjaRZiS> findUkladBRBilans(String uklad, String podatnik, String rok) {
-        return em.createNamedQuery("PozycjaBilans.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("PozycjaBilans.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<PozycjaRZiS> findBilansukladAktywa(UkladBR u) {
         String uklad = u.getUklad();
         String podatnik = u.getPodatnik();
         String rok = u.getRok();
-        return em.createNamedQuery("PozycjaBilans.findByUkladPodRokAktywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("PozycjaBilans.findByUkladPodRokAktywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<PozycjaRZiS> findBilansukladPasywa(UkladBR u) {
         String uklad = u.getUklad();
         String podatnik = u.getPodatnik();
         String rok = u.getRok();
-        return em.createNamedQuery("PozycjaBilans.findByUkladPodRokPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("PozycjaBilans.findByUkladPodRokPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
     
     public List<PozycjaRZiS> findBilansukladAktywaPasywa(UkladBR u) {
         String uklad = u.getUklad();
         String podatnik = u.getPodatnik();
         String rok = u.getRok();
-        return em.createNamedQuery("PozycjaBilans.findByUkladPodRokAtywaPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("PozycjaBilans.findByUkladPodRokAtywaPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<KontopozycjaBiezaca> findKontaBiezacePodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
-            return em.createNamedQuery("KontopozycjaBiezaca.findByUkladWynikowe").setParameter("uklad", uklad).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaBiezaca.findByUkladWynikowe").setParameter("uklad", uklad).getResultList());
         } else {
-            return em.createNamedQuery("KontopozycjaBiezaca.findByUkladBilansowe").setParameter("uklad", uklad).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaBiezaca.findByUkladBilansowe").setParameter("uklad", uklad).getResultList());
         }
     }
 
     public List<KontopozycjaZapis> findKontaZapisPodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
-            return em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).getResultList());
         } else {
-            return em.createNamedQuery("KontopozycjaZapis.findByUkladBilansowe").setParameter("uklad", uklad).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladBilansowe").setParameter("uklad", uklad).getResultList());
         }
     }
     
     public List<KontopozycjaZapis> findKontaZapisPodatnikUkladWzorzec(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
-            return em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).getResultList());
         } else {
-            return em.createNamedQuery("KontopozycjaZapis.findByUkladBilansoweWzorzec").setParameter("uklad", uklad).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladBilansoweWzorzec").setParameter("uklad", uklad).getResultList());
         }
     }
 
@@ -1112,11 +1113,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Pismoadmin> findPismoadminBiezace() {
-        return em.createNamedQuery("Pismoadmin.findByNOTStatus").setParameter("status", "archiwalna").getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Pismoadmin.findByNOTStatus").setParameter("status", "archiwalna").getResultList());
     }
 
     public List<Pismoadmin> findPismoadminNowe() {
-        return em.createNamedQuery("Pismoadmin.findByStatus").setParameter("status", "wysłana").getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Pismoadmin.findByStatus").setParameter("status", "wysłana").getResultList());
     }
 
     public Kliencifk znajdzkontofk(String nip, String podatniknip) {
@@ -1129,97 +1130,97 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Kliencifk> znajdzkontofkKlient(String podatniknip) {
-        return em.createNamedQuery("Kliencifk.findByPodatniknip").setParameter("podatniknip", podatniknip).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Kliencifk.findByPodatniknip").setParameter("podatniknip", podatniknip).getResultList());
     }
 
     public List<Podatnik> findPodatnikFK() {
-        return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 1).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 1).getResultList());
     }
 
     public List<Podatnik> findPodatnikNieFK() {
-        return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 0).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 0).getResultList());
     }
 
     public List<Podatnik> findPodatnikFKPkpir() {
-        return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 3).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 3).getResultList());
     }
 
     public List<Podatnik> findPodatnikZUS() {
-        return em.createNamedQuery("Podatnik.findByZUS").getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Podatnik.findByZUS").getResultList());
     }
 
     public List<Konto> findKontoPodatnik(Podatnik podatnik, String rok) {
         if (podatnik == null) {
-            return em.createNamedQuery("Konto.findByPodatnikWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList());
         } else {
-            return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
         }
     }
     
     public List<Konto> findKontoPodatnikKsiegi(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("Konto.findByPodatnikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
     }
 
     public List<Konto> findKontoPodatnikBezSlownik(Podatnik podatnik, String rok) {
         if (podatnik == null) {
-            return em.createNamedQuery("Konto.findByPodatnikBezSlownikWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBezSlownikWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList());
         } else {
-            return em.createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
         }
     }
     public List<Konto> findKontoPodatnikBezSlownikKsiegi(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("Konto.findByPodatnikBezSlownikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBezSlownikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
     }
 
     public List<Konto> findKontoPodatnikTylkoSlownik(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("Konto.findByPodatnikTylkoSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikTylkoSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
     }
 
     public List<Konto> findKontoPodatnikBez0(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("Konto.findByPodatnikBez0").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBez0").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
     }
 
     public List<Konto> findWszystkieKontaPodatnikaBO(WpisView wpisView, String kategoriaKonta) {
-        return em.createNamedQuery("Konto.findByKontaPodatnikaBO").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("wzorzec", kategoriaKonta).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByKontaPodatnikaBO").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("wzorzec", kategoriaKonta).getResultList());
     }
 
     public List<Konto> findWszystkieKontaBilansowePodatnika(Podatnik podatnik, String rok) {
         if (podatnik == null) {
-            return em.createNamedQuery("Konto.findByPodatnikBilansoweWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBilansoweWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList());
         } else {
-            return em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
         }
     }
 
     public List<Konto> findWszystkieKontaWynikowePodatnika(Podatnik podatnik, String rok) {
         if (podatnik == null) {
-            return em.createNamedQuery("Konto.findByPodatnikWynikoweWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikWynikoweWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList());
         } else {
-            return em.createNamedQuery("Konto.findByPodatnikWynikowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikWynikowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
         }
     }
 
     public List<Konto> findKontaWynikowePodatnikaBezPotomkow(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
     
     public List<Konto> findKontaPodatnikZPotomkami(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByPodatnikZPotomkami").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikZPotomkami").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
     
     public List<Konto> findKontaWynikowePodatnikaBezPotomkowRokPop(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokUprzedni()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokUprzedni()).getResultList());
     }
 
     public List<Konto> findKontaBilansowePodatnikaBezPotomkow(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
     
     public List<Konto> findKontaBilansowePodatnikaBezPotomkowRokPoprzedni(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokUprzedni()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokUprzedni()).getResultList());
     }
     public List<Konto> findKontaBilansowePodatnikaKwotaBezPotomkow(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByPodatnikBilansoweKwotaBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBilansoweKwotaBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public Konto findKonto860(WpisView wpisView) {
@@ -1239,11 +1240,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<String> findKlienciNIP() {
-        return em.createNamedQuery("Klienci.findKlienciNip").getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Klienci.findKlienciNip").getResultList());
     }
 
     public List<String> findNazwaPelna(String nowanazwa) {
-        return em.createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nowanazwa).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nowanazwa).getResultList());
     }
 
     public Zusmail findZusmail(Zusmail zusmail) {
@@ -1251,47 +1252,47 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Zusmail> findZusRokMc(String rok, String mc) {
-        return em.createNamedQuery("Zusmail.findByRokMc").setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Zusmail.findByRokMc").setParameter("rok", rok).setParameter("mc", mc).getResultList());
     }
 
     public List<Dokfk> findDokfkPodatnikRokMc(WpisView w) {
-        return em.createNamedQuery("Dokfk.findByPodatnikRokMc").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc", w.getMiesiacWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokMc").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc", w.getMiesiacWpisu()).getResultList());
     }
     
     public List<Dokfk> findDokfkPodatnikRokMcVAT(WpisView w) {
-        return em.createNamedQuery("Dokfk.findByPodatnikRokMcVAT").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc", w.getMiesiacWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokMcVAT").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc", w.getMiesiacWpisu()).getResultList());
     }
     
     public List<Dokfk> findDokfkPodatnikRokKw(WpisView w, List<String> mcekw) {
-        return em.createNamedQuery("Dokfk.findByPodatnikRokKw").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc1", mcekw.get(0)).setParameter("mc2", mcekw.get(1)).setParameter("mc3", mcekw.get(2)).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokKw").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc1", mcekw.get(0)).setParameter("mc2", mcekw.get(1)).setParameter("mc3", mcekw.get(2)).getResultList());
     }
 
     public List<Dokfk> findDokfkPodatnikRok(WpisView w) {
-        return em.createNamedQuery("Dokfk.findByPodatnikRok").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRok").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList());
     }
     
     public List<Dokfk> findDokfkPodatnik(WpisView w) {
-        return em.createNamedQuery("Dokfk.findByPodatnik").setParameter("podatnik", w.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnik").setParameter("podatnik", w.getPodatnikObiekt()).getResultList());
     }
 
     public List<Dokfk> findDokfkPodatnikRokSrodkiTrwale(WpisView w) {
-        return em.createNamedQuery("Dokfk.findByPodatnikRokSrodkiTrwale").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokSrodkiTrwale").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList());
     }
 
     public List<Dokfk> findDokfkPodatnikRokRMK(WpisView w) {
-        return em.createNamedQuery("Dokfk.findByPodatnikRokRMK").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokRMK").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList());
     }
 
     public List<Dokfk> findDokfkPodatnikRokMcKategoria(WpisView w, String kategoria) {
-        return em.createNamedQuery("Dokfk.findByPodatnikRokMcKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc", w.getMiesiacWpisu()).setParameter("kategoria", kategoria).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokMcKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc", w.getMiesiacWpisu()).setParameter("kategoria", kategoria).getResultList());
     }
 
     public List<Dokfk> findDokfkPodatnikRokKategoria(WpisView w, String kategoria) {
-        return em.createNamedQuery("Dokfk.findByPodatnikRokKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList());
     }
 
     public List<Dokfk> findDokfkPodatnikRokKategoriaOrderByNo(WpisView w, String kategoria) {
-        return em.createNamedQuery("Dokfk.findByPodatnikRokKategoriaOrderByNo").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokKategoriaOrderByNo").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList());
     }
 
     public Rejestrlogowan findRejestrlogowanByIP(String ipusera) {
@@ -1299,11 +1300,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Rejestrlogowan> RejestrlogowanfindByLiczbalogowan0() {
-        return em.createNamedQuery("Rejestrlogowan.findByIloscLogowan0").getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Rejestrlogowan.findByIloscLogowan0").getResultList());
     }
 
     public List<Podatnik> findAktywnyPodatnik(Boolean podmiotaktywny) {
-        return em.createNamedQuery("Podatnik.findByPodmiotaktywny").setParameter("podmiotaktywny", podmiotaktywny).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Podatnik.findByPodmiotaktywny").setParameter("podmiotaktywny", podmiotaktywny).getResultList());
     }
 
     public int usunniezaksiegowane(String podatnik) {
@@ -1325,7 +1326,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<Transakcja> findTransakcjeRozliczonyID(int idrozrachunku) {
         try {
-            return em.createNamedQuery("Transakcja.findByRozliczonyID").setParameter("rozliczany", idrozrachunku).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByRozliczonyID").setParameter("rozliczany", idrozrachunku).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1334,7 +1335,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<Transakcja> findTransakcjeSparowanyID(String podatnik) {
         try {
-            return em.createNamedQuery("Transakcja.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1342,7 +1343,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Dok> znajdzOdDo(long odd, long dod) {
-        return em.createNamedQuery("Dok.findByIdDokOdDo").setParameter("odd", odd).setParameter("dod", dod).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByIdDokOdDo").setParameter("odd", odd).setParameter("dod", dod).getResultList());
     }
 
     public Klienci findKlientByNazwa(String nazwapelna) {
@@ -1381,13 +1382,13 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Dok> znajdzKontr1Null() {
-        return em.createNamedQuery("Dok.findByKontr1Null").getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByKontr1Null").getResultList());
     }
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWaluta(Konto konto, String symbolwaluty, String wnma) {
         try {
             
-            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1397,7 +1398,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<StronaWiersza> findStronaWierszaByKontoWnMa(Konto konto, String wnma) {
         try {
             
-            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1406,7 +1407,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     
     public List<StronaWiersza> findStronaWierszaByKontoOnly(Konto konto) {
         try {
-            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoOnly").setParameter("konto", konto).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoOnly").setParameter("konto", konto).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1416,7 +1417,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaKorekta(Konto konto, String symbolwaluty, String wnma) {
         try {
             
-            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaKorekta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaKorekta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1426,7 +1427,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaKorekta(Konto konto, String wnma) {
         try {
             
-            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1435,8 +1436,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaBO(Konto konto, String wnma) {
         try {
-            
-            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoBO").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
+            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoBO").setParameter("konto", konto).setParameter("wnma", wnma).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1445,7 +1445,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaBO(Konto konto, String symbolwaluty, String wnma) {
         try {
-            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaBO").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
+             return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaBO").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1453,170 +1453,170 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Rodzajedok> findListaWspolne(Podatnik podatnik) {
-        return em.createNamedQuery("Rodzajedok.findByListaWspolna").setParameter("podatnik", podatnik).getResultList();
+         return Collections.synchronizedList(em.createNamedQuery("Rodzajedok.findByListaWspolna").setParameter("podatnik", podatnik).getResultList());
     }
 
     public List<Rodzajedok> findListaPodatnik(Podatnik podatnik) {
-        return em.createNamedQuery("Rodzajedok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Rodzajedok.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty, MiejsceKosztow p) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteRokWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpismiejsca()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteRokWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpismiejsca()).getResultList());
     }
     
     public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteRok(Podatnik podatnik, Konto konto, String rok) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteRok").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteRok").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("rok", rok).getResultList());
     }
     
     public List<StronaWiersza> findStronaByPodatnikKontoSyntetyczneRok(Podatnik podatnik, Konto konto, String rok) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoSyntetyczneRok").setParameter("podatnikObj", podatnik).setParameter("kontonumer", konto.getPelnynumer()).setParameter("konto", konto).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoSyntetyczneRok").setParameter("podatnikObj", podatnik).setParameter("kontonumer", konto.getPelnynumer()).setParameter("konto", konto).setParameter("rok", rok).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWaluta(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, MiejsceKosztow p) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpismiejsca()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpismiejsca()).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWalutaPojazdy(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, Pojazdy p) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getNrrejestracyjny()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getNrrejestracyjny()).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWalutaDelegacja(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, Delegacja p) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpisdlugi()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpisdlugi()).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoBOWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoBOWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoBOWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoBOWalutaWszystkie(Podatnik podatnik, Konto konto, String rok) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoBOWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoBOWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutaWszystkie(Podatnik podatnik, Konto konto, String rok) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutaWszystkie(Podatnik podatnik, Konto konto, String rok, String mc) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("mc", mc).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkieNT(Podatnik podatnik, Konto konto, String rok) {
         List lista = em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
         this.refresh(lista);
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkieNT(Podatnik podatnik, String wybranaWalutaDlaKonta, Konto konto, String rok) {
         List lista = em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
         this.refresh(lista);
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkieR(Podatnik podatnik, Konto konto, String rok) {
-        List lista = em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieR").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();;
+        List lista = em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieR").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
         this.refresh(lista);
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieR").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieR").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkieR(Podatnik podatnik, String wybranaWalutaDlaKonta, Konto konto, String rok) {
         List lista = em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
         this.refresh(lista);
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokWalutaWynik(Podatnik podatnik, String rok, String skrotWaluty) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokWynik(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
     }
     
     public List<StronaWiersza> findStronaByPodatnikRokWynikBO(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWynikBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokWynikBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikWynikCecha(Podatnik podatnik) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikWynikCecha").setParameter("podatnikObj", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikWynikCecha").setParameter("podatnikObj", podatnik).getResultList());
     }
     
     public List<StronaWiersza> findStronaByPodatnikWynikCechaRokMc(Podatnik podatnik, String rok, String mc) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikWynikCechaRokMc").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikWynikCechaRokMc").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokMcWynik(Podatnik podatnik, String rok, String mc) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokMcWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokMcWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokMcWynikSlownik(Podatnik podatnik, String rok, String mc) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokMcWynikSlownik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokMcWynikSlownik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
     }
     
     public List<Konto> findStronaByPodatnikRokKontoDist(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("StronaWiersza.findStronaByPodatnikRokKontoDist").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findStronaByPodatnikRokKontoDist").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
     }
     public List<StronaWiersza> findStronaByPodatnikRok(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRok").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRok").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokWalutaBilans(Podatnik podatnik, String rok, String skrotWaluty) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokBilans(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<Konto> findKontoByPodatnikRokBilans(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("StronaWiersza.findByKontoDistinctPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByKontoDistinctPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokWalutaBilansBO(Podatnik podatnik, String rok, String skrotWaluty) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokBilansBO(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<WierszBO> findBOLista0(String grupa, WpisView wpisView) {
-        return em.createNamedQuery("WierszBO.findByLista").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WierszBO.findByLista").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
     }
     
     public List<WierszBO> findBOLista0likwidacja(String grupa, WpisView wpisView) {
-        return em.createNamedQuery("WierszBO.findByListaLikwidacja").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WierszBO.findByListaLikwidacja").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
     }
     
     public List<WierszBO> findBOListaRokMc(WpisView wpisView) {
-        return em.createNamedQuery("WierszBO.findByListaRokMc").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WierszBO.findByListaRokMc").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
     }
 
     public List<WierszBO> findWierszBOPodatnikRok(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("WierszBO.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WierszBO.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<WierszBO> findWierszBOPodatnikRokRozrachunkowe(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("WierszBO.findByPodatnikRokRozrachunkowe").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WierszBO.findByPodatnikRokRozrachunkowe").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<WierszBO> findWierszBOPodatnikRokKonto(Podatnik podatnikObiekt, String rokWpisuSt, Konto konto) {
-        return em.createNamedQuery("WierszBO.findByPodatnikRokKonto").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("konto", konto).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WierszBO.findByPodatnikRokKonto").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("konto", konto).getResultList());
     }
 
     public List<WierszBO> findWierszBOPodatnikRokKontoWaluta(Podatnik podatnikObiekt, String rokWpisuSt, Konto konto, String waluta) {
-        return em.createNamedQuery("WierszBO.findByPodatnikRokKontoWaluta").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("konto", konto).setParameter("waluta", waluta).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WierszBO.findByPodatnikRokKontoWaluta").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("konto", konto).setParameter("waluta", waluta).getResultList());
     }
 
     public List<Transakcja> findByNowaTransakcja(StronaWiersza s) {
-        return em.createNamedQuery("Transakcja.findByNowaTransakcja").setParameter("nowatransakcja", s).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByNowaTransakcja").setParameter("nowatransakcja", s).getResultList());
     }
 
     public List<Transakcja> findByRozliczajacy(StronaWiersza s) {
-        return em.createNamedQuery("Transakcja.findByRozliczajacy").setParameter("rozliczajacy", s).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByRozliczajacy").setParameter("rozliczajacy", s).getResultList());
     }
 
     public Dok znajdzDokumentInwestycja(WpisView wpisView, Dok r) {
@@ -1628,71 +1628,71 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findlistaKontKasaBank(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontKasaBank").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontKasaBank").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findlistaKontGrupa0(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontGrupa0").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa0").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findlistaKontGrupa0Analityka(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontGrupa0Analityka").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa0Analityka").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findlistaKontGrupa1(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontGrupa1").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa1").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findlistaKontGrupa2(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontGrupa2").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa2").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findlistaKontGrupa3(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontGrupa3").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa3").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 //moga
     public List<Konto> findlistaKontGrupa4(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontGrupa4").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa4").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findlistaKontGrupa5(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontGrupa5").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa5").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findlistaKontGrupa6(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontGrupa6").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa6").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findlistaKontGrupa7(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontGrupa7").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa7").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findlistaKontGrupa8(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findlistaKontGrupa8").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa8").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Transakcja> findByKonto(Konto wybraneKontoNode) {
-        return em.createNamedQuery(("Transakcja.findByKonto")).setParameter("konto", wybraneKontoNode).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery(("Transakcja.findByKonto")).setParameter("konto", wybraneKontoNode).getResultList());
     }
 
     public List<Transakcja> findByPodatniRok(WpisView wpisView) {
-        return em.createNamedQuery("Transakcja.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList());
     }
 
     public List<Transakcja> findByPodatnikBO(WpisView wpisView) {
-        return em.createNamedQuery("Transakcja.findByPodatnikBO").setParameter("podatnik", wpisView.getPodatnikWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByPodatnikBO").setParameter("podatnik", wpisView.getPodatnikWpisu()).getResultList());
     }
 
     public List<Transakcja> findByPodatniRokRozniceKursowe(WpisView wpisView) {
-        return em.createNamedQuery("Transakcja.findByPodatnikRokRozniceKursowe").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByPodatnikRokRozniceKursowe").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList());
     }
     
     public List<Transakcja> findByPodatniRokRozniceKursowe(WpisView wpisView, String mc) {
-        return em.createNamedQuery("Transakcja.findByPodatnikRokRozniceKursowe").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", mc).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByPodatnikRokRozniceKursowe").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", mc).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList());
     }
 
     public List<Transakcja> findByPodatnikBORozniceKursowe(WpisView wpisView) {
-        return em.createNamedQuery("Transakcja.findByPodatnikBORozniceKursowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByPodatnikBORozniceKursowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
     }
 
     public Faktura findfaktura(Faktura f) {
@@ -1709,23 +1709,23 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList());
     }
     
     public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkie(Podatnik podatnikObiekt, String konto, String rokWpisuSt) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcVAT(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcVAT").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcVAT").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokVAT(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokVAT").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokVAT").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList());
     }
 
     public Dokfk findDokfofaTypeKontrahent(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
@@ -1733,48 +1733,48 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
     
     public List<Dokfk> findDokfofaTypeKontrahentKilka(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
-        return em.createNamedQuery("Dokfk.findBySeriaNumerRokdokfk").setParameter("seriadokfk", vat).setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikWpisu).setParameter("mc", mc).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findBySeriaNumerRokdokfk").setParameter("seriadokfk", vat).setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikWpisu).setParameter("mc", mc).getResultList());
     }
 
     public List<Konto> findKontaWzorcowy(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
     
     public List<Konto> findKontaWzorcowy(Integer rok) {
-        return em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", rok).getResultList());
     }
 
     public List<RMK> findRMKByPodatnikRok(WpisView wpisView) {
-        return em.createNamedQuery("RMK.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("RMK.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList());
     }
 
     public List<RMK> findRMKByPodatnikRokDokfk(WpisView wpisView, Dokfk dokfk) {
-        return em.createNamedQuery("RMK.findByPodatnikRokDokfk").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).setParameter("dokfk", dokfk).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("RMK.findByPodatnikRokDokfk").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).setParameter("dokfk", dokfk).getResultList());
     }
 
     public List<MiejsceKosztow> findMiejscaPodatnik(Podatnik podatnik) {
-        return em.createNamedQuery("MiejsceKosztow.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("MiejsceKosztow.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
     }
     
     public List<MiejsceKosztow> findMiejscaPodatnikWszystkie(Podatnik podatnik) {
-        return em.createNamedQuery("MiejsceKosztow.findByPodatnikWszystkie").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("MiejsceKosztow.findByPodatnikWszystkie").setParameter("podatnik", podatnik).getResultList());
     }
     
     public List<MiejsceKosztow> findMiejscaPrzychodowPodatnikRok(Podatnik podatnik, int rok) {
-        return em.createNamedQuery("MiejscePrzychodow.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("MiejscePrzychodow.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
     
     public List<MiejsceKosztow> findMiejscaPrzychodowPodatnik(Podatnik podatnik) {
-        return em.createNamedQuery("MiejscePrzychodow.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("MiejscePrzychodow.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
     }
     
     public List<MiejsceKosztow> findMiejscaPrzychodowPodatnikWszystkie(Podatnik podatnik) {
-        return em.createNamedQuery("MiejscePrzychodow.findByPodatnikWszystkie").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("MiejscePrzychodow.findByPodatnikWszystkie").setParameter("podatnik", podatnik).getResultList());
     }
 
 
     public List<Pojazdy> findPojazdyPodatnik(Podatnik podatnik) {
-        return em.createNamedQuery("Pojazdy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Pojazdy.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
     }
 
     public long countPojazdy(Podatnik podatnikObiekt) {
@@ -1782,7 +1782,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Delegacja> findDelegacjaPodatnik(WpisView wpisView, boolean krajowa0zagraniczna1) {
-        return em.createNamedQuery("Delegacja.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("krajowa0zagraniczna1", krajowa0zagraniczna1).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Delegacja.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("krajowa0zagraniczna1", krajowa0zagraniczna1).getResultList());
     }
 
     public long countDelegacja(WpisView wpisView, boolean krajowa0zagraniczna1) {
@@ -1790,11 +1790,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Uz> findByUprawnienia(String uprawnienia) {
-        return em.createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList());
     }
 
     public List<MultiuserSettings> findMutliuserSettingsByUz(Uz user) {
-        return em.createNamedQuery("MultiuserSettings.findByUser").setParameter("user", user).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("MultiuserSettings.findByUser").setParameter("user", user).getResultList());
     }
 
     public FakturaXXLKolumna findXXLByPodatnik(Podatnik p) {
@@ -1814,15 +1814,15 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<UkladBR> findUkladBRPodatnik(String nazwapelna) {
-        return em.createNamedQuery("UkladBR.findByPodatnik").setParameter("podatnik", nazwapelna).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("UkladBR.findByPodatnik").setParameter("podatnik", nazwapelna).getResultList());
     }
     
     public List<UkladBR> findUkladBRPodatnikRok(WpisView wpisView) {
-        return em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
     
     public List<UkladBR> findUkladBRPodatnikRok(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnik.getNazwapelna()).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnik.getNazwapelna()).setParameter("rok", rok).getResultList());
     }
 
     public void findRemoveRzisuklad(String uklad, String podatnik, String rok) {
@@ -1854,19 +1854,19 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontazLevelu(WpisView wpisView, int i) {
-        return em.createNamedQuery("Konto.findByLevelPodatnik").setParameter("level", i).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByLevelPodatnik").setParameter("level", i).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findKontazLeveluWzorcowy(WpisView wpisView, int i) {
-        return em.createNamedQuery("Konto.findByLevelWzorcowy").setParameter("level", i).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByLevelWzorcowy").setParameter("level", i).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
     public List<Konto> findKontazLeveluRok(WpisView wpisView, int i) {
-        return em.createNamedQuery("Konto.findByLevelRok").setParameter("level", i).setParameter("rok", 2015).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByLevelRok").setParameter("level", i).setParameter("rok", 2015).getResultList());
     }
 
     public List<Konto> findSlownikoweKlienci(WpisView wpisView, Kliencifk kliencifk) {
-        return em.createNamedQuery("Konto.findByPodatnikKliencifk").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("nazwa", kliencifk.getNazwa()).setParameter("nip", kliencifk.getNip()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikKliencifk").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("nazwa", kliencifk.getNazwa()).setParameter("nip", kliencifk.getNip()).getResultList());
     }
 
     public WynikFKRokMc findWynikFKRokMc(WynikFKRokMc wynikFKRokMc) {
@@ -1878,15 +1878,15 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<WynikFKRokMc> findWynikFKPodatnikRok(WpisView wpisView) {
-        return em.createNamedQuery("WynikFKRokMc.findPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WynikFKRokMc.findPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
     
     public List<WynikFKRokMc> findWynikFKPodatnikRokFirma(WpisView wpisView) {
-        return em.createNamedQuery("WynikFKRokMc.findPodatnikRokFirma").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WynikFKRokMc.findPodatnikRokFirma").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
 
     public List<WynikFKRokMc> findWynikFKPodatnikRokUdzialowiec(WpisView wpisView) {
-        return em.createNamedQuery("WynikFKRokMc.findPodatnikRokUdzialowiec").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WynikFKRokMc.findPodatnikRokUdzialowiec").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
 
     public Klienci findKlientById(int i) {
@@ -1894,15 +1894,15 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<EVatwpisFK> findEVatwpisFKByPodatnik(Podatnik podatnik) {
-        return em.createNamedQuery("EVatwpisFK.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
     }
 
     public List<EVatwpisFK> findEVatwpisFKByPodatnikRok(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("EVatwpisFK.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public List<EVatwpisFK> findEVatwpisFKByPodatnikRokInnyOkres(Podatnik podatnik, String rok) {
-        return em.createNamedQuery("EVatwpisFK.findByPodatnikRokInnyOkres").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnikRokInnyOkres").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
     public UkladBR findUkladBRUklad(UkladBR ukladBR) {
@@ -1952,11 +1952,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     
     
     public List<UkladBR> findUkladBRWzorcowyRok(String rokWpisu) {
-        return em.createNamedQuery("UkladBR.findByWzorcowyRok").setParameter("rok", rokWpisu).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("UkladBR.findByWzorcowyRok").setParameter("rok", rokWpisu).getResultList());
     }
 
     public List<UkladBR> findukladBRPodatnikRok(String podatnikWpisu, String rokWpisuSt) {
-        return em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getResultList());
     }
     
     public UkladBR findukladBRPodatnikRokPodstawowy(String podatnikWpisu, String rokWpisuSt) {
@@ -1980,11 +1980,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<PodatnikUdzialy> findUdzialyPodatnik(WpisView wpisView) {
-        return em.createNamedQuery("PodatnikUdzialy.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("PodatnikUdzialy.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
     }
 
     public List<PodatnikOpodatkowanieD> findOpodatkowaniePodatnik(WpisView wpisView) {
-        return em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
     }
 
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRok(WpisView wpisView) {
@@ -2005,27 +2005,27 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<String> znajdzDokumentPodatnikWpr(String wpr) {
-        return em.createNamedQuery("Dok.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dok.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList());
     }
 
     public List<String> znajdzDokumentPodatnikWprFK(String wpr) {
-        return em.createNamedQuery("Dokfk.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList());
     }
 
     public List<String> findUzByUprawnienia(String uprawnienia) {
-        return em.createNamedQuery("Uz.findByUzUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Uz.findByUzUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList());
     }
 
     public List<String> findZnajdzSeriePodatnik(WpisView wpisView) {
-        return (List<String>) em.createNamedQuery("Dokfk.znajdzSeriePodatnik").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList((List<String>) em.createNamedQuery("Dokfk.znajdzSeriePodatnik").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
     }
 
     public List<SchemaEwidencja> findEwidencjeSchemy(DeklaracjaVatSchema wybranaschema) {
-        return (List<SchemaEwidencja>) em.createNamedQuery("SchemaEwidencja.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList();
+        return Collections.synchronizedList((List<SchemaEwidencja>) em.createNamedQuery("SchemaEwidencja.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList());
     }
 
     public List<DeklaracjaVatSchemaWierszSum> findWierszSumSchemy(DeklaracjaVatSchema wybranaschema) {
-        return (List<DeklaracjaVatSchemaWierszSum>) em.createNamedQuery("DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList();
+        return Collections.synchronizedList((List<DeklaracjaVatSchemaWierszSum>) em.createNamedQuery("DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList());
     }
 
     public DeklaracjaVatWierszSumaryczny findWierszSumaryczny(String razem_suma_przychodów) {
@@ -2037,31 +2037,31 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Zusstawki> findZUS(boolean duzy0maly1) {
-        return em.createNamedQuery("Zusstawki.findZUS").setParameter("duzy0maly1", duzy0maly1).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Zusstawki.findZUS").setParameter("duzy0maly1", duzy0maly1).getResultList());
     }
 
     public Collection<? extends Klienci> findKontrahentFaktury(Podatnik podatnikObiekt) {
-        return em.createNamedQuery("Faktura.findByKonrahentPodatnik").setParameter("podatnik", podatnikObiekt).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Faktura.findByKonrahentPodatnik").setParameter("podatnik", podatnikObiekt).getResultList());
     }
 
     public List<FakturaRozrachunki> rozrachunkiZDnia(Date d, WpisView wpisView) {
-        return em.createNamedQuery("FakturaRozrachunki.findByData_k").setParameter("data", d, TemporalType.DATE).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("FakturaRozrachunki.findByData_k").setParameter("data", d, TemporalType.DATE).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
     }
 
     public List<FakturaRozrachunki> findByPodatnik(WpisView wpisView) {
-        return em.createNamedQuery("FakturaRozrachunki.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("FakturaRozrachunki.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
     }
     
     public List<FakturaRozrachunki> findByPodatnikRokMc(WpisView wpisView) {
-        return em.createNamedQuery("FakturaRozrachunki.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("FakturaRozrachunki.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
     }
 
     public List<FakturaRozrachunki> findByPodatnikKontrahent(WpisView wpisView, Klienci kontrahent) {
-        return em.createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahent").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("kontrahent", kontrahent).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahent").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("kontrahent", kontrahent).getResultList());
     }
 
     public List<FakturaRozrachunki> findByPodatnikKontrahentRok(WpisView wpisView, Klienci kontrahent) {
-        return em.createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahentRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("kontrahent", kontrahent).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahentRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("kontrahent", kontrahent).getResultList());
     }
     public int deleteWierszBOPodatnikRok(Podatnik podatnik, String rok) {
         return em.createNamedQuery("WierszBO.findByDeletePodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
@@ -2089,31 +2089,31 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Deklaracjevat> findDeklaracjeByPodatnik(String podatnikWpisu) {
-        return em.createNamedQuery("Deklaracjevat.findByPodatnik").setParameter("podatnik", podatnikWpisu).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByPodatnik").setParameter("podatnik", podatnikWpisu).getResultList());
     }
 
     public List<PlatnoscWaluta> findPlatnoscWalutaByDok(Dok selected) {
-        return em.createNamedQuery("PlatnoscWaluta.findByDok").setParameter("dokument", selected).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("PlatnoscWaluta.findByDok").setParameter("dokument", selected).getResultList());
     }
 
     public List<ZamkniecieRokuRozliczenie> findZakmniecieRokuByRokPodatnik(Podatnik podatnikObiekt, String rok) {
-        return em.createNamedQuery("ZamkniecieRokuRozliczenie.findByRokPodatnik").setParameter("podatnik", podatnikObiekt).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("ZamkniecieRokuRozliczenie.findByRokPodatnik").setParameter("podatnik", podatnikObiekt).setParameter("rok", rok).getResultList());
     }
 
     public List<ZamkniecieRokuEtap> findZakmniecieRokuEtapByRok(String rok) {
-        return em.createNamedQuery("ZamkniecieRokuEtap.findByRok").setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("ZamkniecieRokuEtap.findByRok").setParameter("rok", rok).getResultList());
     }
 
     public List<PlatnoscWaluta> findPlatnoscWalutaByPodRokMc(Podatnik podatnikObiekt, String rokWpisuSt, String miesiacWpisu) {
-        return em.createNamedQuery("PlatnoscWaluta.findByPodRokMc").setParameter("podatnik", podatnikObiekt.getNazwapelna()).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("PlatnoscWaluta.findByPodRokMc").setParameter("podatnik", podatnikObiekt.getNazwapelna()).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList());
     }
 
     public List<Sprawa> findSprawaByOdbiorca(Uz odbiorca) {
-        return em.createNamedQuery("Sprawa.findByOdbiorca").setParameter("odbiorca", odbiorca).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Sprawa.findByOdbiorca").setParameter("odbiorca", odbiorca).getResultList());
     }
 
     public List<Sprawa> findSprawaByNadawca(Uz nadawca) {
-        return em.createNamedQuery("Sprawa.findByNadawca").setParameter("nadawca", nadawca).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Sprawa.findByNadawca").setParameter("nadawca", nadawca).getResultList());
     }
 
     public FakturaStopkaNiemiecka findStopkaNiemieckaByPodatnik(Podatnik podatnikObiekt) {
@@ -2129,7 +2129,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<UmorzenieN> findUmorzenieBySrodek(SrodekTrw str) {
-        return em.createNamedQuery("UmorzenieN.findStr").setParameter("srodekTrw", str).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("UmorzenieN.findStr").setParameter("srodekTrw", str).getResultList());
     }
 
     public void ukladBRustawnieaktywne(String podatnik) {
@@ -2137,23 +2137,23 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<SprawozdanieFinansowe> findSprawozdanieRokPodatnik(WpisView wpisView, String rok) {
-        return em.createNamedQuery("SprawozdanieFinansowe.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("SprawozdanieFinansowe.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", rok).getResultList());
     }
     
     public List<SprawozdanieFinansowe> findSprawozdanieRok(String rok) {
-        return em.createNamedQuery("SprawozdanieFinansowe.findByRok").setParameter("rok", rok).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("SprawozdanieFinansowe.findByRok").setParameter("rok", rok).getResultList());
     }
 
     public List<Cechazapisu> findCechaZapisuByPodatnikOnly(Podatnik podatnikObiekt) {
-        return em.createNamedQuery("Cechazapisu.findByPodatnikOnly").setParameter("podatnik", podatnikObiekt).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Cechazapisu.findByPodatnikOnly").setParameter("podatnik", podatnikObiekt).getResultList());
     }
     
     public List<Cechazapisu> findCechaZapisuByPodatnikOnlyStatystyczne(Podatnik podatnikObiekt) {
-        return em.createNamedQuery("Cechazapisu.findByPodatnikOnlyStatystyczne").setParameter("podatnik", podatnikObiekt).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Cechazapisu.findByPodatnikOnlyStatystyczne").setParameter("podatnik", podatnikObiekt).getResultList());
     }
     
     public List<Cechazapisu> findCechaZapisuByPodatnik(Podatnik podatnikObiekt) {
-        return em.createNamedQuery("Cechazapisu.findByPodatnik").setParameter("podatnik", podatnikObiekt).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Cechazapisu.findByPodatnik").setParameter("podatnik", podatnikObiekt).getResultList());
     }
     
     public Cechazapisu findCechaZapisuByPodatnikNKUP() {
@@ -2161,7 +2161,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Fakturywystokresowe> findOkresoweOstatnieByfaktura(Faktura p) {
-        return em.createNamedQuery("Fakturywystokresowe.findByFaktura").setParameter("faktura", p).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Fakturywystokresowe.findByFaktura").setParameter("faktura", p).getResultList());
     }
 
     public void usunlogoplik(Podatnik podatnikObiekt) {
@@ -2173,11 +2173,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<DeklaracjavatUE> findDeklUEbyPodatnikRok(WpisView wpisView) {
-        return em.createNamedQuery("DeklaracjavatUE.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("DeklaracjavatUE.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
 
     public List<DeklaracjavatUE> findDeklUEbyPodatnikRokMc(WpisView wpisView) {
-        return em.createNamedQuery("DeklaracjavatUE.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("DeklaracjavatUE.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList());
     }
 
     public void usundeklaracjeUE(WpisView wpisView) {
@@ -2185,11 +2185,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         em.flush();
     }
     public List<Deklaracjavat27> findDekl27byPodatnikRok(WpisView wpisView) {
-        return em.createNamedQuery("Deklaracjavat27.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjavat27.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
 
     public List<Deklaracjavat27> findDekl27byPodatnikRokMc(WpisView wpisView) {
-        return em.createNamedQuery("Deklaracjavat27.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjavat27.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList());
     }
 
     public void usundeklaracje27(WpisView wpisView) {
@@ -2198,11 +2198,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<DeklaracjavatUE> findDeklaracjeUEwysylka(String rokWpisuSt, String miesiacWpisu) {
-        return em.createNamedQuery("DeklaracjavatUE.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("miesiac", miesiacWpisu).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("DeklaracjavatUE.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("miesiac", miesiacWpisu).getResultList());
     }
 
     public List<Deklaracjavat27> findDeklaracje27wysylka(String rokWpisuSt, String miesiacWpisu) {
-        return em.createNamedQuery("Deklaracjavat27.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("miesiac", miesiacWpisu).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Deklaracjavat27.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("miesiac", miesiacWpisu).getResultList());
     }
 
     public void usunSumyPKPiR(String podatnik, String rok, String mc) {
@@ -2210,23 +2210,23 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<UPO> findUPOPodatnikRok(Podatnik podatnikObiekt, String rokWpisuSt) {
-        return em.createNamedQuery("UPO.findUPOPodatnikRok").setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikObiekt).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("UPO.findUPOPodatnikRok").setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikObiekt).getResultList());
     }
     
     public List<UPO> findUPORokMc(String rokWpisuSt, String miesiacWpisu) {
-        return em.createNamedQuery("UPO.findUPORokMc").setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("UPO.findUPORokMc").setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList());
     }
 
     public List<EVatwpis1> zwrocEVatwpis1KlientRokMc(Podatnik podatnikWpisu, String rokWpisuSt, String miesiacWpisu) {
-        return em.createNamedQuery("EVatwpis1.findByRokMc").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpis1.findByRokMc").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList());
     }
 
     public List<EVatwpis1> zwrocEVatwpis1KlientRokKw(Podatnik podatnikWpisu, String rokWpisuSt, List<String> mce) {
-        return em.createNamedQuery("EVatwpis1.findByRokKW").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpis1.findByRokKW").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList());
     }
 
     public List<Sesja> findSesjaZalogowani() {
-        return em.createNamedQuery("Sesja.findByZalogowani").getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("Sesja.findByZalogowani").getResultList());
     }
 
     public String findEVatwpisFKPodatnikKlient(Podatnik podatnikObiekt, Klienci klient, String rok) {
@@ -2234,24 +2234,24 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<KontopozycjaZapis> findByKontoOnly(Konto konto) {
-        return em.createNamedQuery("KontopozycjaZapis.findByKontoOnly").setParameter("konto", konto).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByKontoOnly").setParameter("konto", konto).getResultList());
                 
     }
 
     public List<VATZDDAO> findVATPozycjaByPodatnikRokMcFK(WpisView wpisView) {
-        return em.createNamedQuery("VATZDpozycja.findByPodatnikRokMcFK").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("VATZDpozycja.findByPodatnikRokMcFK").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
     }
 
     public List<WniosekVATZDEntity> findWniosekZDByPodatnikRokMcFK(WpisView wpisView) {
-        return em.createNamedQuery("WniosekVATZDEntity.findByPodatnikRokMcFK").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WniosekVATZDEntity.findByPodatnikRokMcFK").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
     }
 
     public List<UPO> findUPOBez200() {
-         return em.createNamedQuery("UPO.findUPOBez200").getResultList();
+         return Collections.synchronizedList(em.createNamedQuery("UPO.findUPOBez200").getResultList());
     }
 
     public List<WniosekVATZDEntity> findWniosekZDByPodatnikRokMcFK(Podatnik podatnik, String rok, String mc) {
-        return em.createNamedQuery("WniosekVATZDEntity.findByPodatnikRokMcFK").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik", podatnik).getResultList();
+        return Collections.synchronizedList(em.createNamedQuery("WniosekVATZDEntity.findByPodatnikRokMcFK").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik", podatnik).getResultList());
     }
 
     

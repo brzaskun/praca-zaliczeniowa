@@ -104,9 +104,9 @@ public class ObrotyView implements Serializable{
 //                for(int i = mOdI; i <= mDoI; i++){
 //                    zakres.add(Mce.getNumberToMiesiac().get(i));
 //                }
-                Set<String> dokumentyl = new HashSet<>();
-                Set<String> kontrahenty = new HashSet<>();
-                Set<String> rodzaje = new HashSet<>();
+                List<String> dokumentyl = Collections.synchronizedList(new ArrayList<>());
+                List<String> kontrahenty = Collections.synchronizedList(new ArrayList<>());
+                List<String> rodzaje = Collections.synchronizedList(new ArrayList<>());
                 for (Dok tmpx : obiektDOKjsfSelRok){
                     int mcint = Integer.parseInt(tmpx.getPkpirM());
                     if (mcint>=mOdI && mcint<=mDoI) {
@@ -121,13 +121,13 @@ public class ObrotyView implements Serializable{
                 for(Dok p :obiektDOKmrjsfSelX){
                     p.setNrWpkpir(nrkol++);
                 }
-                dokumentypodatnika.addAll(dokumentyl);
+                dokumentypodatnika.addAll(new HashSet(dokumentyl));
                 Collections.sort(dokumentypodatnika);
                 Collator collator = Collator.getInstance(new Locale("pl", "PL"));
                 collator.setStrength(Collator.PRIMARY);
-                kontrahentypodatnika.addAll(kontrahenty);
+                kontrahentypodatnika.addAll(new HashSet(kontrahenty));
                 Collections.sort(kontrahentypodatnika, collator);
-                rodzajetransakcji.addAll(rodzaje);
+                rodzajetransakcji.addAll(new HashSet(rodzaje));
                 Collections.sort(rodzajetransakcji, collator);
             }
      }
