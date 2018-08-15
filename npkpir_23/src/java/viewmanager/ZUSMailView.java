@@ -62,10 +62,10 @@ public class ZUSMailView implements Serializable {
     private WpisView wpisView;
 
     public ZUSMailView() {
-        wykazprzygotowanychmaili = new ArrayList<>();
+        wykazprzygotowanychmaili = Collections.synchronizedList(new ArrayList<>());
         stawkipodatnicy = new ConcurrentHashMap<>();
-        wybranemaile = new ArrayList<>();
-        numery = new ArrayList<>();
+        wybranemaile = Collections.synchronizedList(new ArrayList<>());
+        numery = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct
@@ -118,7 +118,7 @@ public class ZUSMailView implements Serializable {
     public void przygotujmaile() {
         wykazprzygotowanychmaili.clear();
         if (!stawkipodatnicy.isEmpty()) {
-            List<Podatnik> pobranipodatnicy = new ArrayList<>();
+            List<Podatnik> pobranipodatnicy = Collections.synchronizedList(new ArrayList<>());
             pobranipodatnicy.addAll(stawkipodatnicy.keySet());
             Collections.sort(pobranipodatnicy, new Podatnikcomparator());
             for (Podatnik p : pobranipodatnicy) {

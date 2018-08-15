@@ -22,6 +22,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -357,7 +358,7 @@ public class MiejscePrzychodowView  implements Serializable{
         private List<MiejsceZest> miejscePrzychodowZest;
         
         public TabelaMiejscePrzychodow() {
-            this.miejscePrzychodowZest = new ArrayList<>();
+            this.miejscePrzychodowZest = Collections.synchronizedList(new ArrayList<>());
         }
 
         public TabelaMiejscePrzychodow(int id, MiejscePrzychodow miejscePrzychodow, List<MiejsceZest> miejscePrzychodowZest) {

@@ -13,6 +13,7 @@ import entityfk.StronaWiersza;
 import format.F;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +51,7 @@ public class PDFRozrachunki {
             String symbolwaluty = "PLN";
             String skrótsymbolu = "zł";
             for (StronaWiersza p : stronyWiersza) {
-                List<StronaWiersza> l = new ArrayList<>();
+                List<StronaWiersza> l = Collections.synchronizedList(new ArrayList<>());
                 l.add(p);
                 symbolwaluty = p.getSymbolWalutBOiSW();
                 skrótsymbolu = p.getSkrotSymbolWalutBOiSW();

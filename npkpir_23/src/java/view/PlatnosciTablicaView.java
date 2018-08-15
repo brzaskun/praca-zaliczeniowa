@@ -24,6 +24,7 @@ import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -61,7 +62,7 @@ public class PlatnosciTablicaView implements Serializable {
     private WpisDAO wpisDAO;
 
     public PlatnosciTablicaView() {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
     }
     
 

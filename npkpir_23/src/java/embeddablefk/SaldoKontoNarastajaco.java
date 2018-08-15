@@ -9,6 +9,7 @@ package embeddablefk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -178,7 +179,7 @@ public class SaldoKontoNarastajaco implements Serializable {
     }
 
     public void sumujBOZapisy() {
-        List<Obrotymca> l = new ArrayList<>();
+        List<Obrotymca> l = Collections.synchronizedList(new ArrayList<>());
         l.addAll(this.obrotymiesiecy.values());
         double obrotyWn = 0.0;
         double obrotyMa = 0.0;

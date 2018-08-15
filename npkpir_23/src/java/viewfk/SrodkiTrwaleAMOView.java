@@ -31,6 +31,7 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -88,7 +89,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
     
     
     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
-        List<SaldoKonto> przygotowanalista = new ArrayList<>();
+        List<SaldoKonto> przygotowanalista = Collections.synchronizedList(new ArrayList<>());
         int licznik = 0;
         if (kontaklienta != null) {
             for (Konto p : kontaklienta) {

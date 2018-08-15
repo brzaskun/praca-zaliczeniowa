@@ -15,6 +15,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -52,8 +53,8 @@ public class ZestawienieWynikoweRokView implements Serializable {
 
     public void init() {
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlitykaWynikowe(wpisView);
-        List<Konto> kontaklientaprzychody = new ArrayList<>();
-        List<Konto> kontaklientakoszty = new ArrayList<>();
+        List<Konto> kontaklientaprzychody = Collections.synchronizedList(new ArrayList<>());
+        List<Konto> kontaklientakoszty = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : kontaklienta) {
             if (p.getZwyklerozrachszczegolne().equals("szczególne")) {
                 kontaklientakoszty.add(p);
@@ -99,7 +100,7 @@ public class ZestawienieWynikoweRokView implements Serializable {
 
     
      private List<SaldoKonto> przygotowanalistasaldR(List<Konto> kontaklienta, int przychod0koszt1, List<StronaWiersza> zapisyRok, String mc) {
-        List<SaldoKonto> przygotowanalista = new ArrayList<>();
+        List<SaldoKonto> przygotowanalista = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);

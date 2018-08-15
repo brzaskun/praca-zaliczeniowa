@@ -394,7 +394,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
     public static void drukujewidencjenajednejkartce(String nazwapliku, Podatnik pod, String rok, String mc, HashMap<String, List<EVatwpisSuper>> mapa, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 25);
         try {
-            List<String> nazwy = new ArrayList<>();
+            List<String> nazwy = Collections.synchronizedList(new ArrayList<>());
             nazwy.addAll(mapa.keySet());
             if (wartosc) {
                 nazwapliku = "vat-wszystko-wartosc-" + pod.getNip() + ".pdf";

@@ -110,7 +110,7 @@ public class jpk_podpis {
             Document doc = loadXML(deklaracja);
             //zapakujdeklaracjejakoobiet(doc, xmlSigFactory);
             XMLObject xades = dodajSignProp(doc, xmlSigFactory, hasz, X509IssuerName, X509SerialNumber);
-            List<Reference> ref = new ArrayList<>();
+            List<Reference> ref = Collections.synchronizedList(new ArrayList<>());
             SignedInfo signedInfo = null;
             CanonicalizationMethod canonicalizationMethod = xmlSigFactory.newCanonicalizationMethod(
 		CanonicalizationMethod.INCLUSIVE, (C14NMethodParameterSpec) null);

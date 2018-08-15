@@ -29,6 +29,7 @@ import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -88,14 +89,14 @@ public class VatUeFKView implements Serializable {
     boolean deklaracja0korekta1;
 
     public VatUeFKView() {
-        klienciWDTWNT = new ArrayList<>();
+        klienciWDTWNT = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
     public void init() {
-        listaDok = new ArrayList<>();
-        listaDokfk = new ArrayList<>();
-        //List<Dokfk> dokvatmc = new ArrayList<>();
+        listaDok = Collections.synchronizedList(new ArrayList<>());
+        listaDokfk = Collections.synchronizedList(new ArrayList<>());
+        //List<Dokfk> dokvatmc = Collections.synchronizedList(new ArrayList<>());
         Integer rok = wpisView.getRokWpisu();
         String m = wpisView.getMiesiacWpisu();
         try {
@@ -298,10 +299,10 @@ public class VatUeFKView implements Serializable {
     
    
     public void pobierzdeklaracjeUE()  {
-       deklaracjeUE_biezace = new ArrayList<>();
+       deklaracjeUE_biezace = Collections.synchronizedList(new ArrayList<>());
        deklaracjeUE = deklaracjavatUEDAO.findbyPodatnikRok(wpisView);
        if (deklaracjeUE == null) {
-           deklaracjeUE = new ArrayList<>();
+           deklaracjeUE = Collections.synchronizedList(new ArrayList<>());
            for (DeklaracjavatUE p : deklaracjeUE) {
                if (p.getStatus()==null || !p.getStatus().equals("200")) {
                    deklaracjeUE_biezace.add(p);
@@ -348,7 +349,7 @@ public class VatUeFKView implements Serializable {
             if (klienciWDTWNT == null) {
                 Msg.msg("e", "Lista VIES pusta - nie ma czego drukować");
             } else {
-                List<Vies> lista = new ArrayList<>();
+                List<Vies> lista = Collections.synchronizedList(new ArrayList<>());
                 for (VatUe p : klienciWDTWNT) {
                     if (p.getVies() != null && p.getVies().getPodatnik() != null) {
                         lista.add(p.getVies());
@@ -573,7 +574,7 @@ public class VatUeFKView implements Serializable {
    
 
     private List<VatUe> sporzadzroznice(List<VatUe> nowalista, List<VatUe> staralista) {
-        List<VatUe> lista = new ArrayList<>();
+        List<VatUe> lista = Collections.synchronizedList(new ArrayList<>());
         for (VatUe p : nowalista) {
             if (p.getKontrahent()!=null) {
                 boolean niebylojeszcze = true;

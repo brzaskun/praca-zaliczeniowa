@@ -10,6 +10,7 @@ import entity.Evewidencja;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -37,7 +38,7 @@ public class EvewidencjaView implements  Serializable {
     @Inject private EvpozycjaDAO evpozycjaDAO;
 
     public EvewidencjaView() {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
     }
     
     

@@ -10,6 +10,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -34,7 +35,7 @@ public class PodStawkiView implements Serializable{
     private List<Podstawki> listapobranychstawek;
 
     public PodStawkiView() {
-        listapobranychstawek = new ArrayList<>();
+        listapobranychstawek = Collections.synchronizedList(new ArrayList<>());
        
     }
 

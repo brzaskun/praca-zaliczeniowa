@@ -11,6 +11,7 @@ import entity.PozycjenafakturzePK;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -37,7 +38,7 @@ public class PozycjeNaFakturzeView implements Serializable {
     private String westustawienia;
 
     static {
-        zestaw = new ArrayList<>();
+        zestaw = Collections.synchronizedList(new ArrayList<>());
         zestaw.add(new Pozycjenafakturzebazadanych(1, "serek topiony", "20.45", "kg", 12, 8.5, 125, 23, 12, 147));
         zestaw.add(new Pozycjenafakturzebazadanych(1, "koperek topiony", "20.45", "kg", 12, 8.5, 125, 23, 12, 147));
         zestaw.add(new Pozycjenafakturzebazadanych(1, "marchewka topiona", "20.45", "kg", 12, 8.5, 125, 23, 12, 147));

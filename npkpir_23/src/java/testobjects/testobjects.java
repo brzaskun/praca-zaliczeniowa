@@ -35,6 +35,7 @@ import entityfk.Transakcja;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
@@ -984,7 +985,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
    }
    
    public static List<Wiersz> getWiersze() {
-       List<Wiersz> l = new ArrayList<>();
+       List<Wiersz> l = Collections.synchronizedList(new ArrayList<>());
        Wiersz w = new Wiersz(1,0);
 //       (Integer id, String podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, 
 //            String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok,

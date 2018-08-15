@@ -52,7 +52,7 @@ public class SprawaView  implements Serializable{
     private static final List<String> status;
     
     static {
-        status = new ArrayList<>();
+        status = Collections.synchronizedList(new ArrayList<>());
         status.add("przeczytana");
         status.add("załatwiana");
         status.add("gotowa");

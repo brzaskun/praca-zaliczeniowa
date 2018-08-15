@@ -9,7 +9,6 @@ import entity.Podatnik;
 import entity.Strata;
 import java.io.Serializable;
 import java.util.List;
-
 /**
  *
  * @author Osito

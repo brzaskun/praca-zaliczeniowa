@@ -22,6 +22,7 @@ import entity.Srodkikst;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -143,7 +144,7 @@ public class InwestycjeView implements Serializable {
                 selDokument.setRodzajedok(amodok);
                 selDokument.setNrWlDk("OTINW/"+wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
                 selDokument.setOpis("inwestycja "+wybranainwestycja.getSkrot()+" zakończenie");
-                List<KwotaKolumna1> listaX = new ArrayList<>();
+                List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
                 KwotaKolumna1 tmpX = new KwotaKolumna1();
                 tmpX.setDok(selDokument);
                 tmpX.setNetto(wybranainwestycja.getNetto());
@@ -229,7 +230,7 @@ public class InwestycjeView implements Serializable {
 //            inwestycja.getDoklist().remove(dok);
 //            inwestycjeDAO.edit(inwestycja);
 //            inwestycjerozpoczete = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
-//            inwestycjesymbole = new ArrayList<>();
+//            inwestycjesymbole = Collections.synchronizedList(new ArrayList<>());
 //            if (inwestycjerozpoczete != null) {
 //                for (Inwestycje p : inwestycjerozpoczete) {
 //                    aktualizujwartosci(p);
@@ -325,7 +326,7 @@ public class InwestycjeView implements Serializable {
     //</editor-fold>
     private void aktualizujwartosci(Inwestycje p) {
         Integer rokbiezacy = Integer.parseInt(p.getRokrozpoczecia());
-        List<String> lata = new ArrayList<>();
+        List<String> lata = Collections.synchronizedList(new ArrayList<>());
         for (Integer r : Roki.getRokiListS()) {
             if (r >= rokbiezacy) {
                 lata.add(String.valueOf(r));

@@ -384,7 +384,7 @@ public class ObslugaWiersza {
     }
     
     public static void dodajiPrzenumerujWiersze (Dokfk selected, Wiersz wiersz, int lpmacierzystego) {
-        List<Wiersz> przenumerowanaLista = new ArrayList<>();
+        List<Wiersz> przenumerowanaLista = Collections.synchronizedList(new ArrayList<>());
         int nowaliczbawieszy = selected.getListawierszy().size()+1;
         int lpNowegoWiersza = lpmacierzystego;
         List<Wiersz> listawierszy = selected.getListawierszy();
@@ -422,7 +422,7 @@ public class ObslugaWiersza {
     }
     
     public static void dodajiPrzenumerujWiersze5 (Dokfk selected, Wiersz wiersz, int lpmacierzystego) {
-        List<Wiersz> przenumerowanaLista = new ArrayList<>();
+        List<Wiersz> przenumerowanaLista = Collections.synchronizedList(new ArrayList<>());
         int nowaliczbawieszy = selected.getListawierszy().size()+1;
         int lpNowegoWiersza = lpmacierzystego;
         List<Wiersz> listawierszy = selected.getListawierszy();

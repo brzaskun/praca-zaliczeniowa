@@ -10,6 +10,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import entityfk.Konto;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -39,7 +40,7 @@ public class PdfStowRozrachunki {
                 file.delete();
             }
             if (listazapisow != null && listazapisow.size() > 0) {
-                List<StowRozrachCzlonkZbiorczeView.Zapisy> nowalista = new ArrayList<>();
+                List<StowRozrachCzlonkZbiorczeView.Zapisy> nowalista = Collections.synchronizedList(new ArrayList<>());
                 nowalista.addAll(listazapisow);
                 StowRozrachCzlonkZbiorczeView.Zapisy s = podsumuj(listazapisow);
                 nowalista.add(s);

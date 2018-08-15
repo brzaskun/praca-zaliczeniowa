@@ -10,6 +10,7 @@ import entity.Dok;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -93,9 +94,9 @@ public class Cechazapisu implements Serializable {
     public Cechazapisu() {
         this.nazwacechy = nazwacechy;
         this.rodzajcechy = rodzajcechy;
-        this.dokfkLista = new ArrayList<>();
-        this.dokLista = new ArrayList<>();
-        this.stronaWierszaLista = new ArrayList<>();
+        this.dokfkLista = Collections.synchronizedList(new ArrayList<>());
+        this.dokLista = Collections.synchronizedList(new ArrayList<>());
+        this.stronaWierszaLista = Collections.synchronizedList(new ArrayList<>());
         this.charaktercechy = -1;
     }
 
@@ -103,9 +104,9 @@ public class Cechazapisu implements Serializable {
     public Cechazapisu(String nazwacechy, String rodzajcechy) {
         this.nazwacechy = nazwacechy;
         this.rodzajcechy = rodzajcechy;
-        this.dokfkLista = new ArrayList<>();
-        this.dokLista = new ArrayList<>();
-        this.stronaWierszaLista = new ArrayList<>();
+        this.dokfkLista = Collections.synchronizedList(new ArrayList<>());
+        this.dokLista = Collections.synchronizedList(new ArrayList<>());
+        this.stronaWierszaLista = Collections.synchronizedList(new ArrayList<>());
         this.charaktercechy = -1;
     }
 

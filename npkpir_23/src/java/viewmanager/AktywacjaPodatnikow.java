@@ -10,6 +10,7 @@ import dao.PodatnikDAO;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -30,7 +31,7 @@ public class AktywacjaPodatnikow implements Serializable{
     @Inject private PodatnikDAO podatnikDAO;
 
     public AktywacjaPodatnikow() {
-        listapodatnikow = new ArrayList<>();
+        listapodatnikow = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct

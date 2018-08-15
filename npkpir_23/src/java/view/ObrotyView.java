@@ -69,7 +69,7 @@ public class ObrotyView implements Serializable{
 
     public ObrotyView() {
         //lista porzechowujaca przefiltrowane widoki
-        goscwybral = new ArrayList<>();
+        goscwybral = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct
@@ -87,12 +87,12 @@ public class ObrotyView implements Serializable{
     
     public void init() {
         //dokumenty podatnika za okres od-do
-        obiektDOKmrjsfSelX = new ArrayList<>();
+        obiektDOKmrjsfSelX = Collections.synchronizedList(new ArrayList<>());
         //dokumenty podatnika z roku
-        obiektDOKjsfSelRok = new ArrayList<>();
-        dokumentypodatnika = new ArrayList<>();
-        kontrahentypodatnika = new ArrayList<>();
-        rodzajetransakcji = new ArrayList<>();
+        obiektDOKjsfSelRok = Collections.synchronizedList(new ArrayList<>());
+        dokumentypodatnika = Collections.synchronizedList(new ArrayList<>());
+        kontrahentypodatnika = Collections.synchronizedList(new ArrayList<>());
+        rodzajetransakcji = Collections.synchronizedList(new ArrayList<>());
           if (wpisView.getMiesiacOd() != null) {
                obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString());
                 obiektDOKmrjsfSelX.clear();
@@ -100,7 +100,7 @@ public class ObrotyView implements Serializable{
                 Integer mOdI = Integer.parseInt(mOd);
                 String mDo = wpisView.getMiesiacDo();
                 Integer mDoI = Integer.parseInt(mDo);
-                List<String> zakres = new ArrayList<>();
+                List<String> zakres = Collections.synchronizedList(new ArrayList<>());
 //                for(int i = mOdI; i <= mDoI; i++){
 //                    zakres.add(Mce.getNumberToMiesiac().get(i));
 //                }
@@ -136,9 +136,9 @@ public class ObrotyView implements Serializable{
     
      public String initGuest() {
         //dokumenty podatnika za okres od-do
-        obiektDOKmrjsfSelX = new ArrayList<>();
+        obiektDOKmrjsfSelX = Collections.synchronizedList(new ArrayList<>());
         //dokumenty podatnika z roku
-        obiektDOKjsfSelRok = new ArrayList<>();
+        obiektDOKjsfSelRok = Collections.synchronizedList(new ArrayList<>());
           if (wpisView.getMiesiacOd() != null) {
                obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString());
                 obiektDOKmrjsfSelX.clear();
@@ -146,7 +146,7 @@ public class ObrotyView implements Serializable{
                 Integer mOdI = Integer.parseInt(mOd);
                 String mDo = wpisView.getMiesiacDo();
                 Integer mDoI = Integer.parseInt(mDo);
-                List<String> zakres = new ArrayList<>();
+                List<String> zakres = Collections.synchronizedList(new ArrayList<>());
                 for(int i = mOdI; i <= mDoI; i++){
                     zakres.add(Mce.getNumberToMiesiac().get(i));
                 }

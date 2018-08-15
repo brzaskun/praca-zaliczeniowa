@@ -12,6 +12,7 @@ import entityfk.MiejscePrzychodow;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import msg.Msg;
@@ -58,7 +59,7 @@ public class PDFStowRozrachCzlonk {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             Collection<List<StowRozrachCzlonkView.Pozycja>> tabele = czlonkowie.values();
-            List<MiejscePrzychodow> mp = new ArrayList<>();
+            List<MiejscePrzychodow> mp = Collections.synchronizedList(new ArrayList<>());
             mp.addAll(czlonkowie.keySet());
             int i = 0;
             for (List<StowRozrachCzlonkView.Pozycja> p : tabele) {

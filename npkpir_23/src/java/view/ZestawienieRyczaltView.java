@@ -34,6 +34,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -121,10 +122,10 @@ public class ZestawienieRyczaltView implements Serializable {
         pazdziernik = Arrays.asList(new Double[4]);
         listopad = Arrays.asList(new Double[4]);
         grudzien = Arrays.asList(new Double[4]);
-        pobierzPity = new ArrayList<>();
-        zebranieMcy = new ArrayList<>();
-        listapit = new ArrayList<>();
-        listawybranychudzialowcow = new ArrayList<>();
+        pobierzPity = Collections.synchronizedList(new ArrayList<>());
+        zebranieMcy = Collections.synchronizedList(new ArrayList<>());
+        listapit = Collections.synchronizedList(new ArrayList<>());
+        listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -142,10 +143,10 @@ public class ZestawienieRyczaltView implements Serializable {
             pazdziernik = Arrays.asList(new Double[4]);
             listopad = Arrays.asList(new Double[4]);
             grudzien = Arrays.asList(new Double[4]);
-            pobierzPity = new ArrayList<>();
-            zebranieMcy = new ArrayList<>();
-            listapit = new ArrayList<>();
-            listawybranychudzialowcow = new ArrayList<>();
+            pobierzPity = Collections.synchronizedList(new ArrayList<>());
+            zebranieMcy = Collections.synchronizedList(new ArrayList<>());
+            listapit = Collections.synchronizedList(new ArrayList<>());
+            listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
             Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             try {
@@ -176,7 +177,7 @@ public class ZestawienieRyczaltView implements Serializable {
                     listopad.set(i, 0.0);
                     grudzien.set(i, 0.0);
                 }
-                lista = new ArrayList<>();
+                lista = Collections.synchronizedList(new ArrayList<>());
                 lista.addAll(c);
                 for (Dok dokument : lista) {
                     try {
@@ -449,9 +450,9 @@ public class ZestawienieRyczaltView implements Serializable {
                         zebranieMcy.add(listopad);
                         zebranieMcy.add(grudzien);
 
-                    Ipolrocze = new ArrayList<>();
-                    IIpolrocze = new ArrayList<>();
-                    rok = new ArrayList<>();
+                    Ipolrocze = Collections.synchronizedList(new ArrayList<>());
+                    IIpolrocze = Collections.synchronizedList(new ArrayList<>());
+                    rok = Collections.synchronizedList(new ArrayList<>());
 
                     for (int i = 0; i < 4; i++) {
                         Ipolrocze.add(styczen.get(i) + luty.get(i) + marzec.get(i) + kwiecien.get(i) + maj.get(i) + czerwiec.get(i));
@@ -655,7 +656,7 @@ public class ZestawienieRyczaltView implements Serializable {
     
 
     private void obliczprzychod() {
-        List<RyczaltPodatek> podatkibiezace = new ArrayList<>();
+        List<RyczaltPodatek> podatkibiezace = Collections.synchronizedList(new ArrayList<>());
         String selekcja = wpisView.getMiesiacWpisu();
         int miesiacint = Mce.getMiesiacToNumber().get(selekcja)-1  ;
         podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 17%", 0.17, miesiacint, 0));
@@ -682,7 +683,7 @@ public class ZestawienieRyczaltView implements Serializable {
     }
     
     private void wyciagnijprzychodsuma(){
-         List<RyczaltPodatek> podatkibiezace = new ArrayList<>();
+         List<RyczaltPodatek> podatkibiezace = Collections.synchronizedList(new ArrayList<>());
          BigDecimal suma = new BigDecimal(0);
          podatkibiezace = biezacyPit.getListapodatkow();
          for(RyczaltPodatek p : podatkibiezace){
@@ -789,7 +790,7 @@ public class ZestawienieRyczaltView implements Serializable {
     }
     
     private List<ZestawienieRyczalt> stworzliste() {
-        List<ZestawienieRyczalt> lista = new ArrayList<>();
+        List<ZestawienieRyczalt> lista = Collections.synchronizedList(new ArrayList<>());
         lista.add(new ZestawienieRyczalt(1, "styczeń", styczen.get(0), styczen.get(1), styczen.get(2), styczen.get(3)));
         lista.add(new ZestawienieRyczalt(1, "luty", luty.get(0), luty.get(1), luty.get(2), luty.get(3)));
         lista.add(new ZestawienieRyczalt(1, "marzec", marzec.get(0), marzec.get(1), marzec.get(2), marzec.get(3)));

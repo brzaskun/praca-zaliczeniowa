@@ -10,6 +10,7 @@ import data.Data;
 import entity.Dok;
 import entity.Evewidencja;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
@@ -43,7 +44,7 @@ public class VAT {
     }
     
      public static List<String> getNazwy(List<Evewidencja> ewidencje) {
-        List<String> nazwyewidencji = new ArrayList<>();
+        List<String> nazwyewidencji = Collections.synchronizedList(new ArrayList<>());
         for (Evewidencja p : ewidencje) {
             nazwyewidencji.add(p.getNazwa());
         }

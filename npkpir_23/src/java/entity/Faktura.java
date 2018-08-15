@@ -10,6 +10,7 @@ import embeddable.Pozycjenafakturzebazadanych;
 import entityfk.Tabelanbp;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -316,7 +317,7 @@ public class Faktura implements Serializable {
         this.fakturavatmarza = stara.fakturavatmarza;
         this.datawysylki = null;
         this.swift = stara.swift;
-        this.duplikaty = new ArrayList<>();
+        this.duplikaty = Collections.synchronizedList(new ArrayList<>());
     }
 
     
@@ -357,7 +358,7 @@ public class Faktura implements Serializable {
         this.mc = mc;
         this.numerzamowienia = numerzamowienia;
         this.datawysylki = null;
-        this.duplikaty = new ArrayList<>();
+        this.duplikaty = Collections.synchronizedList(new ArrayList<>());
     }
 
     public Faktura(String wystawcanazwa, String numerkolejny) {

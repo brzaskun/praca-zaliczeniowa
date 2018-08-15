@@ -8,6 +8,7 @@ import dao.SesjaDAO;
 import entity.Sesja;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -37,7 +38,7 @@ public class StatisticView implements Serializable {
     private SesjaDAO sesjaDAO;
 
     public StatisticView() {
-        this.sesje = new ArrayList<>();
+        this.sesje = Collections.synchronizedList(new ArrayList<>());
         this.iloscsesji = 0;
         this.iloscdokumentow = 0;
         this.iloscwydrukow = 0;

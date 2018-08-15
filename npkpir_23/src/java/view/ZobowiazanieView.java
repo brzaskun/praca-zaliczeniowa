@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -39,7 +40,7 @@ public class ZobowiazanieView implements Serializable{
     private List<Zobowiazanie> listapobranychstawek;
 
     public ZobowiazanieView() {
-        listapobranychstawek = new ArrayList<>();
+        listapobranychstawek = Collections.synchronizedList(new ArrayList<>());
        
     }
 

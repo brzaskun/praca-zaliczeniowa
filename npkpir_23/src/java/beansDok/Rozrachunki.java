@@ -12,7 +12,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import javax.inject.Named;
 import view.WpisView;
 
@@ -83,7 +85,7 @@ public class Rozrachunki {
     }
     
     public static boolean sprawdzczyniemarozrachunkow(Dok dok) {
-        ArrayList<Stornodoch> temp = new ArrayList<>();
+        List<Stornodoch> temp = Collections.synchronizedList(new ArrayList<>());
         try {
             temp = dok.getStorno();
             if (temp.size() > 0) {

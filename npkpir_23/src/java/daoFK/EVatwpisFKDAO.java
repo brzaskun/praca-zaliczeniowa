@@ -14,6 +14,7 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -43,7 +44,7 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     }
     
     public List<EVatwpisFK> findPodatnikMc(Podatnik podatnik, String rok, String mcod, String mcdo) {
-        List<EVatwpisFK> l = new ArrayList<>();
+        List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
         List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRok(podatnik, String.valueOf(rok));
         if (input != null && !input.isEmpty()) {
             int dg = Integer.parseInt(mcod)-1;
@@ -65,7 +66,7 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     
     public List<EVatwpisFK> findPodatnikMcInnyOkres(Podatnik podatnik, String rok, String mcod, String mcdo) {
         //pobieramy ewidencje z tego roku i mca i badamy ich dokumenty, jezeli sa rozne to pobieramy
-        List<EVatwpisFK> l = new ArrayList<>();
+        List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
         List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRokInnyOkres(podatnik, rok);
         int rokdeklaracji = Integer.parseInt(rok);
         if (input != null && !input.isEmpty()) {
@@ -91,7 +92,7 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     
     public List<EVatwpisFK> findPodatnikMcOdDo(Podatnik podatnik, String rok, String mcod, String mcdo) {
         //pobieramy ewidencje z tego roku i mca i badamy ich dokumenty, jezeli sa rozne to pobieramy
-        List<EVatwpisFK> l = new ArrayList<>();
+        List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
         List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRok(podatnik, rok);
         if (input != null && !input.isEmpty()) {
             int dg = Integer.parseInt(mcod)-1;
@@ -117,7 +118,7 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     }
     
     public List<EVatwpisFK> findPodatnikDalszeMce(Podatnik podatnik, Integer rok, String mcod, String mcdo) {
-        List<EVatwpisFK> l = new ArrayList<>();
+        List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
         List<EVatwpisFK> wierszeewidencji = sessionFacade.findEVatwpisFKByPodatnikRokInnyOkres(podatnik, String.valueOf(rok));
         if (wierszeewidencji != null && !wierszeewidencji.isEmpty()) {
             int mc_gorna_granica = Integer.parseInt(mcdo);

@@ -80,8 +80,8 @@ public class FakturaRozrachunkiView  implements Serializable {
         } else if (request.isUserInRole("Multiuser")) {
             west = "../wspolny/sub/layoutFakturaRozrachunki/west.xhtml";
         }
-        klienci = new ArrayList<>();
-        wprowadzoneplatnosci = new ArrayList<>();
+        klienci = Collections.synchronizedList(new ArrayList<>());
+        wprowadzoneplatnosci = Collections.synchronizedList(new ArrayList<>());
         klienci.addAll(pobierzkontrahentow());
         if (klienci != null) {
             for (Iterator<Klienci> it = klienci.iterator(); it.hasNext();) {
@@ -109,7 +109,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     }
     
     public List<Klienci> completeKL(String query) {
-        List<Klienci> results = new ArrayList<>();
+        List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
         if (query.length() > 1) {
             Pattern pattern = Pattern.compile("[A-Z]{2}\\d+");
             Matcher m = pattern.matcher(query.toUpperCase());

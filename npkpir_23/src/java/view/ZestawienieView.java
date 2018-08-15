@@ -38,6 +38,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -147,10 +148,10 @@ public class ZestawienieView implements Serializable {
         pazdziernik = Arrays.asList(new Double[10]);
         listopad = Arrays.asList(new Double[10]);
         grudzien = Arrays.asList(new Double[10]);
-        pobierzPity = new ArrayList<>();
-        zebranieMcy = new ArrayList<>();
-        listapit = new ArrayList<>();
-        listawybranychudzialowcow = new ArrayList<>();
+        pobierzPity = Collections.synchronizedList(new ArrayList<>());
+        zebranieMcy = Collections.synchronizedList(new ArrayList<>());
+        listapit = Collections.synchronizedList(new ArrayList<>());
+        listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -168,10 +169,10 @@ public class ZestawienieView implements Serializable {
             pazdziernik = Arrays.asList(new Double[10]);
             listopad = Arrays.asList(new Double[10]);
             grudzien = Arrays.asList(new Double[10]);
-            pobierzPity = new ArrayList<>();
-            zebranieMcy = new ArrayList<>();
-            listapit = new ArrayList<>();
-            listawybranychudzialowcow = new ArrayList<>();
+            pobierzPity = Collections.synchronizedList(new ArrayList<>());
+            zebranieMcy = Collections.synchronizedList(new ArrayList<>());
+            listapit = Collections.synchronizedList(new ArrayList<>());
+            listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
             Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
             try {
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
@@ -203,7 +204,7 @@ public class ZestawienieView implements Serializable {
                     listopad.set(i, 0.0);
                     grudzien.set(i, 0.0);
                 }
-                lista = new ArrayList<>();
+                lista = Collections.synchronizedList(new ArrayList<>());
                 lista.addAll(c);
                 for (Dok dokument : lista) {
                     try {
@@ -656,9 +657,9 @@ public class ZestawienieView implements Serializable {
                             zebranieMcy.add(grudzien);
                         } else {
                         }
-                        Ipolrocze = new ArrayList<>();
-                        IIpolrocze = new ArrayList<>();
-                        rok = new ArrayList<>();
+                        Ipolrocze = Collections.synchronizedList(new ArrayList<>());
+                        IIpolrocze = Collections.synchronizedList(new ArrayList<>());
+                        rok = Collections.synchronizedList(new ArrayList<>());
 
                         for (int i = 0; i < 10; i++) {
                             Ipolrocze.add(styczen.get(i) + luty.get(i) + marzec.get(i) + kwiecien.get(i) + maj.get(i) + czerwiec.get(i));
@@ -761,7 +762,7 @@ public class ZestawienieView implements Serializable {
 
     private double wyliczmaksymalna() {
         double maxliczbadowykresu = 0;
-        List<Double> lista = new ArrayList<>();
+        List<Double> lista = Collections.synchronizedList(new ArrayList<>());
         lista.add(styczen.get(7));
         lista.add(luty.get(7));
         lista.add(marzec.get(7));
@@ -820,7 +821,7 @@ public class ZestawienieView implements Serializable {
 
     private double wyliczminimalna() {
         double minliczbadowykresu = 0;
-        List<Double> lista = new ArrayList<>();
+        List<Double> lista = Collections.synchronizedList(new ArrayList<>());
         lista.add(styczen.get(7));
         lista.add(luty.get(7));
         lista.add(marzec.get(7));

@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import javax.faces.bean.SessionScoped;
@@ -23,7 +24,7 @@ public class Miasta implements Serializable {
     private final static List<String> wykazMiast;
     
 static{
-    wykazMiast = new ArrayList<>();
+    wykazMiast = Collections.synchronizedList(new ArrayList<>());
     wykazMiast.add("Aleksandrów Kujawski");
     wykazMiast.add("Aleksandrów Łódzki");
     wykazMiast.add("Alwernia");

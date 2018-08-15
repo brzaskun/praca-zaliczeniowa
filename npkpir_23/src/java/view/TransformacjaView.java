@@ -14,6 +14,7 @@ import entity.Dok;
 import entity.Rozrachunek1;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -40,7 +41,7 @@ public class TransformacjaView implements Serializable{
     public List<Dok> listaWszystkichDok;
 
     public TransformacjaView() {
-        listaWszystkichDok = new ArrayList<>();
+        listaWszystkichDok = Collections.synchronizedList(new ArrayList<>());
     }
     
   
@@ -153,7 +154,7 @@ public class TransformacjaView implements Serializable{
     public void przeniesEwidencjeVat() {
 //        for (int j = 0; j < 32299; j += 200) {
 //            int dokad = (j + 199 > 32299 ? 32299 : j + 199);
-//            List<Dok> listaWszystkichDok = new ArrayList<>();
+//            List<Dok> listaWszystkichDok = Collections.synchronizedList(new ArrayList<>());
 //            listaWszystkichDok.addAll(dokDAO.znajdzOdDo(j, dokad));
 //            //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
 //            for (Dok p : listaWszystkichDok) {
@@ -185,12 +186,12 @@ public class TransformacjaView implements Serializable{
      public void przeniesRozrachunkiVat() {
         for (int j = 0; j < 32299; j += 200) {
             int dokad = (j + 199 > 32299 ? 32299 : j + 199);
-            List<Dok> listaWszystkichDok = new ArrayList<>();
+            List<Dok> listaWszystkichDok = Collections.synchronizedList(new ArrayList<>());
             listaWszystkichDok.addAll(dokDAO.znajdzOdDo(j, dokad));
             //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
             for (Dok p : listaWszystkichDok) {
                // List<Rozrachunek> eVatwpis = p.getRozrachunki();
-                ArrayList<Rozrachunek1> nowyEVatwpis = new ArrayList<>();
+                List<Rozrachunek1> nowyEVatwpis = Collections.synchronizedList(new ArrayList<>());
 //                if (eVatwpis != null) {
 //                    for (Rozrachunek t : eVatwpis) {
 //                        Rozrachunek1 nowywpis = new Rozrachunek1();
@@ -219,12 +220,12 @@ public class TransformacjaView implements Serializable{
       public void przeniesKwotaKolumna() {
 //        for (int j = 0; j < 32299; j += 200) {
 //            int dokad = (j + 199 > 32299 ? 32299 : j + 199);
-//            List<Dok> listaWszystkichDok = new ArrayList<>();
+//            List<Dok> listaWszystkichDok = Collections.synchronizedList(new ArrayList<>());
 //            listaWszystkichDok.addAll(dokDAO.znajdzOdDo(j, dokad));
 //            //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
 //            for (Dok p : listaWszystkichDok) {
 //                List<KwotaKolumna> eVatwpis = p.getListakwot();
-//                ArrayList<KwotaKolumna1> nowyEVatwpis = new ArrayList<>();
+//                ArrayList<KwotaKolumna1> nowyEVatwpis = Collections.synchronizedList(new ArrayList<>());
 //                if (eVatwpis != null) {
 //                    for (KwotaKolumna t : eVatwpis) {
 //                        KwotaKolumna1 nowywpis = new KwotaKolumna1();
@@ -250,14 +251,14 @@ public class TransformacjaView implements Serializable{
     }
       
 //        public void ewidencjewDekalracji() {
-//            List<Deklaracjevat> listaWszystkichDok = new ArrayList<>();
+//            List<Deklaracjevat> listaWszystkichDok = Collections.synchronizedList(new ArrayList<>());
 //            listaWszystkichDok.addAll(deklaracjevatDAO.findAll());
 //            //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
 //            for (Deklaracjevat p : listaWszystkichDok) {
 //                HashMap<String,List<EVatwpisSuper>> stareEwidencje = p.getEwidencje();
-//                List<EwidencjevatDeklaracja> nowyEVatwpis = new ArrayList<>();
+//                List<EwidencjevatDeklaracja> nowyEVatwpis = Collections.synchronizedList(new ArrayList<>());
 //                if (stareEwidencje != null) {
-//                    List<String> klucze = new ArrayList<>();
+//                    List<String> klucze = Collections.synchronizedList(new ArrayList<>());
 //                    klucze.addAll(stareEwidencje.keySet());
 //                    for (String t : klucze) {
 //                        EwidencjevatDeklaracja nowywpis = new EwidencjevatDeklaracja();

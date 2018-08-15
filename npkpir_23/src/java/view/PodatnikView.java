@@ -139,19 +139,19 @@ public class PodatnikView implements Serializable {
     
 
     public PodatnikView() {
-        miesiacepoweryfikacji = new ArrayList<>();
+        miesiacepoweryfikacji = Collections.synchronizedList(new ArrayList<>());
         listka = new String[3];
         listka[0] = "zero";
         listka[1] = "jeden";
         listka[2] = "dwa";
-        rodzajeDokumentowLista = new ArrayList<>();
-        listaKontRozrachunkowych = new ArrayList<>();
-        listaKontVAT = new ArrayList<>();
-        listakontoRZiS  = new ArrayList<>();
-        listaKontKasaBank  = new ArrayList<>();
-        podatnikUdzialy = new ArrayList<>();
-        podatnikOpodatkowanie = new ArrayList<>();
-        formyprawne = new ArrayList<>();
+        rodzajeDokumentowLista = Collections.synchronizedList(new ArrayList<>());
+        listaKontRozrachunkowych = Collections.synchronizedList(new ArrayList<>());
+        listaKontVAT = Collections.synchronizedList(new ArrayList<>());
+        listakontoRZiS  = Collections.synchronizedList(new ArrayList<>());
+        listaKontKasaBank  = Collections.synchronizedList(new ArrayList<>());
+        podatnikUdzialy = Collections.synchronizedList(new ArrayList<>());
+        podatnikOpodatkowanie = Collections.synchronizedList(new ArrayList<>());
+        formyprawne = Collections.synchronizedList(new ArrayList<>());
         
     }
 
@@ -500,7 +500,7 @@ public class PodatnikView implements Serializable {
     
     public void dodajzawieszenie() {
         selected = wpisView.getPodatnikObiekt();
-        List<Parametr> lista = new ArrayList<>();
+        List<Parametr> lista = Collections.synchronizedList(new ArrayList<>());
         try {
             lista.addAll(selected.getZawieszeniedzialalnosci());
         } catch (Exception e) { E.e(e); 
@@ -515,7 +515,7 @@ public class PodatnikView implements Serializable {
     }
     
     public void usunzawieszenie() {
-        List<Parametr> tmp = new ArrayList<>();
+        List<Parametr> tmp = Collections.synchronizedList(new ArrayList<>());
         tmp.addAll(selected.getZawieszeniedzialalnosci());
         tmp.remove(tmp.size() - 1);
         selected.setZawieszeniedzialalnosci(tmp);
@@ -568,7 +568,7 @@ public class PodatnikView implements Serializable {
 
     public void dodajvat() {
         selected = wpisView.getPodatnikObiekt();
-        List<Parametr> lista = new ArrayList<>();
+        List<Parametr> lista = Collections.synchronizedList(new ArrayList<>());
         try {
             lista.addAll(selected.getVatokres());
         } catch (Exception e) { 
@@ -668,7 +668,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void usunvat() {
-        List<Parametr> tmp = new ArrayList<>();
+        List<Parametr> tmp = Collections.synchronizedList(new ArrayList<>());
         tmp.addAll(selected.getVatokres());
         tmp.remove(tmp.size() - 1);
         selected.setVatokres(tmp);
@@ -724,7 +724,7 @@ public class PodatnikView implements Serializable {
     public void dodajzus() {
         try {
             selected = wpisView.getPodatnikObiekt();
-            List<Zusstawki> tmp = new ArrayList<>();
+            List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
             try {
                 tmp.addAll(selected.getZusparametr());
             } catch (Exception e) { E.e(e); 
@@ -756,7 +756,7 @@ public class PodatnikView implements Serializable {
      public void edytujzus() {
         try {
             selected = wpisView.getPodatnikObiekt();
-            List<Zusstawki> tmp = new ArrayList<>();
+            List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
             try {
                 tmp.addAll(selected.getZusparametr());
             } catch (Exception e) { E.e(e); 
@@ -778,7 +778,7 @@ public class PodatnikView implements Serializable {
 
     public void usunzus(Zusstawki loop) {
         selected = wpisView.getPodatnikObiekt();
-        List<Zusstawki> tmp = new ArrayList<>();
+        List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
         tmp.addAll(selected.getZusparametr());
         tmp.remove(loop);
         selected.setZusparametr(tmp);
@@ -799,7 +799,7 @@ public class PodatnikView implements Serializable {
         if (rokzus == null || mczus == null) {
             Msg.msg("e", "Problem z pobieraniem okresu rozliczeniowego.");
         }
-        List<Zusstawki> tmp = new ArrayList<>();
+        List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
         tmp.addAll(zusDAO.findAll());
         ZusstawkiPK key = new ZusstawkiPK();
         key.setRok(rokzus);
@@ -826,7 +826,7 @@ public class PodatnikView implements Serializable {
 
     public void dodajremanent() {
         selected = wpisView.getPodatnikObiekt();
-        List<Parametr> lista = new ArrayList<>();
+        List<Parametr> lista = Collections.synchronizedList(new ArrayList<>());
         try {
             lista.addAll(selected.getRemanent());
         } catch (Exception e) { E.e(e); 
@@ -843,7 +843,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void usunremanent() {
-        List<Parametr> tmp = new ArrayList<>();
+        List<Parametr> tmp = Collections.synchronizedList(new ArrayList<>());
         tmp.addAll(selected.getRemanent());
         tmp.remove(tmp.size() - 1);
         selected.setRemanent(tmp);
@@ -852,7 +852,7 @@ public class PodatnikView implements Serializable {
 
     public void dodajkwoteautoryzujaca() {
         selected = wpisView.getPodatnikObiekt();
-        List<Parametr> lista = new ArrayList<>();
+        List<Parametr> lista = Collections.synchronizedList(new ArrayList<>());
         try {
             lista.addAll(selected.getKwotaautoryzujaca());
         } catch (Exception e) { E.e(e); 
@@ -879,7 +879,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void usunkwoteautoryzujaca() {
-        List<Parametr> tmp = new ArrayList<>();
+        List<Parametr> tmp = Collections.synchronizedList(new ArrayList<>());
         tmp.addAll(selected.getKwotaautoryzujaca());
         tmp.remove(tmp.size() - 1);
         selected.setKwotaautoryzujaca(tmp);
@@ -889,7 +889,7 @@ public class PodatnikView implements Serializable {
 
     public void dodajnrpkpir() {
         selected = wpisView.getPodatnikObiekt();
-        List<Parametr> lista = new ArrayList<>();
+        List<Parametr> lista = Collections.synchronizedList(new ArrayList<>());
         try {
             lista.addAll(selected.getNumerpkpir());
         } catch (Exception e) { E.e(e); 
@@ -912,7 +912,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void usunnrpkpir() {
-        List<Parametr> tmp = new ArrayList<>();
+        List<Parametr> tmp = Collections.synchronizedList(new ArrayList<>());
         tmp.addAll(selected.getNumerpkpir());
         tmp.remove(tmp.size() - 1);
         selected.setNumerpkpir(tmp);
@@ -921,7 +921,7 @@ public class PodatnikView implements Serializable {
     
      public void dodajParamCzworkiPiatki() {
         selected = wpisView.getPodatnikObiekt();
-        List<ParamCzworkiPiatki> lista = new ArrayList<>();
+        List<ParamCzworkiPiatki> lista = Collections.synchronizedList(new ArrayList<>());
         if (selected.getParamCzworkiPiatki() == null) {
             selected.setParamCzworkiPiatki(new ArrayList<ParamCzworkiPiatki>());
         }
@@ -1121,7 +1121,7 @@ public class PodatnikView implements Serializable {
 
     public void zmienzbiorowoZUSPIT() {
         try {
-            List<Podatnik> lista = new ArrayList<>();
+            List<Podatnik> lista = Collections.synchronizedList(new ArrayList<>());
             lista.addAll(podatnikDAO.findAll());
         } catch (Exception e) { E.e(e); 
         }
@@ -1280,7 +1280,7 @@ public class PodatnikView implements Serializable {
 //         List<Podatnik> podatnicy = podatnikDAO.findAll();
 //         for (Podatnik p : podatnicy) {
 //             if (p.getStratyzlatub1() != null) {
-//                List<Straty> straty = new ArrayList<>();
+//                List<Straty> straty = Collections.synchronizedList(new ArrayList<>());
 //                for (Straty1 r : p.getStratyzlatub1()) {
 //                    Straty s = new Straty();
 //                    s.setRok(r.getRok());

@@ -30,6 +30,7 @@ import error.E;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -113,7 +114,7 @@ public class PdfKontoZapisyLista {
                     document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
                     document.add(table);
                     document.add(new Chunk());
-                    List<ListaSum> listasum = new ArrayList<>();
+                    List<ListaSum> listasum = Collections.synchronizedList(new ArrayList<>());
                     ListaSum l = new ListaSum();
                     listasum.add(l);
                     sumazapisow(p.getStronywiersza(), listasum);

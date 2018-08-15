@@ -13,6 +13,7 @@ import entityfk.SkladkaCzlonek;
 import entityfk.SkladkaStowarzyszenie;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,7 +53,7 @@ public class SkladkaCzlonekView implements Serializable {
         List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         skladkaCzlonekLista = skladkaCzlonekDAO.findPodatnikRok(wpisView);
         if (skladkaCzlonekLista == null) {
-            skladkaCzlonekLista = new ArrayList<>();
+            skladkaCzlonekLista = Collections.synchronizedList(new ArrayList<>());
         }
         uzupelnijliste(czlonkowiestowarzyszenia);
     }

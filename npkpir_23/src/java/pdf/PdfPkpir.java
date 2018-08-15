@@ -74,7 +74,7 @@ public class PdfPkpir {
         pdf.addKeywords("PKPiR, PDF");
         pdf.addCreator("Grzegorz Grzelczyk");
         pdf.open();
-        List<String> mce = new ArrayList<>();
+        List<String> mce = Collections.synchronizedList(new ArrayList<>());
         mce.addAll(ksiegimiesieczne.keySet());
         Collections.sort(mce);
         for (String p : mce) {

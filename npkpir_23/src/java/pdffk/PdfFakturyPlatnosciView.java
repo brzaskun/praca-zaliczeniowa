@@ -14,6 +14,7 @@ import format.F;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -38,7 +39,7 @@ public class PdfFakturyPlatnosciView implements Serializable {
     private UzDAO uzDAO;
     
     public void drukujzaksiegowanydokument(List<Faktura> wierszeA, List<Faktura> wierszeF, String zaplaconyniezaplacony) {
-        List<Faktura> wiersze = new ArrayList<>();
+        List<Faktura> wiersze = Collections.synchronizedList(new ArrayList<>());
         if (wierszeF!=null && wierszeF.size()>0) {
             wiersze.addAll(wierszeF);
         } else {

@@ -9,6 +9,7 @@ import daoFK.TabelanbpDAO;
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.joda.time.DateTime;
 
@@ -67,7 +68,7 @@ public class TabelaNBPBean {
     public static List<Tabelanbp> pobierzTabeleNieNBP(DateTime dzienposzukiwany, TabelanbpDAO tabelanbpDAO, String nazwawaluty) {
         boolean znaleziono = false;
         int zabezpieczenie = 0;
-        List<Tabelanbp> tabelanbppobrane = new ArrayList<>();
+        List<Tabelanbp> tabelanbppobrane = Collections.synchronizedList(new ArrayList<>());
         while (!znaleziono && (zabezpieczenie < 365)) {
             String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
             List<Tabelanbp> pobrane = tabelanbpDAO.findByDateWalutaLista(doprzekazania, nazwawaluty);

@@ -30,6 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -323,7 +324,7 @@ public class PdfKontoZapisy {
             file.delete();
         }
         if (kontozapisy != null && kontozapisy.size() > 0) {
-            List<StronaWiersza> nowalista = new ArrayList<>();
+            List<StronaWiersza> nowalista = Collections.synchronizedList(new ArrayList<>());
             nowalista.addAll(kontozapisy);
             if (!nierenderujkolumnnywalut) {
                 nowalista.add(new StronaWiersza(listasum, 2, nierenderujkolumnnywalut));

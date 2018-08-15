@@ -11,6 +11,7 @@ import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -70,7 +71,7 @@ public class Main {
                 .parse(new File(DOCUMENT));
         Element elem = doc.getDocumentElement();
         DOMHelper.useIdAsXmlId(elem);
-        List<X509Certificate> list = new ArrayList<>();
+        List<X509Certificate> list = Collections.synchronizedList(new ArrayList<>());
         KeyingDataProvider
         kdp;
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();

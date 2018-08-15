@@ -45,7 +45,7 @@ public class PismoAdminView implements Serializable{
     private static final List<String> status;
     private static final List<String> statusadmin;
     static {
-        listamenu = new ArrayList<>();
+        listamenu = Collections.synchronizedList(new ArrayList<>());
         listamenu.add("ekran logowanie");
         listamenu.add("zmiana podatnika");
         listamenu.add("info podatnik");
@@ -68,7 +68,7 @@ public class PismoAdminView implements Serializable{
         listamenu.add("faktury - panel");
         listamenu.add("zus");
         listamenu.add("napisz do admina");
-        listamenu_fk = new ArrayList<>();
+        listamenu_fk = Collections.synchronizedList(new ArrayList<>());
         listamenu_fk.add("księgowanie");
         listamenu_fk.add("przeglądanie zaksięgowanych");
         listamenu_fk.add("zapisy konta");
@@ -86,13 +86,13 @@ public class PismoAdminView implements Serializable{
         listamenu_fk.add("środki trwałe");
         listamenu_fk.add("słowniki");
         listamenu_fk.add("rmk");
-        waznosc = new ArrayList<>();
+        waznosc = Collections.synchronizedList(new ArrayList<>());
         waznosc.add("na przyszłość");
         waznosc.add("przydałoby się");
         waznosc.add("przeszkadza");
         waznosc.add("ważne");
         waznosc.add("nie można bez tego pracować");
-        status = new ArrayList<>();
+        status = Collections.synchronizedList(new ArrayList<>());
         status.add("wysłana");
         status.add("za mało danych");
         status.add("admin nierozumie");
@@ -100,7 +100,7 @@ public class PismoAdminView implements Serializable{
         status.add("admin pracuje");
         status.add("odrzucona");
         status.add("zmiany naniesione");
-        statusadmin = new ArrayList<>();
+        statusadmin = Collections.synchronizedList(new ArrayList<>());
         statusadmin.add("wysłana");
         statusadmin.add("za mało danych");
         statusadmin.add("admin nierozumie");

@@ -57,11 +57,11 @@ public class STREwidencja implements Serializable {
     private String west;
 
     public STREwidencja() {
-        listaSrodkiTrwale = new ArrayList<>();
-        listaWyposazenia = new ArrayList<>();
-        listaWnip = new ArrayList<>();
-        strtabela = new ArrayList<>();
-        wniptabela = new ArrayList<>();
+        listaSrodkiTrwale = Collections.synchronizedList(new ArrayList<>());
+        listaWyposazenia = Collections.synchronizedList(new ArrayList<>());
+        listaWnip = Collections.synchronizedList(new ArrayList<>());
+        strtabela = Collections.synchronizedList(new ArrayList<>());
+        wniptabela = Collections.synchronizedList(new ArrayList<>());
     }
   
 
@@ -83,7 +83,7 @@ public class STREwidencja implements Serializable {
         String podatnikwpisu = wpisView.getPodatnikWpisu();
         zakupionewbiezacyrok = 0;
         if (wpisView.getPodatnikWpisu() != null) {
-            List<SrodekTrw> c = new ArrayList<>();
+            List<SrodekTrw> c = Collections.synchronizedList(new ArrayList<>());
             try {
                 c = sTRDAO.findStrPod(podatnikwpisu);
             } catch (Exception e) { E.e(e); 
@@ -111,11 +111,11 @@ public class STREwidencja implements Serializable {
                 iloscsrodkow = listaSrodkiTrwale.size();
             }
         }
-        List<SrodekTrw> lista = new ArrayList<>();
+        List<SrodekTrw> lista = Collections.synchronizedList(new ArrayList<>());
         lista.addAll(listaSrodkiTrwale);
         stworzpozycjeSrodka(lista, rokdzisiejszyI, strtabela);
         podsumowanieewidencji(strtabela);
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
         lista.addAll(listaWnip);
         stworzpozycjeSrodka(lista, rokdzisiejszyI, wniptabela);
         podsumowanieewidencji(wniptabela);

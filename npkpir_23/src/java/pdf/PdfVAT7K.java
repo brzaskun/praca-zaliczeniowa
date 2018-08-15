@@ -22,6 +22,7 @@ import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
@@ -662,7 +663,7 @@ public class PdfVAT7K {
 //      }
     private static void kombinuj(String kto, String zalaczniki) {
         try {
-            List<String> files = new ArrayList<>();
+            List<String> files = Collections.synchronizedList(new ArrayList<>());
             switch (zalaczniki) {
                 case "nic":
                     files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + kto + ".pdf");

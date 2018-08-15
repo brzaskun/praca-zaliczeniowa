@@ -14,6 +14,7 @@ import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,8 +46,8 @@ public class FakturaZestView implements Serializable {
     private List<Podatnik> podatnicyWProgramie;
 
     public FakturaZestView() {
-        fakturyWystawione = new ArrayList<>();
-        fakturyZestawienie = new ArrayList<>();
+        fakturyWystawione = Collections.synchronizedList(new ArrayList<>());
+        fakturyZestawienie = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct
@@ -56,7 +57,7 @@ public class FakturaZestView implements Serializable {
     
     
     public void init() {
-        fakturyZestawienie = new ArrayList<>();
+        fakturyZestawienie = Collections.synchronizedList(new ArrayList<>());
         fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
         Set<String> odnalezioneNIP = new HashSet<>();
         if (fakturyWystawione != null) {

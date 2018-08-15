@@ -12,6 +12,7 @@ import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import entityfk.StronaWiersza;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -31,12 +32,12 @@ public class MiejsceKosztowBean {
         int i = 1;
         for (MiejsceKosztow p : miejscakosztow) {
             double total = 0;
-            List<MiejsceZest> l = new ArrayList<>();
+            List<MiejsceZest> l = Collections.synchronizedList(new ArrayList<>());
             MiejsceKosztowView.TabelaMiejsceKosztow m = new MiejsceKosztowView.TabelaMiejsceKosztow();
             for (Konto r : kontaslownikowe) {
                 if (stronywiersza.size() > 0) {
                     double suma = 0;
-                    List<StronaWiersza> listastron = new ArrayList<>();
+                    List<StronaWiersza> listastron = Collections.synchronizedList(new ArrayList<>());
                     for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext();) {
                         StronaWiersza s = it.next();
                         if (s.getKonto().getNazwapelna().equals(p.getOpismiejsca()) && s.getKonto().getKontomacierzyste()!=null && s.getKonto().getKontomacierzyste().equals(r)) {

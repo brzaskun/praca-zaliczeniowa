@@ -11,6 +11,7 @@ import embeddable.Kwartaly;
 import embeddable.Schema;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class SchemaVAT7_old implements Serializable{
     private static final List<Schema> schemalist;
     
    static {
-       schemalist = new ArrayList<>();
+       schemalist = Collections.synchronizedList(new ArrayList<>());
        schemalist.add(new Schema("miesięczne", "2013", "04", null, "M-14", "2013/04/09/1113/", "<Pouczenie>W przypadku niewpłacenia w obowiązującym terminie kwoty z poz.48 lub wpłacenia jej w niepełnej wysokości, niniejsza deklaracja stanowi podstawę do wystawienia tytułu wykonawczego, zgodnie z przepisami ustawy z dnia 17 czerwca 1966 r. o postępowaniu egzekucyjnym w administracji (Dz.U. z 2012 r. poz. 1015, z późn. zm.).</Pouczenie>"));
        schemalist.add(new Schema("miesięczne", "2013", "01", null, "M-13", "2013/01/17/1085/", "<Pouczenie>W przypadku niewpłacenia w obowiązującym terminie kwoty z poz.58 lub wpłacenia jej w niepełnej wysokości, niniejsza deklaracja stanowi podstawę do wystawienia tytułu wykonawczego, zgodnie z przepisami ustawy z dnia 17 czerwca 1966 r. o postępowaniu egzekucyjnym w administracji (Dz.U. z 2012 r. poz. 1015, z późn. zm.).</Pouczenie>"));
        schemalist.add(new Schema("kwartalne", "2013", null, "2", "K-8", "2013/04/09/1114/", "<Pouczenie>W przypadku niewpłacenia w obowiązującym terminie kwoty z poz.48 lub wpłacenia jej w niepełnej wysokości, niniejsza deklaracja stanowi podstawę do wystawienia tytułu wykonawczego, zgodnie z przepisami ustawy z dnia 17 czerwca 1966 r. o postępowaniu egzekucyjnym w administracji (Dz.U. z 2012 r. poz. 1015, z późn. zm.).</Pouczenie>"));

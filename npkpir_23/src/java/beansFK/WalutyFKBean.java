@@ -63,7 +63,7 @@ public class WalutyFKBean {
             numertabeli = Integer.parseInt(wiersz.getNrtabeli().split("/")[0]);
             numertabeli++;
         }
-        List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
+        List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
         List<Waluty> pobranewaluty = walutyDAOfk.findAll();
         FacesContext context = FacesContext.getCurrentInstance();
         WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
@@ -111,7 +111,7 @@ public class WalutyFKBean {
                 numertabeli = Integer.parseInt(wiersz.getNrtabeli().split("/")[0]);
                 numertabeli++;
             }
-            List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
+            List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
             try {
                 wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {

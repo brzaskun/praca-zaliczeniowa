@@ -7,6 +7,7 @@ package jpk.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Named;
 
@@ -20,7 +21,7 @@ public class PolaJPK_VAT2 implements Serializable {
     public static List<PoleJPK> polajpk;
     
     static {
-        polajpk = new ArrayList<>();
+        polajpk = Collections.synchronizedList(new ArrayList<>());
         polajpk.add(new PoleJPK("K_10","Netto - Dostawa towarów oraz świadczenie usług na terytorium kraju, zwolnione od podatku"));
         polajpk.add(new PoleJPK("K_11","Netto - Dostawa towarów oraz świadczenie usług poza terytorium kraju"));
         polajpk.add(new PoleJPK("K_12","Netto - w tym świadczenie usług, o których mowa w art. 100 ust. 1 pkt 4 ustawy"));

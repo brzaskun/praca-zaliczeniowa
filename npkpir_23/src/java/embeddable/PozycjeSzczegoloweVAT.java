@@ -7,6 +7,7 @@ package embeddable;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -213,7 +214,7 @@ public class PozycjeSzczegoloweVAT implements Serializable {
     }
     @Transient
     public List<PP> getPozycje() {
-        List<PP> lista = new ArrayList<>();
+        List<PP> lista = Collections.synchronizedList(new ArrayList<>());
         for(int i = 10;i<42;i++){
             try {
                 Class[] noparams = {};

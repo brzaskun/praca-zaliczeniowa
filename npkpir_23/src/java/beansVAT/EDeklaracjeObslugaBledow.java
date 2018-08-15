@@ -6,6 +6,7 @@
 package beansVAT;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Named;
 
@@ -18,7 +19,7 @@ import javax.inject.Named;
 public class EDeklaracjeObslugaBledow {
 
     public static List<String> odpowiedznakodserwera(Integer kodserwera) {
-        List<String> komunikaty = new ArrayList<>();
+        List<String> komunikaty = Collections.synchronizedList(new ArrayList<>());
         if (kodserwera!=null) {
             switch (kodserwera) {
                 case 100: 

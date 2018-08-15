@@ -9,7 +9,6 @@ import entity.DeklaracjaVatZZ;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
-
 /**
  *
  * @author Osito

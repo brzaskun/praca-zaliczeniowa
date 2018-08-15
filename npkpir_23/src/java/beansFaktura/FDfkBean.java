@@ -24,6 +24,7 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import msg.Msg;
@@ -116,7 +117,7 @@ public class FDfkBean {
     private static void podepnijEwidencjeVat(Dokfk nd, Faktura faktura) {
         if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
             if (nd.iswTrakcieEdycji() == false) {
-                List<EVatwpisFK> ewidencjaTransformowana = new ArrayList<>();
+                List<EVatwpisFK> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
                 for (EVatwpis r : faktura.getEwidencjavat()) {
                     if (faktura.getEwidencjavatpk() != null) {
                         EVatwpis s  = null;

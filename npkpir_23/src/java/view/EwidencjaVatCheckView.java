@@ -11,6 +11,7 @@ import entityfk.StronaWiersza;
 import implement.ListExt;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -58,7 +59,7 @@ public class EwidencjaVatCheckView implements Serializable {
    }
 
    private List<EVatwpisSuper> pobierzdane(List<List<EVatwpisSuper>> ewidencje) {
-       List<EVatwpisSuper> ewidencjezawartosc = new ArrayList<>();
+       List<EVatwpisSuper> ewidencjezawartosc = Collections.synchronizedList(new ArrayList<>());
        for (List<EVatwpisSuper> p : ewidencje) {
            ewidencjezawartosc.addAll(p);
        }
@@ -99,7 +100,7 @@ public class EwidencjaVatCheckView implements Serializable {
     }
 
     private List<StronaWiersza> pobierzzakupy(List<SaldoKonto> kontavat) {
-        List<StronaWiersza> l = new ArrayList<>();
+        List<StronaWiersza> l = Collections.synchronizedList(new ArrayList<>());
         for (SaldoKonto p : kontavat) {
             if (p.getKonto().getPelnynumer().equals("221-3") || p.getKonto().getPelnynumer().equals("221-4")) {
                 l.addAll(p.getZapisy());
@@ -109,7 +110,7 @@ public class EwidencjaVatCheckView implements Serializable {
     }
 
     private List<StronaWiersza> pobierzsprzedaz(List<SaldoKonto> kontavat) {
-        List<StronaWiersza> l = new ArrayList<>();
+        List<StronaWiersza> l = Collections.synchronizedList(new ArrayList<>());
         for (SaldoKonto p : kontavat) {
             if (p.getKonto().getPelnynumer().equals("221-1") || p.getKonto().getPelnynumer().equals("221-2")) {
                 l.addAll(p.getZapisy());
@@ -121,7 +122,7 @@ public class EwidencjaVatCheckView implements Serializable {
     private List<EVatwpisSuper> sprawdzbrakinakoncie(List<EVatwpisSuper> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
        List<StronaWiersza> zakupysz = new ArrayList<>(zakupy);
        List<StronaWiersza> sprzedazsz  = new ArrayList<>(sprzedaz);
-       List<EVatwpisSuper> brakinakoncie = new ArrayList<>();
+       List<EVatwpisSuper> brakinakoncie = Collections.synchronizedList(new ArrayList<>());
        for (EVatwpisSuper p : ewidencjezawartosc) {
            boolean nk = false;
            if (p.getNazwaewidencji() != null) {
@@ -144,7 +145,7 @@ public class EwidencjaVatCheckView implements Serializable {
     }
 
     private List<StronaWiersza> sprawdzbrakiwewidencji(List<EVatwpisSuper> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
-       List<StronaWiersza> brakiwewidencji = new ArrayList<>();
+       List<StronaWiersza> brakiwewidencji = Collections.synchronizedList(new ArrayList<>());
        for (StronaWiersza p : zakupy) {
            if (p.getDokfk().getVatM().equals(wpisView.getMiesiacWpisu()) && p.getDokfk().getVatR().equals(wpisView.getRokWpisuSt())
                    && !p.getDokfk().getRodzajedok().getSkrot().equals("VAT")) {

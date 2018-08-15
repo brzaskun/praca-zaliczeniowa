@@ -25,6 +25,7 @@ import entity.Uz;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +53,7 @@ public class PdfVAT7new {
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
         List<SchemaEwidencjaSuma> schematewidencjesprzedazy = null;
         if (d.getPodsumowanieewidencji() != null) {
-            ArrayList<EVatwpisSuma> sumaewidencji = new ArrayList<>();
+            List<EVatwpisSuma> sumaewidencji = Collections.synchronizedList(new ArrayList<>());
             sumaewidencji.addAll(d.getPodsumowanieewidencji().values());
             schematewidencjesprzedazy = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, sumaewidencji);
         }

@@ -7,6 +7,7 @@ package embeddable;
 import entity.DeklaracjaVatPozycjeKoncowe;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Embeddable;
 import javax.persistence.Lob;
@@ -35,12 +36,12 @@ public class Vatpoz implements Serializable {
     private boolean firma1osobafiz0;
 
     public Vatpoz() {
-        this.pozycjekoncowe = new ArrayList<>();
+        this.pozycjekoncowe = Collections.synchronizedList(new ArrayList<>());
     }
 
     public Vatpoz(Integer id) {
         this.id = id;
-        this.pozycjekoncowe = new ArrayList<>();
+        this.pozycjekoncowe = Collections.synchronizedList(new ArrayList<>());
     }
 
     public Integer getId() {

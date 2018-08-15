@@ -17,6 +17,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -52,7 +53,7 @@ public class SaldoSyntetykaView implements Serializable {
 
     public SaldoSyntetykaView() {
          E.m(this);
-        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
     }
     
     
@@ -86,7 +87,7 @@ public class SaldoSyntetykaView implements Serializable {
     }
     
      private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
-        List<SaldoKonto> przygotowanalista = new ArrayList<>();
+        List<SaldoKonto> przygotowanalista = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : kontaklienta) {
             List<StronaWiersza> zapisyRok = pobierzzapisykonto(p);
             SaldoKonto saldoKonto = new SaldoKonto();
@@ -100,7 +101,7 @@ public class SaldoSyntetykaView implements Serializable {
         for (int i = 1; i < przygotowanalista.size()+1; i++) {
             przygotowanalista.get(i-1).setId(i);
         }
-        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
         return przygotowanalista;
     }
@@ -209,7 +210,7 @@ public class SaldoSyntetykaView implements Serializable {
         return zapisy;
     }
     public void sumujwybranekonta() {
-        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(listaSaldoKontowybrane));
     }
     

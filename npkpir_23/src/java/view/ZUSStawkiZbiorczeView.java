@@ -54,7 +54,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     private boolean wszystkielata;
 
     public ZUSStawkiZbiorczeView() {
-        listapodatnikow = new ArrayList<>();
+        listapodatnikow = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct
@@ -78,7 +78,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     
     public void dodajzusZbiorcze(Podatnik selected) {
         try {
-            List<Zusstawki> tmp = new ArrayList<>();
+            List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
             try {
                 tmp.addAll(selected.getZusparametr());
             } catch (Exception e) { E.e(e); 
@@ -144,7 +144,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     
     public void edytujzusZbiorcze(Podatnik selected) {
         try {
-            List<Zusstawki> tmp = new ArrayList<>();
+            List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
             try {
                 tmp.addAll(selected.getZusparametr());
             } catch (Exception e) { E.e(e); 
@@ -183,7 +183,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     }
       
     public void pobierzzusZbiorcze(Podatnik selected) {
-        List<Zusstawki> tmp = new ArrayList<>();
+        List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
         String data = selected.getDatamalyzus();
         String rok = null;
         String mc = null;
@@ -243,7 +243,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         } else {
             rokpoprzedni = Integer.parseInt(obrabianeparametryzus.getZusstawkiPK().getRok());
         }
-        List<Zusstawki> tmp = new ArrayList<>();
+        List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
         tmp.addAll(podatnik.getZusparametr());
         ZusstawkiPK key = new ZusstawkiPK();
         key.setRok(String.valueOf(rokpoprzedni));

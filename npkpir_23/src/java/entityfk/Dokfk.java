@@ -16,6 +16,7 @@ import entity.VatUe;
 import entity.WniosekVATZDEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -231,9 +232,9 @@ public class Dokfk extends DokSuper implements Serializable {
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
-        this.listawierszy = new ArrayList<>();
-        this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentuLista = new ArrayList<>();
+        this.listawierszy = Collections.synchronizedList(new ArrayList<>());
+        this.ewidencjaVAT = Collections.synchronizedList(new ArrayList<>());
+        this.cechadokumentuLista = Collections.synchronizedList(new ArrayList<>());
     }
 
     public Dokfk(String opis, String rok) {
@@ -251,9 +252,9 @@ public class Dokfk extends DokSuper implements Serializable {
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
-        this.listawierszy = new ArrayList<>();
-        this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentuLista = new ArrayList<>();
+        this.listawierszy = Collections.synchronizedList(new ArrayList<>());
+        this.ewidencjaVAT = Collections.synchronizedList(new ArrayList<>());
+        this.cechadokumentuLista = Collections.synchronizedList(new ArrayList<>());
     }
 
 
@@ -263,9 +264,9 @@ public class Dokfk extends DokSuper implements Serializable {
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
-        this.listawierszy = new ArrayList<>();
-        this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentuLista = new ArrayList<>();
+        this.listawierszy = Collections.synchronizedList(new ArrayList<>());
+        this.ewidencjaVAT = Collections.synchronizedList(new ArrayList<>());
+        this.cechadokumentuLista = Collections.synchronizedList(new ArrayList<>());
         ustawNoweSelected(symbolPoprzedniegoDokumentu, rodzajedok, wpisView);
     }
 
@@ -276,9 +277,9 @@ public class Dokfk extends DokSuper implements Serializable {
         this.wartoscdokumentu = 0.0;
         this.kontr = klienci;
         this.wTrakcieEdycji = false;
-        this.listawierszy = new ArrayList<>();
-        this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentuLista = new ArrayList<>();
+        this.listawierszy = Collections.synchronizedList(new ArrayList<>());
+        this.ewidencjaVAT = Collections.synchronizedList(new ArrayList<>());
+        this.cechadokumentuLista = Collections.synchronizedList(new ArrayList<>());
         String mc = wpisView.getMiesiacWpisu().equals("CR") ? wpisView.getMiesiacWpisuArchiwum() : wpisView.getMiesiacWpisu();
         String data = Data.ostatniDzien(wpisView.getRokWpisuSt(), mc);
         this.setDatawystawienia(data);
@@ -872,7 +873,7 @@ public class Dokfk extends DokSuper implements Serializable {
 
     public List<StronaWiersza> getStronyWierszy() {
         this.getListawierszy().size();
-        List<StronaWiersza> lista = new ArrayList<>();
+        List<StronaWiersza> lista = Collections.synchronizedList(new ArrayList<>());
         for (Wiersz p : this.listawierszy) {
             if (p.getStronaWn() != null) {
                 lista.add(p.getStronaWn());
@@ -1065,7 +1066,7 @@ public class Dokfk extends DokSuper implements Serializable {
             }
             n = last;
         }
-        List<Wiersz> nowe = new ArrayList<>();
+        List<Wiersz> nowe = Collections.synchronizedList(new ArrayList<>());
         int licz = 1;
         int wiersztyp0 = 0;
         for (Object wiersze1 : wiersze) {
@@ -1100,7 +1101,7 @@ public class Dokfk extends DokSuper implements Serializable {
             }
             n = last;
         }
-        List<Popo> nowe = new ArrayList<>();
+        List<Popo> nowe = Collections.synchronizedList(new ArrayList<>());
         for (Object wiersze1 : wiersze) {
             nowe.add((Popo) wiersze1);
         }
@@ -1137,7 +1138,7 @@ public class Dokfk extends DokSuper implements Serializable {
         public List<Popo> lista;
 
         public Popo() {
-            lista = new ArrayList<>();
+            lista = Collections.synchronizedList(new ArrayList<>());
             lista.add(new Popo(1,1,3,0));
             lista.add(new Popo(2,2,8,0));
             lista.add(new Popo(3,3,15,0));
@@ -1188,7 +1189,7 @@ public class Dokfk extends DokSuper implements Serializable {
             }
             n = last;
         }
-        List<Popo> nowe = new ArrayList<>();
+        List<Popo> nowe = Collections.synchronizedList(new ArrayList<>());
         for (Object wiersze1 : wiersze) {
             nowe.add((Popo) wiersze1);
         }

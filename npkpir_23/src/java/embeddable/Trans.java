@@ -7,6 +7,7 @@ package embeddable;
 import dao.PodatnikDAO;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -26,7 +27,7 @@ public class Trans implements Serializable{
     private static final List<String> transListZO;
     private static final List<String> transListRY;
     static {
-        transList = new ArrayList<>();
+        transList = Collections.synchronizedList(new ArrayList<>());
         transList.add("zakup");
         transList.add("srodek trw");
         transList.add("srodek trw sprzedaz");
@@ -43,7 +44,7 @@ public class Trans implements Serializable{
         transList.add("odwrotne obciążenie sprzedawca");
         transList.add("WB-RK");
         transList.add("PK");
-        transListZO = new ArrayList<>();
+        transListZO = Collections.synchronizedList(new ArrayList<>());
         transListZO.add("zakup");
         transListZO.add("srodek trw");
         transListZO.add("srodek trw sprzedaz");
@@ -57,7 +58,7 @@ public class Trans implements Serializable{
         transListZO.add("eksport towarów");
         transListZO.add("odwrotne obciążenie");
         transListZO.add("odwrotne obciążenie sprzedawca");
-        transListRY = new ArrayList<>();
+        transListRY = Collections.synchronizedList(new ArrayList<>());
         transListRY.add("ryczałt");
         transListRY.add("sprzedaz Niemcy");
         transListRY.add("zakup");

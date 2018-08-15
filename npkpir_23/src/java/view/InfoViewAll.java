@@ -63,7 +63,7 @@ private static final long serialVersionUID = 1L;
          */
         //int day = c.get(Calendar.DAY_OF_MONTH);
 //        List<Podatnik> tmp = podatnikDAO.findAll();
-//        kliencinieruszeni = new ArrayList<>();
+//        kliencinieruszeni = Collections.synchronizedList(new ArrayList<>());
 //        for(Podatnik p : tmp){
 //            Integer dok = Integer.parseInt(dokDAO.iledokumentowklienta(p.getNazwapelna(), rokdzisiejszy, mcdzisiejszy).toString());
 //            if(dok == 0){

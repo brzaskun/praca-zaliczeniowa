@@ -22,6 +22,7 @@ import entity.Evewidencja;
 import entity.SchemaEwidencja;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -114,11 +115,11 @@ public class DeklaracjaVatSchemaView implements Serializable {
     public void pobierzschemaewidencja() {
         ewidencjevat = evewidencjaDAO.findAll();
         schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(wybranaschema);
-        List<Evewidencja> uzupelnioneewidencje = new ArrayList<>();
+        List<Evewidencja> uzupelnioneewidencje = Collections.synchronizedList(new ArrayList<>());
         for (SchemaEwidencja p : schemaewidencjalista) {
             uzupelnioneewidencje.add(p.getEvewidencja());
         }
-        List<Evewidencja> ewidencjedododania = new ArrayList<>();
+        List<Evewidencja> ewidencjedododania = Collections.synchronizedList(new ArrayList<>());
         for (Evewidencja r : ewidencjevat) {
             if (uzupelnioneewidencje.contains(r)) {
                 uzupelnioneewidencje.remove(r);
@@ -165,11 +166,11 @@ public class DeklaracjaVatSchemaView implements Serializable {
     public void pobierzschemawiersz() {
         List<DeklaracjaVatWierszSumaryczny> listawierszy = deklaracjaVatWierszSumarycznyDAO.findAll();
         schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(wybranaschema);
-        List<DeklaracjaVatWierszSumaryczny> uzupelnionewiersze = new ArrayList<>();
+        List<DeklaracjaVatWierszSumaryczny> uzupelnionewiersze = Collections.synchronizedList(new ArrayList<>());
         for (DeklaracjaVatSchemaWierszSum p : schemawierszlista) {
             uzupelnionewiersze.add(p.getDeklaracjaVatWierszSumaryczny());
         }
-        List<DeklaracjaVatWierszSumaryczny> wierszedododania = new ArrayList<>();
+        List<DeklaracjaVatWierszSumaryczny> wierszedododania = Collections.synchronizedList(new ArrayList<>());
         for (DeklaracjaVatWierszSumaryczny r : listawierszy) {
             if (uzupelnionewiersze.contains(r)) {
                 uzupelnionewiersze.remove(r);
@@ -196,7 +197,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
              if (!wybranaschema.equals(kopiowanaschema)) {
                 schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(wybranaschema);
                 schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(wybranaschema);
-                List<SchemaEwidencja> nowaschemaewidencja = new ArrayList<>();
+                List<SchemaEwidencja> nowaschemaewidencja = Collections.synchronizedList(new ArrayList<>());
                 for (SchemaEwidencja p : schemaewidencjalista) {
                     p.setDeklaracjaVatSchema(kopiowanaschema);
                     p.setId(null);
@@ -205,7 +206,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
                 if (!nowaschemaewidencja.isEmpty()) {
                     schemaEwidencjaDAO.dodaj(nowaschemaewidencja);
                 }
-                List<DeklaracjaVatSchemaWierszSum> nowesumwiersze = new ArrayList<>();
+                List<DeklaracjaVatSchemaWierszSum> nowesumwiersze = Collections.synchronizedList(new ArrayList<>());
                 for (DeklaracjaVatSchemaWierszSum p : schemawierszlista) {
                     p.setDeklaracjaVatSchema(kopiowanaschema);
                     p.setId(null);
@@ -229,15 +230,15 @@ public class DeklaracjaVatSchemaView implements Serializable {
      public void pobierzschemapozycjekoncowe() {
         List<DeklaracjaVatPozycjeKoncowe> listapozycjikoncowych = deklaracjaVatPozycjeKoncoweDAO.findAll();
         schemapozycjekoncowe = deklaracjaVatSchemaPozKoncoweDAO.findWierszeSchemy(wybranaschema);
-        List<DeklaracjaVatPozycjeKoncowe> uzupelnionewiersze = new ArrayList<>();
+        List<DeklaracjaVatPozycjeKoncowe> uzupelnionewiersze = Collections.synchronizedList(new ArrayList<>());
         if (schemapozycjekoncowe != null) {
             for (DeklaracjaVatSchemaPozKoncowe p : schemapozycjekoncowe) {
                 uzupelnionewiersze.add(p.getDeklaracjaVatPozycjeKoncowe());
             }
         } else {
-            schemapozycjekoncowe = new ArrayList<>();
+            schemapozycjekoncowe = Collections.synchronizedList(new ArrayList<>());
         }
-        List<DeklaracjaVatPozycjeKoncowe> wierszedododania = new ArrayList<>();
+        List<DeklaracjaVatPozycjeKoncowe> wierszedododania = Collections.synchronizedList(new ArrayList<>());
         for (DeklaracjaVatPozycjeKoncowe r : listapozycjikoncowych) {
             if (uzupelnionewiersze.contains(r)) {
                 uzupelnionewiersze.remove(r);

@@ -73,7 +73,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
     public List<Konto> complete(String qr) {
         if (qr != null) {
             String query = null;
-            List<Konto> results = new ArrayList<>();
+            List<Konto> results = Collections.synchronizedList(new ArrayList<>());
             if (listakontOstatniaAnalitykaklienta != null) {
                 String nazwa = null;
                 if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {

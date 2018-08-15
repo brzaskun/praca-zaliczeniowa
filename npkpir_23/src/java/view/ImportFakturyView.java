@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -89,8 +90,8 @@ public class ImportFakturyView  implements Serializable {
     
     public void importujsprzedaz(FileUploadEvent event) {
         try {
-            dokumenty = new ArrayList<>();
-            klienci = new ArrayList<>();
+            dokumenty = Collections.synchronizedList(new ArrayList<>());
+            klienci = Collections.synchronizedList(new ArrayList<>());
             netto = 0.0;
             vat= 0.0;
             UploadedFile uploadedFile = event.getFile();
@@ -126,7 +127,7 @@ public class ImportFakturyView  implements Serializable {
     }
     
     private List<Dok> stworzdokumenty(deklaracje.jpkfa.JPK jpk) {
-        List<Dok> dokumenty = new ArrayList<>();
+        List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
         CurrCodeType walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty();
         String waldok = walutapliku.toString();
         if (jpk != null) {
@@ -144,7 +145,7 @@ public class ImportFakturyView  implements Serializable {
     }
     
     private List<Dok> stworzdokumentyfiz(deklaracje.jpkfa.JPK jpk) {
-        List<Dok> dokumenty = new ArrayList<>();
+        List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
         CurrCodeType walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty();
         String waldok = walutapliku.toString();
         if (jpk != null) {
@@ -162,7 +163,7 @@ public class ImportFakturyView  implements Serializable {
     }
     
     private List<Dok> stworzdokumentyde(deklaracje.jpkfa.JPK jpk) {
-        List<Dok> dokumenty = new ArrayList<>();
+        List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
         CurrCodeType walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty();
         String waldok = walutapliku.toString();
         if (jpk != null) {
@@ -211,7 +212,7 @@ public class ImportFakturyView  implements Serializable {
                 selDokument.setWalutadokumentu(innatabela.getWaluta());
             }
             selDokument.setOpis("przychód ze sprzedaży");
-            List<KwotaKolumna1> listaX = new ArrayList<>();
+            List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
             if (waldok.equals("PLN")) {
                 tmpX.setNetto(wiersz.getNetto());
@@ -237,7 +238,7 @@ public class ImportFakturyView  implements Serializable {
             selDokument.setNetto(Z.z(tmpX.getNetto()));
             selDokument.setBrutto(Z.z(tmpX.getBrutto()));
             selDokument.setRozliczony(true);
-            List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
+            List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), przeliczpln(wiersz.getNetto(), innatabela), przeliczpln(wiersz.getVat(), innatabela), "sprz.op", miesiac, rok);
             eVatwpis1.setDok(selDokument);
             ewidencjaTransformowana.add(eVatwpis1);
@@ -283,7 +284,7 @@ public class ImportFakturyView  implements Serializable {
                 selDokument.setWalutadokumentu(innatabela.getWaluta());
             }
             selDokument.setOpis("przychód ze sprzedaży");
-            List<KwotaKolumna1> listaX = new ArrayList<>();
+            List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
             tmpX.setNettowaluta(faktura.getNettoDE());
             tmpX.setVatwaluta(faktura.getVatDE());
@@ -299,7 +300,7 @@ public class ImportFakturyView  implements Serializable {
             selDokument.setNetto(Z.z(tmpX.getNetto()));
             selDokument.setBrutto(Z.z(tmpX.getBrutto()));
             selDokument.setRozliczony(true);
-            List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
+            List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(faktura,evewidencje), przeliczpln(faktura.getNetto(), innatabela), przeliczpln(faktura.getVat(), innatabela), "sprz.op", miesiac, rok);
             eVatwpis1.setDok(selDokument);
             ewidencjaTransformowana.add(eVatwpis1);
@@ -406,7 +407,7 @@ public class ImportFakturyView  implements Serializable {
                 } catch(Exception e){
                 }
             }
-            klienci = new ArrayList<>();
+            klienci = Collections.synchronizedList(new ArrayList<>());
             Msg.msg("Dodano nowych klientw z importowanych dokumentów");
         }
         if (dokumenty!=null && dokumenty.size()>0) {
@@ -418,7 +419,7 @@ public class ImportFakturyView  implements Serializable {
                 } catch(Exception e){
                 }
             }
-            dokumenty = new ArrayList<>();
+            dokumenty = Collections.synchronizedList(new ArrayList<>());
             Msg.msg("Zaksiowano zaimportowane dokumenty");
         }
     }

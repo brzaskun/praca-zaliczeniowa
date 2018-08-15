@@ -469,7 +469,7 @@ public class KontoDAOfk extends DAO implements Serializable {
     }
 
     public List<Konto> findKontaWszystkiePotomnePodatnik(WpisView wpisView, Konto macierzyste) {
-        List<Konto> listakontwszystkie = new ArrayList<>();
+        List<Konto> listakontwszystkie = Collections.synchronizedList(new ArrayList<>());
         try {
             macierzyste.getAllChildren(listakontwszystkie, wpisView, kontoFacade);
             return Collections.synchronizedList(listakontwszystkie);
@@ -480,7 +480,7 @@ public class KontoDAOfk extends DAO implements Serializable {
     }
 
     public List<Konto> findKontaWszystkiePotomneWzorcowy(WpisView wpisView, Konto macierzyste) {
-        List<Konto> listakontwszystkie = new ArrayList<>();
+        List<Konto> listakontwszystkie = Collections.synchronizedList(new ArrayList<>());
         try {
             macierzyste.getAllChildrenWzorcowy(listakontwszystkie, wpisView, kontoFacade);
             return Collections.synchronizedList(listakontwszystkie);
@@ -491,7 +491,7 @@ public class KontoDAOfk extends DAO implements Serializable {
     }
 
     public List<Konto> findKontaWszystkiePotomneRok(WpisView wpisView, Konto macierzyste) {
-        List<Konto> listakontwszystkie = new ArrayList<>();
+        List<Konto> listakontwszystkie = Collections.synchronizedList(new ArrayList<>());
         try {
             macierzyste.getAllChildrenRok(listakontwszystkie, wpisView, kontoFacade);
             return Collections.synchronizedList(listakontwszystkie);

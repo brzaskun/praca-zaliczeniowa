@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -34,7 +35,7 @@ public class OdsetkiView implements Serializable{
     private List<Odsetki> lista;
 
     public OdsetkiView() {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct

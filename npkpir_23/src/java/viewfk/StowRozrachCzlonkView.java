@@ -54,15 +54,15 @@ public class StowRozrachCzlonkView implements Serializable {
 
     public StowRozrachCzlonkView() {
         this.wybranyczlonek = null;
-        this.lista = new ArrayList<>();
+        this.lista = Collections.synchronizedList(new ArrayList<>());
     }
 
     //nie ruszac bo nie dziala u geusta
     @PostConstruct
     public void pobierz() {
         this.wybranyczlonek = null;
-        this.lista = new ArrayList<>();
-        this.listazapisy = new ArrayList<>();
+        this.lista = Collections.synchronizedList(new ArrayList<>());
+        this.listazapisy = Collections.synchronizedList(new ArrayList<>());
         czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         Collections.sort(czlonkowiestowarzyszenia, new MiejscePrzychodowcomparator());
     }
@@ -70,8 +70,8 @@ public class StowRozrachCzlonkView implements Serializable {
     
 
     public void pobierzdane() {
-        this.lista = new ArrayList<>();
-        this.listazapisy = new ArrayList<>();
+        this.lista = Collections.synchronizedList(new ArrayList<>());
+        this.listazapisy = Collections.synchronizedList(new ArrayList<>());
         konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 7);
         for (Iterator<Konto> it = konta.iterator(); it.hasNext();) {
             Konto p = it.next();

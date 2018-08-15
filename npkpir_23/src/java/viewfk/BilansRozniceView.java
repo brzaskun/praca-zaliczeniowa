@@ -13,6 +13,7 @@ import entityfk.Wiersz;
 import entityfk.WierszBO;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -51,7 +52,7 @@ public class BilansRozniceView implements Serializable {
     }
 
     private List<StronaWiersza> pobierzstrony(List<Dokfk> dokfk) {
-        List<StronaWiersza> stronywierszaDok = new ArrayList<>();
+        List<StronaWiersza> stronywierszaDok = Collections.synchronizedList(new ArrayList<>());
         if (dokfk != null && dokfk.size() == 1) {
             Dokfk dok = dokfk.get(0);
             List<Wiersz> wiersze = dok.getListawierszy();
@@ -61,7 +62,7 @@ public class BilansRozniceView implements Serializable {
     }
     
     private List<StronaWiersza> pobierzkolejne(List<Wiersz> wiersze) {
-        List<StronaWiersza> stronywierszaDok = new ArrayList<>();
+        List<StronaWiersza> stronywierszaDok = Collections.synchronizedList(new ArrayList<>());
         if (wiersze != null && wiersze.size() > 0) {
             for (Wiersz w : wiersze) {
                 if (w.getStronyWiersza() != null) {

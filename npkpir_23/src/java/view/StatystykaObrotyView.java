@@ -49,7 +49,7 @@ public class StatystykaObrotyView implements Serializable {
     public void pobierz() {
         if (wybranypodatnik != null) {
             stats = statystykaDAO.findByPodatnik(wybranypodatnik);
-            statssymulacja = new ArrayList<>();
+            statssymulacja = Collections.synchronizedList(new ArrayList<>());
             for (Statystyka p : stats) {
                 statssymulacja.add(new StatystykaExt(0.0, 0.0, 0.0, p));
             }

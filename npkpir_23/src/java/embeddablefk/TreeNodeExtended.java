@@ -51,11 +51,11 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     //robi drzewko z elementów bazy danych
     public void createTreeNodesForElement(List<T> pozycje) {
        int depth = ustaldepthDT(pozycje);
-       Map<String, ArrayList<T>> rzedy = getElementTreeFromPlainList(pozycje, depth);
-       ArrayList<TreeNodeExtended> poprzednie = new ArrayList<>();
+       Map<String, List<T>> rzedy = getElementTreeFromPlainList(pozycje, depth);
+       List<TreeNodeExtended> poprzednie = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < depth; i++) {
-            ArrayList<TreeNodeExtended> nowe = new ArrayList<>();
-            ArrayList<T> biezaca = rzedy.get(String.valueOf(i));
+            List<TreeNodeExtended> nowe = Collections.synchronizedList(new ArrayList<>());
+            List<T> biezaca = rzedy.get(String.valueOf(i));
             uporzadkujbiezaca(biezaca);
             for (T p : biezaca) {
                 if (i == 0) {
@@ -101,11 +101,11 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     
     
     //przeksztalca tresc tabeli w elementy do drzewa uklada je rzedami
-    private Map<String, ArrayList<T>> getElementTreeFromPlainList(List<T> pozycje, int depth) {
-        Map<String, ArrayList<T>> rzedy = new LinkedHashMap<>(depth);
+    private Map<String, List<T>> getElementTreeFromPlainList(List<T> pozycje, int depth) {
+        Map<String, List<T>> rzedy = new LinkedHashMap<>(depth);
         // builds a map of elements object returned from store
         for (int i = 0; i < depth; i++) {
-            ArrayList<T> values = new ArrayList<>();
+            List<T> values = Collections.synchronizedList(new ArrayList<>());
             for (Iterator<T> it = pozycje.iterator(); it.hasNext(); ) {
                 T s = it.next();
                 int level = 0;
@@ -126,11 +126,11 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             }
         }
         for (String p : rzedy.keySet()) {
-            ArrayList<T> values = rzedy.get(p);
+            List<T> values = rzedy.get(p);
             if (values.get(0) != null && values.get(0).getClass().getSimpleName().equals("PozycjaBilans")) {
-                Collections.sort((ArrayList<PozycjaBilans>)values, new PozycjaBilanscomparator());
+                Collections.sort((List<PozycjaBilans>)values, new PozycjaBilanscomparator());
             } else if (values.get(0) != null && values.get(0).getClass().getSimpleName().equals("PozycjaRZiS")) {
-                Collections.sort((ArrayList<PozycjaRZiS>)values, new PozycjaRZiScomparator());
+                Collections.sort((List<PozycjaRZiS>)values, new PozycjaRZiScomparator());
             }
         }
         return rzedy;
@@ -161,7 +161,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
       
       public int ustaldepthDT() {
-        ArrayList<TreeNodeExtended> pozycje = new ArrayList<TreeNodeExtended>();
+        List<TreeNodeExtended> pozycje = new ArrayList<TreeNodeExtended>();
         this.getFinallChildren(pozycje);
         int depth = 0;
         int pobranawartosc = 0;
@@ -199,7 +199,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
 //    
     
     //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi Nodami
-    public void getFinallChildren(ArrayList<TreeNodeExtended> finallNodes) {
+    public void getFinallChildren(List<TreeNodeExtended> finallNodes) {
         List<TreeNode> children = this.getChildren();
         boolean madzieci = this.getChildCount() > 0;
         if (madzieci == true) {
@@ -256,7 +256,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi Kontami
-    public void getFinallChildrenData(ArrayList<TreeNodeExtended> finallNodes, List<Object> listazwrotna) {
+    public void getFinallChildrenData(List<TreeNodeExtended> finallNodes, List<Object> listazwrotna) {
         List<TreeNode> children = this.getChildren();
         boolean madzieci = this.getChildCount() > 0;
         if (madzieci == true) {
@@ -273,7 +273,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     
     //ustawia paramentr display na true tylko dla ostatnich elementow
     public void displayOnlyFinallChildren() {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (TreeNodeExtended p : finallNodes) {
             p.display = true;
@@ -281,7 +281,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
 
     public void addNumbers(List<StronaWiersza> zapisynakontach, List<Konto> plankont) throws Exception {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
             addNumbersloop(stronaWiersza, finallNodes, plankont);
@@ -289,7 +289,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void addNumbersSlot(List<StronaWiersza> zapisynakontach, List<Konto> plankont, String kolumna) throws Exception {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
             addNumbersloopNar(stronaWiersza, finallNodes, plankont, kolumna);
@@ -298,7 +298,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     
     
      public void addNumbersNar(List<StronaWiersza> zapisynakontach, List<Konto> plankont, String mckoncowy) throws Exception {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
             String mc = stronaWiersza.getDokfk().getMiesiac();
@@ -308,7 +308,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
-    private void addNumbersloop(StronaWiersza stronaWiersza, ArrayList<TreeNodeExtended> finallNodes, List<Konto> plankont) {
+    private void addNumbersloop(StronaWiersza stronaWiersza, List<TreeNodeExtended> finallNodes, List<Konto> plankont) {
         double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
         double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
@@ -370,7 +370,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             }
     }
     
-    private void addNumbersloopNar(StronaWiersza stronaWiersza, ArrayList<TreeNodeExtended> finallNodes, List<Konto> plankont, String mc) {
+    private void addNumbersloopNar(StronaWiersza stronaWiersza, List<TreeNodeExtended> finallNodes, List<Konto> plankont, String mc) {
         double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
         double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
@@ -429,7 +429,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void addNumbersBO(List<StronaWiersza> zapisynakontach, List<Konto> plankont) throws Exception {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
             //pobiermay dane z poszczegolnego konta
@@ -489,7 +489,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void addNumbersBilans(List<Konto> plankont, String aktywapasywa) throws Exception {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (Konto p: plankont) {
             if (p.getPelnynumer().equals("234-4-2")) {
@@ -609,7 +609,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void addNumbersBilansBO(List<Konto> plankont, String aktywapasywa) throws Exception {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (Konto p: plankont) {
             if (p.getPelnynumer().equals("201-1-5")) {
@@ -729,7 +729,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void addNumbersBilansNowy(List<StronaWiersza> zapisynakontach, List<Konto> plankont, String aktywapasywa) throws Exception {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
             double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
@@ -827,9 +827,9 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void sumNodes() {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
-        ArrayList<TreeNodeExtended> parents = new ArrayList<>();
+        List<TreeNodeExtended> parents = Collections.synchronizedList(new ArrayList<>());
         do {
             int lowestlevel = ustaldepth(finallNodes);
             parents.clear();
@@ -855,9 +855,9 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     
     public void sumNodesNar(String mckoncowy) {
         List<String> mce = Mce.getMiesiaceGranica(mckoncowy);
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
-        ArrayList<TreeNodeExtended> parents = new ArrayList<>();
+        List<TreeNodeExtended> parents = Collections.synchronizedList(new ArrayList<>());
         do {
             int lowestlevel = ustaldepth(finallNodes);
             parents.clear();
@@ -884,9 +884,9 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void sumNodesSlot(String kolumna) {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
-        ArrayList<TreeNodeExtended> parents = new ArrayList<>();
+        List<TreeNodeExtended> parents = Collections.synchronizedList(new ArrayList<>());
         do {
             int lowestlevel = ustaldepth(finallNodes);
             parents.clear();
@@ -911,9 +911,9 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void sumNodesBO() {
-        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
-        ArrayList<TreeNodeExtended> parents = new ArrayList<>();
+        List<TreeNodeExtended> parents = Collections.synchronizedList(new ArrayList<>());
         do {
             int lowestlevel = ustaldepth(finallNodes);
             parents.clear();
@@ -937,7 +937,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         } while (parents.size() > 0);
     }
 
-    private int ustaldepth(ArrayList<TreeNodeExtended> nodes) {
+    private int ustaldepth(List<TreeNodeExtended> nodes) {
         int depth = 0;
         for (TreeNodeExtended p : nodes) {
             PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) p.getData();
@@ -998,7 +998,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
 
     public void resolveFormulas() {
-        ArrayList<TreeNode> finallNodes = (ArrayList<TreeNode>) this.getChildren();
+        List<TreeNode> finallNodes = (List<TreeNode>) this.getChildren();
         for (TreeNode p : finallNodes) {
             try {
                 if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
@@ -1017,7 +1017,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     
     public void resolveFormulasNar(String mckoncowy) {
         List<String> mce = Mce.getMiesiaceGranica(mckoncowy);
-        ArrayList<TreeNode> finallNodes = (ArrayList<TreeNode>) this.getChildren();
+        List<TreeNode> finallNodes = (List<TreeNode>) this.getChildren();
         for (TreeNode p : finallNodes) {
             try {
                 if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
@@ -1036,7 +1036,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void resolveFormulasSlot(String kolumna) {
-        ArrayList<TreeNode> finallNodes = (ArrayList<TreeNode>) this.getChildren();
+        List<TreeNode> finallNodes = (List<TreeNode>) this.getChildren();
         for (TreeNode p : finallNodes) {
             try {
                 if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
@@ -1053,7 +1053,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void resolveFormulasBO() {
-        ArrayList<TreeNode> finallNodes = (ArrayList<TreeNode>) this.getChildren();
+        List<TreeNode> finallNodes = (List<TreeNode>) this.getChildren();
         for (TreeNode p : finallNodes) {
             try {
                 if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
@@ -1094,7 +1094,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         ((PozycjaRZiSBilans) this.getData()).setKwotabo(kwotabo);
     }
 
-    private double dotheMath(ArrayList<TreeNode> finallNodes, String[] formulaParse, int formulalength) {
+    private double dotheMath(List<TreeNode> finallNodes, String[] formulaParse, int formulalength) {
         double wynik = findBypozycjaSymbol(finallNodes, formulaParse[0]).getKwota();
         for (int i = 1; i < formulalength; i++) {
             String znak = formulaParse[i++];
@@ -1118,7 +1118,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         return wynik;
     }
     
-    private double dotheMathNar(ArrayList<TreeNode> finallNodes, String[] formulaParse, int formulalength, String mc) {
+    private double dotheMathNar(List<TreeNode> finallNodes, String[] formulaParse, int formulalength, String mc) {
         double wynik = ((PozycjaRZiS) findBypozycjaSymbol(finallNodes, formulaParse[0]).getData()).getMce().get(mc);
         for (int i = 1; i < formulalength; i++) {
             String znak = formulaParse[i++];
@@ -1143,7 +1143,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         return wynik;
     }
     
-    private double dotheMathBO(ArrayList<TreeNode> finallNodes, String[] formulaParse, int formulalength) {
+    private double dotheMathBO(List<TreeNode> finallNodes, String[] formulaParse, int formulalength) {
         double wynik = findBypozycjaSymbol(finallNodes, formulaParse[0]).getKwotabo();
         for (int i = 1; i < formulalength; i++) {
             String znak = formulaParse[i++];
@@ -1167,7 +1167,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         return wynik;
     }
 
-    private TreeNodeExtended findBypozycjaSymbol(ArrayList<TreeNode> finallNodes, String pozycjastring) {
+    private TreeNodeExtended findBypozycjaSymbol(List<TreeNode> finallNodes, String pozycjastring) {
         for (TreeNode p : finallNodes) {
             if (((TreeNodeExtended) p).getSymbol().equals(pozycjastring)) {
                 return (TreeNodeExtended) p;
@@ -1180,7 +1180,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
          this.getChildren().clear();
     }
 
-    private void uporzadkujbiezaca(ArrayList<T> biezaca) {
+    private void uporzadkujbiezaca(List<T> biezaca) {
         if (biezaca != null && biezaca.size() > 0) {
             Object pobrany = biezaca.get(0);
             if (pobrany.getClass().getSimpleName().equals("Konto")) {

@@ -14,6 +14,7 @@ import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import error.E;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
@@ -141,7 +142,7 @@ public class StronaWierszaBean {
     }
     
        public static List<StronaWiersza> pobraniezapisowwynikoweCecha(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
-        List<StronaWiersza> pobranezapisy = new ArrayList<>();
+        List<StronaWiersza> pobranezapisy = Collections.synchronizedList(new ArrayList<>());
         pobranezapisy.addAll(stronaWierszaDAO.findStronaByPodatnikWynikCechaRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
         String[] mce = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
         pobranezapisy.addAll(stronaWierszaDAO.findStronaByPodatnikWynikCechaRokMc(wpisView.getPodatnikObiekt(), mce[1], mce[0]));

@@ -23,7 +23,7 @@ import java.util.Set;
 public class CechaBean  implements Serializable{
     
     public static List znajdzcechy(List<Dok> wykazZaksiegowanychDokumentow) {
-        List zwrot = new ArrayList<>();
+        List zwrot = Collections.synchronizedList(new ArrayList<>());
         try {
                 Set<String> lista = new HashSet<>();
                 wykazZaksiegowanychDokumentow.parallelStream().filter((p) -> (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
@@ -40,7 +40,7 @@ public class CechaBean  implements Serializable{
     }
     
     public static List znajdzcechyPKPiR(List<DokKsiega> wykazZaksiegowanychDokumentow) {
-        List zwrot = new ArrayList<>();
+        List zwrot = Collections.synchronizedList(new ArrayList<>());
         try {
                 Set<String> lista = new HashSet<>();
                 for (DokKsiega p : wykazZaksiegowanychDokumentow) {

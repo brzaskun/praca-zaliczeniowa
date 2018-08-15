@@ -7,6 +7,7 @@
 package entityfk;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,11 +24,11 @@ public class KontoZapisy {
     private double saldoma;
 
     public KontoZapisy() {
-        this.stronywiersza = new ArrayList<>();
+        this.stronywiersza = Collections.synchronizedList(new ArrayList<>());
     }
 
     public KontoZapisy(Konto konto) {
-        this.stronywiersza = new ArrayList<>();
+        this.stronywiersza = Collections.synchronizedList(new ArrayList<>());
         this.konto = konto;
     }
     

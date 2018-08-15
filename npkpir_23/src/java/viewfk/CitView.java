@@ -20,6 +20,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -62,13 +63,13 @@ public class CitView implements Serializable {
 
     public CitView() {
          E.m(this);
-        this.listaPrzychody = new ArrayList<>();
-        this.listaKoszty = new ArrayList<>();
+        this.listaPrzychody = Collections.synchronizedList(new ArrayList<>());
+        this.listaKoszty = Collections.synchronizedList(new ArrayList<>());
     }
     
     public void obliczcitbiezacy() {
-        this.listaPrzychody = new ArrayList<>();
-        this.listaKoszty = new ArrayList<>();
+        this.listaPrzychody = Collections.synchronizedList(new ArrayList<>());
+        this.listaKoszty = Collections.synchronizedList(new ArrayList<>());
         rozbijprzychodyikoszty(pobierzukladprzegladRZiS());
         this.przychodypokorekcie = this.razemprzychody + this.razemzapisycechaprzychod;
         this.kosztypokorekcie = this.razemkoszty + this.razemzapisycechakoszt;
@@ -76,7 +77,7 @@ public class CitView implements Serializable {
     }
     
     private TreeNodeExtended pobierzukladprzegladRZiS() {
-       ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+       List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
        try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad("Podstawowy", wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt()));
             if (pozycje.isEmpty()) {

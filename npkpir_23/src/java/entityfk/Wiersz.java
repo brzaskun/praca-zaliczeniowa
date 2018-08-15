@@ -3,6 +3,7 @@ package entityfk;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -293,7 +294,7 @@ public class Wiersz implements Serializable {
     }
 
     public List<StronaWiersza> getStronyWiersza() {
-        List<StronaWiersza> strony = new ArrayList<>();
+        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
         if (this.strona.get("Wn") != null) {
             strony.add(this.strona.get("Wn"));
         }
@@ -304,7 +305,7 @@ public class Wiersz implements Serializable {
     }
 
     public List<StronaWiersza> getStronyWierszaKonto() {
-        List<StronaWiersza> strony = new ArrayList<>();
+        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
         if (this.strona.get("Wn") != null && this.strona.get("Wn").getKonto() != null) {
             strony.add(this.strona.get("Wn"));
         }

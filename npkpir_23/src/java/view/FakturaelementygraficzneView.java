@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -149,7 +150,7 @@ public class FakturaelementygraficzneView implements Serializable {
         try {
             List<Fakturadodelementy> fakturadodelementy = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
             if (fakturadodelementy == null || fakturadodelementy.isEmpty()) {
-                fakturadodelementy = new ArrayList<>();
+                fakturadodelementy = Collections.synchronizedList(new ArrayList<>());
             }
             for (Fakturadodelementy p : fakturadodelementy) {
                 if (p.getFakturadodelementyPK().getNazwaelementu().equals("logo")) {

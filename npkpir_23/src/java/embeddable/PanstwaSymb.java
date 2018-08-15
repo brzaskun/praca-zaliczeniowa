@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -23,7 +24,7 @@ public class PanstwaSymb implements Serializable {
     private final static List<String> wykazPanstwS;
     
 static{
-    wykazPanstwS = new ArrayList<>();
+    wykazPanstwS = Collections.synchronizedList(new ArrayList<>());
     wykazPanstwS.add("AF");
     wykazPanstwS.add("AL");
     wykazPanstwS.add("DZ");

@@ -11,6 +11,7 @@ import entityfk.StronaWiersza;
 import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import waluty.Z;
@@ -44,21 +45,21 @@ public class SaldoKonto implements Serializable {
     private boolean roznicakursowastatystyczna;
 
     public SaldoKonto() {
-        this.zapisy = new ArrayList<>();
+        this.zapisy = Collections.synchronizedList(new ArrayList<>());
     }
     
     public SaldoKonto (Konto konto, double saldoWn, double saldoMa) {
         this.konto = konto;
         this.saldoWn = saldoWn;
         this.saldoMa = saldoMa;
-        this.zapisy = new ArrayList<>();
+        this.zapisy = Collections.synchronizedList(new ArrayList<>());
     }
     
     public SaldoKonto (Konto konto, double saldoWn, double saldoMa, Waluty waluta, List<StronaWiersza> zapisy) {
         this.konto = konto;
         this.saldoWn = saldoWn;
         this.saldoMa = saldoMa;
-        this.zapisy = new ArrayList<>();
+        this.zapisy = Collections.synchronizedList(new ArrayList<>());
         this.walutadlabo = waluta;
         this.zapisy = zapisy;
     }
@@ -92,7 +93,7 @@ public class SaldoKonto implements Serializable {
                 this.saldoMaPLN = Z.z(t.getPozostaloPLN());
             }
         }
-        this.zapisy = new ArrayList<>();
+        this.zapisy = Collections.synchronizedList(new ArrayList<>());
         this.zapisy.add(t);
         this.walutadlabo = wal;
         this.opisdlabo = t.getDokfkS()+" "+t.getDokfk().getNumerwlasnydokfk()+" "+t.getWiersz().getOpisWiersza()+" zapis BO";
@@ -164,7 +165,7 @@ public class SaldoKonto implements Serializable {
                 this.saldoMaPLN = kwotapln;
             }
         }
-        this.zapisy = new ArrayList<>();
+        this.zapisy = Collections.synchronizedList(new ArrayList<>());
         this.zapisy.add(t);
         this.walutadlabo = wal;
         this.opisdlabo = t.getDokfkS()+" "+t.getDokfk().getNumerwlasnydokfk()+" "+t.getWiersz().getOpisWiersza()+ "/"+t.getWiersz().getIdporzadkowy()+" zapis BO";
@@ -184,7 +185,7 @@ public class SaldoKonto implements Serializable {
             this.saldoWn = 0.0;
             this.saldoWnPLN = 0.0;
         }
-        this.zapisy = new ArrayList<>();
+        this.zapisy = Collections.synchronizedList(new ArrayList<>());
         this.walutadlabo = walutapln;
         this.opisdlabo = "konto: "+t.getKonto().getPelnynumer()+" nierozliczone różnice kursowe";
     }
@@ -204,7 +205,7 @@ public class SaldoKonto implements Serializable {
             this.saldoWn = roznica;
             this.saldoWnPLN = roznica;
         }
-        this.zapisy = new ArrayList<>();
+        this.zapisy = Collections.synchronizedList(new ArrayList<>());
         this.walutadlabo = walutapln;
         this.opisdlabo = "konto: "+p.getKonto().getPelnynumer()+" automatyczny wiersz różnicowy";
     }

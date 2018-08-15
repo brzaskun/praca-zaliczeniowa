@@ -12,6 +12,7 @@ import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -39,8 +40,8 @@ public class Pit36View implements Serializable {
     private WpisView wpisView;
 
     public Pit36View() {
-        lista = new ArrayList<>();
-        listaryczalt = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
+        listaryczalt = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct

@@ -10,6 +10,7 @@ import entityfk.SprawozdanieUklad;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -39,7 +40,7 @@ public class SprawozdanieUkladView  implements Serializable {
 
     public SprawozdanieUkladView() {
          E.m(this);
-        this.zachowaneuklady = new ArrayList<>();
+        this.zachowaneuklady = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct

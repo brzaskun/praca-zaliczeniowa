@@ -13,6 +13,7 @@ import entityfk.EVatwpisDedra;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +37,7 @@ public class Dedraparser {
     
     
     public static List<EVatwpisDedra> parsujewidencje(String sciezka, Podatnik podatnik, Evewidencja ewidencja, WpisView wpisView) {
-        List<EVatwpisDedra> wierszeewidencji = new ArrayList<>();
+        List<EVatwpisDedra> wierszeewidencji = Collections.synchronizedList(new ArrayList<>());
          try {
             File fXmlFile = new File(sciezka);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

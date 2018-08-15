@@ -9,6 +9,7 @@ import embeddable.Mce;
 import embeddablefk.ListaSum;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -147,32 +148,32 @@ public class StronaWiersza implements Serializable {
    
 
     public StronaWiersza(Wiersz nowywiersz, String wnma) {
-        this.nowetransakcje = new ArrayList<>();
-        this.platnosci = new ArrayList<>();
+        this.nowetransakcje = Collections.synchronizedList(new ArrayList<>());
+        this.platnosci = Collections.synchronizedList(new ArrayList<>());
         this.kwota = 0.0;
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = 0.0;
         this.wiersz = nowywiersz;
         this.wnma = wnma;
         this.typStronaWiersza = 0;
-        this.cechazapisuLista = new ArrayList<>();
+        this.cechazapisuLista = Collections.synchronizedList(new ArrayList<>());
     }
 
     public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota) {
-        this.nowetransakcje = new ArrayList<>();
-        this.platnosci = new ArrayList<>();
+        this.nowetransakcje = Collections.synchronizedList(new ArrayList<>());
+        this.platnosci = Collections.synchronizedList(new ArrayList<>());
         this.kwota = Z.z(kwota);
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = Z.z(kwota);
         this.wiersz = nowywiersz;
         this.wnma = wnma;
         this.typStronaWiersza = 0;
-        this.cechazapisuLista = new ArrayList<>();
+        this.cechazapisuLista = Collections.synchronizedList(new ArrayList<>());
     }
 
     public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota, Konto konto) {
-        this.nowetransakcje = new ArrayList<>();
-        this.platnosci = new ArrayList<>();
+        this.nowetransakcje = Collections.synchronizedList(new ArrayList<>());
+        this.platnosci = Collections.synchronizedList(new ArrayList<>());
         this.kwota = Z.z(kwota);
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = Z.z(kwota);
@@ -180,12 +181,12 @@ public class StronaWiersza implements Serializable {
         this.wnma = wnma;
         this.typStronaWiersza = 0;
         this.konto = konto;
-        this.cechazapisuLista = new ArrayList<>();
+        this.cechazapisuLista = Collections.synchronizedList(new ArrayList<>());
     }
 
     public StronaWiersza(WierszBO w, String wnma, String zapisy) {
-        this.nowetransakcje = new ArrayList<>();
-        this.platnosci = new ArrayList<>();
+        this.nowetransakcje = Collections.synchronizedList(new ArrayList<>());
+        this.platnosci = Collections.synchronizedList(new ArrayList<>());
         this.konto = w.getKonto();
         this.typStronaWiersza = 9;
         if (wnma.equals("Wn")) {
@@ -203,17 +204,17 @@ public class StronaWiersza implements Serializable {
         this.wiersz.setIdwiersza(0);
         this.wiersz.setOpisWiersza(w.getOpis() != null ? w.getOpis() : "zapis BO");
         this.wiersz.setDokfk(new Dokfk("zapis z BO", w.getRok()));
-        this.cechazapisuLista = new ArrayList<>();
+        this.cechazapisuLista = Collections.synchronizedList(new ArrayList<>());
         this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
     }
 
     public StronaWiersza(WierszBO w, String wnma) {
-        this.nowetransakcje = new ArrayList<>();
-        this.platnosci = new ArrayList<>();
+        this.nowetransakcje = Collections.synchronizedList(new ArrayList<>());
+        this.platnosci = Collections.synchronizedList(new ArrayList<>());
         this.konto = w.getKonto();
         this.typStronaWiersza = 9;
         this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
-        this.cechazapisuLista = new ArrayList<>();
+        this.cechazapisuLista = Collections.synchronizedList(new ArrayList<>());
         if (wnma.equals("Wn")) {
             this.wnma = "Wn";
             this.kwota = w.getKwotaWn();
@@ -232,13 +233,13 @@ public class StronaWiersza implements Serializable {
     }
 
     public StronaWiersza() {
-        this.nowetransakcje = new ArrayList<>();
-        this.platnosci = new ArrayList<>();
+        this.nowetransakcje = Collections.synchronizedList(new ArrayList<>());
+        this.platnosci = Collections.synchronizedList(new ArrayList<>());
         this.kwota = 0.0;
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = 0.0;
         this.typStronaWiersza = 0;
-        this.cechazapisuLista = new ArrayList<>();
+        this.cechazapisuLista = Collections.synchronizedList(new ArrayList<>());
     }
 
     public StronaWiersza(List<ListaSum> listasum, int saldo1sWn2sMa3, boolean nierenderujkolumnnywalut) {

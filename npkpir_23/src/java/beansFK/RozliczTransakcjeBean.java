@@ -10,6 +10,7 @@ import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import error.E;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class RozliczTransakcjeBean {
                         if (nowatransakcja.getPlatnosci() != null) {
                             nowatransakcja.getPlatnosci().add(transakcja);
                         } else {
-                            List<Transakcja> nowalistatransakcji = new ArrayList<>();
+                            List<Transakcja> nowalistatransakcji = Collections.synchronizedList(new ArrayList<>());
                             nowalistatransakcji.add(transakcja);
                             nowatransakcja.setPlatnosci(nowalistatransakcji);
                         }
@@ -110,7 +111,7 @@ public class RozliczTransakcjeBean {
                             //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
                             platnosc.getNowetransakcje().add(transakcja);
                         } else {
-                            List<Transakcja> nowalistaplatnosci = new ArrayList<>();
+                            List<Transakcja> nowalistaplatnosci = Collections.synchronizedList(new ArrayList<>());
                             nowalistaplatnosci.add(transakcja);
                             platnosc.setNowetransakcje(nowalistaplatnosci);
                         }

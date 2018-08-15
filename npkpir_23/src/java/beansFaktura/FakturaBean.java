@@ -19,6 +19,7 @@ import entity.Faktura;
 import entity.Podatnik;
 import entityfk.Tabelanbp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -266,7 +267,7 @@ public class FakturaBean {
     }
 
     public static List<Pozycjenafakturzebazadanych> inicjacjapozycji(Podatnik podatnikobiekt) {
-        List<Pozycjenafakturzebazadanych> lista = new ArrayList<>();
+        List<Pozycjenafakturzebazadanych> lista = Collections.synchronizedList(new ArrayList<>());
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         poz.setPodatek(23);
         if (podatnikobiekt.getWierszwzorcowy() != null) {
@@ -295,11 +296,11 @@ public class FakturaBean {
         //tu obliczamy wartosc netto wiersza
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
         if (pozycje != null && !pozycje.isEmpty()) {
-            ArrayList<Evewidencja> ew = new ArrayList<>();
+            List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
             ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
             ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
             ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
-            List<EVatwpis> el = new ArrayList<>();
+            List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
             Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
             if (selected.isFakturavatmarza() || selected.isRachunek()) {
                 selected.setEwidencjavat(new ArrayList<>());
@@ -322,11 +323,11 @@ public class FakturaBean {
     public static void ewidencjavatkorekta(Faktura selected, EvewidencjaDAO evewidencjaDAO) {
         //tu obliczamy wartosc netto wiersza
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjepokorekcie();
-        List<Evewidencja> ew = new ArrayList<>();
+        List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
-        List<EVatwpis> el = new ArrayList<>();
+        List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
         if (selected.isFakturavatmarza() || selected.isRachunek()) {
             selected.setEwidencjavatpk(new ArrayList<>());

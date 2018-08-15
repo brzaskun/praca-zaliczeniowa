@@ -77,7 +77,7 @@ public class KontoSortBean {
     }
 
     public static void main(String[] args) {
-//        List<Kontonumer> lista = new ArrayList<>();
+//        List<Kontonumer> lista = Collections.synchronizedList(new ArrayList<>());
 //        lista.add(new Kontonumer("202-1"));
 //        lista.add(new Kontonumer("202-2-0"));
 //        lista.add(new Kontonumer("202-1-11"));

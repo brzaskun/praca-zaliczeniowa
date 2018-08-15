@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -124,13 +123,13 @@ public class EwidencjaVatView implements Serializable {
     private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
 
     public EwidencjaVatView() {
-        nazwyewidencji = new ArrayList<>();
-        ewidencje = new ArrayList<>();
-        ewidencjeFK = new ArrayList<>();
-        listadokvatprzetworzona = new ArrayList<>();
+        nazwyewidencji = Collections.synchronizedList(new ArrayList<>());
+        ewidencje = Collections.synchronizedList(new ArrayList<>());
+        ewidencjeFK = Collections.synchronizedList(new ArrayList<>());
+        listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
         sumaewidencji = new HashMap<>();
-        goscwybral = new ArrayList<>();
-        listanowa = new ArrayList<>();
+        goscwybral = Collections.synchronizedList(new ArrayList<>());
+        listanowa = Collections.synchronizedList(new ArrayList<>());
         suma1 = 0.0;
         suma2 = 0.0;
         suma3 = 0.0;
@@ -173,16 +172,16 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private void zerujListy() {
-        ewidencje = new ArrayList<>();
-        ewidencjeFK = new ArrayList<>();
-        goscwybral = new ArrayList<>();
-        nazwyewidencji = new ArrayList<>();
+        ewidencje = Collections.synchronizedList(new ArrayList<>());
+        ewidencjeFK = Collections.synchronizedList(new ArrayList<>());
+        goscwybral = Collections.synchronizedList(new ArrayList<>());
+        nazwyewidencji = Collections.synchronizedList(new ArrayList<>());
         listaewidencji = new HashMap<>();
-        sumydowyswietleniasprzedaz = new ArrayList<>();
-        sumydowyswietleniazakupy = new ArrayList<>();
-        listadokvatprzetworzona = new ArrayList<>();
+        sumydowyswietleniasprzedaz = Collections.synchronizedList(new ArrayList<>());
+        sumydowyswietleniazakupy = Collections.synchronizedList(new ArrayList<>());
+        listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
         sumaewidencji = new HashMap<>();
-        listaprzesunietychKoszty = new ArrayList<>();
+        listaprzesunietychKoszty = Collections.synchronizedList(new ArrayList<>());
     }
     
     private org.primefaces.component.tabview.TabView iTabPanel;
@@ -280,7 +279,7 @@ public class EwidencjaVatView implements Serializable {
   
     public void stworzenieEwidencjiZDokumentowFK(Podatnik podatnik, WniosekVATZDEntity wniosekVATZDEntity) {
         try {
-            listadokvatprzetworzona = new ArrayList<>();
+            listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
             zerujListy();
             String vatokres = sprawdzjakiokresvat();
@@ -402,7 +401,7 @@ public class EwidencjaVatView implements Serializable {
     }
 
     private void dodajwierszeVATZDsprzedaz(WniosekVATZDEntity wniosekVATZDEntity) {
-        List<EVatwpisSuper> nowa = new ArrayList<>();
+        List<EVatwpisSuper> nowa = Collections.synchronizedList(new ArrayList<>());
         if (wniosekVATZDEntity != null) {
             for (Dokfk d : wniosekVATZDEntity.getZawierafk()) {
                 List<EVatwpisFK> poz = d.getEwidencjaVAT();
@@ -439,8 +438,8 @@ public class EwidencjaVatView implements Serializable {
    
 
     private void rozdzielsumeEwidencjiNaPodlisty() {
-        sumydowyswietleniasprzedaz = new ArrayList<>();
-        sumydowyswietleniazakupy = new ArrayList<>();
+        sumydowyswietleniasprzedaz = Collections.synchronizedList(new ArrayList<>());
+        sumydowyswietleniazakupy = Collections.synchronizedList(new ArrayList<>());
         for (EVatwpisSuma ew : sumaewidencji.values()) {
             String typeewidencji = ew.getEwidencja().getTypewidencji();
             switch (typeewidencji) {
@@ -461,7 +460,7 @@ public class EwidencjaVatView implements Serializable {
     
     private void pobierzEVATwpis1zaOkres(Podatnik podatnik, int vatokres, String rok, String mc) {
         try {
-            listadokvatprzetworzona = new ArrayList<>();
+            listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
             if (vatokres==1) {
                 listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(podatnik, rok, mc));
             } else {
@@ -475,7 +474,7 @@ public class EwidencjaVatView implements Serializable {
     
     private void pobierzEVatwpisDedrazaOkres(Podatnik podatnik, int vatokres) {
         try {
-            listadokvatprzetworzona = new ArrayList<>();
+            listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
             if (vatokres==1) {
                 listadokvatprzetworzona.addAll(eVatwpisDedraDAO.findWierszePodatnikMc(wpisView));
             } else {
@@ -609,7 +608,7 @@ public class EwidencjaVatView implements Serializable {
 
     private  Map<String, Evewidencja> przejrzyjEVatwpis1Lista() {
         Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMapByPole();
-        List<EVatwpisSuper> wierszedodatkowe = new ArrayList<>();
+        List<EVatwpisSuper> wierszedodatkowe = Collections.synchronizedList(new ArrayList<>());
         for (EVatwpisSuper ewid : listadokvatprzetworzona) {
             if (ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj()) {
                 wierszedodatkowe.add(beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(ewid,ewidencjazakupu));
@@ -643,7 +642,7 @@ public class EwidencjaVatView implements Serializable {
      
 
 //    private List transferujEVatwpisFKDoEVatwpisSuper(List<EVatwpisFK> listaprzetworzona, String vatokres) throws Exception {
-//        List<EVatwpisSuper> przetransferowane = new ArrayList<>();
+//        List<EVatwpisSuper> przetransferowane = Collections.synchronizedList(new ArrayList<>());
 //        int k = 1;
 //        for (EVatwpisFK ewidwiersz : listaprzetworzona) {
 //            if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
@@ -858,7 +857,7 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private void ewidencjazamc (Podatnik podatnik, String rok, String mc) {
-        listadokvatprzetworzona = new ArrayList<>();
+        listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
         ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
         zerujListy();
         String vatokres = sprawdzjakiokresvat();

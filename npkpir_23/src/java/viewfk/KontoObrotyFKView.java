@@ -14,6 +14,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -61,11 +62,11 @@ public class KontoObrotyFKView implements Serializable{
 
     public KontoObrotyFKView() {
          E.m(this);
-        this.lista = new ArrayList<>();
-        this.kontozapisy = new ArrayList<>();
-        this.wybranekontadosumowania = new ArrayList<>();
+        this.lista = Collections.synchronizedList(new ArrayList<>());
+        this.kontozapisy = Collections.synchronizedList(new ArrayList<>());
+        this.wybranekontadosumowania = Collections.synchronizedList(new ArrayList<>());
         wybranaWalutaDlaKont = "wszystkie";
-        listasum = new ArrayList<>();
+        listasum = Collections.synchronizedList(new ArrayList<>());
         ListaSum l = new ListaSum();
         listasum.add(l);
     }
@@ -84,7 +85,7 @@ public class KontoObrotyFKView implements Serializable{
             listakont.add(p.getKonto());
         }
         Set<Konto> listamacierzyste = wyluskajmacierzyste(listakont);
-        wykazkont = new ArrayList<>();
+        wykazkont = Collections.synchronizedList(new ArrayList<>());
         wykazkont.addAll(listakont);
         wykazkont.addAll(listamacierzyste);
     }
@@ -102,8 +103,8 @@ public class KontoObrotyFKView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode() {
-        wybranekontadosumowania = new ArrayList<>();
-        listasum = new ArrayList<>();
+        wybranekontadosumowania = Collections.synchronizedList(new ArrayList<>());
+        listasum = Collections.synchronizedList(new ArrayList<>());
         ListaSum l = new ListaSum();
         listasum.add(l);
         pobierzZapisyNaKoncie();
@@ -111,19 +112,19 @@ public class KontoObrotyFKView implements Serializable{
      
     public void pobierzZapisyNaKoncieNodeUnselect() {
         lista.clear();
-        wybranekontadosumowania = new ArrayList<>();
-        listasum = new ArrayList<>();
+        wybranekontadosumowania = Collections.synchronizedList(new ArrayList<>());
+        listasum = Collections.synchronizedList(new ArrayList<>());
         ListaSum l = new ListaSum();
         listasum.add(l);
     }
     
       public void pobierzZapisyNaKoncie() {
         if (wybranekonto instanceof Konto) {
-         lista = new ArrayList<>();
-         kontozapisy = new ArrayList<>();
-         kontaprzejrzane = new ArrayList<>();
+         lista = Collections.synchronizedList(new ArrayList<>());
+         kontozapisy = Collections.synchronizedList(new ArrayList<>());
+         kontaprzejrzane = Collections.synchronizedList(new ArrayList<>());
          if (wybranekonto.isMapotomkow()==true) {
-             List<Konto> kontamacierzyste = new ArrayList<>();
+             List<Konto> kontamacierzyste = Collections.synchronizedList(new ArrayList<>());
              kontamacierzyste.addAll(pobierzpotomkow(wybranekonto));
              while (kontamacierzyste.size()>0) {
                  znajdzkontazpotomkami(kontamacierzyste);
@@ -163,7 +164,7 @@ public class KontoObrotyFKView implements Serializable{
       }
       
       private void znajdzkontazpotomkami(List<Konto> wykaz) {
-          List<Konto> listakontposrednia = new ArrayList<>();
+          List<Konto> listakontposrednia = Collections.synchronizedList(new ArrayList<>());
           Iterator it = wykaz.iterator();
           while(it.hasNext()) {
               Konto p = (Konto) it.next();
@@ -460,7 +461,7 @@ public class KontoObrotyFKView implements Serializable{
         }
         
         public static List<ObrotykontaTabela> wygenerujlisteObrotow(String rok) {
-            List<ObrotykontaTabela> lista = new ArrayList<>();
+            List<ObrotykontaTabela> lista = Collections.synchronizedList(new ArrayList<>());
             lista.add(new ObrotykontaTabela(rok,"BO"));
             lista.add(new ObrotykontaTabela(rok,"styczeń"));
             lista.add(new ObrotykontaTabela(rok,"luty"));

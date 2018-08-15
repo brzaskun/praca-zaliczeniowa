@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -40,7 +41,7 @@ public class EwidencjaVATSporzadzanie {
     public static void transferujDokdoEVatwpis(List<VatKorektaDok> listadokvat, List<EVatwpisSuper>listadokvatprzetworzona, String rok, String mc) {
          for (VatKorektaDok dokumentkorekty : listadokvat) {
                 if (dokumentkorekty.getEwidencjaVAT() != null) {
-                    List<EwidencjaAddwiad> ewidencja = new ArrayList<>();
+                    List<EwidencjaAddwiad> ewidencja = Collections.synchronizedList(new ArrayList<>());
                     ewidencja.addAll(dokumentkorekty.getEwidencjaVAT());
                     int lp = 0;
                     for (EwidencjaAddwiad ewidwiersz : ewidencja) {
@@ -70,7 +71,7 @@ public class EwidencjaVATSporzadzanie {
     
     public static void rozdzielEVatwpisNaEwidencje(List<EVatwpisSuper>listadokvatprzetworzona, HashMap<String, List<EVatwpisSuper>> listaewidencji, HashMap<String, EVatwpisSuma> sumaewidencji,  EvewidencjaDAO evewidencjaDAO) {
         for (EVatwpisSuper wierszogolny : listadokvatprzetworzona) {
-                ArrayList<EVatwpisSuper> listatmp = new ArrayList<>();
+                List<EVatwpisSuper> listatmp = Collections.synchronizedList(new ArrayList<>());
                 //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
                 String nazwaewidencji = wierszogolny.getNazwaewidencji().getNazwa();
                 try {
@@ -97,7 +98,7 @@ public class EwidencjaVATSporzadzanie {
     }
     
     public static void dodajDoEwidencjiPozycjeKorekt(HashMap<String, EVatwpisSuma> sumaewidencji, HashMap<String, EVatwpisSuma> sumaewidencjikorekta,  EvewidencjaDAO evewidencjaDAO) {
-        ArrayList<String> sumaewidencjiKeys = new ArrayList<>();
+        List<String> sumaewidencjiKeys = Collections.synchronizedList(new ArrayList<>());
         sumaewidencjiKeys.addAll(sumaewidencji.keySet());
         for (String p : sumaewidencjikorekta.keySet()) {
             if (sumaewidencjiKeys.contains(p)) {

@@ -9,6 +9,7 @@ import entity.Evpozycja;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -35,8 +36,8 @@ public class EvpozycjaView  implements Serializable {
     private EvpozycjaDAO epozycjaDAO;
 
     public EvpozycjaView() {
-        lista = new ArrayList<>();
-        listamacierzyste = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
+        listamacierzyste = Collections.synchronizedList(new ArrayList<>());
     }
     
     
@@ -84,7 +85,7 @@ public class EvpozycjaView  implements Serializable {
     }
     
     private List<Evpozycja> pobierzMacierzyste(List<Evpozycja> lista) {
-        List<Evpozycja> l = new ArrayList<>();
+        List<Evpozycja> l = Collections.synchronizedList(new ArrayList<>());
         for (Evpozycja p : lista) {
             if (Character.isUpperCase(p.getNazwapola().charAt(0))) {
                 l.add(p);

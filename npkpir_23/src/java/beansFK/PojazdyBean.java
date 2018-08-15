@@ -11,6 +11,7 @@ import entityfk.Konto;
 import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import javax.inject.Named;
@@ -29,12 +30,12 @@ public class PojazdyBean {
         int i = 1;
         for (Pojazdy p : listapojazdy) {
             double total = 0;
-            List<PojazdyZest> l = new ArrayList<>();
+            List<PojazdyZest> l = Collections.synchronizedList(new ArrayList<>());
             PojazdyView.TabelaPojazdy m = new PojazdyView.TabelaPojazdy();
             for (Konto r : kontaslownikowe) {
                 if (stronywiersza.size() > 0) {
                     double suma = 0;
-                    List<StronaWiersza> listastron = new ArrayList<>();
+                    List<StronaWiersza> listastron = Collections.synchronizedList(new ArrayList<>());
                     for (StronaWiersza s : stronywiersza) {
                         if (s.getKonto().getNazwapelna().equals("ZS228CG") && r.getPelnynumer().equals("403-2")) {
                         }

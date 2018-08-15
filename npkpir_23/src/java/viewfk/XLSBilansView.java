@@ -10,6 +10,7 @@ import entityfk.PozycjaRZiS;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,7 +44,7 @@ public class XLSBilansView implements Serializable{
     
     public void zachowajBilanswXLS(TreeNodeExtended rootProjektRZiS) {
         try {
-            ArrayList<PozycjaRZiS> pozycje = new ArrayList<>();
+            List<PozycjaRZiS> pozycje = Collections.synchronizedList(new ArrayList<>());
             rootProjektRZiS.getFinallChildren(pozycje);
             Map<String, List> listy = new ConcurrentHashMap<>();
             listy.put("bilansinter", pozycje);

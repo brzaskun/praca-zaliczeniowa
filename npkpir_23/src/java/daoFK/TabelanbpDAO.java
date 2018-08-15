@@ -10,6 +10,7 @@ import entityfk.Waluty;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Inject;
@@ -47,7 +48,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public  List<Tabelanbp> findKursyRokNBP(String rok){
         try {
             List<Tabelanbp> kursyrok = tabelanbpFacade.findAll(Tabelanbp.class);
-            List<Tabelanbp> nowalista = new ArrayList<>();
+            List<Tabelanbp> nowalista = Collections.synchronizedList(new ArrayList<>());
             Iterator it = kursyrok.iterator();
             while (it.hasNext()) {
                 Tabelanbp p = (Tabelanbp) it.next();
@@ -65,7 +66,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public  List<Tabelanbp> findKursyRokNieNBP(String rok){
         try {
             List<Tabelanbp> kursyrok = tabelanbpFacade.findAll(Tabelanbp.class);
-            List<Tabelanbp> nowalista = new ArrayList<>();
+            List<Tabelanbp> nowalista = Collections.synchronizedList(new ArrayList<>());
             Iterator it = kursyrok.iterator();
             while (it.hasNext()) {
                 Tabelanbp p = (Tabelanbp) it.next();

@@ -202,13 +202,13 @@ public class DokView implements Serializable {
     public DokView() {
         setWysDokument(null);
         wpisView = new WpisView();
-        ewidencjaAddwiad = new ArrayList<>();
+        ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
         liczbawierszy = 1;
         stawkaVATwPoprzednimDok = 0.0;
-        this.wprowadzonesymbolewalut = new ArrayList<>();
-        this.kolumna1rozbicielista = new ArrayList<>();
+        this.wprowadzonesymbolewalut = Collections.synchronizedList(new ArrayList<>());
+        this.kolumna1rozbicielista = Collections.synchronizedList(new ArrayList<>());
         this.kolumna1rozbicielista.add(new Kolumna1Rozbicie());
-        this.pobranecechypodatnik = new ArrayList<>();
+        this.pobranecechypodatnik = Collections.synchronizedList(new ArrayList<>());
     }
     
     private void obsluzcechydokumentu() {
@@ -217,7 +217,7 @@ public class DokView implements Serializable {
             List<Cechazapisu> cechyuzyte = null;
             if (selDokument != null) {
                 if (selDokument.getCechadokumentuLista() == null) {
-                    cechyuzyte = new ArrayList<>();
+                    cechyuzyte = Collections.synchronizedList(new ArrayList<>());
                 } else {
                     cechyuzyte = selDokument.getCechadokumentuLista();
                 }
@@ -257,7 +257,7 @@ public class DokView implements Serializable {
 
     @PostConstruct
     private void init() {
-        rodzajedokKlienta = new ArrayList<>();
+        rodzajedokKlienta = Collections.synchronizedList(new ArrayList<>());
         Podatnik podX = wpisView.getPodatnikObiekt();
         symbolWalutyNettoVat = " zł";
         biezacyklientdodok = klDAO.findKlientByNip(podX.getNip());
@@ -399,19 +399,19 @@ public class DokView implements Serializable {
 //        if (selDokument.getTabelanbp() != null && !selDokument.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
 //            ukryjEwiencjeVAT = true;
 //            sumujnetto();
-//            ewidencjaAddwiad = new ArrayList<>();
+//            ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
 //        } else 
         if (selDokument.isDokumentProsty() && !selDokument.getRodzajedok().getSkrot().equals("IU")) {
             ukryjEwiencjeVAT = true;
             sumujnetto();
-            ewidencjaAddwiad = new ArrayList<>();
+            ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
         } else {
             ukryjEwiencjeVAT = false;
             String typdok = selDokument.getRodzajedok().getSkrot();
             String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
             if (wpisView.isVatowiec() == true || typdok.equals("IU")) {
                 /*wyswietlamy ewidencje VAT*/
-                List<Evewidencja> opisewidencji = new ArrayList<>();
+                List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
                 selDokument.setDokumentProsty(false);
                 opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(transakcjiRodzaj));
                 if (typdok.equals("UPTK")) {
@@ -434,7 +434,7 @@ public class DokView implements Serializable {
                 if (t != null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
                     sumanetto = Z.z(sumanetto * t.getKurssredni());
                 }
-                ewidencjaAddwiad = new ArrayList<>();
+                ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
                 int k = 0;
                 for (Evewidencja p : opisewidencji) {
                     EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
@@ -677,7 +677,7 @@ public class DokView implements Serializable {
             sumbrutto = 0.0;
             sumujnetto();
             selDokument.setEwidencjaVAT1(null);
-            ewidencjaAddwiad = new ArrayList<>();
+            ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
             ukryjEwiencjeVAT = true;
         } else {
             podepnijEwidencjeVat();
@@ -709,7 +709,7 @@ public class DokView implements Serializable {
         Double kwotavat = 0.0;
         try {
             if (wpisView.isVatowiec() || (selDokument.isDokumentProsty() == false)) {
-                List<EVatwpis1> ewidencjeDokumentu = new ArrayList<>();
+                List<EVatwpis1> ewidencjeDokumentu = Collections.synchronizedList(new ArrayList<>());
                 for (EwidencjaAddwiad p : ewidencjaAddwiad) {
                     if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
                         EVatwpis1 eVatwpis = new EVatwpis1();
@@ -759,7 +759,7 @@ public class DokView implements Serializable {
 //            if (selDokument.getRozliczony() == true) {
 //                Rozrachunek1 rozrachunekx = new Rozrachunek1(selDokument.getTerminPlatnosci(), kwotanetto, 0.0, selDokument.getWprowadzil(), new Date());
 //                rozrachunekx.setDok(selDokument);
-//                ArrayList<Rozrachunek1> lista = new ArrayList<>();
+//                ArrayList<Rozrachunek1> lista = Collections.synchronizedList(new ArrayList<>());
 //                lista.add(rozrachunekx);
 //                selDokument.setRozrachunki1(lista);
 //            }
@@ -1013,7 +1013,7 @@ public class DokView implements Serializable {
                 selDokument.setRodzajedok(amodok);
                 selDokument.setNrWlDk(wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
                 selDokument.setOpis("umorzenie za miesiac");
-                List<KwotaKolumna1> listaX = new ArrayList<>();
+                List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
                 KwotaKolumna1 tmpX = new KwotaKolumna1();
                 tmpX.setDok(selDokument);
                 tmpX.setNetto(kwotaumorzenia);
@@ -1046,14 +1046,14 @@ public class DokView implements Serializable {
     public void dodajNowyWpisAutomatycznyStorno() {
         selDokument = new Dok();
         double kwotastorno = 0.0;
-        ArrayList<Dok> lista = new ArrayList<>();
+        List<Dok> lista = Collections.synchronizedList(new ArrayList<>());
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         StornoDok tmp = new StornoDok();
         try {
             tmp = stornoDokDAO.find(rok, mc, podatnik);
-            lista = (ArrayList<Dok>) tmp.getDokument();
+            lista = tmp.getDokument();
             Iterator itx;
             itx = lista.iterator();
             while (itx.hasNext()) {
@@ -1095,7 +1095,7 @@ public class DokView implements Serializable {
 //            selDokument.setRodzTrans("storno niezapłaconych faktur");
             selDokument.setNrWlDk(wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
             selDokument.setOpis("storno za miesiac");
-            List<KwotaKolumna1> listaX = new ArrayList<>();
+            List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
             tmpX.setNetto(kwotastorno);
             tmpX.setVat(0.0);
@@ -1259,7 +1259,7 @@ public class DokView implements Serializable {
                     sum.setKwota(0.0);
                     sumazalata.add(sum);
                 } else {
-                    List<String> roki = new ArrayList<>();
+                    List<String> roki = Collections.synchronizedList(new ArrayList<>());
                     for (Inwestycje.Sumazalata p : sumazalata) {
                         roki.add(p.getRok());
                     }
@@ -1410,9 +1410,9 @@ public class DokView implements Serializable {
     private void poszukajnip() throws Exception {
         String nippoczatkowy = selectedKlient.getNip();
         if (!nippoczatkowy.equals("0000000000")) {
-            List<Klienci> kliencitmp = new ArrayList<>();
+            List<Klienci> kliencitmp = Collections.synchronizedList(new ArrayList<>());
             kliencitmp = klDAO.findAll();
-            List<String> kliencinip = new ArrayList<>();
+            List<String> kliencinip = Collections.synchronizedList(new ArrayList<>());
             for (Klienci p : kliencitmp) {
                 if (p.getNip().equals(nippoczatkowy)) {
                     throw new Exception();
@@ -1423,7 +1423,7 @@ public class DokView implements Serializable {
 
     private void wygenerujnip() {
         List<Klienci> kliencitmp = klDAO.findAll();
-        List<Klienci> kliencinip = new ArrayList<>();
+        List<Klienci> kliencinip = Collections.synchronizedList(new ArrayList<>());
         //odnajduje klientow jednorazowych
         for (Klienci p : kliencitmp) {
             if (p.getNip().startsWith("XX")) {
@@ -1431,7 +1431,7 @@ public class DokView implements Serializable {
             }
         }
         //wyciaga nipy
-        List<Integer> nipy = new ArrayList<>();
+        List<Integer> nipy = Collections.synchronizedList(new ArrayList<>());
         for (Klienci p : kliencinip) {
             nipy.add(Integer.parseInt(p.getNip().substring(2)));
         }
@@ -2068,7 +2068,7 @@ public class DokView implements Serializable {
     //      public void przeksiegujkwoty(){
     //          List<Dok> lista = dokDAO.findAll();
     //          for(Dok p : lista){
-    //              List<KwotaKolumna1> wiersz = new ArrayList<>();
+    //              List<KwotaKolumna1> wiersz = Collections.synchronizedList(new ArrayList<>());
     //              KwotaKolumna1 pierwszy = new KwotaKolumna1();
     //              KwotaKolumna1 drugi = new KwotaKolumna1();
     //              try {

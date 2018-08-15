@@ -16,6 +16,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -51,7 +52,7 @@ public class RMKDokView implements Serializable {
     
     
     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
-        List<SaldoKonto> przygotowanalista = new ArrayList<>();
+        List<SaldoKonto> przygotowanalista = Collections.synchronizedList(new ArrayList<>());
         int licznik = 0;
         for (Konto p : kontaklienta) {
             if (p.getPelnynumer().startsWith("641") || p.getPelnynumer().startsWith("645")) {

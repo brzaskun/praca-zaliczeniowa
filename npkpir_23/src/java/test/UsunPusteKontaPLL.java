@@ -6,6 +6,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class UsunPusteKontaPLL extends Thread {
     }
     
     private static List<Integer> zrobliste() {
-        List<Integer> l = new ArrayList<>();
+        List<Integer> l = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < 1000000; i++) {
             l.add(new Integer(i+i*3/5));
         }

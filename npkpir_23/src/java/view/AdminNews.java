@@ -7,6 +7,7 @@ package view;
 import entity.Adminnews;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -31,7 +32,7 @@ public class AdminNews  implements Serializable {
     private List<Adminnews> newslist;
 
     public AdminNews() {
-        newslist = new ArrayList<>();
+        newslist = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct

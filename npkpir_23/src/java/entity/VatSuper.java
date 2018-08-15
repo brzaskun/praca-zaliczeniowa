@@ -8,6 +8,7 @@ import entityfk.Dokfk;
 import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -69,8 +70,8 @@ public class VatSuper implements Serializable{
     protected boolean korekta;
 
     public VatSuper() {
-        this.zawiera = new ArrayList<>();
-        this.zawierafk = new ArrayList<>();
+        this.zawiera = Collections.synchronizedList(new ArrayList<>());
+        this.zawierafk = Collections.synchronizedList(new ArrayList<>());
     }
 
 
@@ -80,7 +81,7 @@ public class VatSuper implements Serializable{
         this.netto = netto;
         this.liczbadok = liczbadok;
         this.zawiera = zawiera;
-        this.zawierafk = new ArrayList<>();
+        this.zawierafk = Collections.synchronizedList(new ArrayList<>());
     }
     
     public VatSuper(String transakcja, Klienci kontrahent, double netto, double nettowal) {
@@ -88,8 +89,8 @@ public class VatSuper implements Serializable{
         this.kontrahent = kontrahent;
         this.netto = netto;
         this.nettowaluta = nettowal;
-        this.zawiera = new ArrayList<>();
-        this.zawierafk = new ArrayList<>();
+        this.zawiera = Collections.synchronizedList(new ArrayList<>());
+        this.zawierafk = Collections.synchronizedList(new ArrayList<>());
     }
     
     public VatSuper(String transakcja, Klienci kontrahent, Double netto, int liczbadok) {
@@ -97,8 +98,8 @@ public class VatSuper implements Serializable{
         this.kontrahent = kontrahent;
         this.netto = netto;
         this.liczbadok = liczbadok;
-        this.zawiera = new ArrayList<>();
-        this.zawierafk = new ArrayList<>();
+        this.zawiera = Collections.synchronizedList(new ArrayList<>());
+        this.zawierafk = Collections.synchronizedList(new ArrayList<>());
     }
 
 

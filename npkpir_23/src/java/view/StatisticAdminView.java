@@ -14,6 +14,7 @@ import entity.Sesja;
 import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -48,9 +49,9 @@ public class StatisticAdminView implements Serializable {
     @Inject private WierszDAO wierszDAO;
 
     public StatisticAdminView() {
-        this.sesje = new ArrayList<>();
-        this.statystyka = new ArrayList<>();
-        this.obrabiani = new ArrayList<>();
+        this.sesje = Collections.synchronizedList(new ArrayList<>());
+        this.statystyka = Collections.synchronizedList(new ArrayList<>());
+        this.obrabiani = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct

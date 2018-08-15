@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -51,7 +52,7 @@ public class WalutyKursRecznieView implements Serializable{
     //        numertabeli = 250;
             datawstepna = wpisView.getRokUprzedniSt()+"-12-31";
             numertabeli = 252;
-            List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
+            List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
             try {
                 Tabelanbp ostatniatabela = tabelanbpDAO.findOstatniaTabela(w.getSymbolwaluty());
                 if (ostatniatabela != null) {

@@ -37,6 +37,7 @@ import entity.WniosekVATZDEntity;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -435,8 +436,8 @@ public class Vat7DKView implements Serializable {
         }
     }
     
-    private void wygenerujwierszesumaryczne(List<SchemaEwidencja> schemaewidencjalista, ArrayList<EVatwpisSuma> pobraneewidencje, List<DeklaracjaVatSchemaWierszSum> schemawierszsumzbazy) {
-        ArrayList<EVatwpisSuma> ewidencjenowe = new ArrayList<>();
+    private void wygenerujwierszesumaryczne(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> pobraneewidencje, List<DeklaracjaVatSchemaWierszSum> schemawierszsumzbazy) {
+        List<EVatwpisSuma> ewidencjenowe = Collections.synchronizedList(new ArrayList<>());
         if (schemaewidencjalista != null) {
             for (EVatwpisSuma r : pobraneewidencje) {
                 SchemaEwidencja se = szukaniewieszaSchemy(schemaewidencjalista, r.getEwidencja());
@@ -535,7 +536,7 @@ public class Vat7DKView implements Serializable {
 //        if (flaga != 1) {
 //            try {
 //                //pobiera liste deklaracji poprzednich z danego miesiaca, jezeli nie ma wyrzuca blad
-//                List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
+//                List<Deklaracjevat> pobranalistadeklaracji = Collections.synchronizedList(new ArrayList<>());
 //                pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok, mc, podatnik);
 //                deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size() - 1);
 //
@@ -543,7 +544,7 @@ public class Vat7DKView implements Serializable {
 //            }
 //            try {
 //                //przechwytuje blad i jezeli sa dekalracje pozniejsze wyslane i bezbledne to kaze zajrzec do nich
-//                List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
+//                List<Deklaracjevat> pobranalistadeklaracji = Collections.synchronizedList(new ArrayList<>());
 //                pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjeWyslane(podatnik, rok);
 //                if (pobranalistadeklaracji.isEmpty()) {
 //                    throw new Exception();
@@ -860,13 +861,13 @@ public class Vat7DKView implements Serializable {
     
     private List<DeklaracjaVatPozycjeKoncowe> pobierzpozycjekoncowe(DeklaracjaVatSchema pasujacaSchema) {
         List<DeklaracjaVatSchemaPozKoncowe> schemapozycjekoncowe = deklaracjaVatSchemaPozKoncoweDAO.findWierszeSchemy(pasujacaSchema);
-        List<DeklaracjaVatPozycjeKoncowe> uzupelnionewiersze = new ArrayList<>();
+        List<DeklaracjaVatPozycjeKoncowe> uzupelnionewiersze = Collections.synchronizedList(new ArrayList<>());
         if (schemapozycjekoncowe != null) {
             for (DeklaracjaVatSchemaPozKoncowe p : schemapozycjekoncowe) {
                 uzupelnionewiersze.add(p.getDeklaracjaVatPozycjeKoncowe());
             }
         } else {
-            schemapozycjekoncowe = new ArrayList<>();
+            schemapozycjekoncowe = Collections.synchronizedList(new ArrayList<>());
         }
         return uzupelnionewiersze;
     }

@@ -10,6 +10,7 @@ import entity.ZusstawkiPK;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -36,7 +37,7 @@ public class ZUSstawkiView implements Serializable {
     private List<Zusstawki> listapobranychstawekMalyZUS;
 
     public ZUSstawkiView() {
-        listapobranychstawek = new ArrayList<>();
+        listapobranychstawek = Collections.synchronizedList(new ArrayList<>());
     }
     private String biezacadata;
 
@@ -126,13 +127,13 @@ public class ZUSstawkiView implements Serializable {
     }
 
     private void obsluzZUSmaly() {
-        listapobranychstawekMalyZUS = new ArrayList<>();
+        listapobranychstawekMalyZUS = Collections.synchronizedList(new ArrayList<>());
         listapobranychstawekMalyZUS = zusDAO.findZUS(true);
         wprowadzanie = new Zusstawki();
     }
 
     private void obsluzZUSduzy() {
-        listapobranychstawek = new ArrayList<>();
+        listapobranychstawek = Collections.synchronizedList(new ArrayList<>());
         listapobranychstawek = zusDAO.findZUS(false);
         wprowadzanie = new Zusstawki();
     }

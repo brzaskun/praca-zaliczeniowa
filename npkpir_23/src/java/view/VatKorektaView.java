@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -107,9 +106,9 @@ public class VatKorektaView implements Serializable {
     private WniosekVATZDEntity wniosekVATZDEntity;
 
     public VatKorektaView() {
-        deklaracjeWyslane = new ArrayList<>();
-        rodzajedokKlienta = new ArrayList<>();
-        listadokumentowDoKorekty = new ArrayList<>();
+        deklaracjeWyslane = Collections.synchronizedList(new ArrayList<>());
+        rodzajedokKlienta = Collections.synchronizedList(new ArrayList<>());
+        listadokumentowDoKorekty = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -118,10 +117,10 @@ public class VatKorektaView implements Serializable {
             deklaracjeWyslane = deklaracjevatDAO.findDeklaracjeWyslane200(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             Podatnik podatnik = wpisView.getPodatnikObiekt();
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-            ArrayList<Rodzajedok> rodzajedokumentowFilter = new ArrayList<>();
+            List<Rodzajedok> rodzajedokumentowFilter = Collections.synchronizedList(new ArrayList<>());
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             for (Rodzajedok p : rodzajedokumentow) {
-                List opisewidencji = new ArrayList<>();
+                List opisewidencji = Collections.synchronizedList(new ArrayList<>());
                 opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(p.getRodzajtransakcji()));
                 if (!opisewidencji.isEmpty()) {
                     rodzajedokumentowFilter.add(p);
@@ -148,9 +147,9 @@ public class VatKorektaView implements Serializable {
             }
         }
         /*wyswietlamy ewidencje VAT*/
-        List<Evewidencja> ewidencje = new ArrayList<>();
+        List<Evewidencja> ewidencje = Collections.synchronizedList(new ArrayList<>());
         ewidencje.addAll(listaEwidencjiVat.pobierzEvewidencje(transakcjiRodzaj));
-        List<EwidencjaAddwiad> ewidencja = new ArrayList<>();
+        List<EwidencjaAddwiad> ewidencja = Collections.synchronizedList(new ArrayList<>());
         int k = 0;
         for (Evewidencja p : ewidencje) {
             EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
@@ -212,7 +211,7 @@ public class VatKorektaView implements Serializable {
         vATDeklaracjaKorektaDok.setDeklaracjaPierwotna(deklaracjaVAT);
         vATDeklaracjaKorektaDok.setNowaWartoscVatZPrzeniesienia(nowaWartoscVatZPrzeniesienia);
         vATDeklaracjaKorektaDok.setListadokumentowDoKorekty(listadokumentowDoKorekty);
-        List<EVatwpisSuper> listadokvatprzetworzona = new ArrayList<>();
+        List<EVatwpisSuper> listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
         /**
          * Sporzadza i przeksztalca dokumenty korekty w ewidencje vat
          */

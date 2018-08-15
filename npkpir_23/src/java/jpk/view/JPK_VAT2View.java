@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -73,7 +74,7 @@ public class JPK_VAT2View implements Serializable {
         try {
             lista = uPODAO.findPodatnikRok(wpisView);
             if (lista == null) {
-                lista = new ArrayList<>();
+                lista = Collections.synchronizedList(new ArrayList<>());
             } else {
                 for (UPO p : lista) {
                     werjsajpkrecznie = 0;
@@ -445,10 +446,10 @@ public class JPK_VAT2View implements Serializable {
 
     private Object[] utworzWierszeJpkSprzedaz2(List wiersze) {
         Object[] zwrot = new Object[2];
-        zwrot[0] = new ArrayList<>();
+        zwrot[0] = Collections.synchronizedList(new ArrayList<>());
         if (wiersze.size() >0) {
             Class c = wiersze.get(0).getClass();
-            List<jpk201701.JPK.SprzedazWiersz> lista = new ArrayList<>();
+            List<jpk201701.JPK.SprzedazWiersz> lista = Collections.synchronizedList(new ArrayList<>());
             jpk201701.JPK.SprzedazCtrl sprzedazCtrl = new jpk201701.JPK.SprzedazCtrl();
             sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
             sprzedazCtrl.setPodatekNalezny(BigDecimal.ZERO);
@@ -485,10 +486,10 @@ public class JPK_VAT2View implements Serializable {
     
     private Object[] utworzWierszeJpkSprzedaz3(List wiersze) {
         Object[] zwrot = new Object[2];
-        zwrot[0] = new ArrayList<>();
+        zwrot[0] = Collections.synchronizedList(new ArrayList<>());
         if (wiersze.size() >0) {
             Class c = wiersze.get(0).getClass();
-            List<jpk201801.JPK.SprzedazWiersz> lista = new ArrayList<>();
+            List<jpk201801.JPK.SprzedazWiersz> lista = Collections.synchronizedList(new ArrayList<>());
             jpk201801.JPK.SprzedazCtrl sprzedazCtrl = new jpk201801.JPK.SprzedazCtrl();
             sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
             sprzedazCtrl.setPodatekNalezny(BigDecimal.ZERO);
@@ -525,10 +526,10 @@ public class JPK_VAT2View implements Serializable {
     
     private Object[] utworzwierszjpkZakup2(List wiersze) {
         Object[] zwrot = new Object[2];
-        zwrot[0] = new ArrayList<>();
+        zwrot[0] = Collections.synchronizedList(new ArrayList<>());
         if (wiersze.size() >0) {
             Class c = wiersze.get(0).getClass();
-            List<jpk201701.JPK.ZakupWiersz> lista = new ArrayList<>();
+            List<jpk201701.JPK.ZakupWiersz> lista = Collections.synchronizedList(new ArrayList<>());
             jpk201701.JPK.ZakupCtrl zakupCtrl = new jpk201701.JPK.ZakupCtrl();
             zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
             zakupCtrl.setPodatekNaliczony(BigDecimal.ZERO);
@@ -559,10 +560,10 @@ public class JPK_VAT2View implements Serializable {
     
     private Object[] utworzwierszjpkZakup3(List wiersze) {
         Object[] zwrot = new Object[2];
-        zwrot[0] = new ArrayList<>();
+        zwrot[0] = Collections.synchronizedList(new ArrayList<>());
         if (wiersze.size() >0) {
             Class c = wiersze.get(0).getClass();
-            List<jpk201801.JPK.ZakupWiersz> lista = new ArrayList<>();
+            List<jpk201801.JPK.ZakupWiersz> lista = Collections.synchronizedList(new ArrayList<>());
             jpk201801.JPK.ZakupCtrl zakupCtrl = new jpk201801.JPK.ZakupCtrl();
             zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
             zakupCtrl.setPodatekNaliczony(BigDecimal.ZERO);
@@ -692,7 +693,7 @@ public class JPK_VAT2View implements Serializable {
     }
 
     private List<EVatwpisSuper> weryfikujwiersze(List<EVatwpisSuper> wiersze) {
-        List<EVatwpisSuper> zwrot = new ArrayList<>();
+        List<EVatwpisSuper> zwrot = Collections.synchronizedList(new ArrayList<>());
         for (EVatwpisSuper p : wiersze) {
             if (p instanceof EVatwpisFK) {
                 EVatwpisFK pf = (EVatwpisFK) p;
@@ -737,7 +738,7 @@ public class JPK_VAT2View implements Serializable {
     }
     
     private List<EVatwpisSuper> weryfikujwierszeDedra(List<EVatwpisDedra> wiersze) {
-        List<EVatwpisSuper> zwrot = new ArrayList<>();
+        List<EVatwpisSuper> zwrot = Collections.synchronizedList(new ArrayList<>());
         for (EVatwpisDedra p : wiersze) {
             if (p instanceof EVatwpisDedra) {
                 EVatwpisDedra pf = p;

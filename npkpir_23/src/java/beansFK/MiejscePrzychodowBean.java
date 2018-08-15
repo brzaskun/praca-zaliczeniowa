@@ -12,6 +12,7 @@ import entityfk.Konto;
 import entityfk.MiejscePrzychodow;
 import entityfk.StronaWiersza;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import javax.inject.Named;
@@ -30,12 +31,12 @@ public class MiejscePrzychodowBean {
         int i = 1;
         for (MiejscePrzychodow p : miejscaprzychodow) {
             double total = 0;
-            List<MiejsceZest> l = new ArrayList<>();
+            List<MiejsceZest> l = Collections.synchronizedList(new ArrayList<>());
             MiejscePrzychodowView.TabelaMiejscePrzychodow m = new MiejscePrzychodowView.TabelaMiejscePrzychodow();
             for (Konto r : kontaslownikowe) {
                 if (stronywiersza.size() > 0) {
                     double suma = 0;
-                    List<StronaWiersza> listastron = new ArrayList<>();
+                    List<StronaWiersza> listastron = Collections.synchronizedList(new ArrayList<>());
                     for (StronaWiersza s : stronywiersza) {
                         if (s.getKonto().getNazwapelna().equals(p.getOpismiejsca()) && s.getKonto().getKontomacierzyste()!=null && s.getKonto().getKontomacierzyste().equals(r)) {
                             if (!wpisView.getMiesiacWpisu().equals("CR") && s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {

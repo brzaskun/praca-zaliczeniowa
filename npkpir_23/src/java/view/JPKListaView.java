@@ -14,6 +14,7 @@ import entity.Podatnik;
 import entity.UPO;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -45,8 +46,8 @@ public class JPKListaView  implements Serializable {
     
     @PostConstruct
     public void init() {
-        jpkmoznarobic = new ArrayList<>();
-        jpkzrobione = new ArrayList<>();
+        jpkmoznarobic = Collections.synchronizedList(new ArrayList<>());
+        jpkzrobione = Collections.synchronizedList(new ArrayList<>());
         List<Podatnik> podatnicy = podatnikDAO.findAll();
 //        List<Deklaracjevat> wyslaneVAT7 = deklaracjevatDAO.findDeklaracjeWyslane200RokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
 //        Set<Podatnik> podatnikdowyslania = new HashSet<>();
@@ -60,7 +61,7 @@ public class JPKListaView  implements Serializable {
         });
         jpkzrobione.addAll(upodao.findUPORokMc(wpisView));
         if (jpkzrobione == null) {
-            jpkzrobione = new ArrayList<>();
+            jpkzrobione = Collections.synchronizedList(new ArrayList<>());
         } else {
             for (UPO r : jpkzrobione) {
                 jpkmoznarobic.remove(r.getPodatnik());

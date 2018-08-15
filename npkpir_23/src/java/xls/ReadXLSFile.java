@@ -18,6 +18,7 @@ import error.E;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.poi.ss.usermodel.Row;
@@ -35,7 +36,7 @@ public class ReadXLSFile {
     private static String filename = "c://temp//faktury2.xlsx";
     
     public static List<InterpaperXLS> getListafaktur() {
-        List<InterpaperXLS> listafaktur = new ArrayList<>();
+        List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
             FileInputStream file = new FileInputStream(new File(filename));
              //Create Workbook instance holding reference to .xlsx file

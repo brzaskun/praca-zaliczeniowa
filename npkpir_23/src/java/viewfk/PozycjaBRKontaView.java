@@ -54,7 +54,7 @@ import view.WpisView;
 public class PozycjaBRKontaView implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private ArrayList<PozycjaRZiSBilans> pozycje;
+    private List<PozycjaRZiSBilans> pozycje;
     @Inject
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
@@ -73,7 +73,7 @@ public class PozycjaBRKontaView implements Serializable {
     private Konto boxNaKonto;
     private boolean aktywa0pasywa1;
     private List<Konto> kontabezprzydzialu;
-    private ArrayList<Konto> przyporzadkowanekonta;
+    private List<Konto> przyporzadkowanekonta;
     private TreeNodeExtended rootProjektKontaRZiS;
     private TreeNodeExtended rootProjektKontaBilans;
     @ManagedProperty(value = "#{WpisView}")
@@ -89,11 +89,11 @@ public class PozycjaBRKontaView implements Serializable {
 
     public PozycjaBRKontaView() {
          E.m(this);
-        this.kontabezprzydzialu = new ArrayList<>();
+        this.kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
         this.rootProjektKontaRZiS = new TreeNodeExtended("root", null);
         this.rootProjektKontaBilans = new TreeNodeExtended("root", null);
-        this.pozycje = new ArrayList<>();
-        this.przyporzadkowanekonta = new ArrayList<>();
+        this.pozycje = Collections.synchronizedList(new ArrayList<>());
+        this.przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -107,18 +107,18 @@ public class PozycjaBRKontaView implements Serializable {
                 }
             }
         } else {
-            listaukladow = new ArrayList<>();
+            listaukladow = Collections.synchronizedList(new ArrayList<>());
         }
     }
     
     public void pobierzukladkontoR() {
         try {
             wybranyuklad.oznaczUkladBR(ukladBRDAO);
-            przyporzadkowanekonta = new ArrayList<>();
+            przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             wyczyscKonta("wynikowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(wybranyuklad, "wynikowe");
             PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, wybranyuklad, wpisView, false, "wynikowe");
-            pozycje = new ArrayList<>();
+            pozycje = Collections.synchronizedList(new ArrayList<>());
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(wybranyuklad));
             if (pozycje.isEmpty()) {
                 pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
@@ -139,11 +139,11 @@ public class PozycjaBRKontaView implements Serializable {
     public void pobierzukladkontoB(String aktywapasywa) {
         try {
             wybranyuklad.oznaczUkladBR(ukladBRDAO);
-            przyporzadkowanekonta = new ArrayList<>();
+            przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             wyczyscKonta("bilansowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(wybranyuklad, "bilansowe");
             PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, wybranyuklad, wpisView, false, "bilansowe");
-            pozycje = new ArrayList<>();
+            pozycje = Collections.synchronizedList(new ArrayList<>());
             if (aktywapasywa.equals("aktywa")) {
                 aktywa0pasywa1 = false;
                 pozycje.addAll(pozycjaBilansDAO.findBilansukladAktywa(wybranyuklad));
@@ -520,13 +520,13 @@ public class PozycjaBRKontaView implements Serializable {
 
     public void zwinrzadanalityki(Konto konto) {
         List<Konto> listaSiostrzane = kontoDAO.findKontaSiostrzanePodatnik(wpisView, konto.getMacierzyste());
-        List<Konto> listaPotomne = new ArrayList<>();
+        List<Konto> listaPotomne = Collections.synchronizedList(new ArrayList<>());
         for (Konto t : listaSiostrzane) {
             listaPotomne.addAll(kontoDAO.findKontaWszystkiePotomnePodatnik(wpisView, t));
         }
         listaSiostrzane.addAll(listaPotomne);
         boolean jestprzypisane = false;
-        List<String> analitykinazwy = new ArrayList<>();
+        List<String> analitykinazwy = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : listaSiostrzane) {
             if (p.getKontopozycjaID() != null) {
                 jestprzypisane = true;
@@ -550,7 +550,7 @@ public class PozycjaBRKontaView implements Serializable {
         if (rb.equals("r")) {
             List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladdocelowy, "wynikowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "wynikowe");
-            List<KontopozycjaZapis> nowezapispozycje = new ArrayList<>();
+            List<KontopozycjaZapis> nowezapispozycje = Collections.synchronizedList(new ArrayList<>());
             for (KontopozycjaBiezaca p : pozycjebiezace) {
                 try {
                     if (p.isWynik0bilans1() == false) {
@@ -566,7 +566,7 @@ public class PozycjaBRKontaView implements Serializable {
         if (rb.equals("b")) {
             List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladdocelowy, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe");
-            List<KontopozycjaZapis> nowezapispozycje = new ArrayList<>();
+            List<KontopozycjaZapis> nowezapispozycje = Collections.synchronizedList(new ArrayList<>());
             for (KontopozycjaBiezaca p : pozycjebiezace) {
                 try {
                     if (p.isWynik0bilans1() == true) {
@@ -675,14 +675,14 @@ public class PozycjaBRKontaView implements Serializable {
     private void skopiujPozycje(String rb, UkladBR ukladdocelowy, UkladBR ukladzrodlowy, Podatnik podatnik, boolean zwzorca) {
         if (rb.equals("r")) {
             wyczyscKonta("wynikowe", podatnik, ukladdocelowy.getRok());
-            kontabezprzydzialu = new ArrayList<>();
-            przyporzadkowanekonta = new ArrayList<>();
+            kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
+            przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladdocelowy, "wynikowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "wynikowe");
             List<PozycjaRZiS> pozycjedoprzejrzenia = pozycjaRZiSDAO.findRzisuklad(ukladdocelowy);
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "wynikowe");
             List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaWynikowePodatnika(podatnik, ukladdocelowy.getRok());
-            List<KontopozycjaZapis> nowekontopozycjazapis = new ArrayList<>();
+            List<KontopozycjaZapis> nowekontopozycjazapis = Collections.synchronizedList(new ArrayList<>());
             if (podatnik==null) {
                 for (Iterator<KontopozycjaZapis> it = zapisanePOzycjezUkladuWzorcowego.iterator();it.hasNext();) {
                     KontopozycjaZapis p = it.next();
@@ -713,19 +713,19 @@ public class PozycjaBRKontaView implements Serializable {
         }
         if (rb.equals("b")) {
             wyczyscKonta("bilansowe", podatnik, wpisView.getRokWpisuSt());
-            kontabezprzydzialu = new ArrayList<>();
-            przyporzadkowanekonta = new ArrayList<>();
+            kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
+            przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladdocelowy, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe");
             List<PozycjaBilans> pozycjedoprzejrzenia = pozycjaBilansDAO.findBilansukladAktywaPasywa(ukladdocelowy);
-            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = new ArrayList<>();
+            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = Collections.synchronizedList(new ArrayList<>());
             if (zwzorca) {
                 zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUkladWzorzec(ukladzrodlowy, "bilansowe");
             } else {
                 zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "bilansowe");
             }
             List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, ukladdocelowy.getRok());
-            List<KontopozycjaZapis> nowekontopozycjazapis = new ArrayList<>();
+            List<KontopozycjaZapis> nowekontopozycjazapis = Collections.synchronizedList(new ArrayList<>());
             if (podatnik==null) {
                 for (Iterator<KontopozycjaZapis> it = zapisanePOzycjezUkladuWzorcowego.iterator();it.hasNext();) {
                     KontopozycjaZapis p = it.next();
@@ -795,8 +795,8 @@ public class PozycjaBRKontaView implements Serializable {
 //    private void skopiujPozycjeWzorcowe(String rb, UkladBR ukladdocelowy, UkladBR ukladzrodlowy) {
 //        if (rb.equals("r")) {
 //            wyczyscKonta("wynikowe", "Wzorcowy", wpisView.getRokWpisuSt());
-//            kontabezprzydzialu = new ArrayList<>();
-//            przyporzadkowanekonta = new ArrayList<>();
+//            kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
+//            przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
 //            //kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladdocelowy, "wynikowe");
 //            kontopozycjaZapisDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladdocelowy, "wynikowe");
 //            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "wynikowe");
@@ -833,8 +833,8 @@ public class PozycjaBRKontaView implements Serializable {
 //        }
 //        if (rb.equals("b")) {
 //            wyczyscKonta("bilansowe", "Wzorcowy", wpisView.getRokWpisuSt());
-//            kontabezprzydzialu = new ArrayList<>();
-//            przyporzadkowanekonta = new ArrayList<>();
+//            kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
+//            przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
 //            //kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladdocelowy, "bilansowe");
 //            kontopozycjaZapisDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladdocelowy, "bilansowe");
 //            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "bilansowe");
@@ -945,11 +945,11 @@ public class PozycjaBRKontaView implements Serializable {
 
 //<editor-fold defaultstate="collapsed" desc="comment">
 
-    public ArrayList<PozycjaRZiSBilans> getPozycje() {
+    public List<PozycjaRZiSBilans> getPozycje() {
         return pozycje;
     }
 
-    public void setPozycje(ArrayList<PozycjaRZiSBilans> pozycje) {
+    public void setPozycje(List<PozycjaRZiSBilans> pozycje) {
         this.pozycje = pozycje;
     }
 
@@ -1017,11 +1017,11 @@ public class PozycjaBRKontaView implements Serializable {
         this.kontabezprzydzialu = kontabezprzydzialu;
     }
 
-    public ArrayList<Konto> getPrzyporzadkowanekonta() {
+    public List<Konto> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
     }
 
-    public void setPrzyporzadkowanekonta(ArrayList<Konto> przyporzadkowanekonta) {
+    public void setPrzyporzadkowanekonta(List<Konto> przyporzadkowanekonta) {
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
 

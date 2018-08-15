@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,7 +33,7 @@ public class Kwartaly implements Serializable{
     private static final Map<Integer, List<String>> mapakwnr;
 
     static{
-        mceList = new ArrayList<>();
+        mceList = Collections.synchronizedList(new ArrayList<>());
         mceList.add("01");
         mceList.add("02");
         mceList.add("03");
@@ -46,7 +47,7 @@ public class Kwartaly implements Serializable{
         mceList.add("11");
         mceList.add("12");
         
-        kwList = new ArrayList<>();
+        kwList = Collections.synchronizedList(new ArrayList<>());
         kwList.add("1");
         kwList.add("2");
         kwList.add("3");
@@ -217,19 +218,19 @@ public class Kwartaly implements Serializable{
         private static final List<String> kwmce3;
         private static final List<String> kwmce4;
         static {
-            kwmce1 = new ArrayList<>();
+            kwmce1 = Collections.synchronizedList(new ArrayList<>());
             kwmce1.add("01");
             kwmce1.add("02");
             kwmce1.add("03");
-            kwmce2 = new ArrayList<>();
+            kwmce2 = Collections.synchronizedList(new ArrayList<>());
             kwmce2.add("04");
             kwmce2.add("05");
             kwmce2.add("06");
-            kwmce3 = new ArrayList<>();
+            kwmce3 = Collections.synchronizedList(new ArrayList<>());
             kwmce3.add("07");
             kwmce3.add("08");
             kwmce3.add("09");
-            kwmce4 = new ArrayList<>();
+            kwmce4 = Collections.synchronizedList(new ArrayList<>());
             kwmce4.add("10");
             kwmce4.add("11");
             kwmce4.add("12");

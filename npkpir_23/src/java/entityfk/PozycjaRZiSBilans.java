@@ -8,6 +8,7 @@ import abstractClasses.ToBeATreeNodeObject;
 import format.F;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -76,7 +77,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     
     public void obsluzPrzyporzadkowaneStronaWiersza(double kwota, StronaWiersza stronawiersza) {
         if (przyporzadkowanestronywiersza == null && kwota != 0.0) {
-            przyporzadkowanestronywiersza = new ArrayList<>();
+            przyporzadkowanestronywiersza = Collections.synchronizedList(new ArrayList<>());
         }
         if (kwota != 0.0) {
             przyporzadkowanestronywiersza.add(stronawiersza);
@@ -85,7 +86,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     
     public void obsluzPrzyporzadkowaneKonta(double kwota, Konto konto) {
         if (przyporzadkowanekonta == null && kwota != 0.0) {
-            przyporzadkowanekonta = new ArrayList<>();
+            przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
         }
         if (kwota != 0.0) {
             konto.setKwota(kwota);
@@ -95,7 +96,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     
     public void obsluzPrzyporzadkowaneKontaRZiS(double kwota, Konto konto) {
         if (przyporzadkowanekonta == null && kwota != 0.0) {
-            przyporzadkowanekonta = new ArrayList<>();
+            przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
         }
         if (kwota != 0.0) {
             boolean nowe = true;

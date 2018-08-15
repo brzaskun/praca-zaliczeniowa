@@ -12,6 +12,7 @@ import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -37,7 +38,7 @@ public class GuestFKDokumenty implements Serializable{
 
     public GuestFKDokumenty() {
          E.m(this);
-        this.dokumenty = new ArrayList<>();
+        this.dokumenty = Collections.synchronizedList(new ArrayList<>());
     }
 
     public void pobierz() {

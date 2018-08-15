@@ -15,6 +15,7 @@ import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -59,9 +60,9 @@ public class RozrachunkiView implements Serializable {
     private List<Dok> zaplacone;
 
     public RozrachunkiView() {
-        niezaplacone = new ArrayList<>();
+        niezaplacone = Collections.synchronizedList(new ArrayList<>());
         //dokumenty zaplacone
-        zaplacone = new ArrayList<>();
+        zaplacone = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -102,7 +103,7 @@ public class RozrachunkiView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("form:messages");
         } catch (Exception ec) {
-            ArrayList<Rozrachunek1> lista = new ArrayList<>();
+            List<Rozrachunek1> lista = Collections.synchronizedList(new ArrayList<>());
             double zostalo = 0;
             double kwota = 0;
             try {
@@ -143,7 +144,7 @@ public class RozrachunkiView implements Serializable {
     }
 
     public void usunostatniRozrachunek1(ActionEvent e) {
-        ArrayList<Rozrachunek1> lista = new ArrayList<>();
+        List<Rozrachunek1> lista = Collections.synchronizedList(new ArrayList<>());
         try {
             lista.addAll(selDokument.getRozrachunki1());
         } catch (Exception ee) {

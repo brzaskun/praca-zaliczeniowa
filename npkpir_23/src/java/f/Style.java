@@ -17,7 +17,7 @@ public class Style {
 //        List<Podatnik> resultList = emH2.createQuery("SELECT o FROM Podatnik o").getResultList();
 //        for (Podatnik p : resultList) {
 //            if (p.getFKpiatki() != null) {
-//                List<ParamCzworkiPiatki> listanowa = new ArrayList<>();
+//                List<ParamCzworkiPiatki> listanowa = Collections.synchronizedList(new ArrayList<>());
 //                System.out.println(p.toString());
 //                System.out.println(p.getFKpiatki().size());
 //                for (Parametr r : p.getFKpiatki()) {

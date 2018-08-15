@@ -18,6 +18,7 @@ import error.E;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -74,8 +75,8 @@ public class AdminMailView implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            klientList = new ArrayList<>();
-            wyslanemaile = new ArrayList<>();
+            klientList = Collections.synchronizedList(new ArrayList<>());
+            wyslanemaile = Collections.synchronizedList(new ArrayList<>());
             DateTime dt = new DateTime();  // current time
             int month = dt.getMonthOfYear();
             String mc = Mce.getNumberToMiesiac().get(month);
@@ -172,8 +173,8 @@ public class AdminMailView implements Serializable {
                 adminmail.setPlik(IOUtils.toByteArray(zalacznik));
             }
             adminmail.setNazwazalacznika(nazwazalacznik);
-            List<String> email = new ArrayList<>();
-            List<String> nazwy = new ArrayList<>();
+            List<String> email = Collections.synchronizedList(new ArrayList<>());
+            List<String> nazwy = Collections.synchronizedList(new ArrayList<>());
             for (Klienci p : klientList) {
                 if (p.getEmail() != null) {
                     email.add(p.getEmail());

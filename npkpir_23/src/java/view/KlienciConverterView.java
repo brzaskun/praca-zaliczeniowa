@@ -10,6 +10,7 @@ import dao.KlienciDAO;
 import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,7 +33,7 @@ public class KlienciConverterView implements Serializable{
     
     
      public List<Klienci> completeKL(String query) {
-        List<Klienci> results = new ArrayList<>();
+        List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
         if (query.length() > 3) {
             List<Klienci> listaKlientow = klienciDAO.findAll();
             Pattern pattern = Pattern.compile("[A-Z]{2}\\d+");

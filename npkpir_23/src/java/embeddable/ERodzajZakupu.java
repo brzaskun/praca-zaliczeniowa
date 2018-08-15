@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.persistence.Embeddable;
@@ -19,7 +20,7 @@ import javax.persistence.Embeddable;
 public class ERodzajZakupu implements Serializable {
     private static final List<String> rodzajZakupu;
     static{
-        rodzajZakupu = new ArrayList<>();
+        rodzajZakupu = Collections.synchronizedList(new ArrayList<>());
         rodzajZakupu.add("opodatkowane");
         rodzajZakupu.add("opodatkowane i zwolnione");
         rodzajZakupu.add("zwolnione");

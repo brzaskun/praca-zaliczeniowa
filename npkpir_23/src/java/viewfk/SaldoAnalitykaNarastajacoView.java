@@ -17,6 +17,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
                  }
              }
          }
-        listaSaldoKonto = new ArrayList<>();
+        listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
         przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp);
@@ -178,7 +179,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
 
     private void naniesZapisyNaKonto(Map<String,SaldoKontoNarastajaco> przygotowanalista, List<StronaWiersza> zapisyRok, boolean obroty0zapisy1) {
-        List<String> listamcy = new ArrayList<>();
+        List<String> listamcy = Collections.synchronizedList(new ArrayList<>());
         for (String m : Mce.getMceListS()) {
             if (m.equals(wpisView.getMiesiacNastepny()) && !wpisView.getMiesiacWpisu().equals("12")) {
                break;

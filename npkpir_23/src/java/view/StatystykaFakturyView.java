@@ -11,6 +11,7 @@ import embeddable.StatystykaFaktury;
 import entity.Statystyka;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -31,7 +32,7 @@ public class StatystykaFakturyView  implements Serializable {
     private List<StatystykaFaktury> lista;
 
     public StatystykaFakturyView() {
-        this.lista = new ArrayList<>();
+        this.lista = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct

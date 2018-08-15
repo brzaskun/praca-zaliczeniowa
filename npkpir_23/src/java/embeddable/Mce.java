@@ -7,6 +7,7 @@ package embeddable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,7 +38,7 @@ public class Mce implements Serializable{
     private static final Map<String, String> mce_pl_de;
 
     static{
-        mceList = new ArrayList<>();
+        mceList = Collections.synchronizedList(new ArrayList<>());
         mceList.add("01");
         mceList.add("02");
         mceList.add("03");
@@ -51,13 +52,13 @@ public class Mce implements Serializable{
         mceList.add("11");
         mceList.add("12");
         
-        mceListKW = new ArrayList<>();
+        mceListKW = Collections.synchronizedList(new ArrayList<>());
         mceListKW.add("03");
         mceListKW.add("06");
         mceListKW.add("09");
         mceListKW.add("12");
         
-        mceListOdKonca = new ArrayList<>();
+        mceListOdKonca = Collections.synchronizedList(new ArrayList<>());
         mceListOdKonca.add("12");
         mceListOdKonca.add("11");
         mceListOdKonca.add("10");
@@ -71,7 +72,7 @@ public class Mce implements Serializable{
         mceListOdKonca.add("02");
         mceListOdKonca.add("01");
         
-        mcenazwaList = new ArrayList<>();
+        mcenazwaList = Collections.synchronizedList(new ArrayList<>());
         mcenazwaList.add("styczeń");
         mcenazwaList.add("luty");
         mcenazwaList.add("marzec");
@@ -85,7 +86,7 @@ public class Mce implements Serializable{
         mcenazwaList.add("listopad");
         mcenazwaList.add("grudzień");
         
-        mcenazwaListSlownik = new ArrayList<>();
+        mcenazwaListSlownik = Collections.synchronizedList(new ArrayList<>());
         mcenazwaListSlownik.add("styczeń");
         mcenazwaListSlownik.add("luty");
         mcenazwaListSlownik.add("marzec");
@@ -300,7 +301,7 @@ public class Mce implements Serializable{
     * zwraca liste uprzednich mcy
     */
     public static List<String> poprzedniemce(String miesiac) {
-        List<String> poprzedniemce = new ArrayList<>();
+        List<String> poprzedniemce = Collections.synchronizedList(new ArrayList<>());
         int miesiacasint = miesiacToNumber.get(miesiac);
         for (int p : numberToMiesiac.keySet()) {
             if (p < miesiacasint) {
@@ -311,7 +312,7 @@ public class Mce implements Serializable{
     }
     
     public static List<String> zakresmiesiecy(String mcOd, String mcDo) {
-        List<String> listamiesiecy = new ArrayList<>();
+        List<String> listamiesiecy = Collections.synchronizedList(new ArrayList<>());
         int mcod = Mce.miesiacToNumber.get(mcOd);
         int mcdo = Mce.miesiacToNumber.get(mcDo);
         if (mcod > mcdo) {

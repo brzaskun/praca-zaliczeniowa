@@ -80,11 +80,11 @@ public class BilansGenerowanieView implements Serializable {
 
     public BilansGenerowanieView() {
         E.m(this);
-        this.komunikatyok = new ArrayList<>();
+        this.komunikatyok = Collections.synchronizedList(new ArrayList<>());
         this.komunikatyok.add("Nie rozpoczęto analizy");
-        this.komunikatyerror = new ArrayList<>();
-        this.komunikatyerror2 = new ArrayList<>();
-        this.komunikatyerror3 = new ArrayList<>();
+        this.komunikatyerror = Collections.synchronizedList(new ArrayList<>());
+        this.komunikatyerror2 = Collections.synchronizedList(new ArrayList<>());
+        this.komunikatyerror3 = Collections.synchronizedList(new ArrayList<>());
         this.listawalut = new ConcurrentHashMap<>();
     }
     
@@ -94,11 +94,11 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     public void reset() {
-        this.komunikatyok = new ArrayList<>();
+        this.komunikatyok = Collections.synchronizedList(new ArrayList<>());
         this.komunikatyok.add("Nie rozpoczęto analizy");
-        this.komunikatyerror = new ArrayList<>();
-        this.komunikatyerror2 = new ArrayList<>();
-        this.komunikatyerror3 = new ArrayList<>();
+        this.komunikatyerror = Collections.synchronizedList(new ArrayList<>());
+        this.komunikatyerror2 = Collections.synchronizedList(new ArrayList<>());
+        this.komunikatyerror3 = Collections.synchronizedList(new ArrayList<>());
         this.listawalut = new ConcurrentHashMap<>();
          List<Waluty> waluty = walutyDAOfk.findAll();
         for (Waluty p : waluty) {
@@ -131,7 +131,7 @@ public class BilansGenerowanieView implements Serializable {
 
     private static List<testobjects.Konto> pobierzkonta(String podatnik) {
         int i = 1;
-        List<testobjects.Konto> konta = new ArrayList<>();
+        List<testobjects.Konto> konta = Collections.synchronizedList(new ArrayList<>());
         konta.add(new testobjects.Konto(i++, podatnik, "Konto010", "010", 2016, 150, 0, "bilansowe"));
         konta.add(new testobjects.Konto(i++, podatnik, "Konto020", "020", 2016, 450, 0, "bilansowe"));
         konta.add(new testobjects.Konto(i++, podatnik, "Konto100", "100", 2016, 1250, 0, "bilansowe"));
@@ -146,7 +146,7 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private static List<testobjects.WierszBO_T> generujwierszeBO(List<testobjects.Konto> saldakont) {
-        List<testobjects.WierszBO_T> wierszeBO = new ArrayList<>();
+        List<testobjects.WierszBO_T> wierszeBO = Collections.synchronizedList(new ArrayList<>());
         if (!saldakont.isEmpty()) {
             for (testobjects.Konto p : saldakont) {
                 wierszeBO.add(new testobjects.WierszBO_T(p.getPodatnik(), p, p.getSaldoWn(), p.getSaldoMa()));
@@ -184,10 +184,10 @@ public class BilansGenerowanieView implements Serializable {
 
     public void generuj() {
         try {
-            this.komunikatyok = new ArrayList<>();
-            this.komunikatyerror = new ArrayList<>();
-            this.komunikatyerror2 = new ArrayList<>();
-            this.komunikatyerror3 = new ArrayList<>();
+            this.komunikatyok = Collections.synchronizedList(new ArrayList<>());
+            this.komunikatyerror = Collections.synchronizedList(new ArrayList<>());
+            this.komunikatyerror2 = Collections.synchronizedList(new ArrayList<>());
+            this.komunikatyerror3 = Collections.synchronizedList(new ArrayList<>());
             this.sabledy = false;
             this.sabledy2 = false;
             boolean stop = false;
@@ -222,8 +222,8 @@ public class BilansGenerowanieView implements Serializable {
                 obliczkontawynikowe(kontowyniku, listaSaldoKontoRokPop, walpln);
                 //tutaj trzeba przerobic odpowiednio listaSaldo
                 List<SaldoKonto> listaSaldoKontoPrzetworzone = przetwarzajSaldoKonto(listaSaldoKontoRokPop);
-                List<WierszBO> wierszeBO = new ArrayList<>();
-                List<Konto> kontazdziecmi = new ArrayList<>();
+                List<WierszBO> wierszeBO = Collections.synchronizedList(new ArrayList<>());
+                List<Konto> kontazdziecmi = Collections.synchronizedList(new ArrayList<>());
                 List<Konto> brakujacekontanowyrok = zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok, kontazdziecmi);
                 if (!brakujacekontanowyrok.isEmpty()) {
                     komunikatyerror.add("W nowym roku nie ma następujących kont w planie kont: ");
@@ -271,7 +271,7 @@ public class BilansGenerowanieView implements Serializable {
     public void naniesroznice() {
         try {
             Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-            List<WierszBO> wierszeBO = new ArrayList<>();
+            List<WierszBO> wierszeBO = Collections.synchronizedList(new ArrayList<>());
             for (RoznicaSaldBO p : kontainnesaldo) {
                 if (Math.abs(p.getKwotaroznicy()) < 1) {
                     SaldoKonto sk = new SaldoKonto(p, walpln);
@@ -297,7 +297,7 @@ public class BilansGenerowanieView implements Serializable {
     }
     
     private List<RoznicaSaldBO> znajdzroznicesald(List<SaldoKonto> listaSaldoKontoRokPop, List<Konto> kontaNowyRok) {
-        List<RoznicaSaldBO> listaroznic = new ArrayList<>();
+        List<RoznicaSaldBO> listaroznic = Collections.synchronizedList(new ArrayList<>());
         for (SaldoKonto p : listaSaldoKontoRokPop) {
             try {
                 if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
@@ -394,7 +394,7 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private List<Konto> zrobwierszeBO(List<WierszBO> wierszeBO, List<SaldoKonto> listaSaldoKonto, List<Konto> kontaNowyRok, List<Konto> kontazdziecmi) {
-        List<Konto> brakujacekontanowyrok = new ArrayList<>();
+        List<Konto> brakujacekontanowyrok = Collections.synchronizedList(new ArrayList<>());
         if (!listaSaldoKonto.isEmpty()) {
             for (SaldoKonto p : listaSaldoKonto) {
                 if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
@@ -425,7 +425,7 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private List<SaldoKonto> przetwarzajSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
-        List<SaldoKonto> nowalista = new ArrayList<>();
+        List<SaldoKonto> nowalista = Collections.synchronizedList(new ArrayList<>());
         for (SaldoKonto p : listaSaldoKonto) {
             if (p.getKonto().getPelnynumer().equals("201-2")) {
                 System.out.println("");
@@ -437,7 +437,7 @@ public class BilansGenerowanieView implements Serializable {
             } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==true) {
                 Set<Waluty> waluty = pobierzWalutySaldoKonto(p, false);
                 waluty.add(listawalut.get("PLN"));
-                List<SaldoKonto> wierszeSumWalutaPLN = new ArrayList<>();
+                List<SaldoKonto> wierszeSumWalutaPLN = Collections.synchronizedList(new ArrayList<>());
                 for (Waluty wal : waluty) {
                     SaldoKonto sal = sumujkwotyWalutaPln(p, wal); 
                     if (sal != null) {
@@ -453,7 +453,7 @@ public class BilansGenerowanieView implements Serializable {
                     }
                 }
             } else if (p.getKonto().getPelnynumer().startsWith("1")) {
-                List<Waluty> waluty = new ArrayList<>();
+                List<Waluty> waluty = Collections.synchronizedList(new ArrayList<>());
                 waluty.addAll(pobierzWalutySaldoKonto(p, true));
                 if (waluty.isEmpty()) {
                     waluty.add(listawalut.get("PLN"));
@@ -560,14 +560,14 @@ public class BilansGenerowanieView implements Serializable {
     private Collection<? extends SaldoKonto> przetworzWBRK(SaldoKonto p, Waluty waluta) {
         if (p.getKonto().getPelnynumer().equals("149-3")) {
         }
-        List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
+        List<SaldoKonto> nowalista_wierszy = Collections.synchronizedList(new ArrayList<>());
         Waluty walutapln = listawalut.get("PLN");
         //dodatnie oznacza saldo Wn ujemne saldo Ma
         double saldopln = obliczsaldoPLN(p.getZapisy());
         //dodatnie oznacza saldo Wn ujemne saldo Ma
         double saldowal = obliczsaldo(p.getZapisy(), waluta);
         double roznica = Z.z(Z.z(saldowal) - Z.z(saldopln));
-        List<Double> kwotywpln = new ArrayList<>();
+        List<Double> kwotywpln = Collections.synchronizedList(new ArrayList<>());
         if (roznica == 0.0) {
             nowalista_wierszy.add(p);
         } else {
@@ -630,7 +630,7 @@ public class BilansGenerowanieView implements Serializable {
         int zapisydl = zapisy.size() - 1;
         double limit = saldowal;
         Collections.sort(zapisy, new StronaWierszacomparatorBO());
-        List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
+        List<SaldoKonto> nowalista_wierszy = Collections.synchronizedList(new ArrayList<>());
         if (limit > 0.0) {
             for (int i = zapisydl; i >= 0; i--) {
                 StronaWiersza p = zapisy.get(i);
@@ -676,7 +676,7 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private Collection<? extends SaldoKonto> przetworzPojedyncze(SaldoKonto p) {
-        List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
+        List<SaldoKonto> nowalista_wierszy = Collections.synchronizedList(new ArrayList<>());
         Set<Waluty> waluty = new HashSet<>();
         for (StronaWiersza t : p.getZapisy()) {
             waluty.add(listawalut.get(t.getSymbolWalutBOiSW()));
@@ -689,7 +689,7 @@ public class BilansGenerowanieView implements Serializable {
 
     private Collection<? extends SaldoKonto> sumujdlawaluty(Waluty wal, List<StronaWiersza> zapisy) {
         //na poczatku usuniemy te co pokazuja ze sa rozliczone
-        List<StronaWiersza> zerowe = new ArrayList<>();
+        List<StronaWiersza> zerowe = Collections.synchronizedList(new ArrayList<>());
         for (StronaWiersza s : zapisy) {
             if (Z.z(s.getPozostalo())==0.0) {
                 zerowe.add(s);
@@ -698,7 +698,7 @@ public class BilansGenerowanieView implements Serializable {
         for (StronaWiersza w : zerowe) {
             zapisy.remove(zapisy.indexOf(w));
         }
-        List<StronaWiersza> zapisydopor = new ArrayList<>();
+        List<StronaWiersza> zapisydopor = Collections.synchronizedList(new ArrayList<>());
         zapisydopor.addAll(zapisy);
         for (ListIterator<StronaWiersza> it = zapisy.listIterator(); it.hasNext();) {
             StronaWiersza w = it.next();
@@ -718,7 +718,7 @@ public class BilansGenerowanieView implements Serializable {
                 it.remove();
             }
         }
-        List<SaldoKonto> zapisykonta = new ArrayList<>();
+        List<SaldoKonto> zapisykonta = Collections.synchronizedList(new ArrayList<>());
         for (StronaWiersza t : zapisy) {
             if (t.getPozostalo() != 0.0 && t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && t.getToNieJestRRK()) {
                 zapisykonta.add(new SaldoKonto(t, wal));

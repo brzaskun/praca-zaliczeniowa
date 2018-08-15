@@ -19,6 +19,7 @@ import entity.Zusstawki;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -74,9 +75,9 @@ public class InfoView implements Serializable{
     
     
     public InfoView() {
-        osobawprowadzajaca = new ArrayList<>();
-        rodzajedok = new ArrayList<>();
-        udzialy = new ArrayList<>();
+        osobawprowadzajaca = Collections.synchronizedList(new ArrayList<>());
+        rodzajedok = Collections.synchronizedList(new ArrayList<>());
+        udzialy = Collections.synchronizedList(new ArrayList<>());
     }
     
     

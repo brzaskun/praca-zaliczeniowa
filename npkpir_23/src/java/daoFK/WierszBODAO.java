@@ -13,6 +13,7 @@ import entityfk.WierszBO;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -39,7 +40,7 @@ public class WierszBODAO extends DAO implements Serializable {
                 return wierszBOFacade.findBOLista0(grupa, wpisView);
             }
         } catch (Exception e) { E.e(e); 
-            return new ArrayList<>();
+            return Collections.synchronizedList(new ArrayList<>());
         }
     }
     
@@ -49,7 +50,7 @@ public class WierszBODAO extends DAO implements Serializable {
         try {
             return wierszBOFacade.findBOListaRokMc(wpisView);
         } catch (Exception e) { E.e(e); 
-            return new ArrayList<>();
+            return Collections.synchronizedList(new ArrayList<>());
         }
     }
     

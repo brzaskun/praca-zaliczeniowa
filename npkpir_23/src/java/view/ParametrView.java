@@ -11,6 +11,7 @@ import embeddable.Parametr;
 import entity.ParamSuper;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Named;
 
@@ -94,7 +95,7 @@ public class ParametrView implements Serializable {
         }
     }
     public static void main(String[] args) {
-        List<Parametr> lista = new ArrayList<>();
+        List<Parametr> lista = Collections.synchronizedList(new ArrayList<>());
         lista.add(new Parametr("01","2017","12","2017","miesiecznie"));
         lista.add(new Parametr("01","2016","12","2016","kwartalnie"));
         String param = zwrocParametr(lista, 2016, "12");

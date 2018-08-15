@@ -10,6 +10,7 @@ import entity.DeklaracjaVatSchema;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class PozycjeSzczegolowe {
 
     public PozycjeSzczegolowe(Vatpoz selected, DeklaracjaVatSchema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         // from Joda to JDK
-        List<String> lista = new ArrayList<>();
+        List<String> lista = Collections.synchronizedList(new ArrayList<>());
         PozycjeSzczegoloweVAT pozycjelista = selected.getPozycjeszczegolowe();
         for(int i = 10;i<71;i++){
             Class[] noparams = {};	

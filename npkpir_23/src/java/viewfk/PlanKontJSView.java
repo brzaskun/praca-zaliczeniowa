@@ -8,6 +8,7 @@ import daoFK.KontoDAOfk;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -34,7 +35,7 @@ public class PlanKontJSView implements Serializable {
 
     public PlanKontJSView() {
          E.m(this);
-        opisKontaLista = new ArrayList<>();
+        opisKontaLista = Collections.synchronizedList(new ArrayList<>());
     }
 
     private void init() {
@@ -58,7 +59,7 @@ public class PlanKontJSView implements Serializable {
     
     public List<String> complete(String query) {
         if (!opisKontaLista.isEmpty()) {
-            List<String> wynik = new ArrayList<>();
+            List<String> wynik = Collections.synchronizedList(new ArrayList<>());
             for (String p : opisKontaLista) {
                 String a = p.toLowerCase();
                 String b = query.toLowerCase();

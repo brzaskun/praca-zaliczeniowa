@@ -52,8 +52,8 @@ public class StatystykaKalkulacjaView  implements Serializable {
     private StatystykaDAO statystykaDAO;
 
     public StatystykaKalkulacjaView() {
-        podatnikroklista = new ArrayList<>();
-        listadozachowania = new ArrayList<>();
+        podatnikroklista = Collections.synchronizedList(new ArrayList<>());
+        listadozachowania = Collections.synchronizedList(new ArrayList<>());
         rok = "2016";
     }
     
@@ -64,7 +64,7 @@ public class StatystykaKalkulacjaView  implements Serializable {
         List<Podatnik> podatnicyFK = podatnicyFKtmp.stream().filter(p -> p.isPodmiotaktywny()).collect(Collectors.toList());
         podatnikroklista = stworzliste(podatnicy);
         podatnikroklista.addAll(stworzlistefk(podatnicyFK));
-        listadozachowania = new ArrayList<>();
+        listadozachowania = Collections.synchronizedList(new ArrayList<>());
         listadozachowania.addAll(podatnikroklista);
         podatnikroklista.add(dodajsume(podatnikroklista));
         Msg.msg("Wygenerowano statystyki");
@@ -72,7 +72,7 @@ public class StatystykaKalkulacjaView  implements Serializable {
     
     public void pobierz() {
         podatnikroklista = statystykaDAO.findByRok(rok);
-        listadozachowania = new ArrayList<>();
+        listadozachowania = Collections.synchronizedList(new ArrayList<>());
         listadozachowania.addAll(podatnikroklista);
         podatnikroklista.add(dodajsume(podatnikroklista));
         Msg.msg("Pobrano statystyki");
@@ -112,9 +112,9 @@ public class StatystykaKalkulacjaView  implements Serializable {
         int sumafak = 0;
         double sumaobroty = 0.0;
         double sumafakt = 0.0;
-        List<Double> fakturaNaObroty = new ArrayList<>();
-        List<Double> fakturaNaDokumenty = new ArrayList<>();
-        List<Double> ranking = new ArrayList<>();
+        List<Double> fakturaNaObroty = Collections.synchronizedList(new ArrayList<>());
+        List<Double> fakturaNaDokumenty = Collections.synchronizedList(new ArrayList<>());
+        List<Double> ranking = Collections.synchronizedList(new ArrayList<>());
         double lp = 1;
         for (Statystyka p : zwrot) {
             if (p.getObroty() > 0) {
@@ -164,7 +164,7 @@ public class StatystykaKalkulacjaView  implements Serializable {
     }
     
     public void czysclista() {
-        podatnikroklista = new ArrayList<>();
+        podatnikroklista = Collections.synchronizedList(new ArrayList<>());
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">    

@@ -8,6 +8,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Embeddable;
@@ -34,7 +35,7 @@ public class VatKorektaDok implements Serializable {
     
 
     public VatKorektaDok() {
-        this.ewidencjaVAT = new ArrayList<>();
+        this.ewidencjaVAT = Collections.synchronizedList(new ArrayList<>());
     }
 
     @Override

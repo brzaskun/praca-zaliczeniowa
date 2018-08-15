@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -22,14 +23,14 @@ public class Roki implements Serializable{
     private static final List<String> rokiListS;
 
     static{
-        rokiList = new ArrayList<>();
+        rokiList = Collections.synchronizedList(new ArrayList<>());
         rokiList.add(2018);
         rokiList.add(2017);
         rokiList.add(2016);
         rokiList.add(2015);
         rokiList.add(2014);
         rokiList.add(2013);
-        rokiListS = new ArrayList<>();
+        rokiListS = Collections.synchronizedList(new ArrayList<>());
         rokiListS.add("2018");
         rokiListS.add("2017");
         rokiListS.add("2016");
@@ -54,7 +55,7 @@ public class Roki implements Serializable{
     }
     
     public List<Integer> getRokiListMinusJeden() {
-        List<Integer> rokimniej = new ArrayList<>();
+        List<Integer> rokimniej = Collections.synchronizedList(new ArrayList<>());
         rokimniej.addAll(rokiList);
         if (rokimniej.size() > 0) {
             rokimniej.remove(0);
@@ -67,7 +68,7 @@ public class Roki implements Serializable{
     }
     
     public List<Integer> RokiListM(Integer biezacyrok) {
-        List<Integer> listalat = new ArrayList<>();
+        List<Integer> listalat = Collections.synchronizedList(new ArrayList<>());
         for (Integer p : rokiList) {
             if (p >= biezacyrok) {
                 listalat.add(p);

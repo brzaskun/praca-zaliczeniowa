@@ -31,6 +31,7 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -99,7 +100,7 @@ public class KontaVatFKView implements Serializable {
 //    }
     
     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
-        List<SaldoKonto> przygotowanalista = new ArrayList<>();
+        List<SaldoKonto> przygotowanalista = Collections.synchronizedList(new ArrayList<>());
         int licznik = 0;
         String vatokres = sprawdzjakiokresvat();
         for (Konto p : kontaklienta) {
@@ -170,7 +171,7 @@ public class KontaVatFKView implements Serializable {
                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne": {
-                    List<StronaWiersza> listatymczasowa = new ArrayList<>();
+                    List<StronaWiersza> listatymczasowa = Collections.synchronizedList(new ArrayList<>());
                     for (StronaWiersza p : listadokvat) {
                         if (p.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                             listatymczasowa.add(p);
@@ -179,7 +180,7 @@ public class KontaVatFKView implements Serializable {
                     return listatymczasowa;
                 }
                 default: {
-                    List<StronaWiersza> listatymczasowa = new ArrayList<>();
+                    List<StronaWiersza> listatymczasowa = Collections.synchronizedList(new ArrayList<>());
                     Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                     for (StronaWiersza p : listadokvat) {

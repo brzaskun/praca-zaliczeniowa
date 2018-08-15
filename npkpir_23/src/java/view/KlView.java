@@ -294,7 +294,7 @@ public class KlView implements Serializable {
 //    }
 
     public List<Klienci> complete(String query) {
-        List<Klienci> results = new ArrayList<>();
+        List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
         try {
             String q = query.substring(0, 1);
             int i = Integer.parseInt(q);
@@ -323,7 +323,7 @@ public class KlView implements Serializable {
             klDAO.edit(selected);
             edycja = false;
             //refresh();
-            //kl1 = new ArrayList<>();
+            //kl1 = Collections.synchronizedList(new ArrayList<>());
             //kl1.addAll(klDAO.findAll());
             selected = new Klienci();
             FacesMessage msg = new FacesMessage("Zapisano zmienione dane klienta", selected.getNpelna());
@@ -415,7 +415,7 @@ public class KlView implements Serializable {
 
     private void wygenerujnip() {
         List<Klienci> kliencitmp = klDAO.findAll();
-        List<Klienci> kliencinip = new ArrayList<>();
+        List<Klienci> kliencinip = Collections.synchronizedList(new ArrayList<>());
         //odnajduje klientow jednorazowych
         for (Klienci p : kliencitmp) {
             if (p.getNip().startsWith("XX")) {
@@ -423,7 +423,7 @@ public class KlView implements Serializable {
             }
         }
         //wyciaga nipy
-        List<Integer> nipy = new ArrayList<>();
+        List<Integer> nipy = Collections.synchronizedList(new ArrayList<>());
         for (Klienci p : kliencinip) {
             nipy.add(Integer.parseInt(p.getNip().substring(2)));
         }

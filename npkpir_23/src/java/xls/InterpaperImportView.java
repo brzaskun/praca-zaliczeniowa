@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -224,7 +225,7 @@ public class InterpaperImportView implements Serializable {
                     boolean vatowiec = wpisView.isVatowiec();
                     if (vatowiec && nd.getRodzajedok().getKategoriadokumentu() != 0) {
                         /*wyswietlamy ewidencje VAT*/
-                        List<Evewidencja> opisewidencji = new ArrayList<>();
+                        List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
                         opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(nd.getRodzajedok().getRodzajtransakcji()));
                         int k = 0;
                         for (Evewidencja p : opisewidencji) {

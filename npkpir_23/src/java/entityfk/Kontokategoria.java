@@ -7,6 +7,7 @@ package entityfk;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -63,16 +64,16 @@ public class Kontokategoria implements Serializable {
     private List<Konto> listakont;
 
     public Kontokategoria() {
-        this.listakont = new ArrayList<>();
+        this.listakont = Collections.synchronizedList(new ArrayList<>());
     }
 
     public Kontokategoria(Integer id) {
-        this.listakont = new ArrayList<>();
+        this.listakont = Collections.synchronizedList(new ArrayList<>());
         this.id = id;
     }
 
     public Kontokategoria(Integer id, String symbol, String opispelny, String opisskrocony) {
-        this.listakont = new ArrayList<>();
+        this.listakont = Collections.synchronizedList(new ArrayList<>());
         this.id = id;
         this.symbol = symbol;
         this.opispelny = opispelny;

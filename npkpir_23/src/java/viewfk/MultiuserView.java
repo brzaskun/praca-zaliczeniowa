@@ -15,6 +15,7 @@ import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -46,7 +47,7 @@ public class MultiuserView   implements Serializable{
 
     public MultiuserView() {
          E.m(this);
-        listamutliuserow = new ArrayList<>();
+        listamutliuserow = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct
@@ -58,7 +59,7 @@ public class MultiuserView   implements Serializable{
         String name = principal.getName();
         Uz uz = uzDAO.findUzByLogin(name);
         List<MultiuserSettings> lista = multiuserSettingsDAO.findByUser(uz);
-        listawyboru = new ArrayList<>();
+        listawyboru = Collections.synchronizedList(new ArrayList<>());
         for (MultiuserSettings p : lista) {
             listawyboru.add(p.getPodatnik());
         }

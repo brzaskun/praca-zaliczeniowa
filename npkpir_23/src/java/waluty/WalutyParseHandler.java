@@ -9,6 +9,7 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -45,7 +46,7 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
     boolean bdata_publikacji;
 
     public WalutyParseHandler() {
-        elementy = new ArrayList<>();
+        elementy = Collections.synchronizedList(new ArrayList<>());
     }
 
     @Override

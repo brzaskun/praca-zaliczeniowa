@@ -70,7 +70,7 @@ public class UkladBRView implements Serializable {
 
     public UkladBRView() {
          E.m(this);
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -199,7 +199,7 @@ public class UkladBRView implements Serializable {
 
     private void implementujRZiS(UkladBR ukladBR, String podatnik, String rok, String uklad) {
         List<PozycjaRZiS> pozycje = pozycjaRZiSDAO.findRzisuklad(ukladBR);
-        List<PozycjaRZiS> pozycjenowe = new ArrayList<>();
+        List<PozycjaRZiS> pozycjenowe = Collections.synchronizedList(new ArrayList<>());
         if (pozycje != null && pozycje.size() > 0) {
             List<PozycjaRZiS> macierzyste = skopiujlevel0(pozycje, podatnik, rok, uklad);
             pozycjenowe.addAll(macierzyste);
@@ -216,7 +216,7 @@ public class UkladBRView implements Serializable {
 
     private void implementujBilans(UkladBR ukladBR, String podatnik, String rok, String uklad) {
         List<PozycjaBilans> pozycje = pozycjaBilansDAO.findBilansukladAktywa(ukladBR);
-        List<PozycjaBilans> pozycjenowe = new ArrayList<>();
+        List<PozycjaBilans> pozycjenowe = Collections.synchronizedList(new ArrayList<>());
         if (pozycje != null && pozycje.size() > 0) {
             List<PozycjaBilans> macierzyste = skopiujlevel0B(pozycje, podatnik, rok, uklad);
             pozycjenowe.addAll(macierzyste);
@@ -228,7 +228,7 @@ public class UkladBRView implements Serializable {
             pozycjaBilansDAO.dodaj(pozycjenowe);
         }
         pozycje = pozycjaBilansDAO.findBilansukladPasywa(ukladBR);
-        pozycjenowe = new ArrayList<>();
+        pozycjenowe = Collections.synchronizedList(new ArrayList<>());
         if (pozycje != null && pozycje.size() > 0) {
             List<PozycjaBilans> macierzyste = skopiujlevel0B(pozycje, podatnik, rok, uklad);
             pozycjenowe.addAll(macierzyste);
@@ -351,7 +351,7 @@ public class UkladBRView implements Serializable {
 
 //</editor-fold>
     private List<PozycjaRZiS> skopiujlevel0(List<PozycjaRZiS> pozycje, String podatnik, String rok, String uklad) {
-        List<PozycjaRZiS> macierzyste = new ArrayList<>();
+        List<PozycjaRZiS> macierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel() == 0) {
                 PozycjaRZiS r = serialclone.SerialClone.clone(p);
@@ -373,7 +373,7 @@ public class UkladBRView implements Serializable {
     }
 
     private List<PozycjaRZiS> skopiujlevel(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i, String podatnik, String rok, String uklad) {
-        List<PozycjaRZiS> nowemacierzyste = new ArrayList<>();
+        List<PozycjaRZiS> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel() == i) {
                 try {
@@ -404,7 +404,7 @@ public class UkladBRView implements Serializable {
     }
 
     private List<PozycjaBilans> skopiujlevel0B(List<PozycjaBilans> pozycje, String podatnik, String rok, String uklad) {
-        List<PozycjaBilans> macierzyste = new ArrayList<>();
+        List<PozycjaBilans> macierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel() == 0) {
                 PozycjaBilans r = serialclone.SerialClone.clone(p);
@@ -424,7 +424,7 @@ public class UkladBRView implements Serializable {
     }
 
     private List<PozycjaBilans> skopiujlevelB(List<PozycjaBilans> pozycje, List<PozycjaBilans> macierzystelista, int i, String podatnik, String rok, String uklad) {
-        List<PozycjaBilans> nowemacierzyste = new ArrayList<>();
+        List<PozycjaBilans> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel() == i) {
                 try {
@@ -492,7 +492,7 @@ public class UkladBRView implements Serializable {
     }
      
       private List<PozycjaRZiS> skopiujlevel0RZiS(List<PozycjaRZiS> pozycje, String rok) {
-        List<PozycjaRZiS> macierzyste = new ArrayList<>();
+        List<PozycjaRZiS> macierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel()==0) {
                 PozycjaRZiS r = serialclone.SerialClone.clone(p);
@@ -510,7 +510,7 @@ public class UkladBRView implements Serializable {
     }
       
       private List<PozycjaBilans> skopiujlevel0Bilans(List<PozycjaBilans> pozycje, String rok) {
-        List<PozycjaBilans> macierzyste = new ArrayList<>();
+        List<PozycjaBilans> macierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel()==0) {
                 PozycjaBilans r = serialclone.SerialClone.clone(p);
@@ -528,7 +528,7 @@ public class UkladBRView implements Serializable {
     }
 
     private List<PozycjaRZiS> skopiujlevelRZiS(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i, String rok) {
-         List<PozycjaRZiS> nowemacierzyste = new ArrayList<>();
+         List<PozycjaRZiS> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel()==i) {
                 try {
@@ -548,7 +548,7 @@ public class UkladBRView implements Serializable {
     }
     
     private List<PozycjaBilans> skopiujlevelBilans(List<PozycjaBilans> pozycje, List<PozycjaBilans> macierzystelista, int i, String rok) {
-         List<PozycjaBilans> nowemacierzyste = new ArrayList<>();
+         List<PozycjaBilans> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel()==i) {
                 try {

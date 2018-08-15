@@ -30,6 +30,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -153,7 +154,7 @@ public class PlatnosciView implements Serializable {
         } catch (Exception e) { E.e(e); 
             selectedZob.setVat(0.0);
         }
-        List<Zobowiazanie> terminy = new ArrayList<>();
+        List<Zobowiazanie> terminy = Collections.synchronizedList(new ArrayList<>());
         terminy.addAll(zv.findAll());
         Zobowiazanie termin = new Zobowiazanie();
         Iterator itx;
@@ -377,7 +378,7 @@ public class PlatnosciView implements Serializable {
     }
 
     private Odsetki zwrocokres(Date dataod) {
-        List<Odsetki> lista = new ArrayList<>();
+        List<Odsetki> lista = Collections.synchronizedList(new ArrayList<>());
         lista.addAll(odsetkiDAO.findAll());
         Iterator it;
         it = lista.iterator();

@@ -7,6 +7,7 @@ package test;
 
 import entityfk.StronaWiersza;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -34,7 +35,7 @@ public class Rownolegle1 extends Thread {
     }
     
     private static List<Integer> zrobliste() {
-        List<Integer> l = new ArrayList<>();
+        List<Integer> l = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < 1000000; i++) {
             l.add(new Integer(i+i*3/5));
         }

@@ -13,6 +13,7 @@ import entity.StrataWykorzystanie;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -149,21 +150,21 @@ public class StrataView  implements Serializable{
                 if (zostalo <= 0) {
                     //nic nie robi bo nie ma co rozliczac
                 } else if (wykorzystanie == null) {
-                    wykorzystanie = new ArrayList<>();
+                    wykorzystanie = Collections.synchronizedList(new ArrayList<>());
                     StrataWykorzystanie w = new StrataWykorzystanie(r, wpisView.getRokUprzedniSt());
                     w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
                     wykorzystanie.add(w);
                     strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
                     r.setNowewykorzystanie(wykorzystanie);
                 } else if (wykorzystanie.isEmpty()) {
-                    wykorzystanie = new ArrayList<>();
+                    wykorzystanie = Collections.synchronizedList(new ArrayList<>());
                     StrataWykorzystanie w = new StrataWykorzystanie(r, wpisView.getRokUprzedniSt());
                     w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
                     wykorzystanie.add(w);
                     strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
                     r.setNowewykorzystanie(wykorzystanie);
                 } else {
-                    List<StrataWykorzystanie> nowewykorzystania = new ArrayList<>();
+                    List<StrataWykorzystanie> nowewykorzystania = Collections.synchronizedList(new ArrayList<>());
                     for (Iterator<StrataWykorzystanie> it =  wykorzystanie.iterator(); it.hasNext(); ) {
                         StrataWykorzystanie s = (StrataWykorzystanie) it.next();
                         if (s.getRokwykorzystania().equals(wpisView.getRokUprzedniSt())) {

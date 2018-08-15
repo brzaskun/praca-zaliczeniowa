@@ -112,17 +112,17 @@ public class DokTabView implements Serializable {
     
     private void inicjalizacjalist() {
          //dokumenty podatnika
-        dokumentypobrane = new ArrayList<>();
+        dokumentypobrane = Collections.synchronizedList(new ArrayList<>());
         //dokumenty podatnika z miesiaca
-        dokumentylista = new ArrayList<>();
+        dokumentylista = Collections.synchronizedList(new ArrayList<>());
         //dekumenty o tym samym okresie vat
-        dokvatmc = new ArrayList<>();
+        dokvatmc = Collections.synchronizedList(new ArrayList<>());
         //dokumenty okresowe
-        dokumentyokresowe = new ArrayList<>();
-        gosciuwybral = new ArrayList<>();
-        dokumentypodatnika = new ArrayList<>();
-        kontrahentypodatnika = new ArrayList<>();
-        walutywdokum = new ArrayList<>();
+        dokumentyokresowe = Collections.synchronizedList(new ArrayList<>());
+        gosciuwybral = Collections.synchronizedList(new ArrayList<>());
+        dokumentypodatnika = Collections.synchronizedList(new ArrayList<>());
+        kontrahentypodatnika = Collections.synchronizedList(new ArrayList<>());
+        walutywdokum = Collections.synchronizedList(new ArrayList<>());
         dokumentyFiltered = null;
         sumanetto = 0.0;
         sumavat = 0.0;
@@ -168,7 +168,7 @@ public class DokTabView implements Serializable {
             E.e(e);
         }
         numerkolejny = dokDAO.liczdokumenty(rok.toString(), mc, podatnik) + 1;
-        dokumentylista = new ArrayList<>();
+        dokumentylista = Collections.synchronizedList(new ArrayList<>());
         Set<Rodzajedok> dokumentyl = new HashSet<>();
         Set<String> kontrahenty = new HashSet<>();
         Set<String> waluty = new HashSet<>();
@@ -243,7 +243,7 @@ public class DokTabView implements Serializable {
     }
     
      public void destroygrupa() {
-        grupausun = new ArrayList<>();
+        grupausun = Collections.synchronizedList(new ArrayList<>());
         grupausun = gosciuwybral;
     }
 
@@ -340,7 +340,7 @@ public class DokTabView implements Serializable {
     
     //usun jak wciaz dziala bez nich
     public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
-        dokumentylista = new ArrayList<>();
+        dokumentylista = Collections.synchronizedList(new ArrayList<>());
         dokumentyFiltered = null;
         gosciuwybral = null;
         aktualizuj();

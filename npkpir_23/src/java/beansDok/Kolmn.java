@@ -6,6 +6,7 @@ package beansDok;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,7 +30,7 @@ public class Kolmn implements Serializable{
     private static final List<String> kolumnRyczalt;
 
     static{
-        kolumnList = new ArrayList<>();
+        kolumnList = Collections.synchronizedList(new ArrayList<>());
         kolumnList.add("przych. sprz");
         kolumnList.add("pozost. przych.");
         //kolumnList.add("razem. przych.");
@@ -42,7 +43,7 @@ public class Kolmn implements Serializable{
         kolumnList.add("inwestycje");
         kolumnList.add("uwagi");
         
-        kolumnZest = new ArrayList<>();
+        kolumnZest = Collections.synchronizedList(new ArrayList<>());
         kolumnZest.add("przych. sprz");
         kolumnZest.add("pozost. przych.");
         kolumnZest.add("zakup tow. i mat.");
@@ -54,25 +55,25 @@ public class Kolmn implements Serializable{
         kolumnZest.add("razem koszty");
         kolumnZest.add("wynik");
         
-        kolumnPrzychody = new ArrayList<>();
+        kolumnPrzychody = Collections.synchronizedList(new ArrayList<>());
         kolumnPrzychody.add("przych. sprz");
         kolumnPrzychody.add("pozost. przych.");
        
-        kolumnKoszty = new ArrayList<>();
+        kolumnKoszty = Collections.synchronizedList(new ArrayList<>());
         kolumnKoszty.add("zakup tow. i mat.");
         kolumnKoszty.add("koszty ub.zak.");
         kolumnKoszty.add("wynagrodzenia");
         kolumnKoszty.add("poz. koszty");
         
-        kolumnST = new ArrayList<>();
+        kolumnST = Collections.synchronizedList(new ArrayList<>());
         kolumnST.add("inwestycje");
         kolumnST.add("uwagi");
         
-        kolumnSTsprz = new ArrayList<>();
+        kolumnSTsprz = Collections.synchronizedList(new ArrayList<>());
         kolumnSTsprz.add("pozost. przych.");
         kolumnSTsprz.add("poz. koszty");
        
-        kolumnRyczalt = new ArrayList<>();
+        kolumnRyczalt = Collections.synchronizedList(new ArrayList<>());
         kolumnRyczalt.add("17%");
         kolumnRyczalt.add("8.5%");
         kolumnRyczalt.add("5.5%");

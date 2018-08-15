@@ -17,6 +17,7 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -42,17 +43,17 @@ public class DokfkWeryfikacjaView implements Serializable {
     private WpisView wpisView;
 
     public void sprawdzWnMawDokfk(List<Dokfk> wykazZaksiegowanychDokumentow) {
-        List<Dokfk> listaRozniceWnMa = new ArrayList<>();
-        List<Dokfk> listabrakiKontaAnalityczne = new ArrayList<>();
-        List<Integer> listabrakiKontaAnalityczne_nr = new ArrayList<>();
-        List<Dokfk> listabraki = new ArrayList<>();
-        List<Dokfk> listabrakkontrahenta = new ArrayList<>();
-        List<Dokfk> listabrakiKonto = new ArrayList<>();
-        List<Dokfk> listabrakiPozycji = new ArrayList<>();
-        List<Dokfk> listabrakivat = new ArrayList<>();
-        List<Dokfk> listabrakidaty = new ArrayList<>();
-        List<Dokfk> listapustaewidencja = new ArrayList<>();
-        List<Dokfk> listaniezgodnoscvatkonto = new ArrayList<>();
+        List<Dokfk> listaRozniceWnMa = Collections.synchronizedList(new ArrayList<>());
+        List<Dokfk> listabrakiKontaAnalityczne = Collections.synchronizedList(new ArrayList<>());
+        List<Integer> listabrakiKontaAnalityczne_nr = Collections.synchronizedList(new ArrayList<>());
+        List<Dokfk> listabraki = Collections.synchronizedList(new ArrayList<>());
+        List<Dokfk> listabrakkontrahenta = Collections.synchronizedList(new ArrayList<>());
+        List<Dokfk> listabrakiKonto = Collections.synchronizedList(new ArrayList<>());
+        List<Dokfk> listabrakiPozycji = Collections.synchronizedList(new ArrayList<>());
+        List<Dokfk> listabrakivat = Collections.synchronizedList(new ArrayList<>());
+        List<Dokfk> listabrakidaty = Collections.synchronizedList(new ArrayList<>());
+        List<Dokfk> listapustaewidencja = Collections.synchronizedList(new ArrayList<>());
+        List<Dokfk> listaniezgodnoscvatkonto = Collections.synchronizedList(new ArrayList<>());
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
             boolean jestbrakkontrahenta = brakkontrahenta(p, listabrakkontrahenta);
             boolean skorygowanokontrahenta = korekcjakontrahenta(p);

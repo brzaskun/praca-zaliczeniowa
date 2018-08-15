@@ -12,6 +12,7 @@ import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -112,7 +113,7 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     private List<Konto> skopiujlevel0(Podatnik podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {
-        List<Konto> macierzyste = new ArrayList<>();
+        List<Konto> macierzyste = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : wykazkont) {
             if (p.getLevel() == 0) {
                 Konto r = serialclone.SerialClone.clone(p);
@@ -127,7 +128,7 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     private List<Konto> skopiujlevel(Podatnik podatnikzrodlowy, Podatnik podatnikDocelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int biezacylevel, String rokdocelowy) {
-        List<Konto> nowemacierzyste = new ArrayList<>();
+        List<Konto> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : wykazkont) {
             if (p.getLevel() == biezacylevel) {
                 try {
@@ -179,7 +180,7 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     private List<Konto> skopiujlevelWzorcowy(Podatnik docelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int i, String rokdocelowy) {
-        List<Konto> nowemacierzyste = new ArrayList<>();
+        List<Konto> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : wykazkont) {
             if (p.getLevel() == i) {
                 try {

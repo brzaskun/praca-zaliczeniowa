@@ -9,6 +9,7 @@ import entity.Srodkikst;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +31,7 @@ public class SrodkikstView implements Serializable {
     @Inject private SrodkikstDAO srodkikstDAO;
 
     public SrodkikstView() {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct
@@ -42,7 +43,7 @@ public class SrodkikstView implements Serializable {
         if (lista.isEmpty()) {
             lista = srodkikstDAO.findAll();
         }
-        List<Srodkikst> results = new ArrayList<>();  
+        List<Srodkikst> results = Collections.synchronizedList(new ArrayList<>());  
          for(Srodkikst p : lista) {  
             if(p.getNazwa().contains(query.toLowerCase())) {
                 if(!results.contains(p)){

@@ -6,6 +6,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -106,7 +107,7 @@ public class Inwestycje implements Serializable {
 
     public Inwestycje(Integer id) {
         this.id = id;
-        this.doklist = new ArrayList<>();
+        this.doklist = Collections.synchronizedList(new ArrayList<>());
     }
 
     public Inwestycje() {
@@ -119,8 +120,8 @@ public class Inwestycje implements Serializable {
         this.rokzakonczenia = "";
         this.mczakonczenia = "";
         this.total = 0.0;
-        this.sumazalata = new ArrayList<>();
-        this.doklist = new ArrayList<>();
+        this.sumazalata = Collections.synchronizedList(new ArrayList<>());
+        this.doklist = Collections.synchronizedList(new ArrayList<>());
         this.zakonczona = false;
     }
 

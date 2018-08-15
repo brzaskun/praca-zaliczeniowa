@@ -14,6 +14,7 @@ import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -49,7 +50,7 @@ public class PitView implements Serializable {
    
 
     public PitView() {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
         biezacyPit = new Pitpoz();
     }
     
@@ -60,7 +61,7 @@ public class PitView implements Serializable {
     
     @PostConstruct
     private void init(){
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
         biezacyPit = new Pitpoz();
         lista = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
        

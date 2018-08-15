@@ -8,6 +8,7 @@ package entity;
 import embeddable.Umorzenie;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -60,21 +61,21 @@ public class Amodok implements Serializable {
     }
 
     public Amodok() {
-        this.umorzenia = new ArrayList<>();
-        this.planumorzen = new ArrayList<>();
+        this.umorzenia = Collections.synchronizedList(new ArrayList<>());
+        this.planumorzen = Collections.synchronizedList(new ArrayList<>());
         this.zaksiegowane = Boolean.FALSE;
     }
 
     public Amodok(AmodokPK amodokPK) {
-        this.umorzenia = new ArrayList<>();
-        this.planumorzen = new ArrayList<>();
+        this.umorzenia = Collections.synchronizedList(new ArrayList<>());
+        this.planumorzen = Collections.synchronizedList(new ArrayList<>());
         this.amodokPK = amodokPK;
         this.zaksiegowane = Boolean.FALSE;
     }
 
     public Amodok(int mc, String podatnik, int rok) {
-        this.umorzenia = new ArrayList<>();
-        this.planumorzen = new ArrayList<>();
+        this.umorzenia = Collections.synchronizedList(new ArrayList<>());
+        this.planumorzen = Collections.synchronizedList(new ArrayList<>());
         this.amodokPK = new AmodokPK(mc, podatnik, rok);
         this.zaksiegowane = Boolean.FALSE;
     }

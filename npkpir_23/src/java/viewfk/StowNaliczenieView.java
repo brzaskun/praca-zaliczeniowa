@@ -73,7 +73,7 @@ public class StowNaliczenieView  implements Serializable {
 
 
     public StowNaliczenieView() {
-        this.lista = new ArrayList<>();
+        this.lista = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -127,7 +127,7 @@ public class StowNaliczenieView  implements Serializable {
                        p.setMc(wpisView.getMiesiacWpisu());
                        p.setDataksiegowania(null);
                     }
-                    lista = new ArrayList<>();
+                    lista = Collections.synchronizedList(new ArrayList<>());
                     lista.addAll(naliczenia);
                     Msg.dP();
                 }
@@ -155,7 +155,7 @@ public class StowNaliczenieView  implements Serializable {
     }
     
     private List<StowNaliczenie> dodajpuste() {
-        List<StowNaliczenie> nowenaliczenia = new ArrayList<>();
+        List<StowNaliczenie> nowenaliczenia = Collections.synchronizedList(new ArrayList<>());
         List<StowNaliczenie> naliczenia = generujnaliczanie();
         if (naliczenia != null) {
             for (StowNaliczenie p : naliczenia) {
@@ -175,7 +175,7 @@ public class StowNaliczenieView  implements Serializable {
     }
     
     private List<StowNaliczenie> generujnaliczanie() {
-        List<StowNaliczenie> naliczenia = new ArrayList<>();
+        List<StowNaliczenie> naliczenia = Collections.synchronizedList(new ArrayList<>());
         List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         for (MiejscePrzychodow p : czlonkowiestowarzyszenia) {
             if (Data.czyjestpomiedzy(p.getPoczatek(), p.getKoniec(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
@@ -186,7 +186,7 @@ public class StowNaliczenieView  implements Serializable {
     }
     
     public void obliczprzychod() {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
         lista.addAll(generujnaliczanie());
         generujskladki();
     }

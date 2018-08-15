@@ -173,7 +173,7 @@ public class SrodkiTrwaleView implements Serializable {
 //        Double max = s.getNetto();
 //        Double opm = s.getOdpismc();
 //        Double nar = 0.0;
-//        List<Double> listaplanum = new ArrayList<>();
+//        List<Double> listaplanum = Collections.synchronizedList(new ArrayList<>());
 //        while (max - nar > 0) {
 //            Double odp = (max - nar) > opm ? opm : max - nar;
 ////            DecimalFormat df2 = new DecimalFormat("###.##");

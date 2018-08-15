@@ -11,6 +11,7 @@ import entity.Rodzajedok;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -46,8 +47,8 @@ public class RodzajedokView implements Serializable {
  
 
     public RodzajedokView() {
-        listaWspolnych = new ArrayList<>();
-        listaPodatnika = new ArrayList<>();
+        listaWspolnych = Collections.synchronizedList(new ArrayList<>());
+        listaPodatnika = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct

@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -74,8 +75,8 @@ public class ImportSprzedazyView  implements Serializable {
     
     public void importujsprzedaz(FileUploadEvent event) {
         try {
-            dokumenty = new ArrayList<>();
-            klienci = new ArrayList<>();
+            dokumenty = Collections.synchronizedList(new ArrayList<>());
+            klienci = Collections.synchronizedList(new ArrayList<>());
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
             JPKSuper jpk = pobierzJPK(uploadedFile);
@@ -106,7 +107,7 @@ public class ImportSprzedazyView  implements Serializable {
     }
     
     private List<Dok> stworzdokumenty(JPKSuper jpk) {
-        List<Dok> dokumenty = new ArrayList<>();
+        List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
         
         if (jpk != null) {
             jpk.getSprzedazWiersz().forEach((p) -> {
@@ -150,7 +151,7 @@ public class ImportSprzedazyView  implements Serializable {
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(wiersz.getDowodSprzedazy());
             selDokument.setOpis("przychód ze sprzedaży");
-            List<KwotaKolumna1> listaX = new ArrayList<>();
+            List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
             tmpX.setNetto(wiersz.getNetto());
             tmpX.setVat(wiersz.getVat());
@@ -162,7 +163,7 @@ public class ImportSprzedazyView  implements Serializable {
             selDokument.setNetto(tmpX.getNetto());
             selDokument.setBrutto(tmpX.getBrutto());
             selDokument.setRozliczony(true);
-            List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
+            List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), wiersz.getNetto(), wiersz.getVat(), "sprz.op", miesiac, rok);
             eVatwpis1.setDok(selDokument);
             ewidencjaTransformowana.add(eVatwpis1);
@@ -254,7 +255,7 @@ public class ImportSprzedazyView  implements Serializable {
                 } catch(Exception e){
                 }
             }
-            klienci = new ArrayList<>();
+            klienci = Collections.synchronizedList(new ArrayList<>());
             Msg.msg("Dodano nowych klientw z importowanych dokumentów");
         }
         if (dokumenty!=null && dokumenty.size()>0) {
@@ -266,7 +267,7 @@ public class ImportSprzedazyView  implements Serializable {
                 } catch(Exception e){
                 }
             }
-            dokumenty = new ArrayList<>();
+            dokumenty = Collections.synchronizedList(new ArrayList<>());
             Msg.msg("Zaksiowano zaimportowane dokumenty");
         }
     }

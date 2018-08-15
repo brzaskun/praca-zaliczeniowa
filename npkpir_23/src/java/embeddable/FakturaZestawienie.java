@@ -11,6 +11,7 @@ import entity.Klienci;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Embeddable;
@@ -29,7 +30,7 @@ public class FakturaZestawienie  implements Serializable{
     
 
     public FakturaZestawienie() {
-        trescfaktury = new ArrayList<>();
+        trescfaktury = Collections.synchronizedList(new ArrayList<>());
     }
 
     @Override

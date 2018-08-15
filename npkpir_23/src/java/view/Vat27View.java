@@ -60,13 +60,13 @@ public class Vat27View implements Serializable {
     private boolean deklaracja0korekta1;
 
     public Vat27View() {
-        klienciWDTWNT = new ArrayList<>();
-        listaDok = new ArrayList<>();
+        klienciWDTWNT = Collections.synchronizedList(new ArrayList<>());
+        listaDok = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
     public void init() {
-        List<Dok> dokvatmc = new ArrayList<>();
+        List<Dok> dokvatmc = Collections.synchronizedList(new ArrayList<>());
         String rok = wpisView.getRokWpisuSt();
         String podatnik = wpisView.getPodatnikWpisu();
         String mc = wpisView.getMiesiacWpisu();
@@ -158,7 +158,7 @@ public class Vat27View implements Serializable {
    public void pobierzdeklaracje27()  {
        deklaracjevat27 = deklaracjavat27DAO.findbyPodatnikRok(wpisView);
        if (deklaracjevat27 == null) {
-           deklaracjevat27 = new ArrayList<>();
+           deklaracjevat27 = Collections.synchronizedList(new ArrayList<>());
        }
     }
 

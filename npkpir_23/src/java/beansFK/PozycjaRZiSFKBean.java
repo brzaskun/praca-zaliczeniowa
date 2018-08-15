@@ -24,6 +24,7 @@ import entityfk.StronaWiersza;
 import entityfk.UkladBR;
 import error.E;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
@@ -97,7 +98,7 @@ public class PozycjaRZiSFKBean {
         }
     }
      
-    public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) throws Exception {
+    public static void ustawRoota(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbers(zapisy, plankont);
         rootL.sumNodes();
@@ -123,7 +124,7 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
-    public static void ustawRootaRokPop(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, List<StronaWiersza> zapisyRokPop, List<Konto> plankontRokPop) throws Exception {
+    public static void ustawRootaRokPop(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, List<StronaWiersza> zapisyRokPop, List<Konto> plankontRokPop) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbers(zapisy, plankont);
         rootL.addNumbersBO(zapisyRokPop, plankontRokPop);
@@ -134,7 +135,7 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
-    public static void ustawRootaBilans(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<Konto> plankont, String aktywapasywa) throws Exception {
+    public static void ustawRootaBilans(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<Konto> plankont, String aktywapasywa) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbersBilans(plankont, aktywapasywa);
         rootL.sumNodes();
@@ -142,7 +143,7 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
-    public static void ustawRootaBilansBOData(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<Konto> plankontBO, List<Konto> plankont, String aktywapasywa) throws Exception {
+    public static void ustawRootaBilansBOData(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<Konto> plankontBO, List<Konto> plankont, String aktywapasywa) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbersBilans(plankont, aktywapasywa);
         rootL.addNumbersBilansBO(plankontBO, aktywapasywa);
@@ -153,7 +154,7 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
-    public static void ustawRootaBilansNowy(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, String aktywapasywa) throws Exception {
+    public static void ustawRootaBilansNowy(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, String aktywapasywa) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbersBilansNowy(zapisy, plankont, aktywapasywa);
         rootL.sumNodes();
@@ -161,26 +162,26 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
-    public static void ustawRootaprojekt(TreeNodeExtended rt, ArrayList<PozycjaRZiSBilans> pz) {
-        ArrayList<PozycjaRZiSBilans> pozycjedlaroota = new ArrayList<>();
+    public static void ustawRootaprojekt(TreeNodeExtended rt, List<PozycjaRZiSBilans> pz) {
+        List<PozycjaRZiSBilans> pozycjedlaroota = Collections.synchronizedList(new ArrayList<>());
         pozycjedlaroota.addAll(pz);
         rt.createTreeNodesForElement(pozycjedlaroota);
         rt.expandAll();
     }
     
-    public static int ustawLevel(TreeNodeExtended rt, ArrayList<PozycjaRZiSBilans> pozycjeL) {
+    public static int ustawLevel(TreeNodeExtended rt, List<PozycjaRZiSBilans> pozycjeL) {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     
     public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR uklad, WpisView wpisView, boolean wzorcowy, String bilansowewynikowe) {
         try {
-            List<KontopozycjaZapis> kontopozycja = new ArrayList<>();
+            List<KontopozycjaZapis> kontopozycja = Collections.synchronizedList(new ArrayList<>());
             if (bilansowewynikowe.equals("wynikowe")) {
                 kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(uklad,"wynikowe"));
             } else {
                 kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(uklad,"bilansowe"));
             }
-            List<Konto> l = new ArrayList<>();
+            List<Konto> l = Collections.synchronizedList(new ArrayList<>());
             for (KontopozycjaZapis p : kontopozycja) {
                 try {
                     if (!p.getSyntetykaanalityka().equals("syntetyka")) {
@@ -206,7 +207,7 @@ public class PozycjaRZiSFKBean {
         } else {
             przyporzadkowane = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe", wpisView, aktywa0pasywa1);
         }
-        List<Konto> returnlist = new ArrayList<>();
+        List<Konto> returnlist = Collections.synchronizedList(new ArrayList<>());
         int level = 0;
         if (przyporzadkowane != null) {
             for (Konto p : przyporzadkowane) {
@@ -237,7 +238,7 @@ public class PozycjaRZiSFKBean {
         } else {
             przyporzadkowane = kontoDAO.findKontaPrzyporzadkowane(pozycja, "bilansowe", wpisView, aktywa0pasywa1);
         }
-        List<Konto> returnlist = new ArrayList<>();
+        List<Konto> returnlist = Collections.synchronizedList(new ArrayList<>());
         int level = 0;
         for (Konto p : przyporzadkowane) {
             if (p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getPozycjaWn().equals(pozycja)) {
@@ -260,13 +261,13 @@ public class PozycjaRZiSFKBean {
     }
     
     public static void wyszukajprzyporzadkowaneBLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaBilansDAO pozycjaBilansDAO,  WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy, UkladBR uklad) {
-        List<Konto> lista = new ArrayList<>();
+        List<Konto> lista = Collections.synchronizedList(new ArrayList<>());
         if (wzorcowy) {
             lista = kontoDAO.findKontaPrzyporzadkowaneWzorcowy(pozycja.getPozycjaString(), "bilansowe", Integer.parseInt(uklad.getRok()), aktywa0pasywa1);
         } else {
             lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "bilansowe", wpisView, aktywa0pasywa1);
         }
-        List<Konto> kontokwotalist = new ArrayList<>();
+        List<Konto> kontokwotalist = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : lista) {
             try {
                 if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
@@ -283,7 +284,7 @@ public class PozycjaRZiSFKBean {
     }
     
     public static void wyszukajprzyporzadkowaneRLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaRZiSDAO pozycjaRZiSDAO, WpisView wpisView, boolean wzorcowy, UkladBR uklad) {
-        List<Konto> lista = new ArrayList<>();
+        List<Konto> lista = Collections.synchronizedList(new ArrayList<>());
         if (wzorcowy) {
             lista = kontoDAO.findKontaPrzyporzadkowaneWzorcowy(pozycja.getPozycjaString(), "wynikowe", Integer.parseInt(uklad.getRok()), wzorcowy);
         } else {
@@ -291,7 +292,7 @@ public class PozycjaRZiSFKBean {
         }
         if (lista.size() > 1) {
         }
-        List<Konto> kontokwotalist = new ArrayList<>();
+        List<Konto> kontokwotalist = Collections.synchronizedList(new ArrayList<>());
         if (lista != null) {
             for (Konto p : lista) {
                 if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
@@ -536,7 +537,7 @@ public class PozycjaRZiSFKBean {
         }
     }
 
-    public static void pobierzPozycje(ArrayList<PozycjaRZiSBilans> pozycje, PozycjaRZiSDAO pozycjaRZiSDAO, UkladBR ukladBR) {
+    public static void pobierzPozycje(List<PozycjaRZiSBilans> pozycje, PozycjaRZiSDAO pozycjaRZiSDAO, UkladBR ukladBR) {
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(ukladBR));
             if (pozycje.isEmpty()) {

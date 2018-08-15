@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.naming.NamingException;
 
@@ -42,7 +43,7 @@ public class ConnectionJDBC {
 		
 		//get customer data from database
             ResultSet result =  ps.executeQuery();
-            List<String> list = new ArrayList<>();
+            List<String> list = Collections.synchronizedList(new ArrayList<>());
             while(result.next()){
                 
                 list.add(result.getString("nip"));

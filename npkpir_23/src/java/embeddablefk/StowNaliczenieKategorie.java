@@ -7,6 +7,7 @@ package embeddablefk;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -21,7 +22,7 @@ public class StowNaliczenieKategorie implements Serializable {
     private List<String> lista;
 
     public StowNaliczenieKategorie() {
-        this.lista = new ArrayList<>();
+        this.lista = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct

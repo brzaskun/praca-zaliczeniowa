@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -69,14 +70,14 @@ public class DeklaracjaVatZZ implements Serializable {
     private List<DeklaracjaVatZZPowod> powody;
 
     public DeklaracjaVatZZ() {
-        this.powody = new ArrayList<>();
+        this.powody = Collections.synchronizedList(new ArrayList<>());
     }
 
     public DeklaracjaVatZZ(DeklaracjaVatZZ dk) {
         this.nazwaschemy = dk.nazwaschemy;
         this.wstep = dk.wstep;
         this.naglowek = dk.naglowek;
-        this.powody = new ArrayList<>();
+        this.powody = Collections.synchronizedList(new ArrayList<>());
     }
 
         

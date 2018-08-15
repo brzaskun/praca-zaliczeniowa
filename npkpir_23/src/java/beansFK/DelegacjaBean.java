@@ -14,6 +14,7 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import error.E;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Named;
@@ -38,7 +39,7 @@ public class DelegacjaBean {
             total += suma;
             List<DelegacjaZest> l = listasummiejsckosztow.get(p);
             if (l == null) {
-                l = new ArrayList<>();
+                l = Collections.synchronizedList(new ArrayList<>());
                 l.add(stworzmiejscekosztzest(r, suma, total, kontozapisy));
                 listasummiejsckosztow.put(p, l);
             } else {

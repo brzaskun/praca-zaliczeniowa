@@ -258,18 +258,18 @@ public class DokfkView implements Serializable {
 
     public DokfkView() {
          E.m(this);
-        this.wykazZaksiegowanychDokumentow = new ArrayList<>();
-        this.biezacetransakcje = new ArrayList<>();
-        this.transakcjejakosparowany = new ArrayList<>();
+        this.wykazZaksiegowanychDokumentow = Collections.synchronizedList(new ArrayList<>());
+        this.biezacetransakcje = Collections.synchronizedList(new ArrayList<>());
+        this.transakcjejakosparowany = Collections.synchronizedList(new ArrayList<>());
         this.zablokujprzyciskzapisz = false;
-        this.wprowadzonesymbolewalut = new ArrayList<>();
+        this.wprowadzonesymbolewalut = Collections.synchronizedList(new ArrayList<>());
         this.symbolwalutydowiersza = "";
         this.zapisz0edytuj1 = false;
-        this.listaewidencjivatRK = new ArrayList<>();
-        this.pobranecechypodatnik = new ArrayList<>();
-        this.pobranecechypodatnikzapas = new ArrayList<>();
-        this.dokumentypodatnika = new ArrayList<>();
-        this.cechydokzlisty = new ArrayList<>();
+        this.listaewidencjivatRK = Collections.synchronizedList(new ArrayList<>());
+        this.pobranecechypodatnik = Collections.synchronizedList(new ArrayList<>());
+        this.pobranecechypodatnikzapas = Collections.synchronizedList(new ArrayList<>());
+        this.dokumentypodatnika = Collections.synchronizedList(new ArrayList<>());
+        this.cechydokzlisty = Collections.synchronizedList(new ArrayList<>());
         this.kontadlaewidencji = new ConcurrentHashMap<>();
     }
 
@@ -658,7 +658,7 @@ public class DokfkView implements Serializable {
     }
     
     private List<Evewidencja> pobierzewidencje() {
-        List<Evewidencja> l = new ArrayList<>();
+        List<Evewidencja> l = Collections.synchronizedList(new ArrayList<>());
         l.addAll(listaEwidencjiVat.pobierzEvewidencje(selected.getRodzajedok().getRodzajtransakcji()));
         if (selected.getSeriadokfk().equals("UPTK")) {
             for (Iterator<Evewidencja> it = l.iterator();it.hasNext();) {
@@ -690,7 +690,7 @@ public class DokfkView implements Serializable {
     }
 
     private void stworzlisteewidencjiRK() {
-        List<String> nazwyewidencji = new ArrayList<>();
+        List<String> nazwyewidencji = Collections.synchronizedList(new ArrayList<>());
         nazwyewidencji.add("zakup");
         nazwyewidencji.add("sprzedaż 23%");
         nazwyewidencji.add("sprzedaż 8%");
@@ -1598,7 +1598,7 @@ public class DokfkView implements Serializable {
                 //selected.setwTrakcieEdycji(true);
                 //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
-                tabelenbp = new ArrayList<>();
+                tabelenbp = Collections.synchronizedList(new ArrayList<>());
                 tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
                 zapisz0edytuj1 = true;
@@ -1631,7 +1631,7 @@ public class DokfkView implements Serializable {
                 //selected.setwTrakcieEdycji(true);
                 //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
-                tabelenbp = new ArrayList<>();
+                tabelenbp = Collections.synchronizedList(new ArrayList<>());
                 tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
                 Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.toString());
@@ -1671,7 +1671,7 @@ public class DokfkView implements Serializable {
             selected = wybranyDokfk;
             selected.setwTrakcieEdycji(true);
             wybranaTabelanbp = selected.getTabelanbp();
-            tabelenbp = new ArrayList<>();
+            tabelenbp = Collections.synchronizedList(new ArrayList<>());
             tabelenbp.add(wybranaTabelanbp);
             obsluzcechydokumentu();
             RequestContext.getCurrentInstance().update(wierszedytowany);
@@ -1896,7 +1896,7 @@ public class DokfkView implements Serializable {
     }
 
     public void odswiezzaksiegowaneimport() {
-        wykazZaksiegowanychDokumentowimport = new ArrayList<>();
+        wykazZaksiegowanychDokumentowimport = Collections.synchronizedList(new ArrayList<>());
         if (wybranakategoriadokimport == null) {
             wybranakategoriadokimport = "wszystkie";
         }
@@ -1993,7 +1993,7 @@ public class DokfkView implements Serializable {
                 String wnma = wybranastronawiersza.getWnma();
                 wnmadoprzeniesienia = wybranastronawiersza.getWnma();
                 if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                    biezacetransakcje = new ArrayList<>();
+                    biezacetransakcje = Collections.synchronizedList(new ArrayList<>());
                     aktualnyWierszDlaRozrachunkow = wybranastronawiersza;
                     potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
                     rodzaj = wybranastronawiersza.getTypStronaWiersza();
@@ -2035,7 +2035,7 @@ public class DokfkView implements Serializable {
         }
         if (wybranastronawiersza.getKonto() != null && !wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
             potraktujjakoNowaTransakcje = false;
-            biezacetransakcje = new ArrayList<>();
+            biezacetransakcje = Collections.synchronizedList(new ArrayList<>());
             wybranastronawiersza.setTypStronaWiersza(0);
             wybranastronawiersza.setNowatransakcja(false);
             wybranastronawiersza.setPlatnosci(new ArrayList<>());
@@ -2154,9 +2154,9 @@ public class DokfkView implements Serializable {
 //        }
 //    }
     public List<Transakcja> tworzenieTransakcjiPlatnosc(String stronawiersza, StronaWiersza wybranastronawiersza) {
-        List<Transakcja> transakcje = new ArrayList<>();
-        List<StronaWiersza> stronyWierszazDokumentu = new ArrayList<>();
-        List<StronaWiersza> stronyWierszazBazy = new ArrayList<>();
+        List<Transakcja> transakcje = Collections.synchronizedList(new ArrayList<>());
+        List<StronaWiersza> stronyWierszazDokumentu = Collections.synchronizedList(new ArrayList<>());
+        List<StronaWiersza> stronyWierszazBazy = Collections.synchronizedList(new ArrayList<>());
         try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(wybranastronawiersza, stronawiersza)) {
                 if (wybranastronawiersza.getKwota() < 0) {
@@ -2210,7 +2210,7 @@ public class DokfkView implements Serializable {
     }
 
     public List<Transakcja> tworzenieTransakcjiRachunek(String stronawiersza, StronaWiersza wybranastronawiersza) {
-        List<Transakcja> transakcje = new ArrayList<>();
+        List<Transakcja> transakcje = Collections.synchronizedList(new ArrayList<>());
         try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(wybranastronawiersza, stronawiersza)) {
                 //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
@@ -2315,7 +2315,7 @@ public class DokfkView implements Serializable {
 //    //a to jest rodzial dotyczacy walut
 //
     public void pobierzkursNBP(ValueChangeEvent el) {
-        tabelenbp = new ArrayList<>();
+        tabelenbp = Collections.synchronizedList(new ArrayList<>());
         symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
         String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
         String staranazwa = ((Waluty) el.getOldValue()).getSymbolwaluty();
@@ -2734,7 +2734,7 @@ public class DokfkView implements Serializable {
             List<Cechazapisu> cechyuzyte = null;
             if (selected != null) {
                 if (selected.getCechadokumentuLista() == null) {
-                    cechyuzyte = new ArrayList<>();
+                    cechyuzyte = Collections.synchronizedList(new ArrayList<>());
                 } else {
                     cechyuzyte = selected.getCechadokumentuLista();
                 }
@@ -2869,10 +2869,10 @@ public class DokfkView implements Serializable {
     }
 
 //    public void resetujzaksiegowane() {
-//        wykazZaksiegowanychDokumentow = new ArrayList<>();
+//        wykazZaksiegowanychDokumentow = Collections.synchronizedList(new ArrayList<>());
 //    }
     public void resetujzaksiegowaneimport() {
-        wykazZaksiegowanychDokumentow = new ArrayList<>();
+        wykazZaksiegowanychDokumentow = Collections.synchronizedList(new ArrayList<>());
     }
 
     public void niedodawajkonta() {
@@ -2887,7 +2887,7 @@ public class DokfkView implements Serializable {
                 serie = dokDAOfk.findZnajdzSeriePodatnik(wpisView);
                 dokumenty = dokDAOfk.findDokfkPodatnikRok(wpisView);
             } else {
-                serie = new ArrayList<>();
+                serie = Collections.synchronizedList(new ArrayList<>());
                 serie.add(wybranakategoriadok);
                 dokumenty = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
             }
@@ -2901,7 +2901,7 @@ public class DokfkView implements Serializable {
     private void nadajnowenumery(List<String> serie, List<Dokfk> dokumenty) {
         List<Dokfk> nowadosortowania = null;
         for (String r : serie) {
-            nowadosortowania = new ArrayList<>();
+            nowadosortowania = Collections.synchronizedList(new ArrayList<>());
             for (Dokfk t : dokumenty) {
                 if (t.getSeriadokfk().equals(r)) {
                     nowadosortowania.add(t);
@@ -2923,7 +2923,7 @@ public class DokfkView implements Serializable {
         for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
             dokDAOfk.destroy(p);
         }
-        wykazZaksiegowanychDokumentow = new ArrayList<>();
+        wykazZaksiegowanychDokumentow = Collections.synchronizedList(new ArrayList<>());
         Msg.msg("Usunięto wszystkie zaimportowane dokumenty");
     }
 
@@ -3760,7 +3760,7 @@ public class DokfkView implements Serializable {
     }
 
     public void oznaczdokumentysrodkitrwale() {
-        List<Dokfk> oznaczone = new ArrayList<>();
+        List<Dokfk> oznaczone = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> l = dokDAOfk.findAll();
         try {
             for (Dokfk p : l) {
@@ -3783,7 +3783,7 @@ public class DokfkView implements Serializable {
     }
 
     public void oznaczdokumentyrmk() {
-        List<Dokfk> oznaczone = new ArrayList<>();
+        List<Dokfk> oznaczone = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> l = dokDAOfk.findAll();
         try {
             for (Dokfk p : l) {
@@ -3848,7 +3848,7 @@ public class DokfkView implements Serializable {
             Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             Konto przychodyfinansowe = kontoDAOfk.findKonto("756", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             Konto kosztyfinansowe = kontoDAOfk.findKonto("759", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-            List<Transakcja> pobrane = new ArrayList<>();
+            List<Transakcja> pobrane = Collections.synchronizedList(new ArrayList<>());
             for (Wiersz p : dokfk.getListawierszy()) {
                 if (p.isZawierarozkurs()) {
                     List<Transakcja> t1 = p.getStronaWn().getNowetransakcje();
@@ -4001,7 +4001,7 @@ public class DokfkView implements Serializable {
     }
 
     private void usunrozrachunki(int liczbawierszyWDokumencie) {
-        List<StronaWiersza> strony = new ArrayList<>();
+        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
         int rowid = liczbawierszyWDokumencie-1;
         Wiersz w = selected.getListawierszy().get(rowid);
         for (StronaWiersza sw : w.getStronyWiersza()) {
@@ -4034,7 +4034,7 @@ public class DokfkView implements Serializable {
     }
 
     private void usunrozrachunki(Wiersz w) {
-        List<StronaWiersza> strony = new ArrayList<>();
+        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
         for (StronaWiersza sw : w.getStronyWiersza()) {
             if (sw.getNowetransakcje()!=null) {
                 for (Transakcja t : sw.getNowetransakcje()) {

@@ -23,6 +23,7 @@ import interceptor.WydrukInterceptor;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,8 +48,8 @@ import pdf.PdfPkpir;
 @ViewScoped
 public class KsiegaView implements Serializable {
 private static final long serialVersionUID = 1L;
-    private ArrayList<DokKsiega> lista;
-    private ArrayList<DokKsiega> listaFiltered;
+    private List<DokKsiega> lista;
+    private List<DokKsiega> listaFiltered;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private DokKsiega selDokument;
@@ -67,7 +68,7 @@ private static final long serialVersionUID = 1L;
     private String wybranacechadok;
 
     public KsiegaView() {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
         ksiegimiesieczne = new ConcurrentHashMap<>();
     }
 
@@ -85,7 +86,7 @@ private static final long serialVersionUID = 1L;
         ksiegimiesieczne = new ConcurrentHashMap<>();
         int mcint = Integer.parseInt(wpisView.getMiesiacWpisu());
         for (int i = 1; i <= mcint; i++) {
-            lista = new ArrayList<>();
+            lista = Collections.synchronizedList(new ArrayList<>());
             String mc = Mce.getNumberToMiesiac().get(i);
             generujksiege(mc);
             podsumowaniepopmc();
@@ -107,7 +108,7 @@ private static final long serialVersionUID = 1L;
     }
     
     private void generujksiege(String mc) {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
         Integer rok = wpisView.getRokWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Podatnik pod = wpisView.getPodatnikObiekt();
@@ -193,7 +194,7 @@ private static final long serialVersionUID = 1L;
     }
     
      public void aktualizujGuest(String strona) throws IOException {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
         aktualizujGuest();
         aktualizuj();
         init();
@@ -228,11 +229,11 @@ private static final long serialVersionUID = 1L;
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public ArrayList<DokKsiega> getLista() {
+    public List<DokKsiega> getLista() {
         return lista;
     }
 
-    public void setLista(ArrayList<DokKsiega> lista) {
+    public void setLista(List<DokKsiega> lista) {
         this.lista = lista;
     }
 
@@ -269,11 +270,11 @@ private static final long serialVersionUID = 1L;
         this.wybranacechadok = wybranacechadok;
     }
 
-    public ArrayList<DokKsiega> getListaFiltered() {
+    public List<DokKsiega> getListaFiltered() {
         return listaFiltered;
     }
 
-    public void setListaFiltered(ArrayList<DokKsiega> listaFiltered) {
+    public void setListaFiltered(List<DokKsiega> listaFiltered) {
         this.listaFiltered = listaFiltered;
     }
 }

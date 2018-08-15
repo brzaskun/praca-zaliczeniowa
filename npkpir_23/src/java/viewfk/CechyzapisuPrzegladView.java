@@ -13,6 +13,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -48,15 +49,15 @@ public class CechyzapisuPrzegladView implements Serializable{
 
     public CechyzapisuPrzegladView() {
          E.m(this);
-        this.wykazZaksiegowanychDokumentow = new ArrayList<>();
-        this.zapisyZCecha = new ArrayList<>();
+        this.wykazZaksiegowanychDokumentow = Collections.synchronizedList(new ArrayList<>());
+        this.zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         this.wykazcech = new HashSet<>();
     }
     
     
     public void init() {
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-        zapisyZCecha = new ArrayList<>();
+        zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
         wykazcech = new HashSet<>();
         int i = 1;
@@ -75,9 +76,9 @@ public class CechyzapisuPrzegladView implements Serializable{
     }
     
     public void initCIT8() {
-        zapisyZCecha = new ArrayList<>();
+        zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         wykazcech = new HashSet<>();
-        zapisyZCecha = new ArrayList<>();
+        zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
         this.zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
         if (cit8) {

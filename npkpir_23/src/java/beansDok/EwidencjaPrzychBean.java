@@ -16,7 +16,6 @@ import error.E;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 /**
  *
  * @author Osito
@@ -104,7 +103,7 @@ public class EwidencjaPrzychBean extends KsiegaBean {
     }
     
     public static List<Dok> pobierzdokumentyR(DokDAO dokDAO, Podatnik podatnik, Integer rok, String mc, int numerkolejny) {
-        List<Dok> dokumentyZaMc = new ArrayList<>();
+        List<Dok> dokumentyZaMc = Collections.synchronizedList(new ArrayList<>());
         try {
             dokumentyZaMc = dokDAO.zwrocBiezacegoKlientaRokMcPrzychody(podatnik, rok.toString(), mc);
             Collections.sort(dokumentyZaMc, new Dokcomparator());

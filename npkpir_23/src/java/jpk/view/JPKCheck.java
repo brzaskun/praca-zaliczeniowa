@@ -15,6 +15,7 @@ import entity.Uz;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -48,9 +49,9 @@ public class JPKCheck {
             InetAddress ip = InetAddress.getLocalHost();
             if (ip.getHostAddress().equals("192.168.1.13")) {
                 List<UPO> listaupo = uPODAO.findUPOBez200();
-                List<UPO> zbledem = new ArrayList<>();
-                List<UPO> bezupo = new ArrayList<>();
-                List<UPO> brakjpk = new ArrayList<>();
+                List<UPO> zbledem = Collections.synchronizedList(new ArrayList<>());
+                List<UPO> bezupo = Collections.synchronizedList(new ArrayList<>());
+                List<UPO> brakjpk = Collections.synchronizedList(new ArrayList<>());
                 Set<Uz> wporowadzil = new HashSet<>();
                 for (UPO p : listaupo) {
                     wporowadzil.add(p.getWprowadzil());

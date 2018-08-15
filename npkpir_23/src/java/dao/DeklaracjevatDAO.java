@@ -8,6 +8,7 @@ import entity.Deklaracjevat;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -80,7 +81,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     }
     
     public List<Deklaracjevat> findDeklaracjeWyslaneMc(WpisView wpisView) {
-       List<Deklaracjevat> znalezionedeklaracje = new ArrayList<>();
+       List<Deklaracjevat> znalezionedeklaracje = Collections.synchronizedList(new ArrayList<>());
         try {
             znalezionedeklaracje = deklaracjevatFacade.findDeklaracjewyslaneMc(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         } catch (Exception e) { 
@@ -91,7 +92,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     
     
     public List<Deklaracjevat> findDeklaracjeWyslane(String pod, String rok) {
-       List<Deklaracjevat> znalezionedeklaracje = new ArrayList<>();
+       List<Deklaracjevat> znalezionedeklaracje = Collections.synchronizedList(new ArrayList<>());
        try {
             znalezionedeklaracje = deklaracjevatFacade.findDeklaracjewyslane(pod,rok);
         } catch (Exception e) { 
@@ -105,7 +106,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     }
     
     public List<Deklaracjevat> findDeklaracjeWyslane200RokMc(String rok, String mc) {
-       List<Deklaracjevat> znalezionedeklaracje = new ArrayList<>();
+       List<Deklaracjevat> znalezionedeklaracje = Collections.synchronizedList(new ArrayList<>());
        try {
             znalezionedeklaracje = deklaracjevatFacade.findDeklaracjewyslane200RokMc(rok, mc);
         } catch (Exception e) { 
@@ -115,7 +116,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     }
     
     public List<Deklaracjevat> findDeklaracjeWyslane200(String pod, String rok) {
-       List<Deklaracjevat> znalezionedeklaracje = new ArrayList<>();
+       List<Deklaracjevat> znalezionedeklaracje = Collections.synchronizedList(new ArrayList<>());
        try {
             znalezionedeklaracje = deklaracjevatFacade.findDeklaracjewyslane200(pod,rok);
         } catch (Exception e) { E.e(e); }
@@ -129,7 +130,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
 
     public List<String> findDeklaracjeDowyslania(String rok, String mc, WpisView wpisView) {
          List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
-         List<String> wynik = new ArrayList<>();
+         List<String> wynik = Collections.synchronizedList(new ArrayList<>());
          String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
          for(Deklaracjevat p :temp){
             if(p.getIdentyfikator().isEmpty() && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
@@ -146,7 +147,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     
     public List<String> findDeklaracjeBezupo(String rok, String mc, WpisView wpisView) {
          List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
-         List<String> wynik = new ArrayList<>();
+         List<String> wynik = Collections.synchronizedList(new ArrayList<>());
          String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
          for(Deklaracjevat p :temp){
             if(p.getStatus().startsWith("3") && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){

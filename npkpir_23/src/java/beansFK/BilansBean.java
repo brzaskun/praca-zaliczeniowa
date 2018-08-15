@@ -18,6 +18,7 @@ import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
 import error.E;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -39,7 +40,7 @@ public class BilansBean {
     }
     
     public static List<PozycjaRZiSBilans> pobierzPoszerzPozycje(UkladBR ukladBR, PozycjaRZiSDAO pozycjaRZiSDAO, String granica) {
-        List<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+        List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(ukladBR));
             if (pozycje.isEmpty()) {

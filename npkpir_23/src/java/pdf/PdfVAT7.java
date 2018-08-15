@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.primefaces.context.RequestContext;
 import plik.Plik;
@@ -747,7 +748,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
 
     private static void kombinuj(String kto, String zalaczniki) {
         try {
-            List<String> files = new ArrayList<>();
+            List<String> files = Collections.synchronizedList(new ArrayList<>());
             switch (zalaczniki) {
                 case "nic":
                     files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + kto + ".pdf");

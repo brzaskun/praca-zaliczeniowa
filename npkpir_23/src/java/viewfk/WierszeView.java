@@ -11,6 +11,7 @@ import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -180,8 +181,8 @@ public class WierszeView implements Serializable {
     
     public void odswiezzaksiegowaneWNT() {
         if (wpisView.getMiesiacWpisu().equals("CR")) {
-            wierszeWNT = new ArrayList<>();
-            wierszeWDT = new ArrayList<>();
+            wierszeWNT = Collections.synchronizedList(new ArrayList<>());
+            wierszeWDT = Collections.synchronizedList(new ArrayList<>());
         } else {
             wpisView.wpisAktualizuj();
             initwierszeWNT();
@@ -190,8 +191,8 @@ public class WierszeView implements Serializable {
     
      public void odswiezzaksiegowaneWDT() {
         if (wpisView.getMiesiacWpisu().equals("CR")) {
-            wierszeWNT = new ArrayList<>();
-            wierszeWDT = new ArrayList<>();
+            wierszeWNT = Collections.synchronizedList(new ArrayList<>());
+            wierszeWDT = Collections.synchronizedList(new ArrayList<>());
         } else {
             wpisView.wpisAktualizuj();
             initwierszeWDT();

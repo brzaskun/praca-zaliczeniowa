@@ -16,7 +16,7 @@ public class EVatViewPo implements Serializable{
 //    private static final long serialVersionUID = -7659459927104523420L;
 //    private static final List<String> opispol;
 //    static {
-//        opispol = new ArrayList<>();
+//        opispol = Collections.synchronizedList(new ArrayList<>());
 //        opispol.add("id");
 //        opispol.add("dataWyst");
 //        opispol.add("dataSprz");

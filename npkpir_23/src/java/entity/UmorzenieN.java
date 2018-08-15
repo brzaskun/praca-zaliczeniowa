@@ -219,7 +219,7 @@ public class UmorzenieN implements Serializable {
 //        for (SrodekTrw p : srodki) {
 //            p.setPlanumorzen(new ArrayList<UmorzenieN>());
 //            List<Umorzenie> umorzenia = p.getUmorzWyk();
-//            List<UmorzenieN> umorzenianowe = new ArrayList<>();
+//            List<UmorzenieN> umorzenianowe = Collections.synchronizedList(new ArrayList<>());
 //            if (umorzenia != null && umorzenia.size() > 0) {
 //                System.out.println(p.getNazwa());
 //                for (Umorzenie r : umorzenia) {
@@ -257,7 +257,7 @@ public class UmorzenieN implements Serializable {
 //        for (SrodekTrw p : srodki) {
 //            p.setPlanumorzen(new ArrayList<UmorzenieN>());
 //            List<Umorzenie> umorzenia = p.getUmorzWyk();
-//            List<UmorzenieN> umorzenianowe = new ArrayList<>();
+//            List<UmorzenieN> umorzenianowe = Collections.synchronizedList(new ArrayList<>());
 //            if (umorzenia != null && umorzenia.size() > 0) {
 //                System.out.println(p.getNazwa());
 //                for (Umorzenie r : umorzenia) {

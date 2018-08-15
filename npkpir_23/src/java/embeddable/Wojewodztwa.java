@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -22,7 +23,7 @@ public class Wojewodztwa implements Serializable {
     private final static List<String> wykaz;
     
     static{
-        wykaz = new ArrayList<>();
+        wykaz = Collections.synchronizedList(new ArrayList<>());
         wykaz.add("zachodniopomorskie");
         wykaz.add("dolnośląskie");
         wykaz.add("kujawsko-omorskie");

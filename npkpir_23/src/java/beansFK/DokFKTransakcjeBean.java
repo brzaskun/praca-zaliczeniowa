@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +35,7 @@ public class DokFKTransakcjeBean implements Serializable{
         
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
     public static List<StronaWiersza> pobierzStronaWierszazBazy(StronaWiersza stronaWiersza, String wnma, StronaWierszaDAO stronaWierszaDAO, TransakcjaDAO transakcjaDAO) {
-        List<StronaWiersza> listaStronaWierszazBazy = new ArrayList<>();
+        List<StronaWiersza> listaStronaWierszazBazy = Collections.synchronizedList(new ArrayList<>());
 // stare = pobiera tylko w walucie dokumentu rozliczeniowego        
 //      listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
 // nowe pobiera wszystkie waluty        
@@ -106,7 +107,7 @@ public class DokFKTransakcjeBean implements Serializable{
     }
     
     public static List<StronaWiersza> pobierzStronaWierszazDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
-        List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
+        List<StronaWiersza> listaNowychRozrachunkowDokument = Collections.synchronizedList(new ArrayList<>());
         if (wnma.equals("Wn")) {
             for (Wiersz p : wiersze) {
                 StronaWiersza r = null;
@@ -139,7 +140,7 @@ public class DokFKTransakcjeBean implements Serializable{
     }
     
 //    public static List<StronaWiersza> pobierzZapisaneWBazieStronaWierszazDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
-//        List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
+//        List<StronaWiersza> listaNowychRozrachunkowDokument = Collections.synchronizedList(new ArrayList<>());
 //        if (wnma.equals("Wn")) {
 //            for (Wiersz p : wiersze) {
 //                if (p.getIdwiersza() != null && p.getStronaMa().getKonto() != null) {
@@ -165,7 +166,7 @@ public class DokFKTransakcjeBean implements Serializable{
     
     public static List<Transakcja> stworznowetransakcjezeZapisanychStronWierszy(List<StronaWiersza> pobranezDokumentu, List<StronaWiersza> inneStronaWierszazBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
         //sprawdzam, czy transakcje z bazy nie sa d okumnecie, a poniewaz te w dokumencie sa bardziej aktualne to usuwamy duplikaty z bazy
-        List<Transakcja> transakcjeZAktualnego = new ArrayList<>();
+        List<Transakcja> transakcjeZAktualnego = Collections.synchronizedList(new ArrayList<>());
         transakcjeZAktualnego = ((aktualnywierszdorozrachunkow).getNowetransakcje());
         for (Transakcja p : transakcjeZAktualnego) {
             if (inneStronaWierszazBazy.contains(p.getNowaTransakcja())) {
@@ -182,7 +183,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 pobranezDokumentu.remove(s);
             }
         }
-        List<StronaWiersza> listaZbiorcza = new ArrayList<>();
+        List<StronaWiersza> listaZbiorcza = Collections.synchronizedList(new ArrayList<>());
         //laczymy te stare z bazy i nowe z dokumentu
         listaZbiorcza.addAll(pobranezDokumentu);
         listaZbiorcza.addAll(inneStronaWierszazBazy);
@@ -204,7 +205,7 @@ public class DokFKTransakcjeBean implements Serializable{
     
     //wykorzystywane jedynie przy nowej transakcji w celu pokazania podczapionych transakcji, nie jest modyfikowana
      public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(StronaWiersza stronawiersza, String wnma) {
-        List<Transakcja> pobrana = new ArrayList<>();
+        List<Transakcja> pobrana = Collections.synchronizedList(new ArrayList<>());
         try {
             pobrana.addAll((stronawiersza).getPlatnosci());
             return pobrana;
@@ -215,7 +216,7 @@ public class DokFKTransakcjeBean implements Serializable{
 
      //pomyslana jako funkcja 
     public static void naniesKwotyZTransakcjiwPowietrzu(StronaWiersza aktualnyWierszDlaRozrachunkow, List<Transakcja> biezacetransakcje, List<Wiersz> listawierszy, String stronawiersza) {
-        List<StronaWiersza> pobraneStronyWiersza = new ArrayList<>();
+        List<StronaWiersza> pobraneStronyWiersza = Collections.synchronizedList(new ArrayList<>());
         //pobieram wiersze z dokumentu do dalszych porownan
         if (stronawiersza.equals("Wn")) {
             for (Wiersz p : listawierszy) {
@@ -230,7 +231,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 }
             }
         }
-        List<Transakcja> transakcjeWPowietrzu = new ArrayList<>();
+        List<Transakcja> transakcjeWPowietrzu = Collections.synchronizedList(new ArrayList<>());
         for (StronaWiersza r : pobraneStronyWiersza) {
             if (r != null) {
                 for (Transakcja u : r.getNowetransakcje()) {

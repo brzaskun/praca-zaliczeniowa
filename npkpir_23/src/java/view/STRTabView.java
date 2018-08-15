@@ -116,17 +116,17 @@ public class STRTabView implements Serializable {
     }
     
     private void ustawTabele() {
-        srodkiTrwaleWyposazenie = new ArrayList<>();
-        srodkiTrwale = new ArrayList<>();
-        srodkiZakupRokBiezacy = new ArrayList<>();
-        planUmorzen = new ArrayList<>();
-        planUmorzen_100 = new ArrayList<>();
-        wyposazenie = new ArrayList<>();
-        posiadane = new ArrayList<>();
-        posiadane2 = new ArrayList<>();
-        posiadane_wnip = new ArrayList<>();
-        sprzedane = new ArrayList<>();
-        sprzedane_wnip = new ArrayList<>();
+        srodkiTrwaleWyposazenie = Collections.synchronizedList(new ArrayList<>());
+        srodkiTrwale = Collections.synchronizedList(new ArrayList<>());
+        srodkiZakupRokBiezacy = Collections.synchronizedList(new ArrayList<>());
+        planUmorzen = Collections.synchronizedList(new ArrayList<>());
+        planUmorzen_100 = Collections.synchronizedList(new ArrayList<>());
+        wyposazenie = Collections.synchronizedList(new ArrayList<>());
+        posiadane = Collections.synchronizedList(new ArrayList<>());
+        posiadane2 = Collections.synchronizedList(new ArrayList<>());
+        posiadane_wnip = Collections.synchronizedList(new ArrayList<>());
+        sprzedane = Collections.synchronizedList(new ArrayList<>());
+        sprzedane_wnip = Collections.synchronizedList(new ArrayList<>());
         
     }
 
@@ -144,7 +144,7 @@ public class STRTabView implements Serializable {
         zakupionewbiezacyrok_wnip = 0;
         try {
             if (wpisView.getPodatnikWpisu() != null) {
-                List<SrodekTrw> srodkizBazy = new ArrayList<>();
+                List<SrodekTrw> srodkizBazy = Collections.synchronizedList(new ArrayList<>());
                 try {
                     srodkizBazy = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
                 } catch (Exception e) {
@@ -932,7 +932,7 @@ public class STRTabView implements Serializable {
         //oblicza planowane umorzenia
         wybrany.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybrany));
         List<UmorzenieN> noweumorzenia = SrodkiTrwBean.generujumorzeniadlasrodka(wybrany, wpisView);
-        List<UmorzenieN> umorzeniadododania = new ArrayList<>();
+        List<UmorzenieN> umorzeniadododania = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<UmorzenieN> it = wybrany.getPlanumorzen().iterator(); it.hasNext();) {
             UmorzenieN stareumorzenie = it.next();
             boolean byljuztakiokres = false;

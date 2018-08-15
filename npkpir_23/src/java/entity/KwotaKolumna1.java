@@ -6,6 +6,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Named;
@@ -55,14 +56,14 @@ public class KwotaKolumna1 implements Serializable{
         this.netto = 0.0;
         this.nettowaluta = 0.0;
         this.nazwakolumny = "";
-        this.listaKolumna1Rozbicie = new ArrayList<>();
+        this.listaKolumna1Rozbicie = Collections.synchronizedList(new ArrayList<>());
     }
 
     public KwotaKolumna1(double kwota, String nazwakolumny) {
         this.netto = kwota;
         this.nettowaluta = 0.0;
         this.nazwakolumny = nazwakolumny;
-        this.listaKolumna1Rozbicie = new ArrayList<>();
+        this.listaKolumna1Rozbicie = Collections.synchronizedList(new ArrayList<>());
     }
 
     @Override

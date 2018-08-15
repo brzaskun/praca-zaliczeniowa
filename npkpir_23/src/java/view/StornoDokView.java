@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -71,8 +72,8 @@ public class StornoDokView implements Serializable {
 
     @Inject
     private StornoDok stornoDok;
-    private ArrayList<Dok> lista;
-    private ArrayList<Dok> pobraneDok;
+    private List<Dok> lista;
+    private List<Dok> pobraneDok;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -86,8 +87,8 @@ public class StornoDokView implements Serializable {
     
 
     public StornoDokView() {
-        lista = new ArrayList<>();
-        pobraneDok = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
+        pobraneDok = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -101,7 +102,7 @@ public class StornoDokView implements Serializable {
             lista = (ArrayList<Dok>) tmp.getDokument();
         } catch (Exception e) { E.e(e); 
         }
-        ArrayList<Dok> tmplist = new ArrayList<>();
+        List<Dok> tmplist = Collections.synchronizedList(new ArrayList<>());
         if (wpisView.getPodatnikWpisu() != null) {
             try {
                 tmplist.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikObiekt()));
@@ -158,7 +159,7 @@ public class StornoDokView implements Serializable {
                 termin = tmp.getTermin90();
             }
             if (roznicaDni(termin, stornonadzien) > 0) {
-                ArrayList<Rozrachunek1> rozrachunki = new ArrayList<>();
+                List<Rozrachunek1> rozrachunki = Collections.synchronizedList(new ArrayList<>());
                 try {
                     rozrachunki.addAll(tmp.getRozrachunki1());
                 } catch (Exception ex) {
@@ -182,7 +183,7 @@ public class StornoDokView implements Serializable {
                         }
                     }
                 }
-                ArrayList<Stornodoch> wystornowane = new ArrayList<>();
+                List<Stornodoch> wystornowane = Collections.synchronizedList(new ArrayList<>());
                 try {
                     wystornowane.addAll(tmp.getStorno());
                 } catch (Exception ex) {
@@ -190,14 +191,14 @@ public class StornoDokView implements Serializable {
                 double doplacono;
                 if (wystornowane.isEmpty()) {
                     //jezeli nie bylo storna to wyksieguj
-                    ArrayList<Stornodoch> storno = new ArrayList<>();
+                    List<Stornodoch> storno = Collections.synchronizedList(new ArrayList<>());
                     storno.add(new Stornodoch(stornonadzien, wyst, wyst, true));
                     tmp.setStorno(storno);
                     dokDAO.edit(tmp);
                     stornodokument(tmp);
                 } else {
                     if ((-wyst) < tmp.getNetto()) {
-                        ArrayList<Stornodoch> storno = tmp.getStorno();
+                        List<Stornodoch> storno = tmp.getStorno();
                         double roznica = storno.get(storno.size()-1).getDorozliczenia();
                         doplacono = roznica-wyst;
                         storno.add(new Stornodoch(stornonadzien, -doplacono, wyst, true));
@@ -250,7 +251,7 @@ public class StornoDokView implements Serializable {
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        ArrayList<Dok> listawew;
+        List<Dok> listawew;
         //pobiera nowy dokument. ewentualnie uzupelnia stary
         try {
             stornoDok = stornoDokDAO.find(rok, mc, podatnik);
@@ -259,7 +260,7 @@ public class StornoDokView implements Serializable {
             stornoDok.setRok(rok);
             stornoDok.setMc(mc);
             stornoDok.setPodatnik(wpisView.getPodatnikWpisu());
-            listawew = new ArrayList<>();
+            listawew = Collections.synchronizedList(new ArrayList<>());
         }
         listawew.add(dokument);
         stornoDok.setDokument(listawew);
@@ -280,13 +281,13 @@ public class StornoDokView implements Serializable {
             RequestContext.getCurrentInstance().update("super:super");
         } catch (Exception x){
         StornoDok stornodok = stornoDokDAO.find(rok, mc, podatnik);
-        ArrayList<Dok> dokumentystorno = (ArrayList<Dok>) stornodok.getDokument();
+        List<Dok> dokumentystorno = (ArrayList<Dok>) stornodok.getDokument();
         Iterator it;
         it = dokumentystorno.iterator();
         while(it.hasNext()){
             Dok tmp = dokDAO.znajdzDuplikat((Dok) it.next(), wpisView.getRokWpisuSt());
             if(tmp!=null){
-                ArrayList<Stornodoch> stornodoch = tmp.getStorno();
+                List<Stornodoch> stornodoch = tmp.getStorno();
                 String data = stornodoch.get(stornodoch.size()-1).getDataplatnosci();
                     String r = data.substring(0,4);
                     String m = data.substring(5, 7);
@@ -315,19 +316,19 @@ public class StornoDokView implements Serializable {
         this.stornoDok = stornoDok;
     }
 
-    public ArrayList<Dok> getLista() {
+    public List<Dok> getLista() {
         return lista;
     }
 
-    public void setLista(ArrayList<Dok> lista) {
+    public void setLista(List<Dok> lista) {
         this.lista = lista;
     }
 
-    public ArrayList<Dok> getPobraneDok() {
+    public List<Dok> getPobraneDok() {
         return pobraneDok;
     }
 
-    public void setPobraneDok(ArrayList<Dok> pobraneDok) {
+    public void setPobraneDok(List<Dok> pobraneDok) {
         this.pobraneDok = pobraneDok;
     }
 

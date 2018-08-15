@@ -22,6 +22,7 @@ import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -44,8 +45,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private TreeNode wybranynodekonta;
-    private ArrayList<PozycjaRZiSBilans> pozycje;
-    private ArrayList<PozycjaRZiSBilans> pozycje_old;
+    private List<PozycjaRZiSBilans> pozycje;
+    private List<PozycjaRZiSBilans> pozycje_old;
     private String wybranapozycja;
     
     private int level = 0;
@@ -60,7 +61,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     private PozycjaRZiS nowyelementRZiS;
     private PozycjaBilans nowyelementBilans;
     private PozycjaRZiS selected;
-    private ArrayList<TreeNodeExtended> finallNodes;
+    private List<TreeNodeExtended> finallNodes;
     private List<StronaWiersza> podpieteStronyWiersza;
     private List<Konto> sumaPodpietychKont;
     private boolean pokazaktywa;
@@ -84,7 +85,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
 
     public PozycjaBRWzorcowyView() {
          E.m(this);
-        this.wykazkont = new ArrayList<>();
+        this.wykazkont = Collections.synchronizedList(new ArrayList<>());
         this.nowyelementRZiS = new PozycjaRZiS();
         this.nowyelementBilans = new PozycjaBilans();
         this.root = new TreeNodeExtended("root", null);
@@ -94,8 +95,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
         this.rootBilansPasywa = new TreeNodeExtended("root", null);
         this.rootProjektKonta = new TreeNodeExtended("root", null);
         this.finallNodes = new ArrayList<TreeNodeExtended>();
-        pozycje = new ArrayList<>();
-        pozycje_old = new ArrayList<>();
+        pozycje = Collections.synchronizedList(new ArrayList<>());
+        pozycje_old = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -142,7 +143,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     
 // to jest uruchamiane po wyborze ukladu pierwsza funkcja
     public void pobierzuklad(String br, TreeNodeExtended root, String aktywapasywa) {
-        pozycje = new ArrayList<>();
+        pozycje = Collections.synchronizedList(new ArrayList<>());
         try {
          pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, aktywapasywa, br);
         } catch (Exception e) {  E.e(e);
@@ -158,7 +159,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     }
 
     public void pobierzukladprzegladRZiS() {
-        pozycje = new ArrayList<>();
+        pozycje = Collections.synchronizedList(new ArrayList<>());
        try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
             if (pozycje.isEmpty()) {
@@ -197,11 +198,11 @@ public class PozycjaBRWzorcowyView implements Serializable {
     
     public void pobierzukladprzegladBilans() {
         pobierzukladprzegladRZiS();
-        List<Object> listazwrotnapozycji = new ArrayList<>();
+        List<Object> listazwrotnapozycji = Collections.synchronizedList(new ArrayList<>());
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
         PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size()-1);
-        ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();
-        ArrayList<PozycjaRZiSBilans> pozycjepasywa = new ArrayList<>();
+        List<PozycjaRZiSBilans> pozycjeaktywa = Collections.synchronizedList(new ArrayList<>());
+        List<PozycjaRZiSBilans> pozycjepasywa = Collections.synchronizedList(new ArrayList<>());
        try {
                 pozycjeaktywa.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
                 pozycjepasywa.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
@@ -217,7 +218,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
         rootBilansAktywa.getChildren().clear();
         rootBilansPasywa.getChildren().clear();
-        List<StronaWiersza> zapisy = new ArrayList<>();
+        List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
         zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
         try {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
@@ -413,7 +414,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     public void zachowajInt(TreeNodeExtended root) {
         List lista = new ArrayList();
         root.getChildrenTree(new ArrayList<TreeNodeExtended>(), lista);
-        List<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+        List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         for (Object p : lista) {
             pozycje.add((PozycjaRZiSBilans) p);
         }
@@ -532,7 +533,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             for (PozycjaRZiSBilans p : pozycje) {
                 pozycjaRZiSDAO.destroy(p);
             }
-            pozycje = new ArrayList<>();
+            pozycje = Collections.synchronizedList(new ArrayList<>());
             if (pozycje.isEmpty()) {
                 pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
@@ -610,15 +611,15 @@ public class PozycjaBRWzorcowyView implements Serializable {
     
     
     public void wyluskajStronyzPozycji() {
-        sumaPodpietychKont = new ArrayList<>();
-        podpieteStronyWiersza = new ArrayList<>();
+        sumaPodpietychKont = Collections.synchronizedList(new ArrayList<>());
+        podpieteStronyWiersza = Collections.synchronizedList(new ArrayList<>());
         for (TreeNode p : selectedNodes) {
             PozycjaRZiSBilans r = (PozycjaRZiSBilans) p.getData();
             if (r.getPrzyporzadkowanestronywiersza() != null) {
                 podpieteStronyWiersza.addAll(r.getPrzyporzadkowanestronywiersza());
             }
         }
-        List<Konto> konta = new ArrayList<>();
+        List<Konto> konta = Collections.synchronizedList(new ArrayList<>());
         for (StronaWiersza p : podpieteStronyWiersza) {
             Konto k = p.getKonto();
             if (!konta.contains(k)) {
@@ -636,16 +637,16 @@ public class PozycjaBRWzorcowyView implements Serializable {
     }
     
     public void wyluskajStronyzPozycjiBilans() {
-        podpieteStronyWiersza = new ArrayList<>();
-        sumaPodpietychKont = new ArrayList<>();
-        List<Konto> podpieteKonta = new ArrayList<>();
+        podpieteStronyWiersza = Collections.synchronizedList(new ArrayList<>());
+        sumaPodpietychKont = Collections.synchronizedList(new ArrayList<>());
+        List<Konto> podpieteKonta = Collections.synchronizedList(new ArrayList<>());
         for (TreeNode p : selectedNodes) {
             PozycjaRZiSBilans r = (PozycjaRZiSBilans) p.getData();
             if (r.getPrzyporzadkowanekonta() != null) {
                 podpieteKonta.addAll(r.getPrzyporzadkowanekonta());
             }
         }
-        List<Konto> konta = new ArrayList<>();
+        List<Konto> konta = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : podpieteKonta) {
             if (!konta.contains(p)) {
                 konta.add(p);

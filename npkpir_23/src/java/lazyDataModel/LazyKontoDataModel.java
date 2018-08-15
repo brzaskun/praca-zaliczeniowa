@@ -7,6 +7,7 @@ package lazyDataModel;
 
 import entityfk.Konto;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.primefaces.model.LazyDataModel;
@@ -26,7 +27,7 @@ public class LazyKontoDataModel extends LazyDataModel<Konto>{
     
     @Override
     public List<Konto> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        List<Konto> lista = new ArrayList<>();
+        List<Konto> lista = Collections.synchronizedList(new ArrayList<>());
         if (pageSize > wykazkont.size()) {
             lista = wykazkont.subList(first, first + (wykazkont.size()-first));
         } else {

@@ -12,6 +12,7 @@ import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -41,8 +42,8 @@ public class FakturyokresoweView implements Serializable{
     private List<Dok> dokumenty;
 
     public FakturyokresoweView() {
-        faktury = new ArrayList<>();
-        dokumenty = new ArrayList<>();
+        faktury = Collections.synchronizedList(new ArrayList<>());
+        dokumenty = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct

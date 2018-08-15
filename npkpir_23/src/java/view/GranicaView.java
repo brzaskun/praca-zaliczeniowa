@@ -10,6 +10,7 @@ import entity.Granica;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,11 +42,11 @@ public class GranicaView implements Serializable {
     private Granica nowa;
 
     public GranicaView() {
-        this.granicevat = new ArrayList<>();
-        this.granicepkpir = new ArrayList<>();
-        this.graniceksiegi = new ArrayList<>();
-        this.granicekasa = new ArrayList<>();
-        this.nazwygranic = new ArrayList<>();
+        this.granicevat = Collections.synchronizedList(new ArrayList<>());
+        this.granicepkpir = Collections.synchronizedList(new ArrayList<>());
+        this.graniceksiegi = Collections.synchronizedList(new ArrayList<>());
+        this.granicekasa = Collections.synchronizedList(new ArrayList<>());
+        this.nazwygranic = Collections.synchronizedList(new ArrayList<>());
         this.granicewykaz = new ConcurrentHashMap<>();
         this.granicewykaz.put("vat", granicevat);
         this.granicewykaz.put("pkpir", granicepkpir);
@@ -128,7 +129,7 @@ public class GranicaView implements Serializable {
     
     private boolean niema(String nazwalimitu) {
         boolean zwrot= true;
-        List<Granica> l = new ArrayList<>();
+        List<Granica> l = Collections.synchronizedList(new ArrayList<>());
         switch (nazwalimitu) {
                 case "vat":
                     l = granicevat;

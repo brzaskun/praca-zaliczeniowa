@@ -72,7 +72,7 @@ public class PlanKontBOView implements Serializable {
         if (qr != null) {
             String query = null;
             List<Konto> listakontOstatniaAnalitykaklienta = null;
-            List<Konto> results = new ArrayList<>();
+            List<Konto> results = Collections.synchronizedList(new ArrayList<>());
                 String nazwa = null;
                 if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {
                     String[] pola = qr.split(" ");

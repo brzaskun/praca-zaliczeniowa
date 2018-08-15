@@ -63,7 +63,7 @@ public class BilansPodgladView  implements Serializable{
         this.root = new TreeNodeExtended("root", null);
         List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<Konto> listakontRokPop = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
-        List<KontoBO> listakontbo = new ArrayList<>();
+        List<KontoBO> listakontbo = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<Konto> it = listakont.iterator(); it.hasNext(); ) {
             Konto k = it.next();
             KontoBO kontopo = new KontoBO(k);
@@ -92,7 +92,7 @@ public class BilansPodgladView  implements Serializable{
         this.root = new TreeNodeExtended("root", null);
         List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<Konto> listakontRokPop = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
-        List<KontoBO> listakontbo = new ArrayList<>();
+        List<KontoBO> listakontbo = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<Konto> it = listakont.iterator(); it.hasNext(); ) {
             Konto k = it.next();
             KontoBO kontopo = new KontoBO(k);

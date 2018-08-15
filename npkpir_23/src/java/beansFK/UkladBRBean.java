@@ -16,6 +16,7 @@ import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
 import error.E;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import msg.Msg;
@@ -42,8 +43,8 @@ public class UkladBRBean {
         return zwrot;
     }
 
-    public static ArrayList<PozycjaRZiSBilans> pobierzpozycje(PozycjaRZiSDAO pozycjaRZiSDAO, PozycjaBilansDAO pozycjaBilansDAO, UkladBR uklad, String aktywapasywa, String br) {
-        ArrayList pozycje = new ArrayList<>();
+    public static List<PozycjaRZiSBilans> pobierzpozycje(PozycjaRZiSDAO pozycjaRZiSDAO, PozycjaBilansDAO pozycjaBilansDAO, UkladBR uklad, String aktywapasywa, String br) {
+        List pozycje = Collections.synchronizedList(new ArrayList<>());
         if (br.equals("r")) {
                 pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
                 if (pozycje.isEmpty()) {
@@ -64,7 +65,7 @@ public class UkladBRBean {
         return pozycje;
     }
     
-    public static void czyscPozycje(ArrayList<PozycjaRZiSBilans> pozycje) {
+    public static void czyscPozycje(List<PozycjaRZiSBilans> pozycje) {
         try {
            for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
                 PozycjaRZiS p = (PozycjaRZiS) it.next();

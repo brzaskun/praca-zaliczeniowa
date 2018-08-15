@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Embeddable;
 
@@ -28,7 +29,7 @@ public class Straty1 implements Serializable{
     
 
     public Straty1() {
-        wykorzystanieBiezace = new ArrayList<>();
+        wykorzystanieBiezace = Collections.synchronizedList(new ArrayList<>());
     }
 
     public Straty1(String rok, String kwota, String polowakwoty, String wykorzystano, String zostalo) {
@@ -37,7 +38,7 @@ public class Straty1 implements Serializable{
         this.polowakwoty = polowakwoty;
         this.wykorzystano = wykorzystano;
         this.zostalo = zostalo;
-        this.wykorzystanieBiezace = new ArrayList<>();
+        this.wykorzystanieBiezace = Collections.synchronizedList(new ArrayList<>());
     }
 
         

@@ -9,6 +9,7 @@ import deklaracje.vatzd.WniosekVATZDSuper;
 import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -66,7 +67,7 @@ public class WniosekVATZDEntity implements Serializable {
     private List<Deklaracjevat> deklaracjevat;
 
     public WniosekVATZDEntity() {
-        this.deklaracjevat = new ArrayList<>();
+        this.deklaracjevat = Collections.synchronizedList(new ArrayList<>());
     }
 
     public Integer getId() {

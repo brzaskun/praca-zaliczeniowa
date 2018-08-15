@@ -64,9 +64,9 @@ public class RozrachunkiPrzegladView implements Serializable{
 
     public RozrachunkiPrzegladView() {
          E.m(this);
-        wykazkont = new ArrayList<>();
-        //listaRozrachunkow = new ArrayList<>();
-        stronyWiersza = new ArrayList<>();
+        wykazkont = Collections.synchronizedList(new ArrayList<>());
+        //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
+        stronyWiersza = Collections.synchronizedList(new ArrayList<>());
         wybranaWalutaDlaKont = "wszystkie";
         coWyswietlacRozrachunkiPrzeglad = "nowe";
         wybranyRodzajTransakcji = "transakcje";
@@ -74,9 +74,9 @@ public class RozrachunkiPrzegladView implements Serializable{
     
     
     public void init() {
-        wykazkont = new ArrayList<>();
-        //listaRozrachunkow = new ArrayList<>();
-        stronyWiersza = new ArrayList<>();
+        wykazkont = Collections.synchronizedList(new ArrayList<>());
+        //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
+        stronyWiersza = Collections.synchronizedList(new ArrayList<>());
         wybranaWalutaDlaKont = "wszystkie";
         coWyswietlacRozrachunkiPrzeglad = "nowe";
         wybranyRodzajTransakcji = "transakcje";
@@ -120,7 +120,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
-        stronyWiersza = new ArrayList<>();
+        stronyWiersza = Collections.synchronizedList(new ArrayList<>());
         wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
         if (wybranyRodzajTransakcji.equals("wszystkie")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
@@ -299,7 +299,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
 
     private List<Transakcja> pobierztransakcje(StronaWiersza w, boolean trans0rozlicz1) {
-        List<Transakcja> p = new ArrayList<>();
+        List<Transakcja> p = Collections.synchronizedList(new ArrayList<>());
         if (trans0rozlicz1) {
             p = transakcjaDAO.findByRozliczajacy(w);
         } else {
@@ -346,7 +346,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     
     
     public List<Konto> complete(String query) {  
-         List<Konto> results = new ArrayList<>();
+         List<Konto> results = Collections.synchronizedList(new ArrayList<>());
          try{
              String q = query.substring(0,1);
              int i = Integer.parseInt(q);

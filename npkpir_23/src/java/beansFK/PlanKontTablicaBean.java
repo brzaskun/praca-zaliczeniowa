@@ -7,6 +7,7 @@ package beansFK;
 
 import entityfk.Konto;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import view.WpisView;
@@ -19,7 +20,7 @@ import view.WpisView;
 public class PlanKontTablicaBean {
 
     public static List<Konto> generujTablicePlanKont(Map<Integer, List<Konto>> leveleKonta, WpisView wpisView) {
-        List<Konto> plankont = new ArrayList<>();
+        List<Konto> plankont = Collections.synchronizedList(new ArrayList<>());
         int maxlevel = leveleKonta.size();
         for (int i = 0 ; i <= maxlevel ; i++) {
             List<Konto> level = leveleKonta.get(i);

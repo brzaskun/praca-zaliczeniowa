@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -135,7 +136,7 @@ public class PdfZestRok{
         table.setHeaderRows(5);
         table.setFooterRows(1);
         
-        List<List <Double>> wykaz = new ArrayList<>();
+        List<List <Double>> wykaz = Collections.synchronizedList(new ArrayList<>());
         wykaz.add(zestawienieView.getStyczen());
         wykaz.add(zestawienieView.getLuty());
         wykaz.add(zestawienieView.getMarzec());

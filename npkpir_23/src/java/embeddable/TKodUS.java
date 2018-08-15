@@ -10,6 +10,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -20,7 +21,7 @@ import javax.persistence.Embeddable;
 public class TKodUS implements Serializable {
 
     private static HashMap<String,String> mapaUrzadKod;
-    private static ArrayList<String> nazwyurzedow;
+    private static List<String> nazwyurzedow;
 
     static {
         mapaUrzadKod = new HashMap<>();
@@ -426,7 +427,7 @@ public class TKodUS implements Serializable {
         mapaUrzadKod.put("URZĄD SKARBOWY W WAŁCZU","3220");
         mapaUrzadKod.put("ZACHODNIOPOMORSKI URZĄD SKARBOWY W SZCZECINIE","3271");
         
-        nazwyurzedow = new ArrayList<>();
+        nazwyurzedow = Collections.synchronizedList(new ArrayList<>());
         nazwyurzedow.addAll(mapaUrzadKod.keySet());
     }
 
@@ -438,17 +439,17 @@ public class TKodUS implements Serializable {
         this.mapaUrzadKod = mapaUrzadKod;
     }
 
-    public ArrayList<String> getNazwyurzedow() {
+    public List<String> getNazwyurzedow() {
         return nazwyurzedow;
     }
 
     
-    public void setNazwyurzedow(ArrayList<String> nazwyurzedow) {
+    public void setNazwyurzedow(List<String> nazwyurzedow) {
         this.nazwyurzedow = nazwyurzedow;
     }
     
     public List<String> complete(String query){  
-        List<String> results = new ArrayList<>();
+        List<String> results = Collections.synchronizedList(new ArrayList<>());
         for(String p : nazwyurzedow) {  
             if(p.contains(query.toUpperCase())) {
                 results.add(p);

@@ -14,9 +14,9 @@ import entityfk.CharakterCechy;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -39,7 +39,7 @@ public class CechazapisuView implements Serializable {
 
     public CechazapisuView() {
         E.m(this);
-        this.pobranecechy = new ArrayList<>();
+        this.pobranecechy = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct

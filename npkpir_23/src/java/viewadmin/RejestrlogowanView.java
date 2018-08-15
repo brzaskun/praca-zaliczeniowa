@@ -11,6 +11,7 @@ import dao.RejestrlogowanDAO;
 import entity.Rejestrlogowan;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -31,7 +32,7 @@ public class RejestrlogowanView implements Serializable{
     private RejestrlogowanDAO rejestrlogowanDAO;
 
     public RejestrlogowanView() {
-        rejestrlogowan = new ArrayList<>();
+        rejestrlogowan = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct

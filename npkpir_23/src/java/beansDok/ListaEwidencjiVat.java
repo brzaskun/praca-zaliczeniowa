@@ -49,18 +49,18 @@ public class ListaEwidencjiVat implements Serializable{
 
     public ListaEwidencjiVat() {
         //kategorie do generowania
-        zakupVList = new ArrayList<>();
-        srodkitrwaleVList = new ArrayList<>();
-        sprzedazVList = new ArrayList<>();
-        wdtVList = new ArrayList<>();
-        wntVList = new ArrayList<>();
-        rvcVList = new ArrayList<>();
-        rvcVListS = new ArrayList<>();
-        importuslugList = new ArrayList<>();
-        uslugiPTK = new ArrayList<>();
-        eksporttowarow = new ArrayList<>();
+        zakupVList = Collections.synchronizedList(new ArrayList<>());
+        srodkitrwaleVList = Collections.synchronizedList(new ArrayList<>());
+        sprzedazVList = Collections.synchronizedList(new ArrayList<>());
+        wdtVList = Collections.synchronizedList(new ArrayList<>());
+        wntVList = Collections.synchronizedList(new ArrayList<>());
+        rvcVList = Collections.synchronizedList(new ArrayList<>());
+        rvcVListS = Collections.synchronizedList(new ArrayList<>());
+        importuslugList = Collections.synchronizedList(new ArrayList<>());
+        uslugiPTK = Collections.synchronizedList(new ArrayList<>());
+        eksporttowarow = Collections.synchronizedList(new ArrayList<>());
         //pojemnik na wszytskie ewidencje z EVDAO
-        listadostepnychewidencji = new ArrayList<>();
+        listadostepnychewidencji = Collections.synchronizedList(new ArrayList<>());
     }
     
     

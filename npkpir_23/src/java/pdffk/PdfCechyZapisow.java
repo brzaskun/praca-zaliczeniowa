@@ -17,6 +17,7 @@ import entityfk.Cechazapisu;
 import java.io.File;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -81,7 +82,7 @@ public class PdfCechyZapisow {
     }
 
     private static List<CechaStronaWiersza> wierszeseparacja(List<CechaStronaWiersza> wiersze, boolean b) {
-        List<CechyzapisuPrzegladView.CechaStronaWiersza> zwrot = new ArrayList<>();
+        List<CechyzapisuPrzegladView.CechaStronaWiersza> zwrot = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<CechyzapisuPrzegladView.CechaStronaWiersza> it = wiersze.iterator(); it.hasNext();){
             CechyzapisuPrzegladView.CechaStronaWiersza cecha = it.next();
             if (b == true) {
@@ -134,7 +135,7 @@ public class PdfCechyZapisow {
             otwarcieDokumentu(document, nazwa);
             dodajLinieOpisu(document, "Zestawienie przychodów i kosztów wg cech "+wpisView.getPrintNazwa()+" za okres "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
             for (Cechazapisu cz : wiersze) {
-                List<Cechazapisu> nowa = new ArrayList<>();
+                List<Cechazapisu> nowa = Collections.synchronizedList(new ArrayList<>());
                 nowa.add(cz);
                 dodajTabele(document, testobjects.testobjects.getTabelaCechyZapisowZest(nowa),100,1);
                 dodajLinieOpisu(document, "");

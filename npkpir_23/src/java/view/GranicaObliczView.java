@@ -15,6 +15,7 @@ import entity.Ryczpoz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -70,7 +71,7 @@ public class GranicaObliczView  implements Serializable {
         }
         double mcedoproporcji = Data.mcedoproporcji(wpisView.getPodatnikObiekt().getDatarozpoczecia(), wpisView);
         obrot = 0.0;
-        List<Ryczpoz> ryczaltpitlist = new ArrayList<>();
+        List<Ryczpoz> ryczaltpitlist = Collections.synchronizedList(new ArrayList<>());
         if (wpisView.isKsiegaryczalt()) {
             List<Pitpoz> pitlList = pitDAO.findList(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu());
             if (pitlList != null && pitlList.size() == 1) {

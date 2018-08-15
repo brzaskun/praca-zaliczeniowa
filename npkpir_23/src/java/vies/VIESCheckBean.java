@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +39,7 @@ public class VIESCheckBean {
     
     public static void sprawdz(List klienciWDTWNT, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil)  {
          if (klienciWDTWNT != null) {
-            List<Vies> viesy = new ArrayList<>();
+            List<Vies> viesy = Collections.synchronizedList(new ArrayList<>());
              for (Iterator it = klienciWDTWNT.iterator(); it.hasNext();) {
                  VatUe p = (VatUe) it.next();
                  if (p.getKontrahent() != null && p.getVies() == null) {

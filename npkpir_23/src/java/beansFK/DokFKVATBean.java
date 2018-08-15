@@ -16,6 +16,7 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Named;
@@ -595,7 +596,7 @@ public class DokFKVATBean {
     }
     
     public static List<Wiersz> rozliczVatKosztRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView, int wierszRKindex, KontoDAOfk kontoDAOfk,Map<String, Konto> kontadlaewidencji) {
-        List<Wiersz> nowewiersze = new ArrayList<>();
+        List<Wiersz> nowewiersze = Collections.synchronizedList(new ArrayList<>());
         double nettoEwidVat = ewidencjaVatRK.getNetto();
         double vatEwidVat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();
@@ -699,7 +700,7 @@ public class DokFKVATBean {
     }
     
      public static List<Wiersz> rozliczEdytujVatKosztRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, int wierszRKindex, Map<String, Konto> kontadlaewidencji) {
-        List<Wiersz> nowewiersze = new ArrayList<>();
+        List<Wiersz> nowewiersze = Collections.synchronizedList(new ArrayList<>());
         double nettoEwidVat = ewidencjaVatRK.getNetto();
         double vatEwidVat = ewidencjaVatRK.getVat();
         String wierszpierwszyopis = ewidencjaVatRK.getNumerwlasnydokfk()+", "+ewidencjaVatRK.getOpisvat()+", ";
@@ -770,7 +771,7 @@ public class DokFKVATBean {
     
     
     public static List<Wiersz> rozliczVatPrzychodEdycja(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView) {
-        List<Wiersz> nowewiersze = new ArrayList<>();
+        List<Wiersz> nowewiersze = Collections.synchronizedList(new ArrayList<>());
         if (wartosciVAT[0] != 0 || wartosciVAT[2] != 0) {
             String wierszpierwszyopis = ewidencjaVatRK.getNumerwlasnydokfk()+", "+ewidencjaVatRK.getOpisvat()+", ";
             String kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona();
@@ -840,7 +841,7 @@ public class DokFKVATBean {
     }
     
     public static List<Wiersz> rozliczVatPrzychodRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView, int wierszRKindex, KontoDAOfk kontoDAOfk, Map<String, Konto> kontadlaewidencji){
-        List<Wiersz> nowewiersze = new ArrayList<>();
+        List<Wiersz> nowewiersze = Collections.synchronizedList(new ArrayList<>());
         double nettovat = ewidencjaVatRK.getNetto();
         double kwotavat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();
@@ -902,7 +903,7 @@ public class DokFKVATBean {
     }
     
     public static List<Wiersz> rozliczEdytujVatPrzychodRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, int wierszRKindex){
-        List<Wiersz> nowewiersze = new ArrayList<>();
+        List<Wiersz> nowewiersze = Collections.synchronizedList(new ArrayList<>());
         double nettovat = ewidencjaVatRK.getNetto();
         double kwotavat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();

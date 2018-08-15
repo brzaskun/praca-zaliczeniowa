@@ -16,6 +16,7 @@ import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -68,8 +69,8 @@ public class PlanKontUzupelnijView implements Serializable {
         } else {
             List<Konto> kontazrodlowe = kontoDAOfk.findWszystkieKontaPodatnika(podatnikzrodlowy, rokzrodlowy);
             List<Konto> kontadocelowe = kontoDAOfk.findWszystkieKontaPodatnika(podatnikdocelowy, rokdocelowy);
-            List<Konto> brakujacelevel0 = new ArrayList<>();
-            List<Konto> brakujacelevelinne = new ArrayList<>();
+            List<Konto> brakujacelevel0 = Collections.synchronizedList(new ArrayList<>());
+            List<Konto> brakujacelevelinne = Collections.synchronizedList(new ArrayList<>());
             for (Konto p : kontazrodlowe) {
                 if (!kontadocelowe.contains(p)) {
                     if (p.isSlownikowe() == false) {
@@ -87,14 +88,14 @@ public class PlanKontUzupelnijView implements Serializable {
             skopiujlevel0(wpisView.getPodatnikObiekt(), brakujacelevel0, rokdocelowy);
             kontadocelowe = kontoDAOfk.findWszystkieKontaPodatnika(podatnikdocelowy, rokdocelowy);
             skopiujlevel(wpisView.getPodatnikObiekt(), brakujacelevelinne, kontadocelowe, rokdocelowy);
-            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = new ArrayList<>();
-            List<Konto> brakujacekonta = new ArrayList<>();
+            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = Collections.synchronizedList(new ArrayList<>());
+            List<Konto> brakujacekonta = Collections.synchronizedList(new ArrayList<>());
             brakujacekonta.addAll(brakujacelevel0);
             brakujacekonta.addAll(brakujacelevelinne);
             for (Konto p : brakujacekonta) {
                 zapisanePOzycjezUkladuWzorcowego.addAll(kontopozycjaZapisDAO.findByKontoOnly(p));
             }
-            List<KontopozycjaZapis> nowekontopozycjazapis = new ArrayList<>();
+            List<KontopozycjaZapis> nowekontopozycjazapis = Collections.synchronizedList(new ArrayList<>());
             for (KontopozycjaZapis r : zapisanePOzycjezUkladuWzorcowego) {
                 UkladBR uklad = odnajdzuklad(ukladBRDAO, r.getUkladBR(), wpisView.getRokWpisuSt());
                 if (uklad.getUklad() == null) {
@@ -127,7 +128,7 @@ public class PlanKontUzupelnijView implements Serializable {
    
 
     private List<Konto> skopiujlevel0(Podatnik podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {
-        List<Konto> macierzyste = new ArrayList<>();
+        List<Konto> macierzyste = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : wykazkont) {
             if (p.getLevel() == 0) {
                 Konto r = serialclone.SerialClone.clone(p);
@@ -142,7 +143,7 @@ public class PlanKontUzupelnijView implements Serializable {
     }
 
     private List<Konto> skopiujlevel(Podatnik podatnikDocelowy, List<Konto> brakujacelevelinne, List<Konto> kontadocelowe, String rokdocelowy) {
-        List<Konto> nowekontalevel1 = new ArrayList<>();
+        List<Konto> nowekontalevel1 = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : brakujacelevelinne) {
             try {
                 nowekontalevel1.add(kopiujKonto(p, kontadocelowe, podatnikDocelowy, p.isSlownikowe()));

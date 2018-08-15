@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -93,8 +94,8 @@ public class ImportCSVView  implements Serializable {
     
     public void importujsprzedaz(FileUploadEvent event) {
         try {
-            dokumenty = new ArrayList<>();
-            klienci = new ArrayList<>();
+            dokumenty = Collections.synchronizedList(new ArrayList<>());
+            klienci = Collections.synchronizedList(new ArrayList<>());
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
             List<AmazonCSV> amazonCSV = pobierzJPK(uploadedFile);
@@ -108,7 +109,7 @@ public class ImportCSVView  implements Serializable {
     }
     
     private List<AmazonCSV> pobierzJPK(UploadedFile uploadedFile) {
-        List<AmazonCSV> zwrot = new ArrayList<>();
+        List<AmazonCSV> zwrot = Collections.synchronizedList(new ArrayList<>());
         AmazonCSV tmpzwrot = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -139,7 +140,7 @@ public class ImportCSVView  implements Serializable {
     }
     
     private List<Dok> stworzdokumenty(List<AmazonCSV> lista) {
-        List<Dok> dokumenty = new ArrayList<>();
+        List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
         if (lista != null) {
             lista.forEach((p) -> {
                 if (p.getOrderID() != null) {
@@ -177,7 +178,7 @@ public class ImportCSVView  implements Serializable {
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(wiersz.getShipmentID());
             selDokument.setOpis("przychód ze sprzedaży");
-            List<KwotaKolumna1> listaX = new ArrayList<>();
+            List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
             tmpX.setNetto(wiersz.getNetto());
             tmpX.setVat(wiersz.getVat());
@@ -195,7 +196,7 @@ public class ImportCSVView  implements Serializable {
             selDokument.setNetto(tmpX.getNetto());
             selDokument.setBrutto(tmpX.getBrutto());
             selDokument.setRozliczony(true);
-            List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
+            List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), wiersz.getNetto(), wiersz.getVat(), "sprz.op", miesiac, rok);
             eVatwpis1.setDok(selDokument);
             ewidencjaTransformowana.add(eVatwpis1);
@@ -262,7 +263,7 @@ public class ImportCSVView  implements Serializable {
                 } catch(Exception e){
                 }
             }
-            klienci = new ArrayList<>();
+            klienci = Collections.synchronizedList(new ArrayList<>());
             Msg.msg("Dodano nowych klientw z importowanych dokumentów");
         }
         if (dokumenty!=null && dokumenty.size()>0) {
@@ -274,7 +275,7 @@ public class ImportCSVView  implements Serializable {
                 } catch(Exception e){
                 }
             }
-            dokumenty = new ArrayList<>();
+            dokumenty = Collections.synchronizedList(new ArrayList<>());
             Msg.msg("Zaksiowano zaimportowane dokumenty");
         }
     }

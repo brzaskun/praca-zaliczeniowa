@@ -165,9 +165,9 @@ public class SrodekTrw implements Serializable {
         this.umorzeniepoczatkowe = 0.0;
         this.netto = 0.0;
         this.vat = 0.0;
-        this.umorzWyk = new ArrayList<>();
-        this.umorzPlan = new ArrayList<>();
-        this.planumorzen = new ArrayList<>();
+        this.umorzWyk = Collections.synchronizedList(new ArrayList<>());
+        this.umorzPlan = Collections.synchronizedList(new ArrayList<>());
+        this.planumorzen = Collections.synchronizedList(new ArrayList<>());
     }
 
     public SrodekTrw(Integer id) {

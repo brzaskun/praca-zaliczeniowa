@@ -18,6 +18,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -72,9 +73,9 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 
     public ZapisyKontaPodatnikFKView() {
          E.m(this);
-        kontozapisy = new ArrayList<>();
-        wybranekontadosumowania = new ArrayList<>();
-        grupykont = new ArrayList<>();
+        kontozapisy = Collections.synchronizedList(new ArrayList<>());
+        wybranekontadosumowania = Collections.synchronizedList(new ArrayList<>());
+        grupykont = Collections.synchronizedList(new ArrayList<>());
         grupykont.add("0");
         grupykont.add("1");
         grupykont.add("2");
@@ -86,7 +87,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
         grupykont.add("8");
         grupakont = "wszystkie";
         wybranaWalutaDlaKont = "wszystkie";
-        listasum = new ArrayList<>();
+        listasum = Collections.synchronizedList(new ArrayList<>());
         ListaSum l = new ListaSum();
         listasum.add(l);
     }
@@ -95,7 +96,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     private void init(){
         List<Konto> wykazkont = kontoDAOfk.findKontaOstAlityka(wpisView);
         wybranaWalutaDlaKont = "wszystkie";
-        kontozapisy = new ArrayList<>();
+        kontozapisy = Collections.synchronizedList(new ArrayList<>());
         pobierzZapisyNaKoncieNode(wykazkont);
         usunzerowe();
     }
@@ -144,10 +145,10 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //    
 //    public void pobierzZapisyZmianaWaluty() {
 //        Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
-//        kontozapisy = new ArrayList<>();
-//            List<Konto> kontapotomne = new ArrayList<>();
+//        kontozapisy = Collections.synchronizedList(new ArrayList<>());
+//            List<Konto> kontapotomne = Collections.synchronizedList(new ArrayList<>());
 //            if (wybraneKontoNode.isMapotomkow() == true) {
-//                List<Konto> kontamacierzyste = new ArrayList<>();
+//                List<Konto> kontamacierzyste = Collections.synchronizedList(new ArrayList<>());
 //                kontamacierzyste.addAll(pobierzpotomkow(wybraneKontoNode));
 //                //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
 //                while (kontamacierzyste.size() > 0) {
@@ -206,10 +207,10 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //    
 //    public void pobierzZapisyNaKoncie() {
 //        if (wybranekonto instanceof Konto) {
-//            kontozapisy = new ArrayList<>();
-//            List<Konto> kontapotomne = new ArrayList<>();
+//            kontozapisy = Collections.synchronizedList(new ArrayList<>());
+//            List<Konto> kontapotomne = Collections.synchronizedList(new ArrayList<>());
 //            if (wybranekonto.isMapotomkow() == true) {
-//                List<Konto> kontamacierzyste = new ArrayList<>();
+//                List<Konto> kontamacierzyste = Collections.synchronizedList(new ArrayList<>());
 //                kontamacierzyste.addAll(pobierzpotomkow(wybranekonto));
 //                //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
 //                while (kontamacierzyste.size() > 0) {
@@ -268,7 +269,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //      }
 //      
 //      private void znajdzkontazpotomkami(List<Konto> kontapotomne, List<Konto> kontamacierzyste) {
-//          List<Konto> listakontposrednia = new ArrayList<>();
+//          List<Konto> listakontposrednia = Collections.synchronizedList(new ArrayList<>());
 //          Iterator it = kontamacierzyste.iterator();
 //          while(it.hasNext()) {
 //              Konto p = (Konto) it.next();
@@ -353,7 +354,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //            StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
 //            List<Transakcja> listytransakcjiNT = transakcjaDAO.findByNowaTransakcja(wybranyrozrachunek);
 //            List<Transakcja> listytransakcjiR = transakcjaDAO.findByRozliczajacy(wybranyrozrachunek);
-//            zapisydopodswietlenia = new ArrayList<>();
+//            zapisydopodswietlenia = Collections.synchronizedList(new ArrayList<>());
 //            if (!listytransakcjiNT.isEmpty()) {
 //                for (Transakcja p :listytransakcjiNT) {
 //                    zapisydopodswietlenia.add(p.getRozliczajacy().getId());
@@ -476,13 +477,13 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //        wierszIDrozrachunku.setWierszStronafkPK(wierszIDrozrachunkuPK);
 //        //mamy juz skonstruowany wiersz, teraz z bazy pobierzemy wszytskie rozrachunki i bedziemy sobie szukac
 //        List<Zestawienielisttransakcji> zestawienietransakcji = zestawienielisttransakcjiDAO.findAll();
-//        List<Transakcja> listytransakcji = new ArrayList<>();
+//        List<Transakcja> listytransakcji = Collections.synchronizedList(new ArrayList<>());
 //        for (Zestawienielisttransakcji p : zestawienietransakcji) {
 //            for (Transakcja r: p.getListatransakcji()) {
 //                listytransakcji.add(r);
 //            }
 //        }
-//        List<WierszStronafkPK> znalezionenumery = new ArrayList<>();
+//        List<WierszStronafkPK> znalezionenumery = Collections.synchronizedList(new ArrayList<>());
 //        //poszukam innych numerow wierszy
 //        for (Transakcja p : listytransakcji) {
 //            if (p.idSparowany().equals(wierszIDrozrachunkuPK)) {
@@ -492,7 +493,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //                znalezionenumery.add(p.idSparowany());
 //            }
 //        }
-//        zapisydopodswietlenia = new ArrayList<>();
+//        zapisydopodswietlenia = Collections.synchronizedList(new ArrayList<>());
 //        //wyszukujemy numery Kontozapisy dla javascriptu
 //        for (Kontozapisy r : kontozapisy) {
 //            boolean zgodneWierszStronaPK = false;

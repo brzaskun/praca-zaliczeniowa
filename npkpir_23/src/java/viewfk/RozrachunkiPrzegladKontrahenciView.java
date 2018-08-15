@@ -15,6 +15,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -56,9 +57,9 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
 
     public RozrachunkiPrzegladKontrahenciView() {
          E.m(this);
-        listaKontRozrachunkowych = new ArrayList<>();
-        //listaRozrachunkow = new ArrayList<>();
-        stronyWiersza = new ArrayList<>();
+        listaKontRozrachunkowych = Collections.synchronizedList(new ArrayList<>());
+        //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
+        stronyWiersza = Collections.synchronizedList(new ArrayList<>());
         wybranaWalutaDlaKont = "wszystkie";
     }
     
@@ -116,7 +117,7 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
-        stronyWiersza = new ArrayList<>();
+        stronyWiersza = Collections.synchronizedList(new ArrayList<>());
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
         wybranekonto = (Konto) node.getData();
         if (wybranaWalutaDlaKont.equals("wszystkie")) {
@@ -174,7 +175,7 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     }
     
     public List<Konto> complete(String query) {  
-         List<Konto> results = new ArrayList<>();
+         List<Konto> results = Collections.synchronizedList(new ArrayList<>());
          try{
              String q = query.substring(0,1);
              int i = Integer.parseInt(q);

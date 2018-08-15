@@ -21,6 +21,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -126,7 +127,7 @@ public class MiejsceKosztowView  implements Serializable{
         try {
             //idslownika 2
             List<Konto> wszystkieslonikowe = kontoDAOfk.findWszystkieKontaPodatnikaTylkoSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            List<Konto> dosprawdzenia = new ArrayList<>();
+            List<Konto> dosprawdzenia = Collections.synchronizedList(new ArrayList<>());
             for (Konto p : wszystkieslonikowe) {
                 if (p.getNrkonta().equals(miejsceKosztow.getNrkonta()) && p.getKontomacierzyste().getIdslownika()==2) {
                     dosprawdzenia.add(p);
@@ -291,7 +292,7 @@ public class MiejsceKosztowView  implements Serializable{
         private List<MiejsceZest> miejsceKosztowZest;
         
         public TabelaMiejsceKosztow() {
-            this.miejsceKosztowZest = new ArrayList<>();
+            this.miejsceKosztowZest = Collections.synchronizedList(new ArrayList<>());
         }
 
         public TabelaMiejsceKosztow(int id, MiejsceKosztow miejsceKosztow, List<MiejsceZest> miejsceKosztowZest) {

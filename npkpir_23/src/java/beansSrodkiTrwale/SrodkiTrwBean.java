@@ -150,7 +150,7 @@ public class SrodkiTrwBean implements Serializable {
     }
 
     public static List<UmorzenieN> generujumorzeniadlasrodka(SrodekTrw srodek, WpisView wpisView) {
-        List<UmorzenieN> umorzenia = new ArrayList<>();
+        List<UmorzenieN> umorzenia = Collections.synchronizedList(new ArrayList<>());
         if (srodek.getZlikwidowany() == 0) {
             String rok = Data.getRok(srodek.getDataprzek());
             String miesiac = Data.getMc(srodek.getDataprzek());
@@ -206,7 +206,7 @@ public class SrodkiTrwBean implements Serializable {
     }
     
     public static List<UmorzenieN> generujumorzeniadlasrodkaAmo(SrodekTrw srodek, WpisView wpisView) {
-        List<UmorzenieN> umorzenia = new ArrayList<>();
+        List<UmorzenieN> umorzenia = Collections.synchronizedList(new ArrayList<>());
         if (srodek.getZlikwidowany() == 0) {
             String rok = Data.getRok(srodek.getDataprzek());
             String miesiac = Data.getMc(srodek.getDataprzek());
@@ -267,7 +267,7 @@ public class SrodkiTrwBean implements Serializable {
         Integer badanymiesiac = mcrok[0];
         Integer badanyrok = mcrok[1];
         Podatnik pod = wpisView.getPodatnikObiekt();
-        List<Parametr> listaparametrow = new ArrayList<>();
+        List<Parametr> listaparametrow = Collections.synchronizedList(new ArrayList<>());
         if (pod.getZawieszeniedzialalnosci() != null) {
             listaparametrow.addAll(pod.getZawieszeniedzialalnosci());
             Iterator it = listaparametrow.iterator();
@@ -278,7 +278,7 @@ public class SrodkiTrwBean implements Serializable {
                 }
             }
             if (listaparametrow.size() > 0) {
-                List<String> miesiacezawieszeniawroku = new ArrayList<>();
+                List<String> miesiacezawieszeniawroku = Collections.synchronizedList(new ArrayList<>());
                 for (Parametr s : listaparametrow) {
                     try {
                         miesiacezawieszeniawroku.addAll(Mce.zakresmiesiecy(s.getMcOd(), s.getMcDo()));

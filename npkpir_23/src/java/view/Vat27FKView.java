@@ -64,14 +64,14 @@ public class Vat27FKView implements Serializable {
 
 
     public Vat27FKView() {
-        klienciWDTWNT = new ArrayList<>();
-        listaDokfk = new ArrayList<>();
+        klienciWDTWNT = Collections.synchronizedList(new ArrayList<>());
+        listaDokfk = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
     public void init() {
-        List<Dokfk> listadokumentow = new ArrayList<>();
-        //List<Dokfk> dokvatmc = new ArrayList<>();
+        List<Dokfk> listadokumentow = Collections.synchronizedList(new ArrayList<>());
+        //List<Dokfk> dokvatmc = Collections.synchronizedList(new ArrayList<>());
         Integer rok = wpisView.getRokWpisu();
         String  mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
@@ -157,7 +157,7 @@ public class Vat27FKView implements Serializable {
     public void pobierzdeklaracje27()  {
        deklaracjevat27 = deklaracjavat27DAO.findbyPodatnikRok(wpisView);
        if (deklaracjevat27 == null) {
-           deklaracjevat27 = new ArrayList<>();
+           deklaracjevat27 = Collections.synchronizedList(new ArrayList<>());
        }
     }
        

@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -99,7 +100,7 @@ public class WalutyNBP implements Serializable {
     }
 
     public List<Tabelanbp> pobierzpliknbp(String data, int numerTabeliNBP, String waluta) throws MalformedURLException, IOException, ParserConfigurationException, SAXException, ParseException {
-        List<Tabelanbp> wynik = new ArrayList<>();
+        List<Tabelanbp> wynik = Collections.synchronizedList(new ArrayList<>());
         while (czydataPrzedDniemDzisiejszym(data)) {
             numerTabeliNBP = skorygujNumerTabeliZmianaRoku(data, numerTabeliNBP);
             InputStream inputStream = null;
@@ -138,7 +139,7 @@ public class WalutyNBP implements Serializable {
 //    public static void main(String[] args) throws MalformedURLException, IOException, ParserConfigurationException, SAXException {
 //        Integer numer = 1;
 //        String data = "2015-01-02";
-//        List<Tabelanbp> wynik = new ArrayList<>();
+//        List<Tabelanbp> wynik = Collections.synchronizedList(new ArrayList<>());
 //        while (czydataPrzedDniemDzisiejszym(data)) {
 //            InputStream inputStream = null;
 //            while (inputStream == null && czydataPrzedDniemDzisiejszym(data)) {

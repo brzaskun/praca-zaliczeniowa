@@ -7,6 +7,7 @@ package entity;
 import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,8 +35,8 @@ public class Vat27 extends VatSuper implements Serializable{
     
 
     public Vat27() {
-        this.zawiera = new ArrayList<>();
-        this.zawierafk = new ArrayList<>();
+        this.zawiera = Collections.synchronizedList(new ArrayList<>());
+        this.zawierafk = Collections.synchronizedList(new ArrayList<>());
     }
 
 
@@ -45,7 +46,7 @@ public class Vat27 extends VatSuper implements Serializable{
         this.netto = netto;
         this.liczbadok = liczbadok;
         this.zawiera = zawiera;
-        this.zawierafk = new ArrayList<>();
+        this.zawierafk = Collections.synchronizedList(new ArrayList<>());
     }
     
     public Vat27(String transakcja, Klienci kontrahent, double netto, double nettowal) {
@@ -53,8 +54,8 @@ public class Vat27 extends VatSuper implements Serializable{
         this.kontrahent = kontrahent;
         this.netto = netto;
         this.nettowaluta = nettowal;
-        this.zawiera = new ArrayList<>();
-        this.zawierafk = new ArrayList<>();
+        this.zawiera = Collections.synchronizedList(new ArrayList<>());
+        this.zawierafk = Collections.synchronizedList(new ArrayList<>());
     }
     
     public Vat27(String transakcja, Klienci kontrahent, Double netto, int liczbadok) {
@@ -62,8 +63,8 @@ public class Vat27 extends VatSuper implements Serializable{
         this.kontrahent = kontrahent;
         this.netto = netto;
         this.liczbadok = liczbadok;
-        this.zawiera = new ArrayList<>();
-        this.zawierafk = new ArrayList<>();
+        this.zawiera = Collections.synchronizedList(new ArrayList<>());
+        this.zawierafk = Collections.synchronizedList(new ArrayList<>());
     }
 
 

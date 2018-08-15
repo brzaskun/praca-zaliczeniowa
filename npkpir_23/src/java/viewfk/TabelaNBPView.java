@@ -10,6 +10,7 @@ import entityfk.Tabelanbp;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -28,7 +29,7 @@ public class TabelaNBPView implements Serializable {
 
     public TabelaNBPView() {
          E.m(this);
-        listanpb = new ArrayList<>();
+        listanpb = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct

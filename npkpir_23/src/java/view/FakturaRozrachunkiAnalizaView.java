@@ -82,11 +82,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     @PostConstruct
     public void init() {
-        klienci = new ArrayList<>();
-        klienciaktywowanie = new ArrayList<>();
-        nowepozycje = new ArrayList<>();
-        archiwum = new ArrayList<>();
-        saldanierozliczone = new ArrayList<>();
+        klienci = Collections.synchronizedList(new ArrayList<>());
+        klienciaktywowanie = Collections.synchronizedList(new ArrayList<>());
+        nowepozycje = Collections.synchronizedList(new ArrayList<>());
+        archiwum = Collections.synchronizedList(new ArrayList<>());
+        saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
         klienci.addAll(pobierzkontrahentow());
         Collections.sort(klienci, new Kliencicomparator());
         klienciaktywowanie.addAll(pobierzkontrahentowaktywowanie());
@@ -150,7 +150,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public List<Klienci> completeKL(String query) {
-        List<Klienci> results = new ArrayList<>();
+        List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
         if (query.length() > 1) {
             Pattern pattern = Pattern.compile("[A-Z]{2}\\d+");
             Matcher m = pattern.matcher(query.toUpperCase());
@@ -241,7 +241,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     private List<FakturaPodatnikRozliczenie> stworztabele(List<FakturaRozrachunki> platnosci, List<Faktura> faktury, boolean nowe0archiwum1) {
-        List<FakturaPodatnikRozliczenie> l = new ArrayList<>();
+        List<FakturaPodatnikRozliczenie> l = Collections.synchronizedList(new ArrayList<>());
         FakturaPodatnikRozliczenie ostatniaplatnosc = null;
         if (platnosci != null) {
             for (FakturaRozrachunki p : platnosci) {
@@ -270,7 +270,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void zestawieniezbiorcze() {
-        saldanierozliczone = new ArrayList<>();
+        saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
         int i = 1;
         sumasaldnierozliczonych = 0.0;
         for (Iterator<Klienci> it =  klienci.iterator(); it.hasNext();) {

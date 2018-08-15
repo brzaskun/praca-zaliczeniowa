@@ -551,7 +551,7 @@ public class PdfKontaPorownanie {
     }
 
     private static List<StronaWiersza> wyluskajzapisymc(List<StronaWiersza> zapisy, String mc) {
-       List<StronaWiersza> zmodyfikowana = new ArrayList<>();
+       List<StronaWiersza> zmodyfikowana = Collections.synchronizedList(new ArrayList<>());
        for (StronaWiersza p : zapisy) {
            if (p.getDokfk().getMiesiac().equals(mc)) {
                zmodyfikowana.add(p);

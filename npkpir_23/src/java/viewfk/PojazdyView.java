@@ -21,6 +21,7 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -242,7 +243,7 @@ public class PojazdyView  implements Serializable{
         private List<PojazdyZest> pojazdyZest;
         
         public TabelaPojazdy() {
-            this.pojazdyZest = new ArrayList<>();
+            this.pojazdyZest = Collections.synchronizedList(new ArrayList<>());
         }
 
         public TabelaPojazdy(int id, Pojazdy pojazd, List<PojazdyZest> pojazdyZest) {

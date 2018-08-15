@@ -7,6 +7,7 @@ package lazyDataModel;
 
 import entityfk.Wiersz;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.primefaces.model.LazyDataModel;
@@ -26,7 +27,7 @@ public class LazyWierszDataModel extends LazyDataModel<Wiersz>{
     
     @Override
     public List<Wiersz> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        List<Wiersz> lista = new ArrayList<>();
+        List<Wiersz> lista = Collections.synchronizedList(new ArrayList<>());
         if (pageSize > listawierszy.size()) {
             lista = listawierszy.subList(first, first + (listawierszy.size()-first));
         } else {

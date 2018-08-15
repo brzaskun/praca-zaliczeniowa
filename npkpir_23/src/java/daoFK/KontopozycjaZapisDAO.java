@@ -11,6 +11,7 @@ import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -73,7 +74,7 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
     }
 
     public List<KontopozycjaZapis> findByKontoOnly(Konto konto) {
-        List<KontopozycjaZapis> kontopozycjaZapis = new ArrayList<>();
+        List<KontopozycjaZapis> kontopozycjaZapis = Collections.synchronizedList(new ArrayList<>());
         try {
             kontopozycjaZapis = sessionFacade.findByKontoOnly(konto);
         } catch (Exception e) {

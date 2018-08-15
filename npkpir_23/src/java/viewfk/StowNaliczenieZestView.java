@@ -14,6 +14,7 @@ import entityfk.MiejsceSuper;
 import entityfk.StowNaliczenie;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -41,11 +42,11 @@ public class StowNaliczenieZestView implements Serializable {
     private String wybranakategoria;
     
     public StowNaliczenieZestView() {
-        this.lista = new ArrayList<>();
+        this.lista = Collections.synchronizedList(new ArrayList<>());
     }
 
     public void pobierz() {
-        this.lista = new ArrayList<>();
+        this.lista = Collections.synchronizedList(new ArrayList<>());
         if (!wybranakategoria.equals("wybierz")  && !wpisView.getMiesiacWpisu().equals("CR")) {
             List<String> mce = Mce.getMceListS();
             List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());

@@ -10,6 +10,7 @@ import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -67,7 +68,7 @@ public class PlanKontInterView implements Serializable {
     }
      
      public void implementuj() {
-         List<String> numery = new ArrayList<>();
+         List<String> numery = Collections.synchronizedList(new ArrayList<>());
          numery.add("201");
          numery.add("202");
          numery.add("203");

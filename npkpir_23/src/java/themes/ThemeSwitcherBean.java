@@ -2,6 +2,7 @@ package themes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -47,7 +48,7 @@ public class ThemeSwitcherBean implements Serializable {
     public void init() {
         theme = gp.getTheme();
         
-        advancedThemes = new ArrayList<>();
+        advancedThemes = Collections.synchronizedList(new ArrayList<>());
         advancedThemes.add(new Theme("glass-x", "aristo.png"));
         advancedThemes.add(new Theme("cupertino", "cupertino.png"));
         advancedThemes.add(new Theme("trontastic", "trontastic.png"));

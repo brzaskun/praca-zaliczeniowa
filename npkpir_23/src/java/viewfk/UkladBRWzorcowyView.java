@@ -65,7 +65,7 @@ public class UkladBRWzorcowyView implements Serializable{
 
     public UkladBRWzorcowyView() {
          E.m(this);
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct
@@ -197,7 +197,7 @@ public class UkladBRWzorcowyView implements Serializable{
     }
      
       private List<PozycjaRZiS> skopiujlevel0RZiS(List<PozycjaRZiS> pozycje, UkladBR ukladdocelowy) {
-        List<PozycjaRZiS> macierzyste = new ArrayList<>();
+        List<PozycjaRZiS> macierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel()==0) {
                 PozycjaRZiS r = serialclone.SerialClone.clone(p);
@@ -218,7 +218,7 @@ public class UkladBRWzorcowyView implements Serializable{
     }
       
       private List<PozycjaBilans> skopiujlevel0Bilans(List<PozycjaBilans> pozycje, UkladBR ukladdocelowy) {
-        List<PozycjaBilans> macierzyste = new ArrayList<>();
+        List<PozycjaBilans> macierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel()==0) {
                 PozycjaBilans r = serialclone.SerialClone.clone(p);
@@ -239,7 +239,7 @@ public class UkladBRWzorcowyView implements Serializable{
     }
 
     private List<PozycjaRZiS> skopiujlevelRZiS(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i, UkladBR ukladdocelowy) {
-         List<PozycjaRZiS> nowemacierzyste = new ArrayList<>();
+         List<PozycjaRZiS> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel()==i) {
                 try {
@@ -262,7 +262,7 @@ public class UkladBRWzorcowyView implements Serializable{
     }
     
     private List<PozycjaBilans> skopiujlevelBilans(List<PozycjaBilans> pozycje, List<PozycjaBilans> macierzystelista, int i, UkladBR ukladdocelowy) {
-         List<PozycjaBilans> nowemacierzyste = new ArrayList<>();
+         List<PozycjaBilans> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel()==i) {
                 try {
@@ -422,7 +422,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //</editor-fold>
 
 //    private List<PozycjaRZiS> skopiujlevel0(List<PozycjaRZiS> pozycje) {
-//        List<PozycjaRZiS> macierzyste = new ArrayList<>();
+//        List<PozycjaRZiS> macierzyste = Collections.synchronizedList(new ArrayList<>());
 //        for (PozycjaRZiS p : pozycje) {
 //            if (p.getLevel()==0) {
 //                PozycjaRZiS r = serialclone.SerialClone.clone(p);
@@ -440,7 +440,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //    }
 //
 //    private List<PozycjaRZiS> skopiujlevel(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i) {
-//         List<PozycjaRZiS> nowemacierzyste = new ArrayList<>();
+//         List<PozycjaRZiS> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
 //        for (PozycjaRZiS p : pozycje) {
 //            if (p.getLevel()==i) {
 //                try {
@@ -471,7 +471,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //    }
 //   
 //    private List<PozycjaBilans> skopiujlevel0B(List<PozycjaBilans> pozycje) {
-//        List<PozycjaBilans> macierzyste = new ArrayList<>();
+//        List<PozycjaBilans> macierzyste = Collections.synchronizedList(new ArrayList<>());
 //        for (PozycjaBilans p : pozycje) {
 //            if (p.getLevel()==0) {
 //                PozycjaBilans r = serialclone.SerialClone.clone(p);
@@ -489,7 +489,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //    }
 //
 //    private List<PozycjaBilans> skopiujlevelB(List<PozycjaBilans> pozycje, List<PozycjaBilans> macierzystelista, int i) {
-//         List<PozycjaBilans> nowemacierzyste = new ArrayList<>();
+//         List<PozycjaBilans> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
 //        for (PozycjaBilans p : pozycje) {
 //            if (p.getLevel()==i) {
 //                try {

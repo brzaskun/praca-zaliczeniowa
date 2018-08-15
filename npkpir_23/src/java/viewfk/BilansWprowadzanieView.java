@@ -148,16 +148,16 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void init() {
         this.miesiacWpisu = wpisView.getMiesiacWpisu();
-        this.lista0 = new ArrayList<>();
-        this.lista1 = new ArrayList<>();
-        this.lista2 = new ArrayList<>();
-        this.lista3 = new ArrayList<>();
-        this.lista4 = new ArrayList<>();
-        this.lista6 = new ArrayList<>();
-        this.lista7 = new ArrayList<>();
-        this.lista8 = new ArrayList<>();
+        this.lista0 = Collections.synchronizedList(new ArrayList<>());
+        this.lista1 = Collections.synchronizedList(new ArrayList<>());
+        this.lista2 = Collections.synchronizedList(new ArrayList<>());
+        this.lista3 = Collections.synchronizedList(new ArrayList<>());
+        this.lista4 = Collections.synchronizedList(new ArrayList<>());
+        this.lista6 = Collections.synchronizedList(new ArrayList<>());
+        this.lista7 = Collections.synchronizedList(new ArrayList<>());
+        this.lista8 = Collections.synchronizedList(new ArrayList<>());
         this.listaGrupa = new ConcurrentHashMap<>();
-        this.listaWKonsolidacja = new ArrayList<>();
+        this.listaWKonsolidacja = Collections.synchronizedList(new ArrayList<>());
         this.listaSumList = new ConcurrentHashMap<>();
         listaSumList.put(0, new ArrayList());
         listaSumList.put(1, new ArrayList());
@@ -173,7 +173,7 @@ public class BilansWprowadzanieView implements Serializable {
         String r = wpisView.getRokWpisuSt();
         String mc = wpisView.getMiesiacWpisu();
         walutadomyslna = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-        this.listaW = new ArrayList<>();
+        this.listaW = Collections.synchronizedList(new ArrayList<>());
         if (wpisView.getPodatnikObiekt().getDataotwarcialikwidacji()!=null && !wpisView.getPodatnikObiekt().getDataotwarcialikwidacji().equals("")) {
             String mcl = Data.getMc(wpisView.getPodatnikObiekt().getDataotwarcialikwidacji());
             wpisView.setMiesiacWpisu(mcl);
@@ -263,7 +263,7 @@ public class BilansWprowadzanieView implements Serializable {
         } else {
             isteniejeDokBO = false;
         }
-        wierszedousuniecia = new ArrayList<>();
+        wierszedousuniecia = Collections.synchronizedList(new ArrayList<>());
     }
     
     public void init2() {
@@ -297,7 +297,7 @@ public class BilansWprowadzanieView implements Serializable {
     public void pobierzlistaS() {
         pokazstarekonta = true;
         listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1280px; padding: 10px; margin-top: 5px;");
-        List<WierszBO> listawstepna = new ArrayList<>();
+        List<WierszBO> listawstepna = Collections.synchronizedList(new ArrayList<>());
         for (List<WierszBO> l : listazbiorcza.values()) {
             listawstepna.addAll(l);
         }
@@ -331,7 +331,7 @@ public class BilansWprowadzanieView implements Serializable {
                 }
             }
         }
-        listaBO = new ArrayList<>();
+        listaBO = Collections.synchronizedList(new ArrayList<>());
         listaBO.addAll(wierszemac);
         Collections.sort(listaBO, new WierszBOcomparator());
         podsumujWnMa(listaBO, listaBOsumy);
@@ -487,7 +487,7 @@ public class BilansWprowadzanieView implements Serializable {
 
     
     public List<WierszBO> zapiszBilansBOdoBazy() {
-        List<WierszBO> zachowaneWiersze = new ArrayList<>();
+        List<WierszBO> zachowaneWiersze = Collections.synchronizedList(new ArrayList<>());
         Set<Integer> numerylist = listazbiorcza.keySet();
         for (Integer r : numerylist) {
             List<WierszBO> biezacalista = listazbiorcza.get(r);
@@ -531,7 +531,7 @@ public class BilansWprowadzanieView implements Serializable {
     
     public void zapiszWierszeBOnaKonta() {
         try {
-            List<WierszBO> zachowaneWiersze = new ArrayList<>();
+            List<WierszBO> zachowaneWiersze = Collections.synchronizedList(new ArrayList<>());
             Set<Integer> numerylist = listazbiorcza.keySet();
             for (Integer r : numerylist) {
                 zachowaneWiersze.addAll(listazbiorcza.get(r));
@@ -597,7 +597,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     private void aktualizujListaW() {
-        listaW = new ArrayList<>();
+        listaW = Collections.synchronizedList(new ArrayList<>());
         Set<Integer> numerylist = listazbiorcza.keySet();
         for (Integer r : numerylist) {
             for (WierszBO p : listazbiorcza.get(r)) {
@@ -778,7 +778,7 @@ public class BilansWprowadzanieView implements Serializable {
             wierszBODAO.editList(zachowaneWiersze);
             isteniejeDokBO = true;
             dokumentBO = dok;
-            wierszedousuniecia = new ArrayList<>();
+            wierszedousuniecia = Collections.synchronizedList(new ArrayList<>());
             Msg.msg("Zaksięgowano dokument BO");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu BO");
@@ -805,7 +805,7 @@ public class BilansWprowadzanieView implements Serializable {
             }
             wierszBODAO.editList(zachowaneWiersze);
             dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
-            wierszedousuniecia = new ArrayList<>();
+            wierszedousuniecia = Collections.synchronizedList(new ArrayList<>());
             init();
             Msg.msg("Naniesiono zmiany w dokumencie BO");
         } catch (Exception e) {
@@ -1151,7 +1151,7 @@ public class BilansWprowadzanieView implements Serializable {
         double stronaMa = 0.0;
         double stronaWnpln = 0.0;
         double stronaMapln = 0.0;
-        List<WierszBO> l = new ArrayList<>();
+        List<WierszBO> l = Collections.synchronizedList(new ArrayList<>());
         if (listas != null && !listas.isEmpty()) {
                 l = listas;
         } else if (listaBOFiltered != null && !listaBOFiltered.isEmpty()) {
@@ -1508,7 +1508,7 @@ public class BilansWprowadzanieView implements Serializable {
                 dodajwierszBO(w, p);
             }
         }
-        listaWKonsolidacja = new ArrayList<>();
+        listaWKonsolidacja = Collections.synchronizedList(new ArrayList<>());
         listaWKonsolidacja.addAll(nowewiersze.values());
         Collections.sort(listaWKonsolidacja, new WierszBOcomparator());
     }
@@ -1528,7 +1528,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     public void drukujBO() {
-        List<WierszBO> w = new ArrayList<>();
+        List<WierszBO> w = Collections.synchronizedList(new ArrayList<>());
         if (listaBOselected != null && listaBOselected.size() > 0) {
             w = listaBOselected;
         } else if (listaBOs1 != null && listaBOs1.size() > 0) {
@@ -1546,7 +1546,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
      public void drukujdrukujObrotyWszystkieBO() {
-        List<WierszBO> w = new ArrayList<>();
+        List<WierszBO> w = Collections.synchronizedList(new ArrayList<>());
         for (List<WierszBO> l : listaGrupa.values()) {
             if (l.size() > 0 && l.get(0) != null && l.get(0).getKonto() != null) {
                 w.addAll(l);
@@ -1560,7 +1560,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public void drukujObroty() {
-        List<WierszBO> w = new ArrayList<>();
+        List<WierszBO> w = Collections.synchronizedList(new ArrayList<>());
         if (listaBOselected != null && listaBOselected.size() > 0) {
             w = listaBOselected;
         } else if (listaBOs1 != null && listaBOs1.size() > 0) {
@@ -1578,7 +1578,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public void drukujObrotyWszystkie() {
-        List<WierszBO> w = new ArrayList<>();
+        List<WierszBO> w = Collections.synchronizedList(new ArrayList<>());
         for (List<WierszBO> l : listaGrupa.values()) {
             if (l.get(0) != null && l.get(0).getKonto() != null) {
                 w.addAll(l);

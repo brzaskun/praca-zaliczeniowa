@@ -67,11 +67,11 @@ public class WalutyViewFK implements Serializable {
 
     public WalutyViewFK() {
          E.m(this);
-        pobraneRodzajeWalut = new ArrayList<>();
-        walutywuzyciu = new ArrayList<>();
-        symboleWalut = new ArrayList<>();
-        wprowadzonekursyRok = new ArrayList<>();
-        symboleTabelRecznie = new ArrayList<>();
+        pobraneRodzajeWalut = Collections.synchronizedList(new ArrayList<>());
+        walutywuzyciu = Collections.synchronizedList(new ArrayList<>());
+        symboleWalut = Collections.synchronizedList(new ArrayList<>());
+        wprowadzonekursyRok = Collections.synchronizedList(new ArrayList<>());
+        symboleTabelRecznie = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -107,7 +107,7 @@ public class WalutyViewFK implements Serializable {
     }
     
     private String generujNumerTabeli(String symbolRecznie, List<Tabelanbp> wprowadzonekursyRok) {
-        List<Tabelanbp> odnalezioneTabele = new ArrayList<>();
+        List<Tabelanbp> odnalezioneTabele = Collections.synchronizedList(new ArrayList<>());
         if (wprowadzonekursyRok.size() > 0) {
             for (Tabelanbp p : wprowadzonekursyRok) {
                 if (p.getNrtabeli().contains(symbolRecznie)) {
@@ -163,7 +163,7 @@ public class WalutyViewFK implements Serializable {
     }
     
     public void pobierzkursy() throws ParseException {
-        List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
+        List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
         wierszepobranezNBP.addAll(walutyFKBean.pobierzkursy(tabelanbpDAO, walutyDAOfk));
         for (Tabelanbp p : wierszepobranezNBP) {
             pobranekursyRok.add(p);
@@ -195,7 +195,7 @@ public class WalutyViewFK implements Serializable {
             RequestContext.getCurrentInstance().execute("powrotpozmianietabeli()");
         } catch (Exception e) {  
             E.e(e);
-            List<Tabelanbp> kursypokrewne = new ArrayList<>();
+            List<Tabelanbp> kursypokrewne = Collections.synchronizedList(new ArrayList<>());
             for (Tabelanbp p : wprowadzonekursyRok) {
                 if (p.getNrtabeli().contains(tabelanbp.getNrtabeli().substring(3))) {
                     kursypokrewne.add(p);

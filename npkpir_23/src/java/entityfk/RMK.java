@@ -8,6 +8,7 @@ package entityfk;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -82,8 +83,8 @@ public class RMK  implements Serializable{
     private double procentkosztpodatkowy;
 
     public RMK() {
-        this.planowane = new ArrayList<>();
-        this.ujetewksiegach = new ArrayList<>();
+        this.planowane = Collections.synchronizedList(new ArrayList<>());
+        this.ujetewksiegach = Collections.synchronizedList(new ArrayList<>());
         this.procentkosztpodatkowy = 100.0;
     }
     

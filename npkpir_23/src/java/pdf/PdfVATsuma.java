@@ -26,6 +26,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -91,8 +92,8 @@ public class PdfVATsuma {
                 formatter.setMaximumFractionDigits(2);
                 formatter.setMinimumFractionDigits(2);
                 formatter.setGroupingUsed(true);
-            List<EVatwpisSuma> sumaVatSprzedaz = new ArrayList<>();
-            List<EVatwpisSuma> sumaVatZakup = new ArrayList<>();
+            List<EVatwpisSuma> sumaVatSprzedaz = Collections.synchronizedList(new ArrayList<>());
+            List<EVatwpisSuma> sumaVatZakup = Collections.synchronizedList(new ArrayList<>());
             for (EVatwpisSuma ew : sumaewidencji.values()) {
                 String typeewidencji = ew.getEwidencja().getTypewidencji();
                 switch (typeewidencji) {

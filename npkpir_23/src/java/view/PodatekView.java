@@ -18,10 +18,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -85,7 +85,7 @@ public class PodatekView implements Serializable{
   
     public void sprawozdaniePodatkowe(){
         Iterator it;
-        List<Dok> lista = new ArrayList<>();
+        List<Dok> lista = Collections.synchronizedList(new ArrayList<>());
         lista.addAll(getoDOK());
         it = lista.iterator();
         while(it.hasNext()){

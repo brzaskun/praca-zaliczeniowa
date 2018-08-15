@@ -71,12 +71,12 @@ public class DeklaracjevatView implements Serializable {
     private boolean pokazprzyciskpodpis;
 
     public DeklaracjevatView() {
-        wyslane = new ArrayList<>();
-        oczekujace = new ArrayList<>();
-        wyslanenormalne = new ArrayList<>();
-        wyslanetestowe = new ArrayList<>();
-        wyslanezbledem = new ArrayList<>();
-        wyslaneniepotwierdzone = new ArrayList<>();
+        wyslane = Collections.synchronizedList(new ArrayList<>());
+        oczekujace = Collections.synchronizedList(new ArrayList<>());
+        wyslanenormalne = Collections.synchronizedList(new ArrayList<>());
+        wyslanetestowe = Collections.synchronizedList(new ArrayList<>());
+        wyslanezbledem = Collections.synchronizedList(new ArrayList<>());
+        wyslaneniepotwierdzone = Collections.synchronizedList(new ArrayList<>());
     }
     
     
@@ -84,12 +84,12 @@ public class DeklaracjevatView implements Serializable {
     public void init() {
         pokazZT = false;
         pokazZZ = false;
-        wyslane = new ArrayList<>();
-        oczekujace = new ArrayList<>();
-        wyslanenormalne = new ArrayList<>();
-        wyslanetestowe = new ArrayList<>();
-        wyslanezbledem = new ArrayList<>();
-        wyslaneniepotwierdzone = new ArrayList<>();
+        wyslane = Collections.synchronizedList(new ArrayList<>());
+        oczekujace = Collections.synchronizedList(new ArrayList<>());
+        wyslanenormalne = Collections.synchronizedList(new ArrayList<>());
+        wyslanetestowe = Collections.synchronizedList(new ArrayList<>());
+        wyslanezbledem = Collections.synchronizedList(new ArrayList<>());
+        wyslaneniepotwierdzone = Collections.synchronizedList(new ArrayList<>());
         try {
             oczekujace = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
             if (oczekujace != null && oczekujace.size() == 1) {

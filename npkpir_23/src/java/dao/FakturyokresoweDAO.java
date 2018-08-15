@@ -8,6 +8,7 @@ import entity.Fakturyokresowe;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,7 +37,7 @@ public class FakturyokresoweDAO  extends DAO implements Serializable {
    }
     
     public List<Fakturyokresowe> findPodatnik(String podatnik){
-        List<Fakturyokresowe> zwrot = new ArrayList<>();
+        List<Fakturyokresowe> zwrot = Collections.synchronizedList(new ArrayList<>());
         try {
             zwrot = fakturyokresoweFacade.findPodatnik(podatnik);
         } catch (Exception e) { E.e(e); }

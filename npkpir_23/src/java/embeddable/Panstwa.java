@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -22,7 +23,7 @@ public class Panstwa implements Serializable {
     private final static List<String> wykazPanstw;
     
 static{
-    wykazPanstw = new ArrayList<>();
+    wykazPanstw = Collections.synchronizedList(new ArrayList<>());
 wykazPanstw.add("Afghanistan");
 wykazPanstw.add("Albania");
 wykazPanstw.add("Algieria");

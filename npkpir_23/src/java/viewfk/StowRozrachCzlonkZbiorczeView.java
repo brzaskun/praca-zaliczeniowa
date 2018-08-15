@@ -50,7 +50,7 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
     private WpisView wpisView;
 
     public StowRozrachCzlonkZbiorczeView() {
-        this.listazapisow = new ArrayList<>();
+        this.listazapisow = Collections.synchronizedList(new ArrayList<>());
     }
     
     //nie ruszac bo nie dziala u geusta
@@ -63,7 +63,7 @@ public class StowRozrachCzlonkZbiorczeView implements Serializable {
    
     public void pobierz() {
         if (wybranekonto != null) {
-            listazapisow = new ArrayList<>();
+            listazapisow = Collections.synchronizedList(new ArrayList<>());
             List<StronaWiersza> pobierzzapisynapotomkach = stronaWierszaDAO.findStronaByPodatnikKontoMacierzysteRok(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
             for (StronaWiersza p : pobierzzapisynapotomkach) {
                 MiejscePrzychodow mp = pobierzmiejsceprzychodow(p.getKonto());

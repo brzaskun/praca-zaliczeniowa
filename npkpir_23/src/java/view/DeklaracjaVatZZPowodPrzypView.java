@@ -12,6 +12,7 @@ import entity.DeklaracjaVatZZPowod;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -47,7 +48,7 @@ public class DeklaracjaVatZZPowodPrzypView  implements Serializable {
         deklracjaVatZZpowody = deklaracjaVatZZPowodDAO.findAll();
         zalaczniki = deklaracjaVatZZDAO.findAll();
         powodysource = deklaracjaVatZZPowodDAO.findAll();
-        powodytarget = new ArrayList<>();
+        powodytarget = Collections.synchronizedList(new ArrayList<>());
         picklista = new DualListModel<>(powodysource, powodytarget);
     }
     

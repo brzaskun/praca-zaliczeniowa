@@ -71,11 +71,11 @@ public class DokTabGuestView implements Serializable {
 
     @PostConstruct
     public void init() {
-        selected = new ArrayList<>();
-        pobranedokumenty = new ArrayList<>();
-        dokumentypodatnika = new ArrayList<>();
+        selected = Collections.synchronizedList(new ArrayList<>());
+        pobranedokumenty = Collections.synchronizedList(new ArrayList<>());
+        dokumentypodatnika = Collections.synchronizedList(new ArrayList<>());
         pobranedokumentyFiltered = null;
-        List<Dok> dokumentypobrane = new ArrayList<>();
+        List<Dok> dokumentypobrane = Collections.synchronizedList(new ArrayList<>());
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         Podatnik podatnik = wpisView.getPodatnikObiekt();

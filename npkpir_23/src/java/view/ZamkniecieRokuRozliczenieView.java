@@ -12,6 +12,7 @@ import entity.ZamkniecieRokuRozliczenie;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -45,7 +46,7 @@ public class ZamkniecieRokuRozliczenieView  implements Serializable {
     
     private void utworzliste(List<ZamkniecieRokuEtap> elementywszyscy) {
         if (lista == null) {
-            lista = new ArrayList<>();
+            lista = Collections.synchronizedList(new ArrayList<>());
         }
         for (ZamkniecieRokuEtap p : elementywszyscy) {
             boolean brak = true;

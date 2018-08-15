@@ -47,7 +47,7 @@ public class KsiegaBean {
 
     public static List<Dok> pobierzdokumenty(DokDAO dokDAO, Podatnik podatnik, Integer rok, String mc, int numerkolejny) {
         List<Dok> dokumentyZaRok = null;
-        List<Dok> dokumentyZaMc = new ArrayList<>();
+        List<Dok> dokumentyZaMc = Collections.synchronizedList(new ArrayList<>());
         try {
             dokumentyZaRok = dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString());
             dokumentyZaMc = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc);

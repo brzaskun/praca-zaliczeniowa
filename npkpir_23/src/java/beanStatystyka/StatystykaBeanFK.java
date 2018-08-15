@@ -12,6 +12,7 @@ import entity.Podatnik;
 import entity.Statystyka;
 import entityfk.Dokfk;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -94,7 +95,7 @@ public class StatystykaBeanFK implements Runnable {
     }
     
     private List<String> pobierztypydok() {
-        List<String> zwrot = new ArrayList<>();
+        List<String> zwrot = Collections.synchronizedList(new ArrayList<>());
         zwrot.add("SZ");
         zwrot.add("SPRY");
         zwrot.add("RF");

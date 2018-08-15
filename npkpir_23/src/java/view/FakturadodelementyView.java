@@ -12,6 +12,7 @@ import entity.Fakturaelementygraficzne;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -68,7 +69,7 @@ public class FakturadodelementyView implements Serializable {
             fakturadodelementy = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
             mailfakturastopka = Mail.getStopka();
             if (fakturadodelementy == null || fakturadodelementy.isEmpty()) {
-                fakturadodelementy = new ArrayList<>();
+                fakturadodelementy = Collections.synchronizedList(new ArrayList<>());
             }
             for (String p : elementy.keySet()) {
                 String podatnik = wpisView.getPodatnikWpisu();

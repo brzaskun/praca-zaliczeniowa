@@ -19,6 +19,7 @@ import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,8 +43,8 @@ import pdf.PdfEwidencjaPrzychodow;
 @ViewScoped
 public class EwidencjaPrzychodowView implements Serializable {
 
-    private ArrayList<DokEwidPrzych> lista;
-    private ArrayList<DokEwidPrzych> listaFiltered;
+    private List<DokEwidPrzych> lista;
+    private List<DokEwidPrzych> listaFiltered;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private DokEwidPrzych selDokument;
@@ -59,7 +60,7 @@ public class EwidencjaPrzychodowView implements Serializable {
     private Map<String, List<DokEwidPrzych>> ksiegimiesieczne;
 
     public EwidencjaPrzychodowView() {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -88,7 +89,7 @@ public class EwidencjaPrzychodowView implements Serializable {
     }
     
      public void aktualizujGuest(String strona) throws IOException {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
         aktualizujGuest();
         aktualizuj();
         init();
@@ -136,7 +137,7 @@ public class EwidencjaPrzychodowView implements Serializable {
         ksiegimiesieczne = new ConcurrentHashMap<>();
         int mcint = Integer.parseInt(wpisView.getMiesiacWpisu());
         for (int i = 1; i <= mcint; i++) {
-            lista = new ArrayList<>();
+            lista = Collections.synchronizedList(new ArrayList<>());
             String mc = Mce.getNumberToMiesiac().get(i);
             generujksiege(mc);
             if (lista.size() > 0) {
@@ -165,11 +166,11 @@ public class EwidencjaPrzychodowView implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public ArrayList<DokEwidPrzych> getLista() {
+    public List<DokEwidPrzych> getLista() {
         return lista;
     }
 
-    public void setLista(ArrayList<DokEwidPrzych> lista) {
+    public void setLista(List<DokEwidPrzych> lista) {
         this.lista = lista;
     }
 
@@ -191,11 +192,11 @@ public class EwidencjaPrzychodowView implements Serializable {
     
     //</editor-fold>
 
-    public ArrayList<DokEwidPrzych> getListaFiltered() {
+    public List<DokEwidPrzych> getListaFiltered() {
         return listaFiltered;
     }
 
-    public void setListaFiltered(ArrayList<DokEwidPrzych> listaFiltered) {
+    public void setListaFiltered(List<DokEwidPrzych> listaFiltered) {
         this.listaFiltered = listaFiltered;
     }
 }

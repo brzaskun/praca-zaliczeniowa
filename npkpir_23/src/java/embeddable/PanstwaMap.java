@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +29,8 @@ private static Map<String,String> wykazPanstwSX;
 
 //    public static void main(String[] args) {
 //        Map<String,String> wykazPanstwS = new ConcurrentHashMap<>();
-//        List<String> panstwa = new ArrayList<>();
-//        List<String> symbole = new ArrayList<>();
+//        List<String> panstwa = Collections.synchronizedList(new ArrayList<>());
+//        List<String> symbole = Collections.synchronizedList(new ArrayList<>());
 //        panstwa.addAll(Panstwa.getWykazPanstw());
 //        symbole.addAll(PanstwaSymb.getWykazPanstwS());
 //        Iterator it;
@@ -53,8 +54,8 @@ public PanstwaMap(){
 
 @PostConstruct
     public void init(){
-        List<String> panstwa = new ArrayList<>();
-        List<String> symbole = new ArrayList<>();
+        List<String> panstwa = Collections.synchronizedList(new ArrayList<>());
+        List<String> symbole = Collections.synchronizedList(new ArrayList<>());
         panstwa.addAll(Panstwa.getWykazPanstw());
         symbole.addAll(PanstwaSymb.getWykazPanstwS());
         Iterator it;

@@ -15,6 +15,7 @@ import enumy.FormaPrawna;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -67,17 +68,17 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
 
     public SymulacjaWynikuNarastajacoView() {
          E.m(this);
-        this.listamiesiecy = new ArrayList<>();
-        this.listamiesiecypoprzednich = new ArrayList<>();
-        this.dozaplaty = new ArrayList<>();
+        this.listamiesiecy = Collections.synchronizedList(new ArrayList<>());
+        this.listamiesiecypoprzednich = Collections.synchronizedList(new ArrayList<>());
+        this.dozaplaty = Collections.synchronizedList(new ArrayList<>());
     }
     
     
     @PostConstruct
     public void init() {
-        this.listamiesiecy = new ArrayList<>();
-        this.listamiesiecypoprzednich = new ArrayList<>();
-        this.dozaplaty = new ArrayList<>();
+        this.listamiesiecy = Collections.synchronizedList(new ArrayList<>());
+        this.listamiesiecypoprzednich = Collections.synchronizedList(new ArrayList<>());
+        this.dozaplaty = Collections.synchronizedList(new ArrayList<>());
         List<WynikFKRokMc> listapobrana = wynikFKRokMcDAO.findWynikFKPodatnikRok(wpisView);
         int biezacymc = Integer.parseInt(wpisView.getMiesiacWpisu());
         for (Iterator<WynikFKRokMc> p = listapobrana.iterator(); p.hasNext(); ) {
@@ -104,9 +105,9 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
 //    public Map<String, Double> danedobiezacejsym() {
-//        this.listamiesiecy = new ArrayList<>();
-//        this.listamiesiecypoprzednich = new ArrayList<>();
-//        this.dozaplaty = new ArrayList<>();
+//        this.listamiesiecy = Collections.synchronizedList(new ArrayList<>());
+//        this.listamiesiecypoprzednich = Collections.synchronizedList(new ArrayList<>());
+//        this.dozaplaty = Collections.synchronizedList(new ArrayList<>());
 //        List<WynikFKRokMc> listapobrana = wynikFKRokMcDAO.findWynikFKPodatnikRok(wpisView);
 //        int biezacymc = Integer.parseInt(wpisView.getMiesiacUprzedni());
 //        for (Iterator<WynikFKRokMc> p = listapobrana.iterator(); p.hasNext(); ) {
@@ -176,7 +177,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     
     private void obliczsymulacje() {
         podatnikkwotarazem = new ConcurrentHashMap<>();
-        pozycjePodsumowaniaWyniku = new ArrayList<>();
+        pozycjePodsumowaniaWyniku = Collections.synchronizedList(new ArrayList<>());
         double przychody = sumamiesiecy.getPrzychody();
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("przychody"), przychody));
         double koszty = sumamiesiecy.getKoszty();
@@ -211,7 +212,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dozapłaty"), pdop));
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
         }
-        pozycjeObliczeniaPodatku = new ArrayList<>();
+        pozycjeObliczeniaPodatku = Collections.synchronizedList(new ArrayList<>());
         try {
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             int i = 1;
@@ -277,7 +278,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
     private void obliczkwotydowyplaty() {
-        pozycjeDoWyplaty = new ArrayList<>();
+        pozycjeDoWyplaty = Collections.synchronizedList(new ArrayList<>());
         try {
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             for (PodatnikUdzialy p : udzialy) {
@@ -303,7 +304,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
 //    private void obliczkwotydowyplaty(Map<String, Double> pozycjeDoWyplatyExport) {
-//        pozycjeDoWyplaty = new ArrayList<>();
+//        pozycjeDoWyplaty = Collections.synchronizedList(new ArrayList<>());
 //        try {
 //            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
 //            for (PodatnikUdzialy p : udzialy) {
@@ -343,7 +344,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
     private List<SymulacjaWynikuView.PozycjeSymulacjiTabela> przekonwertujdotabeliWyplata(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace) {
-        List<SymulacjaWynikuView.PozycjeSymulacjiTabela> tabela = new ArrayList<>();
+        List<SymulacjaWynikuView.PozycjeSymulacjiTabela> tabela = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < pozycjeObliczeniaPodatkuPoprzedniemiesiace.size(); ) {
             SymulacjaWynikuView.PozycjeSymulacjiTabela s = new SymulacjaWynikuView.PozycjeSymulacjiTabela();
             SymulacjaWynikuView.PozycjeSymulacji pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
@@ -361,7 +362,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
     private List<SymulacjaWynikuView.PozycjeSymulacjiTabela> przekonwertujdotabeli(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace) {
-        List<SymulacjaWynikuView.PozycjeSymulacjiTabela> tabela = new ArrayList<>();
+        List<SymulacjaWynikuView.PozycjeSymulacjiTabela> tabela = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < pozycjeObliczeniaPodatkuPoprzedniemiesiace.size(); ) {
             SymulacjaWynikuView.PozycjeSymulacjiTabela s = new SymulacjaWynikuView.PozycjeSymulacjiTabela();
             SymulacjaWynikuView.PozycjeSymulacji pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
@@ -379,7 +380,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
     private List<WynikFKRokMc> przekonwertujdotabeliPodatek(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace) {
-        List<WynikFKRokMc> tabela = new ArrayList<>();
+        List<WynikFKRokMc> tabela = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < pozycjeObliczeniaPodatkuPoprzedniemiesiace.size(); ) {
             WynikFKRokMc s = new WynikFKRokMc();
             s.setPodatnikObj(wpisView.getPodatnikObiekt());

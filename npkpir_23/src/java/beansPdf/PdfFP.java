@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -1229,7 +1230,7 @@ public class PdfFP {
         try {
             int wielkoscXXL = oblicziloscXXLkolumn(fakturaXXLKolumna);
             PdfPTable table = new PdfPTable(6 + wielkoscXXL);
-            List<Float> szerokosci = new ArrayList<>();
+            List<Float> szerokosci = Collections.synchronizedList(new ArrayList<>());
             setszerokosci(fakturaXXLKolumna, szerokosci, maladuza);
             float[] floatArray = ArrayUtils.toPrimitive(szerokosci.toArray(new Float[0]), 0.0F);
             table.setTotalWidth(floatArray);

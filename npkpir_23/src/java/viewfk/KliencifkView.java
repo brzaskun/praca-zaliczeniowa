@@ -79,8 +79,8 @@ public class KliencifkView implements Serializable {
 
     public KliencifkView() {
          E.m(this);
-        listawszystkichklientow = new ArrayList<>();
-        listawszystkichklientowFk = new ArrayList<>();
+        listawszystkichklientow = Collections.synchronizedList(new ArrayList<>());
+        listawszystkichklientowFk = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct

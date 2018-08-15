@@ -12,6 +12,7 @@ import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
 import entityfk.UkladBR;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class KontoPozycjaBean {
     public static void duplikujpozycje(UkladBRDAO ukladBRDAO, String nazwadomyslanukladu,  Podatnik podatnik, String rok, Konto starekonto, Konto nowekonto, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         List<KontopozycjaZapis> zwrot = pozycjewzorca(kontopozycjaZapisDAO, starekonto);
         if (zwrot != null) {
-            List<KontopozycjaZapis> nowe = new ArrayList<>();
+            List<KontopozycjaZapis> nowe = Collections.synchronizedList(new ArrayList<>());
             for (KontopozycjaZapis p : zwrot) {
                 KontopozycjaZapis r = kopiujpozycje(p, ukladBRDAO, nazwadomyslanukladu, podatnik, rok, nowekonto);
                 if (r != null) {
@@ -37,7 +38,7 @@ public class KontoPozycjaBean {
     
     
     private static List<KontopozycjaZapis> pozycjewzorca(KontopozycjaZapisDAO kontopozycjaZapisDAO, Konto konto) {
-        List<KontopozycjaZapis> zwrot = new ArrayList<>();
+        List<KontopozycjaZapis> zwrot = Collections.synchronizedList(new ArrayList<>());
         try {
             zwrot = kontopozycjaZapisDAO.findByKontoOnly(konto);
         } catch (Exception e){}

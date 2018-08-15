@@ -13,6 +13,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -49,8 +50,8 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
 
     @PostConstruct
     public void init() {
-        klienci = new ArrayList<>();
-        wprowadzoneplatnosci = new ArrayList<>();
+        klienci = Collections.synchronizedList(new ArrayList<>());
+        wprowadzoneplatnosci = Collections.synchronizedList(new ArrayList<>());
         klienci.addAll(pobierzkontrahentow());
         if (klienci != null) {
             for (Iterator<Klienci> it = klienci.iterator(); it.hasNext();) {
@@ -71,7 +72,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     }
     
     public List<Klienci> completeKL(String query) {
-        List<Klienci> results = new ArrayList<>();
+        List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
         if (query.length() > 1) {
             Pattern pattern = Pattern.compile("[A-Z]{2}\\d+");
             Matcher m = pattern.matcher(query.toUpperCase());

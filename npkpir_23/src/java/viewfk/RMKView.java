@@ -84,9 +84,9 @@ public class RMKView  implements Serializable {
     private CechazapisuDAOfk cechazapisuDAOfk;
 
     public RMKView() {
-        this.listakontkosztowych = new ArrayList<>();
-        this.listakontrmk = new ArrayList<>();
-        this.listarmk = new ArrayList<>();
+        this.listakontkosztowych = Collections.synchronizedList(new ArrayList<>());
+        this.listakontrmk = Collections.synchronizedList(new ArrayList<>());
+        this.listarmk = Collections.synchronizedList(new ArrayList<>());
     }
     
     

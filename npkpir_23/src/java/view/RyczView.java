@@ -6,6 +6,7 @@ import entity.Ryczpoz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -32,7 +33,7 @@ public class RyczView implements Serializable {
    
 
     public RyczView() {
-        lista = new ArrayList<>();
+        lista = Collections.synchronizedList(new ArrayList<>());
        
     }
     

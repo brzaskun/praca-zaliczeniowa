@@ -10,6 +10,7 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -187,7 +188,7 @@ public class Dok extends DokSuper implements Serializable {
 //    @Temporal(TemporalType.DATE)
     private String terminPlatnosci;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
-    private ArrayList<Rozrachunek1> rozrachunki1;
+    private List<Rozrachunek1> rozrachunki1;
     @Size(max = 10)
     @Column(name = "termin_30")
     private String termin30;
@@ -199,7 +200,7 @@ public class Dok extends DokSuper implements Serializable {
     private String termin150;
     @Lob
     @Column(name = "storno")
-    private ArrayList<Stornodoch> storno;
+    private List<Stornodoch> storno;
     @Column(name = "usunpozornie")
     private Boolean usunpozornie;
     @Size(max = 50)
@@ -242,14 +243,14 @@ public class Dok extends DokSuper implements Serializable {
     private WniosekVATZDEntity wniosekVATZDEntity;
     
     public Dok() {
-        this.listakwot1 = new ArrayList<>();
-        this.cechadokumentuLista = new ArrayList<>();
+        this.listakwot1 = Collections.synchronizedList(new ArrayList<>());
+        this.cechadokumentuLista = Collections.synchronizedList(new ArrayList<>());
         this.getListakwot1().add(new KwotaKolumna1());
     }
 
     public Dok(Long idDok) {
-        this.listakwot1 = new ArrayList<>();
-        this.cechadokumentuLista = new ArrayList<>();
+        this.listakwot1 = Collections.synchronizedList(new ArrayList<>());
+        this.cechadokumentuLista = Collections.synchronizedList(new ArrayList<>());
         this.getListakwot1().add(new KwotaKolumna1());
         this.idDok = idDok;
     }
@@ -502,11 +503,11 @@ public class Dok extends DokSuper implements Serializable {
         this.netto = netto;
     }
 
-    public ArrayList<Stornodoch> getStorno() {
+    public List<Stornodoch> getStorno() {
         return storno;
     }
 
-    public void setStorno(ArrayList<Stornodoch> storno) {
+    public void setStorno(List<Stornodoch> storno) {
         this.storno = storno;
     }
 
@@ -550,11 +551,11 @@ public class Dok extends DokSuper implements Serializable {
         this.inwestycja = inwestycja;
     }
 
-    public ArrayList<Rozrachunek1> getRozrachunki1() {
+    public List<Rozrachunek1> getRozrachunki1() {
         return rozrachunki1;
     }
 
-    public void setRozrachunki1(ArrayList<Rozrachunek1> rozrachunki1) {
+    public void setRozrachunki1(List<Rozrachunek1> rozrachunki1) {
         this.rozrachunki1 = rozrachunki1;
     }
 

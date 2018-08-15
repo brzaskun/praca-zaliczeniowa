@@ -11,6 +11,7 @@ import entity.UmorzenieN;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import javax.faces.bean.ManagedBean;
@@ -40,11 +41,11 @@ public class STRSprzedazView extends STRTabView implements Serializable {
    
     
     public STRSprzedazView() {
-        wybranesrodkitrwale = new ArrayList<>();
+        wybranesrodkitrwale = Collections.synchronizedList(new ArrayList<>());
     }
     
     public void sprzedajgrupa(String dat, String nr) {
-        grupausun = new ArrayList<>();
+        grupausun = Collections.synchronizedList(new ArrayList<>());
         grupausun = wybranesrodkitrwale;
         data = dat;
         nrwlasny = nr;

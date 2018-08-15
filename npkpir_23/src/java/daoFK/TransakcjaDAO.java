@@ -68,7 +68,7 @@ public class TransakcjaDAO  extends DAO implements Serializable {
     
     public List<Transakcja> findBySparowanyID(int idrozrachunku) {
         return null;
-//        List<Transakcja> odnalezione = new ArrayList<>();
+//        List<Transakcja> odnalezione = Collections.synchronizedList(new ArrayList<>());
 //        List<Transakcja> transakcje = sessionFacade.findAll(Transakcja.class);
 //        for(Transakcja f : transakcje) {
 //            Map<Boolean, Rozrachunekfk> roz = f.getRozrachunki();

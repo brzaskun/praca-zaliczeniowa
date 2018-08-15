@@ -25,6 +25,7 @@ import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -91,14 +92,14 @@ public class SymulacjaWynikuView implements Serializable {
     
 
     public SymulacjaWynikuView() {
-        this.sumaSaldoKontoPrzychody = new ArrayList<>();
-        this.pozycjePodsumowaniaWynikuNowe = new ArrayList<>();
+        this.sumaSaldoKontoPrzychody = Collections.synchronizedList(new ArrayList<>());
+        this.pozycjePodsumowaniaWynikuNowe = Collections.synchronizedList(new ArrayList<>());
     }
 
     public void init() {
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlitykaWynikowe(wpisView);
-        List<Konto> kontaklientaprzychody = new ArrayList<>();
-        List<Konto> kontaklientakoszty = new ArrayList<>();
+        List<Konto> kontaklientaprzychody = Collections.synchronizedList(new ArrayList<>());
+        List<Konto> kontaklientakoszty = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : kontaklienta) {
             if (p.getPelnynumer().equals("490")) {
                 kontaklientakoszty.add(p);
@@ -129,7 +130,7 @@ public class SymulacjaWynikuView implements Serializable {
 
     
      private List<SaldoKonto> przygotowanalistasaldR(List<Konto> kontaklienta, int przychod0koszt1) {
-        List<SaldoKonto> przygotowanalista = new ArrayList<>();
+        List<SaldoKonto> przygotowanalista = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyRok = pobierzzapisyR();
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
         for (Konto p : kontaklienta) {
@@ -143,7 +144,7 @@ public class SymulacjaWynikuView implements Serializable {
         for (int i = 1; i < przygotowanalista.size() + 1; i++) {
             przygotowanalista.get(i - 1).setId(i);
         }
-        sumaSaldoKontoPrzychody = new ArrayList<>();
+        sumaSaldoKontoPrzychody = Collections.synchronizedList(new ArrayList<>());
         sumaSaldoKontoPrzychody.add(KontaFKBean.sumujsaldakont(przygotowanalista));
         return przygotowanalista;
     }
@@ -225,7 +226,7 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
     private void obliczsymulacje() {
-        pozycjePodsumowaniaWyniku = new ArrayList<>();
+        pozycjePodsumowaniaWyniku = Collections.synchronizedList(new ArrayList<>());
         double przychody = Z.z(sumuj(listakontaprzychody, "przychody"));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("przychodyrazem"), przychody));
         double koszty = Z.z(sumuj(listakontakoszty, "koszty"));
@@ -243,7 +244,7 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
     private void obliczsymulacjeNowa() {
-        pozycjePodsumowaniaWynikuNowe = new ArrayList<>();
+        pozycjePodsumowaniaWynikuNowe = Collections.synchronizedList(new ArrayList<>());
         double przychody = Z.z(sumuj(listakontaprzychody, "przychody"));
         double koszty = Z.z(sumuj(listakontakoszty, "koszty"));
         double wynik = Z.z(przychody - koszty);
@@ -303,8 +304,8 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
     private void pobierzzapisyzcechami() {
-        zapisyZCecha = new ArrayList<>();
-        zapisyZCechaP = new ArrayList<>();
+        zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
+        zapisyZCechaP = Collections.synchronizedList(new ArrayList<>());
         //pobieram wszystkie strony wiersza z roku
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikoweCecha(stronaWierszaDAO, wpisView);
         //pobieram strony wiersza z cecha i wyluskuje strony wiersza z dokumentu z cecha
@@ -410,7 +411,7 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
     private List<SaldoKonto> zredukuj(List<SaldoKonto> lista) {
-        List<SaldoKonto> macierzyste = new ArrayList<>();
+        List<SaldoKonto> macierzyste = Collections.synchronizedList(new ArrayList<>());
         for (SaldoKonto p : lista) {
             SaldoKonto macierzystewiersz = jestmacierzyste(macierzyste,p.getTopKonto());
             if (macierzystewiersz != null) {

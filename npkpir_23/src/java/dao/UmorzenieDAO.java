@@ -9,6 +9,7 @@ import entity.UmorzenieN;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -39,7 +40,7 @@ public class UmorzenieDAO extends DAO implements Serializable {
     public List<UmorzenieN> findBySrodek(SrodekTrw str) {
         List<UmorzenieN> list = umorzenieFacade.findUmorzenieBySrodek(str);
         if (list == null) {
-            list = new ArrayList<>();
+            list = Collections.synchronizedList(new ArrayList<>());
         }
         return list;
     }

@@ -39,9 +39,9 @@ public class ZamkniecieView implements Serializable {
     @Inject private Zamknietemiesiace zamknietemiesiace;
     @Inject private Roki roki;
     @Inject private Mce mce;
-    private ArrayList<Okresrozliczeniowy> mapaokresow;
-    private ArrayList<Okresrozliczeniowy> mapaokresowPobrane;
-    private ArrayList<Okresrozliczeniowy> mapaokresowPobraneZapas;
+    private List<Okresrozliczeniowy> mapaokresow;
+    private List<Okresrozliczeniowy> mapaokresowPobrane;
+    private List<Okresrozliczeniowy> mapaokresowPobraneZapas;
     @Inject private ZamknietemiesiaceDAO zDAO ;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
@@ -51,9 +51,9 @@ public class ZamkniecieView implements Serializable {
     
 
     public ZamkniecieView() {
-        mapaokresow = new ArrayList<>();
-        mapaokresowPobrane = new ArrayList<>();
-        mapaokresowPobraneZapas = new ArrayList<>();
+        mapaokresow = Collections.synchronizedList(new ArrayList<>());
+        mapaokresowPobrane = Collections.synchronizedList(new ArrayList<>());
+        mapaokresowPobraneZapas = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
@@ -153,7 +153,7 @@ public class ZamkniecieView implements Serializable {
     }
     
     private void zaksiegujDokumenty(){
-        List<Okresrozliczeniowy> roznice = new ArrayList<>();
+        List<Okresrozliczeniowy> roznice = Collections.synchronizedList(new ArrayList<>());
         mapaokresowPobraneZapas.addAll(zDAO.findZM(wpisView.getPodatnikWpisu()).getZamkniete());
         int rozmiar = 0;
         while(rozmiar<mapaokresowPobrane.size()){
@@ -193,11 +193,11 @@ public class ZamkniecieView implements Serializable {
 
       
      //<editor-fold defaultstate="collapsed" desc="comment">
-     public ArrayList<Okresrozliczeniowy> getMapaokresowPobrane() {
+     public List<Okresrozliczeniowy> getMapaokresowPobrane() {
          return mapaokresowPobrane;
      }
      
-     public void setMapaokresowPobrane(ArrayList<Okresrozliczeniowy> mapaokresowPobrane) {
+     public void setMapaokresowPobrane(List<Okresrozliczeniowy> mapaokresowPobrane) {
          this.mapaokresowPobrane = mapaokresowPobrane;
      }
      

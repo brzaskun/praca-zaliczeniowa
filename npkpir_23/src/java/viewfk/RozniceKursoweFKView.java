@@ -17,6 +17,7 @@ import entityfk.Transakcja;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -56,7 +57,7 @@ public class RozniceKursoweFKView implements Serializable {
 
     public RozniceKursoweFKView() {
         E.m(this);
-        pobranetransakcje = new ArrayList<>();
+        pobranetransakcje = Collections.synchronizedList(new ArrayList<>());
     }
 
     

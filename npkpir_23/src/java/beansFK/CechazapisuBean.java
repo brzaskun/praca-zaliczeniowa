@@ -11,6 +11,7 @@ import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
@@ -25,14 +26,14 @@ import viewfk.CechyzapisuPrzegladView;
 public class CechazapisuBean {
     
     public static List<StronaWiersza> pobierzwierszezcecha(List<StronaWiersza> zapisy, String nazwacechy, String mc) {
-        List<StronaWiersza> listazcecha = new ArrayList<>();
+        List<StronaWiersza> listazcecha = Collections.synchronizedList(new ArrayList<>());
         listazcecha.addAll(wierszezcecha(zapisy, nazwacechy, mc));
         listazcecha.addAll(dokumentyzcecha(zapisy, nazwacechy, mc));
         return listazcecha;
     }
     
     private static List<StronaWiersza> wierszezcecha(List<StronaWiersza> lista, String nazwacechy, String mc) {
-        List<StronaWiersza> listazcecha = new ArrayList<>();
+        List<StronaWiersza> listazcecha = Collections.synchronizedList(new ArrayList<>());
         lista.stream().filter((p) -> (p.getDokfk().getMiesiac().equals(mc))).filter((p) -> (p.getCechazapisuLista() != null && p.getCechazapisuLista().size() > 0)).forEachOrdered((p) -> {
             for (Cechazapisu r : p.getCechazapisuLista()) {
                 if (r.getNazwacechy().equals(nazwacechy)) {
@@ -44,7 +45,7 @@ public class CechazapisuBean {
     }
     
     private static List<StronaWiersza> dokumentyzcecha(List<StronaWiersza> lista, String nazwacechy, String mc) {
-        List<StronaWiersza> listazcecha = new ArrayList<>();
+        List<StronaWiersza> listazcecha = Collections.synchronizedList(new ArrayList<>());
         lista.stream().filter((p) -> (p.getDokfk().getMiesiac().equals(mc))).filter((p) -> (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
             for (Cechazapisu r : p.getDokfk().getCechadokumentuLista()) {
                 if (r.getNazwacechy().equals(nazwacechy)) {
@@ -78,7 +79,7 @@ public class CechazapisuBean {
     }
     
     public static List<CechyzapisuPrzegladView.CechaStronaWiersza> pobierzstrony(List<Dokfk> wykazZaksiegowanychDokumentow) {
-        List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCecha = new ArrayList<>();
+        List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
                if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
                    for (Cechazapisu r: p.getCechadokumentuLista()) {
@@ -95,7 +96,7 @@ public class CechazapisuBean {
     }
     
     public static Collection<? extends CechyzapisuPrzegladView.CechaStronaWiersza> pobierzStronyzDokfk(Cechazapisu r, List<Wiersz> listawierszy) {
-        List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = new ArrayList<>();
+        List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = Collections.synchronizedList(new ArrayList<>());
         for (Wiersz p : listawierszy) {
             if (p.getStronaWn() != null) {
                 if (p.getStronaWn().getKwota() == 48.27) {
@@ -116,7 +117,7 @@ public class CechazapisuBean {
     }
 
     public static Collection<? extends CechyzapisuPrzegladView.CechaStronaWiersza> pobierzpojedynczo(Wiersz r) {
-        List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = new ArrayList<>();
+        List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = Collections.synchronizedList(new ArrayList<>());
         if (r.getStronaWn() != null) {
             if (r.getStronaWn().getKwota() == 48.27) {
             }

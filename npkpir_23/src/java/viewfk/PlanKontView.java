@@ -895,7 +895,7 @@ public class PlanKontView implements Serializable {
                     return;
                 }
             }
-            wykazkont = new ArrayList<>();
+            wykazkont = Collections.synchronizedList(new ArrayList<>());
             RequestContext.getCurrentInstance().update("form_dialog_plankont");
             Msg.msg("Zakonczono z sukcesem usuwanie kont u bieżącego podatnika");
         } else {
@@ -975,7 +975,7 @@ public class PlanKontView implements Serializable {
         }
         kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(wybranyuklad, "wynikowe");
         kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(wybranyuklad, "bilansowe");
-        List<KontopozycjaZapis> nowepozycje = new ArrayList<>();
+        List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : wykazkont) {
             try {
                 nowepozycje.add(new KontopozycjaZapis(p.getKontopozycjaID()));
@@ -1013,7 +1013,7 @@ public class PlanKontView implements Serializable {
         if (klientWzor.equals("K")) {
             rodzajedokumentowpodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         }
-        List<Konto> zwrot = new ArrayList<>();
+        List<Konto> zwrot = Collections.synchronizedList(new ArrayList<>());
         listapotomnych(kontoDoUsuniecia, zwrot);
         int maxlevel = pobierzmaxlevel(zwrot);
         for (int i = maxlevel; i >= 0 ; i--) {
@@ -1042,7 +1042,7 @@ public class PlanKontView implements Serializable {
     }
     
     private List<Konto> pobierzlevel(List<Konto> zwrot, int level) {
-        List<Konto> z = new ArrayList<>();
+        List<Konto> z = Collections.synchronizedList(new ArrayList<>());
         for (Konto p : zwrot) {
             if (p.getLevel() == level) {
                 z.add(p);
@@ -1748,7 +1748,7 @@ public class PlanKontView implements Serializable {
     }
     
     private List<Konto> pobierzpotomkowImpl(Konto macierzyste, List<Konto> kontapodatnika) {
-        List<Konto> potomne = new ArrayList<>();
+        List<Konto> potomne = Collections.synchronizedList(new ArrayList<>());
           try {
               for (Konto p : kontapodatnika) {
                   if (p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(macierzyste)) {

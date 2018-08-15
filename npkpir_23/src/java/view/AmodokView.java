@@ -27,6 +27,7 @@ import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -63,7 +64,7 @@ public class AmodokView implements Serializable {
     private UmorzenieDAO umorzenieDAO;
 
     public AmodokView() {
-        this.amodoklist = new ArrayList<>();
+        this.amodoklist = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct

@@ -72,10 +72,10 @@ public class PlatnosciWalutyView  implements Serializable {
     @PostConstruct
     private void init() {
         ukryjrozliczone = true;
-        kontrahentypodatnika = new ArrayList<>();
-        skrotwalutywdokum = new ArrayList<>();
-        dokumentypodatnika = new ArrayList<>();
-        walutywdokum = new ArrayList<>();
+        kontrahentypodatnika = Collections.synchronizedList(new ArrayList<>());
+        skrotwalutywdokum = Collections.synchronizedList(new ArrayList<>());
+        dokumentypodatnika = Collections.synchronizedList(new ArrayList<>());
+        walutywdokum = Collections.synchronizedList(new ArrayList<>());
         zmienliste();
         Set<String> k = new HashSet<>();
         Set<String> w = new HashSet<>();
@@ -112,7 +112,7 @@ public class PlatnosciWalutyView  implements Serializable {
             }
             dorozliczenia = Z.z(dorozliczenia);
         } else {
-            platnosci = new ArrayList<>();
+            platnosci = Collections.synchronizedList(new ArrayList<>());
         }
     }
     

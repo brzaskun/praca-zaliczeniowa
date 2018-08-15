@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
@@ -68,8 +69,8 @@ public class UzView implements Serializable {
     private boolean renderujrejestracje;
 
     public UzView() {
-        listaUzytkownikow = new ArrayList<>();
-        polademo = new ArrayList<>();
+        listaUzytkownikow = Collections.synchronizedList(new ArrayList<>());
+        polademo = Collections.synchronizedList(new ArrayList<>());
         renderujrejestracje = true;
     }
 

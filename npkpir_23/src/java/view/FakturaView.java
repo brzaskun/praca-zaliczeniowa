@@ -202,14 +202,14 @@ public class FakturaView implements Serializable {
 
     @PostConstruct
     private void init() {
-        fakturyokresowe = new ArrayList<>();
-        gosciwybral = new ArrayList<>();
-        gosciwybralokres = new ArrayList<>();
+        fakturyokresowe = Collections.synchronizedList(new ArrayList<>());
+        gosciwybral = Collections.synchronizedList(new ArrayList<>());
+        gosciwybralokres = Collections.synchronizedList(new ArrayList<>());
         waloryzajca = 0.0;
         kwotaprzedwaloryzacja = 0.0;
-        faktury = new ArrayList<>();
-        fakturypro = new ArrayList<>();
-        fakturyarchiwum = new ArrayList<>();
+        faktury = Collections.synchronizedList(new ArrayList<>());
+        fakturypro = Collections.synchronizedList(new ArrayList<>());
+        fakturyarchiwum = Collections.synchronizedList(new ArrayList<>());
         fakturyokresoweFiltered = null;
         fakturyFiltered = null;
         aktywnytab = 1;
@@ -589,9 +589,9 @@ public class FakturaView implements Serializable {
         double netto = 0.0;
         double vat = 0.0;
         double brutto = 0.0;
-        ArrayList<Evewidencja> ew = new ArrayList<>();
+        List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
-        List<EVatwpis> el = new ArrayList<>();
+        List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
         for (Pozycjenafakturzebazadanych p : pozycje) {
             double nowacena = p.getBrutto() * procent;
             nowacena = nowacena + p.getBrutto();
@@ -934,7 +934,7 @@ public class FakturaView implements Serializable {
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(faktura.getFakturaPK().getNumerkolejny());
             selDokument.setOpis(faktura.getPozycjenafakturze().get(0).getNazwa());
-            List<KwotaKolumna1> listaX = new ArrayList<>();
+            List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
             tmpX.setNetto(faktura.getNetto());
             tmpX.setVat(faktura.getVat());
@@ -946,7 +946,7 @@ public class FakturaView implements Serializable {
             selDokument.setNetto(tmpX.getNetto());
             selDokument.setBrutto(tmpX.getBrutto());
             selDokument.setRozliczony(true);
-            List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
+            List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             for (EVatwpis r : faktura.getEwidencjavat()) {
                 EVatwpis1 eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
                 eVatwpis1.setDok(selDokument);
@@ -1684,7 +1684,7 @@ public class FakturaView implements Serializable {
            p.getFakturaPK().setNumerkolejny(nowynumerfakt);
            fakturaDAO.dodaj(p);
         }
-        gosciwybral = new ArrayList<>();
+        gosciwybral = Collections.synchronizedList(new ArrayList<>());
         init();
         Msg.msg("Przenumerowałem faktury");
     }
@@ -1727,7 +1727,7 @@ public class FakturaView implements Serializable {
            p.getFakturaPK().setNumerkolejny(nowynumerfakt);
            fakturaDAO.dodaj(p);
         }
-        gosciwybral = new ArrayList<>();
+        gosciwybral = Collections.synchronizedList(new ArrayList<>());
         init();
         Msg.msg("Przenumerowałem faktury");
     }

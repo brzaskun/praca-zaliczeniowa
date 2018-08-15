@@ -28,6 +28,7 @@ import entityfk.Pojazdy;
 import entityfk.UkladBR;
 import error.E;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Named;
 import msg.Msg;
@@ -715,21 +716,21 @@ public class PlanKontFKBean {
     }
 
    public static boolean sprawdzczymacierzystymapotomne(Podatnik podatnik, Integer rok, Konto doUsuniecia, KontoDAOfk kontoDAO) {
-        List<Konto> kontapotomne = new ArrayList<>();
+        List<Konto> kontapotomne = Collections.synchronizedList(new ArrayList<>());
         kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(podatnik, rok, doUsuniecia.getMacierzyste()));
         kontapotomne.remove(doUsuniecia);
         return !kontapotomne.isEmpty();
     }
    
    public static List<Konto> pobierzpotomne(Podatnik podatnik, Integer rok, Konto doUsuniecia, KontoDAOfk kontoDAO) {
-        List<Konto> kontapotomne = new ArrayList<>();
+        List<Konto> kontapotomne = Collections.synchronizedList(new ArrayList<>());
         kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(podatnik, rok, doUsuniecia.getPelnynumer()));
         kontapotomne.remove(doUsuniecia);
         return kontapotomne;
     }
    
     public static List<Konto> pobierzpotomne(Konto doUsuniecia, KontoDAOfk kontoDAO) {
-        List<Konto> kontapotomne = new ArrayList<>();
+        List<Konto> kontapotomne = Collections.synchronizedList(new ArrayList<>());
         kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(doUsuniecia.getPodatnik(), doUsuniecia.getRok(), doUsuniecia.getPelnynumer()));
         kontapotomne.remove(doUsuniecia);
         return kontapotomne;

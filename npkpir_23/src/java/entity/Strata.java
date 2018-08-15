@@ -9,6 +9,7 @@ import em.Em;
 import embeddable.Straty1;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -73,7 +74,7 @@ public class Strata  implements Serializable {
     
 
     public Strata() {
-        this.nowewykorzystanie = new ArrayList<>();
+        this.nowewykorzystanie = Collections.synchronizedList(new ArrayList<>());
     }
 
     public Strata(Podatnik podatnik, int rok, double kwota, double polowakwoty, double wykorzystano, double zostalo) {
@@ -83,7 +84,7 @@ public class Strata  implements Serializable {
         this.polowakwoty = polowakwoty;
         this.wykorzystano = wykorzystano;
         this.zostalo = zostalo;
-        this.nowewykorzystanie = new ArrayList<>();
+        this.nowewykorzystanie = Collections.synchronizedList(new ArrayList<>());
     }
     
     public void obliczpolowe() {

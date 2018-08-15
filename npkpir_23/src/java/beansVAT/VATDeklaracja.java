@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
@@ -64,7 +65,7 @@ public class VATDeklaracja implements Serializable {
     }
     
     public static void przyporzadkujPozycjeSzczegoloweNowe(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia) {
-        List<EwidPoz> pozycje = new ArrayList<>();
+        List<EwidPoz> pozycje = Collections.synchronizedList(new ArrayList<>());
         for (EVatwpisSuma ew : wyciagnieteewidencje) {
             SchemaEwidencja se = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
             SchemaEwidencja sm = se.getSchemamacierzysta();
@@ -185,7 +186,7 @@ public class VATDeklaracja implements Serializable {
     }
 
     public static void duplikujZapisyDlaTransakcji(ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu) {
-        ArrayList<EVatwpisSuma> ewidencjeUzupelniane = new ArrayList<>();
+        List<EVatwpisSuma> ewidencjeUzupelniane = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<EVatwpisSuma> it = ewidencjeDoPrzegladu.iterator(); it.hasNext();) {
             EVatwpisSuma ew = (EVatwpisSuma) it.next();
             //dodaje wartosci ujete pierwotnie jako przychod, drugi raz jako koszt
@@ -364,7 +365,7 @@ public class VATDeklaracja implements Serializable {
         return pasujaca;
     }
 
-    public static void podsumujewidencje(List<SchemaEwidencja> schemaewidencjalista, ArrayList<EVatwpisSuma> pobraneewidencje, DeklaracjaVatSchemaWierszSum p) {
+    public static void podsumujewidencje(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> pobraneewidencje, DeklaracjaVatSchemaWierszSum p) {
         DeklaracjaVatWierszSumaryczny wierszsumaryczny = p.getDeklaracjaVatWierszSumaryczny();
         int n = 0;
         int v = 0;
@@ -400,7 +401,7 @@ public class VATDeklaracja implements Serializable {
             wierszsumaryczny.setSumavat(v);
     }
     
-    public static void podsumujewidencjeKoszty(ArrayList<EVatwpisSuma> pobraneewidencje, DeklaracjaVatSchemaWierszSum p) {
+    public static void podsumujewidencjeKoszty(List<EVatwpisSuma> pobraneewidencje, DeklaracjaVatSchemaWierszSum p) {
         DeklaracjaVatWierszSumaryczny wierszsumaryczny = p.getDeklaracjaVatWierszSumaryczny();
             for (EVatwpisSuma ew : pobraneewidencje) {
                 if (ew.getEwidencja().getNazwa().equals("środki trwałe")) {
@@ -426,8 +427,8 @@ public class VATDeklaracja implements Serializable {
             }
     }
 
-    public static List<SchemaEwidencjaSuma> wyluskajiPrzyporzadkujSprzedaz(List<SchemaEwidencja> schemaewidencjalista, ArrayList<EVatwpisSuma> pobraneewidencje) {
-        List<SchemaEwidencjaSuma> lista = new ArrayList<>();
+    public static List<SchemaEwidencjaSuma> wyluskajiPrzyporzadkujSprzedaz(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> pobraneewidencje) {
+        List<SchemaEwidencjaSuma> lista = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<SchemaEwidencja> it = schemaewidencjalista.iterator(); it.hasNext();) {
             SchemaEwidencja p = it.next();
             if (p.getEvewidencja().getNazwa().equals("sprzedaż 23%")) {
