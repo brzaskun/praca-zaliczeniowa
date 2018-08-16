@@ -10,10 +10,12 @@ import entityfk.Dokfk;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 import javax.inject.Named;
 import viewfk.CechyzapisuPrzegladView;
 
@@ -170,5 +172,24 @@ public class CechazapisuBean {
                 }
             }
         }
+    }
+    
+    public static void main(String[] args) {
+        ForkJoinPool commonPool = ForkJoinPool.commonPool();
+        System.out.println(commonPool.getParallelism());
+        Arrays.asList("a1", "a2", "b1", "c2", "c1")
+    .parallelStream()
+    .filter(s -> {
+        System.out.format("filter: %s [%s]\n",
+            s, Thread.currentThread().getName());
+        return true;
+    })
+    .map(s -> {
+        System.out.format("map: %s [%s]\n",
+            s, Thread.currentThread().getName());
+        return s.toUpperCase();
+    })
+    .forEach(s -> System.out.format("forEach: %s [%s]\n",
+        s, Thread.currentThread().getName()));
     }
 }

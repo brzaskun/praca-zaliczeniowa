@@ -44,22 +44,19 @@ public class KontaFKBean implements Serializable{
             r.setBlokada(false);
         }
         List<Konto> sprawdzonemacierzyste = Collections.synchronizedList(new ArrayList<>());
-        for (Konto p : wykazkont) {
-            if (p.getKontomacierzyste()!=null) {
-                try {
-                    Konto macierzyste = p.getKontomacierzyste();
-                    if (!sprawdzonemacierzyste.contains(macierzyste)) {
-                        naniesBlokade(macierzyste, kontoDAO);
-                        sprawdzonemacierzyste.add(macierzyste);
-                    }
-                } catch (PersistenceException e) {
-                    Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
-                } catch (Exception ef) {
-                    Msg.msg("e","Wystąpił błąd przy edycji konta. "+ef.getMessage()+" Nie wyedytowanododano: "+p.getPelnynumer());
+        wykazkont.parallelStream().filter((p) -> (p.getKontomacierzyste()!=null)).forEachOrdered((p) -> {
+            try {
+                Konto macierzyste = p.getKontomacierzyste();
+                if (!sprawdzonemacierzyste.contains(macierzyste)) {
+                    naniesBlokade(macierzyste);
+                    sprawdzonemacierzyste.add(macierzyste);
                 }
-               
+            } catch (PersistenceException e) {               
+                Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
+            } catch (Exception ef) {
+                Msg.msg("e","Wystąpił błąd przy edycji konta. "+ef.getMessage()+" Nie wyedytowanododano: "+p.getPelnynumer());
             }
-        }
+        });
         kontoDAO.editList(wykazkont);
     }
     
@@ -74,7 +71,7 @@ public class KontaFKBean implements Serializable{
              if (p.getKontomacierzyste()!=null) {
                 try {
                     Konto macierzyste = pobierzmacierzysteWzorcowy(p, kontoDAO, wpisView);
-                    naniesBlokade(macierzyste, kontoDAO);
+                    naniesBlokade(macierzyste);
                     sprawdzonemacierzyste.add(macierzyste);
                     PlanKontFKBean.naniesprzyporzadkowanieWzorcowy(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
                 } catch (PersistenceException e) {
@@ -97,10 +94,9 @@ public class KontaFKBean implements Serializable{
         return macierzyste;
     }
     
-    private static void naniesBlokade(Konto macierzyste, KontoDAOfk kontoDAO) {
+    private static void naniesBlokade(Konto macierzyste) {
         macierzyste.setMapotomkow(true);
         macierzyste.setBlokada(true);
-        kontoDAO.edit(macierzyste);
     }
     
     public static List<StronaWiersza> pobierzZapisyRok(Konto konto, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO) {

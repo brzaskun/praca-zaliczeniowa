@@ -311,6 +311,23 @@ public class DokFKBean {
         }
         return kwota;
     }
+    
+    public static double szukajpobierzwartosczBO(Konto kontorozrachunkowe, List<WierszBO> wierszBOlista) {
+        double kwota = 0.0;
+        if (wierszBOlista != null && !wierszBOlista.isEmpty()) {
+            for (WierszBO p : wierszBOlista) {
+                if (p.getKonto().equals(kontorozrachunkowe)) {
+                    if (p.getKwotaWn() != 0) {
+                        kwota += p.getKwotaWn();
+                    } else {
+                        kwota -= p.getKwotaMa();
+                    }
+                }
+            }
+
+        }
+        return kwota;
+    }
 
 
     public static void obsluzWstawKontoWBRK(StronaWiersza wybranastronawiersza, Konto kontorozrachunkowe, int lpWierszaWpisywanie) {
