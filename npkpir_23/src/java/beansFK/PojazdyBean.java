@@ -37,8 +37,6 @@ public class PojazdyBean {
                     double suma = 0;
                     List<StronaWiersza> listastron = Collections.synchronizedList(new ArrayList<>());
                     for (StronaWiersza s : stronywiersza) {
-                        if (s.getKonto().getNazwapelna().equals("ZS228CG") && r.getPelnynumer().equals("403-2")) {
-                        }
                         if (s.getKonto().getNazwapelna().equals(p.getNrrejestracyjny()) && s.getKonto().getKontomacierzyste()!=null && s.getKonto().getKontomacierzyste().equals(r)) {
                             if (s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                                 suma += sumuj(s);

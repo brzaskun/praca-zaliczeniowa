@@ -18,6 +18,7 @@ import entity.SumypkpirPK;
 import error.E;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
 import view.ParametrView;
@@ -52,15 +53,11 @@ public class KsiegaBean {
             dokumentyZaRok = dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString());
             dokumentyZaMc = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc);
             int iloscdo = 0;
-            for (Dok p : dokumentyZaRok) {
-                if (Integer.parseInt(p.getPkpirM()) < Integer.parseInt(mc)) {
-                    iloscdo += 1;
-                }
-            }
+            iloscdo = (int) dokumentyZaRok.parallelStream().filter((p)->(Integer.parseInt(p.getPkpirM()) < Integer.parseInt(mc))).count();
             if (numerkolejny == 1 && dokumentyZaRok != null && dokumentyZaMc != null) {
                 numerkolejny = iloscdo+1;
             }
-            Collections.sort(dokumentyZaRok, new Dokcomparator());
+            //Collections.sort(dokumentyZaRok, new Dokcomparator());
             Collections.sort(dokumentyZaMc, new Dokcomparator());
         } catch (Exception e) { 
             E.e(e); 
