@@ -6,23 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <script>
-        var pokazbutony = function() {
-            try {
-                r('formVATUE:deklbutton').show();
-                r('formVATUE:deklbutton2').show();
-            } catch(e){}
-            try {
-                r('form:akordeon:deklbutton').show();
-                r('form:akordeon:deklbutton2').show();
-            } catch(e){}
-            
-        }
-    </script>
     <h:form>
             <p:outputPanel id="wrapper"> 
 
-                <p:messages id="mesydzue" autoUpdate="true"/>
                 <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1350px;" styleClass="upd3"
                              selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.hashCode()}">
                     <p:column style="width: 3%;">
