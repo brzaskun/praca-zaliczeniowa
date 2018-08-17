@@ -82,7 +82,7 @@
                     onstart="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
                     update=":form:dokumentyLista"/>
             <f:selectItem itemLabel="wszystkie" itemValue="" noSelectionOption="true"/>
-            <f:selectItem itemLabel="dokumenty bez cechy" itemValue="bezcechy" />
+            <f:selectItem itemLabel="dokumenty bez cechy" itemValue="bezcechy"/>
             <f:selectItems value="#{DokTabView.cechydokzlisty}" />
         </p:selectOneMenu>
          <p:commandButton id="cechadokumentu" value="CechyDok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px; " 

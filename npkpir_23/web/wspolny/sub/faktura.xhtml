@@ -10,14 +10,14 @@
         <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmationFaktura').hide()" type="button" style="margin-left: 15px;"/>   
         <p:commandButton id="confirm" value="Tak, usunąć" update="akordeon:formsporzadzone:dokumentyLista akordeon:formzestawienie:dokumentyZestawienie" 
                          oncomplete="PF('confirmationFaktura').hide()"  
-                         actionListener="#{fakturaView.destroysporzadzonepro}" style="margin-left: 70px;"/>  
+                         actionListener="#{fakturaView.destroysporzadzone}" style="margin-left: 70px;"/>  
     </p:confirmDialog>  
     <p:confirmDialog id="confirmDialogpro" message="Usunąć wybrane faktury proforma? Sztuk #{fakturaView.gosciwybralpro.size()}" appendTo="@(body)"
                      header="Rozpoczęcie usuwania faktur" severity="alert" widgetVar="confirmationFakturapro" >  
         <p:commandButton value="Nie usuwać" onclick="PF('confirmationFakturapro').hide()" type="button" style="margin-left: 15px;"/>   
         <p:commandButton value="Tak, usunąć" update="akordeon:formproforma:dokumentyListaPro akordeon:formzestawienie:dokumentyZestawienie" 
                          oncomplete="PF('confirmationFakturapro').hide()"  
-                         actionListener="#{fakturaView.destroysporzadzone}" style="margin-left: 70px;"/>  
+                         actionListener="#{fakturaView.destroysporzadzonepro}" style="margin-left: 70px;"/>  
     </p:confirmDialog>  
     <p:confirmDialog id="confirmDialog1" message="Wygenerować #{fakturaView.gosciwybralokres.size()} nowe faktury w miesiącu #{WpisView.miesiacWpisu}?"  appendTo="@(body)"
                      header="Generowanie nowych faktur" severity="alert" widgetVar="confirmationFakturaOkresowe" >  

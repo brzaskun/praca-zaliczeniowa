@@ -930,6 +930,7 @@ public class FakturaView implements Serializable {
             selDokument.setDataWyst(faktura.getDatawystawienia());
             selDokument.setDataSprz(faktura.getDatawystawienia());
             selDokument.setKontr(faktura.getKontrahent());
+            selDokument.setTabelanbp(p.getTabelanbp());
             Rodzajedok rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt());
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(faktura.getFakturaPK().getNumerkolejny());

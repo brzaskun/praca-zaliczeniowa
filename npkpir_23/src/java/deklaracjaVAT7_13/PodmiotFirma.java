@@ -26,9 +26,16 @@ class PodmiotFirma {
         NIP = adres.getNIP();
         Nazwa = StringEscapeUtils.escapeXml(selected.getPodatnik());
         REGON = selected.getRegon();
-        Podmiot = "<Podmiot1 rola=\"Podatnik\"><etd:OsobaNiefizyczna><etd:NIP>"+NIP
-                +"</etd:NIP><etd:PelnaNazwa>"+Nazwa+"</etd:PelnaNazwa><etd:REGON>"
-                +REGON+"</etd:REGON></etd:OsobaNiefizyczna></Podmiot1>"; 
+        Integer rok = Integer.parseInt(selected.getRok());
+        Integer mc = Integer.parseInt(selected.getMiesiac());
+        if (rok <= 2018 && mc<7) {
+            Podmiot = "<Podmiot1 rola=\"Podatnik\"><etd:OsobaNiefizyczna><etd:NIP>"+NIP
+            +"</etd:NIP><etd:PelnaNazwa>"+Nazwa+"</etd:PelnaNazwa><etd:REGON>"
+            +REGON+"</etd:REGON></etd:OsobaNiefizyczna></Podmiot1>"; 
+        } else {
+            Podmiot = "<Podmiot1 rola=\"Podatnik\"><OsobaNiefizyczna><NIP>"+NIP
+            +"</NIP><PelnaNazwa>"+Nazwa+"</PelnaNazwa></OsobaNiefizyczna></Podmiot1>"; 
+        }
     }
 
     public static String getPodmiot() {

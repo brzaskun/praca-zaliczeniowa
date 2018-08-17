@@ -28,7 +28,7 @@
             <p:contextMenu for="dokumentyListaPro" style="width: 250px;">
                 <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{fakturaView.pdffaktura()}" icon="ui-icon-print" />
                 <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formproforma:dokumentyListaPro" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura(fakturaView.gosciwybralpro)}" />
-                <p:menuitem value="Usuń wybrane" update="confirmDialog" oncomplete="PF('confirmationFakturapro').show();" icon="ui-icon-trash" />
+                <p:menuitem value="Usuń wybrane" update="confirmDialogpro" oncomplete="PF('confirmationFakturapro').show();" icon="ui-icon-trash" />
                 <p:separator/>
                 <p:menuitem value="Oznacz jako wysłaną" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formproforma:dokumentyListaPro" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakowyslane(fakturaView.gosciwybralpro)}" />
                 <p:menuitem value="Wymuś usunięcie" update=":akordeon:formproforma:dokumentyListaPro,  :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.wymusdestroysporzadzone(fakturaView.gosciwybralpro)}" icon="ui-icon-trash" />

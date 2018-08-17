@@ -2134,10 +2134,14 @@ public class PdfMain {
                     tablicaWkomorce(table, p, "entity.Dok", 0);
                     tablicaWkomorce(table, p, "entity.Dok", 1);
                     table.addCell(ustawfrazeAlign(p.getVatM(), "center", 9));
-                    if (p.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
-                        table.addCell(ustawfrazeAlign("", "left", 9));
+                    if (p.getTabelanbp()!=null ) {
+                        if (p.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
+                            table.addCell(ustawfrazeAlign("", "left", 9));
+                        } else {
+                            table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik(), "just", 9));
+                        }
                     } else {
-                        table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik(), "just", 9));
+                        table.addCell(ustawfrazeAlign("", "left", 9));
                     }
                 } else {
                     Dok p = (Dok) it.next();
@@ -2647,7 +2651,7 @@ public class PdfMain {
                 try {
                     NumberFormat number = getNumberFormater();
                     Dok d = (Dok) p;
-                    if (d.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
+                    if (d.getTabelanbp()==null || d.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(d.getNetto())), "right", 9));
                     } else {
                         PdfPTable t = new PdfPTable(1);

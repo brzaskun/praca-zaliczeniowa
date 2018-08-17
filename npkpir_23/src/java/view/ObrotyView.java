@@ -229,7 +229,11 @@ public class ObrotyView implements Serializable{
    
    public void drukujObroty() {
         try {
-            if (goscwybral != null && goscwybral.size() > 0) {
+            if (dokumentyFiltered != null && dokumentyFiltered.size() > 0 && goscwybral.isEmpty()) {
+                PdfObroty.drukuj(dokumentyFiltered, wpisView);
+            } else if (dokumentyFiltered != null && goscwybral != null && goscwybral.size() > 0) {
+                PdfObroty.drukuj(goscwybral, wpisView);
+            } else if (goscwybral != null && goscwybral.size() > 0) {
                 PdfObroty.drukuj(goscwybral, wpisView);
             } else {
                 PdfObroty.drukuj(obiektDOKmrjsfSelX, wpisView);
