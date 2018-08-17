@@ -50,6 +50,8 @@ public class KlView implements Serializable {
     private KliencifkView kliencifkView;
     @ManagedProperty(value = "#{gUSView}")
     private GUSView gUSView;
+    @Inject
+    private PanstwaMap panstwaMapa;
 
 
 //    public static void main(String[] args) {
@@ -61,6 +63,7 @@ public class KlView implements Serializable {
     private KlienciDAO klDAO;
     @Inject
     private Klienci selected;
+    private Klienci selectedtabela;
 //    @Inject
 //    private Klienci selectedtablica;
     @Inject
@@ -70,6 +73,8 @@ public class KlView implements Serializable {
     @PostConstruct
     private void init() {
         kl1 = klDAO.findAll();
+        selected.setKrajnazwa("Polska");
+        selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
     }
 
     public void wyszukajduplikat(ValueChangeEvent e) {
@@ -142,6 +147,8 @@ public class KlView implements Serializable {
             kl1.add(selected);
             Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
             selected = new Klienci();
+            selected.setKrajnazwa("Polska");
+            selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
@@ -337,6 +344,7 @@ public class KlView implements Serializable {
 
     public void wybranodoedycji(SelectEvent ex) {
         edycja = true;
+        selected = selectedtabela;
         //selected = (Klienci) ex.getObject();
         Msg.msg("Wybrano klienta do edycji: " + selected.getNpelna());
     }
@@ -414,23 +422,11 @@ public class KlView implements Serializable {
     }
 
     private void wygenerujnip() {
-        List<Klienci> kliencitmp = klDAO.findAll();
-        List<Klienci> kliencinip = Collections.synchronizedList(new ArrayList<>());
-        //odnajduje klientow jednorazowych
-        for (Klienci p : kliencitmp) {
-            if (p.getNip().startsWith("XX")) {
-                kliencinip.add(p);
-            }
-        }
-        //wyciaga nipy
-        List<Integer> nipy = Collections.synchronizedList(new ArrayList<>());
-        for (Klienci p : kliencinip) {
-            nipy.add(Integer.parseInt(p.getNip().substring(2)));
-        }
+        List<String> nipy = klDAO.findKlientByNipXX();
         Collections.sort(nipy);
         Integer max;
         if (nipy.size() > 0) {
-            max = nipy.get(nipy.size() - 1);
+            max = Integer.parseInt(nipy.get(nipy.size() - 1).substring(2));
             max++;
         } else {
             max = 0;
@@ -452,6 +448,21 @@ public class KlView implements Serializable {
         }
     }
     
+    public void wstawkreske(int wstaw) {
+        if (wstaw==0) {
+            if (selected.getDom()==null || selected.getDom().isEmpty()) {
+                selected.setDom("-");
+            }
+        } else if (wstaw==1) {
+            if (selected.getLokal()==null || selected.getLokal().isEmpty()) {
+                selected.setLokal("-");
+            }
+        } else {
+            if (selected.getUlica()==null || selected.getUlica().isEmpty()) {
+                selected.setUlica("-");
+            }
+        }
+    }
     
 
     public Klienci getSelected() {
@@ -514,6 +525,14 @@ public class KlView implements Serializable {
 
     public void setEdycja(boolean edycja) {
         this.edycja = edycja;
+    }
+
+    public Klienci getSelectedtabela() {
+        return selectedtabela;
+    }
+
+    public void setSelectedtabela(Klienci selectedtabela) {
+        this.selectedtabela = selectedtabela;
     }
 
     

@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Klienci.findAll", query = "SELECT k FROM Klienci k"),
     @NamedQuery(name = "Klienci.findById", query = "SELECT k FROM Klienci k WHERE k.id = :id"),
     @NamedQuery(name = "Klienci.findByNip", query = "SELECT k FROM Klienci k WHERE k.nip = :nip"),
+    @NamedQuery(name = "Klienci.findByNipXX", query = "SELECT k.nip FROM Klienci k WHERE k.nip LIKE :nip"),
     @NamedQuery(name = "Klienci.findKlienciNip", query = "SELECT k.nip FROM Klienci k WHERE k.nip != '0000000000'"),
     @NamedQuery(name = "Klienci.findByDom", query = "SELECT k FROM Klienci k WHERE k.dom = :dom"),
     @NamedQuery(name = "Klienci.findByEmail", query = "SELECT k FROM Klienci k WHERE k.email = :email"),

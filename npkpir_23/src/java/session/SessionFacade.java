@@ -1359,6 +1359,15 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
     
+    public List<String> findKlientByNipXX() {
+        try {
+            return em.createNamedQuery("Klienci.findByNipXX").setParameter("nip", "XX%").getResultList();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
     public Klienci findKlientByNipImport(String nip) {
         List<Klienci> wynik = null;
         try {
