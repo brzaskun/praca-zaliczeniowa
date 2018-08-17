@@ -27,13 +27,13 @@
                             <h:outputText value="remanent końcowy"/><bcf:outputpl value="#{remanentView.remanentKoniecRoku}"/>
                             <h:outputText value="różnica"/><bcf:outputpl value="#{remanentView.roznica}"/>
                         </p:panelGrid>
-                        <p:panel header="wybierz osobę: " style="width: 250px;" rendered="#{ZestawienieRyczaltView.listawybranychudzialowcow.size() gt 1}"/>
-                        <p:selectOneMenu value="#{ZestawienieView.wybranyudzialowiec}" style="width: 250px;"  rendered="#{ZestawienieRyczaltView.listawybranychudzialowcow.size() gt 1}">
+                        <p:panel header="wybierz osobę: " style="width: 250px;" rendered="#{ZestawienieView.listawybranychudzialowcow.size() gt 1}"/>
+                        <p:selectOneMenu value="#{ZestawienieView.wybranyudzialowiec}" style="width: 250px;"  rendered="#{ZestawienieView.listawybranychudzialowcow.size() gt 1}">
                             <f:selectItem itemLabel="wybierz osobe" itemValue="wybierz osobe"/>
                             <f:selectItems value="#{ZestawienieView.listawybranychudzialowcow}"/>
                             <p:ajax event="change" update=":akordeon:formpit" listener="#{ZestawienieView.obliczPit()}" partialSubmit="true"/>
                         </p:selectOneMenu>
-                        <p:panel header="imię nazwisko przedsiębiorcy: " style="width: 250px;" rendered="#{ZestawienieRyczaltView.listawybranychudzialowcow.size() eq 1}"/>
+                        <p:panel header="imię nazwisko przedsiębiorcy: " style="width: 250px;" rendered="#{ZestawienieView.listawybranychudzialowcow.size() eq 1}"/>
                         <h:outputText value="#{ZestawienieView.wybranyudzialowiec}"/>
                         <p:panel header="opodatkowanie: "/>
                         <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
