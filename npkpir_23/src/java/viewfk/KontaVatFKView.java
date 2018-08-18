@@ -7,6 +7,7 @@
 package viewfk;
 
 import beansFK.KontaFKBean;
+import comparator.SaldoKontocomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
@@ -101,11 +102,11 @@ public class KontaVatFKView implements Serializable {
     
     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
         List<SaldoKonto> przygotowanalista = Collections.synchronizedList(new ArrayList<>());
-        int licznik = 0;
+        int[] licznik = {0};
         String vatokres = sprawdzjakiokresvat();
-        for (Konto p : kontaklienta) {
+        kontaklienta.parallelStream().forEach((p) ->{
             SaldoKonto saldoKonto = new SaldoKonto();
-            saldoKonto.setId(licznik++);
+            saldoKonto.setId(licznik[0]++);
             saldoKonto.setKonto(p);
             //naniesBOnaKonto(saldoKonto, p);
             if (p.getPelnynumer().equals("221-4")) {
@@ -118,7 +119,8 @@ public class KontaVatFKView implements Serializable {
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
             dodajdolisty(saldoKonto, przygotowanalista);
-        }
+        });
+        Collections.sort(przygotowanalista, new SaldoKontocomparator());
         return przygotowanalista;
     }
 

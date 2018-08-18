@@ -154,29 +154,29 @@
                         </p:dataTable>
                         <p:outputPanel style="margin-top: 10px">
 <!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
-                            <p:dataTable value="#{kontaVatFKView.kontavat}" var="item" style="width: 80%;" id="saldokontvat">
+                            <p:dataTable value="#{kontaVatFKView.kontavat}" var="itemkonto" style="width: 80%;" id="saldokontvat">
                                 <p:ajax event="rowToggle" global="false" />
                                 <p:column style="height: 19px; text-align: center;" width="20">
                                     <p:rowToggler />
                                 </p:column>
                                 <p:column headerText="nr konta" width="50">
-                                    <h:outputText value="#{item.konto.pelnynumer}"/>
+                                    <h:outputText value="#{itemkonto.konto.pelnynumer}"/>
                                 </p:column>
                                 <p:column headerText="#{mgs.nazwakonta}">
-                                    <h:outputText value="#{item.konto.nazwapelna}"/>
+                                    <h:outputText value="#{itemkonto.konto.nazwapelna}"/>
                                 </p:column>
                                 <p:column headerText="saldo Wn">
-                                    <h:outputText value="#{item.saldoWn}" style="float: right;">
+                                    <h:outputText value="#{itemkonto.saldoWn}" style="float: right;">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="saldo Ma">
-                                    <h:outputText value="#{item.saldoMa}" style="float: right;">
+                                    <h:outputText value="#{itemkonto.saldoMa}" style="float: right;">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
                                 <p:rowExpansion>
-                                    <p:dataTable value="#{item.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" paginator="true" rows="2" paginatorPosition="top">
+                                    <p:dataTable value="#{itemkonto.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" paginator="true" rows="2" paginatorPosition="top">
                                         <p:ajax event="page" global="false"/>
                                     <p:column headerText="#{mgs.dokument}" width="70">
                                         <h:outputText value="#{loopik.dokfkS}"/>

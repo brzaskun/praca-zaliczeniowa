@@ -504,9 +504,9 @@ public class KontoZapisFKView implements Serializable{
             sumaMa = 0.0;
             DoubleAccumulator  wn = new DoubleAccumulator(Double::sum,0.d);
             DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
-            for(StronaWiersza p : kontozapisy){
-                 sumujstrony(wn, ma, p);
-            }
+            kontozapisy.parallelStream().forEach((p) -> {
+                sumujstrony(wn, ma, p);
+            });
             sumaWn = Z.z(sumaWn+wn.doubleValue());
             sumaMa = Z.z(sumaMa+ma.doubleValue());
             saldoWn = 0.0;
@@ -605,13 +605,13 @@ public class KontoZapisFKView implements Serializable{
     public void sumazapisowplnAut(){
         sumaWnPLN = 0.0;
         sumaMaPLN = 0.0;
-        for(StronaWiersza p : kontozapisy){
+        kontozapisy.parallelStream().forEach((p)->{
             if (p.getWnma().equals("Wn")) {
                 Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
             } else if (p.getWnma().equals("Ma")){
                 Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
             }
-        }
+        });
         saldoWnPLN = 0.0;
         saldoMaPLN = 0.0;
         if(sumaWnPLN>sumaMaPLN){
