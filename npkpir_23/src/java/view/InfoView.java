@@ -83,48 +83,44 @@ public class InfoView implements Serializable{
     
     
     @PostConstruct
-    private void init(){
+    private void init() {
         pod = wpisView.getPodatnikObiekt();
         podatnik = wpisView.getPodatnikWpisu();
         rok = wpisView.getRokWpisu().toString();
         dokumenty = dokDAO.zwrocBiezacegoKlientaRok(pod, rok);
-        if(!dokumenty.isEmpty()){
-        selectedDok = dokumenty.get(dokumenty.size()-1);
-        liczbawprowadzonychdok = dokumenty.size();
-        HashSet<String> tmpset = new HashSet<>();
-        for(Dok p : dokumenty){
-            tmpset.add(p.getWprowadzil());
-        }
-        for(String p : tmpset){
-            osobawprowadzajaca.add(p);
-        }
-        HashSet<String> tmpset1 = new HashSet<>();
-        for(Dok p : dokumenty){
-            tmpset1.add(p.getRodzajedok().getSkrot());
-        }
-        for(String p : tmpset1){
-            int i = 0;
-            for(Dok r : dokumenty){
-                if(r.getRodzajedok().getSkrot().equals(p)){
-                    i++;
-                }
+        if (!dokumenty.isEmpty()) {
+            selectedDok = dokumenty.get(dokumenty.size() - 1);
+            liczbawprowadzonychdok = dokumenty.size();
+            HashSet<String> tmpset = new HashSet<>();
+            HashSet<String> tmpset1 = new HashSet<>();
+            for (Dok p : dokumenty) {
+                tmpset.add(p.getWprowadzil());
+                tmpset1.add(p.getRodzajedok().getSkrot());
             }
-            Rodzdok rodzdok = new Rodzdok();
-            rodzdok.setRodzajdok(p);
-            rodzdok.setIlosc(i);
-            rodzajedok.add(rodzdok);
+            osobawprowadzajaca = new ArrayList<>(tmpset);
+            tmpset1.parallelStream().forEach((p) -> {
+                int[] i = {0};
+                dokumenty.parallelStream().forEach((r) -> {
+                    if (r.getRodzajedok().getSkrot().equals(p)) {
+                        i[0]++;
+                    }
+                });
+                Rodzdok rodzdok = new Rodzdok();
+                rodzdok.setRodzajdok(p);
+                rodzdok.setIlosc(i[0]);
+                rodzajedok.add(rodzdok);
+            });
+            sprawdzopodatkowanie();
+            sprawdzvat();
+            sprawdzzus();
+            sprawdz47();
+            sprawdzudzialy();
+            sprawdzrem();
+            sprawdzaut();
+            sprawdzvatokres();
+            sprawdziloscdekl();
+            sprawdzryczalt();
         }
-        }
-        sprawdzopodatkowanie();
-        sprawdzvat();
-        sprawdzzus();
-        sprawdz47();
-        sprawdzudzialy();
-        sprawdzrem();
-        sprawdzaut();
-        sprawdzvatokres();
-        sprawdziloscdekl();
-        sprawdzryczalt();
     }
 
     private void sprawdzopodatkowanie(){
