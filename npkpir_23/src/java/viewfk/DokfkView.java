@@ -2295,7 +2295,13 @@ public class DokfkView implements Serializable {
                 }
                 opislinia = opislinia+" "+kontrahent;
                 opislinia = opislinia.length() >767 ? opislinia.substring(0, 766) : opislinia;
-                aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza(opislinia);
+                if (aktualnyWierszDlaRozrachunkow.getWiersz().getTypWiersza()==0 && aktualnyWierszDlaRozrachunkow.getWiersz().getStronaWn().getSaRozrachunki() && aktualnyWierszDlaRozrachunkow.getWiersz().getStronaMa().getSaRozrachunki()) {
+                    opislinia = "komp. "+aktualnyWierszDlaRozrachunkow.getWiersz().getOpisWiersza()+" "+opislinia;
+                    opislinia = opislinia.length() >767 ? opislinia.substring(0, 766) : opislinia;
+                    aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza(opislinia);
+                } else {
+                    aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza(opislinia);
+                }
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
             }
         }
