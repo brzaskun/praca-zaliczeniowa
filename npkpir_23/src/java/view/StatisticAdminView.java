@@ -72,16 +72,16 @@ public class StatisticAdminView implements Serializable {
             sesje = sesjaDAO.findUser(r);
             stat.ksiegowa = r;
             stat.iloscsesji = sesje.size();
-            long milis = 0;
-            for (Sesja p : sesje) {
+            long[] milis = {0};
+            sesje.parallelStream().forEach((p)->{
                 stat.iloscdokumentow += p.getIloscdokumentow();
                 stat.iloscwydrukow += p.getIloscwydrukow();
                 if (p.getWylogowanie() instanceof Date && p.getZalogowanie() instanceof Date) {
                     Duration duration = new Duration(new DateTime(p.getZalogowanie()),new DateTime(p.getWylogowanie()));
-                    milis += duration.getMillis();
+                    milis[0] = milis[0]+duration.getMillis();
                 }
-            }
-            int minuty = (int) (milis/1000/60);
+            });
+            int minuty = (int) (milis[0]/1000/60);
             int godziny = minuty/60;
             int dni = godziny/7;
             stat.spedzonyczas = String.format(" w minutach: %s, w godzinach: %s, w dniach roboczych: %s", minuty, godziny, dni);
@@ -125,7 +125,7 @@ public class StatisticAdminView implements Serializable {
     
     private void obliczkontrahentow(List<String> pracownicy) {
         Map<String, String> klienci = new ConcurrentHashMap<>();
-        for (String s :pracownicy) {
+        pracownicy.parallelStream().forEach((s)->{
             Obrabiani obrab = new Obrabiani();
             if (s!=null) {
                 obrab.wprowadzajacy = s;
@@ -134,7 +134,7 @@ public class StatisticAdminView implements Serializable {
                 obrab.liczbaklientow = liczba;
                 obrabiani.add(obrab);
             }
-        }
+        });
     }
 
     public List<Statystyka> getStatystyka() {

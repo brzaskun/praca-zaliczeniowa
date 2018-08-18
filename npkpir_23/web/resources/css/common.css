@@ -58,3 +58,7 @@ and open the template in the editor.
 .filter240 input {
     width: 240px !important;
 }
+
+html.progress, html.progress * {
+    cursor: progress !important;
+}

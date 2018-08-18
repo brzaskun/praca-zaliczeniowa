@@ -185,3 +185,13 @@ var startajaxm = function() {
 var stopajaxm = function() {
   PF('ajaxm').renderMessage({summary:'Zakończono szukanie', detail: 'można przeglądać', severity: 'info'});  
 };
+
+$(document).on("ajaxStart pfAjaxSend", function() {
+    $("html").addClass("progress");
+}).on("ajaxStop pfAjaxComplete", function() {
+    $("html").removeClass("progress");
+});
+
+jsf.ajax.addOnEvent(function(data) {
+    $("html").toggleClass("progress", data.status == "begin");
+});

@@ -175,8 +175,8 @@ public class ZamkniecieView implements Serializable {
         List<Dok> lista = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok,mc);
         for(Dok dokument : lista){
             dokument.setStatus(stan);
-            dokDAO.edit(dokument);
         }
+        dokDAO.editList(lista);
     }
     
      public boolean sprawdzMiesiacRok() {
