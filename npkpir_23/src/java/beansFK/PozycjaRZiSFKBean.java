@@ -260,27 +260,34 @@ public class PozycjaRZiSFKBean {
 
     }
     
-    public static void wyszukajprzyporzadkowaneBLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaBilansDAO pozycjaBilansDAO,  WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy, UkladBR uklad) {
-        List<Konto> lista = Collections.synchronizedList(new ArrayList<>());
-        if (wzorcowy) {
-            lista = kontoDAO.findKontaPrzyporzadkowaneWzorcowy(pozycja.getPozycjaString(), "bilansowe", Integer.parseInt(uklad.getRok()), aktywa0pasywa1);
-        } else {
-            lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "bilansowe", wpisView, aktywa0pasywa1);
-        }
+    public static void wyszukajprzyporzadkowaneBLista(List<Konto> lista, PozycjaRZiSBilans pozycja, WpisView wpisView, boolean aktywa0pasywa1) {
+        String strona = aktywa0pasywa1 ? "1" : "0";
         List<Konto> kontokwotalist = Collections.synchronizedList(new ArrayList<>());
-        for (Konto p : lista) {
+        if (pozycja.getPozycjaString().equals("A.I")) {
+            System.out.println("");
+        }
+        lista.parallelStream().forEach((p)->{
             try {
-                if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                    p.setKwota(0.0);
-                    kontokwotalist.add(p);
+                    if (aktywa0pasywa1 && pozycja.isPrzychod0koszt1()) {
+                    if (p.getKontopozycjaID().getPozycjaMa()!=null && p.getKontopozycjaID().getPozycjaMa().equals(pozycja.getPozycjaString()) && p.getKontopozycjaID().getStronaMa().equals(strona)) {
+                        if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
+                            p.setKwota(0.0);
+                            kontokwotalist.add(p);
+                        }
+                    }
+                } else if (!pozycja.isPrzychod0koszt1()){
+                    if (p.getKontopozycjaID().getPozycjaWn()!=null && p.getKontopozycjaID().getPozycjaWn().equals(pozycja.getPozycjaString()) && p.getKontopozycjaID().getStronaWn().equals(strona)) {
+                        if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
+                            p.setKwota(0.0);
+                            kontokwotalist.add(p);
+                        }
+                    }
                 }
             } catch (Exception e) {
                 E.e(e);
             }
-        }
+        });
         pozycja.setPrzyporzadkowanekonta(kontokwotalist);
-        pozycjaBilansDAO.edit(pozycja);
-
     }
     
     public static void wyszukajprzyporzadkowaneRLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaRZiSDAO pozycjaRZiSDAO, WpisView wpisView, boolean wzorcowy, UkladBR uklad) {

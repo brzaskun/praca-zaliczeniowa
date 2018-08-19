@@ -955,6 +955,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
+    public List<Konto> findKontaPrzyporzadkowaneAll(String bilansowewynikowe, WpisView wpisView) {
+        if (bilansowewynikowe.equals("bilansowe")) {
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaBilansoweAll").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+        } else {
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaWynikoweAll").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+        }
+    }
+    
     public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe, WpisView wpisView, String aktywa0pasywa1) {
         if (bilansowewynikowe.equals("bilansowe")) {
             return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
@@ -962,7 +970,15 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
         }
     }
-
+    
+    public List<Konto> findKontaPrzyporzadkowaneWzorcowyAll(String bilansowewynikowe, int rok) {
+        if (bilansowewynikowe.equals("bilansowe")) {
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaBilansoweWZORaLL").setParameter("rok", rok).getResultList());
+        } else {
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaWynikoweWZORAll").setParameter("rok", rok).getResultList());
+        }
+    }
+    
     public List<Konto> findKontaPrzyporzadkowaneWzorcowy(String pozycja, String bilansowewynikowe, int rok, String aktywa0pasywa1) {
         if (bilansowewynikowe.equals("bilansowe")) {
             return Collections.synchronizedList(em.createNamedQuery("Konto.findByPozycjaBilansoweWZOR").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("rok", rok).getResultList());

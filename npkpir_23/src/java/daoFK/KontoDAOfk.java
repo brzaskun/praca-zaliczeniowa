@@ -434,6 +434,24 @@ public class KontoDAOfk extends DAO implements Serializable {
             return null;
         }
     }
+    
+    public List<Konto> findKontaPrzyporzadkowaneAll(String bilansowewynikowe, WpisView wpisView) {
+        try {
+            return Collections.synchronizedList(kontoFacade.findKontaPrzyporzadkowaneAll(bilansowewynikowe, wpisView));
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
+    public List<Konto> findKontaPrzyporzadkowaneWzorcowyAll(String bilansowewynikowe, int rok) {
+        try {
+            return Collections.synchronizedList(kontoFacade.findKontaPrzyporzadkowaneWzorcowyAll(bilansowewynikowe, rok));
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
 
     public List<Konto> findKontaPrzyporzadkowaneWzorcowy(String pozycja, String bilansowewynikowe, int rok, boolean aktywa0pasywa1) {
         try {
