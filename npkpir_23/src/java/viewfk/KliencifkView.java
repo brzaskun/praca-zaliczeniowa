@@ -125,19 +125,21 @@ public class KliencifkView implements Serializable {
     public void pobieraniekontaFKWpisCD() {
         //tworzenie nowego
         klientBezKonta = new Kliencifk();
-        klientBezKonta.setNazwa(wybranyklient.getNpelna());
-        klientBezKonta.setNip(wybranyklient.getNip());
-        klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
-        klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
-        klientBezKonta.setNrkonta(pobierznastepnynumer());
-        przyporzadkujdokonta();
-        resetujmakontoniemakonta();
-        planKontCompleteView.init();
-        kontoConv.init();
+        if (!wybranyklient.getNpelna().equals("dodaj klienta automatycznie") && !wybranyklient.getNpelna().equals("nowy klienta")) {
+            klientBezKonta.setNazwa(wybranyklient.getNpelna());
+            klientBezKonta.setNip(wybranyklient.getNip());
+            klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
+            klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+            klientBezKonta.setNrkonta(pobierznastepnynumer());
+            przyporzadkujdokonta();
+            resetujmakontoniemakonta();
+            planKontCompleteView.init();
+            kontoConv.init();
+        }
     }
 
     public int pobieraniekontaFK() {
-        if (wybranyklient instanceof Klienci && !wybranyklient.getNpelna().equals("nowy klient")) {
+        if (wybranyklient instanceof Klienci && !wybranyklient.getNpelna().equals("nowy klient") && !wybranyklient.getNpelna().equals("dodaj klienta automatycznie")) {
             try {
                 klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
                 if (klientMaKonto != null) {
