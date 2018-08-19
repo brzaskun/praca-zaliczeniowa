@@ -98,11 +98,12 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
                         //wstawia - do ciagu konta
                         query = query.substring(0, 3) + "-" + query.substring(3, 5);
                     }
-                    for (Konto p : listakontOstatniaAnalitykaklienta) {
-                        if (p.getPelnynumer().startsWith(query) && !p.isNiewidoczne()) {
+                    String[] ql = {query};
+                    listakontOstatniaAnalitykaklienta.parallelStream().forEach((p)->{
+                        if (p.getPelnynumer().startsWith(ql[0]) && !p.isNiewidoczne()) {
                             results.add(p);
                         }
-                    }
+                    });
                     //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
                     if (nazwa != null && nazwa.length() > 2) {
                         for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
@@ -113,11 +114,12 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
                         }
                     }
                 } catch (NumberFormatException e) {
-                    for (Konto p : listakontOstatniaAnalitykaklienta) {
-                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase()) && !p.isNiewidoczne()) {
+                    String[] ql = {query.toLowerCase()};
+                    listakontOstatniaAnalitykaklienta.parallelStream().forEach((p)->{
+                        if (p.getNazwapelna().toLowerCase().contains(ql[0]) && !p.isNiewidoczne()) {
                             results.add(p);
                         }
-                    }
+                    });
                 } catch (Exception e) {
                     E.e(e);
                 }

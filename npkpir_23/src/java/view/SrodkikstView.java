@@ -44,13 +44,13 @@ public class SrodkikstView implements Serializable {
             lista = srodkikstDAO.findAll();
         }
         List<Srodkikst> results = Collections.synchronizedList(new ArrayList<>());  
-         for(Srodkikst p : lista) {  
+         lista.parallelStream().forEach((p)->{
             if(p.getNazwa().contains(query.toLowerCase())) {
                 if(!results.contains(p)){
                      results.add(p);
                 }
              }
-        }  
+        });
         return results;  
     }  
      

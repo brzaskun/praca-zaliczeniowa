@@ -24,8 +24,8 @@
         };
         /* ]]> */
     </script>
-    <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki na kontach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="rozrachunkiPrzeglad" 
-              resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menuzapisykont',1470,750);$(document.getElementById('formwpisrozrachunki:wyborkonta_input')).select();
+    <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki1 na kontach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="rozrachunkiPrzeglad" 
+              resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menuzapisykont',1490,750);$(document.getElementById('formwpisrozrachunki:wyborkonta_input')).select();
 doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               minimizable="true"
               >
@@ -164,7 +164,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                      </p:contextMenu>
                     <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" 
                                  emptyMessage="Nie ma rozrachunków na koncie" sortBy="#{loop.id}" selection="#{rozrachunkiPrzegladView.stronyWierszawybrane}"
-                                 rowIndexVar="rowindex"  style="width: 1050px;"  rowSelectMode="add"
+                                 rowIndexVar="rowindex"  rowSelectMode="add"
                                   styleClass="walkingtable"
                                  >
                         <p:ajax event="rowSelectCheckbox" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
@@ -177,7 +177,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                         <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center;"  >
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}" style="width: 20px;"/>
                         </p:column>
-                        <p:column headerText="waluta" sortBy="#{loop.symbolWalutBOiSW}" width="40">
+                        <p:column headerText="waluta" sortBy="#{loop.symbolWalutBOiSW}" width="30">
                             <h:outputText value="#{loop.symbolWalutBOiSW}"
                                           style="width: 30px;"/>
                         </p:column>

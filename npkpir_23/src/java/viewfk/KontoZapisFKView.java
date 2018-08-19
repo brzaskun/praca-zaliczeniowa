@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.DoubleAccumulator;
+import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -222,12 +223,8 @@ public class KontoZapisFKView implements Serializable{
                 KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
                 int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
                 int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-                zapisyshort.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).map((r) -> {
-                    if (!r.getSymbolWalutBOiSW().equals("PLN")) {
-                        nierenderujkolumnnywalut = false;
-                    }
-                    return r;
-                }).forEachOrdered((r) -> {
+                List<StronaWiersza> zapisyshortfilter = zapisyshort.parallelStream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(Collectors.toList());
+                 zapisyshortfilter.stream().forEach((r) -> {
                     if (wybranaWalutaDlaKont.equals("wszystkie")) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                         if (mc >= granicaDolna && mc <= granicaGorna) {
@@ -242,6 +239,12 @@ public class KontoZapisFKView implements Serializable{
                         }
                     }
                 });
+                for (StronaWiersza p : kontozapisy) {
+                    if (!p.getSymbolWalutBOiSW().equals("PLN")) {
+                        nierenderujkolumnnywalut = false;
+                        break;
+                    }
+                }
                 sumazapisow();
                 sumazapisowpln();
                 //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
@@ -280,14 +283,12 @@ public class KontoZapisFKView implements Serializable{
             KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-            for (StronaWiersza r : zapisyRok) {
-                if (kontapotomneListaOstateczna.contains(r.getKonto())) {
-                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                    if (mc >= granicaDolna && mc <=granicaGorna) {
-                        kontozapisy.add(r);
-                    }
+            zapisyRok.parallelStream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).forEachOrdered((r) -> {
+                int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                if (mc >= granicaDolna && mc <=granicaGorna) {
+                    kontozapisy.add(r);
                 }
-            }
+            });
             sumazapisow();
             sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
@@ -310,40 +311,11 @@ public class KontoZapisFKView implements Serializable{
     
     
     public void pobierzZapisyZmianaWaluty() {
-        if (wybranekonto!=null && wybranekonto.getPodatnik()!=null) {
-            kontozapisy = Collections.synchronizedList(new ArrayList<>());
-            List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
-            List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
-            kontapotomnetmp.add(wybranekonto);
-            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
-            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
-            int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-            for (StronaWiersza r : zapisyRok) {
-                if (kontapotomneListaOstateczna.contains(r.getKonto())) {
-                    if (!r.getSymbolWalutBOiSW().equals("PLN")) {
-                            nierenderujkolumnnywalut = false;
-                    }
-                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                        if (mc >= granicaDolna && mc <= granicaGorna) {
-                            kontozapisy.add(r);
-                        }
-                    } else {
-                        if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
-                            int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                            if (mc >= granicaDolna && mc <= granicaGorna) {
-                                kontozapisy.add(r);
-                            }
-                        }
-                    }
-                }
-            }
-            sumazapisow();
-            sumazapisowpln();
+        if (wybranekonto != null) {
+            pobierzZapisyNaKoncieNode(wybranekonto);
         } else {
-            Msg.msg("w", "Nie wybrano konta");
+            Msg.msg("e", "Nie wybrano konta");
         }
-        //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
     }
     
     
@@ -1458,11 +1430,12 @@ public class KontoZapisFKView implements Serializable{
                         //wstawia - do ciagu konta
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
-                    for (Konto p : wykazkont) {
-                        if (p.getPelnynumer().startsWith(query)) {
+                    String[] qlist = {query};
+                    wykazkont.parallelStream().forEach((p)->{
+                        if (p.getPelnynumer().startsWith(qlist[0])) {
                             results.add(p);
                         }
-                    }
+                    });
                     //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
                     if (nazwa != null && nazwa.length() > 2) {
                         for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
@@ -1473,11 +1446,12 @@ public class KontoZapisFKView implements Serializable{
                         }
                     }
                 } catch (NumberFormatException e) {
-                    for (Konto p : wykazkont) {
-                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                    String[] qlist = {query.toLowerCase()};
+                    wykazkont.parallelStream().forEach((p)->{
+                        if (p.getNazwapelna().toLowerCase().contains(qlist[0])) {
                             results.add(p);
                         }
-                    }
+                    });
                 } catch (Exception e) {
                     E.e(e);
                 }
@@ -1512,11 +1486,12 @@ public class KontoZapisFKView implements Serializable{
                         //wstawia - do ciagu konta
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
-                    for (Konto p : wszystkiekonta) {
-                        if (p.getPelnynumer().startsWith(query)) {
+                    String[] qlist = {query};
+                    wszystkiekonta.parallelStream().forEach((p)->{
+                        if (p.getPelnynumer().startsWith(qlist[0])) {
                             results.add(p);
                         }
-                    }
+                    });
                     //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
                     if (nazwa != null && nazwa.length() > 2) {
                         for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
@@ -1527,11 +1502,12 @@ public class KontoZapisFKView implements Serializable{
                         }
                     }
                 } catch (NumberFormatException e) {
-                    for (Konto p : wszystkiekonta) {
-                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                    String[] qlist = {query.toLowerCase()};
+                    wszystkiekonta.parallelStream().forEach((p)->{
+                        if (p.getNazwapelna().toLowerCase().contains(qlist[0])) {
                             results.add(p);
                         }
-                    }
+                    });
                 } catch (Exception e) {
                     E.e(e);
                 }
@@ -1566,11 +1542,12 @@ public class KontoZapisFKView implements Serializable{
                         //wstawia - do ciagu konta
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
-                    for (Konto p : ostatniaanalityka) {
-                        if (p.getPelnynumer().startsWith(query)) {
+                    String[] qlist = {query};
+                    ostatniaanalityka.parallelStream().forEach((p)->{
+                        if (p.getPelnynumer().startsWith(qlist[0])) {
                             results.add(p);
                         }
-                    }
+                    });
                     //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
                     if (nazwa != null && nazwa.length() > 2) {
                         for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
@@ -1581,11 +1558,12 @@ public class KontoZapisFKView implements Serializable{
                         }
                     }
                 } catch (NumberFormatException e) {
-                    for (Konto p : ostatniaanalityka) {
-                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                    String[] qlist = {query.toLowerCase()};
+                    ostatniaanalityka.parallelStream().forEach((p)->{
+                        if (p.getNazwapelna().toLowerCase().contains(qlist[0].toLowerCase())) {
                             results.add(p);
                         }
-                    }
+                    });
                 } catch (Exception e) {
                     E.e(e);
                 }

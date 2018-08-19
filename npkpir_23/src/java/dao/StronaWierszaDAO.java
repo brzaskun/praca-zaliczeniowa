@@ -210,7 +210,12 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     }
     
     public List<StronaWiersza> findStronaByPodatnikKontoStartRokWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
-        String like = konto.getPelnynumer().substring(0, 3)+"%";
+        String like = "";
+        if (konto.isMapotomkow()) {
+            like = konto.getPelnynumer()+"%";
+        } else {
+            like = konto.getPelnynumer();
+        }
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikKontoStartRokWalutyWszystkie(podatnikObiekt, like, rokWpisuSt));
     }
     
@@ -230,5 +235,13 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     }
     public List<StronaWiersza> findStronaByPodatnikKontoBOWalutaWszystkie(Podatnik podatnik, Konto konto, String rok) {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikKontoBOWalutaWszystkie(podatnik, konto, rok));
+    }
+    
+    public static void main(String[] args) {
+        String kopnto = "202-2-5";
+        int ind = kopnto.lastIndexOf("-");
+        System.out.println(""+ind);
+        kopnto = kopnto.substring(0,ind);
+        System.out.println(""+kopnto);
     }
 }

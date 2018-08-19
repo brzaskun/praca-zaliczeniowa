@@ -64,7 +64,6 @@ public class Opis implements Serializable{
     
      public List<String> complete(String query) {
         List<String> results = new ArrayList<String>();  
-        String kl = new String();
          for(String p : opisy) {  
             if(p.contains(query.toLowerCase())) {
                  results.add(p);
