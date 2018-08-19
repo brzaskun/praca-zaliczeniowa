@@ -125,7 +125,7 @@ public class KliencifkView implements Serializable {
     public void pobieraniekontaFKWpisCD() {
         //tworzenie nowego
         klientBezKonta = new Kliencifk();
-        if (!wybranyklient.getNpelna().equals("dodaj klienta automatycznie") && !wybranyklient.getNpelna().equals("nowy klienta")) {
+        if (!wybranyklient.getNpelna().equals("dodaj klienta automatycznie") && !wybranyklient.getNpelna().equals("nowy klienta") && !wybranyklient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
             klientBezKonta.setNazwa(wybranyklient.getNpelna());
             klientBezKonta.setNip(wybranyklient.getNip());
             klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
