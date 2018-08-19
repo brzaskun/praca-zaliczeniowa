@@ -176,8 +176,12 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     private void uzupelnijpozycjeOKontaR(List<PozycjaRZiSBilans> pozycje) {
-        for (PozycjaRZiSBilans p : pozycje) {
-            PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRLista(kontoDAO, p, pozycjaRZiSDAO, wpisView, true, uklad);
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowaneWzorcowyAll("wynikowe", Integer.parseInt(uklad.getRok()));
+        if (!lista.isEmpty()) {
+            pozycje.parallelStream().forEach((p)->{
+                PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRLista(lista, p, wpisView);
+            });
+            pozycjaBilansDAO.editList(pozycje);
         }
     }
 

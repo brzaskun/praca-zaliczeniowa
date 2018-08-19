@@ -290,26 +290,19 @@ public class PozycjaRZiSFKBean {
         pozycja.setPrzyporzadkowanekonta(kontokwotalist);
     }
     
-    public static void wyszukajprzyporzadkowaneRLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaRZiSDAO pozycjaRZiSDAO, WpisView wpisView, boolean wzorcowy, UkladBR uklad) {
-        List<Konto> lista = Collections.synchronizedList(new ArrayList<>());
-        if (wzorcowy) {
-            lista = kontoDAO.findKontaPrzyporzadkowaneWzorcowy(pozycja.getPozycjaString(), "wynikowe", Integer.parseInt(uklad.getRok()), wzorcowy);
-        } else {
-            lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "wynikowe", wpisView, wzorcowy);
-        }
-        if (lista.size() > 1) {
-        }
+    public static void wyszukajprzyporzadkowaneRLista(List<Konto> lista, PozycjaRZiSBilans pozycja, WpisView wpisView) {
         List<Konto> kontokwotalist = Collections.synchronizedList(new ArrayList<>());
         if (lista != null) {
-            for (Konto p : lista) {
-                if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                    p.setKwota(0.0);
-                    kontokwotalist.add(p);
+            lista.parallelStream().forEach((p)->{
+                if ((p.getKontopozycjaID().getPozycjaWn()!=null && p.getKontopozycjaID().getPozycjaWn().equals(pozycja.getPozycjaString())) || (p.getKontopozycjaID().getPozycjaMa()!=null && p.getKontopozycjaID().getPozycjaMa().equals(pozycja.getPozycjaString()))){ 
+                    if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
+                        p.setKwota(0.0);
+                        kontokwotalist.add(p);
+                    }
                 }
-            }
+            });
         }
         pozycja.setPrzyporzadkowanekonta(kontokwotalist);
-        pozycjaRZiSDAO.edit(pozycja);
     }
     
     public static String zwrocNastepnySymbol(int level) {
