@@ -428,7 +428,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             }
     }
     
-    public void addNumbersBO(List<StronaWiersza> zapisynakontach, List<Konto> plankont) throws Exception {
+    public void addNumbersBO(List<StronaWiersza> zapisynakontach) throws Exception {
         List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
@@ -436,7 +436,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
             double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
-                Konto kontopobrane = plankont.get(plankont.indexOf(stronaWiersza.getKonto()));
+                Konto kontopobrane = stronaWiersza.getKonto();
                 String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
                 String pozycjaRZiS_ma = kontopobrane.getKontopozycjaID().getPozycjaMa();
                 boolean wn = false;

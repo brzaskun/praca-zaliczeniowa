@@ -194,11 +194,9 @@ public class PozycjaBRZestawienieView implements Serializable {
         pobierzPozycje(pozycje);
         rootProjektRZiS.getChildren().clear();
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
-        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         List<StronaWiersza> zapisyRokPop = StronaWierszaBean.pobraniezapisowwynikoweRokPop(stronaWierszaDAO, wpisView);
-        List<Konto> plankontRokPop = kontoDAO.findKontaWynikowePodatnikaBezPotomkowRokPop(wpisView);
         try {
-            PozycjaRZiSFKBean.ustawRootaRokPop(rootProjektRZiS, pozycje, zapisy, plankont, zapisyRokPop, plankontRokPop);
+            PozycjaRZiSFKBean.ustawRootaRokPop(rootProjektRZiS, pozycje, zapisy, zapisyRokPop);
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e) {

@@ -124,10 +124,10 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
-    public static void ustawRootaRokPop(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, List<StronaWiersza> zapisyRokPop, List<Konto> plankontRokPop) throws Exception {
+    public static void ustawRootaRokPop(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<StronaWiersza> zapisyRokPop) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbers(zapisy);
-        rootL.addNumbersBO(zapisyRokPop, plankontRokPop);
+        rootL.addNumbersBO(zapisyRokPop);
         rootL.sumNodes();
         rootL.sumNodesBO();
         rootL.resolveFormulas();
