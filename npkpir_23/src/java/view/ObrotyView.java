@@ -107,7 +107,7 @@ public class ObrotyView implements Serializable{
                 List<String> dokumentyl = Collections.synchronizedList(new ArrayList<>());
                 List<String> kontrahenty = Collections.synchronizedList(new ArrayList<>());
                 List<String> rodzaje = Collections.synchronizedList(new ArrayList<>());
-                obiektDOKjsfSelRok.parallelStream().forEach((tmpx)->{
+                for (Dok tmpx : obiektDOKjsfSelRok){
                     int mcint = Integer.parseInt(tmpx.getPkpirM());
                     if (mcint>=mOdI && mcint<=mDoI) {
                         obiektDOKmrjsfSelX.add(tmpx);
@@ -115,7 +115,7 @@ public class ObrotyView implements Serializable{
                         rodzaje.add(tmpx.getRodzajedok().getRodzajtransakcji());
                         kontrahenty.add(tmpx.getKontr().getNpelna());
                     }
-                });
+                }
                 Collections.sort(obiektDOKmrjsfSelX, new Dokcomparator());
                 int nrkol =1;
                 for(Dok p :obiektDOKmrjsfSelX){
