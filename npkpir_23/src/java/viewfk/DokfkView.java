@@ -2285,7 +2285,18 @@ public class DokfkView implements Serializable {
         }
         if (aktualnyWierszDlaRozrachunkow.getNowetransakcje().isEmpty()) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
+            if (aktualnyWierszDlaRozrachunkow.getWiersz().getTypWiersza()==0 && !aktualnyWierszDlaRozrachunkow.getWiersz().getStronaWn().getSaRozrachunki() && aktualnyWierszDlaRozrachunkow.getWiersz().getStronaMa().getKonto()==null) {
+                aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza("wyzerowano rozrachunki");
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
+            } else  if (aktualnyWierszDlaRozrachunkow.getWiersz().getTypWiersza()==0 && !aktualnyWierszDlaRozrachunkow.getWiersz().getStronaWn().getSaRozrachunki() && !aktualnyWierszDlaRozrachunkow.getWiersz().getStronaMa().getSaRozrachunki()) {
+                aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza("wyzerowano rozrachunki");
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
+            }
         } else {
+            aktualnyWierszDlaRozrachunkow.setOpis(new HashSet<>());
+            for (Transakcja p : biezacetransakcje) {
+                przetworzwprowadzonakwoteOpis(p);
+            }
             if (aktualnyWierszDlaRozrachunkow.getOpis()!=null && aktualnyWierszDlaRozrachunkow.getOpis().size() > 0) {
                 List<String> op = new ArrayList<>(aktualnyWierszDlaRozrachunkow.getOpis());
                 String kontrahent = aktualnyWierszDlaRozrachunkow.getKonto().getNazwapelna();
@@ -2427,7 +2438,7 @@ public class DokfkView implements Serializable {
         }
     }
     
-    public void przetworzwprowadzonakwoteOpis(Transakcja loop, int row) {
+    public void przetworzwprowadzonakwoteOpis(Transakcja loop) {
         try {
             if (Z.z(loop.getKwotatransakcji())!=0.0) {
                 pobierzopis(aktualnyWierszDlaRozrachunkow, loop);
@@ -2439,7 +2450,6 @@ public class DokfkView implements Serializable {
             }
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e", "Wystąpił błąd podczas pobierania tabel NBP. Nie obliczono różnic kursowych");
         }
     }
     
