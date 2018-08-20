@@ -170,13 +170,12 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
         rootProjektRZiS.getChildren().clear();
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
-        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
             for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
                 PozycjaRZiS p = (PozycjaRZiS) it.next();
                 p.setPrzyporzadkowanestronywiersza(null);
             }
-            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
+            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy);
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e){

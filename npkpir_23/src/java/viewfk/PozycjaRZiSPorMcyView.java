@@ -76,16 +76,15 @@ public class PozycjaRZiSPorMcyView  implements Serializable {
         rootProjektRZiS.getChildren().clear();
         //mce narastajace
         //List<StronaWiersza> zapisymc = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
-        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
             List<StronaWiersza> zapisymc = StronaWierszaBean.pobraniezapisowwynikoweMCRok(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, plankont, "01");
+            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, "01");
             zapisymc = StronaWierszaBean.pobraniezapisowwynikoweMCRok(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), wpisView.getMiesiacWpisu());
-            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, plankont, "02");
+            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, "02");
             zapisymc = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
-            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, plankont, "03");
+            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, "03");
             zapisymc = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokUprzedniSt(), wpisView.getPodatnikObiekt());
-            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, plankont, "04");
+            PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, "04");
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e) {
             E.e(e);

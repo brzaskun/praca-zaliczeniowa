@@ -91,13 +91,12 @@ public class CitView implements Serializable {
         razemzapisycechakoszt = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP", wpisView.getMiesiacWpisu());
         zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP", wpisView.getMiesiacWpisu());
         razemzapisycechaprzychod = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP", wpisView.getMiesiacWpisu());
-        List<Konto> plankont = kontoDAOfk.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
             for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
                 PozycjaRZiS p = (PozycjaRZiS) it.next();
                 p.setPrzyporzadkowanestronywiersza(null);
             }
-            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
+            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e){
             rootProjektRZiS.getChildren().clear();

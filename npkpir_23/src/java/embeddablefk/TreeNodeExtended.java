@@ -280,35 +280,35 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
 
-    public void addNumbers(List<StronaWiersza> zapisynakontach, List<Konto> plankont) throws Exception {
+    public void addNumbers(List<StronaWiersza> zapisynakontach) throws Exception {
         List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
-            addNumbersloop(stronaWiersza, finallNodes, plankont);
+            addNumbersloop(stronaWiersza, finallNodes);
         }
     }
     
-    public void addNumbersSlot(List<StronaWiersza> zapisynakontach, List<Konto> plankont, String kolumna) throws Exception {
+    public void addNumbersSlot(List<StronaWiersza> zapisynakontach, String kolumna) throws Exception {
         List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
-            addNumbersloopNar(stronaWiersza, finallNodes, plankont, kolumna);
+            addNumbersloopNar(stronaWiersza, finallNodes, kolumna);
         }
     }
     
     
-     public void addNumbersNar(List<StronaWiersza> zapisynakontach, List<Konto> plankont, String mckoncowy) throws Exception {
+     public void addNumbersNar(List<StronaWiersza> zapisynakontach, String mckoncowy) throws Exception {
         List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getFinallChildren(finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
             String mc = stronaWiersza.getDokfk().getMiesiac();
             if (Mce.getMiesiacToNumber().get(mc) <= Mce.getMiesiacToNumber().get(mckoncowy)) {
-                addNumbersloopNar(stronaWiersza, finallNodes, plankont, mc);
+                addNumbersloopNar(stronaWiersza, finallNodes, mc);
             }
         }
     }
     
-    private void addNumbersloop(StronaWiersza stronaWiersza, List<TreeNodeExtended> finallNodes, List<Konto> plankont) {
+    private void addNumbersloop(StronaWiersza stronaWiersza, List<TreeNodeExtended> finallNodes) {
         double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
         double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
@@ -370,7 +370,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             }
     }
     
-    private void addNumbersloopNar(StronaWiersza stronaWiersza, List<TreeNodeExtended> finallNodes, List<Konto> plankont, String mc) {
+    private void addNumbersloopNar(StronaWiersza stronaWiersza, List<TreeNodeExtended> finallNodes, String mc) {
         double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
         double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {

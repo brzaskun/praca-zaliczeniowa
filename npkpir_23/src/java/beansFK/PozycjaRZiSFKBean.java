@@ -98,27 +98,27 @@ public class PozycjaRZiSFKBean {
         }
     }
      
-    public static void ustawRoota(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) throws Exception {
+    public static void ustawRoota(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
-        rootL.addNumbers(zapisy, plankont);
+        rootL.addNumbers(zapisy);
         rootL.sumNodes();
         rootL.resolveFormulas();
         rootL.expandAll();
     }
     
-    public static void ustawRootaNar(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, String mckoncowy) throws Exception {
+    public static void ustawRootaNar(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, String mckoncowy) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
-        rootL.addNumbersNar(zapisy, plankont, mckoncowy);
+        rootL.addNumbersNar(zapisy, mckoncowy);
         rootL.sumNodesNar(mckoncowy);
         rootL.resolveFormulasNar(mckoncowy);
         rootL.expandAll();
     }
     
-    public static void ustawRootaSlot(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, String kolumna) throws Exception {
+    public static void ustawRootaSlot(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, String kolumna) throws Exception {
         if (!pozycjeL.isEmpty()) {
             rootL.createTreeNodesForElement(pozycjeL);
         }
-        rootL.addNumbersSlot(zapisy, plankont, kolumna);
+        rootL.addNumbersSlot(zapisy, kolumna);
         rootL.sumNodesSlot(kolumna);
         rootL.resolveFormulasSlot(kolumna);
         rootL.expandAll();
@@ -126,7 +126,7 @@ public class PozycjaRZiSFKBean {
     
     public static void ustawRootaRokPop(TreeNodeExtended rootL, List<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, List<StronaWiersza> zapisyRokPop, List<Konto> plankontRokPop) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
-        rootL.addNumbers(zapisy, plankont);
+        rootL.addNumbers(zapisy);
         rootL.addNumbersBO(zapisyRokPop, plankontRokPop);
         rootL.sumNodes();
         rootL.sumNodesBO();

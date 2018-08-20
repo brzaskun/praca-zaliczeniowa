@@ -262,9 +262,8 @@ public class PozycjaBRZestawienieView implements Serializable {
         if (zapisyrokpoprzedni != null) {
             zapisy.addAll(zapisyrokpoprzedni);
         }
-        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
-            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
+            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy);
             //to niepotrzebne bo usunalem przyciski zwijania, rozwijania
             //level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
             Msg.msg("i", "Obliczono rachunek zysków i strat");
@@ -284,9 +283,8 @@ public class PozycjaBRZestawienieView implements Serializable {
         pobierzPozycje(pozycje);
         rootProjektRZiS.getChildren().clear();
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
-        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
-            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
+            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy);
             //to niepotrzebne bo usunalem przyciski zwijania, rozwijania
             //level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
             Msg.msg("i", "Obliczono rachunek zysków i strat");
