@@ -56,7 +56,7 @@ import waluty.Z;
         this.rok = r.getRok();
         this.mc = r.getMc();
         this.data = r.getDatawystawienia();
-        this.kwota = r.getBruttopk() != 0.0 ? Z.z(r.getBruttopk()-r.getBrutto()) : r.getBrutto();
+        this.kwota = r.getBruttopkpln() != 0.0 ? Z.z(r.getBruttopkpln()-r.getBruttopln()) : r.getBruttopln();
         if (r.getDatawysylki() != null) {
             this.mail = Data.data_yyyyMMdd(r.getDatawysylki());
         } else {
