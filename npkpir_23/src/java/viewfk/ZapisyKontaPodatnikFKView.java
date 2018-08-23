@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -130,7 +129,12 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     }
     
     public void usunzerowe() {
-        kontozapisy = kontozapisy.parallelStream().filter(p->p.getStronywiersza().size()>0).collect(Collectors.toList());
+        for(Iterator<KontoZapisy> it = kontozapisy.iterator(); it.hasNext();) {
+            KontoZapisy p = (KontoZapisy) it.next();
+            if (p.getStronywiersza().size()==0) {
+                it.remove();
+            }
+        }
     }
     
     public void zapisykontmiesiace() {
