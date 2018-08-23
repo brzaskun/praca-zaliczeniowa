@@ -101,15 +101,11 @@ public class CechazapisuBean {
         List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = Collections.synchronizedList(new ArrayList<>());
         for (Wiersz p : listawierszy) {
             if (p.getStronaWn() != null) {
-                if (p.getStronaWn().getKwota() == 48.27) {
-                }
                 if (p.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe")) {
                     lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaWn()));
                 }
             }
             if (p.getStronaMa() != null) {
-                if (p.getStronaMa().getKwota() == 48.27) {
-                }
                 if (p.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe")) {
                     lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaMa()));
                 }
