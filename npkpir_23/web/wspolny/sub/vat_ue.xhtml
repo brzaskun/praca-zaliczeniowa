@@ -9,8 +9,8 @@
     <script>
         var pokazbutony = function() {
             try {
-                r('formVATUE:deklbutton').show();
-                r('formVATUE:deklbutton2').show();
+                r('akordeon:formVATUE:deklbutton').show();
+                r('akordeon:formVATUE:deklbutton2').show();
             } catch(e){}
             try {
                 r('form:akordeon:deklbutton').show();
@@ -26,7 +26,7 @@
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfk()}"/>
             <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfkTabela()}"/>
             <p:commandButton value="rozwiń/zwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
-            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;" id="deklbutton"
+            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display:none;" id="deklbutton"
                              actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT)}" update="@(.upd3) @(.upd)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;"  id="deklbutton2" styleClass="upd3"
                              actionListener="#{vatUeFKView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT)}" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
