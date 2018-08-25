@@ -64,6 +64,8 @@ public class FakturaRozrachunki implements Serializable {
     private String data;
     @Column(name = "kwota")
     private double kwota;
+    @Column(name = "kurs")
+    private double kurs;
     @Column(name = "rodzajdokumentu")
     private String rodzajdokumentu;
     @Column(name = "nrdokumentu")
@@ -240,6 +242,14 @@ public class FakturaRozrachunki implements Serializable {
     
     public void setDataupomnienia(Date dataupomnienia) {
         this.dataupomnienia = dataupomnienia;
+    }
+
+    public double getKurs() {
+        return kurs;
+    }
+
+    public void setKurs(double kurs) {
+        this.kurs = kurs;
     }
     
     public Date getDatatelefon() {

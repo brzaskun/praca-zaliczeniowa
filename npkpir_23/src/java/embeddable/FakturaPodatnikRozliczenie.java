@@ -9,6 +9,7 @@ import data.Data;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 import waluty.Z;
@@ -30,6 +31,7 @@ import waluty.Z;
     private double kwota;
     private double kwotapln;
     private double saldo;
+    private double saldopln;
     private String mail;
     private Date dataupomnienia;
     private Date datatelefon;
@@ -45,6 +47,7 @@ import waluty.Z;
         this.mc = p.getMc();
         this.data = p.getData();
         this.kwota = p.getKwota();
+        this.kwotapln = p.getKurs()!=0.0 ? Z.z(p.getKwota()*p.getKurs()) : p.getKwota();
         this.mail = "";
         this.dataupomnienia = p.getDataupomnienia();
         this.datatelefon = p.getDatatelefon();
@@ -59,7 +62,9 @@ import waluty.Z;
         this.data = r.getDatawystawienia();
         if (r.getBruttopln()!=0.0) {
             this.kwotapln = r.getBruttopkpln() != 0.0 ? Z.z(r.getBruttopkpln()-r.getBruttopln()) : r.getBruttopln();
-        } 
+        } else {
+            this.kwotapln = r.getBruttopk() != 0.0 ? Z.z(r.getBruttopk()-r.getBrutto()) : r.getBrutto();
+        }
         this.kwota = r.getBruttopk() != 0.0 ? Z.z(r.getBruttopk()-r.getBrutto()) : r.getBrutto();
         if (r.getDatawysylki() != null) {
             this.mail = Data.data_yyyyMMdd(r.getDatawysylki());
@@ -294,6 +299,14 @@ import waluty.Z;
 
     public void setKwotapln(double kwotapln) {
         this.kwotapln = kwotapln;
+    }
+
+    public double getSaldopln() {
+        return saldopln;
+    }
+
+    public void setSaldopln(double saldopln) {
+        this.saldopln = saldopln;
     }
     
     

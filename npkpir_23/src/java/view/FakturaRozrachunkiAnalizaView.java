@@ -205,13 +205,17 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     private void obliczsaldo(List<FakturaPodatnikRozliczenie> nowepozycje) {
         double saldo = 0.0;
+        double saldopln = 0.0;
         for (FakturaPodatnikRozliczenie p : nowepozycje) {
             if (p.isFaktura0rozliczenie1()) {
                 saldo -= p.getKwota();
+                saldopln -=p.getKwotapln();
             } else {
                 saldo += p.getKwota();
+                saldopln += p.getKwotapln();
             }
             p.setSaldo(saldo);
+            p.setSaldopln(saldopln);
         }
     }
     
@@ -275,6 +279,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         sumasaldnierozliczonych = 0.0;
         for (Iterator<Klienci> it =  klienci.iterator(); it.hasNext();) {
             szukanyklient = it.next();
+            if (szukanyklient.getNpelna().equals("\"KONSBUD\" PROJEKTOWANIE I REALIZACJA KONSTRUKCJI BUDOWLANYCH Przemysław Żurowski")) {
+                System.out.println("");
+            }
             pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
             if (nowepozycje.size() > 0) {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
@@ -289,10 +296,10 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     r.setLp(i++);
                     if (pokaznadplaty == true) {
                         saldanierozliczone.add(r);
-                        sumasaldnierozliczonych += r.getSaldo();
+                        sumasaldnierozliczonych += r.getSaldopln();
                     } else if (r.getSaldo() > 0.0) {
                         saldanierozliczone.add(r);
-                        sumasaldnierozliczonych += r.getSaldo();
+                        sumasaldnierozliczonych += r.getSaldopln();
                     }
                 }
             } else {
@@ -305,7 +312,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         sumasaldnierozliczonych = 0.0;
         if (saldanierozliczoneselected != null) {
             for (FakturaPodatnikRozliczenie p : saldanierozliczoneselected) {
-                sumasaldnierozliczonych += p.getSaldo();
+                sumasaldnierozliczonych += p.getSaldopln();
             }
         }
     }

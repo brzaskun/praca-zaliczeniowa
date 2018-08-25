@@ -45,6 +45,9 @@
                         <p:column>
                             <h:outputText value="kontrahent"/>
                         </p:column>
+                        <p:column>
+                            <h:outputText value="kurs"/>
+                        </p:column>
                     </p:row>
                 </f:facet>
                 <p:row >
@@ -92,7 +95,7 @@
                                         var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                         maxResults="20" maxlength="20" converterMessage="Nieudana konwersja Klient" 
                                         widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
-                                        required="true" requiredMessage="Pole klienta nie może być puste" styleClass="wpisywaniekontrfk" style="width: 350px;"
+                                        required="true" requiredMessage="Pole klienta nie może być puste" styleClass="wpisywaniekontrfk" style="width: 265px;" inputStyle="width: 250px;"
                                         >
                             <p:ajax event="query" global="false"/>
                             <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
@@ -110,6 +113,11 @@
                                 </h:panelGrid>
                             </f:facet>
                         </p:autoComplete>
+                    </p:column>
+                    <p:column>
+                        <pe:inputNumber value="#{fakturaRozrachunkiView.selected.kurs}" symbol=" zł" required="true" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" 
+                                        decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                     </p:column>
                 </p:row>
             </p:panelGrid>

@@ -314,7 +314,7 @@ public class FakturaBean {
                 selected.setBrutto(Z.z(sumy.get("brutto")));
                 selected.setNettopln(sumy.get("nettopln"));
                 selected.setVatpln(sumy.get("vatpln"));
-                selected.setBruttopln(Z.z(sumy.get("nettopln")));;
+                selected.setBruttopln(Z.z(sumy.get("bruttopln")));;
             }
         }
     }
@@ -341,7 +341,7 @@ public class FakturaBean {
             selected.setBruttopk(Z.z(sumy.get("brutto")));
             selected.setNettopkpln(sumy.get("nettopln"));
             selected.setVatpkpln(sumy.get("vatpln"));
-            selected.setBruttopkpln(Z.z(sumy.get("nettopln")));;
+            selected.setBruttopkpln(Z.z(sumy.get("bruttopln")));;
         }
     }
     
