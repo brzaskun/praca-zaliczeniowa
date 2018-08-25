@@ -45,6 +45,9 @@ public class VIESCheckBean {
                  if (p.getKontrahent() != null && p.getVies() == null) {
                      String kraj = p.getKontrahent().getKrajkod();
                      String nip = p.getKontrahent().getNip();
+                     if (nip.equals("ESB65448870")) {
+                         System.out.println("ESB65448870");
+                     }
                      boolean jestprefix = sprawdznip(p.getKontrahent().getNip());
                      if (jestprefix) {
                          nip = p.getKontrahent().getNip().substring(2);
@@ -67,7 +70,12 @@ public class VIESCheckBean {
     
     private static boolean sprawdznip(String nip) {
         //jezeli false to dobrze
-        String prefix = nip.substring(0, 2);
+        int ile = 2;
+        String pr = nip.substring(0, 2);
+        if (pr.equals("ES")|| pr.equals("AT")) {
+            ile = 3;
+        }
+        String prefix = nip.substring(0, ile);
         Pattern p = Pattern.compile("[0-9]");
         boolean isnumber = p.matcher(prefix).find();
         return !isnumber;
@@ -128,7 +136,7 @@ public class VIESCheckBean {
                 } else if (tds != null) {
                     if (tds != null && tds.get(0).text().contains("Yes, valid VAT number")) {
                         zwrot.setPodatnik(podatnik);
-                        Date datawystawienia = formatter.parse(tds.get(8).text());
+                        Date datawystawienia = formatter.parse(data);
                         zwrot.setData(datawystawienia);
                         zwrot.setWynik(true);
                         zwrot.setKraj(kraj);

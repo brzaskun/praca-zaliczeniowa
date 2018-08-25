@@ -28,6 +28,7 @@ import waluty.Z;
     private String data;
     private boolean nowy0rozliczony1;
     private double kwota;
+    private double kwotapln;
     private double saldo;
     private String mail;
     private Date dataupomnienia;
@@ -57,10 +58,9 @@ import waluty.Z;
         this.mc = r.getMc();
         this.data = r.getDatawystawienia();
         if (r.getBruttopln()!=0.0) {
-            this.kwota = r.getBruttopkpln() != 0.0 ? Z.z(r.getBruttopkpln()-r.getBruttopln()) : r.getBruttopln();
-        } else {
-            this.kwota = r.getBruttopk() != 0.0 ? Z.z(r.getBruttopk()-r.getBrutto()) : r.getBrutto();
-        }
+            this.kwotapln = r.getBruttopkpln() != 0.0 ? Z.z(r.getBruttopkpln()-r.getBruttopln()) : r.getBruttopln();
+        } 
+        this.kwota = r.getBruttopk() != 0.0 ? Z.z(r.getBruttopk()-r.getBrutto()) : r.getBrutto();
         if (r.getDatawysylki() != null) {
             this.mail = Data.data_yyyyMMdd(r.getDatawysylki());
         } else {
@@ -286,6 +286,14 @@ import waluty.Z;
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public double getKwotapln() {
+        return kwotapln;
+    }
+
+    public void setKwotapln(double kwotapln) {
+        this.kwotapln = kwotapln;
     }
     
     
