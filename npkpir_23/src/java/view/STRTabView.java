@@ -977,8 +977,8 @@ public class STRTabView implements Serializable {
         umplan_umpocz += srodek.getUmorzeniepoczatkowe();
         umplan_narast += srodek.getStrOdpisyPlan();
         umplan_wartoscnetto += srodek.getStrNettoPlan();
-        umplan_odpisrok += srodek.getOdpisrok();
-        umplan_odpismc += srodek.getOdpismc();
+        umplan_odpisrok += srodek.getOdpisrok()==null ? 0.0 : srodek.getOdpisrok();
+        umplan_odpismc += srodek.getOdpismc()==null ? 0.0 : srodek.getOdpismc();
     }
 
     

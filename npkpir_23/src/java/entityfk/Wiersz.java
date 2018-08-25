@@ -70,8 +70,8 @@ public class Wiersz implements Serializable {
     @Size(max = 255)
     @Column(name = "dataksiegowania", length = 255)
     private String dataksiegowania;
-    @Size(max = 512)
-    @Column(name = "opisWiersza", length = 512)
+    @Size(max = 768)
+    @Column(name = "opisWiersza", length = 768)
     private String opisWiersza;
     @Column(name = "ilosc_kg")
     private double ilosc_kg;

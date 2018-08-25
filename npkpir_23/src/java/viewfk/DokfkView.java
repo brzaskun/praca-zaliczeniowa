@@ -2279,7 +2279,7 @@ public class DokfkView implements Serializable {
             } else if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza() != null) {
                 tr.setDatarozrachunku(ustawdatetransakcji());
             } else {
-                tr.setDatarozrachunku(Data.aktualnaData());
+                tr.setDatarozrachunku(aktualnyWierszDlaRozrachunkow.getDataWiersza());
             }
             DokFKTransakcjeBean.wyliczroznicekursowa(tr, tr.getKwotatransakcji());
         }
