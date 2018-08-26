@@ -67,7 +67,8 @@ public class ImportCSVView  implements Serializable {
     private DokDAO dokDAO;
     @Inject
     private TabelanbpDAO tabelanbpDAO;
-    private Rodzajedok rodzajedok;
+    private Rodzajedok dokSZ;
+    private Rodzajedok dokWDT;
     private List<Evewidencja> evewidencje;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
@@ -80,7 +81,8 @@ public class ImportCSVView  implements Serializable {
         
     @PostConstruct
     private void init() {
-        rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt());
+        dokSZ = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt());
+        dokWDT = rodzajedokDAO.find("WDT", wpisView.getPodatnikObiekt());
         evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");
         listaWalut = walutyDAOfk.findAll();
         if (listaWalut!=null) {
@@ -175,9 +177,14 @@ public class ImportCSVView  implements Serializable {
             selDokument.setDataWyst(wiersz.getData());
             selDokument.setDataSprz(wiersz.getData());
             selDokument.setKontr(pobierzkontrahenta(wiersz));
-            selDokument.setRodzajedok(rodzajedok);
+            if (wiersz.getBuyerTaxRegistration().equals("") || wiersz.getBuyerTaxRegistrationJurisdiction().equals("DE")){
+                selDokument.setRodzajedok(dokSZ);
+                selDokument.setOpis("sprzedaż detaliczna");
+            } else {
+                selDokument.setRodzajedok(dokWDT);
+                selDokument.setOpis("sprzedaż WDT");
+            }
             selDokument.setNrWlDk(wiersz.getShipmentID());
-            selDokument.setOpis("przychód ze sprzedaży");
             List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
             tmpX.setNetto(wiersz.getNetto());
@@ -226,6 +233,7 @@ public class ImportCSVView  implements Serializable {
     
     private Klienci pobierzkontrahenta(AmazonCSV wiersz) {
         Klienci inc = new Klienci();
+        inc.setNip(wiersz.getBuyerTaxRegistration()!=null && !wiersz.getBuyerTaxRegistration().equals("") ? wiersz.getBuyerTaxRegistration():null);
         inc.setNpelna(wiersz.getOrderID()!=null ? wiersz.getOrderID(): "brak nazwy indycentalnego");
         inc.setAdresincydentalny(wiersz.getAdress()!=null ? wiersz.getAdress(): "brak adresu indycentalnego");
         return inc;

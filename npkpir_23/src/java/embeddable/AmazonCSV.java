@@ -126,18 +126,18 @@ public class AmazonCSV {
     }
     
     public double getVat() {
-        double netto = 0.0;
-        netto += this.getOUR_PRICETaxAmount()+this.getSHIPPINGTaxAmount();
-        return Z.z(netto);
+        double vat = 0.0;
+        vat += this.getOUR_PRICETaxAmount()+this.getSHIPPINGTaxAmount();
+        if (this.InvoiceLevelExchangeRate!=0.0) {
+            vat = Z.z(this.InvoiceLevelExchangeRate*vat);
+        }
+        return Z.z(vat);
     }
     
     public double getVatWaluta() {
-        double netto = 0.0;
-        netto += this.getOUR_PRICETaxAmount()+this.getSHIPPINGTaxAmount();
-        if (this.InvoiceLevelExchangeRate!=0.0) {
-            netto = Z.z(this.InvoiceLevelExchangeRate*netto);
-        }
-        return Z.z(netto);
+        double vat = 0.0;
+        vat += this.getOUR_PRICETaxAmount()+this.getSHIPPINGTaxAmount();
+        return Z.z(vat);
     }
 
     public String getMerchantID() {

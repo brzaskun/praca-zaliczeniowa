@@ -365,9 +365,11 @@ public class Klienci extends KlienciSuper implements Serializable {
     }
     
     public String toString4() {
-        if (this.nip!=null) {
+        if (this.nip!=null && this.miejscowosc!=null) {
             return getAdres()+" "+getNip();
-        } else {
+        } else if (this.nip!=null) {
+            return this.adresincydentalny+" "+getNip();
+        }else {
             return this.adresincydentalny;
         }
     }
