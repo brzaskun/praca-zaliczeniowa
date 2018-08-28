@@ -45,8 +45,8 @@
                         <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row, vatUeFKView.listaDok,  vatUeFKView.listaDokfk)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
-                        <p:commandButton value="usuń" actionListener="#{vatUeFKView.usundekl(row)}" update="@form @(.upd)" style="width: 80px;" rendered="#{row.identyfikator eq null or row.status.startsWith('4')}"/>
-                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator ne null and !row.status.startsWith('4')}"/>
+                        <p:commandButton value="usuń" actionListener="#{vatUeFKView.usundekl(row)}" update="@form @(.upd3)" style="width: 80px;" rendered="#{row.identyfikator eq null or row.status.startsWith('4')}"/>
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form @(.upd3)" style="width: 80px;" rendered="#{row.identyfikator ne null and !row.status.startsWith('4')}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
                         <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
