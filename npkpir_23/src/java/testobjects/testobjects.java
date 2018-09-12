@@ -275,8 +275,10 @@ public class testobjects {
        n.add("nr własny");
        n.add("opis");
        n.add("netto");  
-       n.add("zapis w pkpir");
        n.add("vat");
+       n.add("brutto");
+       n.add("zapis w pkpir");
+       n.add("mc vat");
        n.add("tab/kurs");
        List[] tabela = new List[2];
        tabela[0] = n;

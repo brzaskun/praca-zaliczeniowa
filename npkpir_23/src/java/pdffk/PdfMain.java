@@ -962,9 +962,11 @@ public class PdfMain {
                     col[4] = 3;
                     col[5] = 3;
                     col[6] = 2;
-                    col[7] = 4;
-                    col[8] = 1;
-                    col[9] = 3;
+                    col[7] = 2;
+                    col[8] = 2;
+                    col[9] = 4;
+                    col[10] = 1;
+                    col[11] = 3;
                 } else {
                     col[0] = 1;
                     col[1] = 2;
@@ -2132,6 +2134,8 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 9));
                     table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
                     tablicaWkomorce(table, p, "entity.Dok", 0);
+                    tablicaWkomorce(table, p, "entity.Dok", 2);
+                    tablicaWkomorce(table, p, "entity.Dok", 3);
                     tablicaWkomorce(table, p, "entity.Dok", 1);
                     table.addCell(ustawfrazeAlign(p.getVatM(), "center", 9));
                     if (p.getTabelanbp()!=null ) {
@@ -2662,6 +2666,46 @@ public class PdfMain {
                         t.setWidthPercentage(100);
                         t.addCell(ustawfrazeAlignNOBorder(String.valueOf(number.format(d.getNetto())), "right", 9));
                         t.addCell(ustawfrazeAlignNOBorder(d.getTabelanbp().getWaluta().getSkrotsymbolu()+" "+String.valueOf(number.format(d.getNettoWaluta())), "right", 9));
+                        table.addCell(t);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            } else if (modyfikator == 2) {
+                try {
+                    NumberFormat number = getNumberFormater();
+                    Dok d = (Dok) p;
+                    if (d.getTabelanbp()==null || d.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(d.getVat())), "right", 9));
+                    } else {
+                        PdfPTable t = new PdfPTable(1);
+                        t.getDefaultCell().setBorderWidth(0f);
+                        int[] col = new int[1];
+                        col[0] = 2;
+                        t.setWidths(col);
+                        t.setWidthPercentage(100);
+                        t.addCell(ustawfrazeAlignNOBorder(String.valueOf(number.format(d.getVat())), "right", 9));
+                        t.addCell(ustawfrazeAlignNOBorder(d.getTabelanbp().getWaluta().getSkrotsymbolu()+" "+String.valueOf(number.format(d.getVatWaluta())), "right", 9));
+                        table.addCell(t);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            } else if (modyfikator == 3) {
+                try {
+                    NumberFormat number = getNumberFormater();
+                    Dok d = (Dok) p;
+                    if (d.getTabelanbp()==null || d.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(d.getBrutto())), "right", 9));
+                    } else {
+                        PdfPTable t = new PdfPTable(1);
+                        t.getDefaultCell().setBorderWidth(0f);
+                        int[] col = new int[1];
+                        col[0] = 2;
+                        t.setWidths(col);
+                        t.setWidthPercentage(100);
+                        t.addCell(ustawfrazeAlignNOBorder(String.valueOf(number.format(d.getBrutto())), "right", 9));
+                        t.addCell(ustawfrazeAlignNOBorder(d.getTabelanbp().getWaluta().getSkrotsymbolu()+" "+String.valueOf(number.format(d.getBruttoWaluta())), "right", 9));
                         table.addCell(t);
                     }
                 } catch (Exception e) {

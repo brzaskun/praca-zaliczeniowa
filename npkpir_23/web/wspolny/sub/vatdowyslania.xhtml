@@ -103,7 +103,7 @@
             </p:rowExpansion>
         </p:dataTable>
     </h:form><br/>
-    <h:form id="zalacznikZZ">
+    <h:form id="zalacznikZZ" style="zalacznikivat">
         <h:outputText value="Aby wysłać należy najpierw wypełnić załącznik VAT-ZZ" style="color: red;"
                   rendered="#{deklaracjevatView.pokazZZ}"/>
         <h:outputText value="Załącznik VAT-ZZ podpięty." rendered="#{deklaracjevatView.oczekujace.size() gt 0 and deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZZ')}" style="color: green;"/>
@@ -127,7 +127,7 @@
         </p:panel>
     </h:form>
     <h:outputText value="Aby wysłać należy najpierw wypełnić załącznik  VAT-ZT" style="color: red;" rendered="#{deklaracjevatView.pokazZT and !deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}"/>
-    <h:form id="zalacznikZT">
+    <h:form id="zalacznikZT" style="zalacznikivat">
         <h:outputText value="Załącznik VAT-ZT podpięty." rendered="#{deklaracjevatView.oczekujace.size() gt 0 and deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}" style="color: green;"/>
         <p:panel header="Załącznik VAT-ZT załączany do deklaracji w przypadku wystąpienia o zwrot w 25 dni" rendered="#{deklaracjevatView.pokazZT}"  style="max-width: 1400px;">
             <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}">
@@ -158,13 +158,16 @@
                                      rendered="#{deklaracjevatView.pokazprzyciskpodpisfunkcja()}"
                                      update=":akordeon:form @form" style="width: 120px;"/>
                     <p:outputPanel rendered="#{!deklaracjevatView.pokazprzyciskpodpis}">
+                    <h:outputText value="brak karty, nie mozna wysłać" 
+                                     rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}"
+                                     style="width: 320px;color: red;margin-right: 200px;"/>
                     <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" 
                                      rendered="#{(vat7DKView.pokazuproszczona and !WpisView.podatnikObiekt.podpiscertyfikowany) or (vat7DKView.pokazuproszczona and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta)}"
                                      update=":akordeon:form" style="width: 120px;"/>
                     <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" 
                                      rendered="#{vat7DKView.pokazpelna and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta}"
                                      update=":akordeon:form" style="margin-left: 3%; width: 120px;"/>
-                    <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":akordeon:form" style="margin-left: 3%; width: 120px;"/>
+                    <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":akordeon:form" style="margin-left: 3%; width: 120px;" rendered="#{beanek.idpobierz ne null}"/>
                     </p:outputPanel>
                 </h:form>
             </p:column>

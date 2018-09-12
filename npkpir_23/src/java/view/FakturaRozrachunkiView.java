@@ -6,6 +6,7 @@
 package view;
 
 import comparator.FakturaRozrachunkicomparator;
+import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.WpisDAO;
@@ -14,6 +15,7 @@ import embeddable.Mce;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
 import entity.Wpis;
+import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,8 +23,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -45,6 +49,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     
     private List<Klienci> klienci;
     private List<FakturaRozrachunki> wprowadzoneplatnosci;
+    private List<FakturaRozrachunki> wprowadzoneplatnoscifiltered;
     @Inject
     private FakturaRozrachunki selected;
     @ManagedProperty(value = "#{WpisView}")
@@ -60,6 +65,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     @Inject 
     private WpisDAO wpisDAO;
     private String west;
+    private double suma;
 
     public FakturaRozrachunkiView() {
     }
@@ -91,10 +97,20 @@ public class FakturaRozrachunkiView  implements Serializable {
             }
         }
         wprowadzoneplatnosci = fakturaRozrachunkiDAO.rozrachunkiZDnia(wpisView);
+        suma = wprowadzoneplatnosci.parallelStream().mapToDouble(FakturaRozrachunki::getKwota).sum();
         selected.setRodzajdokumentu("rk");
         pobierzostatninumer();
+        Collections.sort(klienci, new Kliencicomparator());
     }
    
+    public void sumuj() {
+        if (wprowadzoneplatnoscifiltered!=null) {
+            suma = wprowadzoneplatnoscifiltered.parallelStream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+        } else {
+            suma = wprowadzoneplatnosci.parallelStream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+        }
+    }
+    
     private Collection<? extends Klienci> pobierzkontrahentow() {
         Collection p =  fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
         for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
@@ -141,6 +157,8 @@ public class FakturaRozrachunkiView  implements Serializable {
         }
         return results;
     }
+    
+        
     
     public void zaksiegujplatnosc() {
         try {
@@ -252,6 +270,22 @@ public class FakturaRozrachunkiView  implements Serializable {
     
     public void setKlienci(List<Klienci> klienci) {
         this.klienci = klienci;
+    }
+
+    public double getSuma() {
+        return suma;
+    }
+
+    public void setSuma(double suma) {
+        this.suma = suma;
+    }
+
+    public List<FakturaRozrachunki> getWprowadzoneplatnoscifiltered() {
+        return wprowadzoneplatnoscifiltered;
+    }
+
+    public void setWprowadzoneplatnoscifiltered(List<FakturaRozrachunki> wprowadzoneplatnoscifiltered) {
+        this.wprowadzoneplatnoscifiltered = wprowadzoneplatnoscifiltered;
     }
 
     public String getWest() {

@@ -35,7 +35,7 @@ import waluty.Z;
  */
 public class PdfDok extends Pdf implements Serializable {
     
-    public static void drukujDok(List<Dok> lista, WpisView wpisView, int modyfikator) {
+    public static void drukujDok(List<Dok> lista, WpisView wpisView, int modyfikator, String wybranacechadok) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"listadok";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -47,6 +47,9 @@ public class PdfDok extends Pdf implements Serializable {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma  - "+wpisView.getPrintNazwa(), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            if (wybranacechadok != null) {
+                PdfMain.dodajLinieOpisuBezOdstepu(document, "wybrano dokumenty z cechą: "+wybranacechadok);
+            }
             dodajTabele(document, testobjects.testobjects.getListaDok(lista),100,modyfikator);
             double netto = 0.0;
             double vat = 0.0;
