@@ -233,6 +233,7 @@ public class FakturaView implements Serializable {
         if (elementgraficzny != null) {
             sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu());
         }
+        sumawartosciwybranych(faktury);
 //        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");
 //        RequestContext.getCurrentInstance().update("akordeon:proforma");
 //        RequestContext.getCurrentInstance().update("akordeon:formarchiwum");
