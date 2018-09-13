@@ -66,6 +66,8 @@ import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -231,6 +233,9 @@ public class FakturaView implements Serializable {
         if (elementgraficzny != null) {
             sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu());
         }
+//        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");
+//        RequestContext.getCurrentInstance().update("akordeon:proforma");
+//        RequestContext.getCurrentInstance().update("akordeon:formarchiwum");
     }
     
     private void sprawdzczyniezniknalplik(String nazwa) {
@@ -1492,18 +1497,18 @@ public class FakturaView implements Serializable {
     
     
 
-    public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
+    public void aktualizujTabeleTabela()  {
         fakturyarchiwum.clear();
         aktualizuj();
         init();
-        Msg.msg("i", "Udana zamiana klienta. Aktualny klient to: " + wpisView.getPodatnikWpisu() + " okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), "form:messages");
+        Msg.msg("i", "Udana zamiana klienta. Aktualny klient to: " + wpisView.getPodatnikWpisu() + " okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu());
     }
     
      public void aktualizujTabeleTabelaGuest(AjaxBehaviorEvent e) throws IOException {
         fakturyarchiwum.clear();
         aktualizuj();
         init();
-        Msg.msg("i", "Udana zamiana klienta. Aktualny klient to: " + wpisView.getPodatnikWpisu() + " okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), "form:messages");
+        Msg.msg("i", "Udana zamiana klienta. Aktualny klient to: " + wpisView.getPodatnikWpisu() + " okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu());
     }
      
      

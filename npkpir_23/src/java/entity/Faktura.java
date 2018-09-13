@@ -513,6 +513,14 @@ public class Faktura implements Serializable {
         return zwrot;
     }
     
+    public double getBruttoFakturaViewPLN() {
+        double zwrot = this.bruttopln;
+        if (this.pozycjepokorekcie != null && this.pozycjepokorekcie.size() > 0) {
+            zwrot = this.bruttopkpln-this.bruttopln;
+        }
+        return zwrot;
+    }
+    
     public double getBruttoFaktura() {
         double zwrot = this.brutto;
         if (this.pozycjepokorekcie != null && this.pozycjepokorekcie.size() > 0) {
