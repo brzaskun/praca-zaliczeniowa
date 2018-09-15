@@ -164,7 +164,7 @@
                 </p:rowExpansion>
             </p:dataTable>
             <p:contextMenu for="dokumentyListaPro" style="width: 250px;">
-                <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{fakturaView.pdffaktura()}" icon="ui-icon-print" />
+                <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{fakturaView.pdffakturapro()}" icon="ui-icon-print" />
                 <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formproforma:dokumentyListaPro" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura(fakturaView.gosciwybralpro)}" />
                 <p:menuitem value="Usuń wybrane" update="confirmDialogpro" oncomplete="PF('confirmationFakturapro').show();" icon="ui-icon-trash" />
                 <p:separator/>

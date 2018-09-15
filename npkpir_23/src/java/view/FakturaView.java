@@ -1541,9 +1541,31 @@ public class FakturaView implements Serializable {
     public void pdffaktura() {
         try {
             if (gosciwybral != null && gosciwybral.size() >0) {
-                pdfFaktura.drukuj(gosciwybral, wpisView);
+                pdfFaktura.drukujmasa(gosciwybral, wpisView);
             } else {
-                pdfFaktura.drukuj(faktury, wpisView);
+                pdfFaktura.drukujmasa(faktury, wpisView);
+            }
+        } catch (Exception e) { E.e(e); 
+        }
+    }
+    
+    public void pdffakturapro() {
+        try {
+            if (gosciwybralpro != null && gosciwybralpro.size() >0) {
+                pdfFaktura.drukujmasa(gosciwybralpro, wpisView);
+            } else {
+                pdfFaktura.drukujmasa(fakturypro, wpisView);
+            }
+        } catch (Exception e) { E.e(e); 
+        }
+    }
+    
+    public void pdffakturaarch() {
+        try {
+            if (gosciwybralarchiuwm != null && gosciwybralarchiuwm.size() >0) {
+                pdfFaktura.drukujmasa(gosciwybralarchiuwm, wpisView);
+            } else {
+                pdfFaktura.drukujmasa(fakturyarchiwum, wpisView);
             }
         } catch (Exception e) { E.e(e); 
         }

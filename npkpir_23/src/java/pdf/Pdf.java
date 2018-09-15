@@ -9,7 +9,6 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.lowagie.tools.Executable;
 import dao.AmoDokDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
@@ -17,6 +16,7 @@ import dao.VATDeklaracjaKorektaDokDAO;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Executable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -120,15 +120,15 @@ public class Pdf implements Serializable {
 
     protected int liczydlo = 1;
 
-    protected void init(String fileName) {
-        try{
-               Executable ex = new Executable();
-               ex.openDocument(fileName);
-               ex.printDocument(fileName);
-            }catch(IOException e){
-               e.printStackTrace();
-            }
-    }
+//    protected void init(String fileName) {
+//        try{
+//               Executable ex = new Executable();
+//               ex.openDocument(fileName);
+//               ex.printDocument(fileName);
+//            }catch(IOException e){
+//               e.printStackTrace();
+//            }
+//    }
     //<editor-fold defaultstate="collapsed" desc="comment">
     public int getLiczydlo() {
         return liczydlo;

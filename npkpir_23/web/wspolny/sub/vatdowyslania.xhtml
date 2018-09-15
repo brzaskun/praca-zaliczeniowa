@@ -163,10 +163,10 @@
                                      style="width: 320px;color: red;margin-right: 200px;"/>
                     <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" 
                                      rendered="#{(vat7DKView.pokazuproszczona and !WpisView.podatnikObiekt.podpiscertyfikowany) or (vat7DKView.pokazuproszczona and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta)}"
-                                     update=":akordeon:form" style="width: 120px;"/>
+                                     update=":akordeon:form @parent" style="width: 120px;"/>
                     <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" 
                                      rendered="#{vat7DKView.pokazpelna and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta}"
-                                     update=":akordeon:form" style="margin-left: 3%; width: 120px;"/>
+                                     update=":akordeon:form @parent" style="margin-left: 3%; width: 120px;"/>
                     <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":akordeon:form" style="margin-left: 3%; width: 120px;" rendered="#{beanek.idpobierz ne null}"/>
                     </p:outputPanel>
                 </h:form>

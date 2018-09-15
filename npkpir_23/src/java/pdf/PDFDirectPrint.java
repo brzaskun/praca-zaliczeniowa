@@ -6,8 +6,7 @@
 
 package pdf;
 
-import com.lowagie.tools.Executable;
-import java.io.IOException;
+import java.lang.reflect.Executable;
 import msg.Msg;
 
 /**
@@ -15,13 +14,8 @@ import msg.Msg;
  * @author Osito
  */
 public class PDFDirectPrint {
-       public static void silentPrintPdf(String nazwapliku) {
-         try{
-               Executable.printDocumentSilent(nazwapliku);
-               Msg.msg("i", "Wysłano dokument na drukarkę");
-            }catch(IOException e){
-               e.printStackTrace();
-               Msg.msg("e", "Nie udało się wydrukować. Wsytąpił błąd");
-            }        
-    }
+//       public static void silentPrintPdf(String nazwapliku) {
+//           Executable.printDocumentSilent(nazwapliku);
+//           Msg.msg("i", "Wysłano dokument na drukarkę");        
+//    }
 }

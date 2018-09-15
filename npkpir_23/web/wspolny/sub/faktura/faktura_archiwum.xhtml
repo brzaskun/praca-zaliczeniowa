@@ -154,6 +154,7 @@
                 </p:rowExpansion>
             </p:dataTable>
             <p:contextMenu for="dokumentyArchiwum">
+                 <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{fakturaView.pdffakturaarch()}" icon="ui-icon-print" />
                 <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" >
                 </p:menuitem>
                 <p:menuitem value="Duplikat" actionListener="#{fakturaDuplikatView.generujduplikat(fakturaView.gosciwybralarchiuwm)}" icon="ui-icon-copy"  update=":akordeon:formarchiwum:dokumentyArchiwum :form1:messages"/>
