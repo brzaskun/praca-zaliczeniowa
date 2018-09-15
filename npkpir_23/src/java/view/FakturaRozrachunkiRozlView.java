@@ -36,6 +36,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     
     private List<Klienci> klienci;
     private List<FakturaRozrachunki> wprowadzoneplatnosci;
+    private List<FakturaRozrachunki> wprowadzoneplatnoscifiltered;
     @Inject
     private FakturaRozrachunki selected;
     @ManagedProperty(value = "#{WpisView}")
@@ -44,6 +45,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     private FakturaDAO fakturaDAO;
     @Inject
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
+    private double suma;
 
     public FakturaRozrachunkiRozlView() {
     }
@@ -61,6 +63,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
             }
         }
         pobierzplatnosci();
+        sumuj();
     }
     
     public void pobierzplatnosci() {
@@ -140,7 +143,13 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
             return 0;
         }
     }
-    
+    public void sumuj() {
+        if (wprowadzoneplatnoscifiltered!=null) {
+            suma = wprowadzoneplatnoscifiltered.parallelStream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+        } else {
+            suma = wprowadzoneplatnosci.parallelStream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+        }
+    }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Klienci> getKlienci() {
@@ -149,6 +158,14 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     
     public void setKlienci(List<Klienci> klienci) {
         this.klienci = klienci;
+    }
+
+    public double getSuma() {
+        return suma;
+    }
+
+    public void setSuma(double suma) {
+        this.suma = suma;
     }
 
     public FakturaRozrachunki getSelected() {
@@ -165,6 +182,14 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public List<FakturaRozrachunki> getWprowadzoneplatnoscifiltered() {
+        return wprowadzoneplatnoscifiltered;
+    }
+
+    public void setWprowadzoneplatnoscifiltered(List<FakturaRozrachunki> wprowadzoneplatnoscifiltered) {
+        this.wprowadzoneplatnoscifiltered = wprowadzoneplatnoscifiltered;
     }
     
     

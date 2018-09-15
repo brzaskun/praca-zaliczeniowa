@@ -1,0 +1,36 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:tab title="Weryfikacja m-ca" >
+        <h:form>
+            <p:outputPanel style="padding: 5px;">
+                <p:commandButton value="sprawdź" actionListener="#{fakturaWeryfikujView.sprawdzmc}" style="width: 120px" update="@form"/>
+            </p:outputPanel>
+            <p:dataTable value="#{fakturaWeryfikujView.lista}" var="imem" emptyMessage="brak niezafakturowanych klientow"
+                         rowIndexVar="indx" style="width: 490px;" sortBy="#{imem.npelna}">
+                <p:column headerText="lp" width="20">
+                    <h:outputText value="#{indx+1}"/>
+                </p:column>
+                <p:column headerText="nazwa" width="250">
+                    <h:outputText value="#{imem.npelna}"/>
+                </p:column>
+                <p:column headerText="nip" width="100">
+                    <h:outputText value="#{imem.nip}"/>
+                </p:column>
+                <p:column>
+                     <p:commandButton value="+-" actionListener="#{fakturaWeryfikujView.aktywacjakontrahenta(imem)}" update="@parent:@parent" global="false"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>  
+</ui:composition>   
+
+

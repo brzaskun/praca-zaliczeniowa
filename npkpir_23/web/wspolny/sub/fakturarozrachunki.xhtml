@@ -11,6 +11,7 @@
        <ui:include src="fakturarozrach/faktura_rozrach_analiza.xhtml"/>
        <ui:include src="fakturarozrach/faktura_rozrach_analiza_zbiorcze.xhtml"/>
        <ui:include src="fakturarozrach/faktura_aktywniklienci.xhtml"/>
+       <ui:include src="fakturarozrach/faktura_weryfikacja.xhtml" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
     </p:tabView>
 
 </ui:composition>   

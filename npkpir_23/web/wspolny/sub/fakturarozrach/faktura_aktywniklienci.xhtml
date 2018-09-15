@@ -12,11 +12,14 @@
     <p:tab  title="Aktywacja kontrahentów" >
         <h:form>
         <p:dataTable value="#{fakturaRozrachunkiAnalizaView.klienciaktywowanie}" var="wpis"
-                     style="width: 550px;">
+                     style="width: 580px;" rowIndexVar="idf">
             <p:ajax event="filter" global="false"/>
             <f:facet name="header">
                 <h:outputText value="aktywacja kklientów"/>
             </f:facet>
+            <p:column width="30">
+                <h:outputText value="#{idf+1}"/>
+            </p:column>
             <p:column width="400"  filterBy="#{wpis.npelna}" filterMatchMode="contains" filterStyle="width:250px;">
                 <h:outputText value="#{wpis.npelna}"/>
             </p:column>

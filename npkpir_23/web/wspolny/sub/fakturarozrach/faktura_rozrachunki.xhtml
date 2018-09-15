@@ -149,7 +149,7 @@
                         </f:facet>
                         <p:cellEditor>
                             <f:facet name="output">
-                                <h:outputText value="#{item.kontrahent}"/>
+                                <h:outputText value="#{item.kontrahent.npelna}"/>
                             </f:facet>
                             <f:facet name="input">
                                 <p:selectOneListbox value="#{item.kontrahent}" converter="KlientConv" filter="true" required="true" scrollHeight="120" filterMatchMode="contains" style="width: 300px;">
