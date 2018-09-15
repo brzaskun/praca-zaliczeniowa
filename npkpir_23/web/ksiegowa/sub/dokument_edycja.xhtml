@@ -307,13 +307,13 @@
                     <p:column id="dataColumn" headerText="data zak" filterBy="#{wpis.datazak}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.datazak}" width="80">  
 
                         <h:outputText value="#{wpis.datazak}" style="#{wpis.styl}">
-                            <f:convertDateTime dateStyle="medium"  />
+                            <f:convertDateTime dateStyle="medium" locale="pl"/>
                         </h:outputText>
                     </p:column>
                     <p:column id="data2Column" headerText="data przek" filterBy="#{wpis.dataprzek}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dataprzek}" width="80">  
 
                         <h:outputText value="#{wpis.dataprzek}" style="#{wpis.styl}">
-                            <f:convertDateTime dateStyle="medium"  />
+                            <f:convertDateTime dateStyle="medium" locale="pl"/>
                         </h:outputText>
                     </p:column>
                     <p:column id="nazwaColumn" headerText="nazwa" filterBy="#{wpis.nazwa}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.nazwa}" >  

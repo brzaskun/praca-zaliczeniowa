@@ -89,6 +89,9 @@
                 </p:column>
                 <p:column headerText="brutto"  sortBy="#{wpis.bruttoFakturaView}" filterBy="#{wpis.bruttoFakturaView}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
                     <bcf:outputpl value="#{wpis.bruttoFakturaView}"/>
+                    <h:outputText value=" #{wpis.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
+                    <bcf:outputpl value="#{wpis.bruttoFakturaViewPLN}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
+                    <h:outputText value=" PLN" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
                 </p:column>
                 <p:column headerText="wysł." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}"
                           filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;"  width="30">

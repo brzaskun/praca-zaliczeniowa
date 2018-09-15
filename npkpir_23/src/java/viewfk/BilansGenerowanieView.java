@@ -256,6 +256,11 @@ public class BilansGenerowanieView implements Serializable {
                         sb.append(p.getJestStrona() + " roznica ");
                         sb.append(p.getKwotaroznicy());
                         komunikatyerror3.add(sb.toString());
+                        if (p.getKonto().getPelnynumer().equals("860")) {
+                            sb = new StringBuilder();
+                            sb.append("Chyba w pop. roku nie przeksięgowano wyniku finansowego z 860 na 820");
+                            komunikatyerror3.add(sb.toString());
+                        }
                     }
                 }
                 bilansWprowadzanieView.init();

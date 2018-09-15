@@ -38,7 +38,7 @@
             </p:column>
             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" >  
                 <h:outputText value="#{wpis.dataWyst}">
-                    <f:convertDateTime dateStyle="medium"  />
+                    <f:convertDateTime dateStyle="medium" locale="pl"/>
                 </h:outputText>
             </p:column>
             <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
