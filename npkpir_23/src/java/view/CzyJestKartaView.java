@@ -6,6 +6,7 @@
 package view;
 
 import beansPodpis.ObslugaPodpisuBean;
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -16,7 +17,8 @@ import javax.faces.bean.RequestScoped;
  */
 @ManagedBean
 @RequestScoped
-public class CzyJestKartaView {
+public class CzyJestKartaView   implements Serializable {
+    private static final long serialVersionUID = 1L;
     private boolean moznapodpisywac;
     
     @PostConstruct
