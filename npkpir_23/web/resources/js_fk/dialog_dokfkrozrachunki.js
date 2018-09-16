@@ -82,7 +82,7 @@ var powrotDoStronyPoWyborzeRachunekPlatnosc = function () {
     }
 }
 
-//uzywane w DokfkView ale teraz wykomentowane
+//uzywane w DokfkView
 //var znadzpasujacepolerozrachunku = function(kwota) {
 //    setTimeout(znadzpasujacepolerozrachunku2(kwota), 1000);
 //};
@@ -140,8 +140,7 @@ var znadzpasujacepolerozrachunku2 = function () {
                     var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
                     if (zastanakwota === "0.00" && dlwiersze === 1) {
                         var dorozliczenia = zrobFloat(document.getElementById("rozrachunki:dataList:0:pozostaloWn").innerText);
-                        var nowakwota = zrobFloat(kwota);
-                        if (nowakwota < dorozliczenia) {
+                        if (kwota < dorozliczenia) {
                             $(document.getElementById(dopasowanywiersz)).val(kwota);
                             $(document.getElementById(dopasowanywierszH)).val(kwota);
                         } else {
@@ -221,7 +220,7 @@ var doklejsumowaniewprowadzonych = function () {
         //dopuszczalny margines dla nadplat bo platnosc w walucie
         var kwotarachunekpozostalowPLN = kwotarachunekpozostalo;
         if (walutarachunki !== "PLN") {
-            kwotarachunekpozostalo = kwotarachunekpozostalo * kurs + kwotarachunekpozostalo * .2;
+            kwotarachunekpozostalowPLN = kwotarachunekpozostalo * kurs + kwotarachunekpozostalo * .2;
         }
         setTonormal(wierszrachunekpozostalo);
         var wierszTransakcjaRozliczajaca = "rozrachunki:pozostalodorozliczenia";
@@ -313,6 +312,9 @@ var pobierzwaluta = function(numerwiersza) {
     } catch (e) {
 
     }
+    if (waluta === "") {
+        waluta = "PLN";
+    }
     return waluta;
 };
 
@@ -329,7 +331,11 @@ var pobierzkurs = function(numerwiersza) {
     } catch (e) {
 
     }
-    return zrobFloat(kurs);
+    kurs = zrobFloat(kurs);
+    if (isNaN(kurs)) {
+        kurs = 0.0;
+    } 
+    return kurs;
 };
 
 
