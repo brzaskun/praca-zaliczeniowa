@@ -2192,10 +2192,8 @@ public class DokfkView implements Serializable {
                 double saWartosciWprowadzone = 0.0;
                 for (Transakcja p : transakcje) {
                     saWartosciWprowadzone += p.getKwotatransakcji();
-                    if (saWartosciWprowadzone > 0) {
-                        break;
-                    }
                 }
+                wybranastronawiersza.setRozliczeniebiezace(Z.z(saWartosciWprowadzone));
                 if (saWartosciWprowadzone > 0) {
                     funkcja = "zablokujcheckbox('true','platnosc');";
                 } else {

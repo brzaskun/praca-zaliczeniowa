@@ -22,7 +22,7 @@
 
     </style>
 
-    <p:dialog id="dialogdrugi" header="Rozrachunkia" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
+    <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
               resizable="false" dynamic="true"
               onShow="rozrachunkiOnShow(1100,650);setTimeout(znadzpasujacepolerozrachunku2(),1000);" 
               closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki:dataList" closable="true"
@@ -84,7 +84,10 @@
                                 <h:outputText value="kwota pierwotna" />
                             </p:column>
                             <p:column>
-                                <h:outputText value="już rozliczono w kwocie" />
+                                <h:outputText value="już rozliczono w innych dok." />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="rozliczenie bieżące" />
                             </p:column>
                             <p:column>
                                 <h:outputText value="kwota pozostała do rozliczenia" />
@@ -108,8 +111,12 @@
                         </h:outputText>
                     </p:column>
                     <p:column style="text-align: right;">
-
-                        <h:outputText id="juzrozliczono" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczono}" style="font-weight: bold;">
+                        <h:outputText id="juzrozliczono" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.getRozliczonoViewInneDok(dokfkView.biezacetransakcje)}" style="font-weight: bold;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column style="text-align: right;">
+                        <h:outputText id="rozliczeniebiezace" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczeniebiezace}" style="font-weight: bold;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -173,7 +180,7 @@
                             </f:facet>
                             <pe:inputNumber id="kwotarozliczenia" value="#{iteracja.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
                                             decimalPlaces="2" minValue="-10000000" emptyValue="sign"  readonly="#{iteracja.czymoznaedytowac()}"
-                                            styleClass="kwotarozrachunku">
+                                            styleClass="kwotarozrachunku" onfocus="doklejfocuswprowadzonych(this)">
                                 <p:ajax event="blur" listener="#{dokfkView.przetworzwprowadzonakwote(iteracja, row)}" partialSubmit="true" global="false"
                                         update=":rozrachunki:dataList:#{row}:pozostaloWn :rozrachunki:dataList:#{row}:roznicakursowa :rozrachunki:juzrozliczono :rozrachunki:pozostalodorozliczenia"/>
                                 <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzlimity(iteracja, row)}"/>

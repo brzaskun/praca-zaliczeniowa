@@ -106,6 +106,8 @@ public class StronaWiersza implements Serializable {
     private double kwotaWaluta;
     @Column(name = "rozliczono")
     private double rozliczono;
+    @Transient
+    private double rozliczeniebiezace;
     @Column(name = "pozostalo")
     private double pozostalo;
     @Column(name = "typStronaWiersza")
@@ -315,6 +317,78 @@ public class StronaWiersza implements Serializable {
         this.kontr = kontr;
     }
 
+    public double getRozliczeniebiezace() {
+        return rozliczeniebiezace;
+    }
+
+    public void setRozliczeniebiezace(double rozliczeniebiezace) {
+        this.rozliczeniebiezace = rozliczeniebiezace;
+    }
+    
+
+    public double getRozliczonoViewInneDok(List<Transakcja> biezacetransakcje) {
+        this.rozliczono = 0.0;
+        if (this.nowatransakcja) {
+            for (Transakcja p : this.platnosci) {
+                if (!biezacetransakcje.contains(p)) {
+                    if (p.getKwotawwalucierachunku() != 0.0) {
+                        this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
+                    } else {
+                        this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                    }
+                }
+            }
+            this.pozostalo = Z.z(this.getKwotaR() - this.rozliczono);
+        } else {
+              for (Transakcja p : this.nowetransakcje) {
+                  if (!biezacetransakcje.contains(p)) {
+                    this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                  }
+                }
+              //bo jak tak jest to jak platnosc  jest w PLN a rachunek w NOK to pokazuje kwote rozliczona w nokach
+//            for (Transakcja p : this.nowetransakcje) {
+//                if (p.getKwotawwalucierachunku() > 0.0) {
+//                    this.rozliczono += p.getKwotawwalucierachunku();
+//                } else {
+//                    this.rozliczono += p.getKwotatransakcji();
+//                }
+//            }
+            this.pozostalo = Z.z(this.getKwotaR() - this.rozliczono);
+        }
+        return Z.z(this.rozliczono);
+    }
+    
+    public double getRozliczonoViewTenDok() {
+        this.rozliczono = 0.0;
+        if (this.nowatransakcja) {
+            for (Transakcja p : this.platnosci) {
+                if (p.getId()==null) {
+                    if (p.getKwotawwalucierachunku() != 0.0) {
+                        this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
+                    } else {
+                        this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                    }
+                }
+            }
+            this.pozostalo = Z.z(this.getKwotaR() - this.rozliczono);
+        } else {
+              for (Transakcja p : this.nowetransakcje) {
+                  if (p.getId()==null) {
+                    this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                  }
+                }
+              //bo jak tak jest to jak platnosc  jest w PLN a rachunek w NOK to pokazuje kwote rozliczona w nokach
+//            for (Transakcja p : this.nowetransakcje) {
+//                if (p.getKwotawwalucierachunku() > 0.0) {
+//                    this.rozliczono += p.getKwotawwalucierachunku();
+//                } else {
+//                    this.rozliczono += p.getKwotatransakcji();
+//                }
+//            }
+            this.pozostalo = Z.z(this.getKwotaR() - this.rozliczono);
+        }
+        return Z.z(this.rozliczono);
+    }
   
 
     
