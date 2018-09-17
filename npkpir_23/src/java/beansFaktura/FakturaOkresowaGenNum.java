@@ -9,6 +9,7 @@ import dao.FakturaDAO;
 import entity.Faktura;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
 import msg.Msg;
@@ -26,6 +27,21 @@ public class FakturaOkresowaGenNum {
     public static void wygenerujnumerfaktury(FakturaDAO fakturaDAO, Faktura selected, WpisView wpisView) {
         List<String> numerypobranych = Collections.synchronizedList(new ArrayList<>());
         List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
+        if (selected.isProforma()) {
+            for (Iterator<Faktura> it = wykazfaktur.iterator(); it.hasNext(); ) {
+                Faktura fa = it.next();
+                if (!fa.isProforma()) {
+                    it.remove();
+                }
+            }
+        } else {
+            for (Iterator<Faktura> it = wykazfaktur.iterator(); it.hasNext(); ) {
+                Faktura fa = it.next();
+                if (fa.isProforma()) {
+                    it.remove();
+                }
+            }
+        }
         int istniejafakturykontrahenta = 0;
         try {
             if (wykazfaktur.size() > 0) {

@@ -419,6 +419,7 @@ public class FakturaView implements Serializable {
     
     public void edytuj() {
         try {
+            FakturaBean.dodajtabelenbp(selected, tabelanbpDAO);
             FakturaBean.ewidencjavat(selected, evewidencjaDAO);
             if (fakturakorekta) {
                 FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
@@ -989,7 +990,7 @@ public class FakturaView implements Serializable {
         }
     }
 
-    public void wgenerujnumerfaktury() throws IOException {
+    public void wgenerujnumerfaktury()  {
         if (zapis0edycja1 == false && fakturakorekta == false) {
             String nazwaklienta = (String) Params.params("akordeon:formstworz:acForce_input");
             if (!nazwaklienta.equals("nowy klient")) {
@@ -1776,8 +1777,11 @@ public class FakturaView implements Serializable {
     }
     
     public void oznaczproforma() {
+        wgenerujnumerfaktury();
         if (selected.getFakturaPK().getNumerkolejny() != null && selected.getFakturaPK().getNumerkolejny().length() > 1 && !selected.getFakturaPK().getNumerkolejny().equals("wpisz numer")) {
-            selected.getFakturaPK().setNumerkolejny(selected.getFakturaPK().getNumerkolejny()+"/PROFORMA");
+            if (selected.isProforma() && !selected.getFakturaPK().getNumerkolejny().contains("/PROFORMA")) {
+                selected.getFakturaPK().setNumerkolejny(selected.getFakturaPK().getNumerkolejny()+"/PROFORMA");
+            }
             Msg.msg("Oznaczono fakturę jako PROFORMA Zmieniono numer faktury.");
         } else {
             Msg.msg("e","Nie można oznaczyć faktury jako proforma. Brak wprowadzonego numeru faktury");
