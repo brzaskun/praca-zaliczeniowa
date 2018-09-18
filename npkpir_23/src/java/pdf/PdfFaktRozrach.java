@@ -67,13 +67,17 @@ public class PdfFaktRozrach {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepnyFaktury(document, "Rozrachunki  ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-            dodajLinieOpisu(document, "kontrahent "+szukanyklient.getNpelna());
+            dodajOpisWstepnyFaktury(document, "Rozrachunki  z ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajLinieOpisuBezOdstepu(document, "dłużnik: "+szukanyklient.getNpelna());
+            dodajLinieOpisu(document, "NIP: "+szukanyklient.getNip());
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
             if (n.getSaldo() > 0) {
-                dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia: "+F.curr(n.getSaldo()));
-                dodajLinieOpisu(document, "");
+                dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
+                dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia w przeliczeniu na pln: "+F.curr(n.getSaldopln()));
+                dodajLinieOpisu(document, "proszę sprawdzić saldo i przelać je niezwłocznie na nr konta podany na fakturze");
+                dodajLinieOpisu(document, "dziękuję");
+                dodajLinieOpisu(document, " ");
                 dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
             }
             finalizacjaDokumentuQR(document,nazwa);

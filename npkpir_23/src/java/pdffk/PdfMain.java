@@ -502,7 +502,7 @@ public class PdfMain {
         try {
             StringBuilder s = new StringBuilder();
             s.append(opis);
-            s.append(" Firma ");
+            s.append(" ");
             s.append(podatnik);
             s.append(" NIP ");
             s.append(nip);
@@ -510,11 +510,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            if (mc != null) {
-                opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " " + mc + "/" + rok, ft[1]));
-            } else {
-                opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " rok "+ rok, ft[1]));
-            }
+            opiswstepny = new Paragraph("rozliczenia z uwzględnieniem okresu " + mc + "/" + rok, ft[1]);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -892,9 +888,10 @@ public class PdfMain {
                     col[3] = 3;
                     col[4] = 3;
                     col[5] = 3;
-                    col[6] = 3;
+                    col[6] = 2;
                     col[7] = 3;
                     col[8] = 3;
+                    col[9] = 3;
                     return col;
                 } else {
                     col = new int[size];
@@ -1510,7 +1507,8 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlign("", "center", 8));
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
                     }
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
+                    table.addCell(ustawfrazeAlign(p.pokazWalute(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldopln())), "right", 8));
                     table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDatatelefon()), "center", 8));
                     table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDataupomnienia()), "center", 8));
                 } else {

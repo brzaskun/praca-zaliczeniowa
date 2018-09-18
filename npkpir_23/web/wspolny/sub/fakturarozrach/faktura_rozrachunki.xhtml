@@ -125,10 +125,13 @@
                              update="akordeon:fakturarozrachunki akordeon:form_wprowadzoneplatnosci"/>
         </h:form>
         <h:form id="form_wprowadzoneplatnosci">
+            <p:outputPanel style="text-align: right">
+                <h:outputText value="suma: " style="margin-right: 10px;"/><bcf:outputpl value="#{fakturaRozrachunkiView.suma}" stylePlus="margin-right: 200px;"/>
+            </p:outputPanel>
             <p:remoteCommand name="przeliczfilter" actionListener="#{fakturaRozrachunkiView.sumuj}" update="@form"/>
                 <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1170px; margin-top: 20px; overflow-y: scroll; height: 500px;"
                              emptyMessage="niczego dzisiaj nie zaksięgowano"  sortOrder="descending" filteredValue="#{fakturaRozrachunkiView.wprowadzoneplatnoscifiltered}"
-                             editable="true" widgetVar="form_wprowadzoneplatnosci" sortBy="#{item.wystawca.nazwapelna}">
+                             editable="true" widgetVar="form_wprowadzoneplatnosci" sortBy="#{item.nrdokumentu}">
                     <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
                     <p:ajax event="filter" global="false" oncomplete="przeliczfilter();"/>
                     <p:column width="30" sortBy="#{item.lp}" sortable="true">
@@ -214,16 +217,6 @@
                     <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiView.usun(item)}" update="akordeon:form_wprowadzoneplatnosci"/>
                     </p:column>
-                    <p:summaryRow>
-                        <p:column colspan="5" style="text-align:right">
-                            <h:outputText value="razem: "/>
-                        </p:column>
-                        <p:column >
-                            <bcf:outputpl value="#{fakturaRozrachunkiView.suma}"/>
-                        </p:column>
-                        <p:column colspan="2">
-                        </p:column>
-                    </p:summaryRow>
                 </p:dataTable>
         </h:form>
     </p:tab>  

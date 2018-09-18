@@ -204,19 +204,30 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     private void obliczsaldo(List<FakturaPodatnikRozliczenie> nowepozycje) {
-        double saldo = 0.0;
-        double saldopln = 0.0;
-        for (FakturaPodatnikRozliczenie p : nowepozycje) {
-            if (p.isFaktura0rozliczenie1()) {
-                saldo -= p.getKwota();
-                saldopln -=p.getKwotapln();
-            } else {
-                saldo += p.getKwota();
-                saldopln += p.getKwotapln();
+        
+            double saldo = 0.0;
+            double saldopln = 0.0;
+            for (FakturaPodatnikRozliczenie p : nowepozycje) {
+                try {
+                if (p.isFaktura0rozliczenie1()) {
+                    if (p.getRozliczenie().getKurs()!=0.0) {
+                        saldo -= p.getKwota();
+                    }
+                    saldopln -=p.getKwotapln();
+                } else {
+                    if (p.getRozliczenie()!=null && p.getRozliczenie().getKurs()!=0.0) {
+                        saldo -= p.getKwota();
+                    } else if (p.getFaktura().getWalutafaktury()!= null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
+                        saldo += p.getKwota();
+                    }
+                    saldopln += p.getKwotapln();
+                }
+                p.setSaldo(saldo);
+                p.setSaldopln(saldopln);
+                } catch (Exception e) {
+                    E.e(e);
+                }
             }
-            p.setSaldo(saldo);
-            p.setSaldopln(saldopln);
-        }
     }
     
     public void rozliczJednaPozycja(FakturaPodatnikRozliczenie p, boolean nowy0archiwum1) {
@@ -399,7 +410,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             FakturaPodatnikRozliczenie p = nowepozycje.get(nowepozycje.size()-1);
             FakturaRozrachunki r = p.getRozliczenie();
             Faktura f = p.getFaktura();
-            double saldo = p.getSaldo();
+            double saldo = Z.z(p.getSaldopln());
             if (saldo > 0) {
                 obetnijliste(p);
                 PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);

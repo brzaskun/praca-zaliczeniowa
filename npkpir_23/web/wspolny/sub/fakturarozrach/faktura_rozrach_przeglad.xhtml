@@ -19,9 +19,12 @@
             }
         </style>
         <h:form id="razemfaktury">
-            <bcf:outputpl value="#{fakturaRozrachunkiRozlView.suma}" />
+            <p:outputPanel style="text-align: right">
+                <h:outputText value="suma: " style="margin-right: 10px;"/><bcf:outputpl value="#{fakturaRozrachunkiRozlView.suma}" stylePlus="margin-right: 200px;"/>
+            </p:outputPanel>
         </h:form>
         <h:form id="fakturarozliczenia">
+            
             <p:remoteCommand name="przeliczfilter1" actionListener="#{fakturaRozrachunkiRozlView.sumuj}" update="akordeon:razemfaktury"/>
             <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci()}" update="fakturarozliczenia" global="false"/>
             <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;" filteredValue="#{fakturaRozrachunkiRozlView.wprowadzoneplatnoscifiltered}"

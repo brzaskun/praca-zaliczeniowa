@@ -8,6 +8,7 @@ package embeddable;
 import data.Data;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
+import entityfk.Tabelanbp;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -39,6 +40,7 @@ import waluty.Z;
     private double ostatniaplatnosckwota;
     private boolean przeniesionosaldo;
     private String color;
+    
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
         this.rozliczenie = p;
@@ -116,6 +118,14 @@ import waluty.Z;
         }
     }
 
+    public String pokazWalute() {
+        String zwrot = "";
+        if (Z.z(this.kwota) != Z.z(this.kwotapln)) {
+            zwrot = "EUR";
+        }
+        return zwrot;
+    }
+    
     public int getLp() {
         return lp;
     }

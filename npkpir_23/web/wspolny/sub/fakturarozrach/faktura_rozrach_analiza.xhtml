@@ -51,7 +51,7 @@
                 </p:column>
                     </p:panelGrid>
             </p:panelGrid>
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1150px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1200px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          rowIndexVar="row" editable="true" 
                          >
@@ -88,14 +88,7 @@
                     <f:facet name="header">
                         <h:outputText value="zapłata"/>
                     </f:facet>
-                    <p:cellEditor>
-                            <f:facet name="output">
-                                <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
-                            </f:facet>
-                            <f:facet name="input">
-                                <p:inputText value="#{item.kwota}" style="width: 90px;"/>
-                            </f:facet>
-                    </p:cellEditor>
+                        <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
@@ -103,11 +96,23 @@
                     </f:facet>
                     <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
                 </p:column>
+                <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="wal"/>
+                    </f:facet>
+                        <h:outputText value="#{item.pokazWalute()}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
+                </p:column>
                 <p:column width="60">
                     <f:facet name="header">
-                        <h:outputText value="saldo"/>
+                        <h:outputText value="saldo wal"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.saldo}"/>
+                </p:column>
+                <p:column width="60">
+                    <f:facet name="header">
+                        <h:outputText value="saldo pln"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.saldopln}"/>
                 </p:column>
                  <p:column width="70" sortable="true" sortBy="#{item.datatelefon}">
                     <f:facet name="header">

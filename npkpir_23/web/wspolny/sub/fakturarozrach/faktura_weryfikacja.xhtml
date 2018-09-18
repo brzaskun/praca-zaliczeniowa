@@ -10,12 +10,15 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:tab title="Weryfikacja m-ca" >
-        <h:form>
+        <h:form id="formanalizamca">
             <p:outputPanel style="padding: 5px;">
                 <p:commandButton value="sprawdź" actionListener="#{fakturaWeryfikujView.sprawdzmc}" style="width: 120px" update="@form"/>
+                <p:commandButton value="drukuj" type="button" icon="ui-icon-print" style="margin-bottom: 20px; width: 120px; margin-left: 20px;">
+                    <p:printer target="akordeon:formanalizamca:analizamca" />
+                </p:commandButton>
             </p:outputPanel>
             <p:dataTable value="#{fakturaWeryfikujView.lista}" var="imem" emptyMessage="brak niezafakturowanych klientow"
-                         rowIndexVar="indx" style="width: 490px;" sortBy="#{imem.npelna}">
+                         rowIndexVar="indx" style="width: 490px;" sortBy="#{imem.npelna}" id="analizamca">
                 <p:column headerText="lp" width="20">
                     <h:outputText value="#{indx+1}"/>
                 </p:column>

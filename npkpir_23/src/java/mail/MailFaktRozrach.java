@@ -41,10 +41,10 @@ public class MailFaktRozrach implements Serializable{
             MimeBodyPart mbp1 = new MimeBodyPart();
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
             mbp1.setContent("Witam"
-                     + "<p>W załączeniu bieżące rozliczenie płatności na rzecz naszego biura (plik pdf). Prosimy o niezwłoczne uregulowanie płatności.</p>"
+                     + "<p>W załączeniu bieżące rozliczenie faktur i  płatności na rzecz naszego biura (plik pdf). Prosimy o niezwłoczne uregulowanie zaległości.</p>"
                      + "<p>Firma "+szukanyklient.getNpelna()+"</p>"
-                     + "<p>za okres "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu()+"</p>"
-                     + "<p>zaległa kwota do zapłaty "+F.curr(saldo)+"</p>"
+                     + "<p>Rozliczenia obejmują okres okres "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu()+"</p>"
+                     + "<p>Zaległa kwota do zapłaty w pln "+F.curr(saldo)+"</p>"
                      + Mail.reklama
                      + stopka,  "text/html; charset=utf-8");
             // create the second message part

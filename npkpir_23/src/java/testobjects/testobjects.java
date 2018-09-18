@@ -435,7 +435,8 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
             n.add("data");
             n.add("zapłata");
             n.add("faktura");
-            n.add("saldo");
+            n.add("wal");
+            n.add("saldo pln");
             n.add("tel");
             n.add("mail");
             List[] tabela = new List[2];
