@@ -167,6 +167,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
+               
                 <p:column headerText="syntetyka" width="140" >
                     <h:outputText id="pol12" value="#{loop.getTopKonto().getNazwaObcieta(40)}"/>
                     <p:tooltip for="pol12" value="#{loop.getTopKonto().pelnynumer} #{loop.getTopKonto().nazwapelna}" />
@@ -225,54 +226,64 @@
         </h:form>
         <h:form id="tabelazsumamianalityka">
             <p:dataTable id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loop"
-                         style="float: right; margin-right: 210px; width: 950px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
-                <p:column headerText="#{mgs.boWn}" width="60" >
+                         style="float: right; margin-right: 20px; width: 1110px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
+                <p:column headerText="#{mgs.boWn}" width="61" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.boMa}" width="60" >
+                <p:column headerText="#{mgs.boMa}" width="61" >
                     <h:outputText value="#{loop.boMa != 0.0 ? loop.boMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyWn}" width="60"  style="background-color: #e6f2ff;">
+                <p:column headerText="#{mgs.obrotyWn}" width="61"  style="background-color: #e6f2ff;">
                     <h:outputText value="#{loop.obrotyWnMc != 0.0 ? loop.obrotyWnMc : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyMa}" width="60"  style="background-color: #e6f2ff;">
+                <p:column headerText="#{mgs.obrotyMa}" width="61"  style="background-color: #e6f2ff;">
                     <h:outputText value="#{loop.obrotyMaMc != 0.0 ? loop.obrotyMaMc : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyWnNar}" width="60" >
+                <p:column headerText="#{mgs.obrotyWnNar}" width="61" >
                     <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyMaNar}" width="60" >
+                <p:column headerText="#{mgs.obrotyMaNar}" width="61" >
                     <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyBOWn}" width="60" >
+                <p:column headerText="#{mgs.obrotyBOWn}" width="61" >
                     <h:outputText value="#{loop.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.obrotyBOMa}" width="60" >
+                <p:column headerText="#{mgs.obrotyBOMa}" width="61" >
                     <h:outputText value="#{loop.obrotyBoMa != 0.0 ? loop.obrotyBoMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.saldoWn}" width="60" >
+                <p:column headerText="#{mgs.saldoWn}" width="61" >
                     <h:outputText value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.saldoMa}" width="60" >
+                <p:column headerText="#{mgs.saldoMa}" width="61" >
                     <h:outputText value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                 <p:column headerText="Persaldo Wn" width="61" sortBy="#{loop.saldoWnP}">
+                    <h:outputText  value="#{loop.saldoWnP}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Persaldo Ma" width="61" sortBy="#{loop.saldoMaP}">
+                    <h:outputText value="#{loop.saldoMaP}" style="float: right; color: green; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>

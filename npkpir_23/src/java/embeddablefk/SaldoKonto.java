@@ -35,6 +35,8 @@ public class SaldoKonto implements Serializable {
     private double obrotyBoMa;
     private double saldoWn;
     private double saldoMa;
+    private double saldoWnP;
+    private double saldoMaP;
     private String nrpelnymacierzystego;
     private List<StronaWiersza> zapisy;
     private Waluty walutadlabo;
@@ -260,6 +262,22 @@ public class SaldoKonto implements Serializable {
     
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getSaldoWnP() {
+        return saldoWnP;
+    }
+
+    public void setSaldoWnP(double saldoWnP) {
+        this.saldoWnP = saldoWnP;
+    }
+
+    public double getSaldoMaP() {
+        return saldoMaP;
+    }
+
+    public void setSaldoMaP(double saldoMaP) {
+        this.saldoMaP = saldoMaP;
     }
 
     public double getObrotyWnMc() {

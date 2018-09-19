@@ -164,6 +164,11 @@ public class KontaFKBean implements Serializable{
         p.setObrotyBoMa(Z.z(obboma.doubleValue()));
         p.setSaldoWn(Z.z(saldown.doubleValue()));
         p.setSaldoMa(Z.z(saldoma.doubleValue()));
+        if (p.getSaldoWn()>p.getSaldoMa()) {
+            p.setSaldoWnP(Z.z(p.getSaldoWn()-p.getSaldoMa()));
+        } else {
+            p.setSaldoMaP(Z.z(p.getSaldoMa()-p.getSaldoWn()));
+        }
         return p;
     }
     
