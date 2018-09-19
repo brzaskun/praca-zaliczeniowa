@@ -176,6 +176,7 @@ public class FakturaRozrachunkiView  implements Serializable {
             selected.setZaplata0korekta1(zaplata0korekta1);
             selected.setRodzajdokumentu(rodzajdokumentu);
             selected.setNrdokumentu(nowynumer);
+            sumuj();
         } catch (Exception e) {
             E.e(e);
         }
