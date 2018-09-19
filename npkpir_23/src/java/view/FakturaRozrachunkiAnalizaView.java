@@ -205,30 +205,29 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     private void obliczsaldo(List<FakturaPodatnikRozliczenie> nowepozycje) {
-        
-            double saldo = 0.0;
-            double saldopln = 0.0;
-            for (FakturaPodatnikRozliczenie p : nowepozycje) {
-                try {
+        double saldo = 0.0;
+        double saldopln = 0.0;
+        for (FakturaPodatnikRozliczenie p : nowepozycje) {
+            try {
                 if (p.isFaktura0rozliczenie1()) {
-                    if (p.getRozliczenie().getKurs()!=0.0) {
+                    if (p.getRozliczenie().getKurs() != 0.0) {
                         saldo -= p.getKwota();
                     }
-                    saldopln -=p.getKwotapln();
+                    saldopln -= p.getKwotapln();
                 } else {
-                    if (p.getRozliczenie()!=null && p.getRozliczenie().getKurs()!=0.0) {
+                    if (p.getRozliczenie() != null && p.getRozliczenie().getKurs() != 0.0) {
                         saldo -= p.getKwota();
-                    } else if (p.getFaktura().getWalutafaktury()!= null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
+                    } else if (p.getFaktura().getWalutafaktury() != null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
                         saldo += p.getKwota();
                     }
                     saldopln += p.getKwotapln();
                 }
                 p.setSaldo(saldo);
                 p.setSaldopln(saldopln);
-                } catch (Exception e) {
-                    E.e(e);
-                }
+            } catch (Exception e) {
+                E.e(e);
             }
+        }
     }
     
     public void rozliczJednaPozycja(FakturaPodatnikRozliczenie p, boolean nowy0archiwum1) {
@@ -297,7 +296,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
             if (nowepozycje.size() > 0) {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
-                if (r.getSaldo() != 0.0) {
+                if (r.getSaldopln() != 0.0) {
                     if (r.getMc().equals(wpisView.getMiesiacWpisu())) {
                         if (r.getDataupomnienia()!=null || r.getDatatelefon()!=null) {
                             r.setColor("blue");
@@ -309,7 +308,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     if (pokaznadplaty == true) {
                         saldanierozliczone.add(r);
                         sumasaldnierozliczonych += r.getSaldopln();
-                    } else if (r.getSaldo() > 0.0) {
+                    } else if (r.getSaldopln() > 0.0) {
                         saldanierozliczone.add(r);
                         sumasaldnierozliczonych += r.getSaldopln();
                     }
