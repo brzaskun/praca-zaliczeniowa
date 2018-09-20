@@ -170,7 +170,7 @@
                     </p:column>
                     <p:column headerText="data złożenia" style="text-align: center;" width="80">
                         <h:outputText value="#{row.datazlozenia ne null ? row.datazlozenia : 'nie złożono'}">
-                            <f:convertDateTime type="date" dateStyle="dd/MM/yy" locale="pl"/>
+                            <f:convertDateTime type="date" locale="pl"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="korekta / testowa" style="text-align: center;" width="50">
