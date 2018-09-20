@@ -302,7 +302,6 @@ public class VatUeFKView implements Serializable {
        deklaracjeUE_biezace = Collections.synchronizedList(new ArrayList<>());
        deklaracjeUE = deklaracjavatUEDAO.findbyPodatnikRok(wpisView);
        if (deklaracjeUE == null) {
-           deklaracjeUE = Collections.synchronizedList(new ArrayList<>());
            for (DeklaracjavatUE p : deklaracjeUE) {
                if (p.getStatus()==null || !p.getStatus().equals("200")) {
                    deklaracjeUE_biezace.add(p);
