@@ -6,8 +6,10 @@
 package view;
 
 import dao.DeklaracjevatDAO;
+import dao.EVatwpis1DAO;
 import dao.PodatnikDAO;
 import dao.UPODAO;
+import daoFK.EVatwpisFKDAO;
 import embeddable.Parametr;
 import entity.Deklaracjevat;
 import entity.Podatnik;
@@ -42,6 +44,10 @@ public class JPKListaView  implements Serializable {
     @Inject
     private UPODAO upodao;
     private List<UPO> jpkzrobione;
+    @Inject
+    private EVatwpis1DAO eVatwpis1DAO;
+    @Inject
+    private EVatwpisFKDAO eVatwpisFKDAO;
     
     
     @PostConstruct
@@ -55,7 +61,7 @@ public class JPKListaView  implements Serializable {
 //            podatnikdowyslania.add(znajdzpodanik(p.getPodatnik(), podatnicy));
 //        }
         podatnicy.parallelStream().forEach((p)->{
-            if (!sprawdzjakiokresvat(p).equals("blad")) {
+            if (!sprawdzjakiokresvat(p).equals("blad") && p.isPodmiotaktywny()) {
                 jpkmoznarobic.add(p);
             }
         });
@@ -65,6 +71,14 @@ public class JPKListaView  implements Serializable {
         } else {
             for (UPO r : jpkzrobione) {
                 jpkmoznarobic.remove(r.getPodatnik());
+            }
+        }
+        for (Iterator<Podatnik> it = jpkmoznarobic.iterator();it.hasNext();) {
+            Podatnik ra = it.next();
+            List zapisy = eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(ra, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            List zapisy1 = eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(ra, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            if (zapisy.isEmpty() && zapisy1.isEmpty()) {
+                it.remove();
             }
         }
     }

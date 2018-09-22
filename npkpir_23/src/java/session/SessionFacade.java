@@ -2249,6 +2249,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<EVatwpis1> zwrocEVatwpis1KlientRokKw(Podatnik podatnikWpisu, String rokWpisuSt, List<String> mce) {
         return Collections.synchronizedList(em.createNamedQuery("EVatwpis1.findByRokKW").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList());
     }
+    
+    public List<EVatwpis1> zwrocEVatwpisFKKlientRokMc(Podatnik podatnikWpisu, String rokWpisuSt, String miesiacWpisu) {
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByRokMc").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList());
+    }
+
+    public List<EVatwpis1> zwrocEVatwpisFKKlientRokKw(Podatnik podatnikWpisu, String rokWpisuSt, List<String> mce) {
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByRokKW").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList());
+    }
 
     public List<Sesja> findSesjaZalogowani() {
         return Collections.synchronizedList(em.createNamedQuery("Sesja.findByZalogowani").getResultList());
