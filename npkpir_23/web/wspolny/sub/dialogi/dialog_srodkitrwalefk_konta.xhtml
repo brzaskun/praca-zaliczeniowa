@@ -7,10 +7,10 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
     
-    <p:dialog id="dialogsrodkitrwalefkzestawienie" header="Wykaz środków trwałych" widgetVar="dialogsrodkitrwalefkzestawienie" 
-              onShow="ustawdialog('dialogsrodkitrwalefkzestawienie','menusrodkitrwale',1500,750);" 
-              closeOnEscape="true" onHide="resetujdialog('dialogsrodkitrwalefkzestawienie');">
+    <p:dialog id="dialogsrodkitrwalefkkonta" header="Porównanie wykazu środków trwałych z zapisami na kontach" widgetVar="dialogsrodkitrwalefkkonta" 
+              onShow="ustawdialog('dialogsrodkitrwalefkkonta','menusrodkitrwale',1500,750);" 
+              closeOnEscape="true" onHide="resetujdialog('dialogsrodkitrwalefkkonta');">
         <!--pola ewidencji SRODKOW TRWALYCH-->
-            <ui:include src="../srodkitablica.xhtml"/> 
+            <ui:include src="../srodkitablicakonta.xhtml"/> 
     </p:dialog>
 </ui:composition>

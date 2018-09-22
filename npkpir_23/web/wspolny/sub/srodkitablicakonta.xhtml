@@ -1,0 +1,49 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .ui-datatable-scrollable-theadclone {
+            display: none !important;
+            height: 0px !important;
+        }
+    </style>
+        <p:commandButton value="drukuj" type="button" icon="ui-icon-print" style="margin-bottom: 20px; width: 120px; margin-left: 20px;">
+            <p:printer target="formtablicaporownawcza:tablicaporownawcza" />
+        </p:commandButton>
+    <h:form id="formtablicaporownawcza">
+        
+        <h:outputText value="brak bilansu otwarcia, dane są niekompletne" rendered="#{srodkiKontaView.brakbo}"/>
+        <p:dataTable value="#{srodkiKontaView.lista}" var="wpisks" rowIndexVar="indxwpisks" style="height: 580px;overflow-y: scroll; width: 1100px;" id="tablicaporownawcza">
+            <p:column width="30">
+                <h:outputText value="#{indxwpisks+1}"/>
+            </p:column>
+            <p:column headerText="numer konta" width="50">
+                <h:outputText value="#{wpisks.pelnynumer}"/>
+            </p:column>
+            <p:column headerText="nazwa konta" width="280">
+                <h:outputText value="#{wpisks.nazwapelna}"/>
+            </p:column>
+            <p:column headerText="saldo wn">
+                <bcf:outputpl value="#{wpisks.saldoWnstr}"/>
+            </p:column>
+            <p:column headerText="saldo ma">
+                <bcf:outputpl value="#{wpisks.saldoMastr}"/>
+            </p:column>
+            <p:column headerText="cena zakupu">
+                <bcf:outputpl value="#{wpisks.kosztnabycia}"/>
+            </p:column>
+            <p:column headerText="umorzenia">
+                <bcf:outputpl value="#{wpisks.odpisyamo}"/>
+            </p:column>
+            <p:column headerText="różnica">
+                <bcf:outputpl value="#{wpisks.roznica}" stylePlus="color: #{wpisks.roznica lt 0.0 ? 'red': 'green'}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:composition>   
+

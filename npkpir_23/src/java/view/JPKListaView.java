@@ -73,14 +73,15 @@ public class JPKListaView  implements Serializable {
                 jpkmoznarobic.remove(r.getPodatnik());
             }
         }
-        for (Iterator<Podatnik> it = jpkmoznarobic.iterator();it.hasNext();) {
-            Podatnik ra = it.next();
-            List zapisy = eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(ra, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            List zapisy1 = eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(ra, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            if (zapisy.isEmpty() && zapisy1.isEmpty()) {
-                it.remove();
-            }
-        }
+        //bo zerowe tez trzeba wysylac
+//        for (Iterator<Podatnik> it = jpkmoznarobic.iterator();it.hasNext();) {
+//            Podatnik ra = it.next();
+//            List zapisy = eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(ra, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//            List zapisy1 = eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(ra, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//            if (zapisy.isEmpty() && zapisy1.isEmpty()) {
+//                it.remove();
+//            }
+//        }
     }
    
     public void jpkkorekta() {
