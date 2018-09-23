@@ -13,6 +13,7 @@ import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.WalutyDAOfk;
+import data.Data;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entity.SrodekTrw;
@@ -59,15 +60,7 @@ public class SrodkiKontaView implements Serializable {
 
     @PostConstruct
     private void init() {
-        List<SrodekTrw> posiadane = Collections.synchronizedList(new ArrayList<>());
-        List<SrodekTrw> srodkizBazy = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
-        for (SrodekTrw srodek : srodkizBazy) {
-            if (srodek.getTyp() != null && !srodek.getTyp().equals("wnip") && !srodek.getTyp().equals("wyposazenie")) {
-                if (srodek.getDatasprzedazy() == null || srodek.getDatasprzedazy().equals("")) {
-                    posiadane.add(srodek);
-                }
-            }
-        }
+        List<SrodekTrw> srodkizBazy = pobierzsrodkizbazy();
         List<Konto> kontaklienta = pobierzkonta();
         List<SaldoKonto> listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
@@ -76,8 +69,24 @@ public class SrodkiKontaView implements Serializable {
         }
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
         listaSaldoKonto = przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, null);
-        lista = stworzliste(kontaklienta,listaSaldoKonto, posiadane);
+        lista = stworzliste(kontaklienta,listaSaldoKonto, srodkizBazy);
         System.out.println("");
+    }
+    
+    private List<SrodekTrw> pobierzsrodkizbazy() {
+        List<SrodekTrw> posiadane = Collections.synchronizedList(new ArrayList<>());
+        List<SrodekTrw> srodkizBazy = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
+        for (SrodekTrw srodek : srodkizBazy) {
+            if (srodek.getTyp() != null && !srodek.getTyp().equals("wnip") && !srodek.getTyp().equals("wyposazenie")) {
+                if (srodek.getDatasprzedazy() == null || srodek.getDatasprzedazy().equals("")) {
+                    String[] okres = Data.nastepnyOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                    if (Data.czyjestprzed(srodek.getDataprzek(), okres[0], okres[1])) {
+                        posiadane.add(srodek);
+                    }
+                }
+            }
+        }
+        return posiadane;
     }
 
     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String rodzajkonta) {
@@ -247,7 +256,7 @@ public class SrodkiKontaView implements Serializable {
         }
         zwrot.setKosztnabycia(koszzakupu);
         zwrot.setOdpisyamo(umorzenia);
-        zwrot.setSrodkitrwale(posiadane);
+        zwrot.setSrodkitrwale(wybrane);
     }
 
     private double pobierzentto(SrodekTrw t) {
@@ -289,6 +298,8 @@ public class SrodkiKontaView implements Serializable {
     public void setBrakbo(boolean brakbo) {
         this.brakbo = brakbo;
     }
+
+    
 
     
 

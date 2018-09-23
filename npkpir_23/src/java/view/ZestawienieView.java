@@ -67,7 +67,7 @@ import waluty.Z;
 @ManagedBean(name = "ZestawienieView")
 @ViewScoped
 public class ZestawienieView implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private static List<Double> styczen;
     private static List<Double> luty;
     private static List<Double> marzec;
