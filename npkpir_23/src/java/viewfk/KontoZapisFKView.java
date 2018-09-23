@@ -753,6 +753,9 @@ public class KontoZapisFKView implements Serializable{
     
     public void rozliczzaznaczone() {
         if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 1) {
+            if (wybranezapisydosumowania.size()==2 && RozliczTransakcjeBean.sprawdzczyjestkorekta(wybranezapisydosumowania)==null) {
+                Msg.msg("e", "Jedna z pozyji to korekta, naniesiono oznaczenia");
+            }
             if (wybranezapisydosumowania.size()==2 && RozliczTransakcjeBean.sprawdznowatransakcje(wybranezapisydosumowania)==null) {
                 RozliczTransakcjeBean.wybierzjednatransakcje(wybranezapisydosumowania);
             }

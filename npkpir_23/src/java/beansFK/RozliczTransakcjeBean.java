@@ -71,6 +71,34 @@ public class RozliczTransakcjeBean {
         }
         return zwrot;
     }
+    
+    public static StronaWiersza sprawdzczyjestkorekta(List<StronaWiersza> w) {
+        StronaWiersza zwrot = null;
+        boolean brakkorekty = true;
+        if (w.size() == 2) {
+            for (Iterator<StronaWiersza> it = w.iterator(); it.hasNext();) {
+                StronaWiersza s = it.next();
+                if (s.getKwota() < 0.0) {
+                    brakkorekty = !brakkorekty;
+                }
+            }
+            if (brakkorekty == false) {
+                for (Iterator<StronaWiersza> it = w.iterator(); it.hasNext();) {
+                    StronaWiersza s = it.next();
+                    if (s.getKwota() < 0.0) {
+                        s.setNowatransakcja(false);
+                        s.setNowetransakcje(new ArrayList<>());
+                    }
+                    if (s.getKwota() > 0.0 && !s.isNowatransakcja()) {
+                        s.setNowatransakcja(true);
+                        s.setPlatnosci(new ArrayList<>());
+                    }
+                }
+            }
+        }
+        return zwrot;
+    }
+
     public static StronaWiersza sprawdznowatransakcje(List<StronaWiersza> w) {
         StronaWiersza zwrot = null;
         for (Iterator<StronaWiersza> it = w.iterator(); it.hasNext();) {
@@ -91,36 +119,38 @@ public class RozliczTransakcjeBean {
                     nowatransakcja.setTypStronaWiersza(1);
                 }
                 Double limit = nowatransakcja.getPozostalo();
-                for (StronaWiersza platnosc : w) {
-                    double dorozliczenia = obliczkwotedorozliczenia(limit, platnosc);
-                    if (dorozliczenia > 0.0) {
-                        platnosc.setTypStronaWiersza(2);
-                        Transakcja transakcja = new Transakcja(platnosc, nowatransakcja);
-                        transakcja.setDatarozrachunku(wyliczdatetransakcji(platnosc));
-                        transakcja.setKwotatransakcji(dorozliczenia);
-                        transakcja.setKwotawwalucierachunku(dorozliczenia);
-                        RozniceKursoweBean.rozliczroznicekursowe(transakcja);
-                        if (nowatransakcja.getPlatnosci() != null) {
-                            nowatransakcja.getPlatnosci().add(transakcja);
+                if (limit>0.0) {
+                    for (StronaWiersza platnosc : w) {
+                        double dorozliczenia = obliczkwotedorozliczenia(limit, platnosc);
+                        if (dorozliczenia > 0.0) {
+                            platnosc.setTypStronaWiersza(2);
+                            Transakcja transakcja = new Transakcja(platnosc, nowatransakcja);
+                            transakcja.setDatarozrachunku(wyliczdatetransakcji(platnosc));
+                            transakcja.setKwotatransakcji(dorozliczenia);
+                            transakcja.setKwotawwalucierachunku(dorozliczenia);
+                            RozniceKursoweBean.rozliczroznicekursowe(transakcja);
+                            if (nowatransakcja.getPlatnosci() != null) {
+                                nowatransakcja.getPlatnosci().add(transakcja);
+                            } else {
+                                List<Transakcja> nowalistatransakcji = Collections.synchronizedList(new ArrayList<>());
+                                nowalistatransakcji.add(transakcja);
+                                nowatransakcja.setPlatnosci(nowalistatransakcji);
+                            }
+                            if (platnosc.getNowetransakcje() != null) {
+                                //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
+                                platnosc.getNowetransakcje().add(transakcja);
+                            } else {
+                                List<Transakcja> nowalistaplatnosci = Collections.synchronizedList(new ArrayList<>());
+                                nowalistaplatnosci.add(transakcja);
+                                platnosc.setNowetransakcje(nowalistaplatnosci);
+                            }
+                            limit = limit - dorozliczenia;
                         } else {
-                            List<Transakcja> nowalistatransakcji = Collections.synchronizedList(new ArrayList<>());
-                            nowalistatransakcji.add(transakcja);
-                            nowatransakcja.setPlatnosci(nowalistatransakcji);
+                            break;
                         }
-                        if (platnosc.getNowetransakcje() != null) {
-                            //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
-                            platnosc.getNowetransakcje().add(transakcja);
-                        } else {
-                            List<Transakcja> nowalistaplatnosci = Collections.synchronizedList(new ArrayList<>());
-                            nowalistaplatnosci.add(transakcja);
-                            platnosc.setNowetransakcje(nowalistaplatnosci);
-                        }
-                        limit = limit - dorozliczenia;
-                    } else {
-                        break;
                     }
+                    w.add(nowatransakcja);
                 }
-                w.add(nowatransakcja);
             }
         } catch (Exception e) {
             E.e(e);
