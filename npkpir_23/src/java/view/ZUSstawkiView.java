@@ -26,7 +26,7 @@ import org.joda.time.DateTime;
 @ManagedBean
 @ViewScoped
 public class ZUSstawkiView implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     @Inject
     private ZUSDAO zusDAO;
     @Inject

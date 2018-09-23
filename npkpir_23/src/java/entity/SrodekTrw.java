@@ -152,7 +152,7 @@ public class SrodekTrw implements Serializable {
     private Konto kontoumorzenie;
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<SrodekTrw_NowaWartosc> zmianawartosci;
     @Column(name = "symbolinwentarzowy", nullable = true)
     private String symbolinwentarzowy;

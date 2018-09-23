@@ -32,7 +32,7 @@ public class DFKWiersze {
         }
         if (stw != null) {
             Konto konorozrachunkowe = stw.getKonto();
-            if (konorozrachunkowe != null && stw.getKwota() != 0.0 && konorozrachunkowe.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+            if (konorozrachunkowe != null && stw.getKwota() > 0.0 && konorozrachunkowe.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                 stw.setNowatransakcja(true);
                 stw.setTypStronaWiersza(1);
             }
