@@ -1167,21 +1167,24 @@ public class DokView implements Serializable {
 //        }
 //    }
     public void zmienokresVAT() {
-        String datafaktury = (String) Params.params("dodWiad:dataPole");
-        String dataobowiazku = (String) Params.params("dodWiad:dataSPole");
-        int porownaniedat = Data.compare(datafaktury, dataobowiazku);
-        String rok;
-        String mc;
-        if (porownaniedat >= 0) {
-            rok = dataobowiazku.substring(0, 4);
-            mc = dataobowiazku.substring(5, 7);
-        } else {
-            rok = datafaktury.substring(0, 4);
-            mc = datafaktury.substring(5, 7);
+        if (selDokument.getRodzajedok().getRodzajtransakcji().equals("sprzedaz")) {
+            String datafaktury = (String) Params.params("dodWiad:dataPole");
+            String dataobowiazku = (String) Params.params("dodWiad:dataSPole");
+            int porownaniedat = Data.compare(datafaktury, dataobowiazku);
+            String rok;
+            String mc;
+            if (porownaniedat >= 0) {
+                rok = dataobowiazku.substring(0, 4);
+                mc = dataobowiazku.substring(5, 7);
+            } else {
+                rok = datafaktury.substring(0, 4);
+                mc = datafaktury.substring(5, 7);
+            }
+            selDokument.setVatR(rok);
+            selDokument.setVatM(mc);
+            RequestContext.getCurrentInstance().update("dodWiad:vatm");
+            RequestContext.getCurrentInstance().update("dodWiad:rokm");
         }
-        selDokument.setVatR(rok);
-        selDokument.setVatM(mc);
-        RequestContext.getCurrentInstance().update("dodWiad:ostatnipanel");
     }
 
     public void dodajSTR() {

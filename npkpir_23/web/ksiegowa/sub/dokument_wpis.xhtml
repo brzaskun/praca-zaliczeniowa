@@ -60,14 +60,12 @@
                             <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10"
                                          style="height: 19px;" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień"  >
                                 <!--     archeo     <p:ajax event="blur" listener="{DokumentView.podlaczPierwszaKolumne()}" update=":dodWiad:tabelapkpir"  />-->
-                                <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
                             </p:inputText>
                         </p:column>
                         <p:column width="60">
                             <p:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" size="10"
                                          onblur="ustawDateSprzedazy(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" 
                                          required="true" requiredMessage="Pole daty sprzedaży nie może byc puste" >
-                                <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
                             </p:inputText>
                         </p:column>
                         <p:column>
@@ -186,6 +184,7 @@
 <!--                            <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>-->
                             <f:ajax event="change"  listener="#{DokumentView.wygenerujnumerkolejny()}"/>
                             <f:ajax event="blur"  listener="#{DokumentView.wygenerujnumerkolejnyonblur()}"/>
+                            <f:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
                         </h:selectOneMenu>
                     </p:column>
                     <p:column>
