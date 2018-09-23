@@ -75,7 +75,7 @@
                            <p:ajax global="false" event="blur" partialSubmit="true"/>
                         </p:inputText>
                     </p:column>
-                    <h:outputText value="nowa kwota"/>
+                    <h:outputText value="zwiększenie/zmniejszenie o"/>
                     <pe:inputNumber id="kwotaPkpir" value="#{STRTableView.kwotazmiany}" symbol="zł" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
@@ -113,8 +113,8 @@
                                  style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
                 </p:panelGrid>
                 <p:dataTable value="#{STRTableView.edytowanysrodek.zmianawartosci}" var="item" id="tabelazmian"
-                                 emptyMessage="Nie naniesiono wcześniej żadnych zmian" style="width: 600px; margin-top: 10px;"
-                                 scrollable="true" scrollHeight="100" rowIndexVar="index">
+                                 emptyMessage="Nie naniesiono wcześniej żadnych zmian" style="width: 600px; margin-top: 10px; overflow-y: scroll;height: 100px;"
+                                 rowIndexVar="index">
                         <f:facet name="header">
                             <h:outputText value="naniesione zmiany wartości"/>
                         </f:facet>

@@ -733,6 +733,8 @@ public class STRTabView implements Serializable {
                 }
                 edytowanysrodek.getZmianawartosci().add(s);
                 SrodkiTrwBean.naliczodpisymczneUlepszenie(edytowanysrodek);
+                edytowanysrodek.setPlanumorzen(null);
+                sTRDAO.edit(edytowanysrodek);
                 edytowanysrodek.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(edytowanysrodek, wpisView));
                 Collections.sort(edytowanysrodek.getZmianawartosci(), new SrodekTrwNowaWartoscComparator());
                 sTRDAO.edit(edytowanysrodek);

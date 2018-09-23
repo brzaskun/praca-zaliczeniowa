@@ -77,7 +77,6 @@ public class ZestawienieFKView implements Serializable {
     private RemanentView remanentView;
     private List<Dok> lista;
     private List<Pitpoz> pobierzPity;
-    private List<List> zebranieMcy;
     @Inject
     private Pitpoz biezacyPit;
     @Inject
@@ -107,8 +106,6 @@ public class ZestawienieFKView implements Serializable {
     @PostConstruct
     public void init() {
         if (wpisView.getPodatnikWpisu() != null && wpisView.isKsiegaryczalt()) {
-            pobierzPity = Collections.synchronizedList(new ArrayList<>());
-            zebranieMcy = Collections.synchronizedList(new ArrayList<>());
             listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
             try {
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
@@ -680,14 +677,6 @@ public class ZestawienieFKView implements Serializable {
     
     public void setPobierzPity(List<Pitpoz> pobierzPity) {
         this.pobierzPity = pobierzPity;
-    }
-    
-    public List<List> getZebranieMcy() {
-        return zebranieMcy;
-    }
-    
-    public void setZebranieMcy(List<List> zebranieMcy) {
-        this.zebranieMcy = zebranieMcy;
     }
     
     public Pitpoz getBiezacyPit() {
