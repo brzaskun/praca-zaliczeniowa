@@ -944,13 +944,13 @@ public class FakturaView implements Serializable {
             selDokument.setOpis(faktura.getPozycjenafakturze().get(0).getNazwa());
             List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
-            tmpX.setNetto(faktura.getNettopln());
+            tmpX.setNetto(faktura.getNettoPrzelicz());
             tmpX.setNettowaluta(faktura.getNetto());
             tmpX.setVatwaluta(faktura.getVat());
-            tmpX.setVat(faktura.getVatpln());
+            tmpX.setVat(faktura.getVatPrzelicz());
             tmpX.setNazwakolumny("przych. sprz");
             tmpX.setDok(selDokument);
-            tmpX.setBrutto(Z.z(faktura.getBruttopln()));
+            tmpX.setBrutto(Z.z(faktura.getBruttoPrzelicz()));
             listaX.add(tmpX);
             selDokument.setListakwot1(listaX);
             selDokument.setNetto(tmpX.getNetto());
@@ -959,6 +959,9 @@ public class FakturaView implements Serializable {
             List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             for (EVatwpis r : faktura.getEwidencjavat()) {
                 EVatwpis1 eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNettopln(), r.getVatpln(), r.getEstawka(), p.getMc(), p.getRok());
+                if (r.getNettopln()==0.0 && r.getVatpln() == 0.0) {
+                    eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
+                }
                 eVatwpis1.setDok(selDokument);
                 ewidencjaTransformowana.add(eVatwpis1);
                 if (r.getEwidencja().getNazwa().equals("usługi świad. poza ter.kraju")) {
