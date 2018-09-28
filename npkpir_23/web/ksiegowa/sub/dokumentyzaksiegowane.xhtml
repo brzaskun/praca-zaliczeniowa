@@ -46,7 +46,7 @@
             <p:menuitem global="false" value="zawiera błędy" actionListener="#{DokTabView.fakturasprawdzanie(2)}" update=":formM:messages" icon="ui-icon-closethick"/>
             <p:menuitem global="false" value="nie sprawdzona" actionListener="#{DokTabView.fakturasprawdzanie(0)}" update=":formM:messages" icon="ui-icon-help"/>
             <p:menuitem></p:menuitem>
-            <p:menuitem global="false" value="Edytuj" update=":formM:messages dodWiad:tabelapkpir" icon="ui-icon-calculator"
+           <p:menuitem global="false" value="Edytuj" update=":formM:messages dodWiad:tabelapkpir" icon="ui-icon-calculator"
                         actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem global="false" value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
             <p:menuitem global="false" value="PDF" update=":formM:messages" actionListener="#{DokTabView.printPDFPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
