@@ -7,10 +7,10 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <p:dialog id="dialogCechyDokumentu" header="Oznaczanie dokumentów" widgetVar="dialogCechyDokumentuZbiorcze" resizable="false" 
-              onShow="ustawdialogWindow('dialogCechyDokumentuZbiorcze',550,400);" focus=":formCH"  appendTo="@(body)"
+              onShow="ustawdialogWindow('dialogCechyDokumentuZbiorcze',550,800);" focus=":formCH"  appendTo="@(body)"
               closeOnEscape="true">
         <h:form id="formCH" >
-            <p:dataTable  value="#{DokumentView.pobranecechypodatnik}" var="item"  rows="6" style="height: 200px; width: 500px;"
+            <p:dataTable  value="#{DokumentView.pobranecechypodatnik}" var="item"   style="height: 500px; width: 500px;"
                           emptyMessage="cechy nie zostały zdefiniowane">
                 <p:column headerText="nazwa cechy do wyboru">
                     <h:outputText value="#{item.nazwacechy}"/>
@@ -19,7 +19,7 @@
                     <h:outputText value="#{item.rodzajcechy}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton value="+" actionListener="#{DokTabView.dodajcechedodokumenty(item)}" update=":form:dokumentyLista :form:cechydokuk"/>
+                    <p:commandButton value="+" actionListener="#{DokTabView.dodajcechedodokumenty(item)}" update="form:dokumentyLista form:cechydokuk"/>
                 </p:column>
                  <p:column width="40" style="text-align: center;">
                      <p:commandButton value="-" actionListener="#{DokTabView.usuncechedodokumenty(item)}" 
