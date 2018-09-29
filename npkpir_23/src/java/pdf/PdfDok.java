@@ -130,10 +130,14 @@ public class PdfDok extends Pdf implements Serializable {
             dodajTabele(document, testobjects.testobjects.getListaDokImport(sprzedaz),100,modyfikator);
             dodajsumy(sprzedaz, document);
             PdfMain.dodajLinieOpisu(document, "");
-            PdfMain.dodajLinieOpisuBezOdstepu(document, "SPRZEDAŻ WDT NIEMCY");
             List<Dok> wdt = lista.stream().filter((p)->p.getRodzajedok().getSkrotNazwyDok().equals("WDT")).collect(Collectors.toList());
-            dodajTabele(document, testobjects.testobjects.getListaDokImport(wdt),100,modyfikator);
-            dodajsumy(wdt, document);
+            if (wdt.isEmpty()) {
+                PdfMain.dodajLinieOpisuBezOdstepu(document, "BRAK SPRZEDAŻY WDT NIEMCY");
+            } else {
+                PdfMain.dodajLinieOpisuBezOdstepu(document, "SPRZEDAŻ WDT NIEMCY");
+                dodajTabele(document, testobjects.testobjects.getListaDokImport(wdt),100,modyfikator);
+                dodajsumy(wdt, document);
+            }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
@@ -159,7 +163,9 @@ public class PdfDok extends Pdf implements Serializable {
             vatwaluta = Z.z(vatwaluta+p.getVatWalutaCSV());
             nettopl = Z.z(nettopl+Z.z(p.getNetto()*p.getTabelanbp().getKurssredniPrzelicznik()));
             vatpl = Z.z(vatpl+Z.z(p.getVat()*p.getTabelanbp().getKurssredniPrzelicznik()));
-            tab=p.getTabelanbp();
+            if (p.getTabelanbp()!=null) {
+                tab=p.getTabelanbp();
+            }
         }
         double brutto = Z.z(netto+vat);
         double bruttopln = Z.z(nettopl+vatpl);
@@ -168,11 +174,13 @@ public class PdfDok extends Pdf implements Serializable {
         PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
         opis = "netto: "+F.curr(nettopl)+" vat: "+F.curr(vatpl)+" brutto: "+F.curr(bruttopln);
         PdfMain.dodajLinieOpisu(document, opis);
-        String wal = tab.getWaluta().getSymbolwaluty();
-        opis = "Razem wartość wybranych dokumentów - waluta dokumentów "+wal;
-        PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
-        opis = "netto wal: "+F.curr(netto, wal)+" vat wal: "+F.curr(vat, wal)+" brutto: "+F.curr(brutto, wal);
-        PdfMain.dodajLinieOpisu(document, opis);
+        if (tab!=null) {
+            String wal = tab.getWaluta().getSymbolwaluty();
+            opis = "Razem wartość wybranych dokumentów - waluta dokumentów "+wal;
+            PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
+            opis = "netto wal: "+F.curr(netto, wal)+" vat wal: "+F.curr(vat, wal)+" brutto: "+F.curr(brutto, wal);
+            PdfMain.dodajLinieOpisu(document, opis);
+        }
     }
     
      public static void drukujJPK_FA(List<Dok> lista, WpisView wpisView, int modyfikator, boolean deklaracjaniemiecka) {
