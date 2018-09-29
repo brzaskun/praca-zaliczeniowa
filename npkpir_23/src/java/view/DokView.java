@@ -409,7 +409,7 @@ public class DokView implements Serializable {
             ukryjEwiencjeVAT = false;
             String typdok = selDokument.getRodzajedok().getSkrot();
             String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
-            if (wpisView.isVatowiec() == true || typdok.equals("IU")) {
+            if (wpisView.isVatowiec() == true || typdok.equals("UPTK100")) {
                 /*wyswietlamy ewidencje VAT*/
                 List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
                 selDokument.setDokumentProsty(false);

@@ -58,7 +58,7 @@
                     </p:menu>
                     <p:menu>
                         <p:menuitem global="false" value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem global="false" value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westKsiegowa" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+                        <p:menuitem global="false" value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westKsiegowa" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 or WpisView.podatnikObiekt.paramVatUE.size() gt 0 ? true : false}">
                             
                             
                             

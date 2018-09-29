@@ -57,6 +57,7 @@ import msg.Msg;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.UnselectEvent;
+import params.Params;
 import pdf.PdfVAT;
 import pdf.PdfVATsuma;
 import waluty.Z;
@@ -228,6 +229,9 @@ public class EwidencjaVatView implements Serializable {
             zerujListy();
             int vatokres = wpisView.getVatokres();
             if (pobierzmiesiacdlajpk) {
+                vatokres = 1;
+            }
+            if (wpisView.sprawdzczyue()) {
                 vatokres = 1;
             }
             pobierzEVATwpis1zaOkres(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());

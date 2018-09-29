@@ -13,6 +13,7 @@ import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Roki;
 import entity.ParamCzworkiPiatki;
+import entity.ParamVatUE;
 import entity.Podatnik;
 import entity.Uz;
 import entity.Wpis;
@@ -341,6 +342,13 @@ public class WpisView implements Serializable {
         Integer mc = Integer.parseInt(this.getMiesiacWpisu());
         List<Parametr> parametry = this.getPodatnikObiekt().getVatokres();
         return ParametrView.zwrocParametr(parametry, rok, mc);
+    }
+    
+    public boolean sprawdzczyue() {
+        Integer rok = this.getRokWpisu();
+        Integer mc = Integer.parseInt(this.getMiesiacWpisu());
+        List<ParamVatUE> parametry = this.getPodatnikObiekt().getParamVatUE();
+        return !ParametrView.zwrocParametr(parametry, rok, mc).equals("blad");
     }
     
     private void pobierzOpodatkowanie() {
