@@ -240,8 +240,8 @@ public class EwidencjaVatView implements Serializable {
                 ewidencje.add(p);
             }
             pobierzmiesiacdlajpk = false;
-            RequestContext.getCurrentInstance().update("formVatZestKsiegowa");
-            Msg.msg("Sporządzono ewidencje");
+            //RequestContext.getCurrentInstance().update("formVatZestKsiegowa");
+            //Msg.msg("Sporządzono ewidencje");
         } catch (Exception e) { 
             Msg.dPe();
             E.e(e);

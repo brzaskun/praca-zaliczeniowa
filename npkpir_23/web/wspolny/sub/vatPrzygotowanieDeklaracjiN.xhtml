@@ -35,12 +35,11 @@
                                  update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX" 
                                  rendered="#{vat7DKView.pokazpelna}"
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
-<!--                <h:outputText value="do zapisu wymagana jest obecność karty z podpisem certyfikowanym!" 
-                              rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}" style="color: red;"/>-->
-<!--            <h:outputText value="Wymuś zapis jako deklarację pierwotną."/>
-            <p:selectBooleanCheckbox value="#{vat7DKView.pierwotnazamiastkorekty}" style="width: 120px" immediate="true"/>-->
+                <p:selectBooleanCheckbox itemLabel="wymuś korektę" style="margin-left: 100px;" value="#{vat7DKView.wymusozmnaczeniejakokorekte}"/>
+                <p:selectBooleanCheckbox itemLabel="nie sprawdzaj poprzednich"  value="#{vat7DKView.niesprawdzajpoprzednichdeklaracji}"/>
+
               </p:panelGrid>
-            <p:messages autoUpdate="true" id="messages"/>
+                <p:messages autoUpdate="true" id="messages" style="width: 800px;"/>
             <p:panel header="Dane do bieżącej deklaracji VAT-7 miesięcznej. Schema: #{vat7DKView.pasujacaSchema.nazwaschemy}"/>
             <p:panelGrid columns="1"  style="width: 90%;" rendered="#{vat7DKView.flaga ne 1}">
                 <p:dataTable value="#{vat7DKView.sumaschemewidencjilista}" var="loop" sortBy="#{loop.schemaEwidencja.polenetto}" style="width: 800px;"
@@ -118,15 +117,15 @@
             </style>
             <p:panelGrid columns="2"  style="width: 600px;" styleClass="vatramki"   rendered="#{vat7DKView.flaga ne 1}">
                 <h:outputText value="przeniesienie z pop.deklaracji"/>
-                <p:inputNumber styleClass="vatramki"   value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0"/>
+                <p:inputNumber styleClass="vatramki"   value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0" inputStyle="text-align: right;" thousandSeparator=" "/>
                 <h:outputText value="kwota wydatkowana na zakup kasy rejestrującej"/>
-                <p:inputNumber  value="#{vat7DKView.kwotanakaserej}" decimalPlaces="0" />
+                <p:inputNumber  value="#{vat7DKView.kwotanakaserej}" decimalPlaces="0" inputStyle="text-align: right;" />
                 <h:outputText value="zwrot na rachunek w terminie 25 dni"/>
-                <p:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0"/>
+                <p:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0" inputStyle="text-align: right;" />
                 <h:outputText value="zwrot na rachunek w terminie 60 dni"/>
-                <p:inputNumber  value="#{vat7DKView.zwrot60dni}" decimalPlaces="0"/>
+                <p:inputNumber  value="#{vat7DKView.zwrot60dni}" decimalPlaces="0" inputStyle="text-align: right;"/>
                 <h:outputText value="zwrot na rachunek w terminie 180 dni"/>
-                <p:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0"/>
+                <p:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0" inputStyle="text-align: right;"/>
             </p:panelGrid>
         </h:form>
     <h:form id="deklaracjauwagavatzt"  >
