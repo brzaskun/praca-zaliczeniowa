@@ -147,7 +147,6 @@ public class DeklaracjevatView implements Serializable {
         }
         pokazprzyciskpodpisfunkcja();
         Collections.sort(wyslanenormalne, new Vatcomparator());
-        RequestContext.getCurrentInstance().update("@(.zalacznikivat)");
     }
     
     public void podpiszdeklaracje(List<Deklaracjevat> oczekujace) {

@@ -8,8 +8,8 @@
 
     <p:dialog id="dialog_deklaracje_vat_wysylka" header="Wysyłanie deklaracji VAT" widgetVar="dialog_deklaracje_vat_wysylka"  appendTo="@(body)" modal="true"
               resizable="false" onShow="ustawdialogWindow('dialog_deklaracje_vat_wysylka', 1350, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_deklaracje_vat_wysylka');"  >
-        <p:ajax event="open" listener="#{deklaracjevatView.init()}" update="formX"/>
-        <p:ajax event="open" listener="#{podpisView.sprawdzczymozna(WpisView)}" update="formX akordeon"/>
+        <p:ajax event="open" listener="#{deklaracjevatView.init()}" update="formX zalacznikZZ zalacznikZT"/>
+        <p:ajax event="open" listener="#{podpisView.sprawdzczymozna(WpisView)}" update="formX  akordeon"/>
         <p:panel style="height: 600px;overflow-y: scroll">
             <ui:include src="../../../wspolny/sub/vatdowyslania.xhtml"/> 
         </p:panel>
