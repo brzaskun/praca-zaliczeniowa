@@ -130,7 +130,7 @@
                     <p:inputText id="ilosck" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosck" value="ilość" /></p:inputText>
                 </p:column>
                 <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="90" style="text-align: center;">
-                    <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
+                    <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="stawka VAT" width="70">
