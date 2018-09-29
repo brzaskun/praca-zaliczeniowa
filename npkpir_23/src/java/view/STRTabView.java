@@ -242,7 +242,7 @@ public class STRTabView implements Serializable {
             /**
              * to co bylo w amodok
              */
-            RequestContext.getCurrentInstance().update("formSTR");
+            //RequestContext.getCurrentInstance().update("formSTR");
         } catch (Exception e) {
             E.e(e);
         }

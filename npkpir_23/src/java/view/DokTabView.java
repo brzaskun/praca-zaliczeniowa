@@ -202,7 +202,7 @@ public class DokTabView implements Serializable {
                 }
             }
         }
-        dokumentypodatnika.addAll(dokumentyl);
+         dokumentypodatnika.addAll(dokumentyl);
         Collections.sort(dokumentypodatnika, new Rodzajedokcomparator());
         Collator collator = Collator.getInstance(new Locale("pl", "PL"));
         collator.setStrength(Collator.PRIMARY);
