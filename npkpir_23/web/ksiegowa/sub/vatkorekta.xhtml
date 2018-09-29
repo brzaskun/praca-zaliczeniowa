@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
         
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tabView id="akordeon">
@@ -105,17 +105,17 @@
                                 <h:outputText value="#{item.evewidencja}"/>
                             </p:column>
                             <p:column headerText="#{mgs.netto}" style="width: 20%;">
-                                <pe:inputNumber id="netto" value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                <p:inputNumber id="netto" value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax event="change" listener="#{vatKorektaView.wyliczbrutto(item)}" />
-                                </pe:inputNumber>
+                                </p:inputNumber>
                             </p:column>
                             <p:column headerText="#{mgs.VAT}" style="width: 20%;">
-                                <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                <p:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax event="change" listener="#{vatKorektaView.wyliczbrutto(item)}" />
-                                </pe:inputNumber>
+                                </p:inputNumber>
                             </p:column>
                             <p:column headerText="brutto" style="width: 20%;">
-                                <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/>
+                                <p:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/>
                             </p:column>
                             <p:column headerText="op/zw" style="width: 15%;">
                                 <h:selectOneMenu value="#{item.opzw}">
@@ -160,7 +160,7 @@
                 </p:panel>
                 <p:panelGrid columns="2">
                     <p:panel header="Nowa kwota z przeniesienia" style="width: 300px; padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
-                        <pe:inputNumber value="#{vatKorektaView.nowaWartoscVatZPrzeniesienia}" symbol=" zł"  style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
+                        <p:inputNumber value="#{vatKorektaView.nowaWartoscVatZPrzeniesienia}" symbol=" zł"  style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
                     </p:panel>
                     <p:panel header="Dodatkowe (opcjonalne) elementy deklaracji" style="width: 700px; padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
                         <h:outputLabel value="Podatnik dokonał zwiększenia podatku naliczonego na podstawie art. 89b ust4 ustawy:" for="pole70" />

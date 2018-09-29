@@ -6,7 +6,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:tab id="nowa2" title="Analiza" >
@@ -16,7 +16,7 @@
             }
         </style>
         <h:form id="fakturaanaliza">
-            <p:panelGrid columns="3">
+            <p:panelGrid columns="2">
                 <h:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  size="10" converter="KlientConv"
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
                                     onfocus="$(this).removeClass('ui-state-default');

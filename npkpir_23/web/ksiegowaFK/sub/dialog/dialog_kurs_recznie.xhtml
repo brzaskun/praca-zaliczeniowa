@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
     >
     <p:dialog id="dialogkursrecznie" header="Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  
               resizable="false"  onShow="ustawdialog('dialogkursrecznie','menukartoteki',800,150);" closeOnEscape="true" onHide="resetujdialog('dialogkursrecznie');" >
@@ -23,9 +23,9 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column headerText="wartość w pln" width="100" style="text-align: center;">
-                    <pe:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="5" minValue="-1000000" styleClass="wiersznetto"> 
-                    </pe:inputNumber>
+                    <p:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                            style="text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="5" minValue="-1000000" styleClass="wiersznetto"> 
+                    </p:inputNumber>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" update="formkursrecznie :wprowadzonekursy :wprowadzonekursyrecznie"

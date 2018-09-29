@@ -6,7 +6,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    >
     <p:dialog id="dialog_srodki_dodaj" header="Dodanie środka trwałego umorzonego z pominięciem pkpir" widgetVar="dialog_srodki_dodaj" 
               resizable="false"  onShow="ustawdialog('dialog_srodki_dodaj','formbuttonsrodki:buttonsrodki',700,380);r('formdialogsrodki:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodki_dodaj');">
         <!--pola ewidencji SRODKOW TRWALYCH-->
@@ -68,9 +68,9 @@
                     </p:column>
                     <h:outputText value="cena zakupu"/>
                     <p:column>
-                        <pe:inputNumber id="cenazakupu" value="#{STRTableView.selectedSTR.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                        <p:inputNumber id="cenazakupu" value="#{STRTableView.selectedSTR.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                         onblur="zweryfikujczyniebrakujesrodektrw('formdialogsrodki');"
-                                        style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2"  styleClass="wiersznetto"/> 
+                                        style="text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="środek trw/wyposazenie"/>
                     <p:column>

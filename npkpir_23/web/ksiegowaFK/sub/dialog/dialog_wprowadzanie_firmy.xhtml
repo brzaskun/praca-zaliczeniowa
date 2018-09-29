@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
     >
     <p:dialog id="dialogwprowadzaniefirmy" header="Wprowadzanie danych nowej firmy" widgetVar="dialogwprowadzaniefirmy"  
               resizable="false"  onShow="ustawdialog('dialogwprowadzaniefirmy','menufirma',900,600);" closeOnEscape="true" onHide="resetujdialog('dialogwprowadzaniefirmy');" >
@@ -12,7 +12,7 @@
         <h:form id="formwprowadzaniefirmy">
             <p:growl life="3600"  id="msg" autoUpdate="true"/>
             <!--        wpisywanie firmy-->
-                <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
+                
                 <p:panel id="panelwpisywanianowejfirmy" header="Rejestracja nowej firmy w programie" style="width: 850px;">
                 <p:focus for="wprowadzaniepodatnika"/>
                 <p:panelGrid id="wprowadzaniepodatnika" columns="4" >

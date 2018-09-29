@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
     >
 <!--     <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>-->
             <h:form id="formdekl">
@@ -118,15 +118,15 @@
             </style>
             <p:panelGrid columns="2"  style="width: 600px;" styleClass="vatramki"   rendered="#{vat7DKView.flaga ne 1}">
                 <h:outputText value="przeniesienie z pop.deklaracji"/>
-                <pe:inputNumber styleClass="vatramki"   value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0"/>
+                <p:inputNumber styleClass="vatramki"   value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0"/>
                 <h:outputText value="kwota wydatkowana na zakup kasy rejestrującej"/>
-                <pe:inputNumber  value="#{vat7DKView.kwotanakaserej}" decimalPlaces="0" />
+                <p:inputNumber  value="#{vat7DKView.kwotanakaserej}" decimalPlaces="0" />
                 <h:outputText value="zwrot na rachunek w terminie 25 dni"/>
-                <pe:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0"/>
+                <p:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0"/>
                 <h:outputText value="zwrot na rachunek w terminie 60 dni"/>
-                <pe:inputNumber  value="#{vat7DKView.zwrot60dni}" decimalPlaces="0"/>
+                <p:inputNumber  value="#{vat7DKView.zwrot60dni}" decimalPlaces="0"/>
                 <h:outputText value="zwrot na rachunek w terminie 180 dni"/>
-                <pe:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0"/>
+                <p:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0"/>
             </p:panelGrid>
         </h:form>
     <h:form id="deklaracjauwagavatzt"  >

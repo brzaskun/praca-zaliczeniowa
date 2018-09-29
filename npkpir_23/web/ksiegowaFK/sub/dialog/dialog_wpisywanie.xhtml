@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
     xmlns:bcf="http://brzaskun.com/facelets">
     <style>
         .dataInput {
@@ -411,23 +411,23 @@
                                 <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px; font-size: smaller" rendered="#{item.ewidencja.nazwa.length() ge 15}"/>
                             </p:column>
                             <p:column headerText="#{mgs.netto}" width="80">
-                                <pe:inputNumber  id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                                symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                <p:inputNumber  id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                                symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" partialSubmit="true"/>
 <!--                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz(event);"/>-->
-                                </pe:inputNumber>
+                                </p:inputNumber>
                             </p:column>
                             <p:column headerText="#{mgs.VAT} #{dokfkView.selected.rodzajedok.stawkavat ne 0.0 ? dokfkView.selected.rodzajedok.stawkavat : null}#{dokfkView.selected.rodzajedok.stawkavat ne 0.0 ? '%' : null}" width="80">
-                                <pe:inputNumber   id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                                symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                <p:inputNumber   id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                                symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" partialSubmit="true"/>
-                                </pe:inputNumber>
+                                </p:inputNumber>
                             </p:column>
                             <p:column headerText="brutto" width="80">
-                                <pe:inputNumber   id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
-                                                symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" 
+                                <p:inputNumber   id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
+                                                symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" 
                                                 > 
-                                </pe:inputNumber>
+                                </p:inputNumber>
                             </p:column>
                             <p:column headerText="op/zw" style="width: 45px; text-align: center;">
                                 <h:selectOneMenu value="#{item.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
@@ -505,18 +505,18 @@
                             <p:tooltip value="#{wploop.opisWiersza}" for="formwpisdokument:dataList:#{index}:opisdokwpis" trackMouse="true"/>
                         </p:column>
                         <p:column headerText="ilość kg" style="width: 30px;" rendered="#{dokfkView.selected.rodzajedok.pokazkg}" >
-                            <pe:inputNumber   id="ilosckg" value="#{wploop.ilosc_kg}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
-                                            decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" >
+                            <p:inputNumber   id="ilosckg" value="#{wploop.ilosc_kg}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
+                                            decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-100000" >
                                 
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
-                            </pe:inputNumber>
+                            </p:inputNumber>
                         </p:column>
                         <p:column headerText="ilość szt" style="width: 30px;" rendered="#{dokfkView.selected.rodzajedok.pokazszt}" >
-                            <pe:inputNumber    id="iloscszt" value="#{wploop.ilosc_szt}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
-                                             decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000">
+                            <p:inputNumber    id="iloscszt" value="#{wploop.ilosc_szt}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
+                                             decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-100000">
                                 
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
-                            </pe:inputNumber>
+                            </p:inputNumber>
                         </p:column>
                         <p:column headerText="#{mgs.data}" style="text-align: center; width: 20px;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}" >
                             <p:inputText id="dataWiersza" value="#{wploop.dataWalutyWiersza}" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}" onblur="kopiujdatedialogwpis();"
@@ -534,25 +534,25 @@
                             <h:outputText value="#{wploop.walutaWiersz}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}"  style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
-                            <pe:inputNumber   id="wn" value="#{wploop.stronaWn.kwota}" 
+                            <p:inputNumber   id="wn" value="#{wploop.stronaWn.kwota}" 
                                             style="text-align: right; margin-left: auto; margin-right: auto; width: 80px; color: red;" 
                                             rendered="#{wploop.stronaWn != null}" onfocus="kalkulator_pobierzwiersz(this);"
-                                            symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
+                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" 
                                             decimalPlaces="2" minValue="-10000000" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}"
                                             readonly="#{wploop.stronaWn.typStronaWiersza ne 0}"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
                                 
                                 <p:ajax global="false" event="blur" onstart="skopiujKwoteZWierszaWyzej(#{wploop.idporzadkowy-1}, 'Wn');"  partialSubmit="true"/>
-                            </pe:inputNumber>
+                            </p:inputNumber>
                         </p:column>
                         <p:column headerText="kwota PLN" style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
-                            <pe:inputNumber   id="wnpln" value="#{wploop.stronaWn.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
+                            <p:inputNumber   id="wnpln" value="#{wploop.stronaWn.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{wploop.stronaWn != null}" 
-                                            symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                             
                                             >
                                 
-                            </pe:inputNumber>
+                            </p:inputNumber>
                         </p:column>
                         <!--                    <p:column width="12" style="text-align: center" rendered="{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
                                                 <h:outputText id="symbolWn" value="{wploop.tabelanbp.waluta.skrotsymbolu}" rendered="{wploop.stronaWn != null}"/>
@@ -583,25 +583,25 @@
                             </p:autoComplete>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}" style="text-align: center; width: 50px;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
-                            <pe:inputNumber   id="ma" value="#{wploop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
+                            <p:inputNumber   id="ma" value="#{wploop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{wploop.stronaMa != null}" onfocus="kalkulator_pobierzwiersz(this);"
-                                            symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                             readonly="#{wploop.stronaMa.typStronaWiersza ne 0}"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                                 <p:ajax global="false" event="change" partialSubmit="true"  />
                                 <p:ajax global="false" event="blur" partialSubmit="true"  onstart="skopiujKwoteZeStronaWn(#{wploop.idporzadkowy-1}, 'Wn');"/>
                                 
-                            </pe:inputNumber> 
+                            </p:inputNumber> 
                         </p:column>
                         <p:column headerText="kwota PLN" style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
-                            <pe:inputNumber   id="mapln" value="#{wploop.stronaMa.kwotaPLN}" 
+                            <p:inputNumber   id="mapln" value="#{wploop.stronaMa.kwotaPLN}" 
                                             style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{wploop.stronaMa != null}"
-                                            symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                             
                                             >
                                 
-                            </pe:inputNumber> 
+                            </p:inputNumber> 
                         </p:column>
                         <p:column headerText="konto Ma" style="text-align: center; width: 100px;">
                             <p:autoComplete id="kontoma" value="#{wploop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" 

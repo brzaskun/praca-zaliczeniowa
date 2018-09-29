@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
     xmlns:bcf="http://brzaskun.com/facelets">
       <p:dialog id="dialog_stowarzyszenie_generujskladki" header="Generowanie miesięcznych składek/obciążeń stowarzyszenia - #{WpisView.podatnikObiekt.nazwapelnaPDF}" 
                 widgetVar="dialog_stowarzyszenie_generujskladki"  resizable="false"  
@@ -20,10 +20,10 @@
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;"/>
             <p:commandButton value="kopiuj" actionListener="#{stowNaliczenieView.kopiuj}"
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;margin-left: 5px"/>
-            <pe:inputNumber value="#{stowNaliczenieView.kwotadlawszystkich}"  decimalPlaces="2" decimalSeparator="."
-                            thousandSeparator=" " symbol=" zł" symbolPosition="s">
+            <p:inputNumber value="#{stowNaliczenieView.kwotadlawszystkich}"  decimalPlaces="2" decimalSeparator="."
+                            inputStyle="text-align: right;" symbol=" zł" symbolPosition="s">
                 <p:ajax event="blur" partialSubmit="true" global="false"/>
-            </pe:inputNumber>
+            </p:inputNumber>
             <p:commandButton value="oblicz" actionListener="#{stowNaliczenieView.oblicz}" title="Należy wybrać członków do obliczenia"
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;"/>
             <p:commandButton value="zachowaj" actionListener="#{stowNaliczenieView.zachowaj}"
@@ -63,8 +63,8 @@
                     <h:outputText value="#{wpisstow.miejsce.koniec}"/>
                 </p:column>
                 <p:column width="90" headerText="kwota">
-                    <pe:inputNumber id="vat" value="#{wpisstow.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                                symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    <p:inputNumber id="vat" value="#{wpisstow.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                                symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                 </p:column>
                 <p:column headerText="zachowane">
                     <h:outputText value="#{wpisstow.dataksiegowania}">

@@ -3,7 +3,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialog_add_wiad_kolumna1rozbicie" header="Wprowadź kwoty cząstkowe" widgetVar="add_wiad_kolumna1rozbicie" modal="true" appendTo="@(body)" 
@@ -32,9 +32,9 @@
                             <f:facet name="header">
                                 <h:outputText value="netto"/>
                             </f:facet>
-                             <pe:inputNumber value="#{item.nettowaluta}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" style="width: 120px;" >
+                             <p:inputNumber value="#{item.nettowaluta}" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" style="width: 120px;" >
                                  <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokumentView.przeliczkwoteRozbicie(item, index)}"/>
-                             </pe:inputNumber>
+                             </p:inputNumber>
                         </p:column>
                         <p:column style="text-align: center; width: 130px;">
                             <f:facet name="header">

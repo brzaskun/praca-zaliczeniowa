@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    >
     
    
    <p:dialog header="Szczegóły płatności" id="dpi" widgetVar="Dialog" resizable="false">
@@ -15,7 +15,7 @@
                <p:inputText id="pole" value="#{rozrachunkiView.rozrachunek.dataplatnosci}" accesskey="s" >
                    <p:watermark for="pole" value="rrrr-mm-dd" /> 
                </p:inputText>
-               <pe:inputNumber value="#{rozrachunkiView.rozrachunek.kwotawplacona}"  decimalPlaces="2" decimalSeparator="." thousandSeparator=" " symbol=" zł" symbolPosition="s"/>
+               <p:inputNumber value="#{rozrachunkiView.rozrachunek.kwotawplacona}"  decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
            </p:panelGrid>
         <br/>
         <p:commandButton value="usun" actionListener="#{rozrachunkiView.usunostatniRozrachunek}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;" oncomplete="PF('Dialog').hide()"/>

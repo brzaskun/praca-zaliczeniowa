@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
     >
 
     <style>
@@ -26,14 +26,14 @@
                                      onblur="weryfikujsporzadzfakture(this);" style="text-align: center;"/>
                     </p:column>
                     <p:column headerText="kwota kosztu" width="100"  style="text-align: center;">
-                        <pe:inputNumber value="#{looprmk.kwotacalkowita}" symbol=" zł" required="true" 
-                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto"/> 
+                        <p:inputNumber value="#{looprmk.kwotacalkowita}" symbol=" zł" required="true" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column headerText="liczba miesięcy" width="70" style="text-align: center;">
                         <p:inputText value="#{looprmk.liczbamiesiecy}" style="text-align: center;" size="3"/>
                     </p:column>
                      <p:column headerText="% kosztów podatkowych" width="60" style="text-align: center;">
-                         <pe:inputNumber decimalPlaces="2" decimalSeparator="." maxValue="100" maxlength="5" minValue="0" value="#{looprmk.procentkosztpodatkowy}"/>
+                         <p:inputNumber decimalPlaces="2" decimalSeparator="." maxValue="100" maxlength="5" minValue="0" value="#{looprmk.procentkosztpodatkowy}"/>
                     </p:column>
                     <p:column headerText="konto kosztowe" width="200" style="text-align: center;">
                         <h:selectOneMenu value="#{looprmk.kontokosztowe}" converter="#{kontoConv}"

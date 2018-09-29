@@ -6,7 +6,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    >
     <p:outputPanel rendered="#{fakturaView.fakturaniemiecka}">
         <p:panelGrid columns="4">
             <h:outputText value="licz od wartości brutto "/>
@@ -53,8 +53,8 @@
                             <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosc" value="ilość" /></p:inputText>
                         </p:column>
                         <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="90" style="text-align: center;" rendered="#{!fakturaView.fakturaxxl}">
-                            <pe:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
-                                            requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                            <p:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
+                                            requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                         </p:column>
                         <p:column headerText="stawka VAT" width="70" style="text-align: center;">
                             <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 60px;" 
@@ -116,8 +116,8 @@
                             <p:inputText id="ilosck" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosck" value="ilość" /></p:inputText>
                         </p:column>
                         <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="90" style="text-align: center;" rendered="#{!fakturaView.fakturaxxl}">
-                            <pe:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
-                                            requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                            <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13"
+                                            requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                         </p:column>
                         <p:column headerText="stawka VAT" width="70">
                             <h:selectOneMenu id="podatekk" value="#{row.podatek}" title="stawka podatku VAT" style="width: 60px;" 

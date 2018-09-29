@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
 
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
@@ -178,13 +178,13 @@
                             <f:facet name="header">
                                 <h:outputText value="kwota rozlicz. - bieżący dok." />
                             </f:facet>
-                            <pe:inputNumber id="kwotarozliczenia" value="#{iteracja.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
+                            <p:inputNumber id="kwotarozliczenia" value="#{iteracja.kwotatransakcji}" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" 
                                             decimalPlaces="2" minValue="-10000000" emptyValue="sign"  readonly="#{iteracja.czymoznaedytowac()}"
                                             styleClass="kwotarozrachunku" onfocus="doklejfocuswprowadzonych(this)">
                                 <p:ajax event="blur" listener="#{dokfkView.przetworzwprowadzonakwote(iteracja, row)}" partialSubmit="true" global="false"
                                         update=":rozrachunki:dataList:#{row}:pozostaloWn :rozrachunki:dataList:#{row}:roznicakursowa :rozrachunki:juzrozliczono :rozrachunki:pozostalodorozliczenia"/>
                                 <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzlimity(iteracja, row)}"/>
-                            </pe:inputNumber>
+                            </p:inputNumber>
                         </p:column>
                         <p:column headerText="nr własny dokumentu"  filterBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"
                                   sortBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" style="width: 80px;">

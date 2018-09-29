@@ -8,10 +8,10 @@
     <f:view locale="#{localeChanger.locale}">
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <meta http-equiv="Pragma" content="no-cache"/>
+<!--            <meta http-equiv="Pragma" content="no-cache"/>-->
             <meta http-equiv="Accept-Encoding" content="gzip"/>
             <meta http-equiv="Expires" content="0" />
-            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+<!--            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>-->
             <title><ui:insert name="title">Default Title</ui:insert></title>
             <h:outputStylesheet id="template" name="#{CSSView.css}"/>
             <h:outputStylesheet library="css" name="style.css"/>
@@ -67,7 +67,8 @@
                  <p:outputPanel style="margin-left: auto; margin-right: auto; margin-top: 300px; text-align: center;">
                     <h:outputText value="trwa ładowanie strony" style="color: blue; font-size: larger;  font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;"/>
                     <br/>
-                    <p:graphicImage value="../resources/images/template-loader.gif" style="margin-top: 30px;"/>
+                    <p:graphicImage value="/resources/images/template-loader.gif" style="margin-top: 30px;"/>
+
                 </p:outputPanel>
                 
                 <ui:insert class="bodi" name="body"> 

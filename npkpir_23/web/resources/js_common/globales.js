@@ -192,6 +192,3 @@ $(document).on("ajaxStart pfAjaxSend", function() {
     $("html").removeClass("progress");
 });
 
-jsf.ajax.addOnEvent(function(data) {
-    $("html").toggleClass("progress", data.status == "begin");
-});

@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    >
     <p:tab title="Wybór opodatkowania podatkiem dochodowym">  
         <h:form id="form1" >
             <h:outputText value="Wybór opodatkowania podatkiem dochodowym" style="font-size: 15px"/>
@@ -82,7 +82,7 @@
                     <f:selectItem itemLabel="kwartalnie" itemValue="true"/>
                 </p:selectOneMenu>
                 <h:outputText value="stawka pod. (0,19)" rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
-                <pe:inputNumber value="#{podatnikView.wybranyPodatnikOpodatkowanie.stawkapodatkuospr}" decimalPlaces="2" maxValue="1"  rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
+                <p:inputNumber value="#{podatnikView.wybranyPodatnikOpodatkowanie.stawkapodatkuospr}" decimalPlaces="2" maxValue="1"  rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">

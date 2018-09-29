@@ -5,12 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    >
     <p:accordionPanel id="akordeon">
         <p:tab id="tab" title="Wykaz zobowiązań z tytułu ZUS">
     <h:form id="formZob">
         <p:outputPanel deferred="true">
-        <pe:tooltip global="true" myPosition="left center" atPosition="right center"/>  
         <p:growl life="3600"  id="wiad" showDetail="true"/>
         <p:focus for="dokumentyLista"/>
         <p:panelGrid id="dokumentyLista" rendered="#{PlatnosciView.selectedZob.zus52 eq null ? false : true}">

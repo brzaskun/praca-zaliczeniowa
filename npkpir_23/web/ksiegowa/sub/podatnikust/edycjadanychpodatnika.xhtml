@@ -4,12 +4,12 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    >
     <p:tab title="Edycja danych podatnika">
         <h:form id="form">
             <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 0}">
                 <p:growl life="3600"  id="msg" autoUpdate="true"/>
-                <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
+                
                 <p:focus for="wprowadzaniepodatnika"/>
                 <p:panelGrid id="wprowadzaniepodatnika" columns="4">
                     <h:outputLabel value="nip"/>
@@ -135,7 +135,7 @@
             <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 1}" style="height: 600px;">
                 <p:growl life="3600"  id="msg" autoUpdate="true"/>
             <!--        wpisywanie firmy-->
-                <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
+                
                 <p:panel id="panelwpisywanianowejfirmy" header="Edycja danych firmy w programie" style="width: 1150px;">
                 <p:focus for="wprowadzaniepodatnika"/>
                 <p:panelGrid id="wprowadzaniepodatnika" columns="4" >

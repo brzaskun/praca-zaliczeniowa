@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions"
+    
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
     <style>
@@ -187,11 +187,11 @@
                             </h:selectOneMenu>
                         </p:column>
                         <p:column headerText="kwota" style="width: 110px;">
-                            <pe:inputNumber  value="#{platnosciWalutyView.kwotadorozliczenia}" 
+                            <p:inputNumber  value="#{platnosciWalutyView.kwotadorozliczenia}" 
                                              style="float: right; margin-right: 4px;" valueChangeListener="#{platnosciWalutyView.przelicz}"
-                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000">
+                                             symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000">
                                 <p:ajax event="change" partialSubmit="true" global="false" update="@this @namingcontainer"/>
-                            </pe:inputNumber>
+                            </p:inputNumber>
                         </p:column>
                         <p:column headerText="tabela NBP" style="width: 110px;" >
                             <h:outputText value="#{platnosciWalutyView.nowa.tabelanbp}"/>
