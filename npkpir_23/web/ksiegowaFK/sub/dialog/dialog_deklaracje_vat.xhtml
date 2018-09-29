@@ -8,6 +8,7 @@
 
     <p:dialog id="dialog_deklaracje_vat" header="Sporządzanie deklaracji VAT" widgetVar="dialog_deklaracje_vat"  appendTo="@(body)" modal="true"
               resizable="false" onShow="ustawdialogWindow('dialog_deklaracje_vat', 1350, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_deklaracje_vat');"  >
+        <p:ajax event="open" listener="#{vat7DKView.setFlaga(0)}" update="formdekl"/>
         <p:panel style="height: 600px;overflow-y: scroll">
             <ui:include src="../../../wspolny/sub/vatPrzygotowanieDeklaracjiN.xhtml"/> 
         </p:panel>
